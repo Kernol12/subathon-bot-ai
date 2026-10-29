@@ -1,0 +1,19 @@
+name: Scaffold checks (not product acceptance)
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  scaffold:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configure the infrastructure-only preset
+        run: cmake --preset scaffold-debug
+      - name: Build
+        run: cmake --build --preset scaffold-debug
+      - name: Scaffold checks
+        run: ctest --preset scaffold-debug

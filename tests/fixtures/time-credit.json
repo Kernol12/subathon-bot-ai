@@ -1,0 +1,15 @@
+{
+  "contract": "time-credit-v0",
+  "state": "draft",
+  "unit": "milliseconds",
+  "examples": [
+    {
+      "remaining_ms": "3300000",
+      "requested_ms": "600000",
+      "maximum_remaining_ms": "3600000",
+      "applied_ms": "300000",
+      "remaining_after_ms": "3600000"
+    }
+  ],
+  "note": "Manually reviewed expected values required; this example is not a refund/payment fixture."
+}

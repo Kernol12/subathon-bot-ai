@@ -1,0 +1,19 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "local-qt",
+      "inherits": "qt-probe-debug",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "/replace/with/your/Qt/6.12/gcc_64"
+      }
+    },
+    {
+      "name": "local-acceptance-fetch",
+      "inherits": "acceptance-debug",
+      "cacheVariables": {
+        "SUBATHON_FETCH_GOOGLETEST": "ON"
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# System/local sources first; configure never silently downloads dependencies.
+if(SUBATHON_GOOGLETEST_SOURCE_DIR)
+    if(NOT EXISTS "${SUBATHON_GOOGLETEST_SOURCE_DIR}/CMakeLists.txt")
+        message(FATAL_ERROR "SUBATHON_GOOGLETEST_SOURCE_DIR is not a GoogleTest source directory")
+    endif()
+    set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    add_subdirectory("${SUBATHON_GOOGLETEST_SOURCE_DIR}" "${PROJECT_BINARY_DIR}/local-googletest" EXCLUDE_FROM_ALL)
+else()
+    find_package(GTest 1.17 CONFIG QUIET)
+    if(NOT TARGET GTest::gtest_main AND SUBATHON_FETCH_GOOGLETEST)
+        include(FetchContent)
+        set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+        set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+        FetchContent_Declare(googletest
+            GIT_REPOSITORY https://github.com/google/googletest.git
+            GIT_TAG 063de7e9578f82b369302001269680b4b1553359)
+        FetchContent_MakeAvailable(googletest)
+    endif()
+endif()
+if(NOT TARGET GTest::gtest_main)
+    message(FATAL_ERROR "Acceptance tests need GoogleTest >=1.17: install it, set SUBATHON_GOOGLETEST_SOURCE_DIR, or explicitly enable SUBATHON_FETCH_GOOGLETEST. See docs/CLION_SETUP.md.")
+endif()

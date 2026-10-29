@@ -1,0 +1,996 @@
+{
+  "$schema": "./state.schema.json",
+  "schema_version": 1,
+  "project": "Twitch Subathon Bot",
+  "baseline_version": "0.1.0",
+  "specification_version": "0.45",
+  "updated_at": "2026-10-29T22:57:21+00:00",
+  "summary": "Agent foundation prepared. Draft credit tests await independent review and an observed red run. No production features are implemented.",
+  "verification": [
+    {
+      "label": "C++ contract/scaffold",
+      "status": "passed",
+      "detail": "Local scaffold CMake configure/build and 3/3 CTest checks passed; product acceptance remains unrun."
+    },
+    {
+      "label": "Progress tooling",
+      "status": "passed",
+      "detail": "12 Python tooling tests, local consistency and offline-controller DOM simulation passed. Real browser not run."
+    },
+    {
+      "label": "CMake / CLion / Qt",
+      "status": "partial",
+      "detail": "Local CMake scaffold and Qt 6.12.0 probe configure/build/test passed (Qt preset 4/4); CLion selected profile and interactive checks remain unverified."
+    },
+    {
+      "label": "GoogleTest acceptance",
+      "status": "draft",
+      "detail": "Six draft cases; no observed failing run or independent review."
+    },
+    {
+      "label": "Live provider checks",
+      "status": "not_run",
+      "detail": "No live credentials, OAuth or payment tests used."
+    },
+    {
+      "label": "Windows / Wayland / OBS",
+      "status": "not_run",
+      "detail": "Requires the actual reference platforms and capture environment."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "BOOT-001",
+      "title": "Create the packaged agent foundation",
+      "module": "Foundation",
+      "kind": "scaffold",
+      "status": "done",
+      "owner": "Baseline preparation",
+      "depends_on": [],
+      "spec_refs": [
+        "\u00a717"
+      ],
+      "brief": "docs/tasks/BOOT-001.md",
+      "summary": "Native scaffold, draft tests, instructions and offline progress tooling. No production features.",
+      "notes": [
+        "Created foundation and 41 task records. Direct GCC scaffold check and 12 tooling tests pass; full native/acceptance/platform gates remain open.",
+        "The six credit cases are authored drafts; a separate test review and observed red GoogleTest run are still required."
+      ],
+      "verification": {
+        "native_build": "partial",
+        "product_acceptance": "not_run",
+        "live_provider": "not_run",
+        "tooling": "passed"
+      },
+      "evidence": [
+        "docs/evidence/baseline-validation.md"
+      ],
+      "review": null
+    },
+    {
+      "id": "BOOT-002",
+      "title": "Validate CLion and the local CMake toolchain",
+      "module": "Foundation",
+      "kind": "environment",
+      "status": "in_progress",
+      "owner": "codex",
+      "depends_on": [
+        "BOOT-001"
+      ],
+      "spec_refs": [
+        "\u00a72",
+        "\u00a717"
+      ],
+      "brief": "docs/tasks/BOOT-002.md",
+      "summary": "Configure/build/test the scaffold preset on Arch/KDE; record tool versions and resolve normal setup issues.",
+      "notes": [
+        "Scope: local scaffold/toolchain validation for initial GitHub publication; specification v0.45, draft time-credit contract revision 0. Own progress/state.json, generated PROGRESS.html, README repository setup text and publication evidence. Acceptance: record actual checks; preserve independent-review and product gates.",
+        "Local scaffold (3/3) and Qt probe (4/4) pass. GoogleTest 1.18.0 reported by pkg-config; acceptance not built or run. CLion selected toolchain and interactive browser verification remain open. Initial repository publication authorized separately by the owner."
+      ],
+      "verification": {
+        "native_build": "passed",
+        "qt_probe": "passed",
+        "tooling": "passed",
+        "clion": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/initial-publication.md"
+      ],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-001",
+      "title": "Review the draft time-credit boundary",
+      "module": "Core",
+      "kind": "contract",
+      "status": "ready",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-001"
+      ],
+      "spec_refs": [
+        "\u00a73",
+        "\u00a74",
+        "\u00a718"
+      ],
+      "brief": "docs/tasks/CONTRACT-001.md",
+      "summary": "Review valid examples and define invalid-input/overflow behavior before implementation.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TEST-001",
+      "title": "Review and expand the draft credit tests",
+      "module": "Core",
+      "kind": "test_draft",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-001"
+      ],
+      "spec_refs": [
+        "\u00a717",
+        "\u00a718",
+        "TEST-04"
+      ],
+      "brief": "docs/tasks/TEST-001.md",
+      "summary": "Test-author task: independently derive expected values and extend meaningful boundary cases.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "REVIEW-001",
+      "title": "Independently review the acceptance baseline",
+      "module": "Core",
+      "kind": "test_review",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TEST-001"
+      ],
+      "spec_refs": [
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/REVIEW-001.md",
+      "summary": "A separate reviewer checks contracts, oracles, failure cases and baseline integrity.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TEST-002",
+      "title": "Demonstrate the intended failing baseline",
+      "module": "Core",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-002",
+        "REVIEW-001"
+      ],
+      "spec_refs": [
+        "TEST-04"
+      ],
+      "brief": "docs/tasks/TEST-002.md",
+      "summary": "Build GoogleTest suite; record FeatureNotImplemented failures rather than dependency/build errors.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "IMPL-001",
+      "title": "Implement reviewed cap-limited credit",
+      "module": "Core",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TEST-002"
+      ],
+      "spec_refs": [
+        "\u00a73",
+        "\u00a74",
+        "\u00a718"
+      ],
+      "brief": "docs/tasks/IMPL-001.md",
+      "summary": "Implement only the reviewed contract, preserve tests and record passing acceptance plus independent review.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "BOOT-003",
+      "title": "Validate the Qt 6.12 environment probe",
+      "module": "Foundation",
+      "kind": "environment",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-002"
+      ],
+      "spec_refs": [
+        "\u00a72"
+      ],
+      "brief": "docs/tasks/BOOT-003.md",
+      "summary": "Run Qt Test event-loop probe; record actual Qt/compiler/platform versions. This is not QML/OBS verification.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-002",
+      "title": "Define event, effect, clock and persistence boundaries",
+      "module": "Core",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-001"
+      ],
+      "spec_refs": [
+        "\u00a72",
+        "\u00a73",
+        "\u00a74"
+      ],
+      "brief": "docs/tasks/CONTRACT-002.md",
+      "summary": "Separate receipts, contributions, application plans, actual effects and delivery jobs; define controlled clock and writer ownership.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-003",
+      "title": "Define HTTP, WebSocket and scene contracts",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "\u00a711"
+      ],
+      "brief": "docs/tasks/CONTRACT-003.md",
+      "summary": "OpenAPI 3.1/WS/schema/capability contracts with exact numeric strings and explicit shared-file ownership.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SPIKE-001",
+      "title": "Validate Drogon and Qt lifecycle/thread bridge",
+      "module": "Server/API",
+      "kind": "feasibility",
+      "status": "ready",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-001"
+      ],
+      "spec_refs": [
+        "SERVER-01",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/SPIKE-001.md",
+      "summary": "Prototype startup, request-to-Qt queue, one writer and safe shutdown before broad server work.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SPIKE-002",
+      "title": "Validate independent Twitch authorization",
+      "module": "Integrations",
+      "kind": "feasibility",
+      "status": "ready",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-001"
+      ],
+      "spec_refs": [
+        "AUTH-15",
+        "INTEGRATION-01"
+      ],
+      "brief": "docs/tasks/SPIKE-002.md",
+      "summary": "Check installation credentials, public device flow suitability, token types and optional sign-in without a project service.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SPIKE-003",
+      "title": "Validate Socket.IO protocol compatibility",
+      "module": "Integrations",
+      "kind": "feasibility",
+      "status": "ready",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-001"
+      ],
+      "spec_refs": [
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/SPIKE-003.md",
+      "summary": "Check Streamlabs/TipeeeStream protocol versions and C++ adapter compatibility; do not substitute bare WebSockets.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SPIKE-004",
+      "title": "Validate Qt/OBS capture and media on reference platforms",
+      "module": "Presentation",
+      "kind": "feasibility",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-003"
+      ],
+      "spec_refs": [
+        "\u00a711",
+        "\u00a719"
+      ],
+      "brief": "docs/tasks/SPIKE-004.md",
+      "summary": "Record actual Wayland/KDE/Windows/OBS/codec behavior and unresolved transparency/output issues.",
+      "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-001",
+      "title": "Core test plan: exact arithmetic and full timer lifecycle",
+      "module": "Core",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a73",
+        "\u00a74",
+        "TEST-04"
+      ],
+      "brief": "docs/tasks/EPIC-001.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-002",
+      "title": "Contribution ledger, review, partial/full reversals and deduplication",
+      "module": "Accounting",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a73",
+        "\u00a75",
+        "NUM-03"
+      ],
+      "brief": "docs/tasks/EPIC-002.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-003",
+      "title": "Rule builder, exclusions, generated events and simulator",
+      "module": "Automation",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a76"
+      ],
+      "brief": "docs/tasks/EPIC-003.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-004",
+      "title": "Timed modifiers, stacking and arrival-time context",
+      "module": "Automation",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a77"
+      ],
+      "brief": "docs/tasks/EPIC-004.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-005",
+      "title": "Sequential milestones and persisted action delivery",
+      "module": "Automation",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a78"
+      ],
+      "brief": "docs/tasks/EPIC-005.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-006",
+      "title": "Invites, permissions, local/Twitch identities and chat roles",
+      "module": "Identity",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003"
+      ],
+      "spec_refs": [
+        "\u00a710"
+      ],
+      "brief": "docs/tasks/EPIC-006.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-007",
+      "title": "Session/credential encryption, keys and remembered login",
+      "module": "Identity",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003"
+      ],
+      "spec_refs": [
+        "\u00a710",
+        "\u00a716"
+      ],
+      "brief": "docs/tasks/EPIC-007.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-008",
+      "title": "Qt/Drogon API server, durable intake and live snapshots",
+      "module": "Server/API",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003",
+        "SPIKE-001"
+      ],
+      "spec_refs": [
+        "\u00a72",
+        "\u00a73"
+      ],
+      "brief": "docs/tasks/EPIC-008.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-009",
+      "title": "Qt SQL migrations, backups, recovery and rollback",
+      "module": "Operations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a716"
+      ],
+      "brief": "docs/tasks/EPIC-009.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-010",
+      "title": "Twitch API, EventSub and both chat identities",
+      "module": "Integrations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002",
+        "SPIKE-002"
+      ],
+      "spec_refs": [
+        "\u00a710",
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/EPIC-010.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-011",
+      "title": "betterplace public integration and aggregate visibility",
+      "module": "Integrations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/EPIC-011.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-012",
+      "title": "Patreon v2 payment evidence, webhooks and reconciliation",
+      "module": "Integrations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/EPIC-012.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-013",
+      "title": "Streamlabs socket, verified payments and history",
+      "module": "Integrations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002",
+        "SPIKE-003"
+      ],
+      "spec_refs": [
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/EPIC-013.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-014",
+      "title": "StreamElements Astro tips and recovery limits",
+      "module": "Integrations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/EPIC-014.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-015",
+      "title": "Ko-fi payment webhooks and deduplication",
+      "module": "Integrations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/EPIC-015.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-016",
+      "title": "TipeeeStream socket/history and evidence",
+      "module": "Integrations",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002",
+        "SPIKE-003"
+      ],
+      "spec_refs": [
+        "\u00a714"
+      ],
+      "brief": "docs/tasks/EPIC-016.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-017",
+      "title": "Frankfurter, ExchangeRate-API and Open Exchange Rates",
+      "module": "Currency",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "\u00a79",
+        "\u00a715"
+      ],
+      "brief": "docs/tasks/EPIC-017.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-018",
+      "title": "Qt Quick desktop management and permissions",
+      "module": "Desktop",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003",
+        "BOOT-003"
+      ],
+      "spec_refs": [
+        "\u00a72",
+        "\u00a710"
+      ],
+      "brief": "docs/tasks/EPIC-018.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-019",
+      "title": "Desktop-only scene editor, themes and media assets",
+      "module": "Presentation",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003",
+        "BOOT-003"
+      ],
+      "spec_refs": [
+        "\u00a711"
+      ],
+      "brief": "docs/tasks/EPIC-019.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-020",
+      "title": "Independent native/browser renderers and OBS outputs",
+      "module": "Presentation",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003",
+        "SPIKE-004"
+      ],
+      "spec_refs": [
+        "\u00a711"
+      ],
+      "brief": "docs/tasks/EPIC-020.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-021",
+      "title": "React/TypeScript/Vite management foundation and workflows",
+      "module": "Web",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003"
+      ],
+      "spec_refs": [
+        "\u00a72",
+        "\u00a710"
+      ],
+      "brief": "docs/tasks/EPIC-021.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-022",
+      "title": "Viewer access, milestones, supporter privacy and statistics",
+      "module": "Web",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003"
+      ],
+      "spec_refs": [
+        "\u00a713"
+      ],
+      "brief": "docs/tasks/EPIC-022.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-023",
+      "title": "English/German catalogs and Light/Dark/System",
+      "module": "Localization",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003"
+      ],
+      "spec_refs": [
+        "\u00a712"
+      ],
+      "brief": "docs/tasks/EPIC-023.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-024",
+      "title": "Docker Compose, Podman Quadlet, native Linux and Caddy",
+      "module": "Distribution",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-003"
+      ],
+      "spec_refs": [
+        "\u00a716"
+      ],
+      "brief": "docs/tasks/EPIC-024.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-025",
+      "title": "Windows portable ZIP, Linux archives and Arch package",
+      "module": "Distribution",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "BOOT-003"
+      ],
+      "spec_refs": [
+        "\u00a716"
+      ],
+      "brief": "docs/tasks/EPIC-025.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-026",
+      "title": "Target platform/browser/OBS matrix and performance evidence",
+      "module": "Release",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "EPIC-020",
+        "EPIC-024",
+        "EPIC-025"
+      ],
+      "spec_refs": [
+        "\u00a719"
+      ],
+      "brief": "docs/tasks/EPIC-026.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EPIC-027",
+      "title": "Release license/source manifests, diagnostics and documentation",
+      "module": "Release",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "EPIC-026"
+      ],
+      "spec_refs": [
+        "\u00a71",
+        "\u00a716",
+        "\u00a719"
+      ],
+      "brief": "docs/tasks/EPIC-027.md",
+      "summary": "Planning container: split into reviewed contract/test-first implementation tasks before assigning production work.",
+      "notes": [
+        "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    }
+  ],
+  "activity": [
+    {
+      "date": "2026-10-29",
+      "task": "BOOT-001",
+      "note": "Created packaged scaffold and agent instructions. Product implementation and live/platform gates remain open."
+    },
+    {
+      "date": "2026-10-29",
+      "task": "BOOT-001",
+      "note": "Verified 12 tooling tests, direct GCC contract/scaffold compile and offline page controller simulation. CMake/Qt/GoogleTest/live/platform checks remain not run."
+    },
+    {
+      "date": "2026-10-29T22:57:21+00:00",
+      "task": "BOOT-002",
+      "note": "Scope: local scaffold/toolchain validation for initial GitHub publication; specification v0.45, draft time-credit contract revision 0. Own progress/state.json, generated PROGRESS.html, README repository setup text and publication evidence. Acceptance: record actual checks; preserve independent-review and product gates."
+    },
+    {
+      "date": "2026-10-29",
+      "task": "BOOT-002",
+      "note": "Reviewed scaffold for initial GitHub publication; local CMake/CTest and Qt 6.12 probe pass. Independent acceptance review/red run and interactive/platform gates remain open."
+    }
+  ]
+}

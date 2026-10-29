@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent development progress state",
+  "type": "object",
+  "required": [
+    "project",
+    "baseline_version",
+    "specification_version",
+    "updated_at",
+    "summary",
+    "schema_version",
+    "tasks",
+    "verification",
+    "activity"
+  ],
+  "properties": {
+    "project": {
+      "type": "string"
+    },
+    "baseline_version": {
+      "type": "string"
+    },
+    "specification_version": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "tasks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/task"
+      }
+    },
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "label",
+          "status",
+          "detail"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/check"
+          },
+          "detail": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "activity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "date",
+          "task",
+          "note"
+        ],
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "check": {
+      "enum": [
+        "blocked",
+        "draft",
+        "failed",
+        "not_run",
+        "observed_red",
+        "partial",
+        "passed"
+      ]
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "module",
+        "owner",
+        "brief",
+        "summary",
+        "kind",
+        "status",
+        "depends_on",
+        "spec_refs",
+        "notes",
+        "verification",
+        "evidence",
+        "review"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]*-[0-9]{3}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "module": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "brief": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "code_review",
+            "contract",
+            "environment",
+            "epic",
+            "feasibility",
+            "implementation",
+            "scaffold",
+            "test_baseline",
+            "test_draft",
+            "test_review"
+          ]
+        },
+        "status": {
+          "enum": [
+            "blocked",
+            "done",
+            "in_progress",
+            "in_review",
+            "planned",
+            "ready"
+          ]
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "spec_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verification": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/check"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "review": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "properties": {
+            "author": {
+              "type": "string"
+            },
+            "reviewer": {
+              "type": "string"
+            },
+            "outcome": {
+              "enum": [
+                "approved",
+                "changes_requested"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

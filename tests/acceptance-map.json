@@ -1,0 +1,749 @@
+{
+  "specification_version": "0.45",
+  "note": "Every decision starts pending. Six draft cap-credit cases cover only a narrow scenario; no full decision is marked verified.",
+  "decisions": [
+    {
+      "id": "UI-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "UI-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "UI-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEP-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEP-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEP-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "CHAT-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-06",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "RULE-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "RULE-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "RULE-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MOD-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MOD-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MOD-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "FX-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "FX-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "FX-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "FX-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "FX-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "FX-06",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "I18N-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "I18N-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "I18N-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "VIEW-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "VIEW-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "VIEW-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "STATS-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "STATS-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DATA-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "OPS-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "OPS-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "OPS-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MEDIA-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MEDIA-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MEDIA-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "NUM-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "NUM-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "NUM-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-07",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-08",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-09",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TIMER-10",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-06",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-07",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MILE-08",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-06",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-07",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "CHAT-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-08",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-09",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-10",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "INTAKE-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "INTAKE-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "UI-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEP-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEP-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "SETUP-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "BUILD-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "BUILD-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TEST-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TEST-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "BUILD-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PLATFORM-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PLATFORM-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PLATFORM-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PLATFORM-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PLATFORM-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PACKAGE-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PACKAGE-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEP-06",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEP-07",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PACKAGE-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "WEB-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TEST-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "WEB-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "SERVER-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "API-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DB-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-11",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-12",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "CRYPTO-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "CRYPTO-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-13",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-14",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "OPS-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "CRYPTO-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "API-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "NUM-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "API-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MOD-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MEDIA-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MEDIA-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "PERF-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "LICENSE-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "MEDIA-06",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "I18N-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "VIEW-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "STATS-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "REPO-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "AUTH-15",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "INTEGRATION-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEV-01",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEV-02",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEV-03",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "DEV-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TEST-04",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    },
+    {
+      "id": "TEST-05",
+      "status": "planned",
+      "tests": [],
+      "evidence": []
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "55-minute timer, 60-minute cap, requested +10",
+      "status": "draft",
+      "tests": [
+        "tests/acceptance/time_credit_tests.cpp"
+      ],
+      "contract": "docs/contracts/time-credit-v0.md",
+      "review": null
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+set(CMAKE_AUTOMOC ON)
+add_executable(qt_environment_probe qt_environment_probe.cpp)
+target_link_libraries(qt_environment_probe PRIVATE Qt6::Core Qt6::Test)
+subathon_target_options(qt_environment_probe)
+add_test(NAME scaffold.qt_event_loop COMMAND qt_environment_probe)
+set_tests_properties(scaffold.qt_event_loop PROPERTIES LABELS "scaffold;qt")

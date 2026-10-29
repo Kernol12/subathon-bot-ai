@@ -1,0 +1,87 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_TESTING": "ON"
+      }
+    },
+    {
+      "name": "scaffold-debug",
+      "displayName": "01 \u00b7 Scaffold (no Qt/GoogleTest required)",
+      "inherits": "base"
+    },
+    {
+      "name": "acceptance-debug",
+      "displayName": "02 \u00b7 Acceptance baseline (intentionally red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON"
+      }
+    },
+    {
+      "name": "qt-probe-debug",
+      "displayName": "03 \u00b7 Qt 6.12 environment probe",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_QT_PROBE": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "scaffold-debug",
+      "configurePreset": "scaffold-debug"
+    },
+    {
+      "name": "acceptance-debug",
+      "configurePreset": "acceptance-debug"
+    },
+    {
+      "name": "qt-probe-debug",
+      "configurePreset": "qt-probe-debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "scaffold-debug",
+      "configurePreset": "scaffold-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "acceptance-debug",
+      "configurePreset": "acceptance-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "qt-probe-debug",
+      "configurePreset": "qt-probe-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    }
+  ]
+}
