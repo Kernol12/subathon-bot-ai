@@ -27,12 +27,45 @@ references and a brief. Split large feature tasks before assigning them. Include
 failure cases and applicable test suites. Status values are ready/planned/in_progress/
 in_review/blocked/done; test and platform evidence are separate fields.
 
+## Branches and pull requests
+
+Before editing, fetch the current `main` and create one dedicated branch per executable
+task, for example `task/EPIC-010-TASK-ID-summary`. Claim the task on that branch and
+record the branch, scope and shared-file ownership. Epics are planning containers:
+split them into dependency-ready tasks and use focused PRs rather than one large epic PR.
+
+Push the branch and open a pull request targeting `main`, using the repository PR
+template. Include task/epic IDs, specification references, actual check results,
+applicable independent reviews, remaining gates and updated progress evidence.
+Use a draft PR while required work or reviews remain.
+
+Agents are authorized to merge their task PRs without further owner confirmation when:
+
+- Required CI checks pass for the latest PR revision, and relevant local checks pass.
+- Applicable specification-linked test-first and quality gates are satisfied, including
+  separate test/code reviews where required. Authors cannot certify their own
+  independent review. A green scaffold check alone does not approve product behavior.
+- Review discussions are resolved, required approvals are present, and GitHub reports
+  the PR mergeable under the repository's branch protection and rulesets.
+- Task evidence and generated progress are current; remaining release/platform gates
+  are explicit and do not block the task's acceptance criteria.
+
+Check these conditions again after any new commit or conflict resolution. Never bypass
+branch protection, force-push `main`, or delete, skip or weaken assertions to make CI
+pass. The documented intentionally red draft baseline remains a separate gate; it is
+not a waiver for failed required checks or missing acceptance of implemented behavior.
+If checks, permissions or reviews are unavailable, leave the PR open and report the
+specific blocker. Record the PR link and merge outcome in the handoff.
+
+GitHub branch protection/rulesets should enforce required checks and reviews; written
+instructions alone do not configure that enforcement.
+
 ## Concurrent work
 
 Use one branch/worktree per writer. Keep commits focused. Coordinate progress/state.json,
 shared schemas, migrations, dependency pins and root CMake through the integrator. Do not
-cherry-pick incompatible interface versions or overwrite uncommitted work. The package
-contains no Git history; initialize a private repository before starting parallel work.
+cherry-pick incompatible interface versions or overwrite uncommitted work. Base task
+branches/worktrees on the repository's current `main`.
 
 ## Review and baseline changes
 
