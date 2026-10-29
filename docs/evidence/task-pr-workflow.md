@@ -25,13 +25,19 @@ No production behavior or baseline assertions changed. No new tests are warrante
 for the documentation policy. No independent reviewer is claimed; this documentation
 change does not complete any product implementation or acceptance-review gate.
 
-Publication gate: SSH push access is available, but GitHub CLI, CLI auth configuration
-and GitHub API token environment variables were absent when checked. PR creation,
-remote checks/reviews and merging await API authentication. The owner was asked to
-install `gh` and run `gh auth login` locally, without sharing credentials in chat.
-Leave BOOT-004 in review until the PR and its required checks/gates are handled.
+Publication update: GitHub CLI authentication is now available. Created
+[PR #1](https://github.com/Kernol12/subathon-bot-ai/pull/1) targeting main.
+`gh pr view` reported the initial scaffold check SUCCESS; the main branch API
+reported protection disabled and no required status checks. No required approval
+or independent product-review gate applies to this documentation-only task.
+The owner's approval of the proposed policy is recorded in the conversation;
+this is not an independent product code/test review.
+
+The documentation work is complete. This final evidence update must receive passing
+CI before PR integration. Check the PR for the definitive merge outcome and commit;
+no branch-protection bypass or change to repository rules is authorized here.
 
 Changed paths: AGENTS.md, docs/AGENT_WORKFLOW.md, docs/tasks/BOOT-004.md, this note,
 progress/state.json, generated PROGRESS.html.
-Next action: create the PR from TEST_PR to main; inspect latest-revision CI,
-branch protection and review status, then merge when eligible.
+Next action: verify latest-revision CI and mergeability, merge PR #1 when eligible,
+then synchronize local main. Existing product review and release gates remain open.
