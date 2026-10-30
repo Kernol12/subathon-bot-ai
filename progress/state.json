@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T16:23:35.963982+00:00",
+  "updated_at": "2026-10-30T16:25:47.139059+00:00",
   "summary": "All 27 release epics now have bounded child work and explicit test-first/review/verification gates. No production features are implemented; the initial draft core baseline and live/platform gates remain open.",
   "verification": [
     {
@@ -263,7 +263,7 @@
       "title": "Independently review the acceptance baseline",
       "module": "Core",
       "kind": "test_review",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Independent reviewer /root/reviewer",
       "depends_on": [
         "TEST-001"
@@ -275,19 +275,30 @@
       "brief": "docs/tasks/REVIEW-001.md",
       "summary": "A separate reviewer checks contracts, oracles, failure cases and baseline integrity.",
       "notes": [
-        "Claimed task/REVIEW-001-credit-review based on main 9982001 plus prerequisite contract/tests. Review exact authored 24ea9ba (review worktree ef92876), contract revision 1; author /root/test_author, reviewer /root/reviewer. Coordinator alone owns shared progress/build files."
+        "Claimed task/REVIEW-001-credit-review based on main 9982001 plus prerequisite contract/tests. Review exact authored 24ea9ba (review worktree ef92876), contract revision 1; author /root/test_author, reviewer /root/reviewer. Coordinator alone owns shared progress/build files.",
+        "Independent reviewer /root/reviewer approved all19 oracles and contract revision1 at71f39f0. Original6fixtures/15assertions preserved; no behavior run by reviewer. Implementation still waits for TEST-002 observed red."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "test_review": "passed"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-independent-review.md"
+      ],
+      "review": {
+        "author": "/root/test_author",
+        "reviewer": "/root/reviewer",
+        "outcome": "approved",
+        "baseline": "author3f7c0d3; test blob055dec680f6ded7c457d14daf088115a0d73fa9f",
+        "evidence": "docs/evidence/time-credit-independent-review.md"
+      }
     },
     {
       "id": "TEST-002",
       "title": "Demonstrate the intended failing baseline",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root",
       "depends_on": [
         "BOOT-002",
         "REVIEW-001"
@@ -297,7 +308,9 @@
       ],
       "brief": "docs/tasks/TEST-002.md",
       "summary": "Build GoogleTest suite; record FeatureNotImplemented failures rather than dependency/build errors.",
-      "notes": [],
+      "notes": [
+        "Claimed task/TEST-002-reviewed-credit-baseline from current main9982001 plus completed environment/contract/tests/review prerequisite commits. Scope: compile and record actual intended stub failures only; coordinator owns central progress, acceptance map, evidence and current-status docs. No production implementation."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -9995,6 +10008,16 @@
       "date": "2026-10-30T16:23:35.963982+00:00",
       "task": "REVIEW-001",
       "note": "Claimed task/REVIEW-001-credit-review based on main 9982001 plus prerequisite contract/tests. Review exact authored 24ea9ba (review worktree ef92876), contract revision 1; author /root/test_author, reviewer /root/reviewer. Coordinator alone owns shared progress/build files."
+    },
+    {
+      "date": "2026-10-30T16:25:47.139059+00:00",
+      "task": "REVIEW-001",
+      "note": "Independent reviewer /root/reviewer approved all19 oracles and contract revision1 at71f39f0. Original6fixtures/15assertions preserved; no behavior run by reviewer. Implementation still waits for TEST-002 observed red."
+    },
+    {
+      "date": "2026-10-30T16:25:47.139059+00:00",
+      "task": "TEST-002",
+      "note": "Claimed task/TEST-002-reviewed-credit-baseline from current main9982001 plus completed environment/contract/tests/review prerequisite commits. Scope: compile and record actual intended stub failures only; coordinator owns central progress, acceptance map, evidence and current-status docs. No production implementation."
     }
   ]
 }
