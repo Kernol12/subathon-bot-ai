@@ -2,7 +2,8 @@
 
 Date: 2026-10-30. Author: Codex. Scope: developer tooling, not product behavior.
 Branch: task/BOOT-006-execution-order, based on merged PR #2/main 0593bca.
-Pull request: [PR #3](https://github.com/Kernol12/subathon-bot-ai/pull/3), open for review.
+Pull request: [PR #3](https://github.com/Kernol12/subathon-bot-ai/pull/3), merged on
+2026-10-30 at 15:52:12 UTC as 9982001b732f06793f6c17d5f912b82c7cd1e3cc.
 Specification: v0.45 §17, DEV-02/DEV-04. Product contract revision unchanged.
 Shared ownership: progress rendering/template/controller checks, tooling tests,
 progress JSON/HTML, documentation and this evidence note.
@@ -119,10 +120,13 @@ reports its own simulation limits; it does not claim to run an actual browser.
 
 ## Review and remaining gates
 
-BOOT-006 remains in review. Open the task PR and leave it for review; no independent
-reviewer is claimed. No product acceptance, provider, Windows/Wayland/OBS or package
-verification was run or upgraded. BOOT-002's CLion-selected toolchain gate remains
-open. Refresh this static snapshot after subsequent recorded task-status changes.
+The owner confirmed completion and requested marking BOOT-006 done. GitHub verified
+PR #3 as merged at the revision/time above. Recorded that closeout and regenerated
+the static dashboard; no independent product reviewer or new product acceptance,
+provider, Windows/Wayland/OBS or package verification is inferred from this update.
+The original checks above remain the implementation evidence. Closeout checks:
+`python3 tools/progress.py render --check`, `python3 tools/check_project.py` and
+`git diff --check` passed. Other tasks and their verification records are preserved.
 
 Changed paths: tools/progress.py, tools/progress_template.html,
 tools/check_progress_ui.mjs, tests/tooling/test_progress.py, docs/PROGRESS.md,
