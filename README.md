@@ -12,6 +12,11 @@ The full product baseline is [specification v0.45](docs/specification.md).
 4. Give your CLion agent [FIRST_AGENT_PROMPT.md](FIRST_AGENT_PROMPT.md).
 5. Read [AGENTS.md](AGENTS.md), [workflow](docs/AGENT_WORKFLOW.md), and the initial task briefs.
 
+For ongoing development with subagents, use the
+[coordinator instructions and starting/continuation prompts](docs/COORDINATOR_PROMPT.md).
+The coordinator selects from current task evidence and preserves a durable checkpoint
+for resuming after an interruption; it does not repeat completed initial preparation.
+
 The [epic and child-task index](docs/tasks/README.md) lists the bounded release backlog
 and separate test-first gates. Start with the existing initial core baseline; planned
 child records do not mean tests or product behavior have been completed.

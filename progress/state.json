@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T21:03:09+00:00",
+  "updated_at": "2026-10-30T22:07:44.602690+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -9969,6 +9969,38 @@
       "verification": {},
       "evidence": [],
       "review": null
+    },
+    {
+      "id": "BOOT-007",
+      "title": "Add a resumable coordinator prompt",
+      "module": "Foundation",
+      "kind": "scaffold",
+      "status": "done",
+      "owner": "Codex",
+      "depends_on": [
+        "BOOT-004"
+      ],
+      "spec_refs": [
+        "\u00a717",
+        "DEV-02",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/BOOT-007.md",
+      "summary": "Standing subagent coordinator instructions with gated task PRs and durable start/resume handoffs.",
+      "notes": [
+        "Claimed task/BOOT-007-coordinator-prompt from current origin/main. Documentation only: standing coordinator loop plus starting/resume prompts; specification v0.45 and existing contracts unchanged. Own README, prompt, task/evidence notes, progress state and generated HTML; preserve all other task records and verification.",
+        "Added standing coordinator instructions plus starting/continuation prompts and README link. Existing test-first, independent review, branch/worktree, PR merge and full-release gates preserved; durable checkpoint is created by the future coordinator run. Documentation checks, Python19/19, DOM simulation and scaffold3/3 pass. No project implementation run started; publication/latest-revision CI and merge status belong to the task PR."
+      ],
+      "verification": {
+        "documentation_consistency": "passed",
+        "tooling": "passed",
+        "native_build": "passed"
+      },
+      "evidence": [
+        "docs/evidence/coordinator-prompt.md"
+      ],
+      "review": null
     }
   ],
   "activity": [
@@ -10206,6 +10238,16 @@
       "date": "2026-10-30",
       "task": "IMPL-001",
       "note": "Published PR #7 https://github.com/Kernol12/subathon-bot-ai/pull/7 with original author/reviewer branches. Separate final integration review 352f1c5 approved exact b046e9e including status prose, map/workflow and done-state evidence; independent project/render/DOM/Python19 checks pass. No changes to approved implementation/baseline. Recheck latest-revision CI, review discussions and repository merge gates on PR before merge; publication status is recorded there."
+    },
+    {
+      "date": "2026-10-30T22:06:21.331169+00:00",
+      "task": "BOOT-007",
+      "note": "Claimed task/BOOT-007-coordinator-prompt from current origin/main. Documentation only: standing coordinator loop plus starting/resume prompts; specification v0.45 and existing contracts unchanged. Own README, prompt, task/evidence notes, progress state and generated HTML; preserve all other task records and verification."
+    },
+    {
+      "date": "2026-10-30T22:07:44.602690+00:00",
+      "task": "BOOT-007",
+      "note": "Added standing coordinator instructions plus starting/continuation prompts and README link. Existing test-first, independent review, branch/worktree, PR merge and full-release gates preserved; durable checkpoint is created by the future coordinator run. Documentation checks, Python19/19, DOM simulation and scaffold3/3 pass. No project implementation run started; publication/latest-revision CI and merge status belong to the task PR."
     }
   ]
 }
