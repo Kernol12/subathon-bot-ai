@@ -2,6 +2,7 @@
 
 Date: 2026-10-30. Author: Codex. Scope: developer tooling, not product behavior.
 Branch: task/BOOT-006-execution-order, based on merged PR #2/main 0593bca.
+Pull request: [PR #3](https://github.com/Kernol12/subathon-bot-ai/pull/3), open for review.
 Specification: v0.45 §17, DEV-02/DEV-04. Product contract revision unchanged.
 Shared ownership: progress rendering/template/controller checks, tooling tests,
 progress JSON/HTML, documentation and this evidence note.
