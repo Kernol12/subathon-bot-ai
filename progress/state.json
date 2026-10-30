@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T15:39:20+00:00",
+  "updated_at": "2026-10-30T16:22:01.579382+00:00",
   "summary": "All 27 release epics now have bounded child work and explicit test-first/review/verification gates. No production features are implemented; the initial draft core baseline and live/platform gates remain open.",
   "verification": [
     {
@@ -19,8 +19,8 @@
     },
     {
       "label": "CMake / CLion / Qt",
-      "status": "partial",
-      "detail": "Local CMake scaffold and Qt 6.12.0 probe configure/build/test passed (Qt preset 4/4); CLion selected profile and interactive checks remain unverified."
+      "status": "passed",
+      "detail": "Selected CLion GCC/C++20 scaffold target ran; IDE-terminal scaffold configure/build/CTest 3/3 and separate Qt 6.12.0 probe 4/4 passed. Product UI/platform support remains unverified."
     },
     {
       "label": "GoogleTest acceptance",
@@ -72,8 +72,8 @@
       "title": "Validate CLion and the local CMake toolchain",
       "module": "Foundation",
       "kind": "environment",
-      "status": "in_progress",
-      "owner": "codex",
+      "status": "done",
+      "owner": "Coordinator /root",
       "depends_on": [
         "BOOT-001"
       ],
@@ -85,17 +85,20 @@
       "summary": "Configure/build/test the scaffold preset on Arch/KDE; record tool versions and resolve normal setup issues.",
       "notes": [
         "Scope: local scaffold/toolchain validation for initial GitHub publication; specification v0.45, draft time-credit contract revision 0. Own progress/state.json, generated PROGRESS.html, README repository setup text and publication evidence. Acceptance: record actual checks; preserve independent-review and product gates.",
-        "Local scaffold (3/3) and Qt probe (4/4) pass. GoogleTest 1.18.0 reported by pkg-config; acceptance not built or run. CLion selected toolchain and interactive browser verification remain open. Initial repository publication authorized separately by the owner."
+        "Local scaffold (3/3) and Qt probe (4/4) pass. GoogleTest 1.18.0 reported by pkg-config; acceptance not built or run. CLion selected toolchain and interactive browser verification remain open. Initial repository publication authorized separately by the owner.",
+        "Claimed on task/BOOT-002-coordinator-validation, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Refresh native/Qt/tooling evidence; CLion selected profile remains a separate gate. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files.",
+        "Selected CLion GCC/C++20 target ran successfully; IDE-terminal scaffold configure/build/CTest 3/3, standalone Qt probe 4/4 and 17 tooling tests passed. Native environment gate satisfied; product/platform gates remain separate."
       ],
       "verification": {
         "native_build": "passed",
         "qt_probe": "passed",
         "tooling": "passed",
-        "clion": "not_run",
+        "clion": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
-        "docs/evidence/initial-publication.md"
+        "docs/evidence/initial-publication.md",
+        "docs/evidence/coordinator-environment.md"
       ],
       "review": null
     },
@@ -201,8 +204,8 @@
       "title": "Review the draft time-credit boundary",
       "module": "Core",
       "kind": "contract",
-      "status": "ready",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Test author /root/test_author",
       "depends_on": [
         "BOOT-001"
       ],
@@ -213,9 +216,16 @@
       ],
       "brief": "docs/tasks/CONTRACT-001.md",
       "summary": "Review valid examples and define invalid-input/overflow behavior before implementation.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
+      "notes": [
+        "Claimed on task/CONTRACT-001-credit-contract, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Define explicit validation/overflow contract without implementing behavior; test author owns contract, header and acceptance tests sequentially. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files.",
+        "Contract revision 1 authored at ed96a88 and accepted for TEST-001. Defines negative/above-cap validation and final overflow; lowered-cap product interaction explicitly deferred; stub unchanged. Formal independent baseline review remains pending."
+      ],
+      "verification": {
+        "contract": "passed"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-contract.md"
+      ],
       "review": null
     },
     {
@@ -223,8 +233,8 @@
       "title": "Review and expand the draft credit tests",
       "module": "Core",
       "kind": "test_draft",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Test author /root/test_author",
       "depends_on": [
         "CONTRACT-001"
       ],
@@ -235,7 +245,9 @@
       ],
       "brief": "docs/tasks/TEST-001.md",
       "summary": "Test-author task: independently derive expected values and extend meaningful boundary cases.",
-      "notes": [],
+      "notes": [
+        "Claimed task/TEST-001-credit-tests from origin/main 9982001 plus prerequisite contract ed96a88. Scope: preserve six assertions and add independently derived revision-1 boundaries/errors. Coordinator owns shared progress/build files."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -374,8 +386,8 @@
       "title": "Validate Drogon and Qt lifecycle/thread bridge",
       "module": "Server/API",
       "kind": "feasibility",
-      "status": "ready",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Feasibility investigator /root/feasibility",
       "depends_on": [
         "BOOT-001"
       ],
@@ -385,7 +397,9 @@
       ],
       "brief": "docs/tasks/SPIKE-001.md",
       "summary": "Prototype startup, request-to-Qt queue, one writer and safe shutdown before broad server work.",
-      "notes": [],
+      "notes": [
+        "Claimed on task/SPIKE-001-qt-drogon, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Investigate isolated Drogon/Qt queue/writer/shutdown feasibility; no production feature claims. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -9933,6 +9947,36 @@
       "date": "2026-10-30",
       "task": "BOOT-006",
       "note": "Added checkbox state/module selection to PR #3. Combined filters/search and All/None pass; corrected responsive menu positioning. Task remains in review."
+    },
+    {
+      "date": "2026-10-30T16:18:57.449773+00:00",
+      "task": "BOOT-002",
+      "note": "Claimed on task/BOOT-002-coordinator-validation, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Refresh native/Qt/tooling evidence; CLion selected profile remains a separate gate. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files."
+    },
+    {
+      "date": "2026-10-30T16:18:57.449773+00:00",
+      "task": "CONTRACT-001",
+      "note": "Claimed on task/CONTRACT-001-credit-contract, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Define explicit validation/overflow contract without implementing behavior; test author owns contract, header and acceptance tests sequentially. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files."
+    },
+    {
+      "date": "2026-10-30T16:18:57.449773+00:00",
+      "task": "SPIKE-001",
+      "note": "Claimed on task/SPIKE-001-qt-drogon, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Investigate isolated Drogon/Qt queue/writer/shutdown feasibility; no production feature claims. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files."
+    },
+    {
+      "date": "2026-10-30T16:22:01.579382+00:00",
+      "task": "BOOT-002",
+      "note": "Selected CLion GCC/C++20 target ran successfully; IDE-terminal scaffold configure/build/CTest 3/3, standalone Qt probe 4/4 and 17 tooling tests passed. Native environment gate satisfied; product/platform gates remain separate."
+    },
+    {
+      "date": "2026-10-30T16:22:01.579382+00:00",
+      "task": "CONTRACT-001",
+      "note": "Contract revision 1 authored at ed96a88 and accepted for TEST-001. Defines negative/above-cap validation and final overflow; lowered-cap product interaction explicitly deferred; stub unchanged. Formal independent baseline review remains pending."
+    },
+    {
+      "date": "2026-10-30T16:22:01.579382+00:00",
+      "task": "TEST-001",
+      "note": "Claimed task/TEST-001-credit-tests from origin/main 9982001 plus prerequisite contract ed96a88. Scope: preserve six assertions and add independently derived revision-1 boundaries/errors. Coordinator owns shared progress/build files."
     }
   ]
 }
