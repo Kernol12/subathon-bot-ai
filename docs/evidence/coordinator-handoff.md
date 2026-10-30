@@ -42,8 +42,14 @@ configuration gap from BOOT-008 remains open. No repository settings were change
 
 ## Checks, blockers and next action
 
-No new task PR has been published yet. Author evidence/review and final integrated
-checks are pending. The initial sandbox refused Git metadata writes; explicit
+BOOT-003 evidence author `b6863e9` is independently approved by review `27fe6b9`;
+see [probe evidence](boot-003-qt-probe.md) and [review](boot-003-independent-review.md).
+Both author and reviewer freshly configured/built and passed Qt CTest 4/4 with Qt
+6.12.0. Coordinator scaffold 3/3, Python 19/19, project/current HTML and DOM simulation
+checks passed. No test or production source changed. BOOT-003 local acceptance is
+satisfied; focused PR publication and latest-revision CI/merge gates are next.
+Remote Qt CI remains unperformed; STORAGE-001/API-001 must assess/add Qt coverage
+before their executable production claims, as required by the workflow policy. The initial sandbox refused Git metadata writes; explicit
 escalated Git operations create the authorized task branches/worktrees. GitHub
 network operations also use explicit escalation. These are environment constraints,
 not failed product tests.

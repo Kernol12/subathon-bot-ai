@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T22:26:30+00:00",
+  "updated_at": "2026-10-30T22:28:45+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -401,7 +401,7 @@
       "title": "Validate the Qt 6.12 environment probe",
       "module": "Foundation",
       "kind": "environment",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Coordinator /root; environment author /root/qt_validator",
       "depends_on": [
         "BOOT-002"
@@ -412,11 +412,27 @@
       "brief": "docs/tasks/BOOT-003.md",
       "summary": "Run Qt Test event-loop probe; record actual Qt/compiler/platform versions. This is not QML/OBS verification.",
       "notes": [
-        "Claimed from main 2bc4e64 on task/BOOT-003-qt-environment. Specification v0.45 §2; Qt probe contract unchanged. Acceptance: fresh Qt >=6.12 configure/build/CTest, versions and limitations recorded; separate evidence review. Coordinator owns progress/state.json, PROGRESS.html and coordinator handoff; isolated task/BOOT-003-probe-evidence worktree owns docs/evidence/boot-003-qt-probe.md only. No product or platform verification upgrade."
+        "Claimed from main 2bc4e64 on task/BOOT-003-qt-environment. Specification v0.45 §2; Qt probe contract unchanged. Acceptance: fresh Qt >=6.12 configure/build/CTest, versions and limitations recorded; separate evidence review. Coordinator owns progress/state.json, PROGRESS.html and coordinator handoff; isolated task/BOOT-003-probe-evidence worktree owns docs/evidence/boot-003-qt-probe.md only. No product or platform verification upgrade.",
+        "Fresh local Qt6.12.0 configure/build/CTest4/4 passed, repeated independently by /root/independent_reviewer. Author b6863e9, review27fe6b9; probe unchanged. Coordinator scaffold3/3, Python19/19, DOM/current HTML/project checks pass. Local environment task complete; latest PR CI/merge still required. Remote Qt CI, Windows/QML/OBS and product/platform/live gates remain open."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "qt_probe": "passed",
+        "independent_review": "passed",
+        "remote_qt_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/boot-003-qt-probe.md",
+        "docs/evidence/boot-003-independent-review.md"
+      ],
+      "review": {
+        "author": "/root/qt_validator",
+        "reviewer": "/root/independent_reviewer",
+        "outcome": "approved",
+        "baseline": "author b6863e9; reviewed by 27fe6b9; Qt probe blob 008c5907224d08e5a3697d91f282c2fea5b5bec4",
+        "evidence": "docs/evidence/boot-003-independent-review.md"
+      }
     },
     {
       "id": "CONTRACT-002",
@@ -10307,6 +10323,11 @@
       "date": "2026-10-30T22:26:30+00:00",
       "task": "BOOT-003",
       "note": "Claimed from main 2bc4e64 on task/BOOT-003-qt-environment. Specification v0.45 §2; Qt probe contract unchanged. Acceptance: fresh Qt >=6.12 configure/build/CTest, versions and limitations recorded; separate evidence review. Coordinator owns progress/state.json, PROGRESS.html and coordinator handoff; isolated task/BOOT-003-probe-evidence worktree owns docs/evidence/boot-003-qt-probe.md only. No product or platform verification upgrade."
+    },
+    {
+      "date": "2026-10-30T22:28:45+00:00",
+      "task": "BOOT-003",
+      "note": "Fresh local Qt6.12.0 configure/build/CTest4/4 passed, repeated independently by /root/independent_reviewer. Author b6863e9, review27fe6b9; probe unchanged. Coordinator scaffold3/3, Python19/19, DOM/current HTML/project checks pass. Local environment task complete; latest PR CI/merge still required. Remote Qt CI, Windows/QML/OBS and product/platform/live gates remain open."
     }
   ]
 }
