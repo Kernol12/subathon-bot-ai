@@ -44,4 +44,71 @@ review only; no acceptance run or implementation approval is claimed here.
 
 ## Implementation review
 
-Pending exact implementation revision and independent build/test execution.
+**Verdict: approved for integration. No blocking findings.** The reviewer inspected
+implementation author commit `29325b5` (reviewer prerequisite cherry-pick `e68aa0a`)
+and the exact source blob `d87cc073ce470fe6b864ef16c75d1ca6aa8d0145`.
+This approves only the revision-1 numeric planning helper, not a complete timer or
+application transaction. Final coordinator integration and latest-revision CI/PR
+merge gates remain separate.
+
+The implementation validates negatives and the above-cap state with comparisons
+before any arithmetic. For valid inputs, `remaining` is in [0,M]; when capped,
+`cap` is also in [remaining,M]. Therefore `cap-remaining` is in [0,M], so the
+headroom subtraction cannot overflow. Clipping the request to that headroom
+precedes any addition and allows representable actual credit even when the naive
+requested sum exceeds M. Without a cap the applied request is unchanged.
+
+The subsequent `M-remaining` subtraction is representable for every validated
+remaining value. The checked comparison rejects exactly the positive sums outside
+signed 64-bit range, then the final addition is safe. There is no negation of
+INT64_MIN, unsafe signed intermediate, floating point, saturation or truncation.
+The contract explicitly permits checked arithmetic for these already-integral
+milliseconds; broader exact money/rate/rounding work retains its separate selected
+Boost.Multiprecision requirement. No additional dependency is necessary here.
+
+Requested credit is copied exactly from the input, independently of applied credit;
+only actual applied credit contributes to remaining-after. The function uses no
+mutable external state, provider/network/UI framework, persistence, debt or refund
+policy. Exceptions return no proposal. A later authoritative caller must still
+implement eligibility, review holds and transactional effects; this review claims
+none of those behaviors.
+
+The reviewer compared source against main `45a38d8` and confirmed the 19 original
+acceptance cases, fixture and public header are byte-identical. New regression
+source and tests CMake match the pre-implementation reviewed blobs. The public
+unused stub exception type remains for compatibility; production no longer throws
+it. Author red evidence was inspected: four regression failures on the explicit
+stub, not compilation/dependency/skipped-test failures. It is attributed author
+execution rather than an independent reviewer red replay.
+
+| Preserved baseline | Git blob |
+| --- | --- |
+| tests/acceptance/time_credit_tests.cpp | `055dec680f6ded7c457d14daf088115a0d73fa9f` |
+| tests/fixtures/time-credit.json | `a1ab9d7b56e9eeaa1e429c25da5a522786320df3` |
+| core/include/subathon/core/time_credit.hpp | `564d3c379fafcaa9862aab55e2ae7e15f86cd75a` |
+
+### Independent commands and results
+
+Executed in the reviewer worktree on Linux 7.2.11-arch1-1 x86-64, GCC 16.2.1
+(20260810), CMake 4.4.5, Ninja 1.13.2, Python 3.14.8, installed GoogleTest 1.18.0.
+No dependency downloads or external services were used.
+
+| Command | Actual result |
+| --- | --- |
+| `cmake --preset acceptance-debug` | Exit 0; clean reviewer build configured |
+| `cmake --build --preset acceptance-debug` | Exit 0; compiled and linked without warnings |
+| `ctest --preset acceptance-debug -L acceptance` | Exit 0; all 19 original reviewed cases passed |
+| `ctest --preset acceptance-debug -L regression` | Exit 0; all four separately reviewed regression cases passed |
+| `ctest --preset acceptance-debug` | Exit 0; 26/26 passed including three infrastructure/tooling checks |
+| `git diff 45a38d8 -- core/src/time_credit.cpp tests/CMakeLists.txt tests/acceptance/time_credit_regression_tests.cpp` | Exit 0; inspected full implementation/test changes |
+| `git diff --exit-code 45a38d8 -- tests/acceptance/time_credit_tests.cpp tests/fixtures/time-credit.json core/include/subathon/core/time_credit.hpp` | Exit 0; empty, preserved reviewed artifacts |
+| `git hash-object` for implementation/tests/header/fixture/tests CMake | Exit 0; exact blobs above confirmed |
+| `clang-format --dry-run --Werror core/src/time_credit.cpp tests/acceptance/time_credit_regression_tests.cpp` | Exit 0 |
+| `git diff --check` | Exit 0 |
+
+Existing CTest `draft` metadata is historical; the review and TEST-002 handoff
+identify the approved baseline. Passing this small numeric suite establishes no
+live provider, Windows, Wayland/OBS, packaging, persistence, complete timer,
+refund, or UI verification. All integrations and exchange providers remain in
+release scope. Coordinator progress/current-status changes receive a separate
+integration assessment after they are available.
