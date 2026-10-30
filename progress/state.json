@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T16:32:10.987745+00:00",
+  "updated_at": "2026-10-30T16:33:03.129005+00:00",
   "summary": "Initial credit contract revision 1 and 19 specification-linked tests are independently reviewed with actual intended FeatureNotImplemented failures. No production behavior implemented. Qt/SQLite feasibility is partial; real Drogon and all live/platform release gates remain open.",
   "verification": [
     {
@@ -318,7 +318,8 @@
         "Final integration checks found an existing tooling fixture defect: negative dependency test assumes live TEST-002 remains unfinished. Python exit1 and scaffold/Qt CTest exit 8. Genuine test correction assigned separately to author/reviewer under TEST-04/05; retain dependency assertion, use synthetic incomplete/complete states. Product baseline blobs and observed-red evidence remain valid. Final completion waits for correction and checks.",
         "Final fixture correction 42229b3 separately approved by /root/reviewer: synthetic incomplete baseline retains dependency rejection; complementary completed reviewed/red baseline allows start. Validator and 19-case C++ baseline unchanged. Re-running final checks after integration.",
         "Final integrated checks passed after reviewed fixture correction: scaffold 3/3, Qt 4/4, Python 18/18, project consistency, current HTML, DOM simulation and diff check. Production stub and all 19 reviewed acceptance cases unchanged; C++ intended red remains actual observed evidence.",
-        "Separate integration review a7988b3 approved test-preparation artifacts, captured red evidence and exact fixture correction. No implemented feature approval or CI/merge bypass; publish baseline PR to main with remaining release gates explicit."
+        "Separate integration review a7988b3 approved test-preparation artifacts, captured red evidence and exact fixture correction. No implemented feature approval or CI/merge bypass; publish baseline PR to main with remaining release gates explicit.",
+        "Published baseline PR #5 https://github.com/Kernol12/subathon-bot-ai/pull/5; revision 4b8750f scaffold CI passed and GitHub reported mergeable/CLEAN. Recheck final publication revision CI and review/merge gates before merge. Separate feasibility PR #4 remains draft/partial; no production behavior implemented."
       ],
       "verification": {
         "native_build": "passed",
@@ -10074,6 +10075,11 @@
       "date": "2026-10-30T16:30:56.851274+00:00",
       "task": "TEST-002",
       "note": "Final fixture correction 42229b3 separately approved by /root/reviewer: synthetic incomplete baseline retains dependency rejection; complementary completed reviewed/red baseline allows start. Validator and 19-case C++ baseline unchanged. Re-running final checks after integration."
+    },
+    {
+      "date": "2026-10-30T16:33:03.129005+00:00",
+      "task": "TEST-002",
+      "note": "Published baseline PR #5 https://github.com/Kernol12/subathon-bot-ai/pull/5; revision 4b8750f scaffold CI passed and GitHub reported mergeable/CLEAN. Recheck final publication revision CI and review/merge gates before merge. Separate feasibility PR #4 remains draft/partial; no production behavior implemented."
     }
   ]
 }

@@ -151,3 +151,13 @@ independent examination of the final evidence and fixture correction.
 
 Feasibility PR #4 is open/draft at `c7e0f3e`; GitHub reports its scaffold checks
 successful. That workflow does not run the isolated Qt/SQL probe or real Drogon.
+
+## Publication
+
+[Baseline PR #5](https://github.com/Kernol12/subathon-bot-ai/pull/5) targets main.
+The isolated environment, contract, test-author and independent-review branches were
+also pushed so authored/review commit identities remain available. At publication,
+revision `4b8750f` had successful GitHub scaffold checks and GitHub reported the PR
+mergeable/CLEAN. This publication-only follow-up must receive its own latest-revision
+CI check before any merge; final merge state is recorded on the PR. No claim is made
+that CI's scaffold lane verifies product acceptance or the standalone feasibility probe.
