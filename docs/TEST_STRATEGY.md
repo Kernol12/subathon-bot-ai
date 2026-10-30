@@ -53,10 +53,13 @@ percentage or number of green tests replaces the acceptance map and review.
 ## Required evidence
 
 Use docs/templates/VERIFICATION.md. Record expected red separately from pass, fail,
-not-run and unsupported. Default scaffold CI excludes unreviewed feature tests explicitly;
-manual credit acceptance/regression CI executes the real cases without failure
-inversion. It must not turn a missing dependency or failing test into a passing
-feature claim.
+not-run and unsupported. Scaffold CI excludes unreviewed feature tests explicitly.
+Credit acceptance/regression CI runs automatically for PRs targeting main and pushes
+to main, with manual dispatch retained. It executes the real reviewed cases without
+failure inversion. It must not turn a missing dependency or failing test into a
+passing feature claim. Extend CI with executable product capabilities according to
+[the workflow policy](AGENT_WORKFLOW.md#evolving-continuous-integration); record gaps
+and actual results separately from live/platform evidence.
 
 Individual test-drafting tasks may be marked authored/done when their draft artifacts
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate

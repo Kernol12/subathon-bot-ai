@@ -69,7 +69,8 @@ See [progress instructions](docs/PROGRESS.md).
 - `tests/`: reviewed GoogleTest credit acceptance/regression cases, scaffold checks, optional Qt probe, tooling tests, fixtures.
 - `docs/`: full specification, architecture, decisions, test strategy, task/handoff templates and evidence.
 - `tools/`: dependency-free Python progress and consistency tools.
-- `.github/workflows/`: scaffold checks and a manually invoked credit acceptance/regression lane.
+- `.github/workflows/`: scaffold checks and automatic credit acceptance/regression
+  on PRs to main and pushes to main, with manual dispatch retained.
 
 The GitHub repository is `git@github.com:Kernol12/subathon-bot-ai.git`; the main
 branch is `main`. No live credentials are needed, and no service is contacted by

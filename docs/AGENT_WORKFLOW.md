@@ -64,6 +64,29 @@ specific blocker. Record the PR link and merge outcome in the handoff.
 GitHub branch protection/rulesets should enforce required checks and reviews; written
 instructions alone do not configure that enforcement.
 
+## Evolving continuous integration
+
+For every task, assess whether CI checks the changed behavior adequately. Add or update
+GitHub Actions as new executable modules, test suites, build targets and packaging
+introduce checks that should run automatically. Include workflow changes in the task
+scope and review. Reuse the same selected commands and presets locally and in CI;
+keep dependencies/actions pinned and permissions limited to what the job needs.
+
+Run stable, reviewed acceptance and regression suites automatically on relevant PRs.
+Add platform, browser and packaging jobs as those capabilities become executable.
+Keep intentional red baselines separate and visible until the implementation passes;
+do not add known-red work to a passing merge gate or hide failures by skipping tests,
+failure inversion or blanket continue-on-error. Credential-dependent live checks remain
+separate documented operations, not side effects of default CI.
+
+Record the CI coverage assessment, actual workflow results and remaining gaps in each
+task handoff/PR. Create explicit follow-up tasks for missing infrastructure or platform
+coverage; a gap that blocks task acceptance must be resolved before completion/merge.
+Check new or changed workflows on the PR before merging. Keep check names stable and
+avoid filters that can omit a required check. Record any required branch-protection or
+ruleset update explicitly: adding a workflow does not make its check required. Do not
+claim repository enforcement unless the actual configuration has been verified.
+
 ## Concurrent work
 
 Use one branch/worktree per writer. Keep commits focused. Coordinate progress/state.json,
