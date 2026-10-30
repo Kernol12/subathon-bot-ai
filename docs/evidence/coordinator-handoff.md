@@ -1,7 +1,8 @@
 # Coordinator checkpoint
 
 Coordinator: `/root`; started 2026-10-30 from `main` / `origin/main`
-`2bc4e6420ac7c56ce9fb29bc678798d2987ae8df`. Specification v0.45.
+`2bc4e6420ac7c56ce9fb29bc678798d2987ae8df`. Last refreshed main:
+`11eafe2f176a542235921266fa66bd20867de243` after BOOT-003 PR #10. Specification v0.45.
 Objective: execute the full agreed scope using bounded task PRs and independent reviews.
 This is an active checkpoint, not evidence of release completion.
 
@@ -22,23 +23,26 @@ reviews and currently no status-check rule. Independent agent review and passing
 latest-revision CI remain mandatory under repository instructions; the enforcement
 configuration gap from BOOT-008 remains open. No repository settings were changed.
 
-## Active assignments and ownership
+## Current task handoff and ownership
 
-- BOOT-003 coordinator branch `task/BOOT-003-qt-environment`, main workspace
-  `/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai`.
-  Coordinator owns progress/state.json, PROGRESS.html and this checkpoint.
-- BOOT-003 author `/root/qt_validator`, branch `task/BOOT-003-probe-evidence`,
-  worktree `/tmp/subathon-boot003`: owns docs/evidence/boot-003-qt-probe.md only.
-  Acceptance: fresh Qt >=6.12 configure/build/probe results with actual versions and
-  explicit limits. Existing historical BOOT-002 probe evidence is retained.
+- BOOT-003 completed and merged in [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10)
+  at `11eafe2`, head `1c98295`; merge observed 2026-10-30 22:29:42 UTC.
+  All three latest-head checks passed (push/PR scaffold plus credit acceptance).
+  Independent review `27fe6b9`; source unchanged. Author/reviewer worktrees retained.
 - CONTRACT-002 author `/root/domain_contract`, branch `task/CONTRACT-002-domain-boundaries`,
   worktree `/tmp/subathon-contract002`: owns docs/contracts/event-state-boundaries-v1.md,
   docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md.
   Coordinator has claimed the task on that branch and retains progress/HTML ownership.
+  Actual authored revision `1904ccb` / contract blob
+  `8b60da43f1362c46c54730e8ca029b858964ea59` is approved by
+  `/root/independent_reviewer` in review `4364149`;
+  see [contract authoring](contract-002-authoring.md) and
+  [independent review](contract-002-independent-review.md). Refreshed main is integrated; concurrent progress
+  conflicts reconciled by preserving main BOOT-003 plus the CONTRACT-002 claim.
   Acceptance: versioned internal record/clock/writer boundaries with examples and
   error cases, separate review. No implementation or finalized wire schema.
 - Independent review worktree `/tmp/subathon-coordinator-review`, branch
-  `task/coordinator-independent-review`; assignment waits for actual authored revisions.
+  `task/coordinator-independent-review`; approved actual CONTRACT-002 `1904ccb`.
 
 ## Checks, blockers and next action
 
@@ -47,17 +51,22 @@ see [probe evidence](boot-003-qt-probe.md) and [review](boot-003-independent-rev
 Both author and reviewer freshly configured/built and passed Qt CTest 4/4 with Qt
 6.12.0. Coordinator scaffold 3/3, Python 19/19, project/current HTML and DOM simulation
 checks passed. No test or production source changed. BOOT-003 local acceptance is
-satisfied; focused PR publication and latest-revision CI/merge gates are next.
+satisfied and PR #10 merged with latest-revision CI passed.
 Remote Qt CI remains unperformed; STORAGE-001/API-001 must assess/add Qt coverage
 before their executable production claims, as required by the workflow policy. The initial sandbox refused Git metadata writes; explicit
 escalated Git operations create the authorized task branches/worktrees. GitHub
 network operations also use explicit escalation. These are environment constraints,
 not failed product tests.
 
-Next: integrate BOOT-003 evidence, obtain separate review, run current tooling/scaffold
-checks, publish its focused PR, inspect latest CI/discussions/merge state and merge
-only if all gates pass. Continue CONTRACT-002 from refreshed main, preserving its
-isolated authored work. No commands are intentionally left running by the coordinator.
+CONTRACT-002 independent review approved all fourteen examples and the exact
+record/clock/writer contract; no requirement conflict found. Coordinator scaffold3/3,
+Python19/19, project/current HTML, DOM and diff checks pass. No production/test/schema
+changes. No red run is required or claimed for this documentation-only task.
+
+Next: publish the focused CONTRACT-002 PR and inspect latest
+CI/discussions/merge gates. After integration, choose CORETEST-001 for exact numeric
+primitives; read-only preparation by `/root/qt_validator` is complete and no files
+were changed. No commands are intentionally left running by the coordinator.
 
 Remaining release gates: the full planned product beyond the numeric credit helper;
 all seven integrations, all three exchange providers, both renderers, UIs/localization,

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T22:28:45+00:00",
+  "updated_at": "2026-10-30T22:31:21+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -439,8 +439,8 @@
       "title": "Define event, effect, clock and persistence boundaries",
       "module": "Core",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; contract author /root/domain_contract",
       "depends_on": [
         "CONTRACT-001"
       ],
@@ -451,10 +451,27 @@
       ],
       "brief": "docs/tasks/CONTRACT-002.md",
       "summary": "Separate receipts, contributions, application plans, actual effects and delivery jobs; define controlled clock and writer ownership.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "notes": [
+        "Claimed from main 2bc4e64 on task/CONTRACT-002-domain-boundaries. Specification v0.45 §§2–4 plus linked accounting/recovery decisions; time-credit revision1 preserved. Documentation-only foundation contract: separate receipt, contribution, plan, actual effect, delivery job, clock and writer ownership with versioned examples/errors. Author owns docs/contracts/event-state-boundaries-v1.md, docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md. Coordinator owns progress, HTML and shared architecture/handoff. No schema, code or production capability claim; separate review required.",
+        "Internal contract revision1 authored1904ccb, exact contract8b60da43f1362c46c54730e8ca029b858964ea59 independently approved in4364149 by /root/independent_reviewer. Fourteen spec-derived examples; no production/test/schema edits and no feature-red claim. Refreshed main11eafe2 integrated; coordinator scaffold3/3 Python19/19 project/render/DOM/diff pass. Local documentation gates complete; latest-revision PR CI/merge pending. Each dependent behavior still requires its own reviewed/red baseline."
+      ],
+      "verification": {
+        "contract": "passed",
+        "independent_review": "passed",
+        "tooling": "passed",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/contract-002-authoring.md",
+        "docs/evidence/contract-002-independent-review.md"
+      ],
+      "review": {
+        "author": "/root/domain_contract",
+        "reviewer": "/root/independent_reviewer",
+        "outcome": "approved",
+        "baseline": "author1904ccb; contract blob8b60da43f1362c46c54730e8ca029b858964ea59; review4364149",
+        "evidence": "docs/evidence/contract-002-independent-review.md"
+      }
     },
     {
       "id": "CONTRACT-003",
@@ -10328,6 +10345,16 @@
       "date": "2026-10-30T22:28:45+00:00",
       "task": "BOOT-003",
       "note": "Fresh local Qt6.12.0 configure/build/CTest4/4 passed, repeated independently by /root/independent_reviewer. Author b6863e9, review27fe6b9; probe unchanged. Coordinator scaffold3/3, Python19/19, DOM/current HTML/project checks pass. Local environment task complete; latest PR CI/merge still required. Remote Qt CI, Windows/QML/OBS and product/platform/live gates remain open."
+    },
+    {
+      "date": "2026-10-30T22:26:39+00:00",
+      "task": "CONTRACT-002",
+      "note": "Claimed from main 2bc4e64 on task/CONTRACT-002-domain-boundaries. Specification v0.45 §§2–4 plus linked accounting/recovery decisions; time-credit revision1 preserved. Documentation-only foundation contract: separate receipt, contribution, plan, actual effect, delivery job, clock and writer ownership with versioned examples/errors. Author owns docs/contracts/event-state-boundaries-v1.md, docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md. Coordinator owns progress, HTML and shared architecture/handoff. No schema, code or production capability claim; separate review required."
+    },
+    {
+      "date": "2026-10-30T22:31:21+00:00",
+      "task": "CONTRACT-002",
+      "note": "Internal contract revision1 authored1904ccb, exact contract8b60da43f1362c46c54730e8ca029b858964ea59 independently approved in4364149 by /root/independent_reviewer. Fourteen spec-derived examples; no production/test/schema edits and no feature-red claim. Refreshed main11eafe2 integrated; coordinator scaffold3/3 Python19/19 project/render/DOM/diff pass. Local documentation gates complete; latest-revision PR CI/merge pending. Each dependent behavior still requires its own reviewed/red baseline."
     }
   ]
 }
