@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Contract revision 1; TEST-001 authoring requires separate REVIEW-001 approval.
+// Contract revision 1; independent review/red evidence is tracked separately.
 // Oracles/specification mapping: docs/evidence/time-credit-tests.md.
 #include <gtest/gtest.h>
 #include <limits>
