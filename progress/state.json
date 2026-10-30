@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T22:15:54.808676+00:00",
+  "updated_at": "2026-10-30T22:17:13.490900+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -10007,7 +10007,7 @@
       "title": "Grow CI with implemented behavior",
       "module": "Foundation",
       "kind": "scaffold",
-      "status": "in_review",
+      "status": "done",
       "owner": "Codex",
       "depends_on": [
         "BOOT-007",
@@ -10025,13 +10025,14 @@
       "summary": "Require evolving CI alongside tasks and automatically run reviewed credit acceptance/regression checks.",
       "notes": [
         "Claimed task/BOOT-008-ci-maintenance from current origin/main. Own acceptance workflow, workflow/coordinator/test-strategy/README documentation, task/evidence notes and progress artifacts. Specification v0.45; existing credit revision-1 production/test baseline unchanged. Assess and grow CI explicitly, enable reviewed credit checks on PRs/main, preserve all quality/live/platform gates; no ruleset changes.",
-        "CI growth policy and coordinator task-loop instruction added; reviewed credit workflow now triggers on PRs/main plus manual dispatch. Local credit23/23, tooling19/19 and scaffold3/3 pass; original product code/assertions unchanged. Actual automatic PR run required before completion. Main ruleset currently has no required-status-check rule; configuration gap documented, no settings changed."
+        "CI growth policy and coordinator task-loop instruction added; reviewed credit workflow now triggers on PRs/main plus manual dispatch. Local credit23/23, tooling19/19 and scaffold3/3 pass; original product code/assertions unchanged. Actual automatic PR run required before completion. Main ruleset currently has no required-status-check rule; configuration gap documented, no settings changed.",
+        "PR #9 automatic pull_request acceptance run 41137002005 passed for 21e865a: runner built GoogleTest and executed 23/23 credit cases; both scaffold checks passed. CI policy/configuration task complete, product baselines unchanged. Recheck completion-record revision CI before merge; required-status-check configuration remains an explicit repository-settings gap."
       ],
       "verification": {
         "tooling": "passed",
         "native_build": "passed",
         "credit_suite": "passed",
-        "github_ci": "not_run"
+        "github_ci": "passed"
       },
       "evidence": [
         "docs/evidence/ci-maintenance.md"
@@ -10294,6 +10295,11 @@
       "date": "2026-10-30T22:15:54.808676+00:00",
       "task": "BOOT-008",
       "note": "CI growth policy and coordinator task-loop instruction added; reviewed credit workflow now triggers on PRs/main plus manual dispatch. Local credit23/23, tooling19/19 and scaffold3/3 pass; original product code/assertions unchanged. Actual automatic PR run required before completion. Main ruleset currently has no required-status-check rule; configuration gap documented, no settings changed."
+    },
+    {
+      "date": "2026-10-30T22:17:13.490900+00:00",
+      "task": "BOOT-008",
+      "note": "PR #9 automatic pull_request acceptance run 41137002005 passed for 21e865a: runner built GoogleTest and executed 23/23 credit cases; both scaffold checks passed. CI policy/configuration task complete, product baselines unchanged. Recheck completion-record revision CI before merge; required-status-check configuration remains an explicit repository-settings gap."
     }
   ]
 }

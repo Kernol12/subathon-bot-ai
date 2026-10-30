@@ -41,6 +41,15 @@ is inferred; those future executable capabilities must extend CI under the new p
 Intentional red and credential-dependent live checks remain separately documented.
 Actual PR workflow execution must pass before completing this task.
 
+Automatic PR execution observed for authored revision
+21e865a7cad6c9b9eee4dea12679adac840683aa on PR
+[9](https://github.com/Kernol12/subathon-bot-ai/pull/9):
+[acceptance run 41137002005](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41137002005)
+triggered by pull_request and passed on ubuntu-24.04. The runner built the GoogleTest
+dependency and executed all 23 cases successfully. Both scaffold runs passed too.
+This establishes the automatic PR trigger and real runner suite, not Windows/Qt/live
+verification. The completion-record revision must pass CI again before merge.
+
 Required-check configuration inspected with
 `gh api repos/Kernol12/subathon-bot-ai/branches/main` and
 `gh api repos/Kernol12/subathon-bot-ai/rules/branches/main` on 2026-10-30:
