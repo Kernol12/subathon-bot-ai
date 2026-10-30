@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T20:07:28.001806+00:00",
+  "updated_at": "2026-10-30T20:49:07+00:00",
   "summary": "Reviewed credit baseline remains intentionally red and unimplemented. SPIKE-001 validated a pinned local Drogon/Trantor build and six bounded real Linux loopback Qt/SQLite cases, with separate test/code review. Persistent WebSocket findings and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -175,7 +175,7 @@
       "title": "Show execution order and dependency readiness",
       "module": "Foundation",
       "kind": "scaffold",
-      "status": "in_review",
+      "status": "done",
       "owner": "Codex",
       "depends_on": [
         "BOOT-005"
@@ -192,7 +192,8 @@
         "Execution order is the default; Epic grouping restores source order. Computed availability excludes claimed/blocked/completed tasks. 16 tooling tests, controller simulation and isolated real Chromium checks pass. Open PR for review; no independent reviewer claimed.",
         "PR #3 open for review: https://github.com/Kernol12/subathon-bot-ai/pull/3. Final revision and GitHub CI are recorded on the PR; leave unmerged for review.",
         "Owner requested adding state/module selection to the existing open PR #3. Extend its filters to multiple checkbox selections with All/None actions while retaining execution/epic views and test/review gates.",
-        "Owner-requested PR #3 extension: checkbox state/module multi-selection, All/None controls and retained selections across views. 17 tooling tests plus DOM and real Chromium desktop/narrow filter checks pass; no product verification claimed."
+        "Owner-requested PR #3 extension: checkbox state/module multi-selection, All/None controls and retained selections across views. 17 tooling tests plus DOM and real Chromium desktop/narrow filter checks pass; no product verification claimed.",
+        "Owner confirmed completion and requested closing BOOT-006. Verified PR #3 merged on 2026-10-30 at 15:52:12 UTC as 9982001b732f06793f6c17d5f912b82c7cd1e3cc. Dashboard status synchronized; no product verification upgraded."
       ],
       "verification": {
         "tooling": "passed",
@@ -10137,6 +10138,11 @@
       "date": "2026-10-30T20:07:28.001806+00:00",
       "task": "API-003",
       "note": "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+    },
+    {
+      "date": "2026-10-30T20:49:07+00:00",
+      "task": "BOOT-006",
+      "note": "Owner confirmed completion and requested closing BOOT-006. Verified PR #3 merged on 2026-10-30 at 15:52:12 UTC as 9982001b732f06793f6c17d5f912b82c7cd1e3cc. Dashboard status synchronized; no product verification upgraded."
     }
   ]
 }
