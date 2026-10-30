@@ -1,6 +1,6 @@
 {
   "specification_version": "0.45",
-  "note": "Every decision starts pending. Six draft cap-credit cases cover only a narrow scenario; no full decision is marked verified.",
+  "note": "Full decisions remain pending. Contract revision 1 has 19 independently reviewed numeric credit-boundary cases and observed intended stub failures; no full decision or production behavior is verified.",
   "decisions": [
     {
       "id": "UI-01",
@@ -738,12 +738,22 @@
   "scenarios": [
     {
       "scenario": "55-minute timer, 60-minute cap, requested +10",
-      "status": "draft",
+      "status": "observed_red",
       "tests": [
         "tests/acceptance/time_credit_tests.cpp"
       ],
       "contract": "docs/contracts/time-credit-v0.md",
-      "review": null
+      "review": {
+        "author": "/root/test_author",
+        "reviewer": "/root/reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/time-credit-independent-review.md"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-baseline-handoff.md",
+        "docs/evidence/time-credit-red-ctest.txt"
+      ],
+      "scope": "Numeric requested/actual cap-credit proposal only. Persisted effect and refund reversal remain unimplemented and unverified."
     }
   ]
 }

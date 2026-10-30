@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Six draft cap-credit cases; no observed run/review yet |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | 19 reviewed credit-boundary cases; intended red observed, behavior unimplemented |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Configuration provided; host execution gate remains |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; acceptance 19/19 intended failures |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -15,8 +15,13 @@
 
 `calculate_time_credit` covers a narrow valid-input active-main-timer planning case.
 It has no persistence, refunds, debt, grace, hard end, input review or concurrency behavior.
-Read docs/contracts/time-credit-v0.md. Six supplied cases are DRAFT, not an approved
-acceptance baseline. The stub throws FeatureNotImplemented; no algorithm is supplied.
+Read docs/contracts/time-credit-v0.md (revision 1). The original six fixtures/assertions
+are preserved among 19 cases with independent REVIEW-001 approval. TEST-002 observed
+19/19 failures from FeatureNotImplemented after successful compilation. See
+[the review](evidence/time-credit-independent-review.md) and
+[baseline handoff](evidence/time-credit-baseline-handoff.md). No algorithm is supplied.
+The retained CTest `draft` label is historical suite metadata; the linked review and
+progress evidence identify the exact approved baseline. It is not a passing product suite.
 
 Before implementation: review contract/oracles; decide/add invalid input, integer-boundary
 and interaction tests through the proper contracts; independently review; run and record

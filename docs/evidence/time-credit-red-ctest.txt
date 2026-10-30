@@ -1,0 +1,456 @@
+Test project /tmp/subathon-coordinator/build/acceptance-debug
+      Start  1: TimeCreditAcceptance.CapRecordsOnlyActuallyAddedTime
+ 1/19 Test  #1: TimeCreditAcceptance.CapRecordsOnlyActuallyAddedTime .....................***Failed    0.01 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.CapRecordsOnlyActuallyAddedTime
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.CapRecordsOnlyActuallyAddedTime
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.CapRecordsOnlyActuallyAddedTime (8 ms)
+[----------] 1 test from TimeCreditAcceptance (8 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (8 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.CapRecordsOnlyActuallyAddedTime
+
+ 1 FAILED TEST
+
+      Start  2: TimeCreditAcceptance.AvailableHeadroomAcceptsTheWholeAward
+ 2/19 Test  #2: TimeCreditAcceptance.AvailableHeadroomAcceptsTheWholeAward ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.AvailableHeadroomAcceptsTheWholeAward
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.AvailableHeadroomAcceptsTheWholeAward
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.AvailableHeadroomAcceptsTheWholeAward (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.AvailableHeadroomAcceptsTheWholeAward
+
+ 1 FAILED TEST
+
+      Start  3: TimeCreditAcceptance.FullTimerAcceptsNoAdditionalTime
+ 3/19 Test  #3: TimeCreditAcceptance.FullTimerAcceptsNoAdditionalTime ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.FullTimerAcceptsNoAdditionalTime
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.FullTimerAcceptsNoAdditionalTime
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.FullTimerAcceptsNoAdditionalTime (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.FullTimerAcceptsNoAdditionalTime
+
+ 1 FAILED TEST
+
+      Start  4: TimeCreditAcceptance.NoCapAcceptsTheWholeAward
+ 4/19 Test  #4: TimeCreditAcceptance.NoCapAcceptsTheWholeAward ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.NoCapAcceptsTheWholeAward
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.NoCapAcceptsTheWholeAward
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.NoCapAcceptsTheWholeAward (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.NoCapAcceptsTheWholeAward
+
+ 1 FAILED TEST
+
+      Start  5: TimeCreditAcceptance.ExactBoundaryDoesNotDiscardTime
+ 5/19 Test  #5: TimeCreditAcceptance.ExactBoundaryDoesNotDiscardTime .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.ExactBoundaryDoesNotDiscardTime
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.ExactBoundaryDoesNotDiscardTime
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.ExactBoundaryDoesNotDiscardTime (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.ExactBoundaryDoesNotDiscardTime
+
+ 1 FAILED TEST
+
+      Start  6: TimeCreditAcceptance.ZeroAwardLeavesTheTimerUnchanged
+ 6/19 Test  #6: TimeCreditAcceptance.ZeroAwardLeavesTheTimerUnchanged ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.ZeroAwardLeavesTheTimerUnchanged
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.ZeroAwardLeavesTheTimerUnchanged
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.ZeroAwardLeavesTheTimerUnchanged (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.ZeroAwardLeavesTheTimerUnchanged
+
+ 1 FAILED TEST
+
+      Start  7: TimeCreditAcceptance.ZeroRemainingAcceptsOneMillisecond
+ 7/19 Test  #7: TimeCreditAcceptance.ZeroRemainingAcceptsOneMillisecond ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.ZeroRemainingAcceptsOneMillisecond
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.ZeroRemainingAcceptsOneMillisecond
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.ZeroRemainingAcceptsOneMillisecond (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.ZeroRemainingAcceptsOneMillisecond
+
+ 1 FAILED TEST
+
+      Start  8: TimeCreditAcceptance.ZeroCapHasNoCapacity
+ 8/19 Test  #8: TimeCreditAcceptance.ZeroCapHasNoCapacity ................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.ZeroCapHasNoCapacity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.ZeroCapHasNoCapacity
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.ZeroCapHasNoCapacity (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.ZeroCapHasNoCapacity
+
+ 1 FAILED TEST
+
+      Start  9: TimeCreditAcceptance.OneMillisecondHeadroomClipsTheAward
+ 9/19 Test  #9: TimeCreditAcceptance.OneMillisecondHeadroomClipsTheAward .................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.OneMillisecondHeadroomClipsTheAward
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.OneMillisecondHeadroomClipsTheAward
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.OneMillisecondHeadroomClipsTheAward (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.OneMillisecondHeadroomClipsTheAward
+
+ 1 FAILED TEST
+
+      Start 10: TimeCreditAcceptance.UncappedCreditCanReachTheLargestRepresentableTime
+10/19 Test #10: TimeCreditAcceptance.UncappedCreditCanReachTheLargestRepresentableTime ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.UncappedCreditCanReachTheLargestRepresentableTime
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.UncappedCreditCanReachTheLargestRepresentableTime
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.UncappedCreditCanReachTheLargestRepresentableTime (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.UncappedCreditCanReachTheLargestRepresentableTime
+
+ 1 FAILED TEST
+
+      Start 11: TimeCreditAcceptance.ZeroAwardAtLargestRepresentableTimeIsValid
+11/19 Test #11: TimeCreditAcceptance.ZeroAwardAtLargestRepresentableTimeIsValid ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.ZeroAwardAtLargestRepresentableTimeIsValid
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.ZeroAwardAtLargestRepresentableTimeIsValid
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.ZeroAwardAtLargestRepresentableTimeIsValid (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.ZeroAwardAtLargestRepresentableTimeIsValid
+
+ 1 FAILED TEST
+
+      Start 12: TimeCreditAcceptance.OneMillisecondBeyondTheRangeRequiresReview
+12/19 Test #12: TimeCreditAcceptance.OneMillisecondBeyondTheRangeRequiresReview ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.OneMillisecondBeyondTheRangeRequiresReview
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.OneMillisecondBeyondTheRangeRequiresReview
+/tmp/subathon-coordinator/tests/acceptance/time_credit_tests.cpp:80: Failure
+Expected: static_cast<void>(calculate_time_credit({maximum_ms, 1, std::nullopt})) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditAcceptance.OneMillisecondBeyondTheRangeRequiresReview (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.OneMillisecondBeyondTheRangeRequiresReview
+
+ 1 FAILED TEST
+
+      Start 13: TimeCreditAcceptance.LargeUncappedRequestMustNotWrap
+13/19 Test #13: TimeCreditAcceptance.LargeUncappedRequestMustNotWrap .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.LargeUncappedRequestMustNotWrap
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.LargeUncappedRequestMustNotWrap
+/tmp/subathon-coordinator/tests/acceptance/time_credit_tests.cpp:84: Failure
+Expected: static_cast<void>(calculate_time_credit({1, maximum_ms, std::nullopt})) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditAcceptance.LargeUncappedRequestMustNotWrap (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.LargeUncappedRequestMustNotWrap
+
+ 1 FAILED TEST
+
+      Start 14: TimeCreditAcceptance.CapLimitsLargeRequestBeforeUnsafeAddition
+14/19 Test #14: TimeCreditAcceptance.CapLimitsLargeRequestBeforeUnsafeAddition ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.CapLimitsLargeRequestBeforeUnsafeAddition
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.CapLimitsLargeRequestBeforeUnsafeAddition
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditAcceptance.CapLimitsLargeRequestBeforeUnsafeAddition (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.CapLimitsLargeRequestBeforeUnsafeAddition
+
+ 1 FAILED TEST
+
+      Start 15: TimeCreditAcceptance.NegativeRemainingIsNotDebtAtThisBoundary
+15/19 Test #15: TimeCreditAcceptance.NegativeRemainingIsNotDebtAtThisBoundary ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.NegativeRemainingIsNotDebtAtThisBoundary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.NegativeRemainingIsNotDebtAtThisBoundary
+/tmp/subathon-coordinator/tests/acceptance/time_credit_tests.cpp:94: Failure
+Expected: static_cast<void>(calculate_time_credit({-1, 1, std::nullopt})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditAcceptance.NegativeRemainingIsNotDebtAtThisBoundary (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.NegativeRemainingIsNotDebtAtThisBoundary
+
+ 1 FAILED TEST
+
+      Start 16: TimeCreditAcceptance.NegativeRequestIsNotARefundAtThisBoundary
+16/19 Test #16: TimeCreditAcceptance.NegativeRequestIsNotARefundAtThisBoundary ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.NegativeRequestIsNotARefundAtThisBoundary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.NegativeRequestIsNotARefundAtThisBoundary
+/tmp/subathon-coordinator/tests/acceptance/time_credit_tests.cpp:98: Failure
+Expected: static_cast<void>(calculate_time_credit({1, -1, std::nullopt})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditAcceptance.NegativeRequestIsNotARefundAtThisBoundary (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.NegativeRequestIsNotARefundAtThisBoundary
+
+ 1 FAILED TEST
+
+      Start 17: TimeCreditAcceptance.NegativeCapIsRejected
+17/19 Test #17: TimeCreditAcceptance.NegativeCapIsRejected ...............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.NegativeCapIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.NegativeCapIsRejected
+/tmp/subathon-coordinator/tests/acceptance/time_credit_tests.cpp:102: Failure
+Expected: static_cast<void>(calculate_time_credit({0, 1, -1})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditAcceptance.NegativeCapIsRejected (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.NegativeCapIsRejected
+
+ 1 FAILED TEST
+
+      Start 18: TimeCreditAcceptance.ExistingTimeAboveCapIsRejectedEvenForZeroAward
+18/19 Test #18: TimeCreditAcceptance.ExistingTimeAboveCapIsRejectedEvenForZeroAward ......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.ExistingTimeAboveCapIsRejectedEvenForZeroAward
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.ExistingTimeAboveCapIsRejectedEvenForZeroAward
+/tmp/subathon-coordinator/tests/acceptance/time_credit_tests.cpp:105: Failure
+Expected: static_cast<void>(calculate_time_credit({2, 0, 1})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditAcceptance.ExistingTimeAboveCapIsRejectedEvenForZeroAward (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.ExistingTimeAboveCapIsRejectedEvenForZeroAward
+
+ 1 FAILED TEST
+
+      Start 19: TimeCreditAcceptance.InvalidInputIsRejectedBeforeConsideringOverflow
+19/19 Test #19: TimeCreditAcceptance.InvalidInputIsRejectedBeforeConsideringOverflow .....***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditAcceptance.InvalidInputIsRejectedBeforeConsideringOverflow
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditAcceptance
+[ RUN      ] TimeCreditAcceptance.InvalidInputIsRejectedBeforeConsideringOverflow
+/tmp/subathon-coordinator/tests/acceptance/time_credit_tests.cpp:108: Failure
+Expected: static_cast<void>(calculate_time_credit({maximum_ms, 1, -1})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditAcceptance.InvalidInputIsRejectedBeforeConsideringOverflow (0 ms)
+[----------] 1 test from TimeCreditAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditAcceptance.InvalidInputIsRejectedBeforeConsideringOverflow
+
+ 1 FAILED TEST
+
+
+0% tests passed, 19 tests failed out of 19
+
+Label Time Summary:
+acceptance    =   0.03 sec*proc (19 tests)
+draft         =   0.03 sec*proc (19 tests)
+
+Total Test time (real) =   0.03 sec
+
+The following tests FAILED:
+	  1 - TimeCreditAcceptance.CapRecordsOnlyActuallyAddedTime (Failed) acceptance draft
+	  2 - TimeCreditAcceptance.AvailableHeadroomAcceptsTheWholeAward (Failed) acceptance draft
+	  3 - TimeCreditAcceptance.FullTimerAcceptsNoAdditionalTime (Failed) acceptance draft
+	  4 - TimeCreditAcceptance.NoCapAcceptsTheWholeAward (Failed) acceptance draft
+	  5 - TimeCreditAcceptance.ExactBoundaryDoesNotDiscardTime (Failed) acceptance draft
+	  6 - TimeCreditAcceptance.ZeroAwardLeavesTheTimerUnchanged (Failed) acceptance draft
+	  7 - TimeCreditAcceptance.ZeroRemainingAcceptsOneMillisecond (Failed) acceptance draft
+	  8 - TimeCreditAcceptance.ZeroCapHasNoCapacity (Failed) acceptance draft
+	  9 - TimeCreditAcceptance.OneMillisecondHeadroomClipsTheAward (Failed) acceptance draft
+	 10 - TimeCreditAcceptance.UncappedCreditCanReachTheLargestRepresentableTime (Failed) acceptance draft
+	 11 - TimeCreditAcceptance.ZeroAwardAtLargestRepresentableTimeIsValid (Failed) acceptance draft
+	 12 - TimeCreditAcceptance.OneMillisecondBeyondTheRangeRequiresReview (Failed) acceptance draft
+	 13 - TimeCreditAcceptance.LargeUncappedRequestMustNotWrap (Failed) acceptance draft
+	 14 - TimeCreditAcceptance.CapLimitsLargeRequestBeforeUnsafeAddition (Failed) acceptance draft
+	 15 - TimeCreditAcceptance.NegativeRemainingIsNotDebtAtThisBoundary (Failed) acceptance draft
+	 16 - TimeCreditAcceptance.NegativeRequestIsNotARefundAtThisBoundary (Failed) acceptance draft
+	 17 - TimeCreditAcceptance.NegativeCapIsRejected (Failed) acceptance draft
+	 18 - TimeCreditAcceptance.ExistingTimeAboveCapIsRejectedEvenForZeroAward (Failed) acceptance draft
+	 19 - TimeCreditAcceptance.InvalidInputIsRejectedBeforeConsideringOverflow (Failed) acceptance draft
+Errors while running CTest
