@@ -1,7 +1,8 @@
 # Time-credit contract — revision 1
 
-State: specified for TEST-001; independent REVIEW-001 and observed red TEST-002 remain
-required before implementation. The specification's
+State: revision 1 received independent REVIEW-001 approval and observed red TEST-002.
+IMPL-001 implementation and separate code review are recorded in
+[implementation evidence](../evidence/impl-001-handoff.md). The specification's
 §3 actual effects, §4 cap behavior and §18 "55-minute timer, 60-minute cap, requested +10"
 scenario are authoritative. This contract does not decide other timer policies.
 
@@ -68,9 +69,12 @@ Revision 0 supplied only the six nonnegative examples. Revision 1 preserves thei
 values and public input/result layouts, defines validation/error signaling, and adds
 boundary examples in [the contract evidence/test plan](../evidence/time-credit-contract.md).
 There are no implemented downstream callers or persisted schema changes. TEST-001,
-REVIEW-001, TEST-002 and later IMPL-001 must use this revision together. An independent
-review must assess the local API decisions before this becomes an implementation
-baseline; no separate review is claimed by the contract author.
+REVIEW-001, TEST-002 and later IMPL-001 must use this revision together. Independent
+[REVIEW-001](../evidence/time-credit-independent-review.md) approved the local API
+decisions before TEST-002 recorded the intended red. That separate review was not
+performed by the contract author.
 
-Implementation status: explicit FeatureNotImplemented stub. Keep progress evidence
-authoritative for authored, reviewed and observed-red status.
+Implementation status: bounded numeric helper implemented under IMPL-001; the input,
+result and error policies above remain revision 1. Only status/evidence prose changed
+after the original baseline. Keep progress evidence authoritative for authored,
+reviewed, observed-red and implemented status.

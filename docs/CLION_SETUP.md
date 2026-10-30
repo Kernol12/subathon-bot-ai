@@ -50,9 +50,12 @@ ctest --preset acceptance-debug -L acceptance
 ```
 
 The initial six drafts have been expanded to 19 cases for contract revision 1.
-Separate review and an actual run confirmed all 19 fail on FeatureNotImplemented;
+Separate review and the original run confirmed all 19 failed on FeatureNotImplemented;
 see [the baseline handoff](evidence/time-credit-baseline-handoff.md).
-Acceptance remains intentionally failing until the later implementation task.
+IMPL-001 implements only the numeric credit boundary. All 19 unchanged cases and
+four reviewed regression cases now pass; see [implementation evidence](evidence/impl-001-handoff.md).
+Run regressions with `ctest --preset acceptance-debug -L regression`, or run the
+whole preset without a label filter to include infrastructure checks too.
 
 ## Qt / Windows
 

@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | 19 reviewed credit-boundary cases; intended red observed, behavior unimplemented |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | 19 reviewed credit-boundary cases plus four reviewed regressions pass; numeric helper only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; acceptance 19/19 intended failures |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit acceptance 19/19 and regression 4/4 pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -19,9 +19,15 @@ Read docs/contracts/time-credit-v0.md (revision 1). The original six fixtures/as
 are preserved among 19 cases with independent REVIEW-001 approval. TEST-002 observed
 19/19 failures from FeatureNotImplemented after successful compilation. See
 [the review](evidence/time-credit-independent-review.md) and
-[baseline handoff](evidence/time-credit-baseline-handoff.md). No algorithm is supplied.
+[baseline handoff](evidence/time-credit-baseline-handoff.md) for that historical red run.
+IMPL-001 implements this numeric contract and preserves all 19 cases. Four additional
+reviewed regression cases cover signed-minimum validation, above-cap error precedence,
+a full maximum cap and the largest uncapped request from zero. They also received
+an intended red run before implementation. Passing checks and independent code
+review are recorded in the [implementation handoff](evidence/impl-001-handoff.md).
 The retained CTest `draft` label is historical suite metadata; the linked review and
-progress evidence identify the exact approved baseline. It is not a passing product suite.
+progress evidence identify the exact approved baseline. It does not establish any
+timer/service, refund, persistence or UI behavior.
 
 Before implementation: review contract/oracles; decide/add invalid input, integer-boundary
 and interaction tests through the proper contracts; independently review; run and record
@@ -48,8 +54,9 @@ percentage or number of green tests replaces the acceptance map and review.
 
 Use docs/templates/VERIFICATION.md. Record expected red separately from pass, fail,
 not-run and unsupported. Default scaffold CI excludes unreviewed feature tests explicitly;
-manual acceptance CI genuinely fails while the stub remains. It must not turn a missing
-dependency or failing test into a passing feature claim.
+manual credit acceptance/regression CI executes the real cases without failure
+inversion. It must not turn a missing dependency or failing test into a passing
+feature claim.
 
 Individual test-drafting tasks may be marked authored/done when their draft artifacts
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate

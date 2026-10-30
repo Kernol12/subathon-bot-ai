@@ -24,7 +24,7 @@ source fetching only when explicitly enabled. The Qt probe is a separate preset.
 An optional [Drogon/Qt feasibility experiment](experiments/spike-001/README.md)
 uses an explicit pinned local dependency build and isolated loopback tests. It
 requires no system-wide Drogon installation on the validated host and is separate
-from product implementation and the intentionally red numeric acceptance suite.
+from the numeric credit acceptance and regression suite.
 
 ```sh
 cmake --preset scaffold-debug
@@ -39,11 +39,13 @@ CLion imports configure/build presets; run CTest preset commands in its terminal
 
 ## Test first
 
-The only core operation remains an explicit unimplemented stub. The 19 GoogleTest
-acceptance cases for contract revision 1 have independent review and an observed
-intended red run: all fail on `FeatureNotImplemented`. See the
-[reviewed baseline handoff](docs/evidence/time-credit-baseline-handoff.md).
-This establishes preparation for later implementation, not working timer behavior.
+The numeric `calculate_time_credit` helper implements contract revision 1: it
+preserves requested credit, limits actual credit to cap headroom, and rejects invalid
+inputs or an unrepresentable final sum. The original 19 reviewed acceptance cases
+and four additional reviewed regression cases pass. See the
+[implementation handoff](docs/evidence/impl-001-handoff.md) for separate code review
+and exact checks, and the [original red baseline](docs/evidence/time-credit-baseline-handoff.md)
+for the test-first history. Timer lifecycle and application transactions remain future work.
 Do not treat the scaffold smoke test as proof that credit calculation works.
 See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/time-credit-v0.md).
 
@@ -57,12 +59,12 @@ See [progress instructions](docs/PROGRESS.md).
 
 ## Repository map
 
-- `core/`: native domain contracts; currently a deliberate stub.
+- `core/`: native domain contracts and the bounded numeric time-credit helper.
 - `server/`, `desktop/`, `web/`, `integrations/`, `schemas/`, `deploy/`: scoped agent instructions and implementation boundaries.
-- `tests/`: reviewed, intentionally red GoogleTest acceptance cases, scaffold checks, optional Qt probe, tooling tests, fixtures.
+- `tests/`: reviewed GoogleTest credit acceptance/regression cases, scaffold checks, optional Qt probe, tooling tests, fixtures.
 - `docs/`: full specification, architecture, decisions, test strategy, task/handoff templates and evidence.
 - `tools/`: dependency-free Python progress and consistency tools.
-- `.github/workflows/`: scaffold checks and a manually invoked, genuinely failing acceptance lane.
+- `.github/workflows/`: scaffold checks and a manually invoked credit acceptance/regression lane.
 
 The GitHub repository is `git@github.com:Kernol12/subathon-bot-ai.git`; the main
 branch is `main`. No live credentials are needed, and no service is contacted by

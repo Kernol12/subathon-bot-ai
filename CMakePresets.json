@@ -23,7 +23,7 @@
     },
     {
       "name": "acceptance-debug",
-      "displayName": "02 \u00b7 Acceptance baseline (intentionally red)",
+      "displayName": "02 \u00b7 Time-credit acceptance and regression",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON"
