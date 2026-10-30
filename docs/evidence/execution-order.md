@@ -56,7 +56,7 @@ Commands below exited 0 after implementation:
 
 | Command | Result |
 | --- | --- |
-| `python3 -m unittest discover -s tests/tooling -v` | 16 tests passed |
+| `python3 -m unittest discover -s tests/tooling -v` | 17 tests passed after the requested filter extension |
 | `python3 tools/progress.py render` | Snapshot regenerated |
 | `python3 tools/progress.py validate` | 375 task records valid |
 | `python3 tools/progress.py render --check` | Current HTML |
@@ -66,6 +66,32 @@ Commands below exited 0 after implementation:
 | `cmake --build --preset scaffold-debug` | Built, no product code change |
 | `ctest --preset scaffold-debug` | 3/3 scaffold checks passed |
 | `git diff --check` | No whitespace errors |
+
+## Owner-requested state and module selection
+
+The owner requested state/module selection in the same open PR #3. Extended the
+single-choice filters to checkbox menus with All/None actions, default-all selection,
+and summaries for all/none/one/multiple choices. Matching is OR within each menu and
+AND across both menus and search. Empty selections show no matches. View switching
+preserves choices, search and open task details; menu opening closes the other menu,
+and Escape/outside click dismisses it. This is an authorized filter-behavior change,
+not a relaxation of the existing status-filter assertions.
+
+Before implementation, the new focused Python checkbox test exited 1 because the
+six state choices were absent, and the updated Node check exited 1 with "status
+filter must offer checkbox choices". The prior single-state filtering expectation
+remains tested through the new checkbox control, with added multi-state/module,
+combined-search, summary and All/None/empty-result checks. Labels and values are
+escaped; the Python test includes a module name containing markup/quotes/ampersand.
+
+Actual Chromium checks on a temporary local page passed at 1440×1100 and 520×1100:
+multi-selection, counts, All/None, search, view/details retention, popup placement
+over short results, and Escape/outside dismissal. The initial narrow check caught
+an off-screen right-aligned popup; responsive menus now anchor under the toolbar
+and the same narrow assertion passes. No dependency was added. The commands used
+the same isolated headless flags below with the temporary file
+`file:///tmp/subathon-progress-filter-probe.html`, `--virtual-time-budget=1000`,
+the two stated window sizes, and separate temporary desktop/mobile profiles.
 
 ## Actual browser check
 

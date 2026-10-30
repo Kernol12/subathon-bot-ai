@@ -118,6 +118,12 @@ def link(path: str, title: str) -> str:
     return f'<a href="{quote(path, safe="/._-")}">{esc(title)}</a>'
 
 
+def checkbox_options(name: str, choices: list[tuple[str, str]]) -> str:
+    return "".join(f'<label><input type="checkbox" name="{esc(name)}" value="{esc(value)}" '
+                   f'data-label="{esc(text)}" checked><span>{esc(text)}</span></label>'
+                   for value, text in choices)
+
+
 def execution_order(tasks: list[dict]) -> list[dict]:
     """Put prerequisites first, breaking ties by source order in the validated DAG."""
     positions = {task["id"]: i for i, task in enumerate(tasks)}
@@ -169,8 +175,8 @@ def render(data: dict) -> str:
 <details><summary><div class="task-heading"><span class="task-id">{esc(task['id'])}</span><span class="task-title">{esc(task['title'])}</span></div><div class="task-meta"><span>{esc(task['module'])}</span><span class="kind">{esc(label(task['kind']))}</span>{badge(task['status'])}{pickup}<span class="chevron" aria-hidden="true">⌄</span></div></summary>
 <div class="task-detail"><p>{esc(task['summary'])}</p><div class="detail-grid"><div><h4>Ownership</h4><p>{esc(task['owner'])}</p><h4>Specification</h4><p>{esc(', '.join(task['spec_refs']))}</p></div><div><h4>Dependencies</h4><p>{dependencies}</p><h4>Independent review</h4><p>{esc(review_text)}</p></div></div><h4>Notes</h4><ul>{notes}</ul><h4>Verification</h4><p class="checks">{checks}</p><p class="evidence">{evidence}</p><p>{link(task['brief'], 'Open task brief ↗')}</p></div></details></article>''')
     modules = sorted({t["module"] for t in tasks})
-    module_options = "".join(f'<option value="{esc(m)}">{esc(m)}</option>' for m in modules)
-    status_options = "".join(f'<option value="{s}">{esc(label(s))}</option>' for s in sorted(STATUSES))
+    module_options = checkbox_options("module", [(m, m) for m in modules])
+    status_options = checkbox_options("status", [(s, label(s)) for s in sorted(STATUSES)])
     checks_html = "".join(f'<div class="verification-item"><div><strong>{esc(v["label"])}</strong>{badge(v["status"])}</div><p>{esc(v["detail"])}</p></div>' for v in data["verification"])
     activity = "".join(f'<li><time>{esc(a["date"])}</time><div><a href="#{esc(a["task"])}">{esc(a["task"])}</a><p>{esc(a["note"])}</p></div></li>' for a in reversed(data["activity"][-12:]))
     first = next((t for t in ordered if t["id"] in available), None)

@@ -16,12 +16,15 @@ class TaskRows(HTMLParser):
     def __init__(self, html):
         super().__init__()
         self.rows = []
+        self.inputs = []
         self.feed(html)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if tag == "article" and attrs.get("class") == "task":
             self.rows.append(attrs)
+        if tag == "input":
+            self.inputs.append(attrs)
 
 
 def task(task_id, dependencies=(), status="planned", kind="scaffold"):
@@ -153,6 +156,20 @@ class ProgressTests(unittest.TestCase):
         self.assertTrue('id="available-count">0<' in html, "Available count must be zero")
         self.assertTrue('class="next-task">No tasks ready to pick up</div>' in html,
                         "No available task must produce an explicit empty handoff")
+
+    def test_state_and_module_filters_offer_all_choices_as_checked_checkboxes(self):
+        self.state["tasks"] = [task("ONE-999"), task("TWO-999")]
+        self.state["tasks"][0]["module"] = 'R&D <Tools> "Ops"'
+        self.state["tasks"][1]["module"] = "Core"
+        html = progress.render(self.state)
+        inputs = TaskRows(html).inputs
+        states = [i for i in inputs if i.get("name") == "status"]
+        modules = [i for i in inputs if i.get("name") == "module"]
+        self.assertEqual({i["value"] for i in states},
+                         {"planned", "ready", "in_progress", "in_review", "blocked", "done"})
+        self.assertEqual({i["value"] for i in modules}, {'R&D <Tools> "Ops"', "Core"})
+        self.assertTrue(all(i.get("type") == "checkbox" and "checked" in i for i in states + modules))
+        self.assertNotIn('<Tools>', html)
 
 
 if __name__ == "__main__":

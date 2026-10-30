@@ -17,6 +17,10 @@ Acceptance:
   deterministic tie-breaker for independent tasks; do not rewrite the state ordering.
 - A view selector restores the existing epic grouping without duplicating rows or
   losing search/status/module filters, expanded details, anchors or theme behavior.
+- Extend status/state and module filters to multiple checkbox selections, initially
+  all selected, with All/None controls and visible selection summaries. Match any
+  chosen state and any chosen module, combined with search; empty selections show
+  no matches. Preserve selections when changing backlog view.
 - Highlight non-epic planned/ready tasks whose recorded prerequisites are all done.
   Do not present done, active, in-review or explicitly blocked tasks as free to pick up.
   Use the same computed availability for the summary and next handoff.

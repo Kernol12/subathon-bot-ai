@@ -16,6 +16,12 @@ Select **Epic grouping** to restore the original order from progress/state.json.
 Switching views moves the same rows and retains filters, expanded details and links.
 Search/status/module filters can hide prerequisites in either view.
 
+Open **All states** or **All modules** to select any combination of checkboxes.
+All choices start selected; each menu provides **All** and **None** controls and
+summarizes the current selection. Tasks match any selected state and any selected
+module, together with the search text. Selecting none in either menu shows no
+matches. Selections survive view changes; Escape or a click outside closes a menu.
+
 Green highlights and **Dependencies complete** badges mark non-epic tasks whose
 status is planned or ready and whose prerequisites are all done. Active, in-review,
 explicitly blocked and completed tasks are excluded. **Ready to pick up** and
