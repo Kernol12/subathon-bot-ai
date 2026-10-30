@@ -4,6 +4,36 @@ Open root PROGRESS.html directly in a browser. It is self-contained: no fetch, C
 web server or build tool is needed to view it. Reload after the agent regenerates it.
 The page is a generated snapshot, not an automatically synchronized live dashboard.
 
+## Task views and availability
+
+**Execution order** is the default. Every recorded prerequisite appears before its
+dependent, including cross-module dependencies and the children required to complete
+an epic. Independent tasks keep the source ordering as a deterministic tie-breaker;
+this is a valid dependency order, not a requirement to finish every row sequentially.
+The generated HTML has this order even without JavaScript.
+
+Select **Epic grouping** to restore the original order from progress/state.json.
+Switching views moves the same rows and retains filters, expanded details and links.
+Search/status/module filters can hide prerequisites in either view.
+
+Open **All states** or **All modules** to select any combination of checkboxes.
+All choices start selected; each menu provides **All** and **None** controls and
+summarizes the current selection. Tasks match any selected state and any selected
+module, together with the search text. Selecting none in either menu shows no
+matches. Selections survive view changes; Escape or a click outside closes a menu.
+
+Green highlights and **Dependencies complete** badges mark non-epic tasks whose
+status is planned or ready and whose prerequisites are all done. Active, in-review,
+explicitly blocked and completed tasks are excluded. **Ready to pick up** and
+**Next handoff** use this same computed availability. Status labels are not rewritten;
+the status filter still matches the recorded status. Availability does not waive
+independent reviews, test-first gates, ownership or live/platform requirements.
+
+This remains an offline snapshot: GitHub merges do not change task status automatically.
+Record the verified merge/result in progress/state.json and regenerate the page.
+
+## Updating the snapshot
+
 The authoritative editable file is progress/state.json. Do not edit PROGRESS.html by
 hand. Python >=3.10 and the standard library generate and validate it:
 
@@ -43,6 +73,7 @@ Record tests vs native builds vs live providers vs Windows/Wayland/OBS independe
 No secrets, supporter names, tokens or private production logs belong in the page.
 
 Optional controller check (Node.js, no packages): `node tools/check_progress_ui.mjs`.
-This uses a small DOM simulation; it does not verify real-browser layout or OBS.
+This uses a small DOM simulation to check both orderings and retained controls;
+it does not verify real-browser layout or OBS.
 The state.schema.json file provides editor hints; tools/progress.py performs the
 runtime checks including dependencies, evidence and separate-review records.

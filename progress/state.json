@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30",
+  "updated_at": "2026-10-30T15:39:20+00:00",
   "summary": "All 27 release epics now have bounded child work and explicit test-first/review/verification gates. No production features are implemented; the initial draft core baseline and live/platform gates remain open.",
   "verification": [
     {
@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "12 Python tooling tests, local consistency and offline-controller DOM simulation passed. Real browser not run."
+      "detail": "17 Python tooling tests, project consistency and offline-controller DOM simulation pass. Isolated Chromium developer-dashboard controls also pass; product browser/OBS validation is separate."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -134,7 +134,7 @@
       "title": "Decompose all 27 release epics",
       "module": "Foundation",
       "kind": "scaffold",
-      "status": "in_review",
+      "status": "done",
       "owner": "Codex",
       "depends_on": [
         "BOOT-004"
@@ -149,7 +149,8 @@
       "notes": [
         "Planning only on task/BOOT-005-split-epics; owns epic/child briefs, backlog guide, progress state and generated HTML. Open a PR and leave it for review.",
         "All 27 epics decomposed into 180 work packages / 331 planned child records, including 151 separate baseline gates. Local tooling/scaffold checks pass. Open a PR for owner review; do not merge in this task.",
-        "PR #2 is open for review: https://github.com/Kernol12/subathon-bot-ai/pull/2. Leave unmerged as requested; latest GitHub checks are recorded on the PR."
+        "PR #2 is open for review: https://github.com/Kernol12/subathon-bot-ai/pull/2. Leave unmerged as requested; latest GitHub checks are recorded on the PR.",
+        "Owner merged PR #2 on 2026-10-30 at 15:13:17 UTC, merge commit 0593bcafb26c8522fad8ea2724cf4a17a1dcf179 (verified via GitHub). Planning complete; no product review/implementation inferred."
       ],
       "verification": {
         "planning_consistency": "passed",
@@ -158,6 +159,40 @@
       },
       "evidence": [
         "docs/evidence/epic-decomposition.md"
+      ],
+      "review": null
+    },
+    {
+      "id": "BOOT-006",
+      "title": "Show execution order and dependency readiness",
+      "module": "Foundation",
+      "kind": "scaffold",
+      "status": "in_review",
+      "owner": "Codex",
+      "depends_on": [
+        "BOOT-005"
+      ],
+      "spec_refs": [
+        "\u00a717",
+        "DEV-02",
+        "DEV-04"
+      ],
+      "brief": "docs/tasks/BOOT-006.md",
+      "summary": "Prerequisites-first execution view, retained epic grouping, multi-state/module selection and computed availability without changing task status.",
+      "notes": [
+        "Claimed developer-tool scope on task/BOOT-006-execution-order; owns rendering/controller/tooling tests, progress and evidence. Product contracts and draft assertions unchanged.",
+        "Execution order is the default; Epic grouping restores source order. Computed availability excludes claimed/blocked/completed tasks. 16 tooling tests, controller simulation and isolated real Chromium checks pass. Open PR for review; no independent reviewer claimed.",
+        "PR #3 open for review: https://github.com/Kernol12/subathon-bot-ai/pull/3. Final revision and GitHub CI are recorded on the PR; leave unmerged for review.",
+        "Owner requested adding state/module selection to the existing open PR #3. Extend its filters to multiple checkbox selections with All/None actions while retaining execution/epic views and test/review gates.",
+        "Owner-requested PR #3 extension: checkbox state/module multi-selection, All/None controls and retained selections across views. 17 tooling tests plus DOM and real Chromium desktop/narrow filter checks pass; no product verification claimed."
+      ],
+      "verification": {
+        "tooling": "passed",
+        "native_build": "passed",
+        "dashboard_browser": "passed"
+      },
+      "evidence": [
+        "docs/evidence/execution-order.md"
       ],
       "review": null
     },
@@ -9868,6 +9903,36 @@
       "date": "2026-10-30",
       "task": "BOOT-005",
       "note": "Published task/BOOT-005-split-epics and opened PR #2. Planning task remains in review; no production implementation or PR merge performed."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "BOOT-005",
+      "note": "Verified owner merge of PR #2 at 0593bca; marked planning task done without changing product verification."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "BOOT-006",
+      "note": "Claimed Execution order view and dependency availability; separate tooling tests will establish red before implementation."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "BOOT-006",
+      "note": "Implemented Execution order and dependency availability with retained epic view. Four new tooling cases observed red then passed; real Chromium control check passed. Ready for PR review."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "BOOT-006",
+      "note": "Published task/BOOT-006-execution-order and opened PR #3. Execution/epic views and dependency availability are ready for review."
+    },
+    {
+      "date": "2026-10-30T15:39:20+00:00",
+      "task": "BOOT-006",
+      "note": "Owner requested adding state/module selection to the existing open PR #3. Extend its filters to multiple checkbox selections with All/None actions while retaining execution/epic views and test/review gates."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "BOOT-006",
+      "note": "Added checkbox state/module selection to PR #3. Combined filters/search and All/None pass; corrected responsive menu positioning. Task remains in review."
     }
   ]
 }
