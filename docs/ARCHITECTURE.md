@@ -29,8 +29,13 @@ its reviewed original red baseline is recorded in
 implemented; [IMPL-001 evidence](evidence/impl-001-handoff.md) records passing
 acceptance/regression checks and separate code review. It does not apply contributions
 or commit effects.
-No OpenAPI, normalized-event, effect ledger or complete timer schema is falsely provided
-as final. CONTRACT-002/003 develop these with tests before dependent agents build them.
+The internal [record, clock and writer boundary contract](contracts/event-state-boundaries-v1.md)
+(revision 1, CONTRACT-002) separates durable intake from atomic application and
+post-commit delivery. It defines shared invariants and specification-derived examples;
+concrete C++/SQL layouts, bounded domain baselines and behavior remain downstream work.
+No OpenAPI, normalized-event wire schema, effect ledger schema or complete timer
+schema is provided as final. CONTRACT-003 defines transport contracts before clients;
+implementation still requires each slice's reviewed tests and observed intended red.
 Keep UI, provider payloads, normalized events, contributions, plans, effects and delivery
 jobs distinct. Request/actual credit, arrival context, originals and reversals must retain
 provenance. Two scene renderers share data/behavior contracts, not a renderer implementation.

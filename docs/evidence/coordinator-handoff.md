@@ -33,13 +33,16 @@ configuration gap from BOOT-008 remains open. No repository settings were change
   worktree `/tmp/subathon-contract002`: owns docs/contracts/event-state-boundaries-v1.md,
   docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md.
   Coordinator has claimed the task on that branch and retains progress/HTML ownership.
-  Actual authored revision `1904ccb` is under separate review by
-  `/root/independent_reviewer`. Refreshed main is integrated; concurrent progress
+  Actual authored revision `1904ccb` / contract blob
+  `8b60da43f1362c46c54730e8ca029b858964ea59` is approved by
+  `/root/independent_reviewer` in review `4364149`;
+  see [contract authoring](contract-002-authoring.md) and
+  [independent review](contract-002-independent-review.md). Refreshed main is integrated; concurrent progress
   conflicts reconciled by preserving main BOOT-003 plus the CONTRACT-002 claim.
   Acceptance: versioned internal record/clock/writer boundaries with examples and
   error cases, separate review. No implementation or finalized wire schema.
 - Independent review worktree `/tmp/subathon-coordinator-review`, branch
-  `task/coordinator-independent-review`; reviewing actual CONTRACT-002 `1904ccb`.
+  `task/coordinator-independent-review`; approved actual CONTRACT-002 `1904ccb`.
 
 ## Checks, blockers and next action
 
@@ -55,8 +58,12 @@ escalated Git operations create the authorized task branches/worktrees. GitHub
 network operations also use explicit escalation. These are environment constraints,
 not failed product tests.
 
-Next: resolve independent CONTRACT-002 findings, update architecture navigation,
-run integrated documentation/tooling checks, publish focused PR and inspect latest
+CONTRACT-002 independent review approved all fourteen examples and the exact
+record/clock/writer contract; no requirement conflict found. Coordinator scaffold3/3,
+Python19/19, project/current HTML, DOM and diff checks pass. No production/test/schema
+changes. No red run is required or claimed for this documentation-only task.
+
+Next: publish the focused CONTRACT-002 PR and inspect latest
 CI/discussions/merge gates. After integration, choose CORETEST-001 for exact numeric
 primitives; read-only preparation by `/root/qt_validator` is complete and no files
 were changed. No commands are intentionally left running by the coordinator.
