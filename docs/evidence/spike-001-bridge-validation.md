@@ -58,3 +58,51 @@ This is a bounded spike baseline, not product acceptance. Readiness/SQL/stop fla
 in the stub are scaffolding; the later actual implementation must compute/check
 runtime values and receive independent code review. Final results are recorded
 below only after actual execution.
+
+
+## Actual implementation and final local result
+
+Implementation followed the recorded red. All authoritative admission, held commands,
+SQLite transactions and stop state are owned by a QObject on QCoreApplication's
+thread. Drogon uses its own framework thread and one network IO thread. Each reply
+is posted back to the exact originating IO loop; pending-reply bookkeeping returns
+to Qt after that callback executes. SQL ownership and request/Qt/response-loop identity
+are runtime checks, not constant success flags.
+
+Readiness uses a second framework-main-loop post followed by an IO-loop barrier.
+Pinned source executes beginning advice before startListening(), so direct startup
+advice would report readiness too early. getListeners() supplies the actual ephemeral
+port. The initial occupied-port failure follows the real framework's nonzero process
+exit path; it is not graceful internal framework teardown.
+
+Stop and SIGTERM close admission, drain admitted commands, schedule replies, then
+flush/close connections before calling Drogon quit() (which otherwise force-closes
+connections). The Qt loop remains alive until Drogon run() returns; the thread is
+joined and the SQL connection is closed/removed on its Qt owner. SIGTERM only writes
+a byte through a nonblocking self-pipe using signal-safe storage/errno handling;
+handler restoration precedes descriptor closure. These statements describe this
+bounded experiment, not a general production shutdown guarantee.
+
+The first implementation compile failed on a helper named event colliding with
+QObject::event. It was renamed observation; the subsequent build exited 0. An
+accidental test invocation after that failed compile still exercised the previous
+stub binary and is excluded from implementation evidence. The first actual compiled
+implementation run passed disconnected HTTP, port collision and SIGTERM, but failed
+three WebSocket cases on the expected close-frame assertion. Its full output is
+retained in [spike-001-bridge-first-run.txt](spike-001-bridge-first-run.txt).
+
+Source inspection found pinned Drogon WebSocketConnectionImpl handles a received
+Close by half-closing underlying TCP before invoking the controller; pinned Trantor
+then declines further sends. The probe therefore sends each ACK/error and initiates
+its normal WebSocket close on the originating IO loop. The same six test fixtures
+and assertions are unchanged. Contract revision 1.1 makes the bounded one-command-
+per-WebSocket scope explicit; the independent reviewer agreed this clarification
+before final source review. No vendor patch or generic/persistent WebSocket support
+is claimed. Client-initiated close behavior for persistent production sessions
+requires separate investigation before reuse.
+
+The unchanged six-case command shown above then exited 0: all 6 passed in 0.056s.
+The full result is [spike-001-bridge-green.txt](spike-001-bridge-green.txt). Tests
+independently inspect actual persisted SQLite IDs/count/literal sums, including empty
+rows while held, rather than trusting only ownership/completion instrumentation.
+Final CTest, integration checks and separate code review are recorded next.

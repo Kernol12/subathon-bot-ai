@@ -1,4 +1,4 @@
-# SPIKE-001 real-framework experiment contract — revision 1
+# SPIKE-001 real-framework experiment contract — revision 1.1
 
 Author: `/root/bridge_test_author`. Specification v0.45 §2/18, SERVER-01 and DB-01.
 Coordinator approved this bounded interface before test authoring. This is a disposable
@@ -46,7 +46,10 @@ status 200 only after commit. Its JSON body is:
 Use `Connection: close` for probe HTTP responses so bounded shutdown can wait for
 response flushing/connection closure. A real WebSocket upgrade on `/ws` accepts
 text `{"id":N}` and returns the same committed-acknowledgement JSON as a text frame.
-Clients perform a close handshake after the reply. Ownership flags are observable
+This bounded probe handles one command per WebSocket connection. After the reply,
+the server initiates a normal WebSocket close; clients complete their matching close
+handshake. The pinned framework's client-initiated close behavior and persistent,
+multiple-command sessions remain a separate investigation before production use. Ownership flags are observable
 instrumentation; independent source review must verify they check actual runtime
 thread identity rather than constants. They alone do not prove thread ownership.
 Tests also independently inspect the actual SQLite rows after process exit.
@@ -96,3 +99,16 @@ verify Caddy/TLS, remote/public network security, live providers, production API
 crash durability/recovery, retries, backpressure, statistics reader isolation, performance,
 Windows, Wayland/OBS or every possible shutdown/client behavior. Those release gates
 remain explicit; passing these cases is not permission to reuse the spike as production.
+
+
+## Clarification history
+
+Revision 1 was independently authored/reviewed and observed red before implementation.
+Revision 1.1 explicitly records the one-command-per-WebSocket connection scope after
+three initial real-framework cases failed on close-frame handling. The coordinator
+and independent reviewer inspected pinned Drogon/Trantor source: its received-Close
+path half-closes TCP before invoking the controller, preventing a later close-frame
+reply. Initiating the server close immediately after the probe reply supplies the
+required matching frame without a vendor patch. All six authored test fixtures and
+assertions are unchanged; this clarification does not establish persistent WebSocket
+or general protocol conformance. Final separate review records the clarified blob.

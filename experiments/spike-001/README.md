@@ -31,3 +31,35 @@ startup failure, connection cancellation, response-loop affinity, signal handlin
 backpressure, reader isolation, crash recovery, backup, or release performance.
 Real bridge testing remains necessary before SPIKE-001 is complete. Review this
 spike independently or discard it before reusing any of its code in production.
+
+
+## Pinned real-framework experiment
+
+The [real bridge contract](bridge_contract.md) and [external six-case harness](test_bridge.py)
+extend this probe with actual loopback Drogon HTTP/WebSocket traffic. It remains
+outside the product build. See [dependency evidence](../../docs/evidence/spike-001-dependencies.md)
+and [review/red/final results](../../docs/evidence/spike-001-bridge-validation.md).
+
+From the persistent primary checkout, explicitly prepare the dependency once:
+
+```sh
+python3 tools/setup_drogon.py
+cmake -S experiments/spike-001 -B build/spike-001-real -G Ninja -DSPIKE_BUILD_REAL_BRIDGE=ON -DCMAKE_PREFIX_PATH="$PWD/build/deps/drogon-1.9.14"
+cmake --build build/spike-001-real
+ctest --test-dir build/spike-001-real --output-on-failure -V
+```
+
+When running from a temporary worktree, pass the primary checkout's build/deps as
+setup `--root` and its installed drogon-1.9.14 directory as CMAKE_PREFIX_PATH. Builds
+and temporary databases stay local/ignored; ordinary configuration never downloads
+sources. The opt-in real probe currently targets Linux and requires local loopback
+socket permission. It binds 127.0.0.1 only and uses disposable synthetic command IDs.
+The CTest run contains the retained synthetic queue case and the real six-case suite.
+
+The probe opens one command per WebSocket connection and initiates a normal close
+after each reply. This explicitly bounds the experiment after discovering a close-
+frame limitation in the pinned framework's received-Close path. General persistent
+WebSocket/client-initiated close behavior remains a later investigation; the spike
+is not evidence of full protocol conformance or production reuse approval. Further
+untested cases include uncooperative/idle clients, partial-frame shutdown, startup-
+time signals, Caddy/TLS, backpressure, crash recovery and release/platform behavior.
