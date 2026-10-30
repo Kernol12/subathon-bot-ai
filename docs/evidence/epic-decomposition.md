@@ -2,7 +2,8 @@
 
 Date: 2026-10-30. Author/role: Codex, planning/integration.
 Branch: task/BOOT-005-split-epics. Base: 55aae95 (main after PR #1).
-Pull request: [PR #2](https://github.com/Kernol12/subathon-bot-ai/pull/2), open for review.
+Pull request: [PR #2](https://github.com/Kernol12/subathon-bot-ai/pull/2), merged by owner
+on 2026-10-30 at 15:13:17 UTC as 0593bcafb26c8522fad8ea2724cf4a17a1dcf179.
 Authority: specification v0.45, particularly §17 and §19; initial time-credit
 contract revision 0 remains DRAFT. No domain/API contract is approved by this plan.
 
@@ -59,9 +60,9 @@ These are planning/tooling/scaffold checks only. All commands below exited 0:
 | `ctest --preset scaffold-debug` | 3/3 passed |
 | `git diff --check` | No whitespace errors |
 
-One-off structural audit also passed: 27 epics, all 331 children attached exactly once,
+One-off structural audit also passed at the PR #2 revision: 27 epics, all 331 children attached exactly once,
 all 151 production slices gated, prior non-epic task/evidence records preserved and
-all 122 decision IDs assigned. Reproduce the core audit from the repository root:
+all 122 decision IDs assigned. Reproduce the core audit from that revision's repository root:
 
 ```sh
 python3 - <<'PY'
@@ -116,8 +117,9 @@ run for this planning change. The existing initial core review/intended-red gate
 remains open. The generated HTML is a static snapshot; controller simulation does
 not establish real-browser layout or accessibility with the larger task list.
 
-PR #2 targets main and is left open for owner review as requested. GitHub check
-results for the latest revision are available on the PR; no merge is performed.
+PR #2 was left open for owner review and subsequently merged by the owner, as verified
+through GitHub during BOOT-006. BOOT-005 is now done; the checks and planning counts
+above are historical results from PR #2, not claims about later task additions.
 Next execution starts with the existing first-agent baseline and
 dependency-ready child briefs; refine any remaining bounded contract ambiguities
 before claiming implementation.

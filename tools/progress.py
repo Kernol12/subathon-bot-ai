@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import heapq
 import html
 import json
 import re
@@ -117,16 +118,43 @@ def link(path: str, title: str) -> str:
     return f'<a href="{quote(path, safe="/._-")}">{esc(title)}</a>'
 
 
+def execution_order(tasks: list[dict]) -> list[dict]:
+    """Put prerequisites first, breaking ties by source order in the validated DAG."""
+    positions = {task["id"]: i for i, task in enumerate(tasks)}
+    remaining = [len(task["depends_on"]) for task in tasks]
+    dependents = [[] for _ in tasks]
+    for i, task in enumerate(tasks):
+        for dependency in task["depends_on"]:
+            dependents[positions[dependency]].append(i)
+    ready = [i for i, count in enumerate(remaining) if count == 0]
+    heapq.heapify(ready)
+    ordered = []
+    while ready:
+        i = heapq.heappop(ready)
+        ordered.append(tasks[i])
+        for dependent in dependents[i]:
+            remaining[dependent] -= 1
+            if remaining[dependent] == 0:
+                heapq.heappush(ready, dependent)
+    if len(ordered) != len(tasks):
+        raise ValueError("Task dependency cycle prevents execution ordering")
+    return ordered
+
+
 def render(data: dict) -> str:
     tasks = data["tasks"]
     by_id = {t["id"]: t for t in tasks}
+    source_positions = {t["id"]: i for i, t in enumerate(tasks)}
+    ordered = execution_order(tasks)
+    available = {t["id"] for t in tasks
+                 if t["kind"] != "epic" and t["status"] in {"planned", "ready"}
+                 and all(by_id[d]["status"] == "done" for d in t["depends_on"])}
     done = sum(t["status"] == "done" for t in tasks)
     concrete = sum(t["kind"] != "epic" for t in tasks)
-    ready = sum(t["status"] == "ready" for t in tasks)
     blocked = sum(t["status"] == "blocked" for t in tasks)
     implemented = sum(t["kind"] == "implementation" and t["status"] == "done" for t in tasks)
     rows = []
-    for task in tasks:
+    for position, task in enumerate(ordered):
         dependencies = ", ".join(
             f'<a href="#{esc(i)}">{esc(i)}</a> {badge(by_id[i]["status"])}' for i in task["depends_on"]
         ) or "No prerequisites"
@@ -136,22 +164,23 @@ def render(data: dict) -> str:
         review = task.get("review")
         review_text = (f'{review.get("author", "?")} → {review.get("reviewer", "?")}: {review.get("outcome", "?")}' if review else "Not recorded")
         search = " ".join([task["id"], task["title"], task["module"], task["owner"], task["summary"], *task["notes"]]).lower()
-        rows.append(f'''<article id="{esc(task['id'])}" class="task" data-status="{esc(task['status'])}" data-module="{esc(task['module'])}" data-search="{esc(search)}">
-<details><summary><div class="task-heading"><span class="task-id">{esc(task['id'])}</span><span class="task-title">{esc(task['title'])}</span></div><div class="task-meta"><span>{esc(task['module'])}</span><span class="kind">{esc(label(task['kind']))}</span>{badge(task['status'])}<span class="chevron" aria-hidden="true">⌄</span></div></summary>
+        pickup = '<span class="badge available">Dependencies complete</span>' if task["id"] in available else ""
+        rows.append(f'''<article id="{esc(task['id'])}" class="task" data-status="{esc(task['status'])}" data-module="{esc(task['module'])}" data-search="{esc(search)}" data-epic-order="{source_positions[task['id']]}" data-execution-order="{position}" data-available="{str(task['id'] in available).lower()}">
+<details><summary><div class="task-heading"><span class="task-id">{esc(task['id'])}</span><span class="task-title">{esc(task['title'])}</span></div><div class="task-meta"><span>{esc(task['module'])}</span><span class="kind">{esc(label(task['kind']))}</span>{badge(task['status'])}{pickup}<span class="chevron" aria-hidden="true">⌄</span></div></summary>
 <div class="task-detail"><p>{esc(task['summary'])}</p><div class="detail-grid"><div><h4>Ownership</h4><p>{esc(task['owner'])}</p><h4>Specification</h4><p>{esc(', '.join(task['spec_refs']))}</p></div><div><h4>Dependencies</h4><p>{dependencies}</p><h4>Independent review</h4><p>{esc(review_text)}</p></div></div><h4>Notes</h4><ul>{notes}</ul><h4>Verification</h4><p class="checks">{checks}</p><p class="evidence">{evidence}</p><p>{link(task['brief'], 'Open task brief ↗')}</p></div></details></article>''')
     modules = sorted({t["module"] for t in tasks})
     module_options = "".join(f'<option value="{esc(m)}">{esc(m)}</option>' for m in modules)
     status_options = "".join(f'<option value="{s}">{esc(label(s))}</option>' for s in sorted(STATUSES))
     checks_html = "".join(f'<div class="verification-item"><div><strong>{esc(v["label"])}</strong>{badge(v["status"])}</div><p>{esc(v["detail"])}</p></div>' for v in data["verification"])
     activity = "".join(f'<li><time>{esc(a["date"])}</time><div><a href="#{esc(a["task"])}">{esc(a["task"])}</a><p>{esc(a["note"])}</p></div></li>' for a in reversed(data["activity"][-12:]))
-    first = next((t for t in tasks if t["status"] == "ready"), None)
-    next_task = f'{esc(first["id"])} · {esc(first["title"])}' if first else "Select the next dependency-ready task"
+    first = next((t for t in ordered if t["id"] in available), None)
+    next_task = f'{esc(first["id"])} · {esc(first["title"])}' if first else "No tasks ready to pick up"
     template = (ROOT / "tools/progress_template.html").read_text(encoding="utf-8")
     fields = {
         "PROJECT": esc(data["project"]), "BASELINE": esc(data["baseline_version"]),
         "SPEC_VERSION": esc(data["specification_version"]), "UPDATED": esc(data["updated_at"]),
         "SUMMARY": esc(data["summary"]), "DONE": str(done), "TOTAL": str(len(tasks)),
-        "CONCRETE": str(concrete), "EPICS": str(len(tasks) - concrete), "READY": str(ready),
+        "CONCRETE": str(concrete), "EPICS": str(len(tasks) - concrete), "READY": str(len(available)),
         "BLOCKED": str(blocked), "IMPLEMENTED": str(implemented), "NEXT_TASK": next_task,
         "MODULE_OPTIONS": module_options, "STATUS_OPTIONS": status_options,
         "TASK_ROWS": "\n".join(rows), "VERIFICATION": checks_html, "ACTIVITY": activity,
