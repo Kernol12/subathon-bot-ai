@@ -66,6 +66,12 @@ can proceed:
    and reviewed revisions. Reassess affected reviews after changes; do not carry an
    approval over behavior the reviewer has not examined. A green scaffold suite does
    not establish passing product acceptance.
+   For every task, follow the Evolving continuous integration section of
+   docs/AGENT_WORKFLOW.md: assess CI coverage and extend GitHub Actions for new
+   executable suites, modules, builds and packaging. Run stable reviewed suites
+   automatically on relevant PRs, observe changed workflows before merge and record
+   gaps and required-check configuration needs. Keep intentional red baselines and
+   credential-dependent live checks separate; never hide failures to obtain green CI.
 7. Update task evidence, notes and handoffs. Regenerate PROGRESS.html and check
    consistency. Distinguish authored, reviewed, observed red, implemented,
    simulation-tested and live/platform-verified behavior. Mark implementation done
