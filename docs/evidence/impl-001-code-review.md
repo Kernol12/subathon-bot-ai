@@ -112,3 +112,40 @@ live provider, Windows, Wayland/OBS, packaging, persistence, complete timer,
 refund, or UI verification. All integrations and exchange providers remain in
 release scope. Coordinator progress/current-status changes receive a separate
 integration assessment after they are available.
+
+## Separate tooling-fixture correction review
+
+**Verdict: approved for integration.** Author `/root/credit_implementer` supplied
+correction `3864b15`; independent reviewer `/root/credit_reviewer` inspected its
+exact test blob `f606dad3592b2bc2ae329b249f81d3b3c131daf9` and
+[specification-linked rationale](impl-001-progress-fixture-correction.md).
+Reviewer prerequisite cherry-pick: `423c71c`. The author and coordinator report
+an original 17/18 tooling result because live IMPL-001 gained genuine passing
+acceptance. The old negative fixture borrowed that task without clearing its
+verification. This was a fixture assumption; the completion validator correctly
+accepted the completed evidence.
+
+The revised negative test creates synthetic IMPL-999 with explicit separate
+review and valid evidence, then still requires the `passing acceptance` rejection
+for both missing and failed acceptance. Its new companion accepts explicit
+passing acceptance plus separate review. Clearing activity only removes references
+to replaced live tasks. No validator policy or assertion is weakened. The existing
+self-review rejection remains and explicitly supplies its own acceptance field.
+This follows specification TEST-04/05 and preserves the completion evidence gate
+while removing dependency on whether real IMPL-001 is finished.
+
+Independent reviewer executions, all exit 0:
+
+- `python3 -m unittest discover -s tests/tooling -v`: 19/19 pass.
+- The author's documented in-memory `setUp` injection of live IMPL-001 acceptance
+  `passed`, executing both completion tests: 2/2 pass, confirming isolation.
+- `ctest --preset acceptance-debug`: 26/26 pass including original19, regression4
+  and three infrastructure/tooling checks.
+- `git diff --exit-code 29325b5 -- core/src/time_credit.cpp tests/acceptance/time_credit_tests.cpp tests/acceptance/time_credit_regression_tests.cpp tests/fixtures/time-credit.json core/include/subathon/core/time_credit.hpp tools/progress.py`:
+  empty, confirming validator and product/reviewed test baseline unchanged.
+- `git hash-object tests/tooling/test_progress.py` and `git diff --check`:
+  exact corrected blob confirmed, no whitespace errors.
+
+This separate approval covers the genuine test defect and records the revised
+baseline. Coordinator must still replay final integrated checks with the honestly
+recorded task status and regenerate progress HTML before publication.
