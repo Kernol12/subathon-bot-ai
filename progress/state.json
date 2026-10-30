@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T22:17:13.490900+00:00",
+  "updated_at": "2026-10-30T22:26:39+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -53,7 +53,7 @@
       "owner": "Baseline preparation",
       "depends_on": [],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/BOOT-001.md",
       "summary": "Native scaffold, draft tests, instructions and offline progress tooling. No production features.",
@@ -83,8 +83,8 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a717"
+        "§2",
+        "§17"
       ],
       "brief": "docs/tasks/BOOT-002.md",
       "summary": "Configure/build/test the scaffold preset on Arch/KDE; record tool versions and resolve normal setup issues.",
@@ -118,7 +118,7 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/BOOT-004.md",
       "summary": "One branch per executable task; agents may merge PRs after required CI and applicable quality/review gates.",
@@ -148,7 +148,7 @@
         "BOOT-004"
       ],
       "spec_refs": [
-        "\u00a717",
+        "§17",
         "DEV-02",
         "TEST-04"
       ],
@@ -181,7 +181,7 @@
         "BOOT-005"
       ],
       "spec_refs": [
-        "\u00a717",
+        "§17",
         "DEV-02",
         "DEV-04"
       ],
@@ -216,9 +216,9 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
-        "\u00a718"
+        "§3",
+        "§4",
+        "§18"
       ],
       "brief": "docs/tasks/CONTRACT-001.md",
       "summary": "Review valid examples and define invalid-input/overflow behavior before implementation.",
@@ -245,8 +245,8 @@
         "CONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
+        "§17",
+        "§18",
         "TEST-04"
       ],
       "brief": "docs/tasks/TEST-001.md",
@@ -357,9 +357,9 @@
         "TEST-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
-        "\u00a718"
+        "§3",
+        "§4",
+        "§18"
       ],
       "brief": "docs/tasks/IMPL-001.md",
       "summary": "Implement only the reviewed contract, preserve tests and record passing acceptance plus independent review.",
@@ -407,7 +407,7 @@
         "BOOT-002"
       ],
       "spec_refs": [
-        "\u00a72"
+        "§2"
       ],
       "brief": "docs/tasks/BOOT-003.md",
       "summary": "Run Qt Test event-loop probe; record actual Qt/compiler/platform versions. This is not QML/OBS verification.",
@@ -421,19 +421,21 @@
       "title": "Define event, effect, clock and persistence boundaries",
       "module": "Core",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; contract author /root/domain_contract",
       "depends_on": [
         "CONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
-        "\u00a74"
+        "§2",
+        "§3",
+        "§4"
       ],
       "brief": "docs/tasks/CONTRACT-002.md",
       "summary": "Separate receipts, contributions, application plans, actual effects and delivery jobs; define controlled clock and writer ownership.",
-      "notes": [],
+      "notes": [
+        "Claimed from main 2bc4e64 on task/CONTRACT-002-domain-boundaries. Specification v0.45 §§2–4 plus linked accounting/recovery decisions; time-credit revision1 preserved. Documentation-only foundation contract: separate receipt, contribution, plan, actual effect, delivery job, clock and writer ownership with versioned examples/errors. Author owns docs/contracts/event-state-boundaries-v1.md, docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md. Coordinator owns progress, HTML and shared architecture/handoff. No schema, code or production capability claim; separate review required."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -452,7 +454,7 @@
         "API-01",
         "API-02",
         "API-03",
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/CONTRACT-003.md",
       "summary": "OpenAPI 3.1/WS/schema/capability contracts with exact numeric strings and explicit shared-file ownership.",
@@ -541,7 +543,7 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/SPIKE-003.md",
       "summary": "Check Streamlabs/TipeeeStream protocol versions and C++ adapter compatibility; do not substitute bare WebSockets.",
@@ -561,8 +563,8 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a711",
-        "\u00a719"
+        "§11",
+        "§19"
       ],
       "brief": "docs/tasks/SPIKE-004.md",
       "summary": "Record actual Wayland/KDE/Windows/OBS/codec behavior and unresolved transparency/output issues.",
@@ -599,8 +601,8 @@
         "IMPL-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
+        "§3",
+        "§4",
         "TEST-04"
       ],
       "brief": "docs/tasks/EPIC-001.md",
@@ -624,7 +626,7 @@
         "CONTRACT-002"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "NUM-01",
         "NUM-02",
         "NUM-04"
@@ -650,7 +652,7 @@
         "CORETEST-001"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "NUM-01",
         "NUM-02",
         "NUM-04"
@@ -676,7 +678,7 @@
         "IMPL-001"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01",
         "TIMER-02"
       ],
@@ -702,7 +704,7 @@
         "CORETEST-002"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01",
         "TIMER-02"
       ],
@@ -726,7 +728,7 @@
         "CORE-002"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -751,7 +753,7 @@
         "CORETEST-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -775,7 +777,7 @@
         "CORE-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-07"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-004.md",
@@ -799,7 +801,7 @@
         "CORETEST-004"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-07"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-004.md",
@@ -823,7 +825,7 @@
         "CORE-002"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-005.md",
@@ -848,7 +850,7 @@
         "CORETEST-005"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-005.md",
@@ -872,7 +874,7 @@
         "CORE-004"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-04",
         "TIMER-08",
         "TIMER-09"
@@ -899,7 +901,7 @@
         "CORETEST-006"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-04",
         "TIMER-08",
         "TIMER-09"
@@ -925,7 +927,7 @@
         "CORE-006"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-06",
         "TIMER-10"
       ],
@@ -951,7 +953,7 @@
         "CORETEST-007"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-06",
         "TIMER-10"
       ],
@@ -975,7 +977,7 @@
         "CORE-005"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-008.md",
@@ -999,7 +1001,7 @@
         "CORETEST-008"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-008.md",
@@ -1036,8 +1038,8 @@
         "ACCT-007"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-002.md",
@@ -1062,8 +1064,8 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a714"
+        "§3",
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-001.",
@@ -1087,8 +1089,8 @@
         "ACCTTEST-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a714"
+        "§3",
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-001.md",
       "summary": "Scope provider IDs by origin/connection/type as required and keep source timestamps distinct from server arrival/context.",
@@ -1110,8 +1112,8 @@
         "ACCT-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-002.",
@@ -1134,8 +1136,8 @@
         "ACCTTEST-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-002.md",
       "summary": "Hold multiple unresolved conditions simultaneously; accepting paused input cannot bypass missing evidence or valuation.",
@@ -1158,9 +1160,9 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77"
+        "§3",
+        "§6",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-003.",
@@ -1184,9 +1186,9 @@
         "ACCTTEST-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77"
+        "§3",
+        "§6",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-003.md",
       "summary": "Capture arrival configuration, modifier context and requested effect details with original event/contribution/rate references.",
@@ -1210,8 +1212,8 @@
         "CORE-005"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-004.",
@@ -1236,8 +1238,8 @@
         "ACCTTEST-004"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-004.md",
       "summary": "Commit application status, actual effects, state and delivery-job records atomically; failed transactions leave no partial award.",
@@ -1259,7 +1261,7 @@
         "ACCT-004"
       ],
       "spec_refs": [
-        "\u00a75"
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-005.",
@@ -1282,7 +1284,7 @@
         "ACCTTEST-005"
       ],
       "spec_refs": [
-        "\u00a75"
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-005.md",
       "summary": "Preview accept/reject individually and in batches with actor/options/audit and arrival-context preservation.",
@@ -1305,8 +1307,8 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78",
+        "§3",
+        "§8",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-006.md",
@@ -1331,8 +1333,8 @@
         "ACCTTEST-006"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78",
+        "§3",
+        "§8",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-006.md",
@@ -1357,8 +1359,8 @@
         "MILESTONE-001"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a78",
+        "§4",
+        "§8",
         "NUM-03",
         "MILE-03"
       ],
@@ -1385,8 +1387,8 @@
         "ACCTTEST-007"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a78",
+        "§4",
+        "§8",
         "NUM-03",
         "MILE-03"
       ],
@@ -1420,7 +1422,7 @@
         "RULES-005"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-003.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -1444,7 +1446,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RULES-001.",
@@ -1468,7 +1470,7 @@
         "RULESTEST-001"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-001.md",
       "summary": "Validate definitions and immutable configuration versions with enabled state, priority, ordered actions and execution limits.",
@@ -1490,7 +1492,7 @@
         "RULES-001"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-01",
         "RULE-02"
       ],
@@ -1515,7 +1517,7 @@
         "RULESTEST-002"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-01",
         "RULE-02"
       ],
@@ -1540,8 +1542,8 @@
         "ACCESS-003"
       ],
       "spec_refs": [
-        "\u00a76",
-        "\u00a710"
+        "§6",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RULES-003.",
@@ -1565,8 +1567,8 @@
         "RULESTEST-003"
       ],
       "spec_refs": [
-        "\u00a76",
-        "\u00a710"
+        "§6",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-003.md",
       "summary": "Plan actions in order with an inspectable explanation; authorization to edit automation cannot grant undelegated operations.",
@@ -1588,7 +1590,7 @@
         "RULES-003"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-03"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-004.md",
@@ -1612,7 +1614,7 @@
         "RULESTEST-004"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-03"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-004.md",
@@ -1638,7 +1640,7 @@
         "MILESTONE-001"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "DEV-04",
         "SETUP-01"
       ],
@@ -1666,7 +1668,7 @@
         "RULESTEST-005"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "DEV-04",
         "SETUP-01"
       ],
@@ -1702,7 +1704,7 @@
         "MODIFIER-006"
       ],
       "spec_refs": [
-        "\u00a77"
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-004.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -1726,7 +1728,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-03"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-001.md",
@@ -1751,7 +1753,7 @@
         "MODIFIERTEST-001"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-03"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-001.md",
@@ -1775,7 +1777,7 @@
         "CORE-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-02",
         "TIMER-09"
       ],
@@ -1801,7 +1803,7 @@
         "MODIFIERTEST-002"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-02",
         "TIMER-09"
       ],
@@ -1826,7 +1828,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-01",
         "NUM-02"
       ],
@@ -1852,7 +1854,7 @@
         "MODIFIERTEST-003"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-01",
         "NUM-02"
       ],
@@ -1878,7 +1880,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-004.md",
@@ -1904,7 +1906,7 @@
         "MODIFIERTEST-004"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-004.md",
@@ -1928,8 +1930,8 @@
         "ACCT-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a77"
+        "§3",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MODIFIER-005.",
@@ -1953,8 +1955,8 @@
         "MODIFIERTEST-005"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a77"
+        "§3",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-005.md",
       "summary": "Pending input retains its arrival-time bonus after expiry or edits; a 60-second award with x2 requests 120 seconds before the timer cap.",
@@ -1978,8 +1980,8 @@
         "STORAGE-003"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a77",
+        "§4",
+        "§7",
         "TIMER-09"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-006.md",
@@ -2005,8 +2007,8 @@
         "MODIFIERTEST-006"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a77",
+        "§4",
+        "§7",
         "TIMER-09"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-006.md",
@@ -2045,7 +2047,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-005.md",
       "summary": "8 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -2069,7 +2071,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
@@ -2094,7 +2096,7 @@
         "MILESTONETEST-001"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
@@ -2118,7 +2120,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-02"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-002.md",
@@ -2143,7 +2145,7 @@
         "MILESTONETEST-002"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-02"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-002.md",
@@ -2167,8 +2169,8 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78"
+        "§3",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MILESTONE-003.",
@@ -2192,8 +2194,8 @@
         "MILESTONETEST-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78"
+        "§3",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-003.md",
       "summary": "Persist queued/sending/delivered/failed/outcome-unknown states and captured sender/action definitions.",
@@ -2216,7 +2218,7 @@
         "MILESTONE-003"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01",
         "MILE-08"
       ],
@@ -2242,7 +2244,7 @@
         "MILESTONETEST-004"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01",
         "MILE-08"
       ],
@@ -2266,8 +2268,8 @@
         "MILESTONE-004"
       ],
       "spec_refs": [
-        "\u00a75",
-        "\u00a78",
+        "§5",
+        "§8",
         "MILE-03"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-005.md",
@@ -2291,8 +2293,8 @@
         "MILESTONETEST-005"
       ],
       "spec_refs": [
-        "\u00a75",
-        "\u00a78",
+        "§5",
+        "§8",
         "MILE-03"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-005.md",
@@ -2316,7 +2318,7 @@
         "MILESTONE-002"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-04",
         "MILE-05"
       ],
@@ -2342,7 +2344,7 @@
         "MILESTONETEST-006"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-04",
         "MILE-05"
       ],
@@ -2367,7 +2369,7 @@
         "MILESTONE-005"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-06"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-007.md",
@@ -2392,7 +2394,7 @@
         "MILESTONETEST-007"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-06"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-007.md",
@@ -2416,7 +2418,7 @@
         "MILESTONE-006"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-07"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-008.md",
@@ -2441,7 +2443,7 @@
         "MILESTONETEST-008"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-07"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-008.md",
@@ -2478,7 +2480,7 @@
         "ACCESS-007"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-006.md",
       "summary": "7 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -2503,7 +2505,7 @@
         "SESSION-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-04",
         "AUTH-08"
       ],
@@ -2530,7 +2532,7 @@
         "ACCESSTEST-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-04",
         "AUTH-08"
       ],
@@ -2554,7 +2556,7 @@
         "CONTRACT-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-06"
       ],
@@ -2579,7 +2581,7 @@
         "ACCESSTEST-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-06"
       ],
@@ -2603,7 +2605,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-07"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-003.md",
@@ -2627,7 +2629,7 @@
         "ACCESSTEST-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-07"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-003.md",
@@ -2652,7 +2654,7 @@
         "TWITCH-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-01",
         "AUTH-15"
       ],
@@ -2679,7 +2681,7 @@
         "ACCESSTEST-004"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-01",
         "AUTH-15"
       ],
@@ -2705,7 +2707,7 @@
         "ACCESS-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-02",
         "AUTH-10"
       ],
@@ -2732,7 +2734,7 @@
         "ACCESSTEST-005"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-02",
         "AUTH-10"
       ],
@@ -2757,7 +2759,7 @@
         "ACCESS-005"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-09"
       ],
@@ -2783,7 +2785,7 @@
         "ACCESSTEST-006"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-09"
       ],
@@ -2807,7 +2809,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-007.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-007.",
@@ -2830,7 +2832,7 @@
         "ACCESSTEST-007"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-007.md",
       "summary": "Support aliases/arguments/actions/responses with per-user and global cooldowns and all/any combinations of Twitch categories.",
@@ -2866,8 +2868,8 @@
         "SESSION-007"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716"
+        "§10",
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-007.md",
       "summary": "7 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -2890,7 +2892,7 @@
         "CONTRACT-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-11"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
@@ -2914,7 +2916,7 @@
         "SESSIONTEST-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-11"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
@@ -2938,7 +2940,7 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-05",
         "AUTH-12"
       ],
@@ -2964,7 +2966,7 @@
         "SESSIONTEST-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-05",
         "AUTH-12"
       ],
@@ -2988,7 +2990,7 @@
         "SESSION-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-003.md",
@@ -3012,7 +3014,7 @@
         "SESSIONTEST-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-003.md",
@@ -3036,7 +3038,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-13",
         "PACKAGE-03"
       ],
@@ -3062,7 +3064,7 @@
         "SESSIONTEST-004"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-13",
         "PACKAGE-03"
       ],
@@ -3087,7 +3089,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-14"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-005.md",
@@ -3112,7 +3114,7 @@
         "SESSIONTEST-005"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-14"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-005.md",
@@ -3136,7 +3138,7 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-01",
         "AUTH-15"
       ],
@@ -3162,7 +3164,7 @@
         "SESSIONTEST-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-01",
         "AUTH-15"
       ],
@@ -3186,7 +3188,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-007.md",
@@ -3210,7 +3212,7 @@
         "SESSIONTEST-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-007.md",
@@ -3252,8 +3254,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73"
+        "§2",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-008.md",
       "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -3278,7 +3280,7 @@
         "CONTRACT-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "SERVER-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-001.md",
@@ -3305,7 +3307,7 @@
         "APITEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "SERVER-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-001.md",
@@ -3332,7 +3334,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01",
         "API-03"
       ],
@@ -3360,7 +3362,7 @@
         "APITEST-002"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01",
         "API-03"
       ],
@@ -3384,7 +3386,7 @@
         "API-002"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-003.md",
@@ -3409,7 +3411,7 @@
         "APITEST-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-003.md",
@@ -3433,7 +3435,7 @@
         "API-002"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-02",
         "WEB-01"
       ],
@@ -3458,7 +3460,7 @@
         "APITEST-004"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-02",
         "WEB-01"
       ],
@@ -3483,7 +3485,7 @@
         "CONTRACT-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -3509,7 +3511,7 @@
         "APITEST-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -3534,7 +3536,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -3560,7 +3562,7 @@
         "APITEST-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -3585,7 +3587,7 @@
         "RULES-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-007.md",
@@ -3610,7 +3612,7 @@
         "APITEST-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-007.md",
@@ -3638,8 +3640,8 @@
         "STORAGE-003"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73"
+        "§2",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-008/API-008.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-008.",
@@ -3667,8 +3669,8 @@
         "APITEST-008"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73"
+        "§2",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-008/API-008.md",
       "summary": "Run a synthetic eligible event through durable receipt, reviewed rule plan, actual capped timer effect and API snapshot.",
@@ -3697,12 +3699,12 @@
         "CORE-008"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a75",
-        "\u00a77",
-        "\u00a78"
+        "§2",
+        "§3",
+        "§4",
+        "§5",
+        "§7",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-008/API-009.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-009.",
@@ -3732,12 +3734,12 @@
         "APITEST-009"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a75",
-        "\u00a77",
-        "\u00a78"
+        "§2",
+        "§3",
+        "§4",
+        "§5",
+        "§7",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-008/API-009.md",
       "summary": "Wire captured-context plans, independent eligibility holds, current cap/debt, actual effects and sequential jobs through one transaction path.",
@@ -3777,7 +3779,7 @@
         "STORAGE-009"
       ],
       "spec_refs": [
-        "\u00a716"
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-009.md",
       "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -3802,7 +3804,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
@@ -3828,7 +3830,7 @@
         "STORAGETEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
@@ -3851,8 +3853,8 @@
         "STORAGE-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a716",
+        "§3",
+        "§16",
         "DB-01",
         "OPS-02"
       ],
@@ -3877,8 +3879,8 @@
         "STORAGETEST-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a716",
+        "§3",
+        "§16",
         "DB-01",
         "OPS-02"
       ],
@@ -3903,7 +3905,7 @@
         "CORE-006"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-08",
         "TIMER-09"
       ],
@@ -3929,7 +3931,7 @@
         "STORAGETEST-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-08",
         "TIMER-09"
       ],
@@ -3954,7 +3956,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-004.md",
@@ -3979,7 +3981,7 @@
         "STORAGETEST-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-004.md",
@@ -4002,7 +4004,7 @@
         "STORAGE-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-02"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-005.md",
@@ -4026,7 +4028,7 @@
         "STORAGETEST-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-02"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-005.md",
@@ -4049,7 +4051,7 @@
         "STORAGE-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-006.md",
@@ -4073,7 +4075,7 @@
         "STORAGETEST-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-006.md",
@@ -4099,7 +4101,7 @@
         "MILESTONE-003"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-04"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-007.md",
@@ -4126,7 +4128,7 @@
         "STORAGETEST-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-04"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-007.md",
@@ -4151,7 +4153,7 @@
         "API-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-02",
         "API-02"
       ],
@@ -4178,7 +4180,7 @@
         "STORAGETEST-008"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-02",
         "API-02"
       ],
@@ -4203,7 +4205,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-009.md",
@@ -4228,7 +4230,7 @@
         "STORAGETEST-009"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-009.md",
@@ -4263,8 +4265,8 @@
         "TWITCH-090"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714"
+        "§10",
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-010.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -4289,8 +4291,8 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -4317,8 +4319,8 @@
         "TWITCHTEST-001"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -4343,8 +4345,8 @@
         "API-006"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-010/TWITCH-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before TWITCH-002.",
@@ -4368,8 +4370,8 @@
         "TWITCHTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-010/TWITCH-002.md",
       "summary": "Map documented subscription/gift/bundle/Bits fields with IDs, actor/source time/evidence and unknown classifications preserved.",
@@ -4393,8 +4395,8 @@
         "CORE-003"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -4421,8 +4423,8 @@
         "TWITCHTEST-003"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -4448,7 +4450,7 @@
         "ACCESS-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "CHAT-01",
         "CHAT-02"
       ],
@@ -4475,7 +4477,7 @@
         "TWITCHTEST-004"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "CHAT-01",
         "CHAT-02"
       ],
@@ -4502,7 +4504,7 @@
         "API-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -4530,7 +4532,7 @@
         "TWITCHTEST-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -4555,8 +4557,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719",
+        "§14",
+        "§19",
         "AUTH-15",
         "CHAT-02"
       ],
@@ -4587,7 +4589,7 @@
         "BETTERPLACE-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-011.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -4611,7 +4613,7 @@
         "API-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-02"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-001.md",
@@ -4636,7 +4638,7 @@
         "BETTERPLACETEST-001"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-02"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-001.md",
@@ -4660,8 +4662,8 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a713",
+        "§14",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-002.md",
@@ -4686,8 +4688,8 @@
         "BETTERPLACETEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a713",
+        "§14",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-002.md",
@@ -4710,7 +4712,7 @@
         "BETTERPLACE-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-003.md",
@@ -4734,7 +4736,7 @@
         "BETTERPLACETEST-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-003.md",
@@ -4758,8 +4760,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-090.md",
       "summary": "Compare actual public totals/record visibility/identifiers with declared capabilities and polling/recovery behavior.",
@@ -4788,7 +4790,7 @@
         "PATREON-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-012.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -4812,7 +4814,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-001.md",
@@ -4837,7 +4839,7 @@
         "PATREONTEST-001"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-001.md",
@@ -4863,7 +4865,7 @@
         "ACCT-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-002.md",
@@ -4890,7 +4892,7 @@
         "PATREONTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-002.md",
@@ -4913,7 +4915,7 @@
         "PATREON-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -4938,7 +4940,7 @@
         "PATREONTEST-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -4963,8 +4965,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-090.md",
       "summary": "Establish actual payment-state transitions/identifiers and webhook-history correlation with redacted source documentation/captures.",
@@ -4994,7 +4996,7 @@
         "STREAMLABS-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -5019,7 +5021,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMLABS-001.",
@@ -5044,7 +5046,7 @@
         "STREAMLABSTEST-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-001.md",
       "summary": "Implement documented connection/auth/reconnect handling and normalized donation receipt identity with source timestamps.",
@@ -5068,7 +5070,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMLABS-002.",
@@ -5093,7 +5095,7 @@
         "STREAMLABSTEST-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-002.md",
       "summary": "Distinguish verified payments from streamer-added records using evidenced source fields.",
@@ -5115,7 +5117,7 @@
         "STREAMLABS-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5140,7 +5142,7 @@
         "STREAMLABSTEST-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5165,8 +5167,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-090.md",
       "summary": "Record actual protocol version, identifiers, verification labels, pagination and recovery behavior.",
@@ -5196,7 +5198,7 @@
         "STREAMELEMENTS-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-014.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -5220,7 +5222,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMELEMENTS-001.",
@@ -5244,7 +5246,7 @@
         "STREAMELEMENTSTEST-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-001.md",
       "summary": "Normalize documented completed tips with transaction IDs, amount/currency and source time where supplied.",
@@ -5268,8 +5270,8 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMELEMENTS-002.",
@@ -5294,8 +5296,8 @@
         "STREAMELEMENTSTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-002.md",
       "summary": "Use stable scoped transaction identity for duplicate checks and capture payment evidence without conflating moderation approval.",
@@ -5317,7 +5319,7 @@
         "STREAMELEMENTS-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5341,7 +5343,7 @@
         "STREAMELEMENTS-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5366,7 +5368,7 @@
         "STREAMELEMENTSTEST-004"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5391,8 +5393,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-090.md",
       "summary": "Capture actual completed-tip/moderation/transaction behavior and reconnect limitations with redacted evidence.",
@@ -5420,7 +5422,7 @@
         "KOFI-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -5445,7 +5447,7 @@
         "ACCT-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before KOFI-001.",
@@ -5470,7 +5472,7 @@
         "KOFITEST-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-001.md",
       "summary": "Validate the documented provider verification mechanism before accepting a normalized receipt.",
@@ -5494,7 +5496,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before KOFI-002.",
@@ -5519,7 +5521,7 @@
         "KOFITEST-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-002.md",
       "summary": "Normalize documented tips/membership/other payments with known classifications and source privacy retained.",
@@ -5541,8 +5543,8 @@
         "KOFI-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-003.md",
       "summary": "Record actual message IDs/retry behavior, payment fields and verification mechanism.",
@@ -5565,8 +5567,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-090.md",
       "summary": "Verify retry produces one receipt/contribution and invalid verification produces none.",
@@ -5597,7 +5599,7 @@
         "TIPEEESTREAM-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-016.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -5621,8 +5623,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-001.md",
       "summary": "Record current handshake/protocol versions and reproducible socket/history payload/identity evidence.",
@@ -5645,7 +5647,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-002.md",
@@ -5670,7 +5672,7 @@
         "TIPEEESTREAMTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-002.md",
@@ -5695,7 +5697,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before TIPEEESTREAM-003.",
@@ -5720,7 +5722,7 @@
         "TIPEEESTREAMTEST-003"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-003.md",
       "summary": "Persist supported cursors and correlate live/history duplicates using established identifiers.",
@@ -5742,7 +5744,7 @@
         "TIPEEESTREAM-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5767,7 +5769,7 @@
         "TIPEEESTREAMTEST-004"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5792,8 +5794,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-090.md",
       "summary": "Record concrete protocol/client versions, event/history identifiers, payment labels and observed gaps.",
@@ -5832,8 +5834,8 @@
         "RATES-090"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-017.md",
       "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -5857,8 +5859,8 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715",
+        "§9",
+        "§15",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
@@ -5883,8 +5885,8 @@
         "RATESTEST-001"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715",
+        "§9",
+        "§15",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
@@ -5908,8 +5910,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-002.",
@@ -5933,8 +5935,8 @@
         "RATESTEST-002"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-002.md",
       "summary": "Validate current public API/base/symbol/date capabilities from official evidence and normalize exact snapshots.",
@@ -5958,8 +5960,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-003.",
@@ -5984,8 +5986,8 @@
         "RATESTEST-003"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-003.md",
       "summary": "Validate supported endpoints/update cadence/plan capabilities and keep credentials server-side.",
@@ -6009,8 +6011,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-004.",
@@ -6035,8 +6037,8 @@
         "RATESTEST-004"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-004.md",
       "summary": "Normalize rates and provider plan/update/usage metadata with exact source/fetch timestamps.",
@@ -6061,7 +6063,7 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-01",
         "FX-04",
         "FX-05"
@@ -6090,7 +6092,7 @@
         "RATESTEST-005"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-01",
         "FX-04",
         "FX-05"
@@ -6115,7 +6117,7 @@
         "RATES-005"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-02"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-006.md",
@@ -6139,7 +6141,7 @@
         "RATESTEST-006"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-02"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-006.md",
@@ -6164,7 +6166,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-06"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-007.md",
@@ -6190,7 +6192,7 @@
         "RATESTEST-007"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-06"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-007.md",
@@ -6215,7 +6217,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-03"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-008.md",
@@ -6241,7 +6243,7 @@
         "RATESTEST-008"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-03"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-008.md",
@@ -6264,8 +6266,8 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a719"
+        "§15",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-090.md",
       "summary": "Record date/plan/endpoints/frequency/quota accounting for each provider; identify unavailable metadata without invented values.",
@@ -6308,8 +6310,8 @@
         "DESKTOP-010"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710"
+        "§2",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018.md",
       "summary": "10 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -6334,7 +6336,7 @@
         "SESSION-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "UI-01",
         "API-02"
       ],
@@ -6361,7 +6363,7 @@
         "DESKTOPTEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "UI-01",
         "API-02"
       ],
@@ -6387,8 +6389,8 @@
         "CORE-007"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a710"
+        "§4",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-002.",
@@ -6413,8 +6415,8 @@
         "DESKTOPTEST-002"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a710"
+        "§4",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-002.md",
       "summary": "Animate snapshots locally while server owns transitions; expose independent reasons, debt, hard end and recovery review.",
@@ -6438,9 +6440,9 @@
         "ACCT-007"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
-        "\u00a78"
+        "§3",
+        "§5",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-003.",
@@ -6465,9 +6467,9 @@
         "DESKTOPTEST-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
-        "\u00a78"
+        "§3",
+        "§5",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-003.md",
       "summary": "Show independent evidence/valuation/review states and requested/actual effects with provenance.",
@@ -6490,7 +6492,7 @@
         "RULES-005"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-004.",
@@ -6514,7 +6516,7 @@
         "DESKTOPTEST-004"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-004.md",
       "summary": "Edit versioned nested conditions and ordered actions with previewed group/exclusion winners and capability warnings.",
@@ -6537,7 +6539,7 @@
         "MODIFIER-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-005.md",
@@ -6562,7 +6564,7 @@
         "DESKTOPTEST-005"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-005.md",
@@ -6586,7 +6588,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-006.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-006.",
@@ -6610,7 +6612,7 @@
         "DESKTOPTEST-006"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-006.md",
       "summary": "Preview edits/manual completion/reset with separate correction permissions and explicit Run/Defer/Skip/replay choices.",
@@ -6634,7 +6636,7 @@
         "SESSION-003"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-007.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-007.",
@@ -6659,7 +6661,7 @@
         "DESKTOPTEST-007"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-007.md",
       "summary": "Support invitation/login-method/session/recovery/ownership workflows under server-side permissions and fresh authentication.",
@@ -6682,7 +6684,7 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -6708,7 +6710,7 @@
         "DESKTOPTEST-008"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -6733,8 +6735,8 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-009.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-009.",
@@ -6758,8 +6760,8 @@
         "DESKTOPTEST-009"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-009.md",
       "summary": "Show source/fetch/publication ages, next sync, local versus authoritative usage, fallback and provider limits.",
@@ -6788,7 +6790,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-010.md",
@@ -6819,7 +6821,7 @@
         "DESKTOPTEST-010"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-010.md",
@@ -6857,7 +6859,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-019.md",
       "summary": "7 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -6881,7 +6883,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "API-03",
         "UI-03"
       ],
@@ -6907,7 +6909,7 @@
         "SCENETEST-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "API-03",
         "UI-03"
       ],
@@ -6932,7 +6934,7 @@
         "DESKTOP-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-03"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-002.md",
@@ -6957,7 +6959,7 @@
         "SCENETEST-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-03"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-002.md",
@@ -6980,7 +6982,7 @@
         "SCENE-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-003.md",
@@ -7004,7 +7006,7 @@
         "SCENETEST-003"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-003.md",
@@ -7027,7 +7029,7 @@
         "SCENE-003"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SCENE-004.",
@@ -7050,7 +7052,7 @@
         "SCENETEST-004"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-004.md",
       "summary": "Undo/redo geometry, grouping, styles and bindings as coherent editor operations with consistent modified-state tracking.",
@@ -7072,7 +7074,7 @@
         "SCENE-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-04",
         "MEDIA-05"
@@ -7098,7 +7100,7 @@
         "SCENETEST-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-04",
         "MEDIA-05"
@@ -7124,7 +7126,7 @@
         "SCENE-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-06"
       ],
@@ -7150,7 +7152,7 @@
         "SCENETEST-006"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-06"
       ],
@@ -7175,7 +7177,7 @@
         "RENDER-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-007.md",
@@ -7200,7 +7202,7 @@
         "SCENETEST-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-007.md",
@@ -7236,7 +7238,7 @@
         "RENDER-092"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-020.md",
       "summary": "8 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -7259,7 +7261,7 @@
         "CONTRACT-003"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-02",
         "UI-04",
         "MEDIA-02"
@@ -7286,7 +7288,7 @@
         "SCENE-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-01",
         "UI-02",
         "UI-04"
@@ -7314,7 +7316,7 @@
         "RENDERTEST-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-01",
         "UI-02",
         "UI-04"
@@ -7340,7 +7342,7 @@
         "SCENE-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-02",
         "UI-04"
       ],
@@ -7366,7 +7368,7 @@
         "RENDERTEST-003"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-02",
         "UI-04"
       ],
@@ -7392,7 +7394,7 @@
         "SCENE-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-01",
         "MEDIA-02",
         "MEDIA-03"
@@ -7420,7 +7422,7 @@
         "RENDERTEST-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-01",
         "MEDIA-02",
         "MEDIA-03"
@@ -7449,7 +7451,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "VIEW-04"
       ],
       "brief": "docs/tasks/EPIC-020/RENDER-005.md",
@@ -7477,7 +7479,7 @@
         "RENDERTEST-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "VIEW-04"
       ],
       "brief": "docs/tasks/EPIC-020/RENDER-005.md",
@@ -7501,7 +7503,7 @@
         "SPIKE-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "PLATFORM-04",
         "MEDIA-01"
       ],
@@ -7526,7 +7528,7 @@
         "SPIKE-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "PLATFORM-01",
         "WEB-02"
       ],
@@ -7551,7 +7553,7 @@
         "SPIKE-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "WEB-02"
       ],
       "brief": "docs/tasks/EPIC-020/RENDER-092.md",
@@ -7596,8 +7598,8 @@
         "WEBAPP-011"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710"
+        "§2",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-021.md",
       "summary": "11 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -7621,7 +7623,7 @@
         "API-004"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
@@ -7646,7 +7648,7 @@
         "WEBAPPTEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
@@ -7672,7 +7674,7 @@
         "ACCESS-004"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12",
         "TEST-03"
       ],
@@ -7700,7 +7702,7 @@
         "WEBAPPTEST-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12",
         "TEST-03"
       ],
@@ -7725,7 +7727,7 @@
         "CORE-007"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-003.md",
@@ -7750,7 +7752,7 @@
         "WEBAPPTEST-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-003.md",
@@ -7775,8 +7777,8 @@
         "ACCT-007"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-004.md",
@@ -7802,8 +7804,8 @@
         "WEBAPPTEST-004"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-004.md",
@@ -7827,7 +7829,7 @@
         "RULES-005"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-005.md",
@@ -7852,7 +7854,7 @@
         "WEBAPPTEST-005"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-005.md",
@@ -7876,7 +7878,7 @@
         "MODIFIER-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-006.md",
@@ -7901,7 +7903,7 @@
         "WEBAPPTEST-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-006.md",
@@ -7925,7 +7927,7 @@
         "ACCESS-006"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-007.md",
@@ -7950,7 +7952,7 @@
         "WEBAPPTEST-007"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-007.md",
@@ -7974,7 +7976,7 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -8000,7 +8002,7 @@
         "WEBAPPTEST-008"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -8025,7 +8027,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-009.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before WEBAPP-009.",
@@ -8049,7 +8051,7 @@
         "WEBAPPTEST-009"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-009.md",
       "summary": "Preview target/manual completion/reset with separate permissions and Run/Defer/Skip/replay decisions.",
@@ -8072,8 +8074,8 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-010.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before WEBAPP-010.",
@@ -8097,8 +8099,8 @@
         "WEBAPPTEST-010"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-010.md",
       "summary": "Show fetch/publication ages, source/fallback/next sync and authoritative versus local usage estimates.",
@@ -8127,7 +8129,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-011.md",
@@ -8158,7 +8160,7 @@
         "WEBAPPTEST-011"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-011.md",
@@ -8195,7 +8197,7 @@
         "VIEWER-007"
       ],
       "spec_refs": [
-        "\u00a713"
+        "§13"
       ],
       "brief": "docs/tasks/EPIC-022.md",
       "summary": "7 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8220,7 +8222,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-02",
         "VIEW-04"
       ],
@@ -8247,7 +8249,7 @@
         "VIEWERTEST-001"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-02",
         "VIEW-04"
       ],
@@ -8272,7 +8274,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-002.md",
@@ -8297,7 +8299,7 @@
         "VIEWERTEST-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-002.md",
@@ -8322,7 +8324,7 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-01",
         "STATS-02"
       ],
@@ -8349,7 +8351,7 @@
         "VIEWERTEST-003"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-01",
         "STATS-02"
       ],
@@ -8373,7 +8375,7 @@
         "VIEWER-003"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-03",
         "DATA-01"
       ],
@@ -8398,7 +8400,7 @@
         "VIEWERTEST-004"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-03",
         "DATA-01"
       ],
@@ -8424,7 +8426,7 @@
         "MILESTONE-001"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-01",
         "WEB-01"
       ],
@@ -8451,7 +8453,7 @@
         "VIEWERTEST-005"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-01",
         "WEB-01"
       ],
@@ -8476,7 +8478,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-006.md",
@@ -8501,7 +8503,7 @@
         "VIEWERTEST-006"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-006.md",
@@ -8525,7 +8527,7 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-007.md",
@@ -8550,7 +8552,7 @@
         "VIEWERTEST-007"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-007.md",
@@ -8582,7 +8584,7 @@
         "LOCALE-090"
       ],
       "spec_refs": [
-        "\u00a712"
+        "§12"
       ],
       "brief": "docs/tasks/EPIC-023.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8605,7 +8607,7 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-04"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
@@ -8629,7 +8631,7 @@
         "LOCALETEST-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-04"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
@@ -8653,7 +8655,7 @@
         "DESKTOP-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -8679,7 +8681,7 @@
         "LOCALETEST-002"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -8705,7 +8707,7 @@
         "VIEWER-005"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -8732,7 +8734,7 @@
         "LOCALETEST-003"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -8757,7 +8759,7 @@
         "WEBAPP-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-02"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-004.md",
@@ -8782,7 +8784,7 @@
         "LOCALETEST-004"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-02"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-004.md",
@@ -8810,7 +8812,7 @@
         "WEBAPP-011"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-02"
       ],
@@ -8849,7 +8851,7 @@
         "DEPLOYMENT-092"
       ],
       "spec_refs": [
-        "\u00a716"
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-024.md",
       "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8874,7 +8876,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-03",
         "DEP-04",
         "DEP-01"
@@ -8902,7 +8904,7 @@
         "DEPLOYMENTTEST-001"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-03",
         "DEP-04",
         "DEP-01"
@@ -8927,7 +8929,7 @@
         "API-003"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-02",
         "DEP-05"
       ],
@@ -8952,7 +8954,7 @@
         "DEPLOYMENTTEST-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-02",
         "DEP-05"
       ],
@@ -8978,7 +8980,7 @@
         "STORAGE-008"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-06"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-003.md",
@@ -9004,7 +9006,7 @@
         "DEPLOYMENTTEST-003"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-06"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-003.md",
@@ -9029,7 +9031,7 @@
         "STORAGE-008"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-004.md",
@@ -9055,7 +9057,7 @@
         "DEPLOYMENTTEST-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-004.md",
@@ -9078,7 +9080,7 @@
         "DEPLOYMENT-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-005.md",
@@ -9102,7 +9104,7 @@
         "DEPLOYMENTTEST-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-005.md",
@@ -9127,7 +9129,7 @@
         "DEPLOYMENT-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-01",
         "DEP-04"
       ],
@@ -9154,7 +9156,7 @@
         "DEPLOYMENTTEST-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-01",
         "DEP-04"
       ],
@@ -9178,8 +9180,8 @@
         "DEPLOYMENT-003"
       ],
       "spec_refs": [
-        "\u00a716",
-        "\u00a719"
+        "§16",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-090.md",
       "summary": "Exercise proxy/webhooks/WebSockets, stop/restart, backup/restore, failed upgrades and persistent certificate/data state.",
@@ -9202,8 +9204,8 @@
         "DEPLOYMENT-005"
       ],
       "spec_refs": [
-        "\u00a716",
-        "\u00a719"
+        "§16",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-091.md",
       "summary": "Exercise boot/startup persistence, volume permissions, HTTPS/WebSockets, upgrade and backup/restore for each variant.",
@@ -9225,7 +9227,7 @@
         "DEPLOYMENT-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PLATFORM-05"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-092.md",
@@ -9258,7 +9260,7 @@
         "PACKAGE-006"
       ],
       "spec_refs": [
-        "\u00a716"
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-025.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -9281,7 +9283,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "BUILD-01",
         "BUILD-02",
         "BUILD-03",
@@ -9309,7 +9311,7 @@
         "PACKAGETEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "BUILD-01",
         "BUILD-02",
         "BUILD-03",
@@ -9340,7 +9342,7 @@
         "SESSION-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-03"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-002.md",
@@ -9368,7 +9370,7 @@
         "PACKAGETEST-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-03"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-002.md",
@@ -9395,7 +9397,7 @@
         "SESSION-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-003.md",
@@ -9423,7 +9425,7 @@
         "PACKAGETEST-003"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-003.md",
@@ -9450,7 +9452,7 @@
         "SESSION-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02",
         "PLATFORM-02"
       ],
@@ -9479,7 +9481,7 @@
         "PACKAGETEST-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02",
         "PLATFORM-02"
       ],
@@ -9504,7 +9506,7 @@
         "RENDER-091"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-03",
         "AUTH-13"
       ],
@@ -9530,7 +9532,7 @@
         "RENDER-090"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PLATFORM-04",
         "PLATFORM-05",
         "AUTH-14",
@@ -9564,7 +9566,7 @@
         "VALIDATE-006"
       ],
       "spec_refs": [
-        "\u00a719"
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-026.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -9587,7 +9589,7 @@
         "CONTRACT-003"
       ],
       "spec_refs": [
-        "\u00a719",
+        "§19",
         "DEV-04",
         "TEST-05",
         "TEST-01",
@@ -9624,7 +9626,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a719",
+        "§19",
         "TEST-05"
       ],
       "brief": "docs/tasks/EPIC-026/VALIDATE-002.md",
@@ -9653,8 +9655,8 @@
         "WEBAPP-011"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a719",
+        "§2",
+        "§19",
         "WEB-02",
         "API-02"
       ],
@@ -9681,7 +9683,7 @@
         "DEPLOYMENT-090"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PERF-01"
       ],
       "brief": "docs/tasks/EPIC-026/VALIDATE-004.md",
@@ -9706,8 +9708,8 @@
         "RENDER-092"
       ],
       "spec_refs": [
-        "\u00a711",
-        "\u00a719",
+        "§11",
+        "§19",
         "MEDIA-02"
       ],
       "brief": "docs/tasks/EPIC-026/VALIDATE-005.md",
@@ -9739,7 +9741,7 @@
         "DEPLOYMENT-092"
       ],
       "spec_refs": [
-        "\u00a719",
+        "§19",
         "PLATFORM-01",
         "PLATFORM-04",
         "PLATFORM-05"
@@ -9770,9 +9772,9 @@
         "RELEASE-004"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
-        "\u00a719"
+        "§1",
+        "§16",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-027.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -9795,8 +9797,8 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
+        "§1",
+        "§16",
         "LICENSE-01",
         "MEDIA-06"
       ],
@@ -9821,8 +9823,8 @@
         "RELEASETEST-001"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
+        "§1",
+        "§16",
         "LICENSE-01",
         "MEDIA-06"
       ],
@@ -9848,7 +9850,7 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-03"
       ],
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
@@ -9874,7 +9876,7 @@
         "RELEASETEST-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-03"
       ],
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
@@ -9903,7 +9905,7 @@
         "STORAGE-009"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEV-02"
       ],
       "brief": "docs/tasks/EPIC-027/RELEASE-003.md",
@@ -9955,9 +9957,9 @@
         "EPIC-026"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
-        "\u00a719",
+        "§1",
+        "§16",
+        "§19",
         "LICENSE-01",
         "REPO-01"
       ],
@@ -9981,7 +9983,7 @@
         "BOOT-004"
       ],
       "spec_refs": [
-        "\u00a717",
+        "§17",
         "DEV-02",
         "TEST-04",
         "TEST-05"
@@ -10300,6 +10302,11 @@
       "date": "2026-10-30T22:17:13.490900+00:00",
       "task": "BOOT-008",
       "note": "PR #9 automatic pull_request acceptance run 41137002005 passed for 21e865a: runner built GoogleTest and executed 23/23 credit cases; both scaffold checks passed. CI policy/configuration task complete, product baselines unchanged. Recheck completion-record revision CI before merge; required-status-check configuration remains an explicit repository-settings gap."
+    },
+    {
+      "date": "2026-10-30T22:26:39+00:00",
+      "task": "CONTRACT-002",
+      "note": "Claimed from main 2bc4e64 on task/CONTRACT-002-domain-boundaries. Specification v0.45 §§2–4 plus linked accounting/recovery decisions; time-credit revision1 preserved. Documentation-only foundation contract: separate receipt, contribution, plan, actual effect, delivery job, clock and writer ownership with versioned examples/errors. Author owns docs/contracts/event-state-boundaries-v1.md, docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md. Coordinator owns progress, HTML and shared architecture/handoff. No schema, code or production capability claim; separate review required."
     }
   ]
 }
