@@ -85,6 +85,12 @@ new stable suites must enter CI under the evolving-CI policy. Coordinator must s
 check integrated progress/HTML, current-main compatibility and latest PR CI/reviews/
 merge gates. This review does not replace a required GitHub approval if rules change.
 
+Also inspected the coordinator's integration navigation change in docs/ARCHITECTURE.md
+(blob `101323f`; observed in `/tmp/subathon-contract002` before its integration commit).
+It accurately links revision1, distinguishes internal invariants from unfinished
+C++/SQL/wire layouts, and preserves per-slice reviewed-test/red requirements. This
+paragraph is approved for integration; the approval does not cover unseen later edits.
+
 No production clock/persistence/adapter, Qt server bridge, platform/renderer/UI,
 packaging, OBS or live service was verified here. No credentials or supporter data
 were used. Concrete baseline/implementation and live/platform gates remain open.
