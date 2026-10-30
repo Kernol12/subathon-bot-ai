@@ -1,0 +1,33 @@
+# SPIKE-001 disposable queue experiment
+
+This standalone probe is not linked into the server or core. Its transport is four
+synthetic C++ threads, not Drogon. No sockets, credentials or production data are used.
+The authoritative queue and SQLite writer share the QCoreApplication thread.
+
+Bounded experiment criteria (specification v0.45 §2/18, SERVER-01, DB-01):
+
+- Discover real Drogon separately; missing discovery does not validate its lifecycle.
+- Admit 64 distinct synthetic commands concurrently from four non-writer threads.
+- Execute every admitted command only in the owning Qt thread and create, use and
+  close the one Qt SQL connection in that same thread.
+- Confirm the disposable file database actually uses WAL and synchronous=FULL.
+- Close admission, reject a late command, drain admitted commands, verify all 64
+  distinct rows and their sum, and join producers before destroying queue/database.
+- Preserve a failing exit if a command, owner check, SQL operation or drain fails.
+
+Reproduce from the repository root:
+
+```sh
+cmake -S experiments/spike-001 -B build/spike-001-dependency -G Ninja -DSPIKE_REQUIRE_DROGON=ON
+# Only when real Drogon is unavailable: the following validates the synthetic subset.
+cmake -S experiments/spike-001 -B build/spike-001 -G Ninja
+cmake --build build/spike-001
+ctest --test-dir build/spike-001 --output-on-failure -V
+```
+
+The first command is a dependency check, not an intended failing acceptance test.
+A green synthetic run does not validate HTTP/WebSocket callbacks, Drogon run/quit,
+startup failure, connection cancellation, response-loop affinity, signal handling,
+backpressure, reader isolation, crash recovery, backup, or release performance.
+Real bridge testing remains necessary before SPIKE-001 is complete. Review this
+spike independently or discard it before reusing any of its code in production.
