@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T16:22:01.579382+00:00",
+  "updated_at": "2026-10-30T16:23:35.963982+00:00",
   "summary": "All 27 release epics now have bounded child work and explicit test-first/review/verification gates. No production features are implemented; the initial draft core baseline and live/platform gates remain open.",
   "verification": [
     {
@@ -233,7 +233,7 @@
       "title": "Review and expand the draft credit tests",
       "module": "Core",
       "kind": "test_draft",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Test author /root/test_author",
       "depends_on": [
         "CONTRACT-001"
@@ -246,10 +246,16 @@
       "brief": "docs/tasks/TEST-001.md",
       "summary": "Test-author task: independently derive expected values and extend meaningful boundary cases.",
       "notes": [
-        "Claimed task/TEST-001-credit-tests from origin/main 9982001 plus prerequisite contract ed96a88. Scope: preserve six assertions and add independently derived revision-1 boundaries/errors. Coordinator owns shared progress/build files."
+        "Claimed task/TEST-001-credit-tests from origin/main 9982001 plus prerequisite contract ed96a88. Scope: preserve six assertions and add independently derived revision-1 boundaries/errors. Coordinator owns shared progress/build files.",
+        "Authored-only completion per TEST-001 brief: commit 24ea9ba (integrated 6a345f8), 19 cases with original assertions preserved and literal oracle mapping. GoogleTest compile/discovery succeeded; independent review and observed red remain separate gates."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "authoring": "passed",
+        "acceptance": "draft"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-tests.md"
+      ],
       "review": null
     },
     {
@@ -257,8 +263,8 @@
       "title": "Independently review the acceptance baseline",
       "module": "Core",
       "kind": "test_review",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Independent reviewer /root/reviewer",
       "depends_on": [
         "TEST-001"
       ],
@@ -268,7 +274,9 @@
       ],
       "brief": "docs/tasks/REVIEW-001.md",
       "summary": "A separate reviewer checks contracts, oracles, failure cases and baseline integrity.",
-      "notes": [],
+      "notes": [
+        "Claimed task/REVIEW-001-credit-review based on main 9982001 plus prerequisite contract/tests. Review exact authored 24ea9ba (review worktree ef92876), contract revision 1; author /root/test_author, reviewer /root/reviewer. Coordinator alone owns shared progress/build files."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -9977,6 +9985,16 @@
       "date": "2026-10-30T16:22:01.579382+00:00",
       "task": "TEST-001",
       "note": "Claimed task/TEST-001-credit-tests from origin/main 9982001 plus prerequisite contract ed96a88. Scope: preserve six assertions and add independently derived revision-1 boundaries/errors. Coordinator owns shared progress/build files."
+    },
+    {
+      "date": "2026-10-30T16:23:35.963982+00:00",
+      "task": "TEST-001",
+      "note": "Authored-only completion per TEST-001 brief: commit 24ea9ba (integrated 6a345f8), 19 cases with original assertions preserved and literal oracle mapping. GoogleTest compile/discovery succeeded; independent review and observed red remain separate gates."
+    },
+    {
+      "date": "2026-10-30T16:23:35.963982+00:00",
+      "task": "REVIEW-001",
+      "note": "Claimed task/REVIEW-001-credit-review based on main 9982001 plus prerequisite contract/tests. Review exact authored 24ea9ba (review worktree ef92876), contract revision 1; author /root/test_author, reviewer /root/reviewer. Coordinator alone owns shared progress/build files."
     }
   ]
 }
