@@ -27,6 +27,10 @@ references and a brief. Split large feature tasks before assigning them. Include
 failure cases and applicable test suites. Status values are ready/planned/in_progress/
 in_review/blocked/done; test and platform evidence are separate fields.
 
+Use the [epic/child-task index](tasks/README.md) to select a bounded assignment.
+Production slices have separate baseline records that require contract/examples,
+test authoring, independent review and observed red before implementation can start.
+
 ## Branches and pull requests
 
 Before editing, fetch the current `main` and create one dedicated branch per executable

@@ -12,6 +12,10 @@ The full product baseline is [specification v0.45](docs/specification.md).
 4. Give your CLion agent [FIRST_AGENT_PROMPT.md](FIRST_AGENT_PROMPT.md).
 5. Read [AGENTS.md](AGENTS.md), [workflow](docs/AGENT_WORKFLOW.md), and the initial task briefs.
 
+The [epic and child-task index](docs/tasks/README.md) lists the bounded release backlog
+and separate test-first gates. Start with the existing initial core baseline; planned
+child records do not mean tests or product behavior have been completed.
+
 The scaffold preset needs CMake >=3.25, Ninja, a C++20 compiler and Python >=3.10.
 It does not need Qt or GoogleTest. Product code will require the agreed Qt >=6.12.
 The separate acceptance preset requires GoogleTest >=1.17, with optional pinned
