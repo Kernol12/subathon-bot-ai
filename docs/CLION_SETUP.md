@@ -79,3 +79,14 @@ check filters, expanded notes and Light/Dark. The preparation environment checke
 controller in a DOM simulation, not a real browser. If CMake is temporarily unavailable,
 `python3 tools/verify_scaffold.py` performs a limited direct GCC/Clang smoke check; this
 does not replace BOOT-002 or a real GoogleTest acceptance run.
+
+
+## Optional Drogon/Qt feasibility experiment
+
+SPIKE-001 uses an explicit [local dependency setup](../tools/setup_drogon.py) and
+standalone experiment CMake, separate from the root scaffold and product acceptance.
+Follow [the reproduction commands](../experiments/spike-001/README.md).
+No system package installation or automatic configure-time download is required on
+the validated host. Use a personal CMake user preset or CMAKE_PREFIX_PATH for a local
+prefix; the normal project profiles remain unchanged. Passing the bounded Linux
+loopback cases does not validate the production server or Windows/Ubuntu deployment.

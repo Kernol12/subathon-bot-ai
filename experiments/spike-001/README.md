@@ -1,4 +1,6 @@
-# SPIKE-001 disposable queue experiment
+# SPIKE-001 disposable framework experiments
+
+## Synthetic queue subset
 
 This standalone probe is not linked into the server or core. Its transport is four
 synthetic C++ threads, not Drogon. No sockets, credentials or production data are used.
@@ -29,7 +31,8 @@ The first command is a dependency check, not an intended failing acceptance test
 A green synthetic run does not validate HTTP/WebSocket callbacks, Drogon run/quit,
 startup failure, connection cancellation, response-loop affinity, signal handling,
 backpressure, reader isolation, crash recovery, backup, or release performance.
-Real bridge testing remains necessary before SPIKE-001 is complete. Review this
+The real bridge suite below supplies separate evidence; this synthetic subset alone
+does not complete SPIKE-001. Review this
 spike independently or discard it before reusing any of its code in production.
 
 

@@ -1,4 +1,10 @@
-# SPIKE-001 — Qt queue/writer feasibility and real transport gap
+# SPIKE-001 — initial Qt queue/writer feasibility and real transport gap
+
+This is the **historical partial result** at initial commit `c7e0f3e`. Its missing-
+Drogon and unperformed-real-framework statements describe that initial experiment.
+The subsequent pinned local build, reviewed real HTTP/WebSocket tests, actual results
+and remaining limitations are recorded in [current validation](spike-001-bridge-validation.md).
+The original evidence is retained below without relabeling its commands as real-network tests.
 
 Date: 2026-10-30. Investigator: `/root/feasibility` (separate subagent).
 Branch: `task/SPIKE-001-qt-drogon`, based on current `origin/main`

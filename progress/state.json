@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T16:56:46.108532+00:00",
-  "summary": "Initial credit contract revision 1 and 19 specification-linked tests are independently reviewed with actual intended FeatureNotImplemented failures. No production behavior implemented. Qt/SQLite feasibility is partial; real Drogon and all live/platform release gates remain open.",
+  "updated_at": "2026-10-30T20:07:28.001806+00:00",
+  "summary": "Reviewed credit baseline remains intentionally red and unimplemented. SPIKE-001 validated a pinned local Drogon/Trantor build and six bounded real Linux loopback Qt/SQLite cases, with separate test/code review. Persistent WebSocket findings and all production/live/platform gates remain explicit.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -36,6 +36,11 @@
       "label": "Windows / Wayland / OBS",
       "status": "not_run",
       "detail": "Requires the actual reference platforms and capture environment."
+    },
+    {
+      "label": "Drogon / Qt feasibility",
+      "status": "partial",
+      "detail": "Pinned local libraries and six reviewed real Linux loopback experiments pass; independent rebuild/replay passes. Production bridge, persistent WebSocket sessions, deployment/TLS and platform support remain unverified."
     }
   ],
   "tasks": [
@@ -432,8 +437,8 @@
       "title": "Validate Drogon and Qt lifecycle/thread bridge",
       "module": "Server/API",
       "kind": "feasibility",
-      "status": "in_progress",
-      "owner": "Coordinator /root with separate dependency, test and review agents",
+      "status": "done",
+      "owner": "Coordinator /root with separate dependency/test/review agents",
       "depends_on": [
         "BOOT-001"
       ],
@@ -442,21 +447,38 @@
         "DB-01"
       ],
       "brief": "docs/tasks/SPIKE-001.md",
-      "summary": "Prototype startup, request-to-Qt queue, one writer and safe shutdown before broad server work.",
+      "summary": "Validated pinned local Drogon/Trantor and six real loopback Qt/SQLite lifecycle cases; production/persistent-WebSocket findings handed to API baselines.",
       "notes": [
         "Claimed on task/SPIKE-001-qt-drogon, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Investigate isolated Drogon/Qt queue/writer/shutdown feasibility; no production feature claims. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files.",
         "Separate investigator commit c7e0f3e published in draft PR #4 https://github.com/Kernol12/subathon-bot-ai/pull/4. Synthetic Qt/SQLite queue/writer/drain experiment 1/1 passed. Real Drogon config absent; actual framework lifecycle/requests/callbacks/shutdown remain unverified. Blocked/partial, not complete. Probe artifacts/evidence stay in separate PR; coordinator owns this central record.",
-        "Resumed on task/SPIKE-001-qt-drogon after merging current main 935e0d6 into existing PR #4. Scope: pinned local Drogon/Trantor setup, explicit setup script, real loopback HTTP/WebSocket -> Qt/SQLite startup/queue/drain/shutdown experiments; no production implementation. Coordinator owns progress/HTML, dependency decisions and experiment CMake; isolated agents own test source, independent review and dependency investigation. Specification v0.45 SERVER-01/DB-01; numeric credit baseline remains unchanged."
+        "Resumed on task/SPIKE-001-qt-drogon after merging current main 935e0d6 into existing PR #4. Scope: pinned local Drogon/Trantor setup, explicit setup script, real loopback HTTP/WebSocket -> Qt/SQLite startup/queue/drain/shutdown experiments; no production implementation. Coordinator owns progress/HTML, dependency decisions and experiment CMake; isolated agents own test source, independent review and dependency investigation. Specification v0.45 SERVER-01/DB-01; numeric credit baseline remains unchanged.",
+        "Pinned Drogon 1.9.14/Trantor 1.5.29 built locally with existing packages and separately reviewed. Authored six-case baseline approved before five intended stub failures + one startup pass; unchanged tests now 6/6 pass. CTest 2/2 (synthetic +real suite), independently rebuilt/rerun by /root/bridge_reviewer. Exact implementation a54fef1 received review 674bbb2. Feasibility scope satisfied; no production implementation. One-command server-close WebSocket probe limitation carried into planned APITEST-001/API-001 and APITEST-003/API-003; no persistent-client/platform claim. PR #4 final CI/merge gates still apply."
       ],
       "verification": {
+        "local_dependency": "passed",
+        "test_baseline": "observed_red",
         "synthetic_queue_writer": "passed",
-        "real_drogon": "not_run",
-        "feasibility": "partial"
+        "real_drogon": "passed",
+        "code_review": "passed",
+        "production_bridge": "not_run",
+        "persistent_websocket": "not_run"
       },
       "evidence": [
-        "docs/evidence/time-credit-baseline-handoff.md"
+        "docs/evidence/spike-001-feasibility.md",
+        "docs/evidence/spike-001-dependencies.md",
+        "docs/evidence/spike-001-dependency-review.md",
+        "docs/evidence/spike-001-bridge-tests.md",
+        "docs/evidence/spike-001-bridge-review.md",
+        "docs/evidence/spike-001-bridge-validation.md",
+        "docs/evidence/spike-001-bridge-code-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/bridge_reviewer",
+        "outcome": "approved",
+        "scope": "bounded Linux loopback experiment; no production reuse approval",
+        "evidence": "docs/evidence/spike-001-bridge-code-review.md"
+      }
     },
     {
       "id": "SPIKE-002",
@@ -3233,7 +3255,8 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-001.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
       ],
       "verification": {},
       "evidence": [],
@@ -3259,7 +3282,8 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
       ],
       "verification": {},
       "evidence": [],
@@ -3337,7 +3361,8 @@
       "brief": "docs/tasks/EPIC-008/API-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-003.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
       ],
       "verification": {},
       "evidence": [],
@@ -3361,7 +3386,8 @@
       "brief": "docs/tasks/EPIC-008/API-003.md",
       "summary": "Reconnect clients to an authoritative snapshot and ordered updates without allowing clients to write authoritative state.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
       ],
       "verification": {},
       "evidence": [],
@@ -10086,6 +10112,31 @@
       "date": "2026-10-30T16:56:46.108532+00:00",
       "task": "SPIKE-001",
       "note": "Resumed on task/SPIKE-001-qt-drogon after merging current main 935e0d6 into existing PR #4. Scope: pinned local Drogon/Trantor setup, explicit setup script, real loopback HTTP/WebSocket -> Qt/SQLite startup/queue/drain/shutdown experiments; no production implementation. Coordinator owns progress/HTML, dependency decisions and experiment CMake; isolated agents own test source, independent review and dependency investigation. Specification v0.45 SERVER-01/DB-01; numeric credit baseline remains unchanged."
+    },
+    {
+      "date": "2026-10-30T20:07:28.001806+00:00",
+      "task": "SPIKE-001",
+      "note": "Pinned Drogon 1.9.14/Trantor 1.5.29 built locally with existing packages and separately reviewed. Authored six-case baseline approved before actual 5 intended stub failures +1 startup pass; unchanged tests now6/6 pass. CTest2/2 (synthetic +real suite), independently rebuilt/rerun by /root/bridge_reviewer. Exact implementation a54fef1 received review674bbb2. Feasibility scope satisfied; no production implementation. One-command server-close WebSocket probe limitation carried into planned APITEST-001/API-001 and APITEST-003/API-003; no persistent-client/platform claim. PR #4 final CI/merge gates still apply."
+    },
+    {
+      "date": "2026-10-30T20:07:28.001806+00:00",
+      "task": "APITEST-001",
+      "note": "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+    },
+    {
+      "date": "2026-10-30T20:07:28.001806+00:00",
+      "task": "API-001",
+      "note": "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+    },
+    {
+      "date": "2026-10-30T20:07:28.001806+00:00",
+      "task": "APITEST-003",
+      "note": "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+    },
+    {
+      "date": "2026-10-30T20:07:28.001806+00:00",
+      "task": "API-003",
+      "note": "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
     }
   ]
 }

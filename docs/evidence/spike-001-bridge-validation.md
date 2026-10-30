@@ -1,7 +1,7 @@
 # SPIKE-001 — real Drogon/Qt bridge validation
 
 Coordinator/experiment author: `/root`. Test author: `/root/bridge_test_author`.
-Independent test/code reviewer: `/root/bridge_reviewer` (code review remains pending).
+Independent test/code reviewer: `/root/bridge_reviewer` (separate approved reviews).
 Specification v0.45 SERVER-01, DB-01, §17/18; bounded experiment contract revision 1.
 Work is isolated on `task/SPIKE-001-qt-drogon` (existing PR #4), updated from current
 main `935e0d6`. Shared progress/HTML and experiment CMake belong to the coordinator.
@@ -106,3 +106,60 @@ The full result is [spike-001-bridge-green.txt](spike-001-bridge-green.txt). Tes
 independently inspect actual persisted SQLite IDs/count/literal sums, including empty
 rows while held, rather than trusting only ownership/completion instrumentation.
 Final CTest, integration checks and separate code review are recorded next.
+
+
+## Independent code review and integrated checks
+
+[Separate code review](spike-001-bridge-code-review.md) at `674bbb2` approved
+implementation `a54fef1`, bridge blob `4fbfd28247fc37b0065c859b60e4764337bc7edd`,
+clarified contract 1.1 blob `96b0eb64123f6f53801f06321fa3a28541a2088c`, and
+unchanged test blob `4d4c89388254f25a90b2b3b481b62afc7a6d76c5`.
+The reviewer independently configured and built in a separate worktree, then actually
+ran CTest: exit 0, 2/2 including all six real cases. This approves only the bounded
+feasibility experiment and explicitly excludes production reuse/persistent WS claims.
+The separate [dependency review](spike-001-dependency-review.md) also replayed the
+installed consumer without LD_LIBRARY_PATH and checked local library resolution.
+
+Coordinator commands after integrating the real experiment:
+
+| Command | Actual result |
+| --- | --- |
+| `cmake --build build/spike-001-real` | Exit 0; standalone experiment configured/built |
+| `ctest --test-dir build/spike-001-real --output-on-failure -V` | Exit 0; 2/2 (synthetic + six real HTTP/WebSocket cases) |
+| `cmake --preset scaffold-debug` | Exit 0 |
+| `cmake --build --preset scaffold-debug` | Exit 0 |
+| `ctest --preset scaffold-debug` | Exit 0; 3/3 infrastructure checks |
+| `python3 tools/check_project.py` | Exit 0; 375 records, 122 decisions, links/presets/current HTML |
+| `python3 -m unittest discover -s tests/tooling -v` | Exit 0; 18/18 |
+| `python3 tools/progress.py render --check` | Exit 0; generated snapshot current |
+| `git diff --check` | Exit 0 |
+
+The root product CMake/presets, core implementation and 19-case reviewed numeric
+acceptance source have no diff against current main `935e0d6`. The numeric suite
+was not rerun here; its previously recorded intentional red remains authoritative.
+No service credentials, live provider/network endpoints or supporter state were used.
+Only ephemeral 127.0.0.1 sockets and disposable databases were exercised. Ordinary
+project configure never downloads or launches this standalone opt-in experiment.
+
+## Durable handoff and remaining work
+
+The bounded SPIKE-001 feasibility slice is complete; the framework is an executable
+candidate with known limits, not a production-support declaration. The observed
+persistent-client Close issue and additional production lifecycle cases are recorded
+in the APITEST-001/API-001 and APITEST-003/API-003 briefs and progress notes. Those
+planned reviewed/red baselines must resolve the issue with an appropriate reviewed
+version/patch/adapter before product WebSocket support is claimed; per-command close
+must not become management/viewer behavior. Production source must not silently copy
+this disposable spike.
+
+Other remaining gates: uncooperative/idle clients, partial frames/requests, startup-
+time signals, backpressure/limits, crash recovery, Caddy/TLS/remote security,
+Ubuntu/Windows and packaging, performance, all live integrations and rate providers.
+They remain release scope; no unperformed operation is labeled verified.
+
+Changed paths: tools/setup_drogon.py; experiments/spike-001 standalone CMake, bridge,
+contract, external tests and README; dependency/test/code review and red/final evidence;
+setup/architecture and task handoffs; centrally maintained progress JSON/HTML. Pin and
+setup choices are scoped to this experiment. Local paths stay out of shared presets.
+[PR #4](https://github.com/Kernol12/subathon-bot-ai/pull/4) carries publication and
+latest-revision CI/merge status; merge still requires the final applicable gates.
