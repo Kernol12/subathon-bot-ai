@@ -74,6 +74,16 @@ record/clock/writer contract; no requirement conflict found. Coordinator scaffol
 Python19/19, project/current HTML, DOM and diff checks pass. No production/test/schema
 changes. No red run is required or claimed for this documentation-only task.
 
+Read-only dependency investigation by `/root/domain_contract` verified the
+[official Noble package metadata](https://archive.ubuntu.com/ubuntu/dists/noble/main/binary-amd64/Packages.xz)
+and inspected the exact `libboost1.83-dev=1.83.0-2.1ubuntu3` amd64 archive in memory.
+Archive SHA256 `747b364a7d578babed9efa4c40446be4ba3470ac5b2c9951b0e3bde3d7bb47d6`;
+it contains Multiprecision and upstream Boost CMake/header configs. Nothing installed.
+Proposed CORE-001 CI: explicitly install that package, discover `Boost::headers`
+with `find_package(Boost 1.83 CONFIG REQUIRED)`, then observe actual workflow tests.
+Local development headers are 1.92.0. The 1.83 build is still unverified; there is no
+claim of preinstalled runner Boost, release compatibility or Windows support.
+
 Next: review actual CORETEST-001 contract/tests, resolve findings, compile and
 observe intended stub-red only after approval. Record exact blobs/red evidence and
 keep intentional red outside the passing credit CI lane. Publish its focused baseline
