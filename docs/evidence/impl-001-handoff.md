@@ -108,9 +108,17 @@ contract status prose, acceptance-map scenario evidence, CMake/preset/workflow n
 progress/state.json and generated PROGRESS.html. The manual acceptance workflow now
 executes both acceptance and regression labels without hiding failures.
 
-Publication/CI/merge result: pending. IMPL-001 local acceptance and separate code
-review gates are satisfied; progress JSON/HTML records the numeric task only.
-Final publication still requires latest-revision CI and repository merge gates.
+Published [PR #7](https://github.com/Kernol12/subathon-bot-ai/pull/7) targeting main.
+The implementation and independent-review branches were also pushed to retain
+original author/review identities. Independent final integration review `352f1c5`
+approved exact coordinator revision `b046e9e`, including status docs, contract status
+prose, acceptance map, workflow and completion records. The reviewer independently
+replayed project/render/DOM checks and Python 19/19 on a clean integrated checkout.
+
+IMPL-001 local acceptance and separate review gates are satisfied; progress JSON/HTML
+records the numeric task only. Latest-revision GitHub CI and repository merge gates
+are checked on PR #7 before merge; its checks and merge status are the publication
+record. The initial draft remains open while those publication checks finish.
 
 The first final-record tooling rerun after marking IMPL-001 done exited 1:
 `test_completed_implementation_requires_passing_acceptance` mutated live IMPL-001

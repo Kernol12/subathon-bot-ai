@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T21:01:54+00:00",
+  "updated_at": "2026-10-30T21:03:09+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -369,7 +369,8 @@
         "Independent reviewer /root/credit_reviewer approved exact author implementation 29325b5 (source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145) in 46de20f after independent clean build and 19/19 acceptance, 4/4 regression, 26/26 full-preset replay. Coordinator integrated and passed the same checks, scaffold 3/3, Python 18/18, project/progress/DOM checks; original acceptance/header/fixture unchanged. Numeric task gates satisfied; refunds, persistence, UI, lifecycle/debt and all external/platform verification remain separate. Publication/latest-revision CI and merge gates pending.",
         "Final tooling rerun after recording completion exposed pre-existing live-fixture coupling: test_completed_implementation_requires_passing_acceptance inherits newly passing IMPL-001 acceptance, so expected ValueError is absent (Python exit1, 17/18 pass). Numeric 19+4 tests remain passing. Separate author/reviewer assigned synthetic fixture correction under TEST-04/05; no validator or product assertion weakening. Completion restored only after reviewed correction and integrated rerun.",
         "Separate fixture correction 3864b15 approved by independent reviewer in 1453195: synthetic missing/failed acceptance rejection retained, valid passed+review case added, validator and product baselines unchanged. Reviewer replay Python19/19, completed-state injection2/2, CTest26/26 passed. Code review remains approved at exact source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145. Restoring honest numeric-task completion and rerunning final integrated tooling checks; publication CI/merge gates remain.",
-        "Final integrated rerun after reviewed fixture correction and done-state record: Python19/19, full acceptance preset26/26, scaffold3/3, project consistency, current HTML, DOM simulation and diff checks all exit0. Reviewed original acceptance/header/fixture and production validator unchanged. Publication/latest-revision CI and repository merge gates pending."
+        "Final integrated rerun after reviewed fixture correction and done-state record: Python19/19, full acceptance preset26/26, scaffold3/3, project consistency, current HTML, DOM simulation and diff checks all exit0. Reviewed original acceptance/header/fixture and production validator unchanged. Publication/latest-revision CI and repository merge gates pending.",
+        "Published PR #7 https://github.com/Kernol12/subathon-bot-ai/pull/7 with original author/reviewer branches. Separate final integration review 352f1c5 approved exact b046e9e including status prose, map/workflow and done-state evidence; independent project/render/DOM/Python19 checks pass. No changes to approved implementation/baseline. Recheck latest-revision CI, review discussions and repository merge gates on PR before merge; publication status is recorded there."
       ],
       "verification": {
         "test_review": "passed",
@@ -10200,6 +10201,11 @@
       "date": "2026-10-30",
       "task": "IMPL-001",
       "note": "Final integrated rerun after reviewed fixture correction and done-state record: Python19/19, full acceptance preset26/26, scaffold3/3, project consistency, current HTML, DOM simulation and diff checks all exit0. Reviewed original acceptance/header/fixture and production validator unchanged. Publication/latest-revision CI and repository merge gates pending."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "IMPL-001",
+      "note": "Published PR #7 https://github.com/Kernol12/subathon-bot-ai/pull/7 with original author/reviewer branches. Separate final integration review 352f1c5 approved exact b046e9e including status prose, map/workflow and done-state evidence; independent project/render/DOM/Python19 checks pass. No changes to approved implementation/baseline. Recheck latest-revision CI, review discussions and repository merge gates on PR before merge; publication status is recorded there."
     }
   ]
 }
