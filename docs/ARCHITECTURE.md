@@ -23,7 +23,9 @@ server state and never own the authoritative timer or accounting.
 
 ## Contracts before dependent implementation
 
-The first small C++ time-credit boundary is a DRAFT in docs/contracts/time-credit-v0.md.
+The first small C++ time-credit boundary is revision 1 in docs/contracts/time-credit-v0.md;
+its reviewed, intentionally red baseline is recorded in
+[evidence](evidence/time-credit-baseline-handoff.md). It is not implemented.
 No OpenAPI, normalized-event, effect ledger or complete timer schema is falsely provided
 as final. CONTRACT-002/003 develop these with tests before dependent agents build them.
 Keep UI, provider payloads, normalized events, contributions, plans, effects and delivery

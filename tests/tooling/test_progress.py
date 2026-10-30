@@ -56,10 +56,26 @@ class ProgressTests(unittest.TestCase):
             progress.validate(self.state)
 
     def test_cannot_start_implementation_before_red_baseline(self):
-        task = next(t for t in self.state["tasks"] if t["id"] == "IMPL-001")
-        task["status"] = "in_progress"
+        self.state["tasks"] = [
+            task("TEST-999", kind="test_baseline"),
+            task("IMPL-999", ["TEST-999"], status="in_progress", kind="implementation"),
+        ]
+        self.state["activity"] = []
         with self.assertRaisesRegex(ValueError, "dependency"):
             progress.validate(self.state)
+
+    def test_can_start_implementation_after_reviewed_red_baseline(self):
+        baseline = task("TEST-999", status="done", kind="test_baseline")
+        baseline.update(evidence=["docs/evidence/baseline-validation.md"],
+                        verification={"baseline": "observed_red"},
+                        review={"author": "test-author-session", "reviewer": "test-reviewer-session",
+                                "outcome": "approved"})
+        self.state["tasks"] = [
+            baseline,
+            task("IMPL-999", ["TEST-999"], status="in_progress", kind="implementation"),
+        ]
+        self.state["activity"] = []
+        progress.validate(self.state)
 
     def test_completed_implementation_requires_passing_acceptance(self):
         task = next(t for t in self.state["tasks"] if t["id"] == "IMPL-001")

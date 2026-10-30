@@ -4,28 +4,28 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T15:39:20+00:00",
-  "summary": "All 27 release epics now have bounded child work and explicit test-first/review/verification gates. No production features are implemented; the initial draft core baseline and live/platform gates remain open.",
+  "updated_at": "2026-10-30T16:33:03.129005+00:00",
+  "summary": "Initial credit contract revision 1 and 19 specification-linked tests are independently reviewed with actual intended FeatureNotImplemented failures. No production behavior implemented. Qt/SQLite feasibility is partial; real Drogon and all live/platform release gates remain open.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
       "status": "passed",
-      "detail": "Local scaffold CMake configure/build and 3/3 CTest checks passed; product acceptance remains unrun."
+      "detail": "Local scaffold configure/build and 3/3 infrastructure checks passed. Credit production stub remains unchanged; acceptance intentionally red."
     },
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "17 Python tooling tests, project consistency and offline-controller DOM simulation pass. Isolated Chromium developer-dashboard controls also pass; product browser/OBS validation is separate."
+      "detail": "18 Python tooling tests, project consistency, current HTML and offline-controller DOM simulation pass after separately reviewed synthetic-fixture correction. Product browser/OBS validation remains separate."
     },
     {
       "label": "CMake / CLion / Qt",
-      "status": "partial",
-      "detail": "Local CMake scaffold and Qt 6.12.0 probe configure/build/test passed (Qt preset 4/4); CLion selected profile and interactive checks remain unverified."
+      "status": "passed",
+      "detail": "Selected CLion GCC/C++20 scaffold target ran; IDE-terminal scaffold configure/build/CTest 3/3 and separate Qt 6.12.0 probe 4/4 passed. Product UI/platform support remains unverified."
     },
     {
       "label": "GoogleTest acceptance",
-      "status": "draft",
-      "detail": "Six draft cases; no observed failing run or independent review."
+      "status": "observed_red",
+      "detail": "19 specification-linked revision-1 cases independently reviewed. Configure/build passed; actual CTest exit 8, all 19 fail on FeatureNotImplemented. Numeric baseline ready; behavior unimplemented."
     },
     {
       "label": "Live provider checks",
@@ -72,8 +72,8 @@
       "title": "Validate CLion and the local CMake toolchain",
       "module": "Foundation",
       "kind": "environment",
-      "status": "in_progress",
-      "owner": "codex",
+      "status": "done",
+      "owner": "Coordinator /root",
       "depends_on": [
         "BOOT-001"
       ],
@@ -85,17 +85,20 @@
       "summary": "Configure/build/test the scaffold preset on Arch/KDE; record tool versions and resolve normal setup issues.",
       "notes": [
         "Scope: local scaffold/toolchain validation for initial GitHub publication; specification v0.45, draft time-credit contract revision 0. Own progress/state.json, generated PROGRESS.html, README repository setup text and publication evidence. Acceptance: record actual checks; preserve independent-review and product gates.",
-        "Local scaffold (3/3) and Qt probe (4/4) pass. GoogleTest 1.18.0 reported by pkg-config; acceptance not built or run. CLion selected toolchain and interactive browser verification remain open. Initial repository publication authorized separately by the owner."
+        "Local scaffold (3/3) and Qt probe (4/4) pass. GoogleTest 1.18.0 reported by pkg-config; acceptance not built or run. CLion selected toolchain and interactive browser verification remain open. Initial repository publication authorized separately by the owner.",
+        "Claimed on task/BOOT-002-coordinator-validation, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Refresh native/Qt/tooling evidence; CLion selected profile remains a separate gate. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files.",
+        "Selected CLion GCC/C++20 target ran successfully; IDE-terminal scaffold configure/build/CTest 3/3, standalone Qt probe 4/4 and 17 tooling tests passed. Native environment gate satisfied; product/platform gates remain separate."
       ],
       "verification": {
         "native_build": "passed",
         "qt_probe": "passed",
         "tooling": "passed",
-        "clion": "not_run",
+        "clion": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
-        "docs/evidence/initial-publication.md"
+        "docs/evidence/initial-publication.md",
+        "docs/evidence/coordinator-environment.md"
       ],
       "review": null
     },
@@ -201,8 +204,8 @@
       "title": "Review the draft time-credit boundary",
       "module": "Core",
       "kind": "contract",
-      "status": "ready",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Test author /root/test_author",
       "depends_on": [
         "BOOT-001"
       ],
@@ -213,9 +216,16 @@
       ],
       "brief": "docs/tasks/CONTRACT-001.md",
       "summary": "Review valid examples and define invalid-input/overflow behavior before implementation.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
+      "notes": [
+        "Claimed on task/CONTRACT-001-credit-contract, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Define explicit validation/overflow contract without implementing behavior; test author owns contract, header and acceptance tests sequentially. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files.",
+        "Contract revision 1 authored at ed96a88 and accepted for TEST-001. Defines negative/above-cap validation and final overflow; lowered-cap product interaction explicitly deferred; stub unchanged. Formal independent baseline review remains pending."
+      ],
+      "verification": {
+        "contract": "passed"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-contract.md"
+      ],
       "review": null
     },
     {
@@ -223,8 +233,8 @@
       "title": "Review and expand the draft credit tests",
       "module": "Core",
       "kind": "test_draft",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Test author /root/test_author",
       "depends_on": [
         "CONTRACT-001"
       ],
@@ -235,9 +245,21 @@
       ],
       "brief": "docs/tasks/TEST-001.md",
       "summary": "Test-author task: independently derive expected values and extend meaningful boundary cases.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
+      "notes": [
+        "Claimed task/TEST-001-credit-tests from origin/main 9982001 plus prerequisite contract ed96a88. Scope: preserve six assertions and add independently derived revision-1 boundaries/errors. Coordinator owns shared progress/build files.",
+        "Authored-only completion per TEST-001 brief: commit 24ea9ba (integrated 6a345f8), 19 cases with original assertions preserved and literal oracle mapping. GoogleTest compile/discovery succeeded; independent review and observed red remain separate gates.",
+        "Authoring subsequently received separate REVIEW-001 approval and TEST-002 intended red; final authored source 3f7c0d3 / blob 055dec680f6ded7c457d14daf088115a0d73fa9f. Test preparation complete, no feature implementation."
+      ],
+      "verification": {
+        "authoring": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-tests.md",
+        "docs/evidence/time-credit-independent-review.md",
+        "docs/evidence/time-credit-baseline-handoff.md"
+      ],
       "review": null
     },
     {
@@ -245,8 +267,8 @@
       "title": "Independently review the acceptance baseline",
       "module": "Core",
       "kind": "test_review",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Independent reviewer /root/reviewer",
       "depends_on": [
         "TEST-001"
       ],
@@ -256,18 +278,31 @@
       ],
       "brief": "docs/tasks/REVIEW-001.md",
       "summary": "A separate reviewer checks contracts, oracles, failure cases and baseline integrity.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "notes": [
+        "Claimed task/REVIEW-001-credit-review based on main 9982001 plus prerequisite contract/tests. Review exact authored 24ea9ba (review worktree ef92876), contract revision 1; author /root/test_author, reviewer /root/reviewer. Coordinator alone owns shared progress/build files.",
+        "Independent reviewer /root/reviewer approved all 19 oracles and contract revision 1 at 71f39f0. Original six fixtures/15 assertions preserved; no behavior run by reviewer. Implementation still waits for TEST-002 observed red."
+      ],
+      "verification": {
+        "test_review": "passed"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-independent-review.md"
+      ],
+      "review": {
+        "author": "/root/test_author",
+        "reviewer": "/root/reviewer",
+        "outcome": "approved",
+        "baseline": "author 3f7c0d3; test blob 055dec680f6ded7c457d14daf088115a0d73fa9f",
+        "evidence": "docs/evidence/time-credit-independent-review.md"
+      }
     },
     {
       "id": "TEST-002",
       "title": "Demonstrate the intended failing baseline",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root",
       "depends_on": [
         "BOOT-002",
         "REVIEW-001"
@@ -277,10 +312,33 @@
       ],
       "brief": "docs/tasks/TEST-002.md",
       "summary": "Build GoogleTest suite; record FeatureNotImplemented failures rather than dependency/build errors.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "notes": [
+        "Claimed task/TEST-002-reviewed-credit-baseline from current main 9982001 plus completed environment/contract/tests/review prerequisite commits. Scope: compile and record actual intended stub failures only; coordinator owns central progress, acceptance map, evidence and current-status docs. No production implementation.",
+        "Reviewed baseline executed at f30e293: acceptance configure/build exit 0; CTest exit 8, 19/19 actual stub failures (12 valid-result exceptions  + 7 wrong-exception assertions). No skips or production edits. Handoff ready for later IMPL-001; not passing feature acceptance.",
+        "Final integration checks found an existing tooling fixture defect: negative dependency test assumes live TEST-002 remains unfinished. Python exit1 and scaffold/Qt CTest exit 8. Genuine test correction assigned separately to author/reviewer under TEST-04/05; retain dependency assertion, use synthetic incomplete/complete states. Product baseline blobs and observed-red evidence remain valid. Final completion waits for correction and checks.",
+        "Final fixture correction 42229b3 separately approved by /root/reviewer: synthetic incomplete baseline retains dependency rejection; complementary completed reviewed/red baseline allows start. Validator and 19-case C++ baseline unchanged. Re-running final checks after integration.",
+        "Final integrated checks passed after reviewed fixture correction: scaffold 3/3, Qt 4/4, Python 18/18, project consistency, current HTML, DOM simulation and diff check. Production stub and all 19 reviewed acceptance cases unchanged; C++ intended red remains actual observed evidence.",
+        "Separate integration review a7988b3 approved test-preparation artifacts, captured red evidence and exact fixture correction. No implemented feature approval or CI/merge bypass; publish baseline PR to main with remaining release gates explicit.",
+        "Published baseline PR #5 https://github.com/Kernol12/subathon-bot-ai/pull/5; revision 4b8750f scaffold CI passed and GitHub reported mergeable/CLEAN. Recheck final publication revision CI and review/merge gates before merge. Separate feasibility PR #4 remains draft/partial; no production behavior implemented."
+      ],
+      "verification": {
+        "native_build": "passed",
+        "baseline": "observed_red"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-baseline-handoff.md",
+        "docs/evidence/time-credit-red-ctest.txt",
+        "docs/evidence/time-credit-independent-review.md",
+        "docs/evidence/progress-fixture-correction.md",
+        "docs/evidence/time-credit-integration-review.md"
+      ],
+      "review": {
+        "author": "/root/test_author",
+        "reviewer": "/root/reviewer",
+        "outcome": "approved",
+        "baseline": "test blob 055dec680f6ded7c457d14daf088115a0d73fa9f",
+        "evidence": "docs/evidence/time-credit-independent-review.md"
+      }
     },
     {
       "id": "IMPL-001",
@@ -374,8 +432,8 @@
       "title": "Validate Drogon and Qt lifecycle/thread bridge",
       "module": "Server/API",
       "kind": "feasibility",
-      "status": "ready",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Feasibility investigator /root/feasibility",
       "depends_on": [
         "BOOT-001"
       ],
@@ -385,9 +443,18 @@
       ],
       "brief": "docs/tasks/SPIKE-001.md",
       "summary": "Prototype startup, request-to-Qt queue, one writer and safe shutdown before broad server work.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
+      "notes": [
+        "Claimed on task/SPIKE-001-qt-drogon, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Investigate isolated Drogon/Qt queue/writer/shutdown feasibility; no production feature claims. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files.",
+        "Separate investigator commit c7e0f3e published in draft PR #4 https://github.com/Kernol12/subathon-bot-ai/pull/4. Synthetic Qt/SQLite queue/writer/drain experiment 1/1 passed. Real Drogon config absent; actual framework lifecycle/requests/callbacks/shutdown remain unverified. Blocked/partial, not complete. Probe artifacts/evidence stay in separate PR; coordinator owns this central record."
+      ],
+      "verification": {
+        "synthetic_queue_writer": "passed",
+        "real_drogon": "not_run",
+        "feasibility": "partial"
+      },
+      "evidence": [
+        "docs/evidence/time-credit-baseline-handoff.md"
+      ],
       "review": null
     },
     {
@@ -9933,6 +10000,86 @@
       "date": "2026-10-30",
       "task": "BOOT-006",
       "note": "Added checkbox state/module selection to PR #3. Combined filters/search and All/None pass; corrected responsive menu positioning. Task remains in review."
+    },
+    {
+      "date": "2026-10-30T16:18:57.449773+00:00",
+      "task": "BOOT-002",
+      "note": "Claimed on task/BOOT-002-coordinator-validation, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Refresh native/Qt/tooling evidence; CLion selected profile remains a separate gate. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files."
+    },
+    {
+      "date": "2026-10-30T16:18:57.449773+00:00",
+      "task": "CONTRACT-001",
+      "note": "Claimed on task/CONTRACT-001-credit-contract, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Define explicit validation/overflow contract without implementing behavior; test author owns contract, header and acceptance tests sequentially. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files."
+    },
+    {
+      "date": "2026-10-30T16:18:57.449773+00:00",
+      "task": "SPIKE-001",
+      "note": "Claimed on task/SPIKE-001-qt-drogon, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Investigate isolated Drogon/Qt queue/writer/shutdown feasibility; no production feature claims. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files."
+    },
+    {
+      "date": "2026-10-30T16:22:01.579382+00:00",
+      "task": "BOOT-002",
+      "note": "Selected CLion GCC/C++20 target ran successfully; IDE-terminal scaffold configure/build/CTest 3/3, standalone Qt probe 4/4 and 17 tooling tests passed. Native environment gate satisfied; product/platform gates remain separate."
+    },
+    {
+      "date": "2026-10-30T16:22:01.579382+00:00",
+      "task": "CONTRACT-001",
+      "note": "Contract revision 1 authored at ed96a88 and accepted for TEST-001. Defines negative/above-cap validation and final overflow; lowered-cap product interaction explicitly deferred; stub unchanged. Formal independent baseline review remains pending."
+    },
+    {
+      "date": "2026-10-30T16:22:01.579382+00:00",
+      "task": "TEST-001",
+      "note": "Claimed task/TEST-001-credit-tests from origin/main 9982001 plus prerequisite contract ed96a88. Scope: preserve six assertions and add independently derived revision-1 boundaries/errors. Coordinator owns shared progress/build files."
+    },
+    {
+      "date": "2026-10-30T16:23:35.963982+00:00",
+      "task": "TEST-001",
+      "note": "Authored-only completion per TEST-001 brief: commit 24ea9ba (integrated 6a345f8), 19 cases with original assertions preserved and literal oracle mapping. GoogleTest compile/discovery succeeded; independent review and observed red remain separate gates."
+    },
+    {
+      "date": "2026-10-30T16:23:35.963982+00:00",
+      "task": "REVIEW-001",
+      "note": "Claimed task/REVIEW-001-credit-review based on main 9982001 plus prerequisite contract/tests. Review exact authored 24ea9ba (review worktree ef92876), contract revision 1; author /root/test_author, reviewer /root/reviewer. Coordinator alone owns shared progress/build files."
+    },
+    {
+      "date": "2026-10-30T16:25:47.139059+00:00",
+      "task": "REVIEW-001",
+      "note": "Independent reviewer /root/reviewer approved all 19 oracles and contract revision 1 at 71f39f0. Original six fixtures/15 assertions preserved; no behavior run by reviewer. Implementation still waits for TEST-002 observed red."
+    },
+    {
+      "date": "2026-10-30T16:25:47.139059+00:00",
+      "task": "TEST-002",
+      "note": "Claimed task/TEST-002-reviewed-credit-baseline from current main 9982001 plus completed environment/contract/tests/review prerequisite commits. Scope: compile and record actual intended stub failures only; coordinator owns central progress, acceptance map, evidence and current-status docs. No production implementation."
+    },
+    {
+      "date": "2026-10-30T16:27:28.856578+00:00",
+      "task": "TEST-001",
+      "note": "Authoring subsequently received separate REVIEW-001 approval and TEST-002 intended red; final authored source 3f7c0d3 / blob 055dec680f6ded7c457d14daf088115a0d73fa9f. Test preparation complete, no feature implementation."
+    },
+    {
+      "date": "2026-10-30T16:27:28.856578+00:00",
+      "task": "TEST-002",
+      "note": "Reviewed baseline executed at f30e293: acceptance configure/build exit 0; CTest exit 8, 19/19 actual stub failures (12 valid-result exceptions  + 7 wrong-exception assertions). No skips or production edits. Handoff ready for later IMPL-001; not passing feature acceptance."
+    },
+    {
+      "date": "2026-10-30T16:27:28.856578+00:00",
+      "task": "SPIKE-001",
+      "note": "Separate investigator commit c7e0f3e published in draft PR #4 https://github.com/Kernol12/subathon-bot-ai/pull/4. Synthetic Qt/SQLite queue/writer/drain experiment 1/1 passed. Real Drogon config absent; actual framework lifecycle/requests/callbacks/shutdown remain unverified. Blocked/partial, not complete. Probe artifacts/evidence stay in separate PR; coordinator owns this central record."
+    },
+    {
+      "date": "2026-10-30T16:28:59.366604+00:00",
+      "task": "TEST-002",
+      "note": "Final integration checks found an existing tooling fixture defect: negative dependency test assumes live TEST-002 remains unfinished. Python exit1 and scaffold/Qt CTest exit 8. Genuine test correction assigned separately to author/reviewer under TEST-04/05; retain dependency assertion, use synthetic incomplete/complete states. Product baseline blobs and observed-red evidence remain valid. Final completion waits for correction and checks."
+    },
+    {
+      "date": "2026-10-30T16:30:56.851274+00:00",
+      "task": "TEST-002",
+      "note": "Final fixture correction 42229b3 separately approved by /root/reviewer: synthetic incomplete baseline retains dependency rejection; complementary completed reviewed/red baseline allows start. Validator and 19-case C++ baseline unchanged. Re-running final checks after integration."
+    },
+    {
+      "date": "2026-10-30T16:33:03.129005+00:00",
+      "task": "TEST-002",
+      "note": "Published baseline PR #5 https://github.com/Kernol12/subathon-bot-ai/pull/5; revision 4b8750f scaffold CI passed and GitHub reported mergeable/CLEAN. Recheck final publication revision CI and review/merge gates before merge. Separate feasibility PR #4 remains draft/partial; no production behavior implemented."
     }
   ]
 }
