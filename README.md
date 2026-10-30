@@ -34,9 +34,11 @@ CLion imports configure/build presets; run CTest preset commands in its terminal
 
 ## Test first
 
-The only core operation is an explicit unimplemented stub. Six draft GoogleTest
-acceptance cases describe cap-limited time credit. They must receive independent
-contract/test review and an observed intended failing run **before implementation**.
+The only core operation remains an explicit unimplemented stub. The 19 GoogleTest
+acceptance cases for contract revision 1 have independent review and an observed
+intended red run: all fail on `FeatureNotImplemented`. See the
+[reviewed baseline handoff](docs/evidence/time-credit-baseline-handoff.md).
+This establishes preparation for later implementation, not working timer behavior.
 Do not treat the scaffold smoke test as proof that credit calculation works.
 See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/time-credit-v0.md).
 
@@ -52,7 +54,7 @@ See [progress instructions](docs/PROGRESS.md).
 
 - `core/`: native domain contracts; currently a deliberate stub.
 - `server/`, `desktop/`, `web/`, `integrations/`, `schemas/`, `deploy/`: scoped agent instructions and implementation boundaries.
-- `tests/`: draft GoogleTest acceptance cases, scaffold checks, optional Qt probe, tooling tests, fixtures.
+- `tests/`: reviewed, intentionally red GoogleTest acceptance cases, scaffold checks, optional Qt probe, tooling tests, fixtures.
 - `docs/`: full specification, architecture, decisions, test strategy, task/handoff templates and evidence.
 - `tools/`: dependency-free Python progress and consistency tools.
 - `.github/workflows/`: scaffold checks and a manually invoked, genuinely failing acceptance lane.

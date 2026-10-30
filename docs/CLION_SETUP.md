@@ -49,9 +49,10 @@ cmake --build --preset acceptance-debug
 ctest --preset acceptance-debug -L acceptance
 ```
 
-The six initial draft cases are expected to fail with FeatureNotImplemented. A test
-agent must actually run and review this baseline before handing it to implementation.
-No observed red GoogleTest run is claimed by this package.
+The initial six drafts have been expanded to 19 cases for contract revision 1.
+Separate review and an actual run confirmed all 19 fail on FeatureNotImplemented;
+see [the baseline handoff](evidence/time-credit-baseline-handoff.md).
+Acceptance remains intentionally failing until the later implementation task.
 
 ## Qt / Windows
 
@@ -59,8 +60,9 @@ Use `qt-probe-debug` and a CMakeUserPresets.json derived from the example when Q
 outside standard prefixes. Product minimum remains Qt 6.12; the scaffold has no GUI yet.
 On Windows use MSVC 2022/x86-64 in a CLion toolchain with Ninja and Python; terminal
 commands need the MSVC environment (CLion terminal/toolchain or Developer PowerShell).
-`python` may replace `python3`. No Windows, Qt, QML, OBS or live-provider validation has
-been performed here. Windows app distribution remains an installation-free ZIP.
+`python` may replace `python3`. The local Qt Core/Test environment probe passed, as recorded in
+[environment evidence](evidence/coordinator-environment.md). Windows, product QML,
+OBS and live-provider validation remain unperformed. Windows app distribution remains an installation-free ZIP.
 
 ## Documentation sources checked during preparation
 
