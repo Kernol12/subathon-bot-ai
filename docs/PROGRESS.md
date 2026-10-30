@@ -26,6 +26,14 @@ status requires an evidence note and independent review for implementation/test-
 kinds. This is a record consistency check; it cannot prove that an agent's claims are true.
 Do not invent a reviewer or pass result to satisfy validation.
 
+The [backlog index](tasks/README.md) links every epic to its bounded child briefs.
+An epic's dependencies aggregate required child completion; children depend on their
+own prerequisites rather than their parent epic. Production slices have a separate
+`*TEST-NNN` baseline dependency for independent review and an intended red run.
+Search the epic ID in PROGRESS.html to find its child records. Planned records are
+neither authored tests nor observed verification, and epic completion still requires
+the listed live/platform gates where applicable.
+
 For parallel agents, the integrator owns state.json/PROGRESS.html or merges scoped task
 updates carefully. Regenerate once after merging. HTML/task counters show task progress,
 not percentage of release features; split tasks as design details emerge.
