@@ -1,0 +1,114 @@
+Test project /tmp/subathon-impl001-implementation/build/acceptance-debug
+    Start 20: TimeCreditRegression.SignedMinimumInputsAreRejectedBeforeArithmetic
+1/4 Test #20: TimeCreditRegression.SignedMinimumInputsAreRejectedBeforeArithmetic ....***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditRegression.SignedMinimumInputsAreRejectedBeforeArithmetic
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditRegression
+[ RUN      ] TimeCreditRegression.SignedMinimumInputsAreRejectedBeforeArithmetic
+/tmp/subathon-impl001-implementation/tests/acceptance/time_credit_regression_tests.cpp:12: Failure
+Expected: (void)calculate_time_credit({minimum_ms, maximum_ms, maximum_ms}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+/tmp/subathon-impl001-implementation/tests/acceptance/time_credit_regression_tests.cpp:14: Failure
+Expected: (void)calculate_time_credit({0, minimum_ms, 0}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+/tmp/subathon-impl001-implementation/tests/acceptance/time_credit_regression_tests.cpp:15: Failure
+Expected: (void)calculate_time_credit({maximum_ms, maximum_ms, minimum_ms}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditRegression.SignedMinimumInputsAreRejectedBeforeArithmetic (0 ms)
+[----------] 1 test from TimeCreditRegression (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditRegression.SignedMinimumInputsAreRejectedBeforeArithmetic
+
+ 1 FAILED TEST
+
+    Start 21: TimeCreditRegression.AboveCapInputIsRejectedBeforeAnOverflowingAward
+2/4 Test #21: TimeCreditRegression.AboveCapInputIsRejectedBeforeAnOverflowingAward ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditRegression.AboveCapInputIsRejectedBeforeAnOverflowingAward
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditRegression
+[ RUN      ] TimeCreditRegression.AboveCapInputIsRejectedBeforeAnOverflowingAward
+/tmp/subathon-impl001-implementation/tests/acceptance/time_credit_regression_tests.cpp:19: Failure
+Expected: (void)calculate_time_credit({maximum_ms, maximum_ms, maximum_ms - 1}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::FeatureNotImplemented with description "Time credit is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeCreditRegression.AboveCapInputIsRejectedBeforeAnOverflowingAward (0 ms)
+[----------] 1 test from TimeCreditRegression (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditRegression.AboveCapInputIsRejectedBeforeAnOverflowingAward
+
+ 1 FAILED TEST
+
+    Start 22: TimeCreditRegression.FullLargestCapPreservesTheLargestRequest
+3/4 Test #22: TimeCreditRegression.FullLargestCapPreservesTheLargestRequest ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditRegression.FullLargestCapPreservesTheLargestRequest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditRegression
+[ RUN      ] TimeCreditRegression.FullLargestCapPreservesTheLargestRequest
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditRegression.FullLargestCapPreservesTheLargestRequest (0 ms)
+[----------] 1 test from TimeCreditRegression (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditRegression.FullLargestCapPreservesTheLargestRequest
+
+ 1 FAILED TEST
+
+    Start 23: TimeCreditRegression.LargestUncappedRequestCanBeCreditedFromZero
+4/4 Test #23: TimeCreditRegression.LargestUncappedRequestCanBeCreditedFromZero .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeCreditRegression.LargestUncappedRequestCanBeCreditedFromZero
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeCreditRegression
+[ RUN      ] TimeCreditRegression.LargestUncappedRequestCanBeCreditedFromZero
+unknown file: Failure
+C++ exception with description "Time credit is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeCreditRegression.LargestUncappedRequestCanBeCreditedFromZero (0 ms)
+[----------] 1 test from TimeCreditRegression (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeCreditRegression.LargestUncappedRequestCanBeCreditedFromZero
+
+ 1 FAILED TEST
+
+
+0% tests passed, 4 tests failed out of 4
+
+Label Time Summary:
+core          =   0.01 sec*proc (4 tests)
+regression    =   0.01 sec*proc (4 tests)
+
+Total Test time (real) =   0.01 sec
+
+The following tests FAILED:
+	 20 - TimeCreditRegression.SignedMinimumInputsAreRejectedBeforeArithmetic (Failed) core regression
+	 21 - TimeCreditRegression.AboveCapInputIsRejectedBeforeAnOverflowingAward (Failed) core regression
+	 22 - TimeCreditRegression.FullLargestCapPreservesTheLargestRequest (Failed) core regression
+	 23 - TimeCreditRegression.LargestUncappedRequestCanBeCreditedFromZero (Failed) core regression
+Errors while running CTest

@@ -78,11 +78,27 @@ class ProgressTests(unittest.TestCase):
         progress.validate(self.state)
 
     def test_completed_implementation_requires_passing_acceptance(self):
-        task = next(t for t in self.state["tasks"] if t["id"] == "IMPL-001")
-        task.update(status="done", depends_on=[], evidence=["docs/evidence/baseline-validation.md"],
-                    review={"author": "author-session", "reviewer": "reviewer-session", "outcome": "approved"})
-        with self.assertRaisesRegex(ValueError, "passing acceptance"):
-            progress.validate(self.state)
+        implementation = task("IMPL-999", status="done", kind="implementation")
+        implementation.update(evidence=["docs/evidence/baseline-validation.md"],
+                              review={"author": "author-session", "reviewer": "reviewer-session",
+                                      "outcome": "approved"})
+        self.state["tasks"] = [implementation]
+        self.state["activity"] = []
+        for verification in ({}, {"acceptance": "failed"}):
+            with self.subTest(verification=verification):
+                implementation["verification"] = verification
+                with self.assertRaisesRegex(ValueError, "passing acceptance"):
+                    progress.validate(self.state)
+
+    def test_completed_implementation_accepts_passing_acceptance_and_separate_review(self):
+        implementation = task("IMPL-999", status="done", kind="implementation")
+        implementation.update(evidence=["docs/evidence/baseline-validation.md"],
+                              verification={"acceptance": "passed"},
+                              review={"author": "author-session", "reviewer": "reviewer-session",
+                                      "outcome": "approved"})
+        self.state["tasks"] = [implementation]
+        self.state["activity"] = []
+        progress.validate(self.state)
 
     def test_self_review_is_rejected(self):
         task = next(t for t in self.state["tasks"] if t["id"] == "IMPL-001")

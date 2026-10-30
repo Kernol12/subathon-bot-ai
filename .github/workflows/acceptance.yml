@@ -1,4 +1,4 @@
-name: Acceptance baseline (initially RED)
+name: Time-credit acceptance and regression
 on:
   workflow_dispatch:
 permissions:
@@ -14,5 +14,5 @@ jobs:
         run: cmake --preset acceptance-debug -DSUBATHON_FETCH_GOOGLETEST=ON
       - name: Build real GoogleTest acceptance cases
         run: cmake --build --preset acceptance-debug
-      - name: Run baseline without hiding failures
-        run: ctest --preset acceptance-debug -L acceptance
+      - name: Run reviewed acceptance and regression cases
+        run: ctest --preset acceptance-debug -L "acceptance|regression"

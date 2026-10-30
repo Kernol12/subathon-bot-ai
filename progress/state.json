@@ -4,18 +4,18 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T20:49:07+00:00",
-  "summary": "Reviewed credit baseline remains intentionally red and unimplemented. SPIKE-001 validated a pinned local Drogon/Trantor build and six bounded real Linux loopback Qt/SQLite cases, with separate test/code review. Persistent WebSocket findings and all production/live/platform gates remain explicit.",
+  "updated_at": "2026-10-30T21:03:09+00:00",
+  "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
       "status": "passed",
-      "detail": "Local scaffold configure/build and 3/3 infrastructure checks passed. Credit production stub remains unchanged; acceptance intentionally red."
+      "detail": "IMPL-001 numeric credit helper implemented; independent code review approved. Local scaffold configure/build and 3/3 infrastructure checks pass. No timer/service transaction behavior claimed."
     },
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "18 Python tooling tests, project consistency, current HTML and offline-controller DOM simulation pass after separately reviewed synthetic-fixture correction. Product browser/OBS validation remains separate."
+      "detail": "19 Python tooling tests, project consistency, current HTML and offline-controller DOM simulation pass. Reviewed synthetic completion fixtures retain acceptance/review gates independently of live task state. Product browser/OBS validation remains separate."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -24,8 +24,8 @@
     },
     {
       "label": "GoogleTest acceptance",
-      "status": "observed_red",
-      "detail": "19 specification-linked revision-1 cases independently reviewed. Configure/build passed; actual CTest exit 8, all 19 fail on FeatureNotImplemented. Numeric baseline ready; behavior unimplemented."
+      "status": "passed",
+      "detail": "19 unchanged independently reviewed revision-1 acceptance cases and four additive reviewed regressions pass; independent reviewer rebuilt and replayed 26/26 full-preset cases. Historical intended red retained. Numeric helper only."
     },
     {
       "label": "Live provider checks",
@@ -351,8 +351,8 @@
       "title": "Implement reviewed cap-limited credit",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; implementer /root/credit_implementer",
       "depends_on": [
         "TEST-002"
       ],
@@ -363,10 +363,38 @@
       ],
       "brief": "docs/tasks/IMPL-001.md",
       "summary": "Implement only the reviewed contract, preserve tests and record passing acceptance plus independent review.",
-      "notes": [],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "notes": [
+        "Claimed from refreshed main 45a38d8 on task/IMPL-001-credit-coordination. Specification v0.45, time-credit contract revision 1; TEST-002 done with 19 reviewed cases and intended red at f30e293. Acceptance: preserve reviewed contract/19 cases/fixtures; implement checked cap-limited numeric credit only; passing acceptance/regression and separate code review before completion. Coordinator owns progress/state.json, PROGRESS.html, current-status docs and shared root build metadata. Isolated task/IMPL-001-credit-implementation worktree owns core/src/time_credit.cpp and additive regression tests/tests CMake; task/IMPL-001-credit-code-review owns independent review evidence. No refunds, persistence, lifecycle, debt or UI.",
+        "Integrated author regression baseline d3d1256 as 04a8742 and implementation 29325b5 as 4d50676. Four added cases independently approved before actual stub red, then author reports 19/19 original acceptance, 4/4 regression, full preset 26/26 passed. All original acceptance/header/fixture blobs preserved. Separate final code review and coordinator integrated checks pending; no completion claim.",
+        "Independent reviewer /root/credit_reviewer approved exact author implementation 29325b5 (source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145) in 46de20f after independent clean build and 19/19 acceptance, 4/4 regression, 26/26 full-preset replay. Coordinator integrated and passed the same checks, scaffold 3/3, Python 18/18, project/progress/DOM checks; original acceptance/header/fixture unchanged. Numeric task gates satisfied; refunds, persistence, UI, lifecycle/debt and all external/platform verification remain separate. Publication/latest-revision CI and merge gates pending.",
+        "Final tooling rerun after recording completion exposed pre-existing live-fixture coupling: test_completed_implementation_requires_passing_acceptance inherits newly passing IMPL-001 acceptance, so expected ValueError is absent (Python exit1, 17/18 pass). Numeric 19+4 tests remain passing. Separate author/reviewer assigned synthetic fixture correction under TEST-04/05; no validator or product assertion weakening. Completion restored only after reviewed correction and integrated rerun.",
+        "Separate fixture correction 3864b15 approved by independent reviewer in 1453195: synthetic missing/failed acceptance rejection retained, valid passed+review case added, validator and product baselines unchanged. Reviewer replay Python19/19, completed-state injection2/2, CTest26/26 passed. Code review remains approved at exact source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145. Restoring honest numeric-task completion and rerunning final integrated tooling checks; publication CI/merge gates remain.",
+        "Final integrated rerun after reviewed fixture correction and done-state record: Python19/19, full acceptance preset26/26, scaffold3/3, project consistency, current HTML, DOM simulation and diff checks all exit0. Reviewed original acceptance/header/fixture and production validator unchanged. Publication/latest-revision CI and repository merge gates pending.",
+        "Published PR #7 https://github.com/Kernol12/subathon-bot-ai/pull/7 with original author/reviewer branches. Separate final integration review 352f1c5 approved exact b046e9e including status prose, map/workflow and done-state evidence; independent project/render/DOM/Python19 checks pass. No changes to approved implementation/baseline. Recheck latest-revision CI, review discussions and repository merge gates on PR before merge; publication status is recorded there."
+      ],
+      "verification": {
+        "test_review": "passed",
+        "regression_baseline": "observed_red",
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "integration": "passed"
+      },
+      "evidence": [
+        "docs/evidence/impl-001-implementation.md",
+        "docs/evidence/impl-001-regression-red-ctest.txt",
+        "docs/evidence/impl-001-code-review.md",
+        "docs/evidence/impl-001-handoff.md",
+        "docs/evidence/impl-001-progress-fixture-correction.md"
+      ],
+      "review": {
+        "author": "/root/credit_implementer",
+        "reviewer": "/root/credit_reviewer",
+        "outcome": "approved",
+        "baseline": "author 29325b5; source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145; acceptance 055dec680f6ded7c457d14daf088115a0d73fa9f; regression 86a5c2a716204af292a8c72600a3ce6b27629097",
+        "evidence": "docs/evidence/impl-001-code-review.md"
+      }
     },
     {
       "id": "BOOT-003",
@@ -10143,6 +10171,41 @@
       "date": "2026-10-30T20:49:07+00:00",
       "task": "BOOT-006",
       "note": "Owner confirmed completion and requested closing BOOT-006. Verified PR #3 merged on 2026-10-30 at 15:52:12 UTC as 9982001b732f06793f6c17d5f912b82c7cd1e3cc. Dashboard status synchronized; no product verification upgraded."
+    },
+    {
+      "date": "2026-10-30T20:56:20+00:00",
+      "task": "IMPL-001",
+      "note": "Claimed from refreshed main 45a38d8 on task/IMPL-001-credit-coordination. Specification v0.45, time-credit contract revision 1; TEST-002 done with 19 reviewed cases and intended red at f30e293. Acceptance: preserve reviewed contract/19 cases/fixtures; implement checked cap-limited numeric credit only; passing acceptance/regression and separate code review before completion. Coordinator owns progress/state.json, PROGRESS.html, current-status docs and shared root build metadata. Isolated task/IMPL-001-credit-implementation worktree owns core/src/time_credit.cpp and additive regression tests/tests CMake; task/IMPL-001-credit-code-review owns independent review evidence. No refunds, persistence, lifecycle, debt or UI."
+    },
+    {
+      "date": "2026-10-30T20:58:54+00:00",
+      "task": "IMPL-001",
+      "note": "Integrated author regression baseline d3d1256 as 04a8742 and implementation 29325b5 as 4d50676. Four added cases independently approved before actual stub red, then author reports 19/19 original acceptance, 4/4 regression, full preset 26/26 passed. All original acceptance/header/fixture blobs preserved. Separate final code review and coordinator integrated checks pending; no completion claim."
+    },
+    {
+      "date": "2026-10-30T20:59:39+00:00",
+      "task": "IMPL-001",
+      "note": "Independent reviewer /root/credit_reviewer approved exact author implementation 29325b5 (source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145) in 46de20f after independent clean build and 19/19 acceptance, 4/4 regression, 26/26 full-preset replay. Coordinator integrated and passed the same checks, scaffold 3/3, Python 18/18, project/progress/DOM checks; original acceptance/header/fixture unchanged. Numeric task gates satisfied; refunds, persistence, UI, lifecycle/debt and all external/platform verification remain separate. Publication/latest-revision CI and merge gates pending."
+    },
+    {
+      "date": "2026-10-30T21:00:06+00:00",
+      "task": "IMPL-001",
+      "note": "Final tooling rerun after recording completion exposed pre-existing live-fixture coupling: test_completed_implementation_requires_passing_acceptance inherits newly passing IMPL-001 acceptance, so expected ValueError is absent (Python exit1, 17/18 pass). Numeric 19+4 tests remain passing. Separate author/reviewer assigned synthetic fixture correction under TEST-04/05; no validator or product assertion weakening. Completion restored only after reviewed correction and integrated rerun."
+    },
+    {
+      "date": "2026-10-30T21:01:32+00:00",
+      "task": "IMPL-001",
+      "note": "Separate fixture correction 3864b15 approved by independent reviewer in 1453195: synthetic missing/failed acceptance rejection retained, valid passed+review case added, validator and product baselines unchanged. Reviewer replay Python19/19, completed-state injection2/2, CTest26/26 passed. Code review remains approved at exact source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145. Restoring honest numeric-task completion and rerunning final integrated tooling checks; publication CI/merge gates remain."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "IMPL-001",
+      "note": "Final integrated rerun after reviewed fixture correction and done-state record: Python19/19, full acceptance preset26/26, scaffold3/3, project consistency, current HTML, DOM simulation and diff checks all exit0. Reviewed original acceptance/header/fixture and production validator unchanged. Publication/latest-revision CI and repository merge gates pending."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "IMPL-001",
+      "note": "Published PR #7 https://github.com/Kernol12/subathon-bot-ai/pull/7 with original author/reviewer branches. Separate final integration review 352f1c5 approved exact b046e9e including status prose, map/workflow and done-state evidence; independent project/render/DOM/Python19 checks pass. No changes to approved implementation/baseline. Recheck latest-revision CI, review discussions and repository merge gates on PR before merge; publication status is recorded there."
     }
   ]
 }
