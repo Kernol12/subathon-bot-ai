@@ -23,3 +23,15 @@ file ownership. Link test cases to the required behavior and independently deriv
 - Use the applicable template, record exact evidence and leave a durable handoff.
 
 Run relevant checks, update progress/state.json, regenerate PROGRESS.html and validate before handoff.
+
+
+## Bounded real-framework experiment
+
+The next executable slice uses the disposable
+[revision-1 experiment contract](../../experiments/spike-001/bridge_contract.md):
+pinned local Drogon/Trantor discovery; actual loopback HTTP/WebSocket commands
+bridged to one owned Qt SQL writer; listener readiness and occupied-port failure;
+closed admission, queued disconnect, in-flight reply drain and SIGTERM shutdown.
+Independent tests and observed missing-behavior evidence precede the experiment
+implementation. Passing these bounded checks does not approve reuse as production,
+Caddy/TLS, all possible client behavior, recovery/backpressure or platform support.

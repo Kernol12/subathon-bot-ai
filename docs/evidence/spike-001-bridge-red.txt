@@ -1,0 +1,87 @@
+test_closed_admission_rejects_late_transports_and_preserves_queued_work (__main__.BridgeExperiments.test_closed_admission_rejects_late_transports_and_preserves_queued_work) ... FAIL
+test_disconnected_admitted_http_command_commits_once (__main__.BridgeExperiments.test_disconnected_admitted_http_command_commits_once) ... FAIL
+test_mixed_http_websocket_commands_commit_on_qt_owner (__main__.BridgeExperiments.test_mixed_http_websocket_commands_commit_on_qt_owner) ... FAIL
+test_occupied_listener_port_fails_without_false_readiness (__main__.BridgeExperiments.test_occupied_listener_port_fails_without_false_readiness) ... ok
+test_sigterm_drains_admitted_command_and_exits_cleanly (__main__.BridgeExperiments.test_sigterm_drains_admitted_command_and_exits_cleanly) ... FAIL
+test_stop_drains_admitted_http_and_websocket_replies (__main__.BridgeExperiments.test_stop_drains_admitted_http_and_websocket_replies) ... FAIL
+
+======================================================================
+FAIL: test_closed_admission_rejects_late_transports_and_preserves_queued_work (__main__.BridgeExperiments.test_closed_admission_rejects_late_transports_and_preserves_queued_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 298, in test_closed_admission_rejects_late_transports_and_preserves_queued_work
+    self.assertEqual(status, 503, reply)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 501 != 503 : {'error': 'FeatureNotImplemented'}
+
+======================================================================
+FAIL: test_disconnected_admitted_http_command_commits_once (__main__.BridgeExperiments.test_disconnected_admitted_http_command_commits_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 287, in test_disconnected_admitted_http_command_commits_once
+    self.assert_stopped(probe, [41], 1, 41)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 248, in assert_stopped
+    self.assert_rows(probe, expected_ids, expected_count, expected_total)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 239, in assert_rows
+    self.assertEqual([row[0] for row in rows], expected_ids)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [41]
+
+Second list contains 1 additional elements.
+First extra element 0:
+41
+
+- []
++ [41]
+
+======================================================================
+FAIL: test_mixed_http_websocket_commands_commit_on_qt_owner (__main__.BridgeExperiments.test_mixed_http_websocket_commands_commit_on_qt_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 270, in test_mixed_http_websocket_commands_commit_on_qt_owner
+    list(pool.map(command, range(8)))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 396, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/usr/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 258, in command
+    self.assertEqual(status, 200, reply)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 501 != 200 : {'error': 'FeatureNotImplemented'}
+
+======================================================================
+FAIL: test_sigterm_drains_admitted_command_and_exits_cleanly (__main__.BridgeExperiments.test_sigterm_drains_admitted_command_and_exits_cleanly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 358, in test_sigterm_drains_admitted_command_and_exits_cleanly
+    self.assertEqual(status, 200, reply)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 501 != 200 : {'error': 'FeatureNotImplemented'}
+
+======================================================================
+FAIL: test_stop_drains_admitted_http_and_websocket_replies (__main__.BridgeExperiments.test_stop_drains_admitted_http_and_websocket_replies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-feasibility/experiments/spike-001/test_bridge.py", line 327, in test_stop_drains_admitted_http_and_websocket_replies
+    self.assertEqual(status, 200, reply)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 501 != 200 : {'error': 'FeatureNotImplemented'}
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.060s
+
+FAILED (failures=5)
