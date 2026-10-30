@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T16:33:03.129005+00:00",
+  "updated_at": "2026-10-30T16:56:46.108532+00:00",
   "summary": "Initial credit contract revision 1 and 19 specification-linked tests are independently reviewed with actual intended FeatureNotImplemented failures. No production behavior implemented. Qt/SQLite feasibility is partial; real Drogon and all live/platform release gates remain open.",
   "verification": [
     {
@@ -432,8 +432,8 @@
       "title": "Validate Drogon and Qt lifecycle/thread bridge",
       "module": "Server/API",
       "kind": "feasibility",
-      "status": "blocked",
-      "owner": "Feasibility investigator /root/feasibility",
+      "status": "in_progress",
+      "owner": "Coordinator /root with separate dependency, test and review agents",
       "depends_on": [
         "BOOT-001"
       ],
@@ -445,7 +445,8 @@
       "summary": "Prototype startup, request-to-Qt queue, one writer and safe shutdown before broad server work.",
       "notes": [
         "Claimed on task/SPIKE-001-qt-drogon, from origin/main 9982001. Specification v0.45 / time-credit revision 0. Investigate isolated Drogon/Qt queue/writer/shutdown feasibility; no production feature claims. Coordinator alone owns progress/state.json, PROGRESS.html and shared build files.",
-        "Separate investigator commit c7e0f3e published in draft PR #4 https://github.com/Kernol12/subathon-bot-ai/pull/4. Synthetic Qt/SQLite queue/writer/drain experiment 1/1 passed. Real Drogon config absent; actual framework lifecycle/requests/callbacks/shutdown remain unverified. Blocked/partial, not complete. Probe artifacts/evidence stay in separate PR; coordinator owns this central record."
+        "Separate investigator commit c7e0f3e published in draft PR #4 https://github.com/Kernol12/subathon-bot-ai/pull/4. Synthetic Qt/SQLite queue/writer/drain experiment 1/1 passed. Real Drogon config absent; actual framework lifecycle/requests/callbacks/shutdown remain unverified. Blocked/partial, not complete. Probe artifacts/evidence stay in separate PR; coordinator owns this central record.",
+        "Resumed on task/SPIKE-001-qt-drogon after merging current main 935e0d6 into existing PR #4. Scope: pinned local Drogon/Trantor setup, explicit setup script, real loopback HTTP/WebSocket -> Qt/SQLite startup/queue/drain/shutdown experiments; no production implementation. Coordinator owns progress/HTML, dependency decisions and experiment CMake; isolated agents own test source, independent review and dependency investigation. Specification v0.45 SERVER-01/DB-01; numeric credit baseline remains unchanged."
       ],
       "verification": {
         "synthetic_queue_writer": "passed",
@@ -10080,6 +10081,11 @@
       "date": "2026-10-30T16:33:03.129005+00:00",
       "task": "TEST-002",
       "note": "Published baseline PR #5 https://github.com/Kernol12/subathon-bot-ai/pull/5; revision 4b8750f scaffold CI passed and GitHub reported mergeable/CLEAN. Recheck final publication revision CI and review/merge gates before merge. Separate feasibility PR #4 remains draft/partial; no production behavior implemented."
+    },
+    {
+      "date": "2026-10-30T16:56:46.108532+00:00",
+      "task": "SPIKE-001",
+      "note": "Resumed on task/SPIKE-001-qt-drogon after merging current main 935e0d6 into existing PR #4. Scope: pinned local Drogon/Trantor setup, explicit setup script, real loopback HTTP/WebSocket -> Qt/SQLite startup/queue/drain/shutdown experiments; no production implementation. Coordinator owns progress/HTML, dependency decisions and experiment CMake; isolated agents own test source, independent review and dependency investigation. Specification v0.45 SERVER-01/DB-01; numeric credit baseline remains unchanged."
     }
   ]
 }
