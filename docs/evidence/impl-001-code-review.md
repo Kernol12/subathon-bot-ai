@@ -149,3 +149,53 @@ Independent reviewer executions, all exit 0:
 This separate approval covers the genuine test defect and records the revised
 baseline. Coordinator must still replay final integrated checks with the honestly
 recorded task status and regenerate progress HTML before publication.
+
+## Final independent integration assessment
+
+**Verdict: approved for integration at coordinator revision `b046e9e`. No blocking
+findings.** The reviewer inspected the full diff `45a38d8..b046e9e`, final
+handoff, progress JSON/HTML, acceptance-map scenario, current-status documentation,
+contract status prose, CMake option/preset display names and manual workflow.
+The exact implementation and test/fixture/header/validator blobs remain those
+already approved above. Numeric/error contract requirements are unchanged;
+revision-1 edits update status and evidence links only.
+
+The map labels only the numeric capped-credit proposal passed and leaves full
+specification decisions pending. Progress records IMPL-001's passing acceptance,
+regression, independent review and integrated checks; TEST-002's observed-red
+history remains. The corrected tooling fixture is exactly author `3864b15`.
+Handoff retains the original failed tooling attempt and separate correction
+review, identifies author/reviewer and isolated worktrees, and records exact
+coordinator checks. No refund, persistence, UI, debt/lifecycle or live/platform
+claim is introduced. Qt/CLion evidence is clearly historical and publication,
+latest-revision CI and repository merge gates are explicitly pending.
+
+The manual acceptance workflow now runs `-L "acceptance|regression"` with real
+failure propagation, covering all 23 product cases. CMake changes at root are
+text/display labels only; regression registration remains the reviewed tests
+CMake. Historical `draft` test metadata does not mask outcomes. Unchanged original
+19-case source and fixture were checked with empty diffs against both the author
+implementation and refreshed main.
+
+Actual final assessment commands, all exit 0:
+
+- `git diff --stat 45a38d8 b046e9e`, scoped full `git diff` for integration files,
+  `git show b046e9e:docs/evidence/impl-001-handoff.md` and progress-state diff:
+  inspected the exact final artifacts.
+- `git diff --exit-code 29325b5 b046e9e -- core/src/time_credit.cpp tests/acceptance/time_credit_tests.cpp tests/acceptance/time_credit_regression_tests.cpp tests/fixtures/time-credit.json core/include/subathon/core/time_credit.hpp tools/progress.py`:
+  empty; reviewed production and baseline/validator unchanged.
+- `git diff --exit-code 3864b15 b046e9e -- tests/tooling/test_progress.py`:
+  empty; reviewed fixture correction unchanged.
+- `git diff --check 45a38d8 b046e9e`: no whitespace errors.
+- In the clean coordinator checkout of `b046e9e`, `python3 tools/check_project.py`,
+  `python3 tools/progress.py render --check`, `node tools/check_progress_ui.mjs`
+  and `python3 -m unittest discover -s tests/tooling -v`: project375/decisions122,
+  current HTML, offline DOM simulation and Python19/19 all passed. `git status
+  --short` was empty. No actual browser/OBS run is claimed.
+
+The coordinator's final full CTest26/26 and scaffold3/3 are recorded coordinator
+executions. Independent reviewer source-identical clean C++ build/run and
+post-correction full26/26 replay are separately recorded above; no redundant
+C++ rebuild is needed for subsequent documentation/status/display-label changes.
+This assessment is separate agent review, not GitHub account approval or evidence
+that unperformed CI/merge gates have passed.
