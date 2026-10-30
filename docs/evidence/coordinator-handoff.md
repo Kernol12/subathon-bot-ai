@@ -2,7 +2,7 @@
 
 Coordinator: `/root`; started 2026-10-30 from `main` / `origin/main`
 `2bc4e6420ac7c56ce9fb29bc678798d2987ae8df`. Last refreshed main:
-`11eafe2f176a542235921266fa66bd20867de243` after BOOT-003 PR #10. Specification v0.45.
+`fcdcd476fd28db1930e17e14ca0e9a912bed4798` after CONTRACT-002 PR #11. Specification v0.45.
 Objective: execute the full agreed scope using bounded task PRs and independent reviews.
 This is an active checkpoint, not evidence of release completion.
 
@@ -32,7 +32,9 @@ configuration gap from BOOT-008 remains open. No repository settings were change
 - CONTRACT-002 author `/root/domain_contract`, branch `task/CONTRACT-002-domain-boundaries`,
   worktree `/tmp/subathon-contract002`: owns docs/contracts/event-state-boundaries-v1.md,
   docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md.
-  Coordinator has claimed the task on that branch and retains progress/HTML ownership.
+  Task completed and merged in [PR #11](https://github.com/Kernol12/subathon-bot-ai/pull/11)
+  at `fcdcd47`, head `dbc563b`; all three latest-head checks passed.
+  Merge observed 2026-10-30 22:32:30 UTC. Coordinator retained progress/HTML ownership.
   Actual authored revision `1904ccb` / contract blob
   `8b60da43f1362c46c54730e8ca029b858964ea59` is approved by
   `/root/independent_reviewer` in review `4364149`;
@@ -41,8 +43,17 @@ configuration gap from BOOT-008 remains open. No repository settings were change
   conflicts reconciled by preserving main BOOT-003 plus the CONTRACT-002 claim.
   Acceptance: versioned internal record/clock/writer boundaries with examples and
   error cases, separate review. No implementation or finalized wire schema.
-- Independent review worktree `/tmp/subathon-coordinator-review`, branch
-  `task/coordinator-independent-review`; approved actual CONTRACT-002 `1904ccb`.
+- CORETEST-001 coordinator: main workspace, branch `task/CORETEST-001-exact-baseline`.
+  Coordinator owns progress/state.json, PROGRESS.html, acceptance map and checkpoint.
+- CORETEST-001 author `/root/qt_validator`: `/tmp/subathon-coretest001`, branch
+  `task/CORETEST-001-test-author`; owns numeric interface/explicit stubs, numeric
+  contract, acceptance tests/task brief/author evidence and explicitly delegated
+  core/tests/root CMake + optional numeric preset harness. No production behavior.
+- CORETEST-001 independent reviewer `/root/independent_reviewer`:
+  `/tmp/subathon-coretest001-review`, branch `task/CORETEST-001-test-review`;
+  owns review evidence after actual authored commit. No advance approval.
+- `/root/domain_contract` performs read-only Boost/CI dependency investigation.
+  No concurrent writer shares a branch/worktree with another author.
 
 ## Checks, blockers and next action
 
@@ -63,10 +74,11 @@ record/clock/writer contract; no requirement conflict found. Coordinator scaffol
 Python19/19, project/current HTML, DOM and diff checks pass. No production/test/schema
 changes. No red run is required or claimed for this documentation-only task.
 
-Next: publish the focused CONTRACT-002 PR and inspect latest
-CI/discussions/merge gates. After integration, choose CORETEST-001 for exact numeric
-primitives; read-only preparation by `/root/qt_validator` is complete and no files
-were changed. No commands are intentionally left running by the coordinator.
+Next: review actual CORETEST-001 contract/tests, resolve findings, compile and
+observe intended stub-red only after approval. Record exact blobs/red evidence and
+keep intentional red outside the passing credit CI lane. Publish its focused baseline
+PR and integrate after all applicable gates; only then start CORE-001 implementation.
+Numeric behavior remains unimplemented. No coordinator commands are left running.
 
 Remaining release gates: the full planned product beyond the numeric credit helper;
 all seven integrations, all three exchange providers, both renderers, UIs/localization,
