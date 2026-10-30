@@ -1,0 +1,11 @@
+test_closed_admission_rejects_late_transports_and_preserves_queued_work (__main__.BridgeExperiments.test_closed_admission_rejects_late_transports_and_preserves_queued_work) ... ok
+test_disconnected_admitted_http_command_commits_once (__main__.BridgeExperiments.test_disconnected_admitted_http_command_commits_once) ... ok
+test_mixed_http_websocket_commands_commit_on_qt_owner (__main__.BridgeExperiments.test_mixed_http_websocket_commands_commit_on_qt_owner) ... ok
+test_occupied_listener_port_fails_without_false_readiness (__main__.BridgeExperiments.test_occupied_listener_port_fails_without_false_readiness) ... ok
+test_sigterm_drains_admitted_command_and_exits_cleanly (__main__.BridgeExperiments.test_sigterm_drains_admitted_command_and_exits_cleanly) ... ok
+test_stop_drains_admitted_http_and_websocket_replies (__main__.BridgeExperiments.test_stop_drains_admitted_http_and_websocket_replies) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.056s
+
+OK

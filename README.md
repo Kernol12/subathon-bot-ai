@@ -21,6 +21,11 @@ It does not need Qt or GoogleTest. Product code will require the agreed Qt >=6.1
 The separate acceptance preset requires GoogleTest >=1.17, with optional pinned
 source fetching only when explicitly enabled. The Qt probe is a separate preset.
 
+An optional [Drogon/Qt feasibility experiment](experiments/spike-001/README.md)
+uses an explicit pinned local dependency build and isolated loopback tests. It
+requires no system-wide Drogon installation on the validated host and is separate
+from product implementation and the intentionally red numeric acceptance suite.
+
 ```sh
 cmake --preset scaffold-debug
 cmake --build --preset scaffold-debug

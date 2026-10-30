@@ -38,3 +38,10 @@ Check Drogon/Qt lifecycle/queue/shutdown, Socket.IO protocol compatibility, Twit
 independent authorization coverage and Linux/Windows OBS/media behavior early. Isolated
 spikes are allowed before production implementation; document results and unresolved
 capabilities, and discard or explicitly review spike code before using it as production.
+
+
+SPIKE-001 now has [bounded Linux loopback evidence](evidence/spike-001-bridge-validation.md)
+for pinned Drogon/Trantor, real HTTP/WebSocket queue/writer operations and cooperative
+shutdown. This approves no production reuse. The observed WebSocket close behavior
+and remaining lifecycle cases are carried into APITEST-001/API-001 and
+APITEST-003/API-003; persistent connections and platform/release support remain open.
