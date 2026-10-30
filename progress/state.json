@@ -148,7 +148,8 @@
       "summary": "Bounded child tasks, explicit test-first/review gates, dependency graph and complete release-scope coverage.",
       "notes": [
         "Planning only on task/BOOT-005-split-epics; owns epic/child briefs, backlog guide, progress state and generated HTML. Open a PR and leave it for review.",
-        "All 27 epics decomposed into 180 work packages / 331 planned child records, including 151 separate baseline gates. Local tooling/scaffold checks pass. Open a PR for owner review; do not merge in this task."
+        "All 27 epics decomposed into 180 work packages / 331 planned child records, including 151 separate baseline gates. Local tooling/scaffold checks pass. Open a PR for owner review; do not merge in this task.",
+        "PR #2 is open for review: https://github.com/Kernol12/subathon-bot-ai/pull/2. Leave unmerged as requested; latest GitHub checks are recorded on the PR."
       ],
       "verification": {
         "planning_consistency": "passed",
@@ -9862,6 +9863,11 @@
       "date": "2026-10-30",
       "task": "BOOT-005",
       "note": "Planning ready for review: complete decision ownership and bounded dependencies; 12 tooling tests and 3/3 scaffold checks pass. Product code, draft tests and verification claims unchanged."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "BOOT-005",
+      "note": "Published task/BOOT-005-split-epics and opened PR #2. Planning task remains in review; no production implementation or PR merge performed."
     }
   ]
 }

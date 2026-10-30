@@ -2,6 +2,7 @@
 
 Date: 2026-10-30. Author/role: Codex, planning/integration.
 Branch: task/BOOT-005-split-epics. Base: 55aae95 (main after PR #1).
+Pull request: [PR #2](https://github.com/Kernol12/subathon-bot-ai/pull/2), open for review.
 Authority: specification v0.45, particularly §17 and §19; initial time-credit
 contract revision 0 remains DRAFT. No domain/API contract is approved by this plan.
 
@@ -115,7 +116,8 @@ run for this planning change. The existing initial core review/intended-red gate
 remains open. The generated HTML is a static snapshot; controller simulation does
 not establish real-browser layout or accessibility with the larger task list.
 
-Open a PR to main and leave it open for owner review as requested. Do not merge it
-automatically. Next execution starts with the existing first-agent baseline and
+PR #2 targets main and is left open for owner review as requested. GitHub check
+results for the latest revision are available on the PR; no merge is performed.
+Next execution starts with the existing first-agent baseline and
 dependency-ready child briefs; refine any remaining bounded contract ambiguities
 before claiming implementation.
