@@ -29,6 +29,10 @@ its reviewed original red baseline is recorded in
 implemented; [IMPL-001 evidence](evidence/impl-001-handoff.md) records passing
 acceptance/regression checks and separate code review. It does not apply contributions
 or commit effects.
+CORE-001 also implements [exact decimal/final conversion revision1](contracts/exact-decimal-v1.md)
+as an explicit core target;32 reviewed cases plus one regression pass with separate
+code review and observed numeric CI. It supplies no application transaction,
+aggregate policy or provider interpretation; see [handoff](evidence/core-001-handoff.md).
 The internal [record, clock and writer boundary contract](contracts/event-state-boundaries-v1.md)
 (revision 1, CONTRACT-002) separates durable intake from atomic application and
 post-commit delivery. It defines shared invariants and specification-derived examples;

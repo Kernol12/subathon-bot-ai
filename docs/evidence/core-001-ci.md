@@ -34,9 +34,14 @@ must fail visibly if that exact package ceases to resolve, without silent fallba
 
 ## Observation and remaining configuration
 
-Actual PR workflow/dependency/test results are pending and must be recorded before
-implementation completion/merge. Only local installedBoost1.92 is known compiled
-until those results exist. The historical red output and reviewed assertions are
+Actual pull_request [run41183487457](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41183487457)
+passed for PR13 head `fd86a6b9e8546bf5308a26e5561be0faf49e35fd` on2026-10-31.
+Observed log: apt installed exact `1.83.0-2.1ubuntu3`; compiler preprocessor printed
+`#define BOOST_VERSION 108300`; CMake selected Boost1.83.0 at /usr/include with
+GCC13.3.0; all33 numeric cases passed. Existing credit/scaffold jobs also passed.
+This establishes that CI dependency/build/test combination, not full Ubuntu
+application deployment or Windows/release support. Final completion-record revision
+CI must still be checked again before merge. The historical red output and reviewed assertions are
 preserved; removal of the intentional-red CTest label after implementation is a
 status update, not a skipped/changed test. Future server targets must link the
 numeric library explicitly; this is a bounded primitive, not application integration.

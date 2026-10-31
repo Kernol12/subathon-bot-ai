@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | 19 reviewed credit-boundary cases plus four reviewed regressions pass; numeric helper only |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4 and exact-decimal32+1 reviewed cases pass; bounded primitives only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit acceptance 19/19 and regression 4/4 pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23 and exact-numeric33/33 pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -38,15 +38,19 @@ unknown provider capabilities as supported using a fictional fixture.
 
 CORETEST-001 adds [exact decimal revision1](contracts/exact-decimal-v1.md): owned
 lossless decimals, positive rates/nonnegative factors and signed64 half-even final
-conversion. Its 32 independently reviewed cases are observed red on explicit
-unimplemented stubs; [baseline evidence](evidence/coretest-001-baseline-handoff.md)
-records exact artifacts and actual exit8. This does not establish numeric behavior.
+conversion. Its32 independently reviewed cases first failed on explicit stubs;
+[baseline evidence](evidence/coretest-001-baseline-handoff.md) retains exact artifacts
+and actual exit8. CORE-001 implements that revision; all32 unchanged cases plus one
+separately reviewed normalized-zero regression pass, with independent code review
+and [Ubuntu/Boost1.83 CI evidence](evidence/core-001-ci.md). See the
+[implementation handoff](evidence/core-001-handoff.md).
 
 Run the explicit lane with `cmake --preset exact-numeric-debug`,
 `cmake --build --preset exact-numeric-debug` and
 `ctest --preset exact-numeric-debug -L exact-numeric`. Installed Boost headers and
-GoogleTest are required. Default scaffold/credit lanes remain separate while numeric
-behavior is red; CORE-001 must enable stable numeric PR/main CI after implementation.
+GoogleTest and Boost>=1.83 are required. The numeric, credit and scaffold workflows
+run automatically on relevant PRs/main; numeric uses the pinned Ubuntu package
+and actual compiler/header/config verification.
 Per-input atomic rejection, aggregates, modifier combination, refunds and all platform
 behavior remain their own baselines and are not covered by these primitive cases.
 
