@@ -57,7 +57,8 @@ DOM/project/render/format/diff pass. New actual timer CI41235200798 atf2e5a46 pa
 onUbuntu24.04/GCC13.3; other5 checks passed there. Mainf886af9 merged56df217,
 source/tests unchanged. [Implementation handoff](core-002-handoff.md) and
 [CI observation](core-002-ci.md) record limits. Bounded taskdone; final status/
-main-reconciliation review, latestheadCI and merge still required before integration.
+main-reconciliation reviewdaea486 approvedb105952 with actual hostedCI independently
+confirmed. Latest final-headCI and merge still required before integration.
 
 Writer `/root/timer_implementer` committedc40eea2 in
 `local-evidence/worktrees/core002-implementation`, branch `task/CORE-002-implementation`;
@@ -69,11 +70,16 @@ Contribution author/reviewer/coordinator branches remain preserved in their exis
 `local-evidence/worktrees/accttest002-{author,review,coordinator}` paths; no work discarded.
 Old quota errors and /tmp worktree metadata are historical, not active assignments.
 
-Next: final CORE002 integration review and latest PR18 CI/merge. Claim dependency-ready
-ACCT-002 from integrated mainf886af9 or later: preserve reviewed21 baseline, implement
-bounded eligibility/linkage with separate code review and add/observe stable automatic
-contribution CI. CORETEST-003 pause-policy baseline can follow the integrated timer
-slice. No routine permission is needed. No local command remains running after the
+Next: finish latest final-head PR18 CI/merge. ACCT-002 is explicitly claimed from
+integrated mainf886af9 in `local-evidence/worktrees/acct002-coordinator`, branch
+`task/ACCT-002-contribution-evidence`, claim3d82b34 and CIconfig1beb71f. Implementer
+`/root/contribution_implementer` owns only core/server contribution sources and evidence
+in isolated `local-evidence/worktrees/acct002-implementation`, branch
+`task/ACCT-002-implementation`; currently authoring, no passing result assumed. Reviewer
+`/root/baseline_reviewer` will own only code/config evidence in
+`local-evidence/worktrees/acct002-review`, branch `task/ACCT-002-code-review`. Preserve
+reviewed21 baseline; require passing simulation/separate review/observed newCI.
+CORETEST-003 pause-policy baseline can follow the integrated timer slice. No routine permission is needed. No local command remains running after the
 recorded checks; remote CI may still run. This checkpoint is updated with actual
 review/merge outcomes at subsequent handoffs; inspect GitHub/main/worktrees on resume.
 

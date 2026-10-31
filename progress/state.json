@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T19:41:50.111321+00:00",
+  "updated_at": "2026-10-31T19:44:54.193838+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1318,8 +1318,8 @@
       "title": "Independent eligibility and confirmation linkage",
       "module": "Accounting",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/contribution_implementer; independent reviewer /root/baseline_reviewer",
       "depends_on": [
         "ACCT-001",
         "ACCTTEST-002"
@@ -1331,7 +1331,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-002.md",
       "summary": "Hold multiple unresolved conditions simultaneously; accepting paused input cannot bypass missing evidence or valuation.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed task/ACCT-002-contribution-evidence from integrated mainf886af9 after PR17 merged19:40:25UTC; final73bd8f9 all5CIpass, baselineapprovala561508/final3ffb71d/reconciliation4e614fe, actual21stubred4d1400f. Contractcontributionrev1; reviewed tests702a7bf1/core65ad81ac/server82c2e5f7/fake8d35e502. Implementer isolated task/ACCT-002-implementation owns ONLY core/src/contribution.cpp, server/src/contribution_evidence.cpp and implementationevidence; no baseline changes. Coordinator owns sharedbuild/labels/workflow/state/HTML/map/status/checkpoint/PR. Acceptance21fake-backedpassingcases, independent code/configreview, stableregressions and observed automaticcontributionCI. No Qt/SQL/provider/application/refund feature claim."
       ],
       "verification": {},
       "evidence": [],
@@ -10631,6 +10632,11 @@
       "date": "2026-10-31T19:41:50.111321+00:00",
       "task": "CORE-002",
       "note": "Bounded timer source61384a59 fromauthorc40eea2 independently approvede64439b with CIconfig1a35587. All39 reviewed unchanged testsbf8c1f46 pass root/author/reviewer; reviewer stable scaffold3/credit23/numeric33/receipt15/tooling19+DOMpass. Actual new timer automatic CI41235200798 atf2e5a46 passes39 onUbuntu24.04/GCC13.3. Mainf886af9 contributionbaseline integrated, behavioralhashes unchanged. Productdomain slice done; final status/reconciliation review/latest PR18 checks/merge pending. Real pause/start/reopen/recovery/schedules/Qt/application/provider/platform gates remain separate."
+    },
+    {
+      "date": "2026-10-31T19:43:23.996310+00:00",
+      "task": "ACCT-002",
+      "note": "Claimed task/ACCT-002-contribution-evidence from integrated mainf886af9 after PR17 merged19:40:25UTC; final73bd8f9 all5CIpass, baselineapprovala561508/final3ffb71d/reconciliation4e614fe, actual21stubred4d1400f. Contractcontributionrev1; reviewed tests702a7bf1/core65ad81ac/server82c2e5f7/fake8d35e502. Implementer isolated task/ACCT-002-implementation owns ONLY core/src/contribution.cpp, server/src/contribution_evidence.cpp and implementationevidence; no baseline changes. Coordinator owns sharedbuild/labels/workflow/state/HTML/map/status/checkpoint/PR. Acceptance21fake-backedpassingcases, independent code/configreview, stableregressions and observed automaticcontributionCI. No Qt/SQL/provider/application/refund feature claim."
     }
   ]
 }
