@@ -36,6 +36,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_QT_PROBE": "ON"
       }
+    },
+    {
+      "name": "exact-numeric-debug",
+      "displayName": "04 \u00b7 Exact numeric intentional-red baseline",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_EXACT_NUMERIC_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -50,6 +58,10 @@
     {
       "name": "qt-probe-debug",
       "configurePreset": "qt-probe-debug"
+    },
+    {
+      "name": "exact-numeric-debug",
+      "configurePreset": "exact-numeric-debug"
     }
   ],
   "testPresets": [
@@ -76,6 +88,16 @@
     {
       "name": "qt-probe-debug",
       "configurePreset": "qt-probe-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "exact-numeric-debug",
+      "configurePreset": "exact-numeric-debug",
       "output": {
         "outputOnFailure": true
       },
