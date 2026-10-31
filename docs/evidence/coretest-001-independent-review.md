@@ -112,3 +112,64 @@ could replace required repository approvals.
 Ubuntu/Boost 1.83 compilation, Windows, service atomicity, live providers, renderers,
 UI/localization, packaging and OBS/platform verification remain unperformed here.
 No credentials or supporter data were used.
+
+
+## Integration addendum — reviewed/red handoff
+
+Date: 2026-10-31; reviewer `/root/numeric_reviewer`.
+Verdict: **approved for integration** of actual coordinator revision
+`32a1c147fa529cc3a83db02ca80e5795b042575e` plus the focused checkpoint correction
+`95de83c`. These revisions were merged into this isolated review branch for
+inspection. This addendum changes only the independent-review document.
+
+The final contract/test/header/stub hashes still equal the exact approved blobs in
+the table above. Existing time-credit source/header, both credit acceptance suites
+and the credit fixture have no diff from main `fcdcd47`. Numeric source remains four
+unconditional missing-behavior throws; no algorithm or expectation changed.
+
+Inspected the complete coordinator red output, baseline handoff, task state/generated
+HTML, acceptance map, TEST_STRATEGY numeric section, dependency inventory and current
+checkpoint. The run at integrated `9e8db8a` follows independent approval `79e0f0d`.
+The log records all 32 test bodies failing on `ExactNumericNotImplemented`, either
+as an uncaught missing-behavior exception or the wrong exception type for a required
+validation/resource/overflow error. It contains no skipped or unrun test. An
+independent log/source-name comparison confirmed all 32 authored case names equal
+the 32 recorded failures and the summary is `0% tests passed, 32 tests failed out of
+32`. Compilation was already independently demonstrated for these unchanged exact
+blobs; the documented exit 8 is therefore genuine intended behavioral red, not a
+missing dependency or compile failure. The reviewer inspected the actual log and
+did not manufacture a second run or convert failure into pass.
+
+CORETEST-001 done means its reviewed/red baseline gate is complete. CORE-001 remains
+planned; no primitive implementation or application-level numeric review/transaction
+behavior is claimed. NUM-01/02/04 entries remain partial with explicit reviewed/red
+scope, and the new primitive scenario is observed_red. The inventory accurately
+states only installed Boost headers used for the optional baseline, with no bundled
+source/binary or unverified platform compatibility claim. Existing green scaffold and
+credit checks remain separate; automatic stable numeric CI is an explicit CORE-001
+gate. Broader aggregate/modifier/refund/provider/platform/release obligations remain.
+
+One integration finding concerned stale checkpoint prose saying author/review/red
+were pending despite their completed evidence. The coordinator corrected only that
+prose in `95de83c`; inspected it and confirmed current authoring/test-review/red are
+complete while final integration/latest CI/merge gates remain pending. No requirements,
+tests or progress verification were altered to resolve the finding.
+
+Independent commands at the integrated done-state revision:
+
+| Command | Actual result |
+| --- | --- |
+| `python3 tools/check_project.py` | exit 0; 377 records/122 decisions, links/presets/current HTML pass |
+| `python3 tools/progress.py render --check` | exit 0; current snapshot |
+| `python3 -m unittest discover -s tests/tooling -q` | exit 0; 19/19 tooling cases pass |
+| `node tools/check_progress_ui.mjs` | exit 0; DOM simulation passes; real browser/OBS explicitly not run |
+| `git diff --check` | exit 0 |
+| `git hash-object` on approved contract/tests/header/stub | exact unchanged approved hashes above |
+| `git diff fcdcd47 HEAD --` existing credit source/header/tests/fixture | empty diff |
+| Python source/log case-name and count comparison | 32 authored cases = 32 recorded failures; no skipped/not-run entries |
+
+Coordinator reports passing credit 23/23 and scaffold 3/3 integration checks; this
+review does not relabel the numeric red suite as passing product coverage. Final PR
+head CI, review-thread/ruleset/GitHub merge gates and the observed merge result remain
+coordinator responsibilities. This approval does not waive any required GitHub review
+or allow dependent implementation before the baseline is integrated into main.
