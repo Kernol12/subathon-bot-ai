@@ -90,13 +90,13 @@ contract and `docs/evidence/pause-signal-policy-questions.md`:
 
 No policy answer remains needed. Author3c6d242 and fullreview86c0bbd have completed
 their bounded handoffs. The actual37-case intended red is recorded; final status/
-integration review, final-head CI and PR20 merge remain. Coordinate shared artifacts
+integration review565be7c approved the actualb50d8d8 record; final-head CI and
+PR20 merge remain. Coordinate shared artifacts
 through root; do not repeat prior completed authoring or review stages.
 
 ## Next coordinator actions
 
-Inspect actual state on resumption. Finish final CORETEST003 integration review and
-latest PR20 CI/merge gates, then immediately claim CORE-003 from integrated main.
+Inspect actual state on resumption. Finish latest PR20 CI/merge gates after full approval86c0bbd and final565be7c, then immediately claim CORE-003 from integrated main.
 Preserve37 reviewed assertions/interfaces; implement pure pause policy, obtain separate
 code review and add/observe stable automatic pause CI. Caller segmentation/timer
 wiring and all provider/storage/platform behavior stay explicit downstream gates.
