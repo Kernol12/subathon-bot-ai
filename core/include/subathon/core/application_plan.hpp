@@ -4,9 +4,9 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
-#include <vector>
 #include <subathon/core/contribution.hpp>
 #include <subathon/core/exact_decimal.hpp>
+#include <vector>
 
 namespace subathon::core {
 // Revision 1: docs/contracts/application-plans-v1.md. Owned internal projections.
@@ -14,10 +14,10 @@ struct PlanEvent {
     std::string event_ref;
     std::optional<std::string> parent_event_ref;
     std::string root_event_ref;
-    ReceiptId receipt_id;
+    ReceiptId receipt_id{0};
     ReceiptIdentity identity;
-    ReceiptFacts facts;
-    ReceiptArrival arrival;
+    ReceiptFacts facts{};
+    ReceiptArrival arrival{};
     std::optional<ContributionId> contribution_id;
     bool operator==(const PlanEvent &) const = default;
 };
@@ -46,7 +46,7 @@ struct PlanValuation {
 struct RuleSelection {
     std::string rule_ref;
     std::string version_ref;
-    bool selected;
+    bool selected{false};
     std::string explanation;
     bool operator==(const RuleSelection &) const = default;
 };
@@ -78,10 +78,10 @@ struct RequestedEffect {
     std::string action_version_ref;
     std::string rule_ref;
     std::string target_ref;
-    RequestedUnit unit;
+    RequestedUnit unit{RequestedUnit::milliseconds};
     bool requires_historical_valuation{true};
     Exact exact_requested_units;
-    std::int64_t requested_units;
+    std::int64_t requested_units{0};
     std::string calculation_explanation;
     std::string reversal_behavior_ref;
     bool operator==(const RequestedEffect &) const = default;
@@ -103,7 +103,7 @@ struct PlanOverrideDecision {
     bool operator==(const PlanOverrideDecision &) const = default;
 };
 struct CapturedPlanRevision {
-    std::uint64_t revision;
+    std::uint64_t revision{0};
     std::optional<std::uint64_t> parent_revision;
     PlanCapture captured;
     std::vector<RuleSelection> rules;
@@ -117,7 +117,7 @@ struct ApplicationPlan {
     bool operator==(const ApplicationPlan &) const = default;
 };
 struct PlanPreview {
-    std::uint64_t plan_revision;
+    std::uint64_t plan_revision{0};
     std::string authoritative_state_revision;
 };
 enum class PlanPreviewValidity { current, stale_plan, stale_state };
@@ -128,15 +128,13 @@ class ApplicationPlanNotImplemented final : public std::logic_error {
 };
 // No storage or effects. The caller persists the returned value through its writer.
 [[nodiscard]] ApplicationPlan capture_application_plan(std::string plan_ref,
-                                                      const PlanCapture &capture,
-                                                      RulePlanSource &rules,
-                                                      ModifierPlanSource &modifiers);
-[[nodiscard]] ApplicationPlan revise_application_plan(const ApplicationPlan &original,
-                                                     std::uint64_t expected_revision,
-                                                     const PlanCapture &replacement,
-                                                     const PlanOverrideDecision &decision,
-                                                     RulePlanSource &rules,
-                                                     ModifierPlanSource &modifiers);
+                                                       const PlanCapture &capture,
+                                                       RulePlanSource &rules,
+                                                       ModifierPlanSource &modifiers);
+[[nodiscard]] ApplicationPlan
+revise_application_plan(const ApplicationPlan &original, std::uint64_t expected_revision,
+                        const PlanCapture &replacement, const PlanOverrideDecision &decision,
+                        RulePlanSource &rules, ModifierPlanSource &modifiers);
 [[nodiscard]] PlanPreviewValidity check_plan_preview(const ApplicationPlan &plan,
                                                      const PlanPreview &preview,
                                                      const std::string &current_state_revision);

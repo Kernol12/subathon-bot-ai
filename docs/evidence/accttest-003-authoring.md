@@ -70,3 +70,38 @@ storage; these pure tests cannot prove resolvability/durability.
 - Configure/build/list: awaiting coordinator harness; not yet run.
 - Test bodies/red: not run; independent review required first. No production
   implementation, Qt/SQL, live/provider/permission engine, platform or API claim.
+
+## Compile/discovery handoff after coordinator harness
+
+Coordinator merged its isolated harness at a5ef409 after author commit6ed861e.
+An evidence add/add conflict was resolved by the coordinator keeping the full author
+content; no author assertion or behavior was removed. Source formatting uses the
+repository clang-format. Scalar defaults explicitly initialize new projection IDs,
+versions, flags and requested amounts; an omitted receipt remains invalid0 and
+omitted valuation remains missing, never an invented success.
+
+Actual author-worktree commands on Linux x86-64:
+
+| Command | Result |
+| --- | --- |
+| `cmake --preset application-plan-debug` | exit0; GNU16.2.1, Python3.14.8, Boost1.92.0; CMake4.4.5, installed GTest1.18.0 |
+| `cmake --build --preset application-plan-debug` | exit0; linked library/test executable; first build emitted nodiscard warnings in EXPECT_THROW; explicit void-discard fixed those test call sites |
+| `cmake --build --preset application-plan-debug` (after correction and final defaults) | exit0;4 incremental steps, no diagnostics |
+| `ctest --preset application-plan-debug -N -L application-plan` | exit0;22 cases listed; no bodies executed |
+| `clang-format --dry-run --Werror core/include/subathon/core/application_plan.hpp core/src/application_plan.cpp tests/acceptance/application_plan_tests.cpp` | exit0 using clang-format23.1.4 |
+| `git diff --check` | exit0 |
+
+Exact final candidate blobs (before independent review):
+
+| Artifact | Git blob |
+| --- | --- |
+| Core interface | `501112d64959d20f682420d33a260e7745f5b378` |
+| Unconditional core stubs | `ac9dcd0a73ec12fffaf3bdb1ff45f9f1f80fc23f` |
+|22 authored cases | `f93287fa2c7c3ef4753e6bbbedd1d2a54f4529b9` |
+| Normative contract | `5bb9a914f8b80a7ad43cabcccf3905294a9f7a63` |
+
+Separate reviewer must assess this exact interface/contract/test candidate and
+harness. Coordinator owns intended runtime red only after actual approval, progress,
+acceptance map, HTML, integration checks and PR. Nothing here establishes approved
+baseline, implemented behavior, current-state cap correctness, permissions engine,
+durable history/Qt ownership, full evaluator or live/platform verification.
