@@ -45,15 +45,24 @@ configuration gap from BOOT-008 remains open. No repository settings were change
   error cases, separate review. No implementation or finalized wire schema.
 - CORETEST-001 coordinator: main workspace, branch `task/CORETEST-001-exact-baseline`.
   Coordinator owns progress/state.json, PROGRESS.html, acceptance map and checkpoint.
-- CORETEST-001 author `/root/qt_validator`: `/tmp/subathon-coretest001`, branch
-  `task/CORETEST-001-test-author`; owns numeric interface/explicit stubs, numeric
-  contract, acceptance tests/task brief/author evidence and explicitly delegated
-  core/tests/root CMake + optional numeric preset harness. No production behavior.
-- CORETEST-001 independent reviewer `/root/independent_reviewer`:
-  `/tmp/subathon-coretest001-review`, branch `task/CORETEST-001-test-review`;
-  owns review evidence after actual authored commit. No advance approval.
-- `/root/domain_contract` performs read-only Boost/CI dependency investigation.
-  No concurrent writer shares a branch/worktree with another author.
+- CORETEST-001 author `/root/numeric_test_author`: persistent ignored worktree
+  `local-evidence/worktrees/coretest001-author`, branch `task/CORETEST-001-author-resume`.
+  Owns numeric interface/explicit stubs, numeric contract, acceptance tests/task
+  brief/author evidence and delegated core/tests/root CMake + numeric preset harness.
+- CORETEST-001 reviewer `/root/numeric_reviewer`: persistent ignored worktree
+  `local-evidence/worktrees/coretest001-review`, branch `task/CORETEST-001-review-resume`.
+  Owns independent review evidence after actual authored revision.
+
+Resume inspection on 2026-10-31: only the coordinator agent remained active; no
+build/test processes or open GitHub PRs existed. Main remains `fcdcd47`; PRs #10/#11
+are confirmed merged. Old `/tmp` worktrees are absent both inside and outside the
+sandbox, though Git retains their branches/metadata. They were not pruned or reset.
+The previous numeric author hit a usage limit before committing its draft. Its
+branch still points at main; no numeric review/red baseline existed to preserve.
+Uncommitted header/stub/harness/partial-test drafts from that vanished worktree are
+unavailable, so the unfinished authoring was explicitly reassigned. All completed
+commits/reviews remain retained. New worktrees live under ignored `local-evidence/`
+for continuity and authors are instructed to commit checkpoints frequently.
 
 ## Checks, blockers and next action
 
