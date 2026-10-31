@@ -1,90 +1,104 @@
-# Coordinator handoff — active review checkpoint
+# Coordinator handoff — active implementation and policy checkpoint
 
-Coordinator `/root`, 2026-10-31. Objective: full specification v0.45, task by task,
-with isolated writers, real independent reviews and focused PRs. This is a session
-checkpoint, not completed product/release evidence. Last observed main is
-`f886af90c5eaa7e390ca9d2c82ea204de2a71995`; inspect actual GitHub again on resume.
+Coordinator `/root`, 2026-10-31. Objective: full specification v0.45 task by task,
+with isolated writers, real independent reviews and focused PRs. Full product is
+not complete. Last observed integrated main0700d5dc4a1c159ed0b5210fb8051895c5b51b17;
+inspect actual main/GitHub/worktrees/agents before acting after interruption.
 
-## Completed integrations
+## Completed integration evidence
 
-- [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10), BOOT-003, merged11eafe2;
-  local Qt6.12 probe4/4 independently replayed. [Evidence](boot-003-qt-probe.md).
-- [PR #11](https://github.com/Kernol12/subathon-bot-ai/pull/11), CONTRACT-002,
-  mergedfcdcd47; internal record/clock/writer boundaries, review4364149+6312df4.
-  [Review](contract-002-independent-review.md); no executable behavior from that doc.
-- [PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), CORETEST-001,
-  mergedcab329b; reviewed32-case numeric red baseline. [Handoff](coretest-001-baseline-handoff.md).
-- [PR #13](https://github.com/Kernol12/subathon-bot-ai/pull/13), CORE-001,
-  merged806f69f, finalbfb7717 with all four checks passed. Sourcea1ddb428 and
-  reviewsdb26514/d555cbc; numeric32+1 pass, including separately reviewed/red zero
-  regression; actual pinned UbuntuBoost1.83 CI observed. [Handoff](core-001-handoff.md).
-- [PR #15](https://github.com/Kernol12/subathon-bot-ai/pull/15), ACCTTEST-001,
-  merged7900a61 at13:51:17UTC, final6579e12 with four checks passed. Author28729c7,
-  reviews54cff97/a843e4d; actual15-case stub-red18d8670 after approval.
-  [Baseline handoff](accttest-001-baseline-handoff.md).
-- [PR #16](https://github.com/Kernol12/subathon-bot-ai/pull/16), ACCT-001,
-  merged8ad458e at14:11:07UTC, finalbd9be45 with all five checks passed. Source
-  `7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8`, code/config reviewab28d70 and final
-  integration75be0a0. Receipt15 fake-backed simulations, numeric33, credit23 and
-  scaffold3 pass; automatic receipt CI run41207963538 observed. Its remote label
-  summary establishes receipt-intake only; extra labels were local observations.
-  [Implementation handoff](acct-001-handoff.md), [CI evidence](acct-001-ci.md).
+PR10 BOOT003 merged11eafe2 (Qt6.12 probe4/4, independent review27fe6b9).
+PR11 CONTRACT002 mergedfcdcd47 (internal boundaries, reviews4364149/6312df4).
+PR12 CORETEST001 mergedcab329b (reviewed32-case numeric intended red).
+PR13 CORE001 merged806f69f (sourcea1ddb428, reviewdb26514/d555cbc;33numeric cases
+including separately reviewed/red zero regression, pinnedBoost1.83 CI observed).
+PR15 ACCTTEST001 merged7900a61 (15 intended receipt stub failures after review).
+PR16 ACCT001 merged8ad458e (source7a0986bd, reviewab28d70/75be0a0;15 receipt
+simulations and automatic CI, no SQL/provider proof). Earlier SPIKE001/credit/
+coordinator/CI tasks remain completed; see their retained task evidence.
 
-Earlier merged SPIKE-001/TEST-002/IMPL-001 and coordinator/CI preparation evidence
-remains retained. No baseline assertion was weakened, no protection settings changed.
-Ruleset26170263 requires PRs/resolved threads, zero GitHub approvals, no force/delete
-bypass and no required-status-check rule. All latest checks remain coordinator merge
-gates regardless of that explicit enforcement gap; repository settings were not changed.
+- [PR14](https://github.com/Kernol12/subathon-bot-ai/pull/14), CORETEST002,
+  merged419d855 at19:34:33UTC, final3846d38 all5checks passed. Full review2fb544f,
+  final26e40f9,39 intended stub failures atcd59601 after approval;
+  [baseline](coretest-002-baseline-handoff.md). Owner positive-actual confirmation-wait
+  resumption choice resolved; testsbf8c1f46/header69cad702 retained.
+- [PR17](https://github.com/Kernol12/subathon-bot-ai/pull/17), ACCTTEST002,
+  mergedf886af9 at19:40:25UTC, final73bd8f9 all5checks passed. Corrected tests702a7bf1,
+  reviews a561508/3ffb71d/4e614fe,21 intended stub failures at4d1400f;
+  [baseline](accttest-002-baseline-handoff.md). No assertions weakened.
+- [PR18](https://github.com/Kernol12/subathon-bot-ai/pull/18), CORE002,
+  merged0700d5d at19:46:03UTC, final17a4602 all6checks passed, no review threads.
+  Authorc40eea2/source61384a59, code reviewe64439b/finaldaea486,39 cases pass;
+  [implementation](core-002-handoff.md), [actual timer CI41235200798](core-002-ci.md).
+  Positive actual credit resumes Main during confirmation wait; zero keeps waiting,
+  independent pauses/Grace/hard-end/Finished guards retained. This is a pure reducer,
+  not a running live timer application.
 
-## Current integration and next work
+Ruleset26170263 requires PRs/resolved threads, zero GitHub approvals, forbids force/
+delete and has no bypass actors or required-status-check rule. All latest CI checks
+remain written merge gates. No rules/settings/test weakening or live side effects.
 
-- [PR14](https://github.com/Kernol12/subathon-bot-ai/pull/14), CORETEST-002,
-  merged419d855 at19:34:33UTC, final3846d38 all5checks passed. Full baseline2fb544f,
-  final review26e40f9,39 actual stub failures after approval atcd59601;
-  [baseline handoff](coretest-002-baseline-handoff.md). Owner automatic positive-actual
-  confirmation-wait resumption decision is resolved; no owner question remains.
-- [PR17](https://github.com/Kernol12/subathon-bot-ai/pull/17), ACCTTEST-002,
-  mergedf886af9 at19:40:25UTC, final73bd8f9 all5checks passed, no threads. Corrected
-  tests702a7bf1, approvals a561508/3ffb71d/4e614fe,21 actual stub failures at4d1400f;
-  [baseline handoff](accttest-002-baseline-handoff.md). No contribution implementation.
+## Active ACCT002 implementation
 
-CORE-002 [draft PR18](https://github.com/Kernol12/subathon-bot-ai/pull/18), root branch
-`task/CORE-002-timer-lifecycle`. Authorc40eea2/source61384a59 approved separately by
-`/root/timer_final_reviewer` ine64439b (integratede1745e0); CIconfig1a35587. All39
-reviewed testsbf8c1f46 and header69cad702 unchanged; pure-domain implementation now
-passes39. Author/reviewer stable scaffold3/credit23/numeric33/receipt15 and tooling19/
-DOM/project/render/format/diff pass. New actual timer CI41235200798 atf2e5a46 passed
-onUbuntu24.04/GCC13.3; other5 checks passed there. Mainf886af9 merged56df217,
-source/tests unchanged. [Implementation handoff](core-002-handoff.md) and
-[CI observation](core-002-ci.md) record limits. Bounded taskdone; final status/
-main-reconciliation reviewdaea486 approvedb105952 with actual hostedCI independently
-confirmed. Latest final-headCI and merge still required before integration.
+[Draft PR19](https://github.com/Kernol12/subathon-bot-ai/pull/19), branch
+`task/ACCT-002-contribution-evidence`, coordinator worktree
+`local-evidence/worktrees/acct002-coordinator`. Author3e76ce9 integrated49112b3,
+main0700d5d mergeda579e38, CIconfig1beb71f, code approval6e917c7 integratedad5cc27.
+Core sourcec3b2ea0d/server975067bb; reviewed21tests702a7bf1, interfaces65ad81ac/
+82c2e5f7 and primitive fake8d35e502 unchanged. Author/root/reviewer21pass; reviewer
+also timer39/receipt15/numeric33/credit23/scaffold3. Root tooling19/project/render/
+DOM/diff pass. Actual automatic contribution CI41235930193 atPR19a579e38 passed21
+GNU13.3; latest final-head gates still required. Completion candidate60b1f8a independently approved inee5e4fb; all seven checks
+passed at60b1f8a. Publish this final review, then check the final exact-head CI/
+discussions/rules before merge. No source or prior approval is discarded.
 
-Writer `/root/timer_implementer` committedc40eea2 in
-`local-evidence/worktrees/core002-implementation`, branch `task/CORE-002-implementation`;
-worktreeclean. Independent code reviewer `/root/timer_final_reviewer` owns only review
-in `local-evidence/worktrees/core002-review`, branch `task/CORE-002-code-review`;
-e64439b committed/clean. Coordinator owns build/presets/workflows, state/HTML/map,
-shared status docs/checkpoint and PR. Inspect actual agents before reuse.
-Contribution author/reviewer/coordinator branches remain preserved in their existing
-`local-evidence/worktrees/accttest002-{author,review,coordinator}` paths; no work discarded.
-Old quota errors and /tmp worktree metadata are historical, not active assignments.
+Author `/root/contribution_implementer` completed/committed3e76ce9 in
+`local-evidence/worktrees/acct002-implementation`, branch `task/ACCT-002-implementation`.
+Reviewer `/root/baseline_reviewer` completed code and final approval in
+`local-evidence/worktrees/acct002-review`, branch `task/ACCT-002-code-review`; preserve completed final reviewee5e4fb. This old agent is no longer running. Coordinator owns shared
+build/presets/workflow/progress/HTML/map/status/checkpoint and PR. No application/
+effect/job/refund algorithm or SQL/Qt/provider verification is supplied by this slice.
 
-Next: finish latest final-head PR18 CI/merge. ACCT-002 is explicitly claimed from
-integrated mainf886af9 in `local-evidence/worktrees/acct002-coordinator`, branch
-`task/ACCT-002-contribution-evidence`, claim3d82b34 and CIconfig1beb71f. Implementer
-`/root/contribution_implementer` owns only core/server contribution sources and evidence
-in isolated `local-evidence/worktrees/acct002-implementation`, branch
-`task/ACCT-002-implementation`; currently authoring, no passing result assumed. Reviewer
-`/root/baseline_reviewer` will own only code/config evidence in
-`local-evidence/worktrees/acct002-review`, branch `task/ACCT-002-code-review`. Preserve
-reviewed21 baseline; require passing simulation/separate review/observed newCI.
-CORETEST-003 pause-policy baseline can follow the integrated timer slice. No routine permission is needed. No local command remains running after the
-recorded checks; remote CI may still run. This checkpoint is updated with actual
-review/merge outcomes at subsequent handoffs; inspect GitHub/main/worktrees on resume.
+## Active CORETEST003 draft and unanswered decisions
+
+Root branch `task/CORETEST-003-pause-baseline`, claim425447c frommain0700d5d.
+Author `/root/pause_test_author` owns only pause contract/header/stubs/tests/brief/
+authoring evidence in `local-evidence/worktrees/coretest003-author`, branch
+`task/CORETEST-003-pause-author`. Proposed contract/header/stubs4f24779 integrated
+f607d35; optional harness/questions recordec9d8a9, merged into author worktree.
+Headera2299648/stubdee2a91c/contractb5288091 are proposed, not fully reviewed.
+Old `/root/timer_final_reviewer` stopped without review evidence. Newly assigned
+independent `/root/pause_resume_reviewer` now reviews the actual draft in
+`local-evidence/worktrees/coretest003-review`, branch `task/CORETEST-003-pause-review`;
+no review assigned or approval inferred yet. Author is writing independent cases;
+no pause body/red/implementation claimed. Coordinator owns all shared artifacts.
+
+The owner was asked asynchronously, no answer assumed:
+1. Unknown arrives before the confirmed-Offline delay expires: cancel/reset on later
+   Offline (recommended), freeze remaining delay, or continue through Unknown?
+2. Optional Unknown timeout pause: clear on any known status with a fresh timeout
+   for each later Unknown episode (recommended), or clear only on confirmed Online?
+
+Existing confirmed-Offline/other independent reasons cannot be cleared by Unknown.
+Question details are in `docs/evidence/pause-signal-policy-questions.md` on the pause
+branch. The specification leaves these interactions open; no policy was invented.
+Continue independently specified cases while answers are pending. Full baseline
+approval/red/merge and CORE003 implementation wait for recorded answers and reviewed
+examples; partial drafts do not complete the task or shrink release scope.
+
+## Next and remaining gates
+
+Owner requested stopping after the next finished PR: finish PR19 final-head CI/
+merge, refresh main, preserve/update the pause checkpoint, then stop. Do not claim
+background continuation or start another task after that stop boundary. Preserve pause work and valid reviews,
+resolve actual owner answers, compile/list proposed cases, obtain separate full review
+then genuine intended stub-red before pause baseline merge/implementation. If the
+session checkpoints, stop honestly; no background continuation is assumed. Inspect
+actual processes/status on resume; avoid restarting completed tasks or old agents.
+Persistent ignored local-evidence worktrees retain all commits; old absent /tmp
+metadata was not pruned/reset. No real credentials/supporter data are committed.
 
 Full release gates remain: authoritative application/aggregates/refunds, all seven
 integrations and three rate providers, supported platforms, both renderers, UIs/
-localization/themes, packaging and live/OBS evidence. Receipt results are simulation
-only; SQL uniqueness/durability/Qt ownership/actual provider IDs remain separate.
-No credentials, real supporter state, chat/payment side effects or deployment used.
+localization/themes, packaging and live/OBS evidence. All source-port results retain
+simulation/domain limits; SQL/Qt/provider/platform/live gates remain separate.

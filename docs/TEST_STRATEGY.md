@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39 and receipt15 simulation cases pass; bounded slices only |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, receipt15 and contribution21 simulation cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39 and receipt15/15 simulation pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, receipt15/15 and contribution21/21 simulation pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -71,17 +71,16 @@ suite remains simulation evidence. SQL durability/uniqueness, Qt ownership, live
 identifiers, source admission, contribution creation and actual effects remain
 separate acceptance/platform/provider gates.
 
-## Contribution eligibility baseline
+## Contribution eligibility and linkage
 
-ACCTTEST-002 has21 independently reviewed cases for independent holds and
-caller-verified confirmation linkage. Configure/build `contribution-evidence-debug`
-passed; after separate approval, CTest `-L contribution-evidence` ran all21 bodies
-and failed on explicit core/service stubs. [Baseline handoff](evidence/accttest-002-baseline-handoff.md)
-records exact artifacts and actual red. No passing contribution behavior is claimed.
-ACCT-002 waits for baseline integration, then must preserve tests, implement both
-pieces, obtain separate code review and add/observe stable automatic contribution CI.
-The optional intentional-red lane remains separate from stable feature workflows;
-SQL/Qt/provider/application and refund verification remain downstream gates.
+ACCTTEST-002 supplied21 independently reviewed cases and the original intended stub-red;
+[baseline handoff](evidence/accttest-002-baseline-handoff.md) retains that sequence.
+ACCT-002 implements the pure assessor and writer-port linkage service. All21 unchanged
+cases pass with separate code review and [observed automatic simulation CI](evidence/acct-002-ci.md).
+Use configure/build `contribution-evidence-debug`, then CTest `-L contribution-evidence`;
+that same stable lane runs automatically on relevant PRs/main. The primitive fake
+provides simulation storage, not SQL/Qt/provider/application/refund verification;
+[handoff](evidence/acct-002-handoff.md) records exact artifacts and remaining gates.
 
 ## Priorities after first baseline
 
