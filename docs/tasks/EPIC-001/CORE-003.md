@@ -5,8 +5,8 @@ Specification: v0.45; §4, TIMER-03, TIMER-05.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [pause-policy revision 1](../../contracts/pause-policy-v1.md).
 The37-case baseline is independently reviewed and observed red; see
-[handoff](../../evidence/coretest-003-baseline-handoff.md). No policy implementation
-is provided by the baseline.
+[handoff](../../evidence/coretest-003-baseline-handoff.md). The subsequent bounded pure implementation passes37 cases with separate code review
+and observed CI; [implementation handoff](../../evidence/core-003-handoff.md).
 
 ## Scope and ownership
 
@@ -18,8 +18,9 @@ elapsed duration. It reads no system clock or UTC and returns no authoritative s
 write. Countdown integration, schedule occurrence calculation, recovery decisions,
 configuration changes during a pending episode and Qt/network/provider behavior
 remain their separately assigned gates. The coordinator owns all root/module build
-files, presets, shared progress/HTML, acceptance map and publication; the test author
-owns only the new contract/header/stub/tests, this brief and authoring evidence.
+files, presets, shared progress/HTML, acceptance map and publication; baseline authors
+supplied the contract/header/stubs/tests/brief/evidence, while the implementer owns
+only source and implementation evidence.
 
 Primary module paths: core/
 Read root/scoped AGENTS.md before editing. Shared schemas, migrations, dependency pins,
@@ -43,9 +44,9 @@ both known statuses clear/reset Unknown with a fresh timeout on each new episode
 Established Offline survives Unknown and known Offline. Known Online independently
 recovers Offline; connected-client recovery independently clears its reason. External
 and unrecovered holds remain. No product-policy question remains.
-Both functions remain unconditional `PausePolicyNotImplemented` stubs. Full independent
-review86c0bbd preceded the actual37-case stub-red atf39ccc8. Final baseline publication/
-merge gates and all implementation gates remain; intended release scope is unchanged.
+Full independent review86c0bbd preceded actual37-case stub-red atf39ccc8 and
+baseline PR20 merge. CORE-003 subsequently implemented both functions;37 unchanged
+cases pass with separate code review and automatic CI. Intended release scope remains.
 
 ## Separate baseline and implementation tasks
 
@@ -71,7 +72,7 @@ acceptance-map entries only when tests/evidence are authored or observed. Fixtur
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
 
-Current baseline gate: full review86c0bbd approved the complete37 cases, then actual
-CTest atf39ccc8 failed37/37 on explicit stubs. Original30 bodies/header/stubs remain
-preserved. CORE-003 must pass these cases, obtain separate code review, and add/observe
-stable automatic pause PR/main CI before implementation completion.
+Historical baseline gate: full review86c0bbd approved the complete37 cases, then actual
+CTest atf39ccc8 failed37/37 on explicit stubs. Original30 bodies/header remain
+unchanged; explicit stubs are retained in baseline history. CORE-003 now passes these cases with separate code review and observed automatic
+pause PR/main CI; final publication/merge and downstream integration remain separate.

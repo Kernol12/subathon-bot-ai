@@ -117,9 +117,13 @@
       "evidence": [
         "docs/evidence/coretest-003-independent-review.md",
         "docs/evidence/coretest-003-baseline-handoff.md",
-        "docs/evidence/coretest-003-red-ctest.txt"
+        "docs/evidence/coretest-003-red-ctest.txt",
+        "docs/evidence/core-003-implementation.md",
+        "docs/evidence/core-003-code-review.md",
+        "docs/evidence/core-003-ci.md",
+        "docs/evidence/core-003-handoff.md"
       ],
-      "scope": "37-case pure pause-policy baseline independently reviewed and observed intended stub-red. Implementation, timer/writer/provider wiring and release/platform behavior remain separate."
+      "scope": "37 reviewed cases pass against pure pause policy with separate code/CI review and actual automatic Ubuntu execution. Caller segmentation/timer wiring, real providers, Qt/state transactions, reconfiguration, schedules/recovery and platform behavior remain separate."
     },
     {
       "id": "TIMER-04",
@@ -136,9 +140,13 @@
       "evidence": [
         "docs/evidence/coretest-003-independent-review.md",
         "docs/evidence/coretest-003-baseline-handoff.md",
-        "docs/evidence/coretest-003-red-ctest.txt"
+        "docs/evidence/coretest-003-red-ctest.txt",
+        "docs/evidence/core-003-implementation.md",
+        "docs/evidence/core-003-code-review.md",
+        "docs/evidence/core-003-ci.md",
+        "docs/evidence/core-003-handoff.md"
       ],
-      "scope": "37-case pure pause-policy baseline independently reviewed and observed intended stub-red. Implementation, timer/writer/provider wiring and release/platform behavior remain separate."
+      "scope": "37 reviewed cases pass against pure pause policy with separate code/CI review and actual automatic Ubuntu execution. Caller segmentation/timer wiring, real providers, Qt/state transactions, reconfiguration, schedules/recovery and platform behavior remain separate."
     },
     {
       "id": "TIMER-06",
@@ -972,7 +980,7 @@
     },
     {
       "scenario": "Independent pause reasons and normalized signal-delay policy",
-      "status": "observed_red",
+      "status": "passed",
       "tests": [
         "tests/acceptance/pause_policy_tests.cpp"
       ],
@@ -989,9 +997,21 @@
         "docs/evidence/coretest-003-authoring.md",
         "docs/evidence/coretest-003-independent-review.md",
         "docs/evidence/coretest-003-baseline-handoff.md",
-        "docs/evidence/coretest-003-red-ctest.txt"
+        "docs/evidence/coretest-003-red-ctest.txt",
+        "docs/evidence/core-003-implementation.md",
+        "docs/evidence/core-003-code-review.md",
+        "docs/evidence/core-003-ci.md",
+        "docs/evidence/core-003-handoff.md"
       ],
-      "scope": "37 independently reviewed cases actually fail on explicit stubs after successful compilation. Both owner choices covered, all original30 preserved; no implementation, timer integration or provider verification."
+      "scope": "37 reviewed cases pass against pure pause policy with separate code/CI review and actual automatic Ubuntu execution. Caller segmentation/timer wiring, real providers, Qt/state transactions, reconfiguration, schedules/recovery and platform behavior remain separate.",
+      "code_review": {
+        "author": "/root/pause_policy_implementer",
+        "reviewer": "/root/pause_resume_reviewer",
+        "outcome": "approved",
+        "baseline": "authorc428c45; sourced080ac757bedb1e621420c31aca691a6d25b4052; tests646d83f4; CIe5ee766; review8197844",
+        "evidence": "docs/evidence/core-003-code-review.md"
+      },
+      "verification_level": "deterministic domain"
     }
   ]
 }

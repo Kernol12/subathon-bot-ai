@@ -8,8 +8,9 @@ The [timer lifecycle contract](timer-lifecycle-v1.md) remains unchanged.
 
 State: revision1 independently reviewed with37 cases and observed intended stub-red;
 [baseline handoff](../evidence/coretest-003-baseline-handoff.md) records exact artifacts.
-Both functions remain unconditional PausePolicyNotImplemented stubs; no production
-pause behavior or timer integration is supplied by this baseline.
+CORE-003 implements both pure functions;37 unchanged cases pass with separate code
+review and observed automatic CI. [Implementation handoff](../evidence/core-003-handoff.md).
+No caller segmentation/timer or provider/state integration is supplied.
 
 ## Scope and public values
 
@@ -64,7 +65,7 @@ Offline delay; later confirmed Offline starts a fresh full configured Offline de
 These owner-selected edges preserve every unrelated reason, including established
 StreamOffline. Known Online independently clears StreamOffline, and a connected
 client independently clears DesignatedClientDisconnected; Unknown cleanup never
-globally resumes the timer. These edges now have focused tests awaiting full independent review.
+globally resumes the timer. These edges are covered by the37 independently reviewed passing cases.
 
 This interface returns a final proposal, not within-interval countdown history. A
 caller integrating the timer must segment at delay expiry and use the pause set
@@ -111,8 +112,8 @@ Both previously unresolved interactions now have explicit owner answers in the
 No product question remains. Seven additive cases cover the decided edges while
 preserving all original30 bodies. Full independent review86c0bbd approved all37
 before the observed intended stub-red atf39ccc8. Historical partialreview005b6f4
-remains retained. No implementation or timer integration is supplied; CORE-003 still
-needs passing cases, separate code review and observed automatic CI.
+remains retained. CORE-003 now supplies the pure implementation with37 passing cases, separate code
+review and observed automatic CI. Timer/provider/state integration stays separate.
 
 ## Independently derived examples
 
@@ -142,8 +143,9 @@ maps their coverage and records actual compilation/discovery only.
 
 ## Ownership, review and CI gates
 
-The author owns this contract, the new header/stub/tests, CORE-003 brief and authoring
-evidence. The coordinator exclusively owns CMake/presets, shared progress/HTML,
+Baseline authors supplied this contract, header/stubs/tests, brief and authoring
+evidence. The CORE-003 implementer owns only source/implementation evidence and
+preserves the reviewed header/tests. The coordinator exclusively owns CMake/presets, shared progress/HTML,
 acceptance map, integration and publication. Planned optional harness:
 `SUBATHON_BUILD_PAUSE_POLICY_TESTS`, library `subathon_pause_policy`, executable
 `core_pause_policy_acceptance`, preset `pause-policy-debug`, label `pause-policy`.

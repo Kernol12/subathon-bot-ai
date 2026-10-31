@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T20:57:58.096526+00:00",
+  "updated_at": "2026-10-31T21:11:53.009713+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -900,8 +900,8 @@
       "title": "Independent pause reasons and delayed status signals",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; implementer /root/pause_policy_implementer; independent reviewer /root/pause_resume_reviewer",
       "depends_on": [
         "CORE-002",
         "CORETEST-003"
@@ -914,11 +914,33 @@
       "brief": "docs/tasks/EPIC-001/CORE-003.md",
       "summary": "Default offline and designated-client delays independently to 30 seconds; countdown continues while the delays are pending.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed task/CORE-003-pause-policy from currentintegratedmain01058e2 afterPR20 merged20:59:19UTC, final024974f all7CIpass; fullbaseline86c0bbd/final565be7c and actual37stubredf39ccc8. Contractpausepolicyrev1, reviewedtests646d83f4/headerc91b7da3 preserved. Implementerisolated task/CORE-003-implementation owns ONLY core/src/pause_policy.cpp and implementationevidence; coordinatorowns allCMake/labels/preset/automaticCI/state/HTML/map/status/checkpoint/PR. Separate code/configreview; accept37passing+stableregressions+observednewautomaticpauseCI. No timersegmentation/writer/provider/schedule/recovery/reconfigurationimplementationclaim.",
+        "Sourceauthorc428c45/d080ac75 and CIe5ee766 independently approved8197844. All37 unchanged reviewedcases646d83f4 pass root/author/reviewer; author6fullregressionpresets and reviewer timer39/scaffold3/tooling19/DOMpass. Actualnewpause automaticCI41241695018 atPR21source07174f6 passed37 GNU13.3; all8checks passedthere. Pure policy slice done; finalstatusreview/latestheadCI/merge pending. UserrequestedGitHubcleanup: independentread-onlyaudit +root exacthead/contentguards deleted31unusedremote refs atomically, main/activePR21/localworktrees/history retained andtipsarchived. No source/test/protection changes fromcleanup; timer/writer/provider/platform/live gates remain separate.",
+        "Finalintegration8a50580 independently approves33a079f: source/header/tests/workflowunchanged, statusdocfindingresolved, retainedCI37pass accuratelyattributed; project/tooling19/render/DOM/diffpass. Reviewerindependentlychecks31exactlocalarchives/preservedblobs against cleanupmanifest, no loss or branchrepublication. FinalreviewpublishingactivePR21only; latestexactheadall8CI/discussions/rules/merge pending."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "github_ci": "passed",
+        "timer_writer_provider_integration": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/core-003-implementation.md",
+        "docs/evidence/core-003-code-review.md",
+        "docs/evidence/core-003-ci.md",
+        "docs/evidence/core-003-handoff.md"
+      ],
+      "review": {
+        "author": "/root/pause_policy_implementer",
+        "reviewer": "/root/pause_resume_reviewer",
+        "outcome": "approved",
+        "baseline": "authorc428c45; sourced080ac757bedb1e621420c31aca691a6d25b4052; tests646d83f4; CIe5ee766; review8197844",
+        "evidence": "docs/evidence/core-003-code-review.md"
+      }
     },
     {
       "id": "CORETEST-004",
@@ -10746,6 +10768,21 @@
       "date": "2026-10-31T20:57:58.096526+00:00",
       "task": "CORETEST-003",
       "note": "Final baselineintegration565be7c separately approves b50d8d8: actualraw37RUN/failures/61stubdiagnostics, source/header/tests/harness unchanged, statusonlycontract/brief, task/map/strategyhonest. Reviewerproject/render/Python19/DOM/diffpass; all7PR20checkspassedb50d8d8. Publish finalreview/checkpoint and recheck exactlatestheadCI/discussions/rules beforemerge; no pausebehaviorclaim."
+    },
+    {
+      "date": "2026-10-31T20:59:58.140688+00:00",
+      "task": "CORE-003",
+      "note": "Claimed task/CORE-003-pause-policy from currentintegratedmain01058e2 afterPR20 merged20:59:19UTC, final024974f all7CIpass; fullbaseline86c0bbd/final565be7c and actual37stubredf39ccc8. Contractpausepolicyrev1, reviewedtests646d83f4/headerc91b7da3 preserved. Implementerisolated task/CORE-003-implementation owns ONLY core/src/pause_policy.cpp and implementationevidence; coordinatorowns allCMake/labels/preset/automaticCI/state/HTML/map/status/checkpoint/PR. Separate code/configreview; accept37passing+stableregressions+observednewautomaticpauseCI. No timersegmentation/writer/provider/schedule/recovery/reconfigurationimplementationclaim."
+    },
+    {
+      "date": "2026-10-31T21:09:16.076970+00:00",
+      "task": "CORE-003",
+      "note": "Sourceauthorc428c45/d080ac75 and CIe5ee766 independently approved8197844. All37 unchanged reviewedcases646d83f4 pass root/author/reviewer; author6fullregressionpresets and reviewer timer39/scaffold3/tooling19/DOMpass. Actualnewpause automaticCI41241695018 atPR21source07174f6 passed37 GNU13.3; all8checks passedthere. Pure policy slice done; finalstatusreview/latestheadCI/merge pending. UserrequestedGitHubcleanup: independentread-onlyaudit +root exacthead/contentguards deleted31unusedremote refs atomically, main/activePR21/localworktrees/history retained andtipsarchived. No source/test/protection changes fromcleanup; timer/writer/provider/platform/live gates remain separate."
+    },
+    {
+      "date": "2026-10-31T21:11:53.009713+00:00",
+      "task": "CORE-003",
+      "note": "Finalintegration8a50580 independently approves33a079f: source/header/tests/workflowunchanged, statusdocfindingresolved, retainedCI37pass accuratelyattributed; project/tooling19/render/DOM/diffpass. Reviewerindependentlychecks31exactlocalarchives/preservedblobs against cleanupmanifest, no loss or branchrepublication. FinalreviewpublishingactivePR21only; latestexactheadall8CI/discussions/rules/merge pending."
     }
   ]
 }

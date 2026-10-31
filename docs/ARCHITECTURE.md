@@ -77,3 +77,10 @@ port. Its21 cases pass with separate code review and automatic simulation CI;
 [handoff](evidence/acct-002-handoff.md). Original context/conditions remain anchored
 to support while explicit confirmation only promotes evidence. This supplies no
 provider proof, Qt/SQL adapter, application transaction, job or refund reconciliation.
+
+The [pause policy](contracts/pause-policy-v1.md) implements independent reasons and
+normalized monotonic signal delays with37 passing reviewed cases, separate code
+review and automatic CI; [handoff](evidence/core-003-handoff.md). It returns a final
+proposal, not within-interval countdown history. Callers must segment at signal/delay
+boundaries and commit under the authoritative writer; no actual provider/state/timer
+integration or delay-reconfiguration behavior is supplied by this helper.
