@@ -13,7 +13,8 @@ Initial GitHub inspection found no open PRs. Numeric baseline
 `cab329b`, final head `1c1c9fa`, observed 2026-10-31 08:01:02 UTC. All three final
 checks passed (PR/push scaffold and credit acceptance); no review threads or required
 GitHub approvals remained. Independent test review `79e0f0d` and final integration
-review `7ccf0dc` are integrated. No CORE-001 PR is published yet. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
+review `7ccf0dc` are integrated. CORE-001 PR publication is next; final local numeric33/33 passes, while
+independent code approval and actual pinned CI remain pending. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
 (SPIKE-001), [#5](https://github.com/Kernol12/subathon-bot-ai/pull/5) (TEST-002),
 [#7](https://github.com/Kernol12/subathon-bot-ai/pull/7) (IMPL-001),
 [#8](https://github.com/Kernol12/subathon-bot-ai/pull/8) (coordinator prompt) and
@@ -137,11 +138,21 @@ Coordinator `bd9c43b` adds the regression target and pinned numeric workflow; lo
 configure/build passes. Numeric CI is not yet published/observed; no implementation
 done claim or new test pass claim exists. No baseline assertion was changed.
 
-Next: receive exact harness approval, run the focused new regression against the
-candidate and capture actual red, authorize finalizer fix, independently review/replay
-final code plus CI configuration, publish focused draft PR and observe pinned CI.
-Update status/map only after passing implementation gates. No coordinator commands
-are intentionally left running.
+The additive regression/harness received `cbf9391` + `37f56ae` approval before
+coordinator `6224ac3` executed it: actual exit8, one genuine component-limit throw.
+[Regression/red evidence](core-001-zero-regression.md) and
+[raw log](core-001-zero-red-ctest.txt) retain that run. Only then did implementer
+`74f3594` fix zero before denominator inspection; final source
+`a1ddb4283292a5da0a81a0f4e8255fffc19cafd7`, integrated as `a58dfd5`.
+Root numeric33/33 and credit23/23 now pass; original32/header/contract plus additive
+regression remain unchanged. Code review and pinned CI are still pending.
+Coordinator `cd96d7c` refines CI to select exact1.83 config directories and verify
+compiler BOOST_VERSION108300; actual Ubuntu execution remains unobserved.
+
+Next: publish focused draft CORE-001 PR, observe numeric/credit/scaffold CI and
+receive independent code/configuration review. Resolve findings, record actual CI
+version/test evidence, update final task/map/status, recheck latest head and merge
+only when all gates pass. No coordinator commands are intentionally left running.
 
 Remaining release gates: the full planned product beyond the numeric credit helper;
 all seven integrations, all three exchange providers, both renderers, UIs/localization,
