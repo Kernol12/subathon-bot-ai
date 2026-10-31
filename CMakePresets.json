@@ -68,6 +68,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS": "ON"
       }
+    },
+    {
+      "name": "pause-policy-debug",
+      "displayName": "08 \u00b7 Pause policy intentional-red baseline",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_PAUSE_POLICY_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -98,6 +106,10 @@
     {
       "name": "contribution-evidence-debug",
       "configurePreset": "contribution-evidence-debug"
+    },
+    {
+      "name": "pause-policy-debug",
+      "configurePreset": "pause-policy-debug"
     }
   ],
   "testPresets": [
@@ -164,6 +176,16 @@
     {
       "name": "contribution-evidence-debug",
       "configurePreset": "contribution-evidence-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "pause-policy-debug",
+      "configurePreset": "pause-policy-debug",
       "output": {
         "outputOnFailure": true
       },
