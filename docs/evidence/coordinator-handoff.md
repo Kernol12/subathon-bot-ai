@@ -3,7 +3,7 @@
 Coordinator `/root`, 2026-10-31. Standing full-specification v0.45 loop is active;
 the earlier ownerstop was explicitly revoked by resume. No routine approval or
 unanswered product choice remains. Last observed integrated main
-`01058e262891d5e6f9e2689a5262651d2c721930`; inspect actual state on any resume.
+`afcf5283bff3ec65f83f5ffdd99173d30f5e90e4`; inspect actual state on any resume.
 
 ## Completed integrations
 
@@ -88,3 +88,22 @@ Full agreed scope remains: authoritative transactions/aggregates/refunds, all se
 integrations/three rate providers, supported platforms, both renderers, required UIs/
 localization/themes, packaging and live/OBS evidence. Source-port/domain checks retain
 explicit limits; full product is not complete. No credentials/supporter data committed.
+
+## Latest outcome and next active claim
+
+PR21 actually mergedafcf528 at21:13:58UTC, final94916f5 all8checks passed, no
+review threads; source8197844/final8a50580 retained. Usercleanup then removed the
+now-unused PR21 head with ancestry/exactSHA guard and localarchive, bringing total
+remote deletions to32 and leaving mainonly before new work. Localbranches/worktrees
+remain. Earlier activePR21/pendingmerge/count31 text is historical, superseded here.
+
+Next dependency-ready ACCTTEST003 claimed on root
+`task/ACCTTEST-003-application-plan-baseline` fromafcf528. Bounded author
+`/root/application_plan_test_author` owns only new core/server plan contracts,
+interfaces/stubs/tests/primitivefake/brief/authoringevidence in
+`local-evidence/worktrees/accttest003-author`, branch `task/ACCTTEST-003-plan-author`.
+Coordinator owns all shared build/presets/state/map/checkpoint/PR. Reviewer assignment
+follows actual authored revision in `local-evidence/worktrees/accttest003-review`,
+branch `task/ACCTTEST-003-plan-review`; no review inferred or production planned yet.
+Preserve arrival/historicalvaluation and requested-vs-actual boundaries; actualatomic
+application/caps/evaluator/Qt/provider wiring remain their tasks.
