@@ -1,196 +1,112 @@
-# Coordinator checkpoint
+# Coordinator handoff — usage-limit checkpoint
 
-Coordinator `/root`, updated 2026-10-31. Objective: complete the full specification
-v0.45 using bounded task PRs, isolated writers and independent reviews. This is a
-continuation checkpoint, not a release-completion claim.
+Coordinator `/root`, 2026-10-31. Objective: full specification v0.45, task by task,
+with isolated writers, real independent reviews and focused PRs. This is a session
+checkpoint, not completed product/release evidence. Last observed main is
+`8ad458ea6490a85b49b568b69661c023d3cf6ea2`; inspect actual GitHub again on resume.
 
-## Repository and integrated work
+## Completed integrations
 
-Last fetched main: `8ad458ea6490a85b49b568b69661c023d3cf6ea2`.
-Two focused task branches are active from this integrated revision. Inspect GitHub
-again on resumption; branch claims are coordinated without mixing unmerged behavior.
+- [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10), BOOT-003, merged11eafe2;
+  local Qt6.12 probe4/4 independently replayed. [Evidence](boot-003-qt-probe.md).
+- [PR #11](https://github.com/Kernol12/subathon-bot-ai/pull/11), CONTRACT-002,
+  mergedfcdcd47; internal record/clock/writer boundaries, review4364149+6312df4.
+  [Review](contract-002-independent-review.md); no executable behavior from that doc.
+- [PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), CORETEST-001,
+  mergedcab329b; reviewed32-case numeric red baseline. [Handoff](coretest-001-baseline-handoff.md).
+- [PR #13](https://github.com/Kernol12/subathon-bot-ai/pull/13), CORE-001,
+  merged806f69f, finalbfb7717 with all four checks passed. Sourcea1ddb428 and
+  reviewsdb26514/d555cbc; numeric32+1 pass, including separately reviewed/red zero
+  regression; actual pinned UbuntuBoost1.83 CI observed. [Handoff](core-001-handoff.md).
+- [PR #15](https://github.com/Kernol12/subathon-bot-ai/pull/15), ACCTTEST-001,
+  merged7900a61 at13:51:17UTC, final6579e12 with four checks passed. Author28729c7,
+  reviews54cff97/a843e4d; actual15-case stub-red18d8670 after approval.
+  [Baseline handoff](accttest-001-baseline-handoff.md).
+- [PR #16](https://github.com/Kernol12/subathon-bot-ai/pull/16), ACCT-001,
+  merged8ad458e at14:11:07UTC, finalbd9be45 with all five checks passed. Source
+  `7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8`, code/config reviewab28d70 and final
+  integration75be0a0. Receipt15 fake-backed simulations, numeric33, credit23 and
+  scaffold3 pass; automatic receipt CI run41207963538 observed. Its remote label
+  summary establishes receipt-intake only; extra labels were local observations.
+  [Implementation handoff](acct-001-handoff.md), [CI evidence](acct-001-ci.md).
 
-- [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10), BOOT-003, merged
-  `11eafe2` on2026-10-30 22:29:42UTC; final head `1c98295`, three checks passed.
-  Author `b6863e9`, independent review `27fe6b9`; fresh Qt6.12 probe4/4 from each.
-  [Evidence](boot-003-qt-probe.md), [review](boot-003-independent-review.md).
-- [PR #11](https://github.com/Kernol12/subathon-bot-ai/pull/11), CONTRACT-002, merged
-  `fcdcd47` on2026-10-30 22:32:30UTC; final head `dbc563b`, three checks passed.
-  Author `1904ccb`, review `4364149` + architecture review `6312df4`.
-  [Contract/review](contract-002-independent-review.md); no production behavior.
-- [PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), CORETEST-001, merged
-  `cab329b` on2026-10-31 08:01:02UTC; final head `1c1c9fa`, three checks passed,
-  no unresolved discussions or required GitHub approvals. Author `6e30383` +
-  `45fa0c0` + additive `b3b7ab9`; test review `79e0f0d`, integration `7ccf0dc`.
-  [Baseline handoff](coretest-001-baseline-handoff.md),
-  [review](coretest-001-independent-review.md), [red log](coretest-001-red-ctest.txt).
-- Earlier PRs #4(SPIKE-001), #5(TEST-002), #7(IMPL-001), #8(coordinator prompt)
-  and #9(CI maintenance) were verified merged at startup. Existing evidence retained.
+Earlier merged SPIKE-001/TEST-002/IMPL-001 and coordinator/CI preparation evidence
+remains retained. No baseline assertion was weakened, no protection settings changed.
+Ruleset26170263 requires PRs/resolved threads, zero GitHub approvals, no force/delete
+bypass and no required-status-check rule. All latest checks remain coordinator merge
+gates regardless of that explicit enforcement gap; repository settings were not changed.
 
-Active ruleset26170263 requires PRs/resolved discussions, prohibits force push and
-branch deletion, has no bypass actors, requires zero GitHub approving reviews and
-currently has no required-status-check rule. Independent agent reviews and passing
-latest-revision CI remain repository gates. The enforcement configuration gap from
-BOOT-008 remains explicit; no ruleset/protection settings changed.
+## Active ACCTTEST-002 draft and usage limit
 
-## Integrated CORE-001 and active timer baseline
+[Draft PR #17](https://github.com/Kernol12/subathon-bot-ai/pull/17), branch
+`task/ACCTTEST-002-eligibility-baseline`, source/evidence publicationd39c448 with
+checkpoint-only updates following. Do not mark ready or merge. Independent reviewer
+and author both reported the provider usage limit; no independent approval exists.
+No test body, intended-red run, passing contribution behavior or ACCT-002
+implementation is claimed. Stable CI on the draft does not waive those gates.
 
-[PR #13](https://github.com/Kernol12/subathon-bot-ai/pull/13) merged `806f69f`
-on2026-10-31 08:17:59UTC, final head `bfb7717`; all four latest-head checks passed
-(exact-numeric, credit acceptance, PR/push scaffold), no unresolved threads and zero
-required GitHub approvals. Final independent integration approval `d555cbc` follows
-code/configuration approval `db26514`. All numeric author/reviewer/regression support
-branches are published; persistent worktrees are clean and retained.
+- Coordinator worktree: `local-evidence/worktrees/accttest002-coordinator`;
+  owns CMake/presets, progress/state.json, PROGRESS.html, map/checkpoint and PR.
+- Author `/root/receipt_test_author` (errored on usage limit, not running):
+  `local-evidence/worktrees/accttest002-author`, branch
+  `task/ACCTTEST-002-eligibility-author`. Checkpoints12f75b1,023a899,
+  `b0fd97ea0295306c084e09f03f5d85fdbe15572e` are committed/published, worktree clean.
+- Reviewer `/root/baseline_reviewer` (errored on usage limit, not running):
+  `local-evidence/worktrees/accttest002-review`, branch
+  `task/ACCTTEST-002-eligibility-review`, still main8ad458e, clean with no review file.
+  Resume or explicitly reassign; never simulate its unavailable review.
 
-- CORETEST-002 coordinator: main workspace, branch `task/CORETEST-002-timer-baseline`;
-  owns shared CMake/preset harness, progress/state.json, PROGRESS.html, acceptance map,
-  follow-up task notes, this checkpoint and draft [PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14).
-  Published head2c44567 had all four stable checks passed; later authored/review
-  commits require publication/recheck. No timer bodies have run.
-- Original test author `/root/numeric_test_author` (assignment completed): persistent worktree
-  `local-evidence/worktrees/coretest002-author`, branch `task/CORETEST-002-timer-author`;
-  owns timer-lifecycle contract/header/explicit stubs/acceptance tests/task brief/author
-  evidence. No production algorithm or numeric baseline edits.
-- Independent reviewer `/root/baseline_reviewer`: `local-evidence/worktrees/coretest002-review`,
-  branch `task/CORETEST-002-timer-review`; owns independent actual-revision review
-  evidence. Actual draft review a99616a plus follow-up720acc8 close two coverage
-  findings; full verdict remains changes_requested only for the owner policy below.
-- Additive timer author `/root/timer_test_fixes` (completed):
-  `local-evidence/worktrees/coretest002-fixes`, branch `task/CORETEST-002-review-fixes`;
-  commit ef82bbcf adds incoherent-snapshot and exhausted Shared-budget cases.
-  Tests35, blob7a802f2151da1d62b85f27c357528f63426cf2d0; header69cad702/stub5584f845/
-  contractb88657ce remain unchanged. Author and reviewer compile/list35 successfully,
-  with no bodies/red. Original33 assertions preserved.
+Coordinator integratedafd4b75/20d08ea/ccdd17c plus optional harness281c821.
+Final candidate artifacts (unreviewed): core interface65ad81ac, assessor stubfb140178,
+server interface82c2e5f7, server stub1af4468c, tests
+`341095486f757b0ff83b4554d929711684346620`, fake8d35e502, contract
+`5eec5921c355331bb97d351b7e20ad00873dae7a`. Full hashes, exact commands and limits
+are in `docs/evidence/accttest-002-checkpoint.md` on the task branch/worktree.
 
-Timer scope: active/finished countdown reducer with Ready representation, separate
-Main/Grace, default120-second grace, immediate/confirmation end modes, applicable
-positive rescue, fresh/shared grace budget, pause observation and UTC hard-end
-precedence. Explicit nonnegative elapsed duration and independent UTC observation
-avoid cross-domain interpolation. Ordered transition proposals retain overshoot
-history without inventing exact UTC finish timestamps. Full pause/status signals,
-recovery/schedules and service/persistence behavior remain their bounded slices.
+Actual coordinator configure/build contribution-evidence-debug exited0; CTest-N
+listed21 cases, listing only. Project/render/diff checks pass. Both behavior sources
+remain explicit stubs. A pre-review concern about default confirmed/planning-ready
+values prompted conservative unknown/pending/review-required/unresolved defaults and
+one focused oracle; this still requires independent review. No provider capability
+or SQL/Qt/application/refund proof follows from the authored contract/fake.
 
-One owner product decision is pending through an asynchronous question: after main
-hits zero in confirmation mode, does positive accepted time automatically resume main
-(recommended) or stay pending for an authorized decision? The specification only
-names the end mode; no dependent expectation or production policy is invented.
-Other cases/contract authoring continue. Ready/start/deadline product policy is
-outside the already-started reducer; advanceReady is an explicit invalid_argument
-API precondition, not a claim about application behavior. First-start/Ready deadline
-and start with an already-passed deadline are explicit API-007/CORE-008 follow-up gates.
+## Independently blocked timer draft
 
-At resumption2026-10-31, old agents were gone and `/tmp` worktrees absent inside
-and outside the sandbox. Old Git branches/objects remain; they were not pruned or
-reset. A prior numeric author's uncommitted temporary draft was unavailable and
-explicitly reassigned before any numeric review/red existed. New worktrees use
-ignored persistent `local-evidence/`; committed work and valid reviews were preserved.
+[Draft PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14), branch
+`task/CORETEST-002-timer-baseline`, main workspace. Last published7fac469 includes
+merged receipt main8ad458e; stable checks passed. Timer tests35, blob
+`7a802f2151da1d62b85f27c357528f63426cf2d0`; header69cad702, stub5584f845,
+contractb88657ce unchanged. Compile/list succeeds; no timer bodies/red/implementation.
+Original author commits68e0119/3ccc52d and additiveef82bbcf retained; partial review
+commitsa99616a/720acc8 close two coverage findings, overallchanges_requested remains.
 
-## Exact gates and evidence
+Only owner decision: positive accepted time while waiting for authorized finish
+confirmation should automatically resume main (recommended), or remain pending for
+an authorized decision. The spec does not decide it; continuation prompts are not an
+answer. Ready/start/deadline behavior is explicitly gated in API-007/CORE-008 rather
+than invented by the already-started helper. Keep timer blocked until a real answer.
+Persistent timer author/fix/review worktrees remain under local-evidence/worktrees.
 
-The reviewed numeric baseline preserves original32 test blob
-`6cf83aeba79bfc4c50e3e11787147dd6bf342c10` and public header
-`c0e70aeea1f435fd07f9eb83b04f3ef5602e6c69`. Original contract behavior snapshot
-`59d334d68970d1b1dd81fddcfbb2a8118437ce13` received review before actual32-case
-stub-red at `9e8db8a`. Current contract changes only status prose, not API/limits/
-errors/examples. No assertion was removed, skipped or weakened.
+## Continuation and unperformed gates
 
-CORE-001 candidate `4ab8613` + `873cc6d` passed32 cases after correcting parser zero
-under an existing assertion. One meaningful finalizer regression was then authored
-`5f9b3c0`, test `347a810b1edba2ffc36d66ba44b700092bb2b381`, approved separately
-`cbf9391`/`37f56ae`, and observed genuinely red(exit8, one component-limit exception)
-at coordinator `6224ac3` before the fix. See [regression/red evidence](core-001-zero-regression.md)
-and [raw log](core-001-zero-red-ctest.txt). Final author `74f3594` handles mathematical
-zero before denominator inspection, source `a1ddb4283292a5da0a81a0f4e8255fffc19cafd7`.
-Independent review `db26514` approves final code and shared CI configuration.
+1. Inspect actual main, PR17/PR14 heads/checks, worktree status and agent/process state.
+   Completed commits and reviews remain valid; old agents may not be available.
+2. After usage availability returns, assign an independent reviewer the actual final
+   ACCTTEST-002 candidate/harness. Resolve findings, compile, then observe intended
+   stub-red after approval. Record it and finish final integration/latest CI gates.
+3. Merge only when eligible; start ACCT-002 implementation from integrated reviewed/
+   red prerequisites, preserve assertions, add/observe stable automatic CI and obtain
+   independent code review. No routine owner permission is needed.
+4. Resolve the timer policy only from an owner answer; continue other dependency-ready
+   tasks without silently shrinking release scope.
 
-Local root numeric33/33 and credit23/23 pass; author/reviewer full numeric preset36/36
-passes. Final done-state Python19/19, project/render, DOM simulation and diff checks
-pass. These are bounded primitive/scaffold checks, not an application/platform claim.
-[Implementation handoff](core-001-handoff.md), [implementation evidence](core-001-implementation.md),
-[code review](core-001-code-review.md) retain exact commands and actors.
+All active worktrees were checked clean before checkpoint-only edits; no local build/
+test command remains running. Remote CI may run after publication; inspect it rather
+than assuming a result. Old absent /tmp worktree metadata/branches were not pruned or
+reset; persistent local-evidence worktrees preserve authored work across sessions.
 
-Actual automatic [numeric run41183487457](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41183487457)
-passed at `fd86a6b`: Ubuntu24.04/GCC13.3, package1.83.0-2.1ubuntu3, verified compiler
-macro108300, CMakeBoost1.83.0 and33 real cases. Credit/scaffold CI also passed.
-[CI/dependency evidence](core-001-ci.md) records pins, official package source/hash,
-compiler/config checks and remaining required-check configuration. LocalBoost1.92
-also passes; no local package installation or live operation occurred.
-
-## Independent receipt baseline and next actions
-
-ACCTTEST-001 is claimed independently from main806f69f after inspecting open PR14
-and integrated CORE-001 prerequisites. Receipt baseline [PR #15](https://github.com/Kernol12/subathon-bot-ai/pull/15)
-merged7900a61 on2026-10-31 13:51:17UTC; final head6579e12 had all four checks
-passed, no threads and zero required GitHub approvals. Final integration a843e4d
-is integrated. Author actual28729c7
-(interface/stub/fake/15tests/contract/evidence) is integrated as72d9c95 with coordinator
-harnessaccb064. The optional receipt-intake-debug configure/build succeeds. Separate review54cff97
-approved exact artifacts, then integrated18d8670 ran all15 bodies: actual exit8 from
-ReceiptIntakeNotImplemented, no skips/build/dependency failures. Stable scaffold3/3,
-numeric33/33 and credit23/23 pass. No receipt production behavior was written.
-See [receipt reviewed/red handoff](accttest-001-baseline-handoff.md) and
-[independent review](accttest-001-independent-review.md).
-
-- Coordinator: `local-evidence/worktrees/accttest001-coordinator`, branch
-  `task/ACCTTEST-001-receipt-baseline`; owns root/server/tests CMake, presets, state/
-  HTML/map/checkpoint and PR. Timer claim is carried as ownership only, without
-  integrating unmerged timer code/evidence into this receipt branch.
-- Author `/root/receipt_test_author`: `local-evidence/worktrees/accttest001-author`,
-  branch `task/ACCTTEST-001-receipt-author`; owns receipt domain values, server port/
-  explicit stub, synthetic tests/primitive fake, contract/brief/author evidence.
-- Reviewer `/root/baseline_reviewer`: `local-evidence/worktrees/accttest001-review`,
-  branch `task/ACCTTEST-001-receipt-review`; reviews actual artifacts independently.
-
-Receipt scope is typed stable identity plus retry/conflict/provenance decisions
-through an atomic repository port. Synthetic namespaces prove no real provider IDs.
-The fake stores primitive values and rolls back known staged failures; it does not
-classify or deduplicate on behalf of production. SQL uniqueness/durability, actual Qt
-writer/thread/concurrency, missing identity/source admission and contribution/effect
-application remain explicit STORAGE/API/connector/accounting gates. See the receipt
-task branch for its artifacts; unmerged receipt behavior is not copied to timer PR.
-
-ACCT-001 is now claimed from merged main7900a61, branch
-`task/ACCT-001-receipt-intake`, coordinator worktree `local-evidence/worktrees/acct001-coordinator`.
-Implementer `/root/receipt_implementer` owns only server/src/receipt_intake.cpp and
-implementation evidence in `local-evidence/worktrees/acct001-implementation`, branch
-`task/ACCT-001-implementation`. Independent `/root/baseline_reviewer` owns code review
-in `local-evidence/worktrees/acct001-review`, branch `task/ACCT-001-code-review`.
-Source author875c1c9, blob7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8, is ready;
-its15 simulation cases pass in author/reviewer runs. Coordinator integration8cc1e9a/e1b47f1 and root15/15 simulation passes are recorded;
-independent source/config approvalab28d70 is integrated. Actual automatic receipt simulation run41207963538 passed on PR16 head018e286
-(Ubuntu24.04/GCC13.3.0,15 cases); all five checks passed. Local/code/CI gates are
-satisfied; final completion-state review/publication/latest CI remain pending.
-No SQL/Qt/provider claim is upgraded.
-
-[PR #16](https://github.com/Kernol12/subathon-bot-ai/pull/16) merged8ad458e
-on2026-10-31 14:11:07UTC, final headbd9be45 with all five checks passed and no
-unresolved threads/required GitHub approvals. Final integration75be0a0 approved
-completion records after correcting the remote-label evidence claim: remote CTest
-summary proves receipt-intake selected15 passing cases, not the extra local labels.
-No normative interface/test/source changed; SQL/provider/Qt limits remain open.
-
-ACCTTEST-002 is now claimed from integrated main8ad458e; no next-task PR yet.
-Coordinator worktree `local-evidence/worktrees/accttest002-coordinator`, branch
-`task/ACCTTEST-002-eligibility-baseline`, owns shared CMake/presets, state/HTML/map,
-checkpoint and PR. Author `/root/receipt_test_author` owns new contribution core/
-server interface-stubs, synthetic tests/primitive fake, contract/brief/author evidence
-in `local-evidence/worktrees/accttest002-author`, branch `task/ACCTTEST-002-eligibility-author`.
-Independent `/root/baseline_reviewer` owns actual-revision test review in
-`local-evidence/worktrees/accttest002-review`, branch `task/ACCTTEST-002-eligibility-review`.
-No next-task code behavior, review or red is claimed.
-
-Next: author bounded independent eligibility/evidence-admission and verified
-source-scoped confirmation linkage examples/interfaces/stubs/tests. Preserve unknown
-labels and separate ordinary review from explicit admission of provider reports;
-no correlation guessed from raw IDs/names/amounts/times. Capture policy/decision
-provenance; actual effect/refund/SQL/Qt/provider integration remains separate.
-Compile and independently review actual tests before any intended red or production.
- Keep timer CORETEST-002 blocked solely on the unanswered confirmation-wait
-credit choice. It has35 compiled/listed draft cases and partial review only; no timer
-bodies/red or production implementation. No commands intentionally remain running.
-
-Full scope beyond the cap-credit and exact-decimal primitives remains: authoritative
-application/aggregate/refund logic, all seven integrations and three exchange providers,
-both renderers, required UIs/localization/themes, packaging, supported-platform and
-live/OBS evidence. Remote Qt CI remains an explicit STORAGE-001/API-001 follow-up.
-No live chat/payment/deployment/provider authorization or release support is claimed.
+Full release gates remain: authoritative application/aggregates/refunds, all seven
+integrations and three rate providers, supported platforms, both renderers, UIs/
+localization/themes, packaging and live/OBS evidence. Receipt results are simulation
+only; SQL uniqueness/durability/Qt ownership/actual provider IDs remain separate.
+No credentials, real supporter state, chat/payment side effects or deployment used.

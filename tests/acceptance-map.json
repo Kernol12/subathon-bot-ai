@@ -865,6 +865,19 @@
         "baseline": "author875c1c9; source7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8; confige1b47f1; reviewab28d70",
         "evidence": "docs/evidence/acct-001-code-review.md"
       }
+    },
+    {
+      "scenario": "Independent contribution eligibility and verified confirmation linkage (draft)",
+      "status": "draft",
+      "tests": [
+        "tests/acceptance/contribution_evidence_tests.cpp"
+      ],
+      "contract": "docs/contracts/contribution-eligibility-v1.md",
+      "evidence": [
+        "docs/evidence/accttest-002-authoring.md",
+        "docs/evidence/accttest-002-checkpoint.md"
+      ],
+      "scope": "21 authored cases compile/list only. Independent review unavailable due usage limit; no bodies, red baseline, implementation or provider/SQL/application proof."
     }
   ]
 }

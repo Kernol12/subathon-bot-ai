@@ -71,6 +71,16 @@ suite remains simulation evidence. SQL durability/uniqueness, Qt ownership, live
 identifiers, source admission, contribution creation and actual effects remain
 separate acceptance/platform/provider gates.
 
+## Contribution eligibility draft
+
+ACCTTEST-002 has21 authored cases for independent holds and caller-verified
+confirmation linkage, compiled/listed with `contribution-evidence-debug` only.
+[Usage-limit checkpoint](evidence/accttest-002-checkpoint.md) records exact artifacts.
+Independent review is blocked by usage availability; no test body, observed red or
+passing behavior result exists. Both core/server behavior entrypoints remain stubs.
+Resume separate review first; ACCT-002 implementation waits for reviewed/red
+baseline integration. These cases are not included in a green feature claim.
+
 ## Priorities after first baseline
 
 - Duplicate receipts/commands, atomic effects/state/jobs and restart recovery.
