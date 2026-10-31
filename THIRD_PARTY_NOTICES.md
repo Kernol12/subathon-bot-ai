@@ -7,7 +7,7 @@ No dependency binaries or sources are bundled. System tools are not redistribute
 | Qt >=6.12 | Server/desktop, Qt Test/Quick Test | Required for product; optional environment probe only in scaffold |
 | GoogleTest >=1.17 | Native acceptance tests | System/local source, or opt-in v1.18.0 commit fetch |
 | Drogon | HTTP/webhooks/WebSockets | Selected architecture; not integrated |
-| Boost.Multiprecision | Exact arithmetic | Selected; not integrated |
+| Boost.Multiprecision | Exact arithmetic | Optional numeric test baseline uses installed headers (observed1.92.0); Boost Software License1.0; no sources/binaries bundled |
 | libsodium | Passwords/credentials/backups | Selected; not integrated |
 | QtKeychain | Linux remembered login | Selected; not integrated |
 | SQLite via Qt SQL | Durable state | Selected; not integrated |

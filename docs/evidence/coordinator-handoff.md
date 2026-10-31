@@ -99,11 +99,26 @@ Resume coordinator scaffold configure/build/CTest3/3, Python19/19 and DOM simula
 checks passed; these verify unchanged infrastructure only. Draft PR #12 is published
 for continuity and must remain draft until its test review and red gates are complete.
 
-Next: review actual CORETEST-001 contract/tests, resolve findings, compile and
-observe intended stub-red only after approval. Record exact blobs/red evidence and
-keep intentional red outside the passing credit CI lane. Publish its focused baseline
-PR and integrate after all applicable gates; only then start CORE-001 implementation.
-Numeric behavior remains unimplemented. No coordinator commands are left running.
+CORETEST-001 actual author commits `6e30383`, `45fa0c0`, `b3b7ab9` are
+integrated; independent test review `79e0f0d` approves the final 32 cases. Exact
+reviewed contract `59d334d68970d1b1dd81fddcfbb2a8118437ce13`, tests
+`6cf83aeba79bfc4c50e3e11787147dd6bf342c10`, header
+`c0e70aeea1f435fd07f9eb83b04f3ef5602e6c69`, stub
+`9662e541cef66b975db1a9b6cb33cf421d5fb1f1` remain unchanged.
+At integrated `9e8db8a`, after approval, coordinator CTest returned exit8 with all
+32 actual stub failures, no skips/build/dependency failures. See
+[reviewed/red handoff](coretest-001-baseline-handoff.md),
+[review](coretest-001-independent-review.md) and [red output](coretest-001-red-ctest.txt).
+Credit acceptance/regression23/23 and scaffold3/3 pass after numeric harness integration.
+Numeric behavior is still unimplemented; CORE-001 is planned, not claimed.
+`/root/numeric_implementer` completed read-only preparation and waits for merged
+baseline and a new isolated implementation task branch; no production edits made.
+
+Next: final integration review/tooling checks, make draft PR12 ready, inspect final
+head CI/discussions/ruleset and merge only if all gates pass. Then refresh main,
+claim CORE-001, implement the reviewed numeric primitives, activate pinned automatic
+numeric CI, obtain separate code review and relevant passing checks. No coordinator
+commands are intentionally left running.
 
 Remaining release gates: the full planned product beyond the numeric credit helper;
 all seven integrations, all three exchange providers, both renderers, UIs/localization,

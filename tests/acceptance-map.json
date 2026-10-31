@@ -292,15 +292,27 @@
     },
     {
       "id": "NUM-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/exact_decimal_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-001-baseline-handoff.md",
+        "docs/evidence/coretest-001-independent-review.md"
+      ],
+      "scope": "Reviewed/red primitive numeric baseline only; no implemented parser/rounding, aggregate/transaction, combination/clamp or broader domain proof."
     },
     {
       "id": "NUM-02",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/exact_decimal_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-001-baseline-handoff.md",
+        "docs/evidence/coretest-001-independent-review.md"
+      ],
+      "scope": "Reviewed/red primitive numeric baseline only; no implemented parser/rounding, aggregate/transaction, combination/clamp or broader domain proof."
     },
     {
       "id": "NUM-03",
@@ -616,9 +628,15 @@
     },
     {
       "id": "NUM-04",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/exact_decimal_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-001-baseline-handoff.md",
+        "docs/evidence/coretest-001-independent-review.md"
+      ],
+      "scope": "Reviewed/red primitive numeric baseline only; no implemented parser/rounding, aggregate/transaction, combination/clamp or broader domain proof."
     },
     {
       "id": "API-03",
@@ -765,6 +783,28 @@
         "baseline": "author 29325b5; source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145; acceptance 055dec680f6ded7c457d14daf088115a0d73fa9f; regression 86a5c2a716204af292a8c72600a3ce6b27629097",
         "evidence": "docs/evidence/impl-001-code-review.md"
       }
+    },
+    {
+      "scenario": "Lossless bounded decimals and signed half-even final effect conversion",
+      "status": "observed_red",
+      "tests": [
+        "tests/acceptance/exact_decimal_tests.cpp"
+      ],
+      "contract": "docs/contracts/exact-decimal-v1.md",
+      "review": {
+        "author": "/root/numeric_test_author",
+        "reviewer": "/root/numeric_reviewer",
+        "outcome": "approved",
+        "baseline": "authorb3b7ab9; tests6cf83aeba79bfc4c50e3e11787147dd6bf342c10; contract59d334d68970d1b1dd81fddcfbb2a8118437ce13; review79e0f0d",
+        "evidence": "docs/evidence/coretest-001-independent-review.md"
+      },
+      "evidence": [
+        "docs/evidence/coretest-001-authoring.md",
+        "docs/evidence/coretest-001-independent-review.md",
+        "docs/evidence/coretest-001-baseline-handoff.md",
+        "docs/evidence/coretest-001-red-ctest.txt"
+      ],
+      "scope": "32 reviewed primitive cases fail on explicit unimplemented stubs. Input holding/atomic aggregate application and broader rule/refund/platform behavior remain separate."
     }
   ]
 }
