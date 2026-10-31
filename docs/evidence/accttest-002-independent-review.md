@@ -1,11 +1,13 @@
 # ACCTTEST-002 independent eligibility/linkage baseline review
 
 Reviewer: `/root/baseline_reviewer`; author: `/root/receipt_test_author`.
-Date: 2026-10-31. Current verdict: **approved for test baseline** at the corrected
-revision in the follow-up below. Both initial focused coverage findings are closed.
+Date: 2026-10-31. Current verdict: **approved for test baseline and final
+integration** at the corrected revisions below. Both initial focused coverage
+findings and the final status-prose finding are closed.
 This is an actual independent review after explicit reassignment; the earlier
 usage-limit checkpoint did not supply review approval. No test body or intended-red
-run was executed by this reviewer; the coordinator may now observe the approved red.
+run was executed by this reviewer; the coordinator's approved red was independently
+inspected in the final integration pass below.
 
 ## Exact candidate and scope
 
@@ -177,3 +179,62 @@ publication/merge approval. ACCT-002 production remains gated on observed explic
 missing-behavior failures and the completed baseline handoff. All simulation limits,
 downstream application/refund/provider/storage/authorization gates and the separate
 timer policy blocker remain unchanged.
+
+## Final reviewed/red baseline integration
+
+Reviewer `/root/baseline_reviewer`, 2026-10-31. Actual completion candidate:
+`3c5a8cacc83d1d9a0f498da4fba4b7fe4244ff7a`, plus status-prose corrections
+`e47388783d4ce3b052cc3bdd38e3ca8d5217462a` and
+`158e0d7183df2acdd53e96c0e9224107de21cd77`. Final reviewer checkout before this
+append was `01c55445f6eb3166846b8896f65921df0ca7f8fb`. Verdict: **approved for
+integration of this reviewed/red baseline**. Publication/latest-head CI, discussion/
+review/ruleset gates, merge outcome and later shared-artifact reconciliation remain
+coordinator responsibilities; no completed product behavior is implied.
+
+Compared actual completion changes with approved `4d1400f`: both interfaces, explicit
+stubs, fake, all21 corrected tests, root/core/server/test CMake and presets remain
+unchanged. Test blob stays `702a7bf1d8162ba748ee9477ea48ffa73047ef65`. Contract and
+task-brief edits update status/evidence links only; the normative behavioral contract
+represented by `5eec5921c355331bb97d351b7e20ad00873dae7a` is preserved. Existing
+assertions were neither removed nor weakened.
+
+Independently inspected [raw red output](accttest-002-red-ctest.txt), blob
+`264b97410c3e5fdc03fe6d14f06230a70d7a93dd`, and
+[baseline handoff](accttest-002-baseline-handoff.md). A read-only comparison against
+the exact candidate's test source matched all21 authored case names to all21 RUN
+entries and all21 CTest failures, in order. Nine assessor cases report explicit
+eligibility-stub body exceptions and twelve service cases report explicit
+evidence-stub body exceptions. Wrong-exception assertions in validation/storage
+cases are also consistent with those stubs. There are no skips/not-run or missing
+executable reports; the summary reports21 failures and0% passing. The coordinator
+records real CTest exit8 at `4d1400f`, after prior separate approval and successful
+configure/build. This reviewer inspected that committed runtime evidence without
+repeating the red bodies.
+
+`ACCTTEST-002` is correctly done as a test baseline, with `baseline: observed_red`
+and `product_acceptance: not_run`; `ACCT-002` remains planned. The acceptance map
+adds only this reviewed/red bounded scenario. Historical usage-limit evidence is
+explicitly superseded. One current Test Strategy paragraph initially contradicted
+the new red evidence by still saying review was blocked and no bodies had run;
+`e473887` replaces that paragraph with the accurate reviewed/red status and removes
+the duplicate appended update; `158e0d7` normalizes its final newline. Finding closed.
+The durable checkpoint distinguishes this baseline from the separate timer PR and
+retains all application/refund/provider/SQL/Qt/release gates.
+
+Final independent checks:
+
+| Command / check | Observed result |
+| --- | --- |
+| Read-only exact-Git-object Python comparison of source names, raw RUN/failure names, explicit stub-exception counts and baseline/implementation state | exit0;21 exact matches,9 assessor +12 service stub exceptions, baseline-only done and implementation planned |
+| `git diff 4d1400f 3c5a8ca -- <reviewed source/interface/fake/test/build paths>` | exit0; no behavioral/build changes |
+| `python3 -m unittest discover -s tests/tooling -v` | exit0;19/19 pass |
+| `python3 tools/check_project.py` | exit0;377 tasks,122 decisions, links/presets/current HTML pass, including after prose corrections |
+| `python3 tools/progress.py render --check` | exit0; current snapshot, including after prose corrections |
+| `git diff --check` and `git diff --cached --check` | exit0 before final review commit |
+
+Coordinator evidence records scaffold3/3, credit23/23, numeric33/33 and receipt15/15
+passing. This final evidence/status pass did not repeat unchanged native suites,
+red bodies or the coordinator's DOM simulation. It supplies no provider, Qt, SQL,
+authorization, effect/refund, platform or live verification. Review after future
+shared build/state/map merges must assess the actual reconciled revision; this
+approval does not preapprove that later integration.
