@@ -6,8 +6,9 @@ Tasks: CORETEST-003 / CORE-003. Authority: specification v0.45
 [event-state boundaries revision 1](event-state-boundaries-v1.md).
 The [timer lifecycle contract](timer-lifecycle-v1.md) remains unchanged.
 
-State: proposed interface and explicit unconditional `PausePolicyNotImplemented`
-stubs only. Tests are being authored. No independent approval, observed red or
+State: proposed interface, 30 authored draft cases and explicit unconditional
+`PausePolicyNotImplemented` stubs only. Configure/build and discovery pass; test
+bodies have not run. No independent approval, observed red or
 production pause behavior is claimed. The policy questions below prevent finalizing
 the affected branches; unrelated specification-defined cases can be reviewed first.
 
@@ -72,15 +73,19 @@ normalized synthetic values.
 
 ## Validation and signed bounds
 
-Negative configured durations, negative elapsed/pending durations and incoherent
-pending-plus-active snapshots reject with `std::invalid_argument`, without changing
-the input. A pending duration must be strictly below its configured delay; zero-delay
+`observe_pause_signals` validates configured durations, observation elapsed and the
+complete snapshot. Negative configured durations, negative elapsed/pending durations
+and incoherent pending-plus-active snapshots reject with `std::invalid_argument`,
+without changing the input. A pending duration must be strictly below its configured delay; zero-delay
 conditions activate immediately and cannot have a pending snapshot. Unknown pending
 requires an enabled timeout and its uncertainty notice. This revision does not
 support reconfiguring a delay partway through an episode; callers must preserve the
 episode configuration until a later reviewed configuration-change contract exists.
-Signal-owned reasons cannot be changed through `set_pause_reason`; rejecting that
-misuse preserves coherent signal ownership. Enum values outside declared alternatives
+`set_pause_reason` has no configuration/observation to validate; it checks structural
+snapshot invariants (nonnegative pending values, no pending-plus-own-active reason,
+unknown pending requires notice). Signal-owned reasons cannot be changed through
+`set_pause_reason`; rejecting that misuse preserves coherent signal ownership.
+Enum values outside declared alternatives
 are not admitted domain values. Exception wording is not contractual.
 
 Use remaining-delay comparison rather than unchecked `pending + elapsed`; a duration
@@ -112,8 +117,9 @@ interactions unsupported product behavior.
 ## Independently derived examples
 
 The following use hand subtraction and set membership from §4; no implementation
-has produced their expected values. Executable cases and complete evidence follow
-in the authoring revision.
+has produced their expected values. The 30 executable draft cases are in
+`tests/acceptance/pause_policy_tests.cpp`; [authoring evidence](../evidence/coretest-003-authoring.md)
+maps their coverage and records actual compilation/discovery only.
 
 | Explicit sequence | Required result |
 | --- | --- |

@@ -20,16 +20,16 @@ enum class StreamStatus { Online, Offline, Unknown };
 struct PauseConfig {
     std::int64_t stream_offline_delay_ms{30'000};
     std::int64_t client_disconnect_delay_ms{30'000};
-    std::optional<std::int64_t> stream_unknown_timeout_ms;
+    std::optional<std::int64_t> stream_unknown_timeout_ms{};
 };
 
 // Pending durations never coexist with their own active reason. Empty reasons means
 // this policy imposes no countdown pause; lifecycle and phase remain caller-owned.
 struct PauseState {
-    PauseReasons reasons;
-    std::optional<std::int64_t> stream_offline_pending_ms;
-    std::optional<std::int64_t> client_disconnect_pending_ms;
-    std::optional<std::int64_t> stream_unknown_pending_ms;
+    PauseReasons reasons{};
+    std::optional<std::int64_t> stream_offline_pending_ms{};
+    std::optional<std::int64_t> client_disconnect_pending_ms{};
+    std::optional<std::int64_t> stream_unknown_pending_ms{};
     bool stream_unknown_notice{};
 };
 
@@ -52,5 +52,5 @@ class PausePolicyNotImplemented final : public std::logic_error {
 // reasons accepted here; automatic signal reasons belong to observe_pause_signals.
 [[nodiscard]] PauseState set_pause_reason(const PauseState &state, PauseReason reason, bool active);
 [[nodiscard]] PauseState observe_pause_signals(const PauseState &state, const PauseConfig &config,
-                                              const PauseObservation &observation);
+                                               const PauseObservation &observation);
 } // namespace subathon::core

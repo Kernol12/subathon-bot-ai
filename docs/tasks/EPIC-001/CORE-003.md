@@ -3,11 +3,21 @@
 Parent: [EPIC-001](../EPIC-001.md). Kind: implementation.
 Specification: v0.45; §4, TIMER-03, TIMER-05.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: use the current reviewed slice contract; none is finalized by this plan.
+Contract revision: [pause-policy proposed revision 1](../../contracts/pause-policy-v1.md).
+The draft is not a finalized reviewed/red baseline; see [authoring evidence](../../evidence/coretest-003-authoring.md).
 
 ## Scope and ownership
 
 Core pause-reason set, offline/client signal delays and unknown-status policy; provider transport is excluded.
+
+The proposed bounded value API supplies `set_pause_reason` and `observe_pause_signals`;
+the latter receives normalized constant stream/client segments and explicit monotonic
+elapsed duration. It reads no system clock or UTC and returns no authoritative state
+write. Countdown integration, schedule occurrence calculation, recovery decisions,
+configuration changes during a pending episode and Qt/network/provider behavior
+remain their separately assigned gates. The coordinator owns all root/module build
+files, presets, shared progress/HTML, acceptance map and publication; the test author
+owns only the new contract/header/stub/tests, this brief and authoring evidence.
 
 Primary module paths: core/
 Read root/scoped AGENTS.md before editing. Shared schemas, migrations, dependency pins,
@@ -22,6 +32,16 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 ## Boundary and failure cases
 
 Test overlapping reasons, flapping signals, exact delay expiry and optional unknown-status timeout with a fake clock.
+
+Thirty draft cases now cover the independently specified behavior using explicit
+durations, with successful configure/build/discovery only. Both functions remain
+unconditional `PausePolicyNotImplemented` stubs. Two combined-policy edges lack
+repository authority: Unknown interrupting an unexpired offline delay, and clearing/
+resetting the optional Unknown pause after known status returns. The
+[recorded policy questions](../../evidence/pause-signal-policy-questions.md) require
+owner clarification, then affected examples/cases and independent review. Existing
+cases do not select either policy; full baseline completion and production behavior
+wait for those gates. This leaves the full intended release behavior required.
 
 ## Separate baseline and implementation tasks
 
