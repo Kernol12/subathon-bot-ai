@@ -46,3 +46,11 @@ actually ran; no unbuilt test target or unrun command is evidence. Update applic
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
+
+## First-start boundary follow-up from CORETEST-002
+
+The bounded CORE-002 countdown reducer admits already-started Active/Finished states;
+it does not choose whether a hard deadline affects Ready before first start or how
+first start validates an already-passed deadline. Resolve those first-start/deadline
+semantics with API-007 before claiming complete lifecycle command support. This is
+an explicit contract/acceptance gate, not implemented or verified behavior.

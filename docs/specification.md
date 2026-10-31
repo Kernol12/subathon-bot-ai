@@ -168,6 +168,7 @@ Modifier factors may be zero or positive, including fractional factors such as Ã
 - Repeated-grace behavior is streamer-selectable: fresh full grace on each new main-timer expiration (default), or one shared grace budget whose unused duration is reused across expirations. Shared budget is consumed while grace actually counts down, not while the main timer runs or grace is paused.
 - Configure stream-offline and designated-client disconnect delays independently; both default to 30 seconds. A pending delay does not itself pause a running countdown. Once the condition persists through the delay, add its pause reason. Clear that reason automatically when the signal recovers, while retaining all other active reasons.
 - Accepted support yielding positive remaining time during grace returns to the main countdown, subject to debt/caps/policies.
+- While waiting for authorized finish confirmation, accepted support yielding positive remaining main time automatically resumes the main countdown and clears the confirmation wait. Zero actual credit leaves the wait unchanged. Independent pause reasons, the retained grace budget and hard-end precedence remain unchanged; a finished subathon still requires explicit reopening. [Owner clarification](evidence/timer-confirmation-credit-decision.md).
 - After finish, continue recording inputs. Whether they affect milestones or run automation is configurable.
 - Reopening requires a specific permission, preserves history/score/completed milestones, and lets the authorized user set remaining time and explicitly choose to reset or retain the remaining grace budget. A passed hard end must be changed or disabled before reopening. Ordinary incoming support does not automatically reopen a finished subathon.
 - Reopening preserves outstanding time debt by default. Clearing or adjusting it requires a separate correction permission and an audit entry. Show pending action groups and explicitly offer Resume, Keep deferred (default), or Skip. Existing review holds remain until resolved; performed actions stay performed.
@@ -648,6 +649,7 @@ Connector feasibility prototypes should happen early where protocol/payment capa
 | Manual pause and disconnect overlap | Clearing disconnect alone does not resume |
 | Zero reached in default mode | Separate 120-second grace; accepted positive available time rescues; expiry finishes |
 | Hard end reached during pause or grace | Subathon finishes; pause/grace does not postpone the enabled deadline |
+| Positive accepted time arrives while waiting for finish confirmation | Resume the active main countdown automatically and clear the wait, preserving independent pauses/grace budget; zero actual credit does not resume and an observed hard end still wins |
 | Main timer expires again after rescue | Fresh full grace by default, or only unused shared budget when that mode is selected |
 | Brief configured disconnect | No new pause before the configured delay; persistent disconnect adds its reason and recovery clears only that reason |
 | Reporting currency changes | Monetary displays recalculate; credited effects/completions do not |
