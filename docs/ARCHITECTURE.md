@@ -84,3 +84,10 @@ review and automatic CI; [handoff](evidence/core-003-handoff.md). It returns a f
 proposal, not within-interval countdown history. Callers must segment at signal/delay
 boundaries and commit under the authoritative writer; no actual provider/state/timer
 integration or delay-reconfiguration behavior is supplied by this helper.
+
+The [captured-plan helper](contracts/application-plans-v1.md) implements owned
+arrival-time request/provenance histories, audited override proposals and preview
+freshness.22 preserved cases pass with separate code review and pinned automatic CI;
+[handoff](evidence/acct-003-handoff.md). Sources supply already-resolved selections
+and requests; the helper never evaluates rules/modifiers, validates real permission,
+applies current caps/effects, or persists state. Those remain API/accounting/writer gates.

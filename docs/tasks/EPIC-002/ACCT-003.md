@@ -3,7 +3,8 @@
 Parent: [EPIC-002](../EPIC-002.md). Kind: implementation.
 Specification: v0.45; §3, §6, §7.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: use the current reviewed slice contract; none is finalized by this plan.
+Contract revision: [application-plans revision1](../../contracts/application-plans-v1.md);
+reviewed22-case baseline and pure implementation evidence are linked below.
 
 ## Scope and ownership
 
@@ -62,3 +63,8 @@ then actual stub-red ata524447 (22/22 failures after successful build). See
 [baseline handoff](../../evidence/accttest-003-baseline-handoff.md). Implementation
 still requires preserved assertions, separate code review, passing cases and observed
 automatic application-plan CI with the selected pinned Boost setup.
+
+Current implementation:22 unchanged cases pass against pure owned transformations,
+with separate code review4425064 and actual GNU13.3/Boost1.83 automatic CI. See
+[implementation handoff](../../evidence/acct-003-handoff.md). Final publication/merge
+and full writer/evaluator/permission/application/provider gates remain separate.

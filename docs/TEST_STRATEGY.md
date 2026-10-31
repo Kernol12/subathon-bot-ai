@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation cases pass; bounded slices only |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation and plan22 pure-transform cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -135,14 +135,14 @@ relevant PRs/main. [Implementation handoff](evidence/core-003-handoff.md) record
 scope. Caller segmentation/timer wiring, real provider signals, Qt/state commits,
 schedules, recovery and delay reconfiguration remain separate acceptance gates.
 
-## Captured application-plan baseline
+## Captured application-plan implementation
 
-ACCTTEST-003 supplies22 independently reviewed pure-transform cases for owned arrival
-context, exact requested effects, historical valuation, audited override revisions
-and preview freshness. All22 actually fail on explicit stubs after successful build;
-[baseline evidence](evidence/accttest-003-baseline-handoff.md). Use configure/build
-`application-plan-debug`, then CTest `-L application-plan`; this intentional-red
-lane stays separate from stable automatic suites. Existing selected Boost>=1.83
-headers are reused. ACCT-003 must implement/pass it with separate code review and
-observed automatic CI. No evaluator, actual application/caps, permission, writer or
+ACCTTEST-003 supplied22 independently reviewed cases and intended stub-red;
+[baseline evidence](evidence/accttest-003-baseline-handoff.md). ACCT-003 implements
+pure owned plan/revision/freshness transformations; all22 unchanged cases pass with
+separate code review and [observed pinned Boost1.83 CI](evidence/acct-003-ci.md).
+Use configure/build `application-plan-debug`, then CTest `-L application-plan`;
+that same stable lane runs on PRs/main with selected pinned dependencies. The
+[handoff](evidence/acct-003-handoff.md) records scope: no full evaluator/numeric
+correctness, real permission, durable writer/audit, current cap/effect/application or
 provider capability is established by capturing these supplied values.
