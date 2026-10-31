@@ -44,6 +44,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_EXACT_NUMERIC_TESTS": "ON"
       }
+    },
+    {
+      "name": "timer-lifecycle-debug",
+      "displayName": "05 \u00b7 Timer lifecycle intentional-red baseline",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -62,6 +70,10 @@
     {
       "name": "exact-numeric-debug",
       "configurePreset": "exact-numeric-debug"
+    },
+    {
+      "name": "timer-lifecycle-debug",
+      "configurePreset": "timer-lifecycle-debug"
     }
   ],
   "testPresets": [
@@ -98,6 +110,16 @@
     {
       "name": "exact-numeric-debug",
       "configurePreset": "exact-numeric-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "timer-lifecycle-debug",
+      "configurePreset": "timer-lifecycle-debug",
       "output": {
         "outputOnFailure": true
       },
