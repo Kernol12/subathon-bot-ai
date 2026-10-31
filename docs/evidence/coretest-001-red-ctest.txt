@@ -1,0 +1,1052 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/exact-numeric-debug
+      Start  1: ExactDecimalAcceptance.PreservesSourcePrecisionAndTrailingZeros
+ 1/32 Test  #1: ExactDecimalAcceptance.PreservesSourcePrecisionAndTrailingZeros ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.PreservesSourcePrecisionAndTrailingZeros
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.PreservesSourcePrecisionAndTrailingZeros
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.PreservesSourcePrecisionAndTrailingZeros (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.PreservesSourcePrecisionAndTrailingZeros
+
+ 1 FAILED TEST
+
+      Start  2: ExactDecimalAcceptance.PreservesExponentSpellingAndExactValue
+ 2/32 Test  #2: ExactDecimalAcceptance.PreservesExponentSpellingAndExactValue ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.PreservesExponentSpellingAndExactValue
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.PreservesExponentSpellingAndExactValue
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.PreservesExponentSpellingAndExactValue (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.PreservesExponentSpellingAndExactValue
+
+ 1 FAILED TEST
+
+      Start  3: ExactDecimalAcceptance.RetainsDigitsBeyondBinaryFloatingPointPrecision
+ 3/32 Test  #3: ExactDecimalAcceptance.RetainsDigitsBeyondBinaryFloatingPointPrecision .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RetainsDigitsBeyondBinaryFloatingPointPrecision
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RetainsDigitsBeyondBinaryFloatingPointPrecision
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.RetainsDigitsBeyondBinaryFloatingPointPrecision (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RetainsDigitsBeyondBinaryFloatingPointPrecision
+
+ 1 FAILED TEST
+
+      Start  4: ExactDecimalAcceptance.OwnsItsSourceAfterCallerBufferChanges
+ 4/32 Test  #4: ExactDecimalAcceptance.OwnsItsSourceAfterCallerBufferChanges ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.OwnsItsSourceAfterCallerBufferChanges
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.OwnsItsSourceAfterCallerBufferChanges
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.OwnsItsSourceAfterCallerBufferChanges (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.OwnsItsSourceAfterCallerBufferChanges
+
+ 1 FAILED TEST
+
+      Start  5: ExactDecimalAcceptance.SignedZeroRetainsOriginalSpelling
+ 5/32 Test  #5: ExactDecimalAcceptance.SignedZeroRetainsOriginalSpelling .......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.SignedZeroRetainsOriginalSpelling
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.SignedZeroRetainsOriginalSpelling
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.SignedZeroRetainsOriginalSpelling (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.SignedZeroRetainsOriginalSpelling
+
+ 1 FAILED TEST
+
+      Start  6: ExactDecimalAcceptance.RejectsNonJsonNumberGrammar
+ 6/32 Test  #6: ExactDecimalAcceptance.RejectsNonJsonNumberGrammar .............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RejectsNonJsonNumberGrammar
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RejectsNonJsonNumberGrammar
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: +1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 01
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: -01
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: .1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1.
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1e
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1e+
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1e-
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: --1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1e1.0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55:  1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1 
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1,2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1_0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 0x1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 1/2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:56: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:55: 	1
+
+[  FAILED  ] ExactDecimalAcceptance.RejectsNonJsonNumberGrammar (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RejectsNonJsonNumberGrammar
+
+ 1 FAILED TEST
+
+      Start  7: ExactDecimalAcceptance.RejectsNonFiniteSpellingsAcrossNumericEntryPoints
+ 7/32 Test  #7: ExactDecimalAcceptance.RejectsNonFiniteSpellingsAcrossNumericEntryPoints .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RejectsNonFiniteSpellingsAcrossNumericEntryPoints
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RejectsNonFiniteSpellingsAcrossNumericEntryPoints
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:63: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: NaN
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:64: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: NaN
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:65: Failure
+Expected: static_cast<void>(parse_nonnegative_factor(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: NaN
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:63: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: nan
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:64: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: nan
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:65: Failure
+Expected: static_cast<void>(parse_nonnegative_factor(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: nan
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:63: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: Infinity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:64: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: Infinity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:65: Failure
+Expected: static_cast<void>(parse_nonnegative_factor(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: Infinity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:63: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: inf
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:64: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: inf
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:65: Failure
+Expected: static_cast<void>(parse_nonnegative_factor(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: inf
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:63: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: -Infinity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:64: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: -Infinity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:65: Failure
+Expected: static_cast<void>(parse_nonnegative_factor(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:62: -Infinity
+
+[  FAILED  ] ExactDecimalAcceptance.RejectsNonFiniteSpellingsAcrossNumericEntryPoints (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RejectsNonFiniteSpellingsAcrossNumericEntryPoints
+
+ 1 FAILED TEST
+
+      Start  8: ExactDecimalAcceptance.RejectsEmbeddedNulInsteadOfParsingOnlyAPrefix
+ 8/32 Test  #8: ExactDecimalAcceptance.RejectsEmbeddedNulInsteadOfParsingOnlyAPrefix ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RejectsEmbeddedNulInsteadOfParsingOnlyAPrefix
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RejectsEmbeddedNulInsteadOfParsingOnlyAPrefix
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:71: Failure
+Expected: static_cast<void>(parse_decimal(source)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.RejectsEmbeddedNulInsteadOfParsingOnlyAPrefix (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RejectsEmbeddedNulInsteadOfParsingOnlyAPrefix
+
+ 1 FAILED TEST
+
+      Start  9: ExactDecimalAcceptance.AcceptsTheByteLimitWithLeadingExponentZeros
+ 9/32 Test  #9: ExactDecimalAcceptance.AcceptsTheByteLimitWithLeadingExponentZeros .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.AcceptsTheByteLimitWithLeadingExponentZeros
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.AcceptsTheByteLimitWithLeadingExponentZeros
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.AcceptsTheByteLimitWithLeadingExponentZeros (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.AcceptsTheByteLimitWithLeadingExponentZeros
+
+ 1 FAILED TEST
+
+      Start 10: ExactDecimalAcceptance.RejectsOneByteBeyondTheLimitBeforeSyntax
+10/32 Test #10: ExactDecimalAcceptance.RejectsOneByteBeyondTheLimitBeforeSyntax ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RejectsOneByteBeyondTheLimitBeforeSyntax
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RejectsOneByteBeyondTheLimitBeforeSyntax
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:84: Failure
+Expected: static_cast<void>(parse_decimal("1e" + std::string(511, '0'))) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:85: Failure
+Expected: static_cast<void>(parse_decimal(std::string(513, '?'))) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.RejectsOneByteBeyondTheLimitBeforeSyntax (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RejectsOneByteBeyondTheLimitBeforeSyntax
+
+ 1 FAILED TEST
+
+      Start 11: ExactDecimalAcceptance.CompleteSyntaxPrecedesInternalResourceLimits
+11/32 Test #11: ExactDecimalAcceptance.CompleteSyntaxPrecedesInternalResourceLimits ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.CompleteSyntaxPrecedesInternalResourceLimits
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.CompleteSyntaxPrecedesInternalResourceLimits
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:90: Failure
+Expected: static_cast<void>(parse_decimal(std::string(257, '9') + '?')) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:92: Failure
+Expected: static_cast<void>(parse_decimal("1e257?")) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.CompleteSyntaxPrecedesInternalResourceLimits (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.CompleteSyntaxPrecedesInternalResourceLimits
+
+ 1 FAILED TEST
+
+      Start 12: ExactDecimalAcceptance.AcceptsExactly256MantissaDigits
+12/32 Test #12: ExactDecimalAcceptance.AcceptsExactly256MantissaDigits .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.AcceptsExactly256MantissaDigits
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.AcceptsExactly256MantissaDigits
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.AcceptsExactly256MantissaDigits (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.AcceptsExactly256MantissaDigits
+
+ 1 FAILED TEST
+
+      Start 13: ExactDecimalAcceptance.RejectsOneMantissaDigitBeyondTheLimit
+13/32 Test #13: ExactDecimalAcceptance.RejectsOneMantissaDigitBeyondTheLimit ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RejectsOneMantissaDigitBeyondTheLimit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RejectsOneMantissaDigitBeyondTheLimit
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:104: Failure
+Expected: static_cast<void>(parse_decimal("1" + std::string(256, '0'))) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:106: Failure
+Expected: static_cast<void>(parse_decimal("0." + std::string(256, '0'))) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.RejectsOneMantissaDigitBeyondTheLimit (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RejectsOneMantissaDigitBeyondTheLimit
+
+ 1 FAILED TEST
+
+      Start 14: ExactDecimalAcceptance.AcceptsBothExponentMagnitudeBoundaries
+14/32 Test #14: ExactDecimalAcceptance.AcceptsBothExponentMagnitudeBoundaries ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.AcceptsBothExponentMagnitudeBoundaries
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.AcceptsBothExponentMagnitudeBoundaries
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.AcceptsBothExponentMagnitudeBoundaries (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.AcceptsBothExponentMagnitudeBoundaries
+
+ 1 FAILED TEST
+
+      Start 15: ExactDecimalAcceptance.RejectsExcessExponentEvenForZero
+15/32 Test #15: ExactDecimalAcceptance.RejectsExcessExponentEvenForZero ........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RejectsExcessExponentEvenForZero
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RejectsExcessExponentEvenForZero
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:119: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:118: 1e257
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:119: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:118: 1e-257
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:119: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:118: 0e257
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:119: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:118: -0e-257
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:119: Failure
+Expected: static_cast<void>(parse_decimal(input)) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:118: 1e999999999999999999999
+
+[  FAILED  ] ExactDecimalAcceptance.RejectsExcessExponentEvenForZero (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RejectsExcessExponentEvenForZero
+
+ 1 FAILED TEST
+
+      Start 16: ExactDecimalAcceptance.PositiveRatesPreserveExactOriginalValue
+16/32 Test #16: ExactDecimalAcceptance.PositiveRatesPreserveExactOriginalValue .................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.PositiveRatesPreserveExactOriginalValue
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.PositiveRatesPreserveExactOriginalValue
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.PositiveRatesPreserveExactOriginalValue (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.PositiveRatesPreserveExactOriginalValue
+
+ 1 FAILED TEST
+
+      Start 17: ExactDecimalAcceptance.RatesRejectZeroSignedZeroAndNegativeValues
+17/32 Test #17: ExactDecimalAcceptance.RatesRejectZeroSignedZeroAndNegativeValues ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RatesRejectZeroSignedZeroAndNegativeValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RatesRejectZeroSignedZeroAndNegativeValues
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:133: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:132: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:133: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:132: -0.00
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:133: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:132: 0e3
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:133: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:132: -1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:133: Failure
+Expected: static_cast<void>(parse_positive_rate(input)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:132: -0.1
+
+[  FAILED  ] ExactDecimalAcceptance.RatesRejectZeroSignedZeroAndNegativeValues (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RatesRejectZeroSignedZeroAndNegativeValues
+
+ 1 FAILED TEST
+
+      Start 18: ExactDecimalAcceptance.FactorsPermitZeroAndPositiveFractions
+18/32 Test #18: ExactDecimalAcceptance.FactorsPermitZeroAndPositiveFractions ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.FactorsPermitZeroAndPositiveFractions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.FactorsPermitZeroAndPositiveFractions
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.FactorsPermitZeroAndPositiveFractions (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.FactorsPermitZeroAndPositiveFractions
+
+ 1 FAILED TEST
+
+      Start 19: ExactDecimalAcceptance.FactorsRejectNegativeValues
+19/32 Test #19: ExactDecimalAcceptance.FactorsRejectNegativeValues .............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.FactorsRejectNegativeValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.FactorsRejectNegativeValues
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:146: Failure
+Expected: static_cast<void>(parse_nonnegative_factor("-0.0001")) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:147: Failure
+Expected: static_cast<void>(parse_nonnegative_factor("-2")) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.FactorsRejectNegativeValues (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.FactorsRejectNegativeValues
+
+ 1 FAILED TEST
+
+      Start 20: ExactDecimalAcceptance.ValidatorsRetainParserSyntaxAndResourceFailures
+20/32 Test #20: ExactDecimalAcceptance.ValidatorsRetainParserSyntaxAndResourceFailures .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.ValidatorsRetainParserSyntaxAndResourceFailures
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.ValidatorsRetainParserSyntaxAndResourceFailures
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:151: Failure
+Expected: static_cast<void>(parse_positive_rate("+1")) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:152: Failure
+Expected: static_cast<void>(parse_nonnegative_factor("1.")) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:153: Failure
+Expected: static_cast<void>(parse_positive_rate("0e257")) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:154: Failure
+Expected: static_cast<void>(parse_nonnegative_factor("-1e-257")) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.ValidatorsRetainParserSyntaxAndResourceFailures (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.ValidatorsRetainParserSyntaxAndResourceFailures
+
+ 1 FAILED TEST
+
+      Start 21: ExactDecimalAcceptance.PositiveHalfTiesRoundToEven
+21/32 Test #21: ExactDecimalAcceptance.PositiveHalfTiesRoundToEven .............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.PositiveHalfTiesRoundToEven
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.PositiveHalfTiesRoundToEven
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.PositiveHalfTiesRoundToEven (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.PositiveHalfTiesRoundToEven
+
+ 1 FAILED TEST
+
+      Start 22: ExactDecimalAcceptance.NegativeHalfTiesRoundToEven
+22/32 Test #22: ExactDecimalAcceptance.NegativeHalfTiesRoundToEven .............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.NegativeHalfTiesRoundToEven
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.NegativeHalfTiesRoundToEven
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.NegativeHalfTiesRoundToEven (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.NegativeHalfTiesRoundToEven
+
+ 1 FAILED TEST
+
+      Start 23: ExactDecimalAcceptance.BothSidesOfHalfTiesRemainDistinct
+23/32 Test #23: ExactDecimalAcceptance.BothSidesOfHalfTiesRemainDistinct .......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.BothSidesOfHalfTiesRemainDistinct
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.BothSidesOfHalfTiesRemainDistinct
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.BothSidesOfHalfTiesRemainDistinct (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.BothSidesOfHalfTiesRemainDistinct
+
+ 1 FAILED TEST
+
+      Start 24: ExactDecimalAcceptance.IntegralValuesAndSigned64EndpointsAreUnchanged
+24/32 Test #24: ExactDecimalAcceptance.IntegralValuesAndSigned64EndpointsAreUnchanged ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.IntegralValuesAndSigned64EndpointsAreUnchanged
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.IntegralValuesAndSigned64EndpointsAreUnchanged
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.IntegralValuesAndSigned64EndpointsAreUnchanged (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.IntegralValuesAndSigned64EndpointsAreUnchanged
+
+ 1 FAILED TEST
+
+      Start 25: ExactDecimalAcceptance.RangeCheckOccursAfterRoundingAtSigned64Boundaries
+25/32 Test #25: ExactDecimalAcceptance.RangeCheckOccursAfterRoundingAtSigned64Boundaries .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RangeCheckOccursAfterRoundingAtSigned64Boundaries
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RangeCheckOccursAfterRoundingAtSigned64Boundaries
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.RangeCheckOccursAfterRoundingAtSigned64Boundaries (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RangeCheckOccursAfterRoundingAtSigned64Boundaries
+
+ 1 FAILED TEST
+
+      Start 26: ExactDecimalAcceptance.RoundedResultsBeyondSigned64RangeRequireReview
+26/32 Test #26: ExactDecimalAcceptance.RoundedResultsBeyondSigned64RangeRequireReview ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.RoundedResultsBeyondSigned64RangeRequireReview
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.RoundedResultsBeyondSigned64RangeRequireReview
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:192: Failure
+Expected: static_cast<void>(round_effect_units(Exact(maximum_units) + Exact(1) / 2)) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:194: Failure
+Expected: static_cast<void>(round_effect_units(Exact(minimum_units) - Exact(5001) / 10'000)) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:196: Failure
+Expected: static_cast<void>(round_effect_units(Exact(maximum_units) + 1)) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:198: Failure
+Expected: static_cast<void>(round_effect_units(Exact(minimum_units) - 1)) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.RoundedResultsBeyondSigned64RangeRequireReview (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.RoundedResultsBeyondSigned64RangeRequireReview
+
+ 1 FAILED TEST
+
+      Start 27: ExactDecimalAcceptance.TimeEffectsScaleExactlyBeforeFinalMilliseconds
+27/32 Test #27: ExactDecimalAcceptance.TimeEffectsScaleExactlyBeforeFinalMilliseconds ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.TimeEffectsScaleExactlyBeforeFinalMilliseconds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.TimeEffectsScaleExactlyBeforeFinalMilliseconds
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.TimeEffectsScaleExactlyBeforeFinalMilliseconds (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.TimeEffectsScaleExactlyBeforeFinalMilliseconds
+
+ 1 FAILED TEST
+
+      Start 28: ExactDecimalAcceptance.ScoreEffectsScaleExactlyBeforeFinalMicroPoints
+28/32 Test #28: ExactDecimalAcceptance.ScoreEffectsScaleExactlyBeforeFinalMicroPoints ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.ScoreEffectsScaleExactlyBeforeFinalMicroPoints
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.ScoreEffectsScaleExactlyBeforeFinalMicroPoints
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.ScoreEffectsScaleExactlyBeforeFinalMicroPoints (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.ScoreEffectsScaleExactlyBeforeFinalMicroPoints
+
+ 1 FAILED TEST
+
+      Start 29: ExactDecimalAcceptance.IntermediateFractionsAreNotRounded
+29/32 Test #29: ExactDecimalAcceptance.IntermediateFractionsAreNotRounded ......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.IntermediateFractionsAreNotRounded
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.IntermediateFractionsAreNotRounded
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.IntermediateFractionsAreNotRounded (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.IntermediateFractionsAreNotRounded
+
+ 1 FAILED TEST
+
+      Start 30: ExactDecimalAcceptance.FinalizerAccepts4096BitNormalizedComponents
+30/32 Test #30: ExactDecimalAcceptance.FinalizerAccepts4096BitNormalizedComponents .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.FinalizerAccepts4096BitNormalizedComponents
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.FinalizerAccepts4096BitNormalizedComponents
+unknown file: Failure
+C++ exception with description "Exact numeric behavior is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ExactDecimalAcceptance.FinalizerAccepts4096BitNormalizedComponents (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.FinalizerAccepts4096BitNormalizedComponents
+
+ 1 FAILED TEST
+
+      Start 31: ExactDecimalAcceptance.FinalizerRejects4097BitNumeratorBeforeRangeConversion
+31/32 Test #31: ExactDecimalAcceptance.FinalizerRejects4097BitNumeratorBeforeRangeConversion ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.FinalizerRejects4097BitNumeratorBeforeRangeConversion
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.FinalizerRejects4097BitNumeratorBeforeRangeConversion
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:230: Failure
+Expected: static_cast<void>(round_effect_units(Exact(too_large))) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:231: Failure
+Expected: static_cast<void>(round_effect_units(Exact(-too_large))) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.FinalizerRejects4097BitNumeratorBeforeRangeConversion (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.FinalizerRejects4097BitNumeratorBeforeRangeConversion
+
+ 1 FAILED TEST
+
+      Start 32: ExactDecimalAcceptance.FinalizerRejects4097BitDenominatorBeforeRounding
+32/32 Test #32: ExactDecimalAcceptance.FinalizerRejects4097BitDenominatorBeforeRounding ........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalAcceptance.FinalizerRejects4097BitDenominatorBeforeRounding
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalAcceptance
+[ RUN      ] ExactDecimalAcceptance.FinalizerRejects4097BitDenominatorBeforeRounding
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:236: Failure
+Expected: static_cast<void>(round_effect_units(Exact(1) / too_large)) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/exact_decimal_tests.cpp:237: Failure
+Expected: static_cast<void>(round_effect_units(Exact(-1) / too_large)) throws an exception of type std::length_error.
+  Actual: it throws subathon::core::ExactNumericNotImplemented with description "Exact numeric behavior is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ExactDecimalAcceptance.FinalizerRejects4097BitDenominatorBeforeRounding (0 ms)
+[----------] 1 test from ExactDecimalAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalAcceptance.FinalizerRejects4097BitDenominatorBeforeRounding
+
+ 1 FAILED TEST
+
+
+0% tests passed, 32 tests failed out of 32
+
+Label Time Summary:
+acceptance         =   0.04 sec*proc (32 tests)
+exact-numeric      =   0.04 sec*proc (32 tests)
+intentional-red    =   0.04 sec*proc (32 tests)
+
+Total Test time (real) =   0.04 sec
+
+The following tests FAILED:
+	  1 - ExactDecimalAcceptance.PreservesSourcePrecisionAndTrailingZeros (Failed) acceptance exact-numeric intentional-red
+	  2 - ExactDecimalAcceptance.PreservesExponentSpellingAndExactValue (Failed) acceptance exact-numeric intentional-red
+	  3 - ExactDecimalAcceptance.RetainsDigitsBeyondBinaryFloatingPointPrecision (Failed) acceptance exact-numeric intentional-red
+	  4 - ExactDecimalAcceptance.OwnsItsSourceAfterCallerBufferChanges (Failed) acceptance exact-numeric intentional-red
+	  5 - ExactDecimalAcceptance.SignedZeroRetainsOriginalSpelling (Failed) acceptance exact-numeric intentional-red
+	  6 - ExactDecimalAcceptance.RejectsNonJsonNumberGrammar (Failed) acceptance exact-numeric intentional-red
+	  7 - ExactDecimalAcceptance.RejectsNonFiniteSpellingsAcrossNumericEntryPoints (Failed) acceptance exact-numeric intentional-red
+	  8 - ExactDecimalAcceptance.RejectsEmbeddedNulInsteadOfParsingOnlyAPrefix (Failed) acceptance exact-numeric intentional-red
+	  9 - ExactDecimalAcceptance.AcceptsTheByteLimitWithLeadingExponentZeros (Failed) acceptance exact-numeric intentional-red
+	 10 - ExactDecimalAcceptance.RejectsOneByteBeyondTheLimitBeforeSyntax (Failed) acceptance exact-numeric intentional-red
+	 11 - ExactDecimalAcceptance.CompleteSyntaxPrecedesInternalResourceLimits (Failed) acceptance exact-numeric intentional-red
+	 12 - ExactDecimalAcceptance.AcceptsExactly256MantissaDigits (Failed) acceptance exact-numeric intentional-red
+	 13 - ExactDecimalAcceptance.RejectsOneMantissaDigitBeyondTheLimit (Failed) acceptance exact-numeric intentional-red
+	 14 - ExactDecimalAcceptance.AcceptsBothExponentMagnitudeBoundaries (Failed) acceptance exact-numeric intentional-red
+	 15 - ExactDecimalAcceptance.RejectsExcessExponentEvenForZero (Failed) acceptance exact-numeric intentional-red
+	 16 - ExactDecimalAcceptance.PositiveRatesPreserveExactOriginalValue (Failed) acceptance exact-numeric intentional-red
+	 17 - ExactDecimalAcceptance.RatesRejectZeroSignedZeroAndNegativeValues (Failed) acceptance exact-numeric intentional-red
+	 18 - ExactDecimalAcceptance.FactorsPermitZeroAndPositiveFractions (Failed) acceptance exact-numeric intentional-red
+	 19 - ExactDecimalAcceptance.FactorsRejectNegativeValues (Failed) acceptance exact-numeric intentional-red
+	 20 - ExactDecimalAcceptance.ValidatorsRetainParserSyntaxAndResourceFailures (Failed) acceptance exact-numeric intentional-red
+	 21 - ExactDecimalAcceptance.PositiveHalfTiesRoundToEven (Failed) acceptance exact-numeric intentional-red
+	 22 - ExactDecimalAcceptance.NegativeHalfTiesRoundToEven (Failed) acceptance exact-numeric intentional-red
+	 23 - ExactDecimalAcceptance.BothSidesOfHalfTiesRemainDistinct (Failed) acceptance exact-numeric intentional-red
+	 24 - ExactDecimalAcceptance.IntegralValuesAndSigned64EndpointsAreUnchanged (Failed) acceptance exact-numeric intentional-red
+	 25 - ExactDecimalAcceptance.RangeCheckOccursAfterRoundingAtSigned64Boundaries (Failed) acceptance exact-numeric intentional-red
+	 26 - ExactDecimalAcceptance.RoundedResultsBeyondSigned64RangeRequireReview (Failed) acceptance exact-numeric intentional-red
+	 27 - ExactDecimalAcceptance.TimeEffectsScaleExactlyBeforeFinalMilliseconds (Failed) acceptance exact-numeric intentional-red
+	 28 - ExactDecimalAcceptance.ScoreEffectsScaleExactlyBeforeFinalMicroPoints (Failed) acceptance exact-numeric intentional-red
+	 29 - ExactDecimalAcceptance.IntermediateFractionsAreNotRounded (Failed) acceptance exact-numeric intentional-red
+	 30 - ExactDecimalAcceptance.FinalizerAccepts4096BitNormalizedComponents (Failed) acceptance exact-numeric intentional-red
+	 31 - ExactDecimalAcceptance.FinalizerRejects4097BitNumeratorBeforeRangeConversion (Failed) acceptance exact-numeric intentional-red
+	 32 - ExactDecimalAcceptance.FinalizerRejects4097BitDenominatorBeforeRounding (Failed) acceptance exact-numeric intentional-red
+Errors while running CTest

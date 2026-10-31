@@ -34,6 +34,22 @@ and interaction tests through the proper contracts; independently review; run an
 red tests caused by missing behavior. Compilation errors do not count. Do not mark
 unknown provider capabilities as supported using a fictional fixture.
 
+## Exact numeric baseline
+
+CORETEST-001 adds [exact decimal revision1](contracts/exact-decimal-v1.md): owned
+lossless decimals, positive rates/nonnegative factors and signed64 half-even final
+conversion. Its 32 independently reviewed cases are observed red on explicit
+unimplemented stubs; [baseline evidence](evidence/coretest-001-baseline-handoff.md)
+records exact artifacts and actual exit8. This does not establish numeric behavior.
+
+Run the explicit lane with `cmake --preset exact-numeric-debug`,
+`cmake --build --preset exact-numeric-debug` and
+`ctest --preset exact-numeric-debug -L exact-numeric`. Installed Boost headers and
+GoogleTest are required. Default scaffold/credit lanes remain separate while numeric
+behavior is red; CORE-001 must enable stable numeric PR/main CI after implementation.
+Per-input atomic rejection, aggregates, modifier combination, refunds and all platform
+behavior remain their own baselines and are not covered by these primitive cases.
+
 ## Priorities after first baseline
 
 - Duplicate receipts/commands, atomic effects/state/jobs and restart recovery.
