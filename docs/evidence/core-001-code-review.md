@@ -79,3 +79,78 @@ listed exactly the one new case, without executing it. The coordinator may now
 record its genuine intended red against candidate `873cc6d` before authorizing the
 finalizerzero fix. This harness approval leaves final implementation/workflow
 approval and actual CI observation pending.
+
+
+## Final code and workflow configuration verdict
+
+Verdict: **approved for code integration**, with actual latest-head PR CI and
+repository merge gates still required before task completion/merge.
+Reviewed exact final author `74f3594d352b5e1ef1b7817a4d0d0330932ec1bc`, final
+source blob `a1ddb4283292a5da0a81a0f4e8255fffc19cafd7`, integrated coordinator
+`a58dfd5` and the complete shared harness/workflow/configuration through coordinator
+`cd96d7c1cfa3fe158f23e436a768bbe60f5705c5`.
+
+Inspected the actual [one-case red log](core-001-zero-red-ctest.txt) and author note:
+coordinator `6224ac3` follows the separate regression/harness approvals above, and its
+successfully built test body throws the expected incorrect `length_error` rather
+than returning zero. The observed exit8 precedes authorization of the finalizer fix.
+The final source returns0 immediately when the exact numerator is zero, before reading
+or rejecting its raw denominator. This implements mathematical normalization0/1 and
+preserves the original nonzero oversized-component failures. Parserzero canonicalization
+was already exercised by the unchanged original factor/signed-zero assertions.
+
+Reviewed the complete implementation beyond those assertions. Every input cursor read
+is guarded, ASCII digits do not depend on locale, and malformed full input is rejected
+before internal mantissa/exponent resource errors. Exponent accumulation stops growing
+once beyond256 while scanning the remaining bounded grammar; it cannot overflow a
+built-in integer. Resource acceptance precedes coefficient/power construction, which
+is bounded by256 mantissa digits and at most511 decimal power. Source spelling is
+owned independently of exact signed calculation; no floating-point shortcut enters.
+Final rounding uses nonnegative magnitude/remainder and parity, restores the sign,
+and only then checks signed64 bounds before conversion, avoiding signed-minimum
+negation or unsafe integral intermediates. Zero is handled before `msb`, and nonzero
+4096-bit limits are applied before quotient/remainder rounding. The function does not
+claim to bound earlier caller arithmetic or implement application transactions.
+No further blocking code, ownership or provenance issue was found.
+
+The original header, revision1 contract, all32 acceptance assertions and existing
+credit source/tests/fixtures have an empty diff from main `cab329b`. The one additive
+regression remains exact blob `347a810b1edba2ffc36d66ba44b700092bb2b381`.
+
+Independent final-source checks:
+
+| Check | Actual result |
+| --- | --- |
+| Exact numeric configure/build and label-selected CTest | exit0;33/33 pass, including unchanged32 plus the reviewed zero regression |
+| Full `ctest --preset exact-numeric-debug` | exit0;36/36 pass, including three infrastructure checks |
+| Credit configure/build and acceptance/regression CTest | exit0;23/23 pass; numeric-only finalizer fix does not change credit artifacts |
+| Final reconfigure after shared config revision `cd96d7c` | exit0; explicitly logs Boost1.92.0 at `/usr/include`; build and33-case replay pass |
+| Final project/render/Python tooling/diff checks | exit0; current snapshot and19/19 tooling cases pass |
+
+Full-suite output was inspected; the final label-selected replay is retained locally
+in ignored `build/exact-numeric-debug/reviewer-final-ctest.txt`. Local environment
+remains Boost1.92.0, GCC16.2.1 and GoogleTest1.18.0; no packages were installed.
+
+### Automatic CI configuration review
+
+Approved workflow configuration blob `886f435f1fe0826f01e873fd697d9e1637ad3daf`
+(`.github/workflows/exact-numeric.yml`) and core CMake blob
+`a9c394fd98a7b08dbe515fe983c74eb3721b6be5`. The new automatic PR/main job runs the
+same explicit numeric preset and all `exact-numeric` acceptance/regression cases,
+without path filters, skipped failures or expected-failure inversion. Checkout and
+GoogleTest references retain immutable pins, permissions remain contents:read, and
+the job has a15-minute budget. Ubuntu installs the selected Boost package at an exact
+version, explicitly chooses its1.83 CMake/header config directories and independently
+checks compiler `BOOST_VERSION108300`. Thus installation alone is not mistaken for
+proof of which headers the build consumes. CMake local discovery remains explicit
+`Boost >=1.83 CONFIG` with `Boost::headers`, and the preset display/CTest labels
+accurately reflect the now-passing suite. No implicit local dependency fetch is added.
+
+This is static workflow/configuration approval plus independent local replay, not an
+observed Ubuntu/Boost1.83 workflow result. The coordinator must observe that new job
+and all other latest-head checks, record actual dependency/test results and reassess
+any changed revision before marking CORE-001 done or merging. Required-status-check
+configuration remains the separately documented repository-settings gap. Windows,
+release packaging, application-level aggregate/review/atomicity, Qt server behavior,
+providers, renderers/UI/localization and live/OBS validation remain outside this
+bounded primitive approval.
