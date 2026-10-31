@@ -67,18 +67,20 @@ committed approvals in `local-evidence/worktrees/coretest002-review` (branch
 inspect actual agents before reuse.
 
 [Contribution PR #17](https://github.com/Kernol12/subathon-bot-ai/pull/17), branch
-`task/ACCTTEST-002-eligibility-baseline`, coordinator worktree
-`local-evidence/worktrees/accttest002-coordinator`, current3c5a8ca awaits publication.
-Authorb0fd97e + correction929152c, independent review9dd0fec/a561508: all21 approved,
-tests702a7bf1, core/server interfaces65ad81ac/82c2e5f7, fake8d35e502, contract5eec5921.
-At4d1400f after approval actual21/21 core/service stub failures, CTest exit8.
-The branch contains `docs/evidence/accttest-002-baseline-handoff.md` and raw output;
-no contribution algorithms implemented. Stable74 native cases and tooling checks
-pass. Final done-state reviewer `/root/baseline_reviewer` explicitly reassigned in
-`local-evidence/worktrees/accttest002-review`, actual3c5a8ca seeded; approval of that
-delta, latest PR CI and merge remain. Author `/root/receipt_test_author` preserves
-correction in `local-evidence/worktrees/accttest002-author`; all old usage-limit
-errors are historical, actual agents now completed those bounded assignments.
+`task/ACCTTEST-002-eligibility-baseline`, persistent coordinator worktree
+`local-evidence/worktrees/accttest002-coordinator`. Original authorb0fd97e,
+correction929152c, independent reviewa561508 and final3ffb71d approve21-case
+baseline; tests702a7bf1, interfaces65ad81ac/82c2e5f7, fake8d35e502, contract5eec5921.
+At4d1400f after approval actual CTest exit8,21/21 explicit core/service stub failures;
+[handoff](accttest-002-baseline-handoff.md). Final prose findings corrected, stable
+scaffold3/credit23/numeric33/receipt15 and tooling19/project/render/DOM/diff passed.
+No contribution implementation. Main419d855 is being integrated: preserve both
+optional timer/contribution harnesses, both reviewed/red states, active CORE002 claim
+and scenario evidence; regenerate progress. Independent reconciliation review and
+latest PR17 CI/merge remain. Reviewer `/root/baseline_reviewer` owns only evidence in
+`local-evidence/worktrees/accttest002-review`; author `/root/receipt_test_author`
+preserves correction in `local-evidence/worktrees/accttest002-author`. Old usage
+errors are historical; inspect actual agents before reuse.
 
 ## Continuation and unperformed gates
 

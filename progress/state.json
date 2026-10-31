@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T19:34:59.655629+00:00",
+  "updated_at": "2026-10-31T19:41:15.322586+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1254,7 +1254,7 @@
       "title": "Review and demonstrate red: Independent eligibility and confirmation linkage",
       "module": "Accounting",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Coordinator /root; test author /root/receipt_test_author",
       "depends_on": [
         "ACCT-001"
@@ -1267,11 +1267,31 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-002.",
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
+        "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded.",
+        "Usage-limit checkpoint: author b0fd97e integrates21-case draft/contract with conservative unknown/default-state oracle; coordinatorccdd17c+harness281c821 configure/build0 and -N lists21. Actual hashes in accttest-002-checkpoint. No bodies/red or independentapproval; assigned author/reviewer bothreported usage limit, reviewerworktree remains main8ad458e with no review. Preserveclaims/worktrees and reassign/resume reviewer afteravailability; no ACCT002production before reviewed/red integration.",
+        "Actual21-case contribution baseline corrected929152c for2 focused coverage findings and independently approveda561508. At integrated4d1400f configure/build0 then actual CTest exit8,21/21 explicit core/service stub failures, no skips/dependency/build failures. Reviewed tests702a7bf1/interfaces/fake unchanged. Scaffold3/credit23/numeric33/receipt15 pass. Baseline done means reviewed intended red, no implementation or SQL/provider/application claim; final integration/latest PR17 CI/merge pending."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored_tests": "passed",
+        "native_build": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/accttest-002-authoring.md",
+        "docs/evidence/accttest-002-checkpoint.md",
+        "docs/evidence/accttest-002-independent-review.md",
+        "docs/evidence/accttest-002-baseline-handoff.md",
+        "docs/evidence/accttest-002-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/receipt_test_author",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "authorb0fd97e +929152c; tests702a7bf1d8162ba748ee9477ea48ffa73047ef65; contract5eec5921; reviewa561508; actualred4d1400f",
+        "evidence": "docs/evidence/accttest-002-independent-review.md"
+      }
     },
     {
       "id": "ACCT-002",
@@ -10548,14 +10568,24 @@
       "note": "Source875c1c9/7a0986b and confige1b47f1 separately approved ab28d70; all15 reviewed fake-backed receipt simulations pass, plus reviewer numeric33/credit23/scaffold3. Actual automatic receipt workflow41207963538 atPR16head018e286 passed on Ubuntu24.04/GCC13.3 with15 cases; all5checks green. Bounded simulation-backed service gates complete, final done-state integration/latestheadCI/merge pending. No SQL uniqueness/durability/Qt writer/provider/contribution capability. Original headers/tests94317dc/fake99ff2ee/normative contract unchanged."
     },
     {
-      "date": "2026-10-31T13:56:39+00:00",
-      "task": "CORETEST-002",
-      "note": "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests."
-    },
-    {
       "date": "2026-10-31T14:11:13+00:00",
       "task": "ACCTTEST-002",
       "note": "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
+    },
+    {
+      "date": "2026-10-31T18:51:00+00:00",
+      "task": "ACCTTEST-002",
+      "note": "Usage-limit checkpoint: author b0fd97e integrates21-case draft/contract with conservative unknown/default-state oracle; coordinatorccdd17c+harness281c821 configure/build0 and -N lists21. Actual hashes in accttest-002-checkpoint. No bodies/red or independentapproval; assigned author/reviewer bothreported usage limit, reviewerworktree remains main8ad458e with no review. Preserveclaims/worktrees and reassign/resume reviewer afteravailability; no ACCT002production before reviewed/red integration."
+    },
+    {
+      "date": "2026-10-31T19:32:33.416554+00:00",
+      "task": "ACCTTEST-002",
+      "note": "Actual21-case contribution baseline corrected929152c for2 focused coverage findings and independently approveda561508. At integrated4d1400f configure/build0 then actual CTest exit8,21/21 explicit core/service stub failures, no skips/dependency/build failures. Reviewed tests702a7bf1/interfaces/fake unchanged. Scaffold3/credit23/numeric33/receipt15 pass. Baseline done means reviewed intended red, no implementation or SQL/provider/application claim; final integration/latest PR17 CI/merge pending."
+    },
+    {
+      "date": "2026-10-31T13:56:39+00:00",
+      "task": "CORETEST-002",
+      "note": "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests."
     },
     {
       "date": "2026-10-31T19:22:55+00:00",
