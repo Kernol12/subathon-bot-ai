@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T21:40:35.645165+00:00",
+  "updated_at": "2026-10-31T21:45:43.725303+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1476,7 +1476,8 @@
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed task/ACCT-003-captured-plans frommain8ed9d45 afterbaselinePR22 merged21:32:08UTC finalc66870e all8CIpass/fullreview36ac654/final9aea69e, actual22stubreda524447. Contractapplicationplansrev1; interface501112d6/testsf93287fa preserved. Implementer task/ACCT-003-implementation owns ONLY core/src/application_plan.cpp +implementationevidence; rootowns build/labels/preset/automaticpinnedBoostCI/state/HTML/map/status/checkpoint/PR. Accept22passing cases+separate code/configreview+observednewCI; no evaluator/numericrecalculation/permissionengine/storage/livecap/effect/writer/provider claim. Usercleanupkeptcurrent: justmergedPR22 head archived/deleted withguards, total33completedremotebranchesremoved; localhistoryretained.",
-        "Sourceauthordcf0990/42b47e4a and selectedpinnedCI0e8ebbf approved4425064. All22 unchangedcasesf93287fa pass root/author/reviewer; fullpreset25/numeric33 pass. Actualnewapplication-planCI41244388435 atPR23df58c84 passed22 GNU13.3/Boost1.83/compilerheader108300; all9checks passedthere. Ownedtransformationsdone, finalstatusreview/latestheadCI/merge pending. No evaluator, actualpermission/storage/application/currentcap/provider/platform claim; currentpreviewisfreshnessonly. Cleanup33completedremotebranches removedwithguards/archives; activePR23retained/supportbrancheslocal."
+        "Sourceauthordcf0990/42b47e4a and selectedpinnedCI0e8ebbf approved4425064. All22 unchangedcasesf93287fa pass root/author/reviewer; fullpreset25/numeric33 pass. Actualnewapplication-planCI41244388435 atPR23df58c84 passed22 GNU13.3/Boost1.83/compilerheader108300; all9checks passedthere. Ownedtransformationsdone, finalstatusreview/latestheadCI/merge pending. No evaluator, actualpermission/storage/application/currentcap/provider/platform claim; currentpreviewisfreshnessonly. Cleanup33completedremotebranches removedwithguards/archives; activePR23retained/supportbrancheslocal.",
+        "Finalintegrationb548192 approvesd2a87b6: source/interface/tests/workflowunchanged, retainedactualCI GNU13.3/Boost1.83/header108300/22pass verified; project/render/diffpass, no broadnative repeats. PublishfinalreviewactivePR23only and requireall9latestCI/threads/rules/merge. Preservecleanup33manifest/localarchives; checkpointbefore sessionlimit aftercurrentPRgates withoutclaimingfullprojectcompletion or no readywork."
       ],
       "verification": {
         "native_build": "passed",
@@ -10849,6 +10850,11 @@
       "date": "2026-10-31T21:40:35.645165+00:00",
       "task": "ACCT-003",
       "note": "Sourceauthordcf0990/42b47e4a and selectedpinnedCI0e8ebbf approved4425064. All22 unchangedcasesf93287fa pass root/author/reviewer; fullpreset25/numeric33 pass. Actualnewapplication-planCI41244388435 atPR23df58c84 passed22 GNU13.3/Boost1.83/compilerheader108300; all9checks passedthere. Ownedtransformationsdone, finalstatusreview/latestheadCI/merge pending. No evaluator, actualpermission/storage/application/currentcap/provider/platform claim; currentpreviewisfreshnessonly. Cleanup33completedremotebranches removedwithguards/archives; activePR23retained/supportbrancheslocal."
+    },
+    {
+      "date": "2026-10-31T21:45:43.725303+00:00",
+      "task": "ACCT-003",
+      "note": "Finalintegrationb548192 approvesd2a87b6: source/interface/tests/workflowunchanged, retainedactualCI GNU13.3/Boost1.83/header108300/22pass verified; project/render/diffpass, no broadnative repeats. PublishfinalreviewactivePR23only and requireall9latestCI/threads/rules/merge. Preservecleanup33manifest/localarchives; checkpointbefore sessionlimit aftercurrentPRgates withoutclaimingfullprojectcompletion or no readywork."
     }
   ]
 }
