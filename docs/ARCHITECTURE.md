@@ -63,3 +63,10 @@ for pinned Drogon/Trantor, real HTTP/WebSocket queue/writer operations and coope
 shutdown. This approves no production reuse. The observed WebSocket close behavior
 and remaining lifecycle cases are carried into APITEST-001/API-001 and
 APITEST-003/API-003; persistent connections and platform/release support remain open.
+
+The [Main/Grace reducer](contracts/timer-lifecycle-v1.md) implements pure countdown
+proposals and ordered transitions with39 reviewed passing cases, separate code
+review and automatic CI; [handoff](evidence/core-002-handoff.md). UTC and elapsed
+inputs remain separate, and accepted actual credit can resume confirmation wait.
+The caller still owns segmentation, pause reasons, permissions, actual-credit
+calculation and atomic commit; no Qt timer/queue, durable state or recovery is supplied.

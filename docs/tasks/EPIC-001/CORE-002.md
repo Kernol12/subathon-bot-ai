@@ -7,8 +7,9 @@ Contract revision: [timer lifecycle revision1](../../contracts/timer-lifecycle-v
 independently reviewed with39 cases and observed intended stub-red; see the
 [baseline handoff](../../evidence/coretest-002-baseline-handoff.md).
 The [owner clarification](../../evidence/timer-confirmation-credit-decision.md)
-settles confirmation-wait credit. No behavior is implemented by that baseline;
-the refinement required no API or layout migration.
+settles confirmation-wait credit. CORE-002 now implements the bounded reducer;
+[implementation evidence](../../evidence/core-002-handoff.md) records39 passing cases,
+separate review and observed CI. No API or layout migration was required.
 
 ## Scope and ownership
 
@@ -66,8 +67,8 @@ its own independent-review gates. This brief does not declare any tests reviewed
 
 Primary home: GoogleTest via CTest; explicit clock-step values and manually derived
 duration/transition vectors. Coordinator-owned `timer-lifecycle-debug` configures
-the separate intentional-red lane. Compile before independent review; run timer
-test bodies only after the actual final timer contract/tests are approved.
+the stable passing lane, also executed automatically on PRs/main. The original
+reviewed/red gate is retained in baseline evidence; preserve its assertions.
 Select exact suite labels/commands when the reviewed harness exists and record what
 actually ran; no unbuilt test target or unrun command is evidence. Update applicable
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must

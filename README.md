@@ -50,7 +50,7 @@ inputs or an unrepresentable final sum. The original 19 reviewed acceptance case
 and four additional reviewed regression cases pass. See the
 [implementation handoff](docs/evidence/impl-001-handoff.md) for separate code review
 and exact checks, and the [original red baseline](docs/evidence/time-credit-baseline-handoff.md)
-for the test-first history. Timer lifecycle and application transactions remain future work.
+for the test-first history. Application transactions remain future work.
 CORE-001 also supplies bounded lossless decimal parsing and signed half-even final
 conversion:32 reviewed acceptance cases plus one normalized-zero regression pass.
 Use the explicit `exact-numeric-debug` preset with installed Boost>=1.83/GoogleTest;
@@ -60,6 +60,11 @@ ACCT-001 supplies identified-receipt retry/conflict decisions and attempt proven
 through an atomic repository port. Its15 reviewed fake-backed simulation cases and
 [automatic CI/code review](docs/evidence/acct-001-handoff.md) pass; SQL durability,
 Qt writer integration and contribution application remain unimplemented gates.
+CORE-002 supplies the pure Main/Grace reducer, including automatic resumption after
+positive actual credit during confirmation wait. Its39 reviewed cases pass with
+[separate code review/automatic CI](docs/evidence/core-002-handoff.md); use
+`timer-lifecycle-debug`. Queue/state wiring, real pause reasons, start/reopen,
+recovery and schedules remain separate tasks.
 Do not treat the scaffold smoke test as proof that credit calculation works.
 See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/time-credit-v0.md).
 

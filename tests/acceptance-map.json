@@ -83,9 +83,13 @@
       "evidence": [
         "docs/evidence/coretest-002-final-independent-review.md",
         "docs/evidence/coretest-002-baseline-handoff.md",
-        "docs/evidence/coretest-002-red-ctest.txt"
+        "docs/evidence/coretest-002-red-ctest.txt",
+        "docs/evidence/core-002-implementation.md",
+        "docs/evidence/core-002-code-review.md",
+        "docs/evidence/core-002-ci.md",
+        "docs/evidence/core-002-handoff.md"
       ],
-      "scope": "39-case bounded lifecycle/phase baseline independently reviewed and observed stub-red. Timer behavior and downstream pause/recovery/start/application wiring remain unimplemented."
+      "scope": "39 reviewed cases pass against pure lifecycle reducer with separate code review and actual automatic Ubuntu CI. Queue/state/permission/application wiring, pause reasons, start/reopen/recovery/schedules and platform behavior remain separate."
     },
     {
       "id": "TIMER-02",
@@ -96,9 +100,13 @@
       "evidence": [
         "docs/evidence/coretest-002-final-independent-review.md",
         "docs/evidence/coretest-002-baseline-handoff.md",
-        "docs/evidence/coretest-002-red-ctest.txt"
+        "docs/evidence/coretest-002-red-ctest.txt",
+        "docs/evidence/core-002-implementation.md",
+        "docs/evidence/core-002-code-review.md",
+        "docs/evidence/core-002-ci.md",
+        "docs/evidence/core-002-handoff.md"
       ],
-      "scope": "39-case bounded lifecycle/phase baseline independently reviewed and observed stub-red. Timer behavior and downstream pause/recovery/start/application wiring remain unimplemented."
+      "scope": "39 reviewed cases pass against pure lifecycle reducer with separate code review and actual automatic Ubuntu CI. Queue/state/permission/application wiring, pause reasons, start/reopen/recovery/schedules and platform behavior remain separate."
     },
     {
       "id": "TIMER-03",
@@ -882,7 +890,7 @@
     },
     {
       "scenario": "Main/Grace ending modes, actual-credit rescue and hard-end observation precedence",
-      "status": "observed_red",
+      "status": "passed",
       "tests": [
         "tests/acceptance/timer_lifecycle_tests.cpp"
       ],
@@ -897,9 +905,21 @@
       "evidence": [
         "docs/evidence/coretest-002-final-independent-review.md",
         "docs/evidence/coretest-002-baseline-handoff.md",
-        "docs/evidence/coretest-002-red-ctest.txt"
+        "docs/evidence/coretest-002-red-ctest.txt",
+        "docs/evidence/core-002-implementation.md",
+        "docs/evidence/core-002-code-review.md",
+        "docs/evidence/core-002-ci.md",
+        "docs/evidence/core-002-handoff.md"
       ],
-      "scope": "39 reviewed deterministic cases fail on explicit stubs after compilation. Includes owner-selected positive-actual confirmation-wait resumption; no timer implementation or state/application wiring."
+      "scope": "39 reviewed cases pass against pure lifecycle reducer with separate code review and actual automatic Ubuntu CI. Queue/state/permission/application wiring, pause reasons, start/reopen/recovery/schedules and platform behavior remain separate.",
+      "code_review": {
+        "author": "/root/timer_implementer",
+        "reviewer": "/root/timer_final_reviewer",
+        "outcome": "approved",
+        "baseline": "authorc40eea2; source61384a59309767a8d2cb86ad08667b09e32086c7; testsbf8c1f46; CI1a35587; reviewe64439b",
+        "evidence": "docs/evidence/core-002-code-review.md"
+      },
+      "verification_level": "deterministic domain"
     },
     {
       "scenario": "Independent contribution eligibility and verified confirmation linkage",
