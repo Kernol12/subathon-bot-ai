@@ -10,7 +10,8 @@ This is an active checkpoint, not evidence of release completion.
 
 Initial GitHub inspection found no open PRs. Active numeric baseline is now draft
 [PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), coordinator branch
-`task/CORETEST-001-exact-baseline`; author/review/red gates are pending. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
+`task/CORETEST-001-exact-baseline`; authoring, test review and observed red are
+complete. Final integration review, latest-revision CI and merge gates are pending. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
 (SPIKE-001), [#5](https://github.com/Kernol12/subathon-bot-ai/pull/5) (TEST-002),
 [#7](https://github.com/Kernol12/subathon-bot-ai/pull/7) (IMPL-001),
 [#8](https://github.com/Kernol12/subathon-bot-ai/pull/8) (coordinator prompt) and
@@ -97,7 +98,7 @@ claim of preinstalled runner Boost, release compatibility or Windows support.
 
 Resume coordinator scaffold configure/build/CTest3/3, Python19/19 and DOM simulation
 checks passed; these verify unchanged infrastructure only. Draft PR #12 is published
-for continuity and must remain draft until its test review and red gates are complete.
+for continuity and remains draft pending final integration review and PR merge gates.
 
 CORETEST-001 actual author commits `6e30383`, `45fa0c0`, `b3b7ab9` are
 integrated; independent test review `79e0f0d` approves the final 32 cases. Exact
