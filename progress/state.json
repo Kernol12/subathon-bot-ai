@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T20:57:58.096526+00:00",
+  "updated_at": "2026-10-31T20:59:58.140688+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -900,8 +900,8 @@
       "title": "Independent pause reasons and delayed status signals",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/pause_policy_implementer; independent reviewer /root/pause_resume_reviewer",
       "depends_on": [
         "CORE-002",
         "CORETEST-003"
@@ -914,7 +914,8 @@
       "brief": "docs/tasks/EPIC-001/CORE-003.md",
       "summary": "Default offline and designated-client delays independently to 30 seconds; countdown continues while the delays are pending.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed task/CORE-003-pause-policy from currentintegratedmain01058e2 afterPR20 merged20:59:19UTC, final024974f all7CIpass; fullbaseline86c0bbd/final565be7c and actual37stubredf39ccc8. Contractpausepolicyrev1, reviewedtests646d83f4/headerc91b7da3 preserved. Implementerisolated task/CORE-003-implementation owns ONLY core/src/pause_policy.cpp and implementationevidence; coordinatorowns allCMake/labels/preset/automaticCI/state/HTML/map/status/checkpoint/PR. Separate code/configreview; accept37passing+stableregressions+observednewautomaticpauseCI. No timersegmentation/writer/provider/schedule/recovery/reconfigurationimplementationclaim."
       ],
       "verification": {},
       "evidence": [],
@@ -10746,6 +10747,11 @@
       "date": "2026-10-31T20:57:58.096526+00:00",
       "task": "CORETEST-003",
       "note": "Final baselineintegration565be7c separately approves b50d8d8: actualraw37RUN/failures/61stubdiagnostics, source/header/tests/harness unchanged, statusonlycontract/brief, task/map/strategyhonest. Reviewerproject/render/Python19/DOM/diffpass; all7PR20checkspassedb50d8d8. Publish finalreview/checkpoint and recheck exactlatestheadCI/discussions/rules beforemerge; no pausebehaviorclaim."
+    },
+    {
+      "date": "2026-10-31T20:59:58.140688+00:00",
+      "task": "CORE-003",
+      "note": "Claimed task/CORE-003-pause-policy from currentintegratedmain01058e2 afterPR20 merged20:59:19UTC, final024974f all7CIpass; fullbaseline86c0bbd/final565be7c and actual37stubredf39ccc8. Contractpausepolicyrev1, reviewedtests646d83f4/headerc91b7da3 preserved. Implementerisolated task/CORE-003-implementation owns ONLY core/src/pause_policy.cpp and implementationevidence; coordinatorowns allCMake/labels/preset/automaticCI/state/HTML/map/status/checkpoint/PR. Separate code/configreview; accept37passing+stableregressions+observednewautomaticpauseCI. No timersegmentation/writer/provider/schedule/recovery/reconfigurationimplementationclaim."
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 Coordinator `/root`, 2026-10-31. Objective: full specification v0.45 task by task,
 with isolated writers, real independent reviews and focused PRs. Full product is
-not complete. Last observed integrated main5201edda9de5fa7f438e85efa06d6a628df9101e;
+not complete. Last observed integrated main01058e262891d5e6f9e2689a5262651d2c721930;
 inspect actual main/GitHub/worktrees/agents before acting after interruption.
 
 ## Completed integration evidence
@@ -116,3 +116,17 @@ simulation/domain limits; SQL/Qt/provider/platform/live gates remain separate.
 
 Both owner answers are recorded, and the explicit new resume instruction permits
 continued coordination. No prior test assertions were changed; no policy question remains.
+
+## CORE003 active claim after baseline merge
+
+PR20 actually merged01058e2 at20:59:19UTC, final024974f all7checks passed,
+no review threads; fullbaseline86c0bbd/final565be7c preserved. CORE003 now claimed
+on root `task/CORE-003-pause-policy` fromthatmain. Implementer
+`/root/pause_policy_implementer` owns only core/src/pause_policy.cpp and implementation
+evidence in `local-evidence/worktrees/core003-implementation`, branch
+`task/CORE-003-implementation`. Independent `/root/pause_resume_reviewer` owns code/CI
+review in `local-evidence/worktrees/core003-review`, branch `task/CORE-003-code-review`.
+Coordinator owns all shared build/presets/workflow/state/map/status/checkpoint/PR.
+No implementation yet; preserve37 assertions, require separate code review/passing
+cases and observed automatic pauseCI. Earlier PR20 pending-merge text is superseded
+by this actual outcome; update checkpoint again at implementation handoff.
