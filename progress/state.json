@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T14:11:13+00:00",
+  "updated_at": "2026-10-31T18:51:00+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1244,10 +1244,20 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-002.",
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
+        "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded.",
+        "Usage-limit checkpoint: author b0fd97e integrates21-case draft/contract with conservative unknown/default-state oracle; coordinatorccdd17c+harness281c821 configure/build0 and -N lists21. Actual hashes in accttest-002-checkpoint. No bodies/red or independentapproval; assigned author/reviewer bothreported usage limit, reviewerworktree remains main8ad458e with no review. Preserveclaims/worktrees and reassign/resume reviewer afteravailability; no ACCT002production before reviewed/red integration."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "authored_tests": "draft",
+        "native_build": "passed",
+        "test_review": "blocked",
+        "baseline": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/accttest-002-authoring.md",
+        "docs/evidence/accttest-002-checkpoint.md"
+      ],
       "review": null
     },
     {
@@ -10528,6 +10538,11 @@
       "date": "2026-10-31T14:11:13+00:00",
       "task": "ACCTTEST-002",
       "note": "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
+    },
+    {
+      "date": "2026-10-31T18:51:00+00:00",
+      "task": "ACCTTEST-002",
+      "note": "Usage-limit checkpoint: author b0fd97e integrates21-case draft/contract with conservative unknown/default-state oracle; coordinatorccdd17c+harness281c821 configure/build0 and -N lists21. Actual hashes in accttest-002-checkpoint. No bodies/red or independentapproval; assigned author/reviewer bothreported usage limit, reviewerworktree remains main8ad458e with no review. Preserveclaims/worktrees and reassign/resume reviewer afteravailability; no ACCT002production before reviewed/red integration."
     }
   ]
 }
