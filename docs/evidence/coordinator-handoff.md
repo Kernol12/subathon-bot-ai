@@ -73,11 +73,13 @@ or SQL/Qt/application/refund proof follows from the authored contract/fake.
 ## Timer owner decision resolved; baseline review still required
 
 [Draft PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14), branch
-`task/CORETEST-002-timer-baseline`, main workspace. Last published21c27bf has
-five stable checks passed; actual integrated draft160c7e6 adds four cases and awaits
-publication. Tests39, blob `bf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7`;
+`task/CORETEST-002-timer-baseline`, main workspace. Latest earlier publication84d9fa8 has stable CI pending inspection;
+author160c7e6 and independent approval2fb544f are integrated. Tests39, blob `bf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7`;
 contract `09c7c77d2e42b6cc5971f8bff8962c0486a84082`, header69cad702 and stub5584f845
-unchanged. Compile/list succeeds; no timer bodies/red/implementation. All35 old
+unchanged. Atcd59601 after approval actual CTest exit8:39/39 explicit stub failures;
+[baseline handoff](coretest-002-baseline-handoff.md) retains exact commands/output.
+CORETEST-002 local baseline gates are done; final integration review/latest CI/merge
+remain. No timer implementation. All35 old
 assertion bodies preserved; original author68e0119/3ccc52d and additiveef82bbcf,
 partial reviewsa99616a/720acc8 remain valid history.
 
@@ -90,8 +92,9 @@ four cases and contract refinement in160c7e6, isolated worktree
 `task/CORETEST-002-confirmation-credit`, clean. Full independent reviewer
 `/root/timer_final_reviewer` now owns only its review evidence in
 `local-evidence/worktrees/coretest002-review` on `task/CORETEST-002-timer-review`,
-seeded with actual160c7e6. No approval or red inferred from assignment. Ready/start/
-deadline behavior stays in API-007/CORE-008.
+seeded with actual160c7e6. Reviewer2fb544f approves the exact full baseline. Coordinator ran intended red only
+after integrating it; final done-state delta still needs independent inspection.
+Ready/start/deadline behavior stays in API-007/CORE-008.
 
 ## Continuation and unperformed gates
 
@@ -103,8 +106,8 @@ deadline behavior stays in API-007/CORE-008.
 3. Merge only when eligible; start ACCT-002 implementation from integrated reviewed/
    red prerequisites, preserve assertions, add/observe stable automatic CI and obtain
    independent code review. No routine owner permission is needed.
-4. Resolve actual full timer review findings if any, then obtain intended stub-red
-   before baseline merge and CORE-002 implementation.
+4. Finish timer done-state integration review/latest PR14 CI/merge, then claim
+   CORE-002 from integrated main; preserve all39 assertions and add stable timerCI.
 
 All active worktrees were checked clean before checkpoint-only edits; no local build/
 test command remains running. Remote CI may run after publication; inspect it rather

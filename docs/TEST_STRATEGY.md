@@ -101,3 +101,14 @@ and actual results separately from live/platform evidence.
 Individual test-drafting tasks may be marked authored/done when their draft artifacts
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate
 TEST-002 task represents the handoff-ready baseline after review and observed failure.
+
+## Timer lifecycle baseline
+
+CORETEST-002 supplies39 independently reviewed cases for the pure Main/Grace reducer,
+ending modes, actual-credit rescue (including confirmation wait), retained grace and
+hard-end observation priority. All39 failed on explicit stubs after successful build;
+[baseline evidence](evidence/coretest-002-baseline-handoff.md) records exact artifacts.
+Run configure/build `timer-lifecycle-debug`, then CTest `-L timer-lifecycle`. This
+intentional-red lane stays separate; CORE-002 must implement/pass it and add/observe
+stable automatic timer CI. Pause reasons, queue/state transactions, start/reopen,
+recovery and schedule/DST have separate contracts and acceptance gates.

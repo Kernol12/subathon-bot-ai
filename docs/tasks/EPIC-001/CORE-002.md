@@ -4,10 +4,11 @@ Parent: [EPIC-001](../EPIC-001.md). Kind: implementation.
 Specification: v0.45; §4, TIMER-01, TIMER-02.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [timer lifecycle revision1](../../contracts/timer-lifecycle-v1.md),
-currently an authored draft pending independent full review and intended red.
+independently reviewed with39 cases and observed intended stub-red; see the
+[baseline handoff](../../evidence/coretest-002-baseline-handoff.md).
 The [owner clarification](../../evidence/timer-confirmation-credit-decision.md)
-settles confirmation-wait credit. Revision 1 has never been finalized or implemented;
-the refinement requires no API or layout migration.
+settles confirmation-wait credit. No behavior is implemented by that baseline;
+the refinement required no API or layout migration.
 
 ## Scope and ownership
 

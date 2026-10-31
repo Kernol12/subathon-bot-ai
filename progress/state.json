@@ -750,7 +750,7 @@
       "title": "Review and demonstrate red: Main countdown and ending-mode transitions",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Coordinator /root; authors /root/numeric_test_author and /root/timer_policy_author; reviewer /root/timer_final_reviewer",
       "depends_on": [
         "CONTRACT-002",
@@ -769,25 +769,30 @@
         "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim.",
         "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests.",
         "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation.",
-        "Owner confirmation-credit decision applied by160c7e6: four additive cases preserve all35 prior bodies,39 compile/list only. Actual testsbf8c1f46/contract09c7c77d/header69cad702/stub5584f845 assigned to independent /root/timer_final_reviewer in persistent isolated review worktree. Earlier partial changes_requested evidence preserved pending full review; no timer bodies/red/production claim. Contribution PR17 candidatec13e408 separately reassigned to /root/baseline_reviewer after prior quota limit."
+        "Owner confirmation-credit decision applied by160c7e6: four additive cases preserve all35 prior bodies,39 compile/list only. Actual testsbf8c1f46/contract09c7c77d/header69cad702/stub5584f845 assigned to independent /root/timer_final_reviewer in persistent isolated review worktree. Earlier partial changes_requested evidence preserved pending full review; no timer bodies/red/production claim. Contribution PR17 candidatec13e408 separately reassigned to /root/baseline_reviewer after prior quota limit.",
+        "Final39-case timer baseline independently approved2fb544f after owner decision and four additive cases160c7e6; testsbf8c1f46/header69cad702/stub5584f845 unchanged. Atcd59601 after approval actual CTest exit8,39/39 TimerLifecycleNotImplemented failures, no skips/dependency failures. Stable scaffold3/credit23/numeric33/receipt15 and tooling19/DOM pass. Baseline done means reviewed intended red, not timer behavior; final integration review/latest PR14 CI/merge pending. CORE002 waits integrated prerequisite and must activate stable timerCI."
       ],
       "verification": {
-        "authored_tests": "draft",
+        "authored_tests": "passed",
         "native_build": "passed",
-        "test_review": "partial",
-        "baseline": "not_run",
+        "test_review": "passed",
+        "baseline": "observed_red",
         "product_acceptance": "not_run"
       },
       "evidence": [
         "docs/evidence/coretest-002-authoring.md",
-        "docs/evidence/coretest-002-independent-review.md"
+        "docs/evidence/coretest-002-independent-review.md",
+        "docs/evidence/timer-confirmation-credit-decision.md",
+        "docs/evidence/coretest-002-final-independent-review.md",
+        "docs/evidence/coretest-002-baseline-handoff.md",
+        "docs/evidence/coretest-002-red-ctest.txt"
       ],
       "review": {
-        "author": "/root/numeric_test_author; additive /root/timer_test_fixes",
-        "reviewer": "/root/baseline_reviewer",
-        "outcome": "changes_requested",
-        "baseline": "author3ccc52d + additive ef82bbcf; tests7a802f2151da1d62b85f27c357528f63426cf2d0; partial reviews a99616a and720acc8",
-        "evidence": "docs/evidence/coretest-002-independent-review.md"
+        "author": "/root/numeric_test_author; additive /root/timer_test_fixes and /root/timer_policy_author",
+        "reviewer": "/root/timer_final_reviewer",
+        "outcome": "approved",
+        "baseline": "author160c7e6; testsbf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7; contract09c7c77d; review2fb544f; actualredcd59601",
+        "evidence": "docs/evidence/coretest-002-final-independent-review.md"
       }
     },
     {
@@ -10560,6 +10565,11 @@
       "date": "2026-10-31T19:29:00+00:00",
       "task": "CORETEST-002",
       "note": "Owner confirmation-credit decision applied by160c7e6: four additive cases preserve all35 prior bodies,39 compile/list only. Actual testsbf8c1f46/contract09c7c77d/header69cad702/stub5584f845 assigned to independent /root/timer_final_reviewer in persistent isolated review worktree. Earlier partial changes_requested evidence preserved pending full review; no timer bodies/red/production claim. Contribution PR17 candidatec13e408 separately reassigned to /root/baseline_reviewer after prior quota limit."
+    },
+    {
+      "date": "2026-10-31T19:30:06+00:00",
+      "task": "CORETEST-002",
+      "note": "Final39-case timer baseline independently approved2fb544f after owner decision and four additive cases160c7e6; testsbf8c1f46/header69cad702/stub5584f845 unchanged. Atcd59601 after approval actual CTest exit8,39/39 TimerLifecycleNotImplemented failures, no skips/dependency failures. Stable scaffold3/credit23/numeric33/receipt15 and tooling19/DOM pass. Baseline done means reviewed intended red, not timer behavior; final integration review/latest PR14 CI/merge pending. CORE002 waits integrated prerequisite and must activate stable timerCI."
     }
   ]
 }

@@ -7,11 +7,11 @@ Tasks: CORETEST-002 / CORE-002. Authority: specification v0.45
 Existing [time-credit](time-credit-v0.md) and [exact-decimal](exact-decimal-v1.md)
 contracts are unchanged.
 
-State: authored draft. The owner resolved positive credit during confirmation wait
-in the [recorded clarification](../evidence/timer-confirmation-credit-decision.md).
-Independent full review and intended red remain pending. Revision 1 has never been
-finalized or implemented; this refinement requires no API or layout migration.
-No production behavior is implemented by this baseline.
+State: revision1 independently reviewed with39 cases and observed intended stub-red;
+[baseline handoff](../evidence/coretest-002-baseline-handoff.md) records exact artifacts.
+The owner resolved positive credit during confirmation wait in the
+[recorded clarification](../evidence/timer-confirmation-credit-decision.md).
+No production behavior is implemented by this baseline; no API/layout migration occurs.
 
 ## Bounded public interface
 

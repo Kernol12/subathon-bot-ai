@@ -76,15 +76,29 @@
     },
     {
       "id": "TIMER-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/timer_lifecycle_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-002-final-independent-review.md",
+        "docs/evidence/coretest-002-baseline-handoff.md",
+        "docs/evidence/coretest-002-red-ctest.txt"
+      ],
+      "scope": "39-case bounded lifecycle/phase baseline independently reviewed and observed stub-red. Timer behavior and downstream pause/recovery/start/application wiring remain unimplemented."
     },
     {
       "id": "TIMER-02",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/timer_lifecycle_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-002-final-independent-review.md",
+        "docs/evidence/coretest-002-baseline-handoff.md",
+        "docs/evidence/coretest-002-red-ctest.txt"
+      ],
+      "scope": "39-case bounded lifecycle/phase baseline independently reviewed and observed stub-red. Timer behavior and downstream pause/recovery/start/application wiring remain unimplemented."
     },
     {
       "id": "TIMER-03",
@@ -865,6 +879,27 @@
         "baseline": "author875c1c9; source7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8; confige1b47f1; reviewab28d70",
         "evidence": "docs/evidence/acct-001-code-review.md"
       }
+    },
+    {
+      "scenario": "Main/Grace ending modes, actual-credit rescue and hard-end observation precedence",
+      "status": "observed_red",
+      "tests": [
+        "tests/acceptance/timer_lifecycle_tests.cpp"
+      ],
+      "contract": "docs/contracts/timer-lifecycle-v1.md",
+      "review": {
+        "author": "/root/numeric_test_author; additive /root/timer_test_fixes and /root/timer_policy_author",
+        "reviewer": "/root/timer_final_reviewer",
+        "outcome": "approved",
+        "baseline": "author160c7e6; testsbf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7; contract09c7c77d; review2fb544f; actualredcd59601",
+        "evidence": "docs/evidence/coretest-002-final-independent-review.md"
+      },
+      "evidence": [
+        "docs/evidence/coretest-002-final-independent-review.md",
+        "docs/evidence/coretest-002-baseline-handoff.md",
+        "docs/evidence/coretest-002-red-ctest.txt"
+      ],
+      "scope": "39 reviewed deterministic cases fail on explicit stubs after compilation. Includes owner-selected positive-actual confirmation-wait resumption; no timer implementation or state/application wiring."
     }
   ]
 }
