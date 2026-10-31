@@ -1,8 +1,9 @@
 # Captured application plans — revision 1
 
 Authority: specification v0.45 §§3.1–5, 6, 7; NUM-01/02/04, MOD-04 and
-[event/state boundary](event-state-boundaries-v1.md) B03/B04. ACCTTEST-003 is an
-unreviewed baseline; ACCT-003 implementation waits for independent review and red.
+[event/state boundary](event-state-boundaries-v1.md) B03/B04. ACCTTEST-003 supplies22 independently reviewed cases with observed intended stub-red;
+[baseline handoff](../evidence/accttest-003-baseline-handoff.md). ACCT-003 behavior
+remains unimplemented.
 
 ## Scope
 
@@ -101,9 +102,9 @@ permission checks remain mandatory at commit (ACCT-004/API-002/ACCT-005).
 ## Baseline and compatibility
 
 No existing interface, schema or fixture changes. The new functions are unconditional
-`ApplicationPlanNotImplemented` stubs pending independent test review and intended
-red. Coordinator owns CMake/presets/progress/CI and observed red. The explicit lane
-is planned as application-plan-debug with application-plan/acceptance/intentional-red
+`ApplicationPlanNotImplemented` stubs; full review36ac654 preceded the observed22-case
+intended red ata524447. Coordinator owns CMake/presets/progress/CI and observed red. The explicit lane
+is application-plan-debug with application-plan/acceptance/intentional-red
 labels; no known-red test belongs in passing CI. ACCT-003 must add stable simulation
 CI and independent code review after implementation. SQLite durability, Qt writer,
 permission engine, full evaluator, API and live/platform checks remain separate.

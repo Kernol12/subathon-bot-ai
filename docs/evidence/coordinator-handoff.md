@@ -107,3 +107,18 @@ follows actual authored revision in `local-evidence/worktrees/accttest003-review
 branch `task/ACCTTEST-003-plan-review`; no review inferred or production planned yet.
 Preserve arrival/historicalvaluation and requested-vs-actual boundaries; actualatomic
 application/caps/evaluator/Qt/provider wiring remain their tasks.
+
+## Latest ACCTTEST003 actual reviewed/red result
+
+Author firstd615cb4 +22cases6ed861e +finalformat/evidencee864ff4 integrated06ee499.
+Pure core owned transforms require no server service/repository/fake. Interface
+501112d6, stubsac9dcd0a, testsf93287fa, reviewedcontract5bb9a914. Independent
+`/root/application_plan_reviewer` approved all22oracles/contract/harness in36ac654,
+integrateda524447 BEFORE realCTest: exit8,22/22 explicitstubfailures. No skips,
+dependency/build failures or inversion. Author/reviewer/root compile/list22pass;
+rootsharedBoostregression numeric33/scaffold3 andtooling19/DOMpass. Baseline taskdone
+is reviewed intendedred, NOT planbehavior. Actual finalstatusintegration review and
+focused PRpublication/latestCI/merge remain before ACCT003 implementation.
+[Handoff](accttest-003-baseline-handoff.md) retains exact artifacts/commands/log.
+Earlier claim-only text is historical; no ownerdecision or newdependency is needed.
+All support branches remainLOCAL followingusercleanup; publishactivePRheadonly.

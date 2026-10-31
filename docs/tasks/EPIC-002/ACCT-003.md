@@ -56,3 +56,9 @@ API-008 evaluation, calculate numeric effects or freeze current cap-limited actu
 amounts. [Authoring evidence](../../evidence/accttest-003-authoring.md) tracks the
 unreviewed baseline and concrete checks. Independent review and intended red remain
 required; no production behavior is implemented by the baseline author.
+
+Current baseline:22 cases/interfaces/contract/harness independently approved36ac654,
+then actual stub-red ata524447 (22/22 failures after successful build). See
+[baseline handoff](../../evidence/accttest-003-baseline-handoff.md). Implementation
+still requires preserved assertions, separate code review, passing cases and observed
+automatic application-plan CI with the selected pinned Boost setup.
