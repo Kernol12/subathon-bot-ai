@@ -71,7 +71,7 @@
     },
     {
       "name": "pause-policy-debug",
-      "displayName": "08 \u00b7 Pause policy intentional-red baseline",
+      "displayName": "08 \u00b7 Pause policy acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_PAUSE_POLICY_TESTS": "ON"
