@@ -238,3 +238,49 @@ red bodies or the coordinator's DOM simulation. It supplies no provider, Qt, SQL
 authorization, effect/refund, platform or live verification. Review after future
 shared build/state/map merges must assess the actual reconciled revision; this
 approval does not preapprove that later integration.
+
+## Current-main shared-artifact reconciliation review
+
+Reviewer `/root/baseline_reviewer`, 2026-10-31. Actual reconciled candidate:
+`22b639778c51bb08eeed1f75673eb9314b7a1e82`, merging timer-baseline main
+`419d8551c54ad7e3f802f18c10784bef49d7908f` into the approved contribution baseline.
+Reviewed from isolated checkout `80f4741`. Verdict: **approved for integration of
+this actual reconciliation**, subject to the published head's remaining CI/PR/merge
+gates. This section supplies the later shared-artifact review required above.
+
+No behavioral artifacts changed: independently compared timer header/stub/tests/
+contract against main419d855 and contribution interfaces/stubs/fake/tests/contract
+against approved3ffb71d. All identities match. Timer remains the explicit
+`TimerLifecycleNotImplemented` stub; contribution assessor/service remain their
+explicit unimplemented stubs. The active CORE-002 claim from `04cd539` changes
+ownership/progress/checkpoint only, carries no completed verification and introduces
+no timer implementation source into PR17.
+
+The resolved root/core/test CMake and presets retain both optional baseline targets,
+discovery labels and preset lanes. GoogleTest setup accepts either flag; server
+targets retain their separate receipt/contribution gates. There is no target collision,
+failure inversion, skip, new dependency or change to stable workflows. Shared state
+retains both CORETEST-00239-case and ACCTTEST-00221-case reviewed/red completions
+with product acceptance not_run, plus active CORE-002 ownership and planned ACCT-002.
+The map preserves both observed_red scenarios and their independent evidence; the
+checkpoint combines the known merged timer baseline and active work without claiming
+either implementation or upgrading SQL/Qt/provider/application verification.
+
+Independent checks at the actual reconciled revision:
+
+| Command / check | Observed result |
+| --- | --- |
+| Read-only exact-Git-object comparison of both artifact sets and baseline/implementation state | exit0; both reviewed sets unchanged, both baseline red states retained, active timer claim metadata only |
+| `cmake --preset contribution-evidence-debug -DSUBATHON_BUILD_TIMER_LIFECYCLE_TESTS=ON` | exit0; combined configuration succeeds |
+| `cmake --build --preset contribution-evidence-debug` | exit0; both explicit-stub targets/test executables built |
+| `ctest --preset contribution-evidence-debug -N -L 'contribution-evidence\|timer-lifecycle'` | exit0;60 cases listed:39 timer +21 contribution; no bodies executed |
+| `python3 tools/check_project.py` | exit0;377 tasks,122 decisions, links/presets/current HTML pass |
+| `python3 tools/progress.py render --check` | exit0; current reconciled snapshot |
+| `git diff --check` and `git diff --cached --check` | exit0 before reconciliation-review commit |
+
+No additional native runtime/body replay was needed: the changed build boundary was
+compiled/discovered and all reviewed behavioral inputs are unchanged. Prior observed
+red and stable passing evidence remain retained. This approval neither implements
+the timer nor repeats the other reviewer's full timer-policy approval; it verifies
+preservation of the already integrated timer baseline in this shared merge. Future
+source/CI/status changes still require their own applicable review and verification.
