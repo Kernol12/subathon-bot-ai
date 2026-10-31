@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T21:28:13.505044+00:00",
+  "updated_at": "2026-10-31T21:30:05.025074+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1430,7 +1430,8 @@
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed task/ACCTTEST-003-application-plan-baseline from currentmainafcf528 after CORE003 PR21 merged21:13:58UTC, final94916f5 all8CIpass, code8197844/final8a50580. PrerequisitesACCT002/CORE001 integrated; spec§§3/6/7. Scope bounded versionedcapturedplan/calculationprovenance withreplaceablerule/modifierports, arrival/historicalratereferences, immutableoriginals and auditedauthorizedrevision proposals, stale/missingvaluation explicit; capsremainlivecommittime ACCT004/API008integration. Authorisolated task/ACCTTEST-003-plan-author owns new core/serverinterfaces/stubs/tests/primitivefake/contract/brief/evidence; coordinator owns allsharedbuild/preset/schema/state/HTML/map/checkpoint/PR. Need reviewedexamples/tests thenactualintendedredbeforeACCT003. No evaluation/application/provider/SQLfeatureclaim. Cleanupuserrequestcomplete32remotecompletedbranchesremoved, mainonlybeforethisnewactiveclaim; localrefs/worktrees andarchivedtips intact.",
-        "Purecorecandidatee864ff4 integrated06ee499; no server/repository/fake needed, already-resolvedselectionports only. All22 independentlyderivedtests/source/header/contract/harness approved36ac654. Ata524447 AFTERapproval actualCTestexit8,22/22 ApplicationPlanNotImplemented failures, no skips/dependency/buildfailure. Author/reviewer/rootconfigure/build/list22 succeeded; rootscaffold3/numeric33/tooling19/DOMpass preserves sharedBoostdiscovery. Reviewed22case baseline done, productnotimplemented; finalstatusreview/latestfocusedPRCI/merge pending. ACCT003 preserves interface501112d6/testsf93287fa and mustadd/observe automaticselectedBoostCI afterimplementation; actualevaluation/application/writer/provider gates separate."
+        "Purecorecandidatee864ff4 integrated06ee499; no server/repository/fake needed, already-resolvedselectionports only. All22 independentlyderivedtests/source/header/contract/harness approved36ac654. Ata524447 AFTERapproval actualCTestexit8,22/22 ApplicationPlanNotImplemented failures, no skips/dependency/buildfailure. Author/reviewer/rootconfigure/build/list22 succeeded; rootscaffold3/numeric33/tooling19/DOMpass preserves sharedBoostdiscovery. Reviewed22case baseline done, productnotimplemented; finalstatusreview/latestfocusedPRCI/merge pending. ACCT003 preserves interface501112d6/testsf93287fa and mustadd/observe automaticselectedBoostCI afterimplementation; actualevaluation/application/writer/provider gates separate.",
+        "Finalintegration9aea69e independently approves cf7aa44; header/stubs/tests/harness unchangedfrom36ac654, actual596-line redlog22bodies verified, status/map/strategy/core-only limits honest; reviewerproject/render/diffpass. PublishfocusedbaselinePR fromcurrentmainafcf528 and checkall8lateststableCI/discussions/rulesbeforemerge. SupportbranchesremainLOCALperusercleanup; no implementation."
       ],
       "verification": {
         "authored_tests": "passed",
@@ -10812,6 +10813,11 @@
       "date": "2026-10-31T21:28:13.505044+00:00",
       "task": "ACCTTEST-003",
       "note": "Purecorecandidatee864ff4 integrated06ee499; no server/repository/fake needed, already-resolvedselectionports only. All22 independentlyderivedtests/source/header/contract/harness approved36ac654. Ata524447 AFTERapproval actualCTestexit8,22/22 ApplicationPlanNotImplemented failures, no skips/dependency/buildfailure. Author/reviewer/rootconfigure/build/list22 succeeded; rootscaffold3/numeric33/tooling19/DOMpass preserves sharedBoostdiscovery. Reviewed22case baseline done, productnotimplemented; finalstatusreview/latestfocusedPRCI/merge pending. ACCT003 preserves interface501112d6/testsf93287fa and mustadd/observe automaticselectedBoostCI afterimplementation; actualevaluation/application/writer/provider gates separate."
+    },
+    {
+      "date": "2026-10-31T21:30:05.025074+00:00",
+      "task": "ACCTTEST-003",
+      "note": "Finalintegration9aea69e independently approves cf7aa44; header/stubs/tests/harness unchangedfrom36ac654, actual596-line redlog22bodies verified, status/map/strategy/core-only limits honest; reviewerproject/render/diffpass. PublishfocusedbaselinePR fromcurrentmainafcf528 and checkall8lateststableCI/discussions/rulesbeforemerge. SupportbranchesremainLOCALperusercleanup; no implementation."
     }
   ]
 }
