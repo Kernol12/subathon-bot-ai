@@ -25,9 +25,17 @@ struct VerifiedActivityLink {
 
 enum class ContributionObservationKind { support, confirmation };
 
-// receipt is an immutable committed receipt snapshot, not a new transport attempt.
+// Projection of an immutable committed receipt. Transport attempts remain in intake.
+struct ContributionReceipt {
+    core::ReceiptId id;
+    core::ReceiptIdentity identity;
+    core::ReceiptFacts facts;
+    core::ReceiptArrival arrival;
+    bool operator==(const ContributionReceipt &) const = default;
+};
+
 struct ContributionObservation {
-    core::ReceiptRecord receipt;
+    ContributionReceipt receipt;
     ContributionObservationKind kind;
     core::PaymentEvidence evidence;
     std::optional<VerifiedActivityLink> verified_activity;
@@ -69,7 +77,7 @@ class ContributionTransaction {
     [[nodiscard]] virtual std::vector<ContributionEvidenceRecord>
     unresolved_activity(const VerifiedActivityIdentity &identity) = 0;
     [[nodiscard]] virtual core::ContributionId
-    create(const core::ReceiptRecord &support,
+    create(const ContributionReceipt &support,
            const std::optional<VerifiedActivityIdentity> &identity,
            const core::ContributionState &state) = 0;
     virtual void append_observation(const ContributionEvidenceRecord &observation) = 0;
