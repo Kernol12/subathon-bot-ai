@@ -1,13 +1,14 @@
 # Coordinator checkpoint
 
-Coordinator `/root`, updated2026-10-31. Objective: complete the full specification
+Coordinator `/root`, updated 2026-10-31. Objective: complete the full specification
 v0.45 using bounded task PRs, isolated writers and independent reviews. This is a
 continuation checkpoint, not a release-completion claim.
 
 ## Repository and integrated work
 
 Last fetched main: `806f69f62a019417df80c8fbadb888074a5aa371`.
-Main is behind the active task branch only; inspect GitHub again on resumption.
+Two focused task branches are active from this integrated revision. Inspect GitHub
+again on resumption; branch claims are coordinated without mixing unmerged behavior.
 
 - [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10), BOOT-003, merged
   `11eafe2` on2026-10-30 22:29:42UTC; final head `1c98295`, three checks passed.
@@ -43,14 +44,23 @@ branches are published; persistent worktrees are clean and retained.
 
 - CORETEST-002 coordinator: main workspace, branch `task/CORETEST-002-timer-baseline`;
   owns shared CMake/preset harness, progress/state.json, PROGRESS.html, acceptance map,
-  follow-up task notes, this checkpoint and task PR. No timer PR yet.
-- Test author `/root/numeric_test_author`: persistent ignored worktree
+  follow-up task notes, this checkpoint and draft [PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14).
+  Published head2c44567 had all four stable checks passed; later authored/review
+  commits require publication/recheck. No timer bodies have run.
+- Original test author `/root/numeric_test_author` (assignment completed): persistent worktree
   `local-evidence/worktrees/coretest002-author`, branch `task/CORETEST-002-timer-author`;
   owns timer-lifecycle contract/header/explicit stubs/acceptance tests/task brief/author
   evidence. No production algorithm or numeric baseline edits.
-- Independent reviewer `/root/numeric_reviewer`: `local-evidence/worktrees/coretest002-review`,
+- Independent reviewer `/root/baseline_reviewer`: `local-evidence/worktrees/coretest002-review`,
   branch `task/CORETEST-002-timer-review`; owns independent actual-revision review
-  evidence. Preparation only so far, no authored timer baseline approved.
+  evidence. Actual draft review a99616a plus follow-up720acc8 close two coverage
+  findings; full verdict remains changes_requested only for the owner policy below.
+- Additive timer author `/root/timer_test_fixes` (completed):
+  `local-evidence/worktrees/coretest002-fixes`, branch `task/CORETEST-002-review-fixes`;
+  commit ef82bbcf adds incoherent-snapshot and exhausted Shared-budget cases.
+  Tests35, blob7a802f2151da1d62b85f27c357528f63426cf2d0; header69cad702/stub5584f845/
+  contractb88657ce remain unchanged. Author and reviewer compile/list35 successfully,
+  with no bodies/red. Original33 assertions preserved.
 
 Timer scope: active/finished countdown reducer with Ready representation, separate
 Main/Grace, default120-second grace, immediate/confirmation end modes, applicable
@@ -106,17 +116,39 @@ macro108300, CMakeBoost1.83.0 and33 real cases. Credit/scaffold CI also passed.
 compiler/config checks and remaining required-check configuration. LocalBoost1.92
 also passes; no local package installation or live operation occurred.
 
-## Next action and remaining gates
+## Independent receipt baseline and next actions
 
-CORETEST-002 author is drafting the unambiguous timer contract/tests and commits
-checkpoints frequently. Coordinator has prepared optional `timer-lifecycle-debug`
-CMake harness with `SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS`, separate from green numeric/
-credit CI; it cannot compile until author artifacts integrate. Complete the pending
-owner-policy branch only after an answer, review actual tests independently, compile
-and observe intended stub-red before any CORE-002 production code. Publish a focused
-draft timer PR for continuity and retain complete gate/evidence distinctions.
-No other owner/access blocker exists. No commands intentionally remain running;
-inspect uncommitted harness/progress work on resume before editing.
+ACCTTEST-001 is claimed independently from main806f69f after inspecting open PR14
+and integrated CORE-001 prerequisites. No receipt PR yet; author actual28729c7
+(interface/stub/fake/15tests/contract/evidence) is integrated as72d9c95 with coordinator
+harnessaccb064. The optional receipt-intake-debug configure/build succeeds; no bodies
+have run and no receipt baseline is yet approved or observed red.
+
+- Coordinator: `local-evidence/worktrees/accttest001-coordinator`, branch
+  `task/ACCTTEST-001-receipt-baseline`; owns root/server/tests CMake, presets, state/
+  HTML/map/checkpoint and PR. Timer claim is carried as ownership only, without
+  integrating unmerged timer code/evidence into this receipt branch.
+- Author `/root/receipt_test_author`: `local-evidence/worktrees/accttest001-author`,
+  branch `task/ACCTTEST-001-receipt-author`; owns receipt domain values, server port/
+  explicit stub, synthetic tests/primitive fake, contract/brief/author evidence.
+- Reviewer `/root/baseline_reviewer`: `local-evidence/worktrees/accttest001-review`,
+  branch `task/ACCTTEST-001-receipt-review`; reviews actual artifacts independently.
+
+Receipt scope is typed stable identity plus retry/conflict/provenance decisions
+through an atomic repository port. Synthetic namespaces prove no real provider IDs.
+The fake stores primitive values and rolls back known staged failures; it does not
+classify or deduplicate on behalf of production. SQL uniqueness/durability, actual Qt
+writer/thread/concurrency, missing identity/source admission and contribution/effect
+application remain explicit STORAGE/API/connector/accounting gates. See the receipt
+task branch for its artifacts; unmerged receipt behavior is not copied to timer PR.
+
+Next: finish independent receipt contract/test/harness review, resolve findings,
+record genuine intended stub-red only after approval, publish a focused baseline
+PR and inspect all latest-head CI/review/merge gates. Complete the pending timer
+owner-policy branch only after an answer; no timer implementation before reviewed
+red. The resumed agents are newly assigned; prior completed reviews remain valid.
+No owner/access blocker besides that one timer decision exists. No commands are
+intentionally left running; inspect both coordinator worktrees before editing.
 
 Full scope beyond the cap-credit and exact-decimal primitives remains: authoritative
 application/aggregate/refund logic, all seven integrations and three exchange providers,
