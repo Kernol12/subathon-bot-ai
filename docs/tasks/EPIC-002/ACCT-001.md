@@ -1,13 +1,25 @@
 # ACCT-001 — Normalized receipt identity and duplicate-safe ingestion
 
 Parent: [EPIC-002](../EPIC-002.md). Kind: implementation.
-Specification: v0.45; §3, §14.
+Specification: v0.45; §3, §14, §18.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: use the current reviewed slice contract; none is finalized by this plan.
+Contract revision: [receipt intake revision 1](../../contracts/receipt-intake-v1.md),
+authored for ACCTTEST-001; independent approval and observed red remain required.
 
 ## Scope and ownership
 
-Core receipt/contribution IDs and repository intake contract; SQL implementation belongs to STORAGE-002.
+Core receipt identity/facts/arrival values plus the server-owned generic intake
+service and atomic repository port. No contribution/payment eligibility or event
+correlation behavior is implemented in this slice; ACCT-002 owns those dimensions.
+SQL uniqueness/durability/concurrency and the concrete writer adapter belong to
+STORAGE-002; Qt command/writer integration remains an API/storage acceptance gate.
+
+The ACCTTEST-001 author owns `core/include/subathon/core/receipt.hpp`,
+`server/include/subathon/server/receipt_intake.hpp`, explicit stub
+`server/src/receipt_intake.cpp`, `tests/acceptance/receipt_intake_tests.cpp`,
+`tests/fakes/receipt_repository.hpp`, the revision-1 contract, this brief and
+`docs/evidence/accttest-001-authoring.md`. The coordinator owns build/presets/pins,
+progress/HTML/acceptance map, shared checkpoint, CI integration and publication.
 
 Primary module paths: core/ and server/ application services
 Read root/scoped AGENTS.md before editing. Shared schemas, migrations, dependency pins,
@@ -16,12 +28,28 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 
 ## Acceptance criteria
 
-- Scope provider IDs by origin/connection/type as required and keep source timestamps distinct from server arrival/context.
-- Retry of the same receipt returns the existing record; overlapping providers require configured authority or verified correlation.
+- Key already validated observations by provider, stable source/account, documented
+  delivery/event identifier namespace and opaque ID; retain connections as attempt
+  provenance so reconnect cannot erase deduplication.
+- First arrival commits one owned original snapshot and initial attempt; source time
+  remains distinct from server arrival and retained versioned configuration/context.
+- Exact normalized-facts retry returns the existing receipt ID and appends an attempt
+  with its own arrival/connection/context. Meaningful changed facts return conflict,
+  retaining original and conflicting observations. Revision 1 compares every field
+  of the bounded projection, including absent/present values and source precision.
+- Stage each intake atomically through the repository port; write/known commit
+  failures expose no partial data or successful result, preserve earlier evidence and
+  permit retry. The primitive fake must not implement deduplication decisions.
+- Keep payment/activity references separate from receipt identity. Overlapping
+  sources require configured authority or verified correlation before credit.
 
 ## Boundary and failure cases
 
-Equal names/amounts/nearby timestamps are insufficient identity; unknown fields remain unknown and conflicting duplicate payloads retain audit evidence.
+Equal names/amounts/timestamps are insufficient identity; unknown fields remain
+unknown and conflicting duplicate payloads retain audit evidence. Missing stable
+IDs, cross-provider authority/correlation and provider-specific normalization remain
+explicit API-006/connector policy gates; synthetic namespaces cannot establish real
+provider capabilities. Service recreation over a fake is not restart/disk evidence.
 
 ## Separate baseline and implementation tasks
 

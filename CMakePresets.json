@@ -44,6 +44,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_EXACT_NUMERIC_TESTS": "ON"
       }
+    },
+    {
+      "name": "receipt-intake-debug",
+      "displayName": "06 \u00b7 Receipt intake intentional-red baseline",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_RECEIPT_INTAKE_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -62,6 +70,10 @@
     {
       "name": "exact-numeric-debug",
       "configurePreset": "exact-numeric-debug"
+    },
+    {
+      "name": "receipt-intake-debug",
+      "configurePreset": "receipt-intake-debug"
     }
   ],
   "testPresets": [
@@ -98,6 +110,16 @@
     {
       "name": "exact-numeric-debug",
       "configurePreset": "exact-numeric-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "receipt-intake-debug",
+      "configurePreset": "receipt-intake-debug",
       "output": {
         "outputOnFailure": true
       },
