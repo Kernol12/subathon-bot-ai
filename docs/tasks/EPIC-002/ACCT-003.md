@@ -46,3 +46,13 @@ actually ran; no unbuilt test target or unrun command is evidence. Update applic
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
+
+## ACCTTEST-003 proposed bounded revision
+
+[Application plans revision 1](../../contracts/application-plans-v1.md) adds pure
+owned capture/revision/preview functions with replaceable resolved rule/modifier
+sources. It does not introduce a repository or application transaction, implement
+API-008 evaluation, calculate numeric effects or freeze current cap-limited actual
+amounts. [Authoring evidence](../../evidence/accttest-003-authoring.md) tracks the
+unreviewed baseline and concrete checks. Independent review and intended red remain
+required; no production behavior is implemented by the baseline author.
