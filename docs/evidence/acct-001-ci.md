@@ -13,8 +13,12 @@ or real database is needed for the framework-free repository-port simulation.
 CTest metadata now labels receipt cases as simulation/server/acceptance instead of
 historical intentional-red; assertions/fake are unchanged. No skip/failure inversion
 or continue-on-error is introduced. Numeric/credit/scaffold workflows remain enabled.
-Actual new-workflow result must be observed before completion/merge; it is pending
-at authoring of this note and is not implied by local passing simulation.
+Actual pull_request [run41207963538](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41207963538)
+passed for PR16 head018e286792a9a61ca28771858d3e66b631ae744a on2026-10-31.
+Its log identifies GCC13.3.0 and15/15 real receipt cases with simulation/server labels.
+The other four PR checks passed too (numeric, credit, PR/push scaffold). This verifies
+that CI compilation/simulation combination only; latest completion-record revision
+CI must still be rechecked before merge.
 
 Ruleset26170263 was rechecked before PR15 merge: zero required GitHub approvals,
 resolved discussions/PR requirement, no force/delete bypass, and no required-status
