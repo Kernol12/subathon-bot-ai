@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1 and receipt15 simulation cases pass; bounded slices only |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39 and receipt15 simulation cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 and receipt15/15 simulation pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39 and receipt15/15 simulation pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -114,13 +114,13 @@ Individual test-drafting tasks may be marked authored/done when their draft arti
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate
 TEST-002 task represents the handoff-ready baseline after review and observed failure.
 
-## Timer lifecycle baseline
+## Timer lifecycle implementation
 
-CORETEST-002 supplies39 independently reviewed cases for the pure Main/Grace reducer,
-ending modes, actual-credit rescue (including confirmation wait), retained grace and
-hard-end observation priority. All39 failed on explicit stubs after successful build;
-[baseline evidence](evidence/coretest-002-baseline-handoff.md) records exact artifacts.
-Run configure/build `timer-lifecycle-debug`, then CTest `-L timer-lifecycle`. This
-intentional-red lane stays separate; CORE-002 must implement/pass it and add/observe
-stable automatic timer CI. Pause reasons, queue/state transactions, start/reopen,
-recovery and schedule/DST have separate contracts and acceptance gates.
+CORETEST-002 supplied39 independently reviewed cases and observed intended stub-red;
+[baseline evidence](evidence/coretest-002-baseline-handoff.md) retains the original run.
+CORE-002 implements the bounded pure Main/Grace reducer: all39 unchanged cases now
+pass with separate code review and [observed automatic timer CI](evidence/core-002-ci.md).
+Run configure/build `timer-lifecycle-debug`, then CTest `-L timer-lifecycle`; that same
+lane runs automatically on relevant PRs/main. [Implementation handoff](evidence/core-002-handoff.md)
+records scope and exact artifacts. Pause reasons, queue/state transactions, start/
+reopen, recovery and schedule/DST remain separate contracts and acceptance gates.
