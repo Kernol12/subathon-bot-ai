@@ -10,7 +10,11 @@ at `cab329b`; its 32 assertions remain the automatic acceptance source.
 Boost.Multiprecision is already selected by NUM-04, not a new library choice.
 The numeric target discovers installed `Boost >=1.83` with upstream CONFIG mode,
 links `Boost::headers` publicly for the public rational API, and performs no implicit
-fetch or installation. Local1.92.0 is a development version, not a release pin.
+fetch or installation. Local1.92.0 is a development version, not a release pin. CI explicitly selects
+the pinned1.83 Boost/config-header CMake directories and verifies that the compiler
+preprocessor actually selects `BOOST_VERSION108300`, rather than assuming package
+installation controls every installed Boost version. Configure logs selected Boost
+version and include directories.
 
 The new `.github/workflows/exact-numeric.yml` runs `exact-numeric` on every PR to
 main and main push, with manual dispatch retained. Ubuntu24.04 installs exact

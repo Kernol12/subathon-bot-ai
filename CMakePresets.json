@@ -39,7 +39,7 @@
     },
     {
       "name": "exact-numeric-debug",
-      "displayName": "04 \u00b7 Exact numeric intentional-red baseline",
+      "displayName": "04 \u00b7 Exact numeric acceptance and regression",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_EXACT_NUMERIC_TESTS": "ON"

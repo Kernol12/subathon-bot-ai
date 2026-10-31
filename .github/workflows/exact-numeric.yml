@@ -20,8 +20,24 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends libboost1.83-dev=1.83.0-2.1ubuntu3
           dpkg-query -W libboost1.83-dev
-      - name: Configure with explicit pinned GoogleTest fetch
-        run: cmake --preset exact-numeric-debug -DSUBATHON_FETCH_GOOGLETEST=ON
+      - name: Verify the compiler's selected Boost header version
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          macros = subprocess.check_output(
+              ["c++", "-dM", "-E", "-x", "c++", "-include", "boost/version.hpp", "/dev/null"],
+              text=True,
+          )
+          expected = "#define BOOST_VERSION 108300"
+          if expected not in macros.splitlines():
+              raise SystemExit("Compiler did not select pinned Boost 1.83.0 headers")
+          print(expected)
+          PYTHON
+      - name: Configure with pinned Boost configs and explicit GoogleTest fetch
+        run: >-
+          cmake --preset exact-numeric-debug -DSUBATHON_FETCH_GOOGLETEST=ON
+          -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
+          -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build reviewed exact numeric cases
         run: cmake --build --preset exact-numeric-debug
       - name: Run reviewed exact numeric cases

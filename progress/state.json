@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T08:01:04+00:00",
+  "updated_at": "2026-10-31T08:06:27+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -714,7 +714,8 @@
       "summary": "Preserve original monetary decimals and positive rates losslessly using Boost.Multiprecision intermediates; declare parser digit/exponent/resource bounds in the reviewed contract.",
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed from refreshed main after CORETEST001 PR12 merged; task/CORE-001-exact-numeric. Spec v0.45 NUM01/02/04, exact-decimal revision1, reviewed32-case tests6cf83ae/headerc0e70aee/contract59d334d; baseline9e8db8a observed32 intended stub failures after review79e0f0d. Acceptance: preserve assertions/interface, implement bounded parser/validators and sign-safe half-even finalizer;32passing cases+credit regressions+independent code review+observed pinned automatic numeric CI. Implementer isolated task/CORE-001-implementation owns core/src/exact_decimal.cpp and implementation evidence only. Coordinator owns CMake/dependency/workflow activation, state/HTML/map/status docs/checkpoint/PR; independent task/CORE-001-code-review owns review evidence. No aggregation, service holds, SQL/API, modifier combination or refund implementation."
+        "Claimed from refreshed main after CORETEST001 PR12 merged; task/CORE-001-exact-numeric. Spec v0.45 NUM01/02/04, exact-decimal revision1, reviewed32-case tests6cf83ae/headerc0e70aee/contract59d334d; baseline9e8db8a observed32 intended stub failures after review79e0f0d. Acceptance: preserve assertions/interface, implement bounded parser/validators and sign-safe half-even finalizer;32passing cases+credit regressions+independent code review+observed pinned automatic numeric CI. Implementer isolated task/CORE-001-implementation owns core/src/exact_decimal.cpp and implementation evidence only. Coordinator owns CMake/dependency/workflow activation, state/HTML/map/status docs/checkpoint/PR; independent task/CORE-001-code-review owns review evidence. No aggregation, service holds, SQL/API, modifier combination or refund implementation.",
+        "Candidate4ab8613+873cc6d original32numeric pass (root32/32 verified); initial parserzero issue fixed underexistingreviewedassertion. Real Boost1.92 noncanonicalzero denominator reveals finalizer normalized-budget gap. Separate author5f9b3c0 one-test regression approvedoraclecbf9391; coordinatorbd9c43b builds regressiontarget and adds pinned numericCI. Await harnessapproval/actualregressionred beforefinalizerfix. Original32/header/contract unchanged; code/CIreview, publication and actualworkflow remain pending."
       ],
       "verification": {},
       "evidence": [],
@@ -10396,6 +10397,11 @@
       "date": "2026-10-31T08:01:04+00:00",
       "task": "CORE-001",
       "note": "Claimed from refreshed main after CORETEST001 PR12 merged; task/CORE-001-exact-numeric. Spec v0.45 NUM01/02/04, exact-decimal revision1, reviewed32-case tests6cf83ae/headerc0e70aee/contract59d334d; baseline9e8db8a observed32 intended stub failures after review79e0f0d. Acceptance: preserve assertions/interface, implement bounded parser/validators and sign-safe half-even finalizer;32passing cases+credit regressions+independent code review+observed pinned automatic numeric CI. Implementer isolated task/CORE-001-implementation owns core/src/exact_decimal.cpp and implementation evidence only. Coordinator owns CMake/dependency/workflow activation, state/HTML/map/status docs/checkpoint/PR; independent task/CORE-001-code-review owns review evidence. No aggregation, service holds, SQL/API, modifier combination or refund implementation."
+    },
+    {
+      "date": "2026-10-31T08:06:27+00:00",
+      "task": "CORE-001",
+      "note": "Candidate4ab8613+873cc6d original32numeric pass (root32/32 verified); initial parserzero issue fixed underexistingreviewedassertion. Real Boost1.92 noncanonicalzero denominator reveals finalizer normalized-budget gap. Separate author5f9b3c0 one-test regression approvedoraclecbf9391; coordinatorbd9c43b builds regressiontarget and adds pinned numericCI. Await harnessapproval/actualregressionred beforefinalizerfix. Original32/header/contract unchanged; code/CIreview, publication and actualworkflow remain pending."
     }
   ]
 }
