@@ -54,6 +54,19 @@ and actual compiler/header/config verification.
 Per-input atomic rejection, aggregates, modifier combination, refunds and all platform
 behavior remain their own baselines and are not covered by these primitive cases.
 
+## Identified receipt baseline
+
+ACCTTEST-001 supplies15 independently reviewed cases for stable receipt identity,
+retry/conflict audit and per-attempt provenance through an atomic repository port.
+All15 are [observed red](evidence/accttest-001-baseline-handoff.md) on the explicit
+service stub after successful compilation. The fake stores primitives and stages
+known rollback failures; it does not implement production deduplication decisions.
+Run configure/build `receipt-intake-debug`, then CTest with `-L receipt-intake`.
+This intentionally red lane remains separate from green numeric/credit/scaffold CI;
+ACCT-001 must activate stable automatic receipt CI with passing implementation.
+SQL durability/uniqueness, Qt ownership, live identifiers, contribution creation and
+actual effects remain separate acceptance and platform/provider gates.
+
 ## Priorities after first baseline
 
 - Duplicate receipts/commands, atomic effects/state/jobs and restart recovery.

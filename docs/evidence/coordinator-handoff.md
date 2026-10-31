@@ -6,7 +6,7 @@ continuation checkpoint, not a release-completion claim.
 
 ## Repository and integrated work
 
-Last fetched main: `806f69f62a019417df80c8fbadb888074a5aa371`.
+Last fetched main: `7900a614214f72da85c31d44643cf32a078729cc`.
 Two focused task branches are active from this integrated revision. Inspect GitHub
 again on resumption; branch claims are coordinated without mixing unmerged behavior.
 
@@ -119,10 +119,17 @@ also passes; no local package installation or live operation occurred.
 ## Independent receipt baseline and next actions
 
 ACCTTEST-001 is claimed independently from main806f69f after inspecting open PR14
-and integrated CORE-001 prerequisites. No receipt PR yet; author actual28729c7
+and integrated CORE-001 prerequisites. Receipt baseline [PR #15](https://github.com/Kernol12/subathon-bot-ai/pull/15)
+merged7900a61 on2026-10-31 13:51:17UTC; final head6579e12 had all four checks
+passed, no threads and zero required GitHub approvals. Final integration a843e4d
+is integrated. Author actual28729c7
 (interface/stub/fake/15tests/contract/evidence) is integrated as72d9c95 with coordinator
-harnessaccb064. The optional receipt-intake-debug configure/build succeeds; no bodies
-have run and no receipt baseline is yet approved or observed red.
+harnessaccb064. The optional receipt-intake-debug configure/build succeeds. Separate review54cff97
+approved exact artifacts, then integrated18d8670 ran all15 bodies: actual exit8 from
+ReceiptIntakeNotImplemented, no skips/build/dependency failures. Stable scaffold3/3,
+numeric33/33 and credit23/23 pass. No receipt production behavior was written.
+See [receipt reviewed/red handoff](accttest-001-baseline-handoff.md) and
+[independent review](accttest-001-independent-review.md).
 
 - Coordinator: `local-evidence/worktrees/accttest001-coordinator`, branch
   `task/ACCTTEST-001-receipt-baseline`; owns root/server/tests CMake, presets, state/
@@ -142,13 +149,21 @@ writer/thread/concurrency, missing identity/source admission and contribution/ef
 application remain explicit STORAGE/API/connector/accounting gates. See the receipt
 task branch for its artifacts; unmerged receipt behavior is not copied to timer PR.
 
-Next: finish independent receipt contract/test/harness review, resolve findings,
-record genuine intended stub-red only after approval, publish a focused baseline
-PR and inspect all latest-head CI/review/merge gates. Complete the pending timer
-owner-policy branch only after an answer; no timer implementation before reviewed
-red. The resumed agents are newly assigned; prior completed reviews remain valid.
-No owner/access blocker besides that one timer decision exists. No commands are
-intentionally left running; inspect both coordinator worktrees before editing.
+ACCT-001 is now claimed from merged main7900a61, branch
+`task/ACCT-001-receipt-intake`, coordinator worktree `local-evidence/worktrees/acct001-coordinator`.
+Implementer `/root/receipt_implementer` owns only server/src/receipt_intake.cpp and
+implementation evidence in `local-evidence/worktrees/acct001-implementation`, branch
+`task/ACCT-001-implementation`. Independent `/root/baseline_reviewer` owns code review
+in `local-evidence/worktrees/acct001-review`, branch `task/ACCT-001-code-review`.
+Source author875c1c9, blob7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8, is ready;
+its15 simulation cases pass in author/reviewer runs. Coordinator integration and
+actual automatic simulation CI remain pending; no implementation done/SQL claim.
+
+Next: integrate actual service source, independently review the exact source/config,
+activate and observe receipt simulation CI, record passing bounded gates and update
+status/map. Keep timer CORETEST-002 blocked solely on the unanswered confirmation-wait
+credit choice. It has35 compiled/listed draft cases and partial review only; no timer
+bodies/red or production implementation. No commands intentionally remain running.
 
 Full scope beyond the cap-credit and exact-decimal primitives remains: authoritative
 application/aggregate/refund logic, all seven integrations and three exchange providers,

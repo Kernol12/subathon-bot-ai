@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T08:24:40+00:00",
+  "updated_at": "2026-10-31T13:56:39+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -750,7 +750,7 @@
       "title": "Review and demonstrate red: Main countdown and ending-mode transitions",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "Coordinator /root; test author /root/numeric_test_author",
       "depends_on": [
         "CONTRACT-002",
@@ -766,7 +766,8 @@
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed from refreshed main after CORE001 PR13 merged, task/CORETEST-002-timer-baseline. Specv0.45 §4 TIMER01/02 and reviewed event-state boundariesrev1; no timercontractfinal yet. Scope: bounded deterministic lifecycle/phase reducer contract+examples+publicstub/testharness, default120sgrace/immediate/confirmation, rescue/repeatedfresh/sharedgrace and exacthardend precedence; pause observations accepted but signal/recovery/schedule algorithms remain scopedtasks. Need independent testreview then actualstubred before CORE002implementation. Author isolatedtask/CORETEST-002-timer-author owns timercontract/interface/stubs/tests/taskbrief/authoring evidence; coordinator rootowns sharedCMake/presets,state/HTML/map/checkpoint/PR. Reviewer isolatedtask/CORETEST-002-timer-review owns separate actualrevision review. No productionbehavior or provider/platform claim.",
-        "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim."
+        "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim.",
+        "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests."
       ],
       "verification": {
         "authored_tests": "draft",
@@ -1153,7 +1154,7 @@
       "title": "Review and demonstrate red: Normalized receipt identity and duplicate-safe ingestion",
       "module": "Accounting",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Coordinator /root; receipt test author /root/receipt_test_author",
       "depends_on": [
         "CONTRACT-002",
@@ -1167,19 +1168,37 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-001.",
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
+        "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here.",
+        "Author28729c7/harnessaccb064 independently approved by baseline_reviewer in54cff97. At integrated18d8670 after approval, configure/build0 then actual CTest exit8:15/15 ReceiptIntakeNotImplemented failures; no skips or dependency/build error. Reviewed files unchanged. Scaffold3/3, numeric33/33 andcredit23/23 pass. Baseline local gates complete; final done-state tooling/integration review, PR latestCI/merge remain. No production/durable SQL/provider/contribution capability; ACCT001 implementation waits integrated prerequisite."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "test_review": "passed",
+        "native_build": "passed",
+        "baseline": "observed_red",
+        "stable_regression": "passed",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/accttest-001-authoring.md",
+        "docs/evidence/accttest-001-independent-review.md",
+        "docs/evidence/accttest-001-baseline-handoff.md",
+        "docs/evidence/accttest-001-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/receipt_test_author",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "author28729c7 + harnessaccb064; tests94317dc4dde4553c8888f78a433e3003c471de1a; contract149d65b5aa0864c6323e4d5ff6d9580cdbcf2886; review54cff97",
+        "evidence": "docs/evidence/accttest-001-independent-review.md"
+      }
     },
     {
       "id": "ACCT-001",
       "title": "Normalized receipt identity and duplicate-safe ingestion",
       "module": "Accounting",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/receipt_implementer",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001",
@@ -1192,7 +1211,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-001.md",
       "summary": "Scope provider IDs by origin/connection/type as required and keep source timestamps distinct from server arrival/context.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed from refreshed main after ACCTTEST001 PR15 merged on task/ACCT-001-receipt-intake. Receipt-intake contractrev1,15 reviewed cases94317dc/fake99ff2ee/corevaluesf11b0d6/serviceport273f6b4; actual red15/15 at18d8670 after review54cff97, integrationa843e4d. Implement only identified receipt service decisions through one transaction; no SQL/provider/Qt/contribution support claim. Implementer isolated task/ACCT-001-implementation owns server/src/receipt_intake.cpp and implementation evidence only. Coordinator owns CMake/labels/automatic simulationCI/status docs/state/HTML/map/checkpoint/PR; independent task/ACCT-001-code-review owns code review. Passing15simulationcases+stable regressions+separatecode review+observed newCI beforedone. Preserve all reviewed interfaces/tests/fake/behavioral contract."
       ],
       "verification": {},
       "evidence": [],
@@ -10456,6 +10476,11 @@
       "note": "Finalsource74f3594/a1ddb428 separately approved by /root/numeric_reviewer indb26514. Original32+one independently authored/reviewed/red zero-regression pass33/33; credit23/23 unchanged. Automatic PR13 numericrun41183487457 atfd86a6b passed with actual pinnedBoost1.83/GCC13.3, compilerheader108300 and33cases; allcredit/scaffoldCIpass. Bounded primitive implementation gates satisfied; finaldone-state integrationreview/latestrevisionCI/merge pending. Fullnumericdecisions remainpartial beyondscope; no platform/live/application claim."
     },
     {
+      "date": "2026-10-31T13:32:45+00:00",
+      "task": "ACCTTEST-001",
+      "note": "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
+    },
+    {
       "date": "2026-10-31T08:18:02+00:00",
       "task": "CORETEST-002",
       "note": "Claimed from refreshed main after CORE001 PR13 merged, task/CORETEST-002-timer-baseline. Specv0.45 §4 TIMER01/02 and reviewed event-state boundariesrev1; no timercontractfinal yet. Scope: bounded deterministic lifecycle/phase reducer contract+examples+publicstub/testharness, default120sgrace/immediate/confirmation, rescue/repeatedfresh/sharedgrace and exacthardend precedence; pause observations accepted but signal/recovery/schedule algorithms remain scopedtasks. Need independent testreview then actualstubred before CORE002implementation. Author isolatedtask/CORETEST-002-timer-author owns timercontract/interface/stubs/tests/taskbrief/authoring evidence; coordinator rootowns sharedCMake/presets,state/HTML/map/checkpoint/PR. Reviewer isolatedtask/CORETEST-002-timer-review owns separate actualrevision review. No productionbehavior or provider/platform claim."
@@ -10466,9 +10491,24 @@
       "note": "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim."
     },
     {
-      "date": "2026-10-31T13:32:45+00:00",
+      "date": "2026-10-31T13:45:07+00:00",
       "task": "ACCTTEST-001",
-      "note": "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
+      "note": "Author28729c7/harnessaccb064 independently approved by baseline_reviewer in54cff97. At integrated18d8670 after approval, configure/build0 then actual CTest exit8:15/15 ReceiptIntakeNotImplemented failures; no skips or dependency/build error. Reviewed files unchanged. Scaffold3/3, numeric33/33 andcredit23/23 pass. Baseline local gates complete; final done-state tooling/integration review, PR latestCI/merge remain. No production/durable SQL/provider/contribution capability; ACCT001 implementation waits integrated prerequisite."
+    },
+    {
+      "date": "2026-10-31T13:51:22+00:00",
+      "task": "ACCT-001",
+      "note": "Claimed from refreshed main after ACCTTEST001 PR15 merged on task/ACCT-001-receipt-intake. Receipt-intake contractrev1,15 reviewed cases94317dc/fake99ff2ee/corevaluesf11b0d6/serviceport273f6b4; actual red15/15 at18d8670 after review54cff97, integrationa843e4d. Implement only identified receipt service decisions through one transaction; no SQL/provider/Qt/contribution support claim. Implementer isolated task/ACCT-001-implementation owns server/src/receipt_intake.cpp and implementation evidence only. Coordinator owns CMake/labels/automatic simulationCI/status docs/state/HTML/map/checkpoint/PR; independent task/ACCT-001-code-review owns code review. Passing15simulationcases+stable regressions+separatecode review+observed newCI beforedone. Preserve all reviewed interfaces/tests/fake/behavioral contract."
+    },
+    {
+      "date": "2026-10-31T13:53:51+00:00",
+      "task": "CORETEST-002",
+      "note": "Only outstanding timer baseline gate is unanswered owner question: positive accepted credit while awaiting finish confirmation resumes main or remains pending for authorizeddecision.35 cases compile/list, partial reviews a99616a/720acc8 close two coverage gaps, but no fullapproval/red/implementation. Continue independent receiptwork; resume prompts are not a policyanswer. This claim records blocked ownership without merging unreviewed timer artifacts."
+    },
+    {
+      "date": "2026-10-31T13:56:39+00:00",
+      "task": "CORETEST-002",
+      "note": "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests."
     }
   ]
 }

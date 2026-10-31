@@ -1,6 +1,6 @@
 {
   "specification_version": "0.45",
-  "note": "Full decisions remain partial/planned. IMPL-001 supplies reviewed cap-credit planning; CORE-001 supplies reviewed exact-decimal/final conversion primitives (32+1 passing cases). Neither implements authoritative application/aggregate/refund/provider behavior. Historical red evidence is retained.",
+  "note": "Full decisions remain partial/planned. IMPL-001 supplies reviewed cap-credit planning; CORE-001 supplies reviewed exact-decimal/final conversion primitives (32+1 passing cases). Neither implements authoritative application/aggregate/refund/provider behavior. Historical red evidence is retained. ACCTTEST-001 adds15 reviewed/observed-red identified receipt cases, not implemented intake/durability.",
   "decisions": [
     {
       "id": "UI-01",
@@ -831,6 +831,28 @@
         "baseline": "author74f3594; sourcea1ddb4283292a5da0a81a0f4e8255fffc19cafd7; originaltests6cf83ae; regression347a810b; reviewdb26514",
         "evidence": "docs/evidence/core-001-code-review.md"
       }
+    },
+    {
+      "scenario": "Identified receipt retry/conflict and attempt provenance through a repository port",
+      "status": "observed_red",
+      "tests": [
+        "tests/acceptance/receipt_intake_tests.cpp"
+      ],
+      "contract": "docs/contracts/receipt-intake-v1.md",
+      "review": {
+        "author": "/root/receipt_test_author",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "author28729c7 + harnessaccb064; tests94317dc4dde4553c8888f78a433e3003c471de1a; contract149d65b5aa0864c6323e4d5ff6d9580cdbcf2886; review54cff97",
+        "evidence": "docs/evidence/accttest-001-independent-review.md"
+      },
+      "evidence": [
+        "docs/evidence/accttest-001-authoring.md",
+        "docs/evidence/accttest-001-independent-review.md",
+        "docs/evidence/accttest-001-baseline-handoff.md",
+        "docs/evidence/accttest-001-red-ctest.txt"
+      ],
+      "scope": "15 reviewed cases fail on explicit unimplemented service. Synthetic identifiers, primitive fake storage/known rollback only; no SQL durability, actual provider identity/correlation, contribution creation or one-application claim."
     }
   ]
 }

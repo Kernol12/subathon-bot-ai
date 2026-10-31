@@ -9,7 +9,7 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
+if(SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
 endif()
@@ -34,6 +34,13 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
     target_link_libraries(core_exact_numeric_regression PRIVATE subathon_exact_numeric GTest::gtest_main)
     subathon_target_options(core_exact_numeric_regression)
     gtest_discover_tests(core_exact_numeric_regression PROPERTIES LABELS "exact-numeric;regression;core")
+endif()
+
+if(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS)
+    add_executable(server_receipt_intake_acceptance acceptance/receipt_intake_tests.cpp)
+    target_link_libraries(server_receipt_intake_acceptance PRIVATE subathon_receipt_intake GTest::gtest_main)
+    subathon_target_options(server_receipt_intake_acceptance)
+    gtest_discover_tests(server_receipt_intake_acceptance PROPERTIES LABELS "receipt-intake;acceptance;intentional-red")
 endif()
 
 if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
