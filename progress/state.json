@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-30T22:31:21+00:00",
+  "updated_at": "2026-10-31T07:58:07+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -653,8 +653,8 @@
       "title": "Review and demonstrate red: Bounded exact decimal parsing and final-effect rounding",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; test author /root/numeric_test_author",
       "depends_on": [
         "CONTRACT-002"
       ],
@@ -667,11 +667,31 @@
       "brief": "docs/tasks/EPIC-001/CORE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before CORE-001.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed from refreshed main after CONTRACT-002 PR11 on task/CORETEST-001-exact-baseline. Spec v0.45 NUM01/02/04; boundary contract revision1. Acceptance: bounded exact-decimal parser/rate/factor validation and signed64 half-even finalizer contract/examples; deterministic independently derived tests, separate test review then intended stub-red after compilation. No arithmetic engine, aggregation, persistence, UI or implementation. Author task/CORETEST-001-test-author owns new core numeric interface/stub, tests and numeric contract/evidence; explicit delegated core/tests CMake harness edits plus optional numeric flag/preset only. Coordinator owns progress/HTML, acceptance map, shared pins/build integration and PR. Independent reviewer isolated task/CORETEST-001-test-review owns review evidence.",
+        "Resumed2026-10-31 after prior author usage limit. Mainfcdcd47 and merged PR10/11 verified; no open PR or running builds. Prior uncommitted /tmp numeric draft no longer exists and branch has no author commit, so explicitly reassign to /root/numeric_test_author on task/CORETEST-001-author-resume; independent /root/numeric_reviewer on task/CORETEST-001-review-resume. Persistent ignored local-evidence/worktrees paths now used. Scope/contract/test-first/shared ownership unchanged; no prior numeric review/red claim. Preserve all committed earlier evidence.",
+        "Final authorb3b7ab9 baseline32cases independently approved by /root/numeric_reviewer in79e0f0d. Coordinator integrated9e8db8a after review; configure/build0 then actual CTest exit8,32/32 ExactNumericNotImplemented failures, no skips/dependency errors. Exact header/test/contract/stub blobs recorded; no production behavior. Credit23/23 and scaffold3/3 pass after harness integration. Baseline local gates complete; final integration review/latest PR12 CI/merge pending. CORE001 remains planned until integration; stable numeric CI required there."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "test_review": "passed",
+        "native_build": "passed",
+        "baseline": "observed_red",
+        "credit_regression": "passed",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/coretest-001-authoring.md",
+        "docs/evidence/coretest-001-independent-review.md",
+        "docs/evidence/coretest-001-baseline-handoff.md",
+        "docs/evidence/coretest-001-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/numeric_test_author",
+        "reviewer": "/root/numeric_reviewer",
+        "outcome": "approved",
+        "baseline": "authorb3b7ab9; tests6cf83aeba79bfc4c50e3e11787147dd6bf342c10; contract59d334d68970d1b1dd81fddcfbb2a8118437ce13; review79e0f0d",
+        "evidence": "docs/evidence/coretest-001-independent-review.md"
+      }
     },
     {
       "id": "CORE-001",
@@ -10355,6 +10375,21 @@
       "date": "2026-10-30T22:31:21+00:00",
       "task": "CONTRACT-002",
       "note": "Internal contract revision1 authored1904ccb, exact contract8b60da43f1362c46c54730e8ca029b858964ea59 independently approved in4364149 by /root/independent_reviewer. Fourteen spec-derived examples; no production/test/schema edits and no feature-red claim. Refreshed main11eafe2 integrated; coordinator scaffold3/3 Python19/19 project/render/DOM/diff pass. Local documentation gates complete; latest-revision PR CI/merge pending. Each dependent behavior still requires its own reviewed/red baseline."
+    },
+    {
+      "date": "2026-10-30T22:32:34+00:00",
+      "task": "CORETEST-001",
+      "note": "Claimed from refreshed main after CONTRACT-002 PR11 on task/CORETEST-001-exact-baseline. Spec v0.45 NUM01/02/04; boundary contract revision1. Acceptance: bounded exact-decimal parser/rate/factor validation and signed64 half-even finalizer contract/examples; deterministic independently derived tests, separate test review then intended stub-red after compilation. No arithmetic engine, aggregation, persistence, UI or implementation. Author task/CORETEST-001-test-author owns new core numeric interface/stub, tests and numeric contract/evidence; explicit delegated core/tests CMake harness edits plus optional numeric flag/preset only. Coordinator owns progress/HTML, acceptance map, shared pins/build integration and PR. Independent reviewer isolated task/CORETEST-001-test-review owns review evidence."
+    },
+    {
+      "date": "2026-10-31T07:51:34+00:00",
+      "task": "CORETEST-001",
+      "note": "Resumed2026-10-31 after prior author usage limit. Mainfcdcd47 and merged PR10/11 verified; no open PR or running builds. Prior uncommitted /tmp numeric draft no longer exists and branch has no author commit, so explicitly reassign to /root/numeric_test_author on task/CORETEST-001-author-resume; independent /root/numeric_reviewer on task/CORETEST-001-review-resume. Persistent ignored local-evidence/worktrees paths now used. Scope/contract/test-first/shared ownership unchanged; no prior numeric review/red claim. Preserve all committed earlier evidence."
+    },
+    {
+      "date": "2026-10-31T07:58:07+00:00",
+      "task": "CORETEST-001",
+      "note": "Final authorb3b7ab9 baseline32cases independently approved by /root/numeric_reviewer in79e0f0d. Coordinator integrated9e8db8a after review; configure/build0 then actual CTest exit8,32/32 ExactNumericNotImplemented failures, no skips/dependency errors. Exact header/test/contract/stub blobs recorded; no production behavior. Credit23/23 and scaffold3/3 pass after harness integration. Baseline local gates complete; final integration review/latest PR12 CI/merge pending. CORE001 remains planned until integration; stable numeric CI required there."
     }
   ]
 }
