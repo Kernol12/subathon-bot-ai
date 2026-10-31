@@ -128,7 +128,7 @@ integer/rational constructors only to represent literal fractions and large powe
 | `2^4096` or `1/2^4096` | Component resource rejection before conversion |
 
 Primary executable home: `tests/acceptance/exact_decimal_tests.cpp`, currently
-31 GoogleTest cases. The suite covers lexical/owned-value preservation, limits and
+32 GoogleTest cases. The suite covers lexical/owned-value preservation, limits and
 one-beyond limits, rate/factor domains, both signs around half ties, signed endpoints,
 exact scaling/no intermediate rounding and normalized-component limits. Literal
 expected values and resource-bound powers are independent of the implementation.

@@ -81,3 +81,15 @@ observed intended red, coordinator evidence/state/map/HTML integration and focus
 baseline PR gates. Only after the reviewed/red baseline integrates may CORE-001
 implement these functions. All aggregate/transaction, domain, provider/platform,
 renderer/UI/localization, packaging and live/OBS release gates remain separate.
+
+## Additive review finding before approval
+
+Reviewer `/root/numeric_reviewer` requested a focused32nd test for contract step2:
+within the512-byte budget, malformed full grammar must reject with invalid_argument
+even when its mantissa/exponent prefix exceeds an internal resource bound. Added
+`CompleteSyntaxPrecedesInternalResourceLimits` for257 digits plus trailing junk and
+`1e257?`. The existing byte-first malformed513-byte length_error oracle is unchanged.
+This is an additive check of the authored error policy, not a requirement change or
+weakened assertion. The original31-case candidate/blob table above remains historical;
+the final review must name the amended test/contract blobs. Rebuilt the exact numeric
+lane successfully after the addition; no numeric test bodies were executed.
