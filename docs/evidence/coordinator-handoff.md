@@ -3,7 +3,7 @@
 Coordinator `/root`, 2026-10-31. Objective: full specification v0.45, task by task,
 with isolated writers, real independent reviews and focused PRs. This is a session
 checkpoint, not completed product/release evidence. Last observed main is
-`f886af90c5eaa7e390ca9d2c82ea204de2a71995`; inspect actual GitHub again on resume.
+`0700d5dc4a1c159ed0b5210fb8051895c5b51b17`; inspect actual GitHub again on resume.
 
 ## Completed integrations
 
@@ -88,3 +88,18 @@ integrations and three rate providers, supported platforms, both renderers, UIs/
 localization/themes, packaging and live/OBS evidence. Receipt results are simulation
 only; SQL uniqueness/durability/Qt ownership/actual provider IDs remain separate.
 No credentials, real supporter state, chat/payment side effects or deployment used.
+
+CORE002 PR18 is actually merged0700d5d at19:46:03UTC; final17a4602 all6CIpassed,
+full code/final approvale64439b/daea486, no review threads. Automatic resumption is
+implemented/verified as the bounded pure reducer, not a running live application.
+ACCT002 actual candidate3e76ce9 (corec3b2ea0d/server975067bb) now passes21 unchanged
+cases in root and author; CIconfig1beb71f, main0700d5d integrateda579e38. Independent
+`/root/baseline_reviewer` is explicitly reviewing actuala579e38 in acct002-review;
+no approval/hostedCI/done claimed yet.
+CORETEST003 now claimed on root `task/CORETEST-003-pause-baseline` from0700d5d.
+Author `/root/pause_test_author` owns pause contract/interface/stub/tests/brief/evidence
+in `local-evidence/worktrees/coretest003-author`, branch `task/CORETEST-003-pause-author`;
+independent `/root/timer_final_reviewer` will own only actualcandidate review evidence
+in `local-evidence/worktrees/coretest003-review`, branch `task/CORETEST-003-pause-review`.
+Coordinator owns sharedbuild/state/map/checkpoint/PR. No pausebehavior or tests yet;
+contract/oracles/review/red must precede CORE003.
