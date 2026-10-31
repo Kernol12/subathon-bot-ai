@@ -64,3 +64,18 @@ Independent fresh candidate checks in isolated `local-evidence/worktrees/core001
 These are local candidate checks only, with installed Boost1.92.0/GCC16.2.1/
 GoogleTest1.18.0. No final code verdict, automatic numeric CI result, Ubuntu/Windows
 compatibility, application atomicity or provider/platform/live claim follows yet.
+
+
+### Regression harness approval
+
+Reviewed coordinator `bd9c43ba0f243d9cc5c64a460b59b8ade727ffa4`, including the
+separate regression target/linkage and `exact-numeric;regression;core` discovery
+labels. This target runs the exact reviewed test against the intended numeric
+library without skipping, failure inversion or special expected-failure behavior.
+Independent `cmake --preset exact-numeric-debug` and
+`cmake --build --preset exact-numeric-debug` exited0;
+`ctest --preset exact-numeric-debug -N -R ExactDecimalRegression` exited0 and
+listed exactly the one new case, without executing it. The coordinator may now
+record its genuine intended red against candidate `873cc6d` before authorizing the
+finalizerzero fix. This harness approval leaves final implementation/workflow
+approval and actual CI observation pending.
