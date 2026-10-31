@@ -214,3 +214,64 @@ in this review.** Next: coordinator captures a successful exact-revision build a
 actual intended failure from PausePolicyNotImplemented, then records baseline status
 and remaining PR/CI gates. No implementation, provider, platform or timer-integration
 verification is claimed by this approval.
+
+## Final baseline integration review — 2026-10-31
+
+Reviewer `/root/pause_resume_reviewer`; actual candidate
+`4a832623bd98ad4e588da3ac47bbee25ef58b44c`, incorporating coordinatorb50d8d8.
+**Approved for integration of CORETEST-003's reviewed/red baseline.** No blocking
+findings. This verdict covers authored/reviewed tests and intended red, not working
+pause behavior. Latest PR CI, review-thread resolution, repository merge rules and
+the merge itself remain coordinator gates; no future CI outcome is claimed.
+
+Inspected the baseline handoff and actual967-line CTest log. Independent Python
+inspection split all37 started test sections, verified37 GoogleTest RUN entries and
+the explicit stub diagnostic in every section, and found no Not Run, skipped or
+missing-executable result. There are61 stub-message diagnostics because grouped
+validation assertions make multiple calls; this is37 failed cases, not61 cases.
+Normal cases report the thrown missing-behavior exception; validation cases report
+the same PausePolicyNotImplemented instead of invalid_argument. The final summary
+is37/37 failed, consistent with the coordinator's recorded actual exit8 after full
+approval was integrated atf39ccc8. Raw-log blob:
+`4e49ada47aa51287395fe973a79eb65c47b8019b`. The reviewer inspected the retained
+execution evidence and did not repeat the native/red run. Configure/build exit0 and
+stable native regression results are attributed to the coordinator's handoff, not
+claimed as this reviewer's executions.
+
+Compared current artifact hashes against approved86c0bbd: all37 tests
+`646d83f4e38722239bb8b590a9f368141bed4246`, header
+`c91b7da3fa1c98a1b2e47ab389f48f74901c2a47`, stubs
+`dee2a91c31b524c082192aba70e7e0c0efa27501`, and all four approved root/core/tests
+CMake/preset blobs are unchanged. Contract now has blob
+`e2eae912418b58f512dfe9505efd75e3453c4636`; its diff changes the proposed/review/red
+status prose only, leaving the reviewed behavioral rules intact. CORE-003 brief
+changes likewise record completed baseline gates and outstanding implementation/CI.
+
+Checked authoritative progress: CORETEST-003 is done with authored/native-build/
+test-review passed, baseline observed_red and product_acceptance not_run; CORE-003
+remains planned and unimplemented. This correctly distinguishes baseline completion
+from feature acceptance. TIMER-03/05 map entries remain partial, and the scenario
+is observed_red with the exact review/artifact references. TEST_STRATEGY keeps the
+optional intentional-red lane separate from stable feature CI and requires CORE-003
+to implement/pass, obtain separate code review and add/observe automatic pause CI.
+The explicit resume and remaining PR20 publication gates are retained in task notes.
+Full product scope and separate timer/Qt/provider/platform gates remain explicit.
+
+Independent commands actually run on this Linux review worktree:
+
+| Command | Result |
+| --- | --- |
+| `python3 tools/check_project.py` | Exit0;377 tasks,122 decisions, links/presets/current HTML pass. Its informational19 draft-credit count is not pause execution evidence. |
+| `python3 -m unittest discover -s tests/tooling -v` | Exit0;19/19 pass. |
+| `python3 tools/progress.py render --check` | Exit0; snapshot current. |
+| `node tools/check_progress_ui.mjs` | Exit0; DOM simulation passes; actual browser/OBS not run. |
+| Python raw-log/body-count/hash/status inspection | Exit0; results recorded above. No C++ body execution. |
+| `git diff --check` | Exit0 before this evidence append; repeated before commit. |
+
+Read-only file/status/diff searches also inspected the actual handoff, log, task
+records, contract/brief changes, strategy and `tests/acceptance-map.json`. Initial
+searches for a differently named acceptance map/handoff returned absent paths; the
+actual map and authoritative state records were then located and inspected.
+Only this review evidence is appended by this reviewer. Required next work is
+coordinator publication/CI/merge validation, followed by the separately authorized
+dependency-ready task loop; this review neither starts nor approves implementation.
