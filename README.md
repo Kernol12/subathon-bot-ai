@@ -51,6 +51,11 @@ and four additional reviewed regression cases pass. See the
 [implementation handoff](docs/evidence/impl-001-handoff.md) for separate code review
 and exact checks, and the [original red baseline](docs/evidence/time-credit-baseline-handoff.md)
 for the test-first history. Timer lifecycle and application transactions remain future work.
+CORE-001 also supplies bounded lossless decimal parsing and signed half-even final
+conversion:32 reviewed acceptance cases plus one normalized-zero regression pass.
+Use the explicit `exact-numeric-debug` preset with installed Boost>=1.83/GoogleTest;
+[numeric implementation evidence](docs/evidence/core-001-handoff.md) records code
+review and automatic Ubuntu/Boost1.83 CI. Application accounting remains future work.
 Do not treat the scaffold smoke test as proof that credit calculation works.
 See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/time-credit-v0.md).
 

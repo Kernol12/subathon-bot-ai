@@ -13,8 +13,9 @@ Initial GitHub inspection found no open PRs. Numeric baseline
 `cab329b`, final head `1c1c9fa`, observed 2026-10-31 08:01:02 UTC. All three final
 checks passed (PR/push scaffold and credit acceptance); no review threads or required
 GitHub approvals remained. Independent test review `79e0f0d` and final integration
-review `7ccf0dc` are integrated. CORE-001 PR publication is next; final local numeric33/33 passes, while
-independent code approval and actual pinned CI remain pending. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
+review `7ccf0dc` are integrated. CORE-001 [PR #13](https://github.com/Kernol12/subathon-bot-ai/pull/13) is open
+as a draft while final completion/evidence revision is reviewed. Code review
+`db26514` approves source `a1ddb428`; actual pinned numeric CI passed at `fd86a6b`. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
 (SPIKE-001), [#5](https://github.com/Kernol12/subathon-bot-ai/pull/5) (TEST-002),
 [#7](https://github.com/Kernol12/subathon-bot-ai/pull/7) (IMPL-001),
 [#8](https://github.com/Kernol12/subathon-bot-ai/pull/8) (coordinator prompt) and
@@ -149,10 +150,21 @@ regression remain unchanged. Code review and pinned CI are still pending.
 Coordinator `cd96d7c` refines CI to select exact1.83 config directories and verify
 compiler BOOST_VERSION108300; actual Ubuntu execution remains unobserved.
 
-Next: publish focused draft CORE-001 PR, observe numeric/credit/scaffold CI and
-receive independent code/configuration review. Resolve findings, record actual CI
-version/test evidence, update final task/map/status, recheck latest head and merge
-only when all gates pass. No coordinator commands are intentionally left running.
+CORE-001 final code/config review `db26514` is integrated; source
+`a1ddb4283292a5da0a81a0f4e8255fffc19cafd7` is approved. Actual
+[numeric CI run41183487457](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41183487457)
+passed at `fd86a6b`: Ubuntu24.04/GCC13.3, pinned package1.83.0-2.1ubuntu3,
+verified compiler macro108300, CMakeBoost1.83.0 and33/33 real cases. All existing
+credit/scaffold jobs passed too. Local/code gates are satisfied; final done-state
+integration review and latest-head publication/CI/merge checks are next. See
+[implementation handoff](core-001-handoff.md), [code review](core-001-code-review.md)
+and [dependency/CI evidence](core-001-ci.md). Contract status prose changed to link
+implementation; API/limits/errors/examples and original32/header remain unchanged.
+
+Next: finish final done-state checks, independently review completion/status prose,
+publish final PR13 revision, observe all latest CI/discussions and merge if eligible.
+Then refresh main and choose CORETEST-002 (timer lifecycle) or another executable
+slice from actual dependency-ready state. No coordinator commands remain running.
 
 Remaining release gates: the full planned product beyond the numeric credit helper;
 all seven integrations, all three exchange providers, both renderers, UIs/localization,
