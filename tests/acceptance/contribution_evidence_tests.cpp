@@ -344,6 +344,11 @@ TEST_F(ContributionEvidenceAcceptance,
     delayed.receipt.arrival = {1'700'000'006'000, "connection-3", "configuration-r7",
                                "modifiers-r10"};
     delayed.evidence = PaymentEvidence::unconfirmed;
+    delayed.support_conditions->valuation.resolution_ref = "later-valuation-r11";
+    delayed.support_conditions->valuation.missing_rate = false;
+    delayed.support_conditions->review = ContributionReview::accepted;
+    delayed.support_conditions->evidence_admission = {
+        EvidencePolicy::record_only, "later-evidence-policy-r7", {}};
     const auto linked = service.observe(delayed);
     EXPECT_EQ(linked.disposition, ContributionLinkDisposition::linked);
     EXPECT_EQ(linked.contribution_id, first.contribution_id);
@@ -507,6 +512,14 @@ TEST_F(ContributionEvidenceAcceptance,
 
 TEST_F(ContributionEvidenceAcceptance,
        InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory) {
+    auto support_without_conditions = support_observation();
+    support_without_conditions.support_conditions.reset();
+    EXPECT_THROW(static_cast<void>(service.observe(support_without_conditions)),
+                 std::invalid_argument);
+    auto confirmation_with_conditions = confirmation_observation();
+    confirmation_with_conditions.support_conditions = ready_state().conditions;
+    EXPECT_THROW(static_cast<void>(service.observe(confirmation_with_conditions)),
+                 std::invalid_argument);
     auto unknown_confirmation = confirmation_observation();
     unknown_confirmation.evidence = PaymentEvidence::unknown;
     EXPECT_THROW(static_cast<void>(service.observe(unknown_confirmation)), std::invalid_argument);

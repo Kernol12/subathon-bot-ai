@@ -77,3 +77,39 @@ restart/concurrency, authorization or actual effects/refunds were exercised.
 API-006/connector identity/capability and STORAGE-002 integration remain release
 gates; ACCT-006 must define financial reconciliation before held unsettled or
 pre-application refund inputs can advance. Full agreed release scope is preserved.
+
+## Independent-review coverage corrections
+
+The resumed author pass follows independent reviewer `/root/baseline_reviewer`'s
+two concrete findings against revision 1, before approval or runtime execution.
+The prior test blob was `341095486f757b0ff83b4554d929711684346620`; the revised blob
+is `702a7bf1d8162ba748ee9477ea48ffa73047ef65`. There remain 21 cases; no assertion
+was removed, weakened or skipped, and no interface/algorithm/contract/build/state
+file was changed in this correction.
+
+- `DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext` originally used
+  identical support conditions for the later observation, so its original-conditions
+  assertion could not detect replacement. Specification §3.4 and this contract's
+  first-support preservation require retaining the captured original. The later
+  observation now supplies a different valid resolved valuation reference, accepted
+  ordinary review and captured record-only evidence policy. All prior expected
+  original conditions/context/evidence assertions remain intact.
+- The grouped invalid-input case now exercises support without conditions and
+  confirmation with conditions. The contract explicitly rejects both shapes; the
+  existing `std::invalid_argument` and empty-store expectations verify no writes.
+  These additions fill missing contract examples without changing valid input policy.
+
+Actual commands in the author worktree at resumed base `817a153`:
+
+| Command | Actual result |
+| --- | --- |
+| `cmake --preset contribution-evidence-debug` | exit 0; configured GNU C++ 16.2.1 and installed dependencies |
+| `cmake --build --preset contribution-evidence-debug` | exit 0; all 12 build steps, including test executable link/discovery, complete |
+| `ctest --preset contribution-evidence-debug -N -L contribution-evidence` | exit 0; lists 21 cases, executes no test bodies |
+| `clang-format --dry-run --Werror tests/acceptance/contribution_evidence_tests.cpp` | exit 0 |
+| `git diff --check` | exit 0 |
+
+No test body/red run was performed. Exact revised commit/blob is returned to the
+independent reviewer for renewed assessment; no approval is assumed from this author
+correction. Production implementation remains gated on independent baseline approval
+and the observed intended runtime red.
