@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T19:51:32.846997+00:00",
+  "updated_at": "2026-10-31T19:55:10.830024+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -847,7 +847,7 @@
       "title": "Review and demonstrate red: Independent pause reasons and delayed status signals",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Coordinator /root; test author /root/pause_test_author; independent reviewer /root/timer_final_reviewer",
       "depends_on": [
         "CORE-002"
@@ -862,11 +862,19 @@
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim.",
-        "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds."
+        "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds.",
+        "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate."
       ],
-      "verification": {},
+      "verification": {
+        "authored_tests": "draft",
+        "native_build": "passed",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "product_acceptance": "not_run"
+      },
       "evidence": [
-        "docs/evidence/pause-signal-policy-questions.md"
+        "docs/evidence/pause-signal-policy-questions.md",
+        "docs/evidence/coretest-003-authoring.md"
       ],
       "review": null
     },
@@ -10651,6 +10659,11 @@
       "date": "2026-10-31T19:51:32.846997+00:00",
       "task": "CORETEST-003",
       "note": "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds."
+    },
+    {
+      "date": "2026-10-31T19:55:10.830024+00:00",
+      "task": "CORETEST-003",
+      "note": "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate."
     }
   ]
 }

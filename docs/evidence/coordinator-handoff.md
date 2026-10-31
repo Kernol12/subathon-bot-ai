@@ -66,11 +66,13 @@ Author `/root/pause_test_author` owns only pause contract/header/stubs/tests/bri
 authoring evidence in `local-evidence/worktrees/coretest003-author`, branch
 `task/CORETEST-003-pause-author`. Proposed contract/header/stubs4f24779 integrated
 f607d35; optional harness/questions recordec9d8a9, merged into author worktree.
-Headera2299648/stubdee2a91c/contractb5288091 are proposed, not fully reviewed.
+Authorbb34d1e integratedcf07abc adds30known-policy cases; current proposed
+headerc91b7da3/stubdee2a91c/contract46b6c641/testsaf1275f7. Author/root configure/build0;
+CTest-N lists30 only, no bodies or red.
 Independent `/root/timer_final_reviewer` is available for actual draft review in
 `local-evidence/worktrees/coretest003-review`, branch `task/CORETEST-003-pause-review`;
-no review assigned or approval inferred yet. Author is writing independent cases;
-no pause body/red/implementation claimed. Coordinator owns all shared artifacts.
+explicitly assigned actual30-case draftcf07abc for bounded partial review. Full
+approval still waits owner answers/affectedcases/fullreview/red; no pause implementation. Coordinator owns all shared artifacts.
 
 The owner was asked asynchronously, no answer assumed:
 1. Unknown arrives before the confirmed-Offline delay expires: cancel/reset on later
