@@ -12,7 +12,7 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
     subathon_target_options(subathon_exact_numeric)
 endif()
 
-# Lifecycle baseline is explicit while its new behavior remains unimplemented.
+# Explicit target for deterministic timer lifecycle proposals.
 if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
     add_library(subathon_timer_lifecycle STATIC src/timer_lifecycle.cpp)
     target_include_directories(subathon_timer_lifecycle PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
