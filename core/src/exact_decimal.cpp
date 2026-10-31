@@ -60,7 +60,7 @@ ExactDecimal parse_decimal(std::string_view original) {
         }
         const auto exponent_begin = position;
         while (position < original.size() && is_digit(original[position])) {
-            // Cap the scan at a rejection sentinel, but finish validating the grammar.
+            // Stop accumulating once over the limit, but finish validating the grammar.
             if (exponent_magnitude <= maximum_decimal_exponent) {
                 const auto digit = static_cast<unsigned>(original[position] - '0');
                 exponent_magnitude = exponent_magnitude * 10 + digit;
@@ -86,6 +86,10 @@ ExactDecimal parse_decimal(std::string_view original) {
             coefficient *= 10;
             coefficient += static_cast<unsigned>(original[index] - '0');
         }
+    }
+    // Keep zero canonical rather than relying on rational division to normalize it.
+    if (coefficient == 0) {
+        return ExactDecimal(std::string(original), Exact(0));
     }
     if (negative) {
         coefficient = -coefficient;
