@@ -2,16 +2,18 @@
 
 Coordinator: `/root`; started 2026-10-30 from `main` / `origin/main`
 `2bc4e6420ac7c56ce9fb29bc678798d2987ae8df`. Last refreshed main:
-`fcdcd476fd28db1930e17e14ca0e9a912bed4798` after CONTRACT-002 PR #11. Specification v0.45.
+`cab329b17ca3edb02e408ad1bc7244a73ae20c3d` after CORETEST-001 PR #12. Specification v0.45.
 Objective: execute the full agreed scope using bounded task PRs and independent reviews.
 This is an active checkpoint, not evidence of release completion.
 
 ## Integrated prerequisites and repository inspection
 
-Initial GitHub inspection found no open PRs. Active numeric baseline is now draft
-[PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), coordinator branch
-`task/CORETEST-001-exact-baseline`; authoring, test review and observed red are
-complete. Final integration review, latest-revision CI and merge gates are pending. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
+Initial GitHub inspection found no open PRs. Numeric baseline
+[PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12) is now merged at
+`cab329b`, final head `1c1c9fa`, observed 2026-10-31 08:01:02 UTC. All three final
+checks passed (PR/push scaffold and credit acceptance); no review threads or required
+GitHub approvals remained. Independent test review `79e0f0d` and final integration
+review `7ccf0dc` are integrated. No CORE-001 PR is published yet. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
 (SPIKE-001), [#5](https://github.com/Kernol12/subathon-bot-ai/pull/5) (TEST-002),
 [#7](https://github.com/Kernol12/subathon-bot-ai/pull/7) (IMPL-001),
 [#8](https://github.com/Kernol12/subathon-bot-ai/pull/8) (coordinator prompt) and
@@ -46,15 +48,17 @@ configuration gap from BOOT-008 remains open. No repository settings were change
   conflicts reconciled by preserving main BOOT-003 plus the CONTRACT-002 claim.
   Acceptance: versioned internal record/clock/writer boundaries with examples and
   error cases, separate review. No implementation or finalized wire schema.
-- CORETEST-001 coordinator: main workspace, branch `task/CORETEST-001-exact-baseline`.
-  Coordinator owns progress/state.json, PROGRESS.html, acceptance map and checkpoint.
-- CORETEST-001 author `/root/numeric_test_author`: persistent ignored worktree
-  `local-evidence/worktrees/coretest001-author`, branch `task/CORETEST-001-author-resume`.
-  Owns numeric interface/explicit stubs, numeric contract, acceptance tests/task
-  brief/author evidence and delegated core/tests/root CMake + numeric preset harness.
-- CORETEST-001 reviewer `/root/numeric_reviewer`: persistent ignored worktree
-  `local-evidence/worktrees/coretest001-review`, branch `task/CORETEST-001-review-resume`.
-  Owns independent review evidence after actual authored revision.
+- CORETEST-001 author `/root/numeric_test_author` and reviewer `/root/numeric_reviewer`
+  completed the reviewed/red baseline; original support branches are published and
+  persistent author/reviewer worktrees retained under `local-evidence/worktrees/`.
+- CORE-001 coordinator: main workspace, branch `task/CORE-001-exact-numeric`;
+  owns CMake/dependency/CI activation, progress/HTML/map/status docs and PR/checkpoint.
+- CORE-001 implementer `/root/numeric_implementer`: persistent ignored worktree
+  `local-evidence/worktrees/core001-implementation`, branch `task/CORE-001-implementation`.
+  Owns only core/src/exact_decimal.cpp and docs/evidence/core-001-implementation.md.
+- CORE-001 independent reviewer `/root/numeric_reviewer`: persistent worktree
+  `local-evidence/worktrees/core001-review`, branch `task/CORE-001-code-review`.
+  Owns docs/evidence/core-001-code-review.md after actual implementation/CI revision.
 
 Resume inspection on 2026-10-31: only the coordinator agent remained active; no
 build/test processes or open GitHub PRs existed. Main remains `fcdcd47`; PRs #10/#11
@@ -111,15 +115,33 @@ At integrated `9e8db8a`, after approval, coordinator CTest returned exit8 with a
 [reviewed/red handoff](coretest-001-baseline-handoff.md),
 [review](coretest-001-independent-review.md) and [red output](coretest-001-red-ctest.txt).
 Credit acceptance/regression23/23 and scaffold3/3 pass after numeric harness integration.
-Numeric behavior is still unimplemented; CORE-001 is planned, not claimed.
-`/root/numeric_implementer` completed read-only preparation and waits for merged
-baseline and a new isolated implementation task branch; no production edits made.
+The baseline completed without production behavior; CORE-001 is now claimed from
+merged main, with its implementation/code review/pass gates still pending.
+`/root/numeric_implementer` is authorized to implement only after the completed
+reviewed/red baseline was merged; actual source revision and pass evidence are pending.
 
-Next: final integration review/tooling checks, make draft PR12 ready, inspect final
-head CI/discussions/ruleset and merge only if all gates pass. Then refresh main,
-claim CORE-001, implement the reviewed numeric primitives, activate pinned automatic
-numeric CI, obtain separate code review and relevant passing checks. No coordinator
-commands are intentionally left running.
+CORE-001 candidate author `4ab8613` + `873cc6d` is integrated as `2c656d4`
++ `bc5cb60`; exact source `e9ea7805c04af1bbd30f38946a40f5f483da7589`.
+The original32 numeric cases pass locally, as do author/reviewer credit23 checks.
+Initial parser-zero equality failure was corrected under an existing reviewed case.
+A separate normalized-zero finalizer gap was found on Boost1.92: raw zero may retain
+a4097-bit denominator, while the contract's normalized value is0/1 and should return0.
+Finalizer fix is held until the additive test is independently approved and observed red.
+
+One regression from `/root/numeric_test_author`, author `5f9b3c0`, test blob
+`347a810b1edba2ffc36d66ba44b700092bb2b381`, is integrated as `d5ff5d9`.
+Persistent writer worktree `local-evidence/worktrees/core001-zero-regression`, branch
+`task/CORE-001-zero-regression`; only additive test/evidence paths owned there.
+Reviewer approves its oracle in `cbf9391`; harness approval/red still pending.
+Coordinator `bd9c43b` adds the regression target and pinned numeric workflow; local
+configure/build passes. Numeric CI is not yet published/observed; no implementation
+done claim or new test pass claim exists. No baseline assertion was changed.
+
+Next: receive exact harness approval, run the focused new regression against the
+candidate and capture actual red, authorize finalizer fix, independently review/replay
+final code plus CI configuration, publish focused draft PR and observe pinned CI.
+Update status/map only after passing implementation gates. No coordinator commands
+are intentionally left running.
 
 Remaining release gates: the full planned product beyond the numeric credit helper;
 all seven integrations, all three exchange providers, both renderers, UIs/localization,

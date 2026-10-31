@@ -1,0 +1,28 @@
+name: Exact numeric acceptance
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-numeric:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the pinned selected Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends libboost1.83-dev=1.83.0-2.1ubuntu3
+          dpkg-query -W libboost1.83-dev
+      - name: Configure with explicit pinned GoogleTest fetch
+        run: cmake --preset exact-numeric-debug -DSUBATHON_FETCH_GOOGLETEST=ON
+      - name: Build reviewed exact numeric cases
+        run: cmake --build --preset exact-numeric-debug
+      - name: Run reviewed exact numeric cases
+        run: ctest --preset exact-numeric-debug -L exact-numeric
