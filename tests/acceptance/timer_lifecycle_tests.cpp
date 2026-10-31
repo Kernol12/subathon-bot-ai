@@ -74,6 +74,43 @@ TEST(TimerLifecycleAcceptance, ExactGraceExpiryFinishesAndNeverMakesGraceNegativ
               (std::vector{TimerTransition::GraceExpired, TimerTransition::Finished}));
 }
 
+TEST(TimerLifecycleAcceptance, AlreadyZeroClocksResolveWithoutConsumingPausedTime) {
+    const auto main = advance_timer(main_state(0), {}, {5000, 5000, true});
+    EXPECT_EQ(main.state.lifecycle, TimerLifecycle::Active);
+    EXPECT_EQ(main.state.phase, CountdownPhase::Grace);
+    EXPECT_EQ(main.state.grace_remaining_ms, 120'000);
+    EXPECT_EQ(main.transitions,
+              (std::vector{TimerTransition::MainExpired, TimerTransition::GraceStarted}));
+    const auto grace = advance_timer(grace_state(0), {}, {5000, 5000, true});
+    EXPECT_EQ(grace.state.lifecycle, TimerLifecycle::Finished);
+    EXPECT_EQ(grace.state.grace_remaining_ms, 0);
+    EXPECT_EQ(grace.transitions,
+              (std::vector{TimerTransition::GraceExpired, TimerTransition::Finished}));
+}
+
+TEST(TimerLifecycleAcceptance, ConfiguredGraceDurationReceivesTheExactOvershoot) {
+    TimerConfig config;
+    config.grace_duration_ms = 30'000;
+    const auto result = advance_timer(main_state(), config, {1500, 1500, false});
+    EXPECT_EQ(result.state.lifecycle, TimerLifecycle::Active);
+    EXPECT_EQ(result.state.phase, CountdownPhase::Grace);
+    EXPECT_EQ(result.state.main_remaining_ms, 0);
+    EXPECT_EQ(result.state.grace_remaining_ms, 29'500);
+    EXPECT_EQ(result.transitions,
+              (std::vector{TimerTransition::MainExpired, TimerTransition::GraceStarted}));
+}
+
+TEST(TimerLifecycleAcceptance, ConfiguredZeroGraceExpiresWithoutAnArtificialDelay) {
+    TimerConfig config;
+    config.grace_duration_ms = 0;
+    const auto result = advance_timer(main_state(), config, {1000, 1000, false});
+    EXPECT_EQ(result.state.lifecycle, TimerLifecycle::Finished);
+    EXPECT_EQ(result.state.grace_remaining_ms, 0);
+    EXPECT_EQ(result.transitions,
+              (std::vector{TimerTransition::MainExpired, TimerTransition::GraceStarted,
+                           TimerTransition::GraceExpired, TimerTransition::Finished}));
+}
+
 TEST(TimerLifecycleAcceptance, ImmediateModeFinishesAtMainZeroWithoutGrace) {
     TimerConfig config;
     config.end_mode = TimerEndMode::Immediate;

@@ -3,11 +3,20 @@
 Parent: [EPIC-001](../EPIC-001.md). Kind: implementation.
 Specification: v0.45; §4, TIMER-01, TIMER-02.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: use the current reviewed slice contract; none is finalized by this plan.
+Contract revision: [timer lifecycle revision1](../../contracts/timer-lifecycle-v1.md),
+currently an authored draft pending a product decision, independent review and red.
 
 ## Scope and ownership
 
-Core lifecycle reducer and deterministic clock interface; persistence wiring belongs to STORAGE-003.
+Core lifecycle reducer with explicit nonnegative elapsed milliseconds and a separate
+UTC observation; persistence wiring belongs to STORAGE-003. Return both a snapshot
+and ordered phase/finish proposals so a long elapsed step cannot lose Main/Grace
+transitions. No Qt/system-clock/provider/service access occurs in this primitive.
+
+This boundary advances already-started Active/Finished snapshots. Ready is represented
+but is not a start command; first-start/deadline behavior remains an explicit
+API-007/CORE-008 gate. Reopening, independent pause reasons/status delays, schedules,
+recovery and signed manual/configuration changes remain their own bounded contracts.
 
 Primary module paths: core/
 Read root/scoped AGENTS.md before editing. Shared schemas, migrations, dependency pins,
@@ -18,6 +27,15 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 
 - Represent ready/active/finished and main/grace separately; default to two-minute grace then finish, with immediate and confirmation modes.
 - Rescue from grace only after positive applicable credit; implement fresh-grace default and optional shared budget without consuming grace while main runs.
+- Carry unpaused elapsed overshoot through Main and Grace in one step, emitting
+  ordered transitions through finish. Freeze both clocks under an external paused
+  observation while retaining hard-end precedence.
+- Specify UTC versus monotonic-duration domains, advance-before-command ordering and
+  local snapshot/validation choices explicitly; do not invent cross-domain event
+  timestamps or a clock-skew policy.
+- Resolve the pending positive-credit-during-confirmation-wait product decision
+  before finalizing its contract/tests or claiming the baseline ready. No oracle
+  silently chooses automatic resumption or an authorized-decision hold.
 
 ## Boundary and failure cases
 
@@ -40,7 +58,10 @@ its own independent-review gates. This brief does not declare any tests reviewed
 
 ## Checks and handoff
 
-Primary home: GoogleTest via CTest; controllable clock and exact reference vectors.
+Primary home: GoogleTest via CTest; explicit clock-step values and manually derived
+duration/transition vectors. Coordinator-owned `timer-lifecycle-debug` configures
+the separate intentional-red lane. Compile before independent review; run timer
+test bodies only after the actual final timer contract/tests are approved.
 Select exact suite labels/commands when the reviewed harness exists and record what
 actually ran; no unbuilt test target or unrun command is evidence. Update applicable
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
