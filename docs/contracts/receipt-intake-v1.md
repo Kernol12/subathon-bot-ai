@@ -3,8 +3,10 @@
 Task: ACCTTEST-001; subsequent implementation: ACCT-001.
 Authority: [specification v0.45](../specification.md) §§3.2–4,14,18 and the reviewed
 [event/state boundary revision 1](event-state-boundaries-v1.md).
-Status: authored baseline requiring independent review and intended red; no receipt
-behavior is implemented. The C++ service throws `ReceiptIntakeNotImplemented`.
+Status: ACCTTEST-001 completed independent review and observed15 stub failures before
+ACCT-001 implemented the service decisions. [Implementation evidence](../evidence/acct-001-implementation.md)
+records passing fake-backed simulation; SQL/provider/Qt gates below remain open.
+Revision1 identity, decisions, errors and port semantics are unchanged.
 
 ## Scope and preconditions
 
@@ -148,10 +150,10 @@ ACCT-001 starts only after that gate, preserves reviewed assertions and requires
 own separate code review and passing relevant acceptance/regression checks.
 
 The coordinator owns build/presets/pins, acceptance-map/progress/HTML, CI assessment
-and publication. The intended dedicated `receipt-intake` CTest lane remains separate
-from passing product acceptance until implemented; no failure inversion, `WILL_FAIL`
-or blanket continue-on-error. Stable passing reviewed receipt cases must later join
-relevant PR/main CI. No provider capability, live operation, SQL recovery/concurrency,
+and publication. The historical intentional-red receipt lane was separate from green acceptance.
+ACCT-001 enables automatic PR/main `receipt-intake` simulation cases without failure
+inversion, `WILL_FAIL` or blanket continue-on-error. Actual workflow observations
+remain implementation completion/merge gates. No provider capability, live operation, SQL recovery/concurrency,
 Qt writer, complete contribution accounting or full normalized-event schema is
 validated here. All seven integrations, three rate providers and other agreed release
 scope remain required.
