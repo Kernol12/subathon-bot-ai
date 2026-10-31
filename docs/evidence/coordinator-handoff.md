@@ -70,7 +70,7 @@ values prompted conservative unknown/pending/review-required/unresolved defaults
 one focused oracle; this still requires independent review. No provider capability
 or SQL/Qt/application/refund proof follows from the authored contract/fake.
 
-## Independently blocked timer draft
+## Timer owner decision resolved; baseline review still required
 
 [Draft PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14), branch
 `task/CORETEST-002-timer-baseline`, main workspace. Last published7fac469 includes
@@ -80,11 +80,13 @@ contractb88657ce unchanged. Compile/list succeeds; no timer bodies/red/implement
 Original author commits68e0119/3ccc52d and additiveef82bbcf retained; partial review
 commitsa99616a/720acc8 close two coverage findings, overallchanges_requested remains.
 
-Only owner decision: positive accepted time while waiting for authorized finish
-confirmation should automatically resume main (recommended), or remain pending for
-an authorized decision. The spec does not decide it; continuation prompts are not an
-answer. Ready/start/deadline behavior is explicitly gated in API-007/CORE-008 rather
-than invented by the already-started helper. Keep timer blocked until a real answer.
+On2026-10-31 the owner explicitly chose automatic main resumption for positive
+accepted time during finish-confirmation wait. The decision is recorded in
+[timer policy evidence](timer-confirmation-credit-decision.md) and specification§4/§18.
+Zero actual credit keeps waiting; pause reasons/grace budget remain and observed hard
+end/Finished rules still apply. The product-policy blocker is resolved; new cases
+and full independent baseline review/red are still required. Ready/start/deadline
+behavior remains gated in API-007/CORE-008, unchanged by this clarification.
 Persistent timer author/fix/review worktrees remain under local-evidence/worktrees.
 
 ## Continuation and unperformed gates
@@ -97,8 +99,8 @@ Persistent timer author/fix/review worktrees remain under local-evidence/worktre
 3. Merge only when eligible; start ACCT-002 implementation from integrated reviewed/
    red prerequisites, preserve assertions, add/observe stable automatic CI and obtain
    independent code review. No routine owner permission is needed.
-4. Resolve the timer policy only from an owner answer; continue other dependency-ready
-   tasks without silently shrinking release scope.
+4. Apply the recorded owner timer decision to its draft contract/tests, preserve the
+   prior assertions, and obtain full independent review/red before implementation.
 
 All active worktrees were checked clean before checkpoint-only edits; no local build/
 test command remains running. Remote CI may run after publication; inspect it rather
