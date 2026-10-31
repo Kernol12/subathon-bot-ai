@@ -74,3 +74,54 @@ compilation establishes no server/runtime, platform/renderer/UI, package or live
 verification. Next: resolve owner policy, review actual final contract/tests/harness,
 observe intended stub-red, update central evidence and publish/merge the focused
 baseline only after applicable gates. All release scope remains in its task records.
+
+## Additive response to the partial independent review
+
+Author: `/root/timer_test_fixes`; date: 2026-10-31. Branch:
+`task/CORETEST-002-review-fixes`, isolated worktree
+`local-evidence/worktrees/coretest002-fixes`, based on `6c52b3c` (the preserved
+33-case author draft plus coordinator harness). The reviewer is the separate
+`/root/baseline_reviewer`; its partial request-changes record is preserved in
+commit `a99616a`, `docs/evidence/coretest-002-independent-review.md`.
+
+This response adds exactly two draft cases, bringing the authored total to 35.
+All existing tests and assertions are preserved; no production, header, contract,
+brief, build or shared-progress changes are included.
+
+- `IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected` exercises the local
+  invariants already declared in revision 1's validation section: Grace with
+  positive Main, a confirmation-wait flag with positive Main, and a wait flag in
+  Grace reject at advance, credit and confirmation boundaries. Credit uses zero
+  against these malformed snapshots, without choosing any behavior for valid
+  confirmation-wait credit. A valid waiting snapshot rejects advance under each
+  declared non-Confirmation end mode. Each rejection expects invalid_argument.
+- `ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay` derives from
+  §4/TIMER-02 and the contract's retained-budget/zero-boundary rule. Main 1000 with
+  retained Shared Grace 0 and configured positive Grace 120000 receives elapsed 1000;
+  it finishes immediately with Main 0/Grace 0 and exactly MainExpired → GraceStarted
+  → GraceExpired → Finished. No elapsed overshoot or artificial grace tick is used.
+
+The revised test blob is `7a802f2151da1d62b85f27c357528f63426cf2d0`.
+The contract remains `b88657ce48447e7d509d683a0b5c89cea567ac00`, header remains
+`69cad7023b9928371877d45955b800aed9996cd5`, and source remains the three explicit
+unimplemented stubs at `5584f845faef1dff68377363ec04c7b2effc4cae`.
+
+Commands actually run in this worktree, all exit 0:
+
+| Command | Actual result |
+| --- | --- |
+| `cmake --preset timer-lifecycle-debug` | configured the isolated draft lane |
+| `cmake --build --preset timer-lifecycle-debug` | 10 compile/link/discovery steps; all 35 cases compile |
+| `ctest --preset timer-lifecycle-debug -L timer-lifecycle -N` | discovered exactly 35 cases; no bodies executed |
+| `git diff --check` | passed |
+| `cmake --version`, `c++ -dumpfullversion`, `pkg-config --modversion gtest`, `uname -s -m` | CMake 4.4.5, GCC 16.2.1, GoogleTest 1.18.0, Linux x86_64; configure reports Python 3.14.8 |
+
+`git hash-object` recorded the exact artifact identities above. The separate
+reviewer must review the additions; this author provides no independent approval.
+No timer test body or intended-red run was performed. The owner decision on
+positive credit while awaiting confirmation remains unanswered and blocking full
+baseline approval; first-start/deadline policy remains the API-007/CORE-008 gate.
+CI assessment is unchanged: the optional intentional-red lane is suitable for
+draft compilation/discovery, and CORE-002 still requires passing automatic
+lifecycle CI before implementation completion. The coordinator owns central
+state/HTML, final review integration, PR publication and the approved red run.

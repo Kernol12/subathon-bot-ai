@@ -187,6 +187,22 @@ TEST(TimerLifecycleAcceptance, SharedModeReusesOnlyUnusedGraceAfterRescue) {
     EXPECT_EQ(result.state.grace_remaining_ms, 90'000);
 }
 
+TEST(TimerLifecycleAcceptance, ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay) {
+    TimerConfig config;
+    config.grace_reuse = GraceReuse::Shared;
+    config.grace_duration_ms = 120'000;
+    const TimerState state{TimerLifecycle::Active, CountdownPhase::Main, 1000, 0, false};
+    const auto result = advance_timer(state, config, {1000, 1000, false});
+    EXPECT_EQ(result.state.lifecycle, TimerLifecycle::Finished);
+    EXPECT_EQ(result.state.phase, CountdownPhase::Grace);
+    EXPECT_EQ(result.state.main_remaining_ms, 0);
+    EXPECT_EQ(result.state.grace_remaining_ms, 0);
+    EXPECT_FALSE(result.state.awaiting_confirmation);
+    EXPECT_EQ(result.transitions,
+              (std::vector{TimerTransition::MainExpired, TimerTransition::GraceStarted,
+                           TimerTransition::GraceExpired, TimerTransition::Finished}));
+}
+
 TEST(TimerLifecycleAcceptance, SharedGraceConsumesOnlyTheOvershootAfterMain) {
     TimerConfig config;
     config.grace_reuse = GraceReuse::Shared;
@@ -341,6 +357,27 @@ TEST(TimerLifecycleAcceptance, NegativeClockDurationsAreRejected) {
     TimerConfig config;
     config.grace_duration_ms = -1;
     EXPECT_THROW(static_cast<void>(advance_timer(main_state(), config, {})), std::invalid_argument);
+}
+
+TEST(TimerLifecycleAcceptance, IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected) {
+    TimerConfig config;
+    config.end_mode = TimerEndMode::Confirmation;
+    const TimerState malformed[] = {
+        {TimerLifecycle::Active, CountdownPhase::Grace, 1, 90'000, false},
+        {TimerLifecycle::Active, CountdownPhase::Main, 1, 120'000, true},
+        {TimerLifecycle::Active, CountdownPhase::Grace, 0, 90'000, true},
+    };
+    for (const auto &state : malformed) {
+        EXPECT_THROW(static_cast<void>(advance_timer(state, config, {})), std::invalid_argument);
+        EXPECT_THROW(static_cast<void>(apply_applicable_time_credit(state, 0)),
+                     std::invalid_argument);
+        EXPECT_THROW(static_cast<void>(confirm_timer_finish(state)), std::invalid_argument);
+    }
+    const TimerState waiting{TimerLifecycle::Active, CountdownPhase::Main, 0, 120'000, true};
+    for (const auto mode : {TimerEndMode::Immediate, TimerEndMode::Grace}) {
+        config.end_mode = mode;
+        EXPECT_THROW(static_cast<void>(advance_timer(waiting, config, {})), std::invalid_argument);
+    }
 }
 
 TEST(TimerLifecycleAcceptance, ApplicableCreditRejectsNegativeAndOverflowingAdjustments) {
