@@ -113,3 +113,104 @@ those commands were not repeated here and are not independent runtime evidence.
 **No test body was run in this review.** No configure/build/test, provider call,
 network operation or live/platform verification is claimed. Final whitespace and
 evidence-only status checks are recorded in the review commit/handoff.
+
+## Full 37-case independent review addendum — 2026-10-31
+
+Reviewer: `/root/pause_resume_reviewer`, independent of original author
+`/root/pause_test_author` and owner-edge author `/root/pause_owner_case_author`.
+This explicitly resumed review preserves the preceding partial review as history.
+Actual input commit: `2e86c42294c7ecc5f08149958dfb8d15ecbc50af`, incorporating
+coordinator commit001d316 and the owner-edge author candidate3c6d242.
+Ownership remains this evidence file only.
+
+**Verdict: approved for the complete bounded CORETEST-003 test baseline.**
+All37 actual test bodies, their public contract/header, explicit stubs and optional
+harness were examined. No blocking findings or incorrect expected results remain.
+The coordinator may now build and record the intended stub-red run of this exact
+approved revision. This is test/contract approval, not observed red, implementation
+approval or PR merge authorization. CORETEST-003 still needs actual intended-red
+evidence; CORE-003 implementation remains behind the completed test-first gate.
+
+### Exact approved revision
+
+| Artifact | Git blob |
+| --- | --- |
+| Proposed revision1 contract | `a8174be71e7f4cf453a55df14f57126b1b6e61d8` |
+| All37 tests | `646d83f4e38722239bb8b590a9f368141bed4246` |
+| Public header, unchanged | `c91b7da3fa1c98a1b2e47ab389f48f74901c2a47` |
+| Unconditional stubs, unchanged | `dee2a91c31b524c082192aba70e7e0c0efa27501` |
+| Root CMake | `5616e5da8454ec933de8e124ea2cfd2792209a04` |
+| Core CMake | `6beeec4620e7d11f577ae7f5ea51145278ed4fe8` |
+| Tests CMake | `65a66e8db62fa49a4316ac7d5786c7f68afec266` |
+| Presets | `e0553c2b3f1cf0c1b3c3ce39c63dd0b126d11b60` |
+| Specification v0.45, including owner clarifications | `3e008efaef3181dd8b06a038f6309347ec31619d` |
+| Owner decision/recovery-composition record | `581592286b05564a1e8c62ad8658fa598bf05eb9` |
+
+### Complete oracle and contract assessment
+
+Re-read all original30 bodies and checked them against the updated §4, §18,
+TIMER-03/05, contract, CORE-003 brief and authoring evidence. Their independent
+arithmetic/set-membership analysis in the preceding table remains valid. Defaults,
+custom/zero thresholds, flapping, reason ownership, known recovery, Unknown notice
+and retained established Offline, validation and signed64 exact/overshoot boundaries
+still agree. Both stubs are unconditional; no expected value was obtained from them.
+
+Independently checked the seven added bodies in source order:
+
+| Case | Independent oracle and result |
+| --- | --- |
+| 31 UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval | Pending29999 is canceled at Unknown0. Unknown for MAX cannot activate Offline with default Unknown timeout disabled. Offline0/29999/1 then accrues an entirely new30000 delay. Correct. |
+| 32 UnknownCancellationRestartsTheFullCustomOfflineDelay | Under Offline delay7, prior6 is discarded. Unknown3 creates only Unknown pending3 under timeout20. Known Offline ends that episode and accrues fresh6; another1 expires Offline. Correct for configured rather than hardcoded default delay. |
+| 33 EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh | Both known statuses clear Unknown pending9 and notice. Offline independently begins pending0, whereas Online leaves no pending condition. Subsequent Unknown cancels that Offline pending and starts fresh9, then1 activates the timeout10 hold. Correct for both known branches. The conditional expected snapshot uses the explicit known input, not production output. |
+| 34 KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds | Unknown10 adds to all five existing holds. Known Offline clears Unknown alone, retaining established Offline/client/external holds. New Unknown9 is still pending, then1 reactivates at10. Correct; this distinguishes a fresh timeout from immediate reactivation using stale accrued time. |
+| 35 KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume | Known Online clears Unknown and independently recovers Offline. Disconnected client and Manual/Schedule/RecoveryReview stay. Correct composition of two reason-specific rules. |
+| 36 KnownOfflineAndConnectedClientEachClearTheirOwnReason | Known Offline clears Unknown; connected client clears its disconnect hold. Manual and established Offline remain. Correct composition without global resume. |
+| 37 ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus | Timeout0 first activates at elapsed0. Each known status clears that hold/notice; Offline additionally has pending0. New Unknown0 cancels Offline pending and immediately activates a new Unknown hold. Correct zero-threshold boundary on both known branches. |
+
+The decision record now explicitly resolves both earlier blocking owner questions.
+The contract describes cancellation/rearming and independent recovery composition
+without interpreting known Online as retaining an already recovered Offline hold.
+The specification's broad retention sentence is read with its existing automatic
+signal-recovery rule and the linked explicit composition clarification; these do not
+grant a global resume. No product-policy uncertainty remains for this bounded API.
+
+Public values remain owned, standard-library-only pure proposals. Complete snapshot
+validation precedes observation recovery; negative/coherence/threshold assertions
+remain valid even where Unknown would otherwise cancel a pending field. Signed64
+limits require bounded comparisons, not overflowing addition. Original and added
+cases use constant normalized signal segments and explicit monotonic durations;
+elapsed-zero change boundaries are valid. No wall-clock/provider facts are inferred.
+
+Re-inspected root/core/tests CMake and all preset entries: the pause lane remains
+optional, OFF by default, isolated under pause-policy-debug, correctly linked and
+discovered with pause-policy/acceptance/intentional-red labels. No skipping,
+WILL_FAIL, failure inversion or assertion weakening appears. Other contribution-lane
+metadata changed since the earlier review; it does not change this pause harness.
+The existing header/stub hashes match the previously examined revision exactly.
+
+The 37 cases are sufficient focused acceptance examples for this bounded policy
+contract. They do not prove timer consumption across expiry: the caller must still
+segment at both signal changes and delay expiry, rather than apply a final paused
+set retroactively. Countdown integration, phase/hard-end behavior, configured delay
+changes during an episode, schedules/recovery algorithms, authoritative Qt/writer
+integration, provider behavior and live/platform checks remain separate gates.
+
+### Actual commands and remaining sequence
+
+Read-only commands completed with exit0: `git status --short`, `git rev-parse HEAD`,
+`git log -4 --oneline`, `cat` of the actual updated contract/tests/header/stub,
+brief/decision record and root/core/tests CMake/presets, `rg` on specification policy
+references, and `tail` on authoring evidence. An independent Python script loaded
+the original test blob through `git show`, extracted complete brace-balanced TEST
+bodies and asserted all30 original bodies byte-for-byte equal in the37-case candidate;
+it passed. That script also ran `git hash-object` on each artifact in the table,
+producing the exact hashes recorded above. It executes no C++ test body and does
+not compute any expected policy result.
+
+No configure/build/discovery was repeated by this reviewer. The owner's case-author
+evidence reports exit0 configure/build and `ctest --preset pause-policy-debug -N -L
+pause-policy` listing37, which is discovery only. **No test body or red run occurred
+in this review.** Next: coordinator captures a successful exact-revision build and
+actual intended failure from PausePolicyNotImplemented, then records baseline status
+and remaining PR/CI gates. No implementation, provider, platform or timer-integration
+verification is claimed by this approval.
