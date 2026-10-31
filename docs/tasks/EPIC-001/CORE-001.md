@@ -3,11 +3,17 @@
 Parent: [EPIC-001](../EPIC-001.md). Kind: implementation.
 Specification: v0.45; §3, NUM-01, NUM-02, NUM-04.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: use the current reviewed slice contract; none is finalized by this plan.
+Contract revision: [exact decimal revision 1](../../contracts/exact-decimal-v1.md);
+its independent-review/red evidence is recorded separately before implementation.
 
 ## Scope and ownership
 
-Core exact-value types and parsers; no Qt, SQL, provider or display dependencies.
+Core exact-value types, decimal/rate/factor parsers and an already-scaled signed64
+finalizer; no Qt, SQL, provider or display dependencies. Owned source spellings plus
+Boost.Multiprecision exact rationals retain source precision. No expression engine,
+modifier group combination/clamping, aggregate-state transaction, refund or service
+review implementation belongs to this primitive slice; those requirements remain
+in their rule/modifier/accounting baselines.
 
 Primary module paths: core/
 Read root/scoped AGENTS.md before editing. Shared schemas, migrations, dependency pins,
@@ -17,7 +23,17 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 ## Acceptance criteria
 
 - Preserve original monetary decimals and positive rates losslessly using Boost.Multiprecision intermediates; declare parser digit/exponent/resource bounds in the reviewed contract.
-- Round final milliseconds and micro-points half-to-even, including signed corrections; hold out-of-range results without partial effects.
+- Round exact, already-scaled final milliseconds and micro-points half-to-even,
+  including signed corrections; throw on out-of-range rounded results. The application
+  caller must hold the input and commit no partial effects; this primitive does not
+  persist a review hold.
+- Review the local512-byte/256-mantissa-digit/absolute-exponent256/component4096-bit
+  limits, full JSON-number grammar, original-spelling ownership and explicit error
+  precedence in the contract. Cover each limit and one beyond, both signs of ties
+  and signed64 endpoints.
+- Keep the intentional-red `exact-numeric-debug` lane explicit during CORETEST-001.
+  CORE-001 preserves the baseline and adds stable numeric acceptance to automatic
+  PR/main CI with observed dependency/build/test results before completion.
 
 ## Boundary and failure cases
 
@@ -40,7 +56,10 @@ its own independent-review gates. This brief does not declare any tests reviewed
 
 ## Checks and handoff
 
-Primary home: GoogleTest via CTest; controllable clock and exact reference vectors.
+Primary home: GoogleTest via CTest with literal exact reference vectors; no clock
+is needed for these pure primitives. Build with `cmake --preset exact-numeric-debug`
+and `cmake --build --preset exact-numeric-debug`; after separate test approval, run
+`ctest --preset exact-numeric-debug -L exact-numeric` and record the actual result.
 Select exact suite labels/commands when the reviewed harness exists and record what
 actually ran; no unbuilt test target or unrun command is evidence. Update applicable
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
