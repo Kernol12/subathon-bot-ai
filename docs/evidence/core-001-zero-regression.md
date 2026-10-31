@@ -41,3 +41,18 @@ this assertion and the immutable32-case baseline. Independent code review and th
 full relevant acceptance/regression/CI gates still apply before CORE-001 completes.
 This supporting regression remains within the focused CORE-001 PR; no duplicate
 implementation task or PR is created. No service/provider/platform behavior is claimed.
+
+## Coordinator reviewed red — 2026-10-31
+
+Author `5f9b3c0`, test blob `347a810b1edba2ffc36d66ba44b700092bb2b381`,
+received independent oracle approval `cbf9391` and harness approval `37f56ae`
+from `/root/numeric_reviewer` before execution. At integrated coordinator `6224ac3`,
+source candidate `873cc6d` / blob `e9ea7805c04af1bbd30f38946a40f5f483da7589`
+was unchanged. Configure/build succeeded.
+
+`ctest --preset exact-numeric-debug -R '^ExactDecimalRegression\.'` returned
+actual exit8:1/1 real failure from `Effect exceeds normalized component limits`,
+not a missing dependency/build error/skip. See [raw red output](core-001-zero-red-ctest.txt).
+The original32 cases already passed against this candidate. The focused new
+assertion remains unchanged; finalizer zero handling was authorized only after
+this observed red. No requirement or prior assertion was weakened.

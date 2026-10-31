@@ -1,0 +1,36 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/exact-numeric-debug
+    Start 33: ExactDecimalRegression.ZeroUsesNormalizedComponentsAfterExactDivision
+1/1 Test #33: ExactDecimalRegression.ZeroUsesNormalizedComponentsAfterExactDivision ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ExactDecimalRegression.ZeroUsesNormalizedComponentsAfterExactDivision
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ExactDecimalRegression
+[ RUN      ] ExactDecimalRegression.ZeroUsesNormalizedComponentsAfterExactDivision
+unknown file: Failure
+C++ exception with description "Effect exceeds normalized component limits" thrown in the test body.
+
+[  FAILED  ] ExactDecimalRegression.ZeroUsesNormalizedComponentsAfterExactDivision (0 ms)
+[----------] 1 test from ExactDecimalRegression (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ExactDecimalRegression.ZeroUsesNormalizedComponentsAfterExactDivision
+
+ 1 FAILED TEST
+
+
+0% tests passed, 1 tests failed out of 1
+
+Label Time Summary:
+core             =   0.00 sec*proc (1 test)
+exact-numeric    =   0.00 sec*proc (1 test)
+regression       =   0.00 sec*proc (1 test)
+
+Total Test time (real) =   0.00 sec
+
+The following tests FAILED:
+	 33 - ExactDecimalRegression.ZeroUsesNormalizedComponentsAfterExactDivision (Failed) core exact-numeric regression
+Errors while running CTest
