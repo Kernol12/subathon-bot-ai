@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T20:12:47.221760+00:00",
+  "updated_at": "2026-10-31T20:13:34.356022+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -864,7 +864,8 @@
         "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim.",
         "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds.",
         "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate.",
-        "Resume inspectedactualmain/PRs/allworktrees/no runningbuilds; preservedcompleted ACCT002 finalreviewee5e4fb and mergedPR19 at5201edd20:11:42UTC, final2c1b183 all7CIpassed. Explicitly reassigned vanishedpause reviewer to /root/pause_resume_reviewer, actualpartialreview005b6f4 validates30knowncases with no incorrectoracle but FULLbaseline blocked on2unanswered ownerpolicyquestions. No bodies/red/implementation. Owner requestedstopafter nextfinishedPR; PR19finished, checkpointandstopwithout startingfurtherwork. DraftPR20 andallreviews preserved."
+        "Resume inspectedactualmain/PRs/allworktrees/no runningbuilds; preservedcompleted ACCT002 finalreviewee5e4fb and mergedPR19 at5201edd20:11:42UTC, final2c1b183 all7CIpassed. Explicitly reassigned vanishedpause reviewer to /root/pause_resume_reviewer, actualpartialreview005b6f4 validates30knowncases with no incorrectoracle but FULLbaseline blocked on2unanswered ownerpolicyquestions. No bodies/red/implementation. Owner requestedstopafter nextfinishedPR; PR19finished, checkpointandstopwithout startingfurtherwork. DraftPR20 andallreviews preserved.",
+        "Finalstopcheckpointfd309c2 after main5201edd merge: pause-policy-debug configure/build0, CTest-N-Lpause-policy lists30 only; Python19/DOM/project/render/diff allpass. Bounded review005b6f4 retained, twoownerquestions unanswered, baseline/productacceptance notrun and CORE003planned. No pausebody/implementation/fullapproval. PR20 remainsdraft; stopafterfinishedPR19 perownerrequest, no backgroundagents or newtask."
       ],
       "verification": {
         "authored_tests": "draft",
@@ -10702,6 +10703,11 @@
       "date": "2026-10-31T20:12:47.221760+00:00",
       "task": "CORETEST-003",
       "note": "Resume inspectedactualmain/PRs/allworktrees/no runningbuilds; preservedcompleted ACCT002 finalreviewee5e4fb and mergedPR19 at5201edd20:11:42UTC, final2c1b183 all7CIpassed. Explicitly reassigned vanishedpause reviewer to /root/pause_resume_reviewer, actualpartialreview005b6f4 validates30knowncases with no incorrectoracle but FULLbaseline blocked on2unanswered ownerpolicyquestions. No bodies/red/implementation. Owner requestedstopafter nextfinishedPR; PR19finished, checkpointandstopwithout startingfurtherwork. DraftPR20 andallreviews preserved."
+    },
+    {
+      "date": "2026-10-31T20:13:34.356022+00:00",
+      "task": "CORETEST-003",
+      "note": "Finalstopcheckpointfd309c2 after main5201edd merge: pause-policy-debug configure/build0, CTest-N-Lpause-policy lists30 only; Python19/DOM/project/render/diff allpass. Bounded review005b6f4 retained, twoownerquestions unanswered, baseline/productacceptance notrun and CORE003planned. No pausebody/implementation/fullapproval. PR20 remainsdraft; stopafterfinishedPR19 perownerrequest, no backgroundagents or newtask."
     }
   ]
 }

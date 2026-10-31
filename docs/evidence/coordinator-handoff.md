@@ -103,9 +103,10 @@ those examples in an isolated worktree, obtain actual full review then observed 
 before pause baseline merge/CORE003. Other dependency-ready tasks remain authorized
 on a future resumed loop; full product is not complete or universally blocked.
 
-Final checkpoint checks: regenerate/current HTML, project consistency, Python19,
-DOM simulation, pause configure/build/list30 only and whitespace. Record actual
-outcomes in the final task note. No build/test commands or subagents remain running
+Actual final checkpoint checks atfd309c2 all passed: project/current HTML,
+Python19/19, progress DOM simulation, whitespace, pause-policy-debug configure/build
+and CTest-N-Lpause-policy discovery30. No body/red ran. Task note records outcomes;
+final publication is this draft PR20 checkpoint, not another completed task PR. No build/test commands or subagents remain running
 after completion; remote PR20 CI may run after publication, inspect actual state.
 Persistent ignored worktrees and old /tmp metadata are preserved; no work discarded.
 
