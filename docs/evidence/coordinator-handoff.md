@@ -66,20 +66,14 @@ Author `/root/pause_test_author` owns only pause contract/header/stubs/tests/bri
 authoring evidence in `local-evidence/worktrees/coretest003-author`, branch
 `task/CORETEST-003-pause-author`. Proposed contract/header/stubs4f24779 integrated
 f607d35; optional harness/questions recordec9d8a9, merged into author worktree.
-Authorbb34d1e integratedcf07abc adds30known-policy cases; current proposed
-headerc91b7da3/stubdee2a91c/contract46b6c641/testsaf1275f7. Author/root configure/build0;
-CTest-N lists30 only, no bodies or red.
-The old `/root/timer_final_reviewer` was absent on resume and left no partialreview.
-Fresh `/root/pause_resume_reviewer` explicitly reassigned the actual30-case candidate,
-then committed bounded review005b6f4 (integratedf380187). All30 known oracles inspected;
-no incorrect oracle found. At that review the two owner questions were unanswered; both are now resolved
-as recorded below. Affected cases/full review/red remain pending.
-No pause test bodies/red/production behavior or full approval. The reviewer completed
-and stopped; no agent work is left running. Evidence:
-[partial review](coretest-003-independent-review.md). Draft
-[PR20](https://github.com/Kernol12/subathon-bot-ai/pull/20) remains unmerged; its
-checkpoint reconciles main5201edd and marks CORETEST003 unfinished/partial, CORE003 planned.
-Coordinator owns shared files; author/reviewer support branches preserved clean.
+Original authorbb34d1e supplied30knowncases and partialreview005b6f4 remains
+preserved. New owner-edge author3c6d242 integrated001d316 adds7cases (37total),
+all original30 bodies byte-for-byte retained. Tests646d83f4, contracta8174be7;
+headerc91b7da3/stubdee2a91c unchanged. Author/root configure/build0, CTest-Nlists37
+only; no test body/red/implementation. Actual full reviewer `/root/pause_resume_reviewer`
+now examines all37 and the updated contract/harness in
+`local-evidence/worktrees/coretest003-review`, branch `task/CORETEST-003-pause-review`.
+No full approval inferred from oldpartial005b6f4. Current draft PR20 remains unmerged.
 
 Both owner choices are now explicit and recorded in specification§4, the draft
 contract and `docs/evidence/pause-signal-policy-questions.md`:
@@ -109,11 +103,11 @@ review then observed stub-red
 before pause baseline merge/CORE003. Other dependency-ready tasks remain authorized
 on a future resumed loop; full product is not complete or universally blocked.
 
-Actual final checkpoint checks atfd309c2 all passed: project/current HTML,
+Historical stop-checkpoint checks atfd309c2 all passed: project/current HTML,
 Python19/19, progress DOM simulation, whitespace, pause-policy-debug configure/build
 and CTest-N-Lpause-policy discovery30. No body/red ran. Task note records outcomes;
-final publication is this draft PR20 checkpoint, not another completed task PR. No build/test commands or subagents remain running
-after completion; remote PR20 CI may run after publication, inspect actual state.
+final publication is this draft PR20 checkpoint, not another completed task PR. At that earlier stop no agent/build remained running. A new reviewer is now active;
+inspect actual process/agent state on any later resume.
 Persistent ignored worktrees and old /tmp metadata are preserved; no work discarded.
 
 Full release gates remain: authoritative application/aggregates/refunds, all seven

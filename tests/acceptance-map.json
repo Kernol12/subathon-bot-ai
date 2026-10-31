@@ -975,7 +975,7 @@
         "docs/evidence/coretest-003-authoring.md",
         "docs/evidence/coretest-003-independent-review.md"
       ],
-      "scope": "30 known-policy cases compile/list with bounded partial review. Both owner Unknown-status choices now resolved; affected edge cases/full review/intended red remain pending. No test bodies, implementation or provider verification."
+      "scope": "37 authored cases compile/list only; original30 preserved, seven additive owner-edge cases. Both choices resolved; actual full independent review and intended stub-red pending. No bodies, implementation or provider verification."
     }
   ]
 }

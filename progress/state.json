@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T20:51:02.193509+00:00",
+  "updated_at": "2026-10-31T20:53:29.663725+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -847,7 +847,7 @@
       "title": "Review and demonstrate red: Independent pause reasons and delayed status signals",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Coordinator /root; owner-edge author /root/pause_owner_case_author; independent reviewer /root/pause_resume_reviewer",
       "depends_on": [
         "CORE-002"
@@ -868,7 +868,8 @@
         "Finalstopcheckpointfd309c2 after main5201edd merge: pause-policy-debug configure/build0, CTest-N-Lpause-policy lists30 only; Python19/DOM/project/render/diff allpass. Bounded review005b6f4 retained, twoownerquestions unanswered, baseline/productacceptance notrun and CORE003planned. No pausebody/implementation/fullapproval. PR20 remainsdraft; stopafterfinishedPR19 perownerrequest, no backgroundagents or newtask.",
         "Owner explicitly answeredyes: Unknown cancels pendingOffline delay; laterconfirmedOffline startsfresh full configureddelay(default30s), existingOfflinepause retained. Recorded spec/decision/draftcontract. Remaining Unknown-timeout clear/rearm choice unanswered; newedgecases/review/red pending, taskstillblocked. Coordinationremainsstopped afterPR19, no tests/implementation changed.",
         "Owner explicitly answeredyes to secondchoice: either knownOnline/Offline clears onlyUnknownpause and resets its pendingtimeout; eachnewUnknownepisode getsfresh fullconfiguredtimeout, otherreasonsretained. Both ownerpolicyquestionsresolved. Updatedspec/decision/draftcontract; affectedcases/fullindependentreview/red stillpending, no tests/implementationchanged. Taskunfinished, coordinationstillstopped afterPR19 untilresumed.",
-        "Explicitly resumed after ownerstop and bothanswered Unknownpolicies. Verified main5201edd/open draftPR20head6a80b6e/all7stableCIpass; allworktreesclean/no buildprocesses, oldauthornotrunning. Reassign bounded newedgecases to /root/pause_owner_case_author in isolated task/CORETEST-003-owner-cases fromcurrentmain +actualdraft. Preserve original30/header/stubs and partialreview005b6f4. Clarify independentrecoverycomposition: knownOffline retainsOffline; knownOnline separatelyclearsOffline perexistingTIMER03, Unknowncleanup isnotglobalresume. Need fullactualtestreviewthenintendedred; CORE003notstarted."
+        "Explicitly resumed after ownerstop and bothanswered Unknownpolicies. Verified main5201edd/open draftPR20head6a80b6e/all7stableCIpass; allworktreesclean/no buildprocesses, oldauthornotrunning. Reassign bounded newedgecases to /root/pause_owner_case_author in isolated task/CORETEST-003-owner-cases fromcurrentmain +actualdraft. Preserve original30/header/stubs and partialreview005b6f4. Clarify independentrecoverycomposition: knownOffline retainsOffline; knownOnline separatelyclearsOffline perexistingTIMER03, Unknowncleanup isnotglobalresume. Need fullactualtestreviewthenintendedred; CORE003notstarted.",
+        "Owner-edge author3c6d242 integrated001d316 adds7focusedcases(37total), original30bodies/headerc91b7da3/stubdee2a91c unchanged. Tests646d83f4/contracta8174be7 derivebothownerdecisions and independentOnline/clientrecoverycomposition. Author/rootconfigure/build0, CTest-Nlists37only; NO body/red. Reassigned /root/pause_resume_reviewer actual37/fullcontract/harness for fullindependentreview, preserving priorpartial005b6f4. No productquestion; fullapprovalthenintendedredbeforeCORE003."
       ],
       "verification": {
         "authored_tests": "draft",
@@ -10726,6 +10727,11 @@
       "date": "2026-10-31T20:51:02.193509+00:00",
       "task": "CORETEST-003",
       "note": "Explicitly resumed after ownerstop and bothanswered Unknownpolicies. Verified main5201edd/open draftPR20head6a80b6e/all7stableCIpass; allworktreesclean/no buildprocesses, oldauthornotrunning. Reassign bounded newedgecases to /root/pause_owner_case_author in isolated task/CORETEST-003-owner-cases fromcurrentmain +actualdraft. Preserve original30/header/stubs and partialreview005b6f4. Clarify independentrecoverycomposition: knownOffline retainsOffline; knownOnline separatelyclearsOffline perexistingTIMER03, Unknowncleanup isnotglobalresume. Need fullactualtestreviewthenintendedred; CORE003notstarted."
+    },
+    {
+      "date": "2026-10-31T20:53:29.663725+00:00",
+      "task": "CORETEST-003",
+      "note": "Owner-edge author3c6d242 integrated001d316 adds7focusedcases(37total), original30bodies/headerc91b7da3/stubdee2a91c unchanged. Tests646d83f4/contracta8174be7 derivebothownerdecisions and independentOnline/clientrecoverycomposition. Author/rootconfigure/build0, CTest-Nlists37only; NO body/red. Reassigned /root/pause_resume_reviewer actual37/fullcontract/harness for fullindependentreview, preserving priorpartial005b6f4. No productquestion; fullapprovalthenintendedredbeforeCORE003."
     }
   ]
 }
