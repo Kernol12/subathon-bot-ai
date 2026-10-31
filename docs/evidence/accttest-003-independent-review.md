@@ -105,3 +105,47 @@ separate code review and stable automatic CI. Qt writer ownership, SQL durabilit
 concurrency, permission engine, full evaluator, provider capabilities, live services,
 Windows/other platform and release checks remain unverified. All seven integrations
 and three rate providers remain required.
+
+## Final baseline integration review — 2026-10-31
+
+Reviewer `/root/application_plan_reviewer` reviewed final candidate `cf7aa44`
+(integrated into this review worktree by `25112c6`). Verdict: **approved for
+baseline integration**; no blocking findings. This is approval of reviewed/red
+baseline artifacts and their actual status, not product implementation approval.
+
+Compared final candidate against original approval `36ac654`: header, all three
+unconditional stubs, all22 test bodies and root/core/tests CMake/preset harness are
+unchanged. The normative contract diff changes baseline-status prose only;
+revision1 semantics and the approved original contract blob remain preserved.
+Author evidence is retained without an integration change. The recorded concurrent
+evidence conflict therefore did not replace any reviewed source/assertion artifact.
+
+Inspected the retained596-line `accttest-003-red-ctest.txt`:22 distinct test-body
+sections, each containing the explicit unimplemented exception, and summary22/22
+failed,0 passed. Invalid-input cases fail on the wrong explicit stub exception as
+intended. The handoff records coordinator command
+`ctest --preset application-plan-debug -L application-plan`, actual exit8, after
+approval integration `a524447`. Git history preserves that approval before the final
+red-evidence commit. No compilation/dependency failure, skip or failure inversion
+is counted as red. Reviewer did not repeat native builds or test bodies here.
+
+Reviewed baseline handoff, appended coordinator checkpoint, task brief, strategy,
+acceptance map, task state and generated progress. ACCTTEST-003 done means authored,
+independently reviewed and observed red; product acceptance stays not_run and
+ACCT-003 stays planned. The acceptance scenario is observed_red and explicitly
+limits preview to freshness, excluding eligibility, permission, caps, actual effects,
+writer, evaluator and provider implementation. Test strategy keeps the intentional
+red lane separate, reuses selected Boost>=1.83 and requires later stable automatic
+CI for ACCT-003. Coordinator reports numeric33/scaffold3/tooling19/DOM checks passed;
+these are recorded coordinator evidence, not reviewer reruns or product coverage.
+
+Actual final reviewer checks: `python3 tools/check_project.py` exit0 (377 tasks,
+122 decisions, links/presets/current HTML); `python3 tools/progress.py render --check`
+exit0. Diff/artifact/status/log inspections are read-only. No assertion, source,
+contract, build, progress or acceptance-map edits were made by this reviewer.
+
+Publication of the focused active PR, its latest required CI, resolved discussions,
+repository rules/mergeability and final merge remain coordinator gates. Support
+branches remain local; this review does not publish them or assert future CI passed.
+All previously stated implementation, durability, permission, evaluator, provider
+and platform limits remain in force.
