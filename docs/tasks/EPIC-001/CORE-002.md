@@ -4,7 +4,10 @@ Parent: [EPIC-001](../EPIC-001.md). Kind: implementation.
 Specification: v0.45; §4, TIMER-01, TIMER-02.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [timer lifecycle revision1](../../contracts/timer-lifecycle-v1.md),
-currently an authored draft pending a product decision, independent review and red.
+currently an authored draft pending independent full review and intended red.
+The [owner clarification](../../evidence/timer-confirmation-credit-decision.md)
+settles confirmation-wait credit. Revision 1 has never been finalized or implemented;
+the refinement requires no API or layout migration.
 
 ## Scope and ownership
 
@@ -33,9 +36,11 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 - Specify UTC versus monotonic-duration domains, advance-before-command ordering and
   local snapshot/validation choices explicitly; do not invent cross-domain event
   timestamps or a clock-skew policy.
-- Resolve the pending positive-credit-during-confirmation-wait product decision
-  before finalizing its contract/tests or claiming the baseline ready. No oracle
-  silently chooses automatic resumption or an authorized-decision hold.
+- Positive actual credit while awaiting finish confirmation automatically resumes
+  Active/Main and clears the wait, retaining Grace and independent pause reasons.
+  Zero actual credit keeps waiting; eligibility/debt/caps are resolved by the caller.
+  A stale confirmation rejects after resumption, and advancing to an enabled hard
+  end first produces Finished so subsequent credit cannot reopen it.
 
 ## Boundary and failure cases
 

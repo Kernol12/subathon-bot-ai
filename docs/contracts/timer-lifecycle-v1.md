@@ -7,9 +7,11 @@ Tasks: CORETEST-002 / CORE-002. Authority: specification v0.45
 Existing [time-credit](time-credit-v0.md) and [exact-decimal](exact-decimal-v1.md)
 contracts are unchanged.
 
-State: authored draft. Independent review/red and a pending product decision for
-positive credit during confirmation wait are not complete. No production behavior
-is implemented by this baseline.
+State: authored draft. The owner resolved positive credit during confirmation wait
+in the [recorded clarification](../evidence/timer-confirmation-credit-decision.md).
+Independent full review and intended red remain pending. Revision 1 has never been
+finalized or implemented; this refinement requires no API or layout migration.
+No production behavior is implemented by this baseline.
 
 ## Bounded public interface
 
@@ -65,9 +67,10 @@ shared budget has no artificial extra tick: enter Grace and immediately expire i
 
 Confirmation wait remains Active/Main with main0 and its explicit flag, not Finished,
 a fourth lifecycle, negative time or a fake Grace phase. Awaiting confirmation cannot
-coexist with positive main time or Grace. The policy governing ordinary positive
-credit during this wait is pending an owner decision; no final expectation for it is
-authored here. Confirmation itself and hard-end override are already agreed behavior.
+coexist with positive main time or Grace. Positive actual applicable time clears the
+wait and resumes Main automatically, retaining the grace budget. Zero actual credit
+retains the wait and both remaining fields. A stale finish confirmation after
+resumption rejects under the existing waiting-state precondition.
 
 Phase is retained after finish, and no ordinary advance restarts a Finished snapshot.
 For hard-end finish specifically, retained remaining fields are the pre-call snapshot
@@ -77,8 +80,9 @@ not label them precise elapsed-at-deadline history.
 
 Pause reasons and their overlap/delay/unknown-status policies belong to CORE-003.
 This reducer receives only the observation that a segment is paused; it never clears
-any reason. Accepting already-eligible credit can switch Grace to Main while the
-external pause remains active; the next paused observation still freezes Main.
+any reason. Accepting already-eligible credit can switch Grace to Main or resume a
+confirmation wait while the external pause remains active; the next paused observation
+still freezes Main and preserves the retained grace budget.
 
 ## Explicit clocks and bounded observation ordering
 
@@ -130,8 +134,11 @@ shared contract; this primitive cannot claim that wiring or discard the trace.
 
 A positive actual amount while in Grace sets Main remaining to that amount, switches
 to Main and retains unused Grace for the selected repeated-grace behavior. Zero
-actual amount does not rescue. In Main, add the actual amount exactly; if the result
-cannot fit signed64, throw `std::overflow_error` and return no partial proposal.
+actual amount does not rescue. While awaiting confirmation at Main0, positive actual
+credit sets Main remaining to that amount and clears the wait automatically, without
+consuming or resetting retained Grace or changing the hard end. Zero actual credit
+keeps waiting. In Main, add the actual amount exactly; if the result cannot fit
+signed64, throw `std::overflow_error` and return no partial proposal.
 Actual amounts are not requested amounts: eligibility, cap/debt calculations,
 provenance and review are resolved by the caller against the advanced snapshot.
 No negative credit input can encode refunds or corrections in this boundary.
@@ -145,9 +152,11 @@ is not contractual. Validation applies before producing a proposal, leaving call
 input and authoritative state untouched. C++ enum values outside their declared
 alternatives are not admitted domain values.
 
-Positive credit during confirmation wait is the one pending product policy. It must
-receive an explicit answer and reviewed examples before this contract/baseline is
-finalized; the helper must not silently choose automatic resumption or a review hold.
+Confirmation-wait resumption follows the owner's explicit choice recorded in
+specification §4/§18. The actual amount is the caller's already-resolved result,
+so a positive requested amount reduced to zero by debt/caps does not resume Main.
+The caller still advances first: a reached hard end finishes even while waiting
+and paused, and credit against that Finished result rejects without reopening it.
 
 ## Independently derived examples
 
@@ -165,6 +174,10 @@ command ordering and the cited §4 requirements, not an implementation under tes
 | Confirmation Main1000, elapsed121000 | Active/Main0 awaiting confirmation; unused Grace120000 |
 | Confirmation wait, another500000ms | Still waiting, no Grace consumed or repeated transition |
 | Authorized confirm of waiting snapshot | Finished/Main0, waiting cleared |
+| Confirmation wait/Main0/Grace73000 plus actual5000 | Active/Main5000, waiting cleared, Grace73000 retained; stale confirm rejects |
+| Confirmation wait/Main0/Grace73000 plus actual0 | Still Active/Main0 awaiting confirmation, Grace73000 retained |
+| Confirmation wait accepted actual5000, next paused elapsed1000 | Main5000/Grace73000, waiting cleared; external pause still freezes Main |
+| Paused confirmation wait/Main0/Grace73000 advanced at enabled deadline, then credit5000 | Finished/Main0/Grace73000, waiting cleared; HardEndReached, Finished; credit rejects |
 | Grace90000 plus eligible actual5000 | Active/Main5000, retained Grace90000 |
 | Grace90000 plus actual0 | Still Active/Grace90000 |
 | Rescued Main5000 expires under Fresh | Grace120000 |
@@ -196,8 +209,8 @@ success. CORE-002 must add its stable passing timer suite to automatic CI and ob
 that workflow before implementation completion.
 
 No prior assertions, numeric contracts, schemas or persisted data are changed.
-The outstanding confirmation policy, first-start/deadline gates and downstream
-clock/pause/recovery/schedule/accounting wiring remain explicit. All release scope,
-including post-finish/reopen/history policies, remains required; these boundaries do
+First-start/deadline gates and downstream clock/pause/recovery/schedule/accounting
+wiring remain explicit. All release scope, including post-finish/reopen/history
+policies, remains required; these boundaries do
 not implement or remove it. Independent review of the actual final contract/test
 revision and a genuine intended stub-red run precede production implementation.

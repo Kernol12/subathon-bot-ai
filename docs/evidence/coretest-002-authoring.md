@@ -125,3 +125,81 @@ CI assessment is unchanged: the optional intentional-red lane is suitable for
 draft compilation/discovery, and CORE-002 still requires passing automatic
 lifecycle CI before implementation completion. The coordinator owns central
 state/HTML, final review integration, PR publication and the approved red run.
+
+## Confirmation-wait credit clarification: additive author handoff
+
+Author: `/root/timer_policy_author`; date: 2026-10-31. Branch:
+`task/CORETEST-002-confirmation-credit`, isolated worktree
+`local-evidence/worktrees/coretest002-confirmation`, based on coordinator commit
+`21c27bf` (seeded from refreshed main `8ad458e`). The coordinator retains ownership
+of shared build/presets, progress/state, generated HTML, review/red integration and
+PR publication. This author owns only the timer test file, draft lifecycle contract,
+CORE-002 brief and this appended evidence section.
+
+The [owner decision](timer-confirmation-credit-decision.md), now recorded in
+specification v0.45 §4/§18, chooses automatic Main resumption for positive actual
+time during confirmation wait. It supersedes the pending-policy statements in the
+historical author sections above. Revision 1 has never been finalized or implemented;
+this refinement changes no public signature, C++ layout, schema or persisted format
+and requires no migration. Independent full review and intended stub-red remain
+pending. This author provides no independent approval.
+
+Exactly four focused cases are added, bringing the authored total from 35 to 39.
+Their explicit snapshots and expectations are manually derived from the recorded
+policy and existing observation/validation rules:
+
+- `PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm`: waiting
+  Active/Main0 with retained Grace73000 receives actual5000, becoming
+  Active/Main5000/Grace73000 with the wait cleared. A stale confirmation rejects
+  under its existing waiting-state precondition.
+- `ZeroActualCreditRetainsConfirmationWaitAndBothClocks`: the same waiting state
+  receives actual0 and retains Active/Main0/Grace73000 and its wait. These inputs
+  are actual amounts; eligibility, input review, debt and cap calculations remain
+  the caller's responsibility, so a requested positive award need not resume Main.
+- `ResumedConfirmationWaitDoesNotOverrideAnExternalPause`: actual5000 resumes
+  Main; the next paused elapsed1000 observation retains Main5000/Grace73000,
+  clears no external pause reason and produces no transition proposals.
+- `HardEndObservationPreventsCreditFromResumingPausedConfirmationWait`: the caller
+  first advances waiting/paused Main0/Grace73000 at exact enabled UTC deadline1000.
+  The result is Finished with the wait cleared and retained remaining fields,
+  emitting exactly HardEndReached → Finished. Subsequent actual5000 rejects,
+  so ordinary credit cannot reopen it or override hard-end precedence.
+
+All 35 previous test bodies remain byte-for-byte identical to the seed revision.
+The header remains `69cad7023b9928371877d45955b800aed9996cd5`; the source remains
+`5584f845faef1dff68377363ec04c7b2effc4cae`, containing three unconditional
+`TimerLifecycleNotImplemented` throws. No production behavior, external pause
+management, cap/debt algorithm, clock access or hard-end configuration change was
+implemented. Root/shared build files, central state/HTML and the specification were
+not edited by this author.
+
+Commands actually run in the isolated worktree:
+
+| Command | Actual result |
+| --- | --- |
+| `cmake --preset timer-lifecycle-debug` | exit0; GCC16.2.1, Python3.14.8; configured the existing optional lane |
+| `cmake --build --preset timer-lifecycle-debug` | exit0; all10 compile/link/discovery steps complete |
+| `ctest --preset timer-lifecycle-debug -L timer-lifecycle -N` | exit0; exactly39 cases listed, including the four additions; no test bodies executed |
+| `python3 tools/check_project.py` | exit0;377 task records,122 decisions, local links/presets/current HTML pass; no timer bodies run |
+| `python3 tools/progress.py render --check` | exit0; current coordinator snapshot; no generated/shared file edited |
+| `git diff --check` | exit0 before this evidence append; rechecked before commit |
+| `git hash-object tests/acceptance/timer_lifecycle_tests.cpp docs/contracts/timer-lifecycle-v1.md docs/tasks/EPIC-001/CORE-002.md core/include/subathon/core/timer_lifecycle.hpp core/src/timer_lifecycle.cpp` | exit0; exact artifacts recorded below |
+| `cmake --version`, `c++ -dumpfullversion`, `pkg-config --modversion gtest`, `uname -s -m` | exit0; CMake4.4.5, GCC16.2.1, GoogleTest1.18.0, Linux x86_64 |
+
+| Authored artifact | Exact Git blob |
+| --- | --- |
+| `tests/acceptance/timer_lifecycle_tests.cpp` (39 cases) | `bf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7` |
+| `docs/contracts/timer-lifecycle-v1.md` (draft revision1) | `09c7c77d2e42b6cc5971f8bff8962c0486a84082` |
+| `docs/tasks/EPIC-001/CORE-002.md` | `be531e574ba2be496d535a6c3a236f55744e90d0` |
+
+A read-only Python comparison against `HEAD` also confirmed exactly39 cases,
+byte-for-byte retention of all35 old test bodies, and unchanged header/stub,
+root/tests CMake, presets, state, HTML and specification. Compilation/discovery
+establishes neither a red baseline nor passing timer behavior. No timer test body
+or production test was executed. After separate review of the actual final
+contract/tests/harness, the coordinator must observe and record the genuine
+`TimerLifecycleNotImplemented` red run before CORE-002 implementation.
+
+CI assessment is unchanged: this authored intentional-red lane remains optional;
+CORE-002 must introduce and observe passing automatic lifecycle CI before
+implementation completion. No SQL/Qt/provider/platform/live verification is claimed.

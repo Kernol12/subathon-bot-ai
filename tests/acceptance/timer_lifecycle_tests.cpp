@@ -152,6 +152,59 @@ TEST(TimerLifecycleAcceptance, PreauthorizedConfirmationFinishesOnlyAwaitingStat
     EXPECT_THROW(static_cast<void>(confirm_timer_finish(grace_state())), std::invalid_argument);
 }
 
+TEST(TimerLifecycleAcceptance, PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm) {
+    const TimerState waiting{TimerLifecycle::Active, CountdownPhase::Main, 0, 73'000, true};
+    // The caller has already resolved eligibility, debt and caps into this actual amount.
+    const auto result = apply_applicable_time_credit(waiting, 5000);
+    EXPECT_EQ(result.lifecycle, TimerLifecycle::Active);
+    EXPECT_EQ(result.phase, CountdownPhase::Main);
+    EXPECT_EQ(result.main_remaining_ms, 5000);
+    EXPECT_EQ(result.grace_remaining_ms, 73'000);
+    EXPECT_FALSE(result.awaiting_confirmation);
+    EXPECT_THROW(static_cast<void>(confirm_timer_finish(result)), std::invalid_argument);
+}
+
+TEST(TimerLifecycleAcceptance, ZeroActualCreditRetainsConfirmationWaitAndBothClocks) {
+    const TimerState waiting{TimerLifecycle::Active, CountdownPhase::Main, 0, 73'000, true};
+    const auto result = apply_applicable_time_credit(waiting, 0);
+    EXPECT_EQ(result.lifecycle, TimerLifecycle::Active);
+    EXPECT_EQ(result.phase, CountdownPhase::Main);
+    EXPECT_EQ(result.main_remaining_ms, 0);
+    EXPECT_EQ(result.grace_remaining_ms, 73'000);
+    EXPECT_TRUE(result.awaiting_confirmation);
+}
+
+TEST(TimerLifecycleAcceptance, ResumedConfirmationWaitDoesNotOverrideAnExternalPause) {
+    TimerConfig config;
+    config.end_mode = TimerEndMode::Confirmation;
+    const TimerState waiting{TimerLifecycle::Active, CountdownPhase::Main, 0, 73'000, true};
+    const auto resumed = apply_applicable_time_credit(waiting, 5000);
+    const auto result = advance_timer(resumed, config, {1000, 1000, true});
+    EXPECT_EQ(result.state.lifecycle, TimerLifecycle::Active);
+    EXPECT_EQ(result.state.phase, CountdownPhase::Main);
+    EXPECT_EQ(result.state.main_remaining_ms, 5000);
+    EXPECT_EQ(result.state.grace_remaining_ms, 73'000);
+    EXPECT_FALSE(result.state.awaiting_confirmation);
+    EXPECT_TRUE(result.transitions.empty());
+}
+
+TEST(TimerLifecycleAcceptance, HardEndObservationPreventsCreditFromResumingPausedConfirmationWait) {
+    TimerConfig config;
+    config.end_mode = TimerEndMode::Confirmation;
+    config.hard_end_utc_ms = 1000;
+    const TimerState waiting{TimerLifecycle::Active, CountdownPhase::Main, 0, 73'000, true};
+    const auto expired = advance_timer(waiting, config, {5000, 1000, true});
+    EXPECT_EQ(expired.state.lifecycle, TimerLifecycle::Finished);
+    EXPECT_EQ(expired.state.phase, CountdownPhase::Main);
+    EXPECT_EQ(expired.state.main_remaining_ms, 0);
+    EXPECT_EQ(expired.state.grace_remaining_ms, 73'000);
+    EXPECT_FALSE(expired.state.awaiting_confirmation);
+    EXPECT_EQ(expired.transitions,
+              (std::vector{TimerTransition::HardEndReached, TimerTransition::Finished}));
+    EXPECT_THROW(static_cast<void>(apply_applicable_time_credit(expired.state, 5000)),
+                 std::invalid_argument);
+}
+
 TEST(TimerLifecycleAcceptance, PositiveApplicableCreditRescuesGraceAndPreservesItsBudget) {
     const auto result = apply_applicable_time_credit(grace_state(), 5000);
     EXPECT_EQ(result.lifecycle, TimerLifecycle::Active);
