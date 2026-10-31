@@ -71,15 +71,17 @@ suite remains simulation evidence. SQL durability/uniqueness, Qt ownership, live
 identifiers, source admission, contribution creation and actual effects remain
 separate acceptance/platform/provider gates.
 
-## Contribution eligibility draft
+## Contribution eligibility baseline
 
-ACCTTEST-002 has21 independently reviewed cases for independent holds and caller-verified
-confirmation linkage, compiled/listed with `contribution-evidence-debug` only.
-[Usage-limit checkpoint](evidence/accttest-002-checkpoint.md) records exact artifacts.
-Independent review is blocked by usage availability; no test body, observed red or
-passing behavior result exists. Both core/server behavior entrypoints remain stubs.
-Resume separate review first; ACCT-002 implementation waits for reviewed/red
-baseline integration. These cases are not included in a green feature claim.
+ACCTTEST-002 has21 independently reviewed cases for independent holds and
+caller-verified confirmation linkage. Configure/build `contribution-evidence-debug`
+passed; after separate approval, CTest `-L contribution-evidence` ran all21 bodies
+and failed on explicit core/service stubs. [Baseline handoff](evidence/accttest-002-baseline-handoff.md)
+records exact artifacts and actual red. No passing contribution behavior is claimed.
+ACCT-002 waits for baseline integration, then must preserve tests, implement both
+pieces, obtain separate code review and add/observe stable automatic contribution CI.
+The optional intentional-red lane remains separate from stable feature workflows;
+SQL/Qt/provider/application and refund verification remain downstream gates.
 
 ## Priorities after first baseline
 
@@ -112,7 +114,3 @@ Individual test-drafting tasks may be marked authored/done when their draft arti
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate
 TEST-002 task represents the handoff-ready baseline after review and observed failure.
 
-The contribution baseline now has separate approval and an actual21-case stub-red
-run after compilation; see [handoff](evidence/accttest-002-baseline-handoff.md).
-The optional lane remains intentional red until ACCT-002 implements both pure
-assessment and writer-port linkage and adds/observes stable automatic CI.
