@@ -71,6 +71,18 @@ suite remains simulation evidence. SQL durability/uniqueness, Qt ownership, live
 identifiers, source admission, contribution creation and actual effects remain
 separate acceptance/platform/provider gates.
 
+## Contribution eligibility baseline
+
+ACCTTEST-002 has21 independently reviewed cases for independent holds and
+caller-verified confirmation linkage. Configure/build `contribution-evidence-debug`
+passed; after separate approval, CTest `-L contribution-evidence` ran all21 bodies
+and failed on explicit core/service stubs. [Baseline handoff](evidence/accttest-002-baseline-handoff.md)
+records exact artifacts and actual red. No passing contribution behavior is claimed.
+ACCT-002 waits for baseline integration, then must preserve tests, implement both
+pieces, obtain separate code review and add/observe stable automatic contribution CI.
+The optional intentional-red lane remains separate from stable feature workflows;
+SQL/Qt/provider/application and refund verification remain downstream gates.
+
 ## Priorities after first baseline
 
 - Duplicate receipts/commands, atomic effects/state/jobs and restart recovery.
