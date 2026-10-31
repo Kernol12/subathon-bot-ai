@@ -80,10 +80,12 @@ and stopped; no agent work is left running. Evidence:
 checkpoint reconciles main5201edd and marks CORETEST003 blocked/partial, CORE003 planned.
 Coordinator owns shared files; author/reviewer support branches preserved clean.
 
-The owner was asked asynchronously, no answer assumed:
-1. Unknown arrives before the confirmed-Offline delay expires: cancel/reset on later
-   Offline (recommended), freeze remaining delay, or continue through Unknown?
-2. Optional Unknown timeout pause: clear on any known status with a fresh timeout
+First owner choice is now explicit: Unknown cancels the pending Offline delay;
+later confirmed Offline starts a fresh full configured delay (default30s). Existing
+Offline pauses remain. Owner answered yes to that exact confirmation; spec and
+draft contract record it. Cases/review for this newly resolved edge remain pending.
+One owner choice remains unanswered:
+Optional Unknown timeout pause: clear on any known status with a fresh timeout
    for each later Unknown episode (recommended), or clear only on confirmed Online?
 
 Existing confirmed-Offline/other independent reasons cannot be cleared by Unknown.
@@ -114,3 +116,6 @@ Full release gates remain: authoritative application/aggregates/refunds, all sev
 integrations and three rate providers, supported platforms, both renderers, UIs/
 localization/themes, packaging and live/OBS evidence. All source-port results retain
 simulation/domain limits; SQL/Qt/provider/platform/live gates remain separate.
+
+Recording the first owner answer does not resume coordination past the requested
+stop boundary. No tests or implementation were changed; one policy question remains.

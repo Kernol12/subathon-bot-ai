@@ -98,17 +98,18 @@ monotonic duration, or persisted by this primitive.
 The specification, TIMER-03/05, existing contracts and repository evidence do not
 resolve these combined cases. The coordinator has requested owner clarification.
 
-1. Offline is pending but has not reached its delay, then stream status becomes
-   Unknown. Must the offline pending duration cancel, freeze for later confirmed
-   Offline, or continue advancing? Unknown itself is not confirmed Offline, and
-   none of these choices may be silently encoded as supported product policy.
+1. **Resolved by owner:** Unknown cancels a pending Offline delay; later confirmed
+   Offline starts a fresh full configured delay. An already established Offline
+   pause remains. See [decision record](../evidence/pause-signal-policy-questions.md).
+   This edge still requires authored cases and independent review before finalization.
 2. After optional unknown timeout activates StreamStatusUnknown, does any known
    stream status clear it, or only confirmed Online? Does each new Unknown episode
    start a fresh full timeout? The specification requires the independent reason
    and forbids clearing confirmed-offline/other reasons, but does not define these
    reset/recovery edges.
 
-Until resolved, cases crossing those edges are intentionally unauthored, not skipped
+Until the remaining choice is resolved and the newly decided edge is tested,
+cases crossing those edges are intentionally unauthored, not skipped
 tests or passing behavior claims. Full CORETEST-003 baseline approval and production
 implementation remain blocked on recorded decisions, affected examples/tests and
 independent review. This preserves full release scope rather than declaring those

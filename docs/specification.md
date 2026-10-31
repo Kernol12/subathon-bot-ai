@@ -160,6 +160,7 @@ Modifier factors may be zero or positive, including fractional factors such as Ã
 - Configurable treatment of server downtime and streamer/client disconnection.
 - Main/grace server-downtime policies support counting elapsed downtime, freezing during downtime (default), or requiring authorized review of the gap. An enabled hard end remains authoritative; timed modifiers retain their separately selected clock behavior.
 - Unknown Twitch stream status is distinct from confirmed offline. By default retain the current timer state and display a notice; optionally add a pause reason after a configured unknown-status timeout. Unknown status cannot clear a confirmed-offline pause or another active reason.
+- Unknown status cancels a pending confirmed-offline delay. A later confirmed Offline signal starts a fresh full configured offline delay (30 seconds by default); an already established Offline pause remains active. [Owner clarification](evidence/pause-signal-policy-questions.md).
 - Disconnect triggers can include Twitch going offline and a designated streamer client disconnecting.
 - During pause, incoming support is logged and held for an authorized acceptance/rejection decision.
 - End modes: immediate finish; separate grace period; wait for authorized confirmation.
