@@ -13,24 +13,24 @@ struct ContributionId {
     bool operator==(const ContributionId &) const = default;
 };
 
-enum class PaymentEvidence { confirmed, unconfirmed, unknown, not_applicable };
-enum class ContributionReview { not_required, pending, accepted, rejected };
+enum class PaymentEvidence { unknown, unconfirmed, confirmed, not_applicable };
+enum class ContributionReview { pending, not_required, accepted, rejected };
 enum class ContributionApplication { not_applied, applied };
 enum class ContributionReversal { none, partial, full };
-enum class SettlementGate { clear, unresolved };
+enum class SettlementGate { unresolved, clear };
 
-enum class EvidencePolicy { accept_provider_report, require_evidence_review, record_only };
-enum class EvidenceReviewChoice { accept_labelled_report, await_confirmation };
+enum class EvidencePolicy { require_evidence_review, accept_provider_report, record_only };
+enum class EvidenceReviewChoice { await_confirmation, accept_labelled_report };
 
 struct EvidenceReviewDecision {
-    EvidenceReviewChoice choice;
+    EvidenceReviewChoice choice{EvidenceReviewChoice::await_confirmation};
     std::string decision_ref;
     std::string actor_ref;
     bool operator==(const EvidenceReviewDecision &) const = default;
 };
 
 struct EvidenceAdmission {
-    EvidencePolicy policy;
+    EvidencePolicy policy{EvidencePolicy::require_evidence_review};
     std::string policy_ref;
     std::optional<EvidenceReviewDecision> review_decision;
     bool operator==(const EvidenceAdmission &) const = default;
@@ -38,26 +38,26 @@ struct EvidenceAdmission {
 
 // Monetary status is explicit: absence of source money never means a non-money input.
 struct ContributionValuation {
-    bool monetary;
+    bool monetary{true};
     std::optional<ReceiptMoney> original_money;
     std::optional<std::string> resolution_ref;
-    bool missing_rate;
+    bool missing_rate{false};
     bool operator==(const ContributionValuation &) const = default;
 };
 
 // These are independent dimensions, not a single accepted/eligible status.
 struct ContributionConditions {
     ContributionValuation valuation;
-    ContributionReview review;
+    ContributionReview review{ContributionReview::pending};
     EvidenceAdmission evidence_admission;
-    ContributionApplication application;
-    ContributionReversal reversal;
-    SettlementGate settlement;
+    ContributionApplication application{ContributionApplication::not_applied};
+    ContributionReversal reversal{ContributionReversal::none};
+    SettlementGate settlement{SettlementGate::unresolved};
     bool operator==(const ContributionConditions &) const = default;
 };
 
 struct ContributionState {
-    PaymentEvidence payment_evidence;
+    PaymentEvidence payment_evidence{PaymentEvidence::unknown};
     ContributionConditions conditions;
     bool operator==(const ContributionState &) const = default;
 };

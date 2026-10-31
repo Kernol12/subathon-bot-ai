@@ -66,6 +66,27 @@ ContributionObservation confirmation_observation() {
     return observation;
 }
 
+// §§3.2–3,14: omitted source/conditions must not become confirmed, nonmonetary or eligible.
+TEST(ContributionEligibilityAcceptance,
+     DefaultStatePreservesUnknownsAndRequiresExplicitResolution) {
+    const ContributionState state{};
+    EXPECT_EQ(
+        assess_contribution_eligibility(state).blockers,
+        (std::set{ContributionBlocker::evidence_review_required,
+                  ContributionBlocker::missing_source_amount,
+                  ContributionBlocker::valuation_unresolved, ContributionBlocker::review_pending,
+                  ContributionBlocker::settlement_review_required}));
+    EXPECT_EQ(state.payment_evidence, PaymentEvidence::unknown);
+    EXPECT_TRUE(state.conditions.valuation.monetary);
+    EXPECT_FALSE(state.conditions.valuation.original_money);
+    EXPECT_FALSE(state.conditions.valuation.resolution_ref);
+    EXPECT_FALSE(state.conditions.valuation.missing_rate);
+    EXPECT_EQ(state.conditions.evidence_admission.policy, EvidencePolicy::require_evidence_review);
+    EXPECT_FALSE(state.conditions.evidence_admission.review_decision);
+    EXPECT_EQ(state.conditions.application, ContributionApplication::not_applied);
+    EXPECT_EQ(state.conditions.reversal, ContributionReversal::none);
+}
+
 // §§3.3,5: ordinary acceptance resolves only its independent review dimension.
 TEST(ContributionEligibilityAcceptance, MultipleHoldsRemainAfterPausedInputAcceptance) {
     auto state = ready_state();

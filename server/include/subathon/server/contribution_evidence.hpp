@@ -37,7 +37,7 @@ struct ContributionReceipt {
 struct ContributionObservation {
     ContributionReceipt receipt;
     ContributionObservationKind kind;
-    core::PaymentEvidence evidence;
+    core::PaymentEvidence evidence{core::PaymentEvidence::unknown};
     std::optional<VerifiedActivityLink> verified_activity;
     // Required for support, absent for confirmation; captured only for the first support.
     std::optional<core::ContributionConditions> support_conditions;
