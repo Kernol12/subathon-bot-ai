@@ -113,4 +113,3 @@ and actual results separately from live/platform evidence.
 Individual test-drafting tasks may be marked authored/done when their draft artifacts
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate
 TEST-002 task represents the handoff-ready baseline after review and observed failure.
-
