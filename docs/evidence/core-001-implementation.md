@@ -53,28 +53,59 @@ No package was installed or downloaded by this author.
 | `git diff --check` | exit0 |
 | `git hash-object` on header/original tests/contract | unchanged exact blobs above |
 
-The retained `intentional-red` CTest metadata belongs to the original baseline;
-these observed executions passed. Coordinator owns changing suite/status prose and
-activating the stable numeric CI lane. Passing these primitive cases establishes
+The candidate run retained historical `intentional-red` metadata while all32 cases
+passed. The later coordinator harness uses ordinary acceptance/regression/core labels
+and adds the independently reviewed regression; no assertion was disabled or inverted. Passing these primitive cases establishes
 no application transaction, aggregate-state, refund, modifier engine or UI behavior.
 
-## Additional normalized-zero finding and pending gates
+## Normalized-zero regression, intended red and final correction
 
-An ignored scratch probe compiled against this candidate used:
+An ignored scratch probe compiled against candidate873cc6d used:
 `const Exact zero = Exact(0) / (cpp_int(1) << 4096);`.
 On Boost1.92 it reported numerator0, denominator4097bits and equality-to-zero false;
-the current finalizer throws `length_error`. The contract budgets normalized
+the candidate finalizer threw `length_error`. The contract budgets normalized
 components, so mathematical zero should normalize to0/1 and return0.
 
-Coordinator and independent reviewer agreed this needs one meaningful additive
-regression rather than changing an existing expectation. Original test author owns
-that separate regression. Finalizer changes are paused until its actual test revision
-receives separate review and an observed intended red against this candidate.
-No regression case, assertion, header or contract was edited by this implementer.
+Coordinator and independent reviewer agreed this needed a meaningful additive
+regression under the existing contract. Original test author `/root/numeric_test_author`
+authored commit `5f9b3c0`; independent reviewer `/root/numeric_reviewer` approved it
+in `cbf9391`, then approved the executable harness in `37f56ae`. No original
+expectation was changed or weakened. Regression source blob:
+`347a810b1edba2ffc36d66ba44b700092bb2b381`.
 
-Independent code approval, the additional reviewed/red regression and fix,
-coordinator integration, automatic pinned-dependency numeric CI observation and
-latest-head PR/merge gates remain pending. Ubuntu/Boost1.83, Windows/release,
-all services, platform/renderers, UI/localization, packaging and OBS remain outside
-this author's local validation. No credentials, supporter state or live side effects
-were used.
+After coordinator authorization, merged its reviewed harness/review revision6224ac3
+into this isolated branch as `10a3847`. Before any finalizer correction, independently
+configured/built successfully and ran
+`ctest --preset exact-numeric-debug -R '^ExactDecimalRegression\.'`.
+Actual exit8: the one regression body failed with `Effect exceeds normalized component
+limits`. This was behavioral red after separate review, not a compile/dependency error.
+The coordinator separately records its red output in
+`docs/evidence/core-001-zero-red-ctest.txt`.
+
+Only after that gate, source commit `74f3594d352b5e1ef1b7817a4d0d0330932ec1bc`
+recognizes numerator zero before copying/checking a retained raw denominator.
+The mathematical normalized components are0/1, so the result is0. Nonzero inputs
+retain their component budgets, half-even rounding and rounded signed-64 checks.
+Final source blob: `a1ddb4283292a5da0a81a0f4e8255fffc19cafd7`.
+
+Final author checks after that correction:
+
+| Command | Actual outcome |
+| --- | --- |
+| `cmake --build --preset exact-numeric-debug` | exit0 |
+| `ctest --preset exact-numeric-debug -L exact-numeric` | exit0;33/33 pass (original32 plus reviewed regression) |
+| `ctest --preset exact-numeric-debug` | exit0;36/36 pass including infrastructure |
+| `ctest --preset acceptance-debug -L 'acceptance\|regression'` | exit0; credit23/23 pass |
+| `python3 tools/check_project.py` | exit0;377 records/122 decisions and local consistency pass |
+| `python3 -m unittest discover -s tests/tooling -q` | exit0;19/19 tooling tests pass |
+| `git diff --check` | exit0 |
+| `git hash-object` on original header/tests/contract and additive regression | exact unchanged blobs recorded above |
+
+The implementer changed only the owned source and this evidence. Shared CI/CMake,
+review/regression files and progress changes entered this branch only through the
+coordinator integration; they are not independent author edits. Independent code
+approval of the exact final source, coordinator integration, observed automatic
+pinned-dependency numeric CI and latest-head PR/merge gates remain pending.
+Ubuntu/Boost1.83, Windows/release, all services, platform/renderers, UI/localization,
+packaging and OBS remain outside this author's local validation. No credentials,
+supporter state or live side effects were used.
