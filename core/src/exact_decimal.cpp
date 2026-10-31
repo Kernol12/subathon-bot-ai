@@ -126,13 +126,16 @@ ExactDecimal parse_nonnegative_factor(std::string_view original) {
 
 std::int64_t round_effect_units(const Exact &value) {
     cpp_int magnitude = boost::multiprecision::numerator(value);
+    // Zero normalizes to 0/1 even if the dependency retains a raw denominator.
+    if (magnitude == 0) {
+        return 0;
+    }
     const cpp_int denominator = boost::multiprecision::denominator(value);
     const bool negative = magnitude < 0;
     if (negative) {
         magnitude = -magnitude;
     }
-    if ((magnitude != 0 &&
-         boost::multiprecision::msb(magnitude) >= maximum_finalizer_component_bits) ||
+    if (boost::multiprecision::msb(magnitude) >= maximum_finalizer_component_bits ||
         boost::multiprecision::msb(denominator) >= maximum_finalizer_component_bits) {
         throw std::length_error("Effect exceeds normalized component limits");
     }
