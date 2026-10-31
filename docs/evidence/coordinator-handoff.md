@@ -1,4 +1,4 @@
-# Coordinator handoff — usage-limit checkpoint
+# Coordinator handoff — active review checkpoint
 
 Coordinator `/root`, 2026-10-31. Objective: full specification v0.45, task by task,
 with isolated writers, real independent reviews and focused PRs. This is a session
@@ -36,12 +36,12 @@ Ruleset26170263 requires PRs/resolved threads, zero GitHub approvals, no force/d
 bypass and no required-status-check rule. All latest checks remain coordinator merge
 gates regardless of that explicit enforcement gap; repository settings were not changed.
 
-## Active ACCTTEST-002 draft and usage limit
+## Active ACCTTEST-002 draft review
 
 [Draft PR #17](https://github.com/Kernol12/subathon-bot-ai/pull/17), branch
-`task/ACCTTEST-002-eligibility-baseline`, source/evidence publicationd39c448 with
-checkpoint-only updates following. Do not mark ready or merge. Independent reviewer
-and author both reported the provider usage limit; no independent approval exists.
+`task/ACCTTEST-002-eligibility-baseline`, current published headc13e408. Do not mark ready or merge. Prior author and reviewer
+usage-limit interruptions are preserved; reviewer /root/baseline_reviewer has now
+been explicitly reassigned the actual current candidate. No independent approval exists.
 No test body, intended-red run, passing contribution behavior or ACCT-002
 implementation is claimed. Stable CI on the draft does not waive those gates.
 
@@ -51,10 +51,10 @@ implementation is claimed. Stable CI on the draft does not waive those gates.
   `local-evidence/worktrees/accttest002-author`, branch
   `task/ACCTTEST-002-eligibility-author`. Checkpoints12f75b1,023a899,
   `b0fd97ea0295306c084e09f03f5d85fdbe15572e` are committed/published, worktree clean.
-- Reviewer `/root/baseline_reviewer` (errored on usage limit, not running):
+- Reviewer `/root/baseline_reviewer` (reassigned after earlier usage interruption):
   `local-evidence/worktrees/accttest002-review`, branch
-  `task/ACCTTEST-002-eligibility-review`, still main8ad458e, clean with no review file.
-  Resume or explicitly reassign; never simulate its unavailable review.
+  `task/ACCTTEST-002-eligibility-review`, seededc13e408, clean before reassignment with no review file.
+  Inspect actual new response; never infer approval from an assignment.
 
 Coordinator integratedafd4b75/20d08ea/ccdd17c plus optional harness281c821.
 Final candidate artifacts (unreviewed): core interface65ad81ac, assessor stubfb140178,
@@ -73,34 +73,38 @@ or SQL/Qt/application/refund proof follows from the authored contract/fake.
 ## Timer owner decision resolved; baseline review still required
 
 [Draft PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14), branch
-`task/CORETEST-002-timer-baseline`, main workspace. Last published7fac469 includes
-merged receipt main8ad458e; stable checks passed. Timer tests35, blob
-`7a802f2151da1d62b85f27c357528f63426cf2d0`; header69cad702, stub5584f845,
-contractb88657ce unchanged. Compile/list succeeds; no timer bodies/red/implementation.
-Original author commits68e0119/3ccc52d and additiveef82bbcf retained; partial review
-commitsa99616a/720acc8 close two coverage findings, overallchanges_requested remains.
+`task/CORETEST-002-timer-baseline`, main workspace. Last published21c27bf has
+five stable checks passed; actual integrated draft160c7e6 adds four cases and awaits
+publication. Tests39, blob `bf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7`;
+contract `09c7c77d2e42b6cc5971f8bff8962c0486a84082`, header69cad702 and stub5584f845
+unchanged. Compile/list succeeds; no timer bodies/red/implementation. All35 old
+assertion bodies preserved; original author68e0119/3ccc52d and additiveef82bbcf,
+partial reviewsa99616a/720acc8 remain valid history.
 
-On2026-10-31 the owner explicitly chose automatic main resumption for positive
-accepted time during finish-confirmation wait. The decision is recorded in
-[timer policy evidence](timer-confirmation-credit-decision.md) and specification§4/§18.
-Zero actual credit keeps waiting; pause reasons/grace budget remain and observed hard
-end/Finished rules still apply. The product-policy blocker is resolved; new cases
-and full independent baseline review/red are still required. Ready/start/deadline
-behavior remains gated in API-007/CORE-008, unchanged by this clarification.
-Persistent timer author/fix/review worktrees remain under local-evidence/worktrees.
+The owner explicitly chose automatic main resumption for positive accepted time
+on2026-10-31. [Decision](timer-confirmation-credit-decision.md) and spec§4/§18 record
+it. Zero actual credit keeps waiting; independent pauses, retained Grace, observed
+hard-end and Finished guards apply. Author /root/timer_policy_author committed the
+four cases and contract refinement in160c7e6, isolated worktree
+`local-evidence/worktrees/coretest002-confirmation`, branch
+`task/CORETEST-002-confirmation-credit`, clean. Full independent reviewer
+`/root/timer_final_reviewer` now owns only its review evidence in
+`local-evidence/worktrees/coretest002-review` on `task/CORETEST-002-timer-review`,
+seeded with actual160c7e6. No approval or red inferred from assignment. Ready/start/
+deadline behavior stays in API-007/CORE-008.
 
 ## Continuation and unperformed gates
 
 1. Inspect actual main, PR17/PR14 heads/checks, worktree status and agent/process state.
    Completed commits and reviews remain valid; old agents may not be available.
-2. After usage availability returns, assign an independent reviewer the actual final
+2. Inspect the reassigned independent reviewer of actual final
    ACCTTEST-002 candidate/harness. Resolve findings, compile, then observe intended
    stub-red after approval. Record it and finish final integration/latest CI gates.
 3. Merge only when eligible; start ACCT-002 implementation from integrated reviewed/
    red prerequisites, preserve assertions, add/observe stable automatic CI and obtain
    independent code review. No routine owner permission is needed.
-4. Apply the recorded owner timer decision to its draft contract/tests, preserve the
-   prior assertions, and obtain full independent review/red before implementation.
+4. Resolve actual full timer review findings if any, then obtain intended stub-red
+   before baseline merge and CORE-002 implementation.
 
 All active worktrees were checked clean before checkpoint-only edits; no local build/
 test command remains running. Remote CI may run after publication; inspect it rather

@@ -751,7 +751,7 @@
       "module": "Core",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; test author /root/numeric_test_author",
+      "owner": "Coordinator /root; authors /root/numeric_test_author and /root/timer_policy_author; reviewer /root/timer_final_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "IMPL-001"
@@ -768,7 +768,8 @@
         "Claimed from refreshed main after CORE001 PR13 merged, task/CORETEST-002-timer-baseline. Specv0.45 §4 TIMER01/02 and reviewed event-state boundariesrev1; no timercontractfinal yet. Scope: bounded deterministic lifecycle/phase reducer contract+examples+publicstub/testharness, default120sgrace/immediate/confirmation, rescue/repeatedfresh/sharedgrace and exacthardend precedence; pause observations accepted but signal/recovery/schedule algorithms remain scopedtasks. Need independent testreview then actualstubred before CORE002implementation. Author isolatedtask/CORETEST-002-timer-author owns timercontract/interface/stubs/tests/taskbrief/authoring evidence; coordinator rootowns sharedCMake/presets,state/HTML/map/checkpoint/PR. Reviewer isolatedtask/CORETEST-002-timer-review owns separate actualrevision review. No productionbehavior or provider/platform claim.",
         "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim.",
         "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests.",
-        "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation."
+        "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation.",
+        "Owner confirmation-credit decision applied by160c7e6: four additive cases preserve all35 prior bodies,39 compile/list only. Actual testsbf8c1f46/contract09c7c77d/header69cad702/stub5584f845 assigned to independent /root/timer_final_reviewer in persistent isolated review worktree. Earlier partial changes_requested evidence preserved pending full review; no timer bodies/red/production claim. Contribution PR17 candidatec13e408 separately reassigned to /root/baseline_reviewer after prior quota limit."
       ],
       "verification": {
         "authored_tests": "draft",
@@ -10554,6 +10555,11 @@
       "date": "2026-10-31T19:22:55+00:00",
       "task": "CORETEST-002",
       "note": "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation."
+    },
+    {
+      "date": "2026-10-31T19:29:00+00:00",
+      "task": "CORETEST-002",
+      "note": "Owner confirmation-credit decision applied by160c7e6: four additive cases preserve all35 prior bodies,39 compile/list only. Actual testsbf8c1f46/contract09c7c77d/header69cad702/stub5584f845 assigned to independent /root/timer_final_reviewer in persistent isolated review worktree. Earlier partial changes_requested evidence preserved pending full review; no timer bodies/red/production claim. Contribution PR17 candidatec13e408 separately reassigned to /root/baseline_reviewer after prior quota limit."
     }
   ]
 }
