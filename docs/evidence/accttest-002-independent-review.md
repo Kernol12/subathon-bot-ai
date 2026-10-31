@@ -1,10 +1,11 @@
 # ACCTTEST-002 independent eligibility/linkage baseline review
 
 Reviewer: `/root/baseline_reviewer`; author: `/root/receipt_test_author`.
-Date: 2026-10-31. Verdict: **changes requested** for two focused coverage gaps below.
+Date: 2026-10-31. Current verdict: **approved for test baseline** at the corrected
+revision in the follow-up below. Both initial focused coverage findings are closed.
 This is an actual independent review after explicit reassignment; the earlier
 usage-limit checkpoint did not supply review approval. No test body or intended-red
-run has been executed or authorized by this review.
+run was executed by this reviewer; the coordinator may now observe the approved red.
 
 ## Exact candidate and scope
 
@@ -39,7 +40,7 @@ fake and root/core/server/test build/preset harness.
 | `server/CMakeLists.txt` | `417bca1f9cc2b42f94601b9821914e9d7cee5a5a` |
 | `tests/CMakeLists.txt` | `4c6b7bf3911085196b2789c6d80ba3f3225ede4a` |
 
-## Requested focused corrections
+## Initial requested focused corrections (closed below)
 
 1. **Preservation oracle must distinguish first and later conditions.** Contract
    “Receipt observations and verified linkage” promises that new support matching an
@@ -131,3 +132,48 @@ are separate. SQL durability/uniqueness/concurrency, Qt writer ownership, provid
 proof, real application/refund/authorization and all release/platform gates remain
 explicit. No credentials, live state or side effects were used. Timer's unanswered
 owner policy is unchanged and receives no implicit answer from this review.
+
+## Follow-up approval of actual corrected baseline
+
+Separate author `/root/receipt_test_author` supplied actual correction
+`929152c1e64024d5bfa3ed641a76fa1ea4a3120b`. Reviewer inspected its entire diff and
+cherry-picked it onto the reviewed candidate/evidence checkout as `7c38a49` for
+independent compilation/listing. The corrected test blob is
+`702a7bf1d8162ba748ee9477ea48ffa73047ef65` (still21 cases); appended author evidence
+is `889cb9a02e3cd566efebbf8065eb8edf64afcaed`. The change affects only those two
+files. All original assertions, interfaces, stubs, fake, normative contract and build
+artifacts above are preserved.
+
+- **Finding1 closed.** The delayed same-activity support now carries a later
+  valuation reference and resolved-rate flag, accepted ordinary review, and different
+  record-only admission policy/reference. The unchanged full-condition equality
+  assertion still requires the original support conditions. A service that replaces
+  initial review/valuation/policy with later support values can no longer satisfy
+  that oracle. The incoming values are valid separate captured conditions, so this
+  tests first-support retention without inventing a new invalid-input policy.
+- **Finding2 closed.** The grouped invalid test now submits support with absent
+  conditions and confirmation with supplied conditions, requiring invalid_argument.
+  Existing empty-store assertions follow these and the other invalid observations;
+  original history-protection assertions remain unchanged.
+
+Independent follow-up commands in the review worktree at `7c38a49`:
+
+| Command | Observed result |
+| --- | --- |
+| `git show 929152c1e64024d5bfa3ed641a76fa1ea4a3120b -- <tests/author evidence>` | exit0; additive13 test lines and author rationale only |
+| `cmake --preset contribution-evidence-debug` | exit0 |
+| `cmake --build --preset contribution-evidence-debug` | exit0; revised test compiled and executable linked/discovered |
+| `ctest --preset contribution-evidence-debug -N -L contribution-evidence` | exit0;21 cases listed; no bodies executed |
+| `python3 tools/check_project.py` | exit0;377 tasks,122 decisions, links/presets/current HTML pass |
+| `python3 tools/progress.py render --check` | exit0; current snapshot |
+| `git diff --check` and `git diff --cached --check` | exit0 before follow-up review commit |
+
+Verdict: **approved for test baseline** for the artifact table above with only the
+test/author-evidence blobs replaced by these corrected identities. There are no
+remaining baseline findings or new owner policy decisions in this bounded slice.
+This approval permits the coordinator to run the actual intended-red test bodies;
+it does not itself supply red evidence, passing behavior or final integration/CI/
+publication/merge approval. ACCT-002 production remains gated on observed explicit
+missing-behavior failures and the completed baseline handoff. All simulation limits,
+downstream application/refund/provider/storage/authorization gates and the separate
+timer policy blocker remain unchanged.
