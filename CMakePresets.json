@@ -47,7 +47,7 @@
     },
     {
       "name": "timer-lifecycle-debug",
-      "displayName": "05 \u00b7 Timer lifecycle intentional-red baseline",
+      "displayName": "05 \u00b7 Timer lifecycle acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS": "ON"

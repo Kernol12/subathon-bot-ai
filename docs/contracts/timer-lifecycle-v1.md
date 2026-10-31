@@ -11,7 +11,9 @@ State: revision1 independently reviewed with39 cases and observed intended stub-
 [baseline handoff](../evidence/coretest-002-baseline-handoff.md) records exact artifacts.
 The owner resolved positive credit during confirmation wait in the
 [recorded clarification](../evidence/timer-confirmation-credit-decision.md).
-No production behavior is implemented by this baseline; no API/layout migration occurs.
+CORE-002 implements the pure reducer with39 passing reviewed cases and separate
+code review/automatic CI; [implementation handoff](../evidence/core-002-handoff.md).
+No API/layout migration occurs.
 
 ## Bounded public interface
 
@@ -196,17 +198,18 @@ command ordering and the cited §4 requirements, not an implementation under tes
 
 Executable home: `tests/acceptance/timer_lifecycle_tests.cpp`. Pure explicit-value
 GoogleTests cover this bounded behavior and the local validation/representation
-choices. They are authored examples until separately reviewed and observed red;
-they establish no persistence, server loop, provider or supported-platform behavior.
+choices. All39 were independently reviewed and observed red before implementation;
+they now pass against the separately reviewed reducer. They establish no persistence,
+server loop, provider or supported-platform behavior.
 
 ## Baseline and downstream gates
 
-The baseline provides a minimal header and three unconditional
-`TimerLifecycleNotImplemented` stubs only. Coordinator-owned CMake adds the separate
-optional `timer-lifecycle-debug` lane; existing stable credit/numeric/scaffold lanes
-must stay green. Do not invert, skip or relabel intentional failures as acceptance
-success. CORE-002 must add its stable passing timer suite to automatic CI and observe
-that workflow before implementation completion.
+The original baseline provided a minimal header and three unconditional
+`TimerLifecycleNotImplemented` stubs. CORE-002 replaced those stubs after the reviewed
+red gate; the same39 cases now pass in `timer-lifecycle-debug` and automatic PR/main
+CI. Existing stable credit/numeric/receipt/scaffold lanes remain enabled. The
+[handoff](../evidence/core-002-handoff.md) records separate code review and actual
+CI observations; no failure inversion, skipped assertion or weaker oracle was used.
 
 No prior assertions, numeric contracts, schemas or persisted data are changed.
 First-start/deadline gates and downstream clock/pause/recovery/schedule/accounting

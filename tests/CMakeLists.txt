@@ -47,7 +47,7 @@ if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
     add_executable(core_timer_lifecycle_acceptance acceptance/timer_lifecycle_tests.cpp)
     target_link_libraries(core_timer_lifecycle_acceptance PRIVATE subathon_timer_lifecycle GTest::gtest_main)
     subathon_target_options(core_timer_lifecycle_acceptance)
-    gtest_discover_tests(core_timer_lifecycle_acceptance PROPERTIES LABELS "timer-lifecycle;acceptance;intentional-red")
+    gtest_discover_tests(core_timer_lifecycle_acceptance PROPERTIES LABELS "timer-lifecycle;acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
