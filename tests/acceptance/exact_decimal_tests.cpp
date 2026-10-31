@@ -85,6 +85,13 @@ TEST(ExactDecimalAcceptance, RejectsOneByteBeyondTheLimitBeforeSyntax) {
     EXPECT_THROW(static_cast<void>(parse_decimal(std::string(513, '?'))), std::length_error);
 }
 
+TEST(ExactDecimalAcceptance, CompleteSyntaxPrecedesInternalResourceLimits) {
+    // Both strings fit the byte budget; trailing junk invalidates complete grammar.
+    EXPECT_THROW(static_cast<void>(parse_decimal(std::string(257, '9') + '?')),
+                 std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(parse_decimal("1e257?")), std::invalid_argument);
+}
+
 TEST(ExactDecimalAcceptance, AcceptsExactly256MantissaDigits) {
     const std::string source(256, '9');
     const auto result = parse_decimal(source);
