@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T19:33:24.475434+00:00",
+  "updated_at": "2026-10-31T19:34:59.655629+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -800,8 +800,8 @@
       "title": "Main countdown and ending-mode transitions",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/timer_implementer; independent reviewer /root/timer_final_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "IMPL-001",
@@ -815,7 +815,8 @@
       "brief": "docs/tasks/EPIC-001/CORE-002.md",
       "summary": "Represent ready/active/finished and main/grace separately; default to two-minute grace then finish, with immediate and confirmation modes.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed from integrated main419d855 after CORETEST002 PR14 merged19:34:33UTC, final3846d38 all5CIpass/fullreview2fb544f+26e40f9. Contracttimerrev1 reviewed testsbf8c1f46/header69cad702, actual39-case stubredcd59601. Implementer isolated task/CORE-002-implementation owns only core/src/timer_lifecycle.cpp and implementationevidence; preserve interfaces/tests and normativecontract. Coordinator owns CMake/preset labels/automatictimerCI/state/HTML/map/architecture/status/checkpoint/PR. Separate code/config reviewer in isolated worktree. Acceptance39passing cases, stable regressions, separate review and actualautomaticCI; no Qt/statequeue/application/pause-set/start/reopen/recovery/schedule/provider feature claim."
       ],
       "verification": {},
       "evidence": [],
@@ -10570,6 +10571,11 @@
       "date": "2026-10-31T19:30:06+00:00",
       "task": "CORETEST-002",
       "note": "Final39-case timer baseline independently approved2fb544f after owner decision and four additive cases160c7e6; testsbf8c1f46/header69cad702/stub5584f845 unchanged. Atcd59601 after approval actual CTest exit8,39/39 TimerLifecycleNotImplemented failures, no skips/dependency failures. Stable scaffold3/credit23/numeric33/receipt15 and tooling19/DOM pass. Baseline done means reviewed intended red, not timer behavior; final integration review/latest PR14 CI/merge pending. CORE002 waits integrated prerequisite and must activate stable timerCI."
+    },
+    {
+      "date": "2026-10-31T19:34:59.655629+00:00",
+      "task": "CORE-002",
+      "note": "Claimed from integrated main419d855 after CORETEST002 PR14 merged19:34:33UTC, final3846d38 all5CIpass/fullreview2fb544f+26e40f9. Contracttimerrev1 reviewed testsbf8c1f46/header69cad702, actual39-case stubredcd59601. Implementer isolated task/CORE-002-implementation owns only core/src/timer_lifecycle.cpp and implementationevidence; preserve interfaces/tests and normativecontract. Coordinator owns CMake/preset labels/automatictimerCI/state/HTML/map/architecture/status/checkpoint/PR. Separate code/config reviewer in isolated worktree. Acceptance39passing cases, stable regressions, separate review and actualautomaticCI; no Qt/statequeue/application/pause-set/start/reopen/recovery/schedule/provider feature claim."
     }
   ]
 }

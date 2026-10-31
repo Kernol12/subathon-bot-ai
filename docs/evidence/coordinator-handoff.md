@@ -3,7 +3,7 @@
 Coordinator `/root`, 2026-10-31. Objective: full specification v0.45, task by task,
 with isolated writers, real independent reviews and focused PRs. This is a session
 checkpoint, not completed product/release evidence. Last observed main is
-`8ad458ea6490a85b49b568b69661c023d3cf6ea2`; inspect actual GitHub again on resume.
+`419d8551c54ad7e3f802f18c10784bef49d7908f`; inspect actual GitHub again on resume.
 
 ## Completed integrations
 
@@ -36,7 +36,17 @@ Ruleset26170263 requires PRs/resolved threads, zero GitHub approvals, no force/d
 bypass and no required-status-check rule. All latest checks remain coordinator merge
 gates regardless of that explicit enforcement gap; repository settings were not changed.
 
-## Active baselines and gates
+## Active implementation and contribution baseline
+
+CORETEST-002 [PR14](https://github.com/Kernol12/subathon-bot-ai/pull/14) merged419d855
+at19:34:33UTC; final3846d38 all5checks passed, no review threads, rules permitmerge.
+CORE-002 claimed on `task/CORE-002-timer-lifecycle` from that integrated main.
+Implementer `/root/timer_implementer` will own only timer source and evidence in
+`local-evidence/worktrees/core002-implementation`, branch `task/CORE-002-implementation`.
+Independent `/root/timer_final_reviewer` owns code/config review in
+`local-evidence/worktrees/core002-review`, branch `task/CORE-002-code-review`.
+Coordinator owns all shared files, workflow and PR. No implementation yet.
+
 
 [Timer PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14), branch
 `task/CORETEST-002-timer-baseline`, main workspace. Author160c7e6 preserves35 old
@@ -45,8 +55,7 @@ reviewed behavioral contract09c7c77d. Separate full approval2fb544f and final26e
 are integrated (root2369ad1). Atcd59601 after approval actual CTest exit8:39/39
 explicit stub failures; [baseline handoff](coretest-002-baseline-handoff.md).
 Baseline task done, no timer implementation. Stable scaffold3/credit23/numeric33/
-receipt15 and tooling19/project/render/DOM/diff pass. Latest publication CI and merge
-remain; recheck actual head. Owner positive-actual confirmation-wait resumption is
+receipt15 and tooling19/project/render/DOM/diff pass. PR merged as recorded above; implementation gates now apply. Owner positive-actual confirmation-wait resumption is
 resolved; zero/pause/budget/hard-end/Finished guards retained. Ready/start/deadline
 and all downstream wiring remain separate tasks.
 
@@ -73,8 +82,8 @@ errors are historical, actual agents now completed those bounded assignments.
 
 ## Continuation and unperformed gates
 
-Inspect actual main, PR14/17, worktrees, agents and commands on resume. Complete
-latest-head CI/merge gates for timer14, then claim CORE-002 from integrated main.
+Inspect actual main, PR14/17, worktrees, agents and commands on resume. Continue CORE-002 implementation/code review/automaticCI gates from integrated
+main419d855.
 Finish contribution final integration/latest CI gates, reconcile shared progress/
 build/map/checkpoint against new main before merging17. Start ACCT-002 only from
 integrated reviewed/red prerequisites. Both implementations preserve all assertions,
