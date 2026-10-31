@@ -975,7 +975,7 @@
         "docs/evidence/coretest-003-authoring.md",
         "docs/evidence/coretest-003-independent-review.md"
       ],
-      "scope": "30 known-policy cases compile/list and have bounded independent partial review. Full baseline blocked on unanswered Unknown-status interactions; no test body, observed red, implementation or provider verification."
+      "scope": "30 known-policy cases compile/list with bounded partial review. Both owner Unknown-status choices now resolved; affected edge cases/full review/intended red remain pending. No test bodies, implementation or provider verification."
     }
   ]
 }

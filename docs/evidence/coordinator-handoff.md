@@ -59,7 +59,7 @@ Owner requested stopping after the next finished PR. PR19 is finished; this is t
 stop checkpoint. Do not continue or claim background execution until resumed.
 No next task was started after this stop boundary; existing pause draft is preserved.
 
-## Active CORETEST003 draft and unanswered decisions
+## CORETEST003 draft — owner decisions resolved, coordination stopped
 
 Root branch `task/CORETEST-003-pause-baseline`, claim425447c frommain0700d5d.
 Author `/root/pause_test_author` owns only pause contract/header/stubs/tests/brief/
@@ -72,36 +72,34 @@ CTest-N lists30 only, no bodies or red.
 The old `/root/timer_final_reviewer` was absent on resume and left no partialreview.
 Fresh `/root/pause_resume_reviewer` explicitly reassigned the actual30-case candidate,
 then committed bounded review005b6f4 (integratedf380187). All30 known oracles inspected;
-no incorrect oracle found. Full baseline remains blocked on the owner questions below.
+no incorrect oracle found. At that review the two owner questions were unanswered; both are now resolved
+as recorded below. Affected cases/full review/red remain pending.
 No pause test bodies/red/production behavior or full approval. The reviewer completed
 and stopped; no agent work is left running. Evidence:
 [partial review](coretest-003-independent-review.md). Draft
 [PR20](https://github.com/Kernol12/subathon-bot-ai/pull/20) remains unmerged; its
-checkpoint reconciles main5201edd and marks CORETEST003 blocked/partial, CORE003 planned.
+checkpoint reconciles main5201edd and marks CORETEST003 unfinished/partial, CORE003 planned.
 Coordinator owns shared files; author/reviewer support branches preserved clean.
 
-First owner choice is now explicit: Unknown cancels the pending Offline delay;
-later confirmed Offline starts a fresh full configured delay (default30s). Existing
-Offline pauses remain. Owner answered yes to that exact confirmation; spec and
-draft contract record it. Cases/review for this newly resolved edge remain pending.
-One owner choice remains unanswered:
-Optional Unknown timeout pause: clear on any known status with a fresh timeout
-   for each later Unknown episode (recommended), or clear only on confirmed Online?
+Both owner choices are now explicit and recorded in specification§4, the draft
+contract and `docs/evidence/pause-signal-policy-questions.md`:
+1. Unknown cancels pending Offline delay; later confirmed Offline starts a fresh
+   full configured delay (default30s). Established Offline pauses remain.
+2. Either known Online or Offline clears only the Unknown pause and resets its
+   pending timeout; every new Unknown episode gets a fresh full configured timeout.
+   Other independent reasons remain.
 
-Existing confirmed-Offline/other independent reasons cannot be cleared by Unknown.
-Question details are in `docs/evidence/pause-signal-policy-questions.md` on the pause
-branch. The specification leaves these interactions open; no policy was invented.
-Continue independently specified cases while answers are pending. Full baseline
-approval/red/merge and CORE003 implementation wait for recorded answers and reviewed
-examples; partial drafts do not complete the task or shrink release scope.
+No policy answer remains needed. Newly decided edge cases, full independent review
+and intended stub-red remain unperformed; no pause implementation. Coordination
+is still stopped after PR19; recording answers is not a request to resume execution.
 
 ## Resume after this stop
 
 Inspect actual main, PR20 head/checks, all worktrees/uncommitted changes and agents/
 processes before acting. Preserve partialreview005b6f4 and completed implementation
-reviews. No routine approval is needed after an explicit resumption, but unanswered
-policy choices are not implied by a resume instruction. Record owner answers, author
-those examples in an isolated worktree, obtain actual full review then observed stub-red
+reviews. No routine approval is needed after an explicit resumption. Both owner answers
+are recorded; author their examples in an isolated worktree, obtain actual full
+review then observed stub-red
 before pause baseline merge/CORE003. Other dependency-ready tasks remain authorized
 on a future resumed loop; full product is not complete or universally blocked.
 
@@ -117,5 +115,5 @@ integrations and three rate providers, supported platforms, both renderers, UIs/
 localization/themes, packaging and live/OBS evidence. All source-port results retain
 simulation/domain limits; SQL/Qt/provider/platform/live gates remain separate.
 
-Recording the first owner answer does not resume coordination past the requested
-stop boundary. No tests or implementation were changed; one policy question remains.
+Both owner answers are recorded without resuming coordination past the requested
+stop boundary. No tests or implementation were changed; no policy question remains.

@@ -9,8 +9,8 @@ The [timer lifecycle contract](timer-lifecycle-v1.md) remains unchanged.
 State: proposed interface, 30 authored draft cases and explicit unconditional
 `PausePolicyNotImplemented` stubs only. Configure/build and discovery pass; test
 bodies have not run. No independent approval, observed red or
-production pause behavior is claimed. The policy questions below prevent finalizing
-the affected branches; unrelated specification-defined cases can be reviewed first.
+production pause behavior is claimed. The owner decisions below still require affected cases and full independent review
+before finalization; the existing known-policy cases have a bounded partial review.
 
 ## Scope and public values
 
@@ -59,8 +59,11 @@ timeout disabled it adds no new reason and cannot clear an existing confirmed-of
 manual, schedule, recovery or client-disconnect reason. An enabled timeout adds only
 StreamStatusUnknown after a continuous unknown interval reaches its exact duration;
 it never replaces or clears those existing reasons. Known status removes the uncertainty
-notice. The pending-offline interruption and timeout-recovery policies remain gated
-below; no test or caller may infer an answer from this draft's layout.
+notice and clears only StreamStatusUnknown, resetting its pending timeout. Each new
+Unknown episode starts a fresh full configured timeout. Unknown cancels a pending
+Offline delay; later confirmed Offline starts a fresh full configured Offline delay.
+These owner-selected edges preserve every unrelated reason, including established
+StreamOffline, and still need focused tests and full independent review.
 
 This interface returns a final proposal, not within-interval countdown history. A
 caller integrating the timer must segment at delay expiry and use the pause set
@@ -93,27 +96,22 @@ of INT64_MAX can expire exactly without overflow. Once elapsed reaches the thres
 only the active set member remains. No UTC instant is accepted, subtracted from a
 monotonic duration, or persisted by this primitive.
 
-## Unresolved product policy — final baseline gate
+## Owner decisions and remaining baseline gate
 
-The specification, TIMER-03/05, existing contracts and repository evidence do not
-resolve these combined cases. The coordinator has requested owner clarification.
+Both previously unresolved interactions now have explicit owner answers in the
+[decision record](../evidence/pause-signal-policy-questions.md):
 
-1. **Resolved by owner:** Unknown cancels a pending Offline delay; later confirmed
-   Offline starts a fresh full configured delay. An already established Offline
-   pause remains. See [decision record](../evidence/pause-signal-policy-questions.md).
-   This edge still requires authored cases and independent review before finalization.
-2. After optional unknown timeout activates StreamStatusUnknown, does any known
-   stream status clear it, or only confirmed Online? Does each new Unknown episode
-   start a fresh full timeout? The specification requires the independent reason
-   and forbids clearing confirmed-offline/other reasons, but does not define these
-   reset/recovery edges.
+1. Unknown cancels pending Offline delay; later confirmed Offline starts a fresh
+   full configured delay. An established Offline pause remains.
+2. Either known Online or Offline clears only StreamStatusUnknown and resets its
+   pending timeout. Each new Unknown episode starts a fresh full configured timeout;
+   all other independent reasons remain.
 
-Until the remaining choice is resolved and the newly decided edge is tested,
-cases crossing those edges are intentionally unauthored, not skipped
-tests or passing behavior claims. Full CORETEST-003 baseline approval and production
-implementation remain blocked on recorded decisions, affected examples/tests and
-independent review. This preserves full release scope rather than declaring those
-interactions unsupported product behavior.
+No product question remains. These newly decided edges still require authored
+examples/tests and full independent review. The existing30 known cases and partial
+review remain valid for their examined scope, not approval of these new branches.
+No test bodies/red/implementation have occurred. Full CORETEST-003 completion and
+CORE-003 production implementation still require their complete test-first gates.
 
 ## Independently derived examples
 

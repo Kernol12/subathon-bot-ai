@@ -1,28 +1,24 @@
-# CORETEST-003 pending signal-policy decisions
+# CORETEST-003 owner signal-policy decisions
 
-Coordinator `/root`, 2026-10-31. Specification v0.45 §4, TIMER-03/05 defines
-independent30-second offline/client delays and Unknown as distinct from confirmed
-Offline, with notice/default retention and an optional separate timeout pause.
-Existing contracts and task briefs contain no more precise answer for these cases.
+Coordinator `/root`, 2026-10-31. Authority: specification v0.45 §4, TIMER-03/05.
+Both previously open interactions now have explicit owner answers.
 
-Owner decision recorded: the owner answered **yes** to “Should Unknown cancel the
-pending delay, so a later confirmed Offline signal starts a fresh 30 seconds?”
-Unknown therefore cancels a pending offline delay; later confirmed Offline starts
-a fresh full configured delay (30 seconds by default). No pending time is retained
-or advanced through Unknown. This does not clear an already active Offline reason.
+1. The owner answered **yes** to canceling a pending Offline delay when status becomes
+   Unknown. A later confirmed Offline signal starts a fresh full configured delay
+   (30 seconds by default); pending time is neither retained nor advanced through
+   Unknown. An already established Offline pause remains active.
+2. The owner answered **yes** to clearing the optional Unknown-timeout pause on either
+   known Online or known Offline, with a fresh full configured timeout for each new
+   Unknown episode. Known status ends the previous Unknown episode and resets its
+   pending timeout as well. Clear only StreamStatusUnknown; retain every other
+   independent pause reason, including an already established StreamOffline reason.
 
-One clarification remains unanswered:
-An optional Unknown timeout pause is active. Clear it on either known Online or
-   Offline and give each later Unknown episode a fresh timeout (recommended), or
-   clear only on confirmed Online and retain it through Offline?
+No policy choice remains unanswered. These answers refine the draft contract and
+specification; they do not establish tests or implementation. The existing30 known
+cases and partial review005b6f4 remain preserved. The newly decided interactions
+still need focused examples/tests and actual full independent review, then observed
+intended stub-red before CORE-003 implementation.
 
-These questions concern pending/Unknown-owned state only. Unknown cannot clear an
-already established confirmed-Offline pause or unrelated manual/schedule/recovery/
-client reasons. That agreed invariant is unchanged. No recommendation is an answer;
-tests for the resolved edge still need authoring/review; full contract finalization
-waits for the remaining explicit owner choice.
-
-Coordination remains stopped after PR19. Existing draft cases and partial review
-are preserved; recording this answer does not resume implementation. CORETEST-003 still requires a complete actual independent
-review and intended stub-red before CORE-003 implementation. No provider capability,
-live status observation or pause behavior has been implemented by this record.
+Coordination remains stopped after PR19 at the owner's request. Recording these
+answers does not resume the task loop. No tests, stubs or implementation were changed;
+no provider capability, live status observation or pause behavior is verified here.
