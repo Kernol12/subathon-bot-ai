@@ -120,11 +120,28 @@ merged main, with its implementation/code review/pass gates still pending.
 `/root/numeric_implementer` is authorized to implement only after the completed
 reviewed/red baseline was merged; actual source revision and pass evidence are pending.
 
-Next: receive CORE-001 source revision, independently review/replay it, integrate
-and preserve reviewed assertions/header. Coordinator adds Boost>=1.83 discovery and
-exact pinned Ubuntu Boost package plus automatic numeric PR/main workflow; observe
-actual workflow success. Update state/map/evidence after passing gates and publish a
-focused implementation PR. No coordinator commands are intentionally left running.
+CORE-001 candidate author `4ab8613` + `873cc6d` is integrated as `2c656d4`
++ `bc5cb60`; exact source `e9ea7805c04af1bbd30f38946a40f5f483da7589`.
+The original32 numeric cases pass locally, as do author/reviewer credit23 checks.
+Initial parser-zero equality failure was corrected under an existing reviewed case.
+A separate normalized-zero finalizer gap was found on Boost1.92: raw zero may retain
+a4097-bit denominator, while the contract's normalized value is0/1 and should return0.
+Finalizer fix is held until the additive test is independently approved and observed red.
+
+One regression from `/root/numeric_test_author`, author `5f9b3c0`, test blob
+`347a810b1edba2ffc36d66ba44b700092bb2b381`, is integrated as `d5ff5d9`.
+Persistent writer worktree `local-evidence/worktrees/core001-zero-regression`, branch
+`task/CORE-001-zero-regression`; only additive test/evidence paths owned there.
+Reviewer approves its oracle in `cbf9391`; harness approval/red still pending.
+Coordinator `bd9c43b` adds the regression target and pinned numeric workflow; local
+configure/build passes. Numeric CI is not yet published/observed; no implementation
+done claim or new test pass claim exists. No baseline assertion was changed.
+
+Next: receive exact harness approval, run the focused new regression against the
+candidate and capture actual red, authorize finalizer fix, independently review/replay
+final code plus CI configuration, publish focused draft PR and observe pinned CI.
+Update status/map only after passing implementation gates. No coordinator commands
+are intentionally left running.
 
 Remaining release gates: the full planned product beyond the numeric credit helper;
 all seven integrations, all three exchange providers, both renderers, UIs/localization,
