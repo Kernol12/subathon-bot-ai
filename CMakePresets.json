@@ -52,6 +52,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_RECEIPT_INTAKE_TESTS": "ON"
       }
+    },
+    {
+      "name": "contribution-evidence-debug",
+      "displayName": "07 \u00b7 Contribution evidence intentional-red baseline",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -74,6 +82,10 @@
     {
       "name": "receipt-intake-debug",
       "configurePreset": "receipt-intake-debug"
+    },
+    {
+      "name": "contribution-evidence-debug",
+      "configurePreset": "contribution-evidence-debug"
     }
   ],
   "testPresets": [
@@ -120,6 +132,16 @@
     {
       "name": "receipt-intake-debug",
       "configurePreset": "receipt-intake-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "contribution-evidence-debug",
+      "configurePreset": "contribution-evidence-debug",
       "output": {
         "outputOnFailure": true
       },
