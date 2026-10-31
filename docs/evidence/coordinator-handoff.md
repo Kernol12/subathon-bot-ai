@@ -6,7 +6,7 @@ continuation checkpoint, not a release-completion claim.
 
 ## Repository and integrated work
 
-Last fetched main: `cab329b17ca3edb02e408ad1bc7244a73ae20c3d`.
+Last fetched main: `806f69f62a019417df80c8fbadb888074a5aa371`.
 Main is behind the active task branch only; inspect GitHub again on resumption.
 
 - [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10), BOOT-003, merged
@@ -32,29 +32,42 @@ currently has no required-status-check rule. Independent agent reviews and passi
 latest-revision CI remain repository gates. The enforcement configuration gap from
 BOOT-008 remains explicit; no ruleset/protection settings changed.
 
-## Active CORE-001 task and ownership
+## Integrated CORE-001 and active timer baseline
 
-[PR #13](https://github.com/Kernol12/subathon-bot-ai/pull/13) is draft; published
-head `fd86a6b9e8546bf5308a26e5561be0faf49e35fd` has all four checks passed.
-Local completion/evidence commits follow that head and need final independent
-integration review, publication and a fresh latest-head CI/merge check.
-Progress marks the bounded implementation done from passing acceptance, separate
-code review and actual new-workflow success; done does not mean merged.
+[PR #13](https://github.com/Kernol12/subathon-bot-ai/pull/13) merged `806f69f`
+on2026-10-31 08:17:59UTC, final head `bfb7717`; all four latest-head checks passed
+(exact-numeric, credit acceptance, PR/push scaffold), no unresolved threads and zero
+required GitHub approvals. Final independent integration approval `d555cbc` follows
+code/configuration approval `db26514`. All numeric author/reviewer/regression support
+branches are published; persistent worktrees are clean and retained.
 
-- Coordinator: main workspace, branch `task/CORE-001-exact-numeric`; owns CMake,
-  dependency pins/CI, progress/state.json, PROGRESS.html, acceptance map/status docs,
-  this checkpoint and task PR.
-- Implementer `/root/numeric_implementer`: persistent ignored worktree
-  `local-evidence/worktrees/core001-implementation`, branch `task/CORE-001-implementation`;
-  owns core/src/exact_decimal.cpp and docs/evidence/core-001-implementation.md.
-  Final source author `74f3594`, evidence `0915be4`; assignments completed/clean.
-- Reviewer `/root/numeric_reviewer`: `local-evidence/worktrees/core001-review`,
-  branch `task/CORE-001-code-review`; owns docs/evidence/core-001-code-review.md.
-  Final code/configuration approved `db26514`; final status integration review next.
-- Regression author `/root/numeric_test_author`: `local-evidence/worktrees/core001-zero-regression`,
-  branch `task/CORE-001-zero-regression`; authored only additive test/evidence at
-  `5f9b3c0`. Prior numeric baseline author/reviewer worktrees and published support
-  branches remain retained. No concurrent writer shares a worktree/branch.
+- CORETEST-002 coordinator: main workspace, branch `task/CORETEST-002-timer-baseline`;
+  owns shared CMake/preset harness, progress/state.json, PROGRESS.html, acceptance map,
+  follow-up task notes, this checkpoint and task PR. No timer PR yet.
+- Test author `/root/numeric_test_author`: persistent ignored worktree
+  `local-evidence/worktrees/coretest002-author`, branch `task/CORETEST-002-timer-author`;
+  owns timer-lifecycle contract/header/explicit stubs/acceptance tests/task brief/author
+  evidence. No production algorithm or numeric baseline edits.
+- Independent reviewer `/root/numeric_reviewer`: `local-evidence/worktrees/coretest002-review`,
+  branch `task/CORETEST-002-timer-review`; owns independent actual-revision review
+  evidence. Preparation only so far, no authored timer baseline approved.
+
+Timer scope: active/finished countdown reducer with Ready representation, separate
+Main/Grace, default120-second grace, immediate/confirmation end modes, applicable
+positive rescue, fresh/shared grace budget, pause observation and UTC hard-end
+precedence. Explicit nonnegative elapsed duration and independent UTC observation
+avoid cross-domain interpolation. Ordered transition proposals retain overshoot
+history without inventing exact UTC finish timestamps. Full pause/status signals,
+recovery/schedules and service/persistence behavior remain their bounded slices.
+
+One owner product decision is pending through an asynchronous question: after main
+hits zero in confirmation mode, does positive accepted time automatically resume main
+(recommended) or stay pending for an authorized decision? The specification only
+names the end mode; no dependent expectation or production policy is invented.
+Other cases/contract authoring continue. Ready/start/deadline product policy is
+outside the already-started reducer; advanceReady is an explicit invalid_argument
+API precondition, not a claim about application behavior. First-start/Ready deadline
+and start with an already-passed deadline are explicit API-007/CORE-008 follow-up gates.
 
 At resumption2026-10-31, old agents were gone and `/tmp` worktrees absent inside
 and outside the sandbox. Old Git branches/objects remain; they were not pruned or
@@ -95,13 +108,15 @@ also passes; no local package installation or live operation occurred.
 
 ## Next action and remaining gates
 
-Finish independent final integration review of completion/status/map prose, publish
-all final PR13 commits, inspect all latest-head checks, discussions and actual GitHub
-merge eligibility, then merge without routine owner confirmation if gates pass.
-Refresh main and select CORETEST-002(timer lifecycle) or another dependency-ready
-executable slice; start its branch/claim from integrated prerequisites. No owner
-question or access blocker is outstanding. No commands intentionally remain running;
-coordinator working tree should be checked for any new uncommitted changes on resume.
+CORETEST-002 author is drafting the unambiguous timer contract/tests and commits
+checkpoints frequently. Coordinator has prepared optional `timer-lifecycle-debug`
+CMake harness with `SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS`, separate from green numeric/
+credit CI; it cannot compile until author artifacts integrate. Complete the pending
+owner-policy branch only after an answer, review actual tests independently, compile
+and observe intended stub-red before any CORE-002 production code. Publish a focused
+draft timer PR for continuity and retain complete gate/evidence distinctions.
+No other owner/access blocker exists. No commands intentionally remain running;
+inspect uncommitted harness/progress work on resume before editing.
 
 Full scope beyond the cap-credit and exact-decimal primitives remains: authoritative
 application/aggregate/refund logic, all seven integrations and three exchange providers,
