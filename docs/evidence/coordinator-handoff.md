@@ -46,14 +46,16 @@ CIconfige5ee766/workflow79e4dfe1. Root/author/reviewer37pass, author6fullregress
 presets, reviewer timer39/scaffold3/tooling19/render/DOM/format/diff pass. Actual
 newpause CI41241695018 at07174f6 passed37 GNU13.3, all8checks passed there.
 [Implementation handoff](core-003-handoff.md), [CI evidence](core-003-ci.md).
-Bounded pure policy taskdone; finalstatusreview/latestPRheadCI/merge remain.
+Bounded pure policy taskdone; finalstatusreview8a50580 approved33a079f, including
+cleanup preservation checks. Latest finalPRheadCI/merge remain.
 No timer/provider/state/Qt/schedule/recovery/reconfiguration capability upgraded.
 
 Implementer `/root/pause_policy_implementer` committed/clean in
 `local-evidence/worktrees/core003-implementation`, branch `task/CORE-003-implementation`.
 Independent `/root/pause_resume_reviewer` owns only code/CI review evidence in
 `local-evidence/worktrees/core003-review`, branch `task/CORE-003-code-review`;
-sourceapproval committed8197844, finalstatus assignment follows actual candidate.
+sourceapproval8197844 and finalstatusapproval8a50580 committed locally; completed
+reviewer handoff, no remote reviewer branch recreated.
 Coordinator owns all shared build/presets/workflow/state/HTML/map/status/checkpoint/PR.
 Preserved earlier baseline author/reviewer worktrees/commits remain valid history.
 
@@ -76,8 +78,7 @@ remain written merge gates; cleanup touched only unprotected completed task bran
 
 ## Next coordinator action and release limits
 
-Give separate reviewer actual final CORE003 status/docs/map/checkpoint candidate,
-resolve findings, publish finalreview and recheck all latesthead CI/discussions/rules.
+Publish actual finalreview8a50580 and recheck all latesthead CI/discussions/rules.
 Merge PR21 only when eligible, refresh main and immediately select next dependency-
 ready task. No ownerquestion or routine approval is needed. No live operation is
 implied by pure helper tests or ongoing source coordination. Inspect real agent/
