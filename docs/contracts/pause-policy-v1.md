@@ -1,4 +1,4 @@
-# Independent pause reasons and delayed signals — proposed revision 1
+# Independent pause reasons and delayed signals — revision 1
 
 Tasks: CORETEST-003 / CORE-003. Authority: specification v0.45
 [§4](../specification.md#4-main-timer-grace-pauses-and-finishing), TIMER-03/05,
@@ -6,11 +6,10 @@ Tasks: CORETEST-003 / CORE-003. Authority: specification v0.45
 [event-state boundaries revision 1](event-state-boundaries-v1.md).
 The [timer lifecycle contract](timer-lifecycle-v1.md) remains unchanged.
 
-State: proposed interface, 37 authored draft cases and explicit unconditional
-`PausePolicyNotImplemented` stubs only. Configure/build and discovery pass; test
-bodies have not run. No independent approval, observed red or
-production pause behavior is claimed. The owner decisions below now have seven focused affected cases and still require full independent review
-before finalization; the existing known-policy cases have a bounded partial review.
+State: revision1 independently reviewed with37 cases and observed intended stub-red;
+[baseline handoff](../evidence/coretest-003-baseline-handoff.md) records exact artifacts.
+Both functions remain unconditional PausePolicyNotImplemented stubs; no production
+pause behavior or timer integration is supplied by this baseline.
 
 ## Scope and public values
 
@@ -109,11 +108,11 @@ Both previously unresolved interactions now have explicit owner answers in the
    pending timeout. Each new Unknown episode starts a fresh full configured timeout;
    other reasons remain unless their own recovery condition also occurs.
 
-No product question remains. These newly decided edges have seven authored
-examples/tests awaiting full independent review. The existing30 known cases and partial
-review remain valid for their examined scope, not approval of these new branches.
-No test bodies/red/implementation have occurred. Full CORETEST-003 completion and
-CORE-003 production implementation still require their complete test-first gates.
+No product question remains. Seven additive cases cover the decided edges while
+preserving all original30 bodies. Full independent review86c0bbd approved all37
+before the observed intended stub-red atf39ccc8. Historical partialreview005b6f4
+remains retained. No implementation or timer integration is supplied; CORE-003 still
+needs passing cases, separate code review and observed automatic CI.
 
 ## Independently derived examples
 

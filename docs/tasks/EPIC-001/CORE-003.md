@@ -3,8 +3,10 @@
 Parent: [EPIC-001](../EPIC-001.md). Kind: implementation.
 Specification: v0.45; §4, TIMER-03, TIMER-05.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: [pause-policy proposed revision 1](../../contracts/pause-policy-v1.md).
-The draft is not a finalized reviewed/red baseline; see [authoring evidence](../../evidence/coretest-003-authoring.md).
+Contract revision: [pause-policy revision 1](../../contracts/pause-policy-v1.md).
+The37-case baseline is independently reviewed and observed red; see
+[handoff](../../evidence/coretest-003-baseline-handoff.md). No policy implementation
+is provided by the baseline.
 
 ## Scope and ownership
 
@@ -33,7 +35,7 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 
 Test overlapping reasons, flapping signals, exact delay expiry and optional unknown-status timeout with a fake clock.
 
-Thirty-seven draft cases now cover the independently specified behavior using explicit
+Thirty-seven reviewed baseline cases cover the independently specified behavior using explicit
 monotonic durations. The original30 cases remain unchanged; seven focused additions
 encode the [recorded owner decisions](../../evidence/pause-signal-policy-questions.md):
 Unknown cancels pending Offline, later Offline receives the full fresh delay, and
@@ -42,8 +44,8 @@ Established Offline survives Unknown and known Offline. Known Online independent
 recovers Offline; connected-client recovery independently clears its reason. External
 and unrecovered holds remain. No product-policy question remains.
 Both functions remain unconditional `PausePolicyNotImplemented` stubs. Full independent
-review of all37 cases must precede any test-body/red run. Full baseline completion
-and production behavior remain gated; the intended release behavior remains required.
+review86c0bbd preceded the actual37-case stub-red atf39ccc8. Final baseline publication/
+merge gates and all implementation gates remain; intended release scope is unchanged.
 
 ## Separate baseline and implementation tasks
 
@@ -68,3 +70,8 @@ actually ran; no unbuilt test target or unrun command is evidence. Update applic
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
+
+Current baseline gate: full review86c0bbd approved the complete37 cases, then actual
+CTest atf39ccc8 failed37/37 on explicit stubs. Original30 bodies/header/stubs remain
+preserved. CORE-003 must pass these cases, obtain separate code review, and add/observe
+stable automatic pause PR/main CI before implementation completion.

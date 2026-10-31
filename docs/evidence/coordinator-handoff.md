@@ -66,14 +66,19 @@ Author `/root/pause_test_author` owns only pause contract/header/stubs/tests/bri
 authoring evidence in `local-evidence/worktrees/coretest003-author`, branch
 `task/CORETEST-003-pause-author`. Proposed contract/header/stubs4f24779 integrated
 f607d35; optional harness/questions recordec9d8a9, merged into author worktree.
-Original authorbb34d1e supplied30knowncases and partialreview005b6f4 remains
-preserved. New owner-edge author3c6d242 integrated001d316 adds7cases (37total),
-all original30 bodies byte-for-byte retained. Tests646d83f4, contracta8174be7;
-headerc91b7da3/stubdee2a91c unchanged. Author/root configure/build0, CTest-Nlists37
-only; no test body/red/implementation. Actual full reviewer `/root/pause_resume_reviewer`
-now examines all37 and the updated contract/harness in
-`local-evidence/worktrees/coretest003-review`, branch `task/CORETEST-003-pause-review`.
-No full approval inferred from oldpartial005b6f4. Current draft PR20 remains unmerged.
+Original30-case authorbb34d1e and partialreview005b6f4 remain preserved. Additive
+owner-edge author3c6d242 supplied7cases without changing original30/header/stubs.
+Full independent review86c0bbd approved actual37cases/contract/harness; integrated
+f39ccc8 before the actual CTest run: exit8,37/37 explicit stub failures.
+[Baseline handoff](coretest-003-baseline-handoff.md) records exact artifacts/output.
+Tests646d83f4, reviewed contracta8174be7, headerc91b7da3/stubdee2a91c unchanged.
+Root stable native3/23/33/15/21/39, tooling19 and DOM pass. Baseline taskdone is
+reviewed/red only; CORE003 implementation is still planned. Final status integration
+review and latest PR20 CI/merge remain before starting it from integrated main.
+Full reviewer `/root/pause_resume_reviewer` owns only its evidence in
+`local-evidence/worktrees/coretest003-review`; author `/root/pause_owner_case_author`
+committed/clean in `local-evidence/worktrees/coretest003-decisions`. No running author
+or build command is assumed after their handoffs; inspect actual agents on resume.
 
 Both owner choices are now explicit and recorded in specification§4, the draft
 contract and `docs/evidence/pause-signal-policy-questions.md`:
@@ -83,32 +88,26 @@ contract and `docs/evidence/pause-signal-policy-questions.md`:
    pending timeout; every new Unknown episode gets a fresh full configured timeout.
    Other independent reasons remain.
 
-No policy answer remains needed. New owner-edge author `/root/pause_owner_case_author`
-is explicitly assigned the actual draft in `local-evidence/worktrees/coretest003-decisions`,
-branch `task/CORETEST-003-owner-cases`, from main5201edd plus current PR20. Own only
-new tests, contract examples/status, CORE003 brief and appended authoring evidence;
-preserve original30/header/stubs. Coordinator owns shared build/state/map/checkpoint.
-Full independent review and intended stub-red still precede implementation. Existing
-recovery rules compose independently: Online clears Offline, while Unknown cleanup
-never clears unrelated unrecovered reasons. Reviewer assignment follows actualauthor
-revision; no approval inferred from old partial review.
+No policy answer remains needed. Author3c6d242 and fullreview86c0bbd have completed
+their bounded handoffs. The actual37-case intended red is recorded; final status/
+integration review, final-head CI and PR20 merge remain. Coordinate shared artifacts
+through root; do not repeat prior completed authoring or review stages.
 
 ## Next coordinator actions
 
-Inspect actual main, PR20 head/checks, all worktrees/uncommitted changes and agents/
-processes before acting. Preserve partialreview005b6f4 and completed implementation
-reviews. No routine approval is needed after an explicit resumption. Both owner answers
-are recorded; author their examples in an isolated worktree, obtain actual full
-review then observed stub-red
-before pause baseline merge/CORE003. Other dependency-ready tasks remain authorized
-on a future resumed loop; full product is not complete or universally blocked.
+Inspect actual state on resumption. Finish final CORETEST003 integration review and
+latest PR20 CI/merge gates, then immediately claim CORE-003 from integrated main.
+Preserve37 reviewed assertions/interfaces; implement pure pause policy, obtain separate
+code review and add/observe stable automatic pause CI. Caller segmentation/timer
+wiring and all provider/storage/platform behavior stay explicit downstream gates.
+The earlier ownerstop was explicitly revoked by this resume; continue the standing
+loop without routine approval. No new owner question or live operation is needed.
 
-Historical stop-checkpoint checks atfd309c2 all passed: project/current HTML,
-Python19/19, progress DOM simulation, whitespace, pause-policy-debug configure/build
-and CTest-N-Lpause-policy discovery30. No body/red ran. Task note records outcomes;
-final publication is this draft PR20 checkpoint, not another completed task PR. At that earlier stop no agent/build remained running. A new reviewer is now active;
-inspect actual process/agent state on any later resume.
-Persistent ignored worktrees and old /tmp metadata are preserved; no work discarded.
+Latest local evidence: root37 compile/list before fullapproval; actual CTest exit8
+atf39ccc8 afterward. Stable configure/build/CTest3/23/33/15/21/39, Python19, DOM,
+project/current HTML and diff checks passed. See baseline handoff/rawlog. No author
+command remains running after handoff; assign reviewer only the actual final status
+candidate. Persistent ignored worktrees and old /tmp metadata are retained.
 
 Full release gates remain: authoritative application/aggregates/refunds, all seven
 integrations and three rate providers, supported platforms, both renderers, UIs/

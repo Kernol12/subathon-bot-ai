@@ -110,9 +110,16 @@
     },
     {
       "id": "TIMER-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/pause_policy_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-003-independent-review.md",
+        "docs/evidence/coretest-003-baseline-handoff.md",
+        "docs/evidence/coretest-003-red-ctest.txt"
+      ],
+      "scope": "37-case pure pause-policy baseline independently reviewed and observed intended stub-red. Implementation, timer/writer/provider wiring and release/platform behavior remain separate."
     },
     {
       "id": "TIMER-04",
@@ -122,9 +129,16 @@
     },
     {
       "id": "TIMER-05",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/pause_policy_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-003-independent-review.md",
+        "docs/evidence/coretest-003-baseline-handoff.md",
+        "docs/evidence/coretest-003-red-ctest.txt"
+      ],
+      "scope": "37-case pure pause-policy baseline independently reviewed and observed intended stub-red. Implementation, timer/writer/provider wiring and release/platform behavior remain separate."
     },
     {
       "id": "TIMER-06",
@@ -957,25 +971,27 @@
       "verification_level": "simulation"
     },
     {
-      "scenario": "Independent pause reasons and normalized signal-delay policy (draft)",
-      "status": "draft",
+      "scenario": "Independent pause reasons and normalized signal-delay policy",
+      "status": "observed_red",
       "tests": [
         "tests/acceptance/pause_policy_tests.cpp"
       ],
       "contract": "docs/contracts/pause-policy-v1.md",
       "review": {
-        "author": "/root/pause_test_author",
+        "author": "/root/pause_test_author; additive /root/pause_owner_case_author",
         "reviewer": "/root/pause_resume_reviewer",
-        "outcome": "changes_requested",
-        "baseline": "authorbb34d1e; testsaf1275f7/headerc91b7da3/stubdee2a91c/contract46b6c641; partialreview005b6f4; fullbaselineblocked on owner questions",
+        "outcome": "approved",
+        "baseline": "author3c6d242; tests646d83f4e38722239bb8b590a9f368141bed4246; contracta8174be7; review86c0bbd; actualredf39ccc8",
         "evidence": "docs/evidence/coretest-003-independent-review.md"
       },
       "evidence": [
         "docs/evidence/pause-signal-policy-questions.md",
         "docs/evidence/coretest-003-authoring.md",
-        "docs/evidence/coretest-003-independent-review.md"
+        "docs/evidence/coretest-003-independent-review.md",
+        "docs/evidence/coretest-003-baseline-handoff.md",
+        "docs/evidence/coretest-003-red-ctest.txt"
       ],
-      "scope": "37 authored cases compile/list only; original30 preserved, seven additive owner-edge cases. Both choices resolved; actual full independent review and intended stub-red pending. No bodies, implementation or provider verification."
+      "scope": "37 independently reviewed cases actually fail on explicit stubs after successful compilation. Both owner choices covered, all original30 preserved; no implementation, timer integration or provider verification."
     }
   ]
 }

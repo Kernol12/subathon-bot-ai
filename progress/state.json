@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T20:53:29.663725+00:00",
+  "updated_at": "2026-10-31T20:55:50.575570+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -847,7 +847,7 @@
       "title": "Review and demonstrate red: Independent pause reasons and delayed status signals",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; owner-edge author /root/pause_owner_case_author; independent reviewer /root/pause_resume_reviewer",
       "depends_on": [
         "CORE-002"
@@ -869,25 +869,28 @@
         "Owner explicitly answeredyes: Unknown cancels pendingOffline delay; laterconfirmedOffline startsfresh full configureddelay(default30s), existingOfflinepause retained. Recorded spec/decision/draftcontract. Remaining Unknown-timeout clear/rearm choice unanswered; newedgecases/review/red pending, taskstillblocked. Coordinationremainsstopped afterPR19, no tests/implementation changed.",
         "Owner explicitly answeredyes to secondchoice: either knownOnline/Offline clears onlyUnknownpause and resets its pendingtimeout; eachnewUnknownepisode getsfresh fullconfiguredtimeout, otherreasonsretained. Both ownerpolicyquestionsresolved. Updatedspec/decision/draftcontract; affectedcases/fullindependentreview/red stillpending, no tests/implementationchanged. Taskunfinished, coordinationstillstopped afterPR19 untilresumed.",
         "Explicitly resumed after ownerstop and bothanswered Unknownpolicies. Verified main5201edd/open draftPR20head6a80b6e/all7stableCIpass; allworktreesclean/no buildprocesses, oldauthornotrunning. Reassign bounded newedgecases to /root/pause_owner_case_author in isolated task/CORETEST-003-owner-cases fromcurrentmain +actualdraft. Preserve original30/header/stubs and partialreview005b6f4. Clarify independentrecoverycomposition: knownOffline retainsOffline; knownOnline separatelyclearsOffline perexistingTIMER03, Unknowncleanup isnotglobalresume. Need fullactualtestreviewthenintendedred; CORE003notstarted.",
-        "Owner-edge author3c6d242 integrated001d316 adds7focusedcases(37total), original30bodies/headerc91b7da3/stubdee2a91c unchanged. Tests646d83f4/contracta8174be7 derivebothownerdecisions and independentOnline/clientrecoverycomposition. Author/rootconfigure/build0, CTest-Nlists37only; NO body/red. Reassigned /root/pause_resume_reviewer actual37/fullcontract/harness for fullindependentreview, preserving priorpartial005b6f4. No productquestion; fullapprovalthenintendedredbeforeCORE003."
+        "Owner-edge author3c6d242 integrated001d316 adds7focusedcases(37total), original30bodies/headerc91b7da3/stubdee2a91c unchanged. Tests646d83f4/contracta8174be7 derivebothownerdecisions and independentOnline/clientrecoverycomposition. Author/rootconfigure/build0, CTest-Nlists37only; NO body/red. Reassigned /root/pause_resume_reviewer actual37/fullcontract/harness for fullindependentreview, preserving priorpartial005b6f4. No productquestion; fullapprovalthenintendedredbeforeCORE003.",
+        "Full37-case pause baseline approved86c0bbd after bothownerdecisions/sevenadditivecases3c6d242, original30/header/stubs unchanged. At integratedf39ccc8 afterfullapproval actualCTestexit8,37/37 explicitPausePolicyNotImplemented failures, no skips/dependency/build failures. Rootstable scaffold3/credit23/numeric33/receipt15/contribution21/timer39 plus tooling19/DOMpass. Baseline done meansreviewed intendedred, no pauseimplementation. Finalstatusintegrationreview/latestPR20CI/merge pending; CORE003 waits integratedprerequisite and mustactivateautomaticpauseCI."
       ],
       "verification": {
-        "authored_tests": "draft",
+        "authored_tests": "passed",
         "native_build": "passed",
-        "test_review": "partial",
-        "baseline": "not_run",
+        "test_review": "passed",
+        "baseline": "observed_red",
         "product_acceptance": "not_run"
       },
       "evidence": [
         "docs/evidence/pause-signal-policy-questions.md",
         "docs/evidence/coretest-003-authoring.md",
-        "docs/evidence/coretest-003-independent-review.md"
+        "docs/evidence/coretest-003-independent-review.md",
+        "docs/evidence/coretest-003-baseline-handoff.md",
+        "docs/evidence/coretest-003-red-ctest.txt"
       ],
       "review": {
-        "author": "/root/pause_test_author",
+        "author": "/root/pause_test_author; additive /root/pause_owner_case_author",
         "reviewer": "/root/pause_resume_reviewer",
-        "outcome": "changes_requested",
-        "baseline": "authorbb34d1e; testsaf1275f7/headerc91b7da3/stubdee2a91c/contract46b6c641; partialreview005b6f4; fullbaselineblocked on owner questions",
+        "outcome": "approved",
+        "baseline": "author3c6d242; tests646d83f4e38722239bb8b590a9f368141bed4246; contracta8174be7; review86c0bbd; actualredf39ccc8",
         "evidence": "docs/evidence/coretest-003-independent-review.md"
       }
     },
@@ -10732,6 +10735,11 @@
       "date": "2026-10-31T20:53:29.663725+00:00",
       "task": "CORETEST-003",
       "note": "Owner-edge author3c6d242 integrated001d316 adds7focusedcases(37total), original30bodies/headerc91b7da3/stubdee2a91c unchanged. Tests646d83f4/contracta8174be7 derivebothownerdecisions and independentOnline/clientrecoverycomposition. Author/rootconfigure/build0, CTest-Nlists37only; NO body/red. Reassigned /root/pause_resume_reviewer actual37/fullcontract/harness for fullindependentreview, preserving priorpartial005b6f4. No productquestion; fullapprovalthenintendedredbeforeCORE003."
+    },
+    {
+      "date": "2026-10-31T20:55:50.575570+00:00",
+      "task": "CORETEST-003",
+      "note": "Full37-case pause baseline approved86c0bbd after bothownerdecisions/sevenadditivecases3c6d242, original30/header/stubs unchanged. At integratedf39ccc8 afterfullapproval actualCTestexit8,37/37 explicitPausePolicyNotImplemented failures, no skips/dependency/build failures. Rootstable scaffold3/credit23/numeric33/receipt15/contribution21/timer39 plus tooling19/DOMpass. Baseline done meansreviewed intendedred, no pauseimplementation. Finalstatusintegrationreview/latestPR20CI/merge pending; CORE003 waits integratedprerequisite and mustactivateautomaticpauseCI."
     }
   ]
 }

@@ -1,0 +1,967 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/pause-policy-debug
+      Start  1: PausePolicyAcceptance.OfflineDefaultDelayDoesNotPauseUntilItsExactBoundary
+ 1/37 Test  #1: PausePolicyAcceptance.OfflineDefaultDelayDoesNotPauseUntilItsExactBoundary ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.OfflineDefaultDelayDoesNotPauseUntilItsExactBoundary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.OfflineDefaultDelayDoesNotPauseUntilItsExactBoundary
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.OfflineDefaultDelayDoesNotPauseUntilItsExactBoundary (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.OfflineDefaultDelayDoesNotPauseUntilItsExactBoundary
+
+ 1 FAILED TEST
+
+      Start  2: PausePolicyAcceptance.DesignatedClientHasItsOwnDefaultThirtySecondDelay
+ 2/37 Test  #2: PausePolicyAcceptance.DesignatedClientHasItsOwnDefaultThirtySecondDelay .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.DesignatedClientHasItsOwnDefaultThirtySecondDelay
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.DesignatedClientHasItsOwnDefaultThirtySecondDelay
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.DesignatedClientHasItsOwnDefaultThirtySecondDelay (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.DesignatedClientHasItsOwnDefaultThirtySecondDelay
+
+ 1 FAILED TEST
+
+      Start  3: PausePolicyAcceptance.CustomOfflineAndClientDelaysExpireIndependently
+ 3/37 Test  #3: PausePolicyAcceptance.CustomOfflineAndClientDelaysExpireIndependently .......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.CustomOfflineAndClientDelaysExpireIndependently
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.CustomOfflineAndClientDelaysExpireIndependently
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.CustomOfflineAndClientDelaysExpireIndependently (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.CustomOfflineAndClientDelaysExpireIndependently
+
+ 1 FAILED TEST
+
+      Start  4: PausePolicyAcceptance.EarlierClientExpiryDoesNotRestartTheOfflineDelay
+ 4/37 Test  #4: PausePolicyAcceptance.EarlierClientExpiryDoesNotRestartTheOfflineDelay ......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.EarlierClientExpiryDoesNotRestartTheOfflineDelay
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.EarlierClientExpiryDoesNotRestartTheOfflineDelay
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.EarlierClientExpiryDoesNotRestartTheOfflineDelay (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.EarlierClientExpiryDoesNotRestartTheOfflineDelay
+
+ 1 FAILED TEST
+
+      Start  5: PausePolicyAcceptance.ZeroDelaysActivateWithoutAnExtraTick
+ 5/37 Test  #5: PausePolicyAcceptance.ZeroDelaysActivateWithoutAnExtraTick ..................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ZeroDelaysActivateWithoutAnExtraTick
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ZeroDelaysActivateWithoutAnExtraTick
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.ZeroDelaysActivateWithoutAnExtraTick (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ZeroDelaysActivateWithoutAnExtraTick
+
+ 1 FAILED TEST
+
+      Start  6: PausePolicyAcceptance.ZeroOfflineDelayDoesNotMakeClientDelayImmediate
+ 6/37 Test  #6: PausePolicyAcceptance.ZeroOfflineDelayDoesNotMakeClientDelayImmediate .......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ZeroOfflineDelayDoesNotMakeClientDelayImmediate
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ZeroOfflineDelayDoesNotMakeClientDelayImmediate
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.ZeroOfflineDelayDoesNotMakeClientDelayImmediate (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ZeroOfflineDelayDoesNotMakeClientDelayImmediate
+
+ 1 FAILED TEST
+
+      Start  7: PausePolicyAcceptance.OfflineRecoveryBeforeExpiryCancelsAndNextEpisodeStartsFresh
+ 7/37 Test  #7: PausePolicyAcceptance.OfflineRecoveryBeforeExpiryCancelsAndNextEpisodeStartsFresh ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.OfflineRecoveryBeforeExpiryCancelsAndNextEpisodeStartsFresh
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.OfflineRecoveryBeforeExpiryCancelsAndNextEpisodeStartsFresh
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.OfflineRecoveryBeforeExpiryCancelsAndNextEpisodeStartsFresh (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.OfflineRecoveryBeforeExpiryCancelsAndNextEpisodeStartsFresh
+
+ 1 FAILED TEST
+
+      Start  8: PausePolicyAcceptance.ClientFlappingCancelsItsPendingDelayWithoutClearingManual
+ 8/37 Test  #8: PausePolicyAcceptance.ClientFlappingCancelsItsPendingDelayWithoutClearingManual .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ClientFlappingCancelsItsPendingDelayWithoutClearingManual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ClientFlappingCancelsItsPendingDelayWithoutClearingManual
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.ClientFlappingCancelsItsPendingDelayWithoutClearingManual (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ClientFlappingCancelsItsPendingDelayWithoutClearingManual
+
+ 1 FAILED TEST
+
+      Start  9: PausePolicyAcceptance.RepeatedOfflineSignalDoesNotRestartPendingOrDuplicateActiveReason
+ 9/37 Test  #9: PausePolicyAcceptance.RepeatedOfflineSignalDoesNotRestartPendingOrDuplicateActiveReason .....***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.RepeatedOfflineSignalDoesNotRestartPendingOrDuplicateActiveReason
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.RepeatedOfflineSignalDoesNotRestartPendingOrDuplicateActiveReason
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.RepeatedOfflineSignalDoesNotRestartPendingOrDuplicateActiveReason (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.RepeatedOfflineSignalDoesNotRestartPendingOrDuplicateActiveReason
+
+ 1 FAILED TEST
+
+      Start 10: PausePolicyAcceptance.OfflineRecoveryRetainsManualScheduleRecoveryAndClientReasons
+10/37 Test #10: PausePolicyAcceptance.OfflineRecoveryRetainsManualScheduleRecoveryAndClientReasons ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.OfflineRecoveryRetainsManualScheduleRecoveryAndClientReasons
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.OfflineRecoveryRetainsManualScheduleRecoveryAndClientReasons
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.OfflineRecoveryRetainsManualScheduleRecoveryAndClientReasons (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.OfflineRecoveryRetainsManualScheduleRecoveryAndClientReasons
+
+ 1 FAILED TEST
+
+      Start 11: PausePolicyAcceptance.ClientRecoveryRetainsOfflineUnknownAndOtherIndependentHolds
+11/37 Test #11: PausePolicyAcceptance.ClientRecoveryRetainsOfflineUnknownAndOtherIndependentHolds ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ClientRecoveryRetainsOfflineUnknownAndOtherIndependentHolds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ClientRecoveryRetainsOfflineUnknownAndOtherIndependentHolds
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.ClientRecoveryRetainsOfflineUnknownAndOtherIndependentHolds (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ClientRecoveryRetainsOfflineUnknownAndOtherIndependentHolds
+
+ 1 FAILED TEST
+
+      Start 12: PausePolicyAcceptance.ExternalPauseReasonsAreSetAndClearedIndependently
+12/37 Test #12: PausePolicyAcceptance.ExternalPauseReasonsAreSetAndClearedIndependently .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ExternalPauseReasonsAreSetAndClearedIndependently
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ExternalPauseReasonsAreSetAndClearedIndependently
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.ExternalPauseReasonsAreSetAndClearedIndependently (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ExternalPauseReasonsAreSetAndClearedIndependently
+
+ 1 FAILED TEST
+
+      Start 13: PausePolicyAcceptance.RepeatedExternalSetAndClearPreservePendingSignals
+13/37 Test #13: PausePolicyAcceptance.RepeatedExternalSetAndClearPreservePendingSignals .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.RepeatedExternalSetAndClearPreservePendingSignals
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.RepeatedExternalSetAndClearPreservePendingSignals
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.RepeatedExternalSetAndClearPreservePendingSignals (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.RepeatedExternalSetAndClearPreservePendingSignals
+
+ 1 FAILED TEST
+
+      Start 14: PausePolicyAcceptance.UnknownDefaultRaisesNoticeWithoutAddingAnyPauseOrPendingTimeout
+14/37 Test #14: PausePolicyAcceptance.UnknownDefaultRaisesNoticeWithoutAddingAnyPauseOrPendingTimeout .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.UnknownDefaultRaisesNoticeWithoutAddingAnyPauseOrPendingTimeout
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.UnknownDefaultRaisesNoticeWithoutAddingAnyPauseOrPendingTimeout
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.UnknownDefaultRaisesNoticeWithoutAddingAnyPauseOrPendingTimeout (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.UnknownDefaultRaisesNoticeWithoutAddingAnyPauseOrPendingTimeout
+
+ 1 FAILED TEST
+
+      Start 15: PausePolicyAcceptance.UnknownDefaultRetainsConfirmedOfflineAndExternalReasons
+15/37 Test #15: PausePolicyAcceptance.UnknownDefaultRetainsConfirmedOfflineAndExternalReasons ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.UnknownDefaultRetainsConfirmedOfflineAndExternalReasons
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.UnknownDefaultRetainsConfirmedOfflineAndExternalReasons
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.UnknownDefaultRetainsConfirmedOfflineAndExternalReasons (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.UnknownDefaultRetainsConfirmedOfflineAndExternalReasons
+
+ 1 FAILED TEST
+
+      Start 16: PausePolicyAcceptance.UnknownIsNotOfflineEvenWhenOfflineDelayIsZero
+16/37 Test #16: PausePolicyAcceptance.UnknownIsNotOfflineEvenWhenOfflineDelayIsZero .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.UnknownIsNotOfflineEvenWhenOfflineDelayIsZero
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.UnknownIsNotOfflineEvenWhenOfflineDelayIsZero
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.UnknownIsNotOfflineEvenWhenOfflineDelayIsZero (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.UnknownIsNotOfflineEvenWhenOfflineDelayIsZero
+
+ 1 FAILED TEST
+
+      Start 17: PausePolicyAcceptance.KnownOnlineClearsNoticeWhenNoOptionalUnknownPauseExists
+17/37 Test #17: PausePolicyAcceptance.KnownOnlineClearsNoticeWhenNoOptionalUnknownPauseExists ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.KnownOnlineClearsNoticeWhenNoOptionalUnknownPauseExists
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.KnownOnlineClearsNoticeWhenNoOptionalUnknownPauseExists
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.KnownOnlineClearsNoticeWhenNoOptionalUnknownPauseExists (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.KnownOnlineClearsNoticeWhenNoOptionalUnknownPauseExists
+
+ 1 FAILED TEST
+
+      Start 18: PausePolicyAcceptance.OptionalUnknownTimeoutAddsOnlyItsReasonAtTheExactBoundary
+18/37 Test #18: PausePolicyAcceptance.OptionalUnknownTimeoutAddsOnlyItsReasonAtTheExactBoundary .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.OptionalUnknownTimeoutAddsOnlyItsReasonAtTheExactBoundary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.OptionalUnknownTimeoutAddsOnlyItsReasonAtTheExactBoundary
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.OptionalUnknownTimeoutAddsOnlyItsReasonAtTheExactBoundary (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.OptionalUnknownTimeoutAddsOnlyItsReasonAtTheExactBoundary
+
+ 1 FAILED TEST
+
+      Start 19: PausePolicyAcceptance.UnknownTimeoutAddsAlongsideConfirmedOfflineAndEveryOtherHold
+19/37 Test #19: PausePolicyAcceptance.UnknownTimeoutAddsAlongsideConfirmedOfflineAndEveryOtherHold ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.UnknownTimeoutAddsAlongsideConfirmedOfflineAndEveryOtherHold
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.UnknownTimeoutAddsAlongsideConfirmedOfflineAndEveryOtherHold
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.UnknownTimeoutAddsAlongsideConfirmedOfflineAndEveryOtherHold (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.UnknownTimeoutAddsAlongsideConfirmedOfflineAndEveryOtherHold
+
+ 1 FAILED TEST
+
+      Start 20: PausePolicyAcceptance.ZeroUnknownTimeoutAddsAnIndependentReasonWithoutAnExtraTick
+20/37 Test #20: PausePolicyAcceptance.ZeroUnknownTimeoutAddsAnIndependentReasonWithoutAnExtraTick ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ZeroUnknownTimeoutAddsAnIndependentReasonWithoutAnExtraTick
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ZeroUnknownTimeoutAddsAnIndependentReasonWithoutAnExtraTick
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.ZeroUnknownTimeoutAddsAnIndependentReasonWithoutAnExtraTick (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ZeroUnknownTimeoutAddsAnIndependentReasonWithoutAnExtraTick
+
+ 1 FAILED TEST
+
+      Start 21: PausePolicyAcceptance.LargestSignedDisconnectDelaysReachTheirExactBoundary
+21/37 Test #21: PausePolicyAcceptance.LargestSignedDisconnectDelaysReachTheirExactBoundary ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.LargestSignedDisconnectDelaysReachTheirExactBoundary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.LargestSignedDisconnectDelaysReachTheirExactBoundary
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.LargestSignedDisconnectDelaysReachTheirExactBoundary (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.LargestSignedDisconnectDelaysReachTheirExactBoundary
+
+ 1 FAILED TEST
+
+      Start 22: PausePolicyAcceptance.OversizedElapsedCannotOverflowEitherPendingDisconnectAccumulator
+22/37 Test #22: PausePolicyAcceptance.OversizedElapsedCannotOverflowEitherPendingDisconnectAccumulator ......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.OversizedElapsedCannotOverflowEitherPendingDisconnectAccumulator
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.OversizedElapsedCannotOverflowEitherPendingDisconnectAccumulator
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.OversizedElapsedCannotOverflowEitherPendingDisconnectAccumulator (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.OversizedElapsedCannotOverflowEitherPendingDisconnectAccumulator
+
+ 1 FAILED TEST
+
+      Start 23: PausePolicyAcceptance.LargestUnknownTimeoutAndOvershootStayWithinSignedBounds
+23/37 Test #23: PausePolicyAcceptance.LargestUnknownTimeoutAndOvershootStayWithinSignedBounds ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.LargestUnknownTimeoutAndOvershootStayWithinSignedBounds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.LargestUnknownTimeoutAndOvershootStayWithinSignedBounds
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.LargestUnknownTimeoutAndOvershootStayWithinSignedBounds (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.LargestUnknownTimeoutAndOvershootStayWithinSignedBounds
+
+ 1 FAILED TEST
+
+      Start 24: PausePolicyAcceptance.NegativeConfigurationDurationsRejectBeforeProposingChanges
+24/37 Test #24: PausePolicyAcceptance.NegativeConfigurationDurationsRejectBeforeProposingChanges ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.NegativeConfigurationDurationsRejectBeforeProposingChanges
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.NegativeConfigurationDurationsRejectBeforeProposingChanges
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:276: Failure
+Expected: (void)observe_pause_signals({}, invalid, {0, StreamStatus::Online, true}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:276: Failure
+Expected: (void)observe_pause_signals({}, invalid, {0, StreamStatus::Online, true}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:276: Failure
+Expected: (void)observe_pause_signals({}, invalid, {0, StreamStatus::Online, true}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+[  FAILED  ] PausePolicyAcceptance.NegativeConfigurationDurationsRejectBeforeProposingChanges (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.NegativeConfigurationDurationsRejectBeforeProposingChanges
+
+ 1 FAILED TEST
+
+      Start 25: PausePolicyAcceptance.NegativeElapsedIncludingSignedMinimumRejects
+25/37 Test #25: PausePolicyAcceptance.NegativeElapsedIncludingSignedMinimumRejects ..........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.NegativeElapsedIncludingSignedMinimumRejects
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.NegativeElapsedIncludingSignedMinimumRejects
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:283: Failure
+Expected: (void)observe_pause_signals({}, {}, {elapsed, StreamStatus::Offline, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:283: Failure
+Expected: (void)observe_pause_signals({}, {}, {elapsed, StreamStatus::Offline, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+[  FAILED  ] PausePolicyAcceptance.NegativeElapsedIncludingSignedMinimumRejects (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.NegativeElapsedIncludingSignedMinimumRejects
+
+ 1 FAILED TEST
+
+      Start 26: PausePolicyAcceptance.NegativePendingDurationsRejectRatherThanRepairingSnapshots
+26/37 Test #26: PausePolicyAcceptance.NegativePendingDurationsRejectRatherThanRepairingSnapshots ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.NegativePendingDurationsRejectRatherThanRepairingSnapshots
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.NegativePendingDurationsRejectRatherThanRepairingSnapshots
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:292: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:295: Failure
+Expected: (void)set_pause_reason(invalid, PauseReason::Manual, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:292: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:295: Failure
+Expected: (void)set_pause_reason(invalid, PauseReason::Manual, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:292: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:295: Failure
+Expected: (void)set_pause_reason(invalid, PauseReason::Manual, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+[  FAILED  ] PausePolicyAcceptance.NegativePendingDurationsRejectRatherThanRepairingSnapshots (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.NegativePendingDurationsRejectRatherThanRepairingSnapshots
+
+ 1 FAILED TEST
+
+      Start 27: PausePolicyAcceptance.AnActiveReasonCannotAlsoHaveItsOwnPendingDelay
+27/37 Test #27: PausePolicyAcceptance.AnActiveReasonCannotAlsoHaveItsOwnPendingDelay ........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.AnActiveReasonCannotAlsoHaveItsOwnPendingDelay
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.AnActiveReasonCannotAlsoHaveItsOwnPendingDelay
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:306: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:309: Failure
+Expected: (void)set_pause_reason(invalid, PauseReason::Manual, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:306: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:309: Failure
+Expected: (void)set_pause_reason(invalid, PauseReason::Manual, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:306: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:309: Failure
+Expected: (void)set_pause_reason(invalid, PauseReason::Manual, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+[  FAILED  ] PausePolicyAcceptance.AnActiveReasonCannotAlsoHaveItsOwnPendingDelay (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.AnActiveReasonCannotAlsoHaveItsOwnPendingDelay
+
+ 1 FAILED TEST
+
+      Start 28: PausePolicyAcceptance.PendingAtOrBeyondConfiguredThresholdIsAnIncoherentSnapshot
+28/37 Test #28: PausePolicyAcceptance.PendingAtOrBeyondConfiguredThresholdIsAnIncoherentSnapshot ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.PendingAtOrBeyondConfiguredThresholdIsAnIncoherentSnapshot
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.PendingAtOrBeyondConfiguredThresholdIsAnIncoherentSnapshot
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:319: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:319: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:319: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:319: Failure
+Expected: (void)observe_pause_signals(invalid, config, {0, StreamStatus::Unknown, false}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:323: Failure
+Expected: (void)observe_pause_signals(PauseState{{}, 0}, {0, 20, 30}, {0, StreamStatus::Offline, true}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+[  FAILED  ] PausePolicyAcceptance.PendingAtOrBeyondConfiguredThresholdIsAnIncoherentSnapshot (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.PendingAtOrBeyondConfiguredThresholdIsAnIncoherentSnapshot
+
+ 1 FAILED TEST
+
+      Start 29: PausePolicyAcceptance.UnknownPendingRequiresEnabledTimeoutAndUncertaintyNotice
+29/37 Test #29: PausePolicyAcceptance.UnknownPendingRequiresEnabledTimeoutAndUncertaintyNotice ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.UnknownPendingRequiresEnabledTimeoutAndUncertaintyNotice
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.UnknownPendingRequiresEnabledTimeoutAndUncertaintyNotice
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:330: Failure
+Expected: (void)observe_pause_signals(pending, {}, {0, StreamStatus::Unknown, true}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:333: Failure
+Expected: (void)observe_pause_signals(no_notice, {30'000, 30'000, 10}, {0, StreamStatus::Unknown, true}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:336: Failure
+Expected: (void)set_pause_reason(no_notice, PauseReason::Manual, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+[  FAILED  ] PausePolicyAcceptance.UnknownPendingRequiresEnabledTimeoutAndUncertaintyNotice (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.UnknownPendingRequiresEnabledTimeoutAndUncertaintyNotice
+
+ 1 FAILED TEST
+
+      Start 30: PausePolicyAcceptance.ExternalReasonCommandsCannotBypassSignalOwnership
+30/37 Test #30: PausePolicyAcceptance.ExternalReasonCommandsCannotBypassSignalOwnership .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ExternalReasonCommandsCannotBypassSignalOwnership
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ExternalReasonCommandsCannotBypassSignalOwnership
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:343: Failure
+Expected: (void)set_pause_reason({}, reason, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:344: Failure
+Expected: (void)set_pause_reason(PauseState{{reason}}, reason, false) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:343: Failure
+Expected: (void)set_pause_reason({}, reason, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:344: Failure
+Expected: (void)set_pause_reason(PauseState{{reason}}, reason, false) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:343: Failure
+Expected: (void)set_pause_reason({}, reason, true) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/pause_policy_tests.cpp:344: Failure
+Expected: (void)set_pause_reason(PauseState{{reason}}, reason, false) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::PausePolicyNotImplemented with description "Pause policy is intentionally unimplemented; review tests first".
+
+[  FAILED  ] PausePolicyAcceptance.ExternalReasonCommandsCannotBypassSignalOwnership (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ExternalReasonCommandsCannotBypassSignalOwnership
+
+ 1 FAILED TEST
+
+      Start 31: PausePolicyAcceptance.UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval
+31/37 Test #31: PausePolicyAcceptance.UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval
+
+ 1 FAILED TEST
+
+      Start 32: PausePolicyAcceptance.UnknownCancellationRestartsTheFullCustomOfflineDelay
+32/37 Test #32: PausePolicyAcceptance.UnknownCancellationRestartsTheFullCustomOfflineDelay ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.UnknownCancellationRestartsTheFullCustomOfflineDelay
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.UnknownCancellationRestartsTheFullCustomOfflineDelay
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.UnknownCancellationRestartsTheFullCustomOfflineDelay (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.UnknownCancellationRestartsTheFullCustomOfflineDelay
+
+ 1 FAILED TEST
+
+      Start 33: PausePolicyAcceptance.EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh
+33/37 Test #33: PausePolicyAcceptance.EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh
+
+ 1 FAILED TEST
+
+      Start 34: PausePolicyAcceptance.KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds
+34/37 Test #34: PausePolicyAcceptance.KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds
+
+ 1 FAILED TEST
+
+      Start 35: PausePolicyAcceptance.KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume
+35/37 Test #35: PausePolicyAcceptance.KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume
+
+ 1 FAILED TEST
+
+      Start 36: PausePolicyAcceptance.KnownOfflineAndConnectedClientEachClearTheirOwnReason
+36/37 Test #36: PausePolicyAcceptance.KnownOfflineAndConnectedClientEachClearTheirOwnReason .................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.KnownOfflineAndConnectedClientEachClearTheirOwnReason
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.KnownOfflineAndConnectedClientEachClearTheirOwnReason
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.KnownOfflineAndConnectedClientEachClearTheirOwnReason (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.KnownOfflineAndConnectedClientEachClearTheirOwnReason
+
+ 1 FAILED TEST
+
+      Start 37: PausePolicyAcceptance.ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus
+37/37 Test #37: PausePolicyAcceptance.ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PausePolicyAcceptance.ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PausePolicyAcceptance
+[ RUN      ] PausePolicyAcceptance.ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus
+unknown file: Failure
+C++ exception with description "Pause policy is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] PausePolicyAcceptance.ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus (0 ms)
+[----------] 1 test from PausePolicyAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] PausePolicyAcceptance.ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus
+
+ 1 FAILED TEST
+
+
+0% tests passed, 37 tests failed out of 37
+
+Label Time Summary:
+acceptance         =   0.04 sec*proc (37 tests)
+intentional-red    =   0.04 sec*proc (37 tests)
+pause-policy       =   0.04 sec*proc (37 tests)
+
+Total Test time (real) =   0.05 sec
+
+The following tests FAILED:
+	  1 - PausePolicyAcceptance.OfflineDefaultDelayDoesNotPauseUntilItsExactBoundary (Failed) acceptance intentional-red pause-policy
+	  2 - PausePolicyAcceptance.DesignatedClientHasItsOwnDefaultThirtySecondDelay (Failed) acceptance intentional-red pause-policy
+	  3 - PausePolicyAcceptance.CustomOfflineAndClientDelaysExpireIndependently (Failed) acceptance intentional-red pause-policy
+	  4 - PausePolicyAcceptance.EarlierClientExpiryDoesNotRestartTheOfflineDelay (Failed) acceptance intentional-red pause-policy
+	  5 - PausePolicyAcceptance.ZeroDelaysActivateWithoutAnExtraTick (Failed) acceptance intentional-red pause-policy
+	  6 - PausePolicyAcceptance.ZeroOfflineDelayDoesNotMakeClientDelayImmediate (Failed) acceptance intentional-red pause-policy
+	  7 - PausePolicyAcceptance.OfflineRecoveryBeforeExpiryCancelsAndNextEpisodeStartsFresh (Failed) acceptance intentional-red pause-policy
+	  8 - PausePolicyAcceptance.ClientFlappingCancelsItsPendingDelayWithoutClearingManual (Failed) acceptance intentional-red pause-policy
+	  9 - PausePolicyAcceptance.RepeatedOfflineSignalDoesNotRestartPendingOrDuplicateActiveReason (Failed) acceptance intentional-red pause-policy
+	 10 - PausePolicyAcceptance.OfflineRecoveryRetainsManualScheduleRecoveryAndClientReasons (Failed) acceptance intentional-red pause-policy
+	 11 - PausePolicyAcceptance.ClientRecoveryRetainsOfflineUnknownAndOtherIndependentHolds (Failed) acceptance intentional-red pause-policy
+	 12 - PausePolicyAcceptance.ExternalPauseReasonsAreSetAndClearedIndependently (Failed) acceptance intentional-red pause-policy
+	 13 - PausePolicyAcceptance.RepeatedExternalSetAndClearPreservePendingSignals (Failed) acceptance intentional-red pause-policy
+	 14 - PausePolicyAcceptance.UnknownDefaultRaisesNoticeWithoutAddingAnyPauseOrPendingTimeout (Failed) acceptance intentional-red pause-policy
+	 15 - PausePolicyAcceptance.UnknownDefaultRetainsConfirmedOfflineAndExternalReasons (Failed) acceptance intentional-red pause-policy
+	 16 - PausePolicyAcceptance.UnknownIsNotOfflineEvenWhenOfflineDelayIsZero (Failed) acceptance intentional-red pause-policy
+	 17 - PausePolicyAcceptance.KnownOnlineClearsNoticeWhenNoOptionalUnknownPauseExists (Failed) acceptance intentional-red pause-policy
+	 18 - PausePolicyAcceptance.OptionalUnknownTimeoutAddsOnlyItsReasonAtTheExactBoundary (Failed) acceptance intentional-red pause-policy
+	 19 - PausePolicyAcceptance.UnknownTimeoutAddsAlongsideConfirmedOfflineAndEveryOtherHold (Failed) acceptance intentional-red pause-policy
+	 20 - PausePolicyAcceptance.ZeroUnknownTimeoutAddsAnIndependentReasonWithoutAnExtraTick (Failed) acceptance intentional-red pause-policy
+	 21 - PausePolicyAcceptance.LargestSignedDisconnectDelaysReachTheirExactBoundary (Failed) acceptance intentional-red pause-policy
+	 22 - PausePolicyAcceptance.OversizedElapsedCannotOverflowEitherPendingDisconnectAccumulator (Failed) acceptance intentional-red pause-policy
+	 23 - PausePolicyAcceptance.LargestUnknownTimeoutAndOvershootStayWithinSignedBounds (Failed) acceptance intentional-red pause-policy
+	 24 - PausePolicyAcceptance.NegativeConfigurationDurationsRejectBeforeProposingChanges (Failed) acceptance intentional-red pause-policy
+	 25 - PausePolicyAcceptance.NegativeElapsedIncludingSignedMinimumRejects (Failed) acceptance intentional-red pause-policy
+	 26 - PausePolicyAcceptance.NegativePendingDurationsRejectRatherThanRepairingSnapshots (Failed) acceptance intentional-red pause-policy
+	 27 - PausePolicyAcceptance.AnActiveReasonCannotAlsoHaveItsOwnPendingDelay (Failed) acceptance intentional-red pause-policy
+	 28 - PausePolicyAcceptance.PendingAtOrBeyondConfiguredThresholdIsAnIncoherentSnapshot (Failed) acceptance intentional-red pause-policy
+	 29 - PausePolicyAcceptance.UnknownPendingRequiresEnabledTimeoutAndUncertaintyNotice (Failed) acceptance intentional-red pause-policy
+	 30 - PausePolicyAcceptance.ExternalReasonCommandsCannotBypassSignalOwnership (Failed) acceptance intentional-red pause-policy
+	 31 - PausePolicyAcceptance.UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval (Failed) acceptance intentional-red pause-policy
+	 32 - PausePolicyAcceptance.UnknownCancellationRestartsTheFullCustomOfflineDelay (Failed) acceptance intentional-red pause-policy
+	 33 - PausePolicyAcceptance.EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh (Failed) acceptance intentional-red pause-policy
+	 34 - PausePolicyAcceptance.KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds (Failed) acceptance intentional-red pause-policy
+	 35 - PausePolicyAcceptance.KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume (Failed) acceptance intentional-red pause-policy
+	 36 - PausePolicyAcceptance.KnownOfflineAndConnectedClientEachClearTheirOwnReason (Failed) acceptance intentional-red pause-policy
+	 37 - PausePolicyAcceptance.ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus (Failed) acceptance intentional-red pause-policy
+Errors while running CTest
