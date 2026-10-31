@@ -65,6 +65,11 @@ positive actual credit during confirmation wait. Its39 reviewed cases pass with
 [separate code review/automatic CI](docs/evidence/core-002-handoff.md); use
 `timer-lifecycle-debug`. Queue/state wiring, real pause reasons, start/reopen,
 recovery and schedules remain separate tasks.
+ACCT-002 supplies independent eligibility holds and verified-identity confirmation
+linkage through a repository port;21 reviewed simulation cases and
+[separate review/automatic CI](docs/evidence/acct-002-handoff.md) pass. Use
+`contribution-evidence-debug`; application, refunds and actual SQL/provider proof
+remain separate gates.
 Do not treat the scaffold smoke test as proof that credit calculation works.
 See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/time-credit-v0.md).
 
