@@ -153,3 +153,71 @@ not correct Qt queue/writer ownership, atomic accounting/event commits, real pau
 reason storage, first-start/reopen, signed corrections/configuration changes,
 recovery/clock-discontinuity/schedule/DST, renderers, supported-platform packages or
 live/OBS behavior. Those downstream tasks and all release scope remain required.
+
+## Final completion and main-reconciliation review
+
+Same independent reviewer, 2026-10-31. Verdict: **approved for integration** of
+coordinator candidate `b105952ce070e86c8f59587afae5b11a3e8299fb`, inspected at review
+checkout `6d33ea116b5e409d50eb0a1135e1005a9244c54b`. Main
+`f886af90c5eaa7e390ca9d2c82ea204de2a71995` (PR17's contribution baseline) was
+integrated through `56df21799f0c2dbe49b445e91c481c0c2910a843`.
+
+Inspected the actual delta from `e64439b`, including the shared build reconciliation,
+new CI/handoff evidence, contract/brief status prose, README/architecture/test strategy,
+acceptance map, task state, generated progress and coordinator checkpoint. Source
+`61384a59309767a8d2cb86ad08667b09e32086c7`, tests
+`bf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7`, header
+`69cad7023b9928371877d45955b800aed9996cd5` and timer workflow
+`5c34da5f67921214a28ce5d41eff3b23bc90b9b3` remain identical to the approved
+implementation/configuration. Contract changes are completion/evidence prose only;
+the current blob is `40de8137fd546a406b4dd195a3ac5d594c07f78d`, with no changed
+state invariant, behavior, error or example. The brief's status/check instructions
+likewise reflect the preserved reviewed/red history and passing implementation.
+
+The shared merge adds the contribution option/targets/preset and preserves the timer
+option, target, test selection and labels. Both optional lanes remain separate.
+Contribution core/service source still contains unconditional unimplemented stubs;
+its tests remain labelled intentional-red and it has no automatic passing workflow.
+Read-only byte comparisons with integrated main confirmed contribution interfaces,
+stubs,21-case tests, fake and contract are unchanged. A structured comparison of all
+377 task records found only the authorized CORE-002 completion differs from main;
+the contribution baseline and other claims/statuses are preserved exactly. This is
+a reconciliation review, not a new independent approval of contribution semantics.
+
+Independently queried actual
+[timer run41235200798](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41235200798).
+GitHub reports completed/success, event pull_request, workflow Timer lifecycle
+acceptance and head `f2e5a4622cfaa89c83148bbb63fd4464e057c509`. Retrieved log lines
+confirm GNU13.3.0, the explicit timer configure command, the unchanged labelled
+CTest command,39/39 passing and zero failures. This corroborates the coordinator's
+observed CI evidence; it does not certify a later PR revision. The new
+`core-002-ci.md` blob is `3338e66f94237428aa739b7c84eee56121a53e9b`, and the
+handoff blob is `c12267a2cba09ac6f4f013eb475a2b0174cba4f4`.
+
+CORE-002 completion is supported by unchanged reviewed acceptance, passing domain
+checks, independent code/configuration approval and actual automatic timer CI.
+Its platform_release remains not_run. TIMER-01/02 remain partial; only the bounded
+deterministic-domain scenario is passed. The contribution scenario remains observed_red
+with product acceptance not_run. README, architecture, contract, strategy and handoff
+retain explicit downstream pause/state/permission/start/reopen/recovery/schedule and
+release gates. The coordinator checkpoint records actual prerequisite merges and
+keeps final PR18 CI/discussion/merge checks pending. No unsupported product/platform
+completion claim or blocking integration finding was found.
+
+Additional reviewer commands and actual outcomes:
+
+| Commands / inspection | Result |
+| --- | --- |
+| `git status --short`, revision/hash queries, full relevant `git diff e64439b HEAD` and file reads | exit0; exact integrated revision and scope above; clean before evidence append |
+| `git diff --quiet e64439b HEAD -- core/src/timer_lifecycle.cpp core/include/subathon/core/timer_lifecycle.hpp tests/acceptance/timer_lifecycle_tests.cpp .github/workflows/timer-lifecycle.yml` | exit0; executable timer artifacts unchanged |
+| Read-only Python comparison of current task records and named contribution artifacts against `git show f886af9:<path>` | exit0; only CORE-002 task changed; contribution baseline bytes retained |
+| `gh run view 41235200798 --repo Kernol12/subathon-bot-ai --json headSha,conclusion,event,url,status,workflowName` | exit0; actual metadata above |
+| `gh run view 41235200798 --repo Kernol12/subathon-bot-ai --log` with targeted log-line selection | exit0; actual compiler/configure/CTest/pass observations above |
+| `python3 tools/check_project.py`; `python3 tools/progress.py render --check`; `git diff --check` | exit0;377 task records,122 decisions, links/presets/current HTML and whitespace pass |
+| `python3 -m unittest discover -s tests/tooling -v`; `node tools/check_progress_ui.mjs` | exit0;19/19 tooling tests and DOM simulation pass; actual browser/OBS not run |
+
+No broad native rerun was necessary for this evidence/status reconciliation: reviewed
+timer behavior is unchanged, prior independent runs are recorded above, and the
+coordinator's handoff records all five lanes rerun successfully after merging main.
+No extra native run is claimed here. Latest-head PR18 checks and merge eligibility
+remain coordinator gates; all downstream/live/platform work remains required.
