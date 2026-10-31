@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T07:58:07+00:00",
+  "updated_at": "2026-10-31T08:01:04+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -698,8 +698,8 @@
       "title": "Bounded exact decimal parsing and final-effect rounding",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/numeric_implementer",
       "depends_on": [
         "CONTRACT-002",
         "CORETEST-001"
@@ -713,7 +713,8 @@
       "brief": "docs/tasks/EPIC-001/CORE-001.md",
       "summary": "Preserve original monetary decimals and positive rates losslessly using Boost.Multiprecision intermediates; declare parser digit/exponent/resource bounds in the reviewed contract.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed from refreshed main after CORETEST001 PR12 merged; task/CORE-001-exact-numeric. Spec v0.45 NUM01/02/04, exact-decimal revision1, reviewed32-case tests6cf83ae/headerc0e70aee/contract59d334d; baseline9e8db8a observed32 intended stub failures after review79e0f0d. Acceptance: preserve assertions/interface, implement bounded parser/validators and sign-safe half-even finalizer;32passing cases+credit regressions+independent code review+observed pinned automatic numeric CI. Implementer isolated task/CORE-001-implementation owns core/src/exact_decimal.cpp and implementation evidence only. Coordinator owns CMake/dependency/workflow activation, state/HTML/map/status docs/checkpoint/PR; independent task/CORE-001-code-review owns review evidence. No aggregation, service holds, SQL/API, modifier combination or refund implementation."
       ],
       "verification": {},
       "evidence": [],
@@ -10390,6 +10391,11 @@
       "date": "2026-10-31T07:58:07+00:00",
       "task": "CORETEST-001",
       "note": "Final authorb3b7ab9 baseline32cases independently approved by /root/numeric_reviewer in79e0f0d. Coordinator integrated9e8db8a after review; configure/build0 then actual CTest exit8,32/32 ExactNumericNotImplemented failures, no skips/dependency errors. Exact header/test/contract/stub blobs recorded; no production behavior. Credit23/23 and scaffold3/3 pass after harness integration. Baseline local gates complete; final integration review/latest PR12 CI/merge pending. CORE001 remains planned until integration; stable numeric CI required there."
+    },
+    {
+      "date": "2026-10-31T08:01:04+00:00",
+      "task": "CORE-001",
+      "note": "Claimed from refreshed main after CORETEST001 PR12 merged; task/CORE-001-exact-numeric. Spec v0.45 NUM01/02/04, exact-decimal revision1, reviewed32-case tests6cf83ae/headerc0e70aee/contract59d334d; baseline9e8db8a observed32 intended stub failures after review79e0f0d. Acceptance: preserve assertions/interface, implement bounded parser/validators and sign-safe half-even finalizer;32passing cases+credit regressions+independent code review+observed pinned automatic numeric CI. Implementer isolated task/CORE-001-implementation owns core/src/exact_decimal.cpp and implementation evidence only. Coordinator owns CMake/dependency/workflow activation, state/HTML/map/status docs/checkpoint/PR; independent task/CORE-001-code-review owns review evidence. No aggregation, service holds, SQL/API, modifier combination or refund implementation."
     }
   ]
 }
