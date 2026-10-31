@@ -1,4 +1,4 @@
-# Coordinator handoff — stopped after PR19
+# Coordinator handoff — resumed pause baseline
 
 Coordinator `/root`, 2026-10-31. Objective: full specification v0.45 task by task,
 with isolated writers, real independent reviews and focused PRs. Full product is
@@ -55,11 +55,11 @@ Preserved clean author/reviewer/coordinator worktrees:
 `task/ACCT-002-{implementation,code-review,contribution-evidence}` branches.
 Completed reviews remain valid. Old agents are absent; do not assume they run.
 
-Owner requested stopping after the next finished PR. PR19 is finished; this is the
-stop checkpoint. Do not continue or claim background execution until resumed.
-No next task was started after this stop boundary; existing pause draft is preserved.
+The earlier stop after PR19 was honored. The owner has now explicitly resumed
+the standing coordinator loop. Preserve completed work and continue without routine
+approval. No active product question remains.
 
-## CORETEST003 draft — owner decisions resolved, coordination stopped
+## CORETEST003 draft — active owner-edge authoring
 
 Root branch `task/CORETEST-003-pause-baseline`, claim425447c frommain0700d5d.
 Author `/root/pause_test_author` owns only pause contract/header/stubs/tests/brief/
@@ -89,11 +89,17 @@ contract and `docs/evidence/pause-signal-policy-questions.md`:
    pending timeout; every new Unknown episode gets a fresh full configured timeout.
    Other independent reasons remain.
 
-No policy answer remains needed. Newly decided edge cases, full independent review
-and intended stub-red remain unperformed; no pause implementation. Coordination
-is still stopped after PR19; recording answers is not a request to resume execution.
+No policy answer remains needed. New owner-edge author `/root/pause_owner_case_author`
+is explicitly assigned the actual draft in `local-evidence/worktrees/coretest003-decisions`,
+branch `task/CORETEST-003-owner-cases`, from main5201edd plus current PR20. Own only
+new tests, contract examples/status, CORE003 brief and appended authoring evidence;
+preserve original30/header/stubs. Coordinator owns shared build/state/map/checkpoint.
+Full independent review and intended stub-red still precede implementation. Existing
+recovery rules compose independently: Online clears Offline, while Unknown cleanup
+never clears unrelated unrecovered reasons. Reviewer assignment follows actualauthor
+revision; no approval inferred from old partial review.
 
-## Resume after this stop
+## Next coordinator actions
 
 Inspect actual main, PR20 head/checks, all worktrees/uncommitted changes and agents/
 processes before acting. Preserve partialreview005b6f4 and completed implementation
@@ -115,5 +121,5 @@ integrations and three rate providers, supported platforms, both renderers, UIs/
 localization/themes, packaging and live/OBS evidence. All source-port results retain
 simulation/domain limits; SQL/Qt/provider/platform/live gates remain separate.
 
-Both owner answers are recorded without resuming coordination past the requested
-stop boundary. No tests or implementation were changed; no policy question remains.
+Both owner answers are recorded, and the explicit new resume instruction permits
+continued coordination. No prior test assertions were changed; no policy question remains.

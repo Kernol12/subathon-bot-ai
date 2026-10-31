@@ -11,7 +11,8 @@ Both previously open interactions now have explicit owner answers.
    known Online or known Offline, with a fresh full configured timeout for each new
    Unknown episode. Known status ends the previous Unknown episode and resets its
    pending timeout as well. Clear only StreamStatusUnknown; retain every other
-   independent pause reason, including an already established StreamOffline reason.
+   unrecovered pause reason. Known Offline retains established StreamOffline; known
+   Online independently clears StreamOffline under the existing recovery rule.
 
 No policy choice remains unanswered. These answers refine the draft contract and
 specification; they do not establish tests or implementation. The existing30 known
@@ -19,6 +20,13 @@ cases and partial review005b6f4 remain preserved. The newly decided interactions
 still need focused examples/tests and actual full independent review, then observed
 intended stub-red before CORE-003 implementation.
 
-Coordination remains stopped after PR19 at the owner's request. Recording these
-answers does not resume the task loop. No tests, stubs or implementation were changed;
+The subsequent explicit coordinator-resume instruction restarts the task loop.
+The decision records themselves changed no tests, stubs or implementation;
 no provider capability, live status observation or pause behavior is verified here.
+
+Recovery-rule composition: clearing StreamStatusUnknown is not a global Resume.
+The previously agreed Online recovery still clears StreamOffline, and a connected
+client still clears its own disconnect reason. Each rule changes only its reason;
+Manual/Schedule/RecoveryReview and unrecovered signals remain. This clarifies the
+earlier broad retention wording without changing either recorded owner choice or
+the specification's existing automatic recovery requirement.
