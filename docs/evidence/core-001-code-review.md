@@ -154,3 +154,50 @@ configuration remains the separately documented repository-settings gap. Windows
 release packaging, application-level aggregate/review/atomicity, Qt server behavior,
 providers, renderers/UI/localization and live/OBS validation remain outside this
 bounded primitive approval.
+
+
+## Final completion-record integration review
+
+Reviewer `/root/numeric_reviewer`, 2026-10-31.
+Verdict: **approved for integration** of coordinator
+`39cb9a6d5c13b6a493129515a41d0fa15d5b3559`, including completion records from
+`b71a72c`. This addendum changes only this review evidence document.
+
+Inspected README/architecture/test-strategy/dependency status, the implementation
+and CI handoffs, consolidated coordinator checkpoint, done-state progress/generated
+HTML and acceptance map. CORE-001 completes only its bounded numeric primitive
+slice; done is explicitly distinguished from PR publication/merge. NUM-01/02/04
+remain partial, while the narrowly named primitive scenario is passed. Application
+review/atomic aggregates, modifier combinations/clamp, refunds, providers, UIs,
+platforms and release work remain explicit. No unsupported completion claim found.
+
+The final source still has blob `a1ddb4283292a5da0a81a0f4e8255fffc19cafd7`;
+original header/tests and additive regression still equal their approved hashes.
+Workflow, core CMake and test harness have no diff from the reviewed `cd96d7c`.
+The contract diff has only updated initial status and a paragraph framing historical
+red harness/CI text; API, resource limits, error precedence, rounding and all expected
+examples are unchanged. Current contract blob `f82710e7885223ec4e71fcbfd2ea7542ddbb59e4`
+is approved for that status-only update; original behavioral snapshot `59d334d...`
+remains identified in historical reviewed/red evidence. No assertion was changed.
+
+Independently queried GitHub using `gh run view 41183487457 --json ...` and
+`gh run view 41183487457 --log`. The actual pull_request
+[run41183487457](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41183487457)
+completed successfully for head `fd86a6b9e8546bf5308a26e5561be0faf49e35fd`.
+The log confirms exact package1.83.0-2.1ubuntu3, compiler `BOOST_VERSION108300`,
+GCC13.3.0, CMake-selected Boost1.83.0 and33/33 passing numeric cases. That head's
+source/workflow blobs match the final approved source/configuration. This resolves
+the previously pending actual Ubuntu/Boost1.83 primitive workflow observation; it
+establishes no full Ubuntu application deployment or Windows/release support.
+
+Independent done-state `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check`,
+`python3 -m unittest discover -s tests/tooling -q`,
+`node tools/check_progress_ui.mjs` and `git diff --check` all exited0;19 tooling
+cases pass and real-browser/OBS checks remain explicitly unrun. No native test rerun
+was needed for these status-only changes after the reviewed final33/36/23 passes.
+
+At inspection PR13 was still draft at head `39cb9a6`, with new latest-head checks
+pending. Final publication/review-evidence commits require another latest-head CI,
+review-thread/ruleset/required-approval and actual GitHub mergeability check before
+merge. The previous successful run does not waive those final-revision gates.
