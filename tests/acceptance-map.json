@@ -1,6 +1,6 @@
 {
   "specification_version": "0.45",
-  "note": "Full decisions remain pending. IMPL-001 implements only revision-1 numeric credit planning: 19 unchanged reviewed acceptance cases and four reviewed regressions pass with separate code review; original intended-red evidence is retained.",
+  "note": "Full decisions remain partial/planned. IMPL-001 supplies reviewed cap-credit planning; CORE-001 supplies reviewed exact-decimal/final conversion primitives (32+1 passing cases). Neither implements authoritative application/aggregate/refund/provider behavior. Historical red evidence is retained.",
   "decisions": [
     {
       "id": "UI-01",
@@ -294,25 +294,33 @@
       "id": "NUM-01",
       "status": "partial",
       "tests": [
-        "tests/acceptance/exact_decimal_tests.cpp"
+        "tests/acceptance/exact_decimal_tests.cpp",
+        "tests/acceptance/exact_decimal_regression_tests.cpp"
       ],
       "evidence": [
         "docs/evidence/coretest-001-baseline-handoff.md",
-        "docs/evidence/coretest-001-independent-review.md"
+        "docs/evidence/coretest-001-independent-review.md",
+        "docs/evidence/core-001-handoff.md",
+        "docs/evidence/core-001-code-review.md",
+        "docs/evidence/core-001-ci.md"
       ],
-      "scope": "Reviewed/red primitive numeric baseline only; no implemented parser/rounding, aggregate/transaction, combination/clamp or broader domain proof."
+      "scope": "Exact-decimal/rate/factor/final-rounding primitives pass32+1 cases with separate code review and Ubuntu/Boost1.83 CI. Full numeric decisions remain partial: aggregation, transactional review/application, combinations/clamp and broader domain checks are downstream."
     },
     {
       "id": "NUM-02",
       "status": "partial",
       "tests": [
-        "tests/acceptance/exact_decimal_tests.cpp"
+        "tests/acceptance/exact_decimal_tests.cpp",
+        "tests/acceptance/exact_decimal_regression_tests.cpp"
       ],
       "evidence": [
         "docs/evidence/coretest-001-baseline-handoff.md",
-        "docs/evidence/coretest-001-independent-review.md"
+        "docs/evidence/coretest-001-independent-review.md",
+        "docs/evidence/core-001-handoff.md",
+        "docs/evidence/core-001-code-review.md",
+        "docs/evidence/core-001-ci.md"
       ],
-      "scope": "Reviewed/red primitive numeric baseline only; no implemented parser/rounding, aggregate/transaction, combination/clamp or broader domain proof."
+      "scope": "Exact-decimal/rate/factor/final-rounding primitives pass32+1 cases with separate code review and Ubuntu/Boost1.83 CI. Full numeric decisions remain partial: aggregation, transactional review/application, combinations/clamp and broader domain checks are downstream."
     },
     {
       "id": "NUM-03",
@@ -630,13 +638,17 @@
       "id": "NUM-04",
       "status": "partial",
       "tests": [
-        "tests/acceptance/exact_decimal_tests.cpp"
+        "tests/acceptance/exact_decimal_tests.cpp",
+        "tests/acceptance/exact_decimal_regression_tests.cpp"
       ],
       "evidence": [
         "docs/evidence/coretest-001-baseline-handoff.md",
-        "docs/evidence/coretest-001-independent-review.md"
+        "docs/evidence/coretest-001-independent-review.md",
+        "docs/evidence/core-001-handoff.md",
+        "docs/evidence/core-001-code-review.md",
+        "docs/evidence/core-001-ci.md"
       ],
-      "scope": "Reviewed/red primitive numeric baseline only; no implemented parser/rounding, aggregate/transaction, combination/clamp or broader domain proof."
+      "scope": "Exact-decimal/rate/factor/final-rounding primitives pass32+1 cases with separate code review and Ubuntu/Boost1.83 CI. Full numeric decisions remain partial: aggregation, transactional review/application, combinations/clamp and broader domain checks are downstream."
     },
     {
       "id": "API-03",
@@ -786,9 +798,10 @@
     },
     {
       "scenario": "Lossless bounded decimals and signed half-even final effect conversion",
-      "status": "observed_red",
+      "status": "passed",
       "tests": [
-        "tests/acceptance/exact_decimal_tests.cpp"
+        "tests/acceptance/exact_decimal_tests.cpp",
+        "tests/acceptance/exact_decimal_regression_tests.cpp"
       ],
       "contract": "docs/contracts/exact-decimal-v1.md",
       "review": {
@@ -802,9 +815,22 @@
         "docs/evidence/coretest-001-authoring.md",
         "docs/evidence/coretest-001-independent-review.md",
         "docs/evidence/coretest-001-baseline-handoff.md",
-        "docs/evidence/coretest-001-red-ctest.txt"
+        "docs/evidence/coretest-001-red-ctest.txt",
+        "docs/evidence/core-001-implementation.md",
+        "docs/evidence/core-001-zero-regression.md",
+        "docs/evidence/core-001-zero-red-ctest.txt",
+        "docs/evidence/core-001-code-review.md",
+        "docs/evidence/core-001-ci.md",
+        "docs/evidence/core-001-handoff.md"
       ],
-      "scope": "32 reviewed primitive cases fail on explicit unimplemented stubs. Input holding/atomic aggregate application and broader rule/refund/platform behavior remain separate."
+      "scope": "32 reviewed acceptance and one reviewed/red normalized-zero regression pass as bounded primitives only. Input holding/atomic aggregate application, combinations/clamp, refunds and release/platform behavior remain separate.",
+      "code_review": {
+        "author": "/root/numeric_implementer",
+        "reviewer": "/root/numeric_reviewer",
+        "outcome": "approved",
+        "baseline": "author74f3594; sourcea1ddb4283292a5da0a81a0f4e8255fffc19cafd7; originaltests6cf83ae; regression347a810b; reviewdb26514",
+        "evidence": "docs/evidence/core-001-code-review.md"
+      }
     }
   ]
 }

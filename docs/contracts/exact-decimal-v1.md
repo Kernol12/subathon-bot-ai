@@ -6,8 +6,10 @@ Task: CORETEST-001 / CORE-001. Authority: specification v0.45
 [internal boundary contract](event-state-boundaries-v1.md), not its ownership rules.
 The existing time-credit revision 1 is unchanged.
 
-State: authored baseline pending separate review and observed intended red.
-The public interface and explicit missing-behavior stubs are scaffolding only.
+Status: CORETEST-001 completed independent review and observed stub-red before
+CORE-001 implemented this interface. [Implementation evidence](../evidence/core-001-handoff.md)
+records passing checks and separate code review. Revision1 API, limits, errors and
+expected examples below are unchanged; only status prose is updated.
 
 ## Public boundary and scope
 
@@ -136,6 +138,11 @@ No service atomicity, aggregate-state limit, API, live provider or platform beha
 is claimed by these primitive tests.
 
 ## Baseline harness, CI and revision policy
+
+The following harness/CI paragraphs record historical baseline authoring. Current
+CORE-001 removes the historical intentional-red label, adds the reviewed regression
+and runs33 real cases automatically; [CI evidence](../evidence/core-001-ci.md)
+records actual version/pass results. They do not change the revision1 behavior.
 
 The explicit `exact-numeric-debug` preset enables
 `SUBATHON_BUILD_EXACT_NUMERIC_TESTS=ON`, builds `subathon_exact_numeric` and its

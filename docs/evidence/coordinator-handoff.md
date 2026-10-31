@@ -1,128 +1,110 @@
 # Coordinator checkpoint
 
-Coordinator: `/root`; started 2026-10-30 from `main` / `origin/main`
-`2bc4e6420ac7c56ce9fb29bc678798d2987ae8df`. Last refreshed main:
-`fcdcd476fd28db1930e17e14ca0e9a912bed4798` after CONTRACT-002 PR #11. Specification v0.45.
-Objective: execute the full agreed scope using bounded task PRs and independent reviews.
-This is an active checkpoint, not evidence of release completion.
+Coordinator `/root`, updated2026-10-31. Objective: complete the full specification
+v0.45 using bounded task PRs, isolated writers and independent reviews. This is a
+continuation checkpoint, not a release-completion claim.
 
-## Integrated prerequisites and repository inspection
+## Repository and integrated work
 
-Initial GitHub inspection found no open PRs. Active numeric baseline is now draft
-[PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), coordinator branch
-`task/CORETEST-001-exact-baseline`; authoring, test review and observed red are
-complete. Final integration review, latest-revision CI and merge gates are pending. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
-(SPIKE-001), [#5](https://github.com/Kernol12/subathon-bot-ai/pull/5) (TEST-002),
-[#7](https://github.com/Kernol12/subathon-bot-ai/pull/7) (IMPL-001),
-[#8](https://github.com/Kernol12/subathon-bot-ai/pull/8) (coordinator prompt) and
-[#9](https://github.com/Kernol12/subathon-bot-ai/pull/9) (CI maintenance) are merged.
-Prior worktrees were inspected and preserved. No unfinished changes were found there.
-Existing reviewed/red/pass revisions remain in the linked task evidence; no baseline
-or production source is changed by this checkpoint.
+Last fetched main: `cab329b17ca3edb02e408ad1bc7244a73ae20c3d`.
+Main is behind the active task branch only; inspect GitHub again on resumption.
 
-Active default-branch ruleset 26170263 requires PRs, resolved review threads, prevents
-force pushes/deletion and has no bypass actors. It requires zero GitHub approving
-reviews and currently no status-check rule. Independent agent review and passing
-latest-revision CI remain mandatory under repository instructions; the enforcement
-configuration gap from BOOT-008 remains open. No repository settings were changed.
+- [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10), BOOT-003, merged
+  `11eafe2` on2026-10-30 22:29:42UTC; final head `1c98295`, three checks passed.
+  Author `b6863e9`, independent review `27fe6b9`; fresh Qt6.12 probe4/4 from each.
+  [Evidence](boot-003-qt-probe.md), [review](boot-003-independent-review.md).
+- [PR #11](https://github.com/Kernol12/subathon-bot-ai/pull/11), CONTRACT-002, merged
+  `fcdcd47` on2026-10-30 22:32:30UTC; final head `dbc563b`, three checks passed.
+  Author `1904ccb`, review `4364149` + architecture review `6312df4`.
+  [Contract/review](contract-002-independent-review.md); no production behavior.
+- [PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), CORETEST-001, merged
+  `cab329b` on2026-10-31 08:01:02UTC; final head `1c1c9fa`, three checks passed,
+  no unresolved discussions or required GitHub approvals. Author `6e30383` +
+  `45fa0c0` + additive `b3b7ab9`; test review `79e0f0d`, integration `7ccf0dc`.
+  [Baseline handoff](coretest-001-baseline-handoff.md),
+  [review](coretest-001-independent-review.md), [red log](coretest-001-red-ctest.txt).
+- Earlier PRs #4(SPIKE-001), #5(TEST-002), #7(IMPL-001), #8(coordinator prompt)
+  and #9(CI maintenance) were verified merged at startup. Existing evidence retained.
 
-## Current task handoff and ownership
+Active ruleset26170263 requires PRs/resolved discussions, prohibits force push and
+branch deletion, has no bypass actors, requires zero GitHub approving reviews and
+currently has no required-status-check rule. Independent agent reviews and passing
+latest-revision CI remain repository gates. The enforcement configuration gap from
+BOOT-008 remains explicit; no ruleset/protection settings changed.
 
-- BOOT-003 completed and merged in [PR #10](https://github.com/Kernol12/subathon-bot-ai/pull/10)
-  at `11eafe2`, head `1c98295`; merge observed 2026-10-30 22:29:42 UTC.
-  All three latest-head checks passed (push/PR scaffold plus credit acceptance).
-  Independent review `27fe6b9`; source unchanged. Author/reviewer worktrees retained.
-- CONTRACT-002 author `/root/domain_contract`, branch `task/CONTRACT-002-domain-boundaries`,
-  worktree `/tmp/subathon-contract002`: owns docs/contracts/event-state-boundaries-v1.md,
-  docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md.
-  Task completed and merged in [PR #11](https://github.com/Kernol12/subathon-bot-ai/pull/11)
-  at `fcdcd47`, head `dbc563b`; all three latest-head checks passed.
-  Merge observed 2026-10-30 22:32:30 UTC. Coordinator retained progress/HTML ownership.
-  Actual authored revision `1904ccb` / contract blob
-  `8b60da43f1362c46c54730e8ca029b858964ea59` is approved by
-  `/root/independent_reviewer` in review `4364149`;
-  see [contract authoring](contract-002-authoring.md) and
-  [independent review](contract-002-independent-review.md). Refreshed main is integrated; concurrent progress
-  conflicts reconciled by preserving main BOOT-003 plus the CONTRACT-002 claim.
-  Acceptance: versioned internal record/clock/writer boundaries with examples and
-  error cases, separate review. No implementation or finalized wire schema.
-- CORETEST-001 coordinator: main workspace, branch `task/CORETEST-001-exact-baseline`.
-  Coordinator owns progress/state.json, PROGRESS.html, acceptance map and checkpoint.
-- CORETEST-001 author `/root/numeric_test_author`: persistent ignored worktree
-  `local-evidence/worktrees/coretest001-author`, branch `task/CORETEST-001-author-resume`.
-  Owns numeric interface/explicit stubs, numeric contract, acceptance tests/task
-  brief/author evidence and delegated core/tests/root CMake + numeric preset harness.
-- CORETEST-001 reviewer `/root/numeric_reviewer`: persistent ignored worktree
-  `local-evidence/worktrees/coretest001-review`, branch `task/CORETEST-001-review-resume`.
-  Owns independent review evidence after actual authored revision.
+## Active CORE-001 task and ownership
 
-Resume inspection on 2026-10-31: only the coordinator agent remained active; no
-build/test processes or open GitHub PRs existed. Main remains `fcdcd47`; PRs #10/#11
-are confirmed merged. Old `/tmp` worktrees are absent both inside and outside the
-sandbox, though Git retains their branches/metadata. They were not pruned or reset.
-The previous numeric author hit a usage limit before committing its draft. Its
-branch still points at main; no numeric review/red baseline existed to preserve.
-Uncommitted header/stub/harness/partial-test drafts from that vanished worktree are
-unavailable, so the unfinished authoring was explicitly reassigned. All completed
-commits/reviews remain retained. New worktrees live under ignored `local-evidence/`
-for continuity and authors are instructed to commit checkpoints frequently.
+[PR #13](https://github.com/Kernol12/subathon-bot-ai/pull/13) is draft; published
+head `fd86a6b9e8546bf5308a26e5561be0faf49e35fd` has all four checks passed.
+Local completion/evidence commits follow that head and need final independent
+integration review, publication and a fresh latest-head CI/merge check.
+Progress marks the bounded implementation done from passing acceptance, separate
+code review and actual new-workflow success; done does not mean merged.
 
-## Checks, blockers and next action
+- Coordinator: main workspace, branch `task/CORE-001-exact-numeric`; owns CMake,
+  dependency pins/CI, progress/state.json, PROGRESS.html, acceptance map/status docs,
+  this checkpoint and task PR.
+- Implementer `/root/numeric_implementer`: persistent ignored worktree
+  `local-evidence/worktrees/core001-implementation`, branch `task/CORE-001-implementation`;
+  owns core/src/exact_decimal.cpp and docs/evidence/core-001-implementation.md.
+  Final source author `74f3594`, evidence `0915be4`; assignments completed/clean.
+- Reviewer `/root/numeric_reviewer`: `local-evidence/worktrees/core001-review`,
+  branch `task/CORE-001-code-review`; owns docs/evidence/core-001-code-review.md.
+  Final code/configuration approved `db26514`; final status integration review next.
+- Regression author `/root/numeric_test_author`: `local-evidence/worktrees/core001-zero-regression`,
+  branch `task/CORE-001-zero-regression`; authored only additive test/evidence at
+  `5f9b3c0`. Prior numeric baseline author/reviewer worktrees and published support
+  branches remain retained. No concurrent writer shares a worktree/branch.
 
-BOOT-003 evidence author `b6863e9` is independently approved by review `27fe6b9`;
-see [probe evidence](boot-003-qt-probe.md) and [review](boot-003-independent-review.md).
-Both author and reviewer freshly configured/built and passed Qt CTest 4/4 with Qt
-6.12.0. Coordinator scaffold 3/3, Python 19/19, project/current HTML and DOM simulation
-checks passed. No test or production source changed. BOOT-003 local acceptance is
-satisfied and PR #10 merged with latest-revision CI passed.
-Remote Qt CI remains unperformed; STORAGE-001/API-001 must assess/add Qt coverage
-before their executable production claims, as required by the workflow policy. The initial sandbox refused Git metadata writes; explicit
-escalated Git operations create the authorized task branches/worktrees. GitHub
-network operations also use explicit escalation. These are environment constraints,
-not failed product tests.
+At resumption2026-10-31, old agents were gone and `/tmp` worktrees absent inside
+and outside the sandbox. Old Git branches/objects remain; they were not pruned or
+reset. A prior numeric author's uncommitted temporary draft was unavailable and
+explicitly reassigned before any numeric review/red existed. New worktrees use
+ignored persistent `local-evidence/`; committed work and valid reviews were preserved.
 
-CONTRACT-002 independent review approved all fourteen examples and the exact
-record/clock/writer contract; no requirement conflict found. Coordinator scaffold3/3,
-Python19/19, project/current HTML, DOM and diff checks pass. No production/test/schema
-changes. No red run is required or claimed for this documentation-only task.
+## Exact gates and evidence
 
-Read-only dependency investigation by `/root/domain_contract` verified the
-[official Noble package metadata](https://archive.ubuntu.com/ubuntu/dists/noble/main/binary-amd64/Packages.xz)
-and inspected the exact `libboost1.83-dev=1.83.0-2.1ubuntu3` amd64 archive in memory.
-Archive SHA256 `747b364a7d578babed9efa4c40446be4ba3470ac5b2c9951b0e3bde3d7bb47d6`;
-it contains Multiprecision and upstream Boost CMake/header configs. Nothing installed.
-Proposed CORE-001 CI: explicitly install that package, discover `Boost::headers`
-with `find_package(Boost 1.83 CONFIG REQUIRED)`, then observe actual workflow tests.
-Local development headers are 1.92.0. The 1.83 build is still unverified; there is no
-claim of preinstalled runner Boost, release compatibility or Windows support.
+The reviewed numeric baseline preserves original32 test blob
+`6cf83aeba79bfc4c50e3e11787147dd6bf342c10` and public header
+`c0e70aeea1f435fd07f9eb83b04f3ef5602e6c69`. Original contract behavior snapshot
+`59d334d68970d1b1dd81fddcfbb2a8118437ce13` received review before actual32-case
+stub-red at `9e8db8a`. Current contract changes only status prose, not API/limits/
+errors/examples. No assertion was removed, skipped or weakened.
 
-Resume coordinator scaffold configure/build/CTest3/3, Python19/19 and DOM simulation
-checks passed; these verify unchanged infrastructure only. Draft PR #12 is published
-for continuity and remains draft pending final integration review and PR merge gates.
+CORE-001 candidate `4ab8613` + `873cc6d` passed32 cases after correcting parser zero
+under an existing assertion. One meaningful finalizer regression was then authored
+`5f9b3c0`, test `347a810b1edba2ffc36d66ba44b700092bb2b381`, approved separately
+`cbf9391`/`37f56ae`, and observed genuinely red(exit8, one component-limit exception)
+at coordinator `6224ac3` before the fix. See [regression/red evidence](core-001-zero-regression.md)
+and [raw log](core-001-zero-red-ctest.txt). Final author `74f3594` handles mathematical
+zero before denominator inspection, source `a1ddb4283292a5da0a81a0f4e8255fffc19cafd7`.
+Independent review `db26514` approves final code and shared CI configuration.
 
-CORETEST-001 actual author commits `6e30383`, `45fa0c0`, `b3b7ab9` are
-integrated; independent test review `79e0f0d` approves the final 32 cases. Exact
-reviewed contract `59d334d68970d1b1dd81fddcfbb2a8118437ce13`, tests
-`6cf83aeba79bfc4c50e3e11787147dd6bf342c10`, header
-`c0e70aeea1f435fd07f9eb83b04f3ef5602e6c69`, stub
-`9662e541cef66b975db1a9b6cb33cf421d5fb1f1` remain unchanged.
-At integrated `9e8db8a`, after approval, coordinator CTest returned exit8 with all
-32 actual stub failures, no skips/build/dependency failures. See
-[reviewed/red handoff](coretest-001-baseline-handoff.md),
-[review](coretest-001-independent-review.md) and [red output](coretest-001-red-ctest.txt).
-Credit acceptance/regression23/23 and scaffold3/3 pass after numeric harness integration.
-Numeric behavior is still unimplemented; CORE-001 is planned, not claimed.
-`/root/numeric_implementer` completed read-only preparation and waits for merged
-baseline and a new isolated implementation task branch; no production edits made.
+Local root numeric33/33 and credit23/23 pass; author/reviewer full numeric preset36/36
+passes. Final done-state Python19/19, project/render, DOM simulation and diff checks
+pass. These are bounded primitive/scaffold checks, not an application/platform claim.
+[Implementation handoff](core-001-handoff.md), [implementation evidence](core-001-implementation.md),
+[code review](core-001-code-review.md) retain exact commands and actors.
 
-Next: final integration review/tooling checks, make draft PR12 ready, inspect final
-head CI/discussions/ruleset and merge only if all gates pass. Then refresh main,
-claim CORE-001, implement the reviewed numeric primitives, activate pinned automatic
-numeric CI, obtain separate code review and relevant passing checks. No coordinator
-commands are intentionally left running.
+Actual automatic [numeric run41183487457](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41183487457)
+passed at `fd86a6b`: Ubuntu24.04/GCC13.3, package1.83.0-2.1ubuntu3, verified compiler
+macro108300, CMakeBoost1.83.0 and33 real cases. Credit/scaffold CI also passed.
+[CI/dependency evidence](core-001-ci.md) records pins, official package source/hash,
+compiler/config checks and remaining required-check configuration. LocalBoost1.92
+also passes; no local package installation or live operation occurred.
 
-Remaining release gates: the full planned product beyond the numeric credit helper;
-all seven integrations, all three exchange providers, both renderers, UIs/localization,
-packaging, supported platforms and live/OBS evidence. No live operations, deployment,
-provider authorization, Windows or OBS validation is authorized by this task loop.
-The standing instructions authorize synthetic/local work, not live side effects.
+## Next action and remaining gates
+
+Finish independent final integration review of completion/status/map prose, publish
+all final PR13 commits, inspect all latest-head checks, discussions and actual GitHub
+merge eligibility, then merge without routine owner confirmation if gates pass.
+Refresh main and select CORETEST-002(timer lifecycle) or another dependency-ready
+executable slice; start its branch/claim from integrated prerequisites. No owner
+question or access blocker is outstanding. No commands intentionally remain running;
+coordinator working tree should be checked for any new uncommitted changes on resume.
+
+Full scope beyond the cap-credit and exact-decimal primitives remains: authoritative
+application/aggregate/refund logic, all seven integrations and three exchange providers,
+both renderers, required UIs/localization/themes, packaging, supported-platform and
+live/OBS evidence. Remote Qt CI remains an explicit STORAGE-001/API-001 follow-up.
+No live chat/payment/deployment/provider authorization or release support is claimed.
