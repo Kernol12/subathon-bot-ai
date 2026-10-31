@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T14:01:32+00:00",
+  "updated_at": "2026-10-31T14:11:13+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1231,8 +1231,8 @@
       "title": "Review and demonstrate red: Independent eligibility and confirmation linkage",
       "module": "Accounting",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; test author /root/receipt_test_author",
       "depends_on": [
         "ACCT-001"
       ],
@@ -1243,7 +1243,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-002.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
       ],
       "verification": {},
       "evidence": [],
@@ -10522,6 +10523,11 @@
       "date": "2026-10-31T14:01:32+00:00",
       "task": "ACCT-001",
       "note": "Source875c1c9/7a0986b and confige1b47f1 separately approved ab28d70; all15 reviewed fake-backed receipt simulations pass, plus reviewer numeric33/credit23/scaffold3. Actual automatic receipt workflow41207963538 atPR16head018e286 passed on Ubuntu24.04/GCC13.3 with15 cases; all5checks green. Bounded simulation-backed service gates complete, final done-state integration/latestheadCI/merge pending. No SQL uniqueness/durability/Qt writer/provider/contribution capability. Original headers/tests94317dc/fake99ff2ee/normative contract unchanged."
+    },
+    {
+      "date": "2026-10-31T14:11:13+00:00",
+      "task": "ACCTTEST-002",
+      "note": "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
     }
   ]
 }

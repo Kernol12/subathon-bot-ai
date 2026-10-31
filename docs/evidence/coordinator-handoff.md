@@ -6,7 +6,7 @@ continuation checkpoint, not a release-completion claim.
 
 ## Repository and integrated work
 
-Last fetched main: `7900a614214f72da85c31d44643cf32a078729cc`.
+Last fetched main: `8ad458ea6490a85b49b568b69661c023d3cf6ea2`.
 Two focused task branches are active from this integrated revision. Inspect GitHub
 again on resumption; branch claims are coordinated without mixing unmerged behavior.
 
@@ -162,9 +162,30 @@ independent source/config approvalab28d70 is integrated. Actual automatic receip
 satisfied; final completion-state review/publication/latest CI remain pending.
 No SQL/Qt/provider claim is upgraded.
 
-Next: final independent done-state integration review, publish the completion
-revision on [PR #16](https://github.com/Kernol12/subathon-bot-ai/pull/16), recheck
-latest CI/discussions/merge eligibility and merge only if gates pass. Keep timer CORETEST-002 blocked solely on the unanswered confirmation-wait
+[PR #16](https://github.com/Kernol12/subathon-bot-ai/pull/16) merged8ad458e
+on2026-10-31 14:11:07UTC, final headbd9be45 with all five checks passed and no
+unresolved threads/required GitHub approvals. Final integration75be0a0 approved
+completion records after correcting the remote-label evidence claim: remote CTest
+summary proves receipt-intake selected15 passing cases, not the extra local labels.
+No normative interface/test/source changed; SQL/provider/Qt limits remain open.
+
+ACCTTEST-002 is now claimed from integrated main8ad458e; no next-task PR yet.
+Coordinator worktree `local-evidence/worktrees/accttest002-coordinator`, branch
+`task/ACCTTEST-002-eligibility-baseline`, owns shared CMake/presets, state/HTML/map,
+checkpoint and PR. Author `/root/receipt_test_author` owns new contribution core/
+server interface-stubs, synthetic tests/primitive fake, contract/brief/author evidence
+in `local-evidence/worktrees/accttest002-author`, branch `task/ACCTTEST-002-eligibility-author`.
+Independent `/root/baseline_reviewer` owns actual-revision test review in
+`local-evidence/worktrees/accttest002-review`, branch `task/ACCTTEST-002-eligibility-review`.
+No next-task code behavior, review or red is claimed.
+
+Next: author bounded independent eligibility/evidence-admission and verified
+source-scoped confirmation linkage examples/interfaces/stubs/tests. Preserve unknown
+labels and separate ordinary review from explicit admission of provider reports;
+no correlation guessed from raw IDs/names/amounts/times. Capture policy/decision
+provenance; actual effect/refund/SQL/Qt/provider integration remains separate.
+Compile and independently review actual tests before any intended red or production.
+ Keep timer CORETEST-002 blocked solely on the unanswered confirmation-wait
 credit choice. It has35 compiled/listed draft cases and partial review only; no timer
 bodies/red or production implementation. No commands intentionally remain running.
 
