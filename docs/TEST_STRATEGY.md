@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, receipt15 and contribution21 simulation cases pass; bounded slices only |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, receipt15/15 and contribution21/21 simulation pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -124,13 +124,13 @@ lane runs automatically on relevant PRs/main. [Implementation handoff](evidence/
 records scope and exact artifacts. Pause reasons, queue/state transactions, start/
 reopen, recovery and schedule/DST remain separate contracts and acceptance gates.
 
-## Pause policy baseline
+## Pause policy implementation
 
-CORETEST-003 provides37 separately reviewed cases for independent pause reasons,
-normalized signal delays and both recorded Unknown-status choices. All37 actually
-failed on explicit stubs after compilation; [baseline handoff](evidence/coretest-003-baseline-handoff.md).
-Use configure/build `pause-policy-debug`, then CTest `-L pause-policy`. This intentional
-red lane remains separate from stable feature CI. CORE-003 must implement/pass it,
-obtain separate code review and add/observe automatic pause CI. Caller segmentation/
-timer wiring, real provider signals, Qt/state commits, schedules, recovery and delay
-reconfiguration remain separate acceptance gates.
+CORETEST-003 supplied37 separately reviewed cases and actual intended stub-red;
+[baseline handoff](evidence/coretest-003-baseline-handoff.md). CORE-003 implements
+the pure policy: all37 unchanged cases pass with separate code review and
+[observed automatic pause CI](evidence/core-003-ci.md). Use configure/build
+`pause-policy-debug`, then CTest `-L pause-policy`; that same stable lane runs on
+relevant PRs/main. [Implementation handoff](evidence/core-003-handoff.md) records
+scope. Caller segmentation/timer wiring, real provider signals, Qt/state commits,
+schedules, recovery and delay reconfiguration remain separate acceptance gates.
