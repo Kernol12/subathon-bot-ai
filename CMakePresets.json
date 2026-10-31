@@ -76,6 +76,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_PAUSE_POLICY_TESTS": "ON"
       }
+    },
+    {
+      "name": "application-plan-debug",
+      "displayName": "09 \u00b7 Application plan intentional-red baseline",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_APPLICATION_PLAN_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -110,6 +118,10 @@
     {
       "name": "pause-policy-debug",
       "configurePreset": "pause-policy-debug"
+    },
+    {
+      "name": "application-plan-debug",
+      "configurePreset": "application-plan-debug"
     }
   ],
   "testPresets": [
@@ -186,6 +198,16 @@
     {
       "name": "pause-policy-debug",
       "configurePreset": "pause-policy-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "application-plan-debug",
+      "configurePreset": "application-plan-debug",
       "output": {
         "outputOnFailure": true
       },
