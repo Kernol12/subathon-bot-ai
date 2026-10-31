@@ -140,3 +140,63 @@ behavioral gate; publication/CI/merge bookkeeping remains coordinator-owned.
 CORE-002 then needs implementation, passing relevant checks and separate code review.
 No SQL, Qt runtime, provider, renderer, supported-platform, packaging or live/OBS
 verification is established here. All release scope remains required.
+
+## Final red-evidence and status integration review
+
+Same independent reviewer, 2026-10-31. Verdict: **approved for baseline integration**
+of coordinator candidate `6e51d161c2a3d5b82459869f1b4d09bc3a85d3b7`, inspected in
+review checkout `ba7a903e4ee5c3efb3cc313dfb9a4614df0e6e2b`. Approval of the actual
+39-case baseline above was integrated as `cd59601fff4149d7c83ab4c4c442c0daf19a5de7`
+before the coordinator's timer run. The raw log and handoff were added afterwards;
+this review does not claim to have personally rerun that test-body command.
+
+Inspected the full integration delta from `2fb544f`, including the raw red output,
+baseline handoff, contract/brief status prose, test strategy, acceptance map, task
+state, generated progress and coordinator checkpoint. A read-only comparison
+confirmed the tests, header, stubs and root/core/tests/preset build harness remain
+byte-for-byte identical to the approved artifacts. The timer contract changes only
+its opening status paragraph; none of its behavior, examples or validation changed.
+The completed-status contract blob is `cfee0767cc0829106057b2cf631a03e2e59cca30`,
+and the completed-status brief is `cb6577defbaf1e00e5a6bb4b9da3f5be62c3864b`.
+
+The [raw log](coretest-002-red-ctest.txt), blob
+`9166d4df19df61c844ff9183f9dad52ac0ea006c`, contains all 39 reviewed case names
+in order, their individual RUN records, failed CTest outcomes and the explicit
+unimplemented diagnostic in every case. Validation cases show the actual
+`TimerLifecycleNotImplemented` type instead of the required domain exception, as
+expected from the unconditional stubs. The footer records 0% passing and 39 failures;
+no skipped/not-run cases or missing-executable failure appears. The
+[baseline handoff](coretest-002-baseline-handoff.md), blob
+`b71ae7d1a5fedfdede0cb01d754f59500e3b8306`, records the exact command, observed
+exit8, successful prior compilation, run revision and environment. This is valid
+intended missing-behavior red evidence, following independent approval.
+
+CORETEST-002 is done as a test-baseline task, with observed_red and product acceptance
+not_run. CORE-002 remains planned. TIMER-01/02 remain partial and the bounded scenario
+is observed_red; neither the map nor HTML upgrades timer behavior to passing.
+Generated completed-task count rises to20 while verified implementation tasks remain3.
+Historical author/partial-review records and explicit downstream scope are preserved.
+No blocking integration finding remains. A minor snapshot timestamp observation was
+sent to the coordinator: updated_at still preceded the new history entries; a final
+publication refresh can update that display stamp without changing this review scope.
+
+Commands actually run for this integration review, all successful unless noted:
+
+| Command / inspection | Observed result |
+| --- | --- |
+| `git status --short`, `git log -6 --oneline`, `git diff --stat 2fb544f HEAD`, targeted full diffs and reads of the integration paths, `git rev-parse HEAD 6e51d16 cd59601`, artifact `git hash-object` | exit0; candidate/revisions and bounded delta above. A search for optional CLI usage strings in the DOM script had no matches (exit1); the script was then read and run successfully. |
+| Read-only Python validation of every raw-log case block against the actual 39 TEST names; absence of skip/not-run/missing-executable diagnostics; byte comparison of tests/header/stubs/harness against `2fb544f` | exit0; all checks satisfied |
+| `git diff --quiet 2fb544f HEAD -- core tests/acceptance CMakeLists.txt CMakePresets.json cmake` | exit0; no executable source or build-harness delta |
+| `python3 tools/check_project.py` | exit0;377 task records,122 decisions, links/presets/current HTML pass |
+| `python3 tools/progress.py render --check` | exit0; generated snapshot matches current state |
+| `python3 -m unittest discover -s tests/tooling -v` | exit0;19/19 tooling tests pass |
+| `node tools/check_progress_ui.mjs` | exit0; DOM simulation passes; actual browser/OBS explicitly not run |
+| `git diff --check` | exit0 before append; repeated with staged evidence before commit |
+
+No redundant native rebuild or timer-body rerun was performed: the approved executable
+artifacts and harness are unchanged, the reviewer already built them successfully,
+and the coordinator has retained the actual intended red. Stable native suite counts
+in the handoff are coordinator evidence, not newly executed reviewer commands.
+Latest-revision PR CI, publication and merge eligibility remain coordinator gates.
+Implementation, automatic passing timer CI, separate code review and all downstream
+release/platform/live gates remain required.
