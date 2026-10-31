@@ -3,7 +3,7 @@
 Coordinator `/root`, 2026-10-31. Standing full-specification v0.45 loop is active;
 the earlier ownerstop was explicitly revoked by resume. No routine approval or
 unanswered product choice remains. Last observed integrated main
-`afcf5283bff3ec65f83f5ffdd99173d30f5e90e4`; inspect actual state on any resume.
+`8ed9d45e08f2a88e56c27ed2fa236f4ac5b2aee6`; inspect actual state on any resume.
 
 ## Completed integrations
 
@@ -127,3 +127,18 @@ Final ACCTTEST003 integration9aea69e approvedcf7aa44 and verified actual22-case
 stub-red/status with unchangedreviewedartifacts. Rootintegrates this localreview;
 focused PRpublication/latest8CI/discussions/rules/merge remain. No unperformed
 production behavior or provider permission is inferred by the baseline taskdone.
+
+## ACCT003 current implementation claim
+
+Baseline PR22 actually merged8ed9d45 at21:32:08UTC, finalc66870e all8CIpassed,
+no threads/fullreview36ac654/final9aea69e; actual22stub-red retainedata524447.
+Just-completedremoteheadarchived/deletedwithguards, totalcleanup33, mainonlybefore
+thisnewactiveclaim. No completed supportbranch wasrepublished.
+Rootnow `task/ACCT-003-captured-plans` from8ed9d45; implementer
+`/root/application_plan_implementer` owns only core/src/application_plan.cpp and
+implementationevidence in `local-evidence/worktrees/acct003-implementation`, branch
+`task/ACCT-003-implementation`. Independent `/root/application_plan_reviewer` owns
+code/configreview in `local-evidence/worktrees/acct003-review`, branch
+`task/ACCT-003-code-review`. Rootowns allsharedartifacts/automaticpinnedBoostCI/PR.
+Preserve22tests/interfaces; require actualpassingcases/code review/newCI beforedone.
+Earlier draftpublication/pendingbaseline text is historical, superseded bythismerge.

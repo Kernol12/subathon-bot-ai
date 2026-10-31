@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T21:30:05.025074+00:00",
+  "updated_at": "2026-10-31T21:33:56.241847+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1459,8 +1459,8 @@
       "title": "Captured application plans and calculation provenance",
       "module": "Accounting",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/application_plan_implementer; independent reviewer /root/application_plan_reviewer",
       "depends_on": [
         "ACCT-002",
         "CORE-001",
@@ -1474,7 +1474,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-003.md",
       "summary": "Capture arrival configuration, modifier context and requested effect details with original event/contribution/rate references.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed task/ACCT-003-captured-plans frommain8ed9d45 afterbaselinePR22 merged21:32:08UTC finalc66870e all8CIpass/fullreview36ac654/final9aea69e, actual22stubreda524447. Contractapplicationplansrev1; interface501112d6/testsf93287fa preserved. Implementer task/ACCT-003-implementation owns ONLY core/src/application_plan.cpp +implementationevidence; rootowns build/labels/preset/automaticpinnedBoostCI/state/HTML/map/status/checkpoint/PR. Accept22passing cases+separate code/configreview+observednewCI; no evaluator/numericrecalculation/permissionengine/storage/livecap/effect/writer/provider claim. Usercleanupkeptcurrent: justmergedPR22 head archived/deleted withguards, total33completedremotebranchesremoved; localhistoryretained."
       ],
       "verification": {},
       "evidence": [],
@@ -10818,6 +10819,11 @@
       "date": "2026-10-31T21:30:05.025074+00:00",
       "task": "ACCTTEST-003",
       "note": "Finalintegration9aea69e independently approves cf7aa44; header/stubs/tests/harness unchangedfrom36ac654, actual596-line redlog22bodies verified, status/map/strategy/core-only limits honest; reviewerproject/render/diffpass. PublishfocusedbaselinePR fromcurrentmainafcf528 and checkall8lateststableCI/discussions/rulesbeforemerge. SupportbranchesremainLOCALperusercleanup; no implementation."
+    },
+    {
+      "date": "2026-10-31T21:33:56.241847+00:00",
+      "task": "ACCT-003",
+      "note": "Claimed task/ACCT-003-captured-plans frommain8ed9d45 afterbaselinePR22 merged21:32:08UTC finalc66870e all8CIpass/fullreview36ac654/final9aea69e, actual22stubreda524447. Contractapplicationplansrev1; interface501112d6/testsf93287fa preserved. Implementer task/ACCT-003-implementation owns ONLY core/src/application_plan.cpp +implementationevidence; rootowns build/labels/preset/automaticpinnedBoostCI/state/HTML/map/status/checkpoint/PR. Accept22passing cases+separate code/configreview+observednewCI; no evaluator/numericrecalculation/permissionengine/storage/livecap/effect/writer/provider claim. Usercleanupkeptcurrent: justmergedPR22 head archived/deleted withguards, total33completedremotebranchesremoved; localhistoryretained."
     }
   ]
 }
