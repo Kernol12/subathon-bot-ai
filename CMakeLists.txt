@@ -10,7 +10,7 @@ option(SUBATHON_BUILD_ACCEPTANCE_TESTS "Build reviewed time-credit acceptance an
 option(SUBATHON_BUILD_EXACT_NUMERIC_TESTS "Build reviewed exact numeric acceptance tests" OFF)
 option(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS "Build the intentional-red timer lifecycle baseline" OFF)
 option(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS "Build reviewed receipt intake simulation acceptance tests" OFF)
-option(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS "Build the intentional-red contribution evidence baseline" OFF)
+option(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS "Build contribution evidence acceptance tests" OFF)
 option(SUBATHON_FETCH_GOOGLETEST "Explicitly allow fetching the pinned GoogleTest source" OFF)
 option(SUBATHON_BUILD_QT_PROBE "Build a Qt 6.12 Core/Test environment probe" OFF)
 set(SUBATHON_GOOGLETEST_SOURCE_DIR "" CACHE PATH "Optional local GoogleTest source checkout")
