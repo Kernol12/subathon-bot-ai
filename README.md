@@ -74,6 +74,10 @@ CORE-003 implements independent pause-reason and normalized signal-delay proposa
 Its37 reviewed cases pass with [separate review/automatic CI](docs/evidence/core-003-handoff.md);
 use `pause-policy-debug`. Live signals, caller segmentation/timer wiring, Qt/state
 transactions, reconfiguration, schedules and recovery remain separate gates.
+ACCT-003 implements owned captured plan histories, audited override proposals and
+preview freshness;22 reviewed cases and [separate review/pinned CI](docs/evidence/acct-003-handoff.md)
+pass via `application-plan-debug`. Actual eligibility/current caps/effects, permission,
+evaluator, writer and provider gates remain separate.
 Do not treat the scaffold smoke test as proof that credit calculation works.
 See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/time-credit-v0.md).
 

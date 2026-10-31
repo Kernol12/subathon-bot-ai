@@ -79,7 +79,7 @@
     },
     {
       "name": "application-plan-debug",
-      "displayName": "09 \u00b7 Application plan intentional-red baseline",
+      "displayName": "09 \u00b7 Application plan acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_APPLICATION_PLAN_TESTS": "ON"

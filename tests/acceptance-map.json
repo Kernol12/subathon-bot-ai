@@ -1015,7 +1015,7 @@
     },
     {
       "scenario": "Owned captured application-plan history, provenance and preview freshness",
-      "status": "observed_red",
+      "status": "passed",
       "tests": [
         "tests/acceptance/application_plan_tests.cpp"
       ],
@@ -1031,9 +1031,21 @@
         "docs/evidence/accttest-003-authoring.md",
         "docs/evidence/accttest-003-independent-review.md",
         "docs/evidence/accttest-003-baseline-handoff.md",
-        "docs/evidence/accttest-003-red-ctest.txt"
+        "docs/evidence/accttest-003-red-ctest.txt",
+        "docs/evidence/acct-003-implementation.md",
+        "docs/evidence/acct-003-code-review.md",
+        "docs/evidence/acct-003-ci.md",
+        "docs/evidence/acct-003-handoff.md"
       ],
-      "scope": "22 reviewed pure value-transform cases fail on explicit stubs after compile. Preserves arrival selections/exact requests/historical unknowns and audited revisions; preview freshness only, no eligibility/permission/current-cap/effect/writer/evaluator/provider implementation."
+      "scope": "22 reviewed cases pass against owned core transformations with separate code/CI review and actual GNU13.3/Boost1.83 automatic execution. Preview freshness only; evaluator/numerical correctness, real permissions, durable writer/audit/current cap/effect/application/provider/platform gates remain separate.",
+      "code_review": {
+        "author": "/root/application_plan_implementer",
+        "reviewer": "/root/application_plan_reviewer",
+        "outcome": "approved",
+        "baseline": "authordcf0990; source42b47e4ae4c733ba8e0d8f743c32faa15376d425; interface501112d6/testsf93287fa; CI0e8ebbf; review4425064",
+        "evidence": "docs/evidence/acct-003-code-review.md"
+      },
+      "verification_level": "deterministic domain"
     }
   ]
 }
