@@ -124,3 +124,58 @@ respective reviewed tests retain these responsibilities. Indeterminate durable c
 outcomes must be resolved against durable identity rather than assumed rolled back.
 All seven integrations, all three exchange providers and other release/platform/live
 gates remain required. No credentials, live services or supporter data were used.
+
+## Final baseline integration review
+
+Reviewer `/root/baseline_reviewer`, 2026-10-31. Actual coordinator candidate:
+`377083ead90c2c96f4551743979821888ff434ef`. Verdict: **approved for integration**
+of this reviewed/red test baseline, subject to outstanding publication and latest-PR
+CI/merge gates. This is not approval of receipt production behavior.
+
+Reviewed the candidate diff, [baseline handoff](accttest-001-baseline-handoff.md),
+[raw CTest output](accttest-001-red-ctest.txt), progress state, rendered progress,
+acceptance map, test strategy and shared coordinator checkpoint. Compared actual
+candidate artifact identities with the approved table: header, port, stub, fake,
+all15 tests and contract are unchanged. Diff from reviewed coordinator `18d8670`
+contains no production, harness, interface, fixture or assertion change. No stable
+workflow was weakened. Timer source/header/tests are absent from this receipt
+candidate; its concurrent ownership claim and pending policy remain explicit.
+
+The raw red log blob is `a4411f2bf2abba4828fb0d8a00f221cbb26a3dbd`.
+An independent read-only check against Git objects confirmed that the authored
+15 test names exactly match all15 `[ RUN ]` entries and all15 CTest failures, in
+order, with15 explicit unimplemented-service exception reports. The summary reports
+0% passed and15 failures; there are no skipped/not-run cases or absent-executable
+errors. Storage-error expectations also report the wrong explicit
+`ReceiptIntakeNotImplemented` exception, consistent with missing service behavior.
+The coordinator records the real CTest exit8 at `18d8670` after successful build
+and prior independent approval. This reviewer inspected that run's committed
+evidence and did not rerun the runtime-red bodies.
+
+`ACCTTEST-001` is correctly `done` as a `test_baseline`, with reviewed/build evidence,
+`baseline: observed_red` and `product_acceptance: not_run`. `ACCT-001` remains
+`planned`. The acceptance map adds only the identified receipt/attempt scenario as
+`observed_red`, explicitly excluding SQL, real provider identity/correlation,
+contribution creation and one-application capability. The test strategy and handoff
+retain those limits, future automatic passing receipt CI and downstream storage/API
+gates. Existing full-scope release requirements remain intact.
+
+Independent commands after merging the exact candidate into the isolated reviewer
+worktree:
+
+| Command / check | Observed result |
+| --- | --- |
+| `git diff 18d8670 377083e -- <reviewed source/build/contract paths>` and artifact-specific `git rev-parse 377083e:<path>` | exit0; no reviewed artifact changes; exact blobs retained |
+| Read-only Python comparison of exact-candidate test names, raw-run names/failures, stub-exception count, baseline status and tracked timer paths | exit0;15 exact matches, baseline-only status, no timer implementation artifacts |
+| `python3 tools/check_project.py` | exit0;377 tasks,122 decisions, links/presets/current HTML pass |
+| `python3 -m unittest discover -s tests/tooling -v` | exit0;19/19 pass |
+| `python3 tools/progress.py render --check` | exit0; current generated snapshot |
+| `git diff --check` and `git diff --cached --check` | exit0 before integration-review commit |
+
+The coordinator handoff records stable scaffold3/3, numeric33/33 and credit23/23
+passing; this final evidence review did not repeat those unchanged native suites or
+the coordinator's DOM simulation. No new behavior changed to justify broadening
+the earlier compile/discovery review. Publication, actual latest-head CI, GitHub
+review/discussion/ruleset checks and merge outcome remain coordinator gates and
+are not implied by this local integration approval. Timer's overall review remains
+request changes solely for the unanswered confirmation-wait credit decision.
