@@ -6,6 +6,8 @@ Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [contribution eligibility revision 1](../../contracts/contribution-eligibility-v1.md),
 independently reviewed for ACCTTEST-002 with21 cases and actual intended stub-red;
 [baseline evidence](../../evidence/accttest-002-baseline-handoff.md).
+ACCT-002 implements this bounded slice with21 passing simulation cases, separate
+code review and observed CI; [implementation handoff](../../evidence/acct-002-handoff.md).
 
 ## Scope and ownership
 
@@ -17,12 +19,11 @@ the full ledger. ACCT-004 owns atomic application, ACCT-005 review operations an
 ACCT-006 settlement/refund-before-apply reconciliation. Qt/SQL/provider behavior
 remains under the appropriate API/storage/connector baselines.
 
-Author owns new `core/include/subathon/core/contribution.hpp` and explicit stub
-`core/src/contribution.cpp`; server `contribution_evidence.hpp/.cpp`; acceptance
-`tests/acceptance/contribution_evidence_tests.cpp` and primitive fake
-`tests/fakes/contribution_repository.hpp`; revision-1 contract, this brief and
-`docs/evidence/accttest-002-authoring.md`. Coordinator owns all build/presets/pins,
-state/HTML/map/checkpoint, CI integration and publication. No shared schema is changed.
+Baseline authors supplied interfaces/tests/primitive fake and revision1 contract.
+The implementer owns only `core/src/contribution.cpp`,
+`server/src/contribution_evidence.cpp` and implementation evidence; reviewed artifacts
+remain preserved. Coordinator owns all build/presets/pins, state/HTML/map/checkpoint,
+CI/status integration and publication. No shared schema or API layout is changed.
 
 Primary module paths: core/ and server/ application services
 Read root/scoped AGENTS.md before editing. Shared schemas, migrations, dependency pins,

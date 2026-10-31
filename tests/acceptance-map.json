@@ -923,7 +923,7 @@
     },
     {
       "scenario": "Independent contribution eligibility and verified confirmation linkage",
-      "status": "observed_red",
+      "status": "passed",
       "tests": [
         "tests/acceptance/contribution_evidence_tests.cpp"
       ],
@@ -933,16 +933,49 @@
         "docs/evidence/accttest-002-checkpoint.md",
         "docs/evidence/accttest-002-independent-review.md",
         "docs/evidence/accttest-002-baseline-handoff.md",
-        "docs/evidence/accttest-002-red-ctest.txt"
+        "docs/evidence/accttest-002-red-ctest.txt",
+        "docs/evidence/acct-002-implementation.md",
+        "docs/evidence/acct-002-code-review.md",
+        "docs/evidence/acct-002-ci.md",
+        "docs/evidence/acct-002-handoff.md"
       ],
-      "scope": "21 independently reviewed cases compile and fail on explicit missing-behavior stubs. Core/service implementation, provider/SQL/Qt/application behavior remain unimplemented.",
+      "scope": "21 reviewed cases pass against real assessor/service decisions through primitive fake transactions; separate code/config review and actual automatic CI. No SQL durability/uniqueness, Qt ownership, actual provider proof, application/effects/jobs or refund capability claim.",
       "review": {
         "author": "/root/receipt_test_author",
         "reviewer": "/root/baseline_reviewer",
         "outcome": "approved",
         "baseline": "authorb0fd97e +929152c; tests702a7bf1d8162ba748ee9477ea48ffa73047ef65; contract5eec5921; reviewa561508; actualred4d1400f",
         "evidence": "docs/evidence/accttest-002-independent-review.md"
-      }
+      },
+      "code_review": {
+        "author": "/root/contribution_implementer",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "author3e76ce9; corec3b2ea0d8449fd3752512b35eac052b2f300ece7; server975067bb952383e08c015d87139d6a806240ecb0; tests702a7bf1; CI1beb71f; review6e917c7",
+        "evidence": "docs/evidence/acct-002-code-review.md"
+      },
+      "verification_level": "simulation"
+    },
+    {
+      "scenario": "Independent pause reasons and normalized signal-delay policy (draft)",
+      "status": "draft",
+      "tests": [
+        "tests/acceptance/pause_policy_tests.cpp"
+      ],
+      "contract": "docs/contracts/pause-policy-v1.md",
+      "review": {
+        "author": "/root/pause_test_author",
+        "reviewer": "/root/pause_resume_reviewer",
+        "outcome": "changes_requested",
+        "baseline": "authorbb34d1e; testsaf1275f7/headerc91b7da3/stubdee2a91c/contract46b6c641; partialreview005b6f4; fullbaselineblocked on owner questions",
+        "evidence": "docs/evidence/coretest-003-independent-review.md"
+      },
+      "evidence": [
+        "docs/evidence/pause-signal-policy-questions.md",
+        "docs/evidence/coretest-003-authoring.md",
+        "docs/evidence/coretest-003-independent-review.md"
+      ],
+      "scope": "30 known-policy cases compile/list and have bounded independent partial review. Full baseline blocked on unanswered Unknown-status interactions; no test body, observed red, implementation or provider verification."
     }
   ]
 }

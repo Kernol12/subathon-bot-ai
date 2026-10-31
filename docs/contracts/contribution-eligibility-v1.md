@@ -6,7 +6,8 @@ Authority: [specification v0.45](../specification.md) §§3.2–4,5,14,18 and re
 [identified receipt intake](receipt-intake-v1.md), both revision 1.
 Status: revision1 independently reviewed with21 cases and observed intended stub-red;
 [baseline evidence](../evidence/accttest-002-baseline-handoff.md) records exact artifacts.
-Core assessment and server linkage still throw explicit `…NotImplemented` exceptions.
+ACCT-002 implements both pieces with21 passing reviewed cases, separate code review
+and observed automatic simulation CI; [implementation handoff](../evidence/acct-002-handoff.md).
 
 ## Bounded responsibility
 
@@ -192,7 +193,7 @@ live service, credentials or side effects are exercised. Those remain STORAGE/AP
 
 ## Acceptance examples and handoff gate
 
-The [21 authored GoogleTest cases](../../tests/acceptance/contribution_evidence_tests.cpp)
+The [21 reviewed GoogleTest cases](../../tests/acceptance/contribution_evidence_tests.cpp)
 use literal synthetic inputs and manually derived blocker/association expectations:
 
 | Cases | Required result / authority |
@@ -209,12 +210,12 @@ use literal synthetic inputs and manually derived blocker/association expectatio
 | FailedInitialSupport…, FailedConfirmation…, FailedPendingLink… | Known injected transaction failure leaves no partial contribution/link/evidence; retry preserves existing data; §3.4 |
 | InvalidEvidence… | Explicit local validation and immutable receipt consistency cannot fabricate confirmation or replace policy history |
 
-Independent review must examine exact contract/header/stub/fake/test artifacts before
-the first runtime red. Successful compilation/discovery alone is not red; intended
-red must come from the explicit core/service `…NotImplemented` exceptions. ACCT-002
-production starts only after that gate and preserves the reviewed assertions.
+Independent review examined exact contract/header/stub/fake/test artifacts before
+the original21-case intended stub-red. ACCT-002 then implemented both pieces, preserving
+all reviewed assertions/interfaces/fake; the same21 cases now pass with separate code
+review. Historical red output remains in the baseline handoff.
 The coordinator owns CMake/presets/pins, progress/HTML/map/checkpoint, CI and PRs.
-The separate `contribution-evidence` lane must not enter a passing merge gate while
-intentionally red or use skipping/failure inversion to hide failures. Once implemented,
-stable reviewed suites must run on relevant PR/main CI under the workflow policy.
+The stable `contribution-evidence` lane now runs on relevant PR/main CI, without
+skipping or failure inversion. Actual observations and simulation limits are recorded
+in the implementation handoff.
 All seven integrations, three exchange providers and full release scope remain required.

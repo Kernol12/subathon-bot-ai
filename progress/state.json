@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T19:55:10.830024+00:00",
+  "updated_at": "2026-10-31T20:12:47.221760+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -847,8 +847,8 @@
       "title": "Review and demonstrate red: Independent pause reasons and delayed status signals",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_review",
-      "owner": "Coordinator /root; test author /root/pause_test_author; independent reviewer /root/timer_final_reviewer",
+      "status": "blocked",
+      "owner": "Coordinator /root; author /root/pause_test_author; partial reviewer /root/pause_resume_reviewer; checkpointed",
       "depends_on": [
         "CORE-002"
       ],
@@ -863,20 +863,28 @@
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim.",
         "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds.",
-        "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate."
+        "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate.",
+        "Resume inspectedactualmain/PRs/allworktrees/no runningbuilds; preservedcompleted ACCT002 finalreviewee5e4fb and mergedPR19 at5201edd20:11:42UTC, final2c1b183 all7CIpassed. Explicitly reassigned vanishedpause reviewer to /root/pause_resume_reviewer, actualpartialreview005b6f4 validates30knowncases with no incorrectoracle but FULLbaseline blocked on2unanswered ownerpolicyquestions. No bodies/red/implementation. Owner requestedstopafter nextfinishedPR; PR19finished, checkpointandstopwithout startingfurtherwork. DraftPR20 andallreviews preserved."
       ],
       "verification": {
         "authored_tests": "draft",
         "native_build": "passed",
-        "test_review": "not_run",
+        "test_review": "partial",
         "baseline": "not_run",
         "product_acceptance": "not_run"
       },
       "evidence": [
         "docs/evidence/pause-signal-policy-questions.md",
-        "docs/evidence/coretest-003-authoring.md"
+        "docs/evidence/coretest-003-authoring.md",
+        "docs/evidence/coretest-003-independent-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/pause_test_author",
+        "reviewer": "/root/pause_resume_reviewer",
+        "outcome": "changes_requested",
+        "baseline": "authorbb34d1e; testsaf1275f7/headerc91b7da3/stubdee2a91c/contract46b6c641; partialreview005b6f4; fullbaselineblocked on owner questions",
+        "evidence": "docs/evidence/coretest-003-independent-review.md"
+      }
     },
     {
       "id": "CORE-003",
@@ -1330,7 +1338,7 @@
       "title": "Independent eligibility and confirmation linkage",
       "module": "Accounting",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Coordinator /root; implementer /root/contribution_implementer; independent reviewer /root/baseline_reviewer",
       "depends_on": [
         "ACCT-001",
@@ -1344,11 +1352,31 @@
       "summary": "Hold multiple unresolved conditions simultaneously; accepting paused input cannot bypass missing evidence or valuation.",
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed task/ACCT-002-contribution-evidence from integrated mainf886af9 after PR17 merged19:40:25UTC; final73bd8f9 all5CIpass, baselineapprovala561508/final3ffb71d/reconciliation4e614fe, actual21stubred4d1400f. Contractcontributionrev1; reviewed tests702a7bf1/core65ad81ac/server82c2e5f7/fake8d35e502. Implementer isolated task/ACCT-002-implementation owns ONLY core/src/contribution.cpp, server/src/contribution_evidence.cpp and implementationevidence; no baseline changes. Coordinator owns sharedbuild/labels/workflow/state/HTML/map/status/checkpoint/PR. Acceptance21fake-backedpassingcases, independent code/configreview, stableregressions and observed automaticcontributionCI. No Qt/SQL/provider/application/refund feature claim."
+        "Claimed task/ACCT-002-contribution-evidence from integrated mainf886af9 after PR17 merged19:40:25UTC; final73bd8f9 all5CIpass, baselineapprovala561508/final3ffb71d/reconciliation4e614fe, actual21stubred4d1400f. Contractcontributionrev1; reviewed tests702a7bf1/core65ad81ac/server82c2e5f7/fake8d35e502. Implementer isolated task/ACCT-002-implementation owns ONLY core/src/contribution.cpp, server/src/contribution_evidence.cpp and implementationevidence; no baseline changes. Coordinator owns sharedbuild/labels/workflow/state/HTML/map/status/checkpoint/PR. Acceptance21fake-backedpassingcases, independent code/configreview, stableregressions and observed automaticcontributionCI. No Qt/SQL/provider/application/refund feature claim.",
+        "Bounded eligibility/linkagesources author3e76ce9/corec3b2ea0d/server975067bb and CIconfig1beb71f independently approved6e917c7. All21 reviewed unchanged tests702a7bf1 pass root/author/reviewer; reviewer timer39/receipt15/numeric33/credit23/scaffold3 pass. Actualautomatic contributionCI41235930193 atPR19a579e38 passed21 GNU13.3. Main0700d5d integrated, headers/fake/contractnormative unchanged. Simulation-backed implementation done; final statusreview/latest PR19CI/merge pending. SQL/Qt/providerproof/application/refunds/platform/live gates remain separate."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "github_ci": "passed",
+        "sql_qt_provider": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/acct-002-implementation.md",
+        "docs/evidence/acct-002-code-review.md",
+        "docs/evidence/acct-002-ci.md",
+        "docs/evidence/acct-002-handoff.md"
+      ],
+      "review": {
+        "author": "/root/contribution_implementer",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "author3e76ce9; corec3b2ea0d8449fd3752512b35eac052b2f300ece7; server975067bb952383e08c015d87139d6a806240ecb0; tests702a7bf1; CI1beb71f; review6e917c7",
+        "evidence": "docs/evidence/acct-002-code-review.md"
+      }
     },
     {
       "id": "ACCTTEST-003",
@@ -10651,6 +10679,11 @@
       "note": "Claimed task/ACCT-002-contribution-evidence from integrated mainf886af9 after PR17 merged19:40:25UTC; final73bd8f9 all5CIpass, baselineapprovala561508/final3ffb71d/reconciliation4e614fe, actual21stubred4d1400f. Contractcontributionrev1; reviewed tests702a7bf1/core65ad81ac/server82c2e5f7/fake8d35e502. Implementer isolated task/ACCT-002-implementation owns ONLY core/src/contribution.cpp, server/src/contribution_evidence.cpp and implementationevidence; no baseline changes. Coordinator owns sharedbuild/labels/workflow/state/HTML/map/status/checkpoint/PR. Acceptance21fake-backedpassingcases, independent code/configreview, stableregressions and observed automaticcontributionCI. No Qt/SQL/provider/application/refund feature claim."
     },
     {
+      "date": "2026-10-31T19:52:17.117617+00:00",
+      "task": "ACCT-002",
+      "note": "Bounded eligibility/linkagesources author3e76ce9/corec3b2ea0d/server975067bb and CIconfig1beb71f independently approved6e917c7. All21 reviewed unchanged tests702a7bf1 pass root/author/reviewer; reviewer timer39/receipt15/numeric33/credit23/scaffold3 pass. Actualautomatic contributionCI41235930193 atPR19a579e38 passed21 GNU13.3. Main0700d5d integrated, headers/fake/contractnormative unchanged. Simulation-backed implementation done; final statusreview/latest PR19CI/merge pending. SQL/Qt/providerproof/application/refunds/platform/live gates remain separate."
+    },
+    {
       "date": "2026-10-31T19:47:47.890097+00:00",
       "task": "CORETEST-003",
       "note": "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim."
@@ -10664,6 +10697,11 @@
       "date": "2026-10-31T19:55:10.830024+00:00",
       "task": "CORETEST-003",
       "note": "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate."
+    },
+    {
+      "date": "2026-10-31T20:12:47.221760+00:00",
+      "task": "CORETEST-003",
+      "note": "Resume inspectedactualmain/PRs/allworktrees/no runningbuilds; preservedcompleted ACCT002 finalreviewee5e4fb and mergedPR19 at5201edd20:11:42UTC, final2c1b183 all7CIpassed. Explicitly reassigned vanishedpause reviewer to /root/pause_resume_reviewer, actualpartialreview005b6f4 validates30knowncases with no incorrectoracle but FULLbaseline blocked on2unanswered ownerpolicyquestions. No bodies/red/implementation. Owner requestedstopafter nextfinishedPR; PR19finished, checkpointandstopwithout startingfurtherwork. DraftPR20 andallreviews preserved."
     }
   ]
 }

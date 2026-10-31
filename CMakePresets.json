@@ -63,7 +63,7 @@
     },
     {
       "name": "contribution-evidence-debug",
-      "displayName": "07 \u00b7 Contribution evidence intentional-red baseline",
+      "displayName": "07 \u00b7 Contribution evidence simulation acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS": "ON"

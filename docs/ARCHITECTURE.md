@@ -70,3 +70,10 @@ review and automatic CI; [handoff](evidence/core-002-handoff.md). UTC and elapse
 inputs remain separate, and accepted actual credit can resume confirmation wait.
 The caller still owns segmentation, pause reasons, permissions, actual-credit
 calculation and atomic commit; no Qt timer/queue, durable state or recovery is supplied.
+
+The [eligibility/linkage slice](contracts/contribution-eligibility-v1.md) implements
+independent planning holds and committed-receipt association through a transaction
+port. Its21 cases pass with separate code review and automatic simulation CI;
+[handoff](evidence/acct-002-handoff.md). Original context/conditions remain anchored
+to support while explicit confirmation only promotes evidence. This supplies no
+provider proof, Qt/SQL adapter, application transaction, job or refund reconciliation.
