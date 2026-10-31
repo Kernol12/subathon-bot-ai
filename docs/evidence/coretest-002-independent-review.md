@@ -3,6 +3,8 @@
 Date: 2026-10-31. Author: `/root/numeric_test_author` (separate prior author
 session). Reviewer: `/root/baseline_reviewer`. Verdict: **request changes**;
 this is a partial review of an authored draft, not approval of the test baseline.
+The 35-case follow-up below closes the two test-coverage findings; the unresolved
+confirmation-credit policy remains the only blocking finding in this review.
 
 ## Actual revision and review scope
 
@@ -37,7 +39,7 @@ author evidence before reviewing.
    for the chosen behavior are required before full baseline approval. Repeated
    requests to resume coordination are not an answer. No timer test bodies or
    intended red run are approved by this partial review.
-2. **Focused validation coverage gap.** The contract promises rejection of
+2. **Focused validation coverage gap (closed by follow-up below).** The contract promises rejection of
    incoherent snapshots, but the tests check negative values and invalid command
    lifecycle/preconditions without exercising the distinct state-consistency
    branches (actual contract lines139–146; existing negative tests lines336–344).
@@ -47,7 +49,7 @@ author evidence before reviewing.
    product policies. Exercise the relevant public boundaries that accept each
    malformed state; group closely related invalid states rather than adding broad
    repetitive smoke coverage.
-3. **Focused shared-budget coverage gap.** The contract states that an exhausted
+3. **Focused shared-budget coverage gap (closed by follow-up below).** The contract states that an exhausted
    shared budget enters and expires Grace without an extra tick (lines60–64). Existing zero
    Grace coverage uses Fresh mode with configured duration zero; it does not cover
    Shared with retained budget zero and a positive configured duration. Add that
@@ -106,3 +108,43 @@ stable scaffold/credit/numeric suites must remain passing. CORE-002 must introdu
 and observe automatic passing lifecycle CI before implementation completion. This
 review establishes no Qt/service loop, SQL, platform, renderer, OBS, packaging or
 live-provider capability. All downstream and release gates remain open.
+
+## Follow-up review of focused test corrections
+
+Separate correction author: `/root/timer_test_fixes`. Actual author revision:
+`ef82bbcf12b9ee8074ab27c18bc41f986a786c8e`, integrated by the coordinator as
+`e754278`. Reviewer inspected the full correction diff, then merged the actual
+candidate into this isolated review branch for compilation/listing; pre-evidence
+review checkout was `136be34fb7933b27c1d0580342adb09775d3399b`. The test blob is now
+`7a802f2151da1d62b85f27c357528f63426cf2d0` (35 cases). Header, stub and behavioral
+contract are unchanged from the artifact identities above. The change adds two
+test cases and author evidence; all original 33 cases and assertions are preserved.
+
+- `IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected` exercises Grace with
+  positive Main, wait with positive Main, and wait in Grace through advance,
+  applicable-credit and confirmation boundaries. It separately checks a valid
+  waiting snapshot against Immediate and Grace configurations. Credit uses zero
+  and malformed snapshots; it asserts no policy for valid positive credit during
+  confirmation wait. **Finding2 closed.**
+- `ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay` uses Shared,
+  configured Grace120000, retained budget0, Main1000 and elapsed1000. Its manually
+  derived expected result is Finished/Grace with both durations0 and the exact
+  four-transition trace. This distinguishes exhausted Shared from Fresh/config0.
+  **Finding3 closed.**
+
+Reviewer commands in `local-evidence/worktrees/coretest002-review`:
+
+| Command | Observed result |
+| --- | --- |
+| `git diff 3059ed8 e754278 -- tests/acceptance/timer_lifecycle_tests.cpp core/include/subathon/core/timer_lifecycle.hpp core/src/timer_lifecycle.cpp docs/contracts/timer-lifecycle-v1.md` | exit0; exactly the two added cases, no other artifact change |
+| `cmake --preset timer-lifecycle-debug` | exit0; GCC16.2.1 and Python3.14.8 |
+| `cmake --build --preset timer-lifecycle-debug` | exit0; all10 compile/link/discovery steps complete |
+| `ctest --preset timer-lifecycle-debug -N -L timer-lifecycle` | exit0;35 cases listed, no bodies executed |
+| `c++ -dumpfullversion`, `cmake --version`, `pkg-config --modversion gtest` | exit0;16.2.1,4.4.5 and1.18.0 respectively |
+| `git diff --check` | exit0 before follow-up evidence commit |
+
+This approves these two bounded coverage corrections only. Overall verdict remains
+**request changes** until the owner decision and its actual contract/tests receive
+separate review. Compilation and listing establish neither red nor passing
+behavior. No timer test body, production code or intended-red run was executed or
+authorized by this follow-up.
