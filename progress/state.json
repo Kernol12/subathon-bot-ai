@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T13:32:45+00:00",
+  "updated_at": "2026-10-31T13:45:07+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1138,7 +1138,7 @@
       "title": "Review and demonstrate red: Normalized receipt identity and duplicate-safe ingestion",
       "module": "Accounting",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Coordinator /root; receipt test author /root/receipt_test_author",
       "depends_on": [
         "CONTRACT-002",
@@ -1152,11 +1152,29 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-001.",
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
+        "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here.",
+        "Author28729c7/harnessaccb064 independently approved by baseline_reviewer in54cff97. At integrated18d8670 after approval, configure/build0 then actual CTest exit8:15/15 ReceiptIntakeNotImplemented failures; no skips or dependency/build error. Reviewed files unchanged. Scaffold3/3, numeric33/33 andcredit23/23 pass. Baseline local gates complete; final done-state tooling/integration review, PR latestCI/merge remain. No production/durable SQL/provider/contribution capability; ACCT001 implementation waits integrated prerequisite."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "test_review": "passed",
+        "native_build": "passed",
+        "baseline": "observed_red",
+        "stable_regression": "passed",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/accttest-001-authoring.md",
+        "docs/evidence/accttest-001-independent-review.md",
+        "docs/evidence/accttest-001-baseline-handoff.md",
+        "docs/evidence/accttest-001-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/receipt_test_author",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "author28729c7 + harnessaccb064; tests94317dc4dde4553c8888f78a433e3003c471de1a; contract149d65b5aa0864c6323e4d5ff6d9580cdbcf2886; review54cff97",
+        "evidence": "docs/evidence/accttest-001-independent-review.md"
+      }
     },
     {
       "id": "ACCT-001",
@@ -10454,6 +10472,11 @@
       "date": "2026-10-31T08:24:40+00:00",
       "task": "CORETEST-002",
       "note": "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim."
+    },
+    {
+      "date": "2026-10-31T13:45:07+00:00",
+      "task": "ACCTTEST-001",
+      "note": "Author28729c7/harnessaccb064 independently approved by baseline_reviewer in54cff97. At integrated18d8670 after approval, configure/build0 then actual CTest exit8:15/15 ReceiptIntakeNotImplemented failures; no skips or dependency/build error. Reviewed files unchanged. Scaffold3/3, numeric33/33 andcredit23/23 pass. Baseline local gates complete; final done-state tooling/integration review, PR latestCI/merge remain. No production/durable SQL/provider/contribution capability; ACCT001 implementation waits integrated prerequisite."
     }
   ]
 }

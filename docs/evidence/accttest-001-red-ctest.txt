@@ -1,0 +1,370 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest001-coordinator/build/receipt-intake-debug
+      Start  1: ReceiptIntakeAcceptance.FirstArrivalCommitsIdentityFactsContextAndInitialAttempt
+ 1/15 Test  #1: ReceiptIntakeAcceptance.FirstArrivalCommitsIdentityFactsContextAndInitialAttempt ..........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.FirstArrivalCommitsIdentityFactsContextAndInitialAttempt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.FirstArrivalCommitsIdentityFactsContextAndInitialAttempt
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.FirstArrivalCommitsIdentityFactsContextAndInitialAttempt (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.FirstArrivalCommitsIdentityFactsContextAndInitialAttempt
+
+ 1 FAILED TEST
+
+      Start  2: ReceiptIntakeAcceptance.ExactRetryReturnsExistingReceiptAndAppendsItsOwnArrival
+ 2/15 Test  #2: ReceiptIntakeAcceptance.ExactRetryReturnsExistingReceiptAndAppendsItsOwnArrival ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.ExactRetryReturnsExistingReceiptAndAppendsItsOwnArrival
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.ExactRetryReturnsExistingReceiptAndAppendsItsOwnArrival
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.ExactRetryReturnsExistingReceiptAndAppendsItsOwnArrival (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.ExactRetryReturnsExistingReceiptAndAppendsItsOwnArrival
+
+ 1 FAILED TEST
+
+      Start  3: ReceiptIntakeAcceptance.ReconnectRetainsOriginalContextAndCapturesNewAttemptContext
+ 3/15 Test  #3: ReceiptIntakeAcceptance.ReconnectRetainsOriginalContextAndCapturesNewAttemptContext .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.ReconnectRetainsOriginalContextAndCapturesNewAttemptContext
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.ReconnectRetainsOriginalContextAndCapturesNewAttemptContext
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.ReconnectRetainsOriginalContextAndCapturesNewAttemptContext (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.ReconnectRetainsOriginalContextAndCapturesNewAttemptContext
+
+ 1 FAILED TEST
+
+      Start  4: ReceiptIntakeAcceptance.ProviderAccountNamespaceAndOpaqueIdEachScopeIdentity
+ 4/15 Test  #4: ReceiptIntakeAcceptance.ProviderAccountNamespaceAndOpaqueIdEachScopeIdentity ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.ProviderAccountNamespaceAndOpaqueIdEachScopeIdentity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.ProviderAccountNamespaceAndOpaqueIdEachScopeIdentity
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.ProviderAccountNamespaceAndOpaqueIdEachScopeIdentity (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.ProviderAccountNamespaceAndOpaqueIdEachScopeIdentity
+
+ 1 FAILED TEST
+
+      Start  5: ReceiptIntakeAcceptance.EqualNamesAmountsAndTimestampsDoNotMergeDistinctIds
+ 5/15 Test  #5: ReceiptIntakeAcceptance.EqualNamesAmountsAndTimestampsDoNotMergeDistinctIds ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.EqualNamesAmountsAndTimestampsDoNotMergeDistinctIds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.EqualNamesAmountsAndTimestampsDoNotMergeDistinctIds
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.EqualNamesAmountsAndTimestampsDoNotMergeDistinctIds (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.EqualNamesAmountsAndTimestampsDoNotMergeDistinctIds
+
+ 1 FAILED TEST
+
+      Start  6: ReceiptIntakeAcceptance.SharedPaymentAndActivityReferencesDoNotMergeDistinctEvents
+ 6/15 Test  #6: ReceiptIntakeAcceptance.SharedPaymentAndActivityReferencesDoNotMergeDistinctEvents ........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.SharedPaymentAndActivityReferencesDoNotMergeDistinctEvents
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.SharedPaymentAndActivityReferencesDoNotMergeDistinctEvents
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.SharedPaymentAndActivityReferencesDoNotMergeDistinctEvents (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.SharedPaymentAndActivityReferencesDoNotMergeDistinctEvents
+
+ 1 FAILED TEST
+
+      Start  7: ReceiptIntakeAcceptance.UnknownOptionalSourceFactsRemainAbsent
+ 7/15 Test  #7: ReceiptIntakeAcceptance.UnknownOptionalSourceFactsRemainAbsent ............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.UnknownOptionalSourceFactsRemainAbsent
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.UnknownOptionalSourceFactsRemainAbsent
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.UnknownOptionalSourceFactsRemainAbsent (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.UnknownOptionalSourceFactsRemainAbsent
+
+ 1 FAILED TEST
+
+      Start  8: ReceiptIntakeAcceptance.ConflictRetainsOriginalAndSubsequentRetryStillUsesOriginalFacts
+ 8/15 Test  #8: ReceiptIntakeAcceptance.ConflictRetainsOriginalAndSubsequentRetryStillUsesOriginalFacts ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.ConflictRetainsOriginalAndSubsequentRetryStillUsesOriginalFacts
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.ConflictRetainsOriginalAndSubsequentRetryStillUsesOriginalFacts
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.ConflictRetainsOriginalAndSubsequentRetryStillUsesOriginalFacts (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.ConflictRetainsOriginalAndSubsequentRetryStillUsesOriginalFacts
+
+ 1 FAILED TEST
+
+      Start  9: ReceiptIntakeAcceptance.ChangedNormalizedFactsAreAuditedAsConflicts
+ 9/15 Test  #9: ReceiptIntakeAcceptance.ChangedNormalizedFactsAreAuditedAsConflicts .......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.ChangedNormalizedFactsAreAuditedAsConflicts
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.ChangedNormalizedFactsAreAuditedAsConflicts
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.ChangedNormalizedFactsAreAuditedAsConflicts (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.ChangedNormalizedFactsAreAuditedAsConflicts
+
+ 1 FAILED TEST
+
+      Start 10: ReceiptIntakeAcceptance.NewlySuppliedOptionalFactsPreserveTheUnknownOriginal
+10/15 Test #10: ReceiptIntakeAcceptance.NewlySuppliedOptionalFactsPreserveTheUnknownOriginal ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.NewlySuppliedOptionalFactsPreserveTheUnknownOriginal
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.NewlySuppliedOptionalFactsPreserveTheUnknownOriginal
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.NewlySuppliedOptionalFactsPreserveTheUnknownOriginal (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.NewlySuppliedOptionalFactsPreserveTheUnknownOriginal
+
+ 1 FAILED TEST
+
+      Start 11: ReceiptIntakeAcceptance.NewServiceInstanceFindsExistingRepositoryReceipt
+11/15 Test #11: ReceiptIntakeAcceptance.NewServiceInstanceFindsExistingRepositoryReceipt ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.NewServiceInstanceFindsExistingRepositoryReceipt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.NewServiceInstanceFindsExistingRepositoryReceipt
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.NewServiceInstanceFindsExistingRepositoryReceipt (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.NewServiceInstanceFindsExistingRepositoryReceipt
+
+ 1 FAILED TEST
+
+      Start 12: ReceiptIntakeAcceptance.FirstArrivalWriteFailureRollsBackReceiptAndAttempt
+12/15 Test #12: ReceiptIntakeAcceptance.FirstArrivalWriteFailureRollsBackReceiptAndAttempt ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.FirstArrivalWriteFailureRollsBackReceiptAndAttempt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.FirstArrivalWriteFailureRollsBackReceiptAndAttempt
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest001-coordinator/tests/acceptance/receipt_intake_tests.cpp:318: Failure
+Expected: static_cast<void>(service.ingest(synthetic_input())) throws an exception of type ReceiptStorageError.
+  Actual: it throws subathon::server::ReceiptIntakeNotImplemented with description "Receipt intake is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest001-coordinator/tests/acceptance/receipt_intake_tests.cpp:314: 1
+
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.FirstArrivalWriteFailureRollsBackReceiptAndAttempt (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.FirstArrivalWriteFailureRollsBackReceiptAndAttempt
+
+ 1 FAILED TEST
+
+      Start 13: ReceiptIntakeAcceptance.RetryWriteFailureLeavesOnlyPreviouslyCommittedEvidence
+13/15 Test #13: ReceiptIntakeAcceptance.RetryWriteFailureLeavesOnlyPreviouslyCommittedEvidence ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.RetryWriteFailureLeavesOnlyPreviouslyCommittedEvidence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.RetryWriteFailureLeavesOnlyPreviouslyCommittedEvidence
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.RetryWriteFailureLeavesOnlyPreviouslyCommittedEvidence (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.RetryWriteFailureLeavesOnlyPreviouslyCommittedEvidence
+
+ 1 FAILED TEST
+
+      Start 14: ReceiptIntakeAcceptance.ConflictWriteFailurePreservesOriginalUntilEvidenceCanCommit
+14/15 Test #14: ReceiptIntakeAcceptance.ConflictWriteFailurePreservesOriginalUntilEvidenceCanCommit .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.ConflictWriteFailurePreservesOriginalUntilEvidenceCanCommit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.ConflictWriteFailurePreservesOriginalUntilEvidenceCanCommit
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.ConflictWriteFailurePreservesOriginalUntilEvidenceCanCommit (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.ConflictWriteFailurePreservesOriginalUntilEvidenceCanCommit
+
+ 1 FAILED TEST
+
+      Start 15: ReceiptIntakeAcceptance.CommitFailureRollsBackEveryDispositionAndAllowsRetry
+15/15 Test #15: ReceiptIntakeAcceptance.CommitFailureRollsBackEveryDispositionAndAllowsRetry ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ReceiptIntakeAcceptance.CommitFailureRollsBackEveryDispositionAndAllowsRetry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ReceiptIntakeAcceptance
+[ RUN      ] ReceiptIntakeAcceptance.CommitFailureRollsBackEveryDispositionAndAllowsRetry
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest001-coordinator/tests/acceptance/receipt_intake_tests.cpp:384: Failure
+Expected: static_cast<void>(service.ingest(input)) throws an exception of type ReceiptStorageError.
+  Actual: it throws subathon::server::ReceiptIntakeNotImplemented with description "Receipt intake is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest001-coordinator/tests/acceptance/receipt_intake_tests.cpp:371: 0
+
+unknown file: Failure
+C++ exception with description "Receipt intake is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ReceiptIntakeAcceptance.CommitFailureRollsBackEveryDispositionAndAllowsRetry (0 ms)
+[----------] 1 test from ReceiptIntakeAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ReceiptIntakeAcceptance.CommitFailureRollsBackEveryDispositionAndAllowsRetry
+
+ 1 FAILED TEST
+
+
+0% tests passed, 15 tests failed out of 15
+
+Label Time Summary:
+acceptance         =   0.02 sec*proc (15 tests)
+intentional-red    =   0.02 sec*proc (15 tests)
+receipt-intake     =   0.02 sec*proc (15 tests)
+
+Total Test time (real) =   0.02 sec
+
+The following tests FAILED:
+	  1 - ReceiptIntakeAcceptance.FirstArrivalCommitsIdentityFactsContextAndInitialAttempt (Failed) acceptance intentional-red receipt-intake
+	  2 - ReceiptIntakeAcceptance.ExactRetryReturnsExistingReceiptAndAppendsItsOwnArrival (Failed) acceptance intentional-red receipt-intake
+	  3 - ReceiptIntakeAcceptance.ReconnectRetainsOriginalContextAndCapturesNewAttemptContext (Failed) acceptance intentional-red receipt-intake
+	  4 - ReceiptIntakeAcceptance.ProviderAccountNamespaceAndOpaqueIdEachScopeIdentity (Failed) acceptance intentional-red receipt-intake
+	  5 - ReceiptIntakeAcceptance.EqualNamesAmountsAndTimestampsDoNotMergeDistinctIds (Failed) acceptance intentional-red receipt-intake
+	  6 - ReceiptIntakeAcceptance.SharedPaymentAndActivityReferencesDoNotMergeDistinctEvents (Failed) acceptance intentional-red receipt-intake
+	  7 - ReceiptIntakeAcceptance.UnknownOptionalSourceFactsRemainAbsent (Failed) acceptance intentional-red receipt-intake
+	  8 - ReceiptIntakeAcceptance.ConflictRetainsOriginalAndSubsequentRetryStillUsesOriginalFacts (Failed) acceptance intentional-red receipt-intake
+	  9 - ReceiptIntakeAcceptance.ChangedNormalizedFactsAreAuditedAsConflicts (Failed) acceptance intentional-red receipt-intake
+	 10 - ReceiptIntakeAcceptance.NewlySuppliedOptionalFactsPreserveTheUnknownOriginal (Failed) acceptance intentional-red receipt-intake
+	 11 - ReceiptIntakeAcceptance.NewServiceInstanceFindsExistingRepositoryReceipt (Failed) acceptance intentional-red receipt-intake
+	 12 - ReceiptIntakeAcceptance.FirstArrivalWriteFailureRollsBackReceiptAndAttempt (Failed) acceptance intentional-red receipt-intake
+	 13 - ReceiptIntakeAcceptance.RetryWriteFailureLeavesOnlyPreviouslyCommittedEvidence (Failed) acceptance intentional-red receipt-intake
+	 14 - ReceiptIntakeAcceptance.ConflictWriteFailurePreservesOriginalUntilEvidenceCanCommit (Failed) acceptance intentional-red receipt-intake
+	 15 - ReceiptIntakeAcceptance.CommitFailureRollsBackEveryDispositionAndAllowsRetry (Failed) acceptance intentional-red receipt-intake
+Errors while running CTest
