@@ -1012,6 +1012,28 @@
         "evidence": "docs/evidence/core-003-code-review.md"
       },
       "verification_level": "deterministic domain"
+    },
+    {
+      "scenario": "Owned captured application-plan history, provenance and preview freshness",
+      "status": "observed_red",
+      "tests": [
+        "tests/acceptance/application_plan_tests.cpp"
+      ],
+      "contract": "docs/contracts/application-plans-v1.md",
+      "review": {
+        "author": "/root/application_plan_test_author",
+        "reviewer": "/root/application_plan_reviewer",
+        "outcome": "approved",
+        "baseline": "authore864ff4; testsf93287fa2c7c3ef4753e6bbbedd1d2a54f4529b9; contract5bb9a914; review36ac654; actualreda524447",
+        "evidence": "docs/evidence/accttest-003-independent-review.md"
+      },
+      "evidence": [
+        "docs/evidence/accttest-003-authoring.md",
+        "docs/evidence/accttest-003-independent-review.md",
+        "docs/evidence/accttest-003-baseline-handoff.md",
+        "docs/evidence/accttest-003-red-ctest.txt"
+      ],
+      "scope": "22 reviewed pure value-transform cases fail on explicit stubs after compile. Preserves arrival selections/exact requests/historical unknowns and audited revisions; preview freshness only, no eligibility/permission/current-cap/effect/writer/evaluator/provider implementation."
     }
   ]
 }

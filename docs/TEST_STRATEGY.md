@@ -134,3 +134,15 @@ the pure policy: all37 unchanged cases pass with separate code review and
 relevant PRs/main. [Implementation handoff](evidence/core-003-handoff.md) records
 scope. Caller segmentation/timer wiring, real provider signals, Qt/state commits,
 schedules, recovery and delay reconfiguration remain separate acceptance gates.
+
+## Captured application-plan baseline
+
+ACCTTEST-003 supplies22 independently reviewed pure-transform cases for owned arrival
+context, exact requested effects, historical valuation, audited override revisions
+and preview freshness. All22 actually fail on explicit stubs after successful build;
+[baseline evidence](evidence/accttest-003-baseline-handoff.md). Use configure/build
+`application-plan-debug`, then CTest `-L application-plan`; this intentional-red
+lane stays separate from stable automatic suites. Existing selected Boost>=1.83
+headers are reused. ACCT-003 must implement/pass it with separate code review and
+observed automatic CI. No evaluator, actual application/caps, permission, writer or
+provider capability is established by capturing these supplied values.

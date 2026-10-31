@@ -1,0 +1,596 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/application-plan-debug
+      Start  1: ApplicationPlan.CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds
+ 1/22 Test  #1: ApplicationPlan.CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds
+
+ 1 FAILED TEST
+
+      Start  2: ApplicationPlan.CapturesOrderedMatchesExclusionsAndTwoLevelModifierProvenance
+ 2/22 Test  #2: ApplicationPlan.CapturesOrderedMatchesExclusionsAndTwoLevelModifierProvenance .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.CapturesOrderedMatchesExclusionsAndTwoLevelModifierProvenance
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.CapturesOrderedMatchesExclusionsAndTwoLevelModifierProvenance
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.CapturesOrderedMatchesExclusionsAndTwoLevelModifierProvenance (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.CapturesOrderedMatchesExclusionsAndTwoLevelModifierProvenance
+
+ 1 FAILED TEST
+
+      Start  3: ApplicationPlan.OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacement
+ 3/22 Test  #3: ApplicationPlan.OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacement .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacement
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacement
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacement (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacement
+
+ 1 FAILED TEST
+
+      Start  4: ApplicationPlan.RetainsExactFractionSignedRequestsAndZeroWithActionProvenance
+ 4/22 Test  #4: ApplicationPlan.RetainsExactFractionSignedRequestsAndZeroWithActionProvenance .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.RetainsExactFractionSignedRequestsAndZeroWithActionProvenance
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.RetainsExactFractionSignedRequestsAndZeroWithActionProvenance
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.RetainsExactFractionSignedRequestsAndZeroWithActionProvenance (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.RetainsExactFractionSignedRequestsAndZeroWithActionProvenance
+
+ 1 FAILED TEST
+
+      Start  5: ApplicationPlan.CapturesRequestWithoutFreezingActualTimerCapacity
+ 5/22 Test  #5: ApplicationPlan.CapturesRequestWithoutFreezingActualTimerCapacity .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.CapturesRequestWithoutFreezingActualTimerCapacity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.CapturesRequestWithoutFreezingActualTimerCapacity
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.CapturesRequestWithoutFreezingActualTimerCapacity (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.CapturesRequestWithoutFreezingActualTimerCapacity
+
+ 1 FAILED TEST
+
+      Start  6: ApplicationPlan.MissingHistoricalValuationRemainsExplicitAndKeepsOtherHolds
+ 6/22 Test  #6: ApplicationPlan.MissingHistoricalValuationRemainsExplicitAndKeepsOtherHolds ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.MissingHistoricalValuationRemainsExplicitAndKeepsOtherHolds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.MissingHistoricalValuationRemainsExplicitAndKeepsOtherHolds
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.MissingHistoricalValuationRemainsExplicitAndKeepsOtherHolds (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.MissingHistoricalValuationRemainsExplicitAndKeepsOtherHolds
+
+ 1 FAILED TEST
+
+      Start  7: ApplicationPlan.MissingValuationAllowsIndependentNonmonetaryRequestWithoutResolvingHold
+ 7/22 Test  #7: ApplicationPlan.MissingValuationAllowsIndependentNonmonetaryRequestWithoutResolvingHold ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.MissingValuationAllowsIndependentNonmonetaryRequestWithoutResolvingHold
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.MissingValuationAllowsIndependentNonmonetaryRequestWithoutResolvingHold
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.MissingValuationAllowsIndependentNonmonetaryRequestWithoutResolvingHold (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.MissingValuationAllowsIndependentNonmonetaryRequestWithoutResolvingHold
+
+ 1 FAILED TEST
+
+      Start  8: ApplicationPlan.RejectsValuationDependentRequestWithoutHistoricalQuote
+ 8/22 Test  #8: ApplicationPlan.RejectsValuationDependentRequestWithoutHistoricalQuote ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.RejectsValuationDependentRequestWithoutHistoricalQuote
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.RejectsValuationDependentRequestWithoutHistoricalQuote
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:212: Failure
+Expected: (void)capture_application_plan("plan-9", supplied, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.RejectsValuationDependentRequestWithoutHistoricalQuote (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.RejectsValuationDependentRequestWithoutHistoricalQuote
+
+ 1 FAILED TEST
+
+      Start  9: ApplicationPlan.NonmonetaryNotApplicableDoesNotInventMoneyOrConfirmation
+ 9/22 Test  #9: ApplicationPlan.NonmonetaryNotApplicableDoesNotInventMoneyOrConfirmation ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.NonmonetaryNotApplicableDoesNotInventMoneyOrConfirmation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.NonmonetaryNotApplicableDoesNotInventMoneyOrConfirmation
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.NonmonetaryNotApplicableDoesNotInventMoneyOrConfirmation (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.NonmonetaryNotApplicableDoesNotInventMoneyOrConfirmation
+
+ 1 FAILED TEST
+
+      Start 10: ApplicationPlan.RejectsInconsistentValuationShapeAndSubstitutedOriginalMoney
+10/22 Test #10: ApplicationPlan.RejectsInconsistentValuationShapeAndSubstitutedOriginalMoney ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.RejectsInconsistentValuationShapeAndSubstitutedOriginalMoney
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.RejectsInconsistentValuationShapeAndSubstitutedOriginalMoney
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:236: Failure
+Expected: (void)capture_application_plan("plan-9", supplied, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:240: Failure
+Expected: (void)capture_application_plan("plan-9", supplied, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:244: Failure
+Expected: (void)capture_application_plan("plan-9", supplied, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.RejectsInconsistentValuationShapeAndSubstitutedOriginalMoney (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.RejectsInconsistentValuationShapeAndSubstitutedOriginalMoney
+
+ 1 FAILED TEST
+
+      Start 11: ApplicationPlan.RejectsMissingLocalIdentityWithoutInferringProviderIdentity
+11/22 Test #11: ApplicationPlan.RejectsMissingLocalIdentityWithoutInferringProviderIdentity ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.RejectsMissingLocalIdentityWithoutInferringProviderIdentity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.RejectsMissingLocalIdentityWithoutInferringProviderIdentity
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:251: Failure
+Expected: (void)capture_application_plan("", input(), rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:255: Failure
+Expected: (void)capture_application_plan("plan-9", supplied, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:259: Failure
+Expected: (void)capture_application_plan("plan-9", supplied, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:263: Failure
+Expected: (void)capture_application_plan("plan-9", supplied, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.RejectsMissingLocalIdentityWithoutInferringProviderIdentity (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.RejectsMissingLocalIdentityWithoutInferringProviderIdentity
+
+ 1 FAILED TEST
+
+      Start 12: ApplicationPlan.AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal
+12/22 Test #12: ApplicationPlan.AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal
+
+ 1 FAILED TEST
+
+      Start 13: ApplicationPlan.ResolvingMissingRateAddsSourcedRevisionWithoutConfirmingOrAccepting
+13/22 Test #13: ApplicationPlan.ResolvingMissingRateAddsSourcedRevisionWithoutConfirmingOrAccepting .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.ResolvingMissingRateAddsSourcedRevisionWithoutConfirmingOrAccepting
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.ResolvingMissingRateAddsSourcedRevisionWithoutConfirmingOrAccepting
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.ResolvingMissingRateAddsSourcedRevisionWithoutConfirmingOrAccepting (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.ResolvingMissingRateAddsSourcedRevisionWithoutConfirmingOrAccepting
+
+ 1 FAILED TEST
+
+      Start 14: ApplicationPlan.AuditStringsCannotReplaceExplicitAuthorizedPermissionResult
+14/22 Test #14: ApplicationPlan.AuditStringsCannotReplaceExplicitAuthorizedPermissionResult ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.AuditStringsCannotReplaceExplicitAuthorizedPermissionResult
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.AuditStringsCannotReplaceExplicitAuthorizedPermissionResult
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:326: Failure
+Expected: (void)revise_application_plan(original, 1, input(), decision, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:326: Failure
+Expected: (void)revise_application_plan(original, 1, input(), decision, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.AuditStringsCannotReplaceExplicitAuthorizedPermissionResult (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.AuditStringsCannotReplaceExplicitAuthorizedPermissionResult
+
+ 1 FAILED TEST
+
+      Start 15: ApplicationPlan.AuthorizedOverrideRequiresCompleteAuditDecision
+15/22 Test #15: ApplicationPlan.AuthorizedOverrideRequiresCompleteAuditDecision ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.AuthorizedOverrideRequiresCompleteAuditDecision
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.AuthorizedOverrideRequiresCompleteAuditDecision
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:341: Failure
+Expected: (void)revise_application_plan(original, 1, input(), decision, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:345: Failure
+Expected: (void)revise_application_plan(original, 1, input(), decision, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:349: Failure
+Expected: (void)revise_application_plan(original, 1, input(), decision, rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.AuthorizedOverrideRequiresCompleteAuditDecision (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.AuthorizedOverrideRequiresCompleteAuditDecision
+
+ 1 FAILED TEST
+
+      Start 16: ApplicationPlan.StaleOverrideRevisionFailsBeforeReplacementSourcesRun
+16/22 Test #16: ApplicationPlan.StaleOverrideRevisionFailsBeforeReplacementSourcesRun .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.StaleOverrideRevisionFailsBeforeReplacementSourcesRun
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.StaleOverrideRevisionFailsBeforeReplacementSourcesRun
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:358: Failure
+Expected: (void)revise_application_plan(original, 0, input(), authorized(), rules, modifiers) throws an exception of type std::runtime_error.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.StaleOverrideRevisionFailsBeforeReplacementSourcesRun (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.StaleOverrideRevisionFailsBeforeReplacementSourcesRun
+
+ 1 FAILED TEST
+
+      Start 17: ApplicationPlan.OverrideCannotRewriteOriginalEventIdentityFactsArrivalOrContribution
+17/22 Test #17: ApplicationPlan.OverrideCannotRewriteOriginalEventIdentityFactsArrivalOrContribution ......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.OverrideCannotRewriteOriginalEventIdentityFactsArrivalOrContribution
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.OverrideCannotRewriteOriginalEventIdentityFactsArrivalOrContribution
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:372: Failure
+Expected: (void)revise_application_plan(original, 1, replacement, authorized(), rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:377: Failure
+Expected: (void)revise_application_plan(original, 1, replacement, authorized(), rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:382: Failure
+Expected: (void)revise_application_plan(original, 1, replacement, authorized(), rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:387: Failure
+Expected: (void)revise_application_plan(original, 1, replacement, authorized(), rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:392: Failure
+Expected: (void)revise_application_plan(original, 1, replacement, authorized(), rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.OverrideCannotRewriteOriginalEventIdentityFactsArrivalOrContribution (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.OverrideCannotRewriteOriginalEventIdentityFactsArrivalOrContribution
+
+ 1 FAILED TEST
+
+      Start 18: ApplicationPlan.SecondOverrideExtendsExistingChainWithoutReplacingEarlierRevisions
+18/22 Test #18: ApplicationPlan.SecondOverrideExtendsExistingChainWithoutReplacingEarlierRevisions ........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.SecondOverrideExtendsExistingChainWithoutReplacingEarlierRevisions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.SecondOverrideExtendsExistingChainWithoutReplacingEarlierRevisions
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.SecondOverrideExtendsExistingChainWithoutReplacingEarlierRevisions (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.SecondOverrideExtendsExistingChainWithoutReplacingEarlierRevisions
+
+ 1 FAILED TEST
+
+      Start 19: ApplicationPlan.CurrentPreviewOnlyReportsFreshnessAndDoesNotApplyContribution
+19/22 Test #19: ApplicationPlan.CurrentPreviewOnlyReportsFreshnessAndDoesNotApplyContribution .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.CurrentPreviewOnlyReportsFreshnessAndDoesNotApplyContribution
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.CurrentPreviewOnlyReportsFreshnessAndDoesNotApplyContribution
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.CurrentPreviewOnlyReportsFreshnessAndDoesNotApplyContribution (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.CurrentPreviewOnlyReportsFreshnessAndDoesNotApplyContribution
+
+ 1 FAILED TEST
+
+      Start 20: ApplicationPlan.PreviewReportsPlanStalenessBeforeStateStaleness
+20/22 Test #20: ApplicationPlan.PreviewReportsPlanStalenessBeforeStateStaleness ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.PreviewReportsPlanStalenessBeforeStateStaleness
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.PreviewReportsPlanStalenessBeforeStateStaleness
+unknown file: Failure
+C++ exception with description "Application plan is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ApplicationPlan.PreviewReportsPlanStalenessBeforeStateStaleness (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.PreviewReportsPlanStalenessBeforeStateStaleness
+
+ 1 FAILED TEST
+
+      Start 21: ApplicationPlan.PreviewRejectsEmptyStateRevisionTokens
+21/22 Test #21: ApplicationPlan.PreviewRejectsEmptyStateRevisionTokens ....................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.PreviewRejectsEmptyStateRevisionTokens
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.PreviewRejectsEmptyStateRevisionTokens
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:445: Failure
+Expected: (void)check_plan_preview(plan, {1, ""}, "state-r10") throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:446: Failure
+Expected: (void)check_plan_preview(plan, {1, "state-r10"}, "") throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.PreviewRejectsEmptyStateRevisionTokens (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.PreviewRejectsEmptyStateRevisionTokens
+
+ 1 FAILED TEST
+
+      Start 22: ApplicationPlan.RejectsEmptyOrMalformedRevisionHistory
+22/22 Test #22: ApplicationPlan.RejectsEmptyOrMalformedRevisionHistory ....................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ApplicationPlan.RejectsEmptyOrMalformedRevisionHistory
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ApplicationPlan
+[ RUN      ] ApplicationPlan.RejectsEmptyOrMalformedRevisionHistory
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:453: Failure
+Expected: (void)check_plan_preview(plan, {1, "state-r10"}, "state-r10") throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:455: Failure
+Expected: (void)revise_application_plan(plan, 1, input(), authorized(), rules, modifiers) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:459: Failure
+Expected: (void)check_plan_preview(plan, {1, "state-r10"}, "state-r10") throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:463: Failure
+Expected: (void)check_plan_preview(plan, {1, "state-r10"}, "state-r10") throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/application_plan_tests.cpp:470: Failure
+Expected: (void)check_plan_preview(plan, {3, "state-r10"}, "state-r10") throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::ApplicationPlanNotImplemented with description "Application plan is intentionally unimplemented; review tests first".
+
+[  FAILED  ] ApplicationPlan.RejectsEmptyOrMalformedRevisionHistory (0 ms)
+[----------] 1 test from ApplicationPlan (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ApplicationPlan.RejectsEmptyOrMalformedRevisionHistory
+
+ 1 FAILED TEST
+
+
+0% tests passed, 22 tests failed out of 22
+
+Label Time Summary:
+acceptance          =   0.03 sec*proc (22 tests)
+application-plan    =   0.03 sec*proc (22 tests)
+intentional-red     =   0.03 sec*proc (22 tests)
+
+Total Test time (real) =   0.03 sec
+
+The following tests FAILED:
+	  1 - ApplicationPlan.CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds (Failed) acceptance application-plan intentional-red
+	  2 - ApplicationPlan.CapturesOrderedMatchesExclusionsAndTwoLevelModifierProvenance (Failed) acceptance application-plan intentional-red
+	  3 - ApplicationPlan.OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacement (Failed) acceptance application-plan intentional-red
+	  4 - ApplicationPlan.RetainsExactFractionSignedRequestsAndZeroWithActionProvenance (Failed) acceptance application-plan intentional-red
+	  5 - ApplicationPlan.CapturesRequestWithoutFreezingActualTimerCapacity (Failed) acceptance application-plan intentional-red
+	  6 - ApplicationPlan.MissingHistoricalValuationRemainsExplicitAndKeepsOtherHolds (Failed) acceptance application-plan intentional-red
+	  7 - ApplicationPlan.MissingValuationAllowsIndependentNonmonetaryRequestWithoutResolvingHold (Failed) acceptance application-plan intentional-red
+	  8 - ApplicationPlan.RejectsValuationDependentRequestWithoutHistoricalQuote (Failed) acceptance application-plan intentional-red
+	  9 - ApplicationPlan.NonmonetaryNotApplicableDoesNotInventMoneyOrConfirmation (Failed) acceptance application-plan intentional-red
+	 10 - ApplicationPlan.RejectsInconsistentValuationShapeAndSubstitutedOriginalMoney (Failed) acceptance application-plan intentional-red
+	 11 - ApplicationPlan.RejectsMissingLocalIdentityWithoutInferringProviderIdentity (Failed) acceptance application-plan intentional-red
+	 12 - ApplicationPlan.AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal (Failed) acceptance application-plan intentional-red
+	 13 - ApplicationPlan.ResolvingMissingRateAddsSourcedRevisionWithoutConfirmingOrAccepting (Failed) acceptance application-plan intentional-red
+	 14 - ApplicationPlan.AuditStringsCannotReplaceExplicitAuthorizedPermissionResult (Failed) acceptance application-plan intentional-red
+	 15 - ApplicationPlan.AuthorizedOverrideRequiresCompleteAuditDecision (Failed) acceptance application-plan intentional-red
+	 16 - ApplicationPlan.StaleOverrideRevisionFailsBeforeReplacementSourcesRun (Failed) acceptance application-plan intentional-red
+	 17 - ApplicationPlan.OverrideCannotRewriteOriginalEventIdentityFactsArrivalOrContribution (Failed) acceptance application-plan intentional-red
+	 18 - ApplicationPlan.SecondOverrideExtendsExistingChainWithoutReplacingEarlierRevisions (Failed) acceptance application-plan intentional-red
+	 19 - ApplicationPlan.CurrentPreviewOnlyReportsFreshnessAndDoesNotApplyContribution (Failed) acceptance application-plan intentional-red
+	 20 - ApplicationPlan.PreviewReportsPlanStalenessBeforeStateStaleness (Failed) acceptance application-plan intentional-red
+	 21 - ApplicationPlan.PreviewRejectsEmptyStateRevisionTokens (Failed) acceptance application-plan intentional-red
+	 22 - ApplicationPlan.RejectsEmptyOrMalformedRevisionHistory (Failed) acceptance application-plan intentional-red
+Errors while running CTest

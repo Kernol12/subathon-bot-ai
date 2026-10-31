@@ -3,7 +3,7 @@
 Coordinator `/root`, 2026-10-31. Standing full-specification v0.45 loop is active;
 the earlier ownerstop was explicitly revoked by resume. No routine approval or
 unanswered product choice remains. Last observed integrated main
-`01058e262891d5e6f9e2689a5262651d2c721930`; inspect actual state on any resume.
+`afcf5283bff3ec65f83f5ffdd99173d30f5e90e4`; inspect actual state on any resume.
 
 ## Completed integrations
 
@@ -88,3 +88,42 @@ Full agreed scope remains: authoritative transactions/aggregates/refunds, all se
 integrations/three rate providers, supported platforms, both renderers, required UIs/
 localization/themes, packaging and live/OBS evidence. Source-port/domain checks retain
 explicit limits; full product is not complete. No credentials/supporter data committed.
+
+## Latest outcome and next active claim
+
+PR21 actually mergedafcf528 at21:13:58UTC, final94916f5 all8checks passed, no
+review threads; source8197844/final8a50580 retained. Usercleanup then removed the
+now-unused PR21 head with ancestry/exactSHA guard and localarchive, bringing total
+remote deletions to32 and leaving mainonly before new work. Localbranches/worktrees
+remain. Earlier activePR21/pendingmerge/count31 text is historical, superseded here.
+
+Next dependency-ready ACCTTEST003 claimed on root
+`task/ACCTTEST-003-application-plan-baseline` fromafcf528. Bounded author
+`/root/application_plan_test_author` owns only new core/server plan contracts,
+interfaces/stubs/tests/primitivefake/brief/authoringevidence in
+`local-evidence/worktrees/accttest003-author`, branch `task/ACCTTEST-003-plan-author`.
+Coordinator owns all shared build/presets/state/map/checkpoint/PR. Reviewer assignment
+follows actual authored revision in `local-evidence/worktrees/accttest003-review`,
+branch `task/ACCTTEST-003-plan-review`; no review inferred or production planned yet.
+Preserve arrival/historicalvaluation and requested-vs-actual boundaries; actualatomic
+application/caps/evaluator/Qt/provider wiring remain their tasks.
+
+## Latest ACCTTEST003 actual reviewed/red result
+
+Author firstd615cb4 +22cases6ed861e +finalformat/evidencee864ff4 integrated06ee499.
+Pure core owned transforms require no server service/repository/fake. Interface
+501112d6, stubsac9dcd0a, testsf93287fa, reviewedcontract5bb9a914. Independent
+`/root/application_plan_reviewer` approved all22oracles/contract/harness in36ac654,
+integrateda524447 BEFORE realCTest: exit8,22/22 explicitstubfailures. No skips,
+dependency/build failures or inversion. Author/reviewer/root compile/list22pass;
+rootsharedBoostregression numeric33/scaffold3 andtooling19/DOMpass. Baseline taskdone
+is reviewed intendedred, NOT planbehavior. Actual finalstatusintegration review and
+focused PRpublication/latestCI/merge remain before ACCT003 implementation.
+[Handoff](accttest-003-baseline-handoff.md) retains exact artifacts/commands/log.
+Earlier claim-only text is historical; no ownerdecision or newdependency is needed.
+All support branches remainLOCAL followingusercleanup; publishactivePRheadonly.
+
+Final ACCTTEST003 integration9aea69e approvedcf7aa44 and verified actual22-case
+stub-red/status with unchangedreviewedartifacts. Rootintegrates this localreview;
+focused PRpublication/latest8CI/discussions/rules/merge remain. No unperformed
+production behavior or provider permission is inferred by the baseline taskdone.
