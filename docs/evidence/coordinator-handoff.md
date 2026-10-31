@@ -99,3 +99,14 @@ integrations and three rate providers, supported platforms, both renderers, UIs/
 localization/themes, packaging and live/OBS evidence. Receipt results are simulation
 only; SQL uniqueness/durability/Qt ownership/actual provider IDs remain separate.
 No credentials, real supporter state, chat/payment side effects or deployment used.
+
+ACCT-002 is now explicitly claimed on `task/ACCT-002-contribution-evidence` from
+mainf886af9, persistent `local-evidence/worktrees/acct002-coordinator`. Implementer
+`/root/contribution_implementer` owns only core/server contribution algorithm sources
+and implementation evidence in `local-evidence/worktrees/acct002-implementation`,
+branch `task/ACCT-002-implementation`; independent `/root/baseline_reviewer` will own
+code/config review in `local-evidence/worktrees/acct002-review`, branch
+`task/ACCT-002-code-review`. Coordinator owns all shared artifacts. No implementation
+yet; preserve21 reviewed cases and require passing simulation/code review/newCI.
+Timer PR18 separately has source61384a59 approvede64439b, actual39passing/newCI,
+final status/reconciliation review pending atb105952; no merge assumed.
