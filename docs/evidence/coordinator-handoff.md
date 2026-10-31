@@ -8,7 +8,9 @@ This is an active checkpoint, not evidence of release completion.
 
 ## Integrated prerequisites and repository inspection
 
-GitHub inspection found no open PRs. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
+Initial GitHub inspection found no open PRs. Active numeric baseline is now draft
+[PR #12](https://github.com/Kernol12/subathon-bot-ai/pull/12), coordinator branch
+`task/CORETEST-001-exact-baseline`; author/review/red gates are pending. PRs [#4](https://github.com/Kernol12/subathon-bot-ai/pull/4)
 (SPIKE-001), [#5](https://github.com/Kernol12/subathon-bot-ai/pull/5) (TEST-002),
 [#7](https://github.com/Kernol12/subathon-bot-ai/pull/7) (IMPL-001),
 [#8](https://github.com/Kernol12/subathon-bot-ai/pull/8) (coordinator prompt) and
@@ -92,6 +94,10 @@ Proposed CORE-001 CI: explicitly install that package, discover `Boost::headers`
 with `find_package(Boost 1.83 CONFIG REQUIRED)`, then observe actual workflow tests.
 Local development headers are 1.92.0. The 1.83 build is still unverified; there is no
 claim of preinstalled runner Boost, release compatibility or Windows support.
+
+Resume coordinator scaffold configure/build/CTest3/3, Python19/19 and DOM simulation
+checks passed; these verify unchanged infrastructure only. Draft PR #12 is published
+for continuity and must remain draft until its test review and red gates are complete.
 
 Next: review actual CORETEST-001 contract/tests, resolve findings, compile and
 observe intended stub-red only after approval. Record exact blobs/red evidence and
