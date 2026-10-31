@@ -4,7 +4,8 @@ Parent: [EPIC-002](../EPIC-002.md). Kind: implementation.
 Specification: v0.45; §3, §14, §18.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [receipt intake revision 1](../../contracts/receipt-intake-v1.md),
-authored for ACCTTEST-001; independent approval and observed red remain required.
+reviewed/red under [ACCTTEST-001 evidence](../../evidence/accttest-001-baseline-handoff.md)
+before ACCT-001 service implementation. All other behavior keeps its own gates.
 
 ## Scope and ownership
 
@@ -14,11 +15,12 @@ correlation behavior is implemented in this slice; ACCT-002 owns those dimension
 SQL uniqueness/durability/concurrency and the concrete writer adapter belong to
 STORAGE-002; Qt command/writer integration remains an API/storage acceptance gate.
 
-The ACCTTEST-001 author owns `core/include/subathon/core/receipt.hpp`,
-`server/include/subathon/server/receipt_intake.hpp`, explicit stub
+At baseline authoring, the ACCTTEST-001 author owned `core/include/subathon/core/receipt.hpp`,
+`server/include/subathon/server/receipt_intake.hpp`, then-explicit stub
 `server/src/receipt_intake.cpp`, `tests/acceptance/receipt_intake_tests.cpp`,
 `tests/fakes/receipt_repository.hpp`, the revision-1 contract, this brief and
-`docs/evidence/accttest-001-authoring.md`. The coordinator owns build/presets/pins,
+`docs/evidence/accttest-001-authoring.md`. The implementer now owns the service body and implementation evidence; separate
+code review and passing simulation/automatic CI remain required. The coordinator owns build/presets/pins,
 progress/HTML/acceptance map, shared checkpoint, CI integration and publication.
 
 Primary module paths: core/ and server/ application services

@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4 and exact-decimal32+1 reviewed cases pass; bounded primitives only |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1 and receipt15 simulation cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops | Optional environment probe only |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23 and exact-numeric33/33 pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 and receipt15/15 simulation pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -54,18 +54,22 @@ and actual compiler/header/config verification.
 Per-input atomic rejection, aggregates, modifier combination, refunds and all platform
 behavior remain their own baselines and are not covered by these primitive cases.
 
-## Identified receipt baseline
+## Identified receipt service
 
-ACCTTEST-001 supplies15 independently reviewed cases for stable receipt identity,
+ACCTTEST-001 supplied15 independently reviewed cases for stable receipt identity,
 retry/conflict audit and per-attempt provenance through an atomic repository port.
-All15 are [observed red](evidence/accttest-001-baseline-handoff.md) on the explicit
-service stub after successful compilation. The fake stores primitives and stages
-known rollback failures; it does not implement production deduplication decisions.
+[Original red evidence](evidence/accttest-001-baseline-handoff.md) retains all15 stub
+failures before ACCT-001 implementation. The unchanged cases now pass against the
+real service decision logic and a primitive disposable store; separate code review
+and [automatic Ubuntu simulation CI](evidence/acct-001-ci.md) passed.
+[Implementation handoff](evidence/acct-001-handoff.md) records exact source/checks.
+
 Run configure/build `receipt-intake-debug`, then CTest with `-L receipt-intake`.
-This intentionally red lane remains separate from green numeric/credit/scaffold CI;
-ACCT-001 must activate stable automatic receipt CI with passing implementation.
-SQL durability/uniqueness, Qt ownership, live identifiers, contribution creation and
-actual effects remain separate acceptance and platform/provider gates.
+The receipt/numeric/credit/scaffold lanes all run automatically on relevant PRs/main.
+The fake does not classify retries/conflicts or enforce uniqueness; passing this
+suite remains simulation evidence. SQL durability/uniqueness, Qt ownership, live
+identifiers, source admission, contribution creation and actual effects remain
+separate acceptance/platform/provider gates.
 
 ## Priorities after first baseline
 

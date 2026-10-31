@@ -44,6 +44,12 @@ Keep UI, provider payloads, normalized events, contributions, plans, effects and
 jobs distinct. Request/actual credit, arrival context, originals and reversals must retain
 provenance. Two scene renderers share data/behavior contracts, not a renderer implementation.
 
+The [identified receipt service](contracts/receipt-intake-v1.md) implements one
+repository-port transaction with immutable originals and traceable retry/conflict
+attempts. Fifteen reviewed cases pass in a primitive-store simulation with separate
+code review/automatic CI; [handoff](evidence/acct-001-handoff.md). This is no SQL/Qt
+writer, actual-provider or contribution-application verification.
+
 ## Early feasibility work
 
 Check Drogon/Qt lifecycle/queue/shutdown, Socket.IO protocol compatibility, Twitch
