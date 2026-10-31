@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T19:32:33.416554+00:00",
+  "updated_at": "2026-10-31T19:36:14.319988+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -750,8 +750,8 @@
       "title": "Review and demonstrate red: Main countdown and ending-mode transitions",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "blocked",
-      "owner": "Coordinator /root; test author /root/numeric_test_author",
+      "status": "done",
+      "owner": "Coordinator /root; authors /root/numeric_test_author and /root/timer_policy_author; reviewer /root/timer_final_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "IMPL-001"
@@ -767,19 +767,41 @@
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed from refreshed main after CORE001 PR13 merged, task/CORETEST-002-timer-baseline. Specv0.45 §4 TIMER01/02 and reviewed event-state boundariesrev1; no timercontractfinal yet. Scope: bounded deterministic lifecycle/phase reducer contract+examples+publicstub/testharness, default120sgrace/immediate/confirmation, rescue/repeatedfresh/sharedgrace and exacthardend precedence; pause observations accepted but signal/recovery/schedule algorithms remain scopedtasks. Need independent testreview then actualstubred before CORE002implementation. Author isolatedtask/CORETEST-002-timer-author owns timercontract/interface/stubs/tests/taskbrief/authoring evidence; coordinator rootowns sharedCMake/presets,state/HTML/map/checkpoint/PR. Reviewer isolatedtask/CORETEST-002-timer-review owns separate actualrevision review. No productionbehavior or provider/platform claim.",
         "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim.",
-        "Only outstanding timer baseline gate is unanswered owner question: positive accepted credit while awaiting finish confirmation resumes main or remains pending for authorizeddecision.35 cases compile/list, partial reviews a99616a/720acc8 close two coverage gaps, but no fullapproval/red/implementation. Continue independent receiptwork; resume prompts are not a policyanswer. This claim records blocked ownership without merging unreviewed timer artifacts."
+        "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests.",
+        "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation.",
+        "Owner confirmation-credit decision applied by160c7e6: four additive cases preserve all35 prior bodies,39 compile/list only. Actual testsbf8c1f46/contract09c7c77d/header69cad702/stub5584f845 assigned to independent /root/timer_final_reviewer in persistent isolated review worktree. Earlier partial changes_requested evidence preserved pending full review; no timer bodies/red/production claim. Contribution PR17 candidatec13e408 separately reassigned to /root/baseline_reviewer after prior quota limit.",
+        "Final39-case timer baseline independently approved2fb544f after owner decision and four additive cases160c7e6; testsbf8c1f46/header69cad702/stub5584f845 unchanged. Atcd59601 after approval actual CTest exit8,39/39 TimerLifecycleNotImplemented failures, no skips/dependency failures. Stable scaffold3/credit23/numeric33/receipt15 and tooling19/DOM pass. Baseline done means reviewed intended red, not timer behavior; final integration review/latest PR14 CI/merge pending. CORE002 waits integrated prerequisite and must activate stable timerCI."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored_tests": "passed",
+        "native_build": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/coretest-002-authoring.md",
+        "docs/evidence/coretest-002-independent-review.md",
+        "docs/evidence/timer-confirmation-credit-decision.md",
+        "docs/evidence/coretest-002-final-independent-review.md",
+        "docs/evidence/coretest-002-baseline-handoff.md",
+        "docs/evidence/coretest-002-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/numeric_test_author; additive /root/timer_test_fixes and /root/timer_policy_author",
+        "reviewer": "/root/timer_final_reviewer",
+        "outcome": "approved",
+        "baseline": "author160c7e6; testsbf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7; contract09c7c77d; review2fb544f; actualredcd59601",
+        "evidence": "docs/evidence/coretest-002-final-independent-review.md"
+      }
     },
     {
       "id": "CORE-002",
       "title": "Main countdown and ending-mode transitions",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/timer_implementer; independent reviewer /root/timer_final_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "IMPL-001",
@@ -793,7 +815,8 @@
       "brief": "docs/tasks/EPIC-001/CORE-002.md",
       "summary": "Represent ready/active/finished and main/grace separately; default to two-minute grace then finish, with immediate and confirmation modes.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed from integrated main419d855 after CORETEST002 PR14 merged19:34:33UTC, final3846d38 all5CIpass/fullreview2fb544f+26e40f9. Contracttimerrev1 reviewed testsbf8c1f46/header69cad702, actual39-case stubredcd59601. Implementer isolated task/CORE-002-implementation owns only core/src/timer_lifecycle.cpp and implementationevidence; preserve interfaces/tests and normativecontract. Coordinator owns CMake/preset labels/automatictimerCI/state/HTML/map/architecture/status/checkpoint/PR. Separate code/config reviewer in isolated worktree. Acceptance39passing cases, stable regressions, separate review and actualautomaticCI; no Qt/statequeue/application/pause-set/start/reopen/recovery/schedule/provider feature claim."
       ],
       "verification": {},
       "evidence": [],
@@ -10558,6 +10581,31 @@
       "date": "2026-10-31T19:32:33.416554+00:00",
       "task": "ACCTTEST-002",
       "note": "Actual21-case contribution baseline corrected929152c for2 focused coverage findings and independently approveda561508. At integrated4d1400f configure/build0 then actual CTest exit8,21/21 explicit core/service stub failures, no skips/dependency/build failures. Reviewed tests702a7bf1/interfaces/fake unchanged. Scaffold3/credit23/numeric33/receipt15 pass. Baseline done means reviewed intended red, no implementation or SQL/provider/application claim; final integration/latest PR17 CI/merge pending."
+    },
+    {
+      "date": "2026-10-31T13:56:39+00:00",
+      "task": "CORETEST-002",
+      "note": "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests."
+    },
+    {
+      "date": "2026-10-31T19:22:55+00:00",
+      "task": "CORETEST-002",
+      "note": "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation."
+    },
+    {
+      "date": "2026-10-31T19:29:00+00:00",
+      "task": "CORETEST-002",
+      "note": "Owner confirmation-credit decision applied by160c7e6: four additive cases preserve all35 prior bodies,39 compile/list only. Actual testsbf8c1f46/contract09c7c77d/header69cad702/stub5584f845 assigned to independent /root/timer_final_reviewer in persistent isolated review worktree. Earlier partial changes_requested evidence preserved pending full review; no timer bodies/red/production claim. Contribution PR17 candidatec13e408 separately reassigned to /root/baseline_reviewer after prior quota limit."
+    },
+    {
+      "date": "2026-10-31T19:30:06+00:00",
+      "task": "CORETEST-002",
+      "note": "Final39-case timer baseline independently approved2fb544f after owner decision and four additive cases160c7e6; testsbf8c1f46/header69cad702/stub5584f845 unchanged. Atcd59601 after approval actual CTest exit8,39/39 TimerLifecycleNotImplemented failures, no skips/dependency failures. Stable scaffold3/credit23/numeric33/receipt15 and tooling19/DOM pass. Baseline done means reviewed intended red, not timer behavior; final integration review/latest PR14 CI/merge pending. CORE002 waits integrated prerequisite and must activate stable timerCI."
+    },
+    {
+      "date": "2026-10-31T19:34:59.655629+00:00",
+      "task": "CORE-002",
+      "note": "Claimed from integrated main419d855 after CORETEST002 PR14 merged19:34:33UTC, final3846d38 all5CIpass/fullreview2fb544f+26e40f9. Contracttimerrev1 reviewed testsbf8c1f46/header69cad702, actual39-case stubredcd59601. Implementer isolated task/CORE-002-implementation owns only core/src/timer_lifecycle.cpp and implementationevidence; preserve interfaces/tests and normativecontract. Coordinator owns CMake/preset labels/automatictimerCI/state/HTML/map/architecture/status/checkpoint/PR. Separate code/config reviewer in isolated worktree. Acceptance39passing cases, stable regressions, separate review and actualautomaticCI; no Qt/statequeue/application/pause-set/start/reopen/recovery/schedule/provider feature claim."
     }
   ]
 }

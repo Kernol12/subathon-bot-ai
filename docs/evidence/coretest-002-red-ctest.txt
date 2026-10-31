@@ -1,0 +1,977 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/timer-lifecycle-debug
+      Start  1: TimerLifecycleAcceptance.DefaultExactMainExpiryStartsSeparateTwoMinuteGrace
+ 1/39 Test  #1: TimerLifecycleAcceptance.DefaultExactMainExpiryStartsSeparateTwoMinuteGrace ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.DefaultExactMainExpiryStartsSeparateTwoMinuteGrace
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.DefaultExactMainExpiryStartsSeparateTwoMinuteGrace
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.DefaultExactMainExpiryStartsSeparateTwoMinuteGrace (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.DefaultExactMainExpiryStartsSeparateTwoMinuteGrace
+
+ 1 FAILED TEST
+
+      Start  2: TimerLifecycleAcceptance.MainCountdownBeforeZeroPreservesGraceBudget
+ 2/39 Test  #2: TimerLifecycleAcceptance.MainCountdownBeforeZeroPreservesGraceBudget ..........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.MainCountdownBeforeZeroPreservesGraceBudget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.MainCountdownBeforeZeroPreservesGraceBudget
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.MainCountdownBeforeZeroPreservesGraceBudget (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.MainCountdownBeforeZeroPreservesGraceBudget
+
+ 1 FAILED TEST
+
+      Start  3: TimerLifecycleAcceptance.MainOvershootImmediatelyConsumesGrace
+ 3/39 Test  #3: TimerLifecycleAcceptance.MainOvershootImmediatelyConsumesGrace ................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.MainOvershootImmediatelyConsumesGrace
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.MainOvershootImmediatelyConsumesGrace
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.MainOvershootImmediatelyConsumesGrace (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.MainOvershootImmediatelyConsumesGrace
+
+ 1 FAILED TEST
+
+      Start  4: TimerLifecycleAcceptance.OneStepCanCrossMainAndAllGraceWithoutLosingTransitions
+ 4/39 Test  #4: TimerLifecycleAcceptance.OneStepCanCrossMainAndAllGraceWithoutLosingTransitions ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.OneStepCanCrossMainAndAllGraceWithoutLosingTransitions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.OneStepCanCrossMainAndAllGraceWithoutLosingTransitions
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.OneStepCanCrossMainAndAllGraceWithoutLosingTransitions (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.OneStepCanCrossMainAndAllGraceWithoutLosingTransitions
+
+ 1 FAILED TEST
+
+      Start  5: TimerLifecycleAcceptance.GraceStaysActiveUntilItsExactLastMillisecond
+ 5/39 Test  #5: TimerLifecycleAcceptance.GraceStaysActiveUntilItsExactLastMillisecond .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.GraceStaysActiveUntilItsExactLastMillisecond
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.GraceStaysActiveUntilItsExactLastMillisecond
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.GraceStaysActiveUntilItsExactLastMillisecond (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.GraceStaysActiveUntilItsExactLastMillisecond
+
+ 1 FAILED TEST
+
+      Start  6: TimerLifecycleAcceptance.ExactGraceExpiryFinishesAndNeverMakesGraceNegative
+ 6/39 Test  #6: TimerLifecycleAcceptance.ExactGraceExpiryFinishesAndNeverMakesGraceNegative ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ExactGraceExpiryFinishesAndNeverMakesGraceNegative
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ExactGraceExpiryFinishesAndNeverMakesGraceNegative
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ExactGraceExpiryFinishesAndNeverMakesGraceNegative (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ExactGraceExpiryFinishesAndNeverMakesGraceNegative
+
+ 1 FAILED TEST
+
+      Start  7: TimerLifecycleAcceptance.AlreadyZeroClocksResolveWithoutConsumingPausedTime
+ 7/39 Test  #7: TimerLifecycleAcceptance.AlreadyZeroClocksResolveWithoutConsumingPausedTime ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.AlreadyZeroClocksResolveWithoutConsumingPausedTime
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.AlreadyZeroClocksResolveWithoutConsumingPausedTime
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.AlreadyZeroClocksResolveWithoutConsumingPausedTime (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.AlreadyZeroClocksResolveWithoutConsumingPausedTime
+
+ 1 FAILED TEST
+
+      Start  8: TimerLifecycleAcceptance.ConfiguredGraceDurationReceivesTheExactOvershoot
+ 8/39 Test  #8: TimerLifecycleAcceptance.ConfiguredGraceDurationReceivesTheExactOvershoot .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ConfiguredGraceDurationReceivesTheExactOvershoot
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ConfiguredGraceDurationReceivesTheExactOvershoot
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ConfiguredGraceDurationReceivesTheExactOvershoot (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ConfiguredGraceDurationReceivesTheExactOvershoot
+
+ 1 FAILED TEST
+
+      Start  9: TimerLifecycleAcceptance.ConfiguredZeroGraceExpiresWithoutAnArtificialDelay
+ 9/39 Test  #9: TimerLifecycleAcceptance.ConfiguredZeroGraceExpiresWithoutAnArtificialDelay ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ConfiguredZeroGraceExpiresWithoutAnArtificialDelay
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ConfiguredZeroGraceExpiresWithoutAnArtificialDelay
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ConfiguredZeroGraceExpiresWithoutAnArtificialDelay (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ConfiguredZeroGraceExpiresWithoutAnArtificialDelay
+
+ 1 FAILED TEST
+
+      Start 10: TimerLifecycleAcceptance.ImmediateModeFinishesAtMainZeroWithoutGrace
+10/39 Test #10: TimerLifecycleAcceptance.ImmediateModeFinishesAtMainZeroWithoutGrace ..........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ImmediateModeFinishesAtMainZeroWithoutGrace
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ImmediateModeFinishesAtMainZeroWithoutGrace
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ImmediateModeFinishesAtMainZeroWithoutGrace (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ImmediateModeFinishesAtMainZeroWithoutGrace
+
+ 1 FAILED TEST
+
+      Start 11: TimerLifecycleAcceptance.ConfirmationModeWaitsWithoutConsumingGrace
+11/39 Test #11: TimerLifecycleAcceptance.ConfirmationModeWaitsWithoutConsumingGrace ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ConfirmationModeWaitsWithoutConsumingGrace
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ConfirmationModeWaitsWithoutConsumingGrace
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ConfirmationModeWaitsWithoutConsumingGrace (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ConfirmationModeWaitsWithoutConsumingGrace
+
+ 1 FAILED TEST
+
+      Start 12: TimerLifecycleAcceptance.PreauthorizedConfirmationFinishesOnlyAwaitingState
+12/39 Test #12: TimerLifecycleAcceptance.PreauthorizedConfirmationFinishesOnlyAwaitingState ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.PreauthorizedConfirmationFinishesOnlyAwaitingState
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.PreauthorizedConfirmationFinishesOnlyAwaitingState
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.PreauthorizedConfirmationFinishesOnlyAwaitingState (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.PreauthorizedConfirmationFinishesOnlyAwaitingState
+
+ 1 FAILED TEST
+
+      Start 13: TimerLifecycleAcceptance.PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm
+13/39 Test #13: TimerLifecycleAcceptance.PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm ....***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm
+
+ 1 FAILED TEST
+
+      Start 14: TimerLifecycleAcceptance.ZeroActualCreditRetainsConfirmationWaitAndBothClocks
+14/39 Test #14: TimerLifecycleAcceptance.ZeroActualCreditRetainsConfirmationWaitAndBothClocks .................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ZeroActualCreditRetainsConfirmationWaitAndBothClocks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ZeroActualCreditRetainsConfirmationWaitAndBothClocks
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ZeroActualCreditRetainsConfirmationWaitAndBothClocks (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ZeroActualCreditRetainsConfirmationWaitAndBothClocks
+
+ 1 FAILED TEST
+
+      Start 15: TimerLifecycleAcceptance.ResumedConfirmationWaitDoesNotOverrideAnExternalPause
+15/39 Test #15: TimerLifecycleAcceptance.ResumedConfirmationWaitDoesNotOverrideAnExternalPause ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ResumedConfirmationWaitDoesNotOverrideAnExternalPause
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ResumedConfirmationWaitDoesNotOverrideAnExternalPause
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ResumedConfirmationWaitDoesNotOverrideAnExternalPause (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ResumedConfirmationWaitDoesNotOverrideAnExternalPause
+
+ 1 FAILED TEST
+
+      Start 16: TimerLifecycleAcceptance.HardEndObservationPreventsCreditFromResumingPausedConfirmationWait
+16/39 Test #16: TimerLifecycleAcceptance.HardEndObservationPreventsCreditFromResumingPausedConfirmationWait ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.HardEndObservationPreventsCreditFromResumingPausedConfirmationWait
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.HardEndObservationPreventsCreditFromResumingPausedConfirmationWait
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.HardEndObservationPreventsCreditFromResumingPausedConfirmationWait (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.HardEndObservationPreventsCreditFromResumingPausedConfirmationWait
+
+ 1 FAILED TEST
+
+      Start 17: TimerLifecycleAcceptance.PositiveApplicableCreditRescuesGraceAndPreservesItsBudget
+17/39 Test #17: TimerLifecycleAcceptance.PositiveApplicableCreditRescuesGraceAndPreservesItsBudget ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.PositiveApplicableCreditRescuesGraceAndPreservesItsBudget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.PositiveApplicableCreditRescuesGraceAndPreservesItsBudget
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.PositiveApplicableCreditRescuesGraceAndPreservesItsBudget (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.PositiveApplicableCreditRescuesGraceAndPreservesItsBudget
+
+ 1 FAILED TEST
+
+      Start 18: TimerLifecycleAcceptance.ZeroActualCreditDoesNotRescueGrace
+18/39 Test #18: TimerLifecycleAcceptance.ZeroActualCreditDoesNotRescueGrace ...................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ZeroActualCreditDoesNotRescueGrace
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ZeroActualCreditDoesNotRescueGrace
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ZeroActualCreditDoesNotRescueGrace (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ZeroActualCreditDoesNotRescueGrace
+
+ 1 FAILED TEST
+
+      Start 19: TimerLifecycleAcceptance.FreshModeRestartsFullGraceOnRepeatedMainExpiry
+19/39 Test #19: TimerLifecycleAcceptance.FreshModeRestartsFullGraceOnRepeatedMainExpiry .......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.FreshModeRestartsFullGraceOnRepeatedMainExpiry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.FreshModeRestartsFullGraceOnRepeatedMainExpiry
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.FreshModeRestartsFullGraceOnRepeatedMainExpiry (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.FreshModeRestartsFullGraceOnRepeatedMainExpiry
+
+ 1 FAILED TEST
+
+      Start 20: TimerLifecycleAcceptance.SharedModeReusesOnlyUnusedGraceAfterRescue
+20/39 Test #20: TimerLifecycleAcceptance.SharedModeReusesOnlyUnusedGraceAfterRescue ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.SharedModeReusesOnlyUnusedGraceAfterRescue
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.SharedModeReusesOnlyUnusedGraceAfterRescue
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.SharedModeReusesOnlyUnusedGraceAfterRescue (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.SharedModeReusesOnlyUnusedGraceAfterRescue
+
+ 1 FAILED TEST
+
+      Start 21: TimerLifecycleAcceptance.ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay
+21/39 Test #21: TimerLifecycleAcceptance.ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay
+
+ 1 FAILED TEST
+
+      Start 22: TimerLifecycleAcceptance.SharedGraceConsumesOnlyTheOvershootAfterMain
+22/39 Test #22: TimerLifecycleAcceptance.SharedGraceConsumesOnlyTheOvershootAfterMain .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.SharedGraceConsumesOnlyTheOvershootAfterMain
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.SharedGraceConsumesOnlyTheOvershootAfterMain
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.SharedGraceConsumesOnlyTheOvershootAfterMain (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.SharedGraceConsumesOnlyTheOvershootAfterMain
+
+ 1 FAILED TEST
+
+      Start 23: TimerLifecycleAcceptance.PausedMainPreservesBothClocksAndPhase
+23/39 Test #23: TimerLifecycleAcceptance.PausedMainPreservesBothClocksAndPhase ................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.PausedMainPreservesBothClocksAndPhase
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.PausedMainPreservesBothClocksAndPhase
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.PausedMainPreservesBothClocksAndPhase (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.PausedMainPreservesBothClocksAndPhase
+
+ 1 FAILED TEST
+
+      Start 24: TimerLifecycleAcceptance.PausedGracePreservesSharedBudget
+24/39 Test #24: TimerLifecycleAcceptance.PausedGracePreservesSharedBudget .....................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.PausedGracePreservesSharedBudget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.PausedGracePreservesSharedBudget
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.PausedGracePreservesSharedBudget (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.PausedGracePreservesSharedBudget
+
+ 1 FAILED TEST
+
+      Start 25: TimerLifecycleAcceptance.AcceptedRescueDoesNotOverrideAnExternalPause
+25/39 Test #25: TimerLifecycleAcceptance.AcceptedRescueDoesNotOverrideAnExternalPause .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.AcceptedRescueDoesNotOverrideAnExternalPause
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.AcceptedRescueDoesNotOverrideAnExternalPause
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.AcceptedRescueDoesNotOverrideAnExternalPause (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.AcceptedRescueDoesNotOverrideAnExternalPause
+
+ 1 FAILED TEST
+
+      Start 26: TimerLifecycleAcceptance.HardEndIsNotReachedOneUtcMillisecondEarly
+26/39 Test #26: TimerLifecycleAcceptance.HardEndIsNotReachedOneUtcMillisecondEarly ............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.HardEndIsNotReachedOneUtcMillisecondEarly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.HardEndIsNotReachedOneUtcMillisecondEarly
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.HardEndIsNotReachedOneUtcMillisecondEarly (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.HardEndIsNotReachedOneUtcMillisecondEarly
+
+ 1 FAILED TEST
+
+      Start 27: TimerLifecycleAcceptance.ExactHardEndFinishesBeforeCountdownProjection
+27/39 Test #27: TimerLifecycleAcceptance.ExactHardEndFinishesBeforeCountdownProjection ........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ExactHardEndFinishesBeforeCountdownProjection
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ExactHardEndFinishesBeforeCountdownProjection
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ExactHardEndFinishesBeforeCountdownProjection (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ExactHardEndFinishesBeforeCountdownProjection
+
+ 1 FAILED TEST
+
+      Start 28: TimerLifecycleAcceptance.HardEndFinishesPausedGraceWithoutPostponement
+28/39 Test #28: TimerLifecycleAcceptance.HardEndFinishesPausedGraceWithoutPostponement ........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.HardEndFinishesPausedGraceWithoutPostponement
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.HardEndFinishesPausedGraceWithoutPostponement
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.HardEndFinishesPausedGraceWithoutPostponement (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.HardEndFinishesPausedGraceWithoutPostponement
+
+ 1 FAILED TEST
+
+      Start 29: TimerLifecycleAcceptance.HardEndFinishesConfirmationWaitWithoutConfirmation
+29/39 Test #29: TimerLifecycleAcceptance.HardEndFinishesConfirmationWaitWithoutConfirmation ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.HardEndFinishesConfirmationWaitWithoutConfirmation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.HardEndFinishesConfirmationWaitWithoutConfirmation
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.HardEndFinishesConfirmationWaitWithoutConfirmation (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.HardEndFinishesConfirmationWaitWithoutConfirmation
+
+ 1 FAILED TEST
+
+      Start 30: TimerLifecycleAcceptance.UtcObservationDoesNotBecomeCountdownElapsed
+30/39 Test #30: TimerLifecycleAcceptance.UtcObservationDoesNotBecomeCountdownElapsed ..........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.UtcObservationDoesNotBecomeCountdownElapsed
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.UtcObservationDoesNotBecomeCountdownElapsed
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.UtcObservationDoesNotBecomeCountdownElapsed (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.UtcObservationDoesNotBecomeCountdownElapsed
+
+ 1 FAILED TEST
+
+      Start 31: TimerLifecycleAcceptance.FullSigned64MainDurationDoesNotOverflowPhaseArithmetic
+31/39 Test #31: TimerLifecycleAcceptance.FullSigned64MainDurationDoesNotOverflowPhaseArithmetic ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.FullSigned64MainDurationDoesNotOverflowPhaseArithmetic
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.FullSigned64MainDurationDoesNotOverflowPhaseArithmetic
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.FullSigned64MainDurationDoesNotOverflowPhaseArithmetic (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.FullSigned64MainDurationDoesNotOverflowPhaseArithmetic
+
+ 1 FAILED TEST
+
+      Start 32: TimerLifecycleAcceptance.VeryLargeOvershootFinishesWithoutNegativeDurations
+32/39 Test #32: TimerLifecycleAcceptance.VeryLargeOvershootFinishesWithoutNegativeDurations ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.VeryLargeOvershootFinishesWithoutNegativeDurations
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.VeryLargeOvershootFinishesWithoutNegativeDurations
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.VeryLargeOvershootFinishesWithoutNegativeDurations (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.VeryLargeOvershootFinishesWithoutNegativeDurations
+
+ 1 FAILED TEST
+
+      Start 33: TimerLifecycleAcceptance.ReadyRepresentationRequiresASeparateStartBoundary
+33/39 Test #33: TimerLifecycleAcceptance.ReadyRepresentationRequiresASeparateStartBoundary ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ReadyRepresentationRequiresASeparateStartBoundary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ReadyRepresentationRequiresASeparateStartBoundary
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:369: Failure
+Expected: static_cast<void>(advance_timer(ready, {}, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:370: Failure
+Expected: static_cast<void>(apply_applicable_time_credit(ready, 1000)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimerLifecycleAcceptance.ReadyRepresentationRequiresASeparateStartBoundary (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ReadyRepresentationRequiresASeparateStartBoundary
+
+ 1 FAILED TEST
+
+      Start 34: TimerLifecycleAcceptance.FinishedStateNeverAdvancesOrAcceptsAnImplicitReopen
+34/39 Test #34: TimerLifecycleAcceptance.FinishedStateNeverAdvancesOrAcceptsAnImplicitReopen ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.FinishedStateNeverAdvancesOrAcceptsAnImplicitReopen
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.FinishedStateNeverAdvancesOrAcceptsAnImplicitReopen
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.FinishedStateNeverAdvancesOrAcceptsAnImplicitReopen (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.FinishedStateNeverAdvancesOrAcceptsAnImplicitReopen
+
+ 1 FAILED TEST
+
+      Start 35: TimerLifecycleAcceptance.ExpiryObservationPrecedesSameInstantRescueCommand
+35/39 Test #35: TimerLifecycleAcceptance.ExpiryObservationPrecedesSameInstantRescueCommand ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ExpiryObservationPrecedesSameInstantRescueCommand
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ExpiryObservationPrecedesSameInstantRescueCommand
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ExpiryObservationPrecedesSameInstantRescueCommand (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ExpiryObservationPrecedesSameInstantRescueCommand
+
+ 1 FAILED TEST
+
+      Start 36: TimerLifecycleAcceptance.HardEndObservationPrecedesSameInstantCreditCommand
+36/39 Test #36: TimerLifecycleAcceptance.HardEndObservationPrecedesSameInstantCreditCommand ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.HardEndObservationPrecedesSameInstantCreditCommand
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.HardEndObservationPrecedesSameInstantCreditCommand
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.HardEndObservationPrecedesSameInstantCreditCommand (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.HardEndObservationPrecedesSameInstantCreditCommand
+
+ 1 FAILED TEST
+
+      Start 37: TimerLifecycleAcceptance.NegativeClockDurationsAreRejected
+37/39 Test #37: TimerLifecycleAcceptance.NegativeClockDurationsAreRejected ....................................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.NegativeClockDurationsAreRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.NegativeClockDurationsAreRejected
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:406: Failure
+Expected: static_cast<void>(advance_timer(main_state(), {}, {-1, 0, false})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:408: Failure
+Expected: static_cast<void>(advance_timer(main_state(-1), {}, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:409: Failure
+Expected: static_cast<void>(advance_timer(grace_state(-1), {}, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:412: Failure
+Expected: static_cast<void>(advance_timer(main_state(), config, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimerLifecycleAcceptance.NegativeClockDurationsAreRejected (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.NegativeClockDurationsAreRejected
+
+ 1 FAILED TEST
+
+      Start 38: TimerLifecycleAcceptance.IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected
+38/39 Test #38: TimerLifecycleAcceptance.IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:424: Failure
+Expected: static_cast<void>(advance_timer(state, config, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:425: Failure
+Expected: static_cast<void>(apply_applicable_time_credit(state, 0)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:427: Failure
+Expected: static_cast<void>(confirm_timer_finish(state)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:424: Failure
+Expected: static_cast<void>(advance_timer(state, config, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:425: Failure
+Expected: static_cast<void>(apply_applicable_time_credit(state, 0)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:427: Failure
+Expected: static_cast<void>(confirm_timer_finish(state)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:424: Failure
+Expected: static_cast<void>(advance_timer(state, config, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:425: Failure
+Expected: static_cast<void>(apply_applicable_time_credit(state, 0)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:427: Failure
+Expected: static_cast<void>(confirm_timer_finish(state)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:432: Failure
+Expected: static_cast<void>(advance_timer(waiting, config, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:432: Failure
+Expected: static_cast<void>(advance_timer(waiting, config, {})) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimerLifecycleAcceptance.IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected
+
+ 1 FAILED TEST
+
+      Start 39: TimerLifecycleAcceptance.ApplicableCreditRejectsNegativeAndOverflowingAdjustments
+39/39 Test #39: TimerLifecycleAcceptance.ApplicableCreditRejectsNegativeAndOverflowingAdjustments .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimerLifecycleAcceptance.ApplicableCreditRejectsNegativeAndOverflowingAdjustments
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimerLifecycleAcceptance
+[ RUN      ] TimerLifecycleAcceptance.ApplicableCreditRejectsNegativeAndOverflowingAdjustments
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:437: Failure
+Expected: static_cast<void>(apply_applicable_time_credit(main_state(), -1)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/timer_lifecycle_tests.cpp:439: Failure
+Expected: static_cast<void>(apply_applicable_time_credit( main_state(std::numeric_limits<std::int64_t>::max()), 1)) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::TimerLifecycleNotImplemented with description "Timer lifecycle is intentionally unimplemented; review tests first".
+
+unknown file: Failure
+C++ exception with description "Timer lifecycle is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimerLifecycleAcceptance.ApplicableCreditRejectsNegativeAndOverflowingAdjustments (0 ms)
+[----------] 1 test from TimerLifecycleAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimerLifecycleAcceptance.ApplicableCreditRejectsNegativeAndOverflowingAdjustments
+
+ 1 FAILED TEST
+
+
+0% tests passed, 39 tests failed out of 39
+
+Label Time Summary:
+acceptance         =   0.05 sec*proc (39 tests)
+intentional-red    =   0.05 sec*proc (39 tests)
+timer-lifecycle    =   0.05 sec*proc (39 tests)
+
+Total Test time (real) =   0.05 sec
+
+The following tests FAILED:
+	  1 - TimerLifecycleAcceptance.DefaultExactMainExpiryStartsSeparateTwoMinuteGrace (Failed) acceptance intentional-red timer-lifecycle
+	  2 - TimerLifecycleAcceptance.MainCountdownBeforeZeroPreservesGraceBudget (Failed) acceptance intentional-red timer-lifecycle
+	  3 - TimerLifecycleAcceptance.MainOvershootImmediatelyConsumesGrace (Failed) acceptance intentional-red timer-lifecycle
+	  4 - TimerLifecycleAcceptance.OneStepCanCrossMainAndAllGraceWithoutLosingTransitions (Failed) acceptance intentional-red timer-lifecycle
+	  5 - TimerLifecycleAcceptance.GraceStaysActiveUntilItsExactLastMillisecond (Failed) acceptance intentional-red timer-lifecycle
+	  6 - TimerLifecycleAcceptance.ExactGraceExpiryFinishesAndNeverMakesGraceNegative (Failed) acceptance intentional-red timer-lifecycle
+	  7 - TimerLifecycleAcceptance.AlreadyZeroClocksResolveWithoutConsumingPausedTime (Failed) acceptance intentional-red timer-lifecycle
+	  8 - TimerLifecycleAcceptance.ConfiguredGraceDurationReceivesTheExactOvershoot (Failed) acceptance intentional-red timer-lifecycle
+	  9 - TimerLifecycleAcceptance.ConfiguredZeroGraceExpiresWithoutAnArtificialDelay (Failed) acceptance intentional-red timer-lifecycle
+	 10 - TimerLifecycleAcceptance.ImmediateModeFinishesAtMainZeroWithoutGrace (Failed) acceptance intentional-red timer-lifecycle
+	 11 - TimerLifecycleAcceptance.ConfirmationModeWaitsWithoutConsumingGrace (Failed) acceptance intentional-red timer-lifecycle
+	 12 - TimerLifecycleAcceptance.PreauthorizedConfirmationFinishesOnlyAwaitingState (Failed) acceptance intentional-red timer-lifecycle
+	 13 - TimerLifecycleAcceptance.PositiveActualCreditResumesConfirmationWaitAndRejectsStaleConfirm (Failed) acceptance intentional-red timer-lifecycle
+	 14 - TimerLifecycleAcceptance.ZeroActualCreditRetainsConfirmationWaitAndBothClocks (Failed) acceptance intentional-red timer-lifecycle
+	 15 - TimerLifecycleAcceptance.ResumedConfirmationWaitDoesNotOverrideAnExternalPause (Failed) acceptance intentional-red timer-lifecycle
+	 16 - TimerLifecycleAcceptance.HardEndObservationPreventsCreditFromResumingPausedConfirmationWait (Failed) acceptance intentional-red timer-lifecycle
+	 17 - TimerLifecycleAcceptance.PositiveApplicableCreditRescuesGraceAndPreservesItsBudget (Failed) acceptance intentional-red timer-lifecycle
+	 18 - TimerLifecycleAcceptance.ZeroActualCreditDoesNotRescueGrace (Failed) acceptance intentional-red timer-lifecycle
+	 19 - TimerLifecycleAcceptance.FreshModeRestartsFullGraceOnRepeatedMainExpiry (Failed) acceptance intentional-red timer-lifecycle
+	 20 - TimerLifecycleAcceptance.SharedModeReusesOnlyUnusedGraceAfterRescue (Failed) acceptance intentional-red timer-lifecycle
+	 21 - TimerLifecycleAcceptance.ExhaustedSharedBudgetExpiresAtMainZeroWithoutAnArtificialDelay (Failed) acceptance intentional-red timer-lifecycle
+	 22 - TimerLifecycleAcceptance.SharedGraceConsumesOnlyTheOvershootAfterMain (Failed) acceptance intentional-red timer-lifecycle
+	 23 - TimerLifecycleAcceptance.PausedMainPreservesBothClocksAndPhase (Failed) acceptance intentional-red timer-lifecycle
+	 24 - TimerLifecycleAcceptance.PausedGracePreservesSharedBudget (Failed) acceptance intentional-red timer-lifecycle
+	 25 - TimerLifecycleAcceptance.AcceptedRescueDoesNotOverrideAnExternalPause (Failed) acceptance intentional-red timer-lifecycle
+	 26 - TimerLifecycleAcceptance.HardEndIsNotReachedOneUtcMillisecondEarly (Failed) acceptance intentional-red timer-lifecycle
+	 27 - TimerLifecycleAcceptance.ExactHardEndFinishesBeforeCountdownProjection (Failed) acceptance intentional-red timer-lifecycle
+	 28 - TimerLifecycleAcceptance.HardEndFinishesPausedGraceWithoutPostponement (Failed) acceptance intentional-red timer-lifecycle
+	 29 - TimerLifecycleAcceptance.HardEndFinishesConfirmationWaitWithoutConfirmation (Failed) acceptance intentional-red timer-lifecycle
+	 30 - TimerLifecycleAcceptance.UtcObservationDoesNotBecomeCountdownElapsed (Failed) acceptance intentional-red timer-lifecycle
+	 31 - TimerLifecycleAcceptance.FullSigned64MainDurationDoesNotOverflowPhaseArithmetic (Failed) acceptance intentional-red timer-lifecycle
+	 32 - TimerLifecycleAcceptance.VeryLargeOvershootFinishesWithoutNegativeDurations (Failed) acceptance intentional-red timer-lifecycle
+	 33 - TimerLifecycleAcceptance.ReadyRepresentationRequiresASeparateStartBoundary (Failed) acceptance intentional-red timer-lifecycle
+	 34 - TimerLifecycleAcceptance.FinishedStateNeverAdvancesOrAcceptsAnImplicitReopen (Failed) acceptance intentional-red timer-lifecycle
+	 35 - TimerLifecycleAcceptance.ExpiryObservationPrecedesSameInstantRescueCommand (Failed) acceptance intentional-red timer-lifecycle
+	 36 - TimerLifecycleAcceptance.HardEndObservationPrecedesSameInstantCreditCommand (Failed) acceptance intentional-red timer-lifecycle
+	 37 - TimerLifecycleAcceptance.NegativeClockDurationsAreRejected (Failed) acceptance intentional-red timer-lifecycle
+	 38 - TimerLifecycleAcceptance.IncoherentPhaseAndConfirmationWaitSnapshotsAreRejected (Failed) acceptance intentional-red timer-lifecycle
+	 39 - TimerLifecycleAcceptance.ApplicableCreditRejectsNegativeAndOverflowingAdjustments (Failed) acceptance intentional-red timer-lifecycle
+Errors while running CTest

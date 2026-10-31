@@ -9,7 +9,7 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
 endif()
@@ -41,6 +41,13 @@ if(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS)
     target_link_libraries(server_receipt_intake_acceptance PRIVATE subathon_receipt_intake GTest::gtest_main)
     subathon_target_options(server_receipt_intake_acceptance)
     gtest_discover_tests(server_receipt_intake_acceptance PROPERTIES LABELS "receipt-intake;acceptance;simulation;server")
+endif()
+
+if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
+    add_executable(core_timer_lifecycle_acceptance acceptance/timer_lifecycle_tests.cpp)
+    target_link_libraries(core_timer_lifecycle_acceptance PRIVATE subathon_timer_lifecycle GTest::gtest_main)
+    subathon_target_options(core_timer_lifecycle_acceptance)
+    gtest_discover_tests(core_timer_lifecycle_acceptance PROPERTIES LABELS "timer-lifecycle;acceptance;intentional-red")
 endif()
 
 if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)

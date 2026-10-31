@@ -1,9 +1,9 @@
-# Coordinator handoff — usage-limit checkpoint
+# Coordinator handoff — active review checkpoint
 
 Coordinator `/root`, 2026-10-31. Objective: full specification v0.45, task by task,
 with isolated writers, real independent reviews and focused PRs. This is a session
 checkpoint, not completed product/release evidence. Last observed main is
-`8ad458ea6490a85b49b568b69661c023d3cf6ea2`; inspect actual GitHub again on resume.
+`419d8551c54ad7e3f802f18c10784bef49d7908f`; inspect actual GitHub again on resume.
 
 ## Completed integrations
 
@@ -36,42 +36,63 @@ Ruleset26170263 requires PRs/resolved threads, zero GitHub approvals, no force/d
 bypass and no required-status-check rule. All latest checks remain coordinator merge
 gates regardless of that explicit enforcement gap; repository settings were not changed.
 
-## Active baselines
+## Active implementation and contribution baseline
 
-[PR #17](https://github.com/Kernol12/subathon-bot-ai/pull/17), branch
-`task/ACCTTEST-002-eligibility-baseline`, coordinator worktree
-`local-evidence/worktrees/accttest002-coordinator`. Original authorb0fd97e and
-correction929152c are integrated; independent review9dd0fec/a561508 approves
-all21 cases, exact tests702a7bf1, interfaces65ad81ac/82c2e5f7, fake8d35e502,
-contract5eec5921. At4d1400f after approval actual CTest exit8:21/21 explicit
-missing-behavior failures. [Baseline handoff](accttest-002-baseline-handoff.md)
-retains actual output and scope. Stable scaffold3/credit23/numeric33/receipt15,
-tooling19, project/render/DOM/diff pass. Task baseline done; final integration
-review/latest PR CI/merge remain. No eligibility/linkage implementation.
+CORETEST-002 [PR14](https://github.com/Kernol12/subathon-bot-ai/pull/14) merged419d855
+at19:34:33UTC; final3846d38 all5checks passed, no review threads, rules permitmerge.
+CORE-002 claimed on `task/CORE-002-timer-lifecycle` from that integrated main.
+Implementer `/root/timer_implementer` will own only timer source and evidence in
+`local-evidence/worktrees/core002-implementation`, branch `task/CORE-002-implementation`.
+Independent `/root/timer_final_reviewer` owns code/config review in
+`local-evidence/worktrees/core002-review`, branch `task/CORE-002-code-review`.
+Coordinator owns all shared files, workflow and PR. No implementation yet.
 
-Author `/root/receipt_test_author` owns only contribution test/evidence corrections
-in `local-evidence/worktrees/accttest002-author`; reviewer `/root/baseline_reviewer`
-owns only independent evidence in `local-evidence/worktrees/accttest002-review`.
-Both corrected worktrees were clean after their committed handoffs. Usage is now
-available; old error records are historical. Coordinator owns shared build/state/map.
 
-[Timer PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14) has resolved the
-owner decision: positive actual credit automatically resumes Main during confirmation
-wait; zero retains wait, independent pauses/budget and hard end remain. Author160c7e6
-adds4 cases preserving35 old bodies. Separate full approval2fb544f and final26e40f9;
-actual39-case stub-red atcd59601. Root task branch6e51d16 has final integration
-approval, publication/latest CI/merge pending. These timer artifacts remain on that
-separate PR until integrated main; do not mix unmerged behavior into contribution.
+[Timer PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14), branch
+`task/CORETEST-002-timer-baseline`, main workspace. Author160c7e6 preserves35 old
+bodies and adds4 owner-decision cases; testsbf8c1f46, header69cad702, stub5584f845,
+reviewed behavioral contract09c7c77d. Separate full approval2fb544f and final26e40f9
+are integrated (root2369ad1). Atcd59601 after approval actual CTest exit8:39/39
+explicit stub failures; [baseline handoff](coretest-002-baseline-handoff.md).
+Baseline task done, no timer implementation. Stable scaffold3/credit23/numeric33/
+receipt15 and tooling19/project/render/DOM/diff pass. PR merged as recorded above; implementation gates now apply. Owner positive-actual confirmation-wait resumption is
+resolved; zero/pause/budget/hard-end/Finished guards retained. Ready/start/deadline
+and all downstream wiring remain separate tasks.
+
+Timer author `/root/timer_policy_author` committed160c7e6 in persistent
+`local-evidence/worktrees/coretest002-confirmation` (branch
+`task/CORETEST-002-confirmation-credit`); independent `/root/timer_final_reviewer`
+committed approvals in `local-evidence/worktrees/coretest002-review` (branch
+`task/CORETEST-002-timer-review`). Worktrees were clean at committed handoffs;
+inspect actual agents before reuse.
+
+[Contribution PR #17](https://github.com/Kernol12/subathon-bot-ai/pull/17), branch
+`task/ACCTTEST-002-eligibility-baseline`, persistent coordinator worktree
+`local-evidence/worktrees/accttest002-coordinator`. Original authorb0fd97e,
+correction929152c, independent reviewa561508 and final3ffb71d approve21-case
+baseline; tests702a7bf1, interfaces65ad81ac/82c2e5f7, fake8d35e502, contract5eec5921.
+At4d1400f after approval actual CTest exit8,21/21 explicit core/service stub failures;
+[handoff](accttest-002-baseline-handoff.md). Final prose findings corrected, stable
+scaffold3/credit23/numeric33/receipt15 and tooling19/project/render/DOM/diff passed.
+No contribution implementation. Main419d855 is being integrated: preserve both
+optional timer/contribution harnesses, both reviewed/red states, active CORE002 claim
+and scenario evidence; regenerate progress. Independent reconciliation review and
+latest PR17 CI/merge remain. Reviewer `/root/baseline_reviewer` owns only evidence in
+`local-evidence/worktrees/accttest002-review`; author `/root/receipt_test_author`
+preserves correction in `local-evidence/worktrees/accttest002-author`. Old usage
+errors are historical; inspect actual agents before reuse.
 
 ## Continuation and unperformed gates
 
-Inspect actual PR14/17, main, worktrees and agents on resume. Finish each baseline's
-final integration/latest CI/merge gates. Then start CORE-002 and ACCT-002 only from
-integrated reviewed/red prerequisites, preserve all assertions and obtain separate
-code review plus stable automatic CI. Reconcile shared progress/build/map/checkpoint
-when merging the second task against first integrated main. No routine permission
-is needed; owner timer choice is resolved. No commands remain running after the
-recorded local checks; remote CI may still run, inspect actual state.
+Inspect actual main, PR14/17, worktrees, agents and commands on resume. Continue CORE-002 implementation/code review/automaticCI gates from integrated
+main419d855.
+Finish contribution final integration/latest CI gates, reconcile shared progress/
+build/map/checkpoint against new main before merging17. Start ACCT-002 only from
+integrated reviewed/red prerequisites. Both implementations preserve all assertions,
+need independent code review and must add/observe stable automatic CI. No owner
+question or routine permission remains. No local command remains running after
+recorded checks; remote CI may still be running. Old absent /tmp metadata was not
+pruned, committed work preserved in persistent ignored local-evidence worktrees.
 
 Full release gates remain: authoritative application/aggregates/refunds, all seven
 integrations and three rate providers, supported platforms, both renderers, UIs/

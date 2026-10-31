@@ -12,6 +12,13 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
     subathon_target_options(subathon_exact_numeric)
 endif()
 
+# Lifecycle baseline is explicit while its new behavior remains unimplemented.
+if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
+    add_library(subathon_timer_lifecycle STATIC src/timer_lifecycle.cpp)
+    target_include_directories(subathon_timer_lifecycle PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    subathon_target_options(subathon_timer_lifecycle)
+endif()
+
 if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     add_library(subathon_contribution STATIC src/contribution.cpp)
     target_include_directories(subathon_contribution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
