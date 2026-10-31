@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T19:52:17.117617+00:00",
+  "updated_at": "2026-10-31T20:57:58.096526+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -847,8 +847,8 @@
       "title": "Review and demonstrate red: Independent pause reasons and delayed status signals",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; owner-edge author /root/pause_owner_case_author; independent reviewer /root/pause_resume_reviewer",
       "depends_on": [
         "CORE-002"
       ],
@@ -860,11 +860,40 @@
       "brief": "docs/tasks/EPIC-001/CORE-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before CORE-003.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim.",
+        "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds.",
+        "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate.",
+        "Resume inspectedactualmain/PRs/allworktrees/no runningbuilds; preservedcompleted ACCT002 finalreviewee5e4fb and mergedPR19 at5201edd20:11:42UTC, final2c1b183 all7CIpassed. Explicitly reassigned vanishedpause reviewer to /root/pause_resume_reviewer, actualpartialreview005b6f4 validates30knowncases with no incorrectoracle but FULLbaseline blocked on2unanswered ownerpolicyquestions. No bodies/red/implementation. Owner requestedstopafter nextfinishedPR; PR19finished, checkpointandstopwithout startingfurtherwork. DraftPR20 andallreviews preserved.",
+        "Finalstopcheckpointfd309c2 after main5201edd merge: pause-policy-debug configure/build0, CTest-N-Lpause-policy lists30 only; Python19/DOM/project/render/diff allpass. Bounded review005b6f4 retained, twoownerquestions unanswered, baseline/productacceptance notrun and CORE003planned. No pausebody/implementation/fullapproval. PR20 remainsdraft; stopafterfinishedPR19 perownerrequest, no backgroundagents or newtask.",
+        "Owner explicitly answeredyes: Unknown cancels pendingOffline delay; laterconfirmedOffline startsfresh full configureddelay(default30s), existingOfflinepause retained. Recorded spec/decision/draftcontract. Remaining Unknown-timeout clear/rearm choice unanswered; newedgecases/review/red pending, taskstillblocked. Coordinationremainsstopped afterPR19, no tests/implementation changed.",
+        "Owner explicitly answeredyes to secondchoice: either knownOnline/Offline clears onlyUnknownpause and resets its pendingtimeout; eachnewUnknownepisode getsfresh fullconfiguredtimeout, otherreasonsretained. Both ownerpolicyquestionsresolved. Updatedspec/decision/draftcontract; affectedcases/fullindependentreview/red stillpending, no tests/implementationchanged. Taskunfinished, coordinationstillstopped afterPR19 untilresumed.",
+        "Explicitly resumed after ownerstop and bothanswered Unknownpolicies. Verified main5201edd/open draftPR20head6a80b6e/all7stableCIpass; allworktreesclean/no buildprocesses, oldauthornotrunning. Reassign bounded newedgecases to /root/pause_owner_case_author in isolated task/CORETEST-003-owner-cases fromcurrentmain +actualdraft. Preserve original30/header/stubs and partialreview005b6f4. Clarify independentrecoverycomposition: knownOffline retainsOffline; knownOnline separatelyclearsOffline perexistingTIMER03, Unknowncleanup isnotglobalresume. Need fullactualtestreviewthenintendedred; CORE003notstarted.",
+        "Owner-edge author3c6d242 integrated001d316 adds7focusedcases(37total), original30bodies/headerc91b7da3/stubdee2a91c unchanged. Tests646d83f4/contracta8174be7 derivebothownerdecisions and independentOnline/clientrecoverycomposition. Author/rootconfigure/build0, CTest-Nlists37only; NO body/red. Reassigned /root/pause_resume_reviewer actual37/fullcontract/harness for fullindependentreview, preserving priorpartial005b6f4. No productquestion; fullapprovalthenintendedredbeforeCORE003.",
+        "Full37-case pause baseline approved86c0bbd after bothownerdecisions/sevenadditivecases3c6d242, original30/header/stubs unchanged. At integratedf39ccc8 afterfullapproval actualCTestexit8,37/37 explicitPausePolicyNotImplemented failures, no skips/dependency/build failures. Rootstable scaffold3/credit23/numeric33/receipt15/contribution21/timer39 plus tooling19/DOMpass. Baseline done meansreviewed intendedred, no pauseimplementation. Finalstatusintegrationreview/latestPR20CI/merge pending; CORE003 waits integratedprerequisite and mustactivateautomaticpauseCI.",
+        "Final baselineintegration565be7c separately approves b50d8d8: actualraw37RUN/failures/61stubdiagnostics, source/header/tests/harness unchanged, statusonlycontract/brief, task/map/strategyhonest. Reviewerproject/render/Python19/DOM/diffpass; all7PR20checkspassedb50d8d8. Publish finalreview/checkpoint and recheck exactlatestheadCI/discussions/rules beforemerge; no pausebehaviorclaim."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored_tests": "passed",
+        "native_build": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/pause-signal-policy-questions.md",
+        "docs/evidence/coretest-003-authoring.md",
+        "docs/evidence/coretest-003-independent-review.md",
+        "docs/evidence/coretest-003-baseline-handoff.md",
+        "docs/evidence/coretest-003-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/pause_test_author; additive /root/pause_owner_case_author",
+        "reviewer": "/root/pause_resume_reviewer",
+        "outcome": "approved",
+        "baseline": "author3c6d242; tests646d83f4e38722239bb8b590a9f368141bed4246; contracta8174be7; review86c0bbd; actualredf39ccc8",
+        "evidence": "docs/evidence/coretest-003-independent-review.md"
+      }
     },
     {
       "id": "CORE-003",
@@ -10662,6 +10691,61 @@
       "date": "2026-10-31T19:52:17.117617+00:00",
       "task": "ACCT-002",
       "note": "Bounded eligibility/linkagesources author3e76ce9/corec3b2ea0d/server975067bb and CIconfig1beb71f independently approved6e917c7. All21 reviewed unchanged tests702a7bf1 pass root/author/reviewer; reviewer timer39/receipt15/numeric33/credit23/scaffold3 pass. Actualautomatic contributionCI41235930193 atPR19a579e38 passed21 GNU13.3. Main0700d5d integrated, headers/fake/contractnormative unchanged. Simulation-backed implementation done; final statusreview/latest PR19CI/merge pending. SQL/Qt/providerproof/application/refunds/platform/live gates remain separate."
+    },
+    {
+      "date": "2026-10-31T19:47:47.890097+00:00",
+      "task": "CORETEST-003",
+      "note": "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim."
+    },
+    {
+      "date": "2026-10-31T19:51:32.846997+00:00",
+      "task": "CORETEST-003",
+      "note": "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds."
+    },
+    {
+      "date": "2026-10-31T19:55:10.830024+00:00",
+      "task": "CORETEST-003",
+      "note": "Actualknown-policy30-case draftbb34d1e integratedcf07abc: headerc91b7da3/stubdee2a91c/testsaf1275f7/contract46b6c641. Author and coordinatorconfigure/build0, CTest-Nlists30 only, no bodies. Separate /root/timer_final_reviewer assigned actual30draft+contract/interface/stubs/harness for bounded partialreview; fullbaseline waits2unanswered ownerpolicyquestions/affectedcases/fullreview/red. CORE003stillplanned/no productionbehavior; CIintentional-redlane separate."
+    },
+    {
+      "date": "2026-10-31T20:12:47.221760+00:00",
+      "task": "CORETEST-003",
+      "note": "Resume inspectedactualmain/PRs/allworktrees/no runningbuilds; preservedcompleted ACCT002 finalreviewee5e4fb and mergedPR19 at5201edd20:11:42UTC, final2c1b183 all7CIpassed. Explicitly reassigned vanishedpause reviewer to /root/pause_resume_reviewer, actualpartialreview005b6f4 validates30knowncases with no incorrectoracle but FULLbaseline blocked on2unanswered ownerpolicyquestions. No bodies/red/implementation. Owner requestedstopafter nextfinishedPR; PR19finished, checkpointandstopwithout startingfurtherwork. DraftPR20 andallreviews preserved."
+    },
+    {
+      "date": "2026-10-31T20:13:34.356022+00:00",
+      "task": "CORETEST-003",
+      "note": "Finalstopcheckpointfd309c2 after main5201edd merge: pause-policy-debug configure/build0, CTest-N-Lpause-policy lists30 only; Python19/DOM/project/render/diff allpass. Bounded review005b6f4 retained, twoownerquestions unanswered, baseline/productacceptance notrun and CORE003planned. No pausebody/implementation/fullapproval. PR20 remainsdraft; stopafterfinishedPR19 perownerrequest, no backgroundagents or newtask."
+    },
+    {
+      "date": "2026-10-31T20:36:31.365854+00:00",
+      "task": "CORETEST-003",
+      "note": "Owner explicitly answeredyes: Unknown cancels pendingOffline delay; laterconfirmedOffline startsfresh full configureddelay(default30s), existingOfflinepause retained. Recorded spec/decision/draftcontract. Remaining Unknown-timeout clear/rearm choice unanswered; newedgecases/review/red pending, taskstillblocked. Coordinationremainsstopped afterPR19, no tests/implementation changed."
+    },
+    {
+      "date": "2026-10-31T20:38:36.420424+00:00",
+      "task": "CORETEST-003",
+      "note": "Owner explicitly answeredyes to secondchoice: either knownOnline/Offline clears onlyUnknownpause and resets its pendingtimeout; eachnewUnknownepisode getsfresh fullconfiguredtimeout, otherreasonsretained. Both ownerpolicyquestionsresolved. Updatedspec/decision/draftcontract; affectedcases/fullindependentreview/red stillpending, no tests/implementationchanged. Taskunfinished, coordinationstillstopped afterPR19 untilresumed."
+    },
+    {
+      "date": "2026-10-31T20:51:02.193509+00:00",
+      "task": "CORETEST-003",
+      "note": "Explicitly resumed after ownerstop and bothanswered Unknownpolicies. Verified main5201edd/open draftPR20head6a80b6e/all7stableCIpass; allworktreesclean/no buildprocesses, oldauthornotrunning. Reassign bounded newedgecases to /root/pause_owner_case_author in isolated task/CORETEST-003-owner-cases fromcurrentmain +actualdraft. Preserve original30/header/stubs and partialreview005b6f4. Clarify independentrecoverycomposition: knownOffline retainsOffline; knownOnline separatelyclearsOffline perexistingTIMER03, Unknowncleanup isnotglobalresume. Need fullactualtestreviewthenintendedred; CORE003notstarted."
+    },
+    {
+      "date": "2026-10-31T20:53:29.663725+00:00",
+      "task": "CORETEST-003",
+      "note": "Owner-edge author3c6d242 integrated001d316 adds7focusedcases(37total), original30bodies/headerc91b7da3/stubdee2a91c unchanged. Tests646d83f4/contracta8174be7 derivebothownerdecisions and independentOnline/clientrecoverycomposition. Author/rootconfigure/build0, CTest-Nlists37only; NO body/red. Reassigned /root/pause_resume_reviewer actual37/fullcontract/harness for fullindependentreview, preserving priorpartial005b6f4. No productquestion; fullapprovalthenintendedredbeforeCORE003."
+    },
+    {
+      "date": "2026-10-31T20:55:50.575570+00:00",
+      "task": "CORETEST-003",
+      "note": "Full37-case pause baseline approved86c0bbd after bothownerdecisions/sevenadditivecases3c6d242, original30/header/stubs unchanged. At integratedf39ccc8 afterfullapproval actualCTestexit8,37/37 explicitPausePolicyNotImplemented failures, no skips/dependency/build failures. Rootstable scaffold3/credit23/numeric33/receipt15/contribution21/timer39 plus tooling19/DOMpass. Baseline done meansreviewed intendedred, no pauseimplementation. Finalstatusintegrationreview/latestPR20CI/merge pending; CORE003 waits integratedprerequisite and mustactivateautomaticpauseCI."
+    },
+    {
+      "date": "2026-10-31T20:57:58.096526+00:00",
+      "task": "CORETEST-003",
+      "note": "Final baselineintegration565be7c separately approves b50d8d8: actualraw37RUN/failures/61stubdiagnostics, source/header/tests/harness unchanged, statusonlycontract/brief, task/map/strategyhonest. Reviewerproject/render/Python19/DOM/diffpass; all7PR20checkspassedb50d8d8. Publish finalreview/checkpoint and recheck exactlatestheadCI/discussions/rules beforemerge; no pausebehaviorclaim."
     }
   ]
 }

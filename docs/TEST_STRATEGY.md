@@ -123,3 +123,14 @@ Run configure/build `timer-lifecycle-debug`, then CTest `-L timer-lifecycle`; th
 lane runs automatically on relevant PRs/main. [Implementation handoff](evidence/core-002-handoff.md)
 records scope and exact artifacts. Pause reasons, queue/state transactions, start/
 reopen, recovery and schedule/DST remain separate contracts and acceptance gates.
+
+## Pause policy baseline
+
+CORETEST-003 provides37 separately reviewed cases for independent pause reasons,
+normalized signal delays and both recorded Unknown-status choices. All37 actually
+failed on explicit stubs after compilation; [baseline handoff](evidence/coretest-003-baseline-handoff.md).
+Use configure/build `pause-policy-debug`, then CTest `-L pause-policy`. This intentional
+red lane remains separate from stable feature CI. CORE-003 must implement/pass it,
+obtain separate code review and add/observe automatic pause CI. Caller segmentation/
+timer wiring, real provider signals, Qt/state commits, schedules, recovery and delay
+reconfiguration remain separate acceptance gates.
