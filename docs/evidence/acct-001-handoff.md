@@ -39,7 +39,10 @@ Python3.14.8/GTest1.18.0; no local dependency install or real data used.
 
 Automatic [receipt simulation run41207963538](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41207963538)
 passed at PR16 head018e286792a9a61ca28771858d3e66b631ae744a: Ubuntu24.04/GCC13.3.0,
-all15 cases with simulation/server labels, selected pinned checkout/GoogleTest refs.
+all15 cases selected by receipt-intake, selected pinned checkout/GoogleTest refs.
+The remote label summary shows receipt-intake only; extra labels were observed in
+local configured runs and are not asserted as remote evidence. The actual suite
+remains a fake-backed simulation regardless of summary metadata.
 Numeric/credit/PR+push scaffold checks also passed. [CI evidence](acct-001-ci.md)
 records configuration, actual result and missing required-status-rule enforcement.
 No protection settings changed. Final completion-record head CI/discussions/review/

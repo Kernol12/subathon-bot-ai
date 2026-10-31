@@ -15,7 +15,10 @@ historical intentional-red; assertions/fake are unchanged. No skip/failure inver
 or continue-on-error is introduced. Numeric/credit/scaffold workflows remain enabled.
 Actual pull_request [run41207963538](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41207963538)
 passed for PR16 head018e286792a9a61ca28771858d3e66b631ae744a on2026-10-31.
-Its log identifies GCC13.3.0 and15/15 real receipt cases with simulation/server labels.
+Its log identifies GCC13.3.0 and15/15 real receipt cases selected by receipt-intake.
+The remote Label Time Summary shows receipt-intake only. Extra simulation/server/
+acceptance labels were observed in local configured runs, not established by that
+remote summary; the fake-backed verification level follows the actual suite/store.
 The other four PR checks passed too (numeric, credit, PR/push scaffold). This verifies
 that CI compilation/simulation combination only; latest completion-record revision
 CI must still be rechecked before merge.
