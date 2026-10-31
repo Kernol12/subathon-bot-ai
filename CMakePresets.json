@@ -55,7 +55,7 @@
     },
     {
       "name": "receipt-intake-debug",
-      "displayName": "06 \u00b7 Receipt intake intentional-red baseline",
+      "displayName": "06 \u00b7 Receipt intake simulation acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_RECEIPT_INTAKE_TESTS": "ON"

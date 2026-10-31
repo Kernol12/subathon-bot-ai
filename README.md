@@ -56,6 +56,10 @@ conversion:32 reviewed acceptance cases plus one normalized-zero regression pass
 Use the explicit `exact-numeric-debug` preset with installed Boost>=1.83/GoogleTest;
 [numeric implementation evidence](docs/evidence/core-001-handoff.md) records code
 review and automatic Ubuntu/Boost1.83 CI. Application accounting remains future work.
+ACCT-001 supplies identified-receipt retry/conflict decisions and attempt provenance
+through an atomic repository port. Its15 reviewed fake-backed simulation cases and
+[automatic CI/code review](docs/evidence/acct-001-handoff.md) pass; SQL durability,
+Qt writer integration and contribution application remain unimplemented gates.
 Do not treat the scaffold smoke test as proof that credit calculation works.
 See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/time-credit-v0.md).
 

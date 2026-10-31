@@ -1,6 +1,6 @@
 {
   "specification_version": "0.45",
-  "note": "Full decisions remain partial/planned. IMPL-001 supplies reviewed cap-credit planning; CORE-001 supplies reviewed exact-decimal/final conversion primitives (32+1 passing cases). Neither implements authoritative application/aggregate/refund/provider behavior. Historical red evidence is retained. ACCTTEST-001 adds15 reviewed/observed-red identified receipt cases, not implemented intake/durability.",
+  "note": "Full decisions remain partial/planned. IMPL-001 supplies reviewed cap-credit planning; CORE-001 supplies reviewed exact-decimal/final conversion primitives (32+1 passing cases). Neither implements authoritative application/aggregate/refund/provider behavior. Historical red evidence is retained. ACCT-001 implements identified receipt service decisions with15 reviewed passing simulations, separate code review and automatic CI; original red is retained, and SQL/provider/contribution integration remains open.",
   "decisions": [
     {
       "id": "UI-01",
@@ -834,7 +834,7 @@
     },
     {
       "scenario": "Identified receipt retry/conflict and attempt provenance through a repository port",
-      "status": "observed_red",
+      "status": "passed",
       "tests": [
         "tests/acceptance/receipt_intake_tests.cpp"
       ],
@@ -850,9 +850,21 @@
         "docs/evidence/accttest-001-authoring.md",
         "docs/evidence/accttest-001-independent-review.md",
         "docs/evidence/accttest-001-baseline-handoff.md",
-        "docs/evidence/accttest-001-red-ctest.txt"
+        "docs/evidence/accttest-001-red-ctest.txt",
+        "docs/evidence/acct-001-implementation.md",
+        "docs/evidence/acct-001-code-review.md",
+        "docs/evidence/acct-001-ci.md",
+        "docs/evidence/acct-001-handoff.md"
       ],
-      "scope": "15 reviewed cases fail on explicit unimplemented service. Synthetic identifiers, primitive fake storage/known rollback only; no SQL durability, actual provider identity/correlation, contribution creation or one-application claim."
+      "scope": "15 reviewed service/port cases pass with primitive fake storage/known rollback, separate code review and automatic CI. No SQL durability/uniqueness, actual provider identity/correlation, Qt ownership, contribution creation or one-application claim.",
+      "verification_level": "simulation",
+      "code_review": {
+        "author": "/root/receipt_implementer",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "author875c1c9; source7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8; confige1b47f1; reviewab28d70",
+        "evidence": "docs/evidence/acct-001-code-review.md"
+      }
     }
   ]
 }
