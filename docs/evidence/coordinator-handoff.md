@@ -36,74 +36,42 @@ Ruleset26170263 requires PRs/resolved threads, zero GitHub approvals, no force/d
 bypass and no required-status-check rule. All latest checks remain coordinator merge
 gates regardless of that explicit enforcement gap; repository settings were not changed.
 
-## Active ACCTTEST-002 draft and usage limit
+## Active baselines
 
-[Draft PR #17](https://github.com/Kernol12/subathon-bot-ai/pull/17), branch
-`task/ACCTTEST-002-eligibility-baseline`, source/evidence publicationd39c448 with
-checkpoint-only updates following. Do not mark ready or merge. Independent reviewer
-and author both reported the provider usage limit; no independent approval exists.
-No test body, intended-red run, passing contribution behavior or ACCT-002
-implementation is claimed. Stable CI on the draft does not waive those gates.
+[PR #17](https://github.com/Kernol12/subathon-bot-ai/pull/17), branch
+`task/ACCTTEST-002-eligibility-baseline`, coordinator worktree
+`local-evidence/worktrees/accttest002-coordinator`. Original authorb0fd97e and
+correction929152c are integrated; independent review9dd0fec/a561508 approves
+all21 cases, exact tests702a7bf1, interfaces65ad81ac/82c2e5f7, fake8d35e502,
+contract5eec5921. At4d1400f after approval actual CTest exit8:21/21 explicit
+missing-behavior failures. [Baseline handoff](accttest-002-baseline-handoff.md)
+retains actual output and scope. Stable scaffold3/credit23/numeric33/receipt15,
+tooling19, project/render/DOM/diff pass. Task baseline done; final integration
+review/latest PR CI/merge remain. No eligibility/linkage implementation.
 
-- Coordinator worktree: `local-evidence/worktrees/accttest002-coordinator`;
-  owns CMake/presets, progress/state.json, PROGRESS.html, map/checkpoint and PR.
-- Author `/root/receipt_test_author` (errored on usage limit, not running):
-  `local-evidence/worktrees/accttest002-author`, branch
-  `task/ACCTTEST-002-eligibility-author`. Checkpoints12f75b1,023a899,
-  `b0fd97ea0295306c084e09f03f5d85fdbe15572e` are committed/published, worktree clean.
-- Reviewer `/root/baseline_reviewer` (errored on usage limit, not running):
-  `local-evidence/worktrees/accttest002-review`, branch
-  `task/ACCTTEST-002-eligibility-review`, still main8ad458e, clean with no review file.
-  Resume or explicitly reassign; never simulate its unavailable review.
+Author `/root/receipt_test_author` owns only contribution test/evidence corrections
+in `local-evidence/worktrees/accttest002-author`; reviewer `/root/baseline_reviewer`
+owns only independent evidence in `local-evidence/worktrees/accttest002-review`.
+Both corrected worktrees were clean after their committed handoffs. Usage is now
+available; old error records are historical. Coordinator owns shared build/state/map.
 
-Coordinator integratedafd4b75/20d08ea/ccdd17c plus optional harness281c821.
-Final candidate artifacts (unreviewed): core interface65ad81ac, assessor stubfb140178,
-server interface82c2e5f7, server stub1af4468c, tests
-`341095486f757b0ff83b4554d929711684346620`, fake8d35e502, contract
-`5eec5921c355331bb97d351b7e20ad00873dae7a`. Full hashes, exact commands and limits
-are in `docs/evidence/accttest-002-checkpoint.md` on the task branch/worktree.
-
-Actual coordinator configure/build contribution-evidence-debug exited0; CTest-N
-listed21 cases, listing only. Project/render/diff checks pass. Both behavior sources
-remain explicit stubs. A pre-review concern about default confirmed/planning-ready
-values prompted conservative unknown/pending/review-required/unresolved defaults and
-one focused oracle; this still requires independent review. No provider capability
-or SQL/Qt/application/refund proof follows from the authored contract/fake.
-
-## Independently blocked timer draft
-
-[Draft PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14), branch
-`task/CORETEST-002-timer-baseline`, main workspace. Last published7fac469 includes
-merged receipt main8ad458e; stable checks passed. Timer tests35, blob
-`7a802f2151da1d62b85f27c357528f63426cf2d0`; header69cad702, stub5584f845,
-contractb88657ce unchanged. Compile/list succeeds; no timer bodies/red/implementation.
-Original author commits68e0119/3ccc52d and additiveef82bbcf retained; partial review
-commitsa99616a/720acc8 close two coverage findings, overallchanges_requested remains.
-
-Only owner decision: positive accepted time while waiting for authorized finish
-confirmation should automatically resume main (recommended), or remain pending for
-an authorized decision. The spec does not decide it; continuation prompts are not an
-answer. Ready/start/deadline behavior is explicitly gated in API-007/CORE-008 rather
-than invented by the already-started helper. Keep timer blocked until a real answer.
-Persistent timer author/fix/review worktrees remain under local-evidence/worktrees.
+[Timer PR #14](https://github.com/Kernol12/subathon-bot-ai/pull/14) has resolved the
+owner decision: positive actual credit automatically resumes Main during confirmation
+wait; zero retains wait, independent pauses/budget and hard end remain. Author160c7e6
+adds4 cases preserving35 old bodies. Separate full approval2fb544f and final26e40f9;
+actual39-case stub-red atcd59601. Root task branch6e51d16 has final integration
+approval, publication/latest CI/merge pending. These timer artifacts remain on that
+separate PR until integrated main; do not mix unmerged behavior into contribution.
 
 ## Continuation and unperformed gates
 
-1. Inspect actual main, PR17/PR14 heads/checks, worktree status and agent/process state.
-   Completed commits and reviews remain valid; old agents may not be available.
-2. After usage availability returns, assign an independent reviewer the actual final
-   ACCTTEST-002 candidate/harness. Resolve findings, compile, then observe intended
-   stub-red after approval. Record it and finish final integration/latest CI gates.
-3. Merge only when eligible; start ACCT-002 implementation from integrated reviewed/
-   red prerequisites, preserve assertions, add/observe stable automatic CI and obtain
-   independent code review. No routine owner permission is needed.
-4. Resolve the timer policy only from an owner answer; continue other dependency-ready
-   tasks without silently shrinking release scope.
-
-All active worktrees were checked clean before checkpoint-only edits; no local build/
-test command remains running. Remote CI may run after publication; inspect it rather
-than assuming a result. Old absent /tmp worktree metadata/branches were not pruned or
-reset; persistent local-evidence worktrees preserve authored work across sessions.
+Inspect actual PR14/17, main, worktrees and agents on resume. Finish each baseline's
+final integration/latest CI/merge gates. Then start CORE-002 and ACCT-002 only from
+integrated reviewed/red prerequisites, preserve all assertions and obtain separate
+code review plus stable automatic CI. Reconcile shared progress/build/map/checkpoint
+when merging the second task against first integrated main. No routine permission
+is needed; owner timer choice is resolved. No commands remain running after the
+recorded local checks; remote CI may still run, inspect actual state.
 
 Full release gates remain: authoritative application/aggregates/refunds, all seven
 integrations and three rate providers, supported platforms, both renderers, UIs/

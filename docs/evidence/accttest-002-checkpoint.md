@@ -1,4 +1,7 @@
-# ACCTTEST-002 usage-limit checkpoint
+# ACCTTEST-002 historical usage-limit checkpoint
+
+Superseded by the [reviewed/red baseline](accttest-002-baseline-handoff.md).
+The statements below describe the earlier interrupted draft, not current gates.
 
 Coordinator `/root`, 2026-10-31. Base main8ad458e; task branch
 `task/ACCTTEST-002-eligibility-baseline`, persistent coordinator worktree

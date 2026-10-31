@@ -73,7 +73,7 @@ separate acceptance/platform/provider gates.
 
 ## Contribution eligibility draft
 
-ACCTTEST-002 has21 authored cases for independent holds and caller-verified
+ACCTTEST-002 has21 independently reviewed cases for independent holds and caller-verified
 confirmation linkage, compiled/listed with `contribution-evidence-debug` only.
 [Usage-limit checkpoint](evidence/accttest-002-checkpoint.md) records exact artifacts.
 Independent review is blocked by usage availability; no test body, observed red or
@@ -111,3 +111,8 @@ and actual results separately from live/platform evidence.
 Individual test-drafting tasks may be marked authored/done when their draft artifacts
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate
 TEST-002 task represents the handoff-ready baseline after review and observed failure.
+
+The contribution baseline now has separate approval and an actual21-case stub-red
+run after compilation; see [handoff](evidence/accttest-002-baseline-handoff.md).
+The optional lane remains intentional red until ACCT-002 implements both pure
+assessment and writer-port linkage and adds/observes stable automatic CI.

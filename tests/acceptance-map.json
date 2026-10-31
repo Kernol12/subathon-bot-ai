@@ -867,17 +867,27 @@
       }
     },
     {
-      "scenario": "Independent contribution eligibility and verified confirmation linkage (draft)",
-      "status": "draft",
+      "scenario": "Independent contribution eligibility and verified confirmation linkage",
+      "status": "observed_red",
       "tests": [
         "tests/acceptance/contribution_evidence_tests.cpp"
       ],
       "contract": "docs/contracts/contribution-eligibility-v1.md",
       "evidence": [
         "docs/evidence/accttest-002-authoring.md",
-        "docs/evidence/accttest-002-checkpoint.md"
+        "docs/evidence/accttest-002-checkpoint.md",
+        "docs/evidence/accttest-002-independent-review.md",
+        "docs/evidence/accttest-002-baseline-handoff.md",
+        "docs/evidence/accttest-002-red-ctest.txt"
       ],
-      "scope": "21 authored cases compile/list only. Independent review unavailable due usage limit; no bodies, red baseline, implementation or provider/SQL/application proof."
+      "scope": "21 independently reviewed cases compile and fail on explicit missing-behavior stubs. Core/service implementation, provider/SQL/Qt/application behavior remain unimplemented.",
+      "review": {
+        "author": "/root/receipt_test_author",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "authorb0fd97e +929152c; tests702a7bf1d8162ba748ee9477ea48ffa73047ef65; contract5eec5921; reviewa561508; actualred4d1400f",
+        "evidence": "docs/evidence/accttest-002-independent-review.md"
+      }
     }
   ]
 }

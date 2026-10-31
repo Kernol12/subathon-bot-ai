@@ -4,8 +4,9 @@ Task: ACCTTEST-002; subsequent implementation: ACCT-002.
 Authority: [specification v0.45](../specification.md) §§3.2–4,5,14,18 and reviewed
 [event/state boundaries](event-state-boundaries-v1.md) and
 [identified receipt intake](receipt-intake-v1.md), both revision 1.
-Status: authored contract/tests awaiting independent review and intended red. Core
-assessment and server linkage throw explicit `…NotImplemented` exceptions.
+Status: revision1 independently reviewed with21 cases and observed intended stub-red;
+[baseline evidence](../evidence/accttest-002-baseline-handoff.md) records exact artifacts.
+Core assessment and server linkage still throw explicit `…NotImplemented` exceptions.
 
 ## Bounded responsibility
 

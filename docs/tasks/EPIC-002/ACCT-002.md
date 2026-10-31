@@ -4,7 +4,8 @@ Parent: [EPIC-002](../EPIC-002.md). Kind: implementation.
 Specification: v0.45; §3, §5, §14, §18; settlement boundary §8.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [contribution eligibility revision 1](../../contracts/contribution-eligibility-v1.md),
-authored for ACCTTEST-002; separate review and actual intended red remain required.
+independently reviewed for ACCTTEST-002 with21 cases and actual intended stub-red;
+[baseline evidence](../../evidence/accttest-002-baseline-handoff.md).
 
 ## Scope and ownership
 

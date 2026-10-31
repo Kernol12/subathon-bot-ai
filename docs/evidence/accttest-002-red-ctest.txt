@@ -1,0 +1,522 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/build/contribution-evidence-debug
+      Start  1: ContributionEligibilityAcceptance.DefaultStatePreservesUnknownsAndRequiresExplicitResolution
+ 1/21 Test  #1: ContributionEligibilityAcceptance.DefaultStatePreservesUnknownsAndRequiresExplicitResolution ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.DefaultStatePreservesUnknownsAndRequiresExplicitResolution
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.DefaultStatePreservesUnknownsAndRequiresExplicitResolution
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.DefaultStatePreservesUnknownsAndRequiresExplicitResolution (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.DefaultStatePreservesUnknownsAndRequiresExplicitResolution
+
+ 1 FAILED TEST
+
+      Start  2: ContributionEligibilityAcceptance.MultipleHoldsRemainAfterPausedInputAcceptance
+ 2/21 Test  #2: ContributionEligibilityAcceptance.MultipleHoldsRemainAfterPausedInputAcceptance ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.MultipleHoldsRemainAfterPausedInputAcceptance
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.MultipleHoldsRemainAfterPausedInputAcceptance
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.MultipleHoldsRemainAfterPausedInputAcceptance (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.MultipleHoldsRemainAfterPausedInputAcceptance
+
+ 1 FAILED TEST
+
+      Start  3: ContributionEligibilityAcceptance.RecordedValuationResolutionDoesNotResolveEvidenceOrReview
+ 3/21 Test  #3: ContributionEligibilityAcceptance.RecordedValuationResolutionDoesNotResolveEvidenceOrReview ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.RecordedValuationResolutionDoesNotResolveEvidenceOrReview
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.RecordedValuationResolutionDoesNotResolveEvidenceOrReview
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.RecordedValuationResolutionDoesNotResolveEvidenceOrReview (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.RecordedValuationResolutionDoesNotResolveEvidenceOrReview
+
+ 1 FAILED TEST
+
+      Start  4: ContributionEligibilityAcceptance.ProviderReportPolicyPreservesUnknownAndUnconfirmedLabels
+ 4/21 Test  #4: ContributionEligibilityAcceptance.ProviderReportPolicyPreservesUnknownAndUnconfirmedLabels ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.ProviderReportPolicyPreservesUnknownAndUnconfirmedLabels
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.ProviderReportPolicyPreservesUnknownAndUnconfirmedLabels
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.ProviderReportPolicyPreservesUnknownAndUnconfirmedLabels (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.ProviderReportPolicyPreservesUnknownAndUnconfirmedLabels
+
+ 1 FAILED TEST
+
+      Start  5: ContributionEligibilityAcceptance.EvidenceReviewDecisionIsSeparateFromOrdinaryAcceptance
+ 5/21 Test  #5: ContributionEligibilityAcceptance.EvidenceReviewDecisionIsSeparateFromOrdinaryAcceptance ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.EvidenceReviewDecisionIsSeparateFromOrdinaryAcceptance
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.EvidenceReviewDecisionIsSeparateFromOrdinaryAcceptance
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.EvidenceReviewDecisionIsSeparateFromOrdinaryAcceptance (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.EvidenceReviewDecisionIsSeparateFromOrdinaryAcceptance
+
+ 1 FAILED TEST
+
+      Start  6: ContributionEligibilityAcceptance.CapturedRecordOnlyPolicyStillBlocksConfirmedAcceptedInput
+ 6/21 Test  #6: ContributionEligibilityAcceptance.CapturedRecordOnlyPolicyStillBlocksConfirmedAcceptedInput ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.CapturedRecordOnlyPolicyStillBlocksConfirmedAcceptedInput
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.CapturedRecordOnlyPolicyStillBlocksConfirmedAcceptedInput
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.CapturedRecordOnlyPolicyStillBlocksConfirmedAcceptedInput (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.CapturedRecordOnlyPolicyStillBlocksConfirmedAcceptedInput
+
+ 1 FAILED TEST
+
+      Start  7: ContributionEligibilityAcceptance.HiddenSourceAmountCannotBecomeZeroOrReadyThroughAReference
+ 7/21 Test  #7: ContributionEligibilityAcceptance.HiddenSourceAmountCannotBecomeZeroOrReadyThroughAReference ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.HiddenSourceAmountCannotBecomeZeroOrReadyThroughAReference
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.HiddenSourceAmountCannotBecomeZeroOrReadyThroughAReference
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.HiddenSourceAmountCannotBecomeZeroOrReadyThroughAReference (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.HiddenSourceAmountCannotBecomeZeroOrReadyThroughAReference
+
+ 1 FAILED TEST
+
+      Start  8: ContributionEligibilityAcceptance.NonMonetaryNotApplicableEvidenceDoesNotBypassReview
+ 8/21 Test  #8: ContributionEligibilityAcceptance.NonMonetaryNotApplicableEvidenceDoesNotBypassReview .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.NonMonetaryNotApplicableEvidenceDoesNotBypassReview
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.NonMonetaryNotApplicableEvidenceDoesNotBypassReview
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.NonMonetaryNotApplicableEvidenceDoesNotBypassReview (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.NonMonetaryNotApplicableEvidenceDoesNotBypassReview
+
+ 1 FAILED TEST
+
+      Start  9: ContributionEligibilityAcceptance.ApplicationReversalAndSettlementCannotSilentlyReopenPlanning
+ 9/21 Test  #9: ContributionEligibilityAcceptance.ApplicationReversalAndSettlementCannotSilentlyReopenPlanning ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEligibilityAcceptance.ApplicationReversalAndSettlementCannotSilentlyReopenPlanning
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEligibilityAcceptance
+[ RUN      ] ContributionEligibilityAcceptance.ApplicationReversalAndSettlementCannotSilentlyReopenPlanning
+unknown file: Failure
+C++ exception with description "Contribution eligibility is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEligibilityAcceptance.ApplicationReversalAndSettlementCannotSilentlyReopenPlanning (0 ms)
+[----------] 1 test from ContributionEligibilityAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEligibilityAcceptance.ApplicationReversalAndSettlementCannotSilentlyReopenPlanning
+
+ 1 FAILED TEST
+
+      Start 10: ContributionEvidenceAcceptance.FirstSupportOwnsItsOriginalFactsConditionsAndDecisionReferences
+10/21 Test #10: ContributionEvidenceAcceptance.FirstSupportOwnsItsOriginalFactsConditionsAndDecisionReferences ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.FirstSupportOwnsItsOriginalFactsConditionsAndDecisionReferences
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.FirstSupportOwnsItsOriginalFactsConditionsAndDecisionReferences
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.FirstSupportOwnsItsOriginalFactsConditionsAndDecisionReferences (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.FirstSupportOwnsItsOriginalFactsConditionsAndDecisionReferences
+
+ 1 FAILED TEST
+
+      Start 11: ContributionEvidenceAcceptance.LaterConfirmationLinksOriginalWithoutChangingOtherDimensions
+11/21 Test #11: ContributionEvidenceAcceptance.LaterConfirmationLinksOriginalWithoutChangingOtherDimensions ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.LaterConfirmationLinksOriginalWithoutChangingOtherDimensions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.LaterConfirmationLinksOriginalWithoutChangingOtherDimensions
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.LaterConfirmationLinksOriginalWithoutChangingOtherDimensions (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.LaterConfirmationLinksOriginalWithoutChangingOtherDimensions
+
+ 1 FAILED TEST
+
+      Start 12: ContributionEvidenceAcceptance.RepeatedReceiptsAreIdempotentAndDistinctConfirmationsRemainAudited
+12/21 Test #12: ContributionEvidenceAcceptance.RepeatedReceiptsAreIdempotentAndDistinctConfirmationsRemainAudited .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.RepeatedReceiptsAreIdempotentAndDistinctConfirmationsRemainAudited
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.RepeatedReceiptsAreIdempotentAndDistinctConfirmationsRemainAudited
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.RepeatedReceiptsAreIdempotentAndDistinctConfirmationsRemainAudited (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.RepeatedReceiptsAreIdempotentAndDistinctConfirmationsRemainAudited
+
+ 1 FAILED TEST
+
+      Start 13: ContributionEvidenceAcceptance.ConfirmationBeforeSupportRemainsUnresolvedThenLinksOnce
+13/21 Test #13: ContributionEvidenceAcceptance.ConfirmationBeforeSupportRemainsUnresolvedThenLinksOnce ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.ConfirmationBeforeSupportRemainsUnresolvedThenLinksOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.ConfirmationBeforeSupportRemainsUnresolvedThenLinksOnce
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.ConfirmationBeforeSupportRemainsUnresolvedThenLinksOnce (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.ConfirmationBeforeSupportRemainsUnresolvedThenLinksOnce
+
+ 1 FAILED TEST
+
+      Start 14: ContributionEvidenceAcceptance.DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext
+14/21 Test #14: ContributionEvidenceAcceptance.DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext
+
+ 1 FAILED TEST
+
+      Start 15: ContributionEvidenceAcceptance.RawPaymentReferenceAndLookalikeFactsCannotReplaceVerifiedCorrelation
+15/21 Test #15: ContributionEvidenceAcceptance.RawPaymentReferenceAndLookalikeFactsCannotReplaceVerifiedCorrelation .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.RawPaymentReferenceAndLookalikeFactsCannotReplaceVerifiedCorrelation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.RawPaymentReferenceAndLookalikeFactsCannotReplaceVerifiedCorrelation
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.RawPaymentReferenceAndLookalikeFactsCannotReplaceVerifiedCorrelation (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.RawPaymentReferenceAndLookalikeFactsCannotReplaceVerifiedCorrelation
+
+ 1 FAILED TEST
+
+      Start 16: ContributionEvidenceAcceptance.VerifiedActivityIdentityRetainsProviderAccountNamespaceAndOpaqueScope
+16/21 Test #16: ContributionEvidenceAcceptance.VerifiedActivityIdentityRetainsProviderAccountNamespaceAndOpaqueScope ......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.VerifiedActivityIdentityRetainsProviderAccountNamespaceAndOpaqueScope
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.VerifiedActivityIdentityRetainsProviderAccountNamespaceAndOpaqueScope
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.VerifiedActivityIdentityRetainsProviderAccountNamespaceAndOpaqueScope (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.VerifiedActivityIdentityRetainsProviderAccountNamespaceAndOpaqueScope
+
+ 1 FAILED TEST
+
+      Start 17: ContributionEvidenceAcceptance.ConfirmationPreservesRejectedAppliedReversedAndUnsettledMarkers
+17/21 Test #17: ContributionEvidenceAcceptance.ConfirmationPreservesRejectedAppliedReversedAndUnsettledMarkers ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.ConfirmationPreservesRejectedAppliedReversedAndUnsettledMarkers
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.ConfirmationPreservesRejectedAppliedReversedAndUnsettledMarkers
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.ConfirmationPreservesRejectedAppliedReversedAndUnsettledMarkers (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.ConfirmationPreservesRejectedAppliedReversedAndUnsettledMarkers
+
+ 1 FAILED TEST
+
+      Start 18: ContributionEvidenceAcceptance.FailedInitialSupportLeavesNoPartialContributionOrObservation
+18/21 Test #18: ContributionEvidenceAcceptance.FailedInitialSupportLeavesNoPartialContributionOrObservation ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.FailedInitialSupportLeavesNoPartialContributionOrObservation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.FailedInitialSupportLeavesNoPartialContributionOrObservation
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/tests/acceptance/contribution_evidence_tests.cpp:455: Failure
+Expected: static_cast<void>(intake.observe(support_observation())) throws an exception of type ContributionStorageError.
+  Actual: it throws subathon::server::ContributionEvidenceNotImplemented with description "Contribution evidence is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/tests/acceptance/contribution_evidence_tests.cpp:451: 1
+
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.FailedInitialSupportLeavesNoPartialContributionOrObservation (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.FailedInitialSupportLeavesNoPartialContributionOrObservation
+
+ 1 FAILED TEST
+
+      Start 19: ContributionEvidenceAcceptance.FailedConfirmationLeavesOriginalAndEvidenceUnchangedUntilRetry
+19/21 Test #19: ContributionEvidenceAcceptance.FailedConfirmationLeavesOriginalAndEvidenceUnchangedUntilRetry .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.FailedConfirmationLeavesOriginalAndEvidenceUnchangedUntilRetry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.FailedConfirmationLeavesOriginalAndEvidenceUnchangedUntilRetry
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.FailedConfirmationLeavesOriginalAndEvidenceUnchangedUntilRetry (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.FailedConfirmationLeavesOriginalAndEvidenceUnchangedUntilRetry
+
+ 1 FAILED TEST
+
+      Start 20: ContributionEvidenceAcceptance.FailedPendingLinkDoesNotLoseUnresolvedConfirmationOrCreatePartialSupport
+20/21 Test #20: ContributionEvidenceAcceptance.FailedPendingLinkDoesNotLoseUnresolvedConfirmationOrCreatePartialSupport ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.FailedPendingLinkDoesNotLoseUnresolvedConfirmationOrCreatePartialSupport
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.FailedPendingLinkDoesNotLoseUnresolvedConfirmationOrCreatePartialSupport
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.FailedPendingLinkDoesNotLoseUnresolvedConfirmationOrCreatePartialSupport (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.FailedPendingLinkDoesNotLoseUnresolvedConfirmationOrCreatePartialSupport
+
+ 1 FAILED TEST
+
+      Start 21: ContributionEvidenceAcceptance.InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory
+21/21 Test #21: ContributionEvidenceAcceptance.InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ContributionEvidenceAcceptance.InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ContributionEvidenceAcceptance
+[ RUN      ] ContributionEvidenceAcceptance.InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/tests/acceptance/contribution_evidence_tests.cpp:517: Failure
+Expected: static_cast<void>(service.observe(support_without_conditions)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::server::ContributionEvidenceNotImplemented with description "Contribution evidence is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/tests/acceptance/contribution_evidence_tests.cpp:521: Failure
+Expected: static_cast<void>(service.observe(confirmation_with_conditions)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::server::ContributionEvidenceNotImplemented with description "Contribution evidence is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/tests/acceptance/contribution_evidence_tests.cpp:525: Failure
+Expected: static_cast<void>(service.observe(unknown_confirmation)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::server::ContributionEvidenceNotImplemented with description "Contribution evidence is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/tests/acceptance/contribution_evidence_tests.cpp:528: Failure
+Expected: static_cast<void>(service.observe(wrong_origin)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::server::ContributionEvidenceNotImplemented with description "Contribution evidence is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accttest002-coordinator/tests/acceptance/contribution_evidence_tests.cpp:531: Failure
+Expected: static_cast<void>(service.observe(unproved_key)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::server::ContributionEvidenceNotImplemented with description "Contribution evidence is intentionally unimplemented; review tests first".
+
+unknown file: Failure
+C++ exception with description "Contribution evidence is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] ContributionEvidenceAcceptance.InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory (0 ms)
+[----------] 1 test from ContributionEvidenceAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ContributionEvidenceAcceptance.InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory
+
+ 1 FAILED TEST
+
+
+0% tests passed, 21 tests failed out of 21
+
+Label Time Summary:
+acceptance               =   0.02 sec*proc (21 tests)
+contribution-evidence    =   0.02 sec*proc (21 tests)
+intentional-red          =   0.02 sec*proc (21 tests)
+
+Total Test time (real) =   0.03 sec
+
+The following tests FAILED:
+	  1 - ContributionEligibilityAcceptance.DefaultStatePreservesUnknownsAndRequiresExplicitResolution (Failed) acceptance contribution-evidence intentional-red
+	  2 - ContributionEligibilityAcceptance.MultipleHoldsRemainAfterPausedInputAcceptance (Failed) acceptance contribution-evidence intentional-red
+	  3 - ContributionEligibilityAcceptance.RecordedValuationResolutionDoesNotResolveEvidenceOrReview (Failed) acceptance contribution-evidence intentional-red
+	  4 - ContributionEligibilityAcceptance.ProviderReportPolicyPreservesUnknownAndUnconfirmedLabels (Failed) acceptance contribution-evidence intentional-red
+	  5 - ContributionEligibilityAcceptance.EvidenceReviewDecisionIsSeparateFromOrdinaryAcceptance (Failed) acceptance contribution-evidence intentional-red
+	  6 - ContributionEligibilityAcceptance.CapturedRecordOnlyPolicyStillBlocksConfirmedAcceptedInput (Failed) acceptance contribution-evidence intentional-red
+	  7 - ContributionEligibilityAcceptance.HiddenSourceAmountCannotBecomeZeroOrReadyThroughAReference (Failed) acceptance contribution-evidence intentional-red
+	  8 - ContributionEligibilityAcceptance.NonMonetaryNotApplicableEvidenceDoesNotBypassReview (Failed) acceptance contribution-evidence intentional-red
+	  9 - ContributionEligibilityAcceptance.ApplicationReversalAndSettlementCannotSilentlyReopenPlanning (Failed) acceptance contribution-evidence intentional-red
+	 10 - ContributionEvidenceAcceptance.FirstSupportOwnsItsOriginalFactsConditionsAndDecisionReferences (Failed) acceptance contribution-evidence intentional-red
+	 11 - ContributionEvidenceAcceptance.LaterConfirmationLinksOriginalWithoutChangingOtherDimensions (Failed) acceptance contribution-evidence intentional-red
+	 12 - ContributionEvidenceAcceptance.RepeatedReceiptsAreIdempotentAndDistinctConfirmationsRemainAudited (Failed) acceptance contribution-evidence intentional-red
+	 13 - ContributionEvidenceAcceptance.ConfirmationBeforeSupportRemainsUnresolvedThenLinksOnce (Failed) acceptance contribution-evidence intentional-red
+	 14 - ContributionEvidenceAcceptance.DelayedUnconfirmedSupportCannotEraseConfirmationOrFirstContext (Failed) acceptance contribution-evidence intentional-red
+	 15 - ContributionEvidenceAcceptance.RawPaymentReferenceAndLookalikeFactsCannotReplaceVerifiedCorrelation (Failed) acceptance contribution-evidence intentional-red
+	 16 - ContributionEvidenceAcceptance.VerifiedActivityIdentityRetainsProviderAccountNamespaceAndOpaqueScope (Failed) acceptance contribution-evidence intentional-red
+	 17 - ContributionEvidenceAcceptance.ConfirmationPreservesRejectedAppliedReversedAndUnsettledMarkers (Failed) acceptance contribution-evidence intentional-red
+	 18 - ContributionEvidenceAcceptance.FailedInitialSupportLeavesNoPartialContributionOrObservation (Failed) acceptance contribution-evidence intentional-red
+	 19 - ContributionEvidenceAcceptance.FailedConfirmationLeavesOriginalAndEvidenceUnchangedUntilRetry (Failed) acceptance contribution-evidence intentional-red
+	 20 - ContributionEvidenceAcceptance.FailedPendingLinkDoesNotLoseUnresolvedConfirmationOrCreatePartialSupport (Failed) acceptance contribution-evidence intentional-red
+	 21 - ContributionEvidenceAcceptance.InvalidEvidenceAndContradictoryReceiptReuseCannotMutateHistory (Failed) acceptance contribution-evidence intentional-red
+Errors while running CTest
