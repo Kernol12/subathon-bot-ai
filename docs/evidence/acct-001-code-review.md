@@ -2,9 +2,9 @@
 
 Date: 2026-10-31. Implementer: `/root/receipt_implementer`.
 Reviewer: `/root/baseline_reviewer` (separate from source and test authors).
-Verdict: **source and configuration approved** at the exact revisions below.
-Final status evidence, observed automatic CI and latest-head publication/merge
-remain separate gates.
+Verdict: **source, configuration and final integration approved** at the exact
+revisions below. Latest-head publication, CI and merge eligibility remain
+coordinator gates.
 
 ## Actual source and preserved baseline
 
@@ -144,3 +144,66 @@ uniqueness/durable outcome/restart/concurrency, Qt writer ownership, source admi
 correlation and contribution application remain their explicit downstream gates.
 Timer review stays blocked only on its unanswered product decision; none of its
 draft behavior is approved or implemented by this receipt change.
+
+## Final implementation integration review
+
+Reviewer `/root/baseline_reviewer`, 2026-10-31. Reviewed completion candidate
+`765e6f31836e4ad0ce3ae8add766df095c46fed3` and actual prose correction
+`bdd6c693add5da3147008d86ac7338724e33e863`. Verdict: **approved for integration**
+of the bounded identified-receipt service, with simulation verification and explicit
+downstream limits. This does not establish SQL, Qt, live-provider or deployment
+support. The coordinator still checks the published completion/review head's CI,
+discussions, required reviews and permitted merge before integrating PR16.
+
+Compared the actual candidate with approved configuration `e1b47f1`: source
+`7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8`, tests
+`94317dc4dde4553c8888f78a433e3003c471de1a`, fake
+`99ff2eec97a10c89dc93f0aec5b8c4cee88906a8`, both headers, CMake/presets, workflow
+`8b42aae4fea0042359168b7592124a9acf6190fd` and selected dependency configuration
+are unchanged. Contract/brief normative behavior is preserved. No weakened assertion,
+skipped case, provider capability assumption or additional production behavior was
+introduced. Existing independent native passes remain valid; no changed/failing
+concern justified rerunning those suites for these completion records.
+
+Independently queried GitHub [run41207963538](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41207963538):
+it completed successfully at head `018e286792a9a61ca28771858d3e66b631ae744a`.
+Its actual log identifies GNU13.3.0 on the Ubuntu24.04 runner and all15 named receipt
+cases passing. The check-run API independently confirms receipt-intake, exact-numeric,
+acceptance and both scaffold checks successful at that same head. These are observed
+earlier-head results; they are not approval of unobserved later-head CI.
+
+One evidence finding was corrected before approval: the actual remote Label Time
+Summary lists `receipt-intake` only, although the local configured replay listed
+acceptance/simulation/server as well. `bdd6c69` corrects both CI note and handoff to
+distinguish these observations. All15 required cases still ran; simulation scope
+derives from the real fake-backed suite and adapter boundary. The correction changes
+only those two evidence documents. The reason for the label-summary difference was
+not guessed or represented as investigated.
+
+The final README, server README, architecture and test strategy describe the actual
+helper and passing simulation without claiming an application or durable writer.
+`ACCT-001` is `done` for its bounded service acceptance; SQL durability, Qt writer and
+live-provider verification remain `not_run`. The acceptance-map scenario alone is
+passing with `verification_level: simulation`; original reviewed/red evidence remains
+linked. The coordinator checkpoint distinguishes merged baseline PR15 from active
+implementation PR16 and retains the independent timer policy blocker. Full release
+scope remains open.
+
+Final independent commands/checks:
+
+| Exact command / check | Observed result |
+| --- | --- |
+| `gh run view 41207963538 --repo Kernol12/subathon-bot-ai --json headSha,status,conclusion,jobs` | exit0; successful completed run at018e286, all job steps successful |
+| `gh run view 41207963538 --repo Kernol12/subathon-bot-ai --log` with focused `rg` filtering | exit0; compiler, all15 passing names,100% pass and actual remote label summary inspected |
+| `gh api repos/Kernol12/subathon-bot-ai/commits/018e286792a9a61ca28771858d3e66b631ae744a/check-runs` with focused JSON projection | exit0; all5 checks successful at the recorded head |
+| `git diff --exit-code bdd6c69 HEAD` after merging the candidate into the isolated reviewer branch | exit0 before this appended review; identical candidate tree |
+| `python3 tools/check_project.py` | exit0;377 tasks,122 decisions, links/presets/current HTML pass |
+| `python3 -m unittest discover -s tests/tooling -v` | exit0;19/19 pass |
+| `python3 tools/progress.py render --check` | exit0; current generated snapshot |
+| `git diff --check` and `git diff --cached --check` | exit0 before integration-review commit |
+
+The isolated merge preserved the coordinator's corrected CI document when an add/add
+conflict arose. This reviewer authored only this review evidence. No native rerun,
+DOM simulation, new provider/SQL/Qt check, deployment or external message was performed
+in this final pass. Final completion/review publication and latest-head merge gates
+remain the coordinator's next action; no merge outcome is claimed here.
