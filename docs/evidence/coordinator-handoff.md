@@ -156,8 +156,9 @@ implementation evidence in `local-evidence/worktrees/acct001-implementation`, br
 `task/ACCT-001-implementation`. Independent `/root/baseline_reviewer` owns code review
 in `local-evidence/worktrees/acct001-review`, branch `task/ACCT-001-code-review`.
 Source author875c1c9, blob7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8, is ready;
-its15 simulation cases pass in author/reviewer runs. Coordinator integration and
-actual automatic simulation CI remain pending; no implementation done/SQL claim.
+its15 simulation cases pass in author/reviewer runs. Coordinator integration8cc1e9a/e1b47f1 and root15/15 simulation passes are recorded;
+independent source/config approvalab28d70 is integrated. Automatic CI observation and
+final status/publication gates remain pending; no implementation done/SQL claim.
 
 Next: integrate actual service source, independently review the exact source/config,
 activate and observe receipt simulation CI, record passing bounded gates and update

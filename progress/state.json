@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T13:53:51+00:00",
+  "updated_at": "2026-10-31T13:58:19+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1182,7 +1182,7 @@
       "title": "Normalized receipt identity and duplicate-safe ingestion",
       "module": "Accounting",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Coordinator /root; implementer /root/receipt_implementer",
       "depends_on": [
         "CONTRACT-002",
@@ -1197,11 +1197,32 @@
       "summary": "Scope provider IDs by origin/connection/type as required and keep source timestamps distinct from server arrival/context.",
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed from refreshed main after ACCTTEST001 PR15 merged on task/ACCT-001-receipt-intake. Receipt-intake contractrev1,15 reviewed cases94317dc/fake99ff2ee/corevaluesf11b0d6/serviceport273f6b4; actual red15/15 at18d8670 after review54cff97, integrationa843e4d. Implement only identified receipt service decisions through one transaction; no SQL/provider/Qt/contribution support claim. Implementer isolated task/ACCT-001-implementation owns server/src/receipt_intake.cpp and implementation evidence only. Coordinator owns CMake/labels/automatic simulationCI/status docs/state/HTML/map/checkpoint/PR; independent task/ACCT-001-code-review owns code review. Passing15simulationcases+stable regressions+separatecode review+observed newCI beforedone. Preserve all reviewed interfaces/tests/fake/behavioral contract."
+        "Claimed from refreshed main after ACCTTEST001 PR15 merged on task/ACCT-001-receipt-intake. Receipt-intake contractrev1,15 reviewed cases94317dc/fake99ff2ee/corevaluesf11b0d6/serviceport273f6b4; actual red15/15 at18d8670 after review54cff97, integrationa843e4d. Implement only identified receipt service decisions through one transaction; no SQL/provider/Qt/contribution support claim. Implementer isolated task/ACCT-001-implementation owns server/src/receipt_intake.cpp and implementation evidence only. Coordinator owns CMake/labels/automatic simulationCI/status docs/state/HTML/map/checkpoint/PR; independent task/ACCT-001-code-review owns code review. Passing15simulationcases+stable regressions+separatecode review+observed newCI beforedone. Preserve all reviewed interfaces/tests/fake/behavioral contract.",
+        "Source875c1c9/7a0986b and CI/confige1b47f1 approved separately by baseline_reviewer inab28d70. Root receipt15/15 simulation passes; author/reviewer stable credit23/numeric33/scaffold3 pass. Headers943/tests94317dc/fake99ff2ee unchanged; contract/brief status prose only. New receipt-intake automatic workflow must be observed on implementationPR beforedone; SQL/provider/Qt/realconcurrency gates remain notrun."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "simulation": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "github_ci": "not_run",
+        "sql_durability": "not_run",
+        "qt_writer": "not_run",
+        "live_provider": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/acct-001-implementation.md",
+        "docs/evidence/acct-001-code-review.md",
+        "docs/evidence/acct-001-ci.md"
+      ],
+      "review": {
+        "author": "/root/receipt_implementer",
+        "reviewer": "/root/baseline_reviewer",
+        "outcome": "approved",
+        "baseline": "author875c1c9; source7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8; confige1b47f1; reviewab28d70",
+        "evidence": "docs/evidence/acct-001-code-review.md"
+      }
     },
     {
       "id": "ACCTTEST-002",
@@ -10489,6 +10510,11 @@
       "date": "2026-10-31T13:53:51+00:00",
       "task": "CORETEST-002",
       "note": "Only outstanding timer baseline gate is unanswered owner question: positive accepted credit while awaiting finish confirmation resumes main or remains pending for authorizeddecision.35 cases compile/list, partial reviews a99616a/720acc8 close two coverage gaps, but no fullapproval/red/implementation. Continue independent receiptwork; resume prompts are not a policyanswer. This claim records blocked ownership without merging unreviewed timer artifacts."
+    },
+    {
+      "date": "2026-10-31T13:58:19+00:00",
+      "task": "ACCT-001",
+      "note": "Source875c1c9/7a0986b and CI/confige1b47f1 approved separately by baseline_reviewer inab28d70. Root receipt15/15 simulation passes; author/reviewer stable credit23/numeric33/scaffold3 pass. Headers943/tests94317dc/fake99ff2ee unchanged; contract/brief status prose only. New receipt-intake automatic workflow must be observed on implementationPR beforedone; SQL/provider/Qt/realconcurrency gates remain notrun."
     }
   ]
 }
