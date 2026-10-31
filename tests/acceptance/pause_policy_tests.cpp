@@ -345,4 +345,130 @@ TEST(PausePolicyAcceptance, ExternalReasonCommandsCannotBypassSignalOwnership) {
                      std::invalid_argument);
     }
 }
+
+TEST(PausePolicyAcceptance, UnknownCancelsPendingOfflineEvenAcrossALongUnknownInterval) {
+    auto state = observe_pause_signals({}, {}, {29'999, StreamStatus::Offline, true});
+    expect_snapshot(state, {{}, 29'999});
+    state = observe_pause_signals(state, {}, {0, StreamStatus::Unknown, true});
+    expect_snapshot(state, {{}, std::nullopt, std::nullopt, std::nullopt, true});
+    state = observe_pause_signals(state, {}, {maximum, StreamStatus::Unknown, true});
+    expect_snapshot(state, {{}, std::nullopt, std::nullopt, std::nullopt, true});
+    state = observe_pause_signals(state, {}, {0, StreamStatus::Offline, true});
+    expect_snapshot(state, {{}, 0});
+    state = observe_pause_signals(state, {}, {29'999, StreamStatus::Offline, true});
+    expect_snapshot(state, {{}, 29'999});
+    state = observe_pause_signals(state, {}, {1, StreamStatus::Offline, true});
+    expect_snapshot(state, {{PauseReason::StreamOffline}});
+}
+
+TEST(PausePolicyAcceptance, UnknownCancellationRestartsTheFullCustomOfflineDelay) {
+    const PauseConfig config{7, 30'000, 20};
+    auto state = observe_pause_signals({}, config, {6, StreamStatus::Offline, true});
+    state = observe_pause_signals(state, config, {3, StreamStatus::Unknown, true});
+    expect_snapshot(state, {{}, std::nullopt, std::nullopt, 3, true});
+    state = observe_pause_signals(state, config, {6, StreamStatus::Offline, true});
+    expect_snapshot(state, {{}, 6});
+    state = observe_pause_signals(state, config, {1, StreamStatus::Offline, true});
+    expect_snapshot(state, {{PauseReason::StreamOffline}});
+}
+
+TEST(PausePolicyAcceptance, EitherKnownStatusCancelsPendingUnknownAndNextEpisodeStartsFresh) {
+    const PauseConfig config{30'000, 30'000, 10};
+    for (const auto known : {StreamStatus::Online, StreamStatus::Offline}) {
+        auto state = observe_pause_signals({}, config, {9, StreamStatus::Unknown, true});
+        expect_snapshot(state, {{}, std::nullopt, std::nullopt, 9, true});
+        state = observe_pause_signals(state, config, {0, known, true});
+        const PauseState recovered =
+            known == StreamStatus::Offline ? PauseState{{}, 0} : PauseState{};
+        expect_snapshot(state, recovered);
+        state = observe_pause_signals(state, config, {9, StreamStatus::Unknown, true});
+        expect_snapshot(state, {{}, std::nullopt, std::nullopt, 9, true});
+        state = observe_pause_signals(state, config, {1, StreamStatus::Unknown, true});
+        expect_snapshot(
+            state,
+            {{PauseReason::StreamStatusUnknown}, std::nullopt, std::nullopt, std::nullopt, true});
+    }
+}
+
+TEST(PausePolicyAcceptance, KnownOfflineClearsActivatedUnknownWhileRetainingAllUnrecoveredHolds) {
+    const PauseConfig config{30'000, 30'000, 10};
+    PauseState state{{PauseReason::Manual, PauseReason::Schedule, PauseReason::RecoveryReview,
+                      PauseReason::StreamOffline, PauseReason::DesignatedClientDisconnected}};
+    state = observe_pause_signals(state, config, {10, StreamStatus::Unknown, false});
+    expect_snapshot(state,
+                    {{PauseReason::Manual, PauseReason::Schedule, PauseReason::RecoveryReview,
+                      PauseReason::StreamOffline, PauseReason::DesignatedClientDisconnected,
+                      PauseReason::StreamStatusUnknown},
+                     std::nullopt,
+                     std::nullopt,
+                     std::nullopt,
+                     true});
+    state = observe_pause_signals(state, config, {0, StreamStatus::Offline, false});
+    expect_snapshot(state,
+                    {{PauseReason::Manual, PauseReason::Schedule, PauseReason::RecoveryReview,
+                      PauseReason::StreamOffline, PauseReason::DesignatedClientDisconnected}});
+    state = observe_pause_signals(state, config, {9, StreamStatus::Unknown, false});
+    expect_snapshot(state,
+                    {{PauseReason::Manual, PauseReason::Schedule, PauseReason::RecoveryReview,
+                      PauseReason::StreamOffline, PauseReason::DesignatedClientDisconnected},
+                     std::nullopt,
+                     std::nullopt,
+                     9,
+                     true});
+    state = observe_pause_signals(state, config, {1, StreamStatus::Unknown, false});
+    expect_snapshot(state,
+                    {{PauseReason::Manual, PauseReason::Schedule, PauseReason::RecoveryReview,
+                      PauseReason::StreamOffline, PauseReason::DesignatedClientDisconnected,
+                      PauseReason::StreamStatusUnknown},
+                     std::nullopt,
+                     std::nullopt,
+                     std::nullopt,
+                     true});
+}
+
+TEST(PausePolicyAcceptance, KnownOnlineComposesOfflineAndUnknownRecoveryWithoutGlobalResume) {
+    const PauseConfig config{30'000, 30'000, 10};
+    const PauseState state{{PauseReason::Manual, PauseReason::Schedule, PauseReason::RecoveryReview,
+                            PauseReason::StreamOffline, PauseReason::DesignatedClientDisconnected,
+                            PauseReason::StreamStatusUnknown},
+                           std::nullopt,
+                           std::nullopt,
+                           std::nullopt,
+                           true};
+    const auto result = observe_pause_signals(state, config, {0, StreamStatus::Online, false});
+    expect_snapshot(result,
+                    {{PauseReason::Manual, PauseReason::Schedule, PauseReason::RecoveryReview,
+                      PauseReason::DesignatedClientDisconnected}});
+}
+
+TEST(PausePolicyAcceptance, KnownOfflineAndConnectedClientEachClearTheirOwnReason) {
+    const PauseState state{{PauseReason::Manual, PauseReason::StreamOffline,
+                            PauseReason::DesignatedClientDisconnected,
+                            PauseReason::StreamStatusUnknown},
+                           std::nullopt,
+                           std::nullopt,
+                           std::nullopt,
+                           true};
+    const auto result =
+        observe_pause_signals(state, {30'000, 30'000, 10}, {0, StreamStatus::Offline, true});
+    expect_snapshot(result, {{PauseReason::Manual, PauseReason::StreamOffline}});
+}
+
+TEST(PausePolicyAcceptance, ZeroUnknownTimeoutRearmsImmediatelyAfterEitherKnownStatus) {
+    const PauseConfig config{30'000, 30'000, 0};
+    for (const auto known : {StreamStatus::Online, StreamStatus::Offline}) {
+        auto state = observe_pause_signals({}, config, {0, StreamStatus::Unknown, true});
+        expect_snapshot(
+            state,
+            {{PauseReason::StreamStatusUnknown}, std::nullopt, std::nullopt, std::nullopt, true});
+        state = observe_pause_signals(state, config, {0, known, true});
+        const PauseState recovered =
+            known == StreamStatus::Offline ? PauseState{{}, 0} : PauseState{};
+        expect_snapshot(state, recovered);
+        state = observe_pause_signals(state, config, {0, StreamStatus::Unknown, true});
+        expect_snapshot(
+            state,
+            {{PauseReason::StreamStatusUnknown}, std::nullopt, std::nullopt, std::nullopt, true});
+    }
+}
 } // namespace

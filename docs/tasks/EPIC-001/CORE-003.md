@@ -33,15 +33,17 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 
 Test overlapping reasons, flapping signals, exact delay expiry and optional unknown-status timeout with a fake clock.
 
-Thirty draft cases now cover the independently specified behavior using explicit
-durations, with successful configure/build/discovery only. Both functions remain
-unconditional `PausePolicyNotImplemented` stubs. Two combined-policy edges lack
-repository authority: Unknown interrupting an unexpired offline delay, and clearing/
-resetting the optional Unknown pause after known status returns. The
-[recorded policy questions](../../evidence/pause-signal-policy-questions.md) require
-owner clarification, then affected examples/cases and independent review. Existing
-cases do not select either policy; full baseline completion and production behavior
-wait for those gates. This leaves the full intended release behavior required.
+Thirty-seven draft cases now cover the independently specified behavior using explicit
+monotonic durations. The original30 cases remain unchanged; seven focused additions
+encode the [recorded owner decisions](../../evidence/pause-signal-policy-questions.md):
+Unknown cancels pending Offline, later Offline receives the full fresh delay, and
+both known statuses clear/reset Unknown with a fresh timeout on each new episode.
+Established Offline survives Unknown and known Offline. Known Online independently
+recovers Offline; connected-client recovery independently clears its reason. External
+and unrecovered holds remain. No product-policy question remains.
+Both functions remain unconditional `PausePolicyNotImplemented` stubs. Full independent
+review of all37 cases must precede any test-body/red run. Full baseline completion
+and production behavior remain gated; the intended release behavior remains required.
 
 ## Separate baseline and implementation tasks
 

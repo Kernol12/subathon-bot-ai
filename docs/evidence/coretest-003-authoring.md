@@ -99,3 +99,59 @@ review separately. Next: publish this useful draft, obtain the missing owner pol
 author the combined cases, have `/root/timer_final_reviewer` review actual artifacts,
 then record a successful build followed by a genuine intended stub-red run. That
 does not finish CORE-003; separate implementation/review/stable CI still follow.
+
+## Owner-edge authoring addendum — 2026-10-31
+
+Author: `/root/pause_owner_case_author`; coordinated assignment on
+`task/CORETEST-003-owner-cases`, worktree `local-evidence/worktrees/coretest003-decisions`,
+starting commit `5d88a75ba83accd0f7f26802c1b7e1fe8b0f041f` (current-main5201edd plus
+actual draft PR20 artifacts). The earlier unresolved-policy section is historical;
+both owner answers are now recorded in
+[pause-signal-policy-questions.md](pause-signal-policy-questions.md).
+
+Only the tests, proposed contract, CORE-003 brief and this appended evidence changed.
+No API/layout or production implementation changed. Coordinator retains build files,
+state/HTML, acceptance map, specification, decision record and review evidence.
+The independent partial review005b6f4 covered the original30; it does not approve
+the seven additions or authorize a body run. Full independent review remains next.
+
+Manually derived additions (source order31–37):
+
+| Case | Oracle and authority |
+| --- | --- |
+| 31 UnknownCancelsPendingOffline… | Owner answer1: pending29999 disappears on Unknown0; even INT64_MAX Unknown cannot activate Offline. Later Offline0/29999/1 starts the full default30000 delay and expires exactly. |
+| 32 UnknownCancellationRestarts… | Owner answer1 applies to configured delay7: prior6 is discarded, Unknown3 has only its own pending3; later Offline6 remains pending and final1 expires. Known Offline also clears Unknown pending/notice. |
+| 33 EitherKnownStatusCancelsPendingUnknown… | Owner answer2: each known status clears Unknown pending9/notice. Offline starts its own pending0; the next Unknown cancels that and must accrue9+1 fresh for timeout10. |
+| 34 KnownOfflineClearsActivatedUnknown… | Owner answer2 and independent holds: Unknown10 adds its hold alongside five existing holds. Known Offline removes only Unknown, then next Unknown9 remains pending and final1 reactivates; established Offline/external/client holds persist throughout. |
+| 35 KnownOnlineComposes… | Owner answer2 plus existing TIMER-03: known Online clears Unknown and Offline independently; disconnected client and Manual/Schedule/RecoveryReview remain. |
+| 36 KnownOfflineAndConnectedClient… | Owner answer2 plus existing TIMER-03: known Offline clears Unknown and connected client clears its reason, retaining Manual and established Offline. No global resume. |
+| 37 ZeroUnknownTimeoutRearms… | Owner answer2 with existing nonnegative configuration: each known status clears activated Unknown; next Unknown0 immediately activates again under timeout0. Offline pending0 is canceled by that Unknown. |
+
+No expected result comes from implementation output. An exact Python extraction of
+all `TEST(PausePolicyAcceptance, …)` bodies compared the original tests blob
+`af1275f7e893345edd3820edd5382af5c718d965` with the candidate: all30 original bodies
+remain byte-for-byte unchanged; seven are appended (37 total). No baseline fixture
+or assertion was weakened. Synthetic observations assert no provider capability.
+
+Actual commands in this worktree, Linux/GNU16.2.1/Python3.14.8:
+
+| Command | Outcome |
+| --- | --- |
+| `clang-format -i tests/acceptance/pause_policy_tests.cpp` | Exit0; repository formatting. |
+| `cmake --preset pause-policy-debug` | Exit0; isolated build generated. |
+| `cmake --build --preset pause-policy-debug` | Exit0; ten build/link steps, no warnings in output; discovery only, no test bodies. |
+| `ctest --preset pause-policy-debug -N -L pause-policy` | Exit0; all37 cases listed, no body execution. |
+| Python original30-body comparison and `git hash-object` | Exit0; unchanged originals/header/stub confirmed and exact candidate blobs below. |
+| `git diff --check` | Exit0 before this append; repeated for final candidate. |
+
+| Candidate artifact | Git blob |
+| --- | --- |
+| Header, unchanged | `c91b7da3fa1c98a1b2e47ab389f48f74901c2a47` |
+| Unconditional stub, unchanged | `dee2a91c31b524c082192aba70e7e0c0efa27501` |
+| Draft37 tests | `646d83f4e38722239bb8b590a9f368141bed4246` |
+| Proposed revision1 contract | `a8174be71e7f4cf453a55df14f57126b1b6e61d8` |
+
+No test body/red run, implementation, CI, timer integration or live/platform behavior
+is claimed. Next: independent reviewer examines the complete actual candidate, then
+the coordinator may run and record intended stub-red only after full approval.
+CORE-003 production implementation remains gated separately.

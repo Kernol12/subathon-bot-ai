@@ -6,10 +6,10 @@ Tasks: CORETEST-003 / CORE-003. Authority: specification v0.45
 [event-state boundaries revision 1](event-state-boundaries-v1.md).
 The [timer lifecycle contract](timer-lifecycle-v1.md) remains unchanged.
 
-State: proposed interface, 30 authored draft cases and explicit unconditional
+State: proposed interface, 37 authored draft cases and explicit unconditional
 `PausePolicyNotImplemented` stubs only. Configure/build and discovery pass; test
 bodies have not run. No independent approval, observed red or
-production pause behavior is claimed. The owner decisions below still require affected cases and full independent review
+production pause behavior is claimed. The owner decisions below now have seven focused affected cases and still require full independent review
 before finalization; the existing known-policy cases have a bounded partial review.
 
 ## Scope and public values
@@ -49,10 +49,10 @@ read. Process-local observations are not portable restart checkpoints.
 Before expiry, the pending condition adds no pause. At exactly its configured delay,
 or later, its reason is present and its pending field is absent. Repeated unchanged
 signals do not restart a pending delay or accumulate duplicate reasons. A confirmed
-Online stream clears only StreamOffline; a connected designated client clears only
+Online stream clears StreamOffline; a connected designated client clears only
 DesignatedClientDisconnected. Recovery before a pending delay expires cancels that
-pending delay; a subsequent disconnect requires a fresh full delay. All other
-independent reasons and pending signals remain unchanged by that recovery.
+pending delay; a subsequent disconnect requires a fresh full delay. Each recovery rule applies independently, including Unknown cleanup on known status.
+Unrecovered reasons and unrelated pending signals remain unchanged.
 
 Unknown stream status always raises the separate uncertainty notice. With default
 timeout disabled it adds no new reason and cannot clear an existing confirmed-offline,
@@ -63,7 +63,9 @@ notice and clears only StreamStatusUnknown, resetting its pending timeout. Each 
 Unknown episode starts a fresh full configured timeout. Unknown cancels a pending
 Offline delay; later confirmed Offline starts a fresh full configured Offline delay.
 These owner-selected edges preserve every unrelated reason, including established
-StreamOffline, and still need focused tests and full independent review.
+StreamOffline. Known Online independently clears StreamOffline, and a connected
+client independently clears DesignatedClientDisconnected; Unknown cleanup never
+globally resumes the timer. These edges now have focused tests awaiting full independent review.
 
 This interface returns a final proposal, not within-interval countdown history. A
 caller integrating the timer must segment at delay expiry and use the pause set
@@ -105,10 +107,10 @@ Both previously unresolved interactions now have explicit owner answers in the
    full configured delay. An established Offline pause remains.
 2. Either known Online or Offline clears only StreamStatusUnknown and resets its
    pending timeout. Each new Unknown episode starts a fresh full configured timeout;
-   all other independent reasons remain.
+   other reasons remain unless their own recovery condition also occurs.
 
-No product question remains. These newly decided edges still require authored
-examples/tests and full independent review. The existing30 known cases and partial
+No product question remains. These newly decided edges have seven authored
+examples/tests awaiting full independent review. The existing30 known cases and partial
 review remain valid for their examined scope, not approval of these new branches.
 No test bodies/red/implementation have occurred. Full CORETEST-003 completion and
 CORE-003 production implementation still require their complete test-first gates.
@@ -116,7 +118,7 @@ CORE-003 production implementation still require their complete test-first gates
 ## Independently derived examples
 
 The following use hand subtraction and set membership from §4; no implementation
-has produced their expected values. The 30 executable draft cases are in
+has produced their expected values. The 37 executable draft cases are in
 `tests/acceptance/pause_policy_tests.cpp`; [authoring evidence](../evidence/coretest-003-authoring.md)
 maps their coverage and records actual compilation/discovery only.
 
@@ -130,6 +132,13 @@ maps their coverage and records actual compilation/discovery only.
 | Default Unknown for INT64_MAX, previously unpaused | Notice true, no new reason |
 | Default Unknown while already StreamOffline + Manual | Both remain; notice true |
 | Unknown timeout10, elapsed9 then1 | Notice throughout; only at10 add StreamStatusUnknown |
+| Offline pending29999 → Unknown0 → Unknown INT64_MAX → Offline0/29999/1 | Cancel pending immediately, no Offline during Unknown; restart pending0/29999 then activate |
+| Offline pending6 with delay7 → Unknown3 → Offline6/1 | Unknown pending3 only; fresh Offline pending6 then activate |
+| Unknown pending9 with timeout10 → either known status0 → Unknown9/1 | Clear notice/Unknown pending; next episode pending9 then activates at10 |
+| All six holds including Unknown → known Offline, client disconnected | Remove only Unknown; keep Offline and all other holds |
+| All six holds → known Online, client disconnected | Remove Unknown and Offline under their own rules; retain client and external holds |
+| Manual + Offline + client + Unknown → known Offline, client connected | Keep Manual + Offline; clear Unknown and client independently |
+| Unknown timeout0 → either known status → Unknown0 | Clear prior Unknown hold, immediately rearm next Unknown episode |
 | Pending(INT64_MAX-1), elapsed1 with delayINT64_MAX | Activate exactly; no signed overflow |
 
 ## Ownership, review and CI gates
