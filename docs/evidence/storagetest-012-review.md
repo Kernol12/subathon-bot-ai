@@ -118,3 +118,72 @@ CI/publication gates then follow. Current task state correctly leaves those unru
 Backup/recovery, actual caller validation/intake/reference resolution, document
 formats/evaluators, authorization, platforms/packaging, all seven integrations and
 three rate providers remain separate required work. No live operation occurred.
+
+## Actual API, stub and minimal build precision review
+
+Verdict: **approved for full test/probe/fixture authoring, API/stub stage only**.
+This is a new actual review; the earlier contract verdict did not approve these
+artifacts. It approves no future tests, feature red, production behavior or CI.
+
+Reviewed author `6bfbb900a0171c16da10d50c8bfd882ded936791`, root integration
+`a6a4402df6f209d2feaaf6927b56d818b45a6f3e`, and actual shared harness
+`e5532d120d2cf4998243be676064db11f60e9096` after normal merges into this
+review worktree (local reviewed merge `9e3e2cdf73882b90ff4a1b01d617ac7ecfb5106b`).
+Exact blobs:
+
+- [Header](../../server/include/subathon/server/sqlite_retained_context.hpp):
+  `55c82815986052b996a46c408ab616e68815a4f2`.
+- [Explicit stub](../../server/src/sqlite_retained_context.cpp):
+  `b27eb48867df8a6dbc2c0c92da3eba0a80b11d76`.
+- Amended contract: `5b0ee84acbbf1a3ce8dbc57f99c110f3073d353b`.
+
+No blocking finding. Concrete key kind and std::string bytes preserve the approved
+namespaces; the strong configuration-link wrapper and optional field preserve
+typed absence. Required QByteArray input distinguishes null from present empty;
+loaded empty BLOB normalizes to owned non-null empty so read/retain is idempotent.
+The value facade holds only a copied revocable session and limits. Construction
+and implicit destruction neither use SQL nor finalize the caller's transaction.
+The factory and both methods are unconditional explicit feature-not-implemented
+throws; no manifest, validation, codec or retention algorithm is hidden in them.
+
+Actual precision resolves the previous interface gates. Before SQL, options,
+kind, key bytes, document and link validation have ordered named errors even for
+stale/foreign tickets. Valid inputs delegate original capability/SQL/budget errors.
+Healthy selected existing records and stored known targets are validated before
+immutable comparison; conflict precedes a proposed new-link lookup. A new record
+alone resolves its candidate link for insertion. Malformed selected rows/dangling
+stored links require confirmed rollback before invalid_stored_data; well-typed
+selected fields above configured limits use the distinct retention result_limit.
+Uncertain cleanup overrides through the existing SqliteWorkFailure category.
+Normal domain refusal/input errors do not perform that exceptional cleanup or
+claim earlier caller writes were undone. No global audit or private state/handle
+escape is introduced. The supplied capability retains its established owner,
+phase and lifetime checks.
+
+Reviewed all three shared-file changes: root CMake enables the selected Qt/server
+path for the new option; server CMake links the new static library to existing
+migrations/writer/Core and project options; sqlite-retained-debug inherits the
+existing migration/Qt lane and has matching build/test presets. No feature test
+is registered yet. Existing tests, workflow and writer/migration source/interfaces
+are unchanged. This minimal compile harness does not claim CI feature coverage.
+
+| Actual reviewer command/check | Result |
+| --- | --- |
+| Python argument-vector `c++ -std=c++20 -fPIC -Iserver/include <pkg-config --cflags Qt6Core Qt6Sql> -fsyntax-only server/src/sqlite_retained_context.cpp` | Exit0, syntax only |
+| `cmake --preset sqlite-retained-debug` | Exit0, GNU16.2.1, host Qt6.12.0 |
+| `cmake --build --preset sqlite-retained-debug --target subathon_sqlite_retained_context -j2` | Exit0, all six dependency/stub compile/link steps, no warnings |
+| `ctest --preset sqlite-retained-debug --show-only=json-v1`, parsed independently | Exit0; configured 78 old entries: scaffold5, migration24, work24, writer22, ownership3; no bodies executed |
+| `git diff --exit-code 791cacf..HEAD -- core server/src/sqlite_writer.cpp server/src/sqlite_migrations.cpp server/include/subathon/server/sqlite_writer.hpp server/include/subathon/server/sqlite_migrations.hpp tests .github/workflows docs/contracts/migration-catalog-v1.md docs/contracts/writer-transactions-v1.md` | Exit0 |
+| `python3 tools/check_project.py`; `python3 tools/progress.py render --check`; `git diff --check` | Exit0, 391 records/122 decisions/current snapshot |
+
+The first discovery script used an overbroad substring check for `retained`, which
+matched the old `retainedCapabilitiesCannotReachLaterWork` name. That reviewer
+script assertion was corrected to exact registered suite-prefix counts; it was
+neither a product failure nor red. Discovery here is configured registration only:
+only the targeted libraries were built, not the 78 test executables.
+
+No new factory/find/retain call, feature test/probe body or historical red was run.
+Next artifacts require independently frozen schema/payload/digest oracles and
+actual separate test/harness review; selected official-Qt capability/fixture
+validation and genuine intended feature red remain required before production.
+All earlier scope and external/platform gates remain.
