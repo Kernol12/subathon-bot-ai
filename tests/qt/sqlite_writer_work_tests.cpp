@@ -559,54 +559,69 @@ class SqliteWriterWorkTests final : public QObject {
     }
 
     void lostRollbackAcknowledgmentFailsClosed() {
-        SqliteWriter writer;
-        QCOMPARE(writer.open(path_), StorageError::none);
-        QCOMPARE(SqliteWriterWorkAccess::inject_next_control_ack_loss(
-                     writer, WorkControlFault::lose_next_rollback_ack),
-                 StorageError::none);
-        QList<int> order;
-        SqliteWorkResult result, queued;
-        WriteResult batch;
-        int queued_calls = 0;
-        WorkError at_rollback = WorkError::none;
-        QCOMPARE(writer.enqueue_work(
-                     [&](SqliteWorkContext context) {
-                         auto session = context.begin();
-                         (void)session.execute(put(1, 10));
-                         at_rollback = failure([&] { session.rollback(); });
-                         return QVariant("caught uncertainty");
-                     },
-                     [&](SqliteWorkResult r) {
-                         result = std::move(r);
-                         order.append(1);
-                     }),
-                 StorageError::none);
-        QCOMPARE(writer.enqueue({put(2, 20)},
-                                [&](WriteResult r) {
-                                    batch = std::move(r);
-                                    order.append(2);
-                                }),
-                 StorageError::none);
-        QCOMPARE(writer.enqueue_work(
-                     [&](SqliteWorkContext) {
-                         ++queued_calls;
-                         return QVariant();
-                     },
-                     [&](SqliteWorkResult r) {
-                         queued = std::move(r);
-                         order.append(3);
-                     }),
-                 StorageError::none);
-        QTRY_COMPARE(order.size(), 3);
-        QCOMPARE(order, QList<int>({1, 2, 3}));
-        QCOMPARE(at_rollback, WorkError::uncertain_outcome);
-        check_result(result, TransactionOutcome::outcome_unknown, WorkError::uncertain_outcome);
-        check_result(queued, TransactionOutcome::not_started, WorkError::writer_unavailable);
-        QCOMPARE(batch.error, StorageError::sql_failure);
-        QVERIFY(batch.rows.isEmpty());
-        QCOMPARE(queued_calls, 0);
-        QCOMPARE(observer_->scalar("SELECT COUNT(*) FROM counters").toInt(), 0);
-        QCOMPARE(writer.enqueue({put(3, 30)}, [](WriteResult) {}), StorageError::shutting_down);
+        for (const bool automatic_rollback : {false, true}) {
+            SqliteWriter writer;
+            QCOMPARE(writer.open(path_), StorageError::none);
+            QCOMPARE(SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                         writer, WorkControlFault::lose_next_rollback_ack),
+                     StorageError::none);
+            QList<int> order;
+            SqliteWorkResult result, queued;
+            WriteResult batch;
+            int body_calls = 0, queued_calls = 0;
+            WorkError synchronous_failure = WorkError::none;
+            QCOMPARE(writer.enqueue_work(
+                         [&](SqliteWorkContext context) {
+                             ++body_calls;
+                             auto session = context.begin();
+                             (void)session.execute(put(1, 10));
+                             // Automatic rollback uncertainty must override the
+                             // original duplicate-key SQL error before execute
+                             // throws, as well as in the later work completion.
+                             synchronous_failure = failure([&] {
+                                 if (automatic_rollback)
+                                     (void)session.execute(put(1, 999));
+                                 else
+                                     session.rollback();
+                             });
+                             return QVariant("caught uncertainty");
+                         },
+                         [&](SqliteWorkResult r) {
+                             result = std::move(r);
+                             order.append(1);
+                         }),
+                     StorageError::none);
+            QCOMPARE(writer.enqueue({put(2, 20)},
+                                    [&](WriteResult r) {
+                                        batch = std::move(r);
+                                        order.append(2);
+                                    }),
+                     StorageError::none);
+            QCOMPARE(writer.enqueue_work(
+                         [&](SqliteWorkContext context) {
+                             ++queued_calls;
+                             auto session = context.begin();
+                             (void)session.execute(put(3, 30));
+                             session.commit();
+                             return QVariant(30);
+                         },
+                         [&](SqliteWorkResult r) {
+                             queued = std::move(r);
+                             order.append(3);
+                         }),
+                     StorageError::none);
+            QTRY_COMPARE(order.size(), 3);
+            QCOMPARE(order, QList<int>({1, 2, 3}));
+            QCOMPARE(synchronous_failure, WorkError::uncertain_outcome);
+            check_result(result, TransactionOutcome::outcome_unknown, WorkError::uncertain_outcome);
+            check_result(queued, TransactionOutcome::not_started, WorkError::writer_unavailable);
+            QCOMPARE(batch.error, StorageError::sql_failure);
+            QVERIFY(batch.rows.isEmpty());
+            QCOMPARE(body_calls, 1);
+            QCOMPARE(queued_calls, 0);
+            QCOMPARE(observer_->scalar("SELECT COUNT(*) FROM counters").toInt(), 0);
+            QCOMPARE(writer.enqueue({put(4, 40)}, [](WriteResult) {}), StorageError::shutting_down);
+        }
     }
 
     void retainedCapabilitiesCannotReachLaterWork() {
@@ -1199,6 +1214,26 @@ class SqliteWriterWorkTests final : public QObject {
                  StorageError::none);
         QTRY_VERIFY(done);
         check_result(result, TransactionOutcome::not_started, WorkError::work_exception);
+        done = false;
+        int healthy_calls = 0;
+        QCOMPARE(writer.enqueue_work(
+                     [&](SqliteWorkContext context) {
+                         ++healthy_calls;
+                         auto session = context.begin();
+                         (void)session.execute(put(1, 40));
+                         session.commit();
+                         return QVariant(40);
+                     },
+                     [&](SqliteWorkResult r) {
+                         result = std::move(r);
+                         done = true;
+                     }),
+                 StorageError::none);
+        QTRY_VERIFY(done);
+        check_result(result, TransactionOutcome::committed, WorkError::none, true);
+        QCOMPARE(healthy_calls, 1);
+        QCOMPARE(observer_->scalar("SELECT COUNT(*) FROM counters").toInt(), 1);
+        QCOMPARE(observer_->scalar("SELECT SUM(amount) FROM counters").toInt(), 40);
     }
 
     void admissionErrorsDoNotInvokeWork() {

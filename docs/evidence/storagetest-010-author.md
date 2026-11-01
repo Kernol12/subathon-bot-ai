@@ -80,7 +80,7 @@ disk/power-loss proof.
 | WT07 | `failedCommitRollsBackBeforeThrowing`: deferred foreign key fails real commit, then later old batch succeeds |
 | WT08 | `exceptionAfterCommitPreservesCommittedOutcome`: committed row persists exactly once, work failure has no success payload, later batch runs |
 | WT09 | `lostCommitAcknowledgmentFailsClosed`: physical sum30, ordered queued old/new failure/no SQL, closed admission/reopen |
-| WT10 | `lostRollbackAcknowledgmentFailsClosed`: physical rows0, uncertainty, ordered queued old/new failure/no SQL |
+| WT10 | `lostRollbackAcknowledgmentFailsClosed`: direct and duplicate-key-triggered automatic rollback variants; synchronous uncertainty overrides first SQL error, physical rows0, ordered queued old/new failure/no SQL/no replay |
 | WT11 | `retainedCapabilitiesCannotReachLaterWork`; `capabilitiesAfterWriterDestructionAreRevoked`: ownable copied tickets, no dangling-reference calls, no effect on later owner work or connection lifetime |
 | WT12 | `foreignCapabilitiesDoNotPoisonOwner`: begin/execute/commit/rollback/cleanup rejected on foreign thread, owner commits30 |
 | WT13 | `secondBeginAndSqlControlAreRejected`: second begin while active/after commit/after rollback, prohibited controls/ATTACH/DETACH/VACUUM/PRAGMAs/semicolons |
@@ -90,7 +90,7 @@ disk/power-loss proof.
 | WT17 | `throwingOrDestroyingCompletionIsContained`: exception containment and completion destruction after fixed terminal result |
 | WT18 | `ownedRequestAndResultOutliveCallerAndSession`: explicit owning captures, discarded caller request, result text/blob valid after session/writer closure |
 | WT19 | `unknownOutcomeIsNotKnownRepositoryFailure`: real ReceiptIntake plus primitive repository, known SQL rollback category and distinct uncertain-commit category |
-| WT20 | `returnWithoutBeginHasNoSuccessPayload`: normal no-BEGIN return suppressed; exception before-BEGIN remains not_started/work_exception |
+| WT20 | `returnWithoutBeginHasNoSuccessPayload`: normal no-BEGIN return suppressed; exception before-BEGIN remains not_started/work_exception; following valid work commits one literal row/sum40 |
 | Additional admission | `admissionErrorsDoNotInvokeWork`: closed/missing callable/wrong thread/full/shutdown, no rejected work/completion call |
 | Additional cleanup | `cleanupIsNonthrowingAndDoesNotRepeatRollback`: noexcept/default/stale semantics, committed cleanup cannot consume pending rollback-ack hook, active cleanup uncertainty dominates normal return |
 
@@ -145,3 +145,22 @@ execution when implemented.
 The full candidate still needs independent assertion/hook review before baseline
 execution. No hard arbitrary-SQL deadline, arbitrary captured-pointee ownership,
 live provider behavior, application recovery or platform release gate is claimed.
+
+## Actual review revision
+
+The independent reviewer inspected candidate `76d3a00` and requested two focused
+oracle additions before approval: automatic rollback uncertainty must override the
+first SQL failure, and the pre-BEGIN validation-exception path must preserve a
+healthy writer. Both are now added within the same24 slots. The rollback slot
+keeps its direct variant and adds duplicate-key-triggered automatic rollback with
+synchronous `uncertain_outcome`, terminal `outcome_unknown/uncertain_outcome`,
+independent rows0, body invoked once, ordered old/new queued failure and zero
+queued healthy-body invocation. The no-BEGIN slot now follows validation failure
+with successful work, one literal persisted row and sum40. No reviewed assertion
+was removed or relaxed; no API/stub/production/old-test change was necessary.
+
+After these additions, reran `clang-format -i tests/qt/sqlite_writer_work_tests.cpp`,
+`cmake --build --preset sqlite-work-debug`, exact compiled-slot/CTest JSON equality
+and `git diff --check`. Build and exact24 discovery passed. Test bodies remain
+unexecuted by this author; updated independent approval and observed red are still
+required.
