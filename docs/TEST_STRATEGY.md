@@ -174,3 +174,17 @@ exact artifacts/commands/limits. Configure/build `time-debt-debug`, then CTest
 `-L time-debt`, or fullpreset35 including infrastructure. The same32 run on PR/main.
 This supplies no proportional refund entitlement, ledger allocation, authoritative
 transaction/permission/audit/persistence or provider/platform verification.
+
+## Writer transaction-work baseline
+
+STORAGETEST-010 supplies24 independently reviewed Qt SQL cases for additive
+[work/session revision1](contracts/writer-transactions-v1.md), with actual intended
+missing-feature red after successful compilation. The [baseline handoff](evidence/storagetest-010-handoff.md)
+pins the exact tests/interface/stub, review and exit8 output. Use `sqlite-work-debug`
+configure/build, then CTest `-L sqlite-work` for those intentionally failing bodies;
+`-L sqlite-writer` still runs the unchanged passing25 and `-L scaffold` includes
+the real Qt probe. Automatic CI builds/discovers24 and runs old25; manual
+run_work_acceptance runs new bodies with normal failure propagation. STORAGE-010
+must pass unchanged tests with separate code review and enable ordinary automatic
+acceptance before merge. No new writer mechanism or domain schema is implemented
+by completing this test baseline.

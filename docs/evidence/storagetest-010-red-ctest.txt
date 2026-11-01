@@ -1,0 +1,355 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-work-debug
+      Start  5: sqlite-work.mixedBatchAndWorkAreFifo
+ 1/24 Test  #5: sqlite-work.mixedBatchAndWorkAreFifo ..........................***Failed    0.01 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::mixedBatchAndWorkAreFifo() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); const auto rows = session.execute({"SELECT SUM(amount) FROM counters", {}}); inside = rows.at(0).at(0).toLongLong(); (void)session.execute(put(2, 20)); session.commit(); if (order != QList<int>{1}) throw std::runtime_error("next item entered before body returned"); return QVariant(30); }, [&](SqliteWorkResult r) { work = std::move(r); order.append(2); })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                        : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(188)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start  6: sqlite-work.dynamicReadDecideWriteIsAtomic
+ 2/24 Test  #6: sqlite-work.dynamicReadDecideWriteIsAtomic ....................***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::dynamicReadDecideWriteIsAtomic() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute(put(1, 10)); rows = session.execute({"SELECT amount FROM counters WHERE id=1", {}}); if (rows == SqlRows{{10}}) (void)session.execute(put(2, 20)); before_commit = observer_->scalar("SELECT COUNT(*) FROM counters").toLongLong(); session.commit(); after_commit = observer_->scalar("SELECT COUNT(*) FROM counters").toLongLong(); return QVariant(30); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(229)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start  7: sqlite-work.serviceCommitIsVisibleBeforeBodyReturns
+ 3/24 Test  #7: sqlite-work.serviceCommitIsVisibleBeforeBodyReturns ...........***Failed    0.01 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::serviceCommitIsVisibleBeforeBodyReturns() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { PrimitiveReceiptRepository repository(context); ReceiptIntake intake(repository); const auto receipt = intake.ingest(fresh_receipt()); service_returned = receipt.receipt_id.value == 101 && receipt.disposition == subathon::core::ReceiptDisposition::created; visible_inside = observer_->scalar("SELECT SUM(amount) FROM counters").toLongLong(); completion_was_pending = !done; return QVariant("service-returned"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(263)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start  8: sqlite-work.returnWithoutCommitRollsBack
+ 4/24 Test  #8: sqlite-work.returnWithoutCommitRollsBack ......................***Failed    0.01 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::returnWithoutCommitRollsBack() Compared values are not the same
+   Actual   (writer.enqueue_work( [explicit_rollback](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute(put(1, 10)); if (explicit_rollback) session.rollback(); return QVariant("uncommitted"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                     : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(294)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start  9: sqlite-work.exceptionBeforeCommitRollsBackAndQueueContinues
+ 5/24 Test  #9: sqlite-work.exceptionBeforeCommitRollsBackAndQueueContinues ...***Failed    0.01 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::exceptionBeforeCommitRollsBackAndQueueContinues() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) -> QVariant { ++calls; auto session = context.begin(); (void)session.execute(put(1, 10)); throw std::runtime_error("synthetic body failure before commit"); }, [&](SqliteWorkResult r) { results.append(std::move(r)); })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                           : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(319)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 10: sqlite-work.caughtSqlErrorStaysStickyAndCannotCommit
+ 6/24 Test #10: sqlite-work.caughtSqlErrorStaysStickyAndCannotCommit ..........***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::caughtSqlErrorStaysStickyAndCannotCommit() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) -> QVariant { auto session = context.begin(); (void)session.execute(put(1, 10)); sql = failure([&] { (void)session.execute(put(1, 999)); }); count_at_throw = observer_->scalar("SELECT COUNT(*) FROM counters").toLongLong(); rollback_released_lock = observer_->write_lock_is_released(); commit = failure([&] { session.commit(); }); begin = failure([&] { (void)context.begin(); }); throw std::runtime_error("later body error must not replace SQL error"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(353)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 11: sqlite-work.busyBeginDoesNotReplay
+ 7/24 Test #11: sqlite-work.busyBeginDoesNotReplay ............................***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::busyBeginDoesNotReplay() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { ++calls; busy = failure([&] { (void)context.begin(); }); second_begin = failure([&] { (void)context.begin(); }); return QVariant("busy attempt caught"); }, [&](SqliteWorkResult r) { first = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                               : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(388)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 12: sqlite-work.failedCommitRollsBackBeforeThrowing
+ 8/24 Test #12: sqlite-work.failedCommitRollsBackBeforeThrowing ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::failedCommitRollsBackBeforeThrowing() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute({"INSERT INTO children VALUES (1, 404)", {}}); error = failure([&] { session.commit(); commit_returned = true; }); visible_at_throw = observer_->scalar("SELECT COUNT(*) FROM children").toLongLong(); rollback_released_lock = observer_->write_lock_is_released(); return QVariant("caught failed commit"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                                                           : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(432)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 13: sqlite-work.exceptionAfterCommitPreservesCommittedOutcome
+ 9/24 Test #13: sqlite-work.exceptionAfterCommitPreservesCommittedOutcome .....***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::exceptionAfterCommitPreservesCommittedOutcome() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) -> QVariant { ++calls; auto session = context.begin(); (void)session.execute(put(1, 10)); session.commit(); throw std::runtime_error("postcommit failure"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                 : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(473)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 14: sqlite-work.lostCommitAcknowledgmentFailsClosed
+10/24 Test #14: sqlite-work.lostCommitAcknowledgmentFailsClosed ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::lostCommitAcknowledgmentFailsClosed() Compared values are not the same
+   Actual   (SqliteWriterWorkAccess::inject_next_control_ack_loss( writer, WorkControlFault::lose_next_commit_ack)): 1
+   Expected (StorageError::none)                                                                                   : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(502)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 15: sqlite-work.lostRollbackAcknowledgmentFailsClosed
+11/24 Test #15: sqlite-work.lostRollbackAcknowledgmentFailsClosed .............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::lostRollbackAcknowledgmentFailsClosed() Compared values are not the same
+   Actual   (SqliteWriterWorkAccess::inject_next_control_ack_loss( writer, WorkControlFault::lose_next_rollback_ack)): 1
+   Expected (StorageError::none)                                                                                     : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(565)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 16: sqlite-work.retainedCapabilitiesCannotReachLaterWork
+12/24 Test #16: sqlite-work.retainedCapabilitiesCannotReachLaterWork ..........***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::retainedCapabilitiesCannotReachLaterWork() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { retained_context = context; retained_session = context.begin(); (void)retained_session.execute(put(1, 10)); retained_session.commit(); closed = failure([&] { (void)retained_session.execute(put(9, 900)); }); return QVariant(10); }, [&](SqliteWorkResult r) { results.append(std::move(r)); })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                     : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(635)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 17: sqlite-work.capabilitiesAfterWriterDestructionAreRevoked
+13/24 Test #17: sqlite-work.capabilitiesAfterWriterDestructionAreRevoked ......***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::capabilitiesAfterWriterDestructionAreRevoked() Compared values are not the same
+   Actual   (writer->enqueue_work( [&](SqliteWorkContext context) { context_copy = context; session_copy = context.begin(); (void)session_copy.execute(put(1, 10)); session_copy.commit(); return QVariant(10); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                    : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(676)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 18: sqlite-work.foreignCapabilitiesDoNotPoisonOwner
+14/24 Test #18: sqlite-work.foreignCapabilitiesDoNotPoisonOwner ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::foreignCapabilitiesDoNotPoisonOwner() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute(put(1, 10)); std::thread other([context, session, &foreign] { foreign.append(failure([&] { (void)context.begin(); })); foreign.append(failure([&] { (void)session.execute(put(9, 900)); })); foreign.append(failure([&] { session.commit(); })); foreign.append(failure([&] { session.rollback(); })); foreign.append(session.cleanup()); }); other.join(); (void)session.execute(put(2, 20)); session.commit(); return QVariant(30); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(709)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 19: sqlite-work.secondBeginAndSqlControlAreRejected
+15/24 Test #19: sqlite-work.secondBeginAndSqlControlAreRejected ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::secondBeginAndSqlControlAreRejected() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute(put(1, 10)); caught = failure([&] { (void)session.execute({sql, {}}); }); return QVariant("rejected"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                    : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(754)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 20: sqlite-work.cumulativeBudgetsHaveExactBoundaries
+16/24 Test #20: sqlite-work.cumulativeBudgetsHaveExactBoundaries ..............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::cumulativeBudgetsHaveExactBoundaries() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute({"INSERT INTO counters VALUES (1, 10)", {}}); caught = failure([&] { switch (budget) { case Budget::statements: (void)session.execute({"SELECT 1", {}}); (void)session.execute({"SELECT 2", {}}); if (over) (void)session.execute({"SELECT 3", {}}); break; case Budget::sql_bytes: (void)session.execute({QString::fromUtf8("SELECT 'é'") + QString(over ? 38 : 37, ' '), {}}); break; case Budget::bindings: (void)session.execute( {"SELECT ?", {QString::fromUtf8("é")}}); (void)session.execute( {"SELECT ?", {QByteArray(over ? 8 : 7, 'x')}}); break; case Budget::rows: (void)session.execute({"SELECT 1", {}}); (void)session.execute({"SELECT 2", {}}); if (over) (void)session.execute({"SELECT 3", {}}); break; case Budget::result_bytes: (void)session.execute({"SELECT 'é'", {}}); (void)session.execute({over ? "SELECT X'0102030405060708'" : "SELECT X'01020304050607'", {}}); break; case Budget::scalars: (void)session.execute({"SELECT ?", {QVariant()}}); (void)session.execute({"SELECT ?", {42}}); if (over) (void)session.execute({"SELECT ?", {false}}); break; } }); if (caught != WorkError::none) rollback_released_lock = observer_->write_lock_is_released(); if (caught == WorkError::none) session.commit(); return QVariant("boundary"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(839)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 21: sqlite-work.activeCapacityLastsUntilBodyReturns
+17/24 Test #21: sqlite-work.activeCapacityLastsUntilBodyReturns ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::activeCapacityLastsUntilBodyReturns() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); before = writer.enqueue({put(9, 900)}, [&](WriteResult) { ++rejected_calls; }); (void)session.execute(put(1, 10)); session.commit(); after = writer.enqueue_work([](SqliteWorkContext) { return QVariant(); }, [&](SqliteWorkResult) { ++rejected_calls; }); return QVariant(10); }, [&](SqliteWorkResult r) { result = std::move(r); order.append(1); reentrant = writer.enqueue({put(3, 30)}, [&](WriteResult v) { QCOMPARE(v.error, StorageError::none); order.append(3); }); })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(944)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 22: sqlite-work.shutdownDrainsWorkAndBatches
+18/24 Test #22: sqlite-work.shutdownDrainsWorkAndBatches ......................***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::shutdownDrainsWorkAndBatches() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute(put(1, 10)); stop = writer.shutdown([&] { reopened = replacement.open(path_); order.append(4); }); rejected = writer.enqueue({put(9, 900)}, [](WriteResult) {}); session.commit(); return QVariant(10); }, [&](SqliteWorkResult r) { first = std::move(r); order.append(1); })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                        : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(987)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 23: sqlite-work.throwingOrDestroyingCompletionIsContained
+19/24 Test #23: sqlite-work.throwingOrDestroyingCompletionIsContained .........***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::throwingOrDestroyingCompletionIsContained() Compared values are not the same
+   Actual   (writer.enqueue_work( [](SqliteWorkContext context) { auto session = context.begin(); (void)session.execute(put(1, 10)); session.commit(); return QVariant(10); }, [&](SqliteWorkResult r) { result = std::move(r); threw = true; throw std::runtime_error("completion"); })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                         : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(1038)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 24: sqlite-work.ownedRequestAndResultOutliveCallerAndSession
+20/24 Test #24: sqlite-work.ownedRequestAndResultOutliveCallerAndSession ......***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::ownedRequestAndResultOutliveCallerAndSession() Compared values are not the same
+   Actual   (writer.enqueue_work( [text = request, bytes = blob, &rows](SqliteWorkContext context) { auto session = context.begin(); SqlStatement statement{"SELECT ?, ?", {text, bytes}}; rows = session.execute(statement); statement.sql.clear(); statement.bindings.clear(); session.commit(); return QVariant(text); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                              : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(1095)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 25: sqlite-work.unknownOutcomeIsNotKnownRepositoryFailure
+21/24 Test #25: sqlite-work.unknownOutcomeIsNotKnownRepositoryFailure .........***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::unknownOutcomeIsNotKnownRepositoryFailure() Compared values are not the same
+   Actual   (writer.enqueue_work( [&](SqliteWorkContext context) { PrimitiveReceiptRepository repository(context); ReceiptIntake intake(repository); try { (void)intake.ingest(fresh_receipt()); known_returned = true; } catch (const ReceiptStorageError &) { known_caught = true; known_released_lock = observer_->write_lock_is_released(); } return QVariant("caught known rollback"); }, [&](SqliteWorkResult r) { known_result = std::move(r); known_done = true; })): 1
+   Expected (StorageError::none)                                                                                                                                                                                                                                                                                                                                                                                                                                            : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(1132)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 26: sqlite-work.returnWithoutBeginHasNoSuccessPayload
+22/24 Test #26: sqlite-work.returnWithoutBeginHasNoSuccessPayload .............***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::returnWithoutBeginHasNoSuccessPayload() Compared values are not the same
+   Actual   (writer.enqueue_work([](SqliteWorkContext) { return QVariant("not committed"); }, [&](SqliteWorkResult r) { result = std::move(r); done = true; })): 1
+   Expected (StorageError::none)                                                                                                                               : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(1196)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 27: sqlite-work.admissionErrorsDoNotInvokeWork
+23/24 Test #27: sqlite-work.admissionErrorsDoNotInvokeWork ....................***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::admissionErrorsDoNotInvokeWork() Compared values are not the same
+   Actual   (writer.enqueue_work(work, complete)): 1
+   Expected (StorageError::not_open)             : 3
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(1247)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+      Start 28: sqlite-work.cleanupIsNonthrowingAndDoesNotRepeatRollback
+24/24 Test #28: sqlite-work.cleanupIsNonthrowingAndDoesNotRepeatRollback ......***Failed    0.00 sec
+********* Start testing of SqliteWriterWorkTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterWorkTests::initTestCase()
+FAIL!  : SqliteWriterWorkTests::cleanupIsNonthrowingAndDoesNotRepeatRollback() Compared values are not the same
+   Actual   (empty.cleanup()): 1
+   Expected (WorkError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_work_tests.cpp(1280)]
+PASS   : SqliteWriterWorkTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterWorkTests *********
+
+
+0% tests passed, 24 tests failed out of 24
+
+Label Time Summary:
+acceptance     =   0.11 sec*proc (24 tests)
+draft          =   0.11 sec*proc (24 tests)
+qt             =   0.11 sec*proc (24 tests)
+server         =   0.11 sec*proc (24 tests)
+sqlite-work    =   0.11 sec*proc (24 tests)
+
+Total Test time (real) =   0.11 sec
+
+The following tests FAILED:
+	  5 - sqlite-work.mixedBatchAndWorkAreFifo (Failed)     acceptance draft qt server sqlite-work
+	  6 - sqlite-work.dynamicReadDecideWriteIsAtomic (Failed) acceptance draft qt server sqlite-work
+	  7 - sqlite-work.serviceCommitIsVisibleBeforeBodyReturns (Failed) acceptance draft qt server sqlite-work
+	  8 - sqlite-work.returnWithoutCommitRollsBack (Failed) acceptance draft qt server sqlite-work
+	  9 - sqlite-work.exceptionBeforeCommitRollsBackAndQueueContinues (Failed) acceptance draft qt server sqlite-work
+	 10 - sqlite-work.caughtSqlErrorStaysStickyAndCannotCommit (Failed) acceptance draft qt server sqlite-work
+	 11 - sqlite-work.busyBeginDoesNotReplay (Failed)       acceptance draft qt server sqlite-work
+	 12 - sqlite-work.failedCommitRollsBackBeforeThrowing (Failed) acceptance draft qt server sqlite-work
+	 13 - sqlite-work.exceptionAfterCommitPreservesCommittedOutcome (Failed) acceptance draft qt server sqlite-work
+	 14 - sqlite-work.lostCommitAcknowledgmentFailsClosed (Failed) acceptance draft qt server sqlite-work
+	 15 - sqlite-work.lostRollbackAcknowledgmentFailsClosed (Failed) acceptance draft qt server sqlite-work
+	 16 - sqlite-work.retainedCapabilitiesCannotReachLaterWork (Failed) acceptance draft qt server sqlite-work
+	 17 - sqlite-work.capabilitiesAfterWriterDestructionAreRevoked (Failed) acceptance draft qt server sqlite-work
+	 18 - sqlite-work.foreignCapabilitiesDoNotPoisonOwner (Failed) acceptance draft qt server sqlite-work
+	 19 - sqlite-work.secondBeginAndSqlControlAreRejected (Failed) acceptance draft qt server sqlite-work
+	 20 - sqlite-work.cumulativeBudgetsHaveExactBoundaries (Failed) acceptance draft qt server sqlite-work
+	 21 - sqlite-work.activeCapacityLastsUntilBodyReturns (Failed) acceptance draft qt server sqlite-work
+	 22 - sqlite-work.shutdownDrainsWorkAndBatches (Failed) acceptance draft qt server sqlite-work
+	 23 - sqlite-work.throwingOrDestroyingCompletionIsContained (Failed) acceptance draft qt server sqlite-work
+	 24 - sqlite-work.ownedRequestAndResultOutliveCallerAndSession (Failed) acceptance draft qt server sqlite-work
+	 25 - sqlite-work.unknownOutcomeIsNotKnownRepositoryFailure (Failed) acceptance draft qt server sqlite-work
+	 26 - sqlite-work.returnWithoutBeginHasNoSuccessPayload (Failed) acceptance draft qt server sqlite-work
+	 27 - sqlite-work.admissionErrorsDoNotInvokeWork (Failed) acceptance draft qt server sqlite-work
+	 28 - sqlite-work.cleanupIsNonthrowingAndDoesNotRepeatRollback (Failed) acceptance draft qt server sqlite-work
+Errors while running CTest
+
+Observed process exit: 8
+Revision: 75c07fc (independent approval integrated before execution)
+All24 failures are explicit feature_not_implemented value1; no skipped/init/compile/dependency failures.

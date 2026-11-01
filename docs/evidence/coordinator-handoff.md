@@ -1,7 +1,7 @@
-# Coordinator checkpoint — CONTRACT-004 active
+# Coordinator checkpoint — STORAGETEST-010 active
 
 Coordinator `/root`, 2026-11-01. Standing full specification v0.45 loop continues.
-Last observed main `1259cfb3f34d7da0cddd6a7bcf4be50ebde8fd0a`; inspect live state
+Last observed main `e3747882a610dd5e05e6cf11d2024a9a916342b9`; inspect live state
 on resume. No owner decision/access question is pending. Full product is incomplete.
 
 ## Preserved integrated evidence
@@ -32,7 +32,7 @@ unconditional32realcases/GNU13.3; final-head checks also passed.
 permission/persistence/provider/platform proof is upgraded. Debt author/reviewer
 worktrees core005-implementation/review remain preserved and clean; both completed.
 
-## Current task and file ownership
+## Preserved CONTRACT-004 handoff and ownership
 
 `CONTRACT-004`, branch `task/CONTRACT-004-writer-transactions`, claim3330013 from
 freshmain1259cfb. Documentation-only boundary before writer/repository adapters.
@@ -71,8 +71,8 @@ references were corrected to known section IDs; no schema/tool gate was weakened
 
 Contract/ADR/brief/graphapproved27ac83b; finalmetadata approvedd87b961 atd6be1d1.
 ActualPR28headca5f7a8 had all11checks success; those are not transferred to later heads.
-Next: publish integrated finalapproval and require all latest checks/discussions/
-currentnormalrules before merge. No implementation or feature test/red claim belongs to CONTRACT004. Then
+PR28 merged at e374788 on2026-11-01T10:26:30Z after finalc12fa12 all11checks,
+no threads and currentnormalrules. Main refreshed; no new runtime capability claimed. No implementation or feature test/red claim belongs to CONTRACT004. Then
 start STORAGETEST010 from integrated contract with its own actual test review/red gate.
 Full uint64 IDs/revisions, original money/rate spellings, optional unknown values and
 arbitrary rational fields must not silently narrow to SQLite signed64/REAL in later
@@ -83,3 +83,52 @@ bypass and no required-status-check rule. Written latest CI gates remain mandato
 All seven integrations/three rate providers, app/accounting, renderers, UI/locales/
 themes, packaging/platform and live/OBS gates remain full release scope. No percentage
 or completed product claim is made. Old branches/reviews/archives remain preserved.
+
+## Current baseline and publication gates
+
+STORAGETEST-010 is done as reviewed/red tests only on
+`task/STORAGETEST-010-writer-work`, claime3f24bd from refreshed main e374788.
+[PR29](https://github.com/Kernol12/subathon-bot-ai/pull/29) is draft. Last published
+d09d330 had all11 checks successful; later metadata heads require fresh checks.
+Main e374788 postmerge all10 succeeded. No owner decision/access is needed.
+
+Author `/root/storage_decomposition` completed in isolated
+`local-evidence/worktrees/storagetest010-author`, branch
+`task/STORAGETEST-010-author`, clean at0c6fc8e. It owns additive writer header,
+new explicit work stubs, narrow testing ack-loss header, new Qt cases and author
+notes only. Root owns build/presets/workflow/map/state/HTML/checkpoint. Author
+6532c07/76d3a00/0c6fc8e integrate be925db/9a9f29c/d09d330. Root harnessd680dd4;
+no oldsource/old25/contract changes and no new production work behavior.
+
+Different `/root/writer_transaction_reviewer` approved actual d09d330 in96c1481,
+integrated75c07fc BEFORE first behavior run. Reviewer branch/worktree
+`task/STORAGETEST-010-review`, `local-evidence/worktrees/storagetest010-review`,
+clean after final integration approval879a04d2 atcc48c63. Exact final tests eb9e3b6,
+header afc9f483, hook a2cd7b89, stub b47f131a, contract4ba20506. Independent review
+resolved immediate rollback lock probes, queued old sql_failure compatibility,
+uncertainty over first SQL error and healthy work after pre-BEGIN exception.
+
+Author/root/reviewer configure/build/exact24 discovery pass (53 total). Root and
+reviewer old25 real acceptance and scaffold4/Qtprobe pass. Actual corrected Ubuntu
+41299021575 at d09d330 passes hashes/GNU13.3/probe1/old25/exact24 new discovery,
+all11 checks there success. Root then ran actual work CTest at75c07fc: exit8,
+24/24 explicit feature_not_implemented failures, successful fixture/init setup,
+zero skips/environment/compile failures. [Baseline handoff](storagetest-010-handoff.md),
+[review](storagetest-010-review.md), [raw red](storagetest-010-red-ctest.txt) and
+[CI assessment](storagetest-010-ci.md) pin exact artifacts/commands/limits. No
+new feature passing acceptance is claimed. Known-red bodies stay separate until
+STORAGE-010 enables automatic acceptance.
+
+Final metadata/red/CI attribution independently approved879a04d2 atcc48c63,
+which also had all11 checks success. Next: publish approval, require latest-head
+checks/discussions and
+current normal rules before PR29 merge. Then refresh main and claim STORAGE-010
+with isolated implementer/code-reviewer, preserve exact baseline, pass real work
+acceptance and promote unchanged cases to automatic CI. Never repeat completed red.
+
+Root has no running command or uncommitted work after this checkpoint commit.
+Author and final reviewer finished; no old assignment is assumed active. At task audit44
+existing worktrees were clean;16 historical absenttmp refs/metadata are preserved.
+Inspect actual agent/process/worktree/GitHub state on resume. Migration/config/
+receipt/contribution/plan/application bundle/recovery/platform/live and all seven
+integrations/three rate providers remain full release scope.
