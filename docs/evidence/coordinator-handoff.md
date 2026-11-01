@@ -57,10 +57,10 @@ ordinary automatic acceptance CI and final latest-head PR/rules gates.
   `task/STORAGE-001-implementation`. Sourcef2a6379/bloba8e5c8e integrated5562eaa, author evidence64e049e;
   author/root22label and fullpreset25pass. Author is clean/complete.
 - `/root/storage_code_reviewer` has completed read-only requirement preparation;
-  actual candidate850eef4 is being reviewed in isolated
+  actual candidate850eef4 was reviewed in isolated
   `local-evidence/worktrees/storage001-review`, branch `task/STORAGE-001-code-review`.
   Reviewer independently ran fullpreset25pass; source/configapprovedd6f9c49,
-  integrated422acfd. Final completionmetadata/CI-evidence review next.
+  integrated422acfd. Final completionmetadata/actualCI reviewapprovedfe07db0.
 - Earlier author/reviewer/Qt investigator completed. All existing support worktrees, valid review commits and the local-only checkpoint
   branch are preserved. A corrected exit-code-aware audit found36existing worktrees
   clean and16historical `/tmp/subathon-*` paths absent; their branches/review commits
@@ -102,8 +102,9 @@ d6f9c49 (integrated422acfd), sourcea8e5c8e, unchanged22testsf8418e83/header11d20
 contract4d280461. Author/root/reviewer fullpreset25pass. Actual automatic Ubuntu
 CI41289246502 at[PR25](https://github.com/Kernol12/subathon-bot-ai/pull/25) headed5da87
 passed22real cases+Qtprobe1, Qt/ICUhashesOK/GNU13.3, all10checks passed there.
-Obtain final completionmetadata/actualCI-evidence review, publish final approvals,
-then require all latest PR25 checks/discussions/current normalrules before merge.
+Final completionmetadata/actualCI-evidence reviewapprovedfe07db0. Publish exact
+final approval, then require all latest PR25 checks/discussions/current normalrules
+before merge.
 After merging refreshmain and choose next dependency-ready bounded baseline;
 STORAGETEST-002 or CORETEST-005 unlock more authoritative application/accounting.
 Do not treat primitive writer success as full schema/application/recovery support.
