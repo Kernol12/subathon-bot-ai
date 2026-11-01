@@ -71,10 +71,10 @@ that gate completes/merges. No unspecified provider/default policy is invented.
   explicitstub, GoogleTesttime_debt_tests.cpp and author evidence in
   `local-evidence/worktrees/coretest005-author`, branch
   `task/CORETEST-005-debt-author`. Author389f8ba complete/clean, integrated017e0c4;32cases compile/discover.
-- `/root/debt_test_reviewer` is independently reviewing actuale405ae4 in isolated
+- `/root/debt_test_reviewer` completed independent review of actuale405ae4 in isolated
   `local-evidence/worktrees/coretest005-review`, branch `task/CORETEST-005-debt-review`.
   Actualbaselineapprovalb3413e5 integrateddba4401 BEFORE32bodyred
-  (exit8, allTimeDebtNotImplemented, no skip/envfailure). Finalmetadata review next.
+  (exit8, allTimeDebtNotImplemented, no skip/envfailure). Finalintegration/completionapproved5474fdc.
 - Root owns all shared CMake/presets/CI/map/state/HTML/checkpoint/PR integration.
 - All earlier storage authors/reviewers completed with clean isolatedworktrees;
   no old agent is assumed running. A corrected audit found36then-existing worktrees
@@ -82,16 +82,15 @@ that gate completes/merges. No unspecified provider/default policy is invented.
   metadata are preserved without pruning. Initial startupsummary had incorrectly
   treated missing-path command errors as clean; absent paths are not claimed clean.
 
-Proposed CORETEST005 boundary is still unreviewed: separate nonnegative signed64
-debt, already-computed reversal magnitude and opaqueprovenance, separate requested/
-Main/debt/held/cap amounts, debt-first eligible additions. Example100/150 yields
-StopMain0/unapplied50, Carrydebt50, Reviewhold150; Main55/debt2/request10/cap60
-repays2/adds5/caps3. Proportional entitlement remains ACCT006. Author must justify
-lifecycle/math composition against existingCORE002, avoid needlessActive-only
-restrictions or silent scope shrink, and explicitly record callerpermission/
-persistence/end-mode integration gates. Require-review-only-on-overflow remains
-proposed§Refundoverflow interpretation needing independenttestreview, not an
-invented ownerdecision. All full product lifecycle/refund behavior remains scope.
+Reviewed time-debt revision1 uses pureMain/debt balances with full nonpositive
+signed reversal requests (includingMIN), opaque ownedreferences and explicitpolicy;
+no invented default or Active-only exclusion. Debt-first additions report repayment,
+Maincredit and cap-limited remainder separately. Above-cap numericheadroom0 preserves
+existingMain without changing the older credit helper or deciding realcap edits.
+RequireReview applies onlydeficit under§Refundoverflow, accepted byactualindependent
+review. CORE002 owns Grace/end-mode/hard-end composition; ACCT006 owns proportional
+entitlement and app/permission/audit/persistence remain caller/downstreamgates.
+No debt implementation or fullrefund/application/platform proof is claimed.
 
 ## Completed user-requested GitHub branch cleanup
 
@@ -122,8 +121,8 @@ headc2be886 built/discovered32 GNU13.3/selectedGTesttree, all11checks passed the
 [Handoff](coretest-005-handoff.md), [review](coretest-005-review.md),
 [red](coretest-005-red-ctest.txt), [CI](coretest-005-ci.md).
 
-Next: independent final completionmetadata/actualCI/red-evidence review, publish
-exactapproval, require all latest PR26 checks/discussions/currentnormalrules before
+Finalcompletion/actualCI/red reviewapproved5474fdc. Publish exactapproval, then
+require all latest PR26 checks/discussions/currentnormalrules before
 ready/merge. After merging refreshmain and immediately claim CORE005 implementation
 from the integrated reviewed/red prerequisite. Root promotes newbuild/discoveryjob
 to ordinary actual32caseacceptance in that task. No debt behavior is implemented;
