@@ -128,3 +128,53 @@ OPS-02 actual operator initiation, restorable backup, maintenance exclusion and
 compatibility/update orchestration remain trusted caller/integration requirements;
 no invented request field proves them. No domain migration/store schema, app bundle,
 recovery authorization, disk/power-loss, platform or live-provider claim follows.
+
+## Independently found Unicode defect and reviewed correction
+
+The different code reviewer found a blocking actual counterexample in the original
+candidate despite the original76 passing tests: `QString::fromUtf8` consumes an
+initial U+FEFF, so its round-trip equality check rejected valid field content.
+Actual QSQLITE stored-schema reads preserve the character; the same helper could
+therefore reject a valid raw stored name too. The original source was preserved
+while a different author added two focused regressions and a different reviewer
+approved their actual assertions. [Regression gate](storage-011-unicode-regression.md)
+and [original narrow red](storage-011-unicode-red-ctest.txt) retain approval before
+execution, actual exit8 for both valid-text rejections, successful init/cleanup and
+stored fixture/raw-byte guards, and zero skips. The original22 stub-red was not
+repeated. This was an implementation defect within the existing Unicode contract,
+not a contract change or permission to weaken an oracle.
+
+After explicit coordinator authorization, this implementer normally merged actual
+`1482636` into the existing implementation branch. The minimal source correction
+was committed first as `071af3b626bd0e2e9a29910fb11ca0ccab0b66f7`, blob
+`4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f`, and sent immediately for independent
+review. It removes only the faulty decoder comparison and adds a comment explaining
+initial BOM content. Existing allocation-free validation already establishes valid
+Unicode scalars, rejects embedded NUL/unpaired surrogates and computes exact UTF-8
+length; the encoder and length check remain. No decoder now consumes field content.
+Actual stored-text validation still compares exact encoded bytes to the observed
+BLOB bytes, so invalid source UTF-8 cannot pass through replacement decoding.
+
+Actual commands at that corrected source, same host environment as above:
+
+- `cmake --preset sqlite-migrations-debug` and
+  `cmake --build --preset sqlite-migrations-debug`: exit0.
+- `ctest --preset sqlite-migrations-debug -L sqlite-migrations --output-on-failure`:
+  exit0, all24 cases passed, including both unchanged reviewed U+FEFF regressions
+  and every original22 case.
+- `ctest --preset sqlite-migrations-debug --output-on-failure`: exit0,78/78 passed,
+  including old49 and infrastructure5 with the green7 executable.
+- CTest JSON versus compiled `-functions`: exact nonempty24 migration names/count,
+  full78 registrations, no duplicates or omissions.
+- Exact artifact comparison against `1482636`: regression test blob
+  `e94befdc01ceff62d2e486e1e5bff556cabe1e55`, header02f83, probe832fe,
+  vectors12280, contractcbdea and old writer023451 remain unchanged.
+- `clang-format --dry-run --Werror server/src/sqlite_migrations.cpp` and
+  `git diff --check`: exit0.
+
+No test/header/contract/vector/writer/build/CI file was edited by this implementer.
+Project consistency and progress render-check also passed at this corrected source
+(391 task records/122 decisions and current root-owned HTML). The initial76 result
+remains historical and does not override the blocking finding. Independent actual corrected-source/config approval, actual selected latest-head CI
+and final normal merge gates are still required. All caller/operational and release
+limits above remain unchanged.
