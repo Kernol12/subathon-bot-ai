@@ -342,3 +342,73 @@ No test body/skip/dependency/compile failure has been called red here. STORAGE-0
 production remains unimplemented; no caller/domain/evaluator/provider or release
 gate is completed by this test review. The previous documented scope and typed
 numeric-codec obligations remain intact.
+
+## Final baseline completion, red and CI attribution review
+
+Verdict: **approved actual baseline-completion metadata and evidence** at
+`0771ebb83cf66eea8a19d2be3b298a6c88aa4afa`, normally merged into this review
+worktree as `a58d3fa82cd0d2b405f4e5307ad23fedfee34a51`. No unresolved finding.
+This completes review of STORAGETEST-012 baseline evidence, not STORAGE-012
+implementation or the latest-head publication/merge gate.
+
+Read actual architecture/test strategy/brief, DB-01 map, task state, CI/handoff/
+checkpoint and [raw first red](storagetest-012-red-ctest.txt), blob
+`2422501997c98683e71be8afedbd16afe98f9727`. No native suite or red was rerun.
+Independent parsing checks all sixteen expected distinct cases fail explicitly
+with feature_not_implemented=0, every process passes initTestCase/cleanupTestCase,
+each reports two passed/one failed/zero skipped, and CTest records sixteen failed
+of sixteen in0.09s. Root records actual CTest exit8 atcb7db2d in the handoff/CI
+evidence; this review does not reconstruct an unrecorded invocation or substitute
+a dependency, fixture, compile or skipped-test failure for intended red.
+
+The full approval artifact in root `8d561a6` is hash-identical to this reviewer's
+`672f93c` document, and `git merge-base --is-ancestor` establishes that actual root
+approval and harness27fea1d precede red/CI head
+`cb7db2db511d54422eb5961168cd64df1e758ed4`. Header, explicit stub, contract,
+feature source, environment source, vectors, workflow and Qt CMake blobs are
+identical across approved27fea1d, cb7db2d and actual0771ebb. All three source
+functions still explicitly throw feature_not_implemented. No approval transfers
+to future source behavior or assertion changes.
+
+The separate selected-driver condition from the full review is now satisfied for
+these exact fixtures. Independently read root's ignored actual
+`local-evidence/coordinator/storagetest012-ci-cb7db2d.{json,log}` and refreshed
+[GitHub run41318070740](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41318070740)
+metadata through `gh run view`. It is a completed successful pull_request run at
+the exact cb7db2d head. Actual log/metadata checks establish:
+
+- Both pinned Qt/ICU archive hashes pass, GNU13.3.0 builds the new library/test
+  targets, and selected Qt6.12.0 reports SQLite3.53.4.
+- Real old writer25, work24 and migration24 pass separately. Existing diagnostic
+  environment has seven slots/nine passes with init/cleanup and zero skips.
+- Current retained environment has exactly three slots/five passes with
+  init/cleanup and zero skips. The full sixteen compiled feature slots are
+  discovered; the optional feature-body step was not executed in this run.
+- Fresh commit check-runs for cb7db2d contain eleven successes. That evidence is
+  attributed to that head; host Qt6.12/SQLite3.54/GNU16.2.1 remains separate.
+
+Root records observing this actual fixture success before its first local
+feature-body execution atcb7db2d. The official run did not pass the new feature
+bodies or a full95 suite. Current CI and handoff correctly preserve that distinction
+and require unconditional new16 acceptance only after later implementation.
+
+State comparison against27fea1d preserves all391 task IDs and dependencies and
+changes only STORAGETEST-012 task data. Its done status is baseline-only, with
+baseline/product_acceptance both observed_red and platform_release not_run.
+STORAGE-012 stays planned with no implementation verification/review. DB-01 stays
+partial. The map/architecture/strategy/brief/checkpoint retain opaque historical
+references, caller-owned commit, required downstream typed uint64 codecs in
+013/014/015, and no evaluator/domain bundle/backup/update/recovery/provider or
+platform completion. Tooling/DOM simulation claims are explicitly separate from
+an actual browser. No silent range, format or release-scope reduction was found.
+
+Actual checks: the raw-log/ancestry/eight-artifact scripts above, state/graph and
+DB-01 assertions, fresh read-only `gh run view`, exact-head check-runs API and
+`gh pr view 33`; `python3 tools/check_project.py` (391 records/122 decisions),
+`python3 tools/progress.py render --check` and `git diff --check` all pass.
+Fresh PR snapshot was OPEN/DRAFT at0771ebb, CLEAN with eleven successful current
+checks. That snapshot does not approve this review commit or any subsequent head.
+Root still must integrate the review, verify all applicable latest-head CI,
+discussions/current rules, and perform a normal PR33 merge before refreshing main
+and claiming the separate implementation. No protection bypass or live operation
+is authorized by this verdict.
