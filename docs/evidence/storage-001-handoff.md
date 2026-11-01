@@ -37,3 +37,21 @@ provider/platform/deployment/OBS remain separate tasks. No release scope is remo
 Root owns build/labels/CI/map/progress/checkpoint/PR integration; support worktrees
 and completed review history remain local and preserved. Final task status waits
 for code approval and actual ordinary acceptance CI; no merge is claimed here.
+
+## Independent approval and actual automatic acceptance
+
+Separate reviewer `/root/storage_code_reviewer` approved actual source/config
+candidate850eef4 ind6f9c49 (integrated422acfd), after independently running full
+preset25/25 and inspecting beyond direct assertions. The review covers active
+capacity through transaction completion, registry synchronization, bounded counters,
+private SQL lifetimes, rollback/fatal-close pending callbacks and no implementation
+member access after user callbacks. No source/assertion change was requested.
+[Exact review](storage-001-code-review.md).
+
+Actual promoted UbuntuCI41289246502 atPR25headed5da87 passed all22 unchanged real
+SQLite cases plus environmentprobe1; Qt/ICU hashesOK and GNU13.3.0 observed.
+All10checks passed. This completes bounded implementation/code/acceptance gates;
+final completion metadata review, latest-head CI and normal merge rules remain.
+[PR25](https://github.com/Kernol12/subathon-bot-ai/pull/25) carries publication.
+Project/currentHTML/diff checks and actionlint pass; no redundant broader native
+runs are claimed beyond the actual author/root/reviewer checks recorded above.

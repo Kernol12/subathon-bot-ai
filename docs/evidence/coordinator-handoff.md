@@ -59,7 +59,8 @@ ordinary automatic acceptance CI and final latest-head PR/rules gates.
 - `/root/storage_code_reviewer` has completed read-only requirement preparation;
   actual candidate850eef4 is being reviewed in isolated
   `local-evidence/worktrees/storage001-review`, branch `task/STORAGE-001-code-review`.
-  Reviewer independently ran fullpreset25pass; source review verdict pending.
+  Reviewer independently ran fullpreset25pass; source/configapprovedd6f9c49,
+  integrated422acfd. Final completionmetadata/CI-evidence review next.
 - Earlier author/reviewer/Qt investigator completed. All existing support worktrees, valid review commits and the local-only checkpoint
   branch are preserved. A corrected exit-code-aware audit found36existing worktrees
   clean and16historical `/tmp/subathon-*` paths absent; their branches/review commits
@@ -96,15 +97,18 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-Finish actual code/config review, publish focused draft STORAGE-001 PR and observe
-ordinary automatic acceptance using real UbuntuQt6.12/QSQLITE. Current source
-bloba8e5c8e and approved22testsf8418e83 pass root/author/reviewer(full25); interface/
-contract unchanged. Root CI promotion is unconditional, not a passing build-only
-claim. Update reviewed implementation/map/status/evidence only after actual code
-approval and CI; require final reviews/latest CI/normal rules before merge. No
-unrelated production slice belongs in this PR.
+Bounded STORAGE-001 implementation is done with separate code/configapproval
+d6f9c49 (integrated422acfd), sourcea8e5c8e, unchanged22testsf8418e83/header11d204aa/
+contract4d280461. Author/root/reviewer fullpreset25pass. Actual automatic Ubuntu
+CI41289246502 at[PR25](https://github.com/Kernol12/subathon-bot-ai/pull/25) headed5da87
+passed22real cases+Qtprobe1, Qt/ICUhashesOK/GNU13.3, all10checks passed there.
+Obtain final completionmetadata/actualCI-evidence review, publish final approvals,
+then require all latest PR25 checks/discussions/current normalrules before merge.
+After merging refreshmain and choose next dependency-ready bounded baseline;
+STORAGETEST-002 or CORETEST-005 unlock more authoritative application/accounting.
+Do not treat primitive writer success as full schema/application/recovery support.
 
-Root's uncommitted edits are passing-source status/handoff/CI assessment/checkpoint;
+Root's uncommitted edits are completion state/map/docs/handoff/CI outcome/checkpoint;
 source/config are committed and the author worktree is clean. No native root command is left running. Inspect
 actual worktrees/processes/agents/PRs if interrupted; do not assume active agents
 survive a session stop. No owner question or access decision remains.

@@ -24,3 +24,17 @@ Windows/OBS or provider validation. All later release gates remain recorded.
 Ruleset26170263 requires PR/resolved threads with zero GitHub approvals and no
 required-status-check rule; stable check names are written gates, not a new claim
 that workflow addition changed GitHub enforcement. Recheck actual rules at merge.
+
+## Observed ordinary Ubuntu acceptance
+
+[Run41289246502](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41289246502)
+atPR25headed5da87 succeeded. Root retained/inspected actual logs: both archive
+SHA256 checksOK, GNU13.3.0, Qt environment probe1/1, registration guard22, followed
+by the unconditional `Run reviewed writer acceptance` step with22/22 passing real
+file cases. All10PR checks passed at that revision. Code/config reviewd6f9c49
+independently approves sourcea8e5c8e and promoted workflow504240ef.
+
+This resolves the baseline build-only CI gap for this bounded writer library;
+no full server/application/recovery/platform support follows from it. Workflow
+source has no behavior conditional, hidden failure or modified acceptance assertions.
+Final metadata review and all latest-head CI remain publication/merge gates.

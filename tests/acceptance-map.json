@@ -627,9 +627,13 @@
       "evidence": [
         "docs/evidence/storagetest-001-review.md",
         "docs/evidence/storagetest-001-red-ctest.txt",
-        "docs/evidence/storagetest-001-handoff.md"
+        "docs/evidence/storagetest-001-handoff.md",
+        "docs/evidence/storage-001-implementation.md",
+        "docs/evidence/storage-001-code-review.md",
+        "docs/evidence/storage-001-ci.md",
+        "docs/evidence/storage-001-handoff.md"
       ],
-      "scope": "22 independently reviewed real Qt SQL/SQLite disposable-file cases observed intended red from explicit feature_not_implemented stubs. No production writer, app schema/migration/atomicity, crash/backup/recovery or supported-platform release verification yet."
+      "scope": "22 unchanged reviewed real Qt SQL/SQLite disposable-file cases now pass against owned writer/reader implementation with separate code review and actual automatic Ubuntu Qt6.12 acceptance. Original intended stub-red retained. No application schema/migration/repository/atomicity, crash/backup/recovery or supported-platform release verification."
     },
     {
       "id": "AUTH-11",

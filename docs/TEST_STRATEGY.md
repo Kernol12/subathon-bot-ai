@@ -4,9 +4,9 @@
 | --- | --- | --- |
 | GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation and plan22 pure-transform cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
-| Qt Test | Qt signals/models/event loops and real SQLite writer | Environment probe passes; 22 independently reviewed writer cases observed intended stub-red |
+| Qt Test | Qt signals/models/event loops and real SQLite writer | Environment probe passes; 22 unchanged reviewed real SQLite writer cases pass; original intended red retained |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform plus writer22/22 real SQLite cases pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -147,14 +147,16 @@ that same stable lane runs on PRs/main with selected pinned dependencies. The
 correctness, real permission, durable writer/audit, current cap/effect/application or
 provider capability is established by capturing these supplied values.
 
-## Qt SQL writer baseline
+## Qt SQL writer implementation
 
-STORAGETEST-001 supplies22 independently reviewed disposable-file Qt Test cases for
-DB-01 and [writer revision1](contracts/sqlite-writer-v1.md), observed red from
-explicit missing-behavior stubs after successful compilation. The
-[handoff](evidence/storagetest-001-handoff.md) records exact reviewed blobs and red
-output. Configure/build `sqlite-writer-debug`, then CTest `-L sqlite-writer`.
-The lane requires Qt>=6.12 Core/Sql/Test and actual QSQLITE; absent dependencies,
-skipped tests or compilation failures never establish red. Automatic baseline CI
-builds/discovers and runs an environment probe; it does not claim passing writer
-behavior. STORAGE-001 must preserve assertions and add actual automatic acceptance.
+STORAGETEST-001 supplied22 independently reviewed disposable-file Qt Test cases for
+DB-01 and [writer revision1](contracts/sqlite-writer-v1.md); original intended
+stub-red remains in the [baseline handoff](evidence/storagetest-001-handoff.md).
+STORAGE-001 implements the bounded writer/reader library: all22 unchanged cases
+pass with separate code review and actual automatic UbuntuQt6.12 acceptance.
+[Implementation handoff](evidence/storage-001-handoff.md) records exact artifacts,
+commands and limits. Configure/build `sqlite-writer-debug`, then CTest
+`-L sqlite-writer`, or run fullpreset25 including infrastructure. Core/Sql/Test
+Qt>=6.12 and actual QSQLITE are required. The same real cases now run on PRs/main;
+no environment error/skip/failure inversion counts as acceptance. This is no
+application schema/migration/transaction, crash/backup/recovery or live release proof.
