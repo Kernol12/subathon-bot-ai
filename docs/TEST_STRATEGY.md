@@ -215,24 +215,24 @@ official Ubuntu Qt6.12/SQLite3.53.4 acceptance separately from hostSQLite3.54.0.
 No actual backup/update/recovery, domain/application schema, power-loss or release
 platform/provider proof follows from this internal mechanism.
 
-## Retained configuration/context baseline
+## Retained configuration/context acceptance
 
-STORAGETEST-012 provides16 separately reviewed Qt feature cases plus a separate
-three-slot existing-driver fixture diagnostic and independent frozen manifest/
-opaque byte vectors. [Baseline](evidence/storagetest-012-handoff.md) records actual
-fullapproval672f93c before root16stub-red atcb7db2d, after selected officialQt
-green3 succeeded. Every init/cleanup passed and zero cases skipped. Source remains
-explicitly unimplemented until STORAGE-012; a completed test baseline is no feature
-completion. Both review-found oracle gaps were strengthened before red.
+STORAGETEST-012 supplies16 separately reviewed Qt cases, a three-slot existing-
+driver fixture diagnostic and independent frozen manifest/opaque byte vectors.
+[Baseline](evidence/storagetest-012-handoff.md) pins actual fullapproval672f93c
+before root16stub-red atcb7db2d, after selected officialQt green3. Every init/
+cleanup passed, zero cases skipped; both actual oracle findings were strengthened.
+Do not repeat that completed gate.
 
-Configure/build sqlite-retained-debug. The full preset registers95 tests: old78,
-one new fixture executable (3 slots) and16 new retention cases. New `-L
-sqlite-retained` is intentionally red; green-only `-E '^sqlite-retained\.'` runs
-79 existing/infrastructure checks. CI automatically builds/discovers new16, runs
-mandatorynewgreen3 and allold73/green7. Optional manual run_retained_acceptance
-propagates actual new-body failure; no failure inversion or blanket continuation.
-STORAGE-012 must preserve reviewed assertions, implement/code-review/pass and
-promote new16 to unconditional automatic execution. No dependency/fixture/compile/
-skip/zero-test error establishes red. Independent references/documents are opaque
-bytes; typed receipt/contribution/plan numeric codecs and semantic/evaluator,
-application/recovery/provider/platform gates remain separate and mandatory.
+STORAGE-012 preserves those assertions and passes them against real synchronous
+retention primitives through the existing writer session. Configure/build/test
+sqlite-retained-debug runs95 tests: old78,16 retention and one new fixture
+executable (3 slots). Author/root/different reviewer full95 pass. Actual automatic
+Ubuntu Qt6.12/SQLite3.53.4 CI runs old25/work24/migration24/green7/green3 and all16
+retention cases unconditionally, with exact compiled-registration guards/pinned
+dependencies. No manual body guard, failure inversion or fixture weakening.
+[Implementation](evidence/storage-012-handoff.md), [code/config review](evidence/storage-012-code-review.md),
+[CI](evidence/storage-012-ci.md) distinguish hostSQLite3.54 from bundled3.53.4.
+This proves opaque-byte persistence only; semantic config/evaluator resolution,
+actual typed receipt/contribution/plan numeric codecs, application bundle, backup/
+recovery/update, power-loss/provider/platform release remain separate gates.

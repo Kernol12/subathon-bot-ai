@@ -18,7 +18,7 @@ option(SUBATHON_BUILD_QT_PROBE "Build a Qt 6.12 Core/Test environment probe" OFF
 option(SUBATHON_BUILD_SQLITE_WRITER_TESTS "Build Qt SQL SQLite writer acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_WORK_TESTS "Build reviewed writer transaction-work acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS "Build reviewed migration catalog acceptance tests" OFF)
-option(SUBATHON_BUILD_SQLITE_RETAINED_TESTS "Build draft retained-context baseline" OFF)
+option(SUBATHON_BUILD_SQLITE_RETAINED_TESTS "Build reviewed retained-context acceptance tests" OFF)
 option(SUBATHON_BUILD_TIME_DEBT_TESTS "Build reviewed time-debt acceptance tests" OFF)
 set(SUBATHON_GOOGLETEST_SOURCE_DIR "" CACHE PATH "Optional local GoogleTest source checkout")
 include(cmake/ProjectOptions.cmake)

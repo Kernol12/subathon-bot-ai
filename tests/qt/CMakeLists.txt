@@ -68,7 +68,7 @@ if(SUBATHON_BUILD_SQLITE_RETAINED_TESTS)
     target_compile_definitions(server_sqlite_retained_context_acceptance PRIVATE
         SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
     subathon_target_options(server_sqlite_retained_context_acceptance)
-    # Intentional new baseline red is separate from the existing passing suites.
+    # Reviewed retained cases preserve their baseline names and separate processes.
     foreach(case IN ITEMS
         manifestMatchesApprovedRetentionMigration
         retainsExactBytesAndResolvesAfterReopen
@@ -89,7 +89,7 @@ if(SUBATHON_BUILD_SQLITE_RETAINED_TESTS)
     )
         add_test(NAME sqlite-retained.${case} COMMAND server_sqlite_retained_context_acceptance ${case})
         set_tests_properties(sqlite-retained.${case} PROPERTIES
-            LABELS "sqlite-retained;acceptance;draft;qt;server" TIMEOUT 20)
+            LABELS "sqlite-retained;acceptance;qt;server" TIMEOUT 20)
     endforeach()
 endif()
 
