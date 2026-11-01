@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T18:04:06.833282+00:00",
+  "updated_at": "2026-11-01T18:18:26.430149+00:00",
   "summary": "Bounded core/accounting helpers and controlled SQLite writer, migration and immutable-retention mechanisms are integrated. STORAGETEST-013 supplies reviewed receipt SQL tests and a genuine compiling red baseline; its adapter implementation and the full application/provider/platform release remain incomplete.",
   "verification": [
     {
@@ -4669,7 +4669,8 @@
         "Actualfixturesauthor33df432/root5561e69 JSONa79e5e71/greenb1ca37be; actualfeatureauthor135d3d3/root97863f9 testa68cd5a7 ONLYnew1553line22cases+ownevidence. Rootactualconfigure/build/linkPASS0warnings,118registrations=old95+new22+green1exe; exactcompiled22/CTestnames+3greennamesmatch. Rootgreen3PASS5inclinitcleanup0skip; stable96(old95+green1)PASS2.23s; NEWfeaturebodiesNOTRUN. SharedactualCMake22/macro/envonlyoldwriter+workflowfixed3/fullregistration/manualexplicitred receivedboundedpre-reviewNOFINDINGSbutfullactualtestreviewpending. Reviewerresumedactualfixtureoracleinspectionnofindings, full22/harnessapprovalpending. Bothauthorscompletedclean, rootcoordinatingactualfullreviewbeforeselectedofficialNEWgreenCI/firstred.",
         "Actual separate full-test inspection found focused gaps before any feature body/red: oversized-alone result did not isolate cumulative charging; stored9B row and SQLNULLinsert boundaries; retained-document malformed/limit mapping with short receipt facts; new row delta before forced create/append SQL fault. Author5a8b700/rootaa80102 preserves originaloversize/all12corrupt cases and adds two600000 result proof+9B canonical0e+00; fixturecde2ef8/roote33d742 adds actualNULL INSERT refusal; authorad60c19/root7fa9f0a adds isolatedTEXT3/BLOB4 target failures atvalue3; author9b4f38d/rootf3b2517 proves count_after=count_before+1 beforestageflags. Finalactualtest0e61209e5ad16448416f62305de7eda90191d8e1/green8189f0274a38bb840c612673e0f858fe8d1777eb; JSONa79/APIb43/stubfaf/logicale1/schema2ef unchanged. Rootrebuild/linkPASS0warnings, revised118/exact22+3 discoveryPASS, revisedgreen5inclinitcleanup0skipPASS; featurebodiesNOTRUN. Differentactualfullre-review pending finalcompiledrevision; officialNEWselectedgreenproof/firstred remain future. Bothauthorscompletedclean; revieweractive.",
         "Final strict-type913354a/root8630e74 adds byte-equivalentTEXTallocator guard; diagnostic183c908/root8dfaf22 safely carriesnamedNotImplemented outofworkers afterjoin. Finaltestdab97946568e09f15119a8995735539eb2e14c4d rebuilt0warnings/exact118+22; green818 unchanged. ACTUALFULLtest/fixture/harnessapproval7df446e integratedb1c77e1 resolvesallfindings; reviewerall22/helpers/green/JSONread, independentF10535/SHA+6stringvectors/compiled118/exact22+3, green5/0skip+stable96at7binputsunchanged, no body/red. Publishingactualapprovedfullcandidate forrequiredselectedofficialNEWgreen3/current818+22discovery proof; onlyafteractualsuccessfulCI rootfirstred. Statusin_review/nofeatureimplementation.",
-        "Baseline gatescompleteat5ffe2e4 afteractualfullapproval7df/rootb1 andactualselectedofficialQt41334070282 currentgreen8183methods5passes0skip/exact22discovery/pinhashesGNU13.3Qt6.12SQLite3.53.4/old25+24+24+16+green7/3/all11checks. Rootfirstfeaturebodyrun2026-11-01T18:00:26.517274Z ctestsqlite-receipt label--parallel1 EXIT8/all22explicitNotImplemented/22init+22cleanupPASS/0skip/crash/dependency/setupfail,total0.22s. Hash/ancestry/cleanheadcheckedBEFORErun; rawrecordretained; doNOTrepeatcompletedred. TestauthordoneNOTfeatureimplementationdone. PR35stilldraftpendingfinalmetadata/CIattributionreview/latestheadchecks/discussions/rules/normalmerge. STORAGE013planneduntilfreshmainintegratesbaseline; alloldcontracts/tests/reviews/sourcepreserved."
+        "Baseline gatescompleteat5ffe2e4 afteractualfullapproval7df/rootb1 andactualselectedofficialQt41334070282 currentgreen8183methods5passes0skip/exact22discovery/pinhashesGNU13.3Qt6.12SQLite3.53.4/old25+24+24+16+green7/3/all11checks. Rootfirstfeaturebodyrun2026-11-01T18:00:26.517274Z ctestsqlite-receipt label--parallel1 EXIT8/all22explicitNotImplemented/22init+22cleanupPASS/0skip/crash/dependency/setupfail,total0.22s. Hash/ancestry/cleanheadcheckedBEFORErun; rawrecordretained; doNOTrepeatcompletedred. TestauthordoneNOTfeatureimplementationdone. PR35stilldraftpendingfinalmetadata/CIattributionreview/latestheadchecks/discussions/rules/normalmerge. STORAGE013planneduntilfreshmainintegratesbaseline; alloldcontracts/tests/reviews/sourcepreserved.",
+        "PR35 actuallymergeda97e048b198a2293b58a25bd09d92518e95b0da5 at2026-11-01T18:16:21Z afterexactfinal8a66a3a/all11SUCCESS/full7df+final81reviews/currentrules0GHapprovals/no threads. Mainrefreshed; baselineintegrated, sourceimplementationnowseparatelyclaimed. No originalredrepeat/sourceacceptanceclaim."
       ],
       "verification": {
         "contract_authoring": "passed",
@@ -4710,8 +4711,8 @@
       "title": "Identified-receipt SQLite repository adapter",
       "module": "Operations",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/debt_code_reviewer; code/config reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-012",
         "ACCT-001",
@@ -4724,10 +4725,13 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-013.md",
       "summary": "Implement the existing synchronous ReceiptRepository/ReceiptTransaction ports through writer-owned work, with immutable original receipt facts, attempts and scoped uniqueness. Do not move intake policy into storage fakes.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from refreshed maina97e048 after PR35 actualnormalmerge2026-11-01T18:16:21Z final8a66a3a/all11SUCCESS/fulltest7df+finalmetadata81/no threads/currentrules0requiredapprovals. Dependencies STORAGE012/ACCT001/STORAGETEST013done/integrated. Preserve frozenDABfeature22/green818/JSONa79/APIb43/logicale1/physical2ef/immutableprefix1/alloldsource/tests. Genuine reviewedfirstredat5ffe exit8/22explicitmissing/allinitcleanup pass/0skip/0.22s alreadycomplete: DO NOT repeatunchangedstubbaseline. ImplementONLYserver/src/sqlite_receipts.cpp plusownnewevidence inNEWisolatedsourceworktree: BE8fulluint64purecodec/domain1..MAX, approvedexactadditivemanifest2, existingports realone-session/adopttransaction, immutableoriginal/everyattempt/exactscopedidentity/retainedrefs/strictfields/bounds/allocatorMAX/knownrollbackvsactualunknown. No newprivatewriterAPI/provider/wire/effects/jobs/appbundle/recovery or header/test/fixture/contract edits. Rootownsapprovedschema/order/build/preset/CIpromotion/state/map/HTML/checkpoint. Actualsourcechangesmayrun22acceptance/full118; differentactualcode/configreview andunconditionalnew22officialCI requiredbeforedone. Read-onlysourceprepcomplete/no contradictions/ownerdecision; newproductionwork startsnowonlyafteractualbaselineintegration."
       ],
       "verification": {},
-      "evidence": [],
+      "evidence": [
+        "docs/evidence/storagetest-013-handoff.md"
+      ],
       "review": null
     },
     {
@@ -11876,6 +11880,11 @@
       "date": "2026-11-01T18:04:06.833282+00:00",
       "task": "STORAGETEST-013",
       "note": "Baseline gatescompleteat5ffe2e4 afteractualfullapproval7df/rootb1 andactualselectedofficialQt41334070282 currentgreen8183methods5passes0skip/exact22discovery/pinhashesGNU13.3Qt6.12SQLite3.53.4/old25+24+24+16+green7/3/all11checks. Rootfirstfeaturebodyrun2026-11-01T18:00:26.517274Z ctestsqlite-receipt label--parallel1 EXIT8/all22explicitNotImplemented/22init+22cleanupPASS/0skip/crash/dependency/setupfail,total0.22s. Hash/ancestry/cleanheadcheckedBEFORErun; rawrecordretained; doNOTrepeatcompletedred. TestauthordoneNOTfeatureimplementationdone. PR35stilldraftpendingfinalmetadata/CIattributionreview/latestheadchecks/discussions/rules/normalmerge. STORAGE013planneduntilfreshmainintegratesbaseline; alloldcontracts/tests/reviews/sourcepreserved."
+    },
+    {
+      "date": "2026-11-01T18:18:26.430149+00:00",
+      "task": "STORAGE-013",
+      "note": "Claim from refreshed maina97e048 after PR35 actualnormalmerge2026-11-01T18:16:21Z final8a66a3a/all11SUCCESS/fulltest7df+finalmetadata81/no threads/currentrules0requiredapprovals. Dependencies STORAGE012/ACCT001/STORAGETEST013done/integrated. Preserve frozenDABfeature22/green818/JSONa79/APIb43/logicale1/physical2ef/immutableprefix1/alloldsource/tests. Genuine reviewedfirstredat5ffe exit8/22explicitmissing/allinitcleanup pass/0skip/0.22s alreadycomplete: DO NOT repeatunchangedstubbaseline. ImplementONLYserver/src/sqlite_receipts.cpp plusownnewevidence inNEWisolatedsourceworktree: BE8fulluint64purecodec/domain1..MAX, approvedexactadditivemanifest2, existingports realone-session/adopttransaction, immutableoriginal/everyattempt/exactscopedidentity/retainedrefs/strictfields/bounds/allocatorMAX/knownrollbackvsactualunknown. No newprivatewriterAPI/provider/wire/effects/jobs/appbundle/recovery or header/test/fixture/contract edits. Rootownsapprovedschema/order/build/preset/CIpromotion/state/map/HTML/checkpoint. Actualsourcechangesmayrun22acceptance/full118; differentactualcode/configreview andunconditionalnew22officialCI requiredbeforedone. Read-onlysourceprepcomplete/no contradictions/ownerdecision; newproductionwork startsnowonlyafteractualbaselineintegration."
     }
   ]
 }
