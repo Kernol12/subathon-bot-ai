@@ -120,6 +120,7 @@ transaction/work outcomes and cumulative SQL budgets on the same private writer.
 [Independent contract evidence](evidence/contract-004-handoff.md) and
 [storage decomposition](decisions/0002-storage-executable-slices.md) preserve every
 original storage requirement through real baseline-gated slices. This is not an
-implemented mechanism: STORAGETEST-010 still authors/reviews actual tests and
-observes intended red before STORAGE-010 may add it. Existing writer25 and all
+implemented mechanism: STORAGETEST-010 now supplies24 separately reviewed real
+Qt SQL cases and actual intended stub-red; STORAGE-010 must preserve that baseline
+and pass separate implementation/code-review/acceptance gates before adding it. Existing writer25 and all
 wire/provider/application schema boundaries remain unchanged.

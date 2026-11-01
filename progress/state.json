@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T10:44:54+00:00",
+  "updated_at": "2026-11-01T10:51:10+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4313,7 +4313,7 @@
       "title": "Review and demonstrate red: Writer-owned dynamic repository transactions",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; test author /root/storage_decomposition; reviewer /root/writer_transaction_reviewer",
       "depends_on": [
         "CONTRACT-004",
@@ -4334,23 +4334,32 @@
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01–WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes.",
         "Shared build/CI harness d680dd4 prepared; separate reviewer inspected it without blockers, with actual test/interface approval still pending authored artifacts. Proposed 24 Qt slots cover WT01–WT20; no new body execution or observed red claimed. Root scaffold configure/build and 3/3 infrastructure checks passed, tooling19/DOM/actionlint passed. Main e374788 post-merge all10 checks successful. Author remains active in isolated worktree; prior evidence preserved.",
-        "Author76d3a00 integrated9a9f29c; actual24 testblob d248a050, header afc9f483, hook a2cd7b89, stub b47f131a compile and exactly match CTest discovery (53 total). Root configure/build, old25 acceptance/regression and scaffold4 including Qt probe pass. Old source/tests/contract diff empty. Separate reviewer now inspecting actual candidate; new bodies/red NOT run. Changes strengthen synchronous rollback lock probes and preserve old queued sql_failure category. CI remains build/discovery for known-red work, stable old25 automatic."
+        "Author76d3a00 integrated9a9f29c; actual24 testblob d248a050, header afc9f483, hook a2cd7b89, stub b47f131a compile and exactly match CTest discovery (53 total). Root configure/build, old25 acceptance/regression and scaffold4 including Qt probe pass. Old source/tests/contract diff empty. Separate reviewer now inspecting actual candidate; new bodies/red NOT run. Changes strengthen synchronous rollback lock probes and preserve old queued sql_failure category. CI remains build/discovery for known-red work, stable old25 automatic.",
+        "Actual final d09d330/tests eb9e3b6 independently approved96c1481, integrated75c07fc BEFORE observed24 stub-red(exit8), all fixtures/init pass/no skips. Corrected Ubuntu41299021575 atd09d330 passed Qt/ICUhashes/GNU13.3/probe1/old25/exact24 new discovery; all11 checks there success. Baseline done only; new mechanism remains unimplemented. Final metadata/red/CI review, latest-head checks/discussions/current rules/normal merge remain publication gates. STORAGE-010 preserves exact baseline and must implement/code-review/pass/enable automatic cases after prerequisite merge."
       ],
       "verification": {
         "authored_tests": "passed",
         "native_build": "passed",
-        "test_review": "not_run",
-        "baseline": "not_run",
-        "product_acceptance": "not_run",
-        "github_ci": "not_run",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "observed_red",
+        "github_ci": "passed",
         "platform_release": "not_run"
       },
       "evidence": [
         "docs/evidence/storagetest-010-handoff.md",
         "docs/evidence/storagetest-010-ci.md",
-        "docs/evidence/storagetest-010-author.md"
+        "docs/evidence/storagetest-010-author.md",
+        "docs/evidence/storagetest-010-review.md",
+        "docs/evidence/storagetest-010-red-ctest.txt"
       ],
-      "review": null
+      "review": {
+        "author": "/root/storage_decomposition (tests/API); /root (shared harness)",
+        "reviewer": "/root/writer_transaction_reviewer",
+        "outcome": "approved",
+        "baseline": "actual d09d330; tests eb9e3b600788f9473c5be7abdda86440cd73a3f4/header afc9f483/hook a2cd7b89/stub b47f131a; review96c1481 integrated75c07fc before actual24 stub-red(exit8)",
+        "evidence": "docs/evidence/storagetest-010-review.md"
+      }
     },
     {
       "id": "STORAGE-010",
@@ -11524,6 +11533,11 @@
       "date": "2026-11-01T10:44:54+00:00",
       "task": "STORAGETEST-010",
       "note": "Author76d3a00 integrated9a9f29c; actual24 testblob d248a050, header afc9f483, hook a2cd7b89, stub b47f131a compile and exactly match CTest discovery (53 total). Root configure/build, old25 acceptance/regression and scaffold4 including Qt probe pass. Old source/tests/contract diff empty. Separate reviewer now inspecting actual candidate; new bodies/red NOT run. Changes strengthen synchronous rollback lock probes and preserve old queued sql_failure category. CI remains build/discovery for known-red work, stable old25 automatic."
+    },
+    {
+      "date": "2026-11-01T10:51:10+00:00",
+      "task": "STORAGETEST-010",
+      "note": "Actual final d09d330/tests eb9e3b6 independently approved96c1481, integrated75c07fc BEFORE observed24 stub-red(exit8), all fixtures/init pass/no skips. Corrected Ubuntu41299021575 atd09d330 passed Qt/ICUhashes/GNU13.3/probe1/old25/exact24 new discovery; all11 checks there success. Baseline done only; new mechanism remains unimplemented. Final metadata/red/CI review, latest-head checks/discussions/current rules/normal merge remain publication gates. STORAGE-010 preserves exact baseline and must implement/code-review/pass/enable automatic cases after prerequisite merge."
     }
   ]
 }

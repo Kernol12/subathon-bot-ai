@@ -38,3 +38,10 @@ execution for that candidate; it is not a result for later test-fix revisions or
 passing new work behavior. Independent test review requested two focused outcome-
 matrix additions before approval; their final compile/CI and intended red remain
 pending. Raw logs are ignored in local-evidence/coordinator, not source artifacts.
+
+Corrected test candidate d09d330 also passed actual
+[run41299021575](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41299021575):
+verified Qt/ICU hashes, GNU13.3, probe1/old25 pass, exact24 discovery and all11 PR
+checks successful. Reviewer96c1481 approved actual final test/interface/harness
+artifacts, then root at75c07fc observed genuine24-case stub-red(exit8), zero skips.
+Final integration/metadata review and latest-head CI/normal merge gates remain.

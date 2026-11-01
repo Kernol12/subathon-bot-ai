@@ -84,48 +84,50 @@ All seven integrations/three rate providers, app/accounting, renderers, UI/local
 themes, packaging/platform and live/OBS gates remain full release scope. No percentage
 or completed product claim is made. Old branches/reviews/archives remain preserved.
 
-## Active baseline task and next action
+## Current baseline and publication gates
 
-STORAGETEST-010 is in_review on `task/STORAGETEST-010-writer-work`, claime3f24bd
-from refreshed main e374788. Current published head a6499f4, draft
-[PR29](https://github.com/Kernol12/subathon-bot-ai/pull/29). Main e374788 postmerge
-all10 checks succeeded. No owner decision/access is needed.
+STORAGETEST-010 is done as reviewed/red tests only on
+`task/STORAGETEST-010-writer-work`, claime3f24bd from refreshed main e374788.
+[PR29](https://github.com/Kernol12/subathon-bot-ai/pull/29) is draft. Last published
+d09d330 had all11 checks successful; later metadata heads require fresh checks.
+Main e374788 postmerge all10 succeeded. No owner decision/access is needed.
 
-Author `/root/storage_decomposition` was explicitly reassigned from completed
-CONTRACT-004 to `local-evidence/worktrees/storagetest010-author`, branch
-`task/STORAGETEST-010-author`. It owns additive header declarations, new explicit
-work stubs, testing-only ack fault header, new Qt tests and author evidence only.
-Author6532c07/API and76d3a00/tests integrate be925db/9a9f29c. Candidate testblob
- d248a050/header afc9f483/hook a2cd7b89/stub b47f131a. Root owns shared CMake/
-presets/workflow/map/state/HTML/checkpoint; shared harness d680dd4. Old source,
-old25 assertions and contract are unchanged. No production work behavior is added.
+Author `/root/storage_decomposition` completed in isolated
+`local-evidence/worktrees/storagetest010-author`, branch
+`task/STORAGETEST-010-author`, clean at0c6fc8e. It owns additive writer header,
+new explicit work stubs, narrow testing ack-loss header, new Qt cases and author
+notes only. Root owns build/presets/workflow/map/state/HTML/checkpoint. Author
+6532c07/76d3a00/0c6fc8e integrate be925db/9a9f29c/d09d330. Root harnessd680dd4;
+no oldsource/old25/contract changes and no new production work behavior.
 
-Independent `/root/writer_transaction_reviewer` is assigned in isolated
-`local-evidence/worktrees/storagetest010-review`, branch
-`task/STORAGETEST-010-review`. API/harness preparation found no blockers. Actual
-full24 review requests two focused variants before approval: unknown rollback ack
-must override a first SQL error, and validation-before-BEGIN failure must leave
-following committed work healthy. Author is resumed for these fixes; reviewer is
-continuing actual audit. No final baseline approval or new body run yet.
+Different `/root/writer_transaction_reviewer` approved actual d09d330 in96c1481,
+integrated75c07fc BEFORE first behavior run. Reviewer branch/worktree
+`task/STORAGETEST-010-review`, `local-evidence/worktrees/storagetest010-review`,
+clean after approval; final integration review is next. Exact final tests eb9e3b6,
+header afc9f483, hook a2cd7b89, stub b47f131a, contract4ba20506. Independent review
+resolved immediate rollback lock probes, queued old sql_failure compatibility,
+uncertainty over first SQL error and healthy work after pre-BEGIN exception.
 
-Author/root configure/build and exact nonempty24 compiled-vs-CTest discovery pass
-(53 total); root old25 real acceptance and scaffold4/Qtprobe pass. Scaffold3,
-tooling19, DOM, project391/current HTML, actionlint and whitespace pass. Actual
-Ubuntu41298835177 at a6499f4 passed verified archives/GNU13.3/probe1/old25/exact24
-new discovery; all11 PR checks there passed. No new behavior acceptance is inferred.
-[Baseline handoff](storagetest-010-handoff.md), [author](storagetest-010-author.md),
-[CI assessment](storagetest-010-ci.md) pin actual artifacts, commands and limits.
+Author/root/reviewer configure/build/exact24 discovery pass (53 total). Root and
+reviewer old25 real acceptance and scaffold4/Qtprobe pass. Actual corrected Ubuntu
+41299021575 at d09d330 passes hashes/GNU13.3/probe1/old25/exact24 new discovery,
+all11 checks there success. Root then ran actual work CTest at75c07fc: exit8,
+24/24 explicit feature_not_implemented failures, successful fixture/init setup,
+zero skips/environment/compile failures. [Baseline handoff](storagetest-010-handoff.md),
+[review](storagetest-010-review.md), [raw red](storagetest-010-red-ctest.txt) and
+[CI assessment](storagetest-010-ci.md) pin exact artifacts/commands/limits. No
+new feature passing acceptance is claimed. Known-red bodies stay separate until
+STORAGE-010 enables automatic acceptance.
 
-Next: integrate focused authored fixes, obtain separate actual test/interface/
-harness approval, THEN run real work cases and retain intended stub-red with zero
-skips/environment failures. Preserve every reviewed assertion. Final integration/
-latest-head CI/discussions/normal-rule gates remain before merge. STORAGE-010 must
-start only from integrated reviewed/red baseline, implement additive mechanism,
-obtain different code review and promote unchanged cases to automatic acceptance.
+Next: different-agent final metadata/red/CI attribution review of the concrete
+completion revision; publish approval, require latest-head checks/discussions and
+current normal rules before PR29 merge. Then refresh main and claim STORAGE-010
+with isolated implementer/code-reviewer, preserve exact baseline, pass real work
+acceptance and promote unchanged cases to automatic CI. Never repeat completed red.
 
-At initial task audit44 existing worktrees were clean;16 absent historicaltmp
-paths/refs remain preserved. Root is clean at this checkpoint; author owns its
-unfinished review fixes in its worktree. No root command remains running. Inspect
-actual agent/process/worktree state on resume, never assume historical agents live.
-Migration/config/receipt/contribution/plan/application bundle/recovery/platform/live
-and all seven integrations/three rate providers remain full release scope.
+Root has no running command or uncommitted work after this checkpoint commit.
+Author finished; reviewer must be resumed for final integration. At task audit44
+existing worktrees were clean;16 historical absenttmp refs/metadata are preserved.
+Inspect actual agent/process/worktree/GitHub state on resume. Migration/config/
+receipt/contribution/plan/application bundle/recovery/platform/live and all seven
+integrations/three rate providers remain full release scope.

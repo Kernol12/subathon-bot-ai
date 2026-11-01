@@ -649,9 +649,11 @@
         "docs/evidence/storage-001-ownership-red.txt",
         "docs/evidence/storagetest-010-author.md",
         "docs/evidence/storagetest-010-handoff.md",
-        "docs/evidence/storagetest-010-ci.md"
+        "docs/evidence/storagetest-010-ci.md",
+        "docs/evidence/storagetest-010-review.md",
+        "docs/evidence/storagetest-010-red-ctest.txt"
       ],
-      "scope": "22 unchanged reviewed real Qt SQL/SQLite acceptance cases plus3 independently reviewed raw-buffer ownership regressions pass corrected owned writer/reader implementation, with separate corrected-source review and actual automatic Ubuntu Qt6.12 25-case acceptance. Original22stub-red and new3pre-fix-red retained. No application schema/migration/repository/atomicity, crash/backup/recovery or supported-platform release verification. STORAGETEST-010 additionally authors/compiles24 transaction-work cases and an explicit stub; independent review and intended red are pending, with no new mechanism implemented."
+      "scope": "22 unchanged reviewed real Qt SQL/SQLite acceptance cases plus3 independently reviewed raw-buffer ownership regressions pass corrected owned writer/reader implementation, with separate corrected-source review and actual automatic Ubuntu Qt6.12 25-case acceptance. Original22stub-red and new3pre-fix-red retained. No application schema/migration/repository/atomicity, crash/backup/recovery or supported-platform release verification. STORAGETEST-010 additionally supplies24 independently reviewed transaction-work cases, successful compilation, exact discovery and actual intended stub-red (exit8/no skips). This baseline is complete, with no new mechanism implemented; STORAGE-010 still requires separate implementation/code review/real passing acceptance and automatic CI."
     },
     {
       "id": "AUTH-11",
