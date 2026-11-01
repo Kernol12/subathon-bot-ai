@@ -5,8 +5,8 @@ blobaf095d97c255182c79d00a4b574e124f75734aad; author evidence1304280/rootf8a13ae
 Author runs22 and full118 pass. Root configure/build passes without warnings;
 actual full118 passes in2.56s, capture ignored under
 local-evidence/coordinator/storage013-root-full-ctest.txt. The different reviewer
-independently compiled56steps/0warnings and passed22/full118; its actual final
-source/config verdict is still pending the committed promotion revision.
+independently compiled56steps/0warnings and passed22/full118. Actual source/config approval84e2045 integrated39e3177
+covers sourceaf and the committed promotion9098eca.
 
 Root9098eca promotes the existing pinned selected-Qt lane: unchanged22 names and
 assertions, removes draft descriptions/labels, removes manual feature input/if,
@@ -31,3 +31,11 @@ publication/observation. Previous baseline CI proves its fixture, not current
 implementation. Host Qt6.12/SQLite3.54/GNU16.2.1 differs from selected bundled
 SQLite3.53.4/GNU13.3. No full application/provider/platform/live/operational release
 proof follows; all remaining scope is retained in task/checkpoint evidence.
+
+
+Actual different source/config approval84e2045/root39e3177 is now integrated,
+with no findings. It independently verifies all code, exact constants/prefix,
+exception/lifetime/arithmetic behavior, preserved baseline and current promotion.
+Root now publishes the focused implementation draft for actual official automatic
+unconditional22 verification. Component remains in_review until that observed gate;
+no baseline CI or local pass is substituted for the new source execution.

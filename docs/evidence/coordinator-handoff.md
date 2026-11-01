@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-013 source/config review
+# Coordinator checkpoint — STORAGE-013 official CI gate
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
 loop under AGENTS.md/COORDINATOR_PROMPT.md. No owner decision/access is needed.
@@ -78,8 +78,9 @@ STORAGE-013 is dependency-ready, separately claimed on root branch
 `task/STORAGE-013-receipt-repository` from refreshed maina97e048.
 [Brief](../tasks/EPIC-009/STORAGE-013.md). Actual source d815b928/root458546e now implements the approved cpp, blob
 af095d97c255182c79d00a4b574e124f75734aad. Author/root/different reviewer full118
-pass; separate source/config approval and official acceptance CI remain pending.
-No PR36 exists yet; root is preparing its concrete draft.
+pass; actual source/config approval84e2045/root39e3177 is integrated; official
+automatic acceptance CI remains pending publication/observation.
+No implementation PR exists yet; root is publishing its concrete draft.
 
 Root created both NEW worktrees clean at claim4d10d61 and actually sent these
 assignments. Source author completed clean; reviewer is active on actual source:
@@ -108,8 +109,8 @@ Worktrees/assignments are actual. Author implemented only approved cpp and
 own evidence1304280/rootf8a13ae. Root full118 passes2.56s; independent reviewer
 compiled56steps without warnings and passed22/full118. Root promotion9098eca
 removes manual receipt CI input/if and draft labels/descriptions; exact118/22
-registration/no-draft labels and actionlint/project/diff pass. Source/config
-verdict and actual official automatic unconditional22 remain pending. Preallocate pending-ID storage and prepare bindings before first
+registration/no-draft labels and actionlint/project/diff pass. Actual source/config approval84e2045/root39e3177 is integrated.
+Official automatic unconditional22 remains pending. Preallocate pending-ID storage and prepare bindings before first
 mutation; also inspect framework allocation/exception behavior after writes so a
 caught allocation failure cannot commit an untracked original. No new private API.
 One owner-thread single-use repository, explicit adoption transfers actual commit/
@@ -121,8 +122,8 @@ read quota. Known local errors establish synchronous cleanup; actual uncertain
 commit/cleanup stays WorkFailure/unknown/failclosed/no replay. Signed64 ordinal
 exhaustion needs honest mathematical/code review, never a fake MAX-row test.
 
-Next finish actual separate source/config review at committed9098eca, integrate
-review evidence, publish focused draft PR36, observe real official selected-Qt
+Next publish the separately approved focused implementation draft, observe real
+official selected-Qt
 unconditional22 acceptance, then update component completion metadata/final review/
 latest-head normal merge gates. No baseline red was repeated; these passing runs
 follow actual implementation changes. No passing-scaffold or API-only CI substitutes for implementation.
