@@ -186,3 +186,15 @@ real UTF-16 refusal and frozen UTF-8 byte/payload/digest oracles. The future gre
 selected-Qt environment probe must verify creation encoding/raw bytes and negative
 UTF-16/shadow behavior before any intended migration red can count. Existing49,
 writer/header/allowlist and executable behavior remain unchanged.
+
+## MC15 oracle precision before test authoring
+
+After actual contract approval, the coordinator authorized one narrow clarification
+for different-reviewer approval: migration query counts/projection implementation
+are not a public fixed-cost plan. MC15 now uses literal exact configured manifest
+bounds plus a guaranteed oversized session result after prior DDL to establish
+cumulative rollback. All diagnostic/catalog work remains charged; the existing49
+cases retain their exact session-boundary assertions. No count is calibrated from
+future production output, budget is reset, or existing assertion is weakened.
+Specification requirements and migration atomicity/resource scope are unchanged.
+This amendment precedes the actual new interface/test baseline review.
