@@ -1,0 +1,119 @@
+# STORAGE-001 independent code review
+
+Author: `/root/storage_implementer`, separate session.
+Reviewer: `/root/storage_code_reviewer`, 2026-11-01.
+Reviewed integrated candidate: `850eef45df3397923dbc96749603ea01122faf9d`
+(author source commit `f2a6379`, root CI promotion `fdc90c8`).
+Isolated review branch: `task/STORAGE-001-code-review`.
+
+Verdict: **approved for integration**, subject to actual automatic Ubuntu acceptance,
+latest-head checks and normal PR gates. No source changes or baseline corrections
+were requested. This is bounded writer/reader approval, not release verification.
+
+## Exact baseline and source
+
+| Artifact | Git blob |
+| --- | --- |
+| Implementation | `a8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811` |
+| Public interface, unchanged | `11d204aab3340bc670df08716ae1c80cae0c337f` |
+| Contract revision1, unchanged | `4d280461966f3fd9fcb13ab6d054c88228ca05b8` |
+| 22 Qt cases, unchanged | `f8418e83dbd88d74505c047e6b3e2c30304ade69` |
+| Promoted automatic Qt workflow | `504240ef34542bb7c4529221af40e411776b1681` |
+
+Read root/server/tests instructions, workflow/test strategy, architecture, the
+STORAGE-001 brief, specification v0.45 §2/DB-01, event/state revision1, the full
+writer contract/header/test source, original baseline reviews and actual red
+handoff. PR24 supplied the integrated reviewed/red prerequisite; no initial setup
+or test authoring was restarted. Original red at6647490 and its exact artifacts
+remain preserved. This reviewer did not author implementation or baseline tests.
+
+## Examined behavior beyond the assertions
+
+The writer reuses the construction thread's Qt queue and creates no separate
+thread. Public operations reject a foreign thread before accessing Qt SQL; on-owner
+checks also reject a moved QObject. Construction/destruction on the owner remains
+an explicit caller responsibility, with destructor assertions. Connections stay
+private, and every QSqlQuery is operation-local. Query objects have left scope
+before connection close/reset/removal, including error and partial-open paths.
+
+Canonical paths resolve existing symlinks or an existing canonical parent for new
+files. A mutex protects the process-local lease set across different owner threads.
+Partial open, failed configuration, fatal close, graceful shutdown and destruction
+release the lease. This supplements SQLite locks; it does not claim hostile external
+filesystem changes or arbitrary other processes are prevented from opening SQLite.
+
+Admission validates the entire trusted batch before queueing and stores owned value
+copies. The command allow list and semicolon policy preserve internal transaction
+ownership. Positive limits and subtraction of per-value charges avoid summing past
+signed bounds. Every value has a base charge, including null/empty values, and UTF-8
+or blob payload consumes the remaining budget. Result rows/bytes share one budget
+across the whole transaction; fetch errors and exceeded bounds expose no partial
+results. Exact numeric meaning remains with callers; no money/score arithmetic or
+new REAL representation policy was introduced.
+
+The active flag remains true while the front batch has left the queue and through
+its complete BEGIN/statements/COMMIT or rollback path. Admission counts active plus
+queued work. The slot is freed only after transaction completion, before the user
+callback. One queued dispatch handles one complete batch. A next dispatch is queued
+before user completion, with no Impl/member access afterward; callback reentrancy
+or destruction cannot leave the dispatcher touching a deleted Impl. Shutdown moves
+its completion list to local storage before callbacks for the same reason. Callback
+exceptions are contained after the transaction outcome is fixed.
+
+BEGIN IMMEDIATE, statement and COMMIT errors propagate without replay. Primary
+busy/locked codes are obtained from the native numeric error, including extended
+codes' low byte. A failed statement/COMMIT rolls back; failure to establish rollback
+closes admission and connection conservatively. Already admitted work still drains
+through dispatch and receives sql_failure rather than being silently dropped.
+Further enqueue/open is terminally rejected. Known successful rollback allows the
+remaining queue to continue. This is not recovery of an uncertain durable commit.
+
+WAL/FULL, foreign_keys and zero busy timeout are actually configured and checked on
+the writer connection. Reader connections use the real QSQLITE_OPEN_READONLY flag
+plus query_only, not a toggleable PRAGMA alone. They retain their own construction
+thread and do not grant a raw writer handle. Graceful shutdown rejects new work
+immediately, drains accepted work, closes/releases the connection/lease and posts
+completion asynchronously; repeated completion requests remain exactly once.
+
+Framework assumptions were checked against primary documentation:
+[Qt SQL connection ownership/removal](https://doc.qt.io/qt-6/qsqldatabase.html),
+[Qt queued invocation](https://doc.qt.io/qt-6/qmetaobject.html),
+[SQLite result codes](https://www.sqlite.org/rescode.html), and
+[read-only SQLite open](https://www.sqlite.org/c3ref/open.html).
+These sources support the implementation mechanisms, not full product correctness.
+
+## Actual independent commands
+
+Run from the isolated reviewer worktree on Linux x86-64, GCC16.2.1, Qt Core/Sql/
+Test6.12.0, CMake4.4.5 and Ninja1.13.2:
+
+| Command | Actual outcome |
+| --- | --- |
+| `cmake --preset sqlite-writer-debug` | Exit0 |
+| `cmake --build --preset sqlite-writer-debug` | Exit0; compiled actual implementation and unchanged Qt cases |
+| `ctest --preset sqlite-writer-debug` | Exit0;25/25: all22 real disposable-file Qt/SQLite cases and3 infrastructure checks |
+| `git diff --exit-code c2ca25a -- server/include/subathon/server/sqlite_writer.hpp docs/contracts/sqlite-writer-v1.md tests/qt/sqlite_writer_tests.cpp` | Exit0; approved public boundary/oracles unchanged |
+| `actionlint .github/workflows/sqlite-writer.yml` (official1.7.12, disposable tool path) | Exit0; no findings |
+| `git diff --check` | Exit0 |
+
+No test assertion/fixture was weakened and no baseline was skipped. The full preset
+already executes the22 writer cases, so a redundant second native run was not used
+as additional evidence. No source/test files were edited by this reviewer.
+
+## CI and remaining gates
+
+The reviewed workflow now runs actual writer acceptance unconditionally for PRs,
+main pushes and manual dispatch. It retains the already observed pinned Qtbase/
+ICU archives, action pin, version/plugin check, complete registration guard and Qt
+probe. Manual-only acceptance gating was removed; there is no failure inversion or
+continue-on-error. The existing job name is preserved. Only descriptive CMake/preset
+text and the historical draft label changed; case enumeration/commands/timeouts are
+unchanged. Actual promoted Ubuntu execution must still be observed before merge.
+
+Private-handle ownership, active capacity and callback lifetime were specifically
+inspected beyond direct tests; they are not described as separately runtime-tested
+fault injections. Rollback-failure/uncertain durable commit, abrupt crash/power loss,
+pathological trusted SQL runtime, process shutdown deadlines, actual application
+schema/migration/repositories/effects/jobs/aggregates, backup/recovery and transport
+integration remain later gates. No Windows, deployment, provider, credential, OBS or
+supported-product release claim follows from this Linux local writer evidence.
