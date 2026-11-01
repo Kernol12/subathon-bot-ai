@@ -117,9 +117,18 @@ backup workflow remains separate; no invented backup proof or final domain schem
 After actual contract review, authorize minimal interface/stubs and focused QtSQL
 cases, separately review their actual revision, THEN observe genuine missing-behavior
 red after successful compile. Preserve all existing49 assertions and valid reviews;
-STORAGE-011 production waits for this gate. Current author/reviewer need explicit
-assignment/resume; inspect actual agents/processes/worktrees/GitHub on resumption.
+STORAGE-011 production waits for this gate. Author and independent reviewer have now been explicitly assigned in their new
+worktrees; author is drafting the actual contract and reviewer is doing read-only
+preparation. Contract/test approval and any new behavior execution remain pending.
+Inspect actual agents/processes/worktrees/GitHub on resumption.
 No owner question or running root command; root clean after this checkpoint commit.
 Historical absenttmp refs/metadata remain preserved. Full product is incomplete,
 including all seven integrations/three rate providers and UI/renderers/locales/
 themes/platform/packaging/live/recovery/application bundle requirements.
+
+Postmerge main88e86c1 all10 checks were observed successful. Audit after creating
+the new011 author/reviewer worktrees found50 existing worktrees clean,16 absent
+historicaltmp paths preserved and no build/test process. No open task PR yet for
+011; the active coordinator branch is local/unpublished. Previous PR30 is actually
+merged, not assumed integrated from task status. No owner question or live release
+claim. Root clean at this checkpoint; author/reviewer future edits are isolated.
