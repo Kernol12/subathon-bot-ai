@@ -45,3 +45,17 @@ merge. Existing eight stable automatic lanes remain required written gates.
 Ruleset26170263 currently requires PR/resolved discussions, zero GitHub approvals,
 no bypass and no required-status-check rule; workflow addition does not configure
 GitHub enforcement. Recheck actual latest-head CI/rules at merge.
+
+## Actual workflow validation correction
+
+The first actual GitHub attempt at653c62f,
+[run41288086752](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41288086752),
+failed before creating jobs. The initial syntax review missed GitHub's context
+restriction: job-level env does not allow runner. Root moved prefix setup to a
+prior run step writing GITHUB_ENV. The independent reviewer acknowledged the gap,
+reproduced the original validation error with official actionlint1.7.12, and ran
+full actionlint on the corrected workflow: exit0, no findings. The corrected blob
+`398733ebeb7bd2c83d4396def554979f01ef4fd1` is independently approved. Archive pins,
+complete registration guard and true-failure manual acceptance are unchanged.
+[GitHub context availability](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)
+supports the diagnosis. Actual corrected Ubuntu execution remains required.

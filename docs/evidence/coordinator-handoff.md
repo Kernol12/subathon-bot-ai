@@ -49,13 +49,15 @@ implementation waits for that gate. Local Qt Core/Sql/Test6.12.0 is installed.
 - `/root/storage_test_author` owns `sqlite-writer-v1.md`, writer header/stub,
   Qt test source and author evidence in
   `local-evidence/worktrees/storagetest001-author`, branch
-  `task/STORAGETEST-001-writer-author`. Authoring is complete at819edbb, integrated48db98c; not yet reviewed/red.
+  `task/STORAGETEST-001-writer-author`. Authoring complete at819edbb, integrated48db98c; separate review3e7c8c7
+  integrated6647490 before actual22-case intended stub-red, exit8.
 - `/root/storage_test_reviewer` is independently preparing requirements review;
   actual candidate48db98c is in `local-evidence/worktrees/storagetest001-review`,
-  branch `task/STORAGETEST-001-writer-review`. Review/compile/discovery is active.
-  No approval is inferred from preparation.
+  branch `task/STORAGETEST-001-writer-review`. Review/compile/discovery complete at3e7c8c7; exact candidate approved.
+  Final integration/CI evidence review remains after actual runner result.
 - `/root/qt_ci_investigator` completed read-only Qt6.12 archive investigation and separately approved workflow
-  blob9144d8b; see [CI assessment](storagetest-001-ci.md). No task agent from
+  blob398733eb after actionlint reproduced/fixed the initial GitHub context
+  validation failure; see [CI assessment](storagetest-001-ci.md). No task agent from
   the previous session is assumed running.
 - Root owns shared CMake/presets/workflows/state/HTML/map/checkpoint/PR integration.
   No other concurrent writer edits these paths.
@@ -99,8 +101,10 @@ intentional red; stable writer behavior must become automatic CI in STORAGE-001.
 Then start the dependency-ready implementation or another ready slice.
 
 Current candidate48db98c has all22 cases compiled/discovered; contract4d280461,
-testsf8418e83, header11d204aa and explicitstubf0edd7e6. No behavioral/red run
-has occurred. Coordinator metadata updates and draft PR publication are next;
+testsf8418e83, header11d204aa and explicitstubf0edd7e6. Actual intended red at6647490:22 feature_not_implemented failures, exit8,
+all fixtures pass/no skips. [PR24](https://github.com/Kernol12/subathon-bot-ai/pull/24)
+is draft. Root is publishing corrected workflow/actual red evidence, then checking
+Ubuntu CI and requesting final independent integration review;
 author work is committed and isolated. Inspect actual status/processes/agents on interruption.
 No owner question or access decision remains. Full product is NOT complete:
 authoritative transactions/aggregates/refunds, all7 integrations/3rate providers,

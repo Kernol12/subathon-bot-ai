@@ -16,14 +16,13 @@ jobs:
   sqlite-writer-build:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    env:
-      QT_PREFIX: ${{ runner.temp }}/qt-6.12.0
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Install archive and Qt runtime dependencies
         run: |
+          echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g
       - name: Fetch and verify the selected official Qt 6.12.0 archives
