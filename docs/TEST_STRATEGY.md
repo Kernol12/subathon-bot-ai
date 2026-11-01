@@ -253,8 +253,9 @@ all init/cleanup pass,0skips/crashes/setup/dependency errors,total0.22s. Do not
 repeat that completed red. Most later assertions await reachable implementation;
 no receipt product acceptance pass follows from authoring/review or stub failures.
 
-The separate manual red invocation remains visible; ordinary CI builds/discovers
-all new cases and unconditionally runs required green3 plus existing stable suites.
+The historical first-red command and raw record remain preserved. Current CI
+builds/discovers and executes all22 automatically, with required green3 and the
+existing stable suites; the earlier manual workflow control has been removed.
 STORAGE-013 now preserves this baseline, passes22 real cases/full118, has separate
 source/config approval and runs all22 unconditionally in ordinary selected-Qt CI.
 [Implementation](evidence/storage-013-handoff.md) records sourceaf095d9, exact

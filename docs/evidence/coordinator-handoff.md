@@ -35,8 +35,9 @@ actual new source. No baseline assertions or old implementations were changed.
 Root branch task/STORAGE-013-receipt-repository. [Draft PR36](https://github.com/Kernol12/subathon-bot-ai/pull/36),
 actual published headaf6540171a09ccc7d6fe68abd6a218794a2687de. All11 checks at
 that exact head SUCCESS. Actual component source/config review and official
-unconditional receipt CI passed. Completion metadata is now being committed;
-final metadata/CI-attribution review/latest-head gates remain before normal merge.
+unconditional receipt CI passed. Completion metadata is committed e5128ad; its latest-head CI was pending at
+publication. Final metadata/CI-attribution review is active; normal merge gates
+remain, with actual current checks to be inspected.
 STORAGE-013 is done as a bounded component, not yet integrated. No dependent task
 may start production/baseline writing until this PR actually merges/fresh main.
 
@@ -47,7 +48,7 @@ may start production/baseline writing until this PR actually merges/fresh main.
 
 Actual source d815b928/root458546e, blobaf095d97c255182c79d00a4b574e124f75734aad;
 author evidence1304280/rootf8a13ae. Only owned cpp changed. Actual different
-source/config approval84e2045/root39e3177 covers this641-line source, exact
+source/config approval84e2045/root39e3177 covers this source, exact
 manifest/unsigned codec/strict row+target semantics, exception/pending allocation
 and capability/uncertainty behavior beyond assertions, plus committed promotion9098eca.
 No unresolved source/config finding. Native author/root/reviewer22/full118 pass;
@@ -87,9 +88,9 @@ Implementer /root/debt_code_reviewer completed clean in
 local-evidence/worktrees/storage013-implementation, task/STORAGE-013-implementation.
 Different /root/storage_work_code_reviewer completed actual source/config review
 clean in local-evidence/worktrees/storage013-review, task/STORAGE-013-review.
-Root owns shared schema/order/build/CI/state/map/HTML/checkpoint. Next explicitly
-resume the different reviewer for ONLY completion metadata/actual-CI attribution
-review evidence. No source/test/native/red rerun is needed for metadata. Do not
+Root owns shared schema/order/build/CI/state/map/HTML/checkpoint. The different
+reviewer has explicitly resumed for ONLY completion metadata/actual-CI attribution
+review of committed e5128ad and concrete wording corrections. No source/test/native/red rerun is needed for metadata. Do not
 assume these completed agents still run; inspect actual state before assignment.
 
 Root completion edits affect state/HTML, DB01partial map, architecture/test strategy,
