@@ -10,8 +10,8 @@ retention1/receipt2. Full projection20 includes all previous13 tuples unchanged;
 new contribution/observation/allocator tables and four NULL-SQL autoindexes.
 Independent canonical payload18126bytes/SHA256
 b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d.
-No production factory/codec supplies these expected values. Prefix12000/SHA0906f121
-and prefix210535/SHA24614f68 remain immutable. Deterministic unresolved order uses
+No production factory/codec supplies these expected values. Prefix1: 2000 bytes/SHA0906f121
+and prefix2: 10535 bytes/SHA24614f68 remain immutable. Deterministic unresolved order uses
 canonicalReceiptId; no extra ordinal schema/overflow policy is introduced.
 
 Actual commands (all exit0):
@@ -50,7 +50,8 @@ committed before a contribution call: no such call exists here. Same-session SQL
 can show existence/type, never prove prior commit or semantic authorization.
 No active database, real contributor, credentials or live operation was touched.
 
-Different actual logical+physical review remains required before minimal API/stubs.
+At this proposal stage, different actual logical+physical review was required
+before minimal API/stubs; actual f76817a subsequently supplied that approval.
 Full test/fixture/harness review, successful compilation, selected official green
 setup and genuine intended red still precede STORAGE-014 implementation. All old
 passing118 artifacts/reviews/reds/immutableprefixes and full release scope remain.

@@ -62,41 +62,50 @@ digest, nullable groups, enums, full ContributionId0..MAX and SQLNULL versus pre
 [Actual review](storagetest-014-review.md). This is CONTRACT ONLY, not approval of
 absent API, tests, fixture, red or implementation.
 
-Actual current assignments, explicitly resumed after completion of contract stage:
+## Actual API review and active test assignments
+
+Author94681d integrated727f59d; header0abeea2/stub0ad1315. Root minimal target/
+option/preset build passes62 steps, inherited118 tests pass2.56s. Different reviewer
+requested exact n+1 bounds and explicit ReceiptId0 error priority. Actual docs-only
+fix2e056fe integrated2530654, final logical f503f385bbd4fd4ce4b43dd3243911dc3bce8f40.
+Actual API/stub/minimal shared-config approval77a9544 integrated29443f5 accepts
+those exact artifacts; independent62-step build/0warnings/exact118 registration.
+[Actual review](storagetest-014-review.md), [build scope](storagetest-014-probe.md).
+Four immediate named NotImplemented throws/inert constructors remain; no validation,
+codec, manifest, wrapper or SQL behavior. No new feature body/red has run.
+
+After integrating actual approval, root explicitly assigned:
 
 - `/root/writer_transaction_reviewer`, existing
   `local-evidence/worktrees/storagetest014-author`, branch
-  `task/STORAGETEST-014-author`: merge0a2661d, author ONLY new
-  `server/include/subathon/server/sqlite_contributions.hpp`, explicit named stub
-  `server/src/sqlite_contributions.cpp`, logical API precision and own author
-  evidence. No feature tests, JSON, green fixture or schema/codec implementation.
+  `task/STORAGETEST-014-author`: merge29443f5, author ONLY new
+  `tests/qt/sqlite_contributions_tests.cpp` and own author MD. Derive SC01–SC15
+  oracles from approved contract; compile/list only, no new feature body/red.
+- `/root/debt_code_reviewer`, NEW prepared clean
+  `local-evidence/worktrees/storagetest014-fixtures`, branch
+  `task/STORAGETEST-014-fixtures` (created2530654, merge29443f5 before edits):
+  ONLY new `tests/fixtures/sqlite_contributions_vectors.json`,
+  `tests/qt/sqlite_contributions_environment.cpp`, own fixture MD. Independent
+  literal schema/F framing/typed6 ID vectors; green consumer links only existing
+  writer/Qt, no contribution adapter/factory/codec/service. May run that green
+  host diagnostic; no feature body/red. Do not copy root ignored proposal JSON.
 - `/root/storage_work_code_reviewer`, existing
   `local-evidence/worktrees/storagetest014-review`, branch
-  `task/STORAGETEST-014-review`: merge0a2661d, prepare read-only API/lifetime/error
-  review; owns only own review MD. Actual candidate review will be assigned after
-  API/root minimal build exists. Do not approve an absent revision.
-- Root owns shared CMake/presets/workflows/map/state/HTML/checkpoint and migration
-  schema/order. No other old agent has an active assignment. Earlier completed
-  source/test trees remain preserved.
+  `task/STORAGETEST-014-review`: read-only review preparation; owns only own review
+  MD after concrete artifacts exist. No absent tests/CI/green/red approval.
+- Root: shared schema/order/CMake/presets/CI/map/state/HTML/checkpoint. New workflow
+  will compile/list new baseline, run all stable suites/new independent green
+  automatically and keep intentionally red feature execution explicit/separate.
 
-API precision must pin exact representable bounds, pure input/group/enum/origin/
-proof precedence, existing WorkFailure versus known ContributionStorageError,
-owner/single-use/adoption transfer/allocation safety, own new support completeness
-and actual cleanup/uncertainty. Separate actual API/config review precedes new
-feature tests and independent literal JSON/green diagnostics. Those actual authored
-artifacts require different review, successful compilation and selected official
-Qt green setup BEFORE the FIRST intended missing-behavior red. No new contribution
-API/test/fixture/schema source/red existed at contract approval. No old red repeated.
-
-## Actual API candidate awaiting separate review
-
-Author94681d integrated727f59d; header0abeea2/stub0ad1315/logical precision1a96354.
-Only inert constructors and four immediate named NotImplemented throws; no actual
-codec/manifest/SQL/wrapper/validation behavior. Root minimal target/option/preset
-build passes62 steps, inherited118 tests pass2.56s, formatting/project/tooling19/
-DOM simulation pass. [Actual build scope](storagetest-014-probe.md).
-Next request different actual API/stub/build precision review at committed root
-revision; no new tests/fixtures/red before that approval.
+Next integrate actual tests/fixtures and register exact compiled methods, then
+separate actual full test/fixture/harness review. Successful compilation and selected
+OFFICIAL Qt green setup must precede the FIRST intended missing-behavior red.
+STORAGE-014 implementation remains planned until that baseline is complete and
+integrated. No historical red repeated; all existing assertions remain frozen.
+Root has uncommitted tests/qt/CMakeLists.txt and sqlite-writer.yml additions for
+the planned24 feature methods, three required independent green slots and explicit
+manual red control. Do not configure until the actual candidate files arrive;
+review/register/compile exact committed artifacts before any execution.
 
 ## Preserved boundaries and audit
 
@@ -115,13 +124,14 @@ Verification/policy/decision/actor/resolution bytes do not establish provider pr
 authority or a fabricated retained namespace. Actual HistoricalValuation rates/
 source/time remain STORAGE-015; actual ContributionValuation fields remain here.
 
-Latest resume audit:64 existing worktrees all clean,16 absent/prunable historical
+Latest resume audit before API authoring:64 existing worktrees all clean,16 absent/prunable historical
 refs preserved; no competing open PR. Published draft [PR37](https://github.com/Kernol12/subathon-bot-ai/pull/37) at
-2b14939551c5607fe1b39efe9339ea0b6517e1f3. Root is preparing minimal build wiring
-while the author prepares the actual API; no new tests are registered yet. Actual GitHub main e331714/PR36 MERGED and
+2b14939551c5607fe1b39efe9339ea0b6517e1f3. Actual API/root build fixes were pushed at2530654; root29443f5 adds actual API
+review, followed by active test-stage work. New fixture tree makes65 existing
+worktrees; no tests are registered yet at this stage. Actual GitHub main e331714/PR36 MERGED and
 all11 final PR checks SUCCESS. No native CMake/CTest/Ninja process was active;
-IDE/Codex processes only. Actual agents were completed, then two014 roles explicitly
-resumed as above. Inspect again before assuming these observations remain current.
+IDE/Codex processes only. Actual agents were completed, then014 roles explicitly
+resumed/reassigned as above. Inspect again before assuming these observations remain current.
 No prune/reset/discard. Current ruleset26170263 PR/resolved threads/0 required GitHub
 approvals/no bypass/no force or deletion; written latest-head all-CI and separate
 reviews remain mandatory. Normal exact-head merge only after all applicable gates.

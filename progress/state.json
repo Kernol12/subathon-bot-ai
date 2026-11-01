@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T19:41:34.748829+00:00",
+  "updated_at": "2026-11-01T19:49:21.771969+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention and receipt-repository components have reviewed acceptance evidence. Contribution/plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4769,7 +4769,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; contract/test author /root/writer_transaction_reviewer; reviewer /root/storage_work_code_reviewer",
+      "owner": "Coordinator /root; test author /root/writer_transaction_reviewer; literal fixtures /root/debt_code_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-013",
         "ACCT-002"
@@ -4787,7 +4787,8 @@
         "Actuallogicalauthor9897778/root432271f twoMD/contract3864211; differentrevieweractual318lineinspectionnofindings/fullapprovalawaitsphysical. Rootactualadditiveproposal3 contribution-evidence-v1/fourSQL/20objects/starts0,1,2,3/18126payload/SHA b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d; independentPythonandrealQt6.12SQLite3.54/privatewriter exactprojection+boundCID0BLOBversusNULL associationspass. Immutableprefix1/2 unchanged; no actualcontributionfactory/codec/service/API/test/fixture/source/red invoked/authored. Fullactualcontractreviewstillpending. Postmergee331all10workflowSUCCESSobserved.",
         "Actual contract-only approval f76817a integrated0a2661d for logical43bd/physicaleeb. Independent literal SQL diagnostics 241/179 expected refusals, exact20 objects/prefixes/F18126/SHA b72249ba...d1d. Author and reviewer were completed, then explicitly resumed for minimal new API/named stubs and read-only precision preparation respectively; no new tests/fixtures/red or production behavior authorized before actual next gates. Resume audit64 clean existing worktrees/16 absent preserved, no competing PR or native process; actual main e331714/PR36 MERGED. No owner access/decision needed.",
         "Published focused DRAFT PR37 at2b14939551c5607fe1b39efe9339ea0b6517e1f3. Existing ordinary checks started; actual new API/tests/fixture/red gates remain pending. Root tooling19/project391/currentHTML/DOM simulation/diff passed; no actual product browser/platform proof.",
-        "Actual minimal API/stub candidate94681d integrated727f59d: typed CId encode/decode, manifest and repository begin are four immediate named NotImplemented throws; inert constructors only. Header0abeea2/stub0ad1315/logical precision1a96354. Root minimal CMake/new sqlite-contribution-debug configure/build62 steps and unchanged inherited118 tests pass2.56s, no new contribution body invoked/test authored/fixture/red observed. Different actual API/config review required next."
+        "Actual minimal API/stub candidate94681d integrated727f59d: typed CId encode/decode, manifest and repository begin are four immediate named NotImplemented throws; inert constructors only. Header0abeea2/stub0ad1315/logical precision1a96354. Root minimal CMake/new sqlite-contribution-debug configure/build62 steps and unchanged inherited118 tests pass2.56s, no new contribution body invoked/test authored/fixture/red observed. Different actual API/config review required next.",
+        "Actual API/STUB/minimalCONFIG approval77a9544 integrated29443f5 after docs-only2e056fe/root2530654 exact n+1 vector/qsize/qint64 bounds and ReceiptId0 error priority. Header0abeea2/stub0ad1315/final logicalf503/physicaleeb approved; independent62-step build and inherited118 discovery pass. Only then explicitly assigned feature author (new Qt test/own note), independent literal JSON+existing-writer green helper in new65th tree, and different read-only test-review preparation. No new feature body/red or implementation; full actual test/fixture/harness review and official green proof still pending."
       ],
       "verification": {},
       "evidence": [
