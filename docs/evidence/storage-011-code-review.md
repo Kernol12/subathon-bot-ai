@@ -241,3 +241,59 @@ for the actual reviewed correction. Actual automatic Ubuntu acceptance, final
 metadata/CI attribution, latest-head checks/discussions/current rules and normal
 merge remain coordinator gates. All trusted-caller OPS-02 and downstream
 application/recovery/platform/provider limits remain unchanged.
+
+## Final completion metadata and automatic CI attribution
+
+The same reviewer normally merged and inspected actual final completion metadata
+`e0d8d5b8f20ce57f688a5e6129cb492de3c91a27`, then the checkpoint-only correction
+`95099993fa1b7cab8990430da5eae3c432974e8e`, on 2026-11-01. The latter removes a
+stale pending-CI sentence and precisely distinguishes completed source-head
+acceptance from later-head publication checks. No other metadata finding remains.
+
+Exact executable/fixture/contract/build/workflow comparison from tested source
+candidate through `da7cbde` and these final metadata revisions is empty. Source
+remains `4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f`, tests remain
+`e94befdc01ceff62d2e486e1e5bff556cabe1e55`, and all frozen artifacts above retain
+their hashes. Corrected-source approval `854cace` is integrated as `790afc0` and
+its review content is unchanged. Regression approval/red/fix ancestry is intact;
+neither red nor any native suite was repeated in this final metadata review.
+
+The reviewer independently fetched `gh run view 41310940283 --json ...` and the
+actual logs. The successful pull_request
+[official-Qt run](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41310940283)
+is attributed to exact head `da7cbde476020b3718d64a81dfebd140c3289ac8`.
+Independent parsing establishes both pinned archive SHA256 checks OK, GNU13.3.0,
+Qt6.12.0 with bundled SQLite3.53.4, loop1/1,25 actual writer passes,24 actual work
+passes, exact seven-slot environment guard with9 Qt passes including init/cleanup
+and zero skips, exact24 migration discovery and24 actual unconditional migration
+passes. Both initial-U+FEFF regressions are individually present and passed. An
+exact-commit check-runs query independently confirms all11 checks succeeded there.
+
+The CI executed those named lanes; the78/78 full-preset result remains separately
+attributed to author/root/reviewer local runs using host SQLite3.54.0. Neither a
+compiled registration count nor a host runtime is relabeled as bundled-driver
+execution. Actual logs, not only green check metadata, support the CI claims.
+
+Task state, DB-01 acceptance map, architecture, test strategy, handoff, CI evidence
+and coordinator checkpoint were inspected. All391 task identities/dependencies
+are preserved and only STORAGE-011 task data changed. Done means this internal
+mechanism has relevant acceptance, separate code review and ordinary automatic
+CI; PR publication/merge is still pending. The initial finding, separately authored
+regressions, prior approval/red and actual fix are retained rather than hidden by
+the original passing76. Domain schemas/adapters, application bundles, real backup/
+update authority, recovery, power-loss, supported release platforms and live
+providers remain separate explicit gates, including all seven integrations and
+three rate providers. No caller precondition became an implemented authorization.
+
+Independent project consistency, progress render-check, whitespace, exact-artifact
+and task/dependency comparisons passed. A live
+[PR32](https://github.com/Kernol12/subathon-bot-ai/pull/32) query observed OPEN/DRAFT
+at `e0d8d5b`, MERGEABLE/CLEAN with no GitHub reviews and all11 checks successful.
+That observation is not transferred to `9509999` or the forthcoming review commit;
+latest-head checks/discussions/current rules remain mandatory before merge.
+
+**Final verdict: approved STORAGE-011 completion metadata and CI attribution at
+`9509999`, including the corrected `e0d8d5b` completion candidate.** No blocking
+finding or owner decision remains. Publish this final review, observe applicable
+checks for the exact final head, resolve discussions and follow the normal merge
+checklist. The task is not assumed merged and the full product remains incomplete.
