@@ -146,3 +146,31 @@ Ubuntu still pending. [Implementation CI assessment](storage-011-ci.md). Impleme
 receivedsharedcommit for normalmerge; owns onlynewmodulesource/evidence. Reviewer
 prep confirms allfrozenartifacts match; no absent-code approval. Postmerge main
 ef29c87 all10checks observed successful; no ownerquestion or runningrootcommand.
+
+## Actual source review checkpoint — Unicode correction gate
+
+Root source9eb1fef/blobd91c7d integratede183527; author evidence0ac896c
+integrated0118fea. Author/root configure/build and original22+old49+green7/full76
+pass. Root full log is ignored local-evidence/coordinator/storage011-full-local.log.
+Different actual source reviewer found initial U+FEFF rejected by Qt's fromUtf8
+BOM stripping, violating full Unicode contract. All76 green did not cover this;
+code approval/merge are held. No test/header/contract weakening is authorized.
+
+Original baseline author /root/writer_transaction_reviewer explicitly reassigned
+to new isolated local-evidence/worktrees/storage011-unicode-regression, branch
+task/STORAGE-011-unicode-regression from0118fea, owns only migration Qt test
+and new storage-011-unicode-regression.md evidence. Add focused independently
+derived pure codec/stored-schema regressions; compile/discover only until
+/root/storage_work_code_reviewer actually reviews them, then root records current
+source intended red before /root/debt_code_reviewer corrects source. Reviewer
+currently owns only code-review evidence in storage011-review; requested durable
+finding and stored raw-text path investigation. Implementer completed original
+source clean and explicitly told to wait for reviewed-red correction authorization.
+
+Latest actual audit:53 existing worktrees clean,16 absent historical tmp references
+preserved; GitHub no open PR. Host repository-scoped process names/cwd show five
+CLion processes, no native build/test process (audit shell/python excluded). No
+root running command, no owner question. Active new author/reviewer may write
+after this snapshot; inspect actual state. Next integrate finding/test evidence,
+reviewed regression red, source correction and different actual review, then
+observe ordinary automatic Ubuntu acceptance through focused STORAGE-011 PR.

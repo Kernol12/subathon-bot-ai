@@ -24,3 +24,14 @@ Default runs use disposable synthetic databases. The framework will not prove
 backup/update authority, production domain schemas/adapters, application bundle,
 recovery, power-loss or live/platform release behavior. OPS02 remains a real
 caller/product precondition, never a fabricated proof field. Full scope is retained.
+
+## Local source candidate and review finding
+
+Source9eb1fef/blobd91c7d integratede183527, evidence0ac896c/root0118fea, compiled
+and passed all76 local CTest registrations (original22+old49+infrastructure5,
+including green seven-case environment executable), with Qt6.12/SQLite3.54.0.
+Separate actual code review then found missing valid initial-U+FEFF coverage;
+QString::fromUtf8 strips that character, causing invalid_manifest rejection.
+No approval, Ubuntu result or implementation completion follows from local green.
+Focused separately authored/reviewed Unicode regressions and an intended red
+against this source precede correction. Original reviewed baseline remains intact.
