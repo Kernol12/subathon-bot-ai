@@ -11,8 +11,8 @@ Fresh main `e331714e0a03aae0a7c908721f92ea19a1756f62` includes actual PR36 merge
 2026-11-01T18:55:47Z. Exact final4fc0824 all11 SUCCESS, source/config84e2045 and
 final metadata/CI-attributiond6ce21c approvals, no threads/current normal rules/
 0 GitHub approvals, ready/MERGEABLE/CLEAN. Normal exact-head merge, no bypass/
-force/deletion, then fetch/main refresh. Observe actual postmerge workflows before
-claiming their result. No other open PR was observed before the new branch claim.
+force/deletion, then fetch/main refresh. Actual postmerge main e331 workflows:
+all10 completed SUCCESS, including writer41339109017. No other open PR was observed before the new branch claim.
 
 | Recent completed task | Merged PR | Evidence |
 | --- | --- | --- |
@@ -139,3 +139,15 @@ Prior commit remains an honest trusted precondition; no invented semantic FK/
 authorization is added. No new contract/API/test/red is completed yet. Root owns
 physical proposal3 after the actual logical candidate. Source and receipt baseline
 worktrees remain preserved; new count64 existing plus16 absent refs.
+
+
+Actual logical author candidate9897778 integrated432271f (two MD files only),
+contract38642111537eb59a12a8f53d356d3e52d460331d before root physical link.
+Different reviewer read all318lines/core/service/21 and found no logical conflict;
+full approval waits actual root physical proposal. Root now has actual proposal3:
+three new tables/fourSQL/20objects/18126payload/SHA b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d,
+starts0,1,2,3, exactprefix1/2 unchanged. Independent Python framing/schema and
+actual localQt6.12/SQLite3.54 private-writer projection+boundCID0-vs-NULL diagnostics
+pass; [scope/evidence](storagetest-014-probe.md). These are not fixtures/feature
+acceptance or official Qt proof. No new API/stubs/tests/schema-source/red exists.
+Next commit actual physical proposal and send exact revision to different reviewer.

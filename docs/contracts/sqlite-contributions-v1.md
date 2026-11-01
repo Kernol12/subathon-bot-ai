@@ -308,8 +308,9 @@ proves prior commitment.
 | SC14 | Foreign/stale/terminal/local-second-begin and repository/wrapper/result lifetimes preserve actual owner/capability/error rules; worker NotImplemented diagnostic must rethrow on owner without uncaught thread exception |
 | SC15 | Real physical commit-ack loss leaves possible durable data but unknown/no observe result/failclosed; real cleanup-ack loss after proved staging outranks local reason. One body call/no auto-replay or fabricated rollback proof |
 
-Root next supplies exact additive migration3 and full projection/literal digest,
-without rewriting prefixes1/2. Actual different contract review precedes minimal
+Root supplies the actual [migration3 physical proposal](sqlite-contributions-schema-v1.md)
+with exact four SQL values/20-object projection/full literal digest, without
+rewriting prefixes1/2. The different reviewer must accept that actual companion. Actual different contract review precedes minimal
 API/explicit stubs, then separately reviewed tests/fixtures/harness, successful
 compile/selected official Qt green setup and intended red before STORAGE-014.
 The old21 simulations and completed receipt gates are preserved, not repeated.
