@@ -340,3 +340,22 @@ feature/red body run occurred. Revised feature blob: `d039830d3e628f88f0cd2023c4
 Exact Qt6 MOC/C++20 syntax-only checks pass with zero warnings; clang-format and
 git diff --check pass. Actual root CMake build and different artifact re-review
 remain gates before runtime acceptance.
+
+
+## Worker stub marker stays explicit for intended red
+
+Independent review found a diagnostic defect before first feature execution in
+source d039830: each worker caught the named missing-feature logic exception as
+std::exception, then the owner replaced its message with a generic unexpected-
+thread failure. Root authorized a diagnostic-only correction. Both workers now
+catch SqliteReceiptsNotImplemented specifically for both operations and set a
+worker flag. After join, the owner rethrows that named exception so Run records
+stub=true. No exception is thrown uncaught across std::thread, and the pattern
+also preserves diagnostics when only some operations remain unimplemented.
+
+Every existing wrong-thread/input/ownership assertion remains; no fake error
+category/result is assigned. All22 slots and prior baseline fixes stay intact.
+Only this test source and evidence change. Revised feature blob: `dab97946568e09f15119a8995735539eb2e14c4d`.
+Exact Qt6MOC/C++20 syntax-only passes with zero warnings; clang-format and git
+diff --check pass. No feature body or intended red was executed by this author;
+root still owns actual build and different full re-review before first runtime.

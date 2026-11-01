@@ -1525,11 +1525,14 @@ class SqliteReceiptTests final : public QObject {
                 std::optional<WorkError> work_error;
                 std::optional<SqliteReceiptInputError> input_error;
                 QString unexpected;
+                bool worker_stub = false;
                 std::thread thread([&] {
                     try {
                         (void)repository.begin();
                     } catch (const SqliteWorkFailure &e) {
                         work_error = e.error();
+                    } catch (const SqliteReceiptsNotImplemented &) {
+                        worker_stub = true;
                     } catch (const std::exception &e) {
                         unexpected = QString::fromUtf8(e.what());
                     }
@@ -1537,11 +1540,15 @@ class SqliteReceiptTests final : public QObject {
                         (void)bad_options.begin();
                     } catch (const SqliteReceiptInputFailure &e) {
                         input_error = e.error();
+                    } catch (const SqliteReceiptsNotImplemented &) {
+                        worker_stub = true;
                     } catch (const std::exception &e) {
                         unexpected = QString::fromUtf8(e.what());
                     }
                 });
                 thread.join();
+                if (worker_stub)
+                    throw SqliteReceiptsNotImplemented();
                 require(unexpected.isEmpty(), "unexpected foreign begin exception");
                 require(work_error == WorkError::wrong_thread,
                         "foreign begin before mutable guard");
@@ -1563,11 +1570,14 @@ class SqliteReceiptTests final : public QObject {
                 std::optional<WorkError> work_error;
                 std::optional<SqliteReceiptInputError> input_error;
                 QString unexpected;
+                bool worker_stub = false;
                 std::thread thread([&] {
                     try {
                         (void)expired->find(value.identity);
                     } catch (const SqliteWorkFailure &e) {
                         work_error = e.error();
+                    } catch (const SqliteReceiptsNotImplemented &) {
+                        worker_stub = true;
                     } catch (const std::exception &e) {
                         unexpected = QString::fromUtf8(e.what());
                     }
@@ -1575,11 +1585,15 @@ class SqliteReceiptTests final : public QObject {
                         expired->append_attempt({0}, attempt(value, ReceiptDisposition::retry));
                     } catch (const SqliteReceiptInputFailure &e) {
                         input_error = e.error();
+                    } catch (const SqliteReceiptsNotImplemented &) {
+                        worker_stub = true;
                     } catch (const std::exception &e) {
                         unexpected = QString::fromUtf8(e.what());
                     }
                 });
                 thread.join();
+                if (worker_stub)
+                    throw SqliteReceiptsNotImplemented();
                 require(unexpected.isEmpty(), "unexpected foreign primitive exception");
                 require(work_error == WorkError::wrong_thread,
                         "foreign primitive capability category");
