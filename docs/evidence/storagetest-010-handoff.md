@@ -26,14 +26,30 @@ input. [CI assessment](storagetest-010-ci.md). Existing ReceiptIntake is linked 
 actual synchronous service-port composition using a synthetic primitive repository.
 No final receipt/contribution adapter or domain schema is implied.
 
-At this draft stage author artifacts, successful compilation/discovery, independent
-actual baseline approval, observed red and actual changed Ubuntu CI are pending.
-Root scaffold configure/build/3 infrastructure cases, tooling19, DOM simulation
-and workflow actionlint pass; these do not establish
-new executable behavior. No build/test process was left running by root. Next:
-integrate actual authored revision, complete independent review, run genuine stub
-cases only after approval, retain exact artifacts/commands/output and verify latest
-PR CI/normal merge gates. No owner decision/access is needed.
+Author6532c07/API then76d3a00/tests integrate as be925db/9a9f29c. Exact artifacts:
+
+| Artifact | Git blob |
+| --- | --- |
+| Contract revision1 | `4ba20506db9a858450099b82888a22c8f6dbd761` |
+| Public header | `afc9f483da7d8e61a5e73715ca33819216e9e668` |
+| Explicit work stubs | `b47f131af895311cef790c64ac0187532994a819` |
+| Control-ack test seam | `a2cd7b8900848d8e7b7091b676aeaf16754efe0e` |
+| 24 Qt slots | `d248a0500064d0200e3fdbaa195ffdec18900900` |
+
+[Author evidence](storagetest-010-author.md) maps WT01–WT20 to concrete literal
+oracles, fixed error categories and honest limits. Independent BEGIN IMMEDIATE/
+ROLLBACK probes inside caught failures establish synchronous write-lock release;
+row invisibility alone was insufficient. Queued old batches preserve sql_failure/
+no rows; uncertainty remains distinct from known repository rollback.
+
+Author and root `cmake --preset sqlite-work-debug`, build and exact nonempty24
+compiled-vs-CTest discovery pass (53 total). Root CTest `-L sqlite-writer` passes25,
+`-L scaffold` passes4 including actual Qt probe; old source/tests/contract diff is
+empty. Linux x86-64, GNU16.2.1, Qt6.12.0, CMake4.4.5, Ninja1.13.2, Python3.14.8.
+Project391/tooling19/DOM/actionlint/diff checks pass. These do not establish new
+work behavior. New bodies have NOT run. Independent actual test/interface/harness
+review, intended red, actual changed Ubuntu workflow and latest PR merge gates
+remain pending. No owner decision/access or running root command remains.
 
 Later STORAGE-010 must preserve the independently reviewed baseline, implement only
 this additive mechanism, obtain separate code review, pass real acceptance and

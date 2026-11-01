@@ -116,3 +116,10 @@ writing the24 Qt slots. No new suite compilation, behavior execution or red resu
 is claimed. Root shared harness d680dd4 and status eea1e10 are committed; root
 working tree is clean after this checkpoint commit. Root scaffold3/tooling19/DOM/
 actionlint checks passed. Next trigger is the actual test-source commit.
+
+Author76d3a00/tests d248a050/header afc9f483/hook a2cd7b89/stub b47f131a are now
+integrated9a9f29c. Author clean/completed. Root configure/build/exact24 discovery
+(53 total), old25 acceptance and scaffold4/Qtprobe pass; unchanged oldsource/tests/
+contract confirmed. Actual full baseline review is assigned to writer_transaction_reviewer;
+new bodies have NOT run. Next: resolve actual review, then observe genuine stub-red.
+See [current baseline handoff](storagetest-010-handoff.md) for hashes and commands.

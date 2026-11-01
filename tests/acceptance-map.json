@@ -634,7 +634,8 @@
       "status": "partial",
       "tests": [
         "tests/qt/sqlite_writer_tests.cpp",
-        "tests/qt/sqlite_writer_ownership_tests.cpp"
+        "tests/qt/sqlite_writer_ownership_tests.cpp",
+        "tests/qt/sqlite_writer_work_tests.cpp"
       ],
       "evidence": [
         "docs/evidence/storagetest-001-review.md",
@@ -645,9 +646,12 @@
         "docs/evidence/storage-001-ci.md",
         "docs/evidence/storage-001-handoff.md",
         "docs/evidence/storage-001-ownership-tests.md",
-        "docs/evidence/storage-001-ownership-red.txt"
+        "docs/evidence/storage-001-ownership-red.txt",
+        "docs/evidence/storagetest-010-author.md",
+        "docs/evidence/storagetest-010-handoff.md",
+        "docs/evidence/storagetest-010-ci.md"
       ],
-      "scope": "22 unchanged reviewed real Qt SQL/SQLite acceptance cases plus3 independently reviewed raw-buffer ownership regressions pass corrected owned writer/reader implementation, with separate corrected-source review and actual automatic Ubuntu Qt6.12 25-case acceptance. Original22stub-red and new3pre-fix-red retained. No application schema/migration/repository/atomicity, crash/backup/recovery or supported-platform release verification."
+      "scope": "22 unchanged reviewed real Qt SQL/SQLite acceptance cases plus3 independently reviewed raw-buffer ownership regressions pass corrected owned writer/reader implementation, with separate corrected-source review and actual automatic Ubuntu Qt6.12 25-case acceptance. Original22stub-red and new3pre-fix-red retained. No application schema/migration/repository/atomicity, crash/backup/recovery or supported-platform release verification. STORAGETEST-010 additionally authors/compiles24 transaction-work cases and an explicit stub; independent review and intended red are pending, with no new mechanism implemented."
     },
     {
       "id": "AUTH-11",
