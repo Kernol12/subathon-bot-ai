@@ -1,6 +1,6 @@
-# Coordinator handoff — session checkpoint after PR23
+# Coordinator handoff — STORAGETEST-001 active
 
-Coordinator `/root`, 2026-10-31. Standing full-specification v0.45 loop is active;
+Coordinator `/root`, resumed 2026-11-01. Standing full-specification v0.45 loop is active;
 no routine approval/product question remains. Earlier ownerstop was explicitly
 revoked by resume. Last observed integrated main
 `ba4e94cc1586aed73e0ae1649d2a2d02e48d670f`; inspect actual state before resuming.
@@ -32,25 +32,42 @@ work also remains valid; never repeat completed setup or upgrade live/platform g
   final9aea69e,22 actualstubfailures afterapprovalata524447;
   [baseline](accttest-003-baseline-handoff.md). Interface501112d6/testsf93287fa preserved.
 
-## ACCT003 completed; no active unfinished task claim
+## Current task and live audit
 
-[PR23](https://github.com/Kernol12/subathon-bot-ai/pull/23) actually mergedba4e94c
-at21:47:53UTC on2026-10-31. Finalhead2d07fb6 all9CIchecks passed; no threads,
-normal rules satisfied, zero required GitHub approvals, no bypass. Sourceauthor
-dcf0990/42b47e4a, independent code4425064/finalb548192 preserved.22 unchanged
-cases pass root/author/reviewer; fullpreset25/numeric33. Actual pinned CI41244388435
-atdf58c84 passed22 GNU13.3/Boost1.83/header108300, with finalhead checks also passed.
-[Implementation](acct-003-handoff.md), [CI evidence](acct-003-ci.md).
-Interface501112d6/testsf93287fa unchanged, baseline originalreda524447 retained.
-No evaluator, actualpermission, writer/audit/currentcap/effect/provider capability
-upgraded; freshpreview remains onlyfreshness. All full-release gates remain below.
+Fresh GitHub fetch/audit confirms main `ba4e94cc1586aed73e0ae1649d2a2d02e48d670f`,
+PR23 merged at21:47:53UTC, all9 final checks passed. No open PRs; only main remote
+branch. All preserved worktrees were clean; no prior subagents or native build/test
+processes remain. Local checkpoint `checkpoint/2026-10-31-session-handoff` is
+preserved, and its postmerge outcome facts are folded into this normal task branch.
+No completed task or review is restarted.
 
-All bounded authors/reviewers have completed; no work is assumed running. Preserved
-`local-evidence/worktrees/acct003-{implementation,review}` headsdcf0990/b548192 on
-local supportbranches, alongside all earlier worktrees/reviews. Current root is
-LOCAL-ONLY `checkpoint/2026-10-31-session-handoff`, based on actualmainba4e94c,
-with metadata-only post-merge outcome/checkpoint commit. Do not push this checkpoint
-or open a bookkeeping PR; fold its facts into the next normal task PR on resume.
+`STORAGETEST-001` is now claimed on `task/STORAGETEST-001-writer-baseline`, from
+integrated main. Acceptance: reviewed contract/examples, executable Qt SQL/SQLite
+tests and explicit stubs, independent review, then actual intended red. `STORAGE-001`
+implementation waits for that gate. Local Qt Core/Sql/Test6.12.0 is installed.
+
+- `/root/storage_test_author` owns `sqlite-writer-v1.md`, writer header/stub,
+  Qt test source and author evidence in
+  `local-evidence/worktrees/storagetest001-author`, branch
+  `task/STORAGETEST-001-writer-author`. Authoring is active; not yet reviewed/red.
+- `/root/storage_test_reviewer` is independently preparing requirements review;
+  actual candidate/reviewer worktree will be provided after author handoff. No
+  approval is inferred from preparation.
+- `/root/qt_ci_investigator` is doing read-only Qt6.12 public CI availability research.
+- Root owns shared CMake/presets/workflows/state/HTML/map/checkpoint/PR integration.
+  No other concurrent writer edits these paths.
+
+The writer remains on the authoritative Qt command/state thread, with separate
+owned read-only connections; no hidden competing writer thread. Scope includes
+WAL/FULL, thread misuse, bounded admission, transaction failure/busy and shutdown.
+Application schemas/migrations, backup/recovery, aggregate/effect/job atomicity,
+transport/provider/live/platform support remain separate release gates.
+
+[PR23 implementation](acct-003-handoff.md) and [CI evidence](acct-003-ci.md) retain
+source `dcf0990`/`42b47e4a`, reviews `4425064`/`b548192`, interface `501112d6`, tests
+`f93287fa`, original intended red `a524447`,22 passing owned-transform cases and
+actual GNU13.3/Boost1.83 CI. No evaluator/actual permission/current cap/application
+or provider capability claim is upgraded.
 
 ## Completed user-requested GitHub branch cleanup
 
@@ -68,27 +85,19 @@ No source/history/protection setting or approval was lost. Ruleset26170263 requi
 PRs/resolvedthreads, zero GitHub approvals, no main force/delete or bypass actors,
 and no required-status-check rule. All latest CIchecks remain written merge gates.
 
-## Resume from this session checkpoint
+## Next concrete action and remaining gates
 
-The session checkpoints for its context limit; no background execution is claimed.
-Full product is NOT complete and useful authorized work remains. On explicit resume:
-inspect actual main/PRs/branches/worktrees/uncommitted changes/processes/agents again,
-preserve all valid reviews and local metadata checkpoint, then create a dedicated
-branch from refreshed main before selecting/claiming the next dependency-ready task.
-Prefer foundation work that unlocks actual application: read STORAGETEST-001 and
-CONTRACT-003 briefs; core debt/schedules, rules/modifiers/milestones/rates/locales/
-packaging baselines also remain dependency-ready. No task was prematurely claimed.
-ACCT-004 is not ready until its recorded prerequisites finish; do not bypass them.
+Finish author handoff, integrate minimal harness, compile/discover without treating
+that as behavioral red, obtain independent exact-revision approval, then run actual
+Qt/SQLite tests and retain failures from explicit missing behavior. Update the
+baseline evidence/state/HTML; open focused STORAGETEST-001 PR and require all latest
+checks/reviews/threads/rules before merge. Assess Qt CI availability without hiding
+intentional red; stable writer behavior must become automatic CI in STORAGE-001.
+Then start the dependency-ready implementation or another ready slice.
 
-All worktrees were checked clean before this metadata checkpoint; source/header/tests/
-workflows are unchanged from mergedmain. No native build/test or subagent remains
-running after handoff. Remote main CI may run after merge; inspect actual status on
-resume. Final project/currentHTML/diff checks verify this checkpoint. It is committed
-locally only to keep GitHub free of unused bookkeeping branches. No credentials,
-supporter data or machine-specific IDE settings are committed.
-
-Fullscope remains: authoritative transactions/aggregates/refunds, all7 integrations/
-3rateproviders, supportedplatforms, bothrenderers, UIs/localization/themes, packaging
-and live/OBS evidence. Pure source/domain checks retain explicit limits and never
-establish a verification percentage or finished release. No owner decision or access
-is currently required to continue the next synthetic/source task.
+Uncommitted coordinator edits are the storage build harness and this checkpoint;
+author work is isolated. Inspect actual status/processes/agents on interruption.
+No owner question or access decision remains. Full product is NOT complete:
+authoritative transactions/aggregates/refunds, all7 integrations/3rate providers,
+supported platforms, both renderers, UIs/localization/themes, packaging and live/OBS
+verification retain their recorded gates. No completion percentage is inferred.

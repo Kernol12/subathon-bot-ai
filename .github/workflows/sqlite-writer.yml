@@ -1,0 +1,65 @@
+name: Qt SQL SQLite writer baseline
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_acceptance:
+        description: Run the real writer cases (intentionally red until STORAGE-001)
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  sqlite-writer-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      QT_PREFIX: ${{ runner.temp }}/qt-6.12.0
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install archive and Qt runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g
+      - name: Fetch and verify the selected official Qt 6.12.0 archives
+        working-directory: ${{ runner.temp }}
+        run: |
+          base=https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qtbase-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qtbase.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346icu-linux-Rhel8.6-x86_64.7z" --output icu.7z
+          echo '943023b929d0c08eafe7341700b5ed7601284410b7afd6093f950be291d1d7cd  qtbase.7z' | sha256sum --check --strict
+          echo '1fdbcd67b1760f3a3f031c64637a9f19992aed2f35aa615e12a468f8c655d4da  icu.7z' | sha256sum --check --strict
+          mkdir -p "$QT_PREFIX/lib"
+          bsdtar -xf qtbase.7z -C "$QT_PREFIX"
+          bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
+          test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
+          test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
+      - name: Configure the writer baseline and Qt environment probe
+        run: cmake --preset sqlite-writer-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX" -DSUBATHON_BUILD_QT_PROBE=ON
+      - name: Build the explicit stubs and authored cases
+        run: cmake --build --preset sqlite-writer-debug
+      - name: Run the environment probe and list the writer baseline
+        run: |
+          ctest --preset sqlite-writer-debug -R '^scaffold.qt_event_loop$'
+          ctest --preset sqlite-writer-debug -L sqlite-writer --show-only
+          ctest --preset sqlite-writer-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "writer-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No writer baseline registered")
+          expected = set(subprocess.check_output([tests[0]["command"][0], "-functions"], text=True).splitlines())
+          registered = {test["command"][1] + "()" for test in tests}
+          if not expected or registered != expected or len(tests) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled Qt baseline")
+          print(f"Discovered all {len(tests)} compiled writer cases; behavior not run")
+          PYTHON
+      - name: Run real writer acceptance only when explicitly dispatched
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_acceptance }}
+        run: ctest --preset sqlite-writer-debug -L sqlite-writer
