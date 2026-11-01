@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-013 API stage
+# Coordinator checkpoint — STORAGETEST-013 test-authoring stage
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
 loop under AGENTS.md and COORDINATOR_PROMPT.md. No owner decision or access
@@ -88,7 +88,8 @@ contractreview completed; minimalAPI/stub drafting nowexplicitlyauthorized.
 ActualminimalAPI21a396b/root54ebbd8 plusrootbuildharness50c1e8b nowexist;
 configure/build48steps andold95pass. RootCIb37daad switchesexistingpinnedQt
 job tosqlite-receipt-debug so itactuallycompilesnewlibrary; stablelabelsremain,
-newfeaturecasesabsent. UpdatedactualAPI/configreviewandCIproofpending. No newQtcase/fixture/schema-source/
+newfeaturecasesabsent. ActualseparateAPI/configapproval38d797e integrated16b15e9; actualAPI-stageCI
+41329002993 ata152passedstubcompile/oldlanes. No NEWreceiptfixtureproofyet. No newQtcase/fixture/schema-source/
 production/red yet. DifferentactualAPI/harnessreview activebeforetestauthoring.
 [Brief](../tasks/EPIC-009/STORAGE-013.md), [existing identifiedreceipt contract](../contracts/receipt-intake-v1.md),
 [retention](../contracts/retained-context-v1.md), [work/session](../contracts/writer-transactions-v1.md).
@@ -117,11 +118,23 @@ Author explicitly resumed frome7479d2 on minimalAPI/stubs ONLY. Owns NEW
 server/include/subathon/server/sqlite_receipts.hpp, NEWserver/src/sqlite_receipts.cpp
 (explicitNotImplementedlogicstubs, nofeatureSQL/codec/manifestimplementation),
 logicalcontract ConcreteAPIprecision appendix and ownexistingauthorevidence.
-Different reviewer explicitlyresumed on actual50c1e8b API/stub/precision/harness.
-Headerb43f9b60/stubfaf2856d/logicale1ed9758 (122precisionappendonly),
-physical2ef/prefix1unchanged; actualapprovalpendingbeforetests/fixtures. Thirdagent read-onlyfeasibility prepcompleted clean.
+Differentreviewer actualAPI/configapproval38d797e integrated16b15e9 covers
+headerb43f9b60/stubfaf2856d/logicale1ed9758 (122precisionappendonly), physical2ef/
+prefix1unchanged;48buildsteps0warnings/old95pass/actualAPI-stageCIread. Reviewer
+completedclean, nextfulltestreviewmustreceiveactualtests/fixtures/harness.
 Rootowns physicalschema/sharedbuild/presets/workflow/state/map/HTML/checkpoint.
-No newtests/fixtures orfirstfeaturebody beforeactualAPIprecisionreview.
+APIgatepassed. Author explicitlyresumed for ONLY NEWtests/qt/sqlite_receipts_tests.cpp
+plus ownexistingauthornote; noAPI/source/contract/JSON/sharedmutations.
+Thirdagent /root/debt_code_reviewer nowfixture/environmentAUTHOR in NEWclean
+local-evidence/worktrees/storagetest013-fixtures, task/STORAGETEST-013-fixtures,
+createdat16b15e9. OwnsONLYNEWtests/fixtures/sqlite_receipts_vectors.json,
+NEWtests/qt/sqlite_receipts_environment.cpp andNEWdocs/evidence/storagetest-013-fixtures.md.
+Actual3greenfunctions pinned: receiptSchemaPrefixMatchesLiteralProjection,
+unsignedIdsAndSignedFieldsRemainExact, optionalGroupsAndTypedReferencesUseLiteralSchema.
+JSONflatmanifest2 withfull10535payload/SHA24614f68/13objects+sixuint64vectors
+(decimal/hexSTRINGS); immutableoldretainedJSONsuppliesliteralprefix1. Bothauthors
+actuallyassignedteststage; no newfeaturebody/redrunallowedbyauthors. Rootfirstred
+onlyafteractualfullindependentreview+compile+selectedofficialNEWgreenproof.
 
 Read-onlyprep complete/nofiles. A genuine existing rule was found: reviewed
 application-plans-v1 Capture rejects zero receipt ID, enforcedcoreplan.cpp:19 and
@@ -142,7 +155,7 @@ ReceiptStorageError onlyafterknownrollback; uncertainWorkFailure propagates/fail
 closes/no normalresult orauto-replay. Rates/provider/wire/effects/jobs/application
 bundle/recovery/platform scope stays mandatory elsewhere.
 
-Next actualminimalAPI/stubcandidate→differentactualAPIprecisionreview→
+Next actualfeaturetests+independentliteralJSON/green3→successfulcompile→
 newindependentSQLcases/typedcodecfixtures→successfulcompile+selectedfixtureproof→
 fullactualreview→genuineintendedred→baselinePRnormalmerge beforeSTORAGE013code.
 Preserve old15simulation as simulation, no retroSQLclaim or completedred repeats.
@@ -154,8 +167,8 @@ edits, allother58clean,16absenthistorical/tmprefs preserved/no prune. Hostproces
 comm/cwdonlyaudit found IDE/Codex/currentreadshell, no nativebuild/test commands. No rootnativecommand after source
 95/CI/merge/fetch. Newauthor/reviewer maywrite afterassignment; inspectactual
 branches/dirtyfiles/agents/processes/GitHub onresume. Preservevalidreviews/oldrefs.
-/root/debt_code_reviewer sourceimplementation and read-only013feasibilityprep
-completedclean, no activeassignment orfilemutations. Inspectactualagentsonresume.
+/root/debt_code_reviewer nowactive013fixtureauthorasabove. Newworktreecount60;
+inspectactualdirtyfiles/agents/nativecommandsonresume, do notassume liveness.
 
 Ruleset26170263 PR/resolvedthreads,0GitHubapprovals,nobypass/force/delete,no
 required-status-checkrule. WrittenlatestheadallCI mandatory; repo evidence never

@@ -4645,7 +4645,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; contract/test author /root/writer_transaction_reviewer; reviewer /root/storage_work_code_reviewer",
+      "owner": "Coordinator /root; feature tests /root/writer_transaction_reviewer; fixtures and green probe /root/debt_code_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-012",
         "ACCT-001"
@@ -4664,13 +4664,15 @@
         "PublishedfocusedDRAFT PR35 https://github.com/Kernol12/subathon-bot-ai/pull/35 at845ae20 actualcontract/schema/probe stage. InitialCIrunningatpublication; noacceptanceclaim/newfeaturebody. Differentreviewer actualfull845ae20contract/DDL pending; authoridlenextgate, thirdagentread-onlyfeasibilityprep/noedit. Rootproject391/tooling19/render/DOMsimulation/diffpass; actualbrowsernotrun.",
         "ActualdifferentCONTRACTONLYapproval15bd1f7 integratede7479d2 coverslogicalf8af1b99/schema2ef4f138, prefix1/fourSQL/13objects/starts0,1,2/independent10535payload+SHA24614f68+14SQLconstraintprobes. No blockers. Actualinitialdraft845ae20all11CIchecksSUCCESSexistingbehavioronly. AuthornowexplicitlyauthorizedONLYnewsqlite_receipts.hpp+explicitstubcpp+logicalConcreteAPIprecision+ownevidence; no productionbehavior/tests/fixtures untilactualdifferentAPIreview. ReviewercompletedcleanawaitingactualAPIcandidate. Rootallsharedbuild/state/checkpoint; thirdagentprepcompletedclean.",
         "ActualminimalAPIauthor21a396b/root54ebbd8 headerb43f9b60/stubfaf2856d/logicale1ed9758 (only122precisionappend; approvedf8bodyunchanged). FourexplicitNotImplementedlogicthrows/inertconstructors, noSQL/codec/allocator/manifestbehavior. Rootminimalflag/preset/libraryharness50c1e8b sqlite-receipt-debug configure/buildall48stepsPASS; old95onlysuitepass confirmedseparately, no newreceiptbodyregistered/run. ActualdifferentAPI/precision/harnessreview nowassigned50c1e8b BEFORE newtests/fixtures; schema2ef/prefix1/oldports/source/tests unchanged.",
-        "RootCIcoverageassessment: oldworkflowretainedpresetdidnotbuildnewreceiptlibrary. Actualb37daadpromotesexistingpinnedQtjobcommands/pathstowardnewsqlite-receipt-debug profile; old95stablelabels/10environmentmethods retained, no newfeaturecase/bodyexists. actionlint/project/diffPASS; actualnewautomaticCIpendingpublication. ThisworkflowrevisionalsoawaitsdifferentAPI/configreview."
+        "RootCIcoverageassessment: oldworkflowretainedpresetdidnotbuildnewreceiptlibrary. Actualb37daadpromotesexistingpinnedQtjobcommands/pathstowardnewsqlite-receipt-debug profile; old95stablelabels/10environmentmethods retained, no newfeaturecase/bodyexists. actionlint/project/diffPASS; actualnewautomaticCIpendingpublication. ThisworkflowrevisionalsoawaitsdifferentAPI/configreview.",
+        "ActualAPI/stub/precision/configapproval38d797e integrated16b15e9 coversheaderb43/stubfaf/logicale1/physical2ef/harness50c+workflowb37/a152. Differentreviewer48buildsteps0warnings/exactold95registration/95PASS; actualselectedautomaticQt41329002993 ata152SUCCESSnewstubarchive+old25/24/24/16+green7/3/all11checks, no NEWreceiptfixture/bodyproof. NOWtestauthoringexplicitlyassigned: existingauthorONLYnewsqlite_receipts_tests.cpp+ownevidence; NEWcleanfixturetree task/STORAGETEST-013-fixtures at16b15e9 thirdagentONLYnewsqlite_receipts_vectors.json/newgreen3cpp/ownnote. FixedJSONflatmanifest2+sixdecimalSTRINGvectors; oldliteralprefix1unchanged. Rootownsallharness/CI/schema/state/map/checkpoint/fullactualreview/firstred; no newfeaturebodybeforeactualfullreview+compile+selectedNEWgreenproof."
       ],
       "verification": {},
       "evidence": [
         "docs/evidence/storagetest-013-author.md",
         "docs/evidence/storagetest-013-probe.md",
-        "docs/evidence/storagetest-013-review.md"
+        "docs/evidence/storagetest-013-review.md",
+        "docs/evidence/storagetest-013-ci.md"
       ],
       "review": null
     },
