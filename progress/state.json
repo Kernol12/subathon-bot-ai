@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T20:34:15.357794+00:00",
+  "updated_at": "2026-11-01T20:38:26.179149+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention and receipt-repository components have reviewed acceptance evidence. Contribution/plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4768,7 +4768,7 @@
       "title": "Review and demonstrate red: Contribution evidence and receipt-association SQLite adapter",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; test author /root/writer_transaction_reviewer; literal fixtures /root/debt_code_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-013",
@@ -4779,7 +4779,7 @@
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
-      "summary": "24 real-SQL contribution cases and independent literal/green fixtures compile; full baseline review, selected official Qt proof and first intended red remain pending.",
+      "summary": "24 independently reviewed real-SQL cases compile; selected official Qt fixtures pass before one genuine 24-case unimplemented red. Baseline complete; contribution implementation remains planned.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claimfromfreshmain e331714e0a03aae0a7c908721f92ea19a1756f62 afterPR36actualnormalmerge2026-11-01T18:55:47Z final4fc0824/all11SUCCESS/source84+finalmetadatad6/currentrules0requiredapprovals/no threads. STORAGE013/ACCT002integrated; original21service/eligibilitysimulations remainnotSQLproof. InitialstageONLYnewsqlite-contributions-v1 contract/examples+ownevidence, thenactualdifferentcontractreview beforeAPI/stubs/tests. PreserveContributionEvidenceServicepolicy/ports/coretypes/originalsupport+receiptprojections/immutableobservations/independentconditions+evidence+linkstate/realcommit+knownrollbackvsuncertaintruth. TypedContributionIduint64actualcodec/absence/zero/max/exhaustion mustbeexplicit:newsearchfindsNOexistingContributionId0rejection (PlanEvent usesoptionalCId; validateCapture rejectsReceiptId0ONLY; oldfake1notpolicy). ProposedfullContributiondomain0..MAX/nullableallocatorbeforefirst0unlessactualagreednonzerorulefound; ReceiptId1..MAXunchanged. ValidatecommittedimmutableReceiptprojection/preconditionswithoutfabricatingnewprivatewriterproof/adoptcommitguarantee. ExistingContributionValuation hasmonetary/originalMoney/resolutionRef/missingRate, no actualratefields; actualrate/source/timeproofremainswritten015gate. Rootownsphysicalschema/globalmigration3/immutableprefix1+2/order/allbuild/CI/state/map/checkpoint. No provider/verificationauthority invention, money/timecorrelation, effects/jobs/applicationpermission/recovery scope upgrade. Newauthor/reviewer worktreeswillbecreatedfromclaim; no production/source14claim ornewred beforeactualreviewedcompiledbaseline.",
@@ -4794,7 +4794,8 @@
         "Actual24 feature author d438e2e integrateda8eaf15, sourceaf2dc41f3e0db8c140eabab6663c5c2e2683864c. Corrected green577edeb/JSON44df independently approved27aa55f/rootdb633fb, preserving all old negatives and adding isolated ID-type/length INSERTs. Root actual full configure/build/link0warnings; exact143 registrations including24 compiled feature methods and3 green slots. Root119 inherited+green tests PASS2.59s; newgreen5 inclinitcleanup/0skip Qt6.12SQLite3.54. No NEW feature body/red. Actual shared CMake/workflow candidate switches same pinned job to new profile, preserves old111 unconditional SQL cases, adds automatic requiredgreen3/exact24discovery and explicit separate manual feature input defaultfalse. Different full actual baseline/harness review must precede selectedofficialNEWgreen proof and firstred. Latest owner says finish PR37 then STOP; source14 stays planned.",
         "Full different inspection at e03e19e/sourceaf2 requested three substantive coverage additions before approval: actual new original-reader uint32/signed64 extrema+reopen; active adopted wrapper destructor rollback before outer finalizer with inside-body lock/snapshot and not_committed truth; actual modifier-context/known-config typed targets including allowed unequal knowncfg and wrong-namespace absence. Root explicitly authorized existing-slot additive fixes only, all old assertions preserved, no feature runtime/red/source implementation. Extra bounded static fault/limit audit found no further issue and stopped. Finish sole open PR37 then STOP.",
         "Actual additive coverage fix12ba6df integrated3f85f3b, final feature46c901e0225b7755153decf25f4a5ff226d063db. All24 slots/old assertions preserved. Two committed-original uint32/signed64 extrema variants check rawINTEGER/fullDTO/reopen/owned lifetimes; active adopted wrapper reset proves +1 retention/contribution/observation then immediate inside-body lockrelease/snapshot and outer rolled_back/not_committed; five typed context/known-config cases cover allowed unequalcfg, missing/wrongnamespace targets. Root rebuilt/link0warnings and exact143/24 compiled discovery pass; no new feature body/red. Different actual re-review pending these final artifacts.",
-        "Actual FULL authored baseline/harness approval81e0d5a integrated1b4c48c accepts final46c/577/44df/0abee/0ad/f503/eeb/CMakef308/workflow48ece; all3coverage findings resolved. Reviewer read all24+helpers/fixtures/config, exact143/24+green3 build/discovery0warnings, safe stable119PASS2.62s/currentgreen5PASS0skip Qt6.12SQLite3.54; final46c rebuild/discoverypass. No feature body/red by any author/reviewer. Now publish this approved candidate for selectedofficialNEWgreen3/exact24/stable/pins proof; FIRST intended red only afterward. PR37 only, thenSTOP; source14planned."
+        "Actual FULL authored baseline/harness approval81e0d5a integrated1b4c48c accepts final46c/577/44df/0abee/0ad/f503/eeb/CMakef308/workflow48ece; all3coverage findings resolved. Reviewer read all24+helpers/fixtures/config, exact143/24+green3 build/discovery0warnings, safe stable119PASS2.62s/currentgreen5PASS0skip Qt6.12SQLite3.54; final46c rebuild/discoverypass. No feature body/red by any author/reviewer. Now publish this approved candidate for selectedofficialNEWgreen3/exact24/stable/pins proof; FIRST intended red only afterward. PR37 only, thenSTOP; source14planned.",
+        "Baseline gates complete at clean399fc442b960af943191b1ab35ca5a53e94df05d after actual full81/root1b and selected officialQt41347563063: pinhashes/GNU13.3/Qt6.12SQLite3.53.4/70-stepbuild/old111 unconditional/current577green3(5PASS0skip)/exact24discovery; manual feature step NOT invoked; all11checksSUCCESS. ONLY THEN root FIRST feature run2026-11-01T20:37:06.321566Z ctest sqlite-contribution label --parallel1 exits8/all24explicitNotImplemented/24init+24cleanupPASS/0skip/crash/setup failure,total0.33s. Raw original red preserved; DO NOT REPEAT. Test-author baseline done, NOT feature implementation. PR37 stilldraft pending finalmetadata/CI-attributionreview/latestheadCI/currentrules/discussions/normalmerge; after main reconciliation STOP, no source14 or nexttask."
       ],
       "verification": {
         "contract_authoring": "passed",
@@ -4804,14 +4805,14 @@
         "authored_tests": "passed",
         "native_build": "passed",
         "diagnostic_environment": "passed",
-        "official_qt_environment": "not_run",
+        "official_qt_environment": "passed",
         "test_review": "passed",
-        "baseline": "not_run",
-        "product_acceptance": "not_run",
+        "baseline": "observed_red",
+        "product_acceptance": "observed_red",
         "platform_release": "not_run",
         "existing_writer_acceptance": "passed",
-        "ci_harness": "partial",
-        "github_ci": "partial"
+        "ci_harness": "passed",
+        "github_ci": "passed"
       },
       "evidence": [
         "docs/evidence/storagetest-014-author.md",
@@ -4819,13 +4820,14 @@
         "docs/evidence/storagetest-014-review.md",
         "docs/evidence/storagetest-014-fixtures.md",
         "docs/evidence/storagetest-014-ci.md",
-        "docs/evidence/storagetest-014-handoff.md"
+        "docs/evidence/storagetest-014-handoff.md",
+        "docs/evidence/storagetest-014-red-ctest.txt"
       ],
       "review": {
         "author": "/root/writer_transaction_reviewer (contract/API/feature tests); /root/debt_code_reviewer (independent literal fixtures/green); /root (physical schema/shared build/CI)",
         "reviewer": "/root/storage_work_code_reviewer",
         "outcome": "approved",
-        "baseline": "Actual full authored baseline/harness81e0d5a integrated1b4c48c accepts final feature46c901e/green577/JSON44df/header0abee/stub0ad/logicalf503/physicaleeb/CMakef308/workflow48ece. Three coverage findings resolved by12ba6df/root3f85; source/assertions/prefixes unchanged. Selected official NEWgreen proof, first intended red and final metadata attribution remain required; no production approval.",
+        "baseline": "Actual full81e0d5a/root1b4c48c approved final46c/577/44df/0abee/0ad/f503/eeb/CMakef308/workflow48ece BEFORE selected officialQt41347563063 at399fc44 (currentgreen3/exact24/old111/pins/all11SUCCESS), then root FIRST24 explicitstub-red at SAME399fc44,2026-11-01T20:37:06.321566Z exit8/24init+24cleanupPASS/0skip/crash/setup failure/0.33s. No production approval; final metadata/CI-attribution and latest-head merge gates remain.",
         "evidence": "docs/evidence/storagetest-014-review.md"
       }
     },

@@ -2,7 +2,7 @@
 
 Coordinator `/root`,2026-11-01, branch
 `task/STORAGETEST-014-contribution-repository`,
-[draft PR37](https://github.com/Kernol12/subathon-bot-ai/pull/37), from actual main
+[PR37](https://github.com/Kernol12/subathon-bot-ai/pull/37), from actual main
 e331714e0a03aae0a7c908721f92ea19a1756f62. Latest owner instruction is to finish
 the open PRs, then STOP; this is the only open PR. No next task/implementation is
 started. Full product remains incomplete.
@@ -39,35 +39,47 @@ No actual new codec/manifest/repository implementation is supplied: four entrypo
 throw SqliteContributionsNotImplemented. Test-author completion will not complete
 STORAGE-014.
 
-## Reviews, commands and remaining gates
+## Completed baseline gates and remaining merge gates
 
-Different actual contract approvalf76817a/root0a2661d and API/stub/minimal-config
-approval77a9544/root29443f5 preceded test authorization. Different actual JSON/
-green-only approval27aa55f/rootdb633fb accepts corrected577/44df, including isolated
-strict-ID-type/length INSERTs. Full review then requested three additive feature
-coverage corrections, author12ba6df/root3f85f3b: new private original-reader integer
-extrema/reopen, active adopted wrapper destructor cleanup before outer finalization,
-and typed context/known-configuration resolution including allowed unequal cfg.
-All24 names and every prior assertion remain. Actual full re-review81e0d5a integrated1b4c48c accepts final46c and the exact
-fixtures/shared harness, resolves all3 findings and approves the authored baseline.
-Independent build/discovery passes; safe119 stable/green tests pass2.62s. [Review evidence](storagetest-014-review.md).
+Actual different contractf76817a/root0a2661d and API/stub/config77a9544/root29443f5
+preceded test authorization. Corrected JSON/green27aa55f/rootdb633fb and FULL actual
+baseline/harness81e0d5a/root1b4c48c approve the exact artifacts above, including
+CMakef308ecb/workflow48ece7b and all three coverage corrections. Every original
+assertion/slot and both previous migration prefixes remain unchanged.
+[Actual reviews](storagetest-014-review.md), [author](storagetest-014-author.md),
+[independent fixtures](storagetest-014-fixtures.md).
 
-Actual root configure/build/link succeeds without warnings; exact143 CTest
-registrations include24 feature slots matching compiled -functions and3 green
-slots. `ctest --preset sqlite-contribution-debug -LE '^sqlite-contribution$'
---output-on-failure --parallel 1` passes119/119,2.59s. New green has5 passes including
-init/cleanup,0skips, host Qt6.12/SQLite3.54. Latest revised feature rebuild/discovery,
-format/actionlint/project391/render checks pass. No new feature body or red has
-run. [CI assessment](storagetest-014-ci.md), [probe](storagetest-014-probe.md),
-[author](storagetest-014-author.md), [literal fixtures](storagetest-014-fixtures.md).
+Root build/link/discovery succeeds without warnings:143 registrations, exact24
+compiled feature methods and3 green slots. Local stable/green119 PASS2.59s;
+different reviewer119 PASS2.62s. New green5PASS/0skip uses hostQt6.12/SQLite3.54.
+Format/actionlint/project391/tooling19/render/DOM checks pass; DOM simulation is
+not actual browser/OBS evidence. [Build scope](storagetest-014-probe.md).
 
-Pending before merge: selected official Qt
-NEWgreen3/compiled24 discovery and stable lanes; FIRST genuine intended red after
-those gates; final metadata/CI-attribution review and latest-head checks/rules/
-resolved discussions; normal exact-head merge. The candidate workflow preserves
-all old111 SQL cases unconditionally, adds automatic newgreen/discovery and keeps
-feature execution explicit/separate until implementation. No failure inversion or
-baseline weakening is used. No original historical red has been repeated.
+Full approval preceded actual automatic selected official Qt
+[run41347563063](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41347563063)
+at399fc442b960af943191b1ab35ca5a53e94df05d: both pinned hashes/GNU13.3/Qt6.12/
+SQLite3.53.4/70-step build/old111 unconditional/current577-green3 (5PASS0skip)/
+exact24 discovery PASS. Manual feature step was not invoked; all11 checks SUCCESS.
+Only then root's FIRST feature execution at that same clean399fc44 began
+2026-11-01T20:37:06.321566Z:
+
+```sh
+ctest --preset sqlite-contribution-debug -L '^sqlite-contribution$' --output-on-failure --parallel 1
+```
+
+Actual exit8/all24 explicit unimplemented failures,24init+24cleanup PASS,0skip/
+crash/setup/dependency failures,total0.33s. [Original raw red](storagetest-014-red-ctest.txt),
+[exact CI/red chronology](storagetest-014-ci.md). DO NOT repeat this completed red.
+This finishes STORAGETEST-014 test authoring, not STORAGE-014 implementation.
+The feature API remains the four reviewed stubs; product acceptance is observed_red.
+
+Remaining PR37 merge gates: separate final metadata/CI-attribution review; latest-
+head all checks; current rules/required GitHub approvals/resolved discussions and
+GitHub mergeability; normal exact-head merge. The candidate workflow preserves
+old111 cases unconditionally, required new green/discovery automatically and
+explicit separate feature red until implementation. No failure inversion/skip/
+assertion weakening obtains green CI. Publication/merge status must be inspected
+on PR37; baseline done alone does not mean integrated.
 
 ## Completion boundary
 

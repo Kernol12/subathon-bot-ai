@@ -97,3 +97,39 @@ safe119 stable/green PASS2.62s/green5PASS0skip. Final46c incremental build/list
 passes0warnings; stable inputs unchanged. No new feature/init/red was invoked by
 reviewers/authors. Publish this approved candidate next for actual selected
 official Qt NEW577-green proof before the first intended red.
+
+## Actual selected official Qt prerequisite and first red
+
+Actual automatic [run41347563063](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41347563063)
+at exact approved head399fc442b960af943191b1ab35ca5a53e94df05d completed SUCCESS.
+Full approval81e0d5a/root1b4c48c preceded publication of that head. Read/cached the
+actual job JSON and full log under ignored local-evidence/coordinator/
+storagetest014-fixture-ci-399fc44.{json,log}; no result is inferred from a label.
+
+Both pinned archive hashes report OK. Actual project compiler is GNU13.3.0;
+Qt6.12.0/bundled SQLite3.53.4. The library's own GCC build banner describes Qt,
+not the compiler used for this project. Full70-step build compiles the explicit
+new stub and feature/green targets. Old25 writer/ownership,24 work,24 migration,
+16 retention and22 receipt cases all pass unconditionally; old environment7/3/3
+also pass. Required NEW577 green reports exact3 slots plus init/cleanup5PASS,
+0failed/0skipped; exact24 compiled feature discovery passes without execution.
+The explicit manual feature step is SKIPPED as designed (input not invoked).
+All11 PR checks at399fc44 are completed SUCCESS.
+
+Only AFTER inspecting that proof, root verified clean HEAD399fc44, full-review
+ancestry, all exact reviewed hashes and not_run baseline status. FIRST actual new
+feature run began2026-11-01T20:37:06.321566Z at that SAME head:
+
+```sh
+ctest --preset sqlite-contribution-debug -L '^sqlite-contribution$' --output-on-failure --parallel 1
+```
+
+Actual exit8; all24 fail explicitly on SqliteContributionsNotImplemented or its
+intentionally-unimplemented message. All24 init and24 cleanup phases PASS; every
+process totals2PASS/1FAIL/0skip, no crash/setup/dependency failure. Total0.33s,
+host GNU16.2.1/Qt6.12.0/SQLite3.54.0. [Original raw red](storagetest-014-red-ctest.txt).
+Ignored exact timestamp/head/command/hash/count metadata:
+local-evidence/coordinator/storagetest014-red-metadata.json. This is observed red,
+not a passing product suite or implementation. Do NOT repeat it. Final metadata/
+CI-attribution review and latest-head PR checks still precede normal merge. After
+PR37/main reconciliation, STOP under the latest owner instruction.

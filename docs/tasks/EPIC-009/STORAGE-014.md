@@ -71,3 +71,16 @@ A plain VerifiedActivityLink/proof reference is not provider authorization. Pres
 trusted upstream semantic/pre-committed-receipt preconditions and actual resolvable
 arrival references; do not invent stronger proof from merely nonempty bytes or
 same-session visibility. Independent review must pin any validation/error boundary.
+
+
+## Actual baseline checkpoint
+
+STORAGETEST-014 now has24 actual reviewed/compiled real-SQL cases and independent
+literal/green fixtures. Full approval81e0d5a preceded actual selected official
+Qt41347563063 at399fc44 (newgreen3/exact24/pins/stable lanes), then one genuine
+24-case explicit-stub red with all init/cleanup passing/0skip. See
+[baseline handoff](../../evidence/storagetest-014-handoff.md) and
+[original red](../../evidence/storagetest-014-red-ctest.txt). This finishes only the
+test-author gate. STORAGE-014 remains planned and unclaimed; no codec/manifest/
+repository behavior is implemented. Latest owner instruction is to finish PR37
+and STOP, so implementation requires a future explicit continuation.
