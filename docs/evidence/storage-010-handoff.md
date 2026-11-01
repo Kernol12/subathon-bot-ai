@@ -28,23 +28,26 @@ survive later body/protocol errors. Cleanup is phase-aware/noexcept. One mixed F
 retains the active slot through body/finalization; completion can destroy the writer
 without later Impl access. The test seam is below physically successful matching
 control, before acknowledgement classification, never a fabricated final result.
-These details still require the separate actual source/config approval below.
+Different source/config reviewer approved those actual details in9216d8d,
+integrated17adb35; [code review](storage-010-code-review.md).
 
 Author and root configure/build `sqlite-work-debug` and full CTest pass53/53:
-new24, unchangedold25, scaffold4 including Qt probe. Reviewer independently reported
-new24/full53 passes, but durable code/config approval is still pending. Root checked
+new24, unchangedold25, scaffold4 including Qt probe. Reviewer independently reproduced new24/full53 and approved source023451/sharedce0a325
+in9216d8d. Root checked
 all7 reviewed artifact hashes unchanged fromc60. Linux x86-64, GNU16.2.1,
 Qt6.12.0, CMake4.4.5, Ninja1.13.2, Python3.14.8. No new dependency. Author honestly
 records an initial wrong test-selection regex; it selected no cases and establishes
 no red/pass. Corrected actual24 and full53 executions pass. No fixture was weakened.
 
 [CI assessment](storage-010-ci.md): stable job/archive/action pins and exact
-compiled registration guards remain. New24 now run unconditionally on PR/main/
-manual with normal failures. Independent source/config review and observed actual
-Ubuntu acceptance/latest-head checks remain required before done/merge. Current
-root command is complete; no owner question. Root owns shared CMake/presets/
-workflow/state/HTML/map/checkpoint; source author and reviewer have isolated
-storage010-implementation/review worktrees and separate evidence ownership.
+compiled registration guards remain. New24 run unconditionally on PR/main/manual
+with normal failures. Actual [Ubuntu41300728417](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41300728417)
+at a1e3a89 passed hashes/GNU13.3/probe1/exact25+24 discovery/real25+24 acceptance;
+all11 checks there succeeded. STORAGE-010 is done for this internal mechanism.
+Final completion-metadata/CI attribution review, latest-head checks/discussions/
+current normal rules remain before PR30 merge. Root owns shared build/state/
+HTML/map/checkpoint; author and code reviewer use isolated separate worktrees.
+No owner question or running root command remains.
 
 No application schema/migration/real repository adapter, domain encoding, effect/
 aggregate/job/application bundle, recovery authorization, hard execution deadline,

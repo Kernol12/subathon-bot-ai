@@ -84,56 +84,54 @@ All seven integrations/three rate providers, app/accounting, renderers, UI/local
 themes, packaging/platform and live/OBS gates remain full release scope. No percentage
 or completed product claim is made. Old branches/reviews/archives remain preserved.
 
-## Integrated baseline and active implementation
+## Integrated baseline and current implementation publication
 
-[PR29](https://github.com/Kernol12/subathon-bot-ai/pull/29) merged c60e1ed at
-2026-11-01T10:55:19Z after final b9216ad all11 checks success, no review threads
-and current normal rules. Actual baseline artifacts: tests eb9e3b6, header afc9f483,
-hook a2cd7b89, originalstub b47f131a, contract4ba20506. Author6532c07/76d3a00/
-0c6fc8e, separate review96c1481 integrated75c07fc BEFORE actual24 stub-red(exit8),
-final review879a04d retained. No repeated red or implementation claim from this.
-[Baseline handoff](storagetest-010-handoff.md), [review](storagetest-010-review.md),
-[raw red](storagetest-010-red-ctest.txt), [CI](storagetest-010-ci.md).
+PR29 merged c60e1ed at2026-11-01T10:55:19Z after final b9216ad all11 checks/no
+threads/normal rules; postmerge main all10 checks succeeded. Actual baseline
+new24 eb9e3b6/header afc9f483/hook a2cd7b89/contracts4ba20506+4d280461 remain
+unchanged. Separate approval96c1481 integrated75c07fc BEFORE genuine24 stub-red
+(exit8/no skips), final879a04d retained. [Baseline](storagetest-010-handoff.md).
+No repeated red or inferred implementation from baseline completion.
 
-STORAGE-010 claimed on `task/STORAGE-010-writer-work` from refreshed main c60e1ed.
-Implementer `/root/debt_code_reviewer` is explicitly reassigned from completed
-CORE-005 review; new isolated worktree `local-evidence/worktrees/storage010-implementation`,
-branch `task/STORAGE-010-implementation`. Owns ONLY server/src/sqlite_writer.cpp
-and docs/evidence/storage-010-implementation.md. Root owns baseline stub removal,
-shared CMake/presets/workflow/map/state/HTML/checkpoint and PR. Different code reviewer `/root/storage_work_code_reviewer` is assigned in
-`local-evidence/worktrees/storage010-review`, branch `task/STORAGE-010-review`;
-initial read-only source/config checklist is complete, actual implementation
-revision is still pending before approval.
-Old baseline author/reviewer worktrees and reviews remain preserved, completed.
+STORAGE-010 is done for its bounded internal mechanism on
+`task/STORAGE-010-writer-work`, claim368c6bb from refreshed mainc60e1ed.
+[PR30](https://github.com/Kernol12/subathon-bot-ai/pull/30) is draft; last observed
+published a1e3a89 all11 checks succeeded. Later heads need fresh CI. No owner
+question. Main is not assumed to include this unmerged task.
 
-Scope is additive same private authoritative writer connection, trusted dynamic
-work, real synchronous begin/read/decide/write/commit, weak revocation/error/outcome/
-cleanup/thread checks, cumulative SQL limits, mixed FIFO/active capacity and shutdown.
-Preserve exact old25 and new24 assertions/header/hook/contract. No final domain row,
-migration, receipt/contribution adapter, application bundle, recovery or provider
-capability. Fault seam placement below classification needs actual code review.
+Implementer `/root/debt_code_reviewer`, explicitly reassigned from completed
+CORE-005 review, finished sourcead66ded/blob023451 and evidence5025715, integrated
+2aa14cd/3ed2362. Worktree `local-evidence/worktrees/storage010-implementation`,
+branch `task/STORAGE-010-implementation`, clean/completed. Owns only source and
+implementation evidence. Root owns shared CMake/presets/workflow/map/state/HTML/
+checkpoint and PR. Shared ce0a325 retires baseline stub, keeps historical review
+through immutable c60e1ed/b47f link and makes unchanged new24 ordinary automatic.
 
-Next: implement only owned source against integrated baseline, pass new24/old25/
-full53, independent code/config review, enable and observe ordinary automatic new
-acceptance. No routine approval needed. No owner question or running root command.
-Inspect actual worktree/agent/process/GitHub state on resume. Historical absenttmp
-refs remain preserved. All seven integrations/three rate providers and full UI/
-renderers/locales/themes/platform/packaging/live gates remain release scope.
+Different `/root/storage_work_code_reviewer` independently approved actual
+source023451/sharedce0a325 in9216d8d, integrated17adb35. Isolated
+`local-evidence/worktrees/storage010-review`, branch `task/STORAGE-010-review`,
+clean/completed after initial code approval; resume explicitly for final integration.
+No sourcefinding or assertion/interface/contract change. Immutable7 artifacts
+confirmed against merged baseline. One private connection/state generation, real
+synchronous commit, known rollback/unknown-outcome precedence, revocable weak
+capabilities, cumulative SQL budgets, mixed FIFO/active capacity and safe completion
+were inspected. Fault seam lies below actual successful physical control.
 
-Root shared configuration ce0a325 retires the original stub and points its
-historical review link to immutable c60e1ed/b47f. New24 acceptance is unconditional
-alongside old25 with the same compiled registration guard; no baseline assertion/
-header/hook/contract changes. Actionlint/project/diff passed. Implementer was sent
-this shared commit for merge before build. Implementation/real new24/full53/actual
-Ubuntu/code approval remain pending; no passing feature claim. Mainc60 all10
-postmerge checks succeeded. Root CI assessment is drafted/committed with this
-checkpoint, no running root command. Current author/reviewer assignments are live
-only as observed now; inspect on resume rather than assume persistence.
+Author/root/reviewer configure/build/full53 all pass (new24+old25+scaffold4). Actual
+Ubuntu41300728417 at a1e3a89 passed Qt/ICUhashes/GNU13.3/probe1/exact25+24 discovery/
+unconditionalreal25+24 acceptance; all11 checks there succeed. [Implementation](storage-010-handoff.md),
+[source review](storage-010-code-review.md), [CI](storage-010-ci.md) pin commands,
+artifacts and limits. Default fixtures are disposable/synthetic, no live side effects.
 
-Source ad66ded/blob023451 integrates2aa14cd, author evidence5025715 integrates
-3ed2362. Author finished/clean; root configure/build/full53 passed and confirmed
-all7 baseline interface/test/contract artifacts unchanged. Separate code reviewer
-independently reproduced new24/full53 and is completing durable source/config
-approval. [Current implementation handoff](storage-010-handoff.md). No actual
-new Ubuntu acceptance run yet. Next: publish draft task PR, observe ordinary49
-case CI, integrate separate sourceapproval then finalmetadata/latesthead gates.
+Next: final independent completionmetadata/actualCI attribution review of concrete
+new completion commit; integrate approval, publish, require all latest-head checks,
+resolved threads/currentnormalrules before normal PR30 merge. Refresh main, then
+claim dependency-ready STORAGETEST-011 with versioned contract/examples, actual
+separate test review and genuine new missing-behavior red. Do not repeat completed
+baselines or infer product schema/real adapters from this mechanism.
+
+No root command remains running or uncommitted work after checkpoint commit.
+Old author/reviewer branches/reviews/absenttmp refs remain preserved. Inspect actual
+agents/processes/worktrees/GitHub on resume. Full migrations/config/receipts/
+contributions/plans/application bundle/recovery, all seven integrations/three rate
+providers, both renderers/UI/locales/themes/platform/packaging/live gates remain.

@@ -59,6 +59,7 @@ stub-red, keeping build/discovery distinct from passing old25 behavior; its
 now configures `sqlite-work-debug` to run both suites unconditionally (old25 plus
 new24) on PR/main/manual, retaining the stable job and complete registration guard.
 Its [implementation CI assessment](evidence/storage-010-ci.md) records actual
-results and remaining gates. Source implementation, independent review and
-observed automatic new-case acceptance are still pending at this task stage; a
-workflow configuration alone supplies no passing behavior claim.
+results and remaining gates. Source023451 is independently approved9216d8d; actual Ubuntu41300728417 at
+a1e3a89 passed new24/old25/probe1 with verified selected archives and exact
+registration. Latest-head CI still applies before merge; these49 cases do not
+establish product schemas/recovery/platform/provider release behavior.

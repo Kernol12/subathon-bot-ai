@@ -1,30 +1,39 @@
 # STORAGE-010 CI assessment
 
-Coordinator `/root`, 2026-11-01. Implementation task starts from merged PR29/main
-c60e1ed with the completed independent24-case review/red baseline. Original
-[baseline evidence](storagetest-010-handoff.md) remains historical and valid.
+Coordinator `/root`, 2026-11-01. This task promotes the completed independently
+reviewed24-case work baseline from build/discovery to ordinary real acceptance.
+The [original baseline](storagetest-010-handoff.md) retains its genuine stub-red;
+it was not repeated. New24, old25, header, hook and both contracts remain unchanged.
 
-Shared harness ce0a325 removes the explicit baseline stub source and compiles the
-implementation in the existing private-writer translation unit. The historical
-review's stub link now points to immutable main c60e1ed and the same b47f131a blob;
-no review finding/assertion is changed. Header/hook/contract/new24/old25 remain
-unchanged. New behavior is still being implemented and no passing result is claimed.
+Shared configuration ce0a325 retires the explicit stub source and compiles the
+implementation in the existing private writer translation unit. Its historical
+review stub link now points to immutable c60e1ed/b47f; no assertion or review
+conclusion is changed. sqlite-work-debug has53 cases:49 mechanism plus4 scaffold.
+Stable sqlite-writer-build, selected action/Qt/ICU pins, real Qt probe and exact
+compiled-vs-CTest name/count guards remain. Both old25 and new24 execute
+unconditionally on PR/main/manual, without a manual boolean, failure inversion,
+WILL_FAIL, baseline skip or continue-on-error. Removing draft labels changes no
+assertion or registration.
 
-The stable sqlite-writer-build job keeps its selected action/Qt/ICU pins, environment
-probe and exact compiled-vs-CTest registration guards. It now runs both old25 and
-new24 unconditionally on PR/main/manual, without a manual boolean or failure
-inversion. sqlite-work-debug retains all53 registered cases (49 mechanism cases
-plus4 infrastructure). Descriptions and the former draft label now reflect the
-acceptance lane. No required-check rule was added by editing this workflow.
+Author/root/reviewer configure/build and real53/53 pass locally. Source
+ad66ded/blob023451 integrates2aa14cd; different source/config approval9216d8d
+integrates17adb35. Root project391/current HTML/tooling19/DOM/actionlint/diff and
+reviewer formatting/exact registration checks pass. No new dependency.
 
-Root actionlint1.7.12, project391/current HTML and whitespace checks pass for the
-shared change. Independent actual source/config review, real local49/full53 passes
-and observed changed automatic Ubuntu acceptance remain required before task done
-or merge. No source implementation candidate or actual new CI run exists at this
-stage. Default tests use only synthetic inputs/disposable files. This proves no
-power-loss, provider, product schema, repository adapter or platform release gate.
+## Actual automatic Ubuntu acceptance
 
-Actual source ad66ded/blob023451 integrates2aa14cd; author evidence5025715. Author
-and root configure/build/full53 pass with new24 and unchangedold25; reviewer
-independently reproduced local passing suites and is completing durable source/
-config review. No actual Ubuntu run of new acceptance is claimed yet.
+[Run41300728417](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41300728417)
+at PR30 head a1e3a89 succeeded. Actual retained logs show both selected Qt/ICU
+SHA256 checks OK, GNU13.3.0, Qt event-loop1/1, exact old25 registration and real
+25/25 acceptance, exact new24 registration and unconditional real24/24 acceptance.
+All11 PR checks at a1e3a89 succeeded. Root inspected actual job logs, not only
+check metadata. Ignored raw logs are in local-evidence/coordinator. This is real
+Qt SQL disposable-file/service-port composition, not a manufactured result or
+passing compilation substituted for execution.
+
+Final integration/metadata/CI attribution review and latest-head checks/discussions/
+normal rules remain publication gates. Ruleset26170263 currently has no required-
+status-check rule; written all-applicable latest CI requirements still apply and
+workflow editing does not configure GitHub enforcement. New ordinary acceptance
+supplies no product schema/real adapter/recovery/power-loss/live provider/platform
+release proof. Full agreed scope remains mandatory.
