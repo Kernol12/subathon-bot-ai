@@ -90,3 +90,59 @@ command was run. Root's later physical proposal and a different actual reviewer
 must assess these exact logical choices before any expanded API/stub/test scope.
 Deterministic unresolved ordering is ascending canonical ReceiptId, excluding
 SQL NULL-versus-present0 confusion; no extra attempt/observation ID is invented.
+
+## Minimal API/stub stage after actual contract/schema approval
+
+Different actual logical/physical approvalf76817a was integrated0a2661d before
+root authorized new sqlite_contributions.hpp/cpp plus appended logical API precision
+and this note only. Normal merge had the expected add/add conflict on the physical
+companion-link paragraph; the author preserved root's exact approved43bd653 contract
+and both histories in fd0d6ef. Physical schema eeb2 and immutable prefixes stay unchanged.
+
+Header exposes only actual typed ContributionId codec, pure migration manifest,
+limits, structured input/known-storage exceptions and the concrete unchanged-port
+repository with context and explicit adoption modes. No extra public original
+lookup is added. CId0 is valid in codec/link/update/optional association; SQL NULL
+alone denotes absence, while ReceiptId0 still fails its own domain check.
+Four source functions are immediate named NotImplemented logic stubs, constructors
+only capture inert weak capability/options/construction-thread identity. No new
+validation/ownership enforcement, wrapper, SQL/codec/manifest/allocation/state/link
+algorithm is hidden in the stub or reported implemented.
+
+Concrete precision pins representable positive options/priority, observation role/
+group/origin/proof and enum/byte validation without policy inference, reference
+versus value field bounds, default/known-empty semantic refs and target limits.
+Construction-owner guards precede mutable state; local second port begin leaves
+first unit healthy, actual weak ticket checks remain actual session operations.
+Adoption transfer and pending registration are allocation-safe; no ownership claim
+is inferred merely from moving/copying a weak ticket, and double adoption is an
+explicit caller exclusion rather than a nonexistent global registry.
+
+Own pending anchors can be read speculatively; persisted incomplete anchors are
+corrupt. Actual required SQL checks precede incomplete-commit classification so
+stale/terminal cleanup no-op cannot fake known rollback. Same-target link validates
+all stored rows/actual targets before no-op. Full unresolved collection bounds do
+not become link/update quotas. Exact missing/mismatch/association/corruption/limits/
+exhaustion/incomplete known reasons and original WorkFailure/unknown precedence
+are declared; no unused fake semantic-reference/authorization category is invented.
+
+No new Qt case, fixture JSON/green, actual schema source, CMake/preset/workflow,
+state/map/HTML/checkpoint, existing API/source/test mutation or feature/red body
+is authorized/performed here. Root owns actual new target integration/build and
+the different reviewer must inspect these real artifacts before test authoring.
+
+Actual API-stage checks:
+
+| Command/check | Actual result |
+| --- | --- |
+| `clang-format -i` on new header/source | Completed |
+| Python argument-vector `c++ -std=c++20 -fPIC -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Iserver/include -Icore/include <system Qt6Core/Qt6Sql pkg-config flags> -fsyntax-only server/src/sqlite_contributions.cpp` | Exit0; zero warnings, syntax only/no link/invocation |
+| Exact approved-prefix check against root0a2661d | Approved43bd logical document is an exact byte prefix; precision only appended |
+| `python3 tools/check_project.py` | Exit0;391 records/122 decisions/current links/presets/HTML |
+| `python3 tools/progress.py render --check` | Exit0; root-owned snapshot current |
+| `git diff --check` | Exit0 |
+
+Root's prepared actual CMake target/preset is outside author ownership and still
+the real link/build/config review gate. No native suite/new contribution method
+or feature body was invoked. These checks and the earlier contract approval do
+not approve this new API or transfer permission to absent fixtures/tests/source.

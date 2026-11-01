@@ -317,3 +317,162 @@ The old21 simulations and completed receipt gates are preserved, not repeated.
 No effects/jobs/application bundle, permission/evidence authority, semantic namespace
 resolution, reconciliation, backup/update/recovery/power-loss or platform/provider
 release gate is completed. All seven integrations and three rate providers remain.
+
+## Concrete API precision for separate review
+
+The new [sqlite_contributions.hpp](../../server/include/subathon/server/sqlite_contributions.hpp)
+adds typed encode_contribution_id(ContributionId) -> QByteArray and
+decode_contribution_id(QByteArray) -> ContributionId, pure
+contribution_repository_manifest(), SqliteContributionLimits and the concrete
+noncopyable/nonmovable SqliteContributionRepository over unchanged ports. The
+manifest describes exact prefix1/2 plus the approved step3; it performs no SQL.
+A private original-only decoder remains inside the new module, tested through
+public primitives; no public receipt helper/current13 mutation is needed.
+
+The typed codec accepts/returns every uint64 ContributionId including zero.
+Decode rejects null/wrong-length buffers as invalid_codec. Canonical eight-byte
+zero decodes to ContributionId{0}, never std::nullopt. SQL typeof checks are the
+adapter's responsibility, not an invented QVariant conversion in this byte codec.
+ReceiptId arguments remain nonzero independently. No input ContributionId value
+is rejected as a sentinel, including link/update targets and optional association.
+
+Options default reference_bytes4096/value_bytes262144/unresolved_per_lookup1024.
+Byte bounds are positive qsizetype, at most that type's representable maximum;
+unresolved_per_lookup satisfies 1 <= value < numeric_limits<qsizetype>::max() to
+reserve checked count+1. Query limits/conversions must also fit signed64 and vector
+size. Configured bounds do not promise memory availability or increase underlying
+writer budgets. Receipt actor/event/money and valuation money use value_bytes;
+semantic decision actor_ref and identity/ref/proof/policy/decision/resolution use
+reference_bytes. Existing retention checks receive the same reference/value
+bounds, including selected document payloads, rather than hidden larger defaults.
+
+Pure failures derive from std::invalid_argument as SqliteContributionInputFailure
+with SqliteContributionInputError. They do no SQL/cleanup/state mutation if caught.
+Future implemented primitives follow this exact pre-SQL priority:
+
+| Entry point | Ordered checks and categories |
+| --- | --- |
+| decode_contribution_id | Null/length not8 -> invalid_codec |
+| Repository begin | Options -> invalid_options; construction-owner thread; local single-use -> already_begun |
+| find_receipt | ReceiptId0 -> invalid_receipt_id |
+| find_activity / unresolved_activity | Required nonempty/bounded exact four-part key -> invalid_activity |
+| create | Support ReceiptId0; full receipt identity/facts/arrival byte/required-ref shape -> invalid_receipt; optional activity key/origin -> invalid_activity; state enums/byte bounds -> invalid_state |
+| append_observation | ReceiptId0; complete receipt shape; kind/evidence/role-support-group shape -> invalid_observation; verified key/proof/origin -> invalid_activity; present support-condition enums/bounds -> invalid_state |
+| link_observation | ReceiptId0; any ContributionId including0 remains valid |
+| update_state | State enum/byte bounds -> invalid_state; any ContributionId remains valid |
+
+Full receipt shape uses the accepted13 rules: nonempty/bounded four-part identity,
+required nonempty cfg/context refs, bounded connection (empty allowed), exact
+uint32/signed64 values and bounded optional source fields. No new event/time/version
+zero/decimal syntax rule is added. Activity validation checks all four nonempty
+components, source origin equality when a receipt is available, and nonempty proof
+for a present VerifiedActivityLink. It does not prove the source/proof's authority.
+Support requires support_conditions; confirmation requires no conditions and
+confirmed evidence, as already required by the unchanged service. Present optional
+money/decision structs have their typed members; validate enum vocabulary/bounds
+without inventing nonempty policy/decision/actor/resolution or cross-dimension
+semantic rules. Empty default/present strings remain exact BLOB values.
+
+Pure primitive checks precede construction-thread/session/pending-state access.
+With valid input, compare stored construction QThread identity before reading or
+mutating local single-use/pending guards; a foreign call throws actual
+SqliteWorkFailure(wrong_thread) without poisoning another owner. This identity
+is not introspection of the supplied weak ticket's true owner/active phase. Actual
+session operations enforce stale/terminal/real owner rules. Construct/use/destroy
+repositories/wrappers on the authoritative owner; adopted true-owner/active state
+and exclusive authority remain caller preconditions.
+
+Repository values are inert. Context begin performs its single real context.begin;
+a failed/busy actual attempt still consumes this repository. Explicit
+adopt_active_contribution_session captures an inert Session by value/move and
+transfers actual cleanup/commit authority only when begin successfully constructs
+and returns its independent owning wrapper. The caller retains a cleanup ticket/
+guard until transfer; moving one weak value cannot by itself prove exclusive
+ownership. A repository yields at most one wrapper. A caught second port begin
+throws local already_begun, leaves its first unit healthy and performs no fake SQL
+or writer protocol poisoning. Callers must not double-adopt the same active unit
+through other repository instances/copied tickets; no global ownership registry
+or new writer capability is claimed.
+
+Allocate the wrapper before context BEGIN or clean an already begun unit if
+construction fails. Adoption allocation failure preserves caller authority and
+local guard availability. A returned wrapper owns session/options/owner/pending
+support IDs independently of repository lifetime; its destructor invokes only
+existing noexcept cleanup. Before create writes allocator/new contribution,
+reserve/register all potentially allocating pending bookkeeping. If allocation
+fails after any adapter writes, establish cleanup or propagate actual uncertainty
+rather than leave a catchable partially staged primitive. std::bad_alloc itself
+is not a known ContributionStorageError or fake resource/outcome classification.
+Existing owner finalization remains the backstop.
+
+Own newly created contributions can be read speculatively by this wrapper before
+their support observation exists. find_activity returns the new record; find_receipt
+still returns absent until the observation is appended. Other/persisted contributions
+must have a valid original support observation. Track own pending IDs explicitly;
+never treat a missing persisted anchor as an allowed new row. A complete pending
+anchor has the exact original ReceiptId, support kind with present conditions,
+compatible optional verified identity, matching original receipt projection and
+association to that exact ContributionId, including0. Its immutable support
+conditions need not be equated to a separately updated current state. No promotion,
+classification or authority is inferred by that structural check.
+
+Commit first checks owner, then uses actual required session SQL to validate all
+pending anchors; stale/terminal capability errors must win before local incomplete
+claims. Missing/incompatible own-new anchor yields incomplete_contribution after
+known active rollback. A malformed persisted anchor is invalid_stored_data.
+A cleanup no-op on a stale/committed ticket alone cannot prove a unit uncommitted.
+No pending anchor means commit directly delegates real session.commit. Trusted
+callers must not terminate the unit behind the owning wrapper.
+
+Before same-target link returns its no-op, validate the selected observation,
+original/actual targets and the requested contribution/state/anchor, then association
+compatibility. Existing malformed/dangling data cannot be masked by an equal ID.
+NULL-to-ID uses the same checks; another existing target or incompatible key/no-key
+relationship is association_conflict. append validates an optional linked target
+(including own pending contribution) before insertion; it never skips validation
+because ID0 is false. Direct duplicate inserts remain SQL uniqueness failures.
+Unresolved lookup returns the complete selected ordered collection or result_limit;
+link/update use targeted rows and do not materialize all pending observations or
+apply unresolved_per_lookup as a write quota. Selected well-typed over-bound data
+is result_limit; wrong type/enum/group/shape/association/ambiguity is corruption.
+
+SqliteContributionStorageFailure derives from the unchanged ContributionStorageError
+and carries SqliteContributionStorageReason only after a known uncommitted outcome:
+
+| Cause | Exact reason |
+| --- | --- |
+| Confirmed busy BEGIN or known rollback after busy SQL/COMMIT | busy, preserving not_started/rolled_back as actually recorded |
+| Known failed SQL/constraint or nonbusy BEGIN | sql_failure, preserving actual outer category |
+| Existing sticky resource_limit / result_limit | Corresponding resource_limit / result_limit |
+| No actual receipt original for create/append | missing_receipt |
+| Valid selected original differs from supplied full projection | receipt_mismatch |
+| Absent observation/contribution write target | missing_observation / missing_contribution |
+| Incompatible key/no-key link or different already linked target | association_conflict |
+| Selected malformed row/anchor/allocator/group/ID, ambiguity or dangling stored receipt/retained target | invalid_stored_data |
+| Valid selected value/document/complete collection over configured bounds | result_limit |
+| Already allocated MAX | allocator_exhausted |
+| Missing/incompatible own pending support anchor at commit | incomplete_contribution |
+
+Validate actual stored originals/targets before comparing a candidate projection;
+corruption or selected-data limits cannot be disguised as receipt_mismatch. An
+unobserved receipt lookup still returns absent; create/append perform actual
+original validation. Retention's already-known invalid_stored_data/result_limit map
+to those exact port reasons after its cleanup; a missing stored cfg/context is
+invalid_stored_data, not an invented missing semantic-namespace error. No unused
+missing-reference/permission/verification reason is needed.
+
+Local failures establish active known rollback before the port exception. Pure
+input/allocation/stub exceptions do not claim it. Underlying capability/protocol/
+invalid_statement/other unmapped WorkFailure stays original; known mapped failures
+preserve sticky outer error/outcome. Actual unknown commit/cleanup propagates
+SqliteWorkFailure(uncertain_outcome), outranking every local reason and never deriving
+from ContributionStorageError. Nothing auto-replays or fabricates a committed result.
+
+The initial [source](../../server/src/sqlite_contributions.cpp) implements only
+inert constructors and four immediate named SqliteContributionsNotImplemented
+logic-error throws (typed encode/decode, manifest, repository begin). No pure
+validation, lifetime enforcement, wrapper, codec/manifest, query/allocation/link/
+state algorithm is implemented yet. Even invalid calls currently reach that marker;
+this is an explicit baseline stub, not a claim that future validation passed or
+adopted writes rolled back. Different actual API/stub/config precision review must
+precede any new test/fixture authorization or production behavior.
