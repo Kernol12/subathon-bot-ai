@@ -207,3 +207,62 @@ Verdict for this newly discovered path: **request changes before integration**.
 Separately author/review a meaningful ownership regression, record intended failure
 against the unchanged implementation, then review the targeted fix and new actual
 CI results. No future fix or regression is approved by this diagnostic note.
+
+## Independent ownership regression baseline review
+
+Reviewer `/root/storage_code_reviewer`, 2026-11-01; regression author is the
+separate `/root/storage_test_author`. Reviewed integrated candidate `b874f31`,
+including corrected author8fa7808. Verdict: **approved for the three-case regression
+baseline only**. Sourcea8e5c8e remains unmodified and its ownership approval remains
+held until actual regression red, targeted correction and separate fix review.
+
+Exact new test blob: `34c25c2786db42f6a4483fc874da9d4d3fc525a3`.
+Exact grouped-discovery workflow: `d99df8ad627e68b492009ccba5091bab4e093001`.
+The original22/header/contract/source compare unchanged against approved850eef4.
+
+Examined every new body and independently checked literal oracles:
+
+- Raw-backed SQL `SELECT 1` must still execute as1 after the caller's backing array
+  becomes `SELECT 9` following admission.
+- Raw-backed QString bindingabc must persist asabc, independently read through
+  the fixture connection, after caller storage becomeszbc.
+- Raw-backed QByteArray binding must persist one row of SQLite typeblob and literal
+  hex616263 after caller storage becomes7a6263.
+
+These expected values come from the existing owned admission contract, not the
+implementation under test. The synthetic fixture only creates/observes SQLite
+state; it supplies no snapshot or queue policy. Arrays remain alive throughout
+completion, mutation is on the same thread before event dispatch, and no dangling
+memory or guessed sleep is involved. The initial candidate's mutation while a
+caller Qt view was still live was corrected before approval: every caller view and
+batch now leaves scope first, then backing changes, then QTRY dispatches. Before
+admission, constData identity proves the input really uses borrowed raw storage.
+This avoids a separate misuse of a still-live caller view while preserving all
+original output assertions. No bodies ran during that review correction.
+
+The separate executable is correctly linked with the existing writer and Qt Test.
+Each of the three slots is independently registered with sqlite-writer/regression
+labels and a finite timeout. Original22 enumeration, commands and oracles remain
+unchanged. The updated CI guard groups CTest commands by executable, requires both
+acceptance/regression executables, then requires exact nonempty function-set and
+count equality for each. It rejects omission or duplicate registration rather
+than silently checking only the first binary. Ordinary acceptance still executes
+both through the shared sqlite-writer label, with no conditional/inversion.
+
+Actual commands from the isolated reviewer worktree:
+
+| Command | Outcome |
+| --- | --- |
+| `cmake --preset sqlite-writer-debug` | Exit0 |
+| `cmake --build --preset sqlite-writer-debug` | Exit0 |
+| `ctest --preset sqlite-writer-debug -R '^sqlite-writer-regression\.' --show-only` | Exit0;exactly3registered |
+| CTest JSON discovery plus exact per-binary `-functions` comparison | Exit0;22original+3regression,2executables |
+| `actionlint .github/workflows/sqlite-writer.yml` (official1.7.12) | Exit0 |
+| Exact original22/header/contract/source comparison against850eef4 | Exit0, unchanged |
+| `git diff --check` | Exit0 |
+
+No new test body or intended-red suite was run by this reviewer. This committed
+approval permits the coordinator to run the actual three-case intended red against
+unfixeda8e5c8e before any production fix. It approves neither future source changes
+nor passing behavior; original22 evidence and all later application/recovery/live/
+platform gates remain intact.
