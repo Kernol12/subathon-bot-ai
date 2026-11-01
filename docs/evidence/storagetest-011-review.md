@@ -168,3 +168,38 @@ fixtures, literal payload/digest assertions, green local/selected-Qt environment
 probe, test/harness review and genuine intended missing-behavior red remain later
 gates before production implementation. The original49 writer/work assertions,
 API/allowlist semantics and full downstream storage/product scope remain required.
+
+## MC15 contract-oracle amendment
+
+The reviewer normally merged and inspected actual author
+`6eb420becc7275d9ff858d63afc244d6a901920c`, integrated at `037bb4f`, on 2026-11-01.
+Contract blob `1dfadece85eeabe0355c4640519b198ba7d328d1` differs from approved
+`1683461` in exactly the MC15 row; the author evidence adds a separate rationale.
+No interface, production source, schema, executable test or build/workflow changed.
+
+The amendment uses exact configured manifest-boundary and one-over literals, plus
+an oversized session result after prior DDL requiring whole-chain rollback. This
+avoids inventing an implementation-specific count of internal queries/projection
+columns or calibrating expected thresholds from future production output. The
+normative requirements still charge every diagnostic/catalog/migration statement,
+binding and result against the same cumulative session budgets. No reset, hidden
+increase, transaction fragmentation or scope change is allowed; the original49
+cases retain their exact session-budget assertions.
+
+This is a justified clarification of the future integration oracle, before any
+new reviewed assertion exists. A later case must establish that its prior-DDL
+stage was reached; an earlier metadata-budget failure would not demonstrate that
+scenario. An oversized single result alone does not prove every internal overhead
+charge, which remains subject to the unchanged session contract, existing exact
+assertions and later actual implementation review. No fixed query plan is added.
+
+Independent `python3 tools/check_project.py`, progress render-check and whitespace
+checks passed; the exact server/tests/schemas/root-build/workflow diff from
+`9dba71d` remains empty. No native or new migration body was run for this doc-only
+review.
+
+**Verdict: approved only the actual MC15 contract amendment at blob
+`1dfadece85eeabe0355c4640519b198ba7d328d1`, integrated `037bb4f`.** All other
+approved contract rules remain unchanged. This does not approve the forthcoming
+minimal API, stubs, executable cases, green environment harness or intended red;
+those require a separate review of their actual authored artifacts.
