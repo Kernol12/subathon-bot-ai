@@ -1162,14 +1162,17 @@ class SqliteReceiptTests final : public QObject {
             "UPDATE main.subathon_receipts SET payment_opaque_id=NULL WHERE "
             "opaque_id=X'6261642D3130'",
             "UPDATE main.subathon_receipts SET activity_namespace='text' WHERE "
-            "opaque_id=X'6261642D3131'"};
+            "opaque_id=X'6261642D3131'",
+            "UPDATE main.subathon_receipts SET receipt_id=X'000000000000000e00' WHERE "
+            "opaque_id=X'6261642D3132'"};
         const QList<QByteArray> ids = {
             QByteArray::fromHex("0000000000000001"), QByteArray::fromHex("0000000000000002"),
             QByteArray::fromHex("0000000000000003"), QByteArray::fromHex("0000000000000004"),
             QByteArray::fromHex("0000000000000005"), QByteArray::fromHex("0000000000000006"),
             QByteArray::fromHex("0000000000000007"), QByteArray::fromHex("0000000000000008"),
             QByteArray::fromHex("0000000000000009"), QByteArray::fromHex("000000000000000a"),
-            QByteArray::fromHex("000000000000000b"), QByteArray::fromHex("000000000000000c")};
+            QByteArray::fromHex("000000000000000b"), QByteArray::fromHex("000000000000000c"),
+            QByteArray::fromHex("000000000000000e")};
         for (qsizetype i = 0; i < ids.size(); ++i)
             QVERIFY(fixture_->seed(ids[i], input("bad-" + std::to_string(i))));
         QVERIFY(fixture_->exec("PRAGMA ignore_check_constraints=ON"));
@@ -1323,6 +1326,43 @@ class SqliteReceiptTests final : public QObject {
         QCOMPARE(r.result.transaction, TransactionOutcome::rolled_back);
         QCOMPARE(r.result.error, WorkError::result_limit);
         QVERIFY(!r.result.value);
+        QCOMPARE(fixture_->snapshot(), before);
+
+        // Each result charges 600008 bytes, individually below 1048576. A reset
+        // per execute would incorrectly accept both; prior adapter charges may
+        // legitimately make the first or second fail, without a query-plan oracle.
+        bool cumulative_created = false, cumulative_appended = false, cumulative_caught = false;
+        int attempted_query = 0;
+        auto cumulative = run(writer, [&](auto work) -> QVariant {
+            auto session = work.begin();
+            SqliteReceiptRepository repository(adopt_active_receipt_session, session);
+            auto tx = repository.begin();
+            const auto value = input("cumulative-unit");
+            const auto id = tx->create(value.identity, value.facts, value.arrival);
+            cumulative_created = true;
+            tx->append_attempt(id, attempt(value, ReceiptDisposition::created));
+            cumulative_appended = true;
+            try {
+                for (int query = 1; query <= 2; ++query) {
+                    attempted_query = query;
+                    (void)session.execute({"SELECT zeroblob(600000)", {}});
+                }
+            } catch (const SqliteWorkFailure &e) {
+                require(e.error() == WorkError::result_limit,
+                        "individually valid results exhaust cumulative budget");
+                require(fixture_->released(), "cumulative rollback before catch returns");
+                cumulative_caught = true;
+                throw;
+            }
+            throw std::runtime_error("both individually valid results incorrectly accepted");
+        });
+        QVERIFY2(cumulative_created && cumulative_appended && cumulative_caught,
+                 qPrintable(cumulative.problem()));
+        QVERIFY(attempted_query >= 1 && attempted_query <= 2);
+        QCOMPARE(cumulative.synchronous, std::optional<WorkError>(WorkError::result_limit));
+        QCOMPARE(cumulative.result.transaction, TransactionOutcome::rolled_back);
+        QCOMPARE(cumulative.result.error, WorkError::result_limit);
+        QVERIFY(!cumulative.result.value);
         QCOMPARE(fixture_->snapshot(), before);
     }
 

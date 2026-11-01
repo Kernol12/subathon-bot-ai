@@ -225,3 +225,39 @@ not intended red. No feature body, init, runtime setup or early red was run.
 Root's actual shared CMake build/link, exact compiled22 discovery, selected
 new officialQt green3, different full artifact review and later first real
 missing-behavior run remain open. These syntax checks do not claim those gates.
+
+## Actual full-review strengthening of SR01 and SR10
+
+The different reviewer examined original test blob a68cd5a72838c339ee5cf2e580e2a987880ce3b0
+and independently confirmed two gaps before any new receipt feature body ran.
+Root authorized focused additive corrections; every original assertion and all22
+names remain. No fixture JSON/green/API/source/contract/schema/shared file changes.
+
+SR10's original 1048577-byte oversized-result variant is preserved in full. A
+fresh work unit now proves successful create+append with flags set after actual
+returns, then attempts at most two SELECT zeroblob(600000) calls. Each individual
+600008-byte charged result fits the unchanged1048576-byte budget; accepting both
+would demonstrate an invalid per-call reset. Prior adapter charges may cause the
+first or second result to fail, so an attempt index set immediately before execute
+must be1..2 without calibrating query overhead. Outside run, require both staged
+flags, the caught actual result_limit, known rollback, no normal payload and an
+unchanged complete raw snapshot. Inside catch, independent BEGIN IMMEDIATE plus
+ROLLBACK must succeed before the failure propagates. Both queries succeeding
+explicitly fails the test. A failure inside create/append cannot satisfy this
+oracle. This is an isolated cumulative check in addition to the original single
+oversize/atomic rollback check, not a weakened substitute.
+
+SR01 now adds a thirteenth malformed selected-row fixture: bad-12 first has canonical
+ID000000000000000e, then independent SQL mutates its stored ID to the nine-byte
+000000000000000e00. The previous twelve malformed variants and healthyID0d remain
+unchanged. Placing the extra byte after the original eight means an implementation
+that incorrectly takes left(8) could still resolve the old attempt; only strict
+stored length validation should reject the selected record. The existing known
+invalid_stored_data/inside-catch rollback-lock/raw-snapshot checks apply unchanged.
+This complements the pure codec9-byte case with real adapter stored-row evidence.
+
+No new receipt feature body or early red ran. Root's reported first candidate
+build/link0warnings/exact118/22+green3/stable96 are root evidence, not an author
+runtime claim. Corrected source syntax/format/diff checks and exact revised blob
+are recorded with the actual focused commit; root rebuild/different actual
+artifact re-review and selected official new-green proof remain gates.
