@@ -1018,6 +1018,71 @@ class SqliteContributionTests final : public QObject {
         QCOMPARE(def->state, initial(defaults));
         QVERIFY(!def->state.conditions.valuation.original_money);
         QVERIFY(!def->state.conditions.valuation.resolution_ref);
+
+        // This is the new14 original-only decoder's positive integer oracle,
+        // independently of the already reviewed13 transport-history decoder.
+        auto minimum = support(4);
+        minimum.verified_activity->identity.opaque_id = "integer-minimum";
+        minimum.receipt.facts.schema_version = std::numeric_limits<std::uint32_t>::max();
+        minimum.receipt.facts.source_timestamp_utc_ms = std::numeric_limits<std::int64_t>::min();
+        minimum.receipt.arrival.server_timestamp_utc_ms = std::numeric_limits<std::int64_t>::max();
+        auto maximum = support(5);
+        maximum.verified_activity->identity.opaque_id = "integer-maximum";
+        maximum.receipt.facts.schema_version = 0;
+        maximum.receipt.facts.source_timestamp_utc_ms = std::numeric_limits<std::int64_t>::max();
+        maximum.receipt.arrival.server_timestamp_utc_ms = std::numeric_limits<std::int64_t>::min();
+        const QList<ContributionObservation> extrema = {minimum, maximum};
+        for (const auto &value : extrema) {
+            QVERIFY(commit_receipt(value));
+            auto added = observe(reopened, value, result);
+            OK(added);
+        }
+        QCOMPARE(
+            fixture_->rows("SELECT typeof(schema_version),schema_version,"
+                           "typeof(source_timestamp_utc_ms),source_timestamp_utc_ms,"
+                           "typeof(server_timestamp_utc_ms),server_timestamp_utc_ms "
+                           "FROM main.subathon_receipts WHERE receipt_id IN "
+                           "(X'0000000000000004',X'0000000000000005') ORDER BY receipt_id"),
+            SqlRows({{"integer", qint64(4294967295LL), "integer",
+                      qint64(std::numeric_limits<std::int64_t>::min()), "integer",
+                      qint64(std::numeric_limits<std::int64_t>::max())},
+                     {"integer", 0, "integer", qint64(std::numeric_limits<std::int64_t>::max()),
+                      "integer", qint64(std::numeric_limits<std::int64_t>::min())}}));
+        bool stopped = false;
+        QCOMPARE(reopened.shutdown([&] { stopped = true; }), StorageError::none);
+        QVERIFY(QTest::qWaitFor([&] { return stopped; }));
+        std::vector<ContributionRecord> owned_extrema;
+        std::vector<ContributionEvidenceRecord> owned_observations;
+        {
+            SqliteWriter numeric_reopened;
+            QCOMPARE(open(numeric_reopened), StorageError::none);
+            for (const auto &value : extrema) {
+                auto numeric = run(numeric_reopened, [&](auto work) -> QVariant {
+                    SqliteContributionRepository repository(work);
+                    auto tx = repository.begin();
+                    owned_extrema.push_back(contribution_found(*tx, key(value)));
+                    owned_observations.push_back(observation_found(*tx, value.receipt.id));
+                    tx->commit();
+                    return 1;
+                });
+                OK(numeric);
+            }
+        }
+        QCOMPARE(owned_extrema, std::vector<ContributionRecord>({{{2},
+                                                                  key(minimum),
+                                                                  minimum.receipt.id,
+                                                                  minimum.receipt.facts,
+                                                                  minimum.receipt.arrival,
+                                                                  initial(minimum)},
+                                                                 {{3},
+                                                                  key(maximum),
+                                                                  maximum.receipt.id,
+                                                                  maximum.receipt.facts,
+                                                                  maximum.receipt.arrival,
+                                                                  initial(maximum)}}));
+        QCOMPARE(owned_observations,
+                 std::vector<ContributionEvidenceRecord>(
+                     {{minimum, ContributionId{2}}, {maximum, ContributionId{3}}}));
     }
     void committedReceiptProjectionAndTargetsAreRequired() {
         const auto s = support();
@@ -1074,6 +1139,96 @@ class SqliteContributionTests final : public QObject {
         QVERIFY(record);
         QCOMPARE(record->original_facts, s.receipt.facts);
         QCOMPARE(record->original_arrival, s.receipt.arrival);
+
+        // Isolated original-reader targets: begin with a valid committed receipt,
+        // then tamper only the selected context or its known configuration target.
+        for (int scenario = 0; scenario < 5; ++scenario) {
+            const auto target_path =
+                directory_->filePath(QString("original-context-%1.sqlite").arg(scenario));
+            QVERIFY(install(target_path));
+            Fixture target_fixture(target_path);
+            QVERIFY(target_fixture.open());
+            QVERIFY(target_fixture.exec("INSERT INTO main.subathon_retained_configurations "
+                                        "VALUES (X'63666731',X'63'),(X'63666732',X'64')"));
+            QVERIFY(target_fixture.exec("INSERT INTO main.subathon_retained_contexts "
+                                        "VALUES (X'63747831',X'74',X'63666732')"));
+            const auto original = support();
+            QVERIFY(target_fixture.committed_receipt(original.receipt));
+            if (scenario == 1 || scenario == 2) {
+                QVERIFY(target_fixture.exec("DELETE FROM main.subathon_retained_contexts "
+                                            "WHERE reference=X'63747831'"));
+                if (scenario == 2)
+                    QVERIFY(target_fixture.exec("INSERT INTO main.subathon_retained_configurations "
+                                                "VALUES (X'63747831',X'78')"));
+            }
+            if (scenario == 3 || scenario == 4) {
+                QVERIFY(target_fixture.exec("DELETE FROM main.subathon_retained_configurations "
+                                            "WHERE reference=X'63666732'"));
+                if (scenario == 4)
+                    QVERIFY(target_fixture.exec("INSERT INTO main.subathon_retained_contexts "
+                                                "VALUES (X'63666732',X'6B',NULL)"));
+            }
+            SqliteWriter target_writer;
+            StorageLimits capacity;
+            capacity.statements_per_batch = 512;
+            QCOMPARE(target_writer.open(target_path, capacity), StorageError::none);
+            if (scenario == 0) {
+                std::optional<ContributionLinkResult> linked;
+                auto allowed = observe(target_writer, original, linked);
+                OK(allowed);
+                QVERIFY(linked && linked->contribution_id);
+                QCOMPARE(linked->contribution_id->value, std::uint64_t(0));
+                std::optional<ContributionRecord> original_record;
+                auto loaded = read(target_writer, key(original), original_record);
+                OK(loaded);
+                QCOMPARE(original_record, std::optional<ContributionRecord>(
+                                              ContributionRecord{{0},
+                                                                 key(original),
+                                                                 original.receipt.id,
+                                                                 original.receipt.facts,
+                                                                 original.receipt.arrival,
+                                                                 initial(original)}));
+                auto original_observation = run(target_writer, [&](auto work) -> QVariant {
+                    SqliteContributionRepository repository(work);
+                    auto tx = repository.begin();
+                    require(observation_found(*tx, original.receipt.id) ==
+                                ContributionEvidenceRecord{original, ContributionId{0}},
+                            "known cfg2 may differ from arrival cfg1 without projection rewrite");
+                    tx->commit();
+                    return 1;
+                });
+                OK(original_observation);
+                QCOMPARE(target_fixture.rows("SELECT typeof(configuration_ref),"
+                                             "hex(configuration_ref) FROM "
+                                             "main.subathon_retained_contexts "
+                                             "WHERE reference=X'63747831'"),
+                         SqlRows({{"blob", "63666732"}}));
+                continue;
+            }
+            const auto target_before = target_fixture.snapshot();
+            bool target_refused = false;
+            std::optional<ContributionId> returned_id;
+            auto failure = run(target_writer, [&](auto work) -> QVariant {
+                SqliteContributionRepository repository(work);
+                auto tx = repository.begin();
+                try {
+                    returned_id = tx->create(original.receipt, key(original), initial(original));
+                } catch (const SqliteContributionStorageFailure &e) {
+                    require(e.reason() == SqliteContributionStorageReason::invalid_stored_data,
+                            "typed context and known-config resolution refuses stored corruption");
+                    require(target_fixture.released(),
+                            "target rollback while original-reader wrapper remains alive");
+                    target_refused = true;
+                    throw;
+                }
+                return 1;
+            });
+            QVERIFY2(target_refused, qPrintable(failure.problem()));
+            KNOWN(failure, SqliteContributionStorageReason::invalid_stored_data,
+                  WorkError::work_exception);
+            QVERIFY(!returned_id);
+            QCOMPARE(target_fixture.snapshot(), target_before);
+        }
     }
 
     void allocatorCrossesSignedBoundaryAndExhausts() {
@@ -1464,6 +1619,65 @@ class SqliteContributionTests final : public QObject {
         KNOWN(incomplete, SqliteContributionStorageReason::incomplete_contribution,
               WorkError::work_exception);
         QCOMPARE(fixture_->snapshot(), before);
+
+        const auto raii_before = fixture_->snapshot();
+        bool retained_staged = false, contribution_staged = false, observation_staged = false;
+        bool wrapper_reset = false, lock_released_inside = false, snapshot_restored_inside = false;
+        auto active_raii = run(writer, [&](auto work) -> QVariant {
+            auto session = work.begin();
+            const auto retained_count =
+                session
+                    .execute(
+                        {"SELECT count(*) FROM main.subathon_retained_configurations", {}})[0][0]
+                    .toLongLong();
+            SqliteRetainedContextStore retained(session);
+            require(retained.retain({{RetainedKind::configuration, "raii-staged"},
+                                     QByteArray::fromHex("00ff"),
+                                     {}}) == RetainDisposition::inserted,
+                    "earlier valid retained work staged for active RAII");
+            require(session.execute({"SELECT count(*) FROM main.subathon_retained_configurations",
+                                     {}})[0][0]
+                            .toLongLong() == retained_count + 1,
+                    "actual retained row delta before active reset");
+            retained_staged = true;
+            SqliteContributionRepository repository(adopt_active_contribution_session, session);
+            auto tx = repository.begin();
+            const auto contribution_count =
+                session.execute({"SELECT count(*) FROM main.subathon_contributions", {}})[0][0]
+                    .toLongLong();
+            const auto id = tx->create(next.receipt, key(next), initial(next));
+            require(session.execute({"SELECT count(*) FROM main.subathon_contributions", {}})[0][0]
+                            .toLongLong() == contribution_count + 1,
+                    "actual contribution delta before active reset");
+            contribution_staged = true;
+            const auto observation_count =
+                session
+                    .execute(
+                        {"SELECT count(*) FROM main.subathon_contribution_observations", {}})[0][0]
+                    .toLongLong();
+            tx->append_observation({next, id});
+            require(session.execute({"SELECT count(*) FROM main.subathon_contribution_observations",
+                                     {}})[0][0]
+                            .toLongLong() == observation_count + 1,
+                    "actual observation delta before active reset");
+            observation_staged = true;
+            tx.reset(); // Work is still active: owner finalization cannot satisfy the next probes.
+            wrapper_reset = true;
+            lock_released_inside = fixture_->released();
+            require(lock_released_inside, "owning wrapper destructor released active write lock");
+            snapshot_restored_inside = fixture_->snapshot() == raii_before;
+            require(snapshot_restored_inside,
+                    "destructor rolled back earlier retention and contribution before body return");
+            return 1;
+        });
+        QVERIFY2(retained_staged && contribution_staged && observation_staged && wrapper_reset &&
+                     lock_released_inside && snapshot_restored_inside,
+                 qPrintable(active_raii.problem()));
+        QVERIFY(!active_raii.storage && active_raii.unexpected.isEmpty());
+        QCOMPARE(active_raii.result.transaction, TransactionOutcome::rolled_back);
+        QCOMPARE(active_raii.result.error, WorkError::not_committed);
+        QVERIFY(!active_raii.result.value);
+        QCOMPARE(fixture_->snapshot(), raii_before);
         std::unique_ptr<ContributionTransaction> expired;
         bool pending = false;
         auto abandoned = run(writer, [&](auto work) -> QVariant {

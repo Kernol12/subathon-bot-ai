@@ -262,3 +262,57 @@ Actual initial24 feature source blob:
 `af2dc41f3e0db8c140eabab6663c5c2e2683864c`. The owner's latest stop steering keeps
 only open PR37 completion/review corrections authorized; no STORAGE-014 production
 or next task is started. This author remains available for necessary baseline fixes.
+
+
+## Actual full-review additions: original integer decoder, active RAII and typed context
+
+Different full review of initial source af2dc41f3e0db8c140eabab6663c5c2e2683864c
+found three concrete gaps. Root authorized only additive feature/evidence fixes
+within PR37; author normally refreshed actuale03e19e before edits. Every original
+assertion and all24 method names remain unchanged. No API/source/schema/fixture/
+green/shared file changes or implementation work is included.
+
+In independentStateAndCapturedConditionsRoundTrip, two additional receipt originals
+are independently COMMITted before contribution work: schemaUINT32_MAX/sourceUTC
+INT64_MIN/arrivalUTC INT64_MAX, and schema0/sourceUTC INT64_MAX/arrivalUTC INT64_MIN.
+The positive maxima exceed2^53 and the signed range/endpoints are exact. Raw SQL
+asserts all actual storage classes INTEGER and every value. New14 contribution
+and observation reads compare complete typed DTOs after a new writer opens; owned
+results remain compared after that writer is destroyed. This tests the new014
+private original-only decoder rather than inheriting13's separate history decoder
+proof. Existing condition/default/reopen assertions stay intact.
+
+In ownNewAnchorReadsAndIncompleteCommitAreHonest, an active adopted session first
+stages earlier valid retention, a contribution and a linked observation. Each flag
+is set only after an independent owner SQL count_before+1 observation. It then
+resets the owning transaction wrapper while the work body remains active, and
+INSIDE that body independently acquires/releases BEGIN IMMEDIATE plus compares the
+entire prior raw snapshot, including allocator and earlier retention. External
+stage/reset/probe/snapshot flags must all be true before accepting rolled_back/
+not_committed/no value. A no-op destructor cannot pass by relying on owner finalizer.
+A premature commit cannot pass the snapshot check. This preserves the existing
+separate abandoned-retained-wrapper test of owner finalization.
+
+The expected RAII category is grounded in actual unchanged sqlite_writer.cpp:
+cleanup rolls active state back without recording first_error; finish with a normal
+body return and already rolled_back phase selects WorkError::not_committed. Active
+owner-finalizer abandonment instead selects uncommitted. Root independently
+confirmed this with writer-work outcome matrix; no new category was invented.
+
+In committedReceiptProjectionAndTargetsAreRequired, five isolated literal-prefix
+stores begin with fully valid, separately committed original receipt1/cfg1/ctx1,
+where ctx1's known configuration is cfg2. Healthycfg1+cfg2 succeeds, round-trips
+complete original/observation and retains actual knowncfg2 without rewriting it to
+arrivalcfg1. Four independent corruptions then exercise missingctx1, config-only
+samebytesctx1, missing knowncfg2, and context-only samebytescfg2. All other rows and
+arrivalcfg1 remain healthy. Direct create keeps its wrapper alive across catch;
+exact invalid_stored_data requires independent inside-catch lock release, no
+returnedID/workvalue and unchanged full snapshot. A check-cfg-only, skip-known-link,
+fallback-any-namespace or false crosslink-equality implementation cannot pass.
+These are physical typed-target checks, not invented semantic/provider proof.
+
+Revised feature blob: `46c901e0225b7755153decf25f4a5ff226d063db`. Exact Qt6MOC/C++20 syntax-only passes with zero
+warnings; clang-format/project/render/diff checks pass. No feature body, new label,
+first red or production algorithm ran. Root actual CMake rebuild, different exact
+re-review, selected official green proof and gated first stub-red remain open.
+Owner stop steering remains: finish open PR37 only, no next task/implementation.
