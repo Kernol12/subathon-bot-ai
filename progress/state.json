@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T10:51:10+00:00",
+  "updated_at": "2026-11-01T11:13:46+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4366,8 +4366,8 @@
       "title": "Writer-owned dynamic repository transactions",
       "module": "Operations",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; implementer /root/debt_code_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "CONTRACT-004",
         "STORAGE-001",
@@ -4385,11 +4385,34 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-010.md",
       "summary": "Extend the controlled writer with the separately reviewed work/session boundary, preserving prebuilt batch and read-only reader behavior. No real receipt/contribution tables belong to this mechanism slice.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from refreshed main c60e1ed after PR29 merged final b9216ad all11 latest checks, no threads, normal rules. Reviewed baseline d09d330 tests eb9e3b6/header afc9f483/hook a2cd7b89/stub b47f131a, review96c1481/final879a04d; actual24 stub-red(exit8) at75c07fc AFTER approval. Scope additive same-private-writer work/context/session mechanism only; preserve old25 and new24 assertions, synchronous real service commit, revocation, outcomes/errors, SQL budgets/FIFO/capacity/shutdown. Implementer owns only server/src/sqlite_writer.cpp and new implementation evidence; root owns stub removal/shared build/CI/state/HTML/map/checkpoint. Accept real49 combined cases plus separate code/config review and observed automatic Ubuntu acceptance. No domain schemas/migrations/repository adapter/provider/platform capability.",
+        "Isolated source implementer explicitly resumed; new different code reviewer assigned in storage010-review. Root ce0a325 retires baseline stub and updates only its historical Markdown link to immutable c60e1ed/b47f source, promotes unchanged new24 to unconditional acceptance alongside old25 and keeps exact registration guard. Header/hook/tests/contracts unchanged. Shared actionlint/project/diff pass; actual implementation/local49/full53/source-review/Ubuntu acceptance are pending. Main c60e1ed postmerge all10 checks successful.",
+        "Actual source ad66ded/blob023451987e40a9330fef91c6c0955f0e527f14e6 integrated2aa14cd; author evidence5025715 integrated3ed2362. Author/root configure/build/full53 pass (new24/old25/scaffold4), all7 reviewed interface/test/contract hashes unchanged. Different reviewer independently reproduced new24/full53, durable source/configapproval pending. No new dependency/schema/API/test change. Shared unconditional new24 CI ready; actual Ubuntu acceptance and latesthead normal merge gates remain beforedone.",
+        "Source023451/ad66ded integrated2aa14cd independently approved9216d8d (root17adb35), unchanged new24/old25/header/hook/contracts. Author/root/reviewer real full53 pass; actual automatic Ubuntu41300728417 at PR30 a1e3a89 passed selected hashes/GNU13.3/probe1/exact49 registration/realold25+new24, all11checks there success. Internal mechanism done; final metadata/CI attribution review/latesthead/discussions/current rules remain publication gates. No domain schema/real adapter/application bundle/recovery/power-loss/provider/platform upgrade. Original reviewed/red evidence retained."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "github_ci": "passed",
+        "application_schema_recovery_provider": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storage-010-handoff.md",
+        "docs/evidence/storage-010-implementation.md",
+        "docs/evidence/storage-010-ci.md",
+        "docs/evidence/storage-010-code-review.md"
+      ],
+      "review": {
+        "author": "/root/debt_code_reviewer (source); /root (shared configuration)",
+        "reviewer": "/root/storage_work_code_reviewer",
+        "outcome": "approved",
+        "baseline": "source ad66ded/blob023451987e40a9330fef91c6c0955f0e527f14e6 integrated2aa14cd; sharedce0a325; approval9216d8d integrated17adb35; unchangednew24/old25/header/hook/contracts; prior reviewed/red baseline retained",
+        "evidence": "docs/evidence/storage-010-code-review.md"
+      }
     },
     {
       "id": "STORAGETEST-011",
@@ -11538,6 +11561,26 @@
       "date": "2026-11-01T10:51:10+00:00",
       "task": "STORAGETEST-010",
       "note": "Actual final d09d330/tests eb9e3b6 independently approved96c1481, integrated75c07fc BEFORE observed24 stub-red(exit8), all fixtures/init pass/no skips. Corrected Ubuntu41299021575 atd09d330 passed Qt/ICUhashes/GNU13.3/probe1/old25/exact24 new discovery; all11 checks there success. Baseline done only; new mechanism remains unimplemented. Final metadata/red/CI review, latest-head checks/discussions/current rules/normal merge remain publication gates. STORAGE-010 preserves exact baseline and must implement/code-review/pass/enable automatic cases after prerequisite merge."
+    },
+    {
+      "date": "2026-11-01T10:56:48+00:00",
+      "task": "STORAGE-010",
+      "note": "Claim from refreshed main c60e1ed after PR29 merged final b9216ad all11 latest checks, no threads, normal rules. Reviewed baseline d09d330 tests eb9e3b6/header afc9f483/hook a2cd7b89/stub b47f131a, review96c1481/final879a04d; actual24 stub-red(exit8) at75c07fc AFTER approval. Scope additive same-private-writer work/context/session mechanism only; preserve old25 and new24 assertions, synchronous real service commit, revocation, outcomes/errors, SQL budgets/FIFO/capacity/shutdown. Implementer owns only server/src/sqlite_writer.cpp and new implementation evidence; root owns stub removal/shared build/CI/state/HTML/map/checkpoint. Accept real49 combined cases plus separate code/config review and observed automatic Ubuntu acceptance. No domain schemas/migrations/repository adapter/provider/platform capability."
+    },
+    {
+      "date": "2026-11-01T11:00:43+00:00",
+      "task": "STORAGE-010",
+      "note": "Isolated source implementer explicitly resumed; new different code reviewer assigned in storage010-review. Root ce0a325 retires baseline stub and updates only its historical Markdown link to immutable c60e1ed/b47f source, promotes unchanged new24 to unconditional acceptance alongside old25 and keeps exact registration guard. Header/hook/tests/contracts unchanged. Shared actionlint/project/diff pass; actual implementation/local49/full53/source-review/Ubuntu acceptance are pending. Main c60e1ed postmerge all10 checks successful."
+    },
+    {
+      "date": "2026-11-01T11:10:36+00:00",
+      "task": "STORAGE-010",
+      "note": "Actual source ad66ded/blob023451987e40a9330fef91c6c0955f0e527f14e6 integrated2aa14cd; author evidence5025715 integrated3ed2362. Author/root configure/build/full53 pass (new24/old25/scaffold4), all7 reviewed interface/test/contract hashes unchanged. Different reviewer independently reproduced new24/full53, durable source/configapproval pending. No new dependency/schema/API/test change. Shared unconditional new24 CI ready; actual Ubuntu acceptance and latesthead normal merge gates remain beforedone."
+    },
+    {
+      "date": "2026-11-01T11:13:46+00:00",
+      "task": "STORAGE-010",
+      "note": "Source023451/ad66ded integrated2aa14cd independently approved9216d8d (root17adb35), unchanged new24/old25/header/hook/contracts. Author/root/reviewer real full53 pass; actual automatic Ubuntu41300728417 at PR30 a1e3a89 passed selected hashes/GNU13.3/probe1/exact49 registration/realold25+new24, all11checks there success. Internal mechanism done; final metadata/CI attribution review/latesthead/discussions/current rules remain publication gates. No domain schema/real adapter/application bundle/recovery/power-loss/provider/platform upgrade. Original reviewed/red evidence retained."
     }
   ]
 }

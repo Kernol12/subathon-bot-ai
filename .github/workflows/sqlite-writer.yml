@@ -5,11 +5,6 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      run_work_acceptance:
-        description: Run intentionally red transaction-work cases after independent review
-        type: boolean
-        default: false
 permissions:
   contents: read
 jobs:
@@ -38,7 +33,7 @@ jobs:
           bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
-      - name: Configure stable writer cases and the transaction-work baseline
+      - name: Configure the reviewed writer and transaction-work acceptance
         run: cmake --preset sqlite-work-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
       - name: Build the writer and both test boundaries
         run: cmake --build --preset sqlite-work-debug
@@ -66,7 +61,7 @@ jobs:
           PYTHON
       - name: Run reviewed writer acceptance
         run: ctest --preset sqlite-work-debug -L sqlite-writer
-      - name: List the intentionally red transaction-work baseline
+      - name: Check complete transaction-work registration
         run: |
           ctest --preset sqlite-work-debug -L sqlite-work --show-only
           ctest --preset sqlite-work-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
@@ -83,8 +78,7 @@ jobs:
           registered = [test["command"][1] + "()" for test in tests]
           if not expected or set(registered) != expected or len(registered) != len(expected):
               raise SystemExit("CTest registration does not match the compiled work suite")
-          print(f"Discovered all {len(tests)} compiled transaction-work cases; intentional red behavior not run")
+          print(f"Discovered all {len(tests)} compiled transaction-work cases")
           PYTHON
-      - name: Run actual transaction-work cases with normal failure propagation
-        if: github.event_name == 'workflow_dispatch' && inputs.run_work_acceptance
+      - name: Run reviewed transaction-work acceptance
         run: ctest --preset sqlite-work-debug -L sqlite-work

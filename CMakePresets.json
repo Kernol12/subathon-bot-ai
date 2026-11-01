@@ -103,7 +103,7 @@
     },
     {
       "name": "sqlite-work-debug",
-      "displayName": "12 \u00b7 Writer transaction-work baseline (intentional red)",
+      "displayName": "12 \u00b7 Writer transaction-work acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON",

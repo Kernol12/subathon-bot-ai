@@ -12,7 +12,7 @@ if(SUBATHON_BUILD_SQLITE_WORK_TESTS)
     target_link_libraries(server_sqlite_work_acceptance PRIVATE
         subathon_sqlite_writer subathon_receipt_intake Qt6::Test)
     subathon_target_options(server_sqlite_work_acceptance)
-    # Intentionally red until STORAGE-010; each case runs in an isolated process.
+    # Reviewed work cases run in isolated processes, preserving the baseline names.
     foreach(case IN ITEMS
         mixedBatchAndWorkAreFifo
         dynamicReadDecideWriteIsAtomic
@@ -41,7 +41,7 @@ if(SUBATHON_BUILD_SQLITE_WORK_TESTS)
     )
         add_test(NAME sqlite-work.${case} COMMAND server_sqlite_work_acceptance ${case})
         set_tests_properties(sqlite-work.${case} PROPERTIES
-            LABELS "sqlite-work;acceptance;draft;qt;server"
+            LABELS "sqlite-work;acceptance;qt;server"
             TIMEOUT 15)
     endforeach()
 endif()

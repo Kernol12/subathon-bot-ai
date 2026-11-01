@@ -19,7 +19,7 @@ test corrections `0c6fc8ee429150bda3f0beeccd9f956c8f5b022b`. Shared harness revi
 | [24 Qt Test cases](../../tests/qt/sqlite_writer_work_tests.cpp) | `eb9e3b600788f9473c5be7abdda86440cd73a3f4` |
 | [Additive public test boundary](../../server/include/subathon/server/sqlite_writer.hpp) | `afc9f483da7d8e61a5e73715ca33819216e9e668` |
 | [Acknowledgment fault seam](../../server/include/subathon/server/testing/sqlite_writer_work_faults.hpp) | `a2cd7b8900848d8e7b7091b676aeaf16754efe0e` |
-| [Explicit missing-behavior stub](../../server/src/sqlite_writer_work_stub.cpp) | `b47f131af895311cef790c64ac0187532994a819` |
+| [Explicit missing-behavior stub](https://github.com/Kernol12/subathon-bot-ai/blob/c60e1ed3f4d5cec3c76686199dbca135e38bc3c2/server/src/sqlite_writer_work_stub.cpp) | `b47f131af895311cef790c64ac0187532994a819` |
 | [Author evidence and WT map](storagetest-010-author.md) | `12ff38326ea248db2c8579dbec111a79ff144b28` |
 | Root CMake | `7a76e27d4ab5e191d846d57ce04981cd99ef1485` |
 | Server CMake | `0d630394b3d53acef334f7f60fc1945a2c5fd0c5` |

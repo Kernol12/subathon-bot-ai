@@ -15,7 +15,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | contribution-evidence.yml | Reviewed eligibility/linkage with primitive simulation storage |
 | application-plan.yml | Reviewed owned captured-plan transformations |
 | time-debt.yml | Reviewed32pure debt proposals/composition, exact registration and unconditional real acceptance |
-| sqlite-writer.yml | Qt6.12 build/probe, old25 real SQLite writer acceptance, and separate transaction-work baseline build/discovery |
+| sqlite-writer.yml | Qt6.12 build/probe, exact registration and writer/work acceptance; stage-specific evidence below |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
 and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
@@ -53,11 +53,13 @@ stub-red remains a historical prerequisite, not a present failing feature suite.
 This remains bounded pure arithmetic/composition, not complete refund/application
 or release proof. No failure inversion or baseline assertion change is permitted.
 
-STORAGETEST-010 extends that same writer job with `sqlite-work-debug`: old25
-behavior stays automatic, while the separate new work suite is built and fully
-discovered as an intentional red baseline. Only explicit manual
-`run_work_acceptance=true` runs those new bodies, with normal failure propagation.
-The [baseline CI assessment](evidence/storagetest-010-ci.md) records actual results
-and pending gates. STORAGE-010 must enable ordinary automatic execution once its
-reviewed implementation passes. No transaction-work capability is claimed from
-compilation/discovery or an inherited passing suite.
+STORAGETEST-010 established a separate reviewed24-case work baseline with genuine
+stub-red, keeping build/discovery distinct from passing old25 behavior; its
+[historical CI assessment](evidence/storagetest-010-ci.md) remains valid. STORAGE-010
+now configures `sqlite-work-debug` to run both suites unconditionally (old25 plus
+new24) on PR/main/manual, retaining the stable job and complete registration guard.
+Its [implementation CI assessment](evidence/storage-010-ci.md) records actual
+results and remaining gates. Source023451 is independently approved9216d8d; actual Ubuntu41300728417 at
+a1e3a89 passed new24/old25/probe1 with verified selected archives and exact
+registration. Latest-head CI still applies before merge; these49 cases do not
+establish product schemas/recovery/platform/provider release behavior.

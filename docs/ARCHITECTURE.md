@@ -94,8 +94,8 @@ applies current caps/effects, or persists state. Those remain API/accounting/wri
 
 The [SQLite writer boundary](contracts/sqlite-writer-v1.md) implements owned queued
 transactions/private connections on the authoritative Qt command/state thread and
-separate actual read-only readers.22 unchanged reviewed real Qt SQL disposable-file
-cases pass with separate code review and automatic UbuntuQt6.12 acceptance;
+separate actual read-only readers.22 unchanged reviewed cases plus3 independent
+ownership regressions pass with separate code review and automatic UbuntuQt6.12 acceptance;
 [implementation handoff](evidence/storage-001-handoff.md). Original stub-red remains
 in its baseline evidence. This supplies no running server application or repository
 adapter. Application schemas/migrations, durable app effects/aggregate/job atomicity,
@@ -119,8 +119,10 @@ commit before service success, revocable work/session capabilities, explicit
 transaction/work outcomes and cumulative SQL budgets on the same private writer.
 [Independent contract evidence](evidence/contract-004-handoff.md) and
 [storage decomposition](decisions/0002-storage-executable-slices.md) preserve every
-original storage requirement through real baseline-gated slices. This is not an
-implemented mechanism: STORAGETEST-010 now supplies24 separately reviewed real
-Qt SQL cases and actual intended stub-red; STORAGE-010 must preserve that baseline
-and pass separate implementation/code-review/acceptance gates before adding it. Existing writer25 and all
-wire/provider/application schema boundaries remain unchanged.
+original storage requirement through real baseline-gated slices. STORAGE-010 now
+implements the additive mechanism with24 unchanged separately reviewed real Qt SQL
+cases, original writer25 passing, independent code/config approval and actual
+ordinary Ubuntu acceptance. [Implementation handoff](evidence/storage-010-handoff.md)
+records exact artifacts and retained reviewed/red baseline. Existing wire/provider/
+application schema boundaries remain unchanged: no domain repository adapter,
+migration, application bundle, recovery authorization or running server is supplied.
