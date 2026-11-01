@@ -124,7 +124,7 @@
     },
     {
       "name": "sqlite-retained-debug",
-      "displayName": "14 \u00b7 Retained configuration/context baseline (draft)",
+      "displayName": "14 \u00b7 Retained configuration/context acceptance",
       "inherits": "sqlite-migrations-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_RETAINED_TESTS": "ON"
