@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-013 implementation claim
+# Coordinator checkpoint — STORAGE-013 source/config review
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
 loop under AGENTS.md/COORDINATOR_PROMPT.md. No owner decision/access is needed.
@@ -11,8 +11,8 @@ Fresh main `a97e048b198a2293b58a25bd09d92518e95b0da5` includes PR35, actually
 merged2026-11-01T18:16:21Z. Exact final8a66a3a had all11 checks SUCCESS, full
 approval7df446e and final metadata/red/CI-attribution approval81ad4ca, no threads,
 current rules/0 GitHub approvals, ready/MERGEABLE/CLEAN. Normal exact-head merge
-without bypass/force/deletion, then fetch/main refresh. Observe actual postmerge
-workflows before claiming their result. Root full audit:60 existing worktrees
+without bypass/force/deletion, then fetch/main refresh. Actual postmerge maina97
+workflows: all10 completed SUCCESS, including writer run41335754108. Root full audit:60 existing worktrees
 clean,16 historical absent/prunable refs preserved, no other open PR/claim.
 
 | Recent completed task | Merged PR | Evidence |
@@ -76,11 +76,13 @@ Copy immutable retention step1; no alternate schema/order/identity choices.
 
 STORAGE-013 is dependency-ready, separately claimed on root branch
 `task/STORAGE-013-receipt-repository` from refreshed maina97e048.
-[Brief](../tasks/EPIC-009/STORAGE-013.md). Initial source remains the four-body stub;
-no implementation/passing new acceptance is claimed yet. No PR36 exists yet.
+[Brief](../tasks/EPIC-009/STORAGE-013.md). Actual source d815b928/root458546e now implements the approved cpp, blob
+af095d97c255182c79d00a4b574e124f75734aad. Author/root/different reviewer full118
+pass; separate source/config approval and official acceptance CI remain pending.
+No PR36 exists yet; root is preparing its concrete draft.
 
-Root created both NEW worktrees clean at claim4d10d61 and actually sent the
-following explicit assignments:
+Root created both NEW worktrees clean at claim4d10d61 and actually sent these
+assignments. Source author completed clean; reviewer is active on actual source:
 
 - Implementer `/root/debt_code_reviewer`: expected
   local-evidence/worktrees/storage013-implementation, task/STORAGE-013-implementation.
@@ -93,7 +95,7 @@ following explicit assignments:
   is read-only, no future source approval.
 
 Both worktrees now exist and both assignments were sent. The implementation
-author is active on the cpp; reviewer is doing read-only preparation only. Inspect
+author completed cpp/evidence; reviewer is examining actual source/config. Inspect
 actual files and agents on resume rather than assuming continued liveness. Earlier storagetest013 author/fixture/
 review worktrees are clean/completed; preserve them. Read-only implementation prep
 has actually finished on the approved baseline, no contradictions/owner questions,
@@ -102,8 +104,12 @@ preset/CI/state/map/HTML/checkpoint and will explicitly accept approved constant
 
 ## Implementation gates and next concrete action
 
-Worktrees/assignments are actual. Author implements only approved cpp and
-own evidence. Preallocate pending-ID storage and prepare bindings before first
+Worktrees/assignments are actual. Author implemented only approved cpp and
+own evidence1304280/rootf8a13ae. Root full118 passes2.56s; independent reviewer
+compiled56steps without warnings and passed22/full118. Root promotion9098eca
+removes manual receipt CI input/if and draft labels/descriptions; exact118/22
+registration/no-draft labels and actionlint/project/diff pass. Source/config
+verdict and actual official automatic unconditional22 remain pending. Preallocate pending-ID storage and prepare bindings before first
 mutation; also inspect framework allocation/exception behavior after writes so a
 caught allocation failure cannot commit an untracked original. No new private API.
 One owner-thread single-use repository, explicit adoption transfers actual commit/
@@ -115,12 +121,11 @@ read quota. Known local errors establish synchronous cleanup; actual uncertain
 commit/cleanup stays WorkFailure/unknown/failclosed/no replay. Signed64 ordinal
 exhaustion needs honest mathematical/code review, never a fake MAX-row test.
 
-After actual source changes: configure/build sqlite-receipt-debug, pass real22
-and full118 with unchanged assertions/fixtures, provide actual source to different
-reviewer. Root then promotes22 to unconditional stable CI/removes explicit-red
-manual input and draft labels, obtains actual source/config review, observes actual
-automatic selected-Qt22 acceptance, updates evidence/metadata and normal focused
-PR merge gates. No passing-scaffold or API-only CI substitutes for implementation.
+Next finish actual separate source/config review at committed9098eca, integrate
+review evidence, publish focused draft PR36, observe real official selected-Qt
+unconditional22 acceptance, then update component completion metadata/final review/
+latest-head normal merge gates. No baseline red was repeated; these passing runs
+follow actual implementation changes. No passing-scaffold or API-only CI substitutes for implementation.
 
 Inspect actual uncommitted files/native commands before resuming. Root claim edits
 are state/HTML/brief/prior-baseline merge outcome/checkpoint only. No credentials,
