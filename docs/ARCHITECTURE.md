@@ -112,3 +112,14 @@ This new API leaves the older credit helper's narrower precondition unchanged.
 Existing CORE-002 owns lifecycle/Grace/end-mode composition; the original32stub-red
 remains retained. This grants no contribution status/permission, proportional refund
 entitlement, ledger allocation, persisted review/audit or authoritative transaction.
+
+[Writer transaction work revision1](contracts/writer-transactions-v1.md) defines the
+additive internal bridge needed by synchronous repository service ports: real
+commit before service success, revocable work/session capabilities, explicit
+transaction/work outcomes and cumulative SQL budgets on the same private writer.
+[Independent contract evidence](evidence/contract-004-handoff.md) and
+[storage decomposition](decisions/0002-storage-executable-slices.md) preserve every
+original storage requirement through real baseline-gated slices. This is not an
+implemented mechanism: STORAGETEST-010 still authors/reviews actual tests and
+observes intended red before STORAGE-010 may add it. Existing writer25 and all
+wire/provider/application schema boundaries remain unchanged.

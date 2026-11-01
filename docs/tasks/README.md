@@ -28,7 +28,8 @@ it neither finalizes contracts nor claims a reviewed test or supported provider 
    following AGENT_WORKFLOW.md. Independent reviewers must be different agents/sessions/
    people from the author. Do not invent review identities to satisfy validation.
 
-All `*TEST-NNN` tasks and implementations are planned, not authored/reviewed. Their
+New decomposition records are planned, not authored/reviewed; consult state/evidence
+for slices completed since the original decomposition. Their
 specific acceptance/failure examples are in the linked brief. Contract ambiguities must
 be resolved in that baseline before code, with explicit versioned examples and separate
 review. If a slice still spans independent contracts or cannot fit a focused review,
@@ -81,7 +82,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-006 — Invites, permissions, local/Twitch identities and chat roles](EPIC-006.md) | 7 | 14 |
 | [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 7 | 14 |
 | [EPIC-008 — Qt/Drogon API server, durable intake and live snapshots](EPIC-008.md) | 9 | 18 |
-| [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 9 | 18 |
+| [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 17 | 32 |
 | [EPIC-010 — Twitch API, EventSub and both chat identities](EPIC-010.md) | 6 | 11 |
 | [EPIC-011 — betterplace public integration and aggregate visibility](EPIC-011.md) | 4 | 7 |
 | [EPIC-012 — Patreon v2 payment evidence, webhooks and reconciliation](EPIC-012.md) | 4 | 7 |
@@ -101,8 +102,8 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
 
-Total: 180 new work packages, 331 child records
-(151 test baselines plus their paired
+Total: 188 work packages, 345 child records
+(157 test baselines plus their paired
 implementations and distinct feasibility/verification/documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.
 Task counts are not completion percentages.
