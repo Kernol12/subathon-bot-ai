@@ -20,11 +20,9 @@ void SqliteWorkSession::commit() const {
 void SqliteWorkSession::rollback() const {
     throw SqliteWorkFailure(WorkError::feature_not_implemented);
 }
-WorkError SqliteWorkSession::cleanup() const noexcept {
-    return WorkError::feature_not_implemented;
-}
+WorkError SqliteWorkSession::cleanup() const noexcept { return WorkError::feature_not_implemented; }
 StorageError testing::SqliteWriterWorkAccess::inject_next_control_ack_loss(SqliteWriter &,
-                                                                       WorkControlFault) {
+                                                                           WorkControlFault) {
     return StorageError::feature_not_implemented;
 }
 } // namespace subathon::server

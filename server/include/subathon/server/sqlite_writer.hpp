@@ -8,6 +8,7 @@
 #include <memory>
 #include <optional>
 #include <stdexcept>
+#include <utility>
 
 namespace subathon::server {
 // Internal trusted-SQL boundary, revision 1: docs/contracts/sqlite-writer-v1.md.
@@ -77,6 +78,12 @@ enum class WorkError {
     uncertain_outcome,
     writer_unavailable
 };
+
+// Category mapping for execute: SQL-text/statement-count/binding-byte overages
+// use resource_limit; result row/value overages use result_limit. Unsupported
+// binding QVariant types and prohibited SQL use invalid_statement. Terminal
+// session operations in the current body use session_closed (a protocol failure);
+// a second begin uses protocol_error. Expired work tickets use stale_session.
 
 class SqliteWorkFailure final : public std::runtime_error {
   public:

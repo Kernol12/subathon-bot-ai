@@ -15,6 +15,6 @@ enum class WorkControlFault { lose_next_commit_ack, lose_next_rollback_ack };
 class SqliteWriterWorkAccess final {
   public:
     [[nodiscard]] static StorageError inject_next_control_ack_loss(SqliteWriter &writer,
-                                                                  WorkControlFault fault);
+                                                                   WorkControlFault fault);
 };
 } // namespace subathon::server::testing
