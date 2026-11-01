@@ -11,9 +11,11 @@ incomplete; no owner decision/access is needed. This is not background execution
 
 Branch `task/STORAGETEST-014-contribution-repository`, from integrated main
 `e331714e0a03aae0a7c908721f92ea19a1756f62` (PR36). Source branch published exact
-head399fc442b960af943191b1ab35ca5a53e94df05d; all11 checks SUCCESS. Root has since
-recorded the FIRST red and prepares metadata only. Actual source/config/fixture
-artifacts remain frozen at the reviewed hashes; no implementation or new task.
+head399fc442b960af943191b1ab35ca5a53e94df05d; all11 checks SUCCESS at that
+historical published source head. Completion metadata and the FIRST raw red are
+committed at df84978e9ee8f924cb84ed5cb393d90c8e1885ed. Final metadata/CI-attribution
+review is active; CI for the latest metadata revision awaits publication. Actual
+source/config/fixture artifacts remain frozen at the reviewed hashes; no implementation or new task.
 [Self-contained task handoff](storagetest-014-handoff.md).
 
 Full authored-baseline/harness approval81e0d5a integrated1b4c48c preceded publication
@@ -49,8 +51,9 @@ remain ignored under local-evidence/coordinator/storagetest014-*.
   negatives. Additional bounded static feature audit found no further issue.
 - Different reviewer `/root/storage_work_code_reviewer`,
   `local-evidence/worktrees/storagetest014-review`, branch
-  `task/STORAGETEST-014-review`: actual full baseline81e0d5a complete/clean. Next
-  only final metadata/CI-red-attribution review after actual root completion commit;
+  `task/STORAGETEST-014-review`: actual full baseline81e0d5a complete/clean. Active
+  final metadata/CI-red-attribution review of committed df84978 and this narrow
+  current phase wording correction;
   no feature body/red or source work. Do not assume running until inspected/reassigned.
 - Root owns schema/order/CMake/presets/CI/map/state/HTML/checkpoint/integration.
   New source has only inert constructors/four immediate named stubs. All previous
@@ -64,7 +67,7 @@ instead of assuming changes remain uncommitted. No credential, supporter data, l
 
 ## Remaining concrete actions and stop boundary
 
-1. Verify actual completion commit/raw red and obtain different final evidence/
+1. Complete active different final evidence/
    CI-attribution approval. Source/full baseline approval remains valid only for
    exact frozen artifacts. No new feature invocation.
 2. Publish latest metadata/review head, inspect actual all checks/current main,
