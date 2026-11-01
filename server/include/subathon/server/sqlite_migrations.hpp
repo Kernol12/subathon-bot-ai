@@ -35,8 +35,12 @@ struct MigrationManifest {
 
 struct MigrationLimits {
     qsizetype versions{256};
+    // Migration IDs only: effective cap min(id_bytes,128); the fixed 21-byte
+    // store identity is checked for equality, not against this configurable cap.
     qsizetype id_bytes{128};
     qsizetype schema_objects{256};
+    // Sum UTF-8 bytes of every SQL text and every projected type/name/table/SQL
+    // occurrence across all steps. No ID/identity, count, framing or NULL bytes.
     qsizetype manifest_utf8_bytes{1048576};
 };
 
@@ -91,7 +95,7 @@ struct MigrationReport {
 };
 
 struct MigrationRequest {
-    MigrationMode mode{MigrationMode::advance};
+    MigrationMode mode{MigrationMode::inspect};
     MigrationManifest manifest;
     MigrationLimits limits;
     // Trusted nonblocking cooperative probe. An empty probe never cancels. It
@@ -105,6 +109,9 @@ struct MigrationAdmission {
 };
 struct MigrationResult {
     SqliteWorkResult work;
+    // Work resource_limit/result_limit map to resource_limit here. A cancellation
+    // probe exception maps to callback_failure, preserving the underlying first
+    // work error; uncertain_outcome overrides every earlier migration reason.
     MigrationReason reason{MigrationReason::none};
     // Present only for normal, committed work with a normal owned work value.
     // Fresh/upgrade_required inspection reports never authorize normal store use.
@@ -120,10 +127,12 @@ struct MigrationResult {
 class SqliteMigrationRunner final {
   public:
     using Completion = std::function<void(MigrationResult)>;
-    // Invalid manifest/limits: invalid_options + invalid_manifest before SQL,
-    // no callback. Other admission errors retain the existing writer category
-    // with reason none. Accepted work owns ordinary request values; raw-backed
-    // captures/strings remain outside the trusted caller's ownership contract.
+    // Precedence: pure request preflight (including mode enum), then nonempty
+    // completion, then delegate to existing enqueue_work. Invalid requests return
+    // invalid_options+invalid_manifest even for closed/foreign/full writers; null
+    // completion is invalid_work+none. Valid requests retain delegated writer
+    // errors with reason none. Rejection performs no SQL/callback. Accepted work owns ordinary
+    // values; raw-backed captures/strings remain outside the trusted caller's ownership contract.
     [[nodiscard]] static MigrationAdmission enqueue(SqliteWriter &writer, MigrationRequest request,
                                                     Completion completion);
 };

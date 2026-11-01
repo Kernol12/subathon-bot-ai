@@ -44,6 +44,12 @@ Conceptual operations, with concrete C++ layouts deferred to the reviewed baseli
 Admission retains owner-thread, open/shutdown, shared capacity/FIFO and rejected
 callback rules of `enqueue_work`. Invalid/oversized manifests are rejected before
 admission with an explicit manifest-admission reason, no SQL and no completion.
+The wrapper checks pure request mode/manifest/limits first, then nonempty
+completion, then delegates admission to the existing writer. Invalid requests use
+`invalid_options/invalid_manifest`, including when a writer is closed, foreign or
+full; a valid request with no completion uses `invalid_work` with no migration
+reason. All other valid requests preserve delegated writer admission errors. No
+private writer-state probe or SQL is needed for this precedence.
 For an accepted item, inspection of fresh/supported-old/current state can commit
 its read-only transaction and carry a normal owned inspection report. Only the
 verified current state is a normal-store schema condition; fresh/old reports do
@@ -309,10 +315,22 @@ reviewed physical-control fault seam; they must not be simulated by fabricating 
 catalog result. A later independent inspection can observe old or new state but
 does not itself authorize an operational recovery/retry.
 
+The concrete boundary maps work `resource_limit` and `result_limit` to migration
+reason `resource_limit`. A cancellation-probe exception records `callback_failure`
+and `work_exception` when no earlier framework error exists. The first failure
+remains authoritative; uncertainty overrides any earlier migration reason as well
+as the underlying work outcome/error.
+
 Default engineering manifest bounds: at most 256 versions, 128 ASCII bytes per
 identity/ID, 256 schema objects per projection, and 1 MiB total manifest SQL and
 projection UTF-8 payload. Limits are positive trusted configuration, not product
-settings or proof of elapsed-time bounds. Invalid duplicate/gapped manifests and
+settings or proof of elapsed-time bounds. The configurable ID bound applies only
+to migration IDs, with effective maximum min(configured,128); the exact fixed
+21-byte store identity is checked separately. The manifest payload sum counts
+every occurrence of SQL text and projected type/name/table-name/present-SQL UTF-8
+bytes across all steps, including repeated projections. IDs/identity, numeric
+counters, framing bytes and absent SQL contribute no bytes to this particular
+limit. Invalid duplicate/gapped manifests and
 oversized data are rejected before SQL. Metadata/history/schema reads are bounded
 with overflow detection; excess rows/bytes refuse verification, never truncate to
 a claimed valid prefix.

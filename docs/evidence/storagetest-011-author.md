@@ -198,3 +198,14 @@ cases retain their exact session-boundary assertions. No count is calibrated fro
 future production output, budget is reset, or existing assertion is weakened.
 Specification requirements and migration atomicity/resource scope are unchanged.
 This amendment precedes the actual new interface/test baseline review.
+
+The actual early interface review also requested explicit wrapper policies before
+freeze: default inspection/explicit advancement; invalid mode rejected; pure
+request preflight before callback validation and delegated writer admission;
+effective migration-ID bound min(configured,128) separate from fixed identity;
+exact SQL/projection-only manifest UTF-8 accounting; limit/callback/uncertainty
+reason mapping. Header and contract now pin those policies without private writer
+state access or changes to existing admission behavior. Invalid requests can be
+rejected on a foreign/closed/full writer before delegation; valid requests retain
+existing writer errors. This precision remains subject to different-reviewer
+assessment with the actual interface/test candidate.
