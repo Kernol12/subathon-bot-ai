@@ -266,3 +266,59 @@ approval permits the coordinator to run the actual three-case intended red again
 unfixeda8e5c8e before any production fix. It approves neither future source changes
 nor passing behavior; original22 evidence and all later application/recovery/live/
 platform gates remain intact.
+
+## Targeted ownership fix — fresh code approval
+
+Reviewer `/root/storage_code_reviewer`, 2026-11-01. Reviewed integrated candidate
+`9d96363`, author fixbe533bd, exact source
+`829d9c66e47168384510e8ed2ff436e272686414` and grouped-discovery workflow
+`d99df8ad627e68b492009ccba5091bab4e093001`.
+Verdict: **approved for integration of the corrected source**, subject to actual
+updated Ubuntu acceptance and latest-head normal PR gates. This fresh approval
+resolves the ownership hold9623943 for source829d9c66; it does not retroactively
+approve the deficient raw-backed behavior in sourcea8e5c8e.
+
+Verified the required sequence in actual committed evidence: regression approval
+94820fa was integratedf79d002, then coordinator observed all3 regression bodies
+failing against unfixeda8e5c8e and committed actual output1499d57, before fix9d96363.
+The retained log shows SQL9 instead of1, textzbc instead ofabc and blob7A6263
+instead of616263, each after successful fixture/init and with zero skips; CTest
+exited8. This is behavioral red, not a compilation/dependency failure. The original
+22 cases/header/contract and corrected new3testblob34c25c27 remain unchanged.
+
+Examined the complete small source delta and surrounding admission/dispatch code.
+Validation and queue-capacity decisions are unchanged and precede the owned copy.
+A copied batch detaches its Qt containers as its statements/bindings are rewritten.
+Each SQL string and non-null QString/QByteArray binding gets explicit data/size
+construction, which copies borrowed backing instead of only sharing it. Native
+UTF-16 units and arbitrary blob bytes are retained without encoding/normalization;
+QVariant metatypes and untouched scalar/null variants remain unchanged. The helper
+preserves null buffers separately from non-null empty ones. Snapshotting completes
+before the queued batch is published and successful admission returns; subsequent
+caller backing mutation cannot alter admitted SQL or payload values. No caller
+precondition was narrowed and no public interface/product semantics changed.
+
+The resource policy still measures the same values and budgets; the fix does not
+bypass validation or touch transaction/rollback/lease/thread/callback logic. The
+previous detailed review of those unchanged paths remains applicable. The three
+new regression cases directly cover the defect's distinct SQL/text/blob routes,
+while the original22 continue to verify the surrounding behavior unchanged.
+
+Actual independent reviewer commands after refreshing the isolated worktree:
+
+| Command | Result |
+| --- | --- |
+| `cmake --preset sqlite-writer-debug` | Exit0 |
+| `cmake --build --preset sqlite-writer-debug` | Exit0 |
+| `ctest --preset sqlite-writer-debug` | Exit0;28/28 including22original+3ownership+3infrastructure |
+| CTest JSON versus per-binary `-functions` guard | Exit0;2executables,25realcases |
+| `actionlint .github/workflows/sqlite-writer.yml` (official1.7.12) | Exit0 |
+| Original/new tests, header, contract and configuration comparisonb874f31..9d96363 | Exit0, unchanged |
+| `git diff --check` | Exit0 |
+
+No source/test edits were made by this reviewer and no redundant second full native
+run was used as extra evidence. Updated automatic Ubuntu execution must include all
+25 real cases before merge; the earlier22-only run cannot satisfy this corrected
+revision's CI gate. Application schema/migrations/aggregates/jobs, abrupt crash/
+backup/recovery, hard SQL/shutdown deadlines, provider/platform and full release
+gates remain exactly as previously recorded.
