@@ -116,3 +116,56 @@ state/clock selection, hard-end/lifecycle ordering, post-finish/reopen applicati
 cap edits, ledger allocation and atomic effects/jobs remain their explicit caller/
 downstream gates. Grace is never supplied as debt. Provider/platform/live/UI,
 recovery/backup/deployment and full-release validation remain unperformed here.
+
+## Final reviewed/red integration and completion review
+
+Reviewer `/root/debt_test_reviewer`, 2026-11-01; actual final candidate `343bb8b`.
+The isolated reviewer branch normally merged the task branch, preserving original
+reviewb3413e5 and its coordinator cherry-pickdba4401 rather than resetting history.
+The contract/interface/stub/tests/workflow and shared build/preset files have no
+diff from the originally approved candidatee405ae4. Exact reviewed blobs above
+remain unchanged; no test assertion, fixture or public boundary was weakened.
+
+The retained [red output](coretest-005-red-ctest.txt) contains32 executed CTest
+case blocks. I audited every block for its test-body execution and explicit missing
+behavior description, including wrong-exception failures in validation cases.
+All32 fail for the intended stubs; zero skipped cases or missing dependencies/
+compilation/test-not-run failures are used as red. The retained process exit is8.
+The [handoff](coretest-005-handoff.md) records reviewb3413e5 integrateddba4401
+before that run, with the reviewed source/test artifacts unchanged. This meets the
+review-before-red gate; it does not implement or pass debt behavior.
+
+I independently queried actual
+[Ubuntu run41291917578](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41291917578):
+success at exact head `c2be886c5a29f852a8e196583b534feec6fbc7c4`. I also queried
+the commit's check-runs: all11 cited-head checks completed successfully. Retained
+actual job logs show GNU13.3.0/Python3.12.3, selected `_deps/googletest-build`
+compilation and `Discovered 32 time-debt cases; behavior not run`. The ordinary
+baseline job did not execute debt bodies; its explicit manual acceptance step was
+outside this automatic run. That limited build/discovery success is correctly
+separate from the actual local32-case intended red and from future product
+acceptance. It is not a failed-case inversion or a claim of passing debt behavior.
+
+Completion metadata correctly marks CORETEST-005 done with baseline observed_red
+and product_acceptance not_run, while CORE-005 remains planned. NUM-03 stays partial
+with explicit proportional-entitlement, application/audit/permission/persistence
+and release gates. The docs distinguish the new numeric above-cap scope from the
+older unchanged credit contract, and preserve actual CORE-002 composition/caller
+responsibilities. No full application, provider or platform capability is upgraded.
+The coordinator's39-case timer regression pass is attributed to the coordinator;
+this final review did not repeat unchanged native suites or debt bodies.
+
+At the final metadata revision, reviewer commands
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check` and
+`git diff --check` all exited0. Original configure/build/discovery/actionlint
+results remain valid because their inputs are unchanged.
+
+**Approved for baseline integration/completion** at343bb8b. When recording this
+approval, the coordinator should replace the checkpoint's superseded paragraph
+claiming the proposal is still unreviewed (and its old magnitude wording) with the
+actual reviewed signed-request boundary, and mark the reviewer role in past tense.
+The authoritative state and next-action section already identify the reviewed/red
+baseline correctly. Latest-head CI, resolved discussions and current normal merge
+rules remain publication gates. CORE-005 must start from the integrated prerequisite,
+preserve32 assertions, implement only the reviewed boundary, obtain separate code
+review and enable/observe ordinary actual acceptance CI before its own completion.
