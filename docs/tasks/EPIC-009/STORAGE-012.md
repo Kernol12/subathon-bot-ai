@@ -1,8 +1,9 @@
 # STORAGE-012 — Immutable configuration and arrival-context version retention
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, DB-01.
-Status/owner/dependencies: progress/state.json. Planned work only; no finalized
-slice interface, authored/reviewed tests or implementation is claimed by this brief.
+Status/owner/dependencies: progress/state.json. Initial contract/examples authoring
+is claimed from integrated STORAGE-011; no finalized interface, authored/reviewed
+tests or implementation is claimed by this brief.
 
 ## Scope and ownership
 
@@ -36,3 +37,14 @@ ordinary CI for executable stable behavior, observe actual workflows, record exa
 commands/revisions/environment and remaining gates. No live provider/chat/payment
 side effects. Follow [workflow](../../AGENT_WORKFLOW.md), update evidence/progress
 and publish one focused PR per executable task; no full-release claim follows.
+
+## Initial contract-stage ownership
+
+Root claim036fad8 starts STORAGETEST-012 from refreshed main29f3818 after PR32.
+The author initially owns only new docs/contracts/retained-context-v1.md and own
+evidence; a different agent reviews the actual contract/examples before any new
+API/stubs/tests are authorized. Root owns actual schema/migration order, shared
+build/CI/state/map/HTML/checkpoint. Existing opaque core configuration/context
+references and writer/migration interfaces remain unchanged. Concrete reference
+identity, numeric representation, optional known links, bounds and zero policy
+need explicit reviewed decisions; no finalized wire/config evaluator is inferred.

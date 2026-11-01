@@ -7,7 +7,7 @@ is needed. Full product remains incomplete.
 ## Integrated tasks and actual main
 
 Last observed main is `29f3818a7b202896e1122cd7a787a60a6c4e379d` (PR32).
-Postmerge checks have started; inspect their actual state before claiming results. Recent completed PRs:
+All ten postmerge main workflows at29f3818 were observed successful. Recent completed PRs:
 
 | Task | Merged PR | Durable evidence |
 | --- | --- | --- |
@@ -59,15 +59,17 @@ Primitive repository operations compose on existing SqliteWorkSession; caller ow
 transaction/commit/publication. Root owns actual schema/migration order and shared
 CMake/presets/workflow/state/map/HTML/checkpoint.
 
-Author `/root/writer_transaction_reviewer` will be explicitly reassigned to new
+Author `/root/writer_transaction_reviewer` was explicitly reassigned to new
 isolated local-evidence/worktrees/storagetest012-author, branch
 task/STORAGETEST-012-author. Initial ONLY owned paths:
 docs/contracts/retained-context-v1.md and docs/evidence/storagetest-012-author.md.
-Different reviewer `/root/storage_work_code_reviewer` will use new isolated
+Different reviewer `/root/storage_work_code_reviewer` uses new isolated
 storagetest012-review/task/STORAGETEST-012-review and owns only new reviewevidence.
 No prior review transfers to absent contract/tests. Read-only preparation is done;
-no edits were made during it. Inspect actual agents/paths on resume; these new
-worktrees/assignments must be created/sent after this claim commit.
+no edits were made during it. Both new worktrees were created clean at claim036fad8
+and actual author/reviewer assignments sent. Author is active on the contract;
+reviewer is active on read-only requirements preparation and waits actual candidate.
+Inspect actual agents and files on resume; do not assume continued background work.
 
 Next actual contract/examples authoring → different actual review → minimal
 interfaces/explicitstubs/independentliteraltests → successful compile/green selected
@@ -79,7 +81,7 @@ Normal focused PR/mainmerge gates remain mandatory. No owner question.
 Ruleset26170263 current applicable main rules: required PR/resolved threads, zero
 GitHubapprovals, no bypass/force/delete. No required-status-check rule; written
 all-applicable-latest-headCI gate still applies. GitHub approval requirements cannot
-be replaced by repository evidence. Actualpostmerge main checks pending.
+be replaced by repository evidence. Actual postmerge main29f3818 all ten workflows succeeded.
 
 Last full local audit before the additive author wrote:53 existingworktrees clean,
 16 absent historical/tmp references preserved; no pruning. Host repo-scoped audit
