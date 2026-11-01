@@ -158,14 +158,13 @@ byte retention does not certify those, domain application bundle or recovery.
 
 
 The [identified-receipt SQL contract](contracts/sqlite-receipts-v1.md) and
-[additive schema contract](contracts/sqlite-receipts-schema-v1.md) now have22
-independently reviewed Qt integration cases, six typed uint64 literals, selected
-official-Qt green3 fixture proof and actual intended unimplemented red after
-successful compilation. [STORAGETEST-013](evidence/storagetest-013-handoff.md)
-records the exact reviewed artifacts/chronology. New codec/manifest/repository
-remain explicit stubs; STORAGE-013 implementation is separate. The unchanged
-ReceiptIntake keeps classification policy. Existing domain IDs1..MAX, pure codec
-0..MAX, immutable originals/every ordered attempt/retained targets/real commit
-and truthful rollback/uncertainty are pinned without adding a writer or changing
-core/provider/wire contracts. No receipt SQL behavior, application bundle or
-operational/platform release capability is yet implemented by this baseline.
+[additive schema](contracts/sqlite-receipts-schema-v1.md) now have an implemented
+STORAGE-013 adapter/uint64 codec/manifest, with22 unchanged reviewed real-SQL
+cases/full118 passing, separate source/config approval and actual automatic
+selected UbuntuQt6.12/SQLite3.53.4 receipt22 acceptance. [Handoff](evidence/storage-013-handoff.md)
+retains the original reviewed/compiled/red baseline chronology and exact artifacts.
+The unchanged service owns classification; one existing session owns real atomic
+commit, immutable originals/every attempt/retained targets and truthful uncertainty.
+No new writer/core/provider/wire API is added. This supplies no running server,
+contribution/plan/effect/job/application bundle or operational/platform release
+capability; downstream typed codecs/rates and all full-release scope remain open.

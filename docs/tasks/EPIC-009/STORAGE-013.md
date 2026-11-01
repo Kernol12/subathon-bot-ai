@@ -5,7 +5,9 @@ Status/owner/dependencies: progress/state.json. Implementation is now claimed
 from integrated maina97e048 after the normal PR35 baseline merge.
 STORAGETEST-013 now supplies the separately reviewed contract/API/22-case compiling
 intended-red baseline; [handoff](../../evidence/storagetest-013-handoff.md) records
-exact artifacts and remaining gates. No production adapter is claimed.
+exact artifacts and remaining gates. The component now passes reviewed22/full118 and actual automatic officialQt CI;
+[implementation handoff](../../evidence/storage-013-handoff.md) records exact
+source/review and remaining merge/full-release gates.
 
 ## Scope and ownership
 

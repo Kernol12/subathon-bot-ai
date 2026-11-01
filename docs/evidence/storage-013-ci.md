@@ -26,9 +26,9 @@ remain unchanged. The baseline's first22stub-red and actual separate reviews are
 preserved; no unchanged stub red was repeated. These passing implementation runs
 are not a relabeling of old scaffold or API-only checks.
 
-Actual automatic official-Qt CI of this source and unconditional22 remains pending
-publication/observation. Previous baseline CI proves its fixture, not current
-implementation. Host Qt6.12/SQLite3.54/GNU16.2.1 differs from selected bundled
+Actual automatic official-Qt source/unconditional22 CI is now observed SUCCESS
+in run41337727868 ataf65401, detailed below. Previous baseline CI was never used
+as a substitute for executing the implementation. Host Qt6.12/SQLite3.54/GNU16.2.1 differs from selected bundled
 SQLite3.53.4/GNU13.3. No full application/provider/platform/live/operational release
 proof follows; all remaining scope is retained in task/checkpoint evidence.
 
@@ -36,6 +36,21 @@ proof follows; all remaining scope is retained in task/checkpoint evidence.
 Actual different source/config approval84e2045/root39e3177 is now integrated,
 with no findings. It independently verifies all code, exact constants/prefix,
 exception/lifetime/arithmetic behavior, preserved baseline and current promotion.
-Root now publishes the focused implementation draft for actual official automatic
-unconditional22 verification. Component remains in_review until that observed gate;
-no baseline CI or local pass is substituted for the new source execution.
+Root then published the focused implementation draft for actual official automatic
+unconditional22 verification; the observed result below completes that component
+gate. No baseline CI or local pass was substituted for new source execution.
+
+
+## Actual automatic source acceptance
+
+[Run41337727868](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41337727868)
+at exactaf6540171a09ccc7d6fe68abd6a218794a2687de, event pull_request, completed
+SUCCESS. Root read actual metadata and full executed logs, cached under
+local-evidence/coordinator/storage013-ci-af65401.json/.log. Both pinned archives
+hash OK; GNU13.3/new source build/Qt6.12/SQLite3.53.4, old25/work24/migration24/
+retention16 and green7+3+3 pass; exact22 compiled registration and the actual
+unconditional Run reviewed identified-receipt acceptance step completed SUCCESS,
+22/22 PASS in0.61s. No manual input/if remains. All11 PR checks at this head were
+separately observed SUCCESS. This is actual source execution, not old baseline
+fixture/discovery evidence. Component metadata/final review/latest-head merge
+checks remain, and no future head or broader platform/live scope is approved.

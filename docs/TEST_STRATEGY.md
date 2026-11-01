@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation and plan22 pure-transform and debt32 pure-proposal/composition cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
-| Qt Test | Qt signals/models/event loops and real SQLite writer | Environment probe passes; 22 unchanged SQLite cases plus3 ownership regressions pass; original red retained |
+| Qt Test | Qt signals/models/event loops and real SQLite writer | Writer25/work24/migration24/retention16/receipt22 cases and selected fixture diagnostics pass; original red evidence retained |
 | Qt Quick Test | QML components/behavior | Planned |
 | CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform plus writer25/25 real SQLite and debt32/32 pure-proposal/composition cases pass |
 | Vitest | Browser unit/component behavior | Planned |
@@ -255,7 +255,11 @@ no receipt product acceptance pass follows from authoring/review or stub failure
 
 The separate manual red invocation remains visible; ordinary CI builds/discovers
 all new cases and unconditionally runs required green3 plus existing stable suites.
-STORAGE-013 must preserve this baseline, implement only approved behavior, receive
-separate code/config review and promote all22 passing cases to unconditional CI.
+STORAGE-013 now preserves this baseline, passes22 real cases/full118, has separate
+source/config approval and runs all22 unconditionally in ordinary selected-Qt CI.
+[Implementation](evidence/storage-013-handoff.md) records sourceaf095d9, exact
+preserved artifacts and actual automatic run41337727868 ataf65401 with GNU13.3/
+Qt6.12/SQLite3.53.4, green7+3+3, old stable suites and actual22 PASS. The original
+baseline remains historical red; it was not repeated or weakened to obtain green.
 Existing15 fake-backed service tests remain simulation; no provider identity,
 missing-ID policy, valuation/effect/application-bundle or platform/live proof follows.
