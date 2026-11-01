@@ -72,8 +72,9 @@ semicolons. This narrow rule avoids using a partial SQL parser as an ownership
 boundary. The permitted leading SQL commands
 (case-insensitive after whitespace) are SELECT, WITH, INSERT, UPDATE, DELETE,
 REPLACE, CREATE, DROP and ALTER. Leading SQL comments are intentionally outside this
-small interface. Read-only `PRAGMA journal_mode`, `PRAGMA synchronous` and
-`PRAGMA foreign_keys` are also supported for actual connection observations, with
+small interface. Read-only `PRAGMA journal_mode`, `PRAGMA synchronous`,
+`PRAGMA foreign_keys` and `PRAGMA busy_timeout` are also supported for actual
+connection observations, with
 no arguments/assignment/schema prefix. All other PRAGMAs, BEGIN/END/COMMIT/ROLLBACK,
 SAVEPOINT/RELEASE, ATTACH/DETACH and VACUUM are `invalid_batch` before any work in
 that batch runs. This keeps transaction/connection ownership inside the writer.

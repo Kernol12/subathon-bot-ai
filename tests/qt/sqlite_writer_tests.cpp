@@ -93,7 +93,8 @@ class SqliteWriterTests final : public QObject {
         QThread *completion_thread = nullptr;
         QCOMPARE(writer.enqueue({{"PRAGMA journal_mode", {}},
                                  {"PRAGMA synchronous", {}},
-                                 {"PRAGMA foreign_keys", {}}},
+                                 {"PRAGMA foreign_keys", {}},
+                                 {"PRAGMA busy_timeout", {}}},
                                 [&](WriteResult value) {
                                     result = std::move(value);
                                     completion_thread = QThread::currentThread();
@@ -104,10 +105,11 @@ class SqliteWriterTests final : public QObject {
         QTRY_VERIFY(completed);
         QCOMPARE(completion_thread, QThread::currentThread());
         QCOMPARE(result.error, StorageError::none);
-        QCOMPARE(result.rows.size(), 3);
+        QCOMPARE(result.rows.size(), 4);
         QCOMPARE(result.rows[0], SqlRows({{QString("wal")}}));
         QCOMPARE(result.rows[1], SqlRows({{2}})); // SQLite FULL is literal2.
         QCOMPARE(result.rows[2], SqlRows({{1}}));
+        QCOMPARE(result.rows[3], SqlRows({{0}})); // No hidden SQLite busy wait.
     }
 
     void commitsFifoBatchesBeforeCompletion() {

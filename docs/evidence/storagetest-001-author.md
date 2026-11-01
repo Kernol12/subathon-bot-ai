@@ -36,7 +36,7 @@ observations; it does not implement admission, transaction or writer policy.
 
 | Cases | Independent oracle / requirement |
 | --- | --- |
-| opensWalFullOnOwnerThread | Actual writer SQL results are journal_mode wal, synchronous2/FULL, foreign_keys1; asynchronous owner-thread callback |
+| opensWalFullOnOwnerThread | Actual writer SQL results are journal_mode wal, synchronous2/FULL, foreign_keys1, busy_timeout0; asynchronous owner-thread callback |
 | commitsFifoBatchesBeforeCompletion | Separate fixture connection sees sums10 then30, in FIFO completion order, no pre-dispatch writes |
 | rejectsDuplicateWriterUntilShutdown | Equivalent canonical path cannot acquire another writer; lease released after drain |
 | readerCannotWriteEvenAfterQueryOnlyOff | INSERT fails both before and after disabling query_only; persistent count remains0 |
