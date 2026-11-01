@@ -63,15 +63,22 @@ a durable application operation result or operational authorization.
 ## Trusted manifest and bounded catalog identity
 
 The integrator owns the catalog format and global migration order. One compiled,
-reviewed manifest uses exact internal store identity `subathon.sqlite-store`, catalog-format revision 1,
-consecutive migrations 1 through N and the exact supported starting versions.
-Version 0 means strictly fresh, without a catalog. Current N is always supported;
-an earlier prefix is supported only when listed explicitly. No downgrade or
+reviewed manifest uses exact internal store identity `subathon.sqlite-store`,
+catalog-format revision 1,
+at least one migration, consecutive versions 1 through N (N >= 1) and the exact
+supported starting versions. The starting-version list contains unique integers
+in increasing order within 0 through N and must include both 0 and N; duplicates,
+out-of-range values or an empty manifest/list are invalid before admission.
+Version 0 means strictly fresh, without either catalog table or any schema object:
+Inspect reports fresh without readiness or writes; Advance bootstraps and applies
+1 through N. A catalog header with empty history is partial, never version 0.
+An earlier positive prefix is supported only when listed explicitly. No downgrade or
 arbitrary target selection is supplied. Schema versions are positive signed-32
 engineering counters, not domain identifiers; full uint64 domain IDs/revisions
 and lossless money/rate representations remain downstream requirements.
 
-Each entry has a unique immutable ASCII migration ID, an ordered list of trusted
+Each entry has a unique immutable migration ID of 1 through 128 printable ASCII
+bytes 0x21 through 0x7e (no spaces, controls or NUL), an ordered list of trusted
 SQL statements, and the exact expected schema projection after that version.
 Migration entries contain unbound SQL text only, with valid UTF-8 and no embedded
 NUL; catalog operations use bound metadata values. Statements retain the existing
@@ -81,37 +88,96 @@ Migration SQL is compiled trusted code, never a user/provider/configuration scri
 it may not alter catalog records directly, attach databases, use TEMP objects,
 change connection PRAGMAs or perform external side effects. Actual release
 migrations and their data-preservation rules require their own reviewed fixtures.
+Respect for reserved tables and side-effect restrictions is a precondition on
+trusted, audited manifests; this SQL boundary is not an adversarial SQL sandbox.
 
-The logical persisted format contains only two reserved metadata relations:
+## Exact reserved metadata format
 
-- One header row: fixed singleton key 1, catalog-format revision 1 and exact store
-  identity. Missing, additional, mistyped or mismatching header fields are refused.
-- An append-only history: positive version primary key, unique migration ID and
-  exactly 32 digest bytes. Rows must be the complete consecutive prefix 1 through
-  the actual head; no separate mutable head counter is authoritative.
+The integrator reserves these two relations in `main`, using exactly these
+CREATE statements, without semicolons, IF NOT EXISTS, AUTOINCREMENT or STRICT:
 
-Physical SQL names/DDL must be fixed with the integrator before test-interface
-authoring and reviewed as part of that baseline. This logical catalog does not
-choose any domain table. History identity must include the actual compiled content,
-not merely an ID string: use Qt Core's existing SHA-256 support over the versioned
-canonical byte framing below, and compare against independently derived literal
-digests in the later tests. No new hashing dependency is needed.
+```sql
+CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)
+CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)
+```
+
+The runner binds values into its own catalog writes. It validates the actual
+stored SQLite types, ranges and cardinalities explicitly, not assumed input types
+or column affinity. Generated catalog reads/writes explicitly qualify `main` so
+a same-named TEMP object cannot redirect them; the exact CREATE text stays as above:
+
+- `subathon_catalog` contains exactly one row: INTEGER `singleton=1`, INTEGER
+  `catalog_format=1` and TEXT `store_identity='subathon.sqlite-store'`. Read all
+  bounded rows; a lookup restricted to singleton 1 cannot prove no extra header
+  row exists. Missing/additional/mistyped/mismatching values are refused.
+- `subathon_migration_history` contains INTEGER `version` values in 1 through
+  2,147,483,647, TEXT migration IDs obeying the same nonempty printable-ASCII rule,
+  and BLOB `content_sha256` values of exactly 32 bytes. IDs compare exactly,
+  including case. Rows must be the complete consecutive prefix 1 through the
+  actual head with unique IDs and matching digests. There is no mutable head
+  counter, and MAX(version) alone is not validation.
+
+The minimal DDL intentionally does not encode all these rules as constraints;
+extra header rows, negative versions, mistyped fields and wrong digest lengths
+must be detected, not coerced/repaired by the runner. Validate stored values even
+when SQLite affinity or an input binding has already converted them.
+
+Every expected versioned projection includes both exact table rows plus the
+engine-generated UNIQUE index row
+`('index','sqlite_autoindex_subathon_migration_history_1',
+'subathon_migration_history',NULL)`. Its name and normalized table SQL must be
+verified against the selected Qt/SQLite fixture before literal test freeze.
+No index row is expected for the INTEGER PRIMARY KEY alone. Root pages are never
+part of identity. These catalog objects may not be omitted from, changed by or
+hidden behind a migration's expected projection. No domain table is chosen here.
+
+## Canonical migration content and schema projection
+
+History identity includes actual compiled content, not merely an ID string. Use
+existing Qt Core SHA-256 over the exact framing below and compare to independently
+derived literal digests in later tests. No hashing dependency is added.
 
 Let F(b) be the ASCII decimal byte length of b, followed by `:` and the exact bytes;
-decimal lengths/counters have no leading zeros. A migration digest is SHA-256 of
-the concatenation of F for: literal `migration-catalog-v1`, ASCII version, ID,
-ASCII SQL count, each SQL's exact UTF-8 bytes, ASCII expected-object count, and each
-sorted object's type/name/table-name/null-marker/optional SQL UTF-8 bytes. A null
-SQL marker is ASCII `0` with no following SQL field; present SQL uses `1` followed
-by its F(SQL). This preserves null versus empty, statement boundaries, order and
-content. The complete manifest is immutable through completion; callers supply
-owned values, not raw-backed strings or borrowed mutable transport data.
+decimal lengths/counters have no leading zeros (`0` represents zero). All lengths,
+counts and framing-size arithmetic are checked before allocation/hashing; overflow
+or an invalid value is an invalid manifest, not a truncated/wrapped frame. In this
+pseudoformula `||` means byte concatenation, U means exact valid UTF-8 bytes and
+A means canonical ASCII decimal:
+
+```text
+Object(type, name, tbl_name, null) =
+    F(U(type)) || F(U(name)) || F(U(tbl_name)) || F("0")
+Object(type, name, tbl_name, sql) =
+    F(U(type)) || F(U(name)) || F(U(tbl_name)) || F("1") || F(U(sql))
+Payload = F("migration-catalog-v1") || F(A(version)) || F(U(id))
+       || F(A(sql_count)) || concatenation(F(U(sql_i)), in execution order)
+       || F(A(object_count)) || concatenation(Object(object_j), in sorted order)
+Digest = SHA256(Payload)
+```
+
+Each type/name/table-name/null marker is F-framed. NULL SQL has no following SQL
+field; present empty SQL has F("1") followed by F(empty), so it differs from NULL.
+Every hashed/projected text field must be valid Unicode with an exact strict UTF-8
+round trip, with no embedded NUL. Reject unpaired UTF-16 surrogates or invalid,
+overlong or replacement-decoded stored UTF-8; never hash repaired text. Actual
+SQLite text can be inspected alongside its `CAST(... AS BLOB)` bytes and typeof
+through existing SELECT, so loss in Qt decoding cannot masquerade as identity.
+Auxiliary validation columns count against the same result budgets. Compare the
+actual raw bytes with the strict encoding rather than accepting a lossy QString.
+The complete manifest remains owned/immutable through completion; callers supply
+no raw-backed strings or borrowed mutable transport data.
 
 The expected schema projection is the sorted sequence of
 `(type,name,tbl_name,sql)` from `main.sqlite_schema`, including reserved catalog
 objects and SQLite-generated index rows, excluding no unexpected application
 object. Root-page numbers are excluded. Object fields and SQL are compared
-exactly, with null preserved. Revision 1 defines one expected projection per
+exactly, with null preserved. Sort both actual observations and expected objects
+by unsigned UTF-8 byte-lexicographic tuples `(type,name,tbl_name,null-marker,sql)`:
+compare the first differing field, put a proper byte prefix before the longer
+field, use ASCII `0` for NULL and `1` for present SQL, and omit the SQL field only
+for NULL. No locale, case folding, QString UTF-16 ordering or implicit SQL
+collation chooses the order. Duplicate expected object tuples are invalid.
+Revision 1 defines one expected projection per
 version; semantic equivalence is not inferred, and no SQL normalization or repair
 is attempted. SQLite itself normalizes some stored CREATE text and changes it
 after ALTER; expected observations therefore require real selected-driver fixtures,
@@ -147,8 +213,8 @@ failure, not permission to create replacement state.
 Use fixed internal SELECT diagnostics through the existing active session:
 
 ```sql
-SELECT * FROM pragma_integrity_check LIMIT 2
-SELECT * FROM pragma_foreign_key_check LIMIT 1
+SELECT * FROM pragma_integrity_check() LIMIT 2
+SELECT * FROM pragma_foreign_key_check() LIMIT 1
 ```
 
 Integrity succeeds only for exactly one row/one column containing TEXT `ok` and
@@ -164,6 +230,10 @@ write sqlite_schema or obtain a native handle. The TVF argument `1` must not be
 used to mean an error-count limit: it can select a table named `1`. The fixed
 queries above have no arguments or caller-provided identifier. They inspect main
 under the existing no-ATTACH contract.
+The empty parentheses are mandatory: bare `FROM pragma_integrity_check` can read
+an ordinary shadow table with that name and return a fabricated `ok`. Function
+call syntax must reject such a shadow as not a function; it must not fall back to
+an ordinary-table query. Include this negative check in the diagnostic probe.
 
 Run complete integrity/schema/history validation before changes and again for
 the final target before commit; validate each intermediate schema projection
@@ -247,9 +317,9 @@ DDL/names and derive literal canonical-byte/digest vectors with a separate oracl
 | MC01 | Strictly empty store; migration 1 creates `sample(id INTEGER PRIMARY KEY, amount INTEGER)` and inserts `(1,10)`; migration 2 adds `(2,20)`. One commit yields exact history 1/2 and sum 30, including bootstrap; no observer sees intermediate history |
 | MC02 | Supported version-1 fixture has literal row `(1,10)` and its reviewed catalog/schema. Advancing applies only version 2; row 1 remains 10, sum 30, exactly two history rows. Reinspection/current advance does not execute either migration again |
 | MC03 | Inspect supported version 1 against target 2: reports update needed, no readiness/DDL/history/data change. Inspect current 2 validates actual identity/schema/integrity before reporting ready |
-| MC04 | No catalog plus unrelated `sentinel(7,70)`, header-only/history-only partial bootstrap or wrong store identity: refuse without creating/repairing catalog or changing sentinel |
+| MC04 | No catalog plus unrelated `sentinel(7,70)`, header-only/history-only/empty-history partial bootstrap or wrong store identity: refuse without creating/repairing catalog or changing sentinel |
 | MC05 | Valid catalog format with newer head 3 against target 2, or explicitly unsupported old head: refuse without dropping row/history/schema or rewriting version |
-| MC06 | Duplicate/gapped/out-of-order manifest versions or duplicate IDs, invalid checksum framing inputs and manifest bounds: reject before SQL and completion execution; exact configured bounds accepted |
+| MC06 | Empty manifest, duplicate/gapped/out-of-order versions, invalid starting-version list/IDs, invalid UTF-8 or length overflow and manifest bounds: reject before SQL and completion execution; exact configured bounds accepted |
 | MC07 | Matching highest version but altered earlier SQL digest/ID, missing version 1, duplicate/mistyped history or missing/extra schema object: refuse; catalog head alone cannot pass |
 | MC08 | Valid identity/history/schema but `CHECK(n>=0)` fixture contains literal `n=-1` inserted with checks disabled by fixture setup. Real integrity returns non-ok; runner refuses without repairing the row |
 | MC09 | Structurally valid parent/child fixture contains child `(1,404)` with no parent, inserted with foreign keys off only in fixture setup. Integrity can return ok, FK check returns a violation; runner must refuse and preserve the row |
@@ -259,7 +329,7 @@ DDL/names and derive literal canonical-byte/digest vectors with a separate oracl
 | MC13 | Lose acknowledgment after physical final COMMIT: observer sees complete target sum30/history1/2, result remains unknown/fail-closed, queued old/new work is not executed, no readiness or retry |
 | MC14 | First migration SQL failure triggers rollback whose acknowledgment is lost: uncertainty overrides SQL error, no known-rollback claim; queued work fails in order and connection/admission close |
 | MC15 | Cross a cumulative statement/result/byte limit after prior DDL; rollback removes all new DDL/catalog changes. Exact-boundary run succeeds with framework diagnostic/catalog overhead included |
-| MC16 | Fixed diagnostic TVF unavailable, malformed result, observer/catalog row limit exceeded or unparseable database: fail inspection without a clean/readiness assertion; green environment probe failure is not feature red |
+| MC16 | Fixed diagnostic TVF unavailable, ordinary shadow table named `pragma_integrity_check` containing `ok` or empty `pragma_foreign_key_check` shadow, malformed result, observer/catalog row limit exceeded or unparseable database: fail inspection without a clean/readiness assertion; green environment probe failure is not feature red |
 
 Physical process kill, disk/power loss, backup/restore, installation updates,
 code/schema rollback and actual supported release-platform verification require

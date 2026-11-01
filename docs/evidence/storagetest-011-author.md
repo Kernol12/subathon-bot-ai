@@ -27,8 +27,9 @@ The contract proposes these bounded internal decisions for separate review:
 - A trusted compiled manifest supplies consecutive immutable migrations, explicitly
   supported starting versions and exact expected schema projections. A logical
   singleton identity/format header and append-only version/ID/SHA-256 history are
-  checked in full, not inferred from a maximum version. Root must fix physical
-  metadata DDL/names before minimal interface/test authoring.
+  checked in full, not inferred from a maximum version. The integrator then fixed
+  exact `main.subathon_catalog` / `main.subathon_migration_history` DDL in the
+  documentation revision below, before minimal interface/test authoring.
 - Content digests use specified length-prefixed UTF-8 framing, including exact SQL
   and expected schema projection; migration SQL has no unhashed bindings. Existing
   Qt Core SHA-256 suffices. Literal independent byte/digest vectors remain a test
@@ -105,9 +106,54 @@ No native suite, Qt probe, migration behavior, feature red, live provider or rel
 platform run is claimed in this authoring phase.
 
 Different-agent review of the actual contract comes first. Only after approval
-may root expand ownership to minimal versioned interfaces/stubs/tests and fixed
-metadata DDL. Those actual tests need independent review, successful compilation,
+may root expand ownership to minimal versioned interfaces/stubs/tests using the
+fixed metadata DDL. Those actual tests need independent review, successful compilation,
 green diagnostic environment verification and intended missing-behavior red before
 STORAGE-011 production implementation. Application schemas, retained versions,
 receipts, contributions, plans, application bundles, backup/update/restore/recovery
 and all seven integrations/three rate providers remain full release scope.
+
+## Integrator-owned physical format clarification
+
+After initial contract `6a92fce`, root fixed exactly two metadata CREATE statements:
+`subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL,
+store_identity TEXT NOT NULL)` and
+`subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL
+UNIQUE, content_sha256 BLOB NOT NULL)`. The contract now includes their exact full
+SQL and main-schema reservation. This simple DDL needs no new SQLite feature and
+fits the existing single-statement writer interface. No physical schema file was
+created. Actual stored types/ranges/cardinality remain explicit runner validation;
+affinity and the minimal constraints are not claimed as proof of valid metadata.
+
+An independent disposable Python SQLite 3.54.0 probe (exit 0) created these exact
+tables and observed their SQL unchanged in sqlite_schema, plus the expected
+`sqlite_autoindex_subathon_migration_history_1` UNIQUE index row with NULL SQL.
+It also stored an extra header with textual format/BLOB identity and negative
+history version/one-byte digest, confirming why explicit validation is required.
+This was a technical fixture probe, not selected-Qt acceptance. Selected Qt/SQLite
+fixture verification must still precede literal test freeze, including generated
+index identity; no host-probe result is transferred to CI/platform support.
+
+Digest framing is now an explicit pseudoformula: all object fields/NULL marker
+are F-framed, absent SQL is omitted, present empty SQL remains distinct. Checked
+length/counter arithmetic and deterministic unsigned UTF-8 byte tuple sorting
+apply equally to state comparison and digest input. Reserved-table and external
+side-effect restrictions are stated as trusted audited-manifest preconditions,
+with no adversarial SQL-sandbox claim. Existing writer/API/tests remain unchanged.
+
+The reviewer requested additional precise validity rules: N >= 1; unique ordered
+starting versions within 0..N including 0/N; no adoption of header/empty-history
+state as fresh; printable nonempty ASCII IDs; and strict round-trip UTF-8 for all
+hashed/projected text, rejecting lossy QString conversion. The revised contract
+states these explicitly, including raw BLOB comparison for stored SQLite text.
+Generated catalog reads/writes qualify main to prevent TEMP-name redirection.
+
+The reviewer also found that a bare TVF name could resolve to an ordinary shadow
+table containing fake `ok`. A separate independent disposable SQLite 3.54.0 probe
+confirmed bare-name fake success and explicit `pragma_integrity_check()` refusal
+as not a function after creating that shadow. Both zero-argument function calls
+returned the expected clean results without the shadow. Fixed contract queries
+now require parentheses, retain LIMIT 2/1, and add shadow/unavailable negative
+checks to MC16 and the later green selected-Qt probe. Root separately confirmed
+this in actual host Qt probes; this author still claims only the Python technical
+probe, not selected-Qt/CI acceptance or new feature red.
