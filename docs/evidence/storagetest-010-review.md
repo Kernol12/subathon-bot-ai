@@ -161,3 +161,67 @@ discussion and normal merge gates. No production work/session implementation,
 domain schema, real repository durability, recovery, live provider or release
 platform capability is approved. Deterministic lost-ack tests do not prove disk or
 power-loss behavior; all downstream test-first and full-release gates remain.
+
+## Final integration and observed-red review
+
+The same independent reviewer approved completion candidate
+`cc48c639982c5fe8ac5ec1abd4a3d73462b6f4ae` on 2026-11-01. The reviewer normally
+merged the coordinator branch, preserving approval commit `96c1481`; its tree
+matched the candidate before this appendix. The tests, header, fault seam, stub,
+contract, CMake files, presets and workflow are byte-identical to approved
+`d09d330`. All 391 task identities/dependencies remain unchanged, and only the
+STORAGETEST-010 task's data changed. STORAGE-010 remains planned.
+
+The [recorded red output](storagetest-010-red-ctest.txt), blob
+`24d3fbb7ca96accf83f50880c6e2cd8f56d620bd`, records the coordinator's actual
+`ctest --preset sqlite-work-debug -L sqlite-work` at `75c07fc`, after integration
+of independent approval and successful build. All 24 distinct registered cases
+failed on explicit missing-feature value 1 from the unchanged work admission,
+fault-installation or cleanup stub. Each logged process has successful
+`initTestCase`/`cleanupTestCase`, one assertion failure, zero skips and no setup,
+dependency, missing-executable, crash or timeout failure. Actual CTest exit 8 is
+retained; no failure inversion or assertion weakening is used.
+
+An independent parser checked these counts/categories and the recorded revision
+and exit. This establishes intended missing-boundary red, not successful execution
+of the transaction/fault scenarios behind the stub. The red run was not repeated.
+Prior independent successful compilation, exact registration and old acceptance
+remain applicable because their executable artifacts are unchanged.
+
+Final metadata inspected:
+
+| Artifact | Git blob |
+| --- | --- |
+| Baseline handoff | `9125f9aa0180f1b42751dbea5177ae190a0996f8` |
+| Coordinator checkpoint | `aae27e1453fd78819745327d90263d93a80abf5a` |
+| CI assessment | `56c4684573ee36444e588179ced5fde3ed817ec2` |
+| Task state | `561fc679456b8ab95e7bb21c9ec82942c41cb48f` |
+| Acceptance map | `24325d1b5c463e30bf924218b3b38e4d02788b3e` |
+
+State/map/architecture/test-strategy/handoff material truthfully mark completion
+of the reviewed, observed-red baseline. New product acceptance is `observed_red`,
+not passed; release-platform verification remains `not_run`. The checkpoint keeps
+final publication/merge gates open and requires the future implementer and a
+different code reviewer to preserve the baseline and enable automatic work
+acceptance. No implementation or release claim is introduced.
+
+Independent `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check`, `git diff --check`, exact-artifact
+comparison and the task/dependency comparison passed for the final candidate.
+No native rebuild or new red execution was necessary after metadata-only changes.
+
+The reviewer independently fetched actual
+[Ubuntu run 41299021575](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41299021575)
+metadata/logs: head is exactly `d09d330`, conclusion success, Qt/ICU archive hashes
+OK, GNU 13.3.0, probe 1/1 and old writer 25/25 passed, complete 25-case old and
+24-case new discovery logged, with new work bodies explicitly not run. The final
+CI assessment correctly attributes those logs to `d09d330`. A separate live PR
+query observed PR 29 OPEN/DRAFT/CLEAN at `cc48c63`, all 11 checks SUCCESS and no
+GitHub reviews. Neither observation supplies checks for a later integrated head.
+
+**Final verdict: approved for STORAGETEST-010 baseline completion at `cc48c63`.**
+No blocking finding or user decision remains. Publish this final review, obtain
+successful checks for the exact final PR head, inspect unresolved discussions and
+current rules, and complete the normal merge checklist. STORAGE-010 implementation,
+code review, unchanged real passing acceptance and automatic execution remain
+separate required gates.
