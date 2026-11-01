@@ -58,10 +58,11 @@ ordinary automatic acceptance CI and final latest-head PR/rules gates.
   regression/red, integrated9d96363; author evidence22edea4. Original22+new3
   writercases/full28 pass author/root/reviewer. Author clean/complete.
 - `/root/storage_code_reviewer` has completed read-only requirement preparation;
-  actual candidate850eef4 was reviewed in isolated
+  initial candidate850eef4 and corrected9d96363 were reviewed in isolated
   `local-evidence/worktrees/storage001-review`, branch `task/STORAGE-001-code-review`.
-  Reviewer independently ran fullpreset25pass; source/configapprovedd6f9c49,
-  integrated422acfd. Final completionmetadata/actualCI reviewapprovedfe07db0.
+  Reviewer independently ran fullpreset28pass on correctedsource829. Fresh
+  codeapprovalc029a53 and final correctedintegrationd3f36e2 supersede only the
+  oldownershipconclusion; historicald6/fe07 and962finding remain in evidence.
 - Earlier author/reviewer/Qt investigator completed. All existing support worktrees, valid review commits and the local-only checkpoint
   branch are preserved. A corrected exit-code-aware audit found36existing worktrees
   clean and16historical `/tmp/subathon-*` paths absent; their branches/review commits
@@ -70,7 +71,7 @@ ordinary automatic acceptance CI and final latest-head PR/rules gates.
   claimed inspected/clean. Those completed tasks are not restarted. No old agent
   is assumed running; only new task authors write.
 - Root owns shared CMake/presets/workflow/labels/state/HTML/map/checkpoint/PR changes.
-  Root is promoting existing pinnedQt workflow to ordinary actual acceptance while
+  Root promoted existing pinnedQt workflow to ordinary actual acceptance while
   preserving stable `sqlite-writer-build` check name; no failure inversion/skip.
 
 The writer remains on the authoritative Qt command/state thread, with separate
@@ -115,8 +116,9 @@ Historical22-only CI and sourcea8defect evidence remain; they do not prove newso
 [Implementation handoff](storage-001-handoff.md), [review](storage-001-code-review.md),
 [CI](storage-001-ci.md) and [ownership author/red](storage-001-ownership-tests.md).
 
-Next: final corrected completionmetadata/actualCI-evidence review, publish exact
-approval, then require all latest PR25 checks/discussions/currentnormalrules before
+Final corrected completionmetadata/actualCI-evidence reviewapprovedd3f36e2.
+Publish that exact approval, then require all latest PR25 checks/discussions/
+currentnormalrules before
 ready/merge. After merging refreshmain and start next dependency-ready task.
 No owner decision is needed. Do not repeat completed setup/baseline or weaken any
 reviewed assertion. App schema/application/recovery/backup/provider/platform gates
