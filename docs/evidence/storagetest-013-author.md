@@ -261,3 +261,40 @@ build/link0warnings/exact118/22+green3/stable96 are root evidence, not an author
 runtime claim. Corrected source syntax/format/diff checks and exact revised blob
 are recorded with the actual focused commit; root rebuild/different actual
 artifact re-review and selected official new-green proof remain gates.
+
+## Isolated actual retained-target failure mapping oracles
+
+Different full review identified that malformed receipt fields and ordinary selected
+limits did not exercise RetentionFailure-to-port mapping or value_bytes forwarding
+into retained-target resolution. Root authorized two focused additions inside the
+existing selectedMalformedDataAndTargetsRequireKnownRollback slot. Original test
+hasha68, preserved SR01/SR10 correction4ba4719760148737a070b9d325e1044a8e5fb3b3 and
+all existing cases/assertions/22 names remain intact.
+
+Each new variant has its own fresh database, installed solely from independent
+literal manifests through the existing runner, with exactly one short valid
+configuration/context pair and one independently seeded original/attempt. Every
+receipt value is at most3 bytes, with short reference fields; there is no earlier
+bad receipt/history/allocator or field-length error to mask target lookup. The
+only differing cause is configuration document TEXT 'bad' (length3, wrong stored
+type) or a valid BLOB01020304 (length4) under value_bytes3. Independent SQL first
+asserts that actual stored type/length. The existing context has a valid known
+link to that exact target, so references genuinely resolve.
+
+The corresponding find must map to invalid_stored_data or result_limit, with an
+inside-catch independent BEGIN IMMEDIATE/ROLLBACK proving synchronous cleanup
+while its port transaction wrapper is still alive. Outside run, require the exact
+port category, rolled_back/work_exception, no returned ReceiptRecord/work value
+and unchanged raw snapshot. If the adapter silently uses retention's larger default
+limit, the four-byte target incorrectly succeeds and this oracle fails. No new
+API, production implementation or JSON/green helper is introduced.
+
+Only the owned feature source/note changed. No new feature body or early red ran.
+clang-format, Qt6 MOC and syntax-only C++20 checks plus git diff --check are run
+for the corrected actual artifact; root still owns actual CMake rebuilding and
+different full re-review/official green proof before the first feature run.
+
+Current revised feature source blob:
+`eea4bf721ec03e8687583a2fb341a4d24cfbe92c`. Exact Qt6 MOC/syntax checking passed
+with zero warnings; project391/render/diff checks passed. No feature runtime claim
+or approval follows from those checks.

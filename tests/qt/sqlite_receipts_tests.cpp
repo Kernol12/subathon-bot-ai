@@ -1208,6 +1208,79 @@ class SqliteReceiptTests final : public QObject {
         auto limited = read(writer, healthy.identity, record, {4096, 3, 1024});
         KNOWN(limited, SqliteReceiptStorageReason::result_limit, WorkError::work_exception);
         QVERIFY(!record);
+
+        // Isolate retention-failure mapping from the unrelated corrupt receipts
+        // above. Every receipt value fits 3 bytes; only its actual target differs.
+        for (const bool malformed_target : {true, false}) {
+            const auto target_path = directory_->filePath(malformed_target ? "target-text.sqlite"
+                                                                           : "target-limit.sqlite");
+            SqliteWriter target_writer;
+            QCOMPARE(target_writer.open(target_path), StorageError::none);
+            MigrationRequest request;
+            request.mode = MigrationMode::advance;
+            request.manifest = literals();
+            bool migrated = false;
+            MigrationResult migration;
+            const auto admission = SqliteMigrationRunner::enqueue(target_writer, std::move(request),
+                                                                  [&](MigrationResult result) {
+                                                                      migration = std::move(result);
+                                                                      migrated = true;
+                                                                  });
+            QCOMPARE(admission.error, StorageError::none);
+            QVERIFY(QTest::qWaitFor([&] { return migrated; }, 5000));
+            QCOMPARE(migration.reason, MigrationReason::none);
+            QCOMPARE(migration.work.transaction, TransactionOutcome::committed);
+
+            Fixture target_fixture(target_path);
+            QVERIFY(target_fixture.open());
+            QVERIFY(target_fixture.exec("INSERT INTO main.subathon_retained_configurations "
+                                        "VALUES (X'63666731',X'01020304')"));
+            QVERIFY(target_fixture.exec("INSERT INTO main.subathon_retained_contexts "
+                                        "VALUES (X'63747831',X'74',X'63666731')"));
+            if (malformed_target) {
+                QVERIFY(target_fixture.exec("PRAGMA ignore_check_constraints=ON"));
+                QVERIFY(target_fixture.exec("UPDATE main.subathon_retained_configurations "
+                                            "SET document='bad'"));
+            }
+            QCOMPARE(target_fixture.rows("SELECT typeof(document),length(document) FROM "
+                                         "main.subathon_retained_configurations"),
+                     SqlRows({{malformed_target ? "text" : "blob", malformed_target ? 3 : 4}}));
+            auto small = input("tgt");
+            small.identity = {{"p", "a"}, "n", "tgt"};
+            small.facts = {"evt",
+                           0,
+                           0,
+                           std::string(),
+                           {},
+                           ReceiptMoney{"1.0", "EUR"},
+                           ReceiptLinkReference{"p", "id"},
+                           ReceiptLinkReference{"a", "id"}};
+            small.arrival = {0, "c", "cfg1", "ctx1"};
+            QVERIFY(target_fixture.seed(QByteArray::fromHex("0000000000000001"), small));
+            const auto target_before = target_fixture.snapshot();
+            const auto expected_reason = malformed_target
+                                             ? SqliteReceiptStorageReason::invalid_stored_data
+                                             : SqliteReceiptStorageReason::result_limit;
+            bool target_caught = false;
+            std::optional<ReceiptRecord> target_record;
+            auto failure = run(target_writer, [&](auto work) -> QVariant {
+                SqliteReceiptRepository repository(work, {4096, 3, 1024});
+                auto tx = repository.begin();
+                try {
+                    target_record = tx->find(small.identity);
+                } catch (const SqliteReceiptStorageFailure &e) {
+                    require(e.reason() == expected_reason, "retained target mapping category");
+                    require(target_fixture.released(), "target rollback before port error");
+                    target_caught = true;
+                    throw;
+                }
+                return 1;
+            });
+            QVERIFY2(target_caught, qPrintable(failure.problem()));
+            KNOWN(failure, expected_reason, WorkError::work_exception);
+            QVERIFY(!target_record);
+            QCOMPARE(target_fixture.snapshot(), target_before);
+        }
     }
 
     void allocatorAndAttemptHistoryCorruptionIsRefused() {
