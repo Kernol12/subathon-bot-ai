@@ -145,3 +145,71 @@ latest-head CI/discussions/rules/normal merge gates satisfied. Application bundl
 downstream contribution/plan codecs and rates, evaluator/provider meaning,
 backup/update/recovery, OOM/disk/power-loss, live/platform/UI/renderer/packaging
 gates remain separate. No live data, credentials or external operation was used.
+
+## Final completion metadata and actual CI attribution review
+
+Verdict: **approved actual bounded-component completion metadata**, no unresolved
+finding. Reviewed root e5128ad8df9e9bf616a2beddae93fcedc5226266 and concrete
+metadata corrections ab197291be9fe12f42ad4b92120a374d5c962e8c in the assigned
+review worktree. Only this appendix was authored by the reviewer. No native,
+receipt, setup or historical-red body was rerun for metadata; no future-head CI,
+merge or broader product capability is approved here.
+
+Compared all14 source/API/test/green/vector/contract/configuration/old-production
+blobs across actual approval84e2045, executed source-CI head
+af6540171a09ccc7d6fe68abd6a218794a2687de and final metadata. Every hash above
+remains identical: sourceaf095d97c255182c79d00a4b574e124f75734aad,
+APIb43/testdab/green818/JSONa79/logicale1/physical2ef and promotiona52/612/559/fa26.
+The integrated39e3177 review is byte-identical to actual84e2045 and is an ancestor
+of the CI head. Writer023/migration4ee/retentionc96 and original baseline review/
+raw-red files remain unchanged. Fresh `gh pr view 35 --json
+state,mergedAt,mergeCommit,headRefOid,url` confirms actual prerequisite merge
+a97e048 at18:16:21Z/final8a66a3a; git ancestry proves that merge precedes separate
+claim4d10d61 and source authoring. The completed stub red is preserved, not rerun
+or converted into implementation evidence.
+
+Read the complete cached metadata/executed log for
+[automatic run41337727868](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41337727868)
+and independently fetched `gh run view 41337727868 --json
+databaseId,headSha,status,conclusion,event,url` plus exactaf65401 check-runs.
+Actual event pull_request, completed SUCCESS; all11 checks at that exact source
+head are completed/success. Observed both Qt/ICU hashes OK, GNU13.3, new source
+compiled at12/56, Qt6.12.0/SQLite3.53.4, old25/work24/migration24/retention16
+passing, and three diagnostic summaries9/5/5 passes including init/cleanup with
+zero failed/skipped. Complete22 compiled registration matches. Parsed all22 exact
+frozen receipt names in the successful **unconditional** acceptance step:22/22
+PASS in0.61s. The frozen workflow has no former manual receipt input/condition.
+This is actual implementation execution, beyond earlier fixture/API CI. Its job
+completion18:40:10Z precedes the recorded component completion metadata. Host
+GNU16.2.1/SQLite3.54 evidence and local22/full118 results stay separately attributed;
+CI's executed lanes are not mislabeled a full118 CTest run.
+
+Read state, DB-01 map, architecture, strategy, brief, CI, handoff and checkpoint.
+All391 task IDs/dependencies are unchanged; only STORAGE-013 task data changed
+since approval84. It is done as this bounded implementation component, with actual
+acceptance/regression/code_review/github_ci passed. The initial required-key
+validation issue was corrected to acceptance/regression metadata using already
+observed results; no checker/test/source was weakened. Broad platform/domain/
+bundle/recovery/provider verification remains not_run, DB-01 stays partial and
+STORAGETEST-014 stays planned until real integration. Classification stays in
+ReceiptIntake; domainReceiptId1..MAX, purecodec0..MAX and downstream actual numeric/
+rate requirements remain. No full server/application, provider/platform/live,
+recovery, browser, OOM or power-loss proof is claimed.
+
+Actual ab197291 corrections resolve the review's metadata findings: DB-01 marks
+its old stub/no-pass sentence as historical baseline evidence; strategy identifies
+the preserved historical red command and current unconditional CI; checkpoint
+names committed completion metadata and active final review/latest checks pending;
+the inaccurate nonessential source line count is removed. These actual edits
+were inspected before approval and change no reviewed behavior/configuration.
+
+Independent inline Python hash/ancestry/state/map and full CI-log parsing passed;
+the initial log-parser tab-column assumption was corrected against the actual
+capture without changing artifacts. `python3 tools/check_project.py` passes391
+tasks/122 decisions; `python3 tools/progress.py render --check` and
+`git diff --check` pass. Root's tooling19/DOM simulation/format/actionlint reports
+remain attributed to root; no actual browser validation was performed here.
+Fresh latest-head CI, ready PR36, resolved discussions, current rules/required
+approvals, normal exact-head merge and refreshed main remain root publication
+gates before any dependent claim. Historicalaf65401 success is not transferred
+to this metadata/review commit or a future head.
