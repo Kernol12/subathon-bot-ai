@@ -1,0 +1,303 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-contribution-debug
+      Start 120: sqlite-contribution.codecsPreserveZeroAndFullUnsignedRange
+ 1/24 Test #120: sqlite-contribution.codecsPreserveZeroAndFullUnsignedRange ..................***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::codecsPreserveZeroAndFullUnsignedRange() SQLite contributions are intentionally unimplemented; review tests first
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(690)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 121: sqlite-contribution.codecRejectsMalformedValues
+ 2/24 Test #121: sqlite-contribution.codecRejectsMalformedValues .............................***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::codecRejectsMalformedValues() SQLite contributions are intentionally unimplemented; review tests first
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(701)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 122: sqlite-contribution.manifestPreservesReceiptPrefixAndMatchesLiteralStep
+ 3/24 Test #122: sqlite-contribution.manifestPreservesReceiptPrefixAndMatchesLiteralStep .....***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::manifestPreservesReceiptPrefixAndMatchesLiteralStep() SQLite contributions are intentionally unimplemented; review tests first
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(725)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 123: sqlite-contribution.supportConfirmationAndDuplicatePreserveOriginals
+ 4/24 Test #123: sqlite-contribution.supportConfirmationAndDuplicatePreserveOriginals ........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::supportConfirmationAndDuplicatePreserveOriginals() '!(a).stub && !(a).invalid && !(a).storage && (a).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(747)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 9ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 124: sqlite-contribution.pendingConfirmationLinksToNewZeroContribution
+ 5/24 Test #124: sqlite-contribution.pendingConfirmationLinksToNewZeroContribution ...........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::pendingConfirmationLinksToNewZeroContribution() '!(pending).stub && !(pending).invalid && !(pending).storage && (pending).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(828)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 125: sqlite-contribution.verifiedIdentityAndOpaqueProofBytesRemainExact
+ 6/24 Test #125: sqlite-contribution.verifiedIdentityAndOpaqueProofBytesRemainExact ..........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::verifiedIdentityAndOpaqueProofBytesRemainExact() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(904)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 126: sqlite-contribution.independentStateAndCapturedConditionsRoundTrip
+ 7/24 Test #126: sqlite-contribution.independentStateAndCapturedConditionsRoundTrip ..........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::independentStateAndCapturedConditionsRoundTrip() '!(a).stub && !(a).invalid && !(a).storage && (a).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(960)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 9ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 127: sqlite-contribution.committedReceiptProjectionAndTargetsAreRequired
+ 8/24 Test #127: sqlite-contribution.committedReceiptProjectionAndTargetsAreRequired .........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::committedReceiptProjectionAndTargetsAreRequired() 'caught' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1118)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 128: sqlite-contribution.allocatorCrossesSignedBoundaryAndExhausts
+ 9/24 Test #128: sqlite-contribution.allocatorCrossesSignedBoundaryAndExhausts ...............***Failed    0.02 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::allocatorCrossesSignedBoundaryAndExhausts() '!(a).stub && !(a).invalid && !(a).storage && (a).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1254)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 129: sqlite-contribution.observationAssociationsRejectRetargetAndMissingRows
+10/24 Test #129: sqlite-contribution.observationAssociationsRejectRetargetAndMissingRows .....***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::observationAssociationsRejectRetargetAndMissingRows() '!(a).stub && !(a).invalid && !(a).storage && (a).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1292)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 9ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 130: sqlite-contribution.primitiveUniquenessAndAmbiguityAreExplicit
+11/24 Test #130: sqlite-contribution.primitiveUniquenessAndAmbiguityAreExplicit ..............***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::primitiveUniquenessAndAmbiguityAreExplicit() 'staged' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1419)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 131: sqlite-contribution.createAppendLinkAndUpdateFailuresRollBackAtomically
+12/24 Test #131: sqlite-contribution.createAppendLinkAndUpdateFailuresRollBackAtomically .....***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::createAppendLinkAndUpdateFailuresRollBackAtomically() 'stages[0]' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1478)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 132: sqlite-contribution.adoptedSessionCommitsEarlierWorkBeforeObserveReturns
+13/24 Test #132: sqlite-contribution.adoptedSessionCommitsEarlierWorkBeforeObserveReturns ....***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::adoptedSessionCommitsEarlierWorkBeforeObserveReturns() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1564)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 9ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 133: sqlite-contribution.ownNewAnchorReadsAndIncompleteCommitAreHonest
+14/24 Test #133: sqlite-contribution.ownNewAnchorReadsAndIncompleteCommitAreHonest ...........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::ownNewAnchorReadsAndIncompleteCommitAreHonest() '!(complete).stub && !(complete).invalid && !(complete).storage && (complete).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1592)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 134: sqlite-contribution.inputPreflightPriorityAndExactOptions
+15/24 Test #134: sqlite-contribution.inputPreflightPriorityAndExactOptions ...................***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::inputPreflightPriorityAndExactOptions() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1839)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 135: sqlite-contribution.byteBoundsAndSelectedTargetLimitsAreExact
+16/24 Test #135: sqlite-contribution.byteBoundsAndSelectedTargetLimitsAreExact ...............***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::byteBoundsAndSelectedTargetLimitsAreExact() '!(exact).stub && !(exact).invalid && !(exact).storage && (exact).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1894)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 136: sqlite-contribution.unresolvedCollectionLimitNeverTruncatesOrLimitsWrites
+17/24 Test #136: sqlite-contribution.unresolvedCollectionLimitNeverTruncatesOrLimitsWrites ...***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::unresolvedCollectionLimitNeverTruncatesOrLimitsWrites() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(1993)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 9ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 137: sqlite-contribution.selectedMalformedRowsAndGroupsRequireRollback
+18/24 Test #137: sqlite-contribution.selectedMalformedRowsAndGroupsRequireRollback ...........***Failed    0.03 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::selectedMalformedRowsAndGroupsRequireRollback() 'caught' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(2139)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 22ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 138: sqlite-contribution.allocatorTypeAndOptionalZeroCannotBeConflated
+19/24 Test #138: sqlite-contribution.allocatorTypeAndOptionalZeroCannotBeConflated ...........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::allocatorTypeAndOptionalZeroCannotBeConflated() '!(r).stub' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(2169)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 139: sqlite-contribution.cumulativeResultBudgetRollsBackProvedWrites
+20/24 Test #139: sqlite-contribution.cumulativeResultBudgetRollsBackProvedWrites .............***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::cumulativeResultBudgetRollsBackProvedWrites() 'created && appended && first_returned && second_attempted && caught' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(2260)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 140: sqlite-contribution.localSecondBeginAndBusyPreserveTransactionTruth
+21/24 Test #140: sqlite-contribution.localSecondBeginAndBusyPreserveTransactionTruth .........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::localSecondBeginAndBusyPreserveTransactionTruth() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(2284)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 141: sqlite-contribution.foreignStaleTerminalAndOwnedResultsRemainSafe
+22/24 Test #141: sqlite-contribution.foreignStaleTerminalAndOwnedResultsRemainSafe ...........***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::foreignStaleTerminalAndOwnedResultsRemainSafe() '!(foreign).stub && !(foreign).invalid && !(foreign).storage && (foreign).unexpected.isEmpty()' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(2364)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 9ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 142: sqlite-contribution.lostCommitAckReportsUnknownWithPhysicalContribution
+23/24 Test #142: sqlite-contribution.lostCommitAckReportsUnknownWithPhysicalContribution .....***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::lostCommitAckReportsUnknownWithPhysicalContribution() '!r.stub' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(2487)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 8ms
+********* Finished testing of SqliteContributionTests *********
+
+      Start 143: sqlite-contribution.lostCleanupAckOutranksLocalFailure
+24/24 Test #143: sqlite-contribution.lostCleanupAckOutranksLocalFailure ......................***Failed    0.01 sec
+********* Start testing of SqliteContributionTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteContributionTests::initTestCase()
+FAIL!  : SqliteContributionTests::lostCleanupAckOutranksLocalFailure() 'created && appended' returned FALSE. (SqliteContributionsNotImplemented: explicit missing contribution behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_contributions_tests.cpp(2554)]
+PASS   : SqliteContributionTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteContributionTests *********
+
+
+0% tests passed, 24 tests failed out of 24
+
+Label Time Summary:
+acceptance             =   0.32 sec*proc (24 tests)
+draft                  =   0.32 sec*proc (24 tests)
+qt                     =   0.32 sec*proc (24 tests)
+server                 =   0.32 sec*proc (24 tests)
+sqlite-contribution    =   0.32 sec*proc (24 tests)
+
+Total Test time (real) =   0.33 sec
+
+The following tests FAILED:
+	120 - sqlite-contribution.codecsPreserveZeroAndFullUnsignedRange (Failed) acceptance draft qt server sqlite-contribution
+	121 - sqlite-contribution.codecRejectsMalformedValues (Failed) acceptance draft qt server sqlite-contribution
+	122 - sqlite-contribution.manifestPreservesReceiptPrefixAndMatchesLiteralStep (Failed) acceptance draft qt server sqlite-contribution
+	123 - sqlite-contribution.supportConfirmationAndDuplicatePreserveOriginals (Failed) acceptance draft qt server sqlite-contribution
+	124 - sqlite-contribution.pendingConfirmationLinksToNewZeroContribution (Failed) acceptance draft qt server sqlite-contribution
+	125 - sqlite-contribution.verifiedIdentityAndOpaqueProofBytesRemainExact (Failed) acceptance draft qt server sqlite-contribution
+	126 - sqlite-contribution.independentStateAndCapturedConditionsRoundTrip (Failed) acceptance draft qt server sqlite-contribution
+	127 - sqlite-contribution.committedReceiptProjectionAndTargetsAreRequired (Failed) acceptance draft qt server sqlite-contribution
+	128 - sqlite-contribution.allocatorCrossesSignedBoundaryAndExhausts (Failed) acceptance draft qt server sqlite-contribution
+	129 - sqlite-contribution.observationAssociationsRejectRetargetAndMissingRows (Failed) acceptance draft qt server sqlite-contribution
+	130 - sqlite-contribution.primitiveUniquenessAndAmbiguityAreExplicit (Failed) acceptance draft qt server sqlite-contribution
+	131 - sqlite-contribution.createAppendLinkAndUpdateFailuresRollBackAtomically (Failed) acceptance draft qt server sqlite-contribution
+	132 - sqlite-contribution.adoptedSessionCommitsEarlierWorkBeforeObserveReturns (Failed) acceptance draft qt server sqlite-contribution
+	133 - sqlite-contribution.ownNewAnchorReadsAndIncompleteCommitAreHonest (Failed) acceptance draft qt server sqlite-contribution
+	134 - sqlite-contribution.inputPreflightPriorityAndExactOptions (Failed) acceptance draft qt server sqlite-contribution
+	135 - sqlite-contribution.byteBoundsAndSelectedTargetLimitsAreExact (Failed) acceptance draft qt server sqlite-contribution
+	136 - sqlite-contribution.unresolvedCollectionLimitNeverTruncatesOrLimitsWrites (Failed) acceptance draft qt server sqlite-contribution
+	137 - sqlite-contribution.selectedMalformedRowsAndGroupsRequireRollback (Failed) acceptance draft qt server sqlite-contribution
+	138 - sqlite-contribution.allocatorTypeAndOptionalZeroCannotBeConflated (Failed) acceptance draft qt server sqlite-contribution
+	139 - sqlite-contribution.cumulativeResultBudgetRollsBackProvedWrites (Failed) acceptance draft qt server sqlite-contribution
+	140 - sqlite-contribution.localSecondBeginAndBusyPreserveTransactionTruth (Failed) acceptance draft qt server sqlite-contribution
+	141 - sqlite-contribution.foreignStaleTerminalAndOwnedResultsRemainSafe (Failed) acceptance draft qt server sqlite-contribution
+	142 - sqlite-contribution.lostCommitAckReportsUnknownWithPhysicalContribution (Failed) acceptance draft qt server sqlite-contribution
+	143 - sqlite-contribution.lostCleanupAckOutranksLocalFailure (Failed) acceptance draft qt server sqlite-contribution
+Errors while running CTest

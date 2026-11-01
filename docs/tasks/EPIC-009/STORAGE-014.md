@@ -48,3 +48,39 @@ representations (including values above signed64 and UINT64_MAX), then establish
 the genuine reviewed red. No signed INTEGER/REAL coercion or opaque-byte test
 substitutes for that typed gate. Existing identifiers/dependencies/acceptance and
 all original lossless/provenance scope remain unchanged.
+
+
+## Initial baseline ownership and cross-contract checks
+
+STORAGETEST-014 is separately claimed from actual integrated maine331714 after
+PR36. Initial author owns only new sqlite-contributions-v1 contract and own
+stage evidence; a different actual contract review precedes API/stubs/tests.
+Root owns actual additive migration3/order/schema and shared build/CI/state/map/
+checkpoint; immutable retention1/receipt2 and all previous interfaces/tests remain.
+
+Review domain-zero policy from actual existing contracts, not a fake's allocator
+start. Current inspection found no ContributionId0 rejection: PlanEvent has an
+optional ContributionId and Capture rejects ReceiptId0 only. Thus proposed full
+ContributionId0..MAX with explicit nullable absence/first0 needs actual review;
+ReceiptId remains1..MAX. If an agreed nonzero rule is found, reconcile it explicitly.
+Never use zero as missing/unlinked where std::optional already represents absence.
+ContributionValuation stores original money and a resolution reference/missing-rate
+flag, not fetched/effective rates. Preserve all actual fields; keep downstream
+HistoricalValuation rates/source/time in015 rather than invent an unused column.
+A plain VerifiedActivityLink/proof reference is not provider authorization. Preserve
+trusted upstream semantic/pre-committed-receipt preconditions and actual resolvable
+arrival references; do not invent stronger proof from merely nonempty bytes or
+same-session visibility. Independent review must pin any validation/error boundary.
+
+
+## Actual baseline checkpoint
+
+STORAGETEST-014 now has24 actual reviewed/compiled real-SQL cases and independent
+literal/green fixtures. Full approval81e0d5a preceded actual selected official
+Qt41347563063 at399fc44 (newgreen3/exact24/pins/stable lanes), then one genuine
+24-case explicit-stub red with all init/cleanup passing/0skip. See
+[baseline handoff](../../evidence/storagetest-014-handoff.md) and
+[original red](../../evidence/storagetest-014-red-ctest.txt). This finishes only the
+test-author gate. STORAGE-014 remains planned and unclaimed; no codec/manifest/
+repository behavior is implemented. Latest owner instruction is to finish PR37
+and STOP, so implementation requires a future explicit continuation.

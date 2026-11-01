@@ -120,3 +120,16 @@ accessibility/OBS were not run. The initial completion validator required the
 standard verification.acceptance key rather than product_acceptance; metadata was
 corrected using the actual22/full118/automatic22 results, without changing the
 validator or product/tests. No native/red rerun was needed for metadata.
+
+
+## Actual integration outcome
+
+PR36 actually merged `e331714e0a03aae0a7c908721f92ea19a1756f62` at
+2026-11-01T18:55:47Z. Exact final4fc0824 had all11 SUCCESS, source/config84e2045
+and final metadata/CI-attributiond6ce21c approvals, current normal rules/0required
+GitHub approvals, no unresolved discussions, ready/MERGEABLE/CLEAN. Root used
+`gh pr merge 36 --merge --match-head-commit 4fc0824da01f47f9a2e0731616939784b7accbb5`
+without bypass/force/deletion, then refreshed main. Final writer41338942002 passed.
+Previous pending wording records the component completion snapshot; merge gates
+are now closed. STORAGETEST-014 is separately claimed from integrated e331714.
+All source/baseline/future release scope and unperformed platform gates remain.

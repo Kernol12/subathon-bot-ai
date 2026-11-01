@@ -28,7 +28,7 @@ if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     subathon_target_options(subathon_time_debt)
 endif()
 
-if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS)
     add_library(subathon_contribution STATIC src/contribution.cpp)
     target_include_directories(subathon_contribution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     subathon_target_options(subathon_contribution)

@@ -230,3 +230,55 @@ if(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS)
             LABELS "sqlite-receipt;acceptance;qt;server" TIMEOUT 30)
     endforeach()
 endif()
+
+if(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS)
+    add_executable(server_sqlite_contributions_environment sqlite_contributions_environment.cpp)
+    target_link_libraries(server_sqlite_contributions_environment PRIVATE subathon_sqlite_writer Qt6::Test)
+    target_compile_definitions(server_sqlite_contributions_environment PRIVATE
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
+    subathon_target_options(server_sqlite_contributions_environment)
+    add_test(NAME scaffold.sqlite_contributions_environment COMMAND server_sqlite_contributions_environment)
+    set_tests_properties(scaffold.sqlite_contributions_environment PROPERTIES
+        LABELS "scaffold;qt;contribution-environment" TIMEOUT 30)
+
+    add_executable(server_sqlite_contributions_acceptance sqlite_contributions_tests.cpp)
+    target_link_libraries(server_sqlite_contributions_acceptance PRIVATE subathon_sqlite_contributions Qt6::Test)
+    target_compile_definitions(server_sqlite_contributions_acceptance PRIVATE
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
+    subathon_target_options(server_sqlite_contributions_acceptance)
+    # Intentional feature baseline remains separate from passing stable lanes.
+    foreach(case IN ITEMS
+        codecsPreserveZeroAndFullUnsignedRange
+        codecRejectsMalformedValues
+        manifestPreservesReceiptPrefixAndMatchesLiteralStep
+        supportConfirmationAndDuplicatePreserveOriginals
+        pendingConfirmationLinksToNewZeroContribution
+        verifiedIdentityAndOpaqueProofBytesRemainExact
+        independentStateAndCapturedConditionsRoundTrip
+        committedReceiptProjectionAndTargetsAreRequired
+        allocatorCrossesSignedBoundaryAndExhausts
+        observationAssociationsRejectRetargetAndMissingRows
+        primitiveUniquenessAndAmbiguityAreExplicit
+        createAppendLinkAndUpdateFailuresRollBackAtomically
+        adoptedSessionCommitsEarlierWorkBeforeObserveReturns
+        ownNewAnchorReadsAndIncompleteCommitAreHonest
+        inputPreflightPriorityAndExactOptions
+        byteBoundsAndSelectedTargetLimitsAreExact
+        unresolvedCollectionLimitNeverTruncatesOrLimitsWrites
+        selectedMalformedRowsAndGroupsRequireRollback
+        allocatorTypeAndOptionalZeroCannotBeConflated
+        cumulativeResultBudgetRollsBackProvedWrites
+        localSecondBeginAndBusyPreserveTransactionTruth
+        foreignStaleTerminalAndOwnedResultsRemainSafe
+        lostCommitAckReportsUnknownWithPhysicalContribution
+        lostCleanupAckOutranksLocalFailure
+    )
+        add_test(NAME sqlite-contribution.${case} COMMAND server_sqlite_contributions_acceptance ${case})
+        set_tests_properties(sqlite-contribution.${case} PROPERTIES
+            LABELS "sqlite-contribution;acceptance;draft;qt;server" TIMEOUT 30)
+    endforeach()
+endif()

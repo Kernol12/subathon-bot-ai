@@ -137,6 +137,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_RECEIPT_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-contribution-debug",
+      "displayName": "16 \u00b7 Contribution SQLite baseline (draft)",
+      "inherits": "sqlite-receipt-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -199,6 +207,10 @@
     {
       "name": "sqlite-receipt-debug",
       "configurePreset": "sqlite-receipt-debug"
+    },
+    {
+      "name": "sqlite-contribution-debug",
+      "configurePreset": "sqlite-contribution-debug"
     }
   ],
   "testPresets": [
@@ -345,6 +357,16 @@
     {
       "name": "sqlite-receipt-debug",
       "configurePreset": "sqlite-receipt-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-contribution-debug",
+      "configurePreset": "sqlite-contribution-debug",
       "output": {
         "outputOnFailure": true
       },
