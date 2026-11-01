@@ -151,3 +151,56 @@ schemas/codecs, migrations and repository adapters retain their own gates. Final
 atomic bundles, recovery, live providers and platform verification remain open.
 The coordinator must assess the final integrated revision, required latest-head
 CI, unresolved discussions and the normal merge checklist before merging.
+
+## Final completion-metadata review
+
+The same independent reviewer approved final candidate
+`d6be1d10847b11bd72bf452090d6bd6447d28fc2` on 2026-11-01. Normal merges into
+the isolated reviewer branch preserved original approval `27ac83b`; before this
+appendix the reviewer tree exactly matched that candidate. The contract blob,
+author evidence, future executable slice briefs, all 391 task identities and every
+dependency list are unchanged from the substantive review above. Every task's data
+except CONTRACT-004 is unchanged. No source/header/test/schema/migration/build or
+workflow change exists against main.
+
+The completion changes accept ADR 0002 on the reviewed planning basis, mark only
+the contract task done, link its independent evidence and describe the unimplemented
+transaction boundary in architecture/handoff material. Runtime behavior, the new
+test baseline and provider/platform verification remain explicitly `not_run`.
+Neither existing passing suites nor the 20 future oracles are presented as proof of
+the new transaction mechanism. The latest coordinator checkpoint accurately keeps
+publication, final-head checks and normal merge gates open before STORAGETEST-010.
+One stale present-tense paragraph in the task handoff was identified and corrected
+in `d6be1d1`; it now records completed independent approval and the exact successful
+CI head. There is no remaining contradictory latest-state claim.
+
+Final metadata blobs inspected:
+
+| Artifact | Reviewed blob |
+| --- | --- |
+| Task handoff | `9a503a0c0f049b9464fc4d894c923a3a3ce867f1` |
+| Coordinator checkpoint | `0e3a453fe8a646a1fb77ecb514b14fef99aec0c8` |
+| Task state | `f1789fbba5dea08ffb0ebbd2e2bd5cf816c91158` |
+| Architecture | `8236bf58ef58514c14b3de2847ae0503c08cf860` |
+| Accepted ADR 0002 | `2b4c14c7a9ea8096f24a0138fb5a7a076a67927f` |
+
+Independent `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check` and `git diff --check` passed at the
+final candidate. An independent Python/Git comparison asserted the unchanged
+contract/briefs/task dependencies, metadata-only scope, explicit unrun categories,
+absence of source/test/schema/build/workflow changes and exact reviewer-tree
+equivalence. Unchanged native suites were not repeated.
+
+A live `gh pr view 28 --json ...` query independently observed
+[PR 28](https://github.com/Kernol12/subathon-bot-ai/pull/28) OPEN/CLEAN at
+`ca5f7a85b7b0cff4f61fe8a023d7bcc0baaf9eb1`, with all 11 check runs completed
+SUCCESS and no GitHub reviews. This verifies the handoff's CI attribution; it does
+not attribute those results to the later local candidate or this review appendix.
+The repository's independent review is the recorded evidence above.
+
+**Final verdict: approved for documentation/planning completion at `d6be1d1`.**
+No blocking finding or user decision remains. Publish the integrated approval,
+obtain successful required checks for that exact final PR head, inspect unresolved
+discussions/current normal rules and satisfy the usual merge checklist before
+merging. All future test-baseline, intended-red, implementation and release gates
+remain in force.
