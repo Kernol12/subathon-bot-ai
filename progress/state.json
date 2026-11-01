@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T09:46:26+00:00",
+  "updated_at": "2026-11-01T09:56:38+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -492,6 +492,35 @@
       "brief": "docs/tasks/CONTRACT-003.md",
       "summary": "OpenAPI 3.1/WS/schema/capability contracts with exact numeric strings and explicit shared-file ownership.",
       "notes": [],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-004",
+      "title": "Define writer-owned synchronous repository transaction integration",
+      "module": "Operations",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "Coordinator /root; author /root/storage_decomposition; independent review pending",
+      "depends_on": [
+        "CONTRACT-002",
+        "STORAGE-001",
+        "ACCT-001",
+        "ACCT-002"
+      ],
+      "spec_refs": [
+        "§2",
+        "§3.4",
+        "DB-01",
+        "SERVER-01"
+      ],
+      "brief": "docs/tasks/CONTRACT-004.md",
+      "summary": "Define scoped writer-owned dynamic service transactions before adapting synchronous repository ports; no implementation or finalized domain schema.",
+      "notes": [
+        "New bounded prerequisite discovered before claiming oversized STORAGE-002; preserve its complete scope through explicit planned packages.",
+        "Claim fromfreshmain1259cfb after PR27merged finalcba35c3 all11CI/no threads/normalrules. Scope doc-onlywriter-owned transaction/session contract for existing synchronousReceipt/Contribution ports, preserving actualcommit return semantics/privateonewriter/FIFO/bounds/error/shutdown. Author owns onlynewcontract+evidence; root owns taskbrief/storageplanneddecomposition/ADR/state/HTML/checkpoint/PR. No C++/schema/production/testred claims. Independentreview actualcontract+dependencygraph beforedone; STORAGETEST010 remains laterreviewed/red gate."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -1058,7 +1087,8 @@
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claim from refreshed mainbca06e8 after liveaudit: PR26merged final10438ca all11checks, mainall10success/no openPR/no activeclaims;40existingworktreesclean,16historicaltmpabsentrefs preserved, no runningoldagents/nativecommands. Reuse reviewed32baselineb3413e5/final5474fdc and actualstubred dba4401(exit8); contractrev1/header/tests immutable. Implementer owns ONLYcore/src/time_debt.cpp +implementationevidence; root owns CMake/presets/CI/labels/map/state/HTML/checkpoint. Accept32passingcases+separatecode/configreview+ordinaryactualUbuntuacceptance. Purealreadycalculated proposals only; no entitlement/audit/permission/persistence/provider/platform upgrade.",
         "Author6394cab source68141b15 integratedcbfdd85, evidenceb66d6d7. Root/author32unchangedcases/full35pass, contract909/headerf3cc/testsc3cd unchanged. Exactcandidatef0c888f with unconditionalCI+compiledGTest/CTestequalityguard supplied to isolatedcore005-review. Sourceimplemented, independentapproval/actualUbuntu32acceptance/finalintegration/latestmerge gates pending; no proportional/app/persistence/provider/platform claim.",
-        "Source6394cab/68141b15 unchanged32cases/full35pass author/root/reviewer; independentactualcode/configapproval98f3f04 integrated091eda9. ActualordinaryUbuntuCI41294422355 atPR27de78828 passed32realcases/exactguard/GNU13.3; all11checks there. Boundedpureproposals done; originalreviewed32red retained. Finalmetadatareview/latestheadCI/discussions/normalmerge gates pending. No proportionalentitlement/ledger/app/permission/audit/persistence/provider/platform upgrade."
+        "Source6394cab/68141b15 unchanged32cases/full35pass author/root/reviewer; independentactualcode/configapproval98f3f04 integrated091eda9. ActualordinaryUbuntuCI41294422355 atPR27de78828 passed32realcases/exactguard/GNU13.3; all11checks there. Boundedpureproposals done; originalreviewed32red retained. Finalmetadatareview/latestheadCI/discussions/normalmerge gates pending. No proportionalentitlement/ledger/app/permission/audit/persistence/provider/platform upgrade.",
+        "ActualPR27merged1259cfb at09:53:12Z 2026-11-01, finalcba35c3 all11expectedchecks success/no discussions/currentnormalrules. Source68141b15/approval98f3f04/final387a4f6 retained; original32cases unchanged actualUbuntu32passes. CONTRACT004 now separatelyclaimed fromfreshmain to resolve writer/session integration gap before storage adapters; fullscopegates remain."
       ],
       "verification": {
         "native_build": "passed",
@@ -11049,6 +11079,16 @@
       "date": "2026-11-01T09:46:26+00:00",
       "task": "CORE-005",
       "note": "Source6394cab/68141b15 unchanged32cases/full35pass author/root/reviewer; independentactualcode/configapproval98f3f04 integrated091eda9. ActualordinaryUbuntuCI41294422355 atPR27de78828 passed32realcases/exactguard/GNU13.3; all11checks there. Boundedpureproposals done; originalreviewed32red retained. Finalmetadatareview/latestheadCI/discussions/normalmerge gates pending. No proportionalentitlement/ledger/app/permission/audit/persistence/provider/platform upgrade."
+    },
+    {
+      "date": "2026-11-01T09:56:38+00:00",
+      "task": "CONTRACT-004",
+      "note": "Claim fromfreshmain1259cfb after PR27merged finalcba35c3 all11CI/no threads/normalrules. Scope doc-onlywriter-owned transaction/session contract for existing synchronousReceipt/Contribution ports, preserving actualcommit return semantics/privateonewriter/FIFO/bounds/error/shutdown. Author owns onlynewcontract+evidence; root owns taskbrief/storageplanneddecomposition/ADR/state/HTML/checkpoint/PR. No C++/schema/production/testred claims. Independentreview actualcontract+dependencygraph beforedone; STORAGETEST010 remains laterreviewed/red gate."
+    },
+    {
+      "date": "2026-11-01T09:56:38+00:00",
+      "task": "CORE-005",
+      "note": "ActualPR27merged1259cfb at09:53:12Z 2026-11-01, finalcba35c3 all11expectedchecks success/no discussions/currentnormalrules. Source68141b15/approval98f3f04/final387a4f6 retained; original32cases unchanged actualUbuntu32passes. CONTRACT004 now separatelyclaimed fromfreshmain to resolve writer/session integration gap before storage adapters; fullscopegates remain."
     }
   ]
 }
