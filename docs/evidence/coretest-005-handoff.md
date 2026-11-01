@@ -58,3 +58,11 @@ run41291917578 atc2be886 compiled/discovered32 successfully (GNU13.3), all11PR
 checks passed there. CORETEST005 reviewed/red preparation is done, not CORE005
 implementation. Final integration metadata review/latestheadCI/normal rules remain
 publication gates for [PR26](https://github.com/Kernol12/subathon-bot-ai/pull/26).
+
+Actual [PR26](https://github.com/Kernol12/subathon-bot-ai/pull/26) mergedbca06e8
+atGitHubreported09:20:44Z on2026-11-01. Finalhead10438ca passed all11expected
+checks, no discussions/currentnormalrules, finalintegrationapproval5474fdc retained.
+Postmerge mainbca06e8 has all10mainchecks successful. CORE-005 is now dependency
+ready but unclaimed at the session checkpoint; reuse this reviewed/red preparation
+rather than repeating it. Full product remains incomplete and no background
+execution is claimed after the session stops.

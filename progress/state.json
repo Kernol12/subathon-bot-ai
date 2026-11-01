@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T09:14:51+00:00",
+  "updated_at": "2026-11-01T09:46:26+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1010,7 +1010,8 @@
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claim from refreshed main1183314 after PR25 actuallymerged finala486ad9 all10checks/no threads/currentnormalrules. DependencyCORE001/CORE002 integrated; specv0.45 §4/NUM03. Scope pure alreadycalculated reversal deficit/debt arithmetic and debt-first eligible additions with explicit policy/fullrequested-vsactual/provenance, nonnegativegrace boundary, exactsigned64 failures. ACCT006 proportionalentitlement, permission/audit/application/persistence/lifecyclecomposition remain explicit callers/downstream, no scope silentlyremoved. Author owns newtime-debt contract/header/explicitstub/tests/evidence ONLY; root sharedCMake/presets/CI/map/state/HTML/checkpoint. Contract/examples -> tests -> separateactualreview -> intendedred required before CORE005 implementation. Readonlyprepcomplete, interpretationRequireReviewonlyoverflow not yetreviewed.",
         "Author389f8ba integrated017e0c4, actualcandidatee405ae4: contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65.32cases compile/discover author/root GTest1.18/GNU16.2.1; no newbodies/red. PureMain/debt math has no needlessActive restriction; signedfullreversal inclMIN, explicitpolicy/refs, debt-first additions andnonreducingabove-cap headroom0 documentedwithoutchangingoldcreditcontract; CORE002compositioncovered. Separate reviewerisolatedcoretest005-review actualcandidate; newautomaticbuild/discoveryCIactionlintpass, actualUbuntu pending. CORE005 remainsplanned/unimplemented.",
-        "Independent32casebaselineb3413e5 integrateddba4401 BEFORE actualCTestexit8/32TimeDebtNotImplemented bodyfailures; no skips/dependency/buildfailure. Contract909/headerf3cc/stubc2d/tests c3cd unchanged. Author/root/reviewer compile/discover32; rootexistingtimer39pass aftersharedCMakeguardchange. ActualUbuntuCI41291917578 atPR26c2be886 build/discovery32passed GNU13.3/selectedGTesttree; all11checks there. Reviewed/red baseline done, productunimplemented; finalmetadatareview/latestCI/merge remain publication gates, CORE005 waits integratedprerequisite."
+        "Independent32casebaselineb3413e5 integrateddba4401 BEFORE actualCTestexit8/32TimeDebtNotImplemented bodyfailures; no skips/dependency/buildfailure. Contract909/headerf3cc/stubc2d/tests c3cd unchanged. Author/root/reviewer compile/discover32; rootexistingtimer39pass aftersharedCMakeguardchange. ActualUbuntuCI41291917578 atPR26c2be886 build/discovery32passed GNU13.3/selectedGTesttree; all11checks there. Reviewed/red baseline done, productunimplemented; finalmetadatareview/latestCI/merge remain publication gates, CORE005 waits integratedprerequisite.",
+        "ActualPR26mergedbca06e8 atGitHubreported09:20:44Z 2026-11-01, final10438ca all11latestchecks success/no threads/currentnormalrules. Sourcecontract909/headerf3cc/stubc2d/testsc3cd andreviewb341/final5474 retained; actual32red dba4401 exit8 prior toanyimplementation. Postmergemainbca all10mainchecks success. Sessioncontextcheckpoint LOCALONLY fromfreshmain; all40existingworktreesclean/16historicaltmpabsentpreservedrefs, no activesubagents/rootnativecommands/openPRs. NextselectedCORE005 is dependencyready but deliberatelyunclaimed atsessionlimit, createfreshdedicatedbranchbeforeediting andimplement reviewed32contract; no routineownerinputneeded. FullproductNOTcomplete."
       ],
       "verification": {
         "authored_tests": "passed",
@@ -1040,8 +1041,8 @@
       "title": "Refund deficit policies and separate time debt",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; implementer /root/debt_implementer; independent reviewer /root/debt_code_reviewer",
       "depends_on": [
         "CORE-001",
         "CORE-002",
@@ -1054,11 +1055,33 @@
       "brief": "docs/tasks/EPIC-001/CORE-005.md",
       "summary": "Implement Stop at zero, Carry time debt and Require review while retaining the full reversal record.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claim from refreshed mainbca06e8 after liveaudit: PR26merged final10438ca all11checks, mainall10success/no openPR/no activeclaims;40existingworktreesclean,16historicaltmpabsentrefs preserved, no runningoldagents/nativecommands. Reuse reviewed32baselineb3413e5/final5474fdc and actualstubred dba4401(exit8); contractrev1/header/tests immutable. Implementer owns ONLYcore/src/time_debt.cpp +implementationevidence; root owns CMake/presets/CI/labels/map/state/HTML/checkpoint. Accept32passingcases+separatecode/configreview+ordinaryactualUbuntuacceptance. Purealreadycalculated proposals only; no entitlement/audit/permission/persistence/provider/platform upgrade.",
+        "Author6394cab source68141b15 integratedcbfdd85, evidenceb66d6d7. Root/author32unchangedcases/full35pass, contract909/headerf3cc/testsc3cd unchanged. Exactcandidatef0c888f with unconditionalCI+compiledGTest/CTestequalityguard supplied to isolatedcore005-review. Sourceimplemented, independentapproval/actualUbuntu32acceptance/finalintegration/latestmerge gates pending; no proportional/app/persistence/provider/platform claim.",
+        "Source6394cab/68141b15 unchanged32cases/full35pass author/root/reviewer; independentactualcode/configapproval98f3f04 integrated091eda9. ActualordinaryUbuntuCI41294422355 atPR27de78828 passed32realcases/exactguard/GNU13.3; all11checks there. Boundedpureproposals done; originalreviewed32red retained. Finalmetadatareview/latestheadCI/discussions/normalmerge gates pending. No proportionalentitlement/ledger/app/permission/audit/persistence/provider/platform upgrade."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "github_ci": "passed",
+        "application_entitlement_persistence_provider": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/core-005-implementation.md",
+        "docs/evidence/core-005-ci.md",
+        "docs/evidence/core-005-handoff.md",
+        "docs/evidence/core-005-code-review.md"
+      ],
+      "review": {
+        "author": "/root/debt_implementer",
+        "reviewer": "/root/debt_code_reviewer",
+        "outcome": "approved",
+        "baseline": "source6394cab/68141b15a4578cc85b4537a9b1403638c6e445f2; actualf0c888f; workflow792b14b6; review98f3f04",
+        "evidence": "docs/evidence/core-005-code-review.md"
+      }
     },
     {
       "id": "CORETEST-006",
@@ -11006,6 +11029,26 @@
       "date": "2026-11-01T09:14:51+00:00",
       "task": "CORETEST-005",
       "note": "Independent32casebaselineb3413e5 integrateddba4401 BEFORE actualCTestexit8/32TimeDebtNotImplemented bodyfailures; no skips/dependency/buildfailure. Contract909/headerf3cc/stubc2d/tests c3cd unchanged. Author/root/reviewer compile/discover32; rootexistingtimer39pass aftersharedCMakeguardchange. ActualUbuntuCI41291917578 atPR26c2be886 build/discovery32passed GNU13.3/selectedGTesttree; all11checks there. Reviewed/red baseline done, productunimplemented; finalmetadatareview/latestCI/merge remain publication gates, CORE005 waits integratedprerequisite."
+    },
+    {
+      "date": "2026-11-01T09:23:11+00:00",
+      "task": "CORETEST-005",
+      "note": "ActualPR26mergedbca06e8 atGitHubreported09:20:44Z 2026-11-01, final10438ca all11latestchecks success/no threads/currentnormalrules. Sourcecontract909/headerf3cc/stubc2d/testsc3cd andreviewb341/final5474 retained; actual32red dba4401 exit8 prior toanyimplementation. Postmergemainbca all10mainchecks success. Sessioncontextcheckpoint LOCALONLY fromfreshmain; all40existingworktreesclean/16historicaltmpabsentpreservedrefs, no activesubagents/rootnativecommands/openPRs. NextselectedCORE005 is dependencyready but deliberatelyunclaimed atsessionlimit, createfreshdedicatedbranchbeforeediting andimplement reviewed32contract; no routineownerinputneeded. FullproductNOTcomplete."
+    },
+    {
+      "date": "2026-11-01T09:38:52+00:00",
+      "task": "CORE-005",
+      "note": "Claim from refreshed mainbca06e8 after liveaudit: PR26merged final10438ca all11checks, mainall10success/no openPR/no activeclaims;40existingworktreesclean,16historicaltmpabsentrefs preserved, no runningoldagents/nativecommands. Reuse reviewed32baselineb3413e5/final5474fdc and actualstubred dba4401(exit8); contractrev1/header/tests immutable. Implementer owns ONLYcore/src/time_debt.cpp +implementationevidence; root owns CMake/presets/CI/labels/map/state/HTML/checkpoint. Accept32passingcases+separatecode/configreview+ordinaryactualUbuntuacceptance. Purealreadycalculated proposals only; no entitlement/audit/permission/persistence/provider/platform upgrade."
+    },
+    {
+      "date": "2026-11-01T09:42:45+00:00",
+      "task": "CORE-005",
+      "note": "Author6394cab source68141b15 integratedcbfdd85, evidenceb66d6d7. Root/author32unchangedcases/full35pass, contract909/headerf3cc/testsc3cd unchanged. Exactcandidatef0c888f with unconditionalCI+compiledGTest/CTestequalityguard supplied to isolatedcore005-review. Sourceimplemented, independentapproval/actualUbuntu32acceptance/finalintegration/latestmerge gates pending; no proportional/app/persistence/provider/platform claim."
+    },
+    {
+      "date": "2026-11-01T09:46:26+00:00",
+      "task": "CORE-005",
+      "note": "Source6394cab/68141b15 unchanged32cases/full35pass author/root/reviewer; independentactualcode/configapproval98f3f04 integrated091eda9. ActualordinaryUbuntuCI41294422355 atPR27de78828 passed32realcases/exactguard/GNU13.3; all11checks there. Boundedpureproposals done; originalreviewed32red retained. Finalmetadatareview/latestheadCI/discussions/normalmerge gates pending. No proportionalentitlement/ledger/app/permission/audit/persistence/provider/platform upgrade."
     }
   ]
 }

@@ -375,9 +375,13 @@
       "evidence": [
         "docs/evidence/coretest-005-review.md",
         "docs/evidence/coretest-005-red-ctest.txt",
-        "docs/evidence/coretest-005-handoff.md"
+        "docs/evidence/coretest-005-handoff.md",
+        "docs/evidence/core-005-implementation.md",
+        "docs/evidence/core-005-code-review.md",
+        "docs/evidence/core-005-ci.md",
+        "docs/evidence/core-005-handoff.md"
       ],
-      "scope": "32 independently reviewed pure refund deficit/debt-first proposal cases observed intended stub-red after successful compilation; no debt implementation yet. Existing lifecycle composition is tested only after future debt proposals exist. Proportional entitlement/reversal accounting, authoritative effects/audit/permissions/persistence and full release remain separate."
+      "scope": "32 unchanged independently reviewed cases pass pure signed refund-deficit/debt-first proposals and existing lifecycle composition, with separate code/config review and actual automatic Ubuntu acceptance. Original32stub-red retained. No proportional entitlement/reversal accounting, actual ledger allocation, authoritative effects/audit/permissions/persistence or full release proof."
     },
     {
       "id": "TIMER-07",
