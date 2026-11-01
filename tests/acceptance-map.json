@@ -620,9 +620,16 @@
     },
     {
       "id": "DB-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/qt/sqlite_writer_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/storagetest-001-review.md",
+        "docs/evidence/storagetest-001-red-ctest.txt",
+        "docs/evidence/storagetest-001-handoff.md"
+      ],
+      "scope": "22 independently reviewed real Qt SQL/SQLite disposable-file cases observed intended red from explicit feature_not_implemented stubs. No production writer, app schema/migration/atomicity, crash/backup/recovery or supported-platform release verification yet."
     },
     {
       "id": "AUTH-11",

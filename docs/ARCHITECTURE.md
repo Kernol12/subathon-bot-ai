@@ -91,3 +91,12 @@ freshness.22 preserved cases pass with separate code review and pinned automatic
 [handoff](evidence/acct-003-handoff.md). Sources supply already-resolved selections
 and requests; the helper never evaluates rules/modifiers, validates real permission,
 applies current caps/effects, or persists state. Those remain API/accounting/writer gates.
+
+The [SQLite writer boundary](contracts/sqlite-writer-v1.md) now has22 independently
+reviewed real Qt SQL disposable-file tests and observed intended stub-red;
+[baseline handoff](evidence/storagetest-001-handoff.md). It keeps writer work on the
+authoritative Qt command/state thread and readers on separate read-only owned
+connections. Production behavior remains STORAGE-001; application schemas,
+migrations, durable application/aggregate/job atomicity, recovery and backup remain
+later storage/accounting gates. SQL batch/payload limits are internal engineering
+choices, not product contribution limits or a hard arbitrary-SQL runtime deadline.

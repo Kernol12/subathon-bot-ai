@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-10-31T21:45:43.725303+00:00",
+  "updated_at": "2026-11-01T08:20:47+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1477,7 +1477,8 @@
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed task/ACCT-003-captured-plans frommain8ed9d45 afterbaselinePR22 merged21:32:08UTC finalc66870e all8CIpass/fullreview36ac654/final9aea69e, actual22stubreda524447. Contractapplicationplansrev1; interface501112d6/testsf93287fa preserved. Implementer task/ACCT-003-implementation owns ONLY core/src/application_plan.cpp +implementationevidence; rootowns build/labels/preset/automaticpinnedBoostCI/state/HTML/map/status/checkpoint/PR. Accept22passing cases+separate code/configreview+observednewCI; no evaluator/numericrecalculation/permissionengine/storage/livecap/effect/writer/provider claim. Usercleanupkeptcurrent: justmergedPR22 head archived/deleted withguards, total33completedremotebranchesremoved; localhistoryretained.",
         "Sourceauthordcf0990/42b47e4a and selectedpinnedCI0e8ebbf approved4425064. All22 unchangedcasesf93287fa pass root/author/reviewer; fullpreset25/numeric33 pass. Actualnewapplication-planCI41244388435 atPR23df58c84 passed22 GNU13.3/Boost1.83/compilerheader108300; all9checks passedthere. Ownedtransformationsdone, finalstatusreview/latestheadCI/merge pending. No evaluator, actualpermission/storage/application/currentcap/provider/platform claim; currentpreviewisfreshnessonly. Cleanup33completedremotebranches removedwithguards/archives; activePR23retained/supportbrancheslocal.",
-        "Finalintegrationb548192 approvesd2a87b6: source/interface/tests/workflowunchanged, retainedactualCI GNU13.3/Boost1.83/header108300/22pass verified; project/render/diffpass, no broadnative repeats. PublishfinalreviewactivePR23only and requireall9latestCI/threads/rules/merge. Preservecleanup33manifest/localarchives; checkpointbefore sessionlimit aftercurrentPRgates withoutclaimingfullprojectcompletion or no readywork."
+        "Finalintegrationb548192 approvesd2a87b6: source/interface/tests/workflowunchanged, retainedactualCI GNU13.3/Boost1.83/header108300/22pass verified; project/render/diffpass, no broadnative repeats. PublishfinalreviewactivePR23only and requireall9latestCI/threads/rules/merge. Preservecleanup33manifest/localarchives; checkpointbefore sessionlimit aftercurrentPRgates withoutclaimingfullprojectcompletion or no readywork.",
+        "ActualPR23mergedba4e94c at21:47:53UTC, final2d07fb6 all9latestCIpassed, no reviewthreads/currentnormalrulesmet; source4425064/finalb548192 retained. Completedremoteheadarchived/deletedwithexactSHA/ancestor/openPR/protectionguards; cleanup34total, GitHubmainonly, alllocalrefs/worktrees/archives retained. Sessioncontextcheckpoint on LOCALONLYcheckpoint/2026-10-31-session-handoff fromcurrentmain; no backgroundagents/processes or unfinished taskclaims. FullscopeNOTcomplete; dependencyreadyworkremains (storage/transport/core/rules/modifiers/etc). Nextresumeinspectactualmain/state, createfresh taskbranchbeforeedit andfoldmetadata-onlycheckpointintothatnormalPR; donotpushcheckpointorecreateunusedheads."
       ],
       "verification": {
         "native_build": "passed",
@@ -4099,8 +4100,8 @@
       "title": "Review and demonstrate red: Qt SQL ownership and single SQLite writer",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; author /root/storage_test_author; independent reviewer /root/storage_test_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "SPIKE-001",
@@ -4113,11 +4114,34 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STORAGE-001.",
       "notes": [
-        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claim from integrated main ba4e94c after live GitHub/worktree/agent audit on 2026-11-01. No active unfinished claims or open PRs; preserved local-only postmerge checkpoint and all support worktrees. Scope: storage writer contract revision 1, Qt SQL/SQLite thread ownership, single writer, WAL/FULL, bounded admission, rollback/busy/shutdown and separate read-only connections; no application schema/migration/backup/recovery product claims. Root owns CMake/presets/workflows/state/HTML/checkpoint/map; author owns contract, minimal interface/explicit stubs and Qt tests; independent reviewer will inspect exact revision before intended red. STORAGE-001 waits for reviewed baseline and behavioral red.",
+        "Authored final819edbb integrated48db98c; contract4d280461/testsf8418e83/header11d204aa/stubf0edd7e6.22Qt slots compile/discover with real systemQt6.12; no bodies/red yet. Independent reviewer isolated at local-evidence/worktrees/storagetest001-review on exact integrated candidate; workflow9144d8b separately approved by qt_ci_investigator, actual Ubuntu execution pending. Root harness/progress/map/checkpoint ownership retained; author clean/complete.",
+        "Independent baseline3e7c8c7 integrated6647490 before actual22-case stub-red(exit8), all fixtures/init pass/no skips. Correctedworkflow398733eb independently actionlint-reviewed; actualUbuntuCI41288299328 atda98505 succeeded: Qt/ICU hashesOK, GNU13.3, probe1pass/exact22registration. All10PR24 checks pass there. Finalintegration0f4cf52 independently verified actualred/CI and unchangedbaseline. This completes reviewed/red tests only, not writer behavior; completionmetadatareview/latestheadCI/merge remain publication gates. STORAGE-001 preserves exact22baseline and must enable ordinary automatic acceptance."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored_tests": "passed",
+        "native_build": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "not_run",
+        "github_ci": "passed",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storagetest-001-author.md",
+        "docs/evidence/storagetest-001-ci.md",
+        "docs/evidence/storagetest-001-review.md",
+        "docs/evidence/storagetest-001-red-ctest.txt",
+        "docs/evidence/storagetest-001-handoff.md"
+      ],
+      "review": {
+        "author": "/root/storage_test_author",
+        "reviewer": "/root/storage_test_reviewer",
+        "outcome": "approved",
+        "baseline": "candidate48db98c; contract4d280461/header11d204aa/stubf0edd7e6/testsf8418e83; review3e7c8c7 integrated6647490",
+        "evidence": "docs/evidence/storagetest-001-review.md"
+      }
     },
     {
       "id": "STORAGE-001",
@@ -10855,6 +10879,26 @@
       "date": "2026-10-31T21:45:43.725303+00:00",
       "task": "ACCT-003",
       "note": "Finalintegrationb548192 approvesd2a87b6: source/interface/tests/workflowunchanged, retainedactualCI GNU13.3/Boost1.83/header108300/22pass verified; project/render/diffpass, no broadnative repeats. PublishfinalreviewactivePR23only and requireall9latestCI/threads/rules/merge. Preservecleanup33manifest/localarchives; checkpointbefore sessionlimit aftercurrentPRgates withoutclaimingfullprojectcompletion or no readywork."
+    },
+    {
+      "date": "2026-10-31T21:50:53.433164+00:00",
+      "task": "ACCT-003",
+      "note": "ActualPR23mergedba4e94c at21:47:53UTC, final2d07fb6 all9latestCIpassed, no reviewthreads/currentnormalrulesmet; source4425064/finalb548192 retained. Completedremoteheadarchived/deletedwithexactSHA/ancestor/openPR/protectionguards; cleanup34total, GitHubmainonly, alllocalrefs/worktrees/archives retained. Sessioncontextcheckpoint on LOCALONLYcheckpoint/2026-10-31-session-handoff fromcurrentmain; no backgroundagents/processes or unfinished taskclaims. FullscopeNOTcomplete; dependencyreadyworkremains (storage/transport/core/rules/modifiers/etc). Nextresumeinspectactualmain/state, createfresh taskbranchbeforeedit andfoldmetadata-onlycheckpointintothatnormalPR; donotpushcheckpointorecreateunusedheads."
+    },
+    {
+      "date": "2026-11-01T08:03:44+00:00",
+      "task": "STORAGETEST-001",
+      "note": "Claim from integrated main ba4e94c after live GitHub/worktree/agent audit on 2026-11-01. No active unfinished claims or open PRs; preserved local-only postmerge checkpoint and all support worktrees. Scope: storage writer contract revision 1, Qt SQL/SQLite thread ownership, single writer, WAL/FULL, bounded admission, rollback/busy/shutdown and separate read-only connections; no application schema/migration/backup/recovery product claims. Root owns CMake/presets/workflows/state/HTML/checkpoint/map; author owns contract, minimal interface/explicit stubs and Qt tests; independent reviewer will inspect exact revision before intended red. STORAGE-001 waits for reviewed baseline and behavioral red."
+    },
+    {
+      "date": "2026-11-01T08:15:10+00:00",
+      "task": "STORAGETEST-001",
+      "note": "Authored final819edbb integrated48db98c; contract4d280461/testsf8418e83/header11d204aa/stubf0edd7e6.22Qt slots compile/discover with real systemQt6.12; no bodies/red yet. Independent reviewer isolated at local-evidence/worktrees/storagetest001-review on exact integrated candidate; workflow9144d8b separately approved by qt_ci_investigator, actual Ubuntu execution pending. Root harness/progress/map/checkpoint ownership retained; author clean/complete."
+    },
+    {
+      "date": "2026-11-01T08:20:47+00:00",
+      "task": "STORAGETEST-001",
+      "note": "Independent baseline3e7c8c7 integrated6647490 before actual22-case stub-red(exit8), all fixtures/init pass/no skips. Correctedworkflow398733eb independently actionlint-reviewed; actualUbuntuCI41288299328 atda98505 succeeded: Qt/ICU hashesOK, GNU13.3, probe1pass/exact22registration. All10PR24 checks pass there. Finalintegration0f4cf52 independently verified actualred/CI and unchangedbaseline. This completes reviewed/red tests only, not writer behavior; completionmetadatareview/latestheadCI/merge remain publication gates. STORAGE-001 preserves exact22baseline and must enable ordinary automatic acceptance."
     }
   ]
 }

@@ -1,0 +1,325 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-writer-debug
+      Start  4: sqlite-writer.opensWalFullOnOwnerThread
+ 1/22 Test  #4: sqlite-writer.opensWalFullOnOwnerThread .........................***Failed    0.01 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::opensWalFullOnOwnerThread() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(90)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start  5: sqlite-writer.commitsFifoBatchesBeforeCompletion
+ 2/22 Test  #5: sqlite-writer.commitsFifoBatchesBeforeCompletion ................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::commitsFifoBatchesBeforeCompletion() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(117)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start  6: sqlite-writer.rejectsDuplicateWriterUntilShutdown
+ 3/22 Test  #6: sqlite-writer.rejectsDuplicateWriterUntilShutdown ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::rejectsDuplicateWriterUntilShutdown() Compared values are not the same
+   Actual   (first.open(path_)) : 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(152)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start  7: sqlite-writer.readerCannotWriteEvenAfterQueryOnlyOff
+ 4/22 Test  #7: sqlite-writer.readerCannotWriteEvenAfterQueryOnlyOff ............***Failed    0.01 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::readerCannotWriteEvenAfterQueryOnlyOff() Compared values are not the same
+   Actual   (reader.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(163)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start  8: sqlite-writer.readerIsOwnedByItsOpeningThread
+ 5/22 Test  #8: sqlite-writer.readerIsOwnedByItsOpeningThread ...................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::readerIsOwnedByItsOpeningThread() Compared values are not the same
+   Actual   (reader.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(177)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start  9: sqlite-writer.writerRejectsForeignThreadBeforeAdmission
+ 6/22 Test  #9: sqlite-writer.writerRejectsForeignThreadBeforeAdmission .........***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::writerRejectsForeignThreadBeforeAdmission() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(192)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 10: sqlite-writer.validatesLimitsAndBatchBeforeAdmission
+ 7/22 Test #10: sqlite-writer.validatesLimitsAndBatchBeforeAdmission ............***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::validatesLimitsAndBatchBeforeAdmission() Compared values are not the same
+   Actual   (writer.open(path_, limits))   : 1
+   Expected (StorageError::invalid_options): 4
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(217)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 11: sqlite-writer.pendingCapacityRejectsQueuedOverflow
+ 8/22 Test #11: sqlite-writer.pendingCapacityRejectsQueuedOverflow ..............***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::pendingCapacityRejectsQueuedOverflow() Compared values are not the same
+   Actual   (writer.open(path_, limits)): 1
+   Expected (StorageError::none)        : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(256)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 12: sqlite-writer.rollsBackWholeBatchOnSqlFailure
+ 9/22 Test #12: sqlite-writer.rollsBackWholeBatchOnSqlFailure ...................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::rollsBackWholeBatchOnSqlFailure() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(274)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 13: sqlite-writer.busyBeginFailsWithoutReplay
+10/22 Test #13: sqlite-writer.busyBeginFailsWithoutReplay .......................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::busyBeginFailsWithoutReplay() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(303)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 14: sqlite-writer.readerSnapshotDoesNotBlockWalCommit
+11/22 Test #14: sqlite-writer.readerSnapshotDoesNotBlockWalCommit ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::readerSnapshotDoesNotBlockWalCommit() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(336)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 15: sqlite-writer.shutdownDrainsAcceptedWorkAndRejectsNewWork
+12/22 Test #15: sqlite-writer.shutdownDrainsAcceptedWorkAndRejectsNewWork .......***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::shutdownDrainsAcceptedWorkAndRejectsNewWork() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(359)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 16: sqlite-writer.shutdownIsIdempotentAndReleasesConnection
+13/22 Test #16: sqlite-writer.shutdownIsIdempotentAndReleasesConnection .........***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::shutdownIsIdempotentAndReleasesConnection() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(390)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 17: sqlite-writer.closedLifecycleIsExplicit
+14/22 Test #17: sqlite-writer.closedLifecycleIsExplicit .........................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::closedLifecycleIsExplicit() Compared values are not the same
+   Actual   (writer.enqueue(insert(1, 10), [](WriteResult) {})): 1
+   Expected (StorageError::not_open)                           : 3
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(405)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 18: sqlite-writer.readerMissingFileDoesNotCreateDatabase
+15/22 Test #18: sqlite-writer.readerMissingFileDoesNotCreateDatabase ............***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::readerMissingFileDoesNotCreateDatabase() Compared values are not the same
+   Actual   (reader.open(missing))     : 1
+   Expected (StorageError::open_failed): 5
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(425)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 19: sqlite-writer.failedOpenDoesNotPublishAWriter
+16/22 Test #19: sqlite-writer.failedOpenDoesNotPublishAWriter ...................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::failedOpenDoesNotPublishAWriter() Compared values are not the same
+   Actual   (writer.open(directory_->path())): 1
+   Expected (StorageError::open_failed)      : 5
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(433)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 20: sqlite-writer.completionCanEnqueueAfterCommit
+17/22 Test #20: sqlite-writer.completionCanEnqueueAfterCommit ...................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::completionCanEnqueueAfterCommit() Compared values are not the same
+   Actual   (writer.open(path_, limits)): 1
+   Expected (StorageError::none)        : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(442)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 21: sqlite-writer.rejectsTransactionControlStatements
+18/22 Test #21: sqlite-writer.rejectsTransactionControlStatements ...............***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::rejectsTransactionControlStatements() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(466)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 22: sqlite-writer.completionExceptionDoesNotUndoCommitOrStopQueue
+19/22 Test #22: sqlite-writer.completionExceptionDoesNotUndoCommitOrStopQueue ...***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::completionExceptionDoesNotUndoCommitOrStopQueue() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(483)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 23: sqlite-writer.boundsResultRowsAndRollsBack
+20/22 Test #23: sqlite-writer.boundsResultRowsAndRollsBack ......................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::boundsResultRowsAndRollsBack() Compared values are not the same
+   Actual   (writer.open(path_, limits)): 1
+   Expected (StorageError::none)        : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(510)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 24: sqlite-writer.boundsResultBytesAndRollsBack
+21/22 Test #24: sqlite-writer.boundsResultBytesAndRollsBack .....................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::boundsResultBytesAndRollsBack() Compared values are not the same
+   Actual   (writer.open(path_, limits)): 1
+   Expected (StorageError::none)        : 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(530)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+      Start 25: sqlite-writer.failedCommitRollsBack
+22/22 Test #25: sqlite-writer.failedCommitRollsBack .............................***Failed    0.00 sec
+********* Start testing of SqliteWriterTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteWriterTests::initTestCase()
+FAIL!  : SqliteWriterTests::failedCommitRollsBack() Compared values are not the same
+   Actual   (writer.open(path_)): 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_writer_tests.cpp(548)]
+PASS   : SqliteWriterTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteWriterTests *********
+
+
+0% tests passed, 22 tests failed out of 22
+
+Label Time Summary:
+acceptance       =   0.09 sec*proc (22 tests)
+draft            =   0.09 sec*proc (22 tests)
+qt               =   0.09 sec*proc (22 tests)
+server           =   0.09 sec*proc (22 tests)
+sqlite-writer    =   0.09 sec*proc (22 tests)
+
+Total Test time (real) =   0.10 sec
+
+The following tests FAILED:
+	  4 - sqlite-writer.opensWalFullOnOwnerThread (Failed)  acceptance draft qt server sqlite-writer
+	  5 - sqlite-writer.commitsFifoBatchesBeforeCompletion (Failed) acceptance draft qt server sqlite-writer
+	  6 - sqlite-writer.rejectsDuplicateWriterUntilShutdown (Failed) acceptance draft qt server sqlite-writer
+	  7 - sqlite-writer.readerCannotWriteEvenAfterQueryOnlyOff (Failed) acceptance draft qt server sqlite-writer
+	  8 - sqlite-writer.readerIsOwnedByItsOpeningThread (Failed) acceptance draft qt server sqlite-writer
+	  9 - sqlite-writer.writerRejectsForeignThreadBeforeAdmission (Failed) acceptance draft qt server sqlite-writer
+	 10 - sqlite-writer.validatesLimitsAndBatchBeforeAdmission (Failed) acceptance draft qt server sqlite-writer
+	 11 - sqlite-writer.pendingCapacityRejectsQueuedOverflow (Failed) acceptance draft qt server sqlite-writer
+	 12 - sqlite-writer.rollsBackWholeBatchOnSqlFailure (Failed) acceptance draft qt server sqlite-writer
+	 13 - sqlite-writer.busyBeginFailsWithoutReplay (Failed) acceptance draft qt server sqlite-writer
+	 14 - sqlite-writer.readerSnapshotDoesNotBlockWalCommit (Failed) acceptance draft qt server sqlite-writer
+	 15 - sqlite-writer.shutdownDrainsAcceptedWorkAndRejectsNewWork (Failed) acceptance draft qt server sqlite-writer
+	 16 - sqlite-writer.shutdownIsIdempotentAndReleasesConnection (Failed) acceptance draft qt server sqlite-writer
+	 17 - sqlite-writer.closedLifecycleIsExplicit (Failed)  acceptance draft qt server sqlite-writer
+	 18 - sqlite-writer.readerMissingFileDoesNotCreateDatabase (Failed) acceptance draft qt server sqlite-writer
+	 19 - sqlite-writer.failedOpenDoesNotPublishAWriter (Failed) acceptance draft qt server sqlite-writer
+	 20 - sqlite-writer.completionCanEnqueueAfterCommit (Failed) acceptance draft qt server sqlite-writer
+	 21 - sqlite-writer.rejectsTransactionControlStatements (Failed) acceptance draft qt server sqlite-writer
+	 22 - sqlite-writer.completionExceptionDoesNotUndoCommitOrStopQueue (Failed) acceptance draft qt server sqlite-writer
+	 23 - sqlite-writer.boundsResultRowsAndRollsBack (Failed) acceptance draft qt server sqlite-writer
+	 24 - sqlite-writer.boundsResultBytesAndRollsBack (Failed) acceptance draft qt server sqlite-writer
+	 25 - sqlite-writer.failedCommitRollsBack (Failed)      acceptance draft qt server sqlite-writer
+Errors while running CTest
+
+Observed process exit: 8

@@ -84,6 +84,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_APPLICATION_PLAN_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-writer-debug",
+      "displayName": "10 \u00b7 Qt SQL SQLite writer baseline",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -122,6 +130,10 @@
     {
       "name": "application-plan-debug",
       "configurePreset": "application-plan-debug"
+    },
+    {
+      "name": "sqlite-writer-debug",
+      "configurePreset": "sqlite-writer-debug"
     }
   ],
   "testPresets": [
@@ -208,6 +220,16 @@
     {
       "name": "application-plan-debug",
       "configurePreset": "application-plan-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-writer-debug",
+      "configurePreset": "sqlite-writer-debug",
       "output": {
         "outputOnFailure": true
       },

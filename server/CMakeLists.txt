@@ -1,4 +1,10 @@
-# Framework-free services; Qt application/writer integration is separate.
+# Framework-free services and the separately enabled Qt SQL writer boundary.
+if(SUBATHON_BUILD_SQLITE_WRITER_TESTS)
+    add_library(subathon_sqlite_writer STATIC src/sqlite_writer.cpp)
+    target_include_directories(subathon_sqlite_writer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_writer PUBLIC Qt6::Core Qt6::Sql)
+    subathon_target_options(subathon_sqlite_writer)
+endif()
 if(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS)
     add_library(subathon_receipt_intake STATIC src/receipt_intake.cpp)
     target_include_directories(subathon_receipt_intake PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
