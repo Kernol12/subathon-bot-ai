@@ -24,6 +24,8 @@ if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
     foreach(case IN ITEMS
         canonicalPayloadAndDigestMatchLiteralVector
         canonicalNullUnicodeOrderingAndInvalidText
+        canonicalCodecPreservesInitialBom
+        storedSchemaPreservesInitialBom
         freshAdvanceCommitsWholePrefix
         supportedOldAdvancesOnceAndCurrentDoesNotReplay
         inspectionReportsFreshOldAndCurrentWithoutAdvancement
