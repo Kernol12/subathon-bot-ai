@@ -303,3 +303,115 @@ native suite or historical red was invoked, and only this review appendix change
 Host green does not establish selected official bundled Qt proof. Actual feature
 source/all oracles, shared CMake/link/discovery/CI, selected official NEW green
 and first authorized intended feature red remain separate mandatory gates.
+
+## Full actual feature, fixture and harness review
+
+Verdict: **approved the actual authored24-case baseline and committed harness**,
+with all findings resolved against the exact artifacts below. No new contribution
+body/init or historical red was invoked by this reviewer. Required actual selected
+official-Qt NEW green3 success still precedes the first feature run. Compilation/
+discovery/stable passes do not prove missing contribution behavior or future source.
+The owner limits work to completing PR37, then stopping; no STORAGE-014 production
+or next task is authorized by this review.
+
+Read every helper and all24 slots in actual author
+d438e2ebc7f4cfe995d6cb5ba599253377aa6b41/root full candidate
+e03e19e3a27757fbb50afaeeac3ca81161117451, then all214 additive lines in the
+separately authorized correction12ba6df446e0de5a18898764c5c4124416071d78/root
+3f85f3b25a147d9831e0054a008f9c146b25865f. Read corrected green577 and JSON44df
+completely as recorded above, actual shared CMake/workflow and author/CI evidence.
+Final scoped artifacts are:
+
+| Artifact | Git blob |
+| --- | --- |
+| Final feature24 | 46c901e0225b7755153decf25f4a5ff226d063db |
+| Corrected green3 | 577edeb0517e02e79263f5d439dedf5bc12306b1 |
+| Independent JSON | 44df9918cc8494dc209e3b1812784a080860e06c |
+| Qt registration/link/macros | f308ecb179d919b8b23117f6dc0d45f95050f0c4 |
+| Selected-Qt workflow | 48ece7b003806b0ff2ec7d55d3d1a7388e0c9a1d |
+
+Header0abeea2bb6d1e99faad7d6585400ad3d80e2eae8,
+stub0ad1315601218601289923fe7b02eebfb8573aaa,
+logicalf503f385bbd4fd4ce4b43dd3243911dc3bce8f40 and
+physicaleeb2fe04be49b7eeced0db6cf9eea29520dffc64 remain exact. Previous core/
+service/ports, original21 simulations, old111 stable cases and fixtures, prefixes
+and old production sources remain unchanged. The four named new stubs remain;
+this is no implementation acceptance pass.
+
+Three substantive actual full-test findings were separately corrected without
+removing/changing any original assertion or adding slots:
+
+| Finding | Actual inspected correction12ba6df |
+| --- | --- |
+| New014 original-only decoder lacked positive uint32/signed64 extrema; a narrowing/double-converting implementation could pass | Existing state/reopen slot adds two separately committed original fixtures: u32MAX/0, sourceUTC MIN/MAX and arrivalUTC MAX/MIN, exact raw INTEGER values, complete contribution/observation DTOs after actual reopen, retained owned values after writer close; expected IDs2/3 are literal |
+| Abandonment only exercised the old outer-finalizer backstop; a no-op new wrapper destructor could pass | Existing pending slot proves +1 earlier adopted retention/+1 contribution/+1 observation, resets the active complete wrapper while the work body still runs, then independently acquires/releases write lock and compares full old snapshot BEFORE return; all flags asserted outside, inherited rolled_back/not_committed/no value required |
+| Only matching/absent known-context links were positive, and malformed/limit target probes affected cfg only; skipping ctx/known-link lookup or inventing equality could pass | Existing original-target slot adds five isolated valid-then-tampered committed-receipt databases: healthy ctx1→cfg2 with arrivalcfg1 succeeds/full DTO+observation/raw link preserved; missing ctx, same-byte config-only ctx, dangling known cfg2 and same-byte context-only cfg2 each require invalid_stored_data, inside-catch lock release while wrapper lives, no returned ID/value and unchanged snapshot |
+
+Previous green cause-isolation finding and its actual517 correction remain covered
+by the preliminary review. No expected cause is manufactured by changing existing
+schema/interfaces/assertions. The deliberate ambiguity diagnostic explicitly uses
+malformed schema outside supported startup/import guarantees; it isolates actual
+duplicate selected rows rather than pretending UNIQUE permits them normally.
+
+Reviewed all SC01–SC15 oracles: six independent unsigned/zero typed vectors,
+canonical full migration/prefixes, real unchanged service and independent
+state/observation fields, binary four-part identity/proof, original versus later attempt,
+allocator/MAX/no-wrap, SQL uniqueness and association/no-retarget, complete ordered
+unresolved reads versus targeted writes, exact byte/options boundaries, malformed
+groups/types/targets and unrelated healthy data, pending/active destructor/real
+commit, owner/stale/local-second-begin/owned values and actual uncertainty. Limits
+use the named public standard-vector maximum, without querying UUT thresholds or
+materializing an enormous result. No semantic/provider proof or unknown fields
+are invented. First-support conditions and current state remain separate values.
+
+Init/cleanup/global setup calls no new14 method: independent literal three-step
+JSON is advanced through the already implemented runner. Raw fixture receipt
+originals and first attempts explicitly COMMIT before contribution work. Fixture-
+only FK/check disabling supports negative data; product writer enforcement stays
+unchanged. Raw same-unit green seeds are never substituted for prior-commit proof.
+Independent seed byte packing is not used as the expected new-codec result; those
+actual assertions compare literal six vectors and full payload hex/digests.
+
+The policy-free decorator forwards actual primitives, proves new-row count+1,
+NULL-to-exact-BLOB association or requested state-value delta before stage flags,
+then executes real failing SQL. Outside flags, inside-catch lock probes, exact
+errors/no payload and complete raw snapshots prevent earlier failures/finalization
+from supplying the requested rollback proof. Cumulative budget case proves both
+writes, a returned600000-byte result and second individually fitting attempt before
+requiring result_limit/rollback; no per-query reset or UUT-derived overhead count.
+Worker-specific named-stub flags are joined then rethrown on owner, preserving
+real input/thread assertions without an uncaught worker exception. Fault injection
+is the existing physical control seam; unknown tests demand one body/no replay,
+no normal result/known-port failure and actual committed rows or physical rollback,
+without relabeling uncertain outcome as rollback.
+
+Actual CMake keeps24 separate processes and all three fixture macros on both
+targets. Green links ONLY old writer/QtTest; examined actual linker command agrees
+with the earlier symbol audit. New workflow uses sqlite-contribution-debug for all
+old lanes, preserves old111 unconditional cases, pins/permissions/check name, runs
+required exact green3 before24 compiled-registration discovery, and has an explicit
+manual feature input defaultfalse. Automatic PR/main never runs known-red bodies;
+an explicitly executed failure propagates normally. No inversion, blanket
+continuation, assertion skipping or test-label collision is introduced.
+
+Actual independent checks:
+
+| Command/check | Result |
+| --- | --- |
+| Configure/build sqlite-contribution-debug at e03 | Exit0,18 additional build steps/new executables; zero warnings |
+| CTest JSON and both `-functions` listings | Exact143 total,24 compiled/registered feature names and3 compiled green methods; no feature init/body |
+| Safe-filter JSON guard, then `ctest --preset sqlite-contribution-debug -LE '^sqlite-contribution$' --output-on-failure` | Exit0,119/119 stable+green passes in2.62s; selected commands explicitly exclude the contribution feature executable |
+| Saved stable verbose log | HostQt6.12/SQLite3.54; green3 passes5 including init/cleanup/0skip, old diagnostics9/5/5 pass0skip; no SqliteContributionTests body |
+| Final46c incremental build/list after actual fix3f85 | Exit0/zero warnings, unchanged143 registrations/exact24; only feature source/author note changed, so stable119 inputs were not gratuitously rerun |
+| Frozen artifact/old-test/source/prefix invariants, complete additive patch review | Pass |
+| clang-format, project391/render/diff checks | Exit0;122 decisions/current HTML |
+
+Captures are /tmp/storagetest014-full-review-{configure,build,discovery,functions,
+green-functions,stable,stable-verbose,final-build,final-discovery,final-functions}
+with their log/json/txt suffixes.143 is discovery, never143 passing acceptance.
+Root must integrate this exact full approval, publish the actual candidate and
+observe selected official NEW577 green3/exact24 discovery before recording the
+first genuine intended red. That runtime/raw record and final completion metadata
+need their actual attribution review; none is pre-approved here. No native/old-red
+repetition or new feature-body invocation was used for this review. Finish only
+PR37 and necessary gates/fixes, then stop; no next-task or source implementation.
