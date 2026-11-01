@@ -132,3 +132,14 @@ historicaltmp paths preserved and no build/test process. No open task PR yet for
 011; the active coordinator branch is local/unpublished. Previous PR30 is actually
 merged, not assumed integrated from task status. No owner question or live release
 claim. Root clean at this checkpoint; author/reviewer future edits are isolated.
+
+Root [diagnostic probe](storagetest-011-probe.md) found currentQt6.12/SQLite3.54
+no-argument SELECT pragma_integrity_check/foreign_key_check already work inside
+existing source023451 session; numeric TVF(1) is NOT equivalent and failed, not
+counted as acceptance/red. Author independently agrees to simplify through existing
+SELECT and preserve writerAPI/source/header/allowlist. New baseline will require
+actual selectedQt CI green diagnostic-environment probe before any accepted red.
+No migration test or production algorithm exists yet. Root probe sources preserved
+in ignored local-evidence/coordinator/storagetest011-probes; actual author contract
+commit still pending, reviewer preparation complete/clean and must be resumed for
+actual review. No process left running.
