@@ -78,3 +78,8 @@ Final integration at cc48c63 independently approved879a04d2. Reviewer parsed the
 actual24-case exit8 output, confirmed all exact baseline/harness artifacts unchanged
 and independently inspected corrected Ubuntu41299021575 logs. No red rerun or
 new capability claim. Latest publication/CI/discussion/current-rule gates follow.
+
+PR29 merged normally as c60e1ed3f4d5cec3c76686199dbca135e38bc3c2 at
+2026-11-01T10:55:19Z. Final b9216ad had all11 checks successful, no review threads,
+MERGEABLE/CLEAN and current normal rules satisfied. Main refreshed; STORAGE-010
+is separately claimed. Preserve original review/red without repeating that gate.
