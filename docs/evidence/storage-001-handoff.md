@@ -79,3 +79,12 @@ textzbcvsabc, blob7A6263vs616263; every fixture/init/cleanup passed, zero skips.
 [Retained actual red](storage-001-ownership-red.txt). This completes the additional
 reviewed/red gate; the targeted admission ownership fix may now proceed without
 changing the original22/header/contract or the new3 assertions.
+
+
+Targeted fixauthorbe533bd (source829d9c66) followed that gate and is integrated
+at9d96363. It normalizes SQL and QString/QByteArray bindings with data/size copies
+while preserving nullness/types, after unchanged admission validation/counting.
+Author/root all25 writer cases and fullpreset28 pass; new3/header/contract/original22
+are unchanged. Fresh affected-source approval and actual Ubuntu25acceptance remain
+required. Author evidence22edea4 is append-only; earlier22CI is not reused as proof
+of this new source. [New test author evidence](storage-001-ownership-tests.md).

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T08:40:08+00:00",
+  "updated_at": "2026-11-01T08:50:23+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4168,17 +4168,18 @@
         "Claim from refreshed mainc2ca25a after PR24 merged finalf413511 all10checks/no threads/normalrules. Prerequisite STORAGETEST-001 complete: contract4d280461/header11d204aa/testsf8418e83, review3e7c8c7/finalb9d84ae, actual22stubred6647490(exit8), Qt6.12 officialarchiveCI41288299328 observed. Scope only current revision1 Qt writer/reader owned connections/queued transactions/bounds/rollback/busy/shutdown. Implementer owns ONLYserver/src/sqlite_writer.cpp +docs/evidence/storage-001-implementation.md; root owns shared CMake/presets/workflows/labels/state/HTML/map/status/checkpoint. Preserve22 reviewed assertions/interfaces/contracts. Accept22passing cases+separate code/configreview+actualautomatic acceptanceCI; no application schema/migration/crash/backup/transport/provider/platform claim.",
         "Sourceauthorf2a6379 integrated5562eaa, bloba8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811; evidence64e049e. All22 unchanged realQtSQLcases and fullpreset25pass author/root with Qt6.12/GNU16.2.1; contract/header/test hashes unchanged. Actualcandidate850eef4 includes unconditionalordinaryacceptanceCI/rootconfig promotion; isolated independentcode reviewer examining actualsource/bounds/ownership/failclosed/reentrancy. Sourceimplemented but codeapproval/UbuntuacceptanceCI/finalintegration/status/merge remain gates. No application schema/migration/recovery/provider/platform claim.",
         "Sourcef2a6379/a8e5c8e and unchanged22cases pass author/root/reviewer, fullpreset25pass. Independent code/configapprovald6f9c49 integrated422acfd. ActualordinaryUbuntuacceptanceCI41289246502 atPR25headed5da87 passed22+environmentprobe1, Qt/ICUhashesOK GNU13.3; all10checks passedthere. Boundedownedwriter/reader done; finalintegrationmetadatareview/latestheadCI/merge remain publicationgates. No app schema/repository/aggregate/job/migration/crash/backup/provider/platform claim. Originalreviewedred6647490 preserved.",
-        "Premerge ownership investigation confirmed genuine gap in sourcea8e5c8e: realQt6.12 reviewer probe shows fromRawData SQL/QString/blob inputs remain borrowed after queue valuecopy and caller backing mutation changes accepted work. This violates existing ownedqueue guarantee, not new product scope. Hold earlier ownership approval/PR25merge; preserve valid22baseline and observed passes. Author separately reviewed new regression, observe real intendedred before implementer deep-own normalization fix; no assertion weakening or originalbaseline repetition."
+        "Premerge ownership investigation confirmed genuine gap in sourcea8e5c8e: realQt6.12 reviewer probe shows fromRawData SQL/QString/blob inputs remain borrowed after queue valuecopy and caller backing mutation changes accepted work. This violates existing ownedqueue guarantee, not new product scope. Hold earlier ownership approval/PR25merge; preserve valid22baseline and observed passes. Author separately reviewed new regression, observe real intendedred before implementer deep-own normalization fix; no assertion weakening or originalbaseline repetition.",
+        "New3 ownershiptests34c25c27 approved94820fa before actual3bodyred atf79d002 (record1499d57, exit8). Only THEN authorbe533bd deep-owned SQL/QString/QByteArray atadmission; finalsource829d9c66 integrated9d96363, evidence22edea4. Original22/header/contract/new3 unchanged. Author/root25writer+full28pass. Fresh affectedcode/configreview and actualUbuntu25CI pending; prior22CI/otherreview retained but cannot satisfy newsource mergegate."
       ],
       "verification": {
         "native_build": "passed",
         "acceptance": "passed",
         "regression": "passed",
-        "code_review": "blocked",
-        "github_ci": "passed",
+        "code_review": "not_run",
+        "github_ci": "not_run",
         "application_crash_backup_provider": "not_run",
         "platform_release": "not_run",
-        "ownership_regression": "observed_red"
+        "ownership_regression": "passed"
       },
       "evidence": [
         "docs/evidence/storage-001-implementation.md",
@@ -10951,6 +10952,11 @@
       "date": "2026-11-01T08:40:08+00:00",
       "task": "STORAGE-001",
       "note": "Premerge ownership investigation confirmed genuine gap in sourcea8e5c8e: realQt6.12 reviewer probe shows fromRawData SQL/QString/blob inputs remain borrowed after queue valuecopy and caller backing mutation changes accepted work. This violates existing ownedqueue guarantee, not new product scope. Hold earlier ownership approval/PR25merge; preserve valid22baseline and observed passes. Author separately reviewed new regression, observe real intendedred before implementer deep-own normalization fix; no assertion weakening or originalbaseline repetition."
+    },
+    {
+      "date": "2026-11-01T08:50:23+00:00",
+      "task": "STORAGE-001",
+      "note": "New3 ownershiptests34c25c27 approved94820fa before actual3bodyred atf79d002 (record1499d57, exit8). Only THEN authorbe533bd deep-owned SQL/QString/QByteArray atadmission; finalsource829d9c66 integrated9d96363, evidence22edea4. Original22/header/contract/new3 unchanged. Author/root25writer+full28pass. Fresh affectedcode/configreview and actualUbuntu25CI pending; prior22CI/otherreview retained but cannot satisfy newsource mergegate."
     }
   ]
 }

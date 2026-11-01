@@ -115,18 +115,18 @@ allfixtures pass/no skips). Root adds
 separate executable/CTest3 and grouped completeCI registration, no behavior skip.
 `/root/storage_code_reviewer` approved actualnew3cases;
 `/root/storage_implementer` may now apply small deep-owned SQL/QString/QByteArray
-admission fix after reading retainedred/review. No fix is claimed yet.
+admission fix after reading retainedred/review. Actualfix be533bd/source829d9c66 integrated9d96363 after that gate;
+  author/root25writercases and fullpreset28pass, no assertionschanged.
 
-Current nextaction: normalize owned values after approved94820fa/actualredf79d002,
-then rerun22+3/regressions and separate
-code/configreview -> actual automatic Ubuntu25acceptance -> finalstatus/review/
+Current nextaction: fresh affectedcode/configreview of829d9c66 (author/root25
+writer/full28pass) -> actual automatic Ubuntu25acceptance -> finalstatus/review/
 latestCI/normalmerge. No owner decision needed; this enforces current contract,
 not a new product restriction. CORETEST-005 read-only prep by/root/debt_test_author
 is complete, no files/claim; its proposal is ready for a later dedicated task branch.
 
 Root's uncommitted edits are new regression harness/CI grouping and honest
-review-hold metadata/checkpoint. Original source is committed/unchanged; do not
-assume a fix or new regressionred has happened. No native root command is left running. Inspect
+review-hold metadata/checkpoint. Fix source829 is committed after reviewed actual3red; do not assume fresh
+sourceapproval or25caseUbuntuCI yet. No native root command is left running. Inspect
 actual worktrees/processes/agents/PRs if interrupted; do not assume active agents
 survive a session stop. No owner question or access decision remains.
 
