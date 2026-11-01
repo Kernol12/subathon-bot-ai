@@ -1,8 +1,10 @@
 # STORAGE-013 — Identified-receipt SQLite repository adapter
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3.2, §3.4, DB-01.
-Status/owner/dependencies: progress/state.json. Planned work only; no finalized
-slice interface, authored/reviewed tests or implementation is claimed by this brief.
+Status/owner/dependencies: progress/state.json. Implementation remains planned.
+STORAGETEST-013 now supplies the separately reviewed contract/API/22-case compiling
+intended-red baseline; [handoff](../../evidence/storagetest-013-handoff.md) records
+exact artifacts and remaining gates. No production adapter is claimed.
 
 ## Scope and ownership
 

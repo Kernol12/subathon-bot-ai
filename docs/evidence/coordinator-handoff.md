@@ -1,14 +1,15 @@
-# Coordinator checkpoint — STORAGETEST-013 selected CI gate
+# Coordinator checkpoint — STORAGETEST-013 baseline complete, merge gates pending
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
 loop under AGENTS.md and COORDINATOR_PROMPT.md. No owner decision/access is needed.
 The full product remains incomplete. Inspect actual agents, dirty files, processes,
-branches and GitHub before resuming; this document does not imply background life.
+branches and GitHub before resuming; no background liveness is implied.
 
-## Integrated main and preserved work
+## Integrated main and preserved history
 
-Last observed main: `a4bb5651dd35a36ac364a0b78c39a580f906e1d7`, PR34 merged
-2026-11-01T16:11:59Z. Actual postmerge: all ten workflows completed successfully.
+Last observed main is `a4bb5651dd35a36ac364a0b78c39a580f906e1d7`, PR34 merged
+2026-11-01T16:11:59Z, all ten postmerge workflows successful. Fresh remote fetch
+before the new fixture run confirmed main remains a4bb565.
 
 | Completed task | Merged PR | Durable evidence |
 | --- | --- | --- |
@@ -21,171 +22,102 @@ Last observed main: `a4bb5651dd35a36ac364a0b78c39a580f906e1d7`, PR34 merged
 | STORAGETEST-012 | [33](https://github.com/Kernol12/subathon-bot-ai/pull/33),ae57f2b | [Handoff](storagetest-012-handoff.md) |
 | STORAGE-012 | [34](https://github.com/Kernol12/subathon-bot-ai/pull/34),a4bb565 | [Handoff](storage-012-handoff.md) |
 
-Preserve all earlier core/accounting/writer contracts, separate reviews, original
-red evidence and historical refs/local-only checkpoints. Do not restart completed
-preparation or rerun original stub/red baselines. In particular, preserve the
-original migration22 red plus separately reviewed U+FEFF2 regression-red/fix, and
-retention16 reviewed red before implementation. The latest retention source is
-c96dae927f652088d2326e427740975d18ba4df2; API55c82815/contract5b0ee84a/
-testc0e54003/envAAA16447/JSON0f76fd2c and old writer02345198/migration4ee2365f
-remain unchanged. Author/root/reviewer95 pass and actual ordinary Qt41322157820
-passed unconditional16 before normal PR34 merge, as recorded in linked evidence.
-No current-config semantics, typed receipt codec or application bundle follows.
+Preserve all earlier contracts, actual reviews, original red evidence and refs/
+local-only checkpoints. Do not restart preparation or repeat completed reds,
+including migration22 plus U+FEFF2, retention16 and now receipt22. Latest retention
+sourcec96dae9/oldwriter0234519/migration4ee2365 remain unchanged. Their passing
+implementation evidence stays valid; it does not certify a receipt adapter.
 
-## Active task and publication
+## Current baseline task and actual publication
 
-STORAGETEST-013, dependency-ready from STORAGE-012/ACCT-001 integrated on main.
-Root branch `task/STORAGETEST-013-receipt-repository`, root worktree repository cwd.
-[Draft PR35](https://github.com/Kernol12/subathon-bot-ai/pull/35), latest published
-head observed `a152a82ed66413c73e99a5fbe443eabdaf569528`, all eleven checks SUCCESS.
-Root later integrated actual API approval16b15e9, all test revisions and full
-review7df446e/rootb1c77e1; publishing the approved full candidate now.
-these and subsequent local commits may not yet be pushed. Inspect actual heads.
-Task now in_review; STORAGE-013 implementation remains planned.
+Root branch `task/STORAGETEST-013-receipt-repository`, repository root worktree.
+[Draft PR35](https://github.com/Kernol12/subathon-bot-ai/pull/35), latest observed
+published head `5ffe2e428c1b219688a268ed155056d54a224988`, all11 checks SUCCESS.
+Root has subsequent completion metadata/raw red to commit and review; inspect
+actual HEAD/status. STORAGETEST-013 is done as a baseline, not yet merged.
+STORAGE-013 remains planned; do not start production from an unintegrated parent.
 
-[Brief](../tasks/EPIC-009/STORAGE-013.md), [logical contract](../contracts/sqlite-receipts-v1.md),
-[physical schema](../contracts/sqlite-receipts-schema-v1.md), [author](storagetest-013-author.md),
-[review](storagetest-013-review.md), [probe](storagetest-013-probe.md), [CI](storagetest-013-ci.md).
+[Complete handoff](storagetest-013-handoff.md), [author](storagetest-013-author.md),
+[fixture author](storagetest-013-fixtures.md), [different review](storagetest-013-review.md),
+[host probe](storagetest-013-probe.md), [CI](storagetest-013-ci.md),
+[raw first red](storagetest-013-red-ctest.txt), [brief](../tasks/EPIC-009/STORAGE-013.md).
+These pin exact contracts/API/stub/test/vectors and resolved review findings.
 
-Scope: actual SQLite adapter for unchanged ReceiptRepository/Transaction ports.
-ReceiptIntake alone classifies created/retry/conflict. Persist immutable originals,
-every ordered attempt, exact four-part identity and retained arrival references;
-real synchronous commit precedes service return. Preserve original15 fake-backed
-simulation as such; it is not retroactive SQL proof.
+Final frozen artifacts: testdab97946568e09f15119a8995735539eb2e14c4d,
+green8189f0274a38bb840c612673e0f858fe8d1777eb,
+JSONa79e5e71a3b9ca101441852c7fb7f26f735e9626,
+APIb43f9b6026498af18df22c2f695e76b23cb4064a,
+stubfaf2856d8d61a91e518c50b3c0fdffe80a0f33a3,
+logical contracte1ed975875e8b62d77d8efff67cfe5e8d5c95038,
+physical2ef4f1384c5c95c1bef5728b095ff5f4e7877e6a,
+Qt CMakeff3a197d60b5f7bc6486a69c5f7fe9c9fa49e5cf,
+workflowfeb5a9ff5d936c63dd4ebff2cfdff8f238e1fefd.
+New production has four explicit NotImplemented logic throws; no SQL behavior.
 
-An existing reviewed plan rule rejects receipt ID0. Root withdrew its conditional
-first0 proposal before implementation/review. Pure numeric codec covers0..MAX;
-persisted/allocated ReceiptId remains1..MAX, nullable allocator before first1,
-MAX once then exhaustion/no wrap/reuse. Existing plan contract/test stays intact.
-ReceiptFacts has no rate field: store its original money spelling here; actual
-HistoricalValuation rates/source/times remain mandatory downstream014/015 gates.
-Known context->configuration links resolve but need not equal arrival configuration.
-No missing-ID/provider capability or cross-field semantic rule is invented.
+## Actual completed gates, in order
 
-## Actual completed contract and API gates
+1. Contract/schema approval15bd1f7/roote7479d2, then API/stub/config approval
+   38d797e/root16b15e9 before test authoring. Existing nonzero receipt domain
+   policy is preserved; pure uint64 codec covers0..MAX. No guessed provider ID
+   policy, invented receipt-rate field or crosslink equality rule was added.
+2. Actual feature22 and independent JSON/green3 authored on isolated branches.
+   Separate inspection strengthened cumulative budget, strict length/type/NULL,
+   retained-target mapping, physical row-delta and worker diagnostic oracles.
+   All prior assertions/22names remain. Full actual approval7df446e integrated
+   b1c77e1 covers final8dfaf22 artifacts above. It approves no future source.
+3. Root/different reviewer compile/link and exact118 registration/22+3 discovery
+   pass.118 is discovery, not passing acceptance. Green3 passes5 including init/
+   cleanup/0skip; stable96 passes with new feature bodies explicitly uninvoked.
+4. Actual selected official-Qt automatic run41334070282 at5ffe2e4 SUCCESS:
+   both archive hashes OK, GNU13.3, Qt6.12/SQLite3.53.4, old25/work24/migration24/
+   retention16 and old green7+3 pass, NEW13-object receipt green3/current818
+   passes5/0skip, exact22 discovery. Manual feature step was not invoked.
+   Root read actual metadata/logs; all11 PR checks SUCCESS. Cached logs under
+   ignored local-evidence/coordinator/storagetest013-fixture-ci-5ffe2e4.*.
+5. ONLY THEN root validated hashes/cleanhead/fullapproval ancestry and first ran
+   `ctest --preset sqlite-receipt-debug -L sqlite-receipt --output-on-failure --parallel 1`
+   at5ffe2e4,2026-11-01T18:00:26.517274+00:00. Actual exit8/all22 explicit
+   unimplemented failures,22 init+22cleanup pass,0skips/crashes/setup/dependency
+   failures,total0.22s. Raw output preserved. DO NOT REPEAT THIS COMPLETED RED.
+   It is no claim later assertions are already reached or product behavior passes.
 
-- Contract author0c15432 integrated1b9cf6c. Root physical proposal845ae20:
-  step2 identified-receipts-v1, four exact SQL statements, three new tables/three
-  new autoindexes,13 total objects, allocator `(1,NULL)`, starts0/1/2. Prefix1 is
-  immutable. Independent payload10535bytes/SHA256
-  24614f68e9c41a29751ea9ef6ba08fcf655b1cdb0e0c097cb1601bb1581553a2.
-- Actual different contract/schema approval15bd1f7 integratede7479d2. Reviewer
-  independently verified schema/payload and14 SQL constraint probes. Local root
-  Qt6.12/SQLite3.54 private-writer diagnostic also passed exact projection/state.
-- Minimal API author21a396b integrated54ebbd8. Headerb43f9b6026498af18df22c2f695e76b23cb4064a,
-  explicit stubfaf2856d8d61a91e518c50b3c0fdffe80a0f33a3, logical contract
-  e1ed975875e8b62d77d8efff67cfe5e8d5c95038 (approved body plus precision appendix),
-  physical2ef4f1384c5c95c1bef5728b095ff5f4e7877e6a. Four named logic-error stub
-  throws only; no codec, manifest, allocation, transaction wrapper or SQL behavior.
-- Root minimal harness50c1e8b: new sqlite-receipt-debug preset/flag/library.
-  Root and different reviewer independently configured/built48steps and passed
-  old95 tests; no new receipt feature case existed at that stage.
-- Actual API/stub/precision/config approval38d797e integrated16b15e9. Pins owner-
-  thread/single-use, healthy local second-port-begin rejection, explicit adoption
-  authority after successful wrapper construction, exception-safe context begin,
-  transaction-owned state, append aggregate vs read quota and truthful cleanup.
-- Actual automatic PR Qt41329002993 at a152a82 compiled the new stub library and
-  passed old25writer/24work/24migration/16retention plus existing diagnostic7+3.
-  Both archive hashes/GNU13.3/Qt6.12/SQLite3.53.4 observed. This proves API build
-  and old suites, not the new13-object fixture or new receipt behavior.
+Host Qt6.12/SQLite3.54.0/GNU16.2.1 differs from selected CI bundled3.53.4. All
+source/interface/contract/fixture/harness artifacts remain frozen after red.
 
-## Current bounded assignments and ownership
+## Ownership, processes and next concrete action
 
-Author `/root/writer_transaction_reviewer`: existing isolated
-`local-evidence/worktrees/storagetest013-author`, branch `task/STORAGETEST-013-author`.
-Explicitly resumed from actual API approval for ONLY new
-`tests/qt/sqlite_receipts_tests.cpp` and own existing author evidence. No changes
-to API/source/contracts/JSON/shared files. Planned22 Qt slot names supplied to root.
-Actualauthor135d3d3 integrated97863f9, testbloba68cd5a72838c339ee5cf2e580e2a987880ce3b0.
-Initial test a68 was revised for actual separate review findings. Current author
-9b4f38d, integrated f3b2517, test0e61209e5ad16448416f62305de7eda90191d8e1.
-Author completed clean; no feature body/red ran. Root revised compile/discovery passed.
+Feature author `/root/writer_transaction_reviewer`: clean completed
+local-evidence/worktrees/storagetest013-author, branch task/STORAGETEST-013-author.
+Fixture author `/root/debt_code_reviewer`: clean completed
+local-evidence/worktrees/storagetest013-fixtures, branch task/STORAGETEST-013-fixtures.
+Different reviewer `/root/storage_work_code_reviewer`: clean completed full review
+in local-evidence/worktrees/storagetest013-review, branch task/STORAGETEST-013-review.
+Root now prepares completion metadata; next explicitly resume this different
+reviewer for ONLY final metadata/red/CI-attribution review evidence. Do not assume
+an old assignment or agent is still running. Authors own no further changes.
 
-Fixture/environment author `/root/debt_code_reviewer`: NEW isolated
-`local-evidence/worktrees/storagetest013-fixtures`, branch `task/STORAGETEST-013-fixtures`,
-created clean at16b15e9. Owns ONLY new `tests/fixtures/sqlite_receipts_vectors.json`,
-`tests/qt/sqlite_receipts_environment.cpp`, `docs/evidence/storagetest-013-fixtures.md`.
-Actualauthor33df432 integrated5561e69, JSONa79e5e71a3b9ca101441852c7fb7f26f735e9626,
-Initial green b1 was strengthened with actual NULL-insert rejection: cde2ef8,
-integrated e33d742, green8189f0274a38bb840c612673e0f858fe8d1777eb. Author completed clean.
-JSON has flat manifest2/full payload/13 objects plus six decimal/hex STRING codec
-vectors; unchanged old retained_context_vectors supplies literal prefix1. Three
-fixed green slots: receiptSchemaPrefixMatchesLiteralProjection,
-unsignedIdsAndSignedFieldsRemainExact, optionalGroupsAndTypedReferencesUseLiteralSchema.
-Green helper uses only existing private writer/QtTest and literal expectations;
-never calls the new codec/factory/adapter. Green diagnostics may run locally.
+Root owns shared schema/order/build/CI/state/map/HTML/checkpoint. Current root
+completion edits affect state/HTML, acceptance map, architecture/test strategy,
+brief, CI/handoff/checkpoint and raw red only; no source/test assertion changes.
+Run tooling19/DOM simulation/project/render/format/actionlint/diff checks, commit,
+obtain actual separate final metadata/red/CI review (no native/red rerun), push
+and observe latest-head all11 CI. Recheck current rules/required approvals/resolved
+threads/main and normal exact-head mergeability; ready PR and merge normally only
+once all gates pass. Then refresh main/create a separate STORAGE-013 branch/claim
+and explicitly assign stub implementation plus different code/config review.
+Implementation must preserve all frozen assertions, pass22 real cases and stable
+suites, and promote22 to unconditional automatic CI before completion.
 
-Reviewer `/root/storage_work_code_reviewer`: existing isolated
-`local-evidence/worktrees/storagetest013-review`, branch `task/STORAGETEST-013-review`.
-Completed contract/API reviews clean. Actualfixture/vector410linepre-inspection
-foundno blockers. Explicitlyresumed actualfull22/fixture/harnessreview afterroot
-integration/build/discovery; actualfulltestapproval pending. Owns only
-existing storagetest-013-review.md. It cannot author/approve its own tests.
+Last full worktree audit59 existing plus new fixture tree makes60;16 historical
+absent/prunable /tmp refs were preserved. Root/schema/build/green/first-red commands
+completed. Latest read-only review audit showed clean merged8df/no native process;
+inspect actual dirty files/agents/processes on resume. Never prune/discard history.
+Latest observed ruleset26170263 requires PR/resolved threads,0 GitHub approvals,
+no bypass/force/delete and no required-status-check rule. Written latest-head CI
+and reviews still mandatory; repository evidence cannot replace required approvals.
 
-Root owns physical schema/global migration ordering and all CMake/presets/workflows,
-state/map/HTML/checkpoint. Root nowcommits actual
-`tests/qt/CMakeLists.txt` and `.github/workflows/sqlite-writer.yml` wiring actual22
-feature slots plus required green3 and complete registration. Workflow keeps known-
-red bodies separately explicit/manual; no failure inversion or assertion weakening.
-Rootconfigure/build/linkpassed0warnings andexact118registration/22compiledslots/
-3greenslots. Root revised green3 passed5 including init/cleanup/0skip (including NULL INSERT);
-revised118/exact22+3 discovery passed. Earlier stable96(old95+green1exe)
-passed withnewfeaturelabelunrun. Actionlint/project/diffpassed. Boundedharness
-pre-reviewnofindings; actualfulltest/harnessapproval stillpending. No feature/redrun.
-
-## Actual review findings and revised artifacts
-
-The separate reviewer found bounded oracle gaps before any feature run. All prior
-assertions/22 names remain: original oversized-result case plus new cumulative
-600000+600000 result requests; stored9B canonical ID0e plus00; actual NULL INSERT
-refusal without fabricated selected-NULL proof; isolated retained TEXT3/BLOB4
-failures with receipt values<=3; count_after=count_before+1 before fault stage flags.
-Revisions:5a8b700/rootaa80102, cde2ef8/roote33d742, ad60c19/root7fa9f0a,
-9b4f38d/rootf3b2517. Current test0e61209e/green8189f027; JSONa79e5e71,
-APIb43/stubfaf/logicale1/schema2ef and all prior product sources remain unchanged.
-Root rebuilt and rediscovered118/22+3, new green5 passed/0skip. Actual full separate
-re-review of this final compiled candidate is pending. No feature body/red has run.
-
-## Next concrete action and audit limits
-
-Actualcandidatesintegratedandcompiled,118registrations/22newcompiled+3greenexact,
-rootgreen5/stable96passed. Obtain different actual full oracle/test/harness review,
-fix real findings separately, observe ordinary selected official-Qt green3 and
-complete new discovery, then root records the FIRST intended missing-behavior red.
-Do not turn missing compilation/setup/dependency/skips into red. A single MAX
-ordinal row is corrupt history; practical signed64 order-exhaustion guard remains
-explicit mathematical/code-review coverage, never a fake exhaustive test/skip.
-Only then baseline completion metadata/final review/latest-head CI/discussions/
-rules permit normal merge. STORAGE-013 source follows in a separate task PR.
-
-Last full resume audit:59 existing worktrees, only root's known edits dirty,
-other58 clean,16 historical absent/prunable /tmp refs preserved. One fixture tree
-now makes60. Host comm/cwd-only process audit found IDE/Codex/current read shell;
-root later schema probe/build/old95 all completed. Current test authors may write
-or run permitted compile/green commands; inspect actual processes on resume.
-No pruning/discarding/agent liveness assumption. Latest observed GitHub ruleset
-26170263 requires PR/resolved threads,0 GitHub approvals,no bypass/force/delete;
-no required-status-check rule. Written latest-head CI/review gates still mandatory.
-Repository evidence never replaces a required GitHub approval. PR35 remains draft.
-
-All seven integrations, three FX providers, application bundles/effects/jobs,
-backup/update/recovery, both renderers/UI/locales/themes, packaging, platform/live/
-OBS verification remain required. No credentials/supporter data/live chat/payment/
-deployment side effect. No owner question or access request is pending.
-
-
-## Current authoritative final gate
-
-Final strict-type patch913354a/root8630e74 and worker diagnostic183c908/root8dfaf22
-produce testdab97946568e09f15119a8995735539eb2e14c4d. It rebuilds without warnings;
-final118/exact22 discovery passes. Green818/JSONa79/APIb43/stubfaf/logicale1/
-physical2ef/CMakeff3/workflowfeb remain unchanged. The different reviewer read and
-approved ALL actual artifacts in7df446e, integratedb1c77e1; all findings resolved.
-Reviewer final compile/discovery passed; prior green5/stable96 inputs are unchanged.
-No feature body/red has run. Authors/reviewer completed clean, no native command
-pending. Root is publishing this candidate for actual selected official-Qt NEW
-fixture green3/current818 and22discovery proof. Existing API-only CI cannot satisfy
-that gate. After actual success and invariant/approval ancestry checks, root runs
-FIRST intended receipt feature red, records raw results, then completion metadata/
-final review/latest-head CI/discussion/rules checks before normal PR35 merge.
-No owner action/access is needed; STORAGE-013 source remains unimplemented.
+Full seven integrations/three FX providers, downstream numeric/rate persistence,
+semantic config/evaluation/application bundle/effects/jobs, backup/update/recovery,
+power-loss, renderers/UI/locales/themes, packaging/platform/live/OBS remain
+required. No credentials/supporter data/live chat/payment/deployment side effect.
+No owner question/access request is pending.

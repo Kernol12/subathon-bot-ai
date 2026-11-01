@@ -1,0 +1,279 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-receipt-debug
+      Start  97: sqlite-receipt.codecsMatchFullRangeLiteralVectors
+ 1/22 Test  #97: sqlite-receipt.codecsMatchFullRangeLiteralVectors .............................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::codecsMatchFullRangeLiteralVectors() SQLite receipts are intentionally unimplemented; review tests first
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(497)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start  98: sqlite-receipt.codecRejectsMalformedBuffers
+ 2/22 Test  #98: sqlite-receipt.codecRejectsMalformedBuffers ...................................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::codecRejectsMalformedBuffers() SQLite receipts are intentionally unimplemented; review tests first
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(508)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start  99: sqlite-receipt.manifestPreservesRetentionPrefixAndMatchesLiteralReceiptStep
+ 3/22 Test  #99: sqlite-receipt.manifestPreservesRetentionPrefixAndMatchesLiteralReceiptStep ...***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::manifestPreservesRetentionPrefixAndMatchesLiteralReceiptStep() SQLite receipts are intentionally unimplemented; review tests first
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(532)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 100: sqlite-receipt.intakeCreatesRetriesConflictsAndPreservesOriginal
+ 4/22 Test #100: sqlite-receipt.intakeCreatesRetriesConflictsAndPreservesOriginal ..............***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::intakeCreatesRetriesConflictsAndPreservesOriginal() '!(a).stub && !(a).invalid && !(a).storage && (a).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(542)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 101: sqlite-receipt.allFactsParticipateInConflictWithUnknownsPreserved
+ 5/22 Test #101: sqlite-receipt.allFactsParticipateInConflictWithUnknownsPreserved .............***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::allFactsParticipateInConflictWithUnknownsPreserved() '!(x).stub && !(x).invalid && !(x).storage && (x).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(618)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 102: sqlite-receipt.identityComponentsAndOpaqueBytesScopeReceipts
+ 6/22 Test #102: sqlite-receipt.identityComponentsAndOpaqueBytesScopeReceipts ..................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::identityComponentsAndOpaqueBytesScopeReceipts() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(685)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 103: sqlite-receipt.optionalFactsAndIntegerExtremaRoundTripAfterReopen
+ 7/22 Test #103: sqlite-receipt.optionalFactsAndIntegerExtremaRoundTripAfterReopen .............***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::optionalFactsAndIntegerExtremaRoundTripAfterReopen() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(737)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 104: sqlite-receipt.arrivalReferencesResolveWithoutCrosslinkEquality
+ 8/22 Test #104: sqlite-receipt.arrivalReferencesResolveWithoutCrosslinkEquality ...............***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::arrivalReferencesResolveWithoutCrosslinkEquality() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(791)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 105: sqlite-receipt.allocationCrossesSignedBoundaryAndExhaustsWithoutWrap
+ 9/22 Test #105: sqlite-receipt.allocationCrossesSignedBoundaryAndExhaustsWithoutWrap ..........***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::allocationCrossesSignedBoundaryAndExhaustsWithoutWrap() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(853)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 106: sqlite-receipt.failedCreateAndAppendRollBackAllocationAndRows
+10/22 Test #106: sqlite-receipt.failedCreateAndAppendRollBackAllocationAndRows .................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::failedCreateAndAppendRollBackAllocationAndRows() 'created' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(903)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 6ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 107: sqlite-receipt.adoptionCommitsRetentionAndReceiptBeforeServiceReturns
+11/22 Test #107: sqlite-receipt.adoptionCommitsRetentionAndReceiptBeforeServiceReturns .........***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::adoptionCommitsRetentionAndReceiptBeforeServiceReturns() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(973)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 108: sqlite-receipt.uncommittedAndIncompleteTransactionsCannotPublish
+12/22 Test #108: sqlite-receipt.uncommittedAndIncompleteTransactionsCannotPublish ..............***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::uncommittedAndIncompleteTransactionsCannotPublish() 'created && appended' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(995)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 6ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 109: sqlite-receipt.duplicatePrimitiveCreateIsSqlUniquenessFailure
+13/22 Test #109: sqlite-receipt.duplicatePrimitiveCreateIsSqlUniquenessFailure .................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::duplicatePrimitiveCreateIsSqlUniquenessFailure() 'first_created' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1043)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 6ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 110: sqlite-receipt.inputPreflightPriorityAndBoundsPreserveEarlierWrites
+14/22 Test #110: sqlite-receipt.inputPreflightPriorityAndBoundsPreserveEarlierWrites ...........***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::inputPreflightPriorityAndBoundsPreserveEarlierWrites() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1130)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 6ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 111: sqlite-receipt.selectedMalformedDataAndTargetsRequireKnownRollback
+15/22 Test #111: sqlite-receipt.selectedMalformedDataAndTargetsRequireKnownRollback ............***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::selectedMalformedDataAndTargetsRequireKnownRollback() 'caught' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1213)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 10ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 112: sqlite-receipt.allocatorAndAttemptHistoryCorruptionIsRefused
+16/22 Test #112: sqlite-receipt.allocatorAndAttemptHistoryCorruptionIsRefused ..................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::allocatorAndAttemptHistoryCorruptionIsRefused() '!(r).stub' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1313)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 7ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 113: sqlite-receipt.findHistoryLimitDoesNotTruncateOrLimitAppend
+17/22 Test #113: sqlite-receipt.findHistoryLimitDoesNotTruncateOrLimitAppend ...................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::findHistoryLimitDoesNotTruncateOrLimitAppend() 'appended' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1369)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 6ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 114: sqlite-receipt.cumulativeBudgetFailureRollsBackStagedReceipt
+18/22 Test #114: sqlite-receipt.cumulativeBudgetFailureRollsBackStagedReceipt ..................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::cumulativeBudgetFailureRollsBackStagedReceipt() 'created && appended && caught' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1425)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 6ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 115: sqlite-receipt.localSecondBeginPreservesFirstTransaction
+19/22 Test #115: sqlite-receipt.localSecondBeginPreservesFirstTransaction ......................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::localSecondBeginPreservesFirstTransaction() '!(r).stub && !(r).invalid && !(r).storage && (r).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1483)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 116: sqlite-receipt.foreignStaleTerminalAndOwnedLifetimesAreSafe
+20/22 Test #116: sqlite-receipt.foreignStaleTerminalAndOwnedLifetimesAreSafe ...................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::foreignStaleTerminalAndOwnedLifetimesAreSafe() '!(foreign).stub && !(foreign).invalid && !(foreign).storage && (foreign).unexpected.isEmpty()' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1563)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 117: sqlite-receipt.lostCommitAckReportsUnknownWithPhysicalReceipt
+21/22 Test #117: sqlite-receipt.lostCommitAckReportsUnknownWithPhysicalReceipt .................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::lostCommitAckReportsUnknownWithPhysicalReceipt() '!r.stub' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1648)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 5ms
+********* Finished testing of SqliteReceiptTests *********
+
+      Start 118: sqlite-receipt.lostCleanupAckOutranksLocalStorageFailure
+22/22 Test #118: sqlite-receipt.lostCleanupAckOutranksLocalStorageFailure ......................***Failed    0.01 sec
+********* Start testing of SqliteReceiptTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReceiptTests::initTestCase()
+FAIL!  : SqliteReceiptTests::lostCleanupAckOutranksLocalStorageFailure() 'created && appended' returned FALSE. (SqliteReceiptsNotImplemented: explicit missing receipt behavior)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_receipts_tests.cpp(1694)]
+PASS   : SqliteReceiptTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 6ms
+********* Finished testing of SqliteReceiptTests *********
+
+
+0% tests passed, 22 tests failed out of 22
+
+Label Time Summary:
+acceptance        =   0.21 sec*proc (22 tests)
+draft             =   0.21 sec*proc (22 tests)
+qt                =   0.21 sec*proc (22 tests)
+server            =   0.21 sec*proc (22 tests)
+sqlite-receipt    =   0.21 sec*proc (22 tests)
+
+Total Test time (real) =   0.22 sec
+
+The following tests FAILED:
+	 97 - sqlite-receipt.codecsMatchFullRangeLiteralVectors (Failed) acceptance draft qt server sqlite-receipt
+	 98 - sqlite-receipt.codecRejectsMalformedBuffers (Failed) acceptance draft qt server sqlite-receipt
+	 99 - sqlite-receipt.manifestPreservesRetentionPrefixAndMatchesLiteralReceiptStep (Failed) acceptance draft qt server sqlite-receipt
+	100 - sqlite-receipt.intakeCreatesRetriesConflictsAndPreservesOriginal (Failed) acceptance draft qt server sqlite-receipt
+	101 - sqlite-receipt.allFactsParticipateInConflictWithUnknownsPreserved (Failed) acceptance draft qt server sqlite-receipt
+	102 - sqlite-receipt.identityComponentsAndOpaqueBytesScopeReceipts (Failed) acceptance draft qt server sqlite-receipt
+	103 - sqlite-receipt.optionalFactsAndIntegerExtremaRoundTripAfterReopen (Failed) acceptance draft qt server sqlite-receipt
+	104 - sqlite-receipt.arrivalReferencesResolveWithoutCrosslinkEquality (Failed) acceptance draft qt server sqlite-receipt
+	105 - sqlite-receipt.allocationCrossesSignedBoundaryAndExhaustsWithoutWrap (Failed) acceptance draft qt server sqlite-receipt
+	106 - sqlite-receipt.failedCreateAndAppendRollBackAllocationAndRows (Failed) acceptance draft qt server sqlite-receipt
+	107 - sqlite-receipt.adoptionCommitsRetentionAndReceiptBeforeServiceReturns (Failed) acceptance draft qt server sqlite-receipt
+	108 - sqlite-receipt.uncommittedAndIncompleteTransactionsCannotPublish (Failed) acceptance draft qt server sqlite-receipt
+	109 - sqlite-receipt.duplicatePrimitiveCreateIsSqlUniquenessFailure (Failed) acceptance draft qt server sqlite-receipt
+	110 - sqlite-receipt.inputPreflightPriorityAndBoundsPreserveEarlierWrites (Failed) acceptance draft qt server sqlite-receipt
+	111 - sqlite-receipt.selectedMalformedDataAndTargetsRequireKnownRollback (Failed) acceptance draft qt server sqlite-receipt
+	112 - sqlite-receipt.allocatorAndAttemptHistoryCorruptionIsRefused (Failed) acceptance draft qt server sqlite-receipt
+	113 - sqlite-receipt.findHistoryLimitDoesNotTruncateOrLimitAppend (Failed) acceptance draft qt server sqlite-receipt
+	114 - sqlite-receipt.cumulativeBudgetFailureRollsBackStagedReceipt (Failed) acceptance draft qt server sqlite-receipt
+	115 - sqlite-receipt.localSecondBeginPreservesFirstTransaction (Failed) acceptance draft qt server sqlite-receipt
+	116 - sqlite-receipt.foreignStaleTerminalAndOwnedLifetimesAreSafe (Failed) acceptance draft qt server sqlite-receipt
+	117 - sqlite-receipt.lostCommitAckReportsUnknownWithPhysicalReceipt (Failed) acceptance draft qt server sqlite-receipt
+	118 - sqlite-receipt.lostCleanupAckOutranksLocalStorageFailure (Failed) acceptance draft qt server sqlite-receipt
+Errors while running CTest

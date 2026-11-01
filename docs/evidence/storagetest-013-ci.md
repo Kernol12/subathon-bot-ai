@@ -85,3 +85,24 @@ artifacts; prior green5/stable96 inputs are unchanged. No feature body/red has r
 Root now publishes the approved full candidate for required actual selected NEW
 fixture green3 and22discovery. Its actual run/result must be recorded before the
 first intended feature red; earlier API-only success cannot replace this proof.
+
+
+## Required selected new-fixture proof, then actual first red
+
+[Automatic run41334070282](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41334070282)
+at actual5ffe2e428c1b219688a268ed155056d54a224988 completed SUCCESS after full
+approvalb1c77e1 was integrated. Root downloaded/read metadata and executed logs:
+Qt/ICU hashes OK, GNU13.3, both new executables compiled, actual Qt6.12/SQLite3.53.4,
+old25/work24/migration24/retention16 and diagnostic7+3 pass, NEW receipt green3
+passes5 including init/cleanup/0skip, exact22 compiled/CTest discovery. Manual
+feature step was not invoked. All11 PR checks at this head were SUCCESS.
+Ignored captures are storagetest013-fixture-ci-5ffe2e4.json/.log.
+
+Only then root verified exact hashes/cleanhead/fullapproval ancestry and ran the
+FIRST feature label at the same5ffe2e4 at2026-11-01T18:00:26.517274+00:00:
+`ctest --preset sqlite-receipt-debug -L sqlite-receipt --output-on-failure --parallel 1`.
+Actual exit8/all22 explicit missing-behavior failures,22 initTestCase+22cleanup
+passes, each2pass/1fail/0skip,0crashes/setup/dependency failures,total0.22s.
+[Raw output](storagetest-013-red-ctest.txt) is preserved; do not repeat this red.
+Local hostQt6.12/SQLite3.54.0/GNU16.2.1 differs from selected CI bundled3.53.4.
+Final metadata/red/CI-attribution review and latest-head merge checks remain.
