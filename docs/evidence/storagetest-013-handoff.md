@@ -124,3 +124,16 @@ Completion consistency checks actually pass: project391/122 decisions, tooling19
 progress render/check, DOM simulation, clang-format, actionlint1.7.12 and diff
 checks. Actual browser/responsive/accessibility/OBS rendering was not run. No native
 feature/red was repeated for metadata; latest-head CI and final review remain.
+
+
+## Actual integration outcome
+
+PR35 actually merged `a97e048b198a2293b58a25bd09d92518e95b0da5` at
+2026-11-01T18:16:21Z. Exact final head8a66a3a had all11 checks SUCCESS, full
+approval7df446e and final metadata/red/CI-attribution approval81ad4ca, no unresolved
+threads, current normal rules/0 required GitHub approvals, ready/MERGEABLE/CLEAN.
+Root used `gh pr merge 35 --merge --match-head-commit 8a66a3a03dde1fe830500d152d6b670855d20f8c`,
+without bypass/force/deletion, then refreshed main. Final writer CI41335545669
+succeeded. This closes baseline publication gates; the previous pending wording
+above records the completion snapshot. STORAGE-013 is now separately claimed from
+integrated maina97e048. Its production code/passing acceptance/review remain future.

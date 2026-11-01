@@ -1,10 +1,13 @@
 # STORAGE-013 — Identified-receipt SQLite repository adapter
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3.2, §3.4, DB-01.
-Status/owner/dependencies: progress/state.json. Implementation remains planned.
+Status/owner/dependencies: progress/state.json. Implementation is now claimed
+from integrated maina97e048 after the normal PR35 baseline merge.
 STORAGETEST-013 now supplies the separately reviewed contract/API/22-case compiling
 intended-red baseline; [handoff](../../evidence/storagetest-013-handoff.md) records
-exact artifacts and remaining gates. No production adapter is claimed.
+exact artifacts and remaining gates. The component now passes reviewed22/full118 and actual automatic officialQt CI;
+[implementation handoff](../../evidence/storage-013-handoff.md) records exact
+source/review and remaining merge/full-release gates.
 
 ## Scope and ownership
 
@@ -66,18 +69,35 @@ missing-local-identity test. Do not alter that completed contract/assertion. Use
 explicit allocator absence (proposed nullable last_allocated BLOB) before first1,
 then allocateMAX once and fail exhaustion without wrap/reuse. Root's initial
 first0 proposal was withdrawn after discovering this actual cross-contract rule;
-no first0 behavior was implemented or approved. Exact schema/options still need
-new actual contract review before test authoring.
+no first0 behavior was implemented or approved. The exact schema/options later
+received actual separate contract/API and full test review before the observed red;
+see the baseline handoff for those completed gates.
 
 
 ## Actual contract candidate and rate-field scope reconciliation
 
 The [adapter contract](../../contracts/sqlite-receipts-v1.md) and root-owned
 [additive migration2 proposal](../../contracts/sqlite-receipts-schema-v1.md) are
-actual documents awaiting different review, not finalized behavior/tests. Existing
+actual documents subsequently approved with the baseline, not implemented
+production behavior. Existing
 ReceiptFacts has no exchange-rate field: exact original_decimal/currency belongs
 here; actual HistoricalValuation fetched/effective rate spellings/source/time and
 provenance belong to the planned contribution/plan adapters014/015 and their new
 reviewed test/red gates. Do not invent an unused receipt column or drop that
 mandatory downstream lossless proof. The reviewed core/ports and original15
 simulation assertions stay unchanged.
+
+
+## Implementation assignment
+
+Only server/src/sqlite_receipts.cpp and new own implementation evidence may be
+edited by the isolated implementation author. API, contracts, reviewed22/green3,
+JSON and old production sources/assertions remain frozen. Root owns shared
+schema/order/build/preset/workflow/state/map/checkpoint integration. Copy the exact
+accepted migration2 constants/order; do not redesign prefix1 or add a private
+writer API. Review allocation exception safety before any first SQL mutation and
+pending-original tracking, so caught allocation failure cannot permit an untracked
+original to commit. The different code reviewer must inspect true signed64 ordinal
+exhaustion guards mathematically; no fake MAX-row exhaustiveness claim is allowed.
+Passing22/118 checks plus actual separate source/config review and unconditional
+automatic selected-Qt receipt acceptance are required for component completion.

@@ -132,7 +132,7 @@
     },
     {
       "name": "sqlite-receipt-debug",
-      "displayName": "15 \u00b7 Identified receipt SQLite baseline (expected red)",
+      "displayName": "15 \u00b7 Identified receipt SQLite acceptance",
       "inherits": "sqlite-retained-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_RECEIPT_TESTS": "ON"
