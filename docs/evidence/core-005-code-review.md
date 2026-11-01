@@ -125,3 +125,55 @@ Proportional entitlement/reversal allocation, authoritative audit/permission/rev
 ledger/persistence/effects/jobs, real cap edits, lifecycle/hard-end ordering,
 post-finish/reopen application, providers/platforms/live checks and full release
 remain outside this bounded numeric implementation and are not upgraded by review.
+
+## Final completion, CI evidence and integration review
+
+Reviewer `/root/debt_code_reviewer`, 2026-11-01; actual completion candidate
+`f55d99a`. The isolated reviewer branch normally merged the task branch, preserving
+original review commit `98f3f04` and its coordinator integration `091eda9`.
+Production source, interface, contract, 32 test bodies, workflow and build/preset
+files have no diff from the originally approved candidate `f0c888f`. Exact source
+`68141b15` and workflow `792b14b6` remain unchanged. No assertion or original
+numeric/lifecycle behavior was altered to obtain a passing result.
+
+I independently queried actual
+[Ubuntu run 41294422355](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41294422355):
+completed successfully at exact head
+`de78828efc7388da926b91cfd1ad89d65ed2f2ed`. The commit's check-runs independently
+show all 11 cited-head checks completed successfully. I downloaded and read actual
+job logs: GNU13.3.0, selected `_deps/googletest-build` compilation, exact
+`Discovered all 32 compiled time-debt cases`, followed by the unconditional
+`Run reviewed debt acceptance` step and 32/32 passed. This is actual passing
+ordinary acceptance for the implemented proposals, distinct from the old
+build/discovery-only baseline run. No manual behavior guard or hidden failure
+remains. These observations do not certify a different or later PR revision.
+
+The state correctly marks CORE-005 done with passing native/acceptance/regression,
+separate code review and observed GitHub CI; application entitlement/persistence/
+provider and platform-release fields remain not_run. NUM-03 remains partial and
+explicitly excludes proportional entitlement, ledger allocation and authoritative
+effects/audit/permissions/persistence. Updated architecture, strategy and CI docs
+state pure proposal/CORE-002 composition scope, retain original reviewed stub-red
+and distinguish actual Ubuntu acceptance from release or provider verification.
+The handoff links the unchanged baseline and the source/review/CI evidence.
+
+The old reviewed/red sequence remains valid: baseline approval `b3413e5` integrated
+at `dba4401` before its recorded 32 stub body failures, final baseline approval
+`5474fdc`, and prerequisite merge `bca06e8` before this task's author branch.
+No additional red or native behavior runs were needed for this metadata review;
+my independent 32/35 checks above remain valid because their inputs are unchanged.
+At this revision `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check` and `git diff --check` each exited 0.
+
+**Approved for final implementation integration/completion** at `f55d99a`.
+When recording this approval, the coordinator should remove or clearly mark as
+historical the checkpoint's inherited prior-session declarations that the current
+root is still a local-only checkpoint, no task claim exists, and CORE-005 is still
+unimplemented. The later current-assignment section already correctly records this
+task and its completion gates. Mark this review role in past tense after recording
+approval so the next resume has one clear current state.
+
+Latest-head CI, resolved discussions, any current required GitHub approvals and
+normal merge rules still require a fresh check before merge; this review claims
+no merge. All downstream application/accounting/recovery/provider/platform and
+full-release gates listed above remain explicit and unresolved by this helper.
