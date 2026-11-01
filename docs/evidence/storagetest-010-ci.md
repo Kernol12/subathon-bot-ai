@@ -26,3 +26,15 @@ execution remain pending at this draft stage. No new transaction behavior,
 provider capability, release platform, hard execution deadline or domain schema
 has been verified. Existing ruleset configuration does not enforce status checks;
 all applicable latest-head checks remain written merge requirements.
+
+## Actual first Ubuntu workflow run
+
+[Run41298835177](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41298835177)
+at PR29 head a6499f4 succeeded. Retained logs show both selected Qt/ICU SHA256
+checks OK, GNU13.3.0, Qt event-loop1/1, old25 acceptance all passed, exact complete
+old25 registration, and exact24 work registration with new bodies explicitly not
+run. All11 PR checks at a6499f4 succeeded. This establishes actual changed workflow
+execution for that candidate; it is not a result for later test-fix revisions or
+passing new work behavior. Independent test review requested two focused outcome-
+matrix additions before approval; their final compile/CI and intended red remain
+pending. Raw logs are ignored in local-evidence/coordinator, not source artifacts.
