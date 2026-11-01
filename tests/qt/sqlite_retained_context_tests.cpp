@@ -75,7 +75,11 @@ class Fixture final {
         db_ = {};
         QSqlDatabase::removeDatabase(name_);
     }
-    bool open() { return db_.open(); }
+    bool open() {
+        // Only this independent negative-fixture connection permits dangling
+        // stored-link seeds. Product writer FK enforcement remains unchanged.
+        return db_.open() && exec("PRAGMA foreign_keys=OFF");
+    }
     bool exec(const QString &sql, const QList<QVariant> &bindings = {}) {
         QSqlQuery query(db_);
         if (!query.prepare(sql))

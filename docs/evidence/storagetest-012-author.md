@@ -226,3 +226,11 @@ ReceiptId/ContributionId/CapturedPlanRevision slices. Opaque full-range vectors
 here do not certify numeric SQL conversion. Configuration schemas/resolvers,
 backup/recovery/update authority, evaluators, providers and release-platform
 verification remain outside this bounded baseline and remain required later.
+
+Precompile fixture correction: the independent fixture connection now explicitly
+sets foreign_keys=OFF for deliberate dangling stored-link seeds rather than
+relying on a driver's compile-time default. This negative-data construction is
+not a product policy change: the existing product writer enables/enforces ON,
+which the green environment proof checks. No baseline assertion or expected
+result changed; no new body ran. This avoids misclassifying a seed failure as
+intended red on a selected official Qt build.
