@@ -70,9 +70,10 @@ that gate completes/merges. No unspecified provider/default policy is invented.
 - `/root/debt_test_author` owns ONLY new `time-debt-v1.md`, coretime_debtheader/
   explicitstub, GoogleTesttime_debt_tests.cpp and author evidence in
   `local-evidence/worktrees/coretest005-author`, branch
-  `task/CORETEST-005-debt-author`. Read-only prepcomplete; actualauthoring active.
-- `/root/debt_test_reviewer` is doing read-only requirements prep; exact candidate
-  and isolatedreviewworktree follow author handoff. No approval or red exists yet.
+  `task/CORETEST-005-debt-author`. Author389f8ba complete/clean, integrated017e0c4;32cases compile/discover.
+- `/root/debt_test_reviewer` is independently reviewing actuale405ae4 in isolated
+  `local-evidence/worktrees/coretest005-review`, branch `task/CORETEST-005-debt-review`.
+  No approval or red exists yet.
 - Root owns all shared CMake/presets/CI/map/state/HTML/checkpoint/PR integration.
 - All earlier storage authors/reviewers completed with clean isolatedworktrees;
   no old agent is assumed running. A corrected audit found36then-existing worktrees
@@ -110,13 +111,15 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-Obtain final debt API/build requirements and authored contract/stubs/tests. Root
-wires optional explicit GoogleTest lane, compiles/discovers without calling that
-red, then supplies exact candidate to separate reviewer. Resolve real requirement
-questions without inventing defaults; only after actual review run intended red.
-Update baseline evidence/map/status and focused PR; require applicable latestCI/
-reviews/currentnormalrules before merge, then proceed CORE005 implementation or
-another ready slice. Do not implement debt behavior before its reviewed/red gate.
+Actual debt contract/header/stub/tests candidatee405ae4 compiled/discovered32;
+no bodies run. Contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65.
+Root wired time-debt-debug optionalGoogleTestlane, timercompositiontarget, and new
+automatic baselinebuild/discovery workflow (actionlintpass). Separate reviewer
+has actualcandidate/worktree. Finish actualreview, then run intendedred and retain
+behavior failures, not dependency/compilation errors. Publish focused baseline PR,
+observe actualUbuntu build/discovery, update evidence/map/status and require final
+reviews/latestCI/currentrules before merge; CORE005 remainsunimplemented untilits
+reviewed/red prerequisite integrates. Do not shrink release scope or inventdefaults.
 
 Root's uncommitted changes are merged-writer outcome/checkpoint and currenttask
 metadata; new author work is isolated. No root native command remains running.
