@@ -48,7 +48,7 @@ The contract proposes these bounded internal decisions for separate review:
   retain existing work semantics. No partial prefix, hidden retry, fabricated fault
   result, automatic repair or power-loss recovery claim is introduced.
 
-Sixteen literal future examples cover fresh/prior/current inspection, foreign and
+Eighteen literal future examples cover fresh/prior/current inspection, foreign and
 partial catalogs, duplicate/gapped/mismatching history, unsupported versions,
 actual CHECK/FK violations, DDL failure and rollback lock release, cancellation,
 busy, physical commit/rollback acknowledgment loss, exact resources and diagnostic
@@ -157,3 +157,32 @@ now require parentheses, retain LIMIT 2/1, and add shadow/unavailable negative
 checks to MC16 and the later green selected-Qt probe. Root separately confirmed
 this in actual host Qt probes; this author still claims only the Python technical
 probe, not selected-Qt/CI acceptance or new feature red.
+
+## Database-encoding correction before contract approval
+
+Actual re-review of `cd25d32` found that CAST(TEXT AS BLOB) returns bytes in the
+database encoding, not necessarily UTF-8. The integrator chose catalog-format-1
+UTF-8 encoding explicitly. The contract now requires fixed
+`SELECT * FROM pragma_encoding()` as the first inspection, strict one-row/one-TEXT
+`UTF-8` result, before stored-byte/catalog/bootstrap trust and again before commit.
+UTF-16/unknown/error/shadow results refuse without conversion, a setter or repair.
+This is an internal file-format choice with full Unicode capacity, not an external
+SQLite-import guarantee or an assumption about every Qt creation API.
+
+Primary [SQLite CAST](https://www.sqlite.org/lang_expr.html#castexpr) and
+[encoding](https://www.sqlite.org/pragma.html#pragma_encoding) documentation were
+read. An independent disposable Python SQLite 3.54.0 probe created UTF-8,
+UTF-16le and UTF-16be fixtures, each with stored `é🙂`. The exact function returned
+each declared encoding; CAST bytes were respectively `C3A9F09F9982`,
+`E9003DD842DE` and `00E9D83DDE42`. The probe changed encoding only during fixture
+creation, not in runner code. No selected-Qt result is claimed by this author.
+
+A separate standard-library Python canonical-framing/SHA-256 calculation produced
+the contract's literal valid `m1` content vector, including exact metadata/schema
+objects, two SQL strings and multibyte text: 636 payload bytes, digest
+`3d1e0f776ae0a3f84c9036c099b0a1333ea735eb88e22fc666f5f3f72bf972bc`.
+This independent reference is not future production code. MC17/MC18 now require
+real UTF-16 refusal and frozen UTF-8 byte/payload/digest oracles. The future green
+selected-Qt environment probe must verify creation encoding/raw bytes and negative
+UTF-16/shadow behavior before any intended migration red can count. Existing49,
+writer/header/allowlist and executable behavior remain unchanged.

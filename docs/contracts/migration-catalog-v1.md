@@ -161,7 +161,9 @@ Every hashed/projected text field must be valid Unicode with an exact strict UTF
 round trip, with no embedded NUL. Reject unpaired UTF-16 surrogates or invalid,
 overlong or replacement-decoded stored UTF-8; never hash repaired text. Actual
 SQLite text can be inspected alongside its `CAST(... AS BLOB)` bytes and typeof
-through existing SELECT, so loss in Qt decoding cannot masquerade as identity.
+through existing SELECT only after the UTF-8 database-encoding gate below. SQLite
+uses database encoding for that cast; it is not an encoding-independent UTF-8
+extractor. [SQLite CAST expressions](https://www.sqlite.org/lang_expr.html#castexpr).
 Auxiliary validation columns count against the same result budgets. Compare the
 actual raw bytes with the strict encoding rather than accepting a lossy QString.
 The complete manifest remains owned/immutable through completion; callers supply
@@ -188,6 +190,23 @@ reviewed projection. [SQLite schema table](https://www.sqlite.org/schematab.html
 
 All database observations occur inside the item's one real BEGIN IMMEDIATE, so
 validation and subsequent changes share the same snapshot/write exclusion.
+
+Catalog format 1 requires UTF-8 main-database encoding. Before trusting stored
+text/raw-byte comparisons, catalog identity or bootstrap, the first inspection is
+the fixed explicit function call:
+
+```sql
+SELECT * FROM pragma_encoding()
+```
+
+It must return exactly one row/one TEXT column equal to `UTF-8`. UTF-16le,
+UTF-16be, unknown values, other shapes/types, unavailable functions, errors or
+ordinary shadow tables refuse inspection with no conversion, PRAGMA setter or
+repair. Recheck as part of final target verification before commit. This format
+choice retains full Unicode text capacity; it does not promise arbitrary external
+SQLite database import. SQLite's default encoding depends on the opening API, so
+actual selected-driver creation must be probed rather than assumed.
+[SQLite encoding](https://www.sqlite.org/pragma.html#pragma_encoding).
 
 - Fresh means the main schema has no objects and neither catalog relation exists.
   A partially initialized catalog or an unrelated table is not fresh.
@@ -243,10 +262,12 @@ file editors, future correctness, backup validity or recovery authorization.
 
 Selected-driver support must be demonstrated independently of stubbed migration
 behavior. The later baseline needs a small green Qt/SQL environment probe using
-the existing writer/session and fixed diagnostics, run in local and selected
+the existing writer/session and fixed encoding/integrity/FK diagnostics, run in local and selected
 official-Qt CI before new intentionally red cases. Missing TVFs, wrong query
 shapes or fixture initialization cannot count as intended feature red. Current
 host probes do not establish future platform or bundled-driver compatibility.
+The probe must verify actual UTF-8 creation/raw multibyte bytes, forced-function
+shadow refusal and a genuinely UTF-16 fixture's refused encoding without conversion.
 
 ## Atomic progression, cancellation and outcomes
 
@@ -309,8 +330,23 @@ total-memory, shutdown deadline or arbitrary callback bound is claimed.
 
 These are manually specified future oracles, not authored tests or observed red.
 Use synthetic tables, real disposable Qt SQL files, independently built catalog
-fixtures and independent observers. Later tests must first fix physical catalog
-DDL/names and derive literal canonical-byte/digest vectors with a separate oracle.
+fixtures and independent observers. Use the exact metadata DDL above, verify its
+selected-driver projection and derive literal canonical vectors with a separate
+oracle. One full valid migration-content vector is fixed here:
+
+- Version 1, ID `m1`, two SQL texts in order: `CREATE TABLE sample(label TEXT)`
+  and `INSERT INTO sample VALUES ('é🙂')`.
+- Its four expected objects are the two exact metadata table rows and generated
+  NULL-SQL index row above, plus
+  `('table','sample','sample','CREATE TABLE sample(label TEXT)')`, sorted by the
+  specified UTF-8 tuple rule.
+- U(`é🙂`) is hex `c3a9f09f9982`; F(U(`é🙂`)) is
+  `363ac3a9f09f9982`. The complete canonical payload is 636 bytes and SHA-256 is
+  `3d1e0f776ae0a3f84c9036c099b0a1333ea735eb88e22fc666f5f3f72bf972bc`.
+
+These literal framing/content results were derived with a separate Python
+reference, not the future implementation; later tests must freeze the complete
+payload as well as the digest and reject UTF-16 byte counting/replacement decoding.
 
 | ID | Sequence and required observable result |
 | --- | --- |
@@ -330,6 +366,8 @@ DDL/names and derive literal canonical-byte/digest vectors with a separate oracl
 | MC14 | First migration SQL failure triggers rollback whose acknowledgment is lost: uncertainty overrides SQL error, no known-rollback claim; queued work fails in order and connection/admission close |
 | MC15 | Cross a cumulative statement/result/byte limit after prior DDL; rollback removes all new DDL/catalog changes. Exact-boundary run succeeds with framework diagnostic/catalog overhead included |
 | MC16 | Fixed diagnostic TVF unavailable, ordinary shadow table named `pragma_integrity_check` containing `ok` or empty `pragma_foreign_key_check` shadow, malformed result, observer/catalog row limit exceeded or unparseable database: fail inspection without a clean/readiness assertion; green environment probe failure is not feature red |
+| MC17 | Actual UTF-16le/UTF-16be fixture, even with otherwise matching-looking catalog/schema/data: the first encoding query refuses before bootstrap/identity trust. Stored encoding and all logical data remain unchanged; no conversion or update is authorized |
+| MC18 | UTF-8 multibyte valid vector above produces the literal 636-byte payload/digest; UTF-16 byte lengths, altered Unicode/SQL, invalid stored UTF-8 and unpaired QString surrogates cannot silently share that identity. Green selected-Qt raw-byte/encoding checks precede migration stub-red |
 
 Physical process kill, disk/power loss, backup/restore, installation updates,
 code/schema rollback and actual supported release-platform verification require
