@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-014 contract claim
+# Coordinator checkpoint — STORAGETEST-014 API stage
 
 Coordinator `/root`, 2026-11-01. Continue full specification v0.45 under AGENTS.md/
 COORDINATOR_PROMPT.md. No owner decision/access is needed; product remains
@@ -41,113 +41,81 @@ af65401 pins/GNU13.3/Qt6.12SQLite3.53.4/old89/green7+3+3/UNCONDITIONAL22PASS0.61
 Final4fc writer41338942002/all11 pass before merge. Original raw red and all source/
 fixture/metadata review chronology remain linked in handoffs. No proof is relabeled.
 
-## Current executable task and planned ownership
+## Current task and actual gate
 
-STORAGETEST-014 was selected unclaimed/dependency-ready on integrated main: STORAGE-013 and
-ACCT-002 are done. Root created dedicated branch
-`task/STORAGETEST-014-contribution-repository` from actual e331714 BEFORE claim
-edits. [Brief](../tasks/EPIC-009/STORAGE-014.md),
-[existing contract](../contracts/contribution-eligibility-v1.md),
-[actual ports](../../server/include/subathon/server/contribution_evidence.hpp),
-[core values](../../core/include/subathon/core/contribution.hpp),
-[service](../../server/src/contribution_evidence.cpp).
-Task is now claimed/in_progress; STORAGE-014 production remains planned.
+STORAGETEST-014 is in progress on
+`task/STORAGETEST-014-contribution-repository`, from integrated main e331714.
+STORAGE-014 production remains planned. [Brief](../tasks/EPIC-009/STORAGE-014.md).
+Logical author9897778 integrated432271f. Root physical proposal cca150c appends
+migration3 `contribution-evidence-v1`, four SQL statements/three tables/seven new
+objects, total20. Exact payload18126 bytes, SHA256
+`b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d`;
+immutable prefixes1/2 remain unchanged. [Host diagnostic](storagetest-014-probe.md)
+is an actual Python and Qt6.12/SQLite3.54 existing-writer observation, not feature
+acceptance or selected official Qt proof.
 
-Initial stage ONLY a versioned SQLite contribution/evidence contract/examples and
-own author evidence. No new C++/API/stub/Qtcase/JSON/schema-source/implementation
-or feature/red body before the actual different contract/API/test gates.
-Root owns exact additive global migration3/schema/order/immutableprefix1+2 and all
-shared build/preset/CI/state/map/HTML/checkpoint. Do not invent a domain wire or
-provider capability; original21 pure/fake service cases remain simulation, not SQL.
+Different actual contract approval f76817a integrated0a2661d accepts logical blob
+43bd65310f8a8cb56d1a37da0581dcd94fbe4275 and physical blob
+eeb2fe04be49b7eeced0db6cf9eea29520dffc64. Independent literal SQL diagnostics:
+241 checks/179 expected constraint refusals, exact old7/13/full20 schema, F payload/
+digest, nullable groups, enums, full ContributionId0..MAX and SQLNULL versus present0.
+[Actual review](storagetest-014-review.md). This is CONTRACT ONLY, not approval of
+absent API, tests, fixture, red or implementation.
 
-Root created both NEW trees clean at claim ae1251d and actually sent these
-explicit assignments:
+Actual current assignments, explicitly resumed after completion of contract stage:
 
-- Author /root/writer_transaction_reviewer: expected
-  local-evidence/worktrees/storagetest014-author, task/STORAGETEST-014-author.
-  ONLY NEW docs/contracts/sqlite-contributions-v1.md and
-  NEW docs/evidence/storagetest-014-author.md initially.
-- Different reviewer /root/storage_work_code_reviewer: expected
-  local-evidence/worktrees/storagetest014-review, task/STORAGETEST-014-review.
-  ONLY future NEW docs/evidence/storagetest-014-review.md; preparation read-only,
-  approval must inspect the actual authored revision/physical proposal.
+- `/root/writer_transaction_reviewer`, existing
+  `local-evidence/worktrees/storagetest014-author`, branch
+  `task/STORAGETEST-014-author`: merge0a2661d, author ONLY new
+  `server/include/subathon/server/sqlite_contributions.hpp`, explicit named stub
+  `server/src/sqlite_contributions.cpp`, logical API precision and own author
+  evidence. No feature tests, JSON, green fixture or schema/codec implementation.
+- `/root/storage_work_code_reviewer`, existing
+  `local-evidence/worktrees/storagetest014-review`, branch
+  `task/STORAGETEST-014-review`: merge0a2661d, prepare read-only API/lifetime/error
+  review; owns only own review MD. Actual candidate review will be assigned after
+  API/root minimal build exists. Do not approve an absent revision.
+- Root owns shared CMake/presets/workflows/map/state/HTML/checkpoint and migration
+  schema/order. No other old agent has an active assignment. Earlier completed
+  source/test trees remain preserved.
 
-Both trees now exist. The author is active on contract-only; the reviewer
-completed read-only preparation clean and waits the actual document/physical
-proposal. Inspect actual agents/files on resume. Previous source agents completed clean;
-do not blindly resume their old tasks. Root may assign a separate read-only
-feasibility/helper role later, with no authoring authority before the proper gate.
+API precision must pin exact representable bounds, pure input/group/enum/origin/
+proof precedence, existing WorkFailure versus known ContributionStorageError,
+owner/single-use/adoption transfer/allocation safety, own new support completeness
+and actual cleanup/uncertainty. Separate actual API/config review precedes new
+feature tests and independent literal JSON/green diagnostics. Those actual authored
+artifacts require different review, successful compilation and selected official
+Qt green setup BEFORE the FIRST intended missing-behavior red. No new contribution
+API/test/fixture/schema source/red existed at contract approval. No old red repeated.
 
-## Actual preliminary compatibility findings
+## Preserved boundaries and audit
 
-Current searches found NO ContributionId0 rejection: core PlanEvent stores an
-optional ContributionId; validate_capture rejects ReceiptId0 only, and contribution
-service has no ContributionId-zero rule. The old fake's allocation start1 is not a
-domain rule. Proposed full ContributionId0..MAX with nullable allocator absence/
-first0 must receive actual review; if an agreed nonzero constraint is found,
-reconcile it explicitly. ReceiptId remains1..MAX under the established contract.
-Never treat present ContributionId0 as missing/unlinked; std::optional provides
-absence. Typed field/SQL full-range proof remains a new required gate even though
-the existing pure receipt uint64 codec is lossless.
+Actual searches found no ContributionId0 prohibition; fake allocator1 is not policy.
+Approved ContributionId is0..MAX, first allocation0, optional absence SQLNULL.
+ReceiptId remains1..MAX. Full-range typed SQL/optional0 acceptance still needs the
+new baseline; existing codec proof does not replace it. Existing service owns
+created/linked/duplicate/unresolved/promotion. Immutable original support/observation
+projections and independent evidence/conditions/current state must survive linking.
 
-Persist independent evidence/conditions/valuation/review/application/reversal/
-settlement and immutable first support/observation provenance. Existing service
-owns dedup/link/promotion, not the store. Confirmation may link/update evidence
-without replacing original support/conditions or inventing financial certainty.
-ContributionValuation has monetary/original_money/resolution_ref/missing_rate,
-not actual fetched/effective rates; keep actual HistoricalValuation rate/source/
-time proof downstream015, with a written scope reconciliation if needed.
+Original-only private reader validates actual receipt projection and typed retained
+arrival targets; it does not load full growing history/wrap another transaction.
+Prior committed/nonconflicting/classified receipt is an honest upstream precondition:
+same-session SELECT cannot prove prior commit, and adoption never waives it.
+Verification/policy/decision/actor/resolution bytes do not establish provider proof/
+authority or a fabricated retained namespace. Actual HistoricalValuation rates/
+source/time remain STORAGE-015; actual ContributionValuation fields remain here.
 
-A VerifiedActivityLink/nonempty proof string is not authorization/provider proof.
-Semantic policy/decision/actor/valuation/verification references are trusted existing
-preconditions unless an actual retained namespace/format contract defines more;
-do not invent a FK meaning or claim unknown source fields are verified. Required
-arrival config/context still resolves through actual stored receipts/retention.
-The caller requires a real committed immutable receipt projection. Same-session
-visibility alone is not proof of prior commit; pin constructor/adoption validation
-and error boundaries honestly without new private writer state or false guarantees.
+Latest resume audit:64 existing worktrees all clean,16 absent/prunable historical
+refs preserved; no competing open PR. Root HEAD0a2661d after contract review; task
+branch not yet pushed and no PR37 yet. Actual GitHub main e331714/PR36 MERGED and
+all11 final PR checks SUCCESS. No native CMake/CTest/Ninja process was active;
+IDE/Codex processes only. Actual agents were completed, then two014 roles explicitly
+resumed as above. Inspect again before assuming these observations remain current.
+No prune/reset/discard. Current ruleset26170263 PR/resolved threads/0 required GitHub
+approvals/no bypass/no force or deletion; written latest-head all-CI and separate
+reviews remain mandatory. Normal exact-head merge only after all applicable gates.
 
-## Next concrete action and remaining scope
-
-Claim ae1251d/worktrees/assignments are actual. Author reads actual contracts/core/
-service/21 cases, writes bounded examples/zero policy/projection/state/link/atomic/
-error/lifetime/bounds contract. Root accepts exact physical migration3 only after
-an actual proposal. Different actual contract review precedes minimal interfaces/
-stubs; later actual test/fixture/harness review +successful compilation +selected
-Qt green setup precede first intended red. STORAGE-014 source waits that integrated
-baseline. Preserve prior passing118/source/interfaces/assertions and immutable
-manifest1/2, including full step2 payload10535/SHA24614f68... without regeneration.
-
-Last full audit before source13 claim:62 existing worktrees clean,16 absent/prunable
-historical refs preserved; no other open PR. Root current claim edits are state/
-HTML/brief/prior-source merge outcome/checkpoint only. No new native process/red
-command has started; inspect actual processes/files on resume. Never prune/discard.
-Latest ruleset26170263 PR/resolvedthreads/0 GitHubapprovals/no bypass/force/delete,
-no required-status-check rule; written latest-head CI and separate reviews mandatory.
-All seven integrations/three FX providers, downstream codecs/rates/app bundles/
-effects/jobs, semantic config/evaluation, backup/update/recovery/power-loss,
-renderers/UI/locales/themes/packaging/platform/live/OBS remain required. No owner
-question/access, credentials/supporter data or live side effect is involved.
-
-
-Actual preliminary reviewer/author checks both confirmed no ContributionId0 rule,
-with ReceiptId0 still forbidden; this is preparation, not absent-contract approval.
-The author is proposing three logical tables, immutable original/observation data,
-independent current state, and an original-only active-session receipt helper in
-the new module rather than abusing an existing full-history transaction wrapper.
-Prior commit remains an honest trusted precondition; no invented semantic FK/
-authorization is added. No new contract/API/test/red is completed yet. Root owns
-physical proposal3 after the actual logical candidate. Source and receipt baseline
-worktrees remain preserved; new count64 existing plus16 absent refs.
-
-
-Actual logical author candidate9897778 integrated432271f (two MD files only),
-contract38642111537eb59a12a8f53d356d3e52d460331d before root physical link.
-Different reviewer read all318lines/core/service/21 and found no logical conflict;
-full approval waits actual root physical proposal. Root now has actual proposal3:
-three new tables/fourSQL/20objects/18126payload/SHA b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d,
-starts0,1,2,3, exactprefix1/2 unchanged. Independent Python framing/schema and
-actual localQt6.12/SQLite3.54 private-writer projection+boundCID0-vs-NULL diagnostics
-pass; [scope/evidence](storagetest-014-probe.md). These are not fixtures/feature
-acceptance or official Qt proof. No new API/stubs/tests/schema-source/red exists.
-Next commit actual physical proposal and send exact revision to different reviewer.
+All seven integrations/three FX providers, downstream app bundles/effects/jobs,
+semantic configuration/evaluation/permission, backup/update/recovery/power-loss,
+both renderers/UI/locales/themes/packaging/platform/live/OBS remain required. No
+owner question/access, credentials/supporter data or live side effect is involved.
