@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T14:18:47+00:00",
+  "updated_at": "2026-11-01T14:47:35+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4551,12 +4551,13 @@
         "Claim from refreshed main29f3818 after STORAGE011 PR32 merged finalc31edca with all11checks/actualsource854+finalmetadataa70 reviews/no threads/currentnormalrules. Scope immutable caller-validated configuration/arrival-context opaque documents, version-specific refs/known optional links/conflicting reuse/missing/reopen and lossless numeric values where actualdomain requires; preserve existing opaque core ref strings and fulluint64range, no mutablelatest/evaluator/configwire schema/providerfacts. Initial author owns ONLY new docs/contracts/retained-context-v1.md + docs/evidence/storagetest-012-author.md; contract/examples actualdifferentreview precedes newminimalAPI/stubs/independentoracles/tests/build/review/intendedred. Root owns all actual schema/migrationordering/build/presets/workflow/state/map/HTML/checkpoint. Compose primitive repository ops on existing SqliteWorkSession for laterdurableintake; do not addconnection/thread/autoCOMMIT or changeexistingports/claims. Preserve oldmigration24/writer49/green7 and source4ee/023. No STORAGE012 production implementation before actual reviewed/redbaseline.",
         "Actual contract-only3cca59f/blobc53329e integrated8813dcc. Root adds explicit012/013/014/015 brief reconciliation: exactopaque BLOB keys/payload preservefulluint64byteforms now, actualReceiptId/ContributionId/CapturedPlanRevision typed SQLcodec gates remainmandatory later; no redundantnumericconfigID invented. Root proposes actual applicationmigration1 IDretain-config-context-v1 exacttwoDDL+7objects/starts0,1, pendingactualdifferentcontractreview. Focusedunchangedwriter HOSTprobes proveemptyBLOB/null/binarybindings andtwoDDL/generatedNULLindexes, notnewfeature/red/officialbundle. Source/header/tests/actualschema/build/CI unchanged. Authorcleancompleted; reviewerpreparedandmustresumeactualcandidate. Main29f3818all10checks passed.",
         "Actual contract/brief/rootmigration1 proposal at791cacf/contracta884f016 independently approved40d0dc6 integratededdbe2b for minimalinterface/testauthoring only. DraftPR33 at791cacf all11checksSUCCESS, existing73 unchanged; no newfeaturetest/red claim. Author explicitlyresumed initialnewsqlite_retained_context.hpp/src.cpp EXPLICITunimplementedstubs+contracterror/emptyrepresentation precision only, fullQt cases/env/vectors notyetallowed. Different actualAPIreview beforefulltestauthoring; rootowns sharedharness/CI/schemaorder/state. SelectedofficialQt fixture gate stillpending, hostprobes are notfeatureproof.",
-        "Actual minimalAPI/stub/precision6bfbb90 integrateda6a4402, header55c828/stubb27/contract5b; sharednewdraftpreset/library e5532d1. Root configure/build exit0/0warnings/all78oldregistrations unchanged/no newfeaturebodies; different targetedconfigure/build+APIprecisionapproval46fc8ee integrated2d0289b. Three publicmethod/factory bodies remainexplicit feature_not_implemented; no retentionalgorithm/manifestgeneration implemented. Author expandedONLYnewQt featurecases/environment/frozenJSON +ownnote; planned16feature/green3 notyetactualauthored. Fullactualtest/interface/fixture/harnessreview+selectedofficialQtgreenfixtureproof then intendedred remainbeforebaselinecomplete/STORAGE012production. Old73+green7 unchanged. DraftPR33 published6fdf620 all11existingchecks SUCCESS, no selectednewmodule/test result transferred."
+        "Actual minimalAPI/stub/precision6bfbb90 integrateda6a4402, header55c828/stubb27/contract5b; sharednewdraftpreset/library e5532d1. Root configure/build exit0/0warnings/all78oldregistrations unchanged/no newfeaturebodies; different targetedconfigure/build+APIprecisionapproval46fc8ee integrated2d0289b. Three publicmethod/factory bodies remainexplicit feature_not_implemented; no retentionalgorithm/manifestgeneration implemented. Author expandedONLYnewQt featurecases/environment/frozenJSON +ownnote; planned16feature/green3 notyetactualauthored. Fullactualtest/interface/fixture/harnessreview+selectedofficialQtgreenfixtureproof then intendedred remainbeforebaselinecomplete/STORAGE012production. Old73+green7 unchanged. DraftPR33 published6fdf620 all11existingchecks SUCCESS, no selectednewmodule/test result transferred.",
+        "Actual new16/green3/vector author7d89c4c integrated320ae61; deterministicnegativefixture1eda545 integrated21fddd6. Differenttestreview foundmissingpost-retainstageproof andmissingbinarycontext/link+independentpositive-optioncoverage; separatelystrengthened e76/root180 and648/rootab4, allpriorassertions retained. Timeoutnodiscardwarning fixed70/root306 withoutfakecompletion. Currenttest c0e54003802f63a6f0393250f3bcca58cea8ee04/env aaa164/JSON0f76/header55/stubb27/contract5b. Root configure/build0warnings/exact16feature+green3slots/95CTestregistrations; green3 actual5inclinitcleanup0skip andold78 separatelypass. Independent full2000literal/SHA0906f121.../12opaquevectors verifiedwithoutnewUUT. Sharedharness/workflow27fea1d buildsall, runsold73+green7+mandatorynewgreen3, discoversnew16 and keepsintentionalnewstubfailure behindexplicitmanualbodyselection (no inversion). Actualfullreviewverdict +selectedofficialQtnewfixtureproof stillpending beforeANYnewfeaturebody/red. Sourcealgorithmremains3explicitthrows, baselinein_progress. APIselectedCI41315776368 at5e builtstub/GNU13.3/Qt6.12SQLite3.53.4/pins/old73+green7; notnewfixture/featureproof. Actualfullartifactapproval672f93c integrated beforefirstnewbody; onlyselectedofficialQtnewgreen3conditionremains beforeintendedred."
       ],
       "verification": {
         "contract_authoring": "passed",
         "contract_review": "passed",
-        "authored_tests": "not_run",
+        "authored_tests": "passed",
         "baseline": "not_run",
         "product_acceptance": "not_run",
         "platform_release": "not_run",
@@ -4564,7 +4565,10 @@
         "interface_review": "passed",
         "native_build": "passed",
         "ci_harness": "partial",
-        "github_ci": "partial"
+        "github_ci": "partial",
+        "diagnostic_environment": "passed",
+        "test_review": "passed",
+        "official_qt_environment": "partial"
       },
       "evidence": [
         "docs/evidence/storagetest-012-author.md",
@@ -4573,10 +4577,10 @@
         "docs/evidence/storagetest-012-ci.md"
       ],
       "review": {
-        "author": "/root/writer_transaction_reviewer (contract/API/stubs); /root (migration/briefs/minimal shared build)",
+        "author": "/root/writer_transaction_reviewer (contract/API/tests/fixtures); /root (migration/briefs/shared build/CI)",
         "reviewer": "/root/storage_work_code_reviewer",
         "outcome": "approved",
-        "baseline": "API/STUB/PRECISION/HARNESS ONLY actual6bfbb90 integrateda6a4402 +sharede5532d1, header55c82815986052b996a46c408ab616e68815a4f2/stubb27eb48867df8a6dbc2c0c92da3eba0a80b11d76/contract5b0ee84acbbf1a3ce8dbc57f99c110f3073d353b; actualapproval46fc8ee integrated2d0289b. No futuretest/probe/vector/fullharness approval or feature red.",
+        "baseline": "FULL ACTUAL TEST/INTERFACE/FIXTURE/HARNESS actual27fea1d; testc0e54003802f63a6f0393250f3bcca58cea8ee04/env aaa1644771decdb722b1105d220bac5313d54c6e/JSON0f76fd2c1bb1766c46a47ddcd38f46c18d4704a8/header55c828/stubb27eb488/contract5b0ee84; fullapproval672f93c; separate selectedofficialQt newgreen3 proof REQUIRED beforefirst16red, no source implementation or red claim yet.",
         "evidence": "docs/evidence/storagetest-012-review.md"
       }
     },
@@ -11752,6 +11756,11 @@
       "date": "2026-11-01T14:18:47+00:00",
       "task": "STORAGETEST-012",
       "note": "Actual minimalAPI/stub/precision6bfbb90 integrateda6a4402, header55c828/stubb27/contract5b; sharednewdraftpreset/library e5532d1. Root configure/build exit0/0warnings/all78oldregistrations unchanged/no newfeaturebodies; different targetedconfigure/build+APIprecisionapproval46fc8ee integrated2d0289b. Three publicmethod/factory bodies remainexplicit feature_not_implemented; no retentionalgorithm/manifestgeneration implemented. Author expandedONLYnewQt featurecases/environment/frozenJSON +ownnote; planned16feature/green3 notyetactualauthored. Fullactualtest/interface/fixture/harnessreview+selectedofficialQtgreenfixtureproof then intendedred remainbeforebaselinecomplete/STORAGE012production. Old73+green7 unchanged. DraftPR33 published6fdf620 all11existingchecks SUCCESS, no selectednewmodule/test result transferred."
+    },
+    {
+      "date": "2026-11-01T14:47:35+00:00",
+      "task": "STORAGETEST-012",
+      "note": "Actual new16/green3/vector author7d89c4c integrated320ae61; deterministicnegativefixture1eda545 integrated21fddd6. Differenttestreview foundmissingpost-retainstageproof andmissingbinarycontext/link+independentpositive-optioncoverage; separatelystrengthened e76/root180 and648/rootab4, allpriorassertions retained. Timeoutnodiscardwarning fixed70/root306 withoutfakecompletion. Currenttest c0e54003802f63a6f0393250f3bcca58cea8ee04/env aaa164/JSON0f76/header55/stubb27/contract5b. Root configure/build0warnings/exact16feature+green3slots/95CTestregistrations; green3 actual5inclinitcleanup0skip andold78 separatelypass. Independent full2000literal/SHA0906f121.../12opaquevectors verifiedwithoutnewUUT. Sharedharness/workflow27fea1d buildsall, runsold73+green7+mandatorynewgreen3, discoversnew16 and keepsintentionalnewstubfailure behindexplicitmanualbodyselection (no inversion). Actualfullreviewverdict +selectedofficialQtnewfixtureproof stillpending beforeANYnewfeaturebody/red. Sourcealgorithmremains3explicitthrows, baselinein_progress. APIselectedCI41315776368 at5e builtstub/GNU13.3/Qt6.12SQLite3.53.4/pins/old73+green7; notnewfixture/featureproof. Actualfullartifactapproval672f93c integrated beforefirstnewbody; onlyselectedofficialQtnewgreen3conditionremains beforeintendedred."
     }
   ]
 }

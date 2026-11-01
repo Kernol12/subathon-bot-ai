@@ -135,3 +135,31 @@ Full agreed product remains incomplete: all seven integrations, three FX provide
 domain/application bundle, backup/update/recovery, renderers/UI/locales/themes,
 packaging/platform/live/OBS gates remain mandatory. No live credentials/supporter
 data/chat/payment/deployment side effects. No access or owner decision is needed.
+
+## Actual full baseline candidate and remaining pre-red gates
+
+Newauthored7d89c4c/root320ae61 plus explicitnegativefixture1eda/root21f,
+stageproofe76/root180, binarylink/positivebound648/rootab4 andtimeouthelper70/
+root306 now compile. Currenttestc0e54003/env aaa16447/JSON0f76fd2c, old55/b27/5b
+frozen. Independentfindings preserved3b914ec/root02dc87b; sourceinspection says
+resolved, but NO fullbaselineapproval yet. Reviewer is active on actual27fea1d
+harness/configure/build/discovery/green3 and durablefullverdict. Author completed
+allsource corrections clean; no active furtherwrite assignment untilneeded.
+
+Root actualfinalbuild0warnings, exact16/3/95discovery, newgreen3(5inclinitcleanup/
+0skip) andold78pass separately. Newfeaturebodies NOT run/full95 NOT run. Full2000
+payload/SHA0906 andall12opaquevectors independentlyverified withoutnewUUT. Root
+shared27fea1d registersactualartifacts andmandatoryCIgreen3/exact16discovery with
+optionalexplicitmanualretentionbody selection only, no result inversion.
+
+Actual earlierselectedAPIrun41315776368 at5e9a266 passes pinnedhashes/GNU13.3/
+Qt6.12SQLite3.53.4/stublibbuild/old73+green7, NOTnewfixture. Rootis publishing
+actualfulltest/harness now; next observe newselectedgreen3 proof AND actualfull
+separatereview, then rootgenuine16intendedred. No implementation beforethisbaseline.
+Last observed publishedhead5e9a266; inspectcurrentPR33/head/checks onresume. Root
+compile/probe/oldtestsessions completed; no rootnativecommand running.
+
+Actual fullbaseline artifact approval672f93c is nowintegrated BEFOREanynewfeature
+body. It approvesexact27fea/c0/AAA/0f/55/b27/5b andindependent95/16/3/localgreen3
+withzero warnings. SelectedofficialQtcurrentgreen3 success remainsMANDATORY before
+rootfirst16red; no earlierhost/5eAPIproof substitutes. Reviewercompletedclean.
