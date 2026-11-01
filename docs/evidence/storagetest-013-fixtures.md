@@ -125,3 +125,29 @@ Existing writer023451/migration4ee236/retentionc96 source, core/service/ports,
 interfaces and prior assertions remain unchanged. No provider support, numeric
 ContributionId/plan codec, full application bundle, operational backup/update/
 recovery, power-loss or release-platform capability is certified.
+
+## Focused independent-review addition: actual SQL NULL ID rejection
+
+The different reviewer requested one additive SR01 foundation oracle. With root's
+explicit authorization, the existing invalid-ID insertion variants in
+`unsignedIdsAndSignedFieldsRemainExact` now also include `QVariant{}`. The zero
+BLOB and signed INTEGER cases and every existing assertion remain unchanged.
+All three variants execute the same actual INSERT with otherwise valid distinct
+identity and retained targets. The NULL case must fail the real receipt_id NOT NULL
+constraint and yield the existing writer's rolled_back/sql_failure/no normal value.
+
+Pure codec rejection of a null QByteArray and actual SQL NULL-insert rejection
+are distinct boundaries. This helper proves only the latter: it does not create,
+fabricate or claim to select a persisted NULL receipt-ID row, and it does not call
+the new codec or receipt feature bodies. Schema, JSON, production and APIs are
+unchanged. A different reviewer must assess this actual revised helper.
+
+Rebuilt only the green consumer with the same temporary moc/existing-writer-only
+link command above: exit0, zero warnings. Executed only that green helper: exit0,
+all3 slots plus init/cleanup pass (5total),0failed/0skipped, actual
+Qt6.12.0/SQLite3.54.0/GNU16.2.1. New local captures are
+`/tmp/storagetest013-fixtures-null-{compile,green}.log`. Formatting/whitespace and
+exact3-name checks pass; JSON remains blob
+`a79e5e71a3b9ca101441852c7fb7f26f735e9626`. No new receipt feature/red run occurred.
+
+Revised green source blob: `8189f0274a38bb840c612673e0f858fe8d1777eb`.

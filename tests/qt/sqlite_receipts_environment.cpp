@@ -261,8 +261,8 @@ class SqliteReceiptsEnvironment final : public QObject {
                   "integer", minimum, "integer", "blob", "EFBBBF6100FF", "blob", 0},
                  {"FFFFFFFFFFFFFFFF", "blob", 8, qlonglong(4294967295LL), "integer", qlonglong(0),
                   "integer", qlonglong(0), "integer", "blob", "EFBBBF6100FF", "blob", 0}}));
-        for (const auto &id :
-             {QVariant(QByteArray::fromHex("0000000000000000")), QVariant(qlonglong(1))}) {
+        for (const auto &id : {QVariant(QByteArray::fromHex("0000000000000000")),
+                               QVariant(qlonglong(1)), QVariant{}}) {
             QVERIFY(existing_work(
                 writer,
                 [&](auto context) {
