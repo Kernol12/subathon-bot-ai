@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T10:27:02+00:00",
+  "updated_at": "2026-11-01T10:34:36+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4314,7 +4314,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; test author /root/storage_decomposition; independent reviewer to be assigned",
+      "owner": "Coordinator /root; test author /root/storage_decomposition; reviewer /root/writer_transaction_reviewer",
       "depends_on": [
         "CONTRACT-004",
         "STORAGE-001",
@@ -4332,10 +4332,19 @@
       "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-010.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
-        "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01–WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes."
+        "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01–WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes.",
+        "Shared build/CI harness d680dd4 prepared; separate reviewer inspected it without blockers, with actual test/interface approval still pending authored artifacts. Proposed 24 Qt slots cover WT01–WT20; no new body execution or observed red claimed. Root scaffold configure/build and 3/3 infrastructure checks passed, tooling19/DOM/actionlint passed. Main e374788 post-merge all10 checks successful. Author remains active in isolated worktree; prior evidence preserved."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "test_authoring": "draft",
+        "independent_review": "not_run",
+        "intended_red": "not_run",
+        "ci_harness": "partial"
+      },
+      "evidence": [
+        "docs/evidence/storagetest-010-handoff.md",
+        "docs/evidence/storagetest-010-ci.md"
+      ],
       "review": null
     },
     {
@@ -11500,6 +11509,11 @@
       "date": "2026-11-01T10:27:02+00:00",
       "task": "STORAGETEST-010",
       "note": "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01–WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes."
+    },
+    {
+      "date": "2026-11-01T10:34:36+00:00",
+      "task": "STORAGETEST-010",
+      "note": "Shared build/CI harness d680dd4 prepared; separate reviewer inspected it without blockers, with actual test/interface approval still pending authored artifacts. Proposed 24 Qt slots cover WT01–WT20; no new body execution or observed red claimed. Root scaffold configure/build and 3/3 infrastructure checks passed, tooling19/DOM/actionlint passed. Main e374788 post-merge all10 checks successful. Author remains active in isolated worktree; prior evidence preserved."
     }
   ]
 }

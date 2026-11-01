@@ -15,7 +15,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | contribution-evidence.yml | Reviewed eligibility/linkage with primitive simulation storage |
 | application-plan.yml | Reviewed owned captured-plan transformations |
 | time-debt.yml | Reviewed32pure debt proposals/composition, exact registration and unconditional real acceptance |
-| sqlite-writer.yml | Qt6.12 build, environment probe, complete registration and reviewed real SQLite writer acceptance |
+| sqlite-writer.yml | Qt6.12 build/probe, old25 real SQLite writer acceptance, and separate transaction-work baseline build/discovery |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
 and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
@@ -52,3 +52,12 @@ compares compiled GoogleTest names to all CTestJSON registrations before bodies.
 stub-red remains a historical prerequisite, not a present failing feature suite.
 This remains bounded pure arithmetic/composition, not complete refund/application
 or release proof. No failure inversion or baseline assertion change is permitted.
+
+STORAGETEST-010 extends that same writer job with `sqlite-work-debug`: old25
+behavior stays automatic, while the separate new work suite is built and fully
+discovered as an intentional red baseline. Only explicit manual
+`run_work_acceptance=true` runs those new bodies, with normal failure propagation.
+The [baseline CI assessment](evidence/storagetest-010-ci.md) records actual results
+and pending gates. STORAGE-010 must enable ordinary automatic execution once its
+reviewed implementation passes. No transaction-work capability is claimed from
+compilation/discovery or an inherited passing suite.
