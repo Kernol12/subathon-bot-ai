@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T09:38:52+00:00",
+  "updated_at": "2026-11-01T09:42:45+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -1041,8 +1041,8 @@
       "title": "Refund deficit policies and separate time debt",
       "module": "Core",
       "kind": "implementation",
-      "status": "in_progress",
-      "owner": "Coordinator /root; implementer /root/debt_implementer; independent code review pending",
+      "status": "in_review",
+      "owner": "Coordinator /root; implementer /root/debt_implementer; independent reviewer /root/debt_code_reviewer",
       "depends_on": [
         "CORE-001",
         "CORE-002",
@@ -1056,10 +1056,23 @@
       "summary": "Implement Stop at zero, Carry time debt and Require review while retaining the full reversal record.",
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claim from refreshed mainbca06e8 after liveaudit: PR26merged final10438ca all11checks, mainall10success/no openPR/no activeclaims;40existingworktreesclean,16historicaltmpabsentrefs preserved, no runningoldagents/nativecommands. Reuse reviewed32baselineb3413e5/final5474fdc and actualstubred dba4401(exit8); contractrev1/header/tests immutable. Implementer owns ONLYcore/src/time_debt.cpp +implementationevidence; root owns CMake/presets/CI/labels/map/state/HTML/checkpoint. Accept32passingcases+separatecode/configreview+ordinaryactualUbuntuacceptance. Purealreadycalculated proposals only; no entitlement/audit/permission/persistence/provider/platform upgrade."
+        "Claim from refreshed mainbca06e8 after liveaudit: PR26merged final10438ca all11checks, mainall10success/no openPR/no activeclaims;40existingworktreesclean,16historicaltmpabsentrefs preserved, no runningoldagents/nativecommands. Reuse reviewed32baselineb3413e5/final5474fdc and actualstubred dba4401(exit8); contractrev1/header/tests immutable. Implementer owns ONLYcore/src/time_debt.cpp +implementationevidence; root owns CMake/presets/CI/labels/map/state/HTML/checkpoint. Accept32passingcases+separatecode/configreview+ordinaryactualUbuntuacceptance. Purealreadycalculated proposals only; no entitlement/audit/permission/persistence/provider/platform upgrade.",
+        "Author6394cab source68141b15 integratedcbfdd85, evidenceb66d6d7. Root/author32unchangedcases/full35pass, contract909/headerf3cc/testsc3cd unchanged. Exactcandidatef0c888f with unconditionalCI+compiledGTest/CTestequalityguard supplied to isolatedcore005-review. Sourceimplemented, independentapproval/actualUbuntu32acceptance/finalintegration/latestmerge gates pending; no proportional/app/persistence/provider/platform claim."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "not_run",
+        "github_ci": "not_run",
+        "application_entitlement_persistence_provider": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/core-005-implementation.md",
+        "docs/evidence/core-005-ci.md",
+        "docs/evidence/core-005-handoff.md"
+      ],
       "review": null
     },
     {
@@ -11018,6 +11031,11 @@
       "date": "2026-11-01T09:38:52+00:00",
       "task": "CORE-005",
       "note": "Claim from refreshed mainbca06e8 after liveaudit: PR26merged final10438ca all11checks, mainall10success/no openPR/no activeclaims;40existingworktreesclean,16historicaltmpabsentrefs preserved, no runningoldagents/nativecommands. Reuse reviewed32baselineb3413e5/final5474fdc and actualstubred dba4401(exit8); contractrev1/header/tests immutable. Implementer owns ONLYcore/src/time_debt.cpp +implementationevidence; root owns CMake/presets/CI/labels/map/state/HTML/checkpoint. Accept32passingcases+separatecode/configreview+ordinaryactualUbuntuacceptance. Purealreadycalculated proposals only; no entitlement/audit/permission/persistence/provider/platform upgrade."
+    },
+    {
+      "date": "2026-11-01T09:42:45+00:00",
+      "task": "CORE-005",
+      "note": "Author6394cab source68141b15 integratedcbfdd85, evidenceb66d6d7. Root/author32unchangedcases/full35pass, contract909/headerf3cc/testsc3cd unchanged. Exactcandidatef0c888f with unconditionalCI+compiledGTest/CTestequalityguard supplied to isolatedcore005-review. Sourceimplemented, independentapproval/actualUbuntu32acceptance/finalintegration/latestmerge gates pending; no proportional/app/persistence/provider/platform claim."
     }
   ]
 }

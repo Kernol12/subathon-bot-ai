@@ -144,10 +144,11 @@ Claim05961a8 on `task/CORE-005-time-debt` fromfreshmainbca06e8.
 - `/root/debt_implementer` owns ONLY `core/src/time_debt.cpp` and
   `docs/evidence/core-005-implementation.md` in
   `local-evidence/worktrees/core005-implementation`, branch
-  `task/CORE-005-implementation`. Reports first32/full35pass; committed candidate
-  and independentreview still pending. Existingcontract/header/tests immutable.
-- `/root/debt_code_reviewer` completed read-only prep; actualcandidate and isolated
-  reviewerworktree follow sourcehandoff. No codeapproval yet.
+  `task/CORE-005-implementation`. Source6394cab/blob68141b15 integratedcbfdd85 and evidenceb66d6d7;
+  author/root32/full35pass, authorworktreeclean/complete. Existingcontract/header/tests immutable.
+- `/root/debt_code_reviewer` is reviewing actualcandidatef0c888f in isolated
+  `local-evidence/worktrees/core005-review`, branch `task/CORE-005-code-review`.
+  Independently32/full35pass; actualapprovalcommit pending.
 - Root owns CMake/presets/CI/labels/map/state/HTML/checkpoint/PR integration.
   CI promotion removes manual behaviorguard, retains time-debt-build checkname,
   adds exact compiledGoogleTest/CTestJSON registration equality then real32cases.
@@ -157,8 +158,9 @@ completed preparation or change reviewedassertions to pass. Scope is pure alread
 calculated signedreversals/debt-first additions, not proportionalentitlement or
 actual application/audit/permission/persistence/provider/platform behavior.
 
-Next: integrate actualcandidate, rootconfigure/build/32/full35 checks, separate
-actualsource/configreview, focuseddraftPR and observed ordinaryUbuntu32acceptance.
+Next: finish actualsource/configreview, publish focuseddraftPR and observe
+ordinaryUbuntu32acceptance on source68141b15/guard792b14b6. Root/author/reviewer
+32/full35pass, allbaselineartifactshashesunchanged.
 Then complete metadata/finalreview/latestCI/discussions/currentnormalrules before
 merge and immediately select nextreadytask. Root edits currently are CI promotion
 and this checkpoint; sourceauthor edits stay isolated. No ownerinput needed.
