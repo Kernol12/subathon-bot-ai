@@ -88,6 +88,16 @@ artifacts require different review, successful compilation and selected official
 Qt green setup BEFORE the FIRST intended missing-behavior red. No new contribution
 API/test/fixture/schema source/red existed at contract approval. No old red repeated.
 
+## Actual API candidate awaiting separate review
+
+Author94681d integrated727f59d; header0abeea2/stub0ad1315/logical precision1a96354.
+Only inert constructors and four immediate named NotImplemented throws; no actual
+codec/manifest/SQL/wrapper/validation behavior. Root minimal target/option/preset
+build passes62 steps, inherited118 tests pass2.56s, formatting/project/tooling19/
+DOM simulation pass. [Actual build scope](storagetest-014-probe.md).
+Next request different actual API/stub/build precision review at committed root
+revision; no new tests/fixtures/red before that approval.
+
 ## Preserved boundaries and audit
 
 Actual searches found no ContributionId0 prohibition; fake allocator1 is not policy.

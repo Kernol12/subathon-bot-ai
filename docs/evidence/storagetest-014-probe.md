@@ -54,3 +54,30 @@ Different actual logical+physical review remains required before minimal API/stu
 Full test/fixture/harness review, successful compilation, selected official green
 setup and genuine intended red still precede STORAGE-014 implementation. All old
 passing118 artifacts/reviews/reds/immutableprefixes and full release scope remain.
+
+## Actual minimal API build, before test authorization
+
+Actual author candidate94681d321ebecd2527f0dd18506c23a3674fa9c1 integrated727f59d.
+New header blob0abeea2bb6d1e99faad7d6585400ad3d80e2eae8; explicit four-throw
+stub0ad1315601218601289923fe7b02eebfb8573aaa; logical API precision
+1a96354b34cebfaac22f091b4b3f620c044e0e3b. Root added minimal CMake option/target
+and sqlite-contribution-debug preset inheriting the existing receipt profile.
+The service/core contribution targets are enabled without adding GoogleTest or
+changing their source. No new Qt feature test or fixture is registered/authored.
+
+Actually ran on the local GNU16.2.1/Qt6.12.0/SQLite3.54.0 environment:
+
+```sh
+cmake --preset sqlite-contribution-debug
+cmake --build --preset sqlite-contribution-debug
+ctest --preset sqlite-contribution-debug --output-on-failure --parallel 1
+clang-format --dry-run --Werror server/include/subathon/server/sqlite_contributions.hpp server/src/sqlite_contributions.cpp
+```
+
+Configure/build pass,62 Ninja steps and no warnings. All118 inherited tests pass,
+0 failures,2.56s. This executes existing passing behavior only: new contribution
+stubs have not been invoked, and no new intended red is observed. Formatting/diff
+pass. Raw existing-suite output is ignored local-evidence/coordinator/
+storagetest014-api-regression.txt. Separate actual API/stub/shared-build review
+remains required before authorizing new tests/fixtures. Selected official Qt
+contribution fixture proof is still absent and must precede first feature red.
