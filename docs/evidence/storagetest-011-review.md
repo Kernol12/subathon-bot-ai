@@ -249,3 +249,112 @@ for completing minimal baseline authoring.** This is not full interface/test/
 harness-baseline approval. Actual cases, literal vectors, successful compilation,
 green local/selected-Qt execution and separate test/harness review must still be
 examined before any intended migration red or production implementation.
+
+## Full actual interface, fixture, test and harness review
+
+The reviewer inspected actual full author candidate
+`fa161831b2a1f001356d0d33bfcfd3fc6349bfb5`, integrated `b67e81b`, followed by
+the requested author correction `cae0267f6d033b21317cb219f8d8ceae45a54970`,
+integrated `4fa008f`. Both revisions were normally merged into this isolated
+review branch. The reviewer read all22 migration bodies, their helpers, all seven
+green environment bodies, the complete literal JSON, current header/stub, author
+evidence and actual shared CMake/preset/workflow changes.
+
+| Artifact | Exact approved Git blob |
+| --- | --- |
+| Migration header | `02f83ce592b110176c1dac46f3e5ea4d93529fcd` |
+| Explicit missing-feature source | `6c5073d4a97eedbdd34130ce48be51cf0aa4537a` |
+| Corrected22 migration cases | `a85a6c057637f43201dfaca308fbec27748ce2dd` |
+| Seven green environment cases | `832fe61656451390ff465d4411c7d0900c741bd6` |
+| Ten literal payload/digest vectors | `12280c8f403fd3902edaeff88e9a236f9c5b613b` |
+| Contract including approved precision | `cbdea1a48d2989a9c8bd17edf0539bdf7c1bce61` |
+
+The header differs from the previously reviewed interface only in generic exception
+message text. Source is still17 lines of explicit missing-feature stubs: codecs
+throw the named category and admission returns it. It implements no hashing,
+validation, queueing, SQL, catalog, callback or migration result. The existing
+writer source/header/fault seam, old49 assertions and original writer/work
+contracts have an empty exact-path diff from claim `9dba71d`.
+
+Expected historical state is prepared by independent fixture SQL and frozen JSON
+digests, without calling a migration codec or runner. The reviewer independently
+reframed all ten JSON vectors using standard Python bytes/hashlib: complete payload
+hex, literal lengths and SHA256 values all match. The raw base-manifest SQL/
+projection sum independently equals1127. A separate disposable Python schema
+observation confirms that all five CHECK/FK/shadow profiles exactly match their
+frozen expected schema/history profiles. This avoids an unrelated mismatch being
+mistaken for the intended diagnostic refusal. Snapshots include stored types and
+raw BLOB hex, preserving invalid UTF-8 and type distinctions.
+
+MC01–MC18 are represented by concrete assertions: one complete fresh prefix with
+external invisibility before commit; retained prior state/current no replay;
+fresh/old/current inspection; foreign/partial/future/unsupported state refusal;
+invalid manifests and stored metadata; actual CHECK/FK failures; late SQL failure,
+pre-BEGIN/intermediate/precommit cancellation and throwing probe; busy/no replay;
+physical lost-ack classification and ordered failed drain; exact manifest bounds;
+late result exhaustion; all three function shadows; UTF-16 refusal; and complete
+NULL/multibyte/unsigned UTF-8 codec vectors. Failure helpers require absent normal
+work values and reports. Inspection/readiness and migration/work outcomes remain
+separate. Admission ownership, explicit advancement, capacity, shutdown, throwing
+completion and completion destruction are also asserted.
+
+The late result-budget case reaches the before-second-statement checkpoint after
+`CREATE TABLE scratch AS SELECT 10 AS amount`. Its literal `zeroblob(65537)` SELECT
+reads the actual new populated table against a65536-byte budget. Missing DDL would
+cause SQL failure, and empty output would not meet result_limit; earlier catalog
+exhaustion cannot satisfy the reached-stage assertion. Exact manifest boundaries
+use literal2/13/4/1127 and128-byte ID values, without inferring internal query cost.
+
+One focused coverage finding was corrected before approval. The first actual
+candidate changed application objects or metadata row values, but did not isolate
+reserved metadata DDL identity. Author `cae0267` retains every previous variant and
+adds a current-version fixture with an extra catalog column, unchanged required
+header/history rows and clean physical integrity. It requires schema_mismatch,
+known rollback, no value/report, released lock and an unchanged raw snapshot.
+The reviewer inspected that actual correction and rebuilt the changed target.
+An implementation that ignores reserved-table projections cannot pass this oracle.
+No baseline assertion was deleted or weakened; the suite still has22 slots.
+
+The environment executable includes no migration header/UUT and links only the
+existing writer and Qt Test. Its actual green cases establish fixed function()
+support, UTF-8 creation/raw multibyte bytes, exact metadata SQL/NULL autoindex,
+all three shadow failures, real UTF-16 observations and distinct integrity/FK
+results. It does not claim the migration stub enforces those policies. The actual
+shared harness `3df1dd2` keeps old49 unconditional, verifies all seven green slots
+and executes them verbosely before migration discovery. New22 remain separate
+known-red bodies; manual execution propagates ordinary failures. There is no
+skip, failure inversion, WILL_FAIL or blanket continue-on-error.
+
+### Independent commands and actual results
+
+Environment: Linux x86-64, GNU16.2.1, Qt6.12.0/host SQLite3.54.0,
+CMake4.4.5, Ninja1.13.2 and Python3.14.8. No personal preset or live data.
+
+| Command/check | Actual result |
+| --- | --- |
+| `cmake --preset sqlite-migrations-debug` | Exit0 at `b67e81b` |
+| `cmake --build --preset sqlite-migrations-debug` | Exit0 initially; corrected acceptance target rebuilt successfully at `4fa008f` |
+| `ctest --preset sqlite-migrations-debug -R '^scaffold.sqlite_migration_environment$' --verbose` | Exit0; all seven actual environment cases passed, zero skips; runtime Qt6.12.0/SQLite3.54.0 logged |
+| `ctest --preset sqlite-migrations-debug -L 'sqlite-writer\|sqlite-work'` | Exit0; all49 unchanged old cases passed |
+| Compiled `-functions` versus CTest JSON comparison | Exact22 new,24 work,22 writer and3 ownership names/counts; one unfiltered environment CTest with seven slots;76 total entries; repeated new22 discovery after correction |
+| Independent Python vector, manifest-byte and fixture-projection checks | Exit0; all ten payload/length/SHA256 vectors,1127 bytes and five diagnostic profiles match |
+| Project consistency, progress render-check, exact old-artifact comparison and whitespace checks | Exit0 at corrected candidate |
+| `/tmp/subathon-actionlint-1.7.12/actionlint .github/workflows/sqlite-writer.yml` | Exit0 |
+
+Only the acceptance source and author note changed in the correction. Its unchanged
+green environment and old49 binaries were not needlessly rerun. No new migration
+test body has been executed by this reviewer, and no intended migration red or
+passing migration behavior is claimed. Compilation/discovery and old green tests
+are not substitutes for that new red.
+
+**Verdict: approved the actual corrected interface,22 test bodies, independent
+fixtures and shared harness at `4fa008f` for the STORAGETEST-011 baseline.** No
+blocking artifact finding remains. Before the first accepted intended-red run,
+the coordinator must also observe these unchanged seven green environment cases
+in the selected official-Qt CI, then run the exact approved22 against these explicit
+stubs and record their genuine missing-feature failures. That external dependency
+gate is still pending at this approval; host results are not transferred to it.
+STORAGETEST-011 completion metadata/publication and STORAGE-011 implementation,
+code review, passing unchanged acceptance and automatic execution remain later
+gates. No domain schema, update/backup authority, recovery, power-loss, provider
+or release-platform capability is approved.
