@@ -129,6 +129,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_RETAINED_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-receipt-debug",
+      "displayName": "15 \u00b7 Identified receipt SQLite baseline (expected red)",
+      "inherits": "sqlite-retained-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_RECEIPT_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -187,6 +195,10 @@
     {
       "name": "sqlite-retained-debug",
       "configurePreset": "sqlite-retained-debug"
+    },
+    {
+      "name": "sqlite-receipt-debug",
+      "configurePreset": "sqlite-receipt-debug"
     }
   ],
   "testPresets": [
@@ -323,6 +335,16 @@
     {
       "name": "sqlite-retained-debug",
       "configurePreset": "sqlite-retained-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-receipt-debug",
+      "configurePreset": "sqlite-receipt-debug",
       "output": {
         "outputOnFailure": true
       },
