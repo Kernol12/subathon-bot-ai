@@ -148,7 +148,7 @@ Claim05961a8 on `task/CORE-005-time-debt` fromfreshmainbca06e8.
   author/root32/full35pass, authorworktreeclean/complete. Existingcontract/header/tests immutable.
 - `/root/debt_code_reviewer` is reviewing actualcandidatef0c888f in isolated
   `local-evidence/worktrees/core005-review`, branch `task/CORE-005-code-review`.
-  Independently32/full35pass; actualapprovalcommit pending.
+  Independently32/full35pass; source/configapproval98f3f04 integrated091eda9.
 - Root owns CMake/presets/CI/labels/map/state/HTML/checkpoint/PR integration.
   CI promotion removes manual behaviorguard, retains time-debt-build checkname,
   adds exact compiledGoogleTest/CTestJSON registration equality then real32cases.
@@ -158,11 +158,20 @@ completed preparation or change reviewedassertions to pass. Scope is pure alread
 calculated signedreversals/debt-first additions, not proportionalentitlement or
 actual application/audit/permission/persistence/provider/platform behavior.
 
-Next: finish actualsource/configreview, publish focuseddraftPR and observe
-ordinaryUbuntu32acceptance on source68141b15/guard792b14b6. Root/author/reviewer
-32/full35pass, allbaselineartifactshashesunchanged.
-Then complete metadata/finalreview/latestCI/discussions/currentnormalrules before
-merge and immediately select nextreadytask. Root edits currently are CI promotion
-and this checkpoint; sourceauthor edits stay isolated. No ownerinput needed.
-Full product remains incomplete with all7integrations/3rateproviders, app/accounting,
+CORE005 boundedproposals are done with unchangedsource68141b15 and32baselinecases;
+independentapproval98f3f04 integrated091eda9, author/root/reviewer32/full35pass.
+ActualUbuntuCI41294422355 at[PR27](https://github.com/Kernol12/subathon-bot-ai/pull/27)
+headde78828 passed32realcases/exactregistration/GNU13.3, all11checks passed there.
+[Implementation](core-005-handoff.md), [review](core-005-code-review.md),
+[CI](core-005-ci.md). Final completionmetadata/actualCI review and latest-head
+checks/discussions/currentnormalrules still gate publication/merge.
+
+Root is requesting final integration review. `/root/storage_decomposition` is doing
+read-only next-task assessment, no files/claims: STORAGE002 is oversized and its
+sync repository ports need an explicit writer-owned transaction/session bridge
+before adapters; current prebuilt asynchronous SQLbatch API must not be bridged
+with multiple non-atomic calls or a second writer. Await concrete dependency-safe
+scope recommendation rather than inventing domain schemas.
+Root changes are completion docs/map/state/checkpoint; source/config are committed.
+No ownerinput is needed. Full product remains incomplete with all7integrations/3rateproviders, app/accounting,
 renderers, UI/locales/themes, packaging/platform and live/OBS gates preserved.

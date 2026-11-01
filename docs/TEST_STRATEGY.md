@@ -2,11 +2,11 @@
 
 | Suite | Responsibility | Current state |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation and plan22 pure-transform cases pass; bounded slices only |
+| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation and plan22 pure-transform and debt32 pure-proposal/composition cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
 | Qt Test | Qt signals/models/event loops and real SQLite writer | Environment probe passes; 22 unchanged SQLite cases plus3 ownership regressions pass; original red retained |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform plus writer25/25 real SQLite cases pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform plus writer25/25 real SQLite and debt32/32 pure-proposal/composition cases pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -162,13 +162,15 @@ Qt>=6.12 and actual QSQLITE are required. The same real cases now run on PRs/mai
 no environment error/skip/failure inversion counts as acceptance. This is no
 application schema/migration/transaction, crash/backup/recovery or live release proof.
 
-## Time-debt reviewed/red baseline
+## Time-debt implementation
 
-CORETEST-005 supplies32 independently reviewed cases for
-[time-debt revision1](contracts/time-debt-v1.md), including explicit policies/full
-provenance, signedMIN, debt-before-caps and literal existing lifecycle composition.
-After approval, all32 failed on explicit TimeDebtNotImplemented stubs (actualexit8);
-[handoff](evidence/coretest-005-handoff.md) retains exact artifacts and red output.
-Configure/build `time-debt-debug`, then CTest `-L time-debt` (known red until CORE005).
-Its automatic CI is build/discovery only; CORE005 must enable ordinary acceptance.
-No proportional refund, authoritative transaction or release behavior is implied.
+CORETEST-005 supplied32 independently reviewed cases for
+[time-debt revision1](contracts/time-debt-v1.md), with original intended stub-red
+retained in [baseline evidence](evidence/coretest-005-handoff.md). CORE-005 now
+implements checked pure reversal/debt-first proposals; all32 unchanged cases pass,
+including real existing CORE-002 composition, with separate code review and actual
+automatic Ubuntu acceptance. [Implementation](evidence/core-005-handoff.md) records
+exact artifacts/commands/limits. Configure/build `time-debt-debug`, then CTest
+`-L time-debt`, or fullpreset35 including infrastructure. The same32 run on PR/main.
+This supplies no proportional refund entitlement, ledger allocation, authoritative
+transaction/permission/audit/persistence or provider/platform verification.

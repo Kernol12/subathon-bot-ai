@@ -33,3 +33,20 @@ real existingCORE002; actual application wiring remains its recorded release gat
 Root owns shared build/preset/CI/labels/map/state/HTML/checkpoint and focusedPR.
 Final taskdone waits codeapproval and actual ordinaryUbuntu acceptance, followed
 by final integration/latesthead CI/discussions/currentnormalrules before merge.
+
+
+## Independent approval and actual CI
+
+Separate code/configreview98f3f04 (integrated091eda9) approves source68141b15 and
+workflow792b14b6 after independent32label/full35pass and signedrange/wholehold/
+debt-first/caller-boundary/ownedrequest/error inspection. Guard32equality and negative
+metadata probes plus actionlint/project/render/diff passed. No source/assertion
+change was requested; [review](core-005-code-review.md).
+
+Actual UbuntuCI41294422355 atPR27headde78828 passed all32 real proposal/composition
+cases, exact compiled32registration and GNU13.3.0. All11checks passed there. Root
+retained the observed logs; no known-red waiver or manual bodyguard remains.
+Bounded CORE005 behavior is done; final completionmetadata/actualCI-evidence review,
+latest-head checks/discussions/currentnormalrules remain before
+[PR27](https://github.com/Kernol12/subathon-bot-ai/pull/27) merges. Other full-release
+and application gates above remain explicit and unverified by this helper.
