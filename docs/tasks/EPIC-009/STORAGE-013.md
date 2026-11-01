@@ -48,3 +48,21 @@ representations (including values above signed64 and UINT64_MAX), then establish
 the genuine reviewed red. No signed INTEGER/REAL coercion or opaque-byte test
 substitutes for that typed gate. Existing identifiers/dependencies/acceptance and
 all original lossless/provenance scope remain unchanged.
+
+## Initial contract-stage ownership and established zero policy
+
+STORAGETEST-013 is claimed from maina4bb565 after PR34. Author initially owns only
+new sqlite-receipts-v1 contract and own evidence, then a different actual review
+precedes any new API/stubs/tests. Root owns actual migration2/schema/order and all
+shared build/CI/state; immutable migration1/old ports remain unchanged.
+
+The full uint64 SQL codec must round-trip every0..UINT64_MAX literal without
+signed/REAL narrowing. Persisted/allocated domain ReceiptId remains1..MAX: the
+already reviewed [application-plan contract](../../contracts/application-plans-v1.md)
+rejects zero receipt ID, enforced in core/src/application_plan.cpp and its reviewed
+missing-local-identity test. Do not alter that completed contract/assertion. Use
+explicit allocator absence (proposed nullable last_allocated BLOB) before first1,
+then allocateMAX once and fail exhaustion without wrap/reuse. Root's initial
+first0 proposal was withdrawn after discovering this actual cross-contract rule;
+no first0 behavior was implemented or approved. Exact schema/options still need
+new actual contract review before test authoring.

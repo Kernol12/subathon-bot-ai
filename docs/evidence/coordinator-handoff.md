@@ -7,7 +7,7 @@ is needed. Full product remains incomplete.
 ## Integrated tasks and actual main
 
 Last observed main is `a4bb5651dd35a36ac364a0b78c39a580f906e1d7` (PR34).
-Postmerge workflows started; inspect actual results before claiming them. Recent completed PRs:
+Actual postmerge maina4bb565 workflows: all10completed/success (GitHub rechecked2026-11-01). Recent completed PRs:
 
 | Task | Merged PR | Durable evidence |
 | --- | --- | --- |
@@ -93,18 +93,24 @@ uint64 ReceiptId eight-byteBLOB codec/fullrange/literals/allocatorzero/absence/
 MAX/exhaustion needs new review/red;012opaqueproof doesnot establish that codec.
 No numeric providerID reinterpretation, sourcefact or missing-ID policy invention.
 
-Author /root/writer_transaction_reviewer will be explicitly reassigned to NEW
+Author /root/writer_transaction_reviewer was explicitly reassigned to NEW
 local-evidence/worktrees/storagetest013-author, branch task/STORAGETEST-013-author,
 initialONLYdocs/contracts/sqlite-receipts-v1.md anddocs/evidence/storagetest-013-author.md.
-Different reviewer /root/storage_work_code_reviewer will use NEWstoragetest013-review/
+Different reviewer /root/storage_work_code_reviewer uses NEWstoragetest013-review/
 task/STORAGETEST-013-review, ownsONLYfuturestoragetest-013-review.md. Rootowns
 actualschema/globalmigration2+immutable1 ordering/build/CI/state/map/HTML/checkpoint.
-Newworktrees/assignments mustbecreated/sent afterthisclaimcommit; inspectactual.
+Both new worktrees were created clean atb263f60 and assignments actuallysent.
+Author completed actual contract-only candidate0c15432 (onlytwoMD/clean),
+contractblobc85cc8b966c6a799a04dbd4ed22ef4a56ced51f4. Different reviewer was
+explicitly resumed read-only on this actualdoc; approval waits rootphysicalDDL2.
+Root is integrating doc and deriving additive migration2; no newAPI/tests yet. Inspect actualagents/files onresume; do not assume background liveness.
 
-Read-onlyprep complete/nofiles. Rootprefers full persisteduint640..MAX with
-nullable8BLOB allocatorlast_id(SQLNULLnone,first0), avoidingunagreednonzero-domain
-restriction/inbandunknownzero. Actualcontractproposal+separatereviewneeded; do
-not silentlychangeportsemantics. Arrival config/context refs mustresolve; known
+Read-onlyprep complete/nofiles. A genuine existing rule was found: reviewed
+application-plans-v1 Capture rejects zero receipt ID, enforcedcoreplan.cpp:19 and
+reviewedtest:262. Root withdrew its neverimplementedfirst0 proposal. Preserve
+purecodec full0..MAX versus persisted/allocated domainReceiptId1..MAX, nullable
+last_allocatedNone before first1, MAXonce/exhaustion/no wrap. No planpolicy/test
+amendment or ownerquestion; new SQLcontract still needs actualdifferent review. Arrival config/context refs mustresolve; known
 contextmetadata links alreadyresolve typedcfg. Do not silentlyrequirectxknowncfg
 equalarrivalcfg absentagreedsemanticbasis (opaquecontextcouldreferhistorical
 definitions); pin anyextraconsistencyrule explicitlyforreview.
@@ -125,15 +131,16 @@ Preserve old15simulation as simulation, no retroSQLclaim or completedred repeats
 
 ## Resume audit and full scope
 
-Last fullaudit55oldworktrees clean plus2 STORAGE012worktrees completedclean,16
-absent historical/tmprefs preserved/no prune. No rootnativecommand after source
+Actual fullaudit59existingworktrees: rootonlyfourknowncheckpoint/brief/state/HTML
+edits, allother58clean,16absenthistorical/tmprefs preserved/no prune. Hostprocess
+comm/cwdonlyaudit found IDE/Codex/currentreadshell, no nativebuild/test commands. No rootnativecommand after source
 95/CI/merge/fetch. Newauthor/reviewer maywrite afterassignment; inspectactual
 branches/dirtyfiles/agents/processes/GitHub onresume. Preservevalidreviews/oldrefs.
 /root/debt_code_reviewer sourceimplementation completedclean, no activeassignment.
 
 Ruleset26170263 PR/resolvedthreads,0GitHubapprovals,nobypass/force/delete,no
 required-status-checkrule. WrittenlatestheadallCI mandatory; repo evidence never
-replaces requiredGitHubapproval. Postmergea4checks pendingobservation.
+replaces requiredGitHubapproval. Actual postmergea4all10workflowscompleted/success; noopenPR.
 Full product incomplete:7integrations/3FXproviders/applicationbundle/backup/update/
 recovery/renderers/UI/locales/themes/packaging/platform/live/OBS allrequired.
 No ownerquestion/accessrequest, credentials/supporterdata/chat/payment/deploy.
