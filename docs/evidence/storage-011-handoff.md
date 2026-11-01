@@ -74,3 +74,12 @@ worktrees and all valid historical reviews are preserved. No owner question.
 Next actual final metadata/CI-attribution review, latest-head all applicable CI,
 resolved discussions/current rules and normal exact-head merge. Then refresh main
 and claim dependency-ready STORAGETEST-012. Full agreed product remains incomplete.
+
+## Actual merge outcome
+
+PR32 merged29f3818a7b202896e1122cd7a787a60a6c4e379d at2026-11-01T13:32:15Z.
+Final metadata/CI-attribution approvala70e495 integratedc31edca; exact finalhead
+c31edca502d7e661904ccfb38999b13960c396d5 had all11 checks SUCCESS, ready/
+MERGEABLE/CLEAN, no review threads and current applicable rules verified before
+normal exact-head merge. No bypass or test weakening. Main refreshed; next
+STORAGETEST-012 is a separate baseline, no automatic implementation authorization.

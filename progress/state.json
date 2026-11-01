@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T13:25:55+00:00",
+  "updated_at": "2026-11-01T13:34:07+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4496,7 +4496,8 @@
         "Actual source9eb1fef/blobd91c7d integratede183527 and author evidence0ac896c integrated0118fea. Author/root original22+old49+green7/full76 pass locally; frozen contract/header/10vectors/oldwriter49 unchanged. Different source review found valid leading U+FEFF rejected by QString::fromUtf8 BOM stripping despite all76 green; hold approval/merge, no Unicode scope narrowing. Separate original baseline author assigned focused pure-codec/stored-schema regressions in storage011-unicode-regression; actual independent test review then current-source intended red required before source correction. Root owns shared CI/state/HTML/checkpoint; unconditional CI66be523 ready, actual Ubuntu acceptance pending. No owner question.",
         "Blocking source requestchanges20cc636 integrated2fb5f89. Separate testauthor234c2ec integrated36aca32 adds only95lines/two Unicode regressions, testblob e94befdc; author/root configure/build/exact24discovery/78registrations pass, no newbody executed. All22originalmethods/tenoldvectors unchanged. Root independently reproduced exact638-byte literal/SHA baf9a94e...775b7d without UUT. Different actualtestreview nowrunning before rootred; productiond91 unchanged.",
         "Actual additive approvalad4f54d integrated8c70e6e BEFORE root selected2redexit8 atd91/e94 (fixture/initcleanup pass/0skip), recorded1482636. Then sourcecorrection071af3b/blob4ee2365 integrated2cb0d1b removes only faulty BOM-consuming decoder equality after strict scalar validation, preserving raw-byte comparisons. Root build/full78 passes (new24+old49+5infrastructure includinggreen7), format/diff/frozen-artifact checks pass. Different actual corrected-source/config review running; automatic officialUbuntu and latesthead PRmerge gates pending. No sourceapproval is transferred from prior requestchanges.",
-        "Corrected source4ee2365/071af3b integrated2cb0d1b independently approved854cace/root790afc0 after actual new24/full78 pass by author/root/reviewer; initial requestchanges/actual independent additive testreview/red/fix history preserved. Actual automatic officialQt Ubuntu41310940283 atPR32 da7cbde passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/old25+work24+green7/exactmigration24/unconditionalreal24 includingUFEFF. All11checks atthathead success. Internal mechanism implementation done; final metadata/CI-attribution review/latesthead/discussions/current rules remain publication gates, PR32 stilldraft/unmerged. No domain schema/realadapter/appbundle/backup/updateauthority/recovery/powerloss/provider/platform upgrade."
+        "Corrected source4ee2365/071af3b integrated2cb0d1b independently approved854cace/root790afc0 after actual new24/full78 pass by author/root/reviewer; initial requestchanges/actual independent additive testreview/red/fix history preserved. Actual automatic officialQt Ubuntu41310940283 atPR32 da7cbde passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/old25+work24+green7/exactmigration24/unconditionalreal24 includingUFEFF. All11checks atthathead success. Internal mechanism implementation done; final metadata/CI-attribution review/latesthead/discussions/current rules remain publication gates, PR32 stilldraft/unmerged. No domain schema/realadapter/appbundle/backup/updateauthority/recovery/powerloss/provider/platform upgrade.",
+        "PR32 actually merged29f3818 at2026-11-01T13:32:15Z after exactfinalc31edca all11latestchecks SUCCESS, finalmetadataapprovala70e495, no threads/currentnormalrules. Main refreshed; preserve source4ee2365/teste94, originalreview/red and additiveUFEFFgate. No domain/caller/operational/platform upgrade."
       ],
       "verification": {
         "native_build": "passed",
@@ -4531,8 +4532,8 @@
       "title": "Review and demonstrate red: Immutable configuration and arrival-context version retention",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; contract/test author /root/writer_transaction_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-011",
         "CONTRACT-002"
@@ -4546,7 +4547,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
       "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-012.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from refreshed main29f3818 after STORAGE011 PR32 merged finalc31edca with all11checks/actualsource854+finalmetadataa70 reviews/no threads/currentnormalrules. Scope immutable caller-validated configuration/arrival-context opaque documents, version-specific refs/known optional links/conflicting reuse/missing/reopen and lossless numeric values where actualdomain requires; preserve existing opaque core ref strings and fulluint64range, no mutablelatest/evaluator/configwire schema/providerfacts. Initial author owns ONLY new docs/contracts/retained-context-v1.md + docs/evidence/storagetest-012-author.md; contract/examples actualdifferentreview precedes newminimalAPI/stubs/independentoracles/tests/build/review/intendedred. Root owns all actual schema/migrationordering/build/presets/workflow/state/map/HTML/checkpoint. Compose primitive repository ops on existing SqliteWorkSession for laterdurableintake; do not addconnection/thread/autoCOMMIT or changeexistingports/claims. Preserve oldmigration24/writer49/green7 and source4ee/023. No STORAGE012 production implementation before actual reviewed/redbaseline."
       ],
       "verification": {},
       "evidence": [],
@@ -11699,6 +11701,16 @@
       "date": "2026-11-01T13:25:55+00:00",
       "task": "STORAGE-011",
       "note": "Corrected source4ee2365/071af3b integrated2cb0d1b independently approved854cace/root790afc0 after actual new24/full78 pass by author/root/reviewer; initial requestchanges/actual independent additive testreview/red/fix history preserved. Actual automatic officialQt Ubuntu41310940283 atPR32 da7cbde passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/old25+work24+green7/exactmigration24/unconditionalreal24 includingUFEFF. All11checks atthathead success. Internal mechanism implementation done; final metadata/CI-attribution review/latesthead/discussions/current rules remain publication gates, PR32 stilldraft/unmerged. No domain schema/realadapter/appbundle/backup/updateauthority/recovery/powerloss/provider/platform upgrade."
+    },
+    {
+      "date": "2026-11-01T13:34:07+00:00",
+      "task": "STORAGE-011",
+      "note": "PR32 actually merged29f3818 at2026-11-01T13:32:15Z after exactfinalc31edca all11latestchecks SUCCESS, finalmetadataapprovala70e495, no threads/currentnormalrules. Main refreshed; preserve source4ee2365/teste94, originalreview/red and additiveUFEFFgate. No domain/caller/operational/platform upgrade."
+    },
+    {
+      "date": "2026-11-01T13:34:07+00:00",
+      "task": "STORAGETEST-012",
+      "note": "Claim from refreshed main29f3818 after STORAGE011 PR32 merged finalc31edca with all11checks/actualsource854+finalmetadataa70 reviews/no threads/currentnormalrules. Scope immutable caller-validated configuration/arrival-context opaque documents, version-specific refs/known optional links/conflicting reuse/missing/reopen and lossless numeric values where actualdomain requires; preserve existing opaque core ref strings and fulluint64range, no mutablelatest/evaluator/configwire schema/providerfacts. Initial author owns ONLY new docs/contracts/retained-context-v1.md + docs/evidence/storagetest-012-author.md; contract/examples actualdifferentreview precedes newminimalAPI/stubs/independentoracles/tests/build/review/intendedred. Root owns all actual schema/migrationordering/build/presets/workflow/state/map/HTML/checkpoint. Compose primitive repository ops on existing SqliteWorkSession for laterdurableintake; do not addconnection/thread/autoCOMMIT or changeexistingports/claims. Preserve oldmigration24/writer49/green7 and source4ee/023. No STORAGE012 production implementation before actual reviewed/redbaseline."
     }
   ]
 }
