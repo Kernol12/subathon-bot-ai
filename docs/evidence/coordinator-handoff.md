@@ -118,3 +118,28 @@ fixture check stillrequired beforefeaturered. No newheader/stub/test/production
 behavior or CIchange. Rootsource4ee/023 and all existing73 featurecases/green7
 are unchanged. Next resume separatepreparedreviewer for actualcontract+brief+
 rootmigrationproposalreview, then resolve findings beforeinterface/testauthoring.
+
+## Current precise next stage
+
+Actual contract/root migration/brief proposal at791cacf, contracta884f016, was
+independently approved40d0dc6 integratededdbe2b for interface/test authoring ONLY.
+Draft [PR33](https://github.com/Kernol12/subathon-bot-ai/pull/33) published at
+791cacf has all11 existing checks SUCCESS; no newfeaturebody/API/selectedfixture
+was exercised there. [CI assessment](storagetest-012-ci.md).
+
+Author explicitly resumed in storagetest012-author for ONLY existing contract/
+author evidence plus NEW server/include/subathon/server/sqlite_retained_context.hpp
+and server/src/sqlite_retained_context.cpp, explicitfeature_not_implemented stubs
+and minimalvalueinterfaces. Freeze concrete error/precedence/empty-result ownership
+precision, commit actualAPI/stub candidate before fullQt testauthoring. No new
+Qtcase/env/vector files are assignedyet. Different reviewer completedcontractreview
+clean and waits tobe resumed for actualAPIprecisionreview, no approvaltransfer.
+Root owns minimalbuild/preset/CI andactualschema/order; no newharness edits yet.
+
+Next integrateAPI/stubprecision, review it, then expandauthorownership to actual
+Qt featuretests/onegreenfixtureprobe/independentfrozenmanifestvectors. Configure/
+build successfully, selectedofficialQt greenfixture proof, actualfulltest/interface/
+fixture/harnessreview, then intendedfeaturemissing red. STORAGE012 production
+implementation remainsprohibited untilthatnewbaselinegate, existing73 untouched.
+No ownerquestion/no root runningcommand. Inspect actualagent/file/GitHubstate on
+resume, especiallyauthoruncommittedAPIwork; preserve it.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T13:51:44+00:00",
+  "updated_at": "2026-11-01T13:59:17+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4549,11 +4549,12 @@
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from refreshed main29f3818 after STORAGE011 PR32 merged finalc31edca with all11checks/actualsource854+finalmetadataa70 reviews/no threads/currentnormalrules. Scope immutable caller-validated configuration/arrival-context opaque documents, version-specific refs/known optional links/conflicting reuse/missing/reopen and lossless numeric values where actualdomain requires; preserve existing opaque core ref strings and fulluint64range, no mutablelatest/evaluator/configwire schema/providerfacts. Initial author owns ONLY new docs/contracts/retained-context-v1.md + docs/evidence/storagetest-012-author.md; contract/examples actualdifferentreview precedes newminimalAPI/stubs/independentoracles/tests/build/review/intendedred. Root owns all actual schema/migrationordering/build/presets/workflow/state/map/HTML/checkpoint. Compose primitive repository ops on existing SqliteWorkSession for laterdurableintake; do not addconnection/thread/autoCOMMIT or changeexistingports/claims. Preserve oldmigration24/writer49/green7 and source4ee/023. No STORAGE012 production implementation before actual reviewed/redbaseline.",
-        "Actual contract-only3cca59f/blobc53329e integrated8813dcc. Root adds explicit012/013/014/015 brief reconciliation: exactopaque BLOB keys/payload preservefulluint64byteforms now, actualReceiptId/ContributionId/CapturedPlanRevision typed SQLcodec gates remainmandatory later; no redundantnumericconfigID invented. Root proposes actual applicationmigration1 IDretain-config-context-v1 exacttwoDDL+7objects/starts0,1, pendingactualdifferentcontractreview. Focusedunchangedwriter HOSTprobes proveemptyBLOB/null/binarybindings andtwoDDL/generatedNULLindexes, notnewfeature/red/officialbundle. Source/header/tests/actualschema/build/CI unchanged. Authorcleancompleted; reviewerpreparedandmustresumeactualcandidate. Main29f3818all10checks passed."
+        "Actual contract-only3cca59f/blobc53329e integrated8813dcc. Root adds explicit012/013/014/015 brief reconciliation: exactopaque BLOB keys/payload preservefulluint64byteforms now, actualReceiptId/ContributionId/CapturedPlanRevision typed SQLcodec gates remainmandatory later; no redundantnumericconfigID invented. Root proposes actual applicationmigration1 IDretain-config-context-v1 exacttwoDDL+7objects/starts0,1, pendingactualdifferentcontractreview. Focusedunchangedwriter HOSTprobes proveemptyBLOB/null/binarybindings andtwoDDL/generatedNULLindexes, notnewfeature/red/officialbundle. Source/header/tests/actualschema/build/CI unchanged. Authorcleancompleted; reviewerpreparedandmustresumeactualcandidate. Main29f3818all10checks passed.",
+        "Actual contract/brief/rootmigration1 proposal at791cacf/contracta884f016 independently approved40d0dc6 integratededdbe2b for minimalinterface/testauthoring only. DraftPR33 at791cacf all11checksSUCCESS, existing73 unchanged; no newfeaturetest/red claim. Author explicitlyresumed initialnewsqlite_retained_context.hpp/src.cpp EXPLICITunimplementedstubs+contracterror/emptyrepresentation precision only, fullQt cases/env/vectors notyetallowed. Different actualAPIreview beforefulltestauthoring; rootowns sharedharness/CI/schemaorder/state. SelectedofficialQt fixture gate stillpending, hostprobes are notfeatureproof."
       ],
       "verification": {
         "contract_authoring": "passed",
-        "contract_review": "not_run",
+        "contract_review": "passed",
         "authored_tests": "not_run",
         "baseline": "not_run",
         "product_acceptance": "not_run",
@@ -4561,9 +4562,17 @@
       },
       "evidence": [
         "docs/evidence/storagetest-012-author.md",
-        "docs/evidence/storagetest-012-probe.md"
+        "docs/evidence/storagetest-012-probe.md",
+        "docs/evidence/storagetest-012-review.md",
+        "docs/evidence/storagetest-012-ci.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/writer_transaction_reviewer (contract); /root (migration proposal and brief reconciliation)",
+        "reviewer": "/root/storage_work_code_reviewer",
+        "outcome": "approved",
+        "baseline": "CONTRACT ONLY actual791cacf, contracta884f01693ceda555779909e907d3c31bf19b6ef plus012/013/014/015 scope reconciliation/root migration1 proposal; actualapproval40d0dc6 integratededdbe2b. No API/test/futureartifact approval or feature red.",
+        "evidence": "docs/evidence/storagetest-012-review.md"
+      }
     },
     {
       "id": "STORAGE-012",
@@ -11727,6 +11736,11 @@
       "date": "2026-11-01T13:51:44+00:00",
       "task": "STORAGETEST-012",
       "note": "Actual contract-only3cca59f/blobc53329e integrated8813dcc. Root adds explicit012/013/014/015 brief reconciliation: exactopaque BLOB keys/payload preservefulluint64byteforms now, actualReceiptId/ContributionId/CapturedPlanRevision typed SQLcodec gates remainmandatory later; no redundantnumericconfigID invented. Root proposes actual applicationmigration1 IDretain-config-context-v1 exacttwoDDL+7objects/starts0,1, pendingactualdifferentcontractreview. Focusedunchangedwriter HOSTprobes proveemptyBLOB/null/binarybindings andtwoDDL/generatedNULLindexes, notnewfeature/red/officialbundle. Source/header/tests/actualschema/build/CI unchanged. Authorcleancompleted; reviewerpreparedandmustresumeactualcandidate. Main29f3818all10checks passed."
+    },
+    {
+      "date": "2026-11-01T13:59:17+00:00",
+      "task": "STORAGETEST-012",
+      "note": "Actual contract/brief/rootmigration1 proposal at791cacf/contracta884f016 independently approved40d0dc6 integratededdbe2b for minimalinterface/testauthoring only. DraftPR33 at791cacf all11checksSUCCESS, existing73 unchanged; no newfeaturetest/red claim. Author explicitlyresumed initialnewsqlite_retained_context.hpp/src.cpp EXPLICITunimplementedstubs+contracterror/emptyrepresentation precision only, fullQt cases/env/vectors notyetallowed. Different actualAPIreview beforefulltestauthoring; rootowns sharedharness/CI/schemaorder/state. SelectedofficialQt fixture gate stillpending, hostprobes are notfeatureproof."
     }
   ]
 }
