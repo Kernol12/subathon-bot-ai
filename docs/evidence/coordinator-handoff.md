@@ -84,7 +84,9 @@ checkpointcommitsafterpublishedheadnotyetpushed; no newreceiptacceptanceclaim.
 Claimed on task/STORAGETEST-013-receipt-repository from freshly
 refreshedmaina4bb565. Dependencies STORAGE012/ACCT001done/integrated. Initial
 contractreview completed; minimalAPI/stub drafting nowexplicitlyauthorized.
-No newQtcase/fixture/schema-source/production/red yet.
+ActualminimalAPI21a396b/root54ebbd8 plusrootbuildharness50c1e8b nowexist;
+configure/build48steps andold95pass. No newQtcase/fixture/schema-source/
+production/red yet. DifferentactualAPI/harnessreview activebeforetestauthoring.
 [Brief](../tasks/EPIC-009/STORAGE-013.md), [existing identifiedreceipt contract](../contracts/receipt-intake-v1.md),
 [retention](../contracts/retained-context-v1.md), [work/session](../contracts/writer-transactions-v1.md).
 
@@ -112,8 +114,9 @@ Author explicitly resumed frome7479d2 on minimalAPI/stubs ONLY. Owns NEW
 server/include/subathon/server/sqlite_receipts.hpp, NEWserver/src/sqlite_receipts.cpp
 (explicitNotImplementedlogicstubs, nofeatureSQL/codec/manifestimplementation),
 logicalcontract ConcreteAPIprecision appendix and ownexistingauthorevidence.
-Different reviewer completed actualcontractapproval clean; next requires actual
-APIcandidate beforeapproval. Thirdagent read-onlyfeasibility prepcompleted clean.
+Different reviewer explicitlyresumed on actual50c1e8b API/stub/precision/harness.
+Headerb43f9b60/stubfaf2856d/logicale1ed9758 (122precisionappendonly),
+physical2ef/prefix1unchanged; actualapprovalpendingbeforetests/fixtures. Thirdagent read-onlyfeasibility prepcompleted clean.
 Rootowns physicalschema/sharedbuild/presets/workflow/state/map/HTML/checkpoint.
 No newtests/fixtures orfirstfeaturebody beforeactualAPIprecisionreview.
 
