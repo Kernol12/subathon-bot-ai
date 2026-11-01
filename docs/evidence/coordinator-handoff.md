@@ -95,51 +95,43 @@ unconditionalreal49. [Implementation](storage-010-handoff.md), [review](storage-
 [CI](storage-010-ci.md). No real domainadapter/schema/backup/recovery/platform claim.
 Old implementation/reviewer worktrees finished clean; preserve branches/reviews.
 
-STORAGETEST-011 is claimed from refreshedmain88e86c1 on
-`task/STORAGETEST-011-migration-catalog`. Initially contract/examples only, before
-actual test authoring/stubs. Author `/root/writer_transaction_reviewer` is explicitly
-reassigned from completed CONTRACT004/STORAGETEST010 review to new isolated
-`local-evidence/worktrees/storagetest011-author`, branch
-`task/STORAGETEST-011-author`. Owns ONLY docs/contracts/migration-catalog-v1.md
-and docs/evidence/storagetest-011-author.md at this stage. No C++/schema edits yet.
-Different `/root/storage_work_code_reviewer` will independently review actual
-contract then authored tests in `local-evidence/worktrees/storagetest011-review`,
-branch `task/STORAGETEST-011-review`; no future approval is assumed.
+STORAGETEST-011 is active on `task/STORAGETEST-011-migration-catalog`, claim9dba71d
+from refreshedmain88e86c1. Branch local/unpublished; no PR31 exists yet. No owner
+question. Author `/root/writer_transaction_reviewer` is explicitly reassigned from
+completed review roles into isolated `local-evidence/worktrees/storagetest011-author`,
+branch `task/STORAGETEST-011-author`. Owns only new contract and author evidence;
+C++/schema/test edits not authorized yet. Actual logical contract6a92fce integrated
+1d221ae, blobcf627ed5/evidenced81bd60;16future oracles are not authored tests.
 
-Root owns shared schemas/migration ordering/build/presets/workflow/map/state/HTML/
-checkpoint/PR. Next: define bounded catalog identity/version refusal, atomic
-migration failure/interruption, actual integrity proof, supported prior fixtures
-and narrowly scoped writer-only admin diagnostics without silently widening old
-SQL allowlist. Contract must preserve OPS02 explicit initiated update/no unattended
-active-event upgrade/backup+compatibility preconditions. Future application/update/
-backup workflow remains separate; no invented backup proof or final domain schema.
+Different `/root/storage_work_code_reviewer` in isolated
+`local-evidence/worktrees/storagetest011-review`, branch `task/STORAGETEST-011-review`,
+completed read-only preparation then was explicitly resumed to examine actual
+1d221ae. Author is resumed for root-coordinated plain two-relation metadata DDL,
+exact digest framing and outstanding logical findings before final contractapproval.
+No review approval or new native/red/implementation claim exists. Root owns schema
+ordering/build/presets/CI/progress/HTML/map/checkpoint. [Active handoff](storagetest-011-handoff.md),
+[author](storagetest-011-author.md), [contract](../contracts/migration-catalog-v1.md).
 
-After actual contract review, authorize minimal interface/stubs and focused QtSQL
-cases, separately review their actual revision, THEN observe genuine missing-behavior
-red after successful compile. Preserve all existing49 assertions and valid reviews;
-STORAGE-011 production waits for this gate. Author and independent reviewer have now been explicitly assigned in their new
-worktrees; author is drafting the actual contract and reviewer is doing read-only
-preparation. Contract/test approval and any new behavior execution remain pending.
-Inspect actual agents/processes/worktrees/GitHub on resumption.
-No owner question or running root command; root clean after this checkpoint commit.
-Historical absenttmp refs/metadata remain preserved. Full product is incomplete,
-including all seven integrations/three rate providers and UI/renderers/locales/
-themes/platform/packaging/live/recovery/application bundle requirements.
+Root’s [diagnostic probe](storagetest-011-probe.md) confirmed no-argument SELECT
+pragma_integrity_check/foreign_key_check in existing source023451 session on host
+Qt6.12/SQLite3.54. Numeric TVF(1) failed and is not equivalent to direct PRAGMA;
+no failed probe counts as red. Author independently agrees to preserve writerAPI/
+source/header/allowlist and use existing SELECT. Selected officialQt CI must later
+run a focused green diagnostic-environment probe before any new intended red.
+No migration algorithm or product schema is implemented by these technical probes.
 
-Postmerge main88e86c1 all10 checks were observed successful. Audit after creating
-the new011 author/reviewer worktrees found50 existing worktrees clean,16 absent
-historicaltmp paths preserved and no build/test process. No open task PR yet for
-011; the active coordinator branch is local/unpublished. Previous PR30 is actually
-merged, not assumed integrated from task status. No owner question or live release
-claim. Root clean at this checkpoint; author/reviewer future edits are isolated.
+Next: integrate actual physical-contract update; different contract review before
+root expands ownership to minimal API/stubs/greenprobe/realQtSQL tests. Then actual
+separate test review, successful compilation/environment and genuine new missing-
+behavior red before STORAGE-011. Preserve49 assertions and all valid reviews. Do
+not silently widen SQL or infer backup/update/recovery/permission readiness from
+catalog verification. Explicit OPS02 operations remain caller/product gates.
 
-Root [diagnostic probe](storagetest-011-probe.md) found currentQt6.12/SQLite3.54
-no-argument SELECT pragma_integrity_check/foreign_key_check already work inside
-existing source023451 session; numeric TVF(1) is NOT equivalent and failed, not
-counted as acceptance/red. Author independently agrees to simplify through existing
-SELECT and preserve writerAPI/source/header/allowlist. New baseline will require
-actual selectedQt CI green diagnostic-environment probe before any accepted red.
-No migration test or production algorithm exists yet. Root probe sources preserved
-in ignored local-evidence/coordinator/storagetest011-probes; actual author contract
-commit still pending, reviewer preparation complete/clean and must be resumed for
-actual review. No process left running.
+Postmerge main88e86c1 all10 checks succeeded. Audit after011 worktrees found50
+existing worktrees clean,16 absent historicaltmp refs preserved and no build/test
+process. Root clean/no running command after checkpoint commit; author owns its
+unfinished doc updates in its worktree and reviewer owns only review evidence.
+Inspect actual agents/worktrees/processes/GitHub on resume; never assume old agents
+live. Full product remains incomplete, including migrations/domain stores/application
+bundle/recovery/all seven integrations/three rate providers and UI/renderers/locales/
+themes/platform/packaging/live requirements.

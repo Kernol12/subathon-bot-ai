@@ -4435,8 +4435,18 @@
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from refreshed main88e86c1 after PR30 merged final6d35918 all11 checks/no threads/normal rules. Preserve completed writer/work source023451 and original reviewed49 cases. Scope versioned internal catalog/migration contract/examples first, then minimal interface/stub/real disposable SQLite tests, different actual review and new intended missing-behavior red. No STORAGE-011 implementation before baseline. Author initially owns ONLY new docs/contracts/migration-catalog-v1.md + author evidence; root owns shared schemas/order/build/presets/workflow/state/HTML/checkpoint. OPS-02 explicit updates, backup/compatibility preconditions and no unattended active-event upgrade remain product gates; no real backup/adapter/application schema is inferred. Existing generic SQL allowlist stays unchanged; proposed integrity/migration capabilities need additive reviewed contract."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "contract_authoring": "draft",
+        "contract_review": "not_run",
+        "authored_tests": "not_run",
+        "baseline": "not_run",
+        "github_ci": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storagetest-011-handoff.md",
+        "docs/evidence/storagetest-011-author.md",
+        "docs/evidence/storagetest-011-probe.md"
+      ],
       "review": null
     },
     {
