@@ -56,3 +56,12 @@ init/cleanup,0skip),exact16discovery and real unconditional16/16 pass. All11 PR
 checks atthathead SUCCESS/MERGEABLE/CLEAN; no transfer to later metadata heads.
 Rootsourcec96 and all frozen artifacts match actual source/configapproval8c.
 Component done, finalmetadata/CI attribution review/latesthead merge stillpending.
+
+## Actual merge outcome
+
+PR34 mergeda4bb5651dd35a36ac364a0b78c39a580f906e1d7 at2026-11-01T16:11:59Z.
+Final metadata/CI-attribution approval5ca2349 integrated20af94f; exact final
+20af94f809c0bf0844bc52a4404873f1573968ec all11checksSUCCESS, ready/MERGEABLE/
+CLEAN, no review threads/current applicable rules verified before normal exact-head
+merge. No bypass/fixture/test weakening. Mainrefreshed; nextSTORAGETEST013 contract
+is a separate baseline with fresh gates, not automatically implemented receipt SQL.
