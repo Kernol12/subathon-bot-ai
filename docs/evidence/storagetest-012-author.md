@@ -234,3 +234,19 @@ not a product policy change: the existing product writer enables/enforces ON,
 which the green environment proof checks. No baseline assertion or expected
 result changed; no new body ran. This avoids misclassifying a seed failure as
 intended red on a selected official Qt build.
+
+Actual different-agent review of test blob a940d29 identified an RC11/12 oracle
+ambiguity before any new body execution: an expected SQL/budget/uncertainty
+exception thrown by retain itself could satisfy terminal checks before the
+intended subsequent SQL, commit or corrupt-read operation. The author strengthens
+each scenario with a bool set only after retain has returned inserted and the
+inserted check passed, then explicitly asserted outside run before accepting
+error categories. This covers the oversized result, known SQL failure, lost
+commit acknowledgment and corrupt-read/lost rollback acknowledgment scenarios.
+All prior assertions, the 16 names, approved API/stub/contract, probes and literal
+vectors remain unchanged. The flags require no private-state or query-cost
+assumption and distinguish a reached stage from an assertion bypassed by throw.
+No new feature body ran. Root's reported actual first candidate build/discovery,
+green3 and old78 success are root evidence, not independently repeated here.
+Author ran clang-format and git diff --check for this bounded correction; actual
+corrected compilation and separate artifact review remain gates.

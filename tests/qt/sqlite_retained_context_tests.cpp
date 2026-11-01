@@ -701,13 +701,16 @@ class SqliteRetainedContextTests final : public QObject {
         QCOMPARE(count_config(), 2);
         // Literal result cap: 1048577-byte SQL result after a proved prior retain.
         // No guessed internal query-count or calibrated overhead expectation.
+        bool budget_retain_completed = false;
         auto exhausted = run(writer, [&](auto session) -> QVariant {
             require(SqliteRetainedContextStore(session).retain(
                         document(config("rollback-budget"), "b")) == RetainDisposition::inserted,
                     "prior retain checkpoint reached");
+            budget_retain_completed = true;
             (void)session.execute({"SELECT zeroblob(1048577)", {}});
             throw std::runtime_error("literal over-budget result accepted");
         });
+        QVERIFY2(budget_retain_completed, qPrintable(exhausted.problem()));
         QVERIFY2(!exhausted.local, qPrintable(exhausted.problem()));
         QCOMPARE(exhausted.synchronous, std::optional<WorkError>(WorkError::result_limit));
         QCOMPARE(exhausted.result.transaction, TransactionOutcome::rolled_back);
@@ -833,13 +836,16 @@ class SqliteRetainedContextTests final : public QObject {
         {
             SqliteWriter writer;
             QCOMPARE(writer.open(path_), StorageError::none);
+            bool sql_retain_completed = false;
             auto failed = run(writer, [&](auto session) -> QVariant {
                 require(SqliteRetainedContextStore(session).retain(
                             document(config("sql-abort"), "s")) == RetainDisposition::inserted,
                         "prior write checkpoint");
+                sql_retain_completed = true;
                 (void)session.execute({"INSERT INTO main.no_such_retention_table VALUES (1)", {}});
                 return 1;
             });
+            QVERIFY2(sql_retain_completed, qPrintable(failed.problem()));
             QVERIFY2(!failed.local, qPrintable(failed.problem()));
             QCOMPARE(failed.synchronous, std::optional<WorkError>(WorkError::sql_failure));
             QCOMPARE(failed.result.transaction, TransactionOutcome::rolled_back);
@@ -854,13 +860,16 @@ class SqliteRetainedContextTests final : public QObject {
             QCOMPARE(SqliteWriterWorkAccess::inject_next_control_ack_loss(
                          writer, WorkControlFault::lose_next_commit_ack),
                      StorageError::none);
+            bool commit_retain_completed = false;
             auto unknown = run(writer, [&](auto session) -> QVariant {
                 require(SqliteRetainedContextStore(session).retain(
                             document(config("commit-unknown"), "c")) == RetainDisposition::inserted,
                         "prior actual retain");
+                commit_retain_completed = true;
                 session.commit();
                 return 1;
             });
+            QVERIFY2(commit_retain_completed, qPrintable(unknown.problem()));
             QVERIFY2(!unknown.local, qPrintable(unknown.problem()));
             QCOMPARE(unknown.synchronous, std::optional<WorkError>(WorkError::uncertain_outcome));
             QCOMPARE(unknown.result.transaction, TransactionOutcome::outcome_unknown);
@@ -881,13 +890,16 @@ class SqliteRetainedContextTests final : public QObject {
             QCOMPARE(SqliteWriterWorkAccess::inject_next_control_ack_loss(
                          writer, WorkControlFault::lose_next_rollback_ack),
                      StorageError::none);
+            bool rollback_retain_completed = false;
             auto unknown = run(writer, [&](auto session) -> QVariant {
                 require(SqliteRetainedContextStore(session).retain(
                             document(config("rolled-back"), "r")) == RetainDisposition::inserted,
                         "stage before corrupt read");
+                rollback_retain_completed = true;
                 (void)SqliteRetainedContextStore(session).find(config("corrupt"));
                 return 1;
             });
+            QVERIFY2(rollback_retain_completed, qPrintable(unknown.problem()));
             QVERIFY2(!unknown.local, qPrintable(unknown.problem()));
             QCOMPARE(unknown.synchronous, std::optional<WorkError>(WorkError::uncertain_outcome));
             QCOMPARE(unknown.result.transaction, TransactionOutcome::outcome_unknown);
