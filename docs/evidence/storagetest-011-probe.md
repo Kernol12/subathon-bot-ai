@@ -62,3 +62,23 @@ results, and avoid treating a version row or physical integrity alone as a verif
 schema. A focused green selected-Qt diagnostic environment probe must execute in
 actual CI before genuine new stub-red can be accepted. Existing49 acceptance and
 all future migration test/review/red/implementation/platform gates remain separate.
+
+## Independent-review counterexample and corrected syntax
+
+Reviewd60021e found that an ordinary table named pragma_integrity_check can return
+a fake ok result to the bare-name SELECT. Root then independently reproduced both
+checks on actual Qt6.12/SQLite3.54, after this new concern justified a focused probe.
+A normal existing-writer work using `pragma_integrity_check()` and
+`pragma_foreign_key_check()` returned literal ok/zero rows and committed1/error0.
+A separate direct-Qt fixture created ordinary tables with those names: bare
+integrity SELECT returned the inserted ok row and bare FK SELECT returned zero
+rows, while each explicit zero-argument function call failed as 'is not a function'.
+Both probe processes exited0; the SQL errors were deliberately observed. Sources
+are preserved in the same ignored probe directory as function/shadow-probe.cpp.
+
+The proposed migration contract must require explicit empty parentheses in BOTH
+fixed diagnostic queries and fail closed on shadowing/unavailable functions. The
+earlier bare-query observation remains historical evidence of existing SELECT
+support, not an accepted safe diagnostic design. This is no new migration red or
+implementation. Actual selected officialQt CI must verify healthy and negative
+diagnostic environment cases before any intended migration baseline red.

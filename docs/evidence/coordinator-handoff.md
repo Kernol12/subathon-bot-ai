@@ -135,3 +135,12 @@ Inspect actual agents/worktrees/processes/GitHub on resume; never assume old age
 live. Full product remains incomplete, including migrations/domain stores/application
 bundle/recovery/all seven integrations/three rate providers and UI/renderers/locales/
 themes/platform/packaging/live requirements.
+
+Initial actual contract request-changes reviewd60021e integratede11d150, no approval.
+Key actual counterexample: bare diagnostic names resolve ordinary shadow tables;
+fixed zero-argument () calls safelyreject. Root independently confirmed currentQt
+healthy()/shadow failures and appended [probe evidence](storagetest-011-probe.md).
+Author is explicitly resumed for all corrections, including physicalDDL, framed
+null marker/UTF8order/text policy, nonemptyN>=1/fresh0 semantics and forcedfunction
+syntax. Different reviewer finished initial review clean and must be explicitly
+resumed for actual corrected doc. New C++/tests still not authorized; no new red.

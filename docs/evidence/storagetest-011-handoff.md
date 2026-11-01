@@ -47,3 +47,10 @@ claimed. After actual contract approval root may expand ownership to minimal
 interfaces/stubs, green diagnostic probe and focused real Qt SQL cases. Those
 actual tests need different review, successful compilation/environment and genuine
 new missing-behavior red before STORAGE-011 production. No owner question.
+
+Initial different contract reviewd60021e integratede11d150 requests changes to
+actualcf627: physicalDDL, unambiguous framing/text/0 policy and explicit diagnostic
+function calls. It grants no test/red/implementation approval. Reviewer found a
+real shadow-table counterexample; root actual Qt confirmed () succeeds healthy and
+rejects shadows where bare names fake ok/empty. [Review](storagetest-011-review.md).
+Author is working the corrections; root/probe history remains preserved.
