@@ -49,11 +49,14 @@ implementation waits for that gate. Local Qt Core/Sql/Test6.12.0 is installed.
 - `/root/storage_test_author` owns `sqlite-writer-v1.md`, writer header/stub,
   Qt test source and author evidence in
   `local-evidence/worktrees/storagetest001-author`, branch
-  `task/STORAGETEST-001-writer-author`. Authoring is active; not yet reviewed/red.
+  `task/STORAGETEST-001-writer-author`. Authoring is complete at819edbb, integrated48db98c; not yet reviewed/red.
 - `/root/storage_test_reviewer` is independently preparing requirements review;
-  actual candidate/reviewer worktree will be provided after author handoff. No
-  approval is inferred from preparation.
-- `/root/qt_ci_investigator` is doing read-only Qt6.12 public CI availability research.
+  actual candidate48db98c is in `local-evidence/worktrees/storagetest001-review`,
+  branch `task/STORAGETEST-001-writer-review`. Review/compile/discovery is active.
+  No approval is inferred from preparation.
+- `/root/qt_ci_investigator` completed read-only Qt6.12 archive investigation and separately approved workflow
+  blob9144d8b; see [CI assessment](storagetest-001-ci.md). No task agent from
+  the previous session is assumed running.
 - Root owns shared CMake/presets/workflows/state/HTML/map/checkpoint/PR integration.
   No other concurrent writer edits these paths.
 
@@ -95,8 +98,10 @@ checks/reviews/threads/rules before merge. Assess Qt CI availability without hid
 intentional red; stable writer behavior must become automatic CI in STORAGE-001.
 Then start the dependency-ready implementation or another ready slice.
 
-Uncommitted coordinator edits are the storage build harness and this checkpoint;
-author work is isolated. Inspect actual status/processes/agents on interruption.
+Current candidate48db98c has all22 cases compiled/discovered; contract4d280461,
+testsf8418e83, header11d204aa and explicitstubf0edd7e6. No behavioral/red run
+has occurred. Coordinator metadata updates and draft PR publication are next;
+author work is committed and isolated. Inspect actual status/processes/agents on interruption.
 No owner question or access decision remains. Full product is NOT complete:
 authoritative transactions/aggregates/refunds, all7 integrations/3rate providers,
 supported platforms, both renderers, UIs/localization/themes, packaging and live/OBS
