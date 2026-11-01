@@ -219,3 +219,92 @@ state that limit honestly and later code review must inspect the checked guard.
 Independent full-prefix/typed-codec/schema fixtures, selected official-Qt green
 proof and intended missing-behavior red still precede production. This verdict
 does not transfer to absent tests, later source or a future CI head.
+
+## Full actual test, fixture and harness review
+
+Verdict: **approved actual artifacts for intended feature red, after separate
+selected official-Qt new-fixture success is observed**. No unresolved finding.
+No receipt feature body/init or historical red was executed by this reviewer.
+The official new-green run and first intended receipt red remain pending gates;
+neither is approved as an unobserved result.
+
+Read all22 cases/helpers from author135d3d3/root97863f9, actual fixture33df432/
+root5561e69 and committed harness1ce0020/14372c8, then all separate corrections.
+Final coordinated root is8dfaf22, normally merged here as
+`5aae8bcf5b2e0f686fa84733316daa4831711027`. Exact approved artifacts:
+
+| Artifact | Git blob |
+| --- | --- |
+| Feature22, final actual source | dab97946568e09f15119a8995735539eb2e14c4d |
+| Green3, final actual source | 8189f0274a38bb840c612673e0f858fe8d1777eb |
+| Independent JSON | a79e5e71a3b9ca101441852c7fb7f26f735e9626 |
+| Qt CMake | ff3a197d60b5f7bc6486a69c5f7fe9c9fa49e5cf |
+| Workflow | feb5a9ff5d936c63dd4ebff2cfdff8f238e1fefd |
+
+Headerb43/stubfaf/logicale1/physical2ef remain the exact full hashes in the API
+review above. Old core/service/ports, original15 simulations, old SQLite sources,
+tests and prefix fixtures are unchanged. Production still has four named throws.
+
+Actual review findings were corrected by the assigned different authors, with
+root authorization, before approval or any receipt-body run:
+
+| Finding | Actual nonweakening correction inspected |
+| --- | --- |
+| SR10's single1048577-byte result only proves an individually oversized result, not cumulative charging | 5a8b700 retains it and adds a fresh proved-create/append unit with up to two600000-byte results, each individually valid; either attempted query may exhaust prior cumulative charges, both succeeding fails; outer stage/attempt/rollback/lock/snapshot/no-value guards remain |
+| Pure-codec9-byte rejection did not test an overlong selected SQL ID | Same5a8 adds bad-12 at ID0e, mutated to9-byte000000000000000e00, preserving old12 variants/healthy0d; truncating to the former first8 cannot evade the oracle |
+| SQL NOT NULL cannot legitimately supply a selected NULL receipt ID | Fixture authorcde2ef8 adds NULL INSERT refusal to existing green zero/INTEGER variants; this proves actual SQL rejection without fabricating a selected-NULL row or weakening schema |
+| Missing retained-target failure mapping/value-limit propagation coverage | ad60c19 adds two isolated databases with short valid facts: actual target TEXT3 maps invalid_stored_data; target BLOB4 at value3 maps result_limit; raw types/lengths, synchronous lock release, no record/value and unchanged full snapshot isolate those causes |
+| Positive global count alone did not prove a new retry/conflict attempt staged before fault | 9b4f38d reads owner counts before/after each real create/append, requires delta+1 and retains positive-count checks before setting flags/forcing actual failing SQL |
+| TEXT allocator with different decoded bytes could fail consistency even without a strict type guard | 913354a adds TEXT with exact canonical ID1 bytes, raw typeof/hex proof, greatest ID1 and a fresh identity; only strict storage-class rejection supplies the expected known failure |
+| Worker generic catches hid the initial named missing-feature cause | 183c908 flags named stubs inside each worker and rethrows on owner only after join; every real wrong_thread/input assertion remains, with no fabricated expected error or uncaught thread exception |
+
+Reviewed SR01–SR12 coverage in actual code: independent typed-codec literals and
+zero/domain distinction; exact immutable prefix/manifest; real unchanged intake
+classification/all facts; ordered equal-time attempts; all four binary identity
+branches; optional groups, byte strings and integer extrema/reopen; typed arrival
+resolution without invented equality; allocation across signed/MAX boundaries;
+actual post-stage rollback; adoption/physical commit/destructor/incomplete guards;
+SQL uniqueness, preflight/bounds, selected corruption/targets/history, cumulative
+budgets, local versus actual capability errors, owned wrapper/results and physical
+acknowledgment-loss uncertainty/no replay. One MAX ordinal is explicitly corrupt
+noncontiguous history; true MAX-contiguous increment safety remains a later code
+guard review, not a falsely claimed executable exhaustion fixture.
+
+Setup uses literal m1/m2 JSON with the existing implemented migration runner and
+independent raw targets, never the new receipt factory/codec/repository in init.
+The real failure decorator forwards primitives before observed new-row deltas and
+real failing SQL; it contains no deduplication/disposition policy or fake outcome.
+Known port failures and uncertainty remain separately asserted. First red must
+still confirm actual setup/init/cleanup success rather than counting fixture errors.
+
+Independently rederived actual JSON from contract SQL and host SQLite tuples:
+complete10535-byte F payload/SHA24614f68…553a2, all13 objects, unchanged seven
+prefix objects and all six decimal/hex STRING uint64 pairs match, without UUT
+oracles. Read the complete green helper, including NULL/empty/group/type/FK/raw
+numeric assertions. Its actual link command uses only old writer/Qt, not receipt,
+migration or retention implementations. Thus green cannot pass by invoking a stub.
+
+Actual committed harness matches the examined preview:22 separate feature
+processes, vector macros on both targets, separate required three-slot green
+executable and exact compiled-registration guards. Existing stable lanes/pins/
+permissions remain. New green runs before feature discovery; explicit manual
+run_receipt_feature_tests defaults false and propagates real CTest failure. No
+WILL_FAIL, blanket continuation or executed-failure suppression was introduced.
+
+| Actual independent check | Result |
+| --- | --- |
+| Configure/build sqlite-receipt-debug at7b78e5a, then incremental build after final8df patches | Exit0, both new executables compile/link, zero warnings |
+| CTest JSON and executable `-functions` only, final revision | Exact118 registrations,22 compiled/registered receipt cases and3 compiled environment slots; no receipt body/init run |
+| `ctest --preset sqlite-receipt-debug -R '^scaffold.sqlite_receipts_environment$' --verbose` at7b | Exit0; final unchanged818 helper,5 passes including init/cleanup,0skips, Qt6.12/hostSQLite3.54 |
+| `ctest --preset sqlite-receipt-debug -E '^sqlite-receipt\.' --output-on-failure` at7b | Exit0;96/96 stable checks,2.25s; all22 feature names explicitly excluded |
+| Final patch/hash and old-artifact checks | Final dab examined/rebuilt; green/JSON and every stable-lane input unchanged from7b, so no broad rerun; frozen API/contract/old-source invariants pass |
+| Format, actionlint1.7.12, project391/render and diff checks | Exit0; current snapshot/122 decisions |
+
+118 is discovery, not full118 passing acceptance. Local captures are ignored under
+this worktree's build directory; no tracked source/test/fixture/harness was edited
+by this reviewer. Only this note changes. Previous API-only official CI does not
+prove the new13-object818 fixture. Root must integrate this approval, observe
+actual selected official-Qt green3/current schema plus complete22 discovery, and
+only then record the first genuine intended receipt red. Actual implementation,
+its separate code/config review, passing acceptance/unconditional CI and all
+previous operational/domain/provider/platform gates remain subsequent work.
