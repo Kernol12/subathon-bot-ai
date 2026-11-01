@@ -134,3 +134,55 @@ No test bodies ran in this review. Compilation and discovery are not observed re
 The coordinator must integrate this committed approval, run the actual22 cases,
 retain genuine missing-behavior failures, and review final evidence/status before
 baseline merge. STORAGE-001 remains unimplemented pending that gate.
+
+## Final baseline integration review — 2026-11-01
+
+Reviewer `/root/storage_test_reviewer` examined integrated task candidate `da98505`.
+Verdict: **approved for baseline integration**; no blocking source/test/evidence
+findings. The original review commit was cherry-picked by the integrator, so this
+reviewer preserved its original local history with an ordinary support-branch merge
+after an ff-only update correctly refused divergent commit identities.
+
+The approved contract, public interface, explicit stubs, all22 assertions and all
+CMake/preset build registrations have no diff from `48db98c`. The retained red log
+contains22 distinct failed behavior slots, each reporting enum1 from an unconditional
+feature_not_implemented stub against required success/validation/error results.
+All22 initTestCase and cleanupTestCase entries pass, every summary reports zero
+skips, and the combined CTest summary is22 failed with actual recorded process exit8.
+Reaching those slot assertions also requires their real disposable QSQLITE fixtures
+to initialize successfully. Approval integration `6647490` precedes this observed
+run. No repeated behavioral execution was needed for this evidence review.
+
+Reviewed handoff, architecture/test strategy, acceptance-map DB-01 partial status,
+task state and generated progress. STORAGETEST-001 remains in_review pending normal
+publication closeout; its baseline review/intended-red fields are accurate and
+STORAGE-001 remains planned. No writer behavior is relabeled implemented/passing.
+The coordinator will replace obsolete next-action checkpoint prose and record actual
+CI/completion metadata before final publication. All downstream release gates remain.
+
+The only executable integration delta is workflow prefix initialization: unavailable
+job-level runner-context expansion is replaced by a prior step writing QT_PREFIX
+through GITHUB_ENV. This does not change archive pins, build commands, test discovery
+or intentional-red separation. Corrected workflow blob
+`398733ebeb7bd2c83d4396def554979f01ef4fd1` has separate actionlint investigation/
+approval in the CI assessment. This reviewer also inspected its actual diff.
+
+This reviewer independently queried
+[run41288299328](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41288299328)
+at exact head `da98505a61dae406d5d5706eac481ed9b8c3d764`: completed success.
+Actual logs confirm both archive SHA checks passed, GNU13.3.0/Python3.12.3 configured,
+the target built, the Qt event-loop probe passed1/1 and the guard discovered all22
+compiled slots. Writer behavior was deliberately not run by that PR baseline job;
+its green result is build/environment/registration evidence only.
+
+Actual final reviewer checks: red-log count/result audit and reviewed-artifact diff
+comparison passed; `python3 tools/check_project.py` exit0 (377 tasks,122 decisions,
+links/presets/current HTML), `python3 tools/progress.py render --check` exit0 and
+`git diff --check` exit0. GitHub run status/log inspection was read-only. No native
+test bodies were rerun and no assertions/source/build/progress files were changed.
+
+Latest-revision CI after further metadata commits, final status/publication records,
+resolved discussions, repository rules/mergeability and merge remain coordinator
+gates. This review approves the bounded reviewed/red baseline only. Production
+implementation still starts from its integrated prerequisite and needs unchanged
+acceptance passes, separate code review and automatic behavior CI.
