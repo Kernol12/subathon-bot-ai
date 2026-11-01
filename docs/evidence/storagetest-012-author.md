@@ -49,7 +49,7 @@ duplicate/conflict, optional/missing/wrong-kind links, historical isolation,
 same-session atomic caller composition, bounds, reopen and inherited uncertainty.
 They are not authored executable tests or observed red.
 
-## Verification and remaining gates
+## Initial contract verification and remaining gates
 
 Inspected baseline source blobs: migrations
 `4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f`, controlled writer
@@ -76,7 +76,7 @@ keeps null input, present empty BLOB and absent optional reference separate and
 requires actual stored typeof/length checks.
 
 No new native build, test body, schema, baseline, feature behavior, live provider
-or platform verification is claimed. Existing writer null/empty ownership behavior
+or platform verification was claimed in that contract-only phase. Existing writer null/empty ownership behavior
 is a compatibility boundary, not something this document silently changes.
 
 Different-agent actual contract review and integrator acceptance of the proposed
@@ -85,3 +85,64 @@ tests, followed by independent actual test review, compilation/intended red,
 implementation, code review and applicable real acceptance/CI. Full application,
 backup/recovery, formats/resolvers/evaluators, all integrations/rate providers and
 release-platform gates remain mandatory. No user decision or access is identified.
+
+## Minimal API/stub stage after actual contract approval
+
+Independent contract review40d0dc6 approved actual root proposal791cacf/contract
+`a884f01693ceda555779909e907d3c31bf19b6ef`, integratededdbe2b. Root explicitly
+expanded this author's scope to new `sqlite_retained_context.hpp` and
+`sqlite_retained_context.cpp`, plus precision in the existing contract/note. No
+Qt case, environment probe, vector, schema, CMake or state file is authored here.
+
+Normal refresh had one add/add conflict because root integrated the initial new
+contract through a separate commit. The author retained root's exact approved
+a884f016 and normally merged both histories in cf147a7; no unfinished content or
+review was replaced.
+
+The concrete header declares kind-scoped byte keys, a strong configuration-link
+value, required document bytes, limits, find/retain and the migration factory.
+The facade copies only the revocable session/limits. Its value constructor and
+destructor do no SQL/cleanup/commit; actual caller ownership is preserved.
+All three new source functions are explicit feature_not_implemented throws.
+There is no validation, binding/lookup, result decoding, retention, migration
+manifest construction or transaction algorithm in the stub.
+
+Contract/header precision pins:
+
+- Pure validation order: positive options, key kind, key bytes, retain payload,
+  retain link. Exact error categories precede stale/foreign capability errors
+  without any SQL/private-state probe. They do not abort earlier caller writes.
+- Existing selected data and stored known target are validated before comparison;
+  healthy existing-row conflict precedes resolution of a new proposed target.
+  Domain conflict/missing make no own writes or cleanup.
+- Only selected rows/known targets are checked. Malformed selected data/dangling
+  stored links use invalid_stored_data after known active rollback; well-typed
+  larger selected fields use result_limit, not corruption/missing. Uncertain
+  cleanup overrides as the unchanged SqliteWorkFailure uncertain_outcome.
+- Loaded typeof(blob)/length0 becomes a non-null empty owned QByteArray. The
+  returned record can be retained again as already_present. SQL NULL/absence and
+  inherited SQL/capability/budget failures retain their exact distinctions.
+
+Proposed next-stage cases are not yet authored: frozen manifest, exact byte/reopen,
+empty-read/idempotence, full-range representations, namespaces, duplicate/conflict,
+optional/missing/wrong-kind links, historical isolation, caller commit/rollback,
+input precedence, exact bounds/selected limits, malformed selected rows, capability
+lifetimes and uncertainty. Focused driver probes can cover empty/null/BLOB binding,
+the approved two-table/index/FK shape and selected optional/empty read facts through
+existing SQL only. Root owns their eventual sqlite-retained-debug harness.
+
+Actual API-stage checks:
+
+| Command/check | Actual result |
+| --- | --- |
+| `clang-format -i` on the two new C++ files | Completed |
+| Python argument-vector `c++ -std=c++20 -fPIC -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Iserver/include <pkg-config Qt6Core/Qt6Sql cflags> -fsyntax-only server/src/sqlite_retained_context.cpp` | Exit0; header/stub syntax only, no link/execution; manual non-system Qt includes emitted one Qt qbitarray.h conversion warning |
+| `python3 tools/check_project.py` | Exit0; 391 records/122 decisions, links/presets/current HTML valid |
+| `python3 tools/progress.py render --check` | Exit0; current |
+| `git diff --check` | Exit0 |
+
+Root owns actual CMake target/preset compilation after integration; syntax checking
+does not establish feature acceptance, intended red or a new test baseline.
+These artifacts still require different-agent actual API/precision review before
+root expands test/probe/vector ownership. No future body, red, implementation or
+platform result is transferred from the earlier contract approval.

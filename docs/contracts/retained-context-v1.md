@@ -66,9 +66,13 @@ Primitives bind to an already active existing `SqliteWorkSession`:
 
 Input/kind/bound validation happens before that primitive's SQL. Domain conflict
 and missing-reference results make no writes of their own and do not poison a
-healthy session. For an existing identity, compare its immutable record first:
-different requested content/link is conflict, rather than an attempted retarget
-or unknown-field fill. No hash-only comparison substitutes for exact equality.
+healthy session. For an existing identity, validate the selected stored record and
+its stored known link first. Corrupt stored data cannot be masked by a conflict.
+Then compare immutable content/link before resolving any NEW requested link:
+different content/link is conflict even if that proposed target is missing,
+rather than an attempted retarget or unknown-field fill. Only a new identity
+needs candidate-link resolution before insertion. No hash-only comparison
+substitutes for exact equality.
 
 The caller owns BEGIN, real COMMIT, abandonment/rollback and the enclosing command's
 atomic policy. Retaining config and context can share one work/session with later
@@ -92,6 +96,47 @@ No update/delete/merge/latest-pointer API belongs to revision 1. Later authorize
 retention/deletion must preserve resolvability for still-retained histories.
 These are trusted storage primitives, not a sandbox against arbitrary direct SQL.
 
+### Concrete interface/error precision
+
+`SqliteRetainedContextStore` is a value facade over a copied revocable session and
+limits. Constructor/destructor do no SQL, commit, cleanup or rollback. `find`
+returns an owned optional record; `retain` returns the four domain dispositions
+above. A strong `ConfigurationReference` contains the same opaque std::string
+bytes and cannot turn a context namespace lookup into a configuration lookup.
+No existing core reference or port changes type.
+
+Each method checks this order before its first SQL:
+
+1. Nonpositive configured limit: `RetentionFailure(invalid_options)`.
+2. Unknown key-kind enum: `invalid_kind`.
+3. Empty/oversized key reference: `invalid_reference`.
+4. Retain-only null/oversized document: `invalid_document`.
+5. Retain-only link on a configuration, or empty/oversized present context link:
+   `invalid_link`.
+
+These input failures make no SQL/transaction change, even with an invalid/stale/
+foreign capability; pure validation takes precedence. Valid inputs delegate
+session/capability/SQL/budget errors as unchanged `SqliteWorkFailure`, with no
+private capability-state probe or fake SQL to poison the transaction.
+
+Only rows selected for the requested key and its stored/candidate known
+configuration target are checked. This is not a table-wide audit. Wrong stored
+types, invalid shape/required-null/empty identity or a dangling stored link require
+real active cleanup before `RetentionFailure(invalid_stored_data)`. A well-typed
+selected record exceeding the configured field bounds instead uses `result_limit`
+after known cleanup; larger valid data is not labelled corrupt or missing.
+If cleanup cannot establish rollback, propagate `SqliteWorkFailure` with
+uncertain_outcome, overriding any local reason. Underlying SQL result limits keep
+their original exception/category. Neither a domain disposition nor input failure
+performs this exceptional storage-error cleanup.
+
+A loaded zero-byte BLOB is returned as a non-null empty QByteArray. Retaining that
+unchanged returned record is valid and already_present, rather than invalid input.
+Absent optional configuration remains std::nullopt. The pure
+`retained_context_manifest()` factory exposes the approved migration description
+only; it does not install it or grant operational update authority. This baseline
+stage supplies explicit unimplemented stubs, not any of these behaviors.
+
 ## Proposed physical format and bounds
 
 For integrator and independent review, propose two main-schema tables, with all
@@ -110,8 +155,8 @@ their NULL-SQL primary-key indexes `sqlite_autoindex_subathon_retained_configura
 and `sqlite_autoindex_subathon_retained_contexts_1`, and all three unchanged reserved
 catalog objects. No other object is omitted. Later receipt/contribution/plan slices
 append migrations; they must not rewrite this version's SQL, ID or projection.
-These root-owned choices still require separate actual contract review and exact
-independent fixture/digest freeze; selected official-Qt fixture validation precedes
+These root-owned choices received separate contract review40d0dc6; exact
+independent fixture/digest freeze and selected official-Qt validation still precede
 feature red. Root host existing-session probes confirmed both DDL statements and
 these generated NULL-SQL indexes; that is not official bundle or feature proof.
 [Probe evidence](../evidence/storagetest-012-probe.md).
