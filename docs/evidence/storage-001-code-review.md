@@ -322,3 +322,37 @@ run was used as extra evidence. Updated automatic Ubuntu execution must include 
 revision's CI gate. Application schema/migrations/aggregates/jobs, abrupt crash/
 backup/recovery, hard SQL/shutdown deadlines, provider/platform and full release
 gates remain exactly as previously recorded.
+
+## Final corrected completion and actual CI review
+
+Reviewer `/root/storage_code_reviewer`, 2026-11-01. Reviewed final completion
+candidate `8befd04` after a history-preserving refresh of the isolated reviewer
+branch. Verdict: **approved for integration**, retaining the fresh corrected-source
+approvalc029a53 and all latest-head normal merge gates.
+
+The implementation, original22 cases, new3 ownership cases, public header,
+contract, CMake registration and workflow compare unchanged from corrected
+candidate9d96363. Exact source829d9c66, regression34c25c27 and workflowd99df8ad
+remain the reviewed artifacts. Examined corrected implementation evidence, handoff,
+CI notes, state/HTML, acceptance map, test strategy and coordinator checkpoint.
+The done/approved record cites the reviewed3-regression/red/fix sequence and fresh
+source approval; it does not reuse old22-only CI as proof of the corrected revision.
+DB-01 remains partial and app schema/repositories/transactions, migration, crash/
+backup/recovery, provider/platform/deployment and full release gates remain explicit.
+
+Independently inspected actual GitHub run41290532883 and logs. It succeeded at
+`883d0ab684168bf0beff3ea9948a8c3ee7b11ade`: official Qt/ICU SHA256 checksOK,
+GNU13.3.0, Qt environment probe1/1, exact25 compiled registrations, followed by
+unconditional actual25/25 passing writer cases. All three ownership regressions
+executed and passed. The run's acceptance step is success, not skipped or inverted.
+An exact-commit check-runs query independently confirmed all10checks at883d0ab
+completed successfully.
+[Actual corrected run](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41290532883).
+
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check`, exact
+source/test/config comparison and `git diff --check` each exited0. No native suite
+was redundantly rerun for these metadata-only changes; independent28/28 execution
+against the unchanged corrected source remains recorded above. No source/test file
+was edited. The cited CI revision is distinct from final review commits; inspect
+all latest-head checks, discussions and current normal rules before merge. This
+review does not claim PR25 is already merged.
