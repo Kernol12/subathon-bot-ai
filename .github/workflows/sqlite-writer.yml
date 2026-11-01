@@ -5,12 +5,6 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      run_receipt_feature_tests:
-        description: Run the intentionally red receipt baseline explicitly
-        required: false
-        default: false
-        type: boolean
 permissions:
   contents: read
 jobs:
@@ -182,7 +176,7 @@ jobs:
           print("Discovered all 3 required receipt fixture cases")
           PYTHON
           ctest --preset sqlite-receipt-debug -R '^scaffold.sqlite_receipts_environment$' --verbose
-      - name: Check complete receipt baseline registration
+      - name: Check complete receipt acceptance registration
         run: |
           ctest --preset sqlite-receipt-debug -L sqlite-receipt --show-only
           ctest --preset sqlite-receipt-debug -L sqlite-receipt --show-only=json-v1 > "$RUNNER_TEMP/receipt-tests.json"
@@ -199,8 +193,7 @@ jobs:
           registered = [test["command"][1] + "()" for test in tests]
           if not expected or set(registered) != expected or len(registered) != len(expected):
               raise SystemExit("CTest registration does not match the compiled receipt suite")
-          print(f"Discovered all {len(tests)} compiled receipt baseline cases; feature bodies not run")
+          print(f"Discovered all {len(tests)} compiled receipt acceptance cases")
           PYTHON
-      - name: Run intentionally red receipt baseline only when explicitly requested
-        if: github.event_name == 'workflow_dispatch' && inputs.run_receipt_feature_tests
+      - name: Run reviewed identified-receipt acceptance
         run: ctest --preset sqlite-receipt-debug -L sqlite-receipt

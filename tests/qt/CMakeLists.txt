@@ -200,7 +200,7 @@ if(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
     subathon_target_options(server_sqlite_receipts_acceptance)
-    # Draft baseline bodies remain intentionally red until separately reviewed implementation.
+    # Reviewed receipt cases preserve their baseline names and separate processes.
     foreach(case IN ITEMS
         codecsMatchFullRangeLiteralVectors
         codecRejectsMalformedBuffers
@@ -227,6 +227,6 @@ if(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS)
     )
         add_test(NAME sqlite-receipt.${case} COMMAND server_sqlite_receipts_acceptance ${case})
         set_tests_properties(sqlite-receipt.${case} PROPERTIES
-            LABELS "sqlite-receipt;acceptance;draft;qt;server" TIMEOUT 30)
+            LABELS "sqlite-receipt;acceptance;qt;server" TIMEOUT 30)
     endforeach()
 endif()
