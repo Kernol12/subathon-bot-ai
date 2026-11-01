@@ -44,4 +44,5 @@ and regenerate PROGRESS.html before handoff.
 
 The [storage split decision](../decisions/0002-storage-executable-slices.md) maps the
 original STORAGE-002 scope to mandatory prerequisites; no requirement or real
-reviewed/red gate is removed. All added tasks are planning only.
+reviewed/red gate is removed. The added implementation/baseline tasks remain planned; CONTRACT-004 has its own
+independently reviewed documentation-only evidence.

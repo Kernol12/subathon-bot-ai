@@ -38,3 +38,20 @@ interfaces, author actual Qt/SQL cases, obtain a separate review and observe int
 missing-behavior red. Only then may STORAGE010 implement; later repository slices
 retain their own gates. Full release scope and all seven integrations/three rate
 providers remain planned/partially verified as recorded, not completed by this task.
+
+
+## Independent contract and graph approval
+
+Different reviewer/root/writer_transaction_reviewer approved actual8acbc0a in
+27ac83b (reviewblob42dbfa73), pinning exact contract/ADR/brief/state artifacts.
+All20future oracles, synchronous service promises, revocable capabilities, outcome/
+budget/FIFO rules and old25 compatibility were inspected. Independent project/
+render/diff, tooling19/DOM and graph checks passed.391records preserve oldscope,
+original002kinds/consumers and real future test gates; no new executable behavior
+or unknown schema was accepted as implemented. [Review](contract-004-review.md).
+
+Actual [PR28](https://github.com/Kernol12/subathon-bot-ai/pull/28) head6136e10 has
+all11checks successful. Those unchanged executable suites validate regressions and
+metadata; they do not prove a new transaction mechanism. Contract004 is done for
+documentation/planning only, ADR0002 accepted on that basis. Final completionmetadata
+review, latest-head CI/discussions/currentnormalrules remain publication gates.

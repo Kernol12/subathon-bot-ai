@@ -40,9 +40,9 @@ freshmain1259cfb. Documentation-only boundary before writer/repository adapters.
   `docs/contracts/writer-transactions-v1.md` and `docs/evidence/contract-004-author.md`
   in `local-evidence/worktrees/contract004-author`, branch `task/CONTRACT-004-author`.
   Authorf68fd54/contract4ba20506 integrated8acbc0a; author is clean/complete.
-- `/root/writer_transaction_reviewer` is independently reviewing actual8acbc0a in isolated
+- `/root/writer_transaction_reviewer` completed independent review of actual8acbc0a in isolated
   `local-evidence/worktrees/contract004-review`, branch `task/CONTRACT-004-review`.
-  No approval yet.
+  Actualcontract/graphapproval27ac83b; finalmetadata review next.
 - Root owns task briefs, proposed ADR0002/storage graph, state/HTML/checkpoint,
   architecture/PR integration. No source/header/schema/test/workflow change in this task.
 
@@ -64,14 +64,14 @@ internal application bundle layouts before original real STORAGETEST002/STORAGE0
 Original IDs/kinds/downstream consumers remain; no aggregate-red shortcut or
 ACCT004/parent cycles. All original migration/lossless values/integrity/provenance/
 application bundle scope remains mandatory through package prerequisites.
-[ADR0002](../decisions/0002-storage-executable-slices.md) is proposed pending review;
+[ADR0002](../decisions/0002-storage-executable-slices.md) is accepted for doc/planning integration after review27ac83b;
 [epic index](../tasks/EPIC-009.md) links every bounded brief.391 task records validate;
 Python tooling19/DOM/project/currentHTML/diff pass. Initial structured subsection
 references were corrected to known section IDs; no schema/tool gate was weakened.
 
-Next: finish actualcontract/ADR/briefs/graph review, resolve concrete findings,
-record doc-onlyCI assessment, publish focusedPR and require all latest checks/
-discussions/currentnormalrules before
+Contract/ADR/brief/graphapproved27ac83b; actualPR28head6136e10 all11checks success.
+Next: final completionmetadata/CI attribution review, publish exactapproval and
+require all latest checks/discussions/currentnormalrules before
 merge. No implementation or feature test/red claim belongs to CONTRACT004. Then
 start STORAGETEST010 from integrated contract with its own actual test review/red gate.
 Full uint64 IDs/revisions, original money/rate spellings, optional unknown values and

@@ -1,6 +1,6 @@
 # ADR-0002 — Split storage repositories behind an explicit writer transaction contract
 
-Date/status: 2026-11-01; proposed for independent CONTRACT-004 review.
+Date/status: 2026-11-01; accepted for contract/planning integration after independent review27ac83b.
 Specification: v0.45 §2/§3.4/§16; DB-01, SERVER-01, OPS-02, NUM-01–04.
 
 ## Context
@@ -49,6 +49,6 @@ suites must add real disposable-SQL integration and stable CI as they become exe
 ## Evidence and review
 
 Read-only investigation by /root/storage_decomposition inspected actual port headers,
-service commit behavior, current private writer and dependency graph. CONTRACT-004
-review must examine this split, its briefs/state edges and the authored actual writer
-contract before acceptance. No implementation/test/observed-red claim is made.
+service commit behavior, current private writer and dependency graph. Independent [CONTRACT-004 review](../evidence/contract-004-review.md) examined the
+actual split, briefs/state edges and writer contract at8acbc0a. This accepts the
+engineering sequence, not any implementation/test/observed-red capability.
