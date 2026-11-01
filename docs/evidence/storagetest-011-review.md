@@ -203,3 +203,49 @@ review.
 approved contract rules remain unchanged. This does not approve the forthcoming
 minimal API, stubs, executable cases, green environment harness or intended red;
 those require a separate review of their actual authored artifacts.
+
+## Early interface and admission/resource precision
+
+The reviewer read actual first interface/stubs author `496d901`, integrated
+`fe72a14`, and shared harness `3df1dd2`. The private-free static runner, owned DTOs,
+unchanged embedded SqliteWorkResult, separate reason/report and explicit codec/
+admission missing-feature stubs fit the approved boundary. No migration algorithm
+or SQL handle is present. The reviewer requested safe default inspection, invalid
+mode/limit precision, explicit preflight-versus-writer admission priority and
+limit/callback/uncertainty mappings before test freeze.
+
+Actual author `7ef527cb19d9a213fd2c1c218db4ffe68766c46f`, integrated `e99c955`,
+was then normally merged and inspected. The actual header is blob
+`86b74e94186ffa2713d334b7e936bbf1f2a3e3e8`; contract precision is blob
+`cbdea1a48d2989a9c8bd17edf0539bdf7c1bce61`; explicit stub remains
+`6c5073d4a97eedbdd34130ce48be51cf0aa4537a`.
+
+The request now defaults to inspect. Pure mode/manifest/positive-limit validation
+precedes nonempty-completion validation, then valid requests delegate to the
+existing writer. Invalid requests return invalid_options/invalid_manifest even
+for closed/foreign/full writers; valid null completion returns invalid_work/none.
+This is an explicit additive wrapper priority and requires no private writer-state
+probe. Existing low-level writer admissions and their49 assertions are unchanged.
+
+The effective migration-ID cap is min(configured,128), separate from equality with
+the fixed21-byte store identity. Manifest payload accounting counts every SQL and
+projected type/name/table-name/present-SQL UTF-8 occurrence across all steps,
+including repeated projections; IDs/identity, counts, frames and absent SQL are
+excluded from this particular limit. Actual tests can therefore use independently
+counted literal bounds. Work resource_limit/result_limit map to migration
+resource_limit. Callback exceptions, first-failure preservation and uncertainty's
+override of both work and migration fields are fixed by header/contract text.
+Normal reports still require normal committed work and a normal owned work value.
+
+The shared harness keeps old49 automatic, separates a mandatory green existing-
+writer diagnostic executable with seven required slots, and lists22 intended-red
+migration slots separately. Known-red bodies require explicit manual selection
+with normal failure propagation. Pinned actionlint and project checks pass, but
+the actual seven/22 source bodies and vector fixture are still being authored at
+this review point; no compilation, selected-Qt CI or new body execution is claimed.
+
+**Verdict: approved the actual narrow contract/interface precision at `e99c955`
+for completing minimal baseline authoring.** This is not full interface/test/
+harness-baseline approval. Actual cases, literal vectors, successful compilation,
+green local/selected-Qt execution and separate test/harness review must still be
+examined before any intended migration red or production implementation.
