@@ -32,9 +32,10 @@ implementation evidence stays valid; it does not certify a receipt adapter.
 
 Root branch `task/STORAGETEST-013-receipt-repository`, repository root worktree.
 [Draft PR35](https://github.com/Kernol12/subathon-bot-ai/pull/35), latest observed
-published head `5ffe2e428c1b219688a268ed155056d54a224988`, all11 checks SUCCESS.
-Root has subsequent completion metadata/raw red to commit and review; inspect
-actual HEAD/status. STORAGETEST-013 is done as a baseline, not yet merged.
+published metadata head `80ad5f29300a7cad9c9a7f6e4c1aef778e1fa43c`; its CI
+was pending at publication. Source head5ffe2e4 had all11 checks SUCCESS and the
+actual selected fixture proof. Completion metadata/raw red are committed80ad5f2;
+final review is active. Inspect actual HEAD/status/latest checks. STORAGETEST-013 is done as a baseline, not yet merged.
 STORAGE-013 remains planned; do not start production from an unintegrated parent.
 
 [Complete handoff](storagetest-013-handoff.md), [author](storagetest-013-author.md),
@@ -92,9 +93,10 @@ Fixture author `/root/debt_code_reviewer`: clean completed
 local-evidence/worktrees/storagetest013-fixtures, branch task/STORAGETEST-013-fixtures.
 Different reviewer `/root/storage_work_code_reviewer`: clean completed full review
 in local-evidence/worktrees/storagetest013-review, branch task/STORAGETEST-013-review.
-Root now prepares completion metadata; next explicitly resume this different
-reviewer for ONLY final metadata/red/CI-attribution review evidence. Do not assume
-an old assignment or agent is still running. Authors own no further changes.
+Root committed completion metadata80ad5f2 and explicitly resumed the different
+reviewer for ONLY final metadata/red/CI-attribution review evidence. This review
+is active; authors completed clean and own no further changes. Inspect actual
+agent state on resume rather than assuming background liveness.
 
 Root owns shared schema/order/build/CI/state/map/HTML/checkpoint. Current root
 completion edits affect state/HTML, acceptance map, architecture/test strategy,

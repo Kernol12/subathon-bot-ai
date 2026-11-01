@@ -1,7 +1,7 @@
 # STORAGETEST-013 actual CI evidence
 
 Coordinator /root, 2026-11-01. This record distinguishes compiled interface,
-selected fixture support and future intentional-red behavior.
+selected fixture support and the observed intended-red baseline.
 
 ## Actual API stage
 
