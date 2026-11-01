@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-013 contract stage
+# Coordinator checkpoint — STORAGETEST-013 API stage
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
 loop under AGENTS.md and COORDINATOR_PROMPT.md. No owner decision or access
@@ -79,10 +79,12 @@ API55/contract5b/testc0/envAAA/JSON0f/old023+4ee remain; preserve original revie
 ## Active task, stage and ownership
 
 STORAGETEST-013 [draftPR35](https://github.com/Kernol12/subathon-bot-ai/pull/35),
-actualpublishedhead845ae20, contractreviewpending/initialCIrunning atpublication.
+actualpublishedhead845ae20/all11existingCIchecksSUCCESS. Rootlocalreview/
+checkpointcommitsafterpublishedheadnotyetpushed; no newreceiptacceptanceclaim.
 Claimed on task/STORAGETEST-013-receipt-repository from freshly
 refreshedmaina4bb565. Dependencies STORAGE012/ACCT001done/integrated. Initial
-contract/examples ONLY, no newheader/stub/Qtcase/schema/production/red.
+contractreview completed; minimalAPI/stub drafting nowexplicitlyauthorized.
+No newQtcase/fixture/schema-source/production/red yet.
 [Brief](../tasks/EPIC-009/STORAGE-013.md), [existing identifiedreceipt contract](../contracts/receipt-intake-v1.md),
 [retention](../contracts/retained-context-v1.md), [work/session](../contracts/writer-transactions-v1.md).
 
@@ -101,15 +103,19 @@ initialONLYdocs/contracts/sqlite-receipts-v1.md anddocs/evidence/storagetest-013
 Different reviewer /root/storage_work_code_reviewer uses NEWstoragetest013-review/
 task/STORAGETEST-013-review, ownsONLYfuturestoragetest-013-review.md. Rootowns
 actualschema/globalmigration2+immutable1 ordering/build/CI/state/map/HTML/checkpoint.
-Both new worktrees were created clean atb263f60 and assignments actuallysent.
-Author completed actual contract-only candidate0c15432 (onlytwoMD/clean),
-contractblobc85cc8b966c6a799a04dbd4ed22ef4a56ced51f4. Different reviewer was
-explicitly resumed read-only on this actualdoc; approval waits rootphysicalDDL2.
-Root integrated contract1b9cf6c and actualphysicalproposal2/fourSQL/13objects/
-10535bytes/SHA24614f68, immutable1 preserved. IndependentPython/localQt6.12
-SQLite3.54/privatewriteroneBEGIN/COMMITprojection/allocator1NULL probespass;
-[proposal/probe](storagetest-013-probe.md). Actualfullcontractreview pending
-from differentreviewer beforeminimalAPI/stubs/newtests. No newfeaturebody/red. Inspect actualagents/files onresume; do not assume background liveness.
+Both worktrees were created clean atb263f60 and assignments actuallysent.
+Actualdifferent contract/schema approval15bd1f7 integratede7479d2 covers logical
+f8af1b99/schema2ef4f138 at845ae20, prefix1/fourSQL/13objects/starts0,1,2 and
+independent10535payload/SHA24614f68/14SQLconstraint probes. No blockers.
+[Review](storagetest-013-review.md), [root diagnostic](storagetest-013-probe.md).
+Author explicitly resumed frome7479d2 on minimalAPI/stubs ONLY. Owns NEW
+server/include/subathon/server/sqlite_receipts.hpp, NEWserver/src/sqlite_receipts.cpp
+(explicitNotImplementedlogicstubs, nofeatureSQL/codec/manifestimplementation),
+logicalcontract ConcreteAPIprecision appendix and ownexistingauthorevidence.
+Different reviewer completed actualcontractapproval clean; next requires actual
+APIcandidate beforeapproval. Thirdagent read-onlyfeasibility prepcompleted clean.
+Rootowns physicalschema/sharedbuild/presets/workflow/state/map/HTML/checkpoint.
+No newtests/fixtures orfirstfeaturebody beforeactualAPIprecisionreview.
 
 Read-onlyprep complete/nofiles. A genuine existing rule was found: reviewed
 application-plans-v1 Capture rejects zero receipt ID, enforcedcoreplan.cpp:19 and
@@ -130,7 +136,7 @@ ReceiptStorageError onlyafterknownrollback; uncertainWorkFailure propagates/fail
 closes/no normalresult orauto-replay. Rates/provider/wire/effects/jobs/application
 bundle/recovery/platform scope stays mandatory elsewhere.
 
-Next actualcontractauthoring→differentactualreview→minimalAPI/stubs/refinement→
+Next actualminimalAPI/stubcandidate→differentactualAPIprecisionreview→
 newindependentSQLcases/typedcodecfixtures→successfulcompile+selectedfixtureproof→
 fullactualreview→genuineintendedred→baselinePRnormalmerge beforeSTORAGE013code.
 Preserve old15simulation as simulation, no retroSQLclaim or completedred repeats.
@@ -142,8 +148,8 @@ edits, allother58clean,16absenthistorical/tmprefs preserved/no prune. Hostproces
 comm/cwdonlyaudit found IDE/Codex/currentreadshell, no nativebuild/test commands. No rootnativecommand after source
 95/CI/merge/fetch. Newauthor/reviewer maywrite afterassignment; inspectactual
 branches/dirtyfiles/agents/processes/GitHub onresume. Preservevalidreviews/oldrefs.
-/root/debt_code_reviewer sourceimplementation completedclean; explicitlyassigned
-read-only actual013API/lifetime feasibility prep, nofiles/code/approval authority.
+/root/debt_code_reviewer sourceimplementation and read-only013feasibilityprep
+completedclean, no activeassignment orfilemutations. Inspectactualagentsonresume.
 
 Ruleset26170263 PR/resolvedthreads,0GitHubapprovals,nobypass/force/delete,no
 required-status-checkrule. WrittenlatestheadallCI mandatory; repo evidence never
