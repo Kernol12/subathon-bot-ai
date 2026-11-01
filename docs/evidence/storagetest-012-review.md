@@ -187,3 +187,55 @@ Next artifacts require independently frozen schema/payload/digest oracles and
 actual separate test/harness review; selected official-Qt capability/fixture
 validation and genuine intended feature red remain required before production.
 All earlier scope and external/platform gates remain.
+
+## Actual test review findings and separate author corrections
+
+Reviewed actual test author `7d89c4c52b8d856c4e0b38e0ee65acc609893c40`,
+root `320ae61`, and explicit independent-fixture FK policy correction
+`1eda54562a5c251ee26c6238cf6cd4cba043be03` / root `21fddd6`.
+Initial reviewed feature source blob was
+`a940d29a04fde8783bbe1edf003b7aba5d81c29c`, green environment source
+`aaa1644771decdb722b1105d220bac5313d54c6e` and independent JSON
+`0f76fd2c1bb1766c46a47ddcd38f46c18d4704a8`.
+There was no approval of these absent artifacts in the previous verdicts.
+
+Two bounded findings were sent to root and the different test author before any
+new feature body ran:
+
+1. RC11/RC12 failures described as occurring after a retain had only an inline
+   `require(store.retain(...) == inserted)`. A matching exception inside that
+   retain could satisfy the outer result_limit/sql_failure/uncertain_outcome
+   assertions without reaching the intended following SQL/corrupt read. The test
+   must independently assert reaching the successful-retain stage. Author
+   `e76d9d623a46c0cbb87f6fcc201ca673261c00a6` adds four booleans set only after
+   successful insertion and asserted outside the work before final categories,
+   including both acknowledgment-loss paths. Actual diff examined; no assertion
+   was removed or weakened and no implementation/query-count expectation added.
+2. Binary/BOM/NUL reference vectors initially covered configuration keys only;
+   context keys and present configuration links remained ASCII. That omitted two
+   distinct exact-byte paths in RC03. Only limits `{0,0}` also left each limit's
+   independently positive requirement unproven. Author
+   `648e38d217e7bd267b079626f6106a7a4c256e34` adds one binary context/key-link
+   scenario inside the existing reopen case, with exact DTO, raw SQLite
+   typeof/hex and reopened equality. Context key `00ffefbbbf62`, configuration
+   link `efbbbf6100ff` and their payloads remain exact BLOBs. The initial options
+   assertion now also runs for `{0,4}`, `{4,0}`, `{-1,4}` and `{4,-1}`. All prior
+   assertions and the sixteen names remain; corrected source blob is
+   `50a8f6462aa882d452990f438d0b5eedab47a84d`.
+
+Both changes were explicitly authorized by root to the test author, limited to
+test/evidence paths. This reviewer changed no assertion, fixture, API or stub.
+Both actual corrective diffs resolve their findings. Corrected compile/discovery
+and the actual shared harness remain separate checks before a full verdict.
+
+The corrected test source was normally integrated through root `180e02a` and
+`ab4ebdd` into this worktree. Independently reconstructed the JSON's entire
+2000-byte payload/SHA-256 `0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e`
+with Python F framing from the actual contract CREATE literals and all seven
+observed hostSQLite3.54 schema objects, including three NULL-SQL indexes. Full
+payload hex, object tuples and all twelve raw-byte vectors matched. No production
+factory/codec/runner supplied an expectation. Thirteen existing core, source,
+interface, test, fixture and contract blobs match claim `036fad8` exactly.
+Project391/render/diff checks pass. No new feature body ran; full test/harness
+approval remains pending actual compiled registration and required environment
+evidence, rather than inferred from this source inspection.
