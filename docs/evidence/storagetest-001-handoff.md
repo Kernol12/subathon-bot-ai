@@ -57,3 +57,13 @@ code review and enable/observe ordinary automatic acceptance.
 [PR24](https://github.com/Kernol12/subathon-bot-ai/pull/24) is currently draft;
 final integration review, fixed-workflow actual Ubuntu run, all latest-head checks,
 resolved discussions and normal merge rules remain publication gates.
+
+## Baseline completion and publication
+
+Actual corrected UbuntuCI41288299328 atda98505 passed: verified official Qt/ICU
+archive hashes, GNU13.3.0, Qt event-loop1/1 and all22 compiled registrations.
+All10PR checks passed. Final integration review0f4cf52 separately verified unchanged
+baseline, actual red and CI logs. STORAGETEST-001 is done as reviewed/red baseline;
+STORAGE-001 waits for this prerequisite merge. Narrow completion-metadata review
+and final-head CI/normal rules remain publication gates. Existing valid numeric,
+timer/pause/accounting tests are unchanged and remain automatically checked.

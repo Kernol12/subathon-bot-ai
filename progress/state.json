@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T08:15:10+00:00",
+  "updated_at": "2026-11-01T08:20:47+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4100,8 +4100,8 @@
       "title": "Review and demonstrate red: Qt SQL ownership and single SQLite writer",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_review",
-      "owner": "Coordinator /root; author /root/storage_test_author; reviewer /root/storage_test_reviewer",
+      "status": "done",
+      "owner": "Coordinator /root; author /root/storage_test_author; independent reviewer /root/storage_test_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "SPIKE-001",
@@ -4116,13 +4116,16 @@
       "notes": [
         "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claim from integrated main ba4e94c after live GitHub/worktree/agent audit on 2026-11-01. No active unfinished claims or open PRs; preserved local-only postmerge checkpoint and all support worktrees. Scope: storage writer contract revision 1, Qt SQL/SQLite thread ownership, single writer, WAL/FULL, bounded admission, rollback/busy/shutdown and separate read-only connections; no application schema/migration/backup/recovery product claims. Root owns CMake/presets/workflows/state/HTML/checkpoint/map; author owns contract, minimal interface/explicit stubs and Qt tests; independent reviewer will inspect exact revision before intended red. STORAGE-001 waits for reviewed baseline and behavioral red.",
-        "Authored final819edbb integrated48db98c; contract4d280461/testsf8418e83/header11d204aa/stubf0edd7e6.22Qt slots compile/discover with real systemQt6.12; no bodies/red yet. Independent reviewer isolated at local-evidence/worktrees/storagetest001-review on exact integrated candidate; workflow9144d8b separately approved by qt_ci_investigator, actual Ubuntu execution pending. Root harness/progress/map/checkpoint ownership retained; author clean/complete."
+        "Authored final819edbb integrated48db98c; contract4d280461/testsf8418e83/header11d204aa/stubf0edd7e6.22Qt slots compile/discover with real systemQt6.12; no bodies/red yet. Independent reviewer isolated at local-evidence/worktrees/storagetest001-review on exact integrated candidate; workflow9144d8b separately approved by qt_ci_investigator, actual Ubuntu execution pending. Root harness/progress/map/checkpoint ownership retained; author clean/complete.",
+        "Independent baseline3e7c8c7 integrated6647490 before actual22-case stub-red(exit8), all fixtures/init pass/no skips. Correctedworkflow398733eb independently actionlint-reviewed; actualUbuntuCI41288299328 atda98505 succeeded: Qt/ICU hashesOK, GNU13.3, probe1pass/exact22registration. All10PR24 checks pass there. Finalintegration0f4cf52 independently verified actualred/CI and unchangedbaseline. This completes reviewed/red tests only, not writer behavior; completionmetadatareview/latestheadCI/merge remain publication gates. STORAGE-001 preserves exact22baseline and must enable ordinary automatic acceptance."
       ],
       "verification": {
+        "authored_tests": "passed",
         "native_build": "passed",
-        "test_baseline": "passed",
-        "intended_red": "observed_red",
-        "github_ci": "not_run",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "not_run",
+        "github_ci": "passed",
         "platform_release": "not_run"
       },
       "evidence": [
@@ -10891,6 +10894,11 @@
       "date": "2026-11-01T08:15:10+00:00",
       "task": "STORAGETEST-001",
       "note": "Authored final819edbb integrated48db98c; contract4d280461/testsf8418e83/header11d204aa/stubf0edd7e6.22Qt slots compile/discover with real systemQt6.12; no bodies/red yet. Independent reviewer isolated at local-evidence/worktrees/storagetest001-review on exact integrated candidate; workflow9144d8b separately approved by qt_ci_investigator, actual Ubuntu execution pending. Root harness/progress/map/checkpoint ownership retained; author clean/complete."
+    },
+    {
+      "date": "2026-11-01T08:20:47+00:00",
+      "task": "STORAGETEST-001",
+      "note": "Independent baseline3e7c8c7 integrated6647490 before actual22-case stub-red(exit8), all fixtures/init pass/no skips. Correctedworkflow398733eb independently actionlint-reviewed; actualUbuntuCI41288299328 atda98505 succeeded: Qt/ICU hashesOK, GNU13.3, probe1pass/exact22registration. All10PR24 checks pass there. Finalintegration0f4cf52 independently verified actualred/CI and unchangedbaseline. This completes reviewed/red tests only, not writer behavior; completionmetadatareview/latestheadCI/merge remain publication gates. STORAGE-001 preserves exact22baseline and must enable ordinary automatic acceptance."
     }
   ]
 }

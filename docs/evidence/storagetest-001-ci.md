@@ -59,3 +59,14 @@ full actionlint on the corrected workflow: exit0, no findings. The corrected blo
 complete registration guard and true-failure manual acceptance are unchanged.
 [GitHub context availability](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)
 supports the diagnosis. Actual corrected Ubuntu execution remains required.
+
+## Observed corrected Ubuntu build
+
+[Run41288299328](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41288299328)
+atPR24headda98505 succeeded. Actual retained logs show both archive SHA256 checks
+OK, GNU13.3.0, compiled real Qt targets, environment probe1/1pass, and exact
+registration guard: `Discovered all 22 compiled writer cases; behavior not run`.
+Root and separate integration reviewer inspected actual job results/logs. All10PR
+checks passed atda98505. This supplies actual Ubuntu build/registration evidence;
+it does not turn red writer behavior into a passing feature. Latest-head CI remains
+a separate merge gate.

@@ -92,20 +92,26 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-Finish author handoff, integrate minimal harness, compile/discover without treating
-that as behavioral red, obtain independent exact-revision approval, then run actual
-Qt/SQLite tests and retain failures from explicit missing behavior. Update the
-baseline evidence/state/HTML; open focused STORAGETEST-001 PR and require all latest
-checks/reviews/threads/rules before merge. Assess Qt CI availability without hiding
-intentional red; stable writer behavior must become automatic CI in STORAGE-001.
-Then start the dependency-ready implementation or another ready slice.
+STORAGETEST-001 reviewed/red baseline is done; final PR publication gates remain.
+Actual corrected UbuntuCI41288299328 atda98505 passed: Qt/ICU hashesOK, GNU13.3,
+Qt event-loop1/1 and exact compiled/discovered22; all10PR checks passed there.
+[Baseline handoff](storagetest-001-handoff.md) records contract4d280461,
+interface11d204aa, stubf0edd7e6, testsf8418e83, independent review3e7c8c7 and
+actual22-case intended red at6647490(exit8). Source/test/assertions are unchanged.
+Separate final integration review0f4cf52 verified actual red and successful CI.
 
-Current candidate48db98c has all22 cases compiled/discovered; contract4d280461,
-testsf8418e83, header11d204aa and explicitstubf0edd7e6. Actual intended red at6647490:22 feature_not_implemented failures, exit8,
-all fixtures pass/no skips. [PR24](https://github.com/Kernol12/subathon-bot-ai/pull/24)
-is draft. Root is publishing corrected workflow/actual red evidence, then checking
-Ubuntu CI and requesting final independent integration review;
-author work is committed and isolated. Inspect actual status/processes/agents on interruption.
+Publish completion metadata/review, obtain narrow metadata approval, then require
+all latest PR24 checks, resolved discussions and current normal rules before
+ready/merge. After merging, refresh main and immediately claim STORAGE-001 on a
+dedicated branch from integrated reviewed/red prerequisite; assign implementation
+and separate code review. Root owns automatic acceptance promotion and shared
+progress/build/CI/checkpoint integration. Do not repeat completed setup/authoring.
+No production writer implementation has started.
+
+Author worktree is clean/complete at819edbb; reviewer worktree remains isolated
+at `local-evidence/worktrees/storagetest001-review`, final review0f4cf52 complete.
+No previous-session agent is assumed running. Root's uncommitted changes are
+completion metadata/checkpoint/CI outcome only; no native command remains running.
 No owner question or access decision remains. Full product is NOT complete:
 authoritative transactions/aggregates/refunds, all7 integrations/3rate providers,
 supported platforms, both renderers, UIs/localization/themes, packaging and live/OBS
