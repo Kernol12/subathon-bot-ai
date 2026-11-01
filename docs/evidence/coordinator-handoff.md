@@ -1,178 +1,156 @@
-# Coordinator checkpoint — STORAGETEST-013 test-authoring stage
+# Coordinator checkpoint — STORAGETEST-013 full test review
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
-loop under AGENTS.md and COORDINATOR_PROMPT.md. No owner decision or access
-is needed. Full product remains incomplete.
+loop under AGENTS.md and COORDINATOR_PROMPT.md. No owner decision/access is needed.
+The full product remains incomplete. Inspect actual agents, dirty files, processes,
+branches and GitHub before resuming; this document does not imply background life.
 
-## Integrated tasks and actual main
+## Integrated main and preserved work
 
-Last observed main is `a4bb5651dd35a36ac364a0b78c39a580f906e1d7` (PR34).
-Actual postmerge maina4bb565 workflows: all10completed/success (GitHub rechecked2026-11-01). Recent completed PRs:
+Last observed main: `a4bb5651dd35a36ac364a0b78c39a580f906e1d7`, PR34 merged
+2026-11-01T16:11:59Z. Actual postmerge: all ten workflows completed successfully.
 
-| Task | Merged PR | Durable evidence |
+| Completed task | Merged PR | Durable evidence |
 | --- | --- | --- |
-| CORE-005 | [27](https://github.com/Kernol12/subathon-bot-ai/pull/27), 1259cfb | [Handoff](core-005-handoff.md) |
-| CONTRACT-004 | [28](https://github.com/Kernol12/subathon-bot-ai/pull/28), e374788 | [Handoff](contract-004-handoff.md) |
-| STORAGETEST-010 | [29](https://github.com/Kernol12/subathon-bot-ai/pull/29), c60e1ed | [Handoff](storagetest-010-handoff.md) |
-| STORAGE-010 | [30](https://github.com/Kernol12/subathon-bot-ai/pull/30), 88e86c1 | [Handoff](storage-010-handoff.md), source023451 |
-| STORAGETEST-011 | [31](https://github.com/Kernol12/subathon-bot-ai/pull/31), ef29c87 | [Handoff](storagetest-011-handoff.md) |
-| STORAGE-011 | [32](https://github.com/Kernol12/subathon-bot-ai/pull/32), 29f3818 | [Handoff](storage-011-handoff.md) |
-| STORAGETEST-012 | [33](https://github.com/Kernol12/subathon-bot-ai/pull/33), ae57f2b | [Handoff](storagetest-012-handoff.md) |
-| STORAGE-012 | [34](https://github.com/Kernol12/subathon-bot-ai/pull/34), a4bb565 | [Handoff](storage-012-handoff.md) |
+| CORE-005 | [27](https://github.com/Kernol12/subathon-bot-ai/pull/27),1259cfb | [Handoff](core-005-handoff.md) |
+| CONTRACT-004 | [28](https://github.com/Kernol12/subathon-bot-ai/pull/28),e374788 | [Handoff](contract-004-handoff.md) |
+| STORAGETEST-010 | [29](https://github.com/Kernol12/subathon-bot-ai/pull/29),c60e1ed | [Handoff](storagetest-010-handoff.md) |
+| STORAGE-010 | [30](https://github.com/Kernol12/subathon-bot-ai/pull/30),88e86c1 | [Handoff](storage-010-handoff.md) |
+| STORAGETEST-011 | [31](https://github.com/Kernol12/subathon-bot-ai/pull/31),ef29c87 | [Handoff](storagetest-011-handoff.md) |
+| STORAGE-011 | [32](https://github.com/Kernol12/subathon-bot-ai/pull/32),29f3818 | [Handoff](storage-011-handoff.md) |
+| STORAGETEST-012 | [33](https://github.com/Kernol12/subathon-bot-ai/pull/33),ae57f2b | [Handoff](storagetest-012-handoff.md) |
+| STORAGE-012 | [34](https://github.com/Kernol12/subathon-bot-ai/pull/34),a4bb565 | [Handoff](storage-012-handoff.md) |
 
-Earlier core/accounting/writer contracts, reviews and red evidence remain valid
-in their linked task records. Do not repeat completed preparation or original red.
-Preserve existing refs, reviews and local-only historical checkpoints.
+Preserve all earlier core/accounting/writer contracts, separate reviews, original
+red evidence and historical refs/local-only checkpoints. Do not restart completed
+preparation or rerun original stub/red baselines. In particular, preserve the
+original migration22 red plus separately reviewed U+FEFF2 regression-red/fix, and
+retention16 reviewed red before implementation. The latest retention source is
+c96dae927f652088d2326e427740975d18ba4df2; API55c82815/contract5b0ee84a/
+testc0e54003/envAAA16447/JSON0f76fd2c and old writer02345198/migration4ee2365f
+remain unchanged. Author/root/reviewer95 pass and actual ordinary Qt41322157820
+passed unconditional16 before normal PR34 merge, as recorded in linked evidence.
+No current-config semantics, typed receipt codec or application bundle follows.
 
-## Latest completed mechanism
+## Active task and publication
 
-STORAGE-011 PR32 actually merged29f3818 at2026-11-01T13:32:15Z after exactfinal
-headc31edca all11 checks SUCCESS, no threads/currentnormalrules, source/config
-approval854cace and finalmetadata/CI-attribution approvala70e495. Source4ee2365,
-teste94befdc (original22 bodies intact plus two focusedUnicode regressions),
-header02f83ce/contractcbdea1a/tenvectors12280c8f/green7832fe616 unchanged.
-Author/root/reviewer full78 pass; actual officialUbuntu41310940283 atda7cbde
-passes pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/old49/green7/exact24/real24.
-Finalhead writer-run41311584939 also succeeded, all11 checks confirmed before
-normal merge. [Implementation](storage-011-handoff.md), [review](storage-011-code-review.md),
-[CI](storage-011-ci.md). Original reviewed22 stub-red plus actual independently
-reviewed U+FEFF2 regression-red-before-fix retained; never repeat completedred.
-No domain schema/realadapter/application bundle/backup/updateauthority/recovery
-or platform/provider upgrade. Preserve clean completed source/reviewer/regression
-worktrees and all historical branches/reviews.
+STORAGETEST-013, dependency-ready from STORAGE-012/ACCT-001 integrated on main.
+Root branch `task/STORAGETEST-013-receipt-repository`, root worktree repository cwd.
+[Draft PR35](https://github.com/Kernol12/subathon-bot-ai/pull/35), latest published
+head observed `a152a82ed66413c73e99a5fbe443eabdaf569528`, all eleven checks SUCCESS.
+Root later integrated actual API approval16b15e9 and stage checkpoint7ab7429;
+these and subsequent local commits may not yet be pushed. Inspect actual heads.
+Task now in_review; STORAGE-013 implementation remains planned.
 
-## Latest integrated baseline and preserved gates
+[Brief](../tasks/EPIC-009/STORAGE-013.md), [logical contract](../contracts/sqlite-receipts-v1.md),
+[physical schema](../contracts/sqlite-receipts-schema-v1.md), [author](storagetest-013-author.md),
+[review](storagetest-013-review.md), [probe](storagetest-013-probe.md), [CI](storagetest-013-ci.md).
 
-PR33 STORAGETEST-012 actually mergedae57f2b at2026-11-01T15:08:19Z after
-exactfinal8353b00/all11SUCCESS, actualfullreview672f93c/root8d561a6 and final
-metadata/red/CI-attribution review9f55963/root8353b00, no discussions/currentrules.
-[Baseline handoff](storagetest-012-handoff.md), [review](storagetest-012-review.md),
-[CI](storagetest-012-ci.md), [original first red](storagetest-012-red-ctest.txt).
+Scope: actual SQLite adapter for unchanged ReceiptRepository/Transaction ports.
+ReceiptIntake alone classifies created/retry/conflict. Persist immutable originals,
+every ordered attempt, exact four-part identity and retained arrival references;
+real synchronous commit precedes service return. Preserve original15 fake-backed
+simulation as such; it is not retroactive SQL proof.
 
-Exactbaseline contract5b0ee84acbbf1a3ce8dbc57f99c110f3073d353b, header
-55c82815986052b996a46c408ab616e68815a4f2, explicitstubb27eb48867df8a6dbc2c0c92da3eba0a80b11d76,
-featurec0e54003802f63a6f0393250f3bcca58cea8ee04, greenenv
-aaa1644771decdb722b1105d220bac5313d54c6e, JSON0f76fd2c1bb1766c46a47ddcd38f46c18d4704a8.
-Independent literal payload2000/SHA0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e
-and12opaquevectors verified. Both oraclefindings fixedseparately/allassertions retained.
+An existing reviewed plan rule rejects receipt ID0. Root withdrew its conditional
+first0 proposal before implementation/review. Pure numeric codec covers0..MAX;
+persisted/allocated ReceiptId remains1..MAX, nullable allocator before first1,
+MAX once then exhaustion/no wrap/reuse. Existing plan contract/test stays intact.
+ReceiptFacts has no rate field: store its original money spelling here; actual
+HistoricalValuation rates/source/times remain mandatory downstream014/015 gates.
+Known context->configuration links resolve but need not equal arrival configuration.
+No missing-ID/provider capability or cross-field semantic rule is invented.
 
-Fullactualapproval8d ancestorcb7, then actualselectedofficialQt41318070740 atcb7
-passed hashes/GNU13.3/Qt6.12SQLite3.53.4/builds/old73+green7/currentgreen3(5incl
-initcleanup0skip)/exact16discovery; manualnewbody notexecuted. Onlythen rootfirst
-new16bodyrunatcb7 exit8/all16explicitfeature_not_implemented=0/16init+16cleanup
-PASS/0skip/crash/dependency/setupfail,total0.09s. Do NOT repeat completedred.
-Author/root/reviewer builds/95registration/16+3discovery/localgreen3+old78 pass.
-Finalhead8353b00 writerCI41319443691 and all11 checks passed before merge.
+## Actual completed contract and API gates
 
-## Latest integrated implementation
+- Contract author0c15432 integrated1b9cf6c. Root physical proposal845ae20:
+  step2 identified-receipts-v1, four exact SQL statements, three new tables/three
+  new autoindexes,13 total objects, allocator `(1,NULL)`, starts0/1/2. Prefix1 is
+  immutable. Independent payload10535bytes/SHA256
+  24614f68e9c41a29751ea9ef6ba08fcf655b1cdb0e0c097cb1601bb1581553a2.
+- Actual different contract/schema approval15bd1f7 integratede7479d2. Reviewer
+  independently verified schema/payload and14 SQL constraint probes. Local root
+  Qt6.12/SQLite3.54 private-writer diagnostic also passed exact projection/state.
+- Minimal API author21a396b integrated54ebbd8. Headerb43f9b6026498af18df22c2f695e76b23cb4064a,
+  explicit stubfaf2856d8d61a91e518c50b3c0fdffe80a0f33a3, logical contract
+  e1ed975875e8b62d77d8efff67cfe5e8d5c95038 (approved body plus precision appendix),
+  physical2ef4f1384c5c95c1bef5728b095ff5f4e7877e6a. Four named logic-error stub
+  throws only; no codec, manifest, allocation, transaction wrapper or SQL behavior.
+- Root minimal harness50c1e8b: new sqlite-receipt-debug preset/flag/library.
+  Root and different reviewer independently configured/built48steps and passed
+  old95 tests; no new receipt feature case existed at that stage.
+- Actual API/stub/precision/config approval38d797e integrated16b15e9. Pins owner-
+  thread/single-use, healthy local second-port-begin rejection, explicit adoption
+  authority after successful wrapper construction, exception-safe context begin,
+  transaction-owned state, append aggregate vs read quota and truthful cleanup.
+- Actual automatic PR Qt41329002993 at a152a82 compiled the new stub library and
+  passed old25writer/24work/24migration/16retention plus existing diagnostic7+3.
+  Both archive hashes/GNU13.3/Qt6.12/SQLite3.53.4 observed. This proves API build
+  and old suites, not the new13-object fixture or new receipt behavior.
 
-PR34 STORAGE-012 actually mergeda4bb565 at2026-11-01T16:11:59Z after final
-20af94f/all11SUCCESS/codeconfig8c/finalmetadata5ca/no discussions/currentrules.
-[Handoff](storage-012-handoff.md), [review](storage-012-code-review.md),
-[CI](storage-012-ci.md). Sourcec96dae9 implements actualimmutableopaqueBLOB
-retention and puremanifest1, author/root/reviewer full95 pass. Actualautomatic
-selectedQt41322157820 at2aadef3 passes hashes/GNU13.3/Qt6.12SQLite3.53.4/old73/
-green7+3/UNCONDITIONAL16. Finalhead20af94f writerCI41324578780/all11pass.
-API55/contract5b/testc0/envAAA/JSON0f/old023+4ee remain; preserve original reviewed
-16stub-red/approval/selectedfixture chronology. No originalred repeat.
+## Current bounded assignments and ownership
 
-## Active task, stage and ownership
+Author `/root/writer_transaction_reviewer`: existing isolated
+`local-evidence/worktrees/storagetest013-author`, branch `task/STORAGETEST-013-author`.
+Explicitly resumed from actual API approval for ONLY new
+`tests/qt/sqlite_receipts_tests.cpp` and own existing author evidence. No changes
+to API/source/contracts/JSON/shared files. Planned22 Qt slot names supplied to root.
+Actualauthor135d3d3 integrated97863f9, testbloba68cd5a72838c339ee5cf2e580e2a987880ce3b0.
+Authorcompletedclean; no feature body/red ran. Rootactualcompile/discovery passed.
 
-STORAGETEST-013 [draftPR35](https://github.com/Kernol12/subathon-bot-ai/pull/35),
-Actualpublishedhead e853344 includescontractreview/API/harness; initial845ae20
-all11existingCIchecksSUCCESS. SubsequentrootCI/profilecheckpointchangespending
-push; checkactualGitHubheads/results. No newreceiptacceptanceclaim.
-Claimed on task/STORAGETEST-013-receipt-repository from freshly
-refreshedmaina4bb565. Dependencies STORAGE012/ACCT001done/integrated. Initial
-contractreview completed; minimalAPI/stub drafting nowexplicitlyauthorized.
-ActualminimalAPI21a396b/root54ebbd8 plusrootbuildharness50c1e8b nowexist;
-configure/build48steps andold95pass. RootCIb37daad switchesexistingpinnedQt
-job tosqlite-receipt-debug so itactuallycompilesnewlibrary; stablelabelsremain,
-newfeaturecasesabsent. ActualseparateAPI/configapproval38d797e integrated16b15e9; actualAPI-stageCI
-41329002993 ata152passedstubcompile/oldlanes. No NEWreceiptfixtureproofyet. No newQtcase/fixture/schema-source/
-production/red yet. DifferentactualAPI/harnessreview activebeforetestauthoring.
-[Brief](../tasks/EPIC-009/STORAGE-013.md), [existing identifiedreceipt contract](../contracts/receipt-intake-v1.md),
-[retention](../contracts/retained-context-v1.md), [work/session](../contracts/writer-transactions-v1.md).
-
-Scope: actualSQLadapter of existing ReceiptRepository/Transaction ports using
-writer-owned synchronous session; ReceiptIntake aloneclassifiescreated/retry/
-conflict andcommitsbefore return. Originalfacts/arrivalimmutable, every ordered
-attemptretained includingequal timestamps;4byteexactidentitycomponents/uniqueness,
-retained config/context references resolved without current/defaults. Actualtyped
-uint64 ReceiptId eight-byteBLOB codec/fullrange/literals/allocatorzero/absence/
-MAX/exhaustion needs new review/red;012opaqueproof doesnot establish that codec.
-No numeric providerID reinterpretation, sourcefact or missing-ID policy invention.
-
-Author /root/writer_transaction_reviewer was explicitly reassigned to NEW
-local-evidence/worktrees/storagetest013-author, branch task/STORAGETEST-013-author,
-initialONLYdocs/contracts/sqlite-receipts-v1.md anddocs/evidence/storagetest-013-author.md.
-Different reviewer /root/storage_work_code_reviewer uses NEWstoragetest013-review/
-task/STORAGETEST-013-review, ownsONLYfuturestoragetest-013-review.md. Rootowns
-actualschema/globalmigration2+immutable1 ordering/build/CI/state/map/HTML/checkpoint.
-Both worktrees were created clean atb263f60 and assignments actuallysent.
-Actualdifferent contract/schema approval15bd1f7 integratede7479d2 covers logical
-f8af1b99/schema2ef4f138 at845ae20, prefix1/fourSQL/13objects/starts0,1,2 and
-independent10535payload/SHA24614f68/14SQLconstraint probes. No blockers.
-[Review](storagetest-013-review.md), [root diagnostic](storagetest-013-probe.md).
-Author explicitly resumed frome7479d2 on minimalAPI/stubs ONLY. Owns NEW
-server/include/subathon/server/sqlite_receipts.hpp, NEWserver/src/sqlite_receipts.cpp
-(explicitNotImplementedlogicstubs, nofeatureSQL/codec/manifestimplementation),
-logicalcontract ConcreteAPIprecision appendix and ownexistingauthorevidence.
-Differentreviewer actualAPI/configapproval38d797e integrated16b15e9 covers
-headerb43f9b60/stubfaf2856d/logicale1ed9758 (122precisionappendonly), physical2ef/
-prefix1unchanged;48buildsteps0warnings/old95pass/actualAPI-stageCIread. Reviewer
-completedclean, nextfulltestreviewmustreceiveactualtests/fixtures/harness.
-Rootowns physicalschema/sharedbuild/presets/workflow/state/map/HTML/checkpoint.
-APIgatepassed. Author explicitlyresumed for ONLY NEWtests/qt/sqlite_receipts_tests.cpp
-plus ownexistingauthornote; noAPI/source/contract/JSON/sharedmutations.
-Thirdagent /root/debt_code_reviewer nowfixture/environmentAUTHOR in NEWclean
-local-evidence/worktrees/storagetest013-fixtures, task/STORAGETEST-013-fixtures,
-createdat16b15e9. OwnsONLYNEWtests/fixtures/sqlite_receipts_vectors.json,
-NEWtests/qt/sqlite_receipts_environment.cpp andNEWdocs/evidence/storagetest-013-fixtures.md.
-Actual3greenfunctions pinned: receiptSchemaPrefixMatchesLiteralProjection,
+Fixture/environment author `/root/debt_code_reviewer`: NEW isolated
+`local-evidence/worktrees/storagetest013-fixtures`, branch `task/STORAGETEST-013-fixtures`,
+created clean at16b15e9. Owns ONLY new `tests/fixtures/sqlite_receipts_vectors.json`,
+`tests/qt/sqlite_receipts_environment.cpp`, `docs/evidence/storagetest-013-fixtures.md`.
+Actualauthor33df432 integrated5561e69, JSONa79e5e71a3b9ca101441852c7fb7f26f735e9626,
+greenb1ca37beed7a13e757710581990c09859dd4f366. Authorcompletedclean.
+JSON has flat manifest2/full payload/13 objects plus six decimal/hex STRING codec
+vectors; unchanged old retained_context_vectors supplies literal prefix1. Three
+fixed green slots: receiptSchemaPrefixMatchesLiteralProjection,
 unsignedIdsAndSignedFieldsRemainExact, optionalGroupsAndTypedReferencesUseLiteralSchema.
-JSONflatmanifest2 withfull10535payload/SHA24614f68/13objects+sixuint64vectors
-(decimal/hexSTRINGS); immutableoldretainedJSONsuppliesliteralprefix1. Bothauthors
-actuallyassignedteststage; no newfeaturebody/redrunallowedbyauthors. Rootfirstred
-onlyafteractualfullindependentreview+compile+selectedofficialNEWgreenproof.
+Green helper uses only existing private writer/QtTest and literal expectations;
+never calls the new codec/factory/adapter. Green diagnostics may run locally.
 
-Read-onlyprep complete/nofiles. A genuine existing rule was found: reviewed
-application-plans-v1 Capture rejects zero receipt ID, enforcedcoreplan.cpp:19 and
-reviewedtest:262. Root withdrew its neverimplementedfirst0 proposal. Preserve
-purecodec full0..MAX versus persisted/allocated domainReceiptId1..MAX, nullable
-last_allocatedNone before first1, MAXonce/exhaustion/no wrap. No planpolicy/test
-amendment or ownerquestion; new SQLcontract still needs actualdifferent review. Arrival config/context refs mustresolve; known
-contextmetadata links alreadyresolve typedcfg. Do not silentlyrequirectxknowncfg
-equalarrivalcfg absentagreedsemanticbasis (opaquecontextcouldreferhistorical
-definitions); pin anyextraconsistencyrule explicitlyforreview.
+Reviewer `/root/storage_work_code_reviewer`: existing isolated
+`local-evidence/worktrees/storagetest013-review`, branch `task/STORAGETEST-013-review`.
+Completed contract/API reviews clean. Actualfixture/vector410linepre-inspection
+foundno blockers. Explicitlyresumed actualfull22/fixture/harnessreview afterroot
+integration/build/discovery; actualfulltestapproval pending. Owns only
+existing storagetest-013-review.md. It cannot author/approve its own tests.
 
-Optionalfacts preserveabsence vs presentempty, uint32schemaVersion/int64UTC exact,
-moneyoriginalspelling. ReceiptFacts has noratefield; explainactualdownstreamrate
-proof gates in appropriate contribution/plan brief instead ofinventingunuseddata.
-Context.begin vs explicitactiveSession adoption/commit authority/onebegin/lifetime
-must be concrete; no nestedwait/queue-per-method/connection orfakecommit. Known
-ReceiptStorageError onlyafterknownrollback; uncertainWorkFailure propagates/fail-
-closes/no normalresult orauto-replay. Rates/provider/wire/effects/jobs/application
-bundle/recovery/platform scope stays mandatory elsewhere.
+Root owns physical schema/global migration ordering and all CMake/presets/workflows,
+state/map/HTML/checkpoint. Root nowcommits actual
+`tests/qt/CMakeLists.txt` and `.github/workflows/sqlite-writer.yml` wiring actual22
+feature slots plus required green3 and complete registration. Workflow keeps known-
+red bodies separately explicit/manual; no failure inversion or assertion weakening.
+Rootconfigure/build/linkpassed0warnings andexact118registration/22compiledslots/
+3greenslots. Rootnewgreen3passed5inclinitcleanup0skip; stable96(old95+green1exe)
+passed withnewfeaturelabelunrun. Actionlint/project/diffpassed. Boundedharness
+pre-reviewnofindings; actualfulltest/harnessapproval stillpending. No feature/redrun.
 
-Next actualfeaturetests+independentliteralJSON/green3→successfulcompile→
-newindependentSQLcases/typedcodecfixtures→successfulcompile+selectedfixtureproof→
-fullactualreview→genuineintendedred→baselinePRnormalmerge beforeSTORAGE013code.
-Preserve old15simulation as simulation, no retroSQLclaim or completedred repeats.
+## Next concrete action and audit limits
 
-## Resume audit and full scope
+Actualcandidatesintegratedandcompiled,118registrations/22newcompiled+3greenexact,
+rootgreen5/stable96passed. Obtain different actual full oracle/test/harness review,
+fix real findings separately, observe ordinary selected official-Qt green3 and
+complete new discovery, then root records the FIRST intended missing-behavior red.
+Do not turn missing compilation/setup/dependency/skips into red. A single MAX
+ordinal row is corrupt history; practical signed64 order-exhaustion guard remains
+explicit mathematical/code-review coverage, never a fake exhaustive test/skip.
+Only then baseline completion metadata/final review/latest-head CI/discussions/
+rules permit normal merge. STORAGE-013 source follows in a separate task PR.
 
-Actual fullaudit59existingworktrees: rootonlyfourknowncheckpoint/brief/state/HTML
-edits, allother58clean,16absenthistorical/tmprefs preserved/no prune. Hostprocess
-comm/cwdonlyaudit found IDE/Codex/currentreadshell, no nativebuild/test commands. No rootnativecommand after source
-95/CI/merge/fetch. Newauthor/reviewer maywrite afterassignment; inspectactual
-branches/dirtyfiles/agents/processes/GitHub onresume. Preservevalidreviews/oldrefs.
-/root/debt_code_reviewer nowactive013fixtureauthorasabove. Newworktreecount60;
-inspectactualdirtyfiles/agents/nativecommandsonresume, do notassume liveness.
+Last full resume audit:59 existing worktrees, only root's known edits dirty,
+other58 clean,16 historical absent/prunable /tmp refs preserved. One fixture tree
+now makes60. Host comm/cwd-only process audit found IDE/Codex/current read shell;
+root later schema probe/build/old95 all completed. Current test authors may write
+or run permitted compile/green commands; inspect actual processes on resume.
+No pruning/discarding/agent liveness assumption. Latest observed GitHub ruleset
+26170263 requires PR/resolved threads,0 GitHub approvals,no bypass/force/delete;
+no required-status-check rule. Written latest-head CI/review gates still mandatory.
+Repository evidence never replaces a required GitHub approval. PR35 remains draft.
 
-Ruleset26170263 PR/resolvedthreads,0GitHubapprovals,nobypass/force/delete,no
-required-status-checkrule. WrittenlatestheadallCI mandatory; repo evidence never
-replaces requiredGitHubapproval. Actual postmergea4all10workflowscompleted/success; noopenPR.
-Full product incomplete:7integrations/3FXproviders/applicationbundle/backup/update/
-recovery/renderers/UI/locales/themes/packaging/platform/live/OBS allrequired.
-No ownerquestion/accessrequest, credentials/supporterdata/chat/payment/deploy.
+All seven integrations, three FX providers, application bundles/effects/jobs,
+backup/update/recovery, both renderers/UI/locales/themes, packaging, platform/live/
+OBS verification remain required. No credentials/supporter data/live chat/payment/
+deployment side effect. No owner question or access request is pending.

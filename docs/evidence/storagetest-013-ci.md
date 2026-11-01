@@ -36,3 +36,22 @@ intended missing-behavior red. Intentional-red feature bodies stay separately
 invoked and visible; never invert/hide failure in ordinary passing CI. STORAGE-013
 implementation remains a later focused task after the baseline merges normally.
 No platform/live/provider, recovery, power-loss or deployment proof follows.
+
+
+## Actual local full-candidate preparation
+
+Fixtureauthor33df432/root5561e69 supplies JSONa79e5e71 and greenb1ca37be;
+featureauthor135d3d3/root97863f9 supplies testa68cd5a7. Root actual
+`cmake --preset sqlite-receipt-debug` and build/link passed without warnings.
+`ctest --preset sqlite-receipt-debug --show-only=json-v1` and both new executables'
+`-functions` match118registrations (old95 +feature22 +one green executable),
+exact22new compiled/CTest slots and the three required green slots.
+`ctest --preset sqlite-receipt-debug -R '^scaffold.sqlite_receipts_environment$' --verbose`
+passed all3methods/5including init/cleanup/0skip on local Qt6.12/SQLite3.54.0.
+`ctest --preset sqlite-receipt-debug -LE sqlite-receipt --output-on-failure`
+passed96stable registrations (old95 plus new green executable). New receipt feature
+bodies were deliberately not invoked before their actual full review. Ignored root
+captures are storagetest013-{discovery.json,functions.txt,green-functions.txt,
+green-root.txt,stable-root.txt} under local-evidence/coordinator. These are actual
+local setup/discovery results; selected official new-fixture CI proof and full
+independent test/harness approval are still pending before intended red.

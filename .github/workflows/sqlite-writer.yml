@@ -5,6 +5,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      run_receipt_feature_tests:
+        description: Run the intentionally red receipt baseline explicitly
+        required: false
+        default: false
+        type: boolean
 permissions:
   contents: read
 jobs:
@@ -160,3 +166,41 @@ jobs:
           PYTHON
       - name: Run reviewed retained-context acceptance
         run: ctest --preset sqlite-receipt-debug -L sqlite-retained
+      - name: Check and run required receipt fixture diagnostics
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-receipt-debug/tests/qt/server_sqlite_receipts_environment"
+          expected = {
+              "receiptSchemaPrefixMatchesLiteralProjection()",
+              "unsignedIdsAndSignedFieldsRemainExact()",
+              "optionalGroupsAndTypedReferencesUseLiteralSchema()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required receipt fixture cases do not match compiled slots")
+          print("Discovered all 3 required receipt fixture cases")
+          PYTHON
+          ctest --preset sqlite-receipt-debug -R '^scaffold.sqlite_receipts_environment$' --verbose
+      - name: Check complete receipt baseline registration
+        run: |
+          ctest --preset sqlite-receipt-debug -L sqlite-receipt --show-only
+          ctest --preset sqlite-receipt-debug -L sqlite-receipt --show-only=json-v1 > "$RUNNER_TEMP/receipt-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "receipt-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No receipt baseline registered")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one receipt Qt suite")
+          expected = set(subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines())
+          registered = [test["command"][1] + "()" for test in tests]
+          if not expected or set(registered) != expected or len(registered) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled receipt suite")
+          print(f"Discovered all {len(tests)} compiled receipt baseline cases; feature bodies not run")
+          PYTHON
+      - name: Run intentionally red receipt baseline only when explicitly requested
+        if: github.event_name == 'workflow_dispatch' && inputs.run_receipt_feature_tests
+        run: ctest --preset sqlite-receipt-debug -L sqlite-receipt
