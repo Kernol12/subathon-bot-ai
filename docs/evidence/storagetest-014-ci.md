@@ -81,3 +81,11 @@ official Qt fixture proof remain future; new feature red has not run.
 
 Latest owner instruction: finish sole open PR37, then STOP. No next task or
 STORAGE-014 implementation is authorized after completion of this PR.
+
+Full actual review at e03 requested three additive feature coverage fixes: typed
+original integer extrema/reopen, active adopted wrapper destruction before owner
+finalization and typed modifier-context/known-config resolution. Actual12ba6df
+integrated3f85f3b, final feature46c901e0225b7755153decf25f4a5ff226d063db preserves
+all24 slots/old assertions. Root rebuilt/linked0warnings and rechecked exact143/24
+compiled discovery. Green/JSON/API/stub/physical/shared harness unchanged. No new
+feature body/red has run; actual full re-review is pending at this point.

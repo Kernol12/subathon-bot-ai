@@ -121,6 +121,24 @@ New shared CI keeps old111 cases unconditional, required green3 automatic and fu
 new baseline compile/discovery automatic; intentional feature red is explicit and
 separate (manual defaultfalse input, not invoked). actionlint/format/diff pass.
 
+Full actual2353-line inspection at e03e19e requested THREE additive coverage fixes
+before approval: new private original decoder's uint32/signed64 extrema across
+reopen; active wrapper destruction before outer finalization with adopted earlier
+work and inside-body lock/snapshot proof; actual modifier-context/known-config
+typed resolution (including healthy unequal historical cfg and same-byte wrong
+namespace). Author explicitly resumed for those existing-slot additions and own
+note only, preserving every assertion/slot/API/source/fixture. No feature body/red
+has run. Different reviewer must inspect the actual corrected commit. Additional
+bounded static fault/limit audit by fixture author found no further issue and is
+completed/stopped; it is not the full independent approval.
+
+Actual three-fix author12ba6df integrated3f85f3b, final source
+46c901e0225b7755153decf25f4a5ff226d063db. All24/old assertions preserved; actual
+root rebuild/link0warnings and exact143/24 compiled discovery pass. No feature body
+has run. Different reviewer explicitly resumed actual re-review of these fixes and
+full baseline at3f85; remaining full static inspection found no other blocker.
+Green577/JSON44df/API/stub/physical/shared harness unchanged.
+
 Next obtain different ACTUAL FULL24/fixture/harness review at the committed root
 revision, then publish approved candidate and inspect actual selected OFFICIAL Qt
 NEWgreen3/compiled24 discovery/pins/oldlanes. Only after that, root FIRST intended
