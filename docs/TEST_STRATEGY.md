@@ -236,3 +236,26 @@ dependencies. No manual body guard, failure inversion or fixture weakening.
 This proves opaque-byte persistence only; semantic config/evaluator resolution,
 actual typed receipt/contribution/plan numeric codecs, application bundle, backup/
 recovery/update, power-loss/provider/platform release remain separate gates.
+
+
+## Identified-receipt SQLite baseline
+
+STORAGETEST-013 supplies22 independently reviewed real-SQL cases plus six uint64
+literal vectors and a separate3-method existing-writer-only fixture diagnostic.
+[Handoff](evidence/storagetest-013-handoff.md) and [review](evidence/storagetest-013-review.md)
+pin final testdab/green818/JSONa79/APIb43/stubfaf and unchanged catalog prefix1.
+Native118 is registration, not118 passing acceptance: old95 plus new22 plus one
+green executable. Root and different reviewer compile/discover exact22+3; stable96
+and green3 (5 including init/cleanup/0skip) pass. Actual selected official-Qt
+41334070282 at5ffe2e4 passed new13-object green3/current818 and complete22 discovery
+BEFORE root's first intended red:22 explicit unimplemented failures, exit8,
+all init/cleanup pass,0skips/crashes/setup/dependency errors,total0.22s. Do not
+repeat that completed red. Most later assertions await reachable implementation;
+no receipt product acceptance pass follows from authoring/review or stub failures.
+
+The separate manual red invocation remains visible; ordinary CI builds/discovers
+all new cases and unconditionally runs required green3 plus existing stable suites.
+STORAGE-013 must preserve this baseline, implement only approved behavior, receive
+separate code/config review and promote all22 passing cases to unconditional CI.
+Existing15 fake-backed service tests remain simulation; no provider identity,
+missing-ID policy, valuation/effect/application-bundle or platform/live proof follows.

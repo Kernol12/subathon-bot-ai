@@ -182,3 +182,51 @@ if(SUBATHON_BUILD_SQLITE_WRITER_TESTS)
             TIMEOUT 15)
     endforeach()
 endif()
+
+if(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS)
+    add_executable(server_sqlite_receipts_environment sqlite_receipts_environment.cpp)
+    target_link_libraries(server_sqlite_receipts_environment PRIVATE subathon_sqlite_writer Qt6::Test)
+    target_compile_definitions(server_sqlite_receipts_environment PRIVATE
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
+    subathon_target_options(server_sqlite_receipts_environment)
+    add_test(NAME scaffold.sqlite_receipts_environment COMMAND server_sqlite_receipts_environment)
+    set_tests_properties(scaffold.sqlite_receipts_environment PROPERTIES
+        LABELS "scaffold;qt;receipt-environment" TIMEOUT 30)
+
+    add_executable(server_sqlite_receipts_acceptance sqlite_receipts_tests.cpp)
+    target_link_libraries(server_sqlite_receipts_acceptance PRIVATE subathon_sqlite_receipts Qt6::Test)
+    target_compile_definitions(server_sqlite_receipts_acceptance PRIVATE
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
+    subathon_target_options(server_sqlite_receipts_acceptance)
+    # Draft baseline bodies remain intentionally red until separately reviewed implementation.
+    foreach(case IN ITEMS
+        codecsMatchFullRangeLiteralVectors
+        codecRejectsMalformedBuffers
+        manifestPreservesRetentionPrefixAndMatchesLiteralReceiptStep
+        intakeCreatesRetriesConflictsAndPreservesOriginal
+        allFactsParticipateInConflictWithUnknownsPreserved
+        identityComponentsAndOpaqueBytesScopeReceipts
+        optionalFactsAndIntegerExtremaRoundTripAfterReopen
+        arrivalReferencesResolveWithoutCrosslinkEquality
+        allocationCrossesSignedBoundaryAndExhaustsWithoutWrap
+        failedCreateAndAppendRollBackAllocationAndRows
+        adoptionCommitsRetentionAndReceiptBeforeServiceReturns
+        uncommittedAndIncompleteTransactionsCannotPublish
+        duplicatePrimitiveCreateIsSqlUniquenessFailure
+        inputPreflightPriorityAndBoundsPreserveEarlierWrites
+        selectedMalformedDataAndTargetsRequireKnownRollback
+        allocatorAndAttemptHistoryCorruptionIsRefused
+        findHistoryLimitDoesNotTruncateOrLimitAppend
+        cumulativeBudgetFailureRollsBackStagedReceipt
+        localSecondBeginPreservesFirstTransaction
+        foreignStaleTerminalAndOwnedLifetimesAreSafe
+        lostCommitAckReportsUnknownWithPhysicalReceipt
+        lostCleanupAckOutranksLocalStorageFailure
+    )
+        add_test(NAME sqlite-receipt.${case} COMMAND server_sqlite_receipts_acceptance ${case})
+        set_tests_properties(sqlite-receipt.${case} PROPERTIES
+            LABELS "sqlite-receipt;acceptance;draft;qt;server" TIMEOUT 30)
+    endforeach()
+endif()

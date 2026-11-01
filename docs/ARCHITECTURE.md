@@ -155,3 +155,17 @@ startup inspection and actual update/backup/maintenance obligations. No current-
 settings pointer, core port change, semantic config/evaluator or wire layout is
 supplied. Typed uint64 domain codecs remain explicit013/014/015 gates; opaque
 byte retention does not certify those, domain application bundle or recovery.
+
+
+The [identified-receipt SQL contract](contracts/sqlite-receipts-v1.md) and
+[additive schema contract](contracts/sqlite-receipts-schema-v1.md) now have22
+independently reviewed Qt integration cases, six typed uint64 literals, selected
+official-Qt green3 fixture proof and actual intended unimplemented red after
+successful compilation. [STORAGETEST-013](evidence/storagetest-013-handoff.md)
+records the exact reviewed artifacts/chronology. New codec/manifest/repository
+remain explicit stubs; STORAGE-013 implementation is separate. The unchanged
+ReceiptIntake keeps classification policy. Existing domain IDs1..MAX, pure codec
+0..MAX, immutable originals/every ordered attempt/retained targets/real commit
+and truthful rollback/uncertainty are pinned without adding a writer or changing
+core/provider/wire contracts. No receipt SQL behavior, application bundle or
+operational/platform release capability is yet implemented by this baseline.

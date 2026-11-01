@@ -5,6 +5,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      run_receipt_feature_tests:
+        description: Run the intentionally red receipt baseline explicitly
+        required: false
+        default: false
+        type: boolean
 permissions:
   contents: read
 jobs:
@@ -33,15 +39,15 @@ jobs:
           bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
-      - name: Configure reviewed writer, migration and retained-context acceptance
-        run: cmake --preset sqlite-retained-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-      - name: Build all reviewed Qt SQL acceptance targets
-        run: cmake --build --preset sqlite-retained-debug
+      - name: Configure stable SQL suites and receipt baseline
+        run: cmake --preset sqlite-receipt-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+      - name: Build SQL suites and receipt baseline interface
+        run: cmake --build --preset sqlite-receipt-debug
       - name: Run the environment probe and list the writer baseline
         run: |
-          ctest --preset sqlite-retained-debug -R '^scaffold.qt_event_loop$'
-          ctest --preset sqlite-retained-debug -L sqlite-writer --show-only
-          ctest --preset sqlite-retained-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
+          ctest --preset sqlite-receipt-debug -R '^scaffold.qt_event_loop$'
+          ctest --preset sqlite-receipt-debug -L sqlite-writer --show-only
+          ctest --preset sqlite-receipt-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
           python3 - <<'PYTHON'
           import collections, json, os, subprocess
           from pathlib import Path
@@ -60,11 +66,11 @@ jobs:
           print(f"Discovered all {len(tests)} compiled writer cases; behavior not run")
           PYTHON
       - name: Run reviewed writer acceptance
-        run: ctest --preset sqlite-retained-debug -L sqlite-writer
+        run: ctest --preset sqlite-receipt-debug -L sqlite-writer
       - name: Check complete transaction-work registration
         run: |
-          ctest --preset sqlite-retained-debug -L sqlite-work --show-only
-          ctest --preset sqlite-retained-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
+          ctest --preset sqlite-receipt-debug -L sqlite-work --show-only
+          ctest --preset sqlite-receipt-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -81,12 +87,12 @@ jobs:
           print(f"Discovered all {len(tests)} compiled transaction-work cases")
           PYTHON
       - name: Run reviewed transaction-work acceptance
-        run: ctest --preset sqlite-retained-debug -L sqlite-work
+        run: ctest --preset sqlite-receipt-debug -L sqlite-work
       - name: Run required selected-Qt migration diagnostic environment probe
         run: |
           python3 - <<'PYTHON'
           import subprocess
-          executable = "build/sqlite-retained-debug/tests/qt/server_sqlite_migration_environment"
+          executable = "build/sqlite-receipt-debug/tests/qt/server_sqlite_migration_environment"
           expected = {
               "fixedFunctionsUseExistingWriterAndUtf8()",
               "metadataProjectionHasExpectedNullIndexSql()",
@@ -101,11 +107,11 @@ jobs:
               raise SystemExit("Required diagnostic environment cases do not match compiled slots")
           print("Discovered all 7 required diagnostic environment cases")
           PYTHON
-          ctest --preset sqlite-retained-debug -R '^scaffold.sqlite_migration_environment$' --verbose
+          ctest --preset sqlite-receipt-debug -R '^scaffold.sqlite_migration_environment$' --verbose
       - name: Check complete migration catalog registration
         run: |
-          ctest --preset sqlite-retained-debug -L sqlite-migrations --show-only
-          ctest --preset sqlite-retained-debug -L sqlite-migrations --show-only=json-v1 > "$RUNNER_TEMP/migration-tests.json"
+          ctest --preset sqlite-receipt-debug -L sqlite-migrations --show-only
+          ctest --preset sqlite-receipt-debug -L sqlite-migrations --show-only=json-v1 > "$RUNNER_TEMP/migration-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -122,12 +128,12 @@ jobs:
           print(f"Discovered all {len(tests)} compiled migration cases")
           PYTHON
       - name: Run reviewed migration catalog acceptance
-        run: ctest --preset sqlite-retained-debug -L sqlite-migrations
+        run: ctest --preset sqlite-receipt-debug -L sqlite-migrations
       - name: Check and run required retained-context fixture diagnostics
         run: |
           python3 - <<'PYTHON'
           import subprocess
-          executable = "build/sqlite-retained-debug/tests/qt/server_sqlite_retained_context_environment"
+          executable = "build/sqlite-receipt-debug/tests/qt/server_sqlite_retained_context_environment"
           expected = {
               "emptyNullAndOpaqueBindingsRemainDistinct()",
               "retentionMigrationShapeAndLinksUseExistingSql()",
@@ -138,11 +144,11 @@ jobs:
               raise SystemExit("Required retention fixture cases do not match compiled slots")
           print("Discovered all 3 required retention fixture cases")
           PYTHON
-          ctest --preset sqlite-retained-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose
+          ctest --preset sqlite-receipt-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose
       - name: Check complete retained-context registration
         run: |
-          ctest --preset sqlite-retained-debug -L sqlite-retained --show-only
-          ctest --preset sqlite-retained-debug -L sqlite-retained --show-only=json-v1 > "$RUNNER_TEMP/retained-tests.json"
+          ctest --preset sqlite-receipt-debug -L sqlite-retained --show-only
+          ctest --preset sqlite-receipt-debug -L sqlite-retained --show-only=json-v1 > "$RUNNER_TEMP/retained-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -159,4 +165,42 @@ jobs:
           print(f"Discovered all {len(tests)} compiled retained-context cases")
           PYTHON
       - name: Run reviewed retained-context acceptance
-        run: ctest --preset sqlite-retained-debug -L sqlite-retained
+        run: ctest --preset sqlite-receipt-debug -L sqlite-retained
+      - name: Check and run required receipt fixture diagnostics
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-receipt-debug/tests/qt/server_sqlite_receipts_environment"
+          expected = {
+              "receiptSchemaPrefixMatchesLiteralProjection()",
+              "unsignedIdsAndSignedFieldsRemainExact()",
+              "optionalGroupsAndTypedReferencesUseLiteralSchema()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required receipt fixture cases do not match compiled slots")
+          print("Discovered all 3 required receipt fixture cases")
+          PYTHON
+          ctest --preset sqlite-receipt-debug -R '^scaffold.sqlite_receipts_environment$' --verbose
+      - name: Check complete receipt baseline registration
+        run: |
+          ctest --preset sqlite-receipt-debug -L sqlite-receipt --show-only
+          ctest --preset sqlite-receipt-debug -L sqlite-receipt --show-only=json-v1 > "$RUNNER_TEMP/receipt-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "receipt-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No receipt baseline registered")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one receipt Qt suite")
+          expected = set(subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines())
+          registered = [test["command"][1] + "()" for test in tests]
+          if not expected or set(registered) != expected or len(registered) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled receipt suite")
+          print(f"Discovered all {len(tests)} compiled receipt baseline cases; feature bodies not run")
+          PYTHON
+      - name: Run intentionally red receipt baseline only when explicitly requested
+        if: github.event_name == 'workflow_dispatch' && inputs.run_receipt_feature_tests
+        run: ctest --preset sqlite-receipt-debug -L sqlite-receipt
