@@ -106,3 +106,13 @@ Root and prior44 existing worktrees were clean at audit;16 absent historicaltmp
 paths remain preserved. No running build/test process was found. Author is active; reviewer preparation completed and must be resumed for actual
 authored review. No build/test command remains running. Inspect actual agents/
 processes on resume. Main e374788 post-merge all10 checks were observed successful.
+
+Concrete API/stub/fault-seam author commit6532c07 is integrated as be925db. It adds
+ownable weak context/session capabilities, distinct transaction/error/result
+fields, explicit missing-feature methods and an acceptance-only lost-control-ack
+seam. Reviewer inspected actual be925db without blockers (direct utility include
+requested); this is preparation, not full baseline approval. Author is still
+writing the24 Qt slots. No new suite compilation, behavior execution or red result
+is claimed. Root shared harness d680dd4 and status eea1e10 are committed; root
+working tree is clean after this checkpoint commit. Root scaffold3/tooling19/DOM/
+actionlint checks passed. Next trigger is the actual test-source commit.
