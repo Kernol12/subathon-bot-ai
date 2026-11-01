@@ -144,3 +144,84 @@ intended red. Manual non-system Qt include flags emitted one existing qbitarray.
 conversion warning; no new source diagnostic was emitted. Root's real CMake
 harness supplies transitive include/link settings and remains the actual build
 gate. No native suite or new feature body ran, and no API review is self-certified.
+
+## Actual 22-case feature source after independent API/config approval
+
+Different-agent actual API/config approval38d797e was integrated16b15e9 before
+root assigned this author only new tests/qt/sqlite_receipts_tests.cpp plus this
+note. The author normally refreshed that actual root in a clean merge before
+writing. A distinct author /root/debt_code_reviewer owns the new independent
+JSON/green3 sources and evidence. Root owns their integration and all real
+CMake/preset/CI/registration/state work. No existing assertion, schema, API/stub,
+core/service, JSON/green or shared file is edited by this author stage.
+
+The actual source has exactly22 named feature slots. Init parses the two frozen
+literal JSON manifests and advances through the already implemented migration
+runner, then seeds retained config/context through independent SQL. It never calls
+the new factory, codec or repository in init/cleanup/global construction. Each
+feature explicitly calls its new boundary and reports the named
+SqliteReceiptsNotImplemented marker as missing behavior. There is no failure
+inversion, skip, expected-exception crash or initialization stand-in for red.
+
+The fixture uses literal BLOB IDs and direct field-to-column binding, not any new
+production codec or repository, to seed boundary/corrupt originals and attempts.
+It preserves SQLtype/length/hex in raw snapshots, including SQL NULL and present
+empty distinction. Only the independent negative fixture disables foreign-key
+checks or check constraints; the unchanged product writer enables/enforces them.
+Provider/source namespaces are synthetic and establish no real capability.
+
+| Actual feature slot | Required oracle / authority |
+| --- | --- |
+| codecsMatchFullRangeLiteralVectors | SR01: six typed uint64 literals, full0..MAX, independent decimal/BE8 hex vectors |
+| codecRejectsMalformedBuffers | SR01: null/empty/7/9-byte codec inputs reject; canonical zero decodes |
+| manifestPreservesRetentionPrefixAndMatchesLiteralReceiptStep | Exact existing step1 and additive step2, starts0/1/2, all SQL/projections/full payloads/digests against independent literals |
+| intakeCreatesRetriesConflictsAndPreservesOriginal | SR03: actual ReceiptIntake created/retry/conflict/later-original retry/repeated conflict, complete immutable original, five ordered attempts despite equal UTC, raw ordinal/disposition/money spellings |
+| allFactsParticipateInConflictWithUnknownsPreserved | Existing all-facts policy through real adapter: each facts field/presence/namespace/spelling mutation conflicts; unknown original stays unknown when zero/known-empty supplied later |
+| identityComponentsAndOpaqueBytesScopeReceipts | SR04: each four-tuple component changes identity; case/nontext/BOM/NUL/FF are exact in each branch; same facts/money/evidence/times do not merge |
+| optionalFactsAndIntegerExtremaRoundTripAfterReopen | SR05: u32MAX/zero, s64MIN/MAX/zero, binary/known-empty/absent optional facts, long exact money, grouped values, reopen/caller mutation; raw typeof/length/hex |
+| arrivalReferencesResolveWithoutCrosslinkEquality | SR06: binary refs/connection, known context link differs from arrival config while both resolve, absent link staysNULL; missing/wrong-kind refs abort with inside-catch lock probe |
+| allocationCrossesSignedBoundaryAndExhaustsWithoutWrap | SR01/02: allocator initialNULL; independently consistent signedMAX/MAX-1 seeds yield 2^63/MAX, then no-wrap exhaustion/unchanged snapshot; existing MAX receipt can still retry |
+| failedCreateAndAppendRollBackAllocationAndRows | SR08: policy-free fault decorator around actual primitives fails real SQL only after successful create/append, independent stageflags/owner SQL visibility, whole raw snapshot rollback including allocator; retry/conflict attempt failures preserve durable prior history |
+| adoptionCommitsRetentionAndReceiptBeforeServiceReturns | SR07: already begun one session stages config/context then adopts into unchanged intake; independent observer sees none before commit and complete receipt/attempt/retention before service return |
+| uncommittedAndIncompleteTransactionsCannotPublish | SR07/08: wrapper destruction rolls back before body return; pending original without first attempt cannot commit; inside-catch known rollback and allocatorNULL |
+| duplicatePrimitiveCreateIsSqlUniquenessFailure | SR08: direct create duplicates fail real SQL unique constraint with known SQL error, including after first proved staged create; no upsert/classification |
+| inputPreflightPriorityAndBoundsPreserveEarlierWrites | SR10: independent zero/negative options and nonrepresentable find lookahead; ordered ID/identity/facts/arrival/disposition failures; exact configured4/3 and defaults4096/262144 pass, one over refuses without undoing earlier writes |
+| selectedMalformedDataAndTargetsRequireKnownRollback | SR01/09: selected BLOB ID length/type/zero corruption, TEXT/REAL/INTEGER confusion, u32 overflow, each optional pair type/partialNULL, dangling config; inside-catch independent lock probe and unchanged raw snapshots; larger valid selected data is result_limit |
+| allocatorAndAttemptHistoryCorruptionIsRefused | SR09: absent/malformed/zero/ahead/NULL-inconsistent allocator refuses reset; gap/unknown disposition and single MAX-ordinal noncontiguous history reject as corruption |
+| findHistoryLimitDoesNotTruncateOrLimitAppend | SR09/10: append beyond find1 bound commits, find1 refuses whole history with synchronous rollback, find2 returns exact two attempts; no truncation/write quota |
+| cumulativeBudgetFailureRollsBackStagedReceipt | SR10: actual create+append flags asserted outside callback precede literal1048577-byte result overage, synchronous rollback probe, original/attempt/allocator snapshot unchanged |
+| localSecondBeginPreservesFirstTransaction | SR11: caught local already_begun leaves original wrapper usable through actual commit; real busy BEGIN not_started/busy, local guard consumed, next work retries normally |
+| foreignStaleTerminalAndOwnedLifetimesAreSafe | SR11: owner guard before mutable begin state, pure options/primitive input priority, independent transaction survives repository destruction, owned record after writer destruction, terminal/stale errors unchanged |
+| lostCommitAckReportsUnknownWithPhysicalReceipt | SR12: existing physical COMMIT-ack fault leaves exact durable original/attempt/allocator but no returned service/work value, one body invocation, unknown/failclosed/no auto-replay |
+| lostCleanupAckOutranksLocalStorageFailure | SR12: proved successful create+append then selected corrupt read loses real rollback ack; unknown outranks local error, raw snapshot physically rolled back, failclosed/no replay |
+
+The six new codec vectors and complete10535-byte step2 payload/13-object projection
+are third-author literals from the approved schema, not new UUT output. Prefix1
+comes from the unchanged original retained JSON. Exact payload/digest comparison
+uses the existing implemented codec only as an observed value. Typed ID checks
+are new; neither opaque retention nor the old15 fake cases certify numeric SQL.
+Selected SQLNULL is checked via typeof/isNull, not QVariant equality with a generic
+invalid placeholder. Known-empty std::strings use explicit nonnull empty BLOB.
+
+Stage flags are set only after actual primitive success and asserted outside run,
+so an earlier matching exception cannot satisfy the intended later failure. The
+fault decorator has no receipt/facts/disposition policy; it calls real primitives,
+then existing session SQL against a deliberately missing table to force real
+sticky rollback. The physical-ack seam is the already reviewed existing writer
+fault after real control, not fabricated outcome classification or power-loss proof.
+A single MAX ordinal is expressly corruption, not genuine order-exhaustion proof;
+materializing MAX contiguous attempts is impractical. The checked true-exhaustion
+branch remains a source-review/mathematical guard gate, without a fake skip/test.
+Generous explicit capacities isolate multi-vector/default-field-bound cases from
+an unspecified internal query plan. The actual budget test uses a literal result
+over the unchanged default after proved staging, never calibrated overhead.
+
+Actual author checks: clang-format and git diff --check pass. Qt6 moc plus C++20
+syntax-only checking of this source passes with installed QtCore/Sql/Test headers
+as external system includes; no warnings after that correction. A first scratch
+used PATH's Qt5 moc, which failed against Qt6 headers; explicitly selecting
+/usr/lib/qt6/moc fixed setup. This compiler/tool mismatch is documented as setup,
+not intended red. No feature body, init, runtime setup or early red was run.
+Root's actual shared CMake build/link, exact compiled22 discovery, selected
+new officialQt green3, different full artifact review and later first real
+missing-behavior run remain open. These syntax checks do not claim those gates.
