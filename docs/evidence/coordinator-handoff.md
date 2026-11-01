@@ -90,10 +90,12 @@ STORAGETEST-010 claimed on `task/STORAGETEST-010-writer-work` from refreshed
 main e374788. Author `/root/storage_decomposition` is explicitly reassigned from
 completed CONTRACT-004; old author/reviewer commits remain preserved. New isolated
 worktree `local-evidence/worktrees/storagetest010-author`, branch
-`task/STORAGETEST-010-author`, will own only additive writer header declarations,
+`task/STORAGETEST-010-author`, owns only additive writer header declarations,
 new explicit work stubs, a new Qt Test file and author evidence. Root owns build/
-presets/workflow/map/state/HTML/checkpoint. Independent test reviewer not yet
-assigned; no new tests or observed red are claimed yet.
+presets/workflow/map/state/HTML/checkpoint. Independent test reviewer `/root/writer_transaction_reviewer` is assigned in
+`local-evidence/worktrees/storagetest010-review`, branch `task/STORAGETEST-010-review`.
+Read-only preparation is complete; actual authored revision review is pending.
+No new tests or observed red are claimed yet.
 
 Next: author WT01–WT20 cases and concrete versioned capability/fault-harness boundary,
 review actual authored artifacts separately, then observe genuine stub failures
@@ -101,5 +103,6 @@ after successful compilation. Preserve old25 assertions/pass and all captured
 contract semantics. STORAGE-010 must not implement before this baseline gate.
 No real receipt/contribution schema, provider or platform capability is added.
 Root and prior44 existing worktrees were clean at audit;16 absent historicaltmp
-paths remain preserved. No running build/test process was found. New author work
-will be active only after assignment; inspect actual agents/processes on resume.
+paths remain preserved. No running build/test process was found. Author is active; reviewer preparation completed and must be resumed for actual
+authored review. No build/test command remains running. Inspect actual agents/
+processes on resume. Main e374788 post-merge all10 checks were observed successful.

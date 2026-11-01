@@ -100,6 +100,16 @@
       "cacheVariables": {
         "SUBATHON_BUILD_TIME_DEBT_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-work-debug",
+      "displayName": "12 \u00b7 Writer transaction-work baseline (intentional red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON",
+        "SUBATHON_BUILD_SQLITE_WORK_TESTS": "ON",
+        "SUBATHON_BUILD_QT_PROBE": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -146,6 +156,10 @@
     {
       "name": "time-debt-debug",
       "configurePreset": "time-debt-debug"
+    },
+    {
+      "name": "sqlite-work-debug",
+      "configurePreset": "sqlite-work-debug"
     }
   ],
   "testPresets": [
@@ -252,6 +266,16 @@
     {
       "name": "time-debt-debug",
       "configurePreset": "time-debt-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-work-debug",
+      "configurePreset": "sqlite-work-debug",
       "output": {
         "outputOnFailure": true
       },
