@@ -148,3 +148,50 @@ normal merge rules. Material source/test/interface/config changes require renewe
 review. Application schemas/adapters/migrations, durable application atomicity,
 recovery authorization, disk/power-loss, supported platforms and live-provider
 verification remain explicit later gates. No full-release claim follows this review.
+
+## Final integration, completion metadata and actual CI attribution
+
+The same independent reviewer inspected final completion candidate
+`f370eebfae870d5f2e8fc7c5170c1d7312e41747` on 2026-11-01 after a normal merge
+into the isolated review branch. Before this appendix the review tree exactly
+matched the candidate. Initial independent approval `9216d8d` is integrated as
+`17adb35`; its review content is unchanged.
+
+An exact executable-path comparison from tested `2aa14cd` is empty. Source remains
+`023451987e40a9330fef91c6c0955f0e527f14e6`, and all seven baseline artifact hashes
+remain the table above. Historical STORAGETEST-010 evidence, including actual
+review/red and the immutable stub link, is unchanged from `ce0a325`. No passing
+native suite or original red was repeated for these metadata-only changes.
+
+State, acceptance map, architecture, test strategy, CI assessment, implementation
+handoff and coordinator checkpoint were inspected. All391 task identities and
+dependency lists are preserved; only STORAGE-010 task data changed. Its done status
+means this bounded internal mechanism passed acceptance, independent review and
+actual ordinary CI. Publication is still pending, and application schemas/adapters,
+migrations/application bundles/recovery, power loss, providers and release
+platforms remain explicit separate gates. Current documentation now describes
+ordinary passing work acceptance while retaining the original red as history.
+
+The reviewer independently executed `gh run view 41300728417 --json ...` and
+`gh run view 41300728417 --log`. Actual run metadata identifies pull_request head
+`a1e3a89131439c69dcc2258021f0774f8efa4f74`, completed successfully, with successful
+real writer/work acceptance steps. Independently fetched logs establish both
+selected Qt/ICU SHA256 checks OK, GNU13.3.0, Qt probe1/1, exact compiled old25/new24
+registration, 25 distinct old passing bodies and 24 distinct unconditional new
+passing bodies with zero failures. The actual command outputs were parsed against
+those fixed counts. An exact-commit GitHub check-runs query independently confirms
+all11 checks completed successfully for `a1e3a89`. The
+[recorded Ubuntu run](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41300728417)
+is correctly attributed to that revision, rather than transferred to a later head.
+
+Independent project consistency, progress render-check, whitespace, exact-artifact
+and task/dependency comparisons all passed for the final candidate. A live
+[PR30](https://github.com/Kernol12/subathon-bot-ai/pull/30) query observed OPEN/DRAFT
+at exact `f370eeb`, MERGEABLE with no GitHub reviews; its latest SQLite job was
+still IN_PROGRESS at that observation. This supplies no later-head success claim.
+
+**Final verdict: approved completion metadata and CI attribution for STORAGE-010
+at `f370eeb`.** No blocking finding or owner decision remains. Publish this final
+review, then observe all applicable checks for the exact final PR head and satisfy
+resolved discussions/current rules and the normal merge checklist. The task is not
+assumed merged, and no full-product or later storage capability is approved.
