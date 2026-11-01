@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T09:09:27+00:00",
+  "updated_at": "2026-11-01T09:14:51+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -994,7 +994,7 @@
       "title": "Review and demonstrate red: Refund deficit policies and separate time debt",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; author /root/debt_test_author; independent reviewer /root/debt_test_reviewer",
       "depends_on": [
         "CORE-001",
@@ -1009,22 +1009,31 @@
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claim from refreshed main1183314 after PR25 actuallymerged finala486ad9 all10checks/no threads/currentnormalrules. DependencyCORE001/CORE002 integrated; specv0.45 §4/NUM03. Scope pure alreadycalculated reversal deficit/debt arithmetic and debt-first eligible additions with explicit policy/fullrequested-vsactual/provenance, nonnegativegrace boundary, exactsigned64 failures. ACCT006 proportionalentitlement, permission/audit/application/persistence/lifecyclecomposition remain explicit callers/downstream, no scope silentlyremoved. Author owns newtime-debt contract/header/explicitstub/tests/evidence ONLY; root sharedCMake/presets/CI/map/state/HTML/checkpoint. Contract/examples -> tests -> separateactualreview -> intendedred required before CORE005 implementation. Readonlyprepcomplete, interpretationRequireReviewonlyoverflow not yetreviewed.",
-        "Author389f8ba integrated017e0c4, actualcandidatee405ae4: contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65.32cases compile/discover author/root GTest1.18/GNU16.2.1; no newbodies/red. PureMain/debt math has no needlessActive restriction; signedfullreversal inclMIN, explicitpolicy/refs, debt-first additions andnonreducingabove-cap headroom0 documentedwithoutchangingoldcreditcontract; CORE002compositioncovered. Separate reviewerisolatedcoretest005-review actualcandidate; newautomaticbuild/discoveryCIactionlintpass, actualUbuntu pending. CORE005 remainsplanned/unimplemented."
+        "Author389f8ba integrated017e0c4, actualcandidatee405ae4: contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65.32cases compile/discover author/root GTest1.18/GNU16.2.1; no newbodies/red. PureMain/debt math has no needlessActive restriction; signedfullreversal inclMIN, explicitpolicy/refs, debt-first additions andnonreducingabove-cap headroom0 documentedwithoutchangingoldcreditcontract; CORE002compositioncovered. Separate reviewerisolatedcoretest005-review actualcandidate; newautomaticbuild/discoveryCIactionlintpass, actualUbuntu pending. CORE005 remainsplanned/unimplemented.",
+        "Independent32casebaselineb3413e5 integrateddba4401 BEFORE actualCTestexit8/32TimeDebtNotImplemented bodyfailures; no skips/dependency/buildfailure. Contract909/headerf3cc/stubc2d/tests c3cd unchanged. Author/root/reviewer compile/discover32; rootexistingtimer39pass aftersharedCMakeguardchange. ActualUbuntuCI41291917578 atPR26c2be886 build/discovery32passed GNU13.3/selectedGTesttree; all11checks there. Reviewed/red baseline done, productunimplemented; finalmetadatareview/latestCI/merge remain publication gates, CORE005 waits integratedprerequisite."
       ],
       "verification": {
         "authored_tests": "passed",
         "native_build": "passed",
-        "test_review": "not_run",
-        "baseline": "not_run",
+        "test_review": "passed",
+        "baseline": "observed_red",
         "product_acceptance": "not_run",
-        "github_ci": "not_run"
+        "github_ci": "passed"
       },
       "evidence": [
         "docs/evidence/coretest-005-author.md",
         "docs/evidence/coretest-005-ci.md",
-        "docs/evidence/coretest-005-handoff.md"
+        "docs/evidence/coretest-005-handoff.md",
+        "docs/evidence/coretest-005-review.md",
+        "docs/evidence/coretest-005-red-ctest.txt"
       ],
-      "review": null
+      "review": {
+        "author": "/root/debt_test_author",
+        "reviewer": "/root/debt_test_reviewer",
+        "outcome": "approved",
+        "baseline": "author389f8ba; candidatee405ae4; contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65; reviewb3413e5 integrateddba4401 before actual32red",
+        "evidence": "docs/evidence/coretest-005-review.md"
+      }
     },
     {
       "id": "CORE-005",
@@ -10992,6 +11001,11 @@
       "date": "2026-11-01T09:09:27+00:00",
       "task": "CORETEST-005",
       "note": "Author389f8ba integrated017e0c4, actualcandidatee405ae4: contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65.32cases compile/discover author/root GTest1.18/GNU16.2.1; no newbodies/red. PureMain/debt math has no needlessActive restriction; signedfullreversal inclMIN, explicitpolicy/refs, debt-first additions andnonreducingabove-cap headroom0 documentedwithoutchangingoldcreditcontract; CORE002compositioncovered. Separate reviewerisolatedcoretest005-review actualcandidate; newautomaticbuild/discoveryCIactionlintpass, actualUbuntu pending. CORE005 remainsplanned/unimplemented."
+    },
+    {
+      "date": "2026-11-01T09:14:51+00:00",
+      "task": "CORETEST-005",
+      "note": "Independent32casebaselineb3413e5 integrateddba4401 BEFORE actualCTestexit8/32TimeDebtNotImplemented bodyfailures; no skips/dependency/buildfailure. Contract909/headerf3cc/stubc2d/tests c3cd unchanged. Author/root/reviewer compile/discover32; rootexistingtimer39pass aftersharedCMakeguardchange. ActualUbuntuCI41291917578 atPR26c2be886 build/discovery32passed GNU13.3/selectedGTesttree; all11checks there. Reviewed/red baseline done, productunimplemented; finalmetadatareview/latestCI/merge remain publication gates, CORE005 waits integratedprerequisite."
     }
   ]
 }

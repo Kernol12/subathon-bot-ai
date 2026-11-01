@@ -73,7 +73,8 @@ that gate completes/merges. No unspecified provider/default policy is invented.
   `task/CORETEST-005-debt-author`. Author389f8ba complete/clean, integrated017e0c4;32cases compile/discover.
 - `/root/debt_test_reviewer` is independently reviewing actuale405ae4 in isolated
   `local-evidence/worktrees/coretest005-review`, branch `task/CORETEST-005-debt-review`.
-  No approval or red exists yet.
+  Actualbaselineapprovalb3413e5 integrateddba4401 BEFORE32bodyred
+  (exit8, allTimeDebtNotImplemented, no skip/envfailure). Finalmetadata review next.
 - Root owns all shared CMake/presets/CI/map/state/HTML/checkpoint/PR integration.
 - All earlier storage authors/reviewers completed with clean isolatedworktrees;
   no old agent is assumed running. A corrected audit found36then-existing worktrees
@@ -111,18 +112,25 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-Actual debt contract/header/stub/tests candidatee405ae4 compiled/discovered32;
-no bodies run. Contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65.
-Root wired time-debt-debug optionalGoogleTestlane, timercompositiontarget, and new
-automatic baselinebuild/discovery workflow (actionlintpass). Separate reviewer
-has actualcandidate/worktree. Finish actualreview, then run intendedred and retain
-behavior failures, not dependency/compilation errors. Publish focused baseline PR,
-observe actualUbuntu build/discovery, update evidence/map/status and require final
-reviews/latestCI/currentrules before merge; CORE005 remainsunimplemented untilits
-reviewed/red prerequisite integrates. Do not shrink release scope or inventdefaults.
+CORETEST005 reviewed/red baseline is done. Author389f8ba/candidatee405ae4 has
+contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65 (unchanged32cases).
+Separateapprovalb3413e5 integrateddba4401 preceded actual32bodyfailures, exit8,
+explicit TimeDebtNotImplemented/wrongexception only; no skip/build/dependencyfail.
+Author/root/reviewer32compiled/discovered; rootexistingtimer39pass. ActualUbuntu
+baseline41291917578 at[PR26](https://github.com/Kernol12/subathon-bot-ai/pull/26)
+headc2be886 built/discovered32 GNU13.3/selectedGTesttree, all11checks passed there.
+[Handoff](coretest-005-handoff.md), [review](coretest-005-review.md),
+[red](coretest-005-red-ctest.txt), [CI](coretest-005-ci.md).
 
-Root's uncommitted changes are merged-writer outcome/checkpoint and currenttask
-metadata; new author work is isolated. No root native command remains running.
+Next: independent final completionmetadata/actualCI/red-evidence review, publish
+exactapproval, require all latest PR26 checks/discussions/currentnormalrules before
+ready/merge. After merging refreshmain and immediately claim CORE005 implementation
+from the integrated reviewed/red prerequisite. Root promotes newbuild/discoveryjob
+to ordinary actual32caseacceptance in that task. No debt behavior is implemented;
+no fixed timestamp/provider capability or fullapplication/refund proof is invented.
+
+Root's uncommitted changes are completedbaseline state/map/docs/red/CI outcome and
+checkpoint; author/reviewer worktrees are isolated and committed. No root native command remains running.
 Inspect actual branches/worktrees/processes/agents/PRs on interruption rather than
 assuming these agents survive a stop. No owner question or access decision remains.
 Full product is NOT complete: application/aggregates/refunds, all7 integrations/

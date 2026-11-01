@@ -18,3 +18,11 @@ separate review. Actual Ubuntu workflow execution and exact independent config
 review are pending. Existing ten checks (including original/corrected writer25)
 remain required written gates. No GitHub required-status-check rule is inferred.
 No provider/credential/live/platform operation is part of default checks.
+
+
+Actual [run41291917578](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41291917578)
+atPR26headc2be886 succeeded. Retained actual logs show GNU13.3.0/Python3.12.3,
+selected `_deps/googletest-build` compilation and `Discovered 32 time-debt cases;
+behavior not run`. All11checks passed atc2be886. This observes real Ubuntu baseline
+build/discovery, not passing debt behavior. Workflowe96126f8 was independently
+reviewedb3413e5; actual source/check hashes and latest-head gates remain explicit.

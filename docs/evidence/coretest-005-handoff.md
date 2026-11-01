@@ -36,3 +36,25 @@ for that reviewed/red baseline to integrate. Proportional refund entitlement,
 application/audit/permission/revision/ledger/persistence, real cap-edit authorization,
 clock recovery/hard-end composition, providers/platforms remain explicit later gates.
 No raw record is deleted or today’s award/rate recomputed by this interface.
+
+
+## Independent approval and actual intended red
+
+Separate reviewer/root/debt_test_reviewer approved actuale405ae4 inb3413e5,
+integrateddba4401 before bodies. Reviewer independently configured/built, compared
+all32compiledGoogleTest names toCTestJSON exactly, and checked actionlint/project/
+currentHTML/diff. All oracles/contracts and unchanged existing credit/lifecycle
+artifacts were examined; [review](coretest-005-review.md).
+
+Atdba4401 root then ran `ctest --preset time-debt-debug -L time-debt`: actualexit8,
+32/32body failures from explicit TimeDebtNotImplemented. Invalid-input cases also
+fail on the wrong exception type rather than accidentally passing. No missing
+dependency, compilation failure, skip or test-not-run counted as red. Full output:
+[observed red](coretest-005-red-ctest.txt). All reviewed artifact blobs above unchanged.
+
+Root also configured/built existing timer-lifecycle-debug and ran39timer cases:
+all passed after shared CMake target-enabling changes. Actual Ubuntu baseline
+run41291917578 atc2be886 compiled/discovered32 successfully (GNU13.3), all11PR
+checks passed there. CORETEST005 reviewed/red preparation is done, not CORE005
+implementation. Final integration metadata review/latestheadCI/normal rules remain
+publication gates for [PR26](https://github.com/Kernol12/subathon-bot-ai/pull/26).
