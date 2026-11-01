@@ -96,14 +96,17 @@ Explicitly resumed from actual API approval for ONLY new
 `tests/qt/sqlite_receipts_tests.cpp` and own existing author evidence. No changes
 to API/source/contracts/JSON/shared files. Planned22 Qt slot names supplied to root.
 Actualauthor135d3d3 integrated97863f9, testbloba68cd5a72838c339ee5cf2e580e2a987880ce3b0.
-Authorcompletedclean; no feature body/red ran. Rootactualcompile/discovery passed.
+Initial test a68 was revised for actual separate review findings. Current author
+9b4f38d, integrated f3b2517, test0e61209e5ad16448416f62305de7eda90191d8e1.
+Author completed clean; no feature body/red ran. Root revised compile/discovery passed.
 
 Fixture/environment author `/root/debt_code_reviewer`: NEW isolated
 `local-evidence/worktrees/storagetest013-fixtures`, branch `task/STORAGETEST-013-fixtures`,
 created clean at16b15e9. Owns ONLY new `tests/fixtures/sqlite_receipts_vectors.json`,
 `tests/qt/sqlite_receipts_environment.cpp`, `docs/evidence/storagetest-013-fixtures.md`.
 Actualauthor33df432 integrated5561e69, JSONa79e5e71a3b9ca101441852c7fb7f26f735e9626,
-greenb1ca37beed7a13e757710581990c09859dd4f366. Authorcompletedclean.
+Initial green b1 was strengthened with actual NULL-insert rejection: cde2ef8,
+integrated e33d742, green8189f0274a38bb840c612673e0f858fe8d1777eb. Author completed clean.
 JSON has flat manifest2/full payload/13 objects plus six decimal/hex STRING codec
 vectors; unchanged old retained_context_vectors supplies literal prefix1. Three
 fixed green slots: receiptSchemaPrefixMatchesLiteralProjection,
@@ -124,9 +127,23 @@ state/map/HTML/checkpoint. Root nowcommits actual
 feature slots plus required green3 and complete registration. Workflow keeps known-
 red bodies separately explicit/manual; no failure inversion or assertion weakening.
 Rootconfigure/build/linkpassed0warnings andexact118registration/22compiledslots/
-3greenslots. Rootnewgreen3passed5inclinitcleanup0skip; stable96(old95+green1exe)
+3greenslots. Root revised green3 passed5 including init/cleanup/0skip (including NULL INSERT);
+revised118/exact22+3 discovery passed. Earlier stable96(old95+green1exe)
 passed withnewfeaturelabelunrun. Actionlint/project/diffpassed. Boundedharness
 pre-reviewnofindings; actualfulltest/harnessapproval stillpending. No feature/redrun.
+
+## Actual review findings and revised artifacts
+
+The separate reviewer found bounded oracle gaps before any feature run. All prior
+assertions/22 names remain: original oversized-result case plus new cumulative
+600000+600000 result requests; stored9B canonical ID0e plus00; actual NULL INSERT
+refusal without fabricated selected-NULL proof; isolated retained TEXT3/BLOB4
+failures with receipt values<=3; count_after=count_before+1 before fault stage flags.
+Revisions:5a8b700/rootaa80102, cde2ef8/roote33d742, ad60c19/root7fa9f0a,
+9b4f38d/rootf3b2517. Current test0e61209e/green8189f027; JSONa79e5e71,
+APIb43/stubfaf/logicale1/schema2ef and all prior product sources remain unchanged.
+Root rebuilt and rediscovered118/22+3, new green5 passed/0skip. Actual full separate
+re-review of this final compiled candidate is pending. No feature body/red has run.
 
 ## Next concrete action and audit limits
 

@@ -55,3 +55,20 @@ captures are storagetest013-{discovery.json,functions.txt,green-functions.txt,
 green-root.txt,stable-root.txt} under local-evidence/coordinator. These are actual
 local setup/discovery results; selected official new-fixture CI proof and full
 independent test/harness approval are still pending before intended red.
+
+
+## Actual revisions after independent test inspection
+
+Before any feature body/red, the reviewer requested focused oracle additions;
+all previous assertions and22names remain. Feature5a8b700/rootaa80102 adds a
+true cumulative two600000-result variant alongside the original oversized value,
+and a nine-byte stored ID. Fixturecde2ef8/roote33d742 adds actual NULL INSERT
+refusal. Featuread60c19/root7fa9f0a isolates retained TEXT3 versus BLOB4 at value3;
+9b4f38d/rootf3b2517 proves an observed new-row delta before each forced-stage fault.
+Current test0e61209e and green8189f027, unchanged JSONa79/APIb43/stubfaf/logicale1/
+physical2ef. Root incremental build/link passes without warnings; revised118
+registrations/exact22+3 compiled functions match; revised green3 passes5 including
+init/cleanup/0skip. Captures use storagetest013-revised-* under the same ignored
+coordinator directory. No feature body/red was run. Actual full re-review and
+selected official new-fixture proof remain pending; no prior API-only CI result
+is relabeled as the new fixture proof.
