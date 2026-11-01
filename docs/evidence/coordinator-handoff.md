@@ -7,7 +7,7 @@ is needed. Full product remains incomplete.
 ## Integrated tasks and actual main
 
 Last observed main is `ae57f2bef8ca90f2c2fd150a6c4ae6e03ee77365` (PR33).
-Postmerge checks have started; inspect actual results before claiming them. Recent completed PRs:
+All ten postmerge mainae57f2b workflows were observed successful. Recent completed PRs:
 
 | Task | Merged PR | Durable evidence |
 | --- | --- | --- |
@@ -110,3 +110,22 @@ Mainae57 postmerge checks pending observation.
 Full product remainsincomplete: domain/applicationbundle/backup/update/recovery,
 7integrations/3FXproviders/renderers/UI/locales/themes/packaging/platform/live/OBS
 all remain required. No credentials/supporterdata/chat/payment/deploy sideeffects.
+
+## Actual implementation candidate and code/config approval
+
+Both new worktrees were created clean at claim49719cc and assignments sent.
+Authora114225/sourcec96dae927f652088d2326e427740975d18ba4df2 integrated41ffb5a,
+source-only implementation; b8evidence integrated4b3d116. Author/root/reviewer
+new16/full95PASS/zero warnings, exact95/compiled16+24+24+25/env7+3. Frozen
+55/5b/c0/AAA/0f/old023+4ee unchanged. Different actualcode/config approval8c4261d
+integratedefdb987; sharedcaeb60d removes manual new16 guard/draft classification
+and makes new16 unconditional alongside allold73/green7/green3. No assertion,
+fixture, pin, permission or checkname change.
+
+[Implementation handoff](storage-012-handoff.md), [source evidence](storage-012-implementation.md),
+[review](storage-012-code-review.md), [CI assessment](storage-012-ci.md).
+Source implementer/reviewer completed clean; actual automatic selected officialQt
+new16 is pending, source statusin_review. Root is publishing focused implementation
+PR next; prior baseline/host CI is not transferred. No root running command.
+Next actual automaticnew16 CI→completion metadata/finalreview→latesthead normal
+merge. Do not repeat originalred or begin dependent013 before integrated012.
