@@ -66,3 +66,19 @@ compatibility/downtime prerequisites remain real caller/product gates; no fake
 proof string/boolean establishes them. Full backup/update/restore/recovery,
 application schemas/stores/bundles, all seven integrations/three rate providers,
 renderers/UI/locales/themes/platform/packaging/live scope remains mandatory.
+
+## Actual early interface and shared harness
+
+Author496d901/7ef527c integratefe72a14/e99c955: currentheader86b74, explicitstub
+6c507. Contract precisioncbdea1a is separately approved112bf38(rootc677173);
+MC15 amendment1dfadece is separately approvedecff4f5(rootbc491af). Current mode
+defaults to inspection; request/callback/writer admission ordering, literal bounds
+and failure precedence are explicit. These approvals cover actual contract/API
+precision only, not absent test cases or runtime.
+
+Root3df1dd2 attaches proposed22 migration slots and separategreen7 environment
+probe, optionalJSON macro and sqlite-migrations-debug. [CI assessment](storagetest-011-ci.md).
+Pinned actionlint/project/diff passed; no actualnewbuild/discovery/CI is claimed.
+Author's unfinished Qt case/probe/vector files remain untracked in its worktree;
+root preserves them and waits for a compiled/listed committed candidate. The prior
+49 cases remain automatic; new22 bodies wait for full review/selectedQtprobe/red.

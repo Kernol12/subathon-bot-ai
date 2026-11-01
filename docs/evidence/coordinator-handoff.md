@@ -96,48 +96,49 @@ unconditionalreal49. [Implementation](storage-010-handoff.md), [review](storage-
 Old implementation/reviewer worktrees finished clean; preserve branches/reviews.
 
 STORAGETEST-011 active/local-unpublished on `task/STORAGETEST-011-migration-catalog`,
-claim9dba71d from refreshedmain88e86c1. No task PR yet; no owner question.
-Author `/root/writer_transaction_reviewer` in isolated
+claim9dba71d from refreshedmain88e86c1. No task PR yet, no owner question.
+Author `/root/writer_transaction_reviewer` works in isolated
 `local-evidence/worktrees/storagetest011-author`, branch `task/STORAGETEST-011-author`.
-Different `/root/storage_work_code_reviewer` uses isolated
+Different `/root/storage_work_code_reviewer` owns only review evidence in isolated
 `local-evidence/worktrees/storagetest011-review`, branch `task/STORAGETEST-011-review`.
-Both were explicitly reassigned from completed earlier roles, never assumed live.
+Roles explicitly reassigned/resumed; never assume historical agents still live.
 
-Actual contract author6a92fce/cf627 integrated1d221ae received initial requestchanges
- d60021e(root e11d150): physicalDDL/framing/text/nonempty0policy/real diagnostic
-shadowingcounterexample. Correctionscd25d32/05c8568 integratef963147/748f0c3.
-Finalcontract1683461 is independently approved1bfdfa8(root9ee8951), CONTRACT ONLY.
-Review preserves all initial findings and encodingcounterexample; no priorreview
-was erased. [Active handoff](storagetest-011-handoff.md), [contract](../contracts/migration-catalog-v1.md),
-[review](storagetest-011-review.md), [author](storagetest-011-author.md).
+Contract-only history: initial6a92fce/cf627 received actual requestchangesd600,
+retained inreview. PhysicalDDL/framing/UTF8/shadow fixes cd25/05c yielded1683461,
+approved1bfdfa8(root9ee8951). MC15 query-plan-independent resourceoracle amendment
+1dfadece approvedecff4f5(rootbc491af). Latest explicit admission/ID/payload/error
+precisioncbdea1a and actualheader86b74 approved112bf38(rootc677173), CONTRACT/API
+ONLY. [Contract](../contracts/migration-catalog-v1.md), [review](storagetest-011-review.md).
+No future test/harness/red gate was approved by these staged reviews.
 
-Two simple exact metadata relations/history, one entire-prefix transaction,
-strictUTF8formatgate, fixedencoding()/integrity()/FK() function SELECTs, complete
-schema/ID/content checks and conservative refusal/unknownoutcomes are defined.
-No writerAPI/allowlist/source change: rootand reviewer confirmed existingSELECT
-capabilities and actual bare-name shadowing counterexample in disposableprobes.
-[Probe](storagetest-011-probe.md). Root independently reproduced m1 payload636/
-SHA3d1e0f...; completehex preserved ignored, no newUUT exists. These are technical
-probes, not catalog acceptance or new red. FullOPS02 actualbackup/quiescence/
-compatibility/update authority remains caller/product gates, never a fakeproofbit.
+Actual new publicheader86b74/explicitstub6c507 integratefe72a14/e99c955; no digest,
+validation, SQL/catalog/queue behavior in stubs. Inspection is the safe default;
+advance explicit, requestpreflight→callback→existingwriter priority and error/
+resource mapping are pinned. Root owns shared schemas/order/build/presets/CI/
+state/HTML/map/checkpoint. Existingwriter023451/header/hook/49 assertions and old
+contracts remain unchanged. Author owns newAPI/stub/22Qtcase/7greenenv/optionalJSON/
+authorevidence only. Unfinished untracked Qt case/probe/vector files stay in its
+worktree; preserve them. No newbody/greenprobe/build/discovery result yet.
 
-Author now explicitly authorized NEW minimal migrationheader/explicitstub/newQtcase/
-greenQt diagnosticenvprobe/optionalliteralfixture plusnotes. Rootowns allshared
-schemas/order/build/presets/CI/state/HTML/map/checkpoint. Existingwriter023451,
-header/hook/all49assertions/contracts remain unchanged. Authoractive preparing
-concreteAPI/cases; send plan to rootbeforeharness. Different reviewer finished
-contractapproval clean and must be resumed for actual executabletestreview.
-No migration test, native newbuild, new red or production behavior is claimed.
+Shared harness3df1dd2 prepares sqlite-migrations-debug, new22 registered slots,
+separateoneCTest green7 executable and literalvector path. Expected total76 not
+observed yet. Old49 remain automatic. Mandatory selectedQt green7 runs before
+new22 compiled-discovery guard; new22 real bodies only explicit manual input until
+STORAGE011 promotes acceptance. Actionlint/project/currentHTML/diff passed; actual
+changed Ubuntu run is pending. [CI](storagetest-011-ci.md), [handoff](storagetest-011-handoff.md),
+[author](storagetest-011-author.md), [technical probes](storagetest-011-probe.md).
 
-Next: minimalAPI/stubs/realQtSQLcases with independentliteralfixtures, rootattached
-harness; execute greenexistingcapenvprobe locallyandselectedofficialQt CI before
-acceptednewred; actual differenttest/interface/fixture/harnessapproval THEN real
-missing-behavior red. Only completedbaseline unlocks STORAGE011 production. No
-source/bodyrunbeforeappropriategate, no repeatedcompletedbaseline.
+Next: author commits actual22/7/vector candidate after successfulcompile/list and
+greenexistingcaplocalprobe; rootobservesselectedofficialQt greenprobe/build/old49/
+newdiscovery CI, different actualFULL test/interface/fixture/harness review, THEN
+real new missing-feature red. Only completedbaseline unlocks STORAGE011 production.
+Do not run newbodies before review; no failed dependency/skip/zerotest counts asred.
+Different reviewer finishedearlyprecisionreview clean; explicitly resumeforactual
+fullcandidate. Authoractive; inspect actual status/processes onresume.
 
-Postmerge main88e86c1 all10checks succeeded. Previousaudit50existingclean/16absenttmp
-refs preserved/no buildprocess; rootclean/no runningcommand after checkpointcommit.
-Authorunfinishededits isolated; inspect actual agents/worktrees/processes/GitHub on
-resume. Fullproduct remains incomplete including migrations/domainstores/appbundle/
-recovery/all seven integrations/three rate providers/UI/renderers/locales/themes/
-platform/packaging/live requirements.
+Postmerge main88e86c1 all10checks succeeded. Historical audit50existingclean/16absenttmp
+refs preserved; authornowhasunfinishednewtestfiles. Rootclean/no runningcommand
+aftercheckpointcommit. Fullproduct incomplete: domainstores/appbundle/recovery/
+backup/update/all seven integrations/three rate providers/UI/renderers/locales/
+themes/platform/packaging/live gates remain. OPS02 is realcaller/product authority,
+never fakeproofmetadata.
