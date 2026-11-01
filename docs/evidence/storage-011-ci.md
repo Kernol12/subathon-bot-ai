@@ -42,3 +42,13 @@ guards/initcleanup passed,0skip. [Regression evidence](storage-011-unicode-regre
 [raw red](storage-011-unicode-red-ctest.txt). Root harness8534118 registers both;
 compiled24 and total78 exactly match. Dynamic workflow discovery guards include
 the new cases automatically. Source correction/different review/Ubuntu pending.
+
+## Corrected local candidate
+
+Correction071af3b/root2cb0d1b/source4ee2365 follows actual separate regression
+approval and genuine intended red. Root real build/full78 pass with Qt6.12 and
+host SQLite3.54.0: new24, unchanged49 and infrastructure5 including green7.
+Exact24 compiled names match all24 registrations; total78. Format/diff and
+frozen contract/header/JSON/probe/oldwriter artifact checks pass. Separate
+corrected-source/config approval and actual automatic selected officialQt Ubuntu
+acceptance are pending; no previous CI result is transferred to this source.

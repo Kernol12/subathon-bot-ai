@@ -2,7 +2,7 @@
 
 Coordinator `/root`, 2026-11-01. Contract: [migration catalog revision1](../contracts/migration-catalog-v1.md),
 specification v0.45 §16/DB-01/OPS-02. Branch `task/STORAGE-011-migration-catalog`
-starts from PR31/main `ef29c87`. Implementation is in progress; no approval or
+starts from PR31/main `ef29c87`. Corrected implementation is under independent review; no source approval or
 merge is claimed.
 
 ## Change and scope
@@ -47,3 +47,19 @@ correction and actual different code/config review, then ordinary automatic
 Ubuntu acceptance and all latest-head PR/thread/rules merge gates. Default files
 are synthetic/disposable. No app bundle/domain adapters, backup/recovery,
 power-loss, supported release platform or live-provider verification is claimed.
+
+## Corrected local candidate
+
+Actual additive test approvalad4f54d/root8c70e6e preceded the root selected2
+intended red at d91c7d/e94befdc, exit8 with fixture/init/cleanup passing and
+zero skips. [Regression evidence](storage-011-unicode-regression.md) and
+[raw output](storage-011-unicode-red-ctest.txt) preserve the sequence.
+Correction071af3b/root2cb0d1b, sourceblob4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f,
+removes the faulty decoder equality after complete Unicode-scalar validation.
+Exact encoded-length and raw stored-byte comparisons remain. Root actual build
+and full78 CTest pass (migration24, writer/work49, infrastructure5 including
+the seven-slot green probe). Root independent framing rederived all638 bytes and
+SHA baf9a94e...775b7d; no UUT supplied expected results. Original22 bodies, ten
+JSON vectors, contract/header, green probe and writer49 remain unchanged.
+Different corrected-source/config review and actual officialQt Ubuntu CI remain
+required before implementation completion. No live/platform gate is upgraded.
