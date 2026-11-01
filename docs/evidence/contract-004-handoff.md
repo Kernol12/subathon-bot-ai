@@ -60,3 +60,7 @@ review, latest-head CI/discussions/currentnormalrules remain publication gates.
 Final metadata at d6be1d1 independently approved in d87b961; actual contract,
 future briefs and dependency lists remain unchanged. Final latest-head publication,
 CI and normal merge gates follow; earlier ca5f7a8 success is not a later-head result.
+
+PR28 merged normally at e3747882a610dd5e05e6cf11d2024a9a916342b9 on
+2026-11-01T10:26:30Z. Final c12fa12 had all11checks successful, no review threads,
+MERGEABLE/CLEAN and the current normal rules satisfied. Main refreshed afterward.

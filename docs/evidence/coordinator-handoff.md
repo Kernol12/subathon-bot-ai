@@ -1,7 +1,7 @@
-# Coordinator checkpoint — CONTRACT-004 active
+# Coordinator checkpoint — STORAGETEST-010 active
 
 Coordinator `/root`, 2026-11-01. Standing full specification v0.45 loop continues.
-Last observed main `1259cfb3f34d7da0cddd6a7bcf4be50ebde8fd0a`; inspect live state
+Last observed main `e3747882a610dd5e05e6cf11d2024a9a916342b9`; inspect live state
 on resume. No owner decision/access question is pending. Full product is incomplete.
 
 ## Preserved integrated evidence
@@ -32,7 +32,7 @@ unconditional32realcases/GNU13.3; final-head checks also passed.
 permission/persistence/provider/platform proof is upgraded. Debt author/reviewer
 worktrees core005-implementation/review remain preserved and clean; both completed.
 
-## Current task and file ownership
+## Preserved CONTRACT-004 handoff and ownership
 
 `CONTRACT-004`, branch `task/CONTRACT-004-writer-transactions`, claim3330013 from
 freshmain1259cfb. Documentation-only boundary before writer/repository adapters.
@@ -71,8 +71,8 @@ references were corrected to known section IDs; no schema/tool gate was weakened
 
 Contract/ADR/brief/graphapproved27ac83b; finalmetadata approvedd87b961 atd6be1d1.
 ActualPR28headca5f7a8 had all11checks success; those are not transferred to later heads.
-Next: publish integrated finalapproval and require all latest checks/discussions/
-currentnormalrules before merge. No implementation or feature test/red claim belongs to CONTRACT004. Then
+PR28 merged at e374788 on2026-11-01T10:26:30Z after finalc12fa12 all11checks,
+no threads and currentnormalrules. Main refreshed; no new runtime capability claimed. No implementation or feature test/red claim belongs to CONTRACT004. Then
 start STORAGETEST010 from integrated contract with its own actual test review/red gate.
 Full uint64 IDs/revisions, original money/rate spellings, optional unknown values and
 arbitrary rational fields must not silently narrow to SQLite signed64/REAL in later
@@ -83,3 +83,23 @@ bypass and no required-status-check rule. Written latest CI gates remain mandato
 All seven integrations/three rate providers, app/accounting, renderers, UI/locales/
 themes, packaging/platform and live/OBS gates remain full release scope. No percentage
 or completed product claim is made. Old branches/reviews/archives remain preserved.
+
+## Active baseline task and next action
+
+STORAGETEST-010 claimed on `task/STORAGETEST-010-writer-work` from refreshed
+main e374788. Author `/root/storage_decomposition` is explicitly reassigned from
+completed CONTRACT-004; old author/reviewer commits remain preserved. New isolated
+worktree `local-evidence/worktrees/storagetest010-author`, branch
+`task/STORAGETEST-010-author`, will own only additive writer header declarations,
+new explicit work stubs, a new Qt Test file and author evidence. Root owns build/
+presets/workflow/map/state/HTML/checkpoint. Independent test reviewer not yet
+assigned; no new tests or observed red are claimed yet.
+
+Next: author WT01–WT20 cases and concrete versioned capability/fault-harness boundary,
+review actual authored artifacts separately, then observe genuine stub failures
+after successful compilation. Preserve old25 assertions/pass and all captured
+contract semantics. STORAGE-010 must not implement before this baseline gate.
+No real receipt/contribution schema, provider or platform capability is added.
+Root and prior44 existing worktrees were clean at audit;16 absent historicaltmp
+paths remain preserved. No running build/test process was found. New author work
+will be active only after assignment; inspect actual agents/processes on resume.

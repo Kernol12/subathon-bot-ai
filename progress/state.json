@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T10:19:33+00:00",
+  "updated_at": "2026-11-01T10:27:02+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4313,8 +4313,8 @@
       "title": "Review and demonstrate red: Writer-owned dynamic repository transactions",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; test author /root/storage_decomposition; independent reviewer to be assigned",
       "depends_on": [
         "CONTRACT-004",
         "STORAGE-001",
@@ -4331,7 +4331,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-010.md",
       "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-010.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01–WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes."
       ],
       "verification": {},
       "evidence": [],
@@ -11494,6 +11495,11 @@
       "date": "2026-11-01T10:19:33+00:00",
       "task": "CONTRACT-004",
       "note": "Actualcontract4ba20506/graph8acbc0a independentlyapproved27ac83b (review42dbfa73); docproject/render/diff/tooling19/DOM/391graphchecks pass. ADR0002 acceptedonlyengineeringsequence; actualPR28head6136e10 all11CIchecks success. Contract/docplanning done, no newCPP/schema/migration/test/runtime/red claim. Future010baseline+implementation and0015/real002gates intact. Finalmetadatareview/latestheadCI/normalmerge remain publicationgates."
+    },
+    {
+      "date": "2026-11-01T10:27:02+00:00",
+      "task": "STORAGETEST-010",
+      "note": "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01–WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes."
     }
   ]
 }
