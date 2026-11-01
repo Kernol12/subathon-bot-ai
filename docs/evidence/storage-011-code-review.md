@@ -163,3 +163,81 @@ now run and record those exact two against rejected source `d91c7d` after this
 approval, without replaying the original22 stub-red. Only then may the production
 author correct the source. Source/config approval remains held until that actual
 fix is reviewed and all applicable unchanged acceptance/regression checks pass.
+
+## Actual regression red and corrected-source review
+
+The reviewer inspected the coordinator's actual
+[two-case red output](storage-011-unicode-red-ctest.txt) and attribution in
+[regression evidence](storage-011-unicode-regression.md). Independent test approval
+`ad4f54d` was integrated as `8c70e6e` before either case ran against unchanged
+source `d91c7d` / tests `e94befdc`. The recorded command selected exactly the two
+new names and exited8: codec invalid_manifest reason2 and runner admission
+invalid_options/reason2, with successful initialization/cleanup and zero skips.
+The stored fixture reached the UUT after its actual raw-value guards passed.
+The original22 stub-red was not repeated. Actual correction author branch merged
+the recorded gate `1482636` before the fix; its ancestry was independently checked.
+
+The reviewer normally merged and inspected actual corrected source author
+`071af3b626bd0e2e9a29910fb11ca0ccab0b66f7`, integrated `2cb0d1b`. Exact corrected
+source blob is `4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f`. Author evidence
+`639650d` was then inspected through root `da7cbde`; all executable artifacts are
+unchanged from tested `2cb0d1b`.
+
+The actual fix removes only the BOM-consuming decoder comparison and explains why.
+The allocation-free scalar pass still rejects NUL and unpaired surrogates, checks
+UTF-8/frame sizing before encoded allocations and verifies the exact encoder length.
+No valid leading U+FEFF is decoded away. Stored-text validation still requires
+SQLite TEXT type and equality between canonical encoded bytes and observed raw
+BLOB bytes. Invalid source bytes that Qt replacement-decodes cannot equal those
+canonical bytes, so removing this redundant decoder step does not weaken invalid-
+text rejection. Both public codec and stored-schema regressions now pass.
+
+The complete source assessment from the first revision was rechecked with that
+minimal correction. Pure request preflight matches the agreed admission ordering,
+fixed identity, supported versions, ID caps and literal payload budgets. It
+normalizes only owned expected-schema ordering and never repairs database state.
+One existing writer work begins once; encoding precedes raw inspection, stored
+types/ranges/cardinality and complete history/content are validated, and exact
+schema includes reserved DDL/NULL autoindex. Every diagnostic, intermediate schema
+check, DDL/data/history write and final verification uses the same session and its
+cumulative budgets before one actual synchronous commit.
+
+Custom refusals/callback cancellation use phase-aware cleanup; earlier migration/
+framework errors remain authoritative and uncertain work overrides the final
+migration reason. The exact raw WorkResult is moved into completion. Normal report
+publication requires normal committed work/value; known committed changes are
+never relabeled rolled back. Completion captures owned state and accesses no writer
+after external code. No new writer/connection/handle, retry, SQL allowlist widening,
+maintenance authority or hidden budget increase is introduced.
+
+Shared `66be523` and the two registrations `8534118` were reviewed as actual
+configuration: the fixed diagnostic environment precedes unconditional migration
+acceptance; old49, exact nonempty compiled registration guards, selected pins and
+normal failure propagation remain. No manual migration boolean, draft/failure
+inversion or assertion weakening remains. Source approval does not infer actual
+Ubuntu execution from this configuration.
+
+### Independent corrected-source checks
+
+| Command/check | Actual result |
+| --- | --- |
+| `cmake --preset sqlite-migrations-debug` | Exit0 at `2cb0d1b` |
+| `cmake --build --preset sqlite-migrations-debug` | Exit0; corrected module/executable built |
+| `ctest --preset sqlite-migrations-debug -L sqlite-migrations` | Exit0;24/24, original22 plus both unchanged reviewed U+FEFF regressions |
+| `ctest --preset sqlite-migrations-debug` | Exit0;78/78, including old49 and infrastructure5 with the seven-slot environment executable |
+| Compiled `-functions` versus CTest JSON | Exact24 migration/24 work/22 writer/3 ownership names and seven environment slots;78 total entries |
+| Exact source/test/interface/contract/vector/probe preservation checks | Only reviewed correction changes source; approved regression tests remain `e94befdc`, original22 bodies/vectors and old49 remain intact |
+| Formatting, pinned actionlint, project/progress and whitespace checks | Passed |
+
+The updated author evidence preserves the rejected76-pass candidate as history and
+accurately records actual separate regression review/red, authorized correction,
+local24/full78 and remaining independent/CI gates. No further blocking source or
+configuration finding remains in the actual corrected revision.
+
+**Corrected-source verdict: approved for STORAGE-011 source/configuration
+integration at blob `4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f`, shared `66be523`
+plus registrations `8534118`.** This supersedes the initial source rejection only
+for the actual reviewed correction. Actual automatic Ubuntu acceptance, final
+metadata/CI attribution, latest-head checks/discussions/current rules and normal
+merge remain coordinator gates. All trusted-caller OPS-02 and downstream
+application/recovery/platform/provider limits remain unchanged.
