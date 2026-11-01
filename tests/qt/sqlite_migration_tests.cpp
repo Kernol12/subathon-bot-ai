@@ -548,7 +548,7 @@ class SqliteMigrationTests final : public QObject {
     }
 
     void historyAndSchemaMismatchesAreRefused() {
-        for (int variant = 0; variant < 6; ++variant) {
+        for (int variant = 0; variant < 7; ++variant) {
             reset_fixture();
             QVERIFY(seed(2));
             auto input = request();
@@ -577,6 +577,19 @@ class SqliteMigrationTests final : public QObject {
                 QVERIFY(fixture_->exec("UPDATE subathon_migration_history SET "
                                        "migration_id='changed' WHERE version=1"));
                 break;
+            case 6:
+                // All required rows/history remain valid and physical integrity
+                // is clean; only the reserved table's exact DDL has changed.
+                QVERIFY(fixture_->exec("ALTER TABLE subathon_catalog ADD COLUMN extra TEXT"));
+                QCOMPARE(fixture_->rows("SELECT singleton,catalog_format,store_identity FROM "
+                                        "main.subathon_catalog"),
+                         SqlRows({{1, 1, "subathon.sqlite-store"}}));
+                QCOMPARE(fixture_->rows("SELECT version,migration_id,content_sha256 FROM "
+                                        "main.subathon_migration_history ORDER BY version"),
+                         SqlRows({{1, "create-sample", digest(1)}, {2, "add-second", digest(2)}}));
+                QCOMPARE(fixture_->scalar("PRAGMA integrity_check").toString(), QString("ok"));
+                expected = MigrationReason::schema_mismatch;
+                break;
             }
             const auto before = fixture_->snapshot();
             SqliteWriter writer;
@@ -584,6 +597,7 @@ class SqliteMigrationTests final : public QObject {
             MigrationResult result;
             RUN_MIGRATION(writer, input, result);
             failed(result, expected);
+            QVERIFY(fixture_->lock_released());
             QCOMPARE(fixture_->snapshot(), before);
         }
     }

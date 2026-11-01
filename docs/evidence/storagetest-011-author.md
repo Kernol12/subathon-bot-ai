@@ -228,7 +228,7 @@ Actual candidate artifacts:
 | --- | --- |
 | `server/include/subathon/server/sqlite_migrations.hpp` | `02f83ce592b110176c1dac46f3e5ea4d93529fcd` |
 | `server/src/sqlite_migrations.cpp` | `6c5073d4a97eedbdd34130ce48be51cf0aa4537a` |
-| `tests/qt/sqlite_migration_tests.cpp` | `95f1fd2e6ec2a300429690c907362fe6178d61fb` |
+| `tests/qt/sqlite_migration_tests.cpp` | `a85a6c057637f43201dfaca308fbec27748ce2dd` |
 | `tests/qt/sqlite_migration_environment.cpp` | `832fe61656451390ff465d4411c7d0900c741bd6` |
 | `tests/fixtures/migration_catalog_vectors.json` | `12280c8f403fd3902edaeff88e9a236f9c5b613b` |
 
@@ -313,3 +313,20 @@ checks/publication/red recording. STORAGE-011 still has no production algorithm.
 This baseline does not prove real backup, operational update authority, arbitrary
 external SQLite import, domain row encoding, recovery, live providers or release
 platform support. All downstream and full-release requirements remain intact.
+
+## Actual test-review correction: reserved catalog DDL
+
+Different reviewer `/root/storage_work_code_reviewer` inspected actual `fa16183`
+and requested an isolated reserved-table DDL mismatch oracle. The existing
+`historyAndSchemaMismatchesAreRefused` slot now also seeds valid current version 2,
+adds `extra TEXT` to `subathon_catalog` through the independent fixture, and
+explicitly checks unchanged required header/history rows and clean physical
+integrity. The runner must report schema_mismatch with known rollback, no normal
+value/report, released write lock and unchanged raw snapshot. An implementation
+that validates only row values/application objects can no longer satisfy the slot.
+
+All previous variants/assertions remain. There are still exactly22 slots; no
+contract, API, stub, literal vector, green probe, old source or original49 change.
+Rebuilt with `cmake --build --preset sqlite-migrations-debug` successfully and
+rechecked exact compiled22/CTest discovery, project/render and diff consistency.
+No migration body ran; updated actual independent test approval remains pending.
