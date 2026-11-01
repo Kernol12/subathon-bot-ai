@@ -53,6 +53,46 @@ if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
     endforeach()
 endif()
 
+if(SUBATHON_BUILD_SQLITE_RETAINED_TESTS)
+    add_executable(server_sqlite_retained_context_environment sqlite_retained_context_environment.cpp)
+    target_link_libraries(server_sqlite_retained_context_environment PRIVATE subathon_sqlite_writer Qt6::Test)
+    target_compile_definitions(server_sqlite_retained_context_environment PRIVATE
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
+    subathon_target_options(server_sqlite_retained_context_environment)
+    add_test(NAME scaffold.sqlite_retained_context_environment COMMAND server_sqlite_retained_context_environment)
+    set_tests_properties(scaffold.sqlite_retained_context_environment PROPERTIES
+        LABELS "scaffold;qt;retained-environment" TIMEOUT 30)
+
+    add_executable(server_sqlite_retained_context_acceptance sqlite_retained_context_tests.cpp)
+    target_link_libraries(server_sqlite_retained_context_acceptance PRIVATE subathon_sqlite_retained_context Qt6::Test)
+    target_compile_definitions(server_sqlite_retained_context_acceptance PRIVATE
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
+    subathon_target_options(server_sqlite_retained_context_acceptance)
+    # Intentional new baseline red is separate from the existing passing suites.
+    foreach(case IN ITEMS
+        manifestMatchesApprovedRetentionMigration
+        retainsExactBytesAndResolvesAfterReopen
+        presentEmptyRoundTripsAndRetainsAsDuplicate
+        opaqueReferencesAndFullRangeBytesStayDistinct
+        sameBytesRemainSeparateAcrossNamespaces
+        exactDuplicateAndConflictDoNotMutate
+        optionalConfigurationLinkPresenceIsImmutable
+        missingAndWrongNamespaceLinksCannotCreateContext
+        newVersionsPreserveHistoricalReferences
+        sameSessionStagesConfigurationAndContext
+        callerOwnsCommitRollbackAndConflictPolicy
+        invalidInputPrecedencePreservesHealthySession
+        configuredBoundsAndSelectedLimitsAreExact
+        selectedInvalidRowsAndDanglingLinksAbort
+        ownedResultsAndCapabilityFailuresRemainSafe
+        sqlFailureAndUnknownOutcomeAreNotSuccess
+    )
+        add_test(NAME sqlite-retained.${case} COMMAND server_sqlite_retained_context_acceptance ${case})
+        set_tests_properties(sqlite-retained.${case} PROPERTIES
+            LABELS "sqlite-retained;acceptance;draft;qt;server" TIMEOUT 20)
+    endforeach()
+endif()
+
 if(SUBATHON_BUILD_SQLITE_WORK_TESTS)
     add_executable(server_sqlite_work_acceptance sqlite_writer_work_tests.cpp)
     target_link_libraries(server_sqlite_work_acceptance PRIVATE

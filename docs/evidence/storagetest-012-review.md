@@ -1,0 +1,414 @@
+# STORAGETEST-012 — independent review
+
+Reviewer: `/root/storage_work_code_reviewer`, 2026-11-01; different from author
+`/root/writer_transaction_reviewer`. Dedicated branch
+`task/STORAGETEST-012-review`, worktree
+`local-evidence/worktrees/storagetest012-review`. Own only this review file.
+
+## Actual contract, brief reconciliation and physical proposal
+
+Verdict: **approved for subsequent interface/test authoring, contract stage only**.
+No executable interface, test baseline, intended red, implementation or acceptance
+is approved by this verdict.
+
+Reviewed author commit `3cca59fd30b1fa1da918c2ed1705ad72fc06e454`
+(initial contract blob `c53329e5686b8dd3fa171b71af7230ec4e7dc446`), integrated
+as `8813dcc`, and actual coordinated candidate
+`791cacf09cc018fb78b1c36736fc8f03f68be996`. The latter's
+[contract](../contracts/retained-context-v1.md) blob is
+`a884f01693ceda555779909e907d3c31bf19b6ef`; author evidence blob is
+`39ac9dfccac18ccae3aed83e0ff9995eb007bbd8`.
+This review includes root's actual migration proposal and the written
+[012](../tasks/EPIC-009/STORAGE-012.md),
+[013](../tasks/EPIC-009/STORAGE-013.md),
+[014](../tasks/EPIC-009/STORAGE-014.md) and
+[015](../tasks/EPIC-009/STORAGE-015.md) reconciliation, not an absent future design.
+
+Read root/server/tests AGENTS, the brief, specification v0.45 §§3/6/7 and DB-01,
+event/state, receipt-intake and captured-plan contracts and actual core/port
+types, existing writer/work and migration contracts, author/probe evidence and
+coordinated state/handoff. Preparation made no edits. Actual candidate was then
+normally fast-forward merged from `task/STORAGETEST-012-retained-context`.
+
+The following decisions preserve the specified boundary:
+
+- Identity is kind plus exact nonempty version-reference bytes. Current
+  configuration/context and modifier definition/instance references remain opaque
+  strings. BLOB storage preserves lengths, NUL, non-UTF-8 and initial U+FEFF without
+  claiming a product format accepts them. Documents are required present bytes;
+  present empty BLOB, SQL NULL and a missing row remain distinct.
+- Configuration and context namespaces are distinct. The one optional typed
+  context-to-configuration link remains absent when unknown; a present target must
+  resolve in the same session. A context-only target cannot satisfy it. Exact
+  duplicates include payload and link presence/value; changed reuse conflicts
+  without enriching or retargeting the original. Existing immutable content is
+  compared before resolving a proposed replacement link.
+- Primitives use the supplied active session and make no independent connection,
+  transaction or commit. Same-session staged references compose with later intake.
+  Domain refusal makes no primitive writes but does not undo earlier caller writes;
+  the caller owns that atomic policy. Rows/status remain speculative until real
+  commit and normal terminal work completion. SQL/budget/capability failures and
+  malformed stored rows cannot become missing/default records or known-rollback
+  claims without established cleanup. Uncertainty and no-retry rules remain intact.
+- Exact two-table DDL, migration 1 ID `retain-config-context-v1`, configuration
+  before context, starts `[0,1]` and complete seven-object projection are suitable
+  for independent fixture freeze. The projection includes the two retained tables,
+  two generated NULL-SQL indexes and all three unchanged catalog objects. Runtime
+  operations qualify `main`; schema creation belongs only to reviewed migration.
+  Existing history is not adopted, rewritten or repaired.
+- Raw-byte bounds are positive configurable engineering limits, default 4096 for
+  references and 262144 for documents; optional present references share the bound.
+  Primitive input validation is distinct from remaining cumulative work budgets.
+  Owned results survive closure; synchronous inputs remain immutable through each
+  call and existing queued-capture ownership preconditions still apply.
+
+Reviewed all RC01–RC12 literal future examples against these decisions: reopen,
+empty/null/binary/Unicode distinctions, duplicate/conflict and missing/wrong-kind
+links, original history, before/after-commit visibility, explicit rollback policy,
+byte boundaries/cumulative failure and inherited terminal uncertainty. They remain
+future oracles, not authored tests or observed results.
+
+The numeric reconciliation satisfies this slice's brief without inventing a
+numeric configuration key. Its exact BLOB codec must preserve decimal and binary
+representations covering the complete uint64 range, including zero/max and distinct
+spellings. That proves byte preservation only. Actual `ReceiptId`, `ContributionId`
+and `CapturedPlanRevision` typed SQL codecs, raw representations above signed64,
+range and domain-zero policies are explicit mandatory gates before their respective
+013/014/015 persistence. Their original acceptance criteria and dependencies remain.
+Opaque payloads still need later format/resolver work to supply historical meaning;
+no rule/modifier evaluation, current pointer, provider fact or permission is inferred.
+
+Before freezing executable assertions, actual API review must pin concrete
+invalid-input/kind/positive-limit failure mapping and precedence, distinct domain
+status versus storage/capability failure, and a present-empty returned document
+representation that can be retained again as an exact duplicate. These are required
+interface details within the approved contract, not an approval of future artifacts.
+
+## Actual checks and remaining gates
+
+| Command/check | Actual result |
+| --- | --- |
+| `git status --short`, then normal `git merge --no-edit task/STORAGETEST-012-retained-context` | Initially clean at `036fad8`; fast-forward to actual `791cacf` |
+| `git diff --exit-code 036fad8..HEAD -- core server tests CMakeLists.txt CMakePresets.json .github/workflows docs/contracts/writer-transactions-v1.md docs/contracts/migration-catalog-v1.md` | Exit0; no implementation, interface, assertion, fixture or harness changes in the reviewed candidate |
+| Independent Python `sqlite3` in-memory DDL/constraint consumer described below | Exit0, host SQLite3.54.0; exact proposed shape and byte constraints verified |
+| `python3 tools/check_project.py` | Exit0; 391 task records, 122 decisions, links/presets/current HTML valid |
+| `python3 tools/progress.py render --check` | Exit0; current |
+| `git diff --check` | Exit0 |
+
+The independent Python consumer extracted the two literal CREATE statements from
+the actual Markdown, enabled foreign keys on its disposable connection, executed
+both and read all `main.sqlite_schema` rows. It asserted exactly four objects,
+exact original CREATE text, both documented generated index names and SQL NULL for
+both indexes. It inserted BLOB key `00ffefbbbf61`, empty configuration document,
+linked binary context and a separate absent-link context. Raw readback/type/length
+assertions passed. Empty/text keys, NULL document and a missing configuration FK
+each raised `sqlite3.IntegrityError`. This is independent host schema/constraint
+evidence, not the new adapter, selected Qt bundle, feature acceptance or a red run.
+Root's actual Qt6.12/hostSQLite3.54 probes are separately attributed in
+[its evidence](storagetest-012-probe.md); this reviewer did not rerun them.
+
+No native suite was repeated for this doc-only review. Existing passing suites and
+historical red retain their original attribution. Root still must coordinate exact
+manifest/projection/digest fixtures and observe selected official-Qt schema/byte
+capabilities before new feature red. Actual minimal interfaces/stubs/tests require
+their own independent review, successful compilation and intended missing-behavior
+red before STORAGE-012 implementation. Code review, real acceptance and applicable
+CI/publication gates then follow. Current task state correctly leaves those unrun.
+
+Backup/recovery, actual caller validation/intake/reference resolution, document
+formats/evaluators, authorization, platforms/packaging, all seven integrations and
+three rate providers remain separate required work. No live operation occurred.
+
+## Actual API, stub and minimal build precision review
+
+Verdict: **approved for full test/probe/fixture authoring, API/stub stage only**.
+This is a new actual review; the earlier contract verdict did not approve these
+artifacts. It approves no future tests, feature red, production behavior or CI.
+
+Reviewed author `6bfbb900a0171c16da10d50c8bfd882ded936791`, root integration
+`a6a4402df6f209d2feaaf6927b56d818b45a6f3e`, and actual shared harness
+`e5532d120d2cf4998243be676064db11f60e9096` after normal merges into this
+review worktree (local reviewed merge `9e3e2cdf73882b90ff4a1b01d617ac7ecfb5106b`).
+Exact blobs:
+
+- [Header](../../server/include/subathon/server/sqlite_retained_context.hpp):
+  `55c82815986052b996a46c408ab616e68815a4f2`.
+- [Explicit stub](../../server/src/sqlite_retained_context.cpp):
+  `b27eb48867df8a6dbc2c0c92da3eba0a80b11d76`.
+- Amended contract: `5b0ee84acbbf1a3ce8dbc57f99c110f3073d353b`.
+
+No blocking finding. Concrete key kind and std::string bytes preserve the approved
+namespaces; the strong configuration-link wrapper and optional field preserve
+typed absence. Required QByteArray input distinguishes null from present empty;
+loaded empty BLOB normalizes to owned non-null empty so read/retain is idempotent.
+The value facade holds only a copied revocable session and limits. Construction
+and implicit destruction neither use SQL nor finalize the caller's transaction.
+The factory and both methods are unconditional explicit feature-not-implemented
+throws; no manifest, validation, codec or retention algorithm is hidden in them.
+
+Actual precision resolves the previous interface gates. Before SQL, options,
+kind, key bytes, document and link validation have ordered named errors even for
+stale/foreign tickets. Valid inputs delegate original capability/SQL/budget errors.
+Healthy selected existing records and stored known targets are validated before
+immutable comparison; conflict precedes a proposed new-link lookup. A new record
+alone resolves its candidate link for insertion. Malformed selected rows/dangling
+stored links require confirmed rollback before invalid_stored_data; well-typed
+selected fields above configured limits use the distinct retention result_limit.
+Uncertain cleanup overrides through the existing SqliteWorkFailure category.
+Normal domain refusal/input errors do not perform that exceptional cleanup or
+claim earlier caller writes were undone. No global audit or private state/handle
+escape is introduced. The supplied capability retains its established owner,
+phase and lifetime checks.
+
+Reviewed all three shared-file changes: root CMake enables the selected Qt/server
+path for the new option; server CMake links the new static library to existing
+migrations/writer/Core and project options; sqlite-retained-debug inherits the
+existing migration/Qt lane and has matching build/test presets. No feature test
+is registered yet. Existing tests, workflow and writer/migration source/interfaces
+are unchanged. This minimal compile harness does not claim CI feature coverage.
+
+| Actual reviewer command/check | Result |
+| --- | --- |
+| Python argument-vector `c++ -std=c++20 -fPIC -Iserver/include <pkg-config --cflags Qt6Core Qt6Sql> -fsyntax-only server/src/sqlite_retained_context.cpp` | Exit0, syntax only |
+| `cmake --preset sqlite-retained-debug` | Exit0, GNU16.2.1, host Qt6.12.0 |
+| `cmake --build --preset sqlite-retained-debug --target subathon_sqlite_retained_context -j2` | Exit0, all six dependency/stub compile/link steps, no warnings |
+| `ctest --preset sqlite-retained-debug --show-only=json-v1`, parsed independently | Exit0; configured 78 old entries: scaffold5, migration24, work24, writer22, ownership3; no bodies executed |
+| `git diff --exit-code 791cacf..HEAD -- core server/src/sqlite_writer.cpp server/src/sqlite_migrations.cpp server/include/subathon/server/sqlite_writer.hpp server/include/subathon/server/sqlite_migrations.hpp tests .github/workflows docs/contracts/migration-catalog-v1.md docs/contracts/writer-transactions-v1.md` | Exit0 |
+| `python3 tools/check_project.py`; `python3 tools/progress.py render --check`; `git diff --check` | Exit0, 391 records/122 decisions/current snapshot |
+
+The first discovery script used an overbroad substring check for `retained`, which
+matched the old `retainedCapabilitiesCannotReachLaterWork` name. That reviewer
+script assertion was corrected to exact registered suite-prefix counts; it was
+neither a product failure nor red. Discovery here is configured registration only:
+only the targeted libraries were built, not the 78 test executables.
+
+No new factory/find/retain call, feature test/probe body or historical red was run.
+Next artifacts require independently frozen schema/payload/digest oracles and
+actual separate test/harness review; selected official-Qt capability/fixture
+validation and genuine intended feature red remain required before production.
+All earlier scope and external/platform gates remain.
+
+## Actual test review findings and separate author corrections
+
+Reviewed actual test author `7d89c4c52b8d856c4e0b38e0ee65acc609893c40`,
+root `320ae61`, and explicit independent-fixture FK policy correction
+`1eda54562a5c251ee26c6238cf6cd4cba043be03` / root `21fddd6`.
+Initial reviewed feature source blob was
+`a940d29a04fde8783bbe1edf003b7aba5d81c29c`, green environment source
+`aaa1644771decdb722b1105d220bac5313d54c6e` and independent JSON
+`0f76fd2c1bb1766c46a47ddcd38f46c18d4704a8`.
+There was no approval of these absent artifacts in the previous verdicts.
+
+Two bounded findings were sent to root and the different test author before any
+new feature body ran:
+
+1. RC11/RC12 failures described as occurring after a retain had only an inline
+   `require(store.retain(...) == inserted)`. A matching exception inside that
+   retain could satisfy the outer result_limit/sql_failure/uncertain_outcome
+   assertions without reaching the intended following SQL/corrupt read. The test
+   must independently assert reaching the successful-retain stage. Author
+   `e76d9d623a46c0cbb87f6fcc201ca673261c00a6` adds four booleans set only after
+   successful insertion and asserted outside the work before final categories,
+   including both acknowledgment-loss paths. Actual diff examined; no assertion
+   was removed or weakened and no implementation/query-count expectation added.
+2. Binary/BOM/NUL reference vectors initially covered configuration keys only;
+   context keys and present configuration links remained ASCII. That omitted two
+   distinct exact-byte paths in RC03. Only limits `{0,0}` also left each limit's
+   independently positive requirement unproven. Author
+   `648e38d217e7bd267b079626f6106a7a4c256e34` adds one binary context/key-link
+   scenario inside the existing reopen case, with exact DTO, raw SQLite
+   typeof/hex and reopened equality. Context key `00ffefbbbf62`, configuration
+   link `efbbbf6100ff` and their payloads remain exact BLOBs. The initial options
+   assertion now also runs for `{0,4}`, `{4,0}`, `{-1,4}` and `{4,-1}`. All prior
+   assertions and the sixteen names remain; corrected source blob is
+   `50a8f6462aa882d452990f438d0b5eedab47a84d`.
+
+Both changes were explicitly authorized by root to the test author, limited to
+test/evidence paths. This reviewer changed no assertion, fixture, API or stub.
+Both actual corrective diffs resolve their findings. Corrected compile/discovery
+and the actual shared harness remain separate checks before a full verdict.
+
+The corrected test source was normally integrated through root `180e02a` and
+`ab4ebdd` into this worktree. Independently reconstructed the JSON's entire
+2000-byte payload/SHA-256 `0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e`
+with Python F framing from the actual contract CREATE literals and all seven
+observed hostSQLite3.54 schema objects, including three NULL-SQL indexes. Full
+payload hex, object tuples and all twelve raw-byte vectors matched. No production
+factory/codec/runner supplied an expectation. Thirteen existing core, source,
+interface, test, fixture and contract blobs match claim `036fad8` exactly.
+Project391/render/diff checks pass. No new feature body ran; full test/harness
+approval remains pending actual compiled registration and required environment
+evidence, rather than inferred from this source inspection.
+
+## Full actual test, interface, fixture and shared-harness verdict
+
+Verdict: **approved actual baseline artifacts for intended feature red, subject to
+the separately required selected official-Qt green fixture proof before execution**.
+Both findings above are resolved. This approves no unobserved red, implemented
+retention, future amendment, platform result or future CI head. This reviewer ran
+zero of the sixteen new feature bodies.
+
+Reviewed actual root `27fea1db536b627812f3aed1f5c79ecebf3ab7f9`, normally
+merged into this worktree as `12ac17f8862c8dcfc3df1bbc485064b7ec798784`, including
+the prior actual corrections. Final feature source is
+`c0e54003802f63a6f0393250f3bcca58cea8ee04`: author
+`70d98ede33a87d1c5785e81978db1c76d30e2bab` / root `3064bef` only consumes
+the qWaitFor return and records a timeout diagnostic. It does not set done,
+manufacture a result, alter any method assertion or turn a setup failure into red.
+Environment `aaa1644771decdb722b1105d220bac5313d54c6e`, JSON
+`0f76fd2c1bb1766c46a47ddcd38f46c18d4704a8`, header55c82815, stub b27eb488
+and contract5b0ee84 remain the exact reviewed artifacts.
+
+All sixteen actual bodies and helpers were read against RC01–RC12 and the public
+error precision. In particular:
+
+- The independent fixture creates the exact literal schema/header/history with
+  the frozen digest, not a new UUT factory call in init. Deliberate dangling rows
+  use an explicitly FK-disabled independent fixture connection; the product writer
+  and required environment proof retain FK enforcement. SQL warnings, bad setup,
+  missing driver or failed fixture reads fail the suite instead of skipping it.
+- The manifest case checks factory identity/starts/version/SQL order/projection,
+  full independent payload and digest. Other cases exercise exact raw and owned
+  records, normalized present-empty versus missing, all twelve opaque full-range
+  spellings, distinct namespaces, binary context/link paths, reopen, immutable
+  duplicate/conflict, all optional-link presence changes and preserved old history.
+- Same-session staged configuration/context visibility, observer invisibility,
+  facade destruction without commit/rollback, immediate physical caller commit,
+  explicit caller refusal policy and abandoned whole-unit rollback are observed
+  separately. Domain refusal remains distinct from successful insertion.
+- Ordered pure input errors include each invalid option, invalid enum/reference,
+  null/oversized document and invalid link; valid foreign/stale/terminal capability
+  errors preserve their existing categories. Owned binary results are checked
+  after session and writer destruction. Terminal misuse preserves committed fact
+  while suppressing the normal work value.
+- Exact 4096/262144 defaults and 4/3 configured boundaries are literal, not a query
+  count calibrated from the implementation. Selected well-typed over-limit rows
+  cause synchronous known rollback; a literal 1048577-byte result after a proved
+  retain exhausts the shared result budget and removes the staged write.
+  Selected malformed rows, dangling links and malformed known targets abort;
+  unrelated corrupt data is not silently made a required global audit.
+- Known SQL failure and both physical acknowledgment-loss seams preserve outcome,
+  first error, no normal result, actual data/snapshot and fail-close distinctions.
+  The four externally asserted successful-retain flags prevent earlier failure
+  from satisfying a later-stage oracle. Existing low-level failure, busy, FIFO and
+  ownership acceptance remains unchanged rather than being duplicated here.
+
+The three environment bodies use only existing writer/Qt SQL and literal fixture
+data. They prove bound empty-BLOB/NULL/binary distinctions, all seven actual schema
+objects and SQL-NULL indexes, enabled FK/valid link/orphan rejection, selected empty
+and absent values, initial BOM/NUL/FF bytes, and invalid required/type/link rows.
+They deliberately do not assume Qt empty-buffer nullness; adapter normalization
+remains a feature assertion. The actual generated link command contains the old
+writer library and neither the new adapter nor migrations library.
+
+Actual shared CMake defines the vector path for both executables, links the feature
+target to the explicit stub and registers exactly sixteen separate processes with
+ordinary CTest results. Environment is a separate mandatory three-slot executable.
+Reviewed the entire resulting workflow: automatic selected-Qt builds, old25/24/24
+and migration-environment7 bodies remain required, the new environment3 runs before
+new-feature discovery, and exact compiled/CTest membership is guarded. New feature
+bodies run only through explicit workflow_dispatch/run_retained_acceptance with
+default false during this stub stage; any selected execution propagates real CTest
+failure. No WILL_FAIL, blanket continue-on-error or executed-failure suppression
+was added. Ordinary automatic feature acceptance still must be enabled when the
+later implementation passes. Existing action/archive pins and read-only permission
+scope remain unchanged.
+
+Actual independent reviewer checks at this candidate:
+
+| Command/check | Result |
+| --- | --- |
+| `cmake --preset sqlite-retained-debug` | Exit0 |
+| `cmake --build --preset sqlite-retained-debug --target server_sqlite_retained_context_acceptance server_sqlite_retained_context_environment -j2` | Exit0; eight AUTOMOC/compile/link steps, zero warnings; bodies not executed |
+| `ctest --preset sqlite-retained-debug --show-only=json-v1` plus both executables' `-functions` | Exit0; 95 configured entries; exact sixteen compiled/registered feature slots and three compiled environment slots |
+| `ctest --preset sqlite-retained-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose` | Exit0; three cases plus init/cleanup = five passed, zero failed/skipped; Qt6.12.0/hostSQLite3.54.0, GNU16.2.1 |
+| Independent Python contract-literal/schema/F/hashlib/vector check | Full 2000-byte hex/SHA0906f121…91f5e, seven object tuples and twelve exact vectors match, no UUT-derived expected value |
+| Git blob checks | Thirteen old core/source/interface/test/fixture/contract blobs match036fad8; six current header/stub/contract/test/environment/JSON blobs match their exact revisions above |
+| `ninja -C build/sqlite-retained-debug -t commands server_sqlite_retained_context_environment` inspected without execution | Environment link uses existing writer only |
+| `/tmp/subathon-actionlint-1.7.12/actionlint .github/workflows/sqlite-writer.yml` | Exit0 |
+| `python3 tools/check_project.py`; `python3 tools/progress.py render --check`; `git diff --check` | Exit0; 391 records/122 decisions, current snapshot |
+
+Only the new targets were built here, and only the green environment was run.
+Configured95 is not a full95 passing claim. Root's separate old78 run is reported
+by root; this reviewer did not repeat it absent an unchanged-code concern. The
+previous API-only official run at5e9a266 cannot prove the new environment fixture.
+At this verdict the new selected official-Qt environment run remains unobserved
+by this reviewer and is a required separate pre-red condition. Its actual head,
+runtime and logs must be checked rather than transferring the host3.54 result or
+older officialSQLite3.53.4 evidence. Root must integrate this actual approval before
+the first feature body runs and then preserve the raw intended-red result.
+
+No test body/skip/dependency/compile failure has been called red here. STORAGE-012
+production remains unimplemented; no caller/domain/evaluator/provider or release
+gate is completed by this test review. The previous documented scope and typed
+numeric-codec obligations remain intact.
+
+## Final baseline completion, red and CI attribution review
+
+Verdict: **approved actual baseline-completion metadata and evidence** at
+`0771ebb83cf66eea8a19d2be3b298a6c88aa4afa`, normally merged into this review
+worktree as `a58d3fa82cd0d2b405f4e5307ad23fedfee34a51`. No unresolved finding.
+This completes review of STORAGETEST-012 baseline evidence, not STORAGE-012
+implementation or the latest-head publication/merge gate.
+
+Read actual architecture/test strategy/brief, DB-01 map, task state, CI/handoff/
+checkpoint and [raw first red](storagetest-012-red-ctest.txt), blob
+`2422501997c98683e71be8afedbd16afe98f9727`. No native suite or red was rerun.
+Independent parsing checks all sixteen expected distinct cases fail explicitly
+with feature_not_implemented=0, every process passes initTestCase/cleanupTestCase,
+each reports two passed/one failed/zero skipped, and CTest records sixteen failed
+of sixteen in0.09s. Root records actual CTest exit8 atcb7db2d in the handoff/CI
+evidence; this review does not reconstruct an unrecorded invocation or substitute
+a dependency, fixture, compile or skipped-test failure for intended red.
+
+The full approval artifact in root `8d561a6` is hash-identical to this reviewer's
+`672f93c` document, and `git merge-base --is-ancestor` establishes that actual root
+approval and harness27fea1d precede red/CI head
+`cb7db2db511d54422eb5961168cd64df1e758ed4`. Header, explicit stub, contract,
+feature source, environment source, vectors, workflow and Qt CMake blobs are
+identical across approved27fea1d, cb7db2d and actual0771ebb. All three source
+functions still explicitly throw feature_not_implemented. No approval transfers
+to future source behavior or assertion changes.
+
+The separate selected-driver condition from the full review is now satisfied for
+these exact fixtures. Independently read root's ignored actual
+`local-evidence/coordinator/storagetest012-ci-cb7db2d.{json,log}` and refreshed
+[GitHub run41318070740](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41318070740)
+metadata through `gh run view`. It is a completed successful pull_request run at
+the exact cb7db2d head. Actual log/metadata checks establish:
+
+- Both pinned Qt/ICU archive hashes pass, GNU13.3.0 builds the new library/test
+  targets, and selected Qt6.12.0 reports SQLite3.53.4.
+- Real old writer25, work24 and migration24 pass separately. Existing diagnostic
+  environment has seven slots/nine passes with init/cleanup and zero skips.
+- Current retained environment has exactly three slots/five passes with
+  init/cleanup and zero skips. The full sixteen compiled feature slots are
+  discovered; the optional feature-body step was not executed in this run.
+- Fresh commit check-runs for cb7db2d contain eleven successes. That evidence is
+  attributed to that head; host Qt6.12/SQLite3.54/GNU16.2.1 remains separate.
+
+Root records observing this actual fixture success before its first local
+feature-body execution atcb7db2d. The official run did not pass the new feature
+bodies or a full95 suite. Current CI and handoff correctly preserve that distinction
+and require unconditional new16 acceptance only after later implementation.
+
+State comparison against27fea1d preserves all391 task IDs and dependencies and
+changes only STORAGETEST-012 task data. Its done status is baseline-only, with
+baseline/product_acceptance both observed_red and platform_release not_run.
+STORAGE-012 stays planned with no implementation verification/review. DB-01 stays
+partial. The map/architecture/strategy/brief/checkpoint retain opaque historical
+references, caller-owned commit, required downstream typed uint64 codecs in
+013/014/015, and no evaluator/domain bundle/backup/update/recovery/provider or
+platform completion. Tooling/DOM simulation claims are explicitly separate from
+an actual browser. No silent range, format or release-scope reduction was found.
+
+Actual checks: the raw-log/ancestry/eight-artifact scripts above, state/graph and
+DB-01 assertions, fresh read-only `gh run view`, exact-head check-runs API and
+`gh pr view 33`; `python3 tools/check_project.py` (391 records/122 decisions),
+`python3 tools/progress.py render --check` and `git diff --check` all pass.
+Fresh PR snapshot was OPEN/DRAFT at0771ebb, CLEAN with eleven successful current
+checks. That snapshot does not approve this review commit or any subsequent head.
+Root still must integrate the review, verify all applicable latest-head CI,
+discussions/current rules, and perform a normal PR33 merge before refreshing main
+and claiming the separate implementation. No protection bypass or live operation
+is authorized by this verdict.

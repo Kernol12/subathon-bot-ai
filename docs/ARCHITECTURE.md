@@ -141,3 +141,15 @@ red and correction. Existing private writer API/allowlist are unchanged. Explici
 advancement commits the whole missing prefix in one transaction; opening a writer
 does not initiate it. Metadata DDL supplies no domain store, application bundle,
 backup/update authority or recovery mechanism. Caller OPS-02 obligations remain.
+
+[Retained configuration/context revision1](contracts/retained-context-v1.md) now
+fixes immutable opaque byte identities/documents and optional typed configuration
+links composed on a caller-owned existing session. STORAGETEST-012 supplies16
+separately reviewed Qt cases, independent literal migration/byte vectors and
+actual selectedQt green3 followed by intended stub-red;
+[baseline handoff](evidence/storagetest-012-handoff.md). Its facade/manifest remain
+explicit stubs until STORAGE-012; no mutable current-settings pointer, core-port
+change, rule/modifier interpretation or wire format is inferred. Root migration1
+is retain-config-context-v1 with only two retained tables, two generated indexes
+and unchanged catalog objects. Typed uint64 domain persistence remains explicit
+in later013/014/015; byte retention cannot substitute for their codec/range gates.

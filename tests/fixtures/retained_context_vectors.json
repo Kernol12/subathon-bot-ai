@@ -1,0 +1,127 @@
+{
+  "format": "retained-context-v1-independent-vectors",
+  "provenance": "Literal approved contract DDL; independent Python stdlib decimal-length F framing, unsigned UTF-8 tuple sort and hashlib.sha256. No production factory/codec/runner used.",
+  "manifest": {
+    "catalog_format": 1,
+    "store_identity": "subathon.sqlite-store",
+    "supported_starting_versions": [
+      0,
+      1
+    ],
+    "version": 1,
+    "id": "retain-config-context-v1",
+    "sql": [
+      "CREATE TABLE subathon_retained_configurations(reference BLOB NOT NULL PRIMARY KEY CHECK(typeof(reference)='blob' AND length(reference)>0), document BLOB NOT NULL CHECK(typeof(document)='blob'))",
+      "CREATE TABLE subathon_retained_contexts(reference BLOB NOT NULL PRIMARY KEY CHECK(typeof(reference)='blob' AND length(reference)>0), document BLOB NOT NULL CHECK(typeof(document)='blob'), configuration_ref BLOB CHECK(configuration_ref IS NULL OR (typeof(configuration_ref)='blob' AND length(configuration_ref)>0)) REFERENCES subathon_retained_configurations(reference))"
+    ],
+    "expected_schema": [
+      {
+        "type": "index",
+        "name": "sqlite_autoindex_subathon_migration_history_1",
+        "table_name": "subathon_migration_history",
+        "sql": null
+      },
+      {
+        "type": "index",
+        "name": "sqlite_autoindex_subathon_retained_configurations_1",
+        "table_name": "subathon_retained_configurations",
+        "sql": null
+      },
+      {
+        "type": "index",
+        "name": "sqlite_autoindex_subathon_retained_contexts_1",
+        "table_name": "subathon_retained_contexts",
+        "sql": null
+      },
+      {
+        "type": "table",
+        "name": "subathon_catalog",
+        "table_name": "subathon_catalog",
+        "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+      },
+      {
+        "type": "table",
+        "name": "subathon_migration_history",
+        "table_name": "subathon_migration_history",
+        "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+      },
+      {
+        "type": "table",
+        "name": "subathon_retained_configurations",
+        "table_name": "subathon_retained_configurations",
+        "sql": "CREATE TABLE subathon_retained_configurations(reference BLOB NOT NULL PRIMARY KEY CHECK(typeof(reference)='blob' AND length(reference)>0), document BLOB NOT NULL CHECK(typeof(document)='blob'))"
+      },
+      {
+        "type": "table",
+        "name": "subathon_retained_contexts",
+        "table_name": "subathon_retained_contexts",
+        "sql": "CREATE TABLE subathon_retained_contexts(reference BLOB NOT NULL PRIMARY KEY CHECK(typeof(reference)='blob' AND length(reference)>0), document BLOB NOT NULL CHECK(typeof(document)='blob'), configuration_ref BLOB CHECK(configuration_ref IS NULL OR (typeof(configuration_ref)='blob' AND length(configuration_ref)>0)) REFERENCES subathon_retained_configurations(reference))"
+      }
+    ],
+    "payload_bytes": 2000,
+    "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3132343a72657461696e2d636f6e6669672d636f6e746578742d7631313a323139333a435245415445205441424c45207375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e73287265666572656e636520424c4f42204e4f54204e554c4c205052494d415259204b455920434845434b28747970656f66287265666572656e6365293d27626c6f622720414e44206c656e677468287265666572656e6365293e30292c20646f63756d656e7420424c4f42204e4f54204e554c4c20434845434b28747970656f6628646f63756d656e74293d27626c6f622729293336393a435245415445205441424c45207375626174686f6e5f72657461696e65645f636f6e7465787473287265666572656e636520424c4f42204e4f54204e554c4c205052494d415259204b455920434845434b28747970656f66287265666572656e6365293d27626c6f622720414e44206c656e677468287265666572656e6365293e30292c20646f63756d656e7420424c4f42204e4f54204e554c4c20434845434b28747970656f6628646f63756d656e74293d27626c6f6227292c20636f6e66696775726174696f6e5f72656620424c4f4220434845434b28636f6e66696775726174696f6e5f726566204953204e554c4c204f522028747970656f6628636f6e66696775726174696f6e5f726566293d27626c6f622720414e44206c656e67746828636f6e66696775726174696f6e5f726566293e302929205245464552454e434553207375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e73287265666572656e63652929313a37353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a696e64657835313a73716c6974655f6175746f696e6465785f7375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e735f3133323a7375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e73313a30353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f72657461696e65645f636f6e74657874735f3132363a7375626174686f6e5f72657461696e65645f636f6e7465787473313a30353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29353a7461626c6533323a7375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e7333323a7375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e73313a313139333a435245415445205441424c45207375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e73287265666572656e636520424c4f42204e4f54204e554c4c205052494d415259204b455920434845434b28747970656f66287265666572656e6365293d27626c6f622720414e44206c656e677468287265666572656e6365293e30292c20646f63756d656e7420424c4f42204e4f54204e554c4c20434845434b28747970656f6628646f63756d656e74293d27626c6f62272929353a7461626c6532363a7375626174686f6e5f72657461696e65645f636f6e746578747332363a7375626174686f6e5f72657461696e65645f636f6e7465787473313a313336393a435245415445205441424c45207375626174686f6e5f72657461696e65645f636f6e7465787473287265666572656e636520424c4f42204e4f54204e554c4c205052494d415259204b455920434845434b28747970656f66287265666572656e6365293d27626c6f622720414e44206c656e677468287265666572656e6365293e30292c20646f63756d656e7420424c4f42204e4f54204e554c4c20434845434b28747970656f6628646f63756d656e74293d27626c6f6227292c20636f6e66696775726174696f6e5f72656620424c4f4220434845434b28636f6e66696775726174696f6e5f726566204953204e554c4c204f522028747970656f6628636f6e66696775726174696f6e5f726566293d27626c6f622720414e44206c656e67746828636f6e66696775726174696f6e5f726566293e302929205245464552454e434553207375626174686f6e5f72657461696e65645f636f6e66696775726174696f6e73287265666572656e63652929",
+    "sha256_hex": "0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e"
+  },
+  "opaque_vectors": [
+    {
+      "label": "0",
+      "reference_hex": "30",
+      "document_hex": "30"
+    },
+    {
+      "label": "1",
+      "reference_hex": "31",
+      "document_hex": "31"
+    },
+    {
+      "label": "01",
+      "reference_hex": "3031",
+      "document_hex": "3031"
+    },
+    {
+      "label": "9007199254740993",
+      "reference_hex": "39303037313939323534373430393933",
+      "document_hex": "39303037313939323534373430393933"
+    },
+    {
+      "label": "9223372036854775807",
+      "reference_hex": "39323233333732303336383534373735383037",
+      "document_hex": "39323233333732303336383534373735383037"
+    },
+    {
+      "label": "9223372036854775808",
+      "reference_hex": "39323233333732303336383534373735383038",
+      "document_hex": "39323233333732303336383534373735383038"
+    },
+    {
+      "label": "18446744073709551615",
+      "reference_hex": "3138343436373434303733373039353531363135",
+      "document_hex": "3138343436373434303733373039353531363135"
+    },
+    {
+      "label": "binary-0000000000000000",
+      "reference_hex": "0000000000000000",
+      "document_hex": "0000000000000000"
+    },
+    {
+      "label": "binary-8000000000000000",
+      "reference_hex": "8000000000000000",
+      "document_hex": "8000000000000000"
+    },
+    {
+      "label": "binary-ffffffffffffffff",
+      "reference_hex": "ffffffffffffffff",
+      "document_hex": "ffffffffffffffff"
+    },
+    {
+      "label": "binary-efbbbf61",
+      "reference_hex": "efbbbf61",
+      "document_hex": "efbbbf61"
+    },
+    {
+      "label": "binary-00ff4100",
+      "reference_hex": "00ff4100",
+      "document_hex": "00ff4100"
+    }
+  ]
+}

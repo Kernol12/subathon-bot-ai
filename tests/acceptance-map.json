@@ -637,7 +637,9 @@
         "tests/qt/sqlite_writer_ownership_tests.cpp",
         "tests/qt/sqlite_writer_work_tests.cpp",
         "tests/qt/sqlite_migration_tests.cpp",
-        "tests/qt/sqlite_migration_environment.cpp"
+        "tests/qt/sqlite_migration_environment.cpp",
+        "tests/qt/sqlite_retained_context_tests.cpp",
+        "tests/qt/sqlite_retained_context_environment.cpp"
       ],
       "evidence": [
         "docs/evidence/storagetest-001-review.md",
@@ -668,9 +670,15 @@
         "docs/evidence/storage-011-handoff.md",
         "docs/evidence/storage-011-code-review.md",
         "docs/evidence/storage-011-unicode-regression.md",
-        "docs/evidence/storage-011-unicode-red-ctest.txt"
+        "docs/evidence/storage-011-unicode-red-ctest.txt",
+        "docs/evidence/storagetest-012-author.md",
+        "docs/evidence/storagetest-012-probe.md",
+        "docs/evidence/storagetest-012-review.md",
+        "docs/evidence/storagetest-012-ci.md",
+        "docs/evidence/storagetest-012-handoff.md",
+        "docs/evidence/storagetest-012-red-ctest.txt"
       ],
-      "scope": "25 reviewed writer/ownership cases and24 unchanged work cases pass the same private Qt SQL writer with separate source/config review and actual automatic Ubuntu Qt6.12 acceptance. STORAGE-011 adds24 passing migration cases (original22 plus two separately reviewed initial-U+FEFF regressions), ten independent frozen vectors, exact codec/catalog/schema/content identity, one whole-prefix transaction and explicit refusal/cancellation/uncertainty. Original reviewed stub-red and additive regression-review/red/fix history are retained. Author/root/different reviewer full78 pass; actual selected officialQt Ubuntu41310940283 at da7cbde passes pinned hashes, GNU13.3, Qt6.12/SQLite3.53.4, old49, requiredgreen7 and all24 unconditional migration cases. Existing writer API/allowlist and original assertions are unchanged. No domain schema/real repository adapter/application bundle/backup or update authority/recovery/power-loss/provider/platform release verification."
+      "scope": "25 reviewed writer/ownership cases and24 unchanged work cases pass the same private Qt SQL writer with separate source/config review and actual automatic Ubuntu Qt6.12 acceptance. STORAGE-011 adds24 passing migration cases (original22 plus two separately reviewed initial-U+FEFF regressions), ten independent frozen vectors, exact codec/catalog/schema/content identity, one whole-prefix transaction and explicit refusal/cancellation/uncertainty. Original reviewed stub-red and additive regression-review/red/fix history are retained. Author/root/different reviewer full78 pass; actual selected officialQt Ubuntu41310940283 at da7cbde passes pinned hashes, GNU13.3, Qt6.12/SQLite3.53.4, old49, requiredgreen7 and all24 unconditional migration cases. Existing writer API/allowlist and original assertions are unchanged. No domain schema/real repository adapter/application bundle/backup or update authority/recovery/power-loss/provider/platform release verification. STORAGETEST-012 additionally supplies16 separately reviewed immutable configuration/context byte-retention cases, independent2000-byte migration payload/digest and12opaque vectors, compiling stub API, actual selected officialQt green3/build/discovery and genuine postapproval16stub-red(exit8/allinitcleanup pass/0skip). Exact refs/documents/typed links and full-range byte codec are contracted; actual typed uint64 domain SQL codecs remain mandatory013/014/015. Baseline only: retention/manifest source remains explicitstubs until separate STORAGE-012 implementation, code review, passing acceptance and automaticCI."
     },
     {
       "id": "AUTH-11",

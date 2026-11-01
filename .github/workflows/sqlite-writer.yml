@@ -5,6 +5,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      run_retained_acceptance:
+        description: Run the unimplemented retained baseline and propagate its real result
+        type: boolean
+        required: false
+        default: false
 permissions:
   contents: read
 jobs:
@@ -33,15 +39,15 @@ jobs:
           bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
-      - name: Configure reviewed writer, work and migration acceptance
-        run: cmake --preset sqlite-migrations-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-      - name: Build the writer and both test boundaries
-        run: cmake --build --preset sqlite-migrations-debug
+      - name: Configure existing acceptance and draft retained-context stubs
+        run: cmake --preset sqlite-retained-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+      - name: Build existing suites and retained-context stubs
+        run: cmake --build --preset sqlite-retained-debug
       - name: Run the environment probe and list the writer baseline
         run: |
-          ctest --preset sqlite-migrations-debug -R '^scaffold.qt_event_loop$'
-          ctest --preset sqlite-migrations-debug -L sqlite-writer --show-only
-          ctest --preset sqlite-migrations-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
+          ctest --preset sqlite-retained-debug -R '^scaffold.qt_event_loop$'
+          ctest --preset sqlite-retained-debug -L sqlite-writer --show-only
+          ctest --preset sqlite-retained-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
           python3 - <<'PYTHON'
           import collections, json, os, subprocess
           from pathlib import Path
@@ -60,11 +66,11 @@ jobs:
           print(f"Discovered all {len(tests)} compiled writer cases; behavior not run")
           PYTHON
       - name: Run reviewed writer acceptance
-        run: ctest --preset sqlite-migrations-debug -L sqlite-writer
+        run: ctest --preset sqlite-retained-debug -L sqlite-writer
       - name: Check complete transaction-work registration
         run: |
-          ctest --preset sqlite-migrations-debug -L sqlite-work --show-only
-          ctest --preset sqlite-migrations-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
+          ctest --preset sqlite-retained-debug -L sqlite-work --show-only
+          ctest --preset sqlite-retained-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -81,12 +87,12 @@ jobs:
           print(f"Discovered all {len(tests)} compiled transaction-work cases")
           PYTHON
       - name: Run reviewed transaction-work acceptance
-        run: ctest --preset sqlite-migrations-debug -L sqlite-work
+        run: ctest --preset sqlite-retained-debug -L sqlite-work
       - name: Run required selected-Qt migration diagnostic environment probe
         run: |
           python3 - <<'PYTHON'
           import subprocess
-          executable = "build/sqlite-migrations-debug/tests/qt/server_sqlite_migration_environment"
+          executable = "build/sqlite-retained-debug/tests/qt/server_sqlite_migration_environment"
           expected = {
               "fixedFunctionsUseExistingWriterAndUtf8()",
               "metadataProjectionHasExpectedNullIndexSql()",
@@ -101,11 +107,11 @@ jobs:
               raise SystemExit("Required diagnostic environment cases do not match compiled slots")
           print("Discovered all 7 required diagnostic environment cases")
           PYTHON
-          ctest --preset sqlite-migrations-debug -R '^scaffold.sqlite_migration_environment$' --verbose
+          ctest --preset sqlite-retained-debug -R '^scaffold.sqlite_migration_environment$' --verbose
       - name: Check complete migration catalog registration
         run: |
-          ctest --preset sqlite-migrations-debug -L sqlite-migrations --show-only
-          ctest --preset sqlite-migrations-debug -L sqlite-migrations --show-only=json-v1 > "$RUNNER_TEMP/migration-tests.json"
+          ctest --preset sqlite-retained-debug -L sqlite-migrations --show-only
+          ctest --preset sqlite-retained-debug -L sqlite-migrations --show-only=json-v1 > "$RUNNER_TEMP/migration-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -122,4 +128,42 @@ jobs:
           print(f"Discovered all {len(tests)} compiled migration cases")
           PYTHON
       - name: Run reviewed migration catalog acceptance
-        run: ctest --preset sqlite-migrations-debug -L sqlite-migrations
+        run: ctest --preset sqlite-retained-debug -L sqlite-migrations
+      - name: Check and run required retained-context fixture diagnostics
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-retained-debug/tests/qt/server_sqlite_retained_context_environment"
+          expected = {
+              "emptyNullAndOpaqueBindingsRemainDistinct()",
+              "retentionMigrationShapeAndLinksUseExistingSql()",
+              "selectedEmptyAndOptionalValuesKeepTheirSqlTypes()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required retention fixture cases do not match compiled slots")
+          print("Discovered all 3 required retention fixture cases")
+          PYTHON
+          ctest --preset sqlite-retained-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose
+      - name: Check complete intentionally unimplemented retained-context baseline
+        run: |
+          ctest --preset sqlite-retained-debug -L sqlite-retained --show-only
+          ctest --preset sqlite-retained-debug -L sqlite-retained --show-only=json-v1 > "$RUNNER_TEMP/retained-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "retained-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No retained-context baseline registered")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one retained-context Qt suite")
+          expected = set(subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines())
+          registered = [test["command"][1] + "()" for test in tests]
+          if not expected or set(registered) != expected or len(registered) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled retention suite")
+          print(f"Discovered all {len(tests)} compiled retained-context cases; behavior not run")
+          PYTHON
+      - name: Run intentionally red retained-context acceptance when explicitly selected
+        if: github.event_name == 'workflow_dispatch' && inputs.run_retained_acceptance
+        run: ctest --preset sqlite-retained-debug -L sqlite-retained

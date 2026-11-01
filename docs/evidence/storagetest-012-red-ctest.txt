@@ -1,0 +1,207 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-retained-debug
+      Start 31: sqlite-retained.manifestMatchesApprovedRetentionMigration
+ 1/16 Test #31: sqlite-retained.manifestMatchesApprovedRetentionMigration ..........***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::manifestMatchesApprovedRetentionMigration() RetentionFailure 0 (feature_not_implemented=0)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(259)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 32: sqlite-retained.retainsExactBytesAndResolvesAfterReopen
+ 2/16 Test #32: sqlite-retained.retainsExactBytesAndResolvesAfterReopen ............***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::retainsExactBytesAndResolvesAfterReopen() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(310)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 33: sqlite-retained.presentEmptyRoundTripsAndRetainsAsDuplicate
+ 3/16 Test #33: sqlite-retained.presentEmptyRoundTripsAndRetainsAsDuplicate ........***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::presentEmptyRoundTripsAndRetainsAsDuplicate() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(381)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 34: sqlite-retained.opaqueReferencesAndFullRangeBytesStayDistinct
+ 4/16 Test #34: sqlite-retained.opaqueReferencesAndFullRangeBytesStayDistinct ......***Failed    0.00 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::opaqueReferencesAndFullRangeBytesStayDistinct() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(409)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 35: sqlite-retained.sameBytesRemainSeparateAcrossNamespaces
+ 5/16 Test #35: sqlite-retained.sameBytesRemainSeparateAcrossNamespaces ............***Failed    0.00 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::sameBytesRemainSeparateAcrossNamespaces() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(435)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 36: sqlite-retained.exactDuplicateAndConflictDoNotMutate
+ 6/16 Test #36: sqlite-retained.exactDuplicateAndConflictDoNotMutate ...............***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::exactDuplicateAndConflictDoNotMutate() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(457)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 37: sqlite-retained.optionalConfigurationLinkPresenceIsImmutable
+ 7/16 Test #37: sqlite-retained.optionalConfigurationLinkPresenceIsImmutable .......***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::optionalConfigurationLinkPresenceIsImmutable() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(492)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 38: sqlite-retained.missingAndWrongNamespaceLinksCannotCreateContext
+ 8/16 Test #38: sqlite-retained.missingAndWrongNamespaceLinksCannotCreateContext ...***Failed    0.00 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::missingAndWrongNamespaceLinksCannotCreateContext() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(534)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 39: sqlite-retained.newVersionsPreserveHistoricalReferences
+ 9/16 Test #39: sqlite-retained.newVersionsPreserveHistoricalReferences ............***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::newVersionsPreserveHistoricalReferences() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(561)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 40: sqlite-retained.sameSessionStagesConfigurationAndContext
+10/16 Test #40: sqlite-retained.sameSessionStagesConfigurationAndContext ...........***Failed    0.00 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::sameSessionStagesConfigurationAndContext() '!(r).local && (r).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(591)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 41: sqlite-retained.callerOwnsCommitRollbackAndConflictPolicy
+11/16 Test #41: sqlite-retained.callerOwnsCommitRollbackAndConflictPolicy ..........***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::callerOwnsCommitRollbackAndConflictPolicy() '!aborted.local && aborted.unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(613)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 42: sqlite-retained.invalidInputPrecedencePreservesHealthySession
+12/16 Test #42: sqlite-retained.invalidInputPrecedencePreservesHealthySession ......***Failed    0.00 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::invalidInputPrecedencePreservesHealthySession() wrong RetentionFailure category (feature_not_implemented=0), got 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(656)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 43: sqlite-retained.configuredBoundsAndSelectedLimitsAreExact
+13/16 Test #43: sqlite-retained.configuredBoundsAndSelectedLimitsAreExact ..........***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::configuredBoundsAndSelectedLimitsAreExact() '!(boundary).local && (boundary).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(724)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 44: sqlite-retained.selectedInvalidRowsAndDanglingLinksAbort
+14/16 Test #44: sqlite-retained.selectedInvalidRowsAndDanglingLinksAbort ...........***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::selectedInvalidRowsAndDanglingLinksAbort() '!(healthy).local && (healthy).unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(779)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 45: sqlite-retained.ownedResultsAndCapabilityFailuresRemainSafe
+15/16 Test #45: sqlite-retained.ownedResultsAndCapabilityFailuresRemainSafe ........***Failed    0.00 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::ownedResultsAndCapabilityFailuresRemainSafe() '!r.local && r.unexpected.isEmpty()' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(856)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+      Start 46: sqlite-retained.sqlFailureAndUnknownOutcomeAreNotSuccess
+16/16 Test #46: sqlite-retained.sqlFailureAndUnknownOutcomeAreNotSuccess ...........***Failed    0.01 sec
+********* Start testing of SqliteRetainedContextTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteRetainedContextTests::initTestCase()
+FAIL!  : SqliteRetainedContextTests::sqlFailureAndUnknownOutcomeAreNotSuccess() 'sql_retain_completed' returned FALSE. (RetentionFailure 0 (feature_not_implemented=0))
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_retained_context_tests.cpp(888)]
+PASS   : SqliteRetainedContextTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteRetainedContextTests *********
+
+
+0% tests passed, 16 tests failed out of 16
+
+Label Time Summary:
+acceptance         =   0.08 sec*proc (16 tests)
+draft              =   0.08 sec*proc (16 tests)
+qt                 =   0.08 sec*proc (16 tests)
+server             =   0.08 sec*proc (16 tests)
+sqlite-retained    =   0.08 sec*proc (16 tests)
+
+Total Test time (real) =   0.09 sec
+
+The following tests FAILED:
+	 31 - sqlite-retained.manifestMatchesApprovedRetentionMigration (Failed) acceptance draft qt server sqlite-retained
+	 32 - sqlite-retained.retainsExactBytesAndResolvesAfterReopen (Failed) acceptance draft qt server sqlite-retained
+	 33 - sqlite-retained.presentEmptyRoundTripsAndRetainsAsDuplicate (Failed) acceptance draft qt server sqlite-retained
+	 34 - sqlite-retained.opaqueReferencesAndFullRangeBytesStayDistinct (Failed) acceptance draft qt server sqlite-retained
+	 35 - sqlite-retained.sameBytesRemainSeparateAcrossNamespaces (Failed) acceptance draft qt server sqlite-retained
+	 36 - sqlite-retained.exactDuplicateAndConflictDoNotMutate (Failed) acceptance draft qt server sqlite-retained
+	 37 - sqlite-retained.optionalConfigurationLinkPresenceIsImmutable (Failed) acceptance draft qt server sqlite-retained
+	 38 - sqlite-retained.missingAndWrongNamespaceLinksCannotCreateContext (Failed) acceptance draft qt server sqlite-retained
+	 39 - sqlite-retained.newVersionsPreserveHistoricalReferences (Failed) acceptance draft qt server sqlite-retained
+	 40 - sqlite-retained.sameSessionStagesConfigurationAndContext (Failed) acceptance draft qt server sqlite-retained
+	 41 - sqlite-retained.callerOwnsCommitRollbackAndConflictPolicy (Failed) acceptance draft qt server sqlite-retained
+	 42 - sqlite-retained.invalidInputPrecedencePreservesHealthySession (Failed) acceptance draft qt server sqlite-retained
+	 43 - sqlite-retained.configuredBoundsAndSelectedLimitsAreExact (Failed) acceptance draft qt server sqlite-retained
+	 44 - sqlite-retained.selectedInvalidRowsAndDanglingLinksAbort (Failed) acceptance draft qt server sqlite-retained
+	 45 - sqlite-retained.ownedResultsAndCapabilityFailuresRemainSafe (Failed) acceptance draft qt server sqlite-retained
+	 46 - sqlite-retained.sqlFailureAndUnknownOutcomeAreNotSuccess (Failed) acceptance draft qt server sqlite-retained
+Errors while running CTest

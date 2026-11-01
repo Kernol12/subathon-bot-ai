@@ -36,3 +36,15 @@ ordinary CI for executable stable behavior, observe actual workflows, record exa
 commands/revisions/environment and remaining gates. No live provider/chat/payment
 side effects. Follow [workflow](../../AGENT_WORKFLOW.md), update evidence/progress
 and publish one focused PR per executable task; no full-release claim follows.
+
+## Retained-context dependency and numeric codec gate
+
+[Retention revision1](../../contracts/retained-context-v1.md) preserves existing
+configuration/context opaque references and document bytes losslessly; it creates
+no redundant numeric IDs and does not certify a typed numeric SQL conversion.
+This slice owns the actual ReceiptId uint64 field: before persistence, review its
+lossless SQL codec, complete range and domain-zero policy, independently test raw
+representations (including values above signed64 and UINT64_MAX), then establish
+the genuine reviewed red. No signed INTEGER/REAL coercion or opaque-byte test
+substitutes for that typed gate. Existing identifiers/dependencies/acceptance and
+all original lossless/provenance scope remain unchanged.
