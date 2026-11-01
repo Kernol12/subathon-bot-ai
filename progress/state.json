@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T11:41:24+00:00",
+  "updated_at": "2026-11-01T11:54:42+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4434,14 +4434,17 @@
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from refreshed main88e86c1 after PR30 merged final6d35918 all11 checks/no threads/normal rules. Preserve completed writer/work source023451 and original reviewed49 cases. Scope versioned internal catalog/migration contract/examples first, then minimal interface/stub/real disposable SQLite tests, different actual review and new intended missing-behavior red. No STORAGE-011 implementation before baseline. Author initially owns ONLY new docs/contracts/migration-catalog-v1.md + author evidence; root owns shared schemas/order/build/presets/workflow/state/HTML/checkpoint. OPS-02 explicit updates, backup/compatibility preconditions and no unattended active-event upgrade remain product gates; no real backup/adapter/application schema is inferred. Existing generic SQL allowlist stays unchanged; proposed integrity/migration capabilities need additive reviewed contract.",
-        "Actual doc contract6a92fce/cf627 integrated1d221ae; initial different reviewd60021e integratede11d150 requests changes before approval. Root coordinated simple metadataDDL and explicitframing/0/text policies; real shadow-name diagnosticcounterexample confirmed in selectedhostQt, so corrected zeroarg() syntax required. Probes are existing capability investigations, not migrationacceptance/red. Author resumed for actual doccorrections; no new C++/schema/tests/implementation yet, all49 foundations preserved."
+        "Actual doc contract6a92fce/cf627 integrated1d221ae; initial different reviewd60021e integratede11d150 requests changes before approval. Root coordinated simple metadataDDL and explicitframing/0/text policies; real shadow-name diagnosticcounterexample confirmed in selectedhostQt, so corrected zeroarg() syntax required. Probes are existing capability investigations, not migrationacceptance/red. Author resumed for actual doccorrections; no new C++/schema/tests/implementation yet, all49 foundations preserved.",
+        "Actual finalcontract1683461 independently approved1bfdfa8(root9ee8951), onlycontractgate. Prior requestchanges/shadowing/encoding evidence preserved. Root expanded author to NEW minimalmigrationAPI/explicitstubs/Qtcase/greenenvprobe/optionalvectors; oldwriter023451/header/hook/49 unchanged. Future actualtestreview+compile/selectedQtgreenenvproof+intendedred stillrequired; no production migration/digest algorithm or red claimed. Root independently matched literal636/SHA3d1 vector."
       ],
       "verification": {
-        "contract_authoring": "draft",
-        "contract_review": "failed",
+        "contract_authoring": "passed",
+        "contract_review": "passed",
         "authored_tests": "not_run",
         "baseline": "not_run",
-        "github_ci": "not_run"
+        "github_ci": "not_run",
+        "native_build": "not_run",
+        "diagnostic_environment": "not_run"
       },
       "evidence": [
         "docs/evidence/storagetest-011-handoff.md",
@@ -4450,10 +4453,10 @@
         "docs/evidence/storagetest-011-review.md"
       ],
       "review": {
-        "author": "/root/writer_transaction_reviewer (contract only; tests not authored)",
+        "author": "/root/writer_transaction_reviewer (contract only; executable review pending)",
         "reviewer": "/root/storage_work_code_reviewer",
-        "outcome": "changes_requested",
-        "baseline": "logical contractcf627ed5/author6a92fce integrated1d221ae; initial reviewd60021e integratede11d150; no executable test/red approval",
+        "outcome": "approved",
+        "baseline": "CONTRACT ONLY actual1683461/author05c8568 integrated748f0c3, approval1bfdfa8 integrated9ee8951; originalrequestchangesd600 retained; no test/interface/harness/red approval",
         "evidence": "docs/evidence/storagetest-011-review.md"
       }
     },
@@ -11610,6 +11613,11 @@
       "date": "2026-11-01T11:41:24+00:00",
       "task": "STORAGETEST-011",
       "note": "Actual doc contract6a92fce/cf627 integrated1d221ae; initial different reviewd60021e integratede11d150 requests changes before approval. Root coordinated simple metadataDDL and explicitframing/0/text policies; real shadow-name diagnosticcounterexample confirmed in selectedhostQt, so corrected zeroarg() syntax required. Probes are existing capability investigations, not migrationacceptance/red. Author resumed for actual doccorrections; no new C++/schema/tests/implementation yet, all49 foundations preserved."
+    },
+    {
+      "date": "2026-11-01T11:54:42+00:00",
+      "task": "STORAGETEST-011",
+      "note": "Actual finalcontract1683461 independently approved1bfdfa8(root9ee8951), onlycontractgate. Prior requestchanges/shadowing/encoding evidence preserved. Root expanded author to NEW minimalmigrationAPI/explicitstubs/Qtcase/greenenvprobe/optionalvectors; oldwriter023451/header/hook/49 unchanged. Future actualtestreview+compile/selectedQtgreenenvproof+intendedred stillrequired; no production migration/digest algorithm or red claimed. Root independently matched literal636/SHA3d1 vector."
     }
   ]
 }

@@ -95,52 +95,49 @@ unconditionalreal49. [Implementation](storage-010-handoff.md), [review](storage-
 [CI](storage-010-ci.md). No real domainadapter/schema/backup/recovery/platform claim.
 Old implementation/reviewer worktrees finished clean; preserve branches/reviews.
 
-STORAGETEST-011 is active on `task/STORAGETEST-011-migration-catalog`, claim9dba71d
-from refreshedmain88e86c1. Branch local/unpublished; no PR31 exists yet. No owner
-question. Author `/root/writer_transaction_reviewer` is explicitly reassigned from
-completed review roles into isolated `local-evidence/worktrees/storagetest011-author`,
-branch `task/STORAGETEST-011-author`. Owns only new contract and author evidence;
-C++/schema/test edits not authorized yet. Actual logical contract6a92fce integrated
-1d221ae, blobcf627ed5/evidenced81bd60;16future oracles are not authored tests.
+STORAGETEST-011 active/local-unpublished on `task/STORAGETEST-011-migration-catalog`,
+claim9dba71d from refreshedmain88e86c1. No task PR yet; no owner question.
+Author `/root/writer_transaction_reviewer` in isolated
+`local-evidence/worktrees/storagetest011-author`, branch `task/STORAGETEST-011-author`.
+Different `/root/storage_work_code_reviewer` uses isolated
+`local-evidence/worktrees/storagetest011-review`, branch `task/STORAGETEST-011-review`.
+Both were explicitly reassigned from completed earlier roles, never assumed live.
 
-Different `/root/storage_work_code_reviewer` in isolated
-`local-evidence/worktrees/storagetest011-review`, branch `task/STORAGETEST-011-review`,
-completed read-only preparation then was explicitly resumed to examine actual
-1d221ae. Author is resumed for root-coordinated plain two-relation metadata DDL,
-exact digest framing and outstanding logical findings before final contractapproval.
-No review approval or new native/red/implementation claim exists. Root owns schema
-ordering/build/presets/CI/progress/HTML/map/checkpoint. [Active handoff](storagetest-011-handoff.md),
-[author](storagetest-011-author.md), [contract](../contracts/migration-catalog-v1.md).
+Actual contract author6a92fce/cf627 integrated1d221ae received initial requestchanges
+ d60021e(root e11d150): physicalDDL/framing/text/nonempty0policy/real diagnostic
+shadowingcounterexample. Correctionscd25d32/05c8568 integratef963147/748f0c3.
+Finalcontract1683461 is independently approved1bfdfa8(root9ee8951), CONTRACT ONLY.
+Review preserves all initial findings and encodingcounterexample; no priorreview
+was erased. [Active handoff](storagetest-011-handoff.md), [contract](../contracts/migration-catalog-v1.md),
+[review](storagetest-011-review.md), [author](storagetest-011-author.md).
 
-Root’s [diagnostic probe](storagetest-011-probe.md) confirmed no-argument SELECT
-pragma_integrity_check/foreign_key_check in existing source023451 session on host
-Qt6.12/SQLite3.54. Numeric TVF(1) failed and is not equivalent to direct PRAGMA;
-no failed probe counts as red. Author independently agrees to preserve writerAPI/
-source/header/allowlist and use existing SELECT. Selected officialQt CI must later
-run a focused green diagnostic-environment probe before any new intended red.
-No migration algorithm or product schema is implemented by these technical probes.
+Two simple exact metadata relations/history, one entire-prefix transaction,
+strictUTF8formatgate, fixedencoding()/integrity()/FK() function SELECTs, complete
+schema/ID/content checks and conservative refusal/unknownoutcomes are defined.
+No writerAPI/allowlist/source change: rootand reviewer confirmed existingSELECT
+capabilities and actual bare-name shadowing counterexample in disposableprobes.
+[Probe](storagetest-011-probe.md). Root independently reproduced m1 payload636/
+SHA3d1e0f...; completehex preserved ignored, no newUUT exists. These are technical
+probes, not catalog acceptance or new red. FullOPS02 actualbackup/quiescence/
+compatibility/update authority remains caller/product gates, never a fakeproofbit.
 
-Next: integrate actual physical-contract update; different contract review before
-root expands ownership to minimal API/stubs/greenprobe/realQtSQL tests. Then actual
-separate test review, successful compilation/environment and genuine new missing-
-behavior red before STORAGE-011. Preserve49 assertions and all valid reviews. Do
-not silently widen SQL or infer backup/update/recovery/permission readiness from
-catalog verification. Explicit OPS02 operations remain caller/product gates.
+Author now explicitly authorized NEW minimal migrationheader/explicitstub/newQtcase/
+greenQt diagnosticenvprobe/optionalliteralfixture plusnotes. Rootowns allshared
+schemas/order/build/presets/CI/state/HTML/map/checkpoint. Existingwriter023451,
+header/hook/all49assertions/contracts remain unchanged. Authoractive preparing
+concreteAPI/cases; send plan to rootbeforeharness. Different reviewer finished
+contractapproval clean and must be resumed for actual executabletestreview.
+No migration test, native newbuild, new red or production behavior is claimed.
 
-Postmerge main88e86c1 all10 checks succeeded. Audit after011 worktrees found50
-existing worktrees clean,16 absent historicaltmp refs preserved and no build/test
-process. Root clean/no running command after checkpoint commit; author owns its
-unfinished doc updates in its worktree and reviewer owns only review evidence.
-Inspect actual agents/worktrees/processes/GitHub on resume; never assume old agents
-live. Full product remains incomplete, including migrations/domain stores/application
-bundle/recovery/all seven integrations/three rate providers and UI/renderers/locales/
-themes/platform/packaging/live requirements.
+Next: minimalAPI/stubs/realQtSQLcases with independentliteralfixtures, rootattached
+harness; execute greenexistingcapenvprobe locallyandselectedofficialQt CI before
+acceptednewred; actual differenttest/interface/fixture/harnessapproval THEN real
+missing-behavior red. Only completedbaseline unlocks STORAGE011 production. No
+source/bodyrunbeforeappropriategate, no repeatedcompletedbaseline.
 
-Initial actual contract request-changes reviewd60021e integratede11d150, no approval.
-Key actual counterexample: bare diagnostic names resolve ordinary shadow tables;
-fixed zero-argument () calls safelyreject. Root independently confirmed currentQt
-healthy()/shadow failures and appended [probe evidence](storagetest-011-probe.md).
-Author is explicitly resumed for all corrections, including physicalDDL, framed
-null marker/UTF8order/text policy, nonemptyN>=1/fresh0 semantics and forcedfunction
-syntax. Different reviewer finished initial review clean and must be explicitly
-resumed for actual corrected doc. New C++/tests still not authorized; no new red.
+Postmerge main88e86c1 all10checks succeeded. Previousaudit50existingclean/16absenttmp
+refs preserved/no buildprocess; rootclean/no runningcommand after checkpointcommit.
+Authorunfinishededits isolated; inspect actual agents/worktrees/processes/GitHub on
+resume. Fullproduct remains incomplete including migrations/domainstores/appbundle/
+recovery/all seven integrations/three rate providers/UI/renderers/locales/themes/
+platform/packaging/live requirements.
