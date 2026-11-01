@@ -66,3 +66,16 @@ then allocateMAX once and fail exhaustion without wrap/reuse. Root's initial
 first0 proposal was withdrawn after discovering this actual cross-contract rule;
 no first0 behavior was implemented or approved. Exact schema/options still need
 new actual contract review before test authoring.
+
+
+## Actual contract candidate and rate-field scope reconciliation
+
+The [adapter contract](../../contracts/sqlite-receipts-v1.md) and root-owned
+[additive migration2 proposal](../../contracts/sqlite-receipts-schema-v1.md) are
+actual documents awaiting different review, not finalized behavior/tests. Existing
+ReceiptFacts has no exchange-rate field: exact original_decimal/currency belongs
+here; actual HistoricalValuation fetched/effective rate spellings/source/time and
+provenance belong to the planned contribution/plan adapters014/015 and their new
+reviewed test/red gates. Do not invent an unused receipt column or drop that
+mandatory downstream lossless proof. The reviewed core/ports and original15
+simulation assertions stay unchanged.

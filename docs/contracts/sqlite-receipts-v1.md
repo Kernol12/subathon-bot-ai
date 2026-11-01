@@ -257,9 +257,10 @@ These examples are future oracles, not authored tests, review or runtime results
 | SR11 | Foreign/stale/terminal tickets preserve inherited errors and owned result lifetimes. Context-mode second begin does not start another unit; explicit adoption does not consume another writer begin |
 | SR12 | Lost physical COMMIT acknowledgment persists rows but yields unknown/no normal service result/failclosed. Lost cleanup acknowledgment after proved staging/corrupt read outranks local error; physical rollback does not authorize known-rollback classification. No automatic replay |
 
-Root next accepts exact additive migration2 ID/DDL/order/projection and literal
-full payload/digest, preserving migration1 bit-for-bit and supporting the reviewed
-catalog prefix. Then different contract review precedes minimal API/stubs; actual
+Root supplies the actual [physical migration2 proposal](sqlite-receipts-schema-v1.md)
+with exact ID/DDL/order/projection and independent payload/digest, preserving
+migration1 bit-for-bit and supporting the reviewed catalog prefix. Different
+contract review must accept that actual companion before minimal API/stubs; actual
 tests/fixtures/harness receive their own different review, successful build and
 selected official Qt environment proof before intended red. STORAGE-013 remains
 unimplemented until that gate. Backup/update/recovery authority, power loss,
