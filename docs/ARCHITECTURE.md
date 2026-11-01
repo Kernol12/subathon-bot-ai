@@ -102,3 +102,12 @@ adapter. Application schemas/migrations, durable app effects/aggregate/job atomi
 recovery and backup remain later storage/accounting gates. SQL batch/payload limits
 are internal engineering choices, not product contribution limits or a hard
 arbitrary-SQL runtime deadline.
+
+The [time-debt numeric contract](contracts/time-debt-v1.md) has32 independently
+reviewed cases and actual intended stub-red; [baseline](evidence/coretest-005-handoff.md).
+It separates full signed reversal requests, Main effects, nonnegative debt and
+held/cap-limited amounts, with debt paid before Main caps. New pure numeric
+above-cap headroom0 does not alter the older credit helper's explicit precondition.
+Existing CORE-002 owns lifecycle/Grace/end-mode composition. CORE-005 is still
+unimplemented; proportional entitlement, application/permission/audit/ledger and
+atomic persistence remain downstream gates.

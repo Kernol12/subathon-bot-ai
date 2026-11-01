@@ -14,6 +14,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | receipt-intake.yml | Reviewed receipt service with primitive simulation storage |
 | contribution-evidence.yml | Reviewed eligibility/linkage with primitive simulation storage |
 | application-plan.yml | Reviewed owned captured-plan transformations |
+| time-debt.yml | Pure debt baseline build/nonempty discovery only; real intentional-red cases on explicit manual dispatch |
 | sqlite-writer.yml | Qt6.12 build, environment probe, complete registration and reviewed real SQLite writer acceptance |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
@@ -43,3 +44,10 @@ Ruleset26170263 was inspected on2026-11-01: main requires PRs and resolved threa
 zero GitHub approvals, no bypass actors, and no required-status-check rule. Written
 workflow gates still require every applicable latest-head check; adding a workflow
 does not configure GitHub enforcement. Recheck live rules/reviews before each merge.
+
+CORETEST-005 adds32 reviewed time-debt cases and explicit stubs. Its automatic
+`time-debt-build` job compiles/discovers without treating green build as passing
+behavior; explicit manual acceptance propagates real failure. [Actual baseline CI](evidence/coretest-005-ci.md)
+records Ubuntu build/discovery32. CORE-005 must promote the unchanged reviewed
+suite to ordinary automatic acceptance after implementation, with actual observed
+CI success. The original reviewed32stub-red remains its separate prerequisite.

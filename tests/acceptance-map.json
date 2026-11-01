@@ -368,9 +368,16 @@
     },
     {
       "id": "NUM-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/time_debt_tests.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/coretest-005-review.md",
+        "docs/evidence/coretest-005-red-ctest.txt",
+        "docs/evidence/coretest-005-handoff.md"
+      ],
+      "scope": "32 independently reviewed pure refund deficit/debt-first proposal cases observed intended stub-red after successful compilation; no debt implementation yet. Existing lifecycle composition is tested only after future debt proposals exist. Proportional entitlement/reversal accounting, authoritative effects/audit/permissions/persistence and full release remain separate."
     },
     {
       "id": "TIMER-07",

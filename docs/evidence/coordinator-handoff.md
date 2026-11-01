@@ -1,9 +1,9 @@
-# Coordinator handoff — STORAGE-001 active
+# Coordinator handoff — CORETEST-005 active
 
 Coordinator `/root`, resumed 2026-11-01. Standing full-specification v0.45 loop is active;
 no routine approval/product question remains. Earlier ownerstop was explicitly
 revoked by resume. Last observed integrated main
-`c2ca25a4a1ffe76cfea4ccf1e354e436ff91f8a0`; inspect actual state before resuming.
+`11833147d39dbffba8bf4893b4e78b637d907ad7`; inspect actual state before resuming.
 
 ## Integrated work to preserve
 
@@ -46,39 +46,51 @@ atda98505 and all finalhead checks. Initial workflow context failure and correct
 398733eb/actionlint approval remain honest historical evidence in
 [CI assessment](storagetest-001-ci.md); no passing writer feature was claimed.
 
-`STORAGE-001` now claimed on `task/STORAGE-001-sqlite-writer`, base currentmain
-c2ca25a; claimc76bfb0. Acceptance: preserve22 reviewed tests/interface/contract,
-implement bounded owned writer/reader, pass actual cases, separate code review,
-ordinary automatic acceptance CI and final latest-head PR/rules gates.
+## STORAGE-001 integrated; current CORETEST-005 claim
 
-- `/root/storage_implementer` owns ONLY `server/src/sqlite_writer.cpp` and
-  `docs/evidence/storage-001-implementation.md` in isolated
-  `local-evidence/worktrees/storage001-implementation`, branch
-  `task/STORAGE-001-implementation`. Final sourcebe533bd/blob829d9c66 after separately reviewed ownership
-  regression/red, integrated9d96363; author evidence22edea4. Original22+new3
-  writercases/full28 pass author/root/reviewer. Author clean/complete.
-- `/root/storage_code_reviewer` has completed read-only requirement preparation;
-  initial candidate850eef4 and corrected9d96363 were reviewed in isolated
-  `local-evidence/worktrees/storage001-review`, branch `task/STORAGE-001-code-review`.
-  Reviewer independently ran fullpreset28pass on correctedsource829. Fresh
-  codeapprovalc029a53 and final correctedintegrationd3f36e2 supersede only the
-  oldownershipconclusion; historicald6/fe07 and962finding remain in evidence.
-- Earlier author/reviewer/Qt investigator completed. All existing support worktrees, valid review commits and the local-only checkpoint
-  branch are preserved. A corrected exit-code-aware audit found36existing worktrees
-  clean and16historical `/tmp/subathon-*` paths absent; their branches/review commits
-  and worktree metadata remain preserved without pruning. Initial startup summary
-  incorrectly treated missing-path command errors as clean; no missing path is now
-  claimed inspected/clean. Those completed tasks are not restarted. No old agent
-  is assumed running; only new task authors write.
-- Root owns shared CMake/presets/workflow/labels/state/HTML/map/checkpoint/PR changes.
-  Root promoted existing pinnedQt workflow to ordinary actual acceptance while
-  preserving stable `sqlite-writer-build` check name; no failure inversion/skip.
+[PR25](https://github.com/Kernol12/subathon-bot-ai/pull/25) actually merged1183314
+atGitHubreported09:56:25Z on2026-11-01. Finala486ad9 all10expectedchecks success,
+no threads/currentnormalrules. Finalsource829d9c66 is independently approvedc029a53
+and finalintegrationd3f36e2 after resolving premerge raw-buffer finding9623943.
+Original22testsf8418e83/header11d204aa/contract4d280461 unchanged. Different author
+supplied3regressions34c25c27, separately approved94820fa before actual3red atf79d002
+(exit8, retained1499d57), then fixbe533bd. Author/root/reviewer25real/full28pass;
+actualUbuntu41290532883 at883d0ab passed25real+Qtprobe1/hashesOK/GNU13.3, with
+finalheada486 also allchecks passed. Preserve all baseline/finding/red/fix/review
+history; never repeat completed setup or reuse olda8 as correctedownership proof.
+[Implementation](storage-001-handoff.md), [review](storage-001-code-review.md),
+[CI](storage-001-ci.md), [regression](storage-001-ownership-tests.md).
 
-The writer remains on the authoritative Qt command/state thread, with separate
-owned read-only connections; no competing writer thread. Scope is WAL/FULL,
-thread checks, owned FIFO transactions/bounds, rollback/busy/error and shutdown.
-Application schemas/migrations, app effects/aggregate/job atomicity, crash/backup/
-recovery, transport/provider/live/platform behavior remain later gates.
+CORETEST-005 is claimed on `task/CORETEST-005-time-debt-baseline` fromfreshmain
+1183314, claim9ff4af9. Scope: reviewed pure already-calculated reversal deficit/
+time debt and debt-first eligible addition examples/tests, explicit stub and actual
+intended red after separate review. CORE-005 implementation stays planned until
+that gate completes/merges. No unspecified provider/default policy is invented.
+
+- `/root/debt_test_author` owns ONLY new `time-debt-v1.md`, coretime_debtheader/
+  explicitstub, GoogleTesttime_debt_tests.cpp and author evidence in
+  `local-evidence/worktrees/coretest005-author`, branch
+  `task/CORETEST-005-debt-author`. Author389f8ba complete/clean, integrated017e0c4;32cases compile/discover.
+- `/root/debt_test_reviewer` completed independent review of actuale405ae4 in isolated
+  `local-evidence/worktrees/coretest005-review`, branch `task/CORETEST-005-debt-review`.
+  Actualbaselineapprovalb3413e5 integrateddba4401 BEFORE32bodyred
+  (exit8, allTimeDebtNotImplemented, no skip/envfailure). Finalintegration/completionapproved5474fdc.
+- Root owns all shared CMake/presets/CI/map/state/HTML/checkpoint/PR integration.
+- All earlier storage authors/reviewers completed with clean isolatedworktrees;
+  no old agent is assumed running. A corrected audit found36then-existing worktrees
+  clean and16historical `/tmp/subathon-*` paths absent; their refs/reviewcommits and
+  metadata are preserved without pruning. Initial startupsummary had incorrectly
+  treated missing-path command errors as clean; absent paths are not claimed clean.
+
+Reviewed time-debt revision1 uses pureMain/debt balances with full nonpositive
+signed reversal requests (includingMIN), opaque ownedreferences and explicitpolicy;
+no invented default or Active-only exclusion. Debt-first additions report repayment,
+Maincredit and cap-limited remainder separately. Above-cap numericheadroom0 preserves
+existingMain without changing the older credit helper or deciding realcap edits.
+RequireReview applies onlydeficit under§Refundoverflow, accepted byactualindependent
+review. CORE002 owns Grace/end-mode/hard-end composition; ACCT006 owns proportional
+entitlement and app/permission/audit/persistence remain caller/downstreamgates.
+No debt implementation or fullrefund/application/platform proof is claimed.
 
 ## Completed user-requested GitHub branch cleanup
 
@@ -99,48 +111,27 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-Corrected STORAGE-001 implementation is done; PR25 publication gates remain.
-Premerge9623943 correctly held the originala8ownership conclusion after an actual
-Qt6.12 alias probe. Different author supplied3new tests34c25c27, with caller views
-ending before rawbuffer mutation. Independent regressionapproval94820fa was
-integratedf79d002 BEFORE actual3red (exit8: SQL9vs1/textzbcvsabc/blob7A6263vs616263,
-allfixture/init/cleanup pass/no skips), retained in ownership-red artifact and
-committed1499d57. Only THEN be533bd/source829d9c66 deep-owned admitted SQL/QString/
-QByteArray without changing original22/header/contract/new3 assertions.
+CORETEST005 reviewed/red baseline is done. Author389f8ba/candidatee405ae4 has
+contract909f16e7/headerf3cc819c/stubc2d19b7a/testsc3cd6c65 (unchanged32cases).
+Separateapprovalb3413e5 integrateddba4401 preceded actual32bodyfailures, exit8,
+explicit TimeDebtNotImplemented/wrongexception only; no skip/build/dependencyfail.
+Author/root/reviewer32compiled/discovered; rootexistingtimer39pass. ActualUbuntu
+baseline41291917578 at[PR26](https://github.com/Kernol12/subathon-bot-ai/pull/26)
+headc2be886 built/discovered32 GNU13.3/selectedGTesttree, all11checks passed there.
+[Handoff](coretest-005-handoff.md), [review](coretest-005-review.md),
+[red](coretest-005-red-ctest.txt), [CI](coretest-005-ci.md).
 
-Fresh code/configapprovalc029a53 (integrated133e443) resolves the affected hold for
-correctedsource829. Author/root/reviewer25real/full28pass, groupedCIguardd99df8ad
-requires2executables/exact25registration. Actual UbuntuCI41290532883 atPR25head
-883d0ab passed25real+Qtprobe1, Qt/ICUhashesOK/GNU13.3; all10checks passed there.
-Historical22-only CI and sourcea8defect evidence remain; they do not prove newsource.
-[Implementation handoff](storage-001-handoff.md), [review](storage-001-code-review.md),
-[CI](storage-001-ci.md) and [ownership author/red](storage-001-ownership-tests.md).
+Finalcompletion/actualCI/red reviewapproved5474fdc. Publish exactapproval, then
+require all latest PR26 checks/discussions/currentnormalrules before
+ready/merge. After merging refreshmain and immediately claim CORE005 implementation
+from the integrated reviewed/red prerequisite. Root promotes newbuild/discoveryjob
+to ordinary actual32caseacceptance in that task. No debt behavior is implemented;
+no fixed timestamp/provider capability or fullapplication/refund proof is invented.
 
-Final corrected completionmetadata/actualCI-evidence reviewapprovedd3f36e2.
-Publish that exact approval, then require all latest PR25 checks/discussions/
-currentnormalrules before
-ready/merge. After merging refreshmain and start next dependency-ready task.
-No owner decision is needed. Do not repeat completed setup/baseline or weaken any
-reviewed assertion. App schema/application/recovery/backup/provider/platform gates
-remain separate even after the corrected library merges.
-
-CORETEST-005 read-only preparation by/root/debt_test_author is complete, no files
-or claim. Unreviewed proposed boundary: TimerState+separate nonnegative signed64
-debt; already-computed reversal magnitude and opaque provenance, separate requested/
-Main/debt/held/cap amounts, debt-first eligible additions. Example100/150 yields
-StopMain0/unapplied50, Carrydebt50, Reviewhold150; Main55/debt2/request10/cap60
-repays2/adds5/caps3. Proportional entitlement remains ACCT006; permissions/atomic
-persistence/currentclock and CORE002 end-mode progression remain caller gates.
-Require-review-only-on-overflow is a proposed interpretation needing independent
-contract/test review, not an invented owner decision or implemented behavior.
-
-Root's uncommitted edits are corrected completion state/map/docs/CI outcome and
-checkpoint; source829/new3/config are committed. Fresh approval and actual25CI
-are recorded above; latest-head merge gates still apply. No native root command is left running. Inspect
-actual worktrees/processes/agents/PRs if interrupted; do not assume active agents
-survive a session stop. No owner question or access decision remains.
-
-Full product is NOT complete: authoritative application/aggregates/refunds,
-all7 integrations/3rate providers, supported platforms, both renderers,
-UIs/localization/themes, packaging and live/OBS verification retain their gates.
-No completion percentage is inferred.
+Root's uncommitted changes are completedbaseline state/map/docs/red/CI outcome and
+checkpoint; author/reviewer worktrees are isolated and committed. No root native command remains running.
+Inspect actual branches/worktrees/processes/agents/PRs on interruption rather than
+assuming these agents survive a stop. No owner question or access decision remains.
+Full product is NOT complete: application/aggregates/refunds, all7 integrations/
+3rateproviders, platforms, both renderers, UI/localization/themes, packaging and
+live/OBS verification retain all their recorded gates. No percentage is inferred.

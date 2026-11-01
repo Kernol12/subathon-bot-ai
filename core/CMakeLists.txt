@@ -15,10 +15,17 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
 endif()
 
 # Explicit target for deterministic timer lifecycle proposals.
-if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
+if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS)
     add_library(subathon_timer_lifecycle STATIC src/timer_lifecycle.cpp)
     target_include_directories(subathon_timer_lifecycle PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     subathon_target_options(subathon_timer_lifecycle)
+endif()
+
+if(SUBATHON_BUILD_TIME_DEBT_TESTS)
+    add_library(subathon_time_debt STATIC src/time_debt.cpp)
+    target_include_directories(subathon_time_debt PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_time_debt PUBLIC subathon_core)
+    subathon_target_options(subathon_time_debt)
 endif()
 
 if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)

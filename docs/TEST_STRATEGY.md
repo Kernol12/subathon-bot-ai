@@ -161,3 +161,14 @@ commands and limits. Configure/build `sqlite-writer-debug`, then CTest
 Qt>=6.12 and actual QSQLITE are required. The same real cases now run on PRs/main;
 no environment error/skip/failure inversion counts as acceptance. This is no
 application schema/migration/transaction, crash/backup/recovery or live release proof.
+
+## Time-debt reviewed/red baseline
+
+CORETEST-005 supplies32 independently reviewed cases for
+[time-debt revision1](contracts/time-debt-v1.md), including explicit policies/full
+provenance, signedMIN, debt-before-caps and literal existing lifecycle composition.
+After approval, all32 failed on explicit TimeDebtNotImplemented stubs (actualexit8);
+[handoff](evidence/coretest-005-handoff.md) retains exact artifacts and red output.
+Configure/build `time-debt-debug`, then CTest `-L time-debt` (known red until CORE005).
+Its automatic CI is build/discovery only; CORE005 must enable ordinary acceptance.
+No proportional refund, authoritative transaction or release behavior is implied.

@@ -1,0 +1,41 @@
+name: Time debt baseline build
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_acceptance:
+        description: Run the real debt cases (intentionally red until CORE-005)
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  time-debt-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configure the explicit baseline with selected GoogleTest source
+        run: cmake --preset time-debt-debug -DSUBATHON_FETCH_GOOGLETEST=ON
+      - name: Build explicit stubs and authored cases
+        run: cmake --build --preset time-debt-debug
+      - name: Verify the baseline is registered without running its bodies
+        run: |
+          ctest --preset time-debt-debug -L time-debt --show-only
+          ctest --preset time-debt-debug -L time-debt --show-only=json-v1 > "$RUNNER_TEMP/time-debt-tests.json"
+          python3 - <<'PYTHON'
+          import json, os
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "time-debt-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No time-debt cases registered")
+          print(f"Discovered {len(tests)} time-debt cases; behavior not run")
+          PYTHON
+      - name: Run real debt acceptance only when explicitly dispatched
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_acceptance }}
+        run: ctest --preset time-debt-debug -L time-debt

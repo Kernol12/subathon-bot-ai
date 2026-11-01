@@ -16,6 +16,7 @@ option(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS "Build contribution evidence a
 option(SUBATHON_FETCH_GOOGLETEST "Explicitly allow fetching the pinned GoogleTest source" OFF)
 option(SUBATHON_BUILD_QT_PROBE "Build a Qt 6.12 Core/Test environment probe" OFF)
 option(SUBATHON_BUILD_SQLITE_WRITER_TESTS "Build Qt SQL SQLite writer acceptance tests" OFF)
+option(SUBATHON_BUILD_TIME_DEBT_TESTS "Build the reviewed time-debt test baseline" OFF)
 set(SUBATHON_GOOGLETEST_SOURCE_DIR "" CACHE PATH "Optional local GoogleTest source checkout")
 include(cmake/ProjectOptions.cmake)
 add_subdirectory(core)

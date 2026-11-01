@@ -1,0 +1,797 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/time-debt-debug
+      Start  1: TimeDebtReversal.EveryPolicyAppliesAReversalWithinMain
+ 1/32 Test  #1: TimeDebtReversal.EveryPolicyAppliesAReversalWithinMain ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.EveryPolicyAppliesAReversalWithinMain
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.EveryPolicyAppliesAReversalWithinMain
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.EveryPolicyAppliesAReversalWithinMain (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.EveryPolicyAppliesAReversalWithinMain
+
+ 1 FAILED TEST
+
+      Start  2: TimeDebtReversal.ExactExhaustionIsNotAReviewDeficit
+ 2/32 Test  #2: TimeDebtReversal.ExactExhaustionIsNotAReviewDeficit ..............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.ExactExhaustionIsNotAReviewDeficit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.ExactExhaustionIsNotAReviewDeficit
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.ExactExhaustionIsNotAReviewDeficit (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.ExactExhaustionIsNotAReviewDeficit
+
+ 1 FAILED TEST
+
+      Start  3: TimeDebtReversal.ZeroAdjustmentRetainsTheRecordWithoutAReviewHold
+ 3/32 Test  #3: TimeDebtReversal.ZeroAdjustmentRetainsTheRecordWithoutAReviewHold ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.ZeroAdjustmentRetainsTheRecordWithoutAReviewHold
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.ZeroAdjustmentRetainsTheRecordWithoutAReviewHold
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.ZeroAdjustmentRetainsTheRecordWithoutAReviewHold (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.ZeroAdjustmentRetainsTheRecordWithoutAReviewHold
+
+ 1 FAILED TEST
+
+      Start  4: TimeDebtReversal.StopAtZeroReportsFullRequestedAndUnappliedAmounts
+ 4/32 Test  #4: TimeDebtReversal.StopAtZeroReportsFullRequestedAndUnappliedAmounts ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.StopAtZeroReportsFullRequestedAndUnappliedAmounts
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.StopAtZeroReportsFullRequestedAndUnappliedAmounts
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.StopAtZeroReportsFullRequestedAndUnappliedAmounts (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.StopAtZeroReportsFullRequestedAndUnappliedAmounts
+
+ 1 FAILED TEST
+
+      Start  5: TimeDebtReversal.CarryTimeDebtAddsOnlyTheExcessToExistingDebt
+ 5/32 Test  #5: TimeDebtReversal.CarryTimeDebtAddsOnlyTheExcessToExistingDebt ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.CarryTimeDebtAddsOnlyTheExcessToExistingDebt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.CarryTimeDebtAddsOnlyTheExcessToExistingDebt
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.CarryTimeDebtAddsOnlyTheExcessToExistingDebt (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.CarryTimeDebtAddsOnlyTheExcessToExistingDebt
+
+ 1 FAILED TEST
+
+      Start  6: TimeDebtReversal.RequireReviewHoldsTheWholeAdjustmentWithoutPartialSubtraction
+ 6/32 Test  #6: TimeDebtReversal.RequireReviewHoldsTheWholeAdjustmentWithoutPartialSubtraction ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.RequireReviewHoldsTheWholeAdjustmentWithoutPartialSubtraction
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.RequireReviewHoldsTheWholeAdjustmentWithoutPartialSubtraction
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.RequireReviewHoldsTheWholeAdjustmentWithoutPartialSubtraction (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.RequireReviewHoldsTheWholeAdjustmentWithoutPartialSubtraction
+
+ 1 FAILED TEST
+
+      Start  7: TimeDebtReversal.SelectingAnotherPolicyDoesNotClearOutstandingDebt
+ 7/32 Test  #7: TimeDebtReversal.SelectingAnotherPolicyDoesNotClearOutstandingDebt ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.SelectingAnotherPolicyDoesNotClearOutstandingDebt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.SelectingAnotherPolicyDoesNotClearOutstandingDebt
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.SelectingAnotherPolicyDoesNotClearOutstandingDebt (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.SelectingAnotherPolicyDoesNotClearOutstandingDebt
+
+ 1 FAILED TEST
+
+      Start  8: TimeDebtReversal.MinimumSignedRequestCanStopAtZeroWithoutNegation
+ 8/32 Test  #8: TimeDebtReversal.MinimumSignedRequestCanStopAtZeroWithoutNegation ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.MinimumSignedRequestCanStopAtZeroWithoutNegation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.MinimumSignedRequestCanStopAtZeroWithoutNegation
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.MinimumSignedRequestCanStopAtZeroWithoutNegation (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.MinimumSignedRequestCanStopAtZeroWithoutNegation
+
+ 1 FAILED TEST
+
+      Start  9: TimeDebtReversal.MinimumSignedRequestCanProduceAnExactlyMaximumDebt
+ 9/32 Test  #9: TimeDebtReversal.MinimumSignedRequestCanProduceAnExactlyMaximumDebt ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.MinimumSignedRequestCanProduceAnExactlyMaximumDebt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.MinimumSignedRequestCanProduceAnExactlyMaximumDebt
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.MinimumSignedRequestCanProduceAnExactlyMaximumDebt (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.MinimumSignedRequestCanProduceAnExactlyMaximumDebt
+
+ 1 FAILED TEST
+
+      Start 10: TimeDebtReversal.MinimumSignedRequestWithNoMainCannotWrapTheDebt
+10/32 Test #10: TimeDebtReversal.MinimumSignedRequestWithNoMainCannotWrapTheDebt .................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.MinimumSignedRequestWithNoMainCannotWrapTheDebt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.MinimumSignedRequestWithNoMainCannotWrapTheDebt
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:146: Failure
+Expected: (void)plan_time_reversal({0, 0}, reversal(minimum), RefundDeficitPolicy::CarryTimeDebt) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeDebtReversal.MinimumSignedRequestWithNoMainCannotWrapTheDebt (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.MinimumSignedRequestWithNoMainCannotWrapTheDebt
+
+ 1 FAILED TEST
+
+      Start 11: TimeDebtReversal.ReviewCanHoldMinimumSignedDataWithoutCreatingOverflowingDebt
+11/32 Test #11: TimeDebtReversal.ReviewCanHoldMinimumSignedDataWithoutCreatingOverflowingDebt ....***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.ReviewCanHoldMinimumSignedDataWithoutCreatingOverflowingDebt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.ReviewCanHoldMinimumSignedDataWithoutCreatingOverflowingDebt
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.ReviewCanHoldMinimumSignedDataWithoutCreatingOverflowingDebt (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.ReviewCanHoldMinimumSignedDataWithoutCreatingOverflowingDebt
+
+ 1 FAILED TEST
+
+      Start 12: TimeDebtReversal.DebtAdditionOverflowReturnsNoPartialProposal
+12/32 Test #12: TimeDebtReversal.DebtAdditionOverflowReturnsNoPartialProposal ....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.DebtAdditionOverflowReturnsNoPartialProposal
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.DebtAdditionOverflowReturnsNoPartialProposal
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:165: Failure
+Expected: (void)plan_time_reversal(balance, request, RefundDeficitPolicy::CarryTimeDebt) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeDebtReversal.DebtAdditionOverflowReturnsNoPartialProposal (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.DebtAdditionOverflowReturnsNoPartialProposal
+
+ 1 FAILED TEST
+
+      Start 13: TimeDebtReversal.ReturnedRequestOwnsBothReferencesAndFullSignedAdjustment
+13/32 Test #13: TimeDebtReversal.ReturnedRequestOwnsBothReferencesAndFullSignedAdjustment ........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.ReturnedRequestOwnsBothReferencesAndFullSignedAdjustment
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.ReturnedRequestOwnsBothReferencesAndFullSignedAdjustment
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtReversal.ReturnedRequestOwnsBothReferencesAndFullSignedAdjustment (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.ReturnedRequestOwnsBothReferencesAndFullSignedAdjustment
+
+ 1 FAILED TEST
+
+      Start 14: TimeDebtReversal.InvalidBalanceSignReferencesAndPolicyRejectBeforeProposal
+14/32 Test #14: TimeDebtReversal.InvalidBalanceSignReferencesAndPolicyRejectBeforeProposal .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtReversal.InvalidBalanceSignReferencesAndPolicyRejectBeforeProposal
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtReversal
+[ RUN      ] TimeDebtReversal.InvalidBalanceSignReferencesAndPolicyRejectBeforeProposal
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:184: Failure
+Expected: (void)plan_time_reversal({-1, 0}, reversal(-1), RefundDeficitPolicy::StopAtZero) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:186: Failure
+Expected: (void)plan_time_reversal({0, -1}, reversal(-1), RefundDeficitPolicy::CarryTimeDebt) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:189: Failure
+Expected: (void)plan_time_reversal({0, 0}, reversal(1), RefundDeficitPolicy::RequireReview) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:191: Failure
+Expected: (void)plan_time_reversal({0, 0}, {"", "effect-1", -1}, RefundDeficitPolicy::StopAtZero) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:194: Failure
+Expected: (void)plan_time_reversal({0, 0}, {"reversal-1", "", -1}, RefundDeficitPolicy::StopAtZero) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:197: Failure
+Expected: (void)plan_time_reversal({0, 0}, reversal(-1), static_cast<RefundDeficitPolicy>(99)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:200: Failure
+Expected: (void)plan_time_reversal({100, 0}, reversal(-1), static_cast<RefundDeficitPolicy>(99)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeDebtReversal.InvalidBalanceSignReferencesAndPolicyRejectBeforeProposal (0 ms)
+[----------] 1 test from TimeDebtReversal (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtReversal.InvalidBalanceSignReferencesAndPolicyRejectBeforeProposal
+
+ 1 FAILED TEST
+
+      Start 15: TimeDebtAddition.WithoutDebtTheCapLimitsActualMainAndRetainsTheRequest
+15/32 Test #15: TimeDebtAddition.WithoutDebtTheCapLimitsActualMainAndRetainsTheRequest ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.WithoutDebtTheCapLimitsActualMainAndRetainsTheRequest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.WithoutDebtTheCapLimitsActualMainAndRetainsTheRequest
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.WithoutDebtTheCapLimitsActualMainAndRetainsTheRequest (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.WithoutDebtTheCapLimitsActualMainAndRetainsTheRequest
+
+ 1 FAILED TEST
+
+      Start 16: TimeDebtAddition.AFullMainCapStillPermitsDebtRepayment
+16/32 Test #16: TimeDebtAddition.AFullMainCapStillPermitsDebtRepayment ...........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.AFullMainCapStillPermitsDebtRepayment
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.AFullMainCapStillPermitsDebtRepayment
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.AFullMainCapStillPermitsDebtRepayment (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.AFullMainCapStillPermitsDebtRepayment
+
+ 1 FAILED TEST
+
+      Start 17: TimeDebtAddition.AboveCapMainIsRetainedWhileDebtRepaymentStillPrecedesCap
+17/32 Test #17: TimeDebtAddition.AboveCapMainIsRetainedWhileDebtRepaymentStillPrecedesCap ........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.AboveCapMainIsRetainedWhileDebtRepaymentStillPrecedesCap
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.AboveCapMainIsRetainedWhileDebtRepaymentStillPrecedesCap
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.AboveCapMainIsRetainedWhileDebtRepaymentStillPrecedesCap (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.AboveCapMainIsRetainedWhileDebtRepaymentStillPrecedesCap
+
+ 1 FAILED TEST
+
+      Start 18: TimeDebtAddition.PartialRepaymentLeavesMainUntouched
+18/32 Test #18: TimeDebtAddition.PartialRepaymentLeavesMainUntouched .............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.PartialRepaymentLeavesMainUntouched
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.PartialRepaymentLeavesMainUntouched
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.PartialRepaymentLeavesMainUntouched (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.PartialRepaymentLeavesMainUntouched
+
+ 1 FAILED TEST
+
+      Start 19: TimeDebtAddition.ExactRepaymentAtZeroCapDoesNotCreateMainCredit
+19/32 Test #19: TimeDebtAddition.ExactRepaymentAtZeroCapDoesNotCreateMainCredit ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.ExactRepaymentAtZeroCapDoesNotCreateMainCredit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.ExactRepaymentAtZeroCapDoesNotCreateMainCredit
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.ExactRepaymentAtZeroCapDoesNotCreateMainCredit (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.ExactRepaymentAtZeroCapDoesNotCreateMainCredit
+
+ 1 FAILED TEST
+
+      Start 20: TimeDebtAddition.DebtRepaymentPrecedesCapLimitingOfTheRemainder
+20/32 Test #20: TimeDebtAddition.DebtRepaymentPrecedesCapLimitingOfTheRemainder ..................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.DebtRepaymentPrecedesCapLimitingOfTheRemainder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.DebtRepaymentPrecedesCapLimitingOfTheRemainder
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.DebtRepaymentPrecedesCapLimitingOfTheRemainder (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.DebtRepaymentPrecedesCapLimitingOfTheRemainder
+
+ 1 FAILED TEST
+
+      Start 21: TimeDebtAddition.UncappedSurplusAfterDebtBecomesMainTime
+21/32 Test #21: TimeDebtAddition.UncappedSurplusAfterDebtBecomesMainTime .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.UncappedSurplusAfterDebtBecomesMainTime
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.UncappedSurplusAfterDebtBecomesMainTime
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.UncappedSurplusAfterDebtBecomesMainTime (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.UncappedSurplusAfterDebtBecomesMainTime
+
+ 1 FAILED TEST
+
+      Start 22: TimeDebtAddition.ZeroRequestPreservesBothPositiveBalances
+22/32 Test #22: TimeDebtAddition.ZeroRequestPreservesBothPositiveBalances ........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.ZeroRequestPreservesBothPositiveBalances
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.ZeroRequestPreservesBothPositiveBalances
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.ZeroRequestPreservesBothPositiveBalances (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.ZeroRequestPreservesBothPositiveBalances
+
+ 1 FAILED TEST
+
+      Start 23: TimeDebtAddition.DebtFirstAvoidsAnOverflowingHypotheticalMainPlusRequest
+23/32 Test #23: TimeDebtAddition.DebtFirstAvoidsAnOverflowingHypotheticalMainPlusRequest .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.DebtFirstAvoidsAnOverflowingHypotheticalMainPlusRequest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.DebtFirstAvoidsAnOverflowingHypotheticalMainPlusRequest
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.DebtFirstAvoidsAnOverflowingHypotheticalMainPlusRequest (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.DebtFirstAvoidsAnOverflowingHypotheticalMainPlusRequest
+
+ 1 FAILED TEST
+
+      Start 24: TimeDebtAddition.ActualCapHeadroomAvoidsOverflowOfAnUncappedHypothesis
+24/32 Test #24: TimeDebtAddition.ActualCapHeadroomAvoidsOverflowOfAnUncappedHypothesis ...........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.ActualCapHeadroomAvoidsOverflowOfAnUncappedHypothesis
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.ActualCapHeadroomAvoidsOverflowOfAnUncappedHypothesis
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtAddition.ActualCapHeadroomAvoidsOverflowOfAnUncappedHypothesis (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.ActualCapHeadroomAvoidsOverflowOfAnUncappedHypothesis
+
+ 1 FAILED TEST
+
+      Start 25: TimeDebtAddition.UnrepresentableActualMainReturnsNoPartialProposal
+25/32 Test #25: TimeDebtAddition.UnrepresentableActualMainReturnsNoPartialProposal ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.UnrepresentableActualMainReturnsNoPartialProposal
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.UnrepresentableActualMainReturnsNoPartialProposal
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:298: Failure
+Expected: (void)plan_time_addition(balance, request) throws an exception of type std::overflow_error.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeDebtAddition.UnrepresentableActualMainReturnsNoPartialProposal (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.UnrepresentableActualMainReturnsNoPartialProposal
+
+ 1 FAILED TEST
+
+      Start 26: TimeDebtAddition.InvalidInputsRejectBeforeDebtApplication
+26/32 Test #26: TimeDebtAddition.InvalidInputsRejectBeforeDebtApplication ........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtAddition.InvalidInputsRejectBeforeDebtApplication
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtAddition
+[ RUN      ] TimeDebtAddition.InvalidInputsRejectBeforeDebtApplication
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:304: Failure
+Expected: (void)plan_time_addition({-1, 0}, addition(1)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:305: Failure
+Expected: (void)plan_time_addition({0, -1}, addition(1)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:306: Failure
+Expected: (void)plan_time_addition({0, 0}, addition(-1)) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:307: Failure
+Expected: (void)plan_time_addition({0, 0}, {"", 1}) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/acceptance/time_debt_tests.cpp:308: Failure
+Expected: (void)plan_time_addition({0, 0}, addition(0), -1) throws an exception of type std::invalid_argument.
+  Actual: it throws subathon::core::TimeDebtNotImplemented with description "Time debt is intentionally unimplemented; review tests first".
+
+[  FAILED  ] TimeDebtAddition.InvalidInputsRejectBeforeDebtApplication (0 ms)
+[----------] 1 test from TimeDebtAddition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtAddition.InvalidInputsRejectBeforeDebtApplication
+
+ 1 FAILED TEST
+
+      Start 27: TimeDebtComposition.DebtOnlyCreditCannotRescueGraceOrConsumeItsBudget
+27/32 Test #27: TimeDebtComposition.DebtOnlyCreditCannotRescueGraceOrConsumeItsBudget ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtComposition.DebtOnlyCreditCannotRescueGraceOrConsumeItsBudget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtComposition
+[ RUN      ] TimeDebtComposition.DebtOnlyCreditCannotRescueGraceOrConsumeItsBudget
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtComposition.DebtOnlyCreditCannotRescueGraceOrConsumeItsBudget (0 ms)
+[----------] 1 test from TimeDebtComposition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtComposition.DebtOnlyCreditCannotRescueGraceOrConsumeItsBudget
+
+ 1 FAILED TEST
+
+      Start 28: TimeDebtComposition.OnlyTheSurplusAfterDebtRescuesGraceAndRetainsItsBudget
+28/32 Test #28: TimeDebtComposition.OnlyTheSurplusAfterDebtRescuesGraceAndRetainsItsBudget .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtComposition.OnlyTheSurplusAfterDebtRescuesGraceAndRetainsItsBudget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtComposition
+[ RUN      ] TimeDebtComposition.OnlyTheSurplusAfterDebtRescuesGraceAndRetainsItsBudget
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtComposition.OnlyTheSurplusAfterDebtRescuesGraceAndRetainsItsBudget (0 ms)
+[----------] 1 test from TimeDebtComposition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtComposition.OnlyTheSurplusAfterDebtRescuesGraceAndRetainsItsBudget
+
+ 1 FAILED TEST
+
+      Start 29: TimeDebtComposition.ExactDebtRepaymentCannotClearConfirmationWait
+29/32 Test #29: TimeDebtComposition.ExactDebtRepaymentCannotClearConfirmationWait ................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtComposition.ExactDebtRepaymentCannotClearConfirmationWait
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtComposition
+[ RUN      ] TimeDebtComposition.ExactDebtRepaymentCannotClearConfirmationWait
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtComposition.ExactDebtRepaymentCannotClearConfirmationWait (0 ms)
+[----------] 1 test from TimeDebtComposition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtComposition.ExactDebtRepaymentCannotClearConfirmationWait
+
+ 1 FAILED TEST
+
+      Start 30: TimeDebtComposition.ExhaustedMainUsesTheExistingImmediateEndPolicyEvenPaused
+30/32 Test #30: TimeDebtComposition.ExhaustedMainUsesTheExistingImmediateEndPolicyEvenPaused .....***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtComposition.ExhaustedMainUsesTheExistingImmediateEndPolicyEvenPaused
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtComposition
+[ RUN      ] TimeDebtComposition.ExhaustedMainUsesTheExistingImmediateEndPolicyEvenPaused
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtComposition.ExhaustedMainUsesTheExistingImmediateEndPolicyEvenPaused (0 ms)
+[----------] 1 test from TimeDebtComposition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtComposition.ExhaustedMainUsesTheExistingImmediateEndPolicyEvenPaused
+
+ 1 FAILED TEST
+
+      Start 31: TimeDebtComposition.ExhaustedMainUsesSharedGraceWithoutEncodingDebtAsGrace
+31/32 Test #31: TimeDebtComposition.ExhaustedMainUsesSharedGraceWithoutEncodingDebtAsGrace .......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtComposition.ExhaustedMainUsesSharedGraceWithoutEncodingDebtAsGrace
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtComposition
+[ RUN      ] TimeDebtComposition.ExhaustedMainUsesSharedGraceWithoutEncodingDebtAsGrace
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtComposition.ExhaustedMainUsesSharedGraceWithoutEncodingDebtAsGrace (0 ms)
+[----------] 1 test from TimeDebtComposition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtComposition.ExhaustedMainUsesSharedGraceWithoutEncodingDebtAsGrace
+
+ 1 FAILED TEST
+
+      Start 32: TimeDebtComposition.ExhaustedMainUsesTheExistingConfirmationEndPolicy
+32/32 Test #32: TimeDebtComposition.ExhaustedMainUsesTheExistingConfirmationEndPolicy ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimeDebtComposition.ExhaustedMainUsesTheExistingConfirmationEndPolicy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeDebtComposition
+[ RUN      ] TimeDebtComposition.ExhaustedMainUsesTheExistingConfirmationEndPolicy
+unknown file: Failure
+C++ exception with description "Time debt is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] TimeDebtComposition.ExhaustedMainUsesTheExistingConfirmationEndPolicy (0 ms)
+[----------] 1 test from TimeDebtComposition (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] TimeDebtComposition.ExhaustedMainUsesTheExistingConfirmationEndPolicy
+
+ 1 FAILED TEST
+
+
+0% tests passed, 32 tests failed out of 32
+
+Label Time Summary:
+acceptance    =   0.04 sec*proc (32 tests)
+core          =   0.04 sec*proc (32 tests)
+draft         =   0.04 sec*proc (32 tests)
+time-debt     =   0.04 sec*proc (32 tests)
+
+Total Test time (real) =   0.04 sec
+
+The following tests FAILED:
+	  1 - TimeDebtReversal.EveryPolicyAppliesAReversalWithinMain (Failed) acceptance core draft time-debt
+	  2 - TimeDebtReversal.ExactExhaustionIsNotAReviewDeficit (Failed) acceptance core draft time-debt
+	  3 - TimeDebtReversal.ZeroAdjustmentRetainsTheRecordWithoutAReviewHold (Failed) acceptance core draft time-debt
+	  4 - TimeDebtReversal.StopAtZeroReportsFullRequestedAndUnappliedAmounts (Failed) acceptance core draft time-debt
+	  5 - TimeDebtReversal.CarryTimeDebtAddsOnlyTheExcessToExistingDebt (Failed) acceptance core draft time-debt
+	  6 - TimeDebtReversal.RequireReviewHoldsTheWholeAdjustmentWithoutPartialSubtraction (Failed) acceptance core draft time-debt
+	  7 - TimeDebtReversal.SelectingAnotherPolicyDoesNotClearOutstandingDebt (Failed) acceptance core draft time-debt
+	  8 - TimeDebtReversal.MinimumSignedRequestCanStopAtZeroWithoutNegation (Failed) acceptance core draft time-debt
+	  9 - TimeDebtReversal.MinimumSignedRequestCanProduceAnExactlyMaximumDebt (Failed) acceptance core draft time-debt
+	 10 - TimeDebtReversal.MinimumSignedRequestWithNoMainCannotWrapTheDebt (Failed) acceptance core draft time-debt
+	 11 - TimeDebtReversal.ReviewCanHoldMinimumSignedDataWithoutCreatingOverflowingDebt (Failed) acceptance core draft time-debt
+	 12 - TimeDebtReversal.DebtAdditionOverflowReturnsNoPartialProposal (Failed) acceptance core draft time-debt
+	 13 - TimeDebtReversal.ReturnedRequestOwnsBothReferencesAndFullSignedAdjustment (Failed) acceptance core draft time-debt
+	 14 - TimeDebtReversal.InvalidBalanceSignReferencesAndPolicyRejectBeforeProposal (Failed) acceptance core draft time-debt
+	 15 - TimeDebtAddition.WithoutDebtTheCapLimitsActualMainAndRetainsTheRequest (Failed) acceptance core draft time-debt
+	 16 - TimeDebtAddition.AFullMainCapStillPermitsDebtRepayment (Failed) acceptance core draft time-debt
+	 17 - TimeDebtAddition.AboveCapMainIsRetainedWhileDebtRepaymentStillPrecedesCap (Failed) acceptance core draft time-debt
+	 18 - TimeDebtAddition.PartialRepaymentLeavesMainUntouched (Failed) acceptance core draft time-debt
+	 19 - TimeDebtAddition.ExactRepaymentAtZeroCapDoesNotCreateMainCredit (Failed) acceptance core draft time-debt
+	 20 - TimeDebtAddition.DebtRepaymentPrecedesCapLimitingOfTheRemainder (Failed) acceptance core draft time-debt
+	 21 - TimeDebtAddition.UncappedSurplusAfterDebtBecomesMainTime (Failed) acceptance core draft time-debt
+	 22 - TimeDebtAddition.ZeroRequestPreservesBothPositiveBalances (Failed) acceptance core draft time-debt
+	 23 - TimeDebtAddition.DebtFirstAvoidsAnOverflowingHypotheticalMainPlusRequest (Failed) acceptance core draft time-debt
+	 24 - TimeDebtAddition.ActualCapHeadroomAvoidsOverflowOfAnUncappedHypothesis (Failed) acceptance core draft time-debt
+	 25 - TimeDebtAddition.UnrepresentableActualMainReturnsNoPartialProposal (Failed) acceptance core draft time-debt
+	 26 - TimeDebtAddition.InvalidInputsRejectBeforeDebtApplication (Failed) acceptance core draft time-debt
+	 27 - TimeDebtComposition.DebtOnlyCreditCannotRescueGraceOrConsumeItsBudget (Failed) acceptance core draft time-debt
+	 28 - TimeDebtComposition.OnlyTheSurplusAfterDebtRescuesGraceAndRetainsItsBudget (Failed) acceptance core draft time-debt
+	 29 - TimeDebtComposition.ExactDebtRepaymentCannotClearConfirmationWait (Failed) acceptance core draft time-debt
+	 30 - TimeDebtComposition.ExhaustedMainUsesTheExistingImmediateEndPolicyEvenPaused (Failed) acceptance core draft time-debt
+	 31 - TimeDebtComposition.ExhaustedMainUsesSharedGraceWithoutEncodingDebtAsGrace (Failed) acceptance core draft time-debt
+	 32 - TimeDebtComposition.ExhaustedMainUsesTheExistingConfirmationEndPolicy (Failed) acceptance core draft time-debt
+Errors while running CTest
+
+Observed process exit: 8
