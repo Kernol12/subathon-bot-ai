@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T08:57:36+00:00",
+  "updated_at": "2026-11-01T08:58:50+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4171,7 +4171,8 @@
         "Sourcef2a6379/a8e5c8e and unchanged22cases pass author/root/reviewer, fullpreset25pass. Independent code/configapprovald6f9c49 integrated422acfd. ActualordinaryUbuntuacceptanceCI41289246502 atPR25headed5da87 passed22+environmentprobe1, Qt/ICUhashesOK GNU13.3; all10checks passedthere. Boundedownedwriter/reader done; finalintegrationmetadatareview/latestheadCI/merge remain publicationgates. No app schema/repository/aggregate/job/migration/crash/backup/provider/platform claim. Originalreviewedred6647490 preserved.",
         "Premerge ownership investigation confirmed genuine gap in sourcea8e5c8e: realQt6.12 reviewer probe shows fromRawData SQL/QString/blob inputs remain borrowed after queue valuecopy and caller backing mutation changes accepted work. This violates existing ownedqueue guarantee, not new product scope. Hold earlier ownership approval/PR25merge; preserve valid22baseline and observed passes. Author separately reviewed new regression, observe real intendedred before implementer deep-own normalization fix; no assertion weakening or originalbaseline repetition.",
         "New3 ownershiptests34c25c27 approved94820fa before actual3bodyred atf79d002 (record1499d57, exit8). Only THEN authorbe533bd deep-owned SQL/QString/QByteArray atadmission; finalsource829d9c66 integrated9d96363, evidence22edea4. Original22/header/contract/new3 unchanged. Author/root25writer+full28pass. Fresh affectedcode/configreview and actualUbuntu25CI pending; prior22CI/otherreview retained but cannot satisfy newsource mergegate.",
-        "Correctedsource829d9c66 after separatelyreviewed3regressions34c25c27/approval94820fa/actualred1499d57 now passes original22+new3 andfull28 author/root/reviewer. Freshcode/configapprovalc029a53 supersedesonlyownershiphold962. ActualUbuntuCI41290532883 at883d0ab passed25real+probe1/hashesOK/GNU13.3; all10checks there. Correctedboundedwriter done; finalmetadatareview/latestCI/merge remain gates. Original22/header/contract and validhistory preserved; no app/recovery/provider/platform upgrade."
+        "Correctedsource829d9c66 after separatelyreviewed3regressions34c25c27/approval94820fa/actualred1499d57 now passes original22+new3 andfull28 author/root/reviewer. Freshcode/configapprovalc029a53 supersedesonlyownershiphold962. ActualUbuntuCI41290532883 at883d0ab passed25real+probe1/hashesOK/GNU13.3; all10checks there. Correctedboundedwriter done; finalmetadatareview/latestCI/merge remain gates. Original22/header/contract and validhistory preserved; no app/recovery/provider/platform upgrade.",
+        "ActualPR25merged1183314 atGitHubreported09:56:25Z 2026-11-01, finala486ad9 all10latestchecks success/no reviewthreads/currentnormalrules. Correctedsource829d9c66/freshapprovalc029/finald3f36e2 retained; original22+new3 tests unchanged, realUbuntu25CI observed. CORETEST005 now separatelyclaimed fromintegratedmain with isolatedauthor/reviewer; no backgroundoldagent assumed. No fullapp/recovery/provider/platform upgrade."
       ],
       "verification": {
         "native_build": "passed",
@@ -10969,6 +10970,11 @@
       "date": "2026-11-01T08:57:36+00:00",
       "task": "CORETEST-005",
       "note": "Claim from refreshed main1183314 after PR25 actuallymerged finala486ad9 all10checks/no threads/currentnormalrules. DependencyCORE001/CORE002 integrated; specv0.45 §4/NUM03. Scope pure alreadycalculated reversal deficit/debt arithmetic and debt-first eligible additions with explicit policy/fullrequested-vsactual/provenance, nonnegativegrace boundary, exactsigned64 failures. ACCT006 proportionalentitlement, permission/audit/application/persistence/lifecyclecomposition remain explicit callers/downstream, no scope silentlyremoved. Author owns newtime-debt contract/header/explicitstub/tests/evidence ONLY; root sharedCMake/presets/CI/map/state/HTML/checkpoint. Contract/examples -> tests -> separateactualreview -> intendedred required before CORE005 implementation. Readonlyprepcomplete, interpretationRequireReviewonlyoverflow not yetreviewed."
+    },
+    {
+      "date": "2026-11-01T08:58:50+00:00",
+      "task": "STORAGE-001",
+      "note": "ActualPR25merged1183314 atGitHubreported09:56:25Z 2026-11-01, finala486ad9 all10latestchecks success/no reviewthreads/currentnormalrules. Correctedsource829d9c66/freshapprovalc029/finald3f36e2 retained; original22+new3 tests unchanged, realUbuntu25CI observed. CORETEST005 now separatelyclaimed fromintegratedmain with isolatedauthor/reviewer; no backgroundoldagent assumed. No fullapp/recovery/provider/platform upgrade."
     }
   ]
 }

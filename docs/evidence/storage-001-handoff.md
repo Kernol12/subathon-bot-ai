@@ -100,3 +100,10 @@ sequence remain in evidence. Root observed actual UbuntuCI41290532883 at883d0ab
 pass25real cases+Qtprobe1, Qt/ICUhashesOK/GNU13.3, all10checks passed. STORAGE-001
 is done for the bounded corrected library; final integrationmetadata review,
 latest-head CI/discussions/currentnormalrules remain publication gates.
+
+
+Actual [PR25](https://github.com/Kernol12/subathon-bot-ai/pull/25) merged1183314
+atGitHubreported09:56:25Z on2026-11-01. Finalheada486ad9 passed all10expected
+checks, no review threads, current normalrules satisfied. Corrected-source final
+integrationapprovald3f36e2 retained. No bypass or GitHubapproval waiver used
+(rules requirezero approvals). CORETEST-005 starts separately from mergedmain.
