@@ -118,8 +118,9 @@ class SqliteWriterTests final : public QObject {
         QList<int> order;
         QList<qint64> observed_sums;
         StorageError first = StorageError::not_open, second = StorageError::not_open;
+        auto caller_batch = insert(1, 10);
         QCOMPARE(writer.enqueue(
-                     insert(1, 10),
+                     caller_batch,
                      [&](WriteResult result) {
                          first = result.error;
                          order.append(1);
@@ -127,6 +128,8 @@ class SqliteWriterTests final : public QObject {
                              fixture_->scalar("SELECT SUM(amount) FROM counters").toLongLong());
                      }),
                  StorageError::none);
+        caller_batch[0].bindings[1] = 999;
+        caller_batch.clear(); // Admission owns the original values, not caller storage.
         QCOMPARE(writer.enqueue(
                      insert(2, 20),
                      [&](WriteResult result) {
