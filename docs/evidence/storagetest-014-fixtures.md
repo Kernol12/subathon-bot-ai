@@ -134,3 +134,38 @@ assertion/interface/prefix are unchanged. No contribution implementation, actual
 numeric Capture codec/rates, bundle/effects/jobs, backup/update/recovery/power-loss,
 platform/provider/live capability follows; all seven integrations/three rate
 providers remain required release scope.
+
+## Independent review correction: isolate malformed-ID INSERT causes
+
+A different actual preliminary review found that the original wrong-TEXT
+ContributionId UPDATE targets an already-linked contribution1. A child FK failure
+could therefore satisfy that negative without proving the strict ID storage-class
+CHECK. Root authorized an additive cause-isolation correction after normal merge
+of actual c76c8e0; every existing UPDATE variant and assertion remains intact.
+
+The final healthy-unanchored-receipt3 minimal INSERT now independently tries:
+QString `12345678` (TEXT with length8), qlonglong12345678 (INTEGER whose SQL text
+length is8), seven-byte BLOB, nine-byte BLOB, and the existing SQLNULL value.
+All other fields are valid, the activity tuple is wholly absent, and no child
+association references a new candidate. Before each attempted INSERT, explicit
+SQL checks prove receipt3 exists, it has no contribution anchor, and the candidate
+has no primary-key collision. A stage flag set only after those checks is asserted
+outside the work. Thus an earlier fixture/query failure cannot satisfy the expected
+sql_failure. Each actual invalid INSERT must produce known rolled_back/sql_failure
+and no normal work value in its own unit.
+
+These expectations come from approved typed SQL BLOB8/required-presence rules,
+not implementation output. TEXT/INTEGER length8 cases cannot pass merely by
+coercion or a length predicate; BLOB7/9 isolate length. Pure codec NULL input and
+SQLNULL insertion remain distinct boundaries, and no persisted selected-NULL row
+or new contribution behavior is claimed. Schema/JSON/API/production/feature tests
+and all three slot names are unchanged. No new14 feature body or red ran.
+
+Actual revised manual moc/c++ existing-writer-only build: exit0, zero warnings.
+Only the independent green helper executed: all3 slots plus init/cleanup passed
+(5total),0failed/0skipped, Qt6.12.0/SQLite3.54.0/GNU16.2.1. Captures:
+`/tmp/storagetest014-fixtures-id-types-{compile,green}.log`. Exact3-name,
+formatting/whitespace and unchanged JSON44df checks pass; different actual
+fixture/harness reassessment and official selected-Qt gates remain root-owned.
+
+Revised green source blob: `577edeb0517e02e79263f5d439dedf5bc12306b1`.

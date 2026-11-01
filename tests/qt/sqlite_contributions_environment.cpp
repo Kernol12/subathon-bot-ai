@@ -515,20 +515,37 @@ class SqliteContributionsEnvironment final : public QObject {
             QCOMPARE(result.error, WorkError::sql_failure);
             QVERIFY(!result.value);
         }
-        // Receipt3 exists and has no contribution anchor; every other value is
-        // valid. This INSERT isolates required ContributionId NULL rejection.
-        QVERIFY(existing_work(
-            writer,
-            [&](auto context) {
-                auto session = context.begin();
-                (void)session.execute({minimal_contribution, {QVariant{}, receipt_ids[2]}});
-                session.commit();
-                return QVariant(0);
-            },
-            result));
-        QCOMPARE(result.transaction, TransactionOutcome::rolled_back);
-        QCOMPARE(result.error, WorkError::sql_failure);
-        QVERIFY(!result.value);
+        // Receipt3 is healthy and unanchored. Independent INSERTs isolate ID
+        // storage class/length from the child-FK failure possible in UPDATEs.
+        for (const auto &id :
+             {QVariant(QString("12345678")), QVariant(qlonglong(12345678)),
+              QVariant(QByteArray(7, 'x')), QVariant(QByteArray(9, 'x')), QVariant{}}) {
+            bool insert_reached = false;
+            QVERIFY(existing_work(
+                writer,
+                [&](auto context) {
+                    auto session = context.begin();
+                    const auto preconditions = session.execute(
+                        {"SELECT (SELECT COUNT(*) FROM main.subathon_receipts WHERE receipt_id=?),"
+                         "(SELECT COUNT(*) FROM main.subathon_contributions WHERE "
+                         "original_receipt_id=?),"
+                         "(SELECT COUNT(*) FROM main.subathon_contributions WHERE "
+                         "contribution_id=?)",
+                         {receipt_ids[2], receipt_ids[2], id}});
+                    if (preconditions != SqlRows({{1, 0, 0}}))
+                        throw std::runtime_error(
+                            "Independent invalid-ID INSERT preconditions failed");
+                    insert_reached = true;
+                    (void)session.execute({minimal_contribution, {id, receipt_ids[2]}});
+                    session.commit();
+                    return QVariant(0);
+                },
+                result));
+            QVERIFY(insert_reached);
+            QCOMPARE(result.transaction, TransactionOutcome::rolled_back);
+            QCOMPARE(result.error, WorkError::sql_failure);
+            QVERIFY(!result.value);
+        }
     }
 };
 QTEST_GUILESS_MAIN(SqliteContributionsEnvironment)
