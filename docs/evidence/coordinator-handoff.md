@@ -100,7 +100,7 @@ interface11d204aa, stubf0edd7e6, testsf8418e83, independent review3e7c8c7 and
 actual22-case intended red at6647490(exit8). Source/test/assertions are unchanged.
 Separate final integration review0f4cf52 verified actual red and successful CI.
 
-Publish completion metadata/review, obtain narrow metadata approval, then require
+Final completion metadata approvedb9d84ae; root publishes that exact review. Require
 all latest PR24 checks, resolved discussions and current normal rules before
 ready/merge. After merging, refresh main and immediately claim STORAGE-001 on a
 dedicated branch from integrated reviewed/red prerequisite; assign implementation
@@ -109,7 +109,7 @@ progress/build/CI/checkpoint integration. Do not repeat completed setup/authorin
 No production writer implementation has started.
 
 Author worktree is clean/complete at819edbb; reviewer worktree remains isolated
-at `local-evidence/worktrees/storagetest001-review`, final review0f4cf52 complete.
+at `local-evidence/worktrees/storagetest001-review`, final review0f4cf52 and narrow completion approvalb9d84ae complete.
 No previous-session agent is assumed running. Root's uncommitted changes are
 completion metadata/checkpoint/CI outcome only; no native command remains running.
 No owner question or access decision remains. Full product is NOT complete:
