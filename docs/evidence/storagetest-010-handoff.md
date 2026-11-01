@@ -73,3 +73,8 @@ this additive mechanism, obtain separate code review, pass real acceptance and
 promote unchanged cases to automatic CI. Migration/config/receipt/contribution/plan/
 application bundle/recovery/platform/live gates remain separate and required. All
 seven integrations and three rate providers remain full intended release scope.
+
+Final integration at cc48c63 independently approved879a04d2. Reviewer parsed the
+actual24-case exit8 output, confirmed all exact baseline/harness artifacts unchanged
+and independently inspected corrected Ubuntu41299021575 logs. No red rerun or
+new capability claim. Latest publication/CI/discussion/current-rule gates follow.
