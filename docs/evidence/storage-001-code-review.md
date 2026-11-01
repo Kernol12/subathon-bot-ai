@@ -158,3 +158,52 @@ No native suite was redundantly repeated after metadata-only changes; independen
 observeded5da875 revision, with latest-head checks explicitly remaining a merge
 gate after final review commits. Resolve discussions and recheck current normal
 rules/latest revision before merge; this review does not claim PR25 has merged.
+
+## Additional ownership finding — approval held
+
+Reviewer `/root/storage_code_reviewer`, 2026-11-01, before PR25 merge.
+The earlier ownership inspection did not cover Qt values made with fromRawData.
+**The approval of sourcea8e5c8e is held for the queue-ownership gap below.** Existing
+22 reviewed tests and their recorded passes remain valid; this finding does not
+weaken or replace them and is not a reviewed new regression baseline.
+
+Coordinator raised whether `queue_.push_back({batch, ...})` truly owns all accepted
+SQL/QString/QByteArray content. A temporary native probe against the actual
+reviewed static library on Qt6.12.0 confirms that raw backing survives implicit
+value copies. It enqueued only `SELECT 1, ?, ?` with raw-backed textabc and blob
+hex616263. After every caller-side Qt value left scope, backing arrays remained
+alive and were deliberately changed before Qt dispatch. Admission and SQL execution
+succeeded, but results were literal9, textzbc and blobhex7a6263. Copied SQL and
+QVariant QString/QByteArray values each retained the original raw pointer. Callback
+was asynchronous and both callback/event-loop completed successfully. No dangling
+pointer was used and no application state was touched; the probe used a disposable
+file and read-only SQL.
+
+The public header promises owned statements; CONTRACT-002 excludes borrowed mutable
+queue inputs. The writer contract says enqueue copies the batch, without an explicit
+precondition requiring the caller to normalize every raw-backed Qt value before
+admission. Qt's own raw-data contract requires backing lifetime/nonmutation through
+all unmodified copies; ordinary copying does not establish the advertised ownership
+snapshot. Explicitly narrowing callers to pre-owned backing would need a reviewed
+contract clarification. The preferred correction is to make accepted SQL text and
+QString/QByteArray bindings own their data at admission while preserving their
+values, null/type semantics and existing budgets.
+
+Primary documentation checked:
+[QString raw data](https://doc.qt.io/qt-6/qstring.html#fromRawData) and
+[QByteArray raw data](https://doc.qt.io/qt-6/qbytearray.html#fromRawData).
+The probe deliberately checks API normalization; it is not a claim that mutating
+raw backing while Qt still has borrowed copies satisfies Qt's own precondition.
+
+Diagnostic files: `/tmp/subathon-raw-ownership-review-probe.cpp` and corresponding
+binary/output text. Compiled with C++20/-fPIC/-g/-O0 against this review worktree's
+actual `libsubathon_sqlite_writer.a` and installed Qt6Core/Sql pkg-config flags;
+compile and probe exited0. An initial standalone link without-fPIC failed and ran
+no probe; it is not counted as runtime or red evidence. The debugger skill's
+required router was unavailable, so its activation gate required this native-probe
+fallback. No production/header/test file was edited.
+
+Verdict for this newly discovered path: **request changes before integration**.
+Separately author/review a meaningful ownership regression, record intended failure
+against the unchanged implementation, then review the targeted fix and new actual
+CI results. No future fix or regression is approved by this diagnostic note.
