@@ -4178,13 +4178,15 @@
         "github_ci": "passed",
         "application_crash_backup_provider": "not_run",
         "platform_release": "not_run",
-        "ownership_regression": "draft"
+        "ownership_regression": "observed_red"
       },
       "evidence": [
         "docs/evidence/storage-001-implementation.md",
         "docs/evidence/storage-001-handoff.md",
         "docs/evidence/storage-001-ci.md",
-        "docs/evidence/storage-001-code-review.md"
+        "docs/evidence/storage-001-code-review.md",
+        "docs/evidence/storage-001-ownership-tests.md",
+        "docs/evidence/storage-001-ownership-red.txt"
       ],
       "review": {
         "author": "/root/storage_implementer",

@@ -109,14 +109,16 @@ blob616263->7a6263. Probe is diagnosis, not reviewed regression/red evidence.
 `local-evidence/worktrees/storage001-ownership-tests`, branch
 `task/STORAGE-001-ownership-tests` at5790bd5. Three cases preserve original22file/
 contract/header and keep raw buffers alive, mutate after admission, assert original
-admission values. Compile/discover only until separate reviewer approval. Root adds
+admission values. Separateregressionapproval94820fa integratedf79d002 preceded actual3bodyred
+(sourcea8, exit8; SQL9/textzbc/blob7A6263 instead of original1/abc/616263,
+allfixtures pass/no skips). Root adds
 separate executable/CTest3 and grouped completeCI registration, no behavior skip.
-`/root/storage_code_reviewer` will review actual3cases before intendedred;
-`/root/storage_implementer` is explicitly waiting for reviewed regression+red before
-small deep-owned SQL/QString/QByteArray admission fix. Do not fix before that gate.
+`/root/storage_code_reviewer` approved actualnew3cases;
+`/root/storage_implementer` may now apply small deep-owned SQL/QString/QByteArray
+admission fix after reading retainedred/review. No fix is claimed yet.
 
-Current nextaction: author handoff -> independent3case review -> actual intended
-red againsta8e -> normalize owned values -> rerun22+3/regressions and separate
+Current nextaction: normalize owned values after approved94820fa/actualredf79d002,
+then rerun22+3/regressions and separate
 code/configreview -> actual automatic Ubuntu25acceptance -> finalstatus/review/
 latestCI/normalmerge. No owner decision needed; this enforces current contract,
 not a new product restriction. CORETEST-005 read-only prep by/root/debt_test_author

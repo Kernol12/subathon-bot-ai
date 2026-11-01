@@ -70,3 +70,12 @@ approval before intended red. Production normalization must wait for that review
 red, then pass original22+new3 with separate code review and actual UbuntuCI.
 This enforces the existing contract rather than imposing a caller lifetime shortcut.
 No new test body/red or production fix is claimed in this entry.
+
+
+New regression34c25c27 was independently approved94820fa, integratedf79d002,
+before actual `ctest --preset sqlite-writer-debug -R '^sqlite-writer-regression\.'`.
+Observed exit8: all3 body failures on unfixed sourcea8e5c8e: SQLreturned9vs1,
+textzbcvsabc, blob7A6263vs616263; every fixture/init/cleanup passed, zero skips.
+[Retained actual red](storage-001-ownership-red.txt). This completes the additional
+reviewed/red gate; the targeted admission ownership fix may now proceed without
+changing the original22/header/contract or the new3 assertions.
