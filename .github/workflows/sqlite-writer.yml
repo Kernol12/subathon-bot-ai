@@ -33,9 +33,9 @@ jobs:
           bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
-      - name: Configure reviewed writer, migration and retained-context acceptance
+      - name: Configure stable SQL suites and receipt baseline
         run: cmake --preset sqlite-receipt-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-      - name: Build all reviewed Qt SQL acceptance targets
+      - name: Build SQL suites and receipt baseline interface
         run: cmake --build --preset sqlite-receipt-debug
       - name: Run the environment probe and list the writer baseline
         run: |

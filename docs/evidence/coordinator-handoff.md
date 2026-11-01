@@ -79,13 +79,16 @@ API55/contract5b/testc0/envAAA/JSON0f/old023+4ee remain; preserve original revie
 ## Active task, stage and ownership
 
 STORAGETEST-013 [draftPR35](https://github.com/Kernol12/subathon-bot-ai/pull/35),
-actualpublishedhead845ae20/all11existingCIchecksSUCCESS. Rootlocalreview/
-checkpointcommitsafterpublishedheadnotyetpushed; no newreceiptacceptanceclaim.
+Actualpublishedhead e853344 includescontractreview/API/harness; initial845ae20
+all11existingCIchecksSUCCESS. SubsequentrootCI/profilecheckpointchangespending
+push; checkactualGitHubheads/results. No newreceiptacceptanceclaim.
 Claimed on task/STORAGETEST-013-receipt-repository from freshly
 refreshedmaina4bb565. Dependencies STORAGE012/ACCT001done/integrated. Initial
 contractreview completed; minimalAPI/stub drafting nowexplicitlyauthorized.
 ActualminimalAPI21a396b/root54ebbd8 plusrootbuildharness50c1e8b nowexist;
-configure/build48steps andold95pass. No newQtcase/fixture/schema-source/
+configure/build48steps andold95pass. RootCIb37daad switchesexistingpinnedQt
+job tosqlite-receipt-debug so itactuallycompilesnewlibrary; stablelabelsremain,
+newfeaturecasesabsent. UpdatedactualAPI/configreviewandCIproofpending. No newQtcase/fixture/schema-source/
 production/red yet. DifferentactualAPI/harnessreview activebeforetestauthoring.
 [Brief](../tasks/EPIC-009/STORAGE-013.md), [existing identifiedreceipt contract](../contracts/receipt-intake-v1.md),
 [retention](../contracts/retained-context-v1.md), [work/session](../contracts/writer-transactions-v1.md).
