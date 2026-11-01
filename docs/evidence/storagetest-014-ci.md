@@ -89,3 +89,11 @@ integrated3f85f3b, final feature46c901e0225b7755153decf25f4a5ff226d063db preserv
 all24 slots/old assertions. Root rebuilt/linked0warnings and rechecked exact143/24
 compiled discovery. Green/JSON/API/stub/physical/shared harness unchanged. No new
 feature body/red has run; actual full re-review is pending at this point.
+
+Actual full authored-baseline/harness approval81e0d5a integrated1b4c48c accepts
+final46c/577/44df/header0abee/stub0ad/logicalf503/physicaleeb, CMakef308ecb and
+workflow48ece7b. All three findings resolved; reviewer exact143/24+green3 and
+safe119 stable/green PASS2.62s/green5PASS0skip. Final46c incremental build/list
+passes0warnings; stable inputs unchanged. No new feature/init/red was invoked by
+reviewers/authors. Publish this approved candidate next for actual selected
+official Qt NEW577-green proof before the first intended red.

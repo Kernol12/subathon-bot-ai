@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T20:26:26.879835+00:00",
+  "updated_at": "2026-11-01T20:34:15.357794+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention and receipt-repository components have reviewed acceptance evidence. Contribution/plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4768,7 +4768,7 @@
       "title": "Review and demonstrate red: Contribution evidence and receipt-association SQLite adapter",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Coordinator /root; test author /root/writer_transaction_reviewer; literal fixtures /root/debt_code_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-013",
@@ -4793,7 +4793,8 @@
         "Latest owner instruction: cleanly finish open PRs and then STOP. Actual GitHub audit finds only DRAFT PR37. Finish this baseline PR through all applicable gates, normal merge, main reconciliation and clean handoff; do not start STORAGE-014 implementation or another task afterward. Full release scope remains incomplete.",
         "Actual24 feature author d438e2e integrateda8eaf15, sourceaf2dc41f3e0db8c140eabab6663c5c2e2683864c. Corrected green577edeb/JSON44df independently approved27aa55f/rootdb633fb, preserving all old negatives and adding isolated ID-type/length INSERTs. Root actual full configure/build/link0warnings; exact143 registrations including24 compiled feature methods and3 green slots. Root119 inherited+green tests PASS2.59s; newgreen5 inclinitcleanup/0skip Qt6.12SQLite3.54. No NEW feature body/red. Actual shared CMake/workflow candidate switches same pinned job to new profile, preserves old111 unconditional SQL cases, adds automatic requiredgreen3/exact24discovery and explicit separate manual feature input defaultfalse. Different full actual baseline/harness review must precede selectedofficialNEWgreen proof and firstred. Latest owner says finish PR37 then STOP; source14 stays planned.",
         "Full different inspection at e03e19e/sourceaf2 requested three substantive coverage additions before approval: actual new original-reader uint32/signed64 extrema+reopen; active adopted wrapper destructor rollback before outer finalizer with inside-body lock/snapshot and not_committed truth; actual modifier-context/known-config typed targets including allowed unequal knowncfg and wrong-namespace absence. Root explicitly authorized existing-slot additive fixes only, all old assertions preserved, no feature runtime/red/source implementation. Extra bounded static fault/limit audit found no further issue and stopped. Finish sole open PR37 then STOP.",
-        "Actual additive coverage fix12ba6df integrated3f85f3b, final feature46c901e0225b7755153decf25f4a5ff226d063db. All24 slots/old assertions preserved. Two committed-original uint32/signed64 extrema variants check rawINTEGER/fullDTO/reopen/owned lifetimes; active adopted wrapper reset proves +1 retention/contribution/observation then immediate inside-body lockrelease/snapshot and outer rolled_back/not_committed; five typed context/known-config cases cover allowed unequalcfg, missing/wrongnamespace targets. Root rebuilt/link0warnings and exact143/24 compiled discovery pass; no new feature body/red. Different actual re-review pending these final artifacts."
+        "Actual additive coverage fix12ba6df integrated3f85f3b, final feature46c901e0225b7755153decf25f4a5ff226d063db. All24 slots/old assertions preserved. Two committed-original uint32/signed64 extrema variants check rawINTEGER/fullDTO/reopen/owned lifetimes; active adopted wrapper reset proves +1 retention/contribution/observation then immediate inside-body lockrelease/snapshot and outer rolled_back/not_committed; five typed context/known-config cases cover allowed unequalcfg, missing/wrongnamespace targets. Root rebuilt/link0warnings and exact143/24 compiled discovery pass; no new feature body/red. Different actual re-review pending these final artifacts.",
+        "Actual FULL authored baseline/harness approval81e0d5a integrated1b4c48c accepts final46c/577/44df/0abee/0ad/f503/eeb/CMakef308/workflow48ece; all3coverage findings resolved. Reviewer read all24+helpers/fixtures/config, exact143/24+green3 build/discovery0warnings, safe stable119PASS2.62s/currentgreen5PASS0skip Qt6.12SQLite3.54; final46c rebuild/discoverypass. No feature body/red by any author/reviewer. Now publish this approved candidate for selectedofficialNEWgreen3/exact24/stable/pins proof; FIRST intended red only afterward. PR37 only, thenSTOP; source14planned."
       ],
       "verification": {
         "contract_authoring": "passed",
@@ -4804,7 +4805,7 @@
         "native_build": "passed",
         "diagnostic_environment": "passed",
         "official_qt_environment": "not_run",
-        "test_review": "not_run",
+        "test_review": "passed",
         "baseline": "not_run",
         "product_acceptance": "not_run",
         "platform_release": "not_run",
@@ -4817,9 +4818,16 @@
         "docs/evidence/storagetest-014-probe.md",
         "docs/evidence/storagetest-014-review.md",
         "docs/evidence/storagetest-014-fixtures.md",
-        "docs/evidence/storagetest-014-ci.md"
+        "docs/evidence/storagetest-014-ci.md",
+        "docs/evidence/storagetest-014-handoff.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/writer_transaction_reviewer (contract/API/feature tests); /root/debt_code_reviewer (independent literal fixtures/green); /root (physical schema/shared build/CI)",
+        "reviewer": "/root/storage_work_code_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual full authored baseline/harness81e0d5a integrated1b4c48c accepts final feature46c901e/green577/JSON44df/header0abee/stub0ad/logicalf503/physicaleeb/CMakef308/workflow48ece. Three coverage findings resolved by12ba6df/root3f85; source/assertions/prefixes unchanged. Selected official NEWgreen proof, first intended red and final metadata attribution remain required; no production approval.",
+        "evidence": "docs/evidence/storagetest-014-review.md"
+      }
     },
     {
       "id": "STORAGE-014",
