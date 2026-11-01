@@ -93,3 +93,11 @@ Full agreed product remains incomplete: all seven integrations, three FXprovider
 domain/application bundle/backup/update/recovery, renderers/UI/locales/themes,
 packaging/platform/live/OBS gates remain mandatory. No live credentials/supporter
 data/chat/payment/deployment side effects.
+
+Root also ran a focused existing-writer host binary-binding probe (not012feature
+implementation/red), actual emptyBLOB/NULL/binary type/length/hex distinctions
+verified with realwork/commit. [Evidence](storagetest-012-probe.md), ignored source
+and raw output under local-evidence/coordinator/storagetest012-binding-probe.*.
+Initial scratch compile-overload setup error was corrected and is notred. Both
+root compile/run sessions completed, no root running command. Contract author
+and prepared separate reviewer received exact host-only facts.
