@@ -43,7 +43,7 @@ fixture/metadata review chronology remain linked in handoffs. No proof is relabe
 
 ## Current executable task and planned ownership
 
-STORAGETEST-014 is unclaimed/dependency-ready on integrated main: STORAGE-013 and
+STORAGETEST-014 was selected unclaimed/dependency-ready on integrated main: STORAGE-013 and
 ACCT-002 are done. Root created dedicated branch
 `task/STORAGETEST-014-contribution-repository` from actual e331714 BEFORE claim
 edits. [Brief](../tasks/EPIC-009/STORAGE-014.md),
@@ -60,7 +60,8 @@ Root owns exact additive global migration3/schema/order/immutableprefix1+2 and a
 shared build/preset/CI/state/map/HTML/checkpoint. Do not invent a domain wire or
 provider capability; original21 pure/fake service cases remain simulation, not SQL.
 
-After this claim commit root will create NEW clean trees and explicitly assign:
+Root created both NEW trees clean at claim ae1251d and actually sent these
+explicit assignments:
 
 - Author /root/writer_transaction_reviewer: expected
   local-evidence/worktrees/storagetest014-author, task/STORAGETEST-014-author.
@@ -71,8 +72,9 @@ After this claim commit root will create NEW clean trees and explicitly assign:
   ONLY future NEW docs/evidence/storagetest-014-review.md; preparation read-only,
   approval must inspect the actual authored revision/physical proposal.
 
-These new trees/assignments are planned at this checkpoint; inspect actual creation
-before assuming they exist/run. Previous source/baseline agents completed clean;
+Both trees now exist. The author is active on contract-only; the reviewer
+completed read-only preparation clean and waits the actual document/physical
+proposal. Inspect actual agents/files on resume. Previous source agents completed clean;
 do not blindly resume their old tasks. Root may assign a separate read-only
 feasibility/helper role later, with no authoring authority before the proper gate.
 
@@ -107,7 +109,7 @@ and error boundaries honestly without new private writer state or false guarante
 
 ## Next concrete action and remaining scope
 
-Commit claim and create/assign new trees. Author reads all actual contracts/core/
+Claim ae1251d/worktrees/assignments are actual. Author reads actual contracts/core/
 service/21 cases, writes bounded examples/zero policy/projection/state/link/atomic/
 error/lifetime/bounds contract. Root accepts exact physical migration3 only after
 an actual proposal. Different actual contract review precedes minimal interfaces/
@@ -126,3 +128,14 @@ All seven integrations/three FX providers, downstream codecs/rates/app bundles/
 effects/jobs, semantic config/evaluation, backup/update/recovery/power-loss,
 renderers/UI/locales/themes/packaging/platform/live/OBS remain required. No owner
 question/access, credentials/supporter data or live side effect is involved.
+
+
+Actual preliminary reviewer/author checks both confirmed no ContributionId0 rule,
+with ReceiptId0 still forbidden; this is preparation, not absent-contract approval.
+The author is proposing three logical tables, immutable original/observation data,
+independent current state, and an original-only active-session receipt helper in
+the new module rather than abusing an existing full-history transaction wrapper.
+Prior commit remains an honest trusted precondition; no invented semantic FK/
+authorization is added. No new contract/API/test/red is completed yet. Root owns
+physical proposal3 after the actual logical candidate. Source and receipt baseline
+worktrees remain preserved; new count64 existing plus16 absent refs.
