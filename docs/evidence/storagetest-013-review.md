@@ -152,3 +152,70 @@ official-Qt green environment proof and genuine intended missing-behavior red
 before STORAGE-013 implementation. No provider, semantic wire/evaluator, complete
 application bundle, backup/update/recovery/power-loss or platform gate is completed.
 All seven integrations and three FX providers retain the agreed release scope.
+
+## Actual API, explicit stubs and compile/CI harness review
+
+Verdict: **approved for new receipt test/fixture authoring only**. No new
+receipt behavior, executable test baseline, selected13-object fixture proof or
+intended red is approved. No concrete API/config finding remains.
+
+Reviewed author `21a396b94f185890118adbb8c2cbef8de8a2a052`, integrated root
+`54ebbd8`; minimal harness `50c1e8b23dfb5f79514379536429a7454cf8eaec`;
+workflow/profile revision `b37daad74940b32439972d9c4affd52bf41ef4b7` and actual
+root `a152a82ed66413c73e99a5fbe443eabdaf569528`, normally merged here.
+Header blob `b43f9b6026498af18df22c2f695e76b23cb4064a`, source stub
+`faf2856d8d61a91e518c50b3c0fdffe80a0f33a3`, logical contract
+`e1ed975875e8b62d77d8efff67cfe5e8d5c95038`; physical companion2ef unchanged.
+The approved f8 logical body is an exact byte prefix of the appended precision.
+
+Actual declarations preserve context versus explicitly tagged active-session
+adoption, noncopyable/nonmovable single-use repository values, copied weak tickets
+and options, and construction-thread identity. Constructors only capture inert
+values; destructor releases them without cleanup/SQL. The four source functions
+unconditionally throw the distinct logic-error stub marker, which makes no false
+known-rollback assertion about an adopted caller unit.
+
+Precision correctly distinguishes ordered pure input errors, foreign-thread
+rejection before mutable flags, local already_begun leaving the first unit usable,
+and actual writer capability/sticky protocol errors. Adoption transfer is after
+successful wrapper construction; context BEGIN allocation is exception-safe.
+Transaction session/options/owner/pending state must outlive the repository
+independently. Primitive preflight, known port failure categories and cleanup
+uncertainty retain their agreed separation. Representable positive bounds reserve
+checked find lookahead; supplied limits also bound retained-target documents.
+Append uses per-receipt aggregate order checks, not find's history bound as a
+write quota. No missing-reference/corruption normalization or commit vote is added.
+
+Root's new flag, static target and sqlite-receipt-debug preset provide the existing
+core/intake/writer/migration/retention dependencies and Qt include/link settings.
+The actual workflow moves every configure/build/discovery/stable-body/executable
+path to that preset, preserving pins, permissions, job name, guards and existing
+lanes. No new receipt case is registered yet and no failure is skipped/inverted.
+
+Actual independent checks in this worktree:
+
+| Command/check | Result |
+| --- | --- |
+| `cmake --preset sqlite-receipt-debug`; `cmake --build --preset sqlite-receipt-debug -j2` | Exit0;48 build steps, including new stub archive, zero warnings; GNU16.2.1/Qt6.12 |
+| CTest `--show-only=json-v1` plus suite-prefix counts | Exact95 old registrations, no new receipt feature case |
+| `ctest --preset sqlite-receipt-debug --output-on-failure` | Exit0; old95/95 pass,2.26s; ignored capture build/sqlite-receipt-debug/reviewer-old95.log |
+| Git prefix/hash/diff checks | Approved logical body exact; physical schema2ef and old core/service/ports/tests/retention/work/migrations unchanged |
+| `clang-format --dry-run --Werror` on new header/source; actionlint1.7.12 on workflow | Exit0 |
+| `python3 tools/check_project.py`; `python3 tools/progress.py render --check`; `git diff --check` | Exit0;391 records/122 decisions/current snapshot |
+
+Also independently read actual ignored metadata/logs for selected official-Qt
+[run41329002993](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41329002993)
+at exacta152a82. They show completed SUCCESS, both archive hashes OK, GNU13.3,
+new sqlite_receipts.cpp compilation/archive, Qt6.12/SQLite3.53.4, old25/work24/
+migration24/retention16 and existing diagnostic7+3 passing with zero skips. This
+is API compilation and existing-foundation evidence only: it proves no new
+receipt method or new13-object fixture. No new receipt body or historical red
+was invoked by this reviewer.
+
+Next actual test/harness/oracle review remains mandatory. A single MAX-ordinal
+row is corrupt noncontiguous history, not proof of reachable signed64 ordinal
+exhaustion; constructing MAX contiguous rows is impractical. Future tests must
+state that limit honestly and later code review must inspect the checked guard.
+Independent full-prefix/typed-codec/schema fixtures, selected official-Qt green
+proof and intended missing-behavior red still precede production. This verdict
+does not transfer to absent tests, later source or a future CI head.
