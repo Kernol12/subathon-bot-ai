@@ -38,3 +38,20 @@ This resolves the baseline build-only CI gap for this bounded writer library;
 no full server/application/recovery/platform support follows from it. Workflow
 source has no behavior conditional, hidden failure or modified acceptance assertions.
 Final metadata review and all latest-head CI remain publication/merge gates.
+
+
+## Corrected-source25-case automatic acceptance
+
+The premerge raw-buffer finding held sourcea8ownership approval, leading to3
+separately authored/reviewed regressions34c25c27, actual intended red1499d57, then
+normalization fixbe533bd/source829d9c66. Fresh source/configapprovalc029a53 resolves
+the affected hold for that corrected source, preserving original22 and new3 tests.
+The CI registration guard now requires both executables and exact per-binary
+compiled-function/CTest equality (25total), with unconditional real acceptance.
+
+[Run41290532883](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41290532883)
+atPR25head883d0ab succeeded. Root inspected actual retained logs: Qt/ICU hashesOK,
+GNU13.3.0, Qtprobe1pass, exact2binary25registration and unconditional25/25 real
+writer cases passed. All10PR checks passed there. This new evidence, rather than
+the earlier22-only run, covers correctedsource829 and newgroupedCIguardd99df8ad.
+Final completionmetadatareview and all latest-head normal gates still apply.

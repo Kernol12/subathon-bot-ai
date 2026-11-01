@@ -54,8 +54,9 @@ ordinary automatic acceptance CI and final latest-head PR/rules gates.
 - `/root/storage_implementer` owns ONLY `server/src/sqlite_writer.cpp` and
   `docs/evidence/storage-001-implementation.md` in isolated
   `local-evidence/worktrees/storage001-implementation`, branch
-  `task/STORAGE-001-implementation`. Sourcef2a6379/bloba8e5c8e integrated5562eaa, author evidence64e049e;
-  author/root22label and fullpreset25pass. Author is clean/complete.
+  `task/STORAGE-001-implementation`. Final sourcebe533bd/blob829d9c66 after separately reviewed ownership
+  regression/red, integrated9d96363; author evidence22edea4. Original22+new3
+  writercases/full28 pass author/root/reviewer. Author clean/complete.
 - `/root/storage_code_reviewer` has completed read-only requirement preparation;
   actual candidate850eef4 was reviewed in isolated
   `local-evidence/worktrees/storage001-review`, branch `task/STORAGE-001-code-review`.
@@ -97,36 +98,43 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-PR25 is draft again and STORAGE-001 in_review: premerge raw-buffer investigation
-confirmed an existing ownership guarantee violation in sourcea8e5c8e. Reviewer
-9623943 (integrated8b7f28e) holds only the disproved ownership conclusion of prior
-approval, preserving all valid22baseline/local/CI evidence. ActualQt6.12 probe kept
-raw backing alive, mutated after admission and observed acceptedSQL1->9/textabc->zbc/
-blob616263->7a6263. Probe is diagnosis, not reviewed regression/red evidence.
+Corrected STORAGE-001 implementation is done; PR25 publication gates remain.
+Premerge9623943 correctly held the originala8ownership conclusion after an actual
+Qt6.12 alias probe. Different author supplied3new tests34c25c27, with caller views
+ending before rawbuffer mutation. Independent regressionapproval94820fa was
+integratedf79d002 BEFORE actual3red (exit8: SQL9vs1/textzbcvsabc/blob7A6263vs616263,
+allfixture/init/cleanup pass/no skips), retained in ownership-red artifact and
+committed1499d57. Only THEN be533bd/source829d9c66 deep-owned admitted SQL/QString/
+QByteArray without changing original22/header/contract/new3 assertions.
 
-`/root/storage_test_author` owns only new
-`tests/qt/sqlite_writer_ownership_tests.cpp` and ownership-author evidence in
-`local-evidence/worktrees/storage001-ownership-tests`, branch
-`task/STORAGE-001-ownership-tests` at5790bd5. Three cases preserve original22file/
-contract/header and keep raw buffers alive, mutate after admission, assert original
-admission values. Separateregressionapproval94820fa integratedf79d002 preceded actual3bodyred
-(sourcea8, exit8; SQL9/textzbc/blob7A6263 instead of original1/abc/616263,
-allfixtures pass/no skips). Root adds
-separate executable/CTest3 and grouped completeCI registration, no behavior skip.
-`/root/storage_code_reviewer` approved actualnew3cases;
-`/root/storage_implementer` may now apply small deep-owned SQL/QString/QByteArray
-admission fix after reading retainedred/review. Actualfix be533bd/source829d9c66 integrated9d96363 after that gate;
-  author/root25writercases and fullpreset28pass, no assertionschanged.
+Fresh code/configapprovalc029a53 (integrated133e443) resolves the affected hold for
+correctedsource829. Author/root/reviewer25real/full28pass, groupedCIguardd99df8ad
+requires2executables/exact25registration. Actual UbuntuCI41290532883 atPR25head
+883d0ab passed25real+Qtprobe1, Qt/ICUhashesOK/GNU13.3; all10checks passed there.
+Historical22-only CI and sourcea8defect evidence remain; they do not prove newsource.
+[Implementation handoff](storage-001-handoff.md), [review](storage-001-code-review.md),
+[CI](storage-001-ci.md) and [ownership author/red](storage-001-ownership-tests.md).
 
-Current nextaction: fresh affectedcode/configreview of829d9c66 (author/root25
-writer/full28pass) -> actual automatic Ubuntu25acceptance -> finalstatus/review/
-latestCI/normalmerge. No owner decision needed; this enforces current contract,
-not a new product restriction. CORETEST-005 read-only prep by/root/debt_test_author
-is complete, no files/claim; its proposal is ready for a later dedicated task branch.
+Next: final corrected completionmetadata/actualCI-evidence review, publish exact
+approval, then require all latest PR25 checks/discussions/currentnormalrules before
+ready/merge. After merging refreshmain and start next dependency-ready task.
+No owner decision is needed. Do not repeat completed setup/baseline or weaken any
+reviewed assertion. App schema/application/recovery/backup/provider/platform gates
+remain separate even after the corrected library merges.
 
-Root's uncommitted edits are new regression harness/CI grouping and honest
-review-hold metadata/checkpoint. Fix source829 is committed after reviewed actual3red; do not assume fresh
-sourceapproval or25caseUbuntuCI yet. No native root command is left running. Inspect
+CORETEST-005 read-only preparation by/root/debt_test_author is complete, no files
+or claim. Unreviewed proposed boundary: TimerState+separate nonnegative signed64
+debt; already-computed reversal magnitude and opaque provenance, separate requested/
+Main/debt/held/cap amounts, debt-first eligible additions. Example100/150 yields
+StopMain0/unapplied50, Carrydebt50, Reviewhold150; Main55/debt2/request10/cap60
+repays2/adds5/caps3. Proportional entitlement remains ACCT006; permissions/atomic
+persistence/currentclock and CORE002 end-mode progression remain caller gates.
+Require-review-only-on-overflow is a proposed interpretation needing independent
+contract/test review, not an invented owner decision or implemented behavior.
+
+Root's uncommitted edits are corrected completion state/map/docs/CI outcome and
+checkpoint; source829/new3/config are committed. Fresh approval and actual25CI
+are recorded above; latest-head merge gates still apply. No native root command is left running. Inspect
 actual worktrees/processes/agents/PRs if interrupted; do not assume active agents
 survive a session stop. No owner question or access decision remains.
 

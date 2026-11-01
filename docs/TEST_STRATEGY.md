@@ -4,9 +4,9 @@
 | --- | --- | --- |
 | GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation and plan22 pure-transform cases pass; bounded slices only |
 | GoogleMock | Meaningful adapter/service interface interactions | Planned |
-| Qt Test | Qt signals/models/event loops and real SQLite writer | Environment probe passes; 22 unchanged reviewed real SQLite writer cases pass; original intended red retained |
+| Qt Test | Qt signals/models/event loops and real SQLite writer | Environment probe passes; 22 unchanged SQLite cases plus3 ownership regressions pass; original red retained |
 | Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform plus writer22/22 real SQLite cases pass |
+| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform plus writer25/25 real SQLite cases pass |
 | Vitest | Browser unit/component behavior | Planned |
 | Playwright | Browser workflows | Planned; separate OBS checks still required |
 | Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
@@ -153,10 +153,11 @@ STORAGETEST-001 supplied22 independently reviewed disposable-file Qt Test cases 
 DB-01 and [writer revision1](contracts/sqlite-writer-v1.md); original intended
 stub-red remains in the [baseline handoff](evidence/storagetest-001-handoff.md).
 STORAGE-001 implements the bounded writer/reader library: all22 unchanged cases
-pass with separate code review and actual automatic UbuntuQt6.12 acceptance.
+plus3 separately reviewed ownership regressions pass with corrected-source review
+and actual automatic UbuntuQt6.12 acceptance.
 [Implementation handoff](evidence/storage-001-handoff.md) records exact artifacts,
 commands and limits. Configure/build `sqlite-writer-debug`, then CTest
-`-L sqlite-writer`, or run fullpreset25 including infrastructure. Core/Sql/Test
+`-L sqlite-writer`, or run fullpreset28 including infrastructure. Core/Sql/Test
 Qt>=6.12 and actual QSQLITE are required. The same real cases now run on PRs/main;
 no environment error/skip/failure inversion counts as acceptance. This is no
 application schema/migration/transaction, crash/backup/recovery or live release proof.

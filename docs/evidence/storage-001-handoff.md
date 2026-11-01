@@ -10,8 +10,9 @@ Reviewed prerequisites remain unchanged: contract4d280461, header11d204aa and
 22-case intended stub-red at6647490(exit8). [Baseline handoff](storagetest-001-handoff.md).
 No assertion/interface/fixture is changed to make implementation pass.
 
-Sourceauthorf2a6379 (integrated5562eaa), blob
-`a8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811`, implements private owner-thread QtSQL
+Final sourceauthorbe533bd (integrated9d96363), blob
+`829d9c66e47168384510e8ed2ff436e272686414`, follows initialf2a6379/a8e5c8e
+and the independently reviewed ownership regression/red sequence below. It implements private owner-thread QtSQL
 connections, mutex-protected canonical writer lease, WAL/FULL/fkON/busy_timeout0,
 owned FIFO batches, subtraction-based payload/result budgets, BEGINIMMEDIATE/
 COMMIT with rollback/fail-closed handling, post-transaction exception-contained
@@ -88,3 +89,14 @@ Author/root all25 writer cases and fullpreset28 pass; new3/header/contract/origi
 are unchanged. Fresh affected-source approval and actual Ubuntu25acceptance remain
 required. Author evidence22edea4 is append-only; earlier22CI is not reused as proof
 of this new source. [New test author evidence](storage-001-ownership-tests.md).
+
+
+## Corrected-source completion
+
+Fresh independent reviewc029a53 approves source829d9c66/configd99df8ad after
+independent25real/full28passes and explicit null/type/value/ownership inspection.
+This resolves only the corrected ownership path; original finding and reviewed/red
+sequence remain in evidence. Root observed actual UbuntuCI41290532883 at883d0ab
+pass25real cases+Qtprobe1, Qt/ICUhashesOK/GNU13.3, all10checks passed. STORAGE-001
+is done for the bounded corrected library; final integrationmetadata review,
+latest-head CI/discussions/currentnormalrules remain publication gates.

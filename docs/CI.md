@@ -16,7 +16,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | application-plan.yml | Reviewed owned captured-plan transformations |
 | sqlite-writer.yml | Qt6.12 build, environment probe, complete registration and reviewed real SQLite writer acceptance |
 
-The SQLite writer lane now runs all22 unchanged reviewed cases on every PR/main
+The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
 and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
 [actual acceptance evidence](evidence/storage-001-ci.md) records the first passing
 Ubuntu run. The existing `sqlite-writer-build` check name is retained. Historical
