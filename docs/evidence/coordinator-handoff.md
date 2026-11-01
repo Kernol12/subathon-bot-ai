@@ -142,3 +142,15 @@ aftercheckpointcommit. Fullproduct incomplete: domainstores/appbundle/recovery/
 backup/update/all seven integrations/three rate providers/UI/renderers/locales/
 themes/platform/packaging/live gates remain. OPS02 is realcaller/product authority,
 never fakeproofmetadata.
+
+Actual fullcandidatefa16183 integratesb67e81b: header02f83ce/stub6c5073/tests22
+95f1fd2e/green7 832fe616/JSON12280c8f/author7d1cde38. Author/rootconfigurebuild/
+22+7+76discovery pass; rootgreen54(old49+infra5) pass; rootindependentlyverifies10
+payload/SHA vectors/base1127. No newmigrationbodyrun. Different revieweractual
+fullreviewfound reservedcatalogDDL coveragegap; completedauthor explicitlyresumed
+forALTERsubathon_catalogADDextra variant withschema_mismatch/knownrollback/raw
+preservation, same22 slots. Approval awaitsactualfix. PublishingdrafttaskPR now
+forofficialQtgreen7/build/discovery beforeacceptedred; exactPR/headnextobserve.
+Hostprocessaudit(escalated/read-only, cwdscoped) found4CLionIDEinstances and only
+currentaudit shell/Python, no nativebuild/testprocess; earlier sandbox-scopeprocess
+checks are not universal host assertions. No process was killed.

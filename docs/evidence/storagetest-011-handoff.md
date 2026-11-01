@@ -82,3 +82,15 @@ Pinned actionlint/project/diff passed; no actualnewbuild/discovery/CI is claimed
 Author's unfinished Qt case/probe/vector files remain untracked in its worktree;
 root preserves them and waits for a compiled/listed committed candidate. The prior
 49 cases remain automatic; new22 bodies wait for full review/selectedQtprobe/red.
+
+## Actual compiled22/green7/vector candidate awaiting full review
+
+Authorfa16183 integratedb67e81b. Header02f83ce, stub6c5073, new22tests95f1fd2e,
+green7env832fe616, JSON12280c8f, author7d1cde38. Header change from early86 is
+only a generic exception message; actual full review includes that revision.
+Author/root build and22/7/76 registration pass; root green54 old49+infrastructure5
+pass. Independent root reframing validates all10 literal vectors/base1127 count.
+No new migration body ran. Different reviewer is examining actual1155-line case
+file/263-line probe/vectors/harness, with one required reservedcatalog-DDL variant
+being authored before approval. Official Qt CI greenprobe/build/discovery, final
+actual test approval and real missing-feature red remain required.

@@ -635,7 +635,9 @@
       "tests": [
         "tests/qt/sqlite_writer_tests.cpp",
         "tests/qt/sqlite_writer_ownership_tests.cpp",
-        "tests/qt/sqlite_writer_work_tests.cpp"
+        "tests/qt/sqlite_writer_work_tests.cpp",
+        "tests/qt/sqlite_migration_tests.cpp",
+        "tests/qt/sqlite_migration_environment.cpp"
       ],
       "evidence": [
         "docs/evidence/storagetest-001-review.md",
@@ -655,9 +657,13 @@
         "docs/evidence/storage-010-implementation.md",
         "docs/evidence/storage-010-code-review.md",
         "docs/evidence/storage-010-ci.md",
-        "docs/evidence/storage-010-handoff.md"
+        "docs/evidence/storage-010-handoff.md",
+        "docs/evidence/storagetest-011-handoff.md",
+        "docs/evidence/storagetest-011-author.md",
+        "docs/evidence/storagetest-011-review.md",
+        "docs/evidence/storagetest-011-ci.md"
       ],
-      "scope": "25 reviewed writer/ownership cases plus24 unchanged separately reviewed work cases pass the same private Qt SQL implementation, with independent source/config review and actual automatic Ubuntu Qt6.12 49-case acceptance. Real synchronous service commit, rollback before errors, revocable capabilities, explicit uncertain outcomes, cumulative budgets and mixed FIFO/shutdown are covered using disposable SQL and a synthetic ReceiptIntake port. Original reviewed stub-red and ownership history retained. No product schema/migration/real repository adapter/application bundle/recovery/power-loss/provider/platform release verification."
+      "scope": "25 reviewed writer/ownership cases plus24 unchanged separately reviewed work cases pass the same private Qt SQL implementation, with independent source/config review and actual automatic Ubuntu Qt6.12 49-case acceptance. Real synchronous service commit, rollback before errors, revocable capabilities, explicit uncertain outcomes, cumulative budgets and mixed FIFO/shutdown are covered using disposable SQL and a synthetic ReceiptIntake port. Original reviewed stub-red and ownership history retained. No product schema/migration/real repository adapter/application bundle/recovery/power-loss/provider/platform release verification. STORAGETEST-011 additionally authors/compiles22 catalog cases,7 green driver checks and10 frozen independent vectors; full test review/officialQt greenproof/newred remain pending and migration behavior is explicitly stubbed."
     },
     {
       "id": "AUTH-11",

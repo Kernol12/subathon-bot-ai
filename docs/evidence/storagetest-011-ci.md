@@ -38,3 +38,21 @@ executable suite ran yet and no actual changed GitHub workflow run exists for th
 task. No domain adapter/schema, backup/update authority, recovery, platform/live
 provider or power-loss capability follows. Ruleset workflow gates must still be
 checked at the latest final PR revision; changing YAML adds no enforcement rule.
+
+## Actual authored candidate, local green validation
+
+Authorfa16183 integratedb67e81b. Actual new22/green7/JSON/interface/stub compile
+under sqlite-migrations-debug; root exactly compared22 compiled functions to
+CTest registration,7 environment slots,76 total. Root `ctest --preset
+sqlite-migrations-debug -E '^sqlite-migrations\.'` exited0 with54/54 green:
+existing49 plus infrastructure5. No new migration body ran. Root independently
+reframed all10 JSON vectors and verified complete payload/length/SHA and literal
+base1127 byte count, without calling the UUT. Existing source/header/hook/49 diff
+from88e86c1 is empty. One initial scratch JSON inspection assumed a list where
+the fixture uses a dictionary; corrected independent validation passed. That
+read-only script error is neither acceptance nor red.
+
+Independent full review is underway and requests an isolated altered-reserved-DDL
+variant before approval; author is fixing it in the same22 slots. Official selected
+Qt CI green7/build/discovery remains pending at publication; later source revisions
+need their own checks. No future passing migration behavior is claimed.
