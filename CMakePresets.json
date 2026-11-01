@@ -87,7 +87,7 @@
     },
     {
       "name": "sqlite-writer-debug",
-      "displayName": "10 \u00b7 Qt SQL SQLite writer baseline",
+      "displayName": "10 \u00b7 Qt SQL SQLite writer acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON"
