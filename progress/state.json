@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T10:03:32+00:00",
+  "updated_at": "2026-11-01T10:13:20+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -501,8 +501,8 @@
       "title": "Define writer-owned synchronous repository transaction integration",
       "module": "Operations",
       "kind": "contract",
-      "status": "in_progress",
-      "owner": "Coordinator /root; author /root/storage_decomposition; independent review pending",
+      "status": "in_review",
+      "owner": "Coordinator /root; author /root/storage_decomposition; reviewer /root/writer_transaction_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "STORAGE-001",
@@ -520,10 +520,21 @@
       "notes": [
         "New bounded prerequisite discovered before claiming oversized STORAGE-002; preserve its complete scope through explicit planned packages.",
         "Claim fromfreshmain1259cfb after PR27merged finalcba35c3 all11CI/no threads/normalrules. Scope doc-onlywriter-owned transaction/session contract for existing synchronousReceipt/Contribution ports, preserving actualcommit return semantics/privateonewriter/FIFO/bounds/error/shutdown. Author owns onlynewcontract+evidence; root owns taskbrief/storageplanneddecomposition/ADR/state/HTML/checkpoint/PR. No C++/schema/production/testred claims. Independentreview actualcontract+dependencygraph beforedone; STORAGETEST010 remains laterreviewed/red gate.",
-        "Rootrecorded proposedADR0002 and pairedplannedSTORAGE010–015 pluslaterSTORAGECONTRACT001; original002kindandrealbaseline retained, dependenciesacyclic anddownstreamACCT004unchanged. Entire originalmigration/receipt/contribution/config/plan/bundle scope preserved; no newtests/code/verification claimed. Authornewcontract and independentreview ofactualdocument+graph stillpending."
+        "Rootrecorded proposedADR0002 and pairedplannedSTORAGE010–015 pluslaterSTORAGECONTRACT001; original002kindandrealbaseline retained, dependenciesacyclic anddownstreamACCT004unchanged. Entire originalmigration/receipt/contribution/config/plan/bundle scope preserved; no newtests/code/verification claimed. Authornewcontract and independentreview ofactualdocument+graph stillpending.",
+        "Authorf68fd54 integrated8acbc0a, contract4ba20506/evidenceab423c4c; actual391taskgraph/ADR0002/briefs root40fbddf included. Actualcontract+graph supplied isolatedcontract004-review. Specifies real synchronouscommit, revokedcapabilities, error/outcome matrix, cumulativeSQLbudgets, trustedcapturepreconditions, old25compatibility and20futureWToracles. Doc-onlyauthor/rootproject/render/diffchecks pass; no C++/schema/tests/runtime/observedred/newprovider capability claim. Independentreview and actualPRCI/normalmerge gates pending."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "documentation_checks": "passed",
+        "independent_review": "not_run",
+        "github_ci": "not_run",
+        "runtime_behavior": "not_run",
+        "new_test_baseline": "not_run",
+        "provider_platform": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/contract-004-author.md",
+        "docs/evidence/contract-004-handoff.md"
+      ],
       "review": null
     },
     {
@@ -11465,6 +11476,11 @@
       "date": "2026-11-01T10:03:32+00:00",
       "task": "CONTRACT-004",
       "note": "Rootrecorded proposedADR0002 and pairedplannedSTORAGE010–015 pluslaterSTORAGECONTRACT001; original002kindandrealbaseline retained, dependenciesacyclic anddownstreamACCT004unchanged. Entire originalmigration/receipt/contribution/config/plan/bundle scope preserved; no newtests/code/verification claimed. Authornewcontract and independentreview ofactualdocument+graph stillpending."
+    },
+    {
+      "date": "2026-11-01T10:13:20+00:00",
+      "task": "CONTRACT-004",
+      "note": "Authorf68fd54 integrated8acbc0a, contract4ba20506/evidenceab423c4c; actual391taskgraph/ADR0002/briefs root40fbddf included. Actualcontract+graph supplied isolatedcontract004-review. Specifies real synchronouscommit, revokedcapabilities, error/outcome matrix, cumulativeSQLbudgets, trustedcapturepreconditions, old25compatibility and20futureWToracles. Doc-onlyauthor/rootproject/render/diffchecks pass; no C++/schema/tests/runtime/observedred/newprovider capability claim. Independentreview and actualPRCI/normalmerge gates pending."
     }
   ]
 }
