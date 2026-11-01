@@ -94,3 +94,21 @@ successful build, authorizes a separately owned correction, and requires the
 unchanged original22 plus these two regressions and all other applicable checks
 to pass with code review. Latest-head CI/discussions/rules/normal merge gates and
 all migration/application/operational/provider/platform limits remain in force.
+
+## Coordinator observed intended red after actual approval
+
+Actual separate test approvalad4f54d was integrated as8c70e6e BEFORE new body
+execution. At8c70e6e the root build was already compiled successfully, with
+productionblobd91c7d and testblobe94befdc. Root ran exactly:
+
+```sh
+ctest --preset sqlite-migrations-debug -R '^sqlite-migrations\.(canonicalCodecPreservesInitialBom|storedSchemaPreservesInitialBom)$' --output-on-failure
+```
+
+Actualexit8, both bodies failed for valid initialU+FEFF rejection with reason2
+invalid_manifest: purecodec exception and runner manifest admission. All init/
+cleanup passed, zero skips/crashes/dependency/fixture failures. The stored case's
+raw-byte and literal fixture guards passed before admission, establishing a real
+valid storedschema. [Raw original output](storage-011-unicode-red-ctest.txt).
+This is the new narrow regression red; original22 stub-red was not repeated.
+Source correction is now authorized within the unchanged contract/assertions.
