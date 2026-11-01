@@ -78,7 +78,9 @@ API55/contract5b/testc0/envAAA/JSON0f/old023+4ee remain; preserve original revie
 
 ## Active task, stage and ownership
 
-STORAGETEST-013 claimed on task/STORAGETEST-013-receipt-repository from freshly
+STORAGETEST-013 [draftPR35](https://github.com/Kernol12/subathon-bot-ai/pull/35),
+actualpublishedhead845ae20, contractreviewpending/initialCIrunning atpublication.
+Claimed on task/STORAGETEST-013-receipt-repository from freshly
 refreshedmaina4bb565. Dependencies STORAGE012/ACCT001done/integrated. Initial
 contract/examples ONLY, no newheader/stub/Qtcase/schema/production/red.
 [Brief](../tasks/EPIC-009/STORAGE-013.md), [existing identifiedreceipt contract](../contracts/receipt-intake-v1.md),
@@ -140,7 +142,8 @@ edits, allother58clean,16absenthistorical/tmprefs preserved/no prune. Hostproces
 comm/cwdonlyaudit found IDE/Codex/currentreadshell, no nativebuild/test commands. No rootnativecommand after source
 95/CI/merge/fetch. Newauthor/reviewer maywrite afterassignment; inspectactual
 branches/dirtyfiles/agents/processes/GitHub onresume. Preservevalidreviews/oldrefs.
-/root/debt_code_reviewer sourceimplementation completedclean, no activeassignment.
+/root/debt_code_reviewer sourceimplementation completedclean; explicitlyassigned
+read-only actual013API/lifetime feasibility prep, nofiles/code/approval authority.
 
 Ruleset26170263 PR/resolvedthreads,0GitHubapprovals,nobypass/force/delete,no
 required-status-checkrule. WrittenlatestheadallCI mandatory; repo evidence never
