@@ -23,3 +23,8 @@ and observed changed automatic Ubuntu acceptance remain required before task don
 or merge. No source implementation candidate or actual new CI run exists at this
 stage. Default tests use only synthetic inputs/disposable files. This proves no
 power-loss, provider, product schema, repository adapter or platform release gate.
+
+Actual source ad66ded/blob023451 integrates2aa14cd; author evidence5025715. Author
+and root configure/build/full53 pass with new24 and unchangedold25; reviewer
+independently reproduced local passing suites and is completing durable source/
+config review. No actual Ubuntu run of new acceptance is claimed yet.

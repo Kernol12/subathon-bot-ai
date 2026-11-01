@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T11:00:43+00:00",
+  "updated_at": "2026-11-01T11:10:36+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4366,7 +4366,7 @@
       "title": "Writer-owned dynamic repository transactions",
       "module": "Operations",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Coordinator /root; implementer /root/debt_code_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "CONTRACT-004",
@@ -4387,10 +4387,21 @@
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from refreshed main c60e1ed after PR29 merged final b9216ad all11 latest checks, no threads, normal rules. Reviewed baseline d09d330 tests eb9e3b6/header afc9f483/hook a2cd7b89/stub b47f131a, review96c1481/final879a04d; actual24 stub-red(exit8) at75c07fc AFTER approval. Scope additive same-private-writer work/context/session mechanism only; preserve old25 and new24 assertions, synchronous real service commit, revocation, outcomes/errors, SQL budgets/FIFO/capacity/shutdown. Implementer owns only server/src/sqlite_writer.cpp and new implementation evidence; root owns stub removal/shared build/CI/state/HTML/map/checkpoint. Accept real49 combined cases plus separate code/config review and observed automatic Ubuntu acceptance. No domain schemas/migrations/repository adapter/provider/platform capability.",
-        "Isolated source implementer explicitly resumed; new different code reviewer assigned in storage010-review. Root ce0a325 retires baseline stub and updates only its historical Markdown link to immutable c60e1ed/b47f source, promotes unchanged new24 to unconditional acceptance alongside old25 and keeps exact registration guard. Header/hook/tests/contracts unchanged. Shared actionlint/project/diff pass; actual implementation/local49/full53/source-review/Ubuntu acceptance are pending. Main c60e1ed postmerge all10 checks successful."
+        "Isolated source implementer explicitly resumed; new different code reviewer assigned in storage010-review. Root ce0a325 retires baseline stub and updates only its historical Markdown link to immutable c60e1ed/b47f source, promotes unchanged new24 to unconditional acceptance alongside old25 and keeps exact registration guard. Header/hook/tests/contracts unchanged. Shared actionlint/project/diff pass; actual implementation/local49/full53/source-review/Ubuntu acceptance are pending. Main c60e1ed postmerge all10 checks successful.",
+        "Actual source ad66ded/blob023451987e40a9330fef91c6c0955f0e527f14e6 integrated2aa14cd; author evidence5025715 integrated3ed2362. Author/root configure/build/full53 pass (new24/old25/scaffold4), all7 reviewed interface/test/contract hashes unchanged. Different reviewer independently reproduced new24/full53, durable source/configapproval pending. No new dependency/schema/API/test change. Shared unconditional new24 CI ready; actual Ubuntu acceptance and latesthead normal merge gates remain beforedone."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "native_build": "passed",
+        "local_acceptance": "passed",
+        "code_review": "not_run",
+        "github_ci": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storage-010-handoff.md",
+        "docs/evidence/storage-010-implementation.md",
+        "docs/evidence/storage-010-ci.md"
+      ],
       "review": null
     },
     {
@@ -11550,6 +11561,11 @@
       "date": "2026-11-01T11:00:43+00:00",
       "task": "STORAGE-010",
       "note": "Isolated source implementer explicitly resumed; new different code reviewer assigned in storage010-review. Root ce0a325 retires baseline stub and updates only its historical Markdown link to immutable c60e1ed/b47f source, promotes unchanged new24 to unconditional acceptance alongside old25 and keeps exact registration guard. Header/hook/tests/contracts unchanged. Shared actionlint/project/diff pass; actual implementation/local49/full53/source-review/Ubuntu acceptance are pending. Main c60e1ed postmerge all10 checks successful."
+    },
+    {
+      "date": "2026-11-01T11:10:36+00:00",
+      "task": "STORAGE-010",
+      "note": "Actual source ad66ded/blob023451987e40a9330fef91c6c0955f0e527f14e6 integrated2aa14cd; author evidence5025715 integrated3ed2362. Author/root configure/build/full53 pass (new24/old25/scaffold4), all7 reviewed interface/test/contract hashes unchanged. Different reviewer independently reproduced new24/full53, durable source/configapproval pending. No new dependency/schema/API/test change. Shared unconditional new24 CI ready; actual Ubuntu acceptance and latesthead normal merge gates remain beforedone."
     }
   ]
 }

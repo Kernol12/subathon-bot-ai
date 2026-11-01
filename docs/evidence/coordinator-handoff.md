@@ -129,3 +129,11 @@ Ubuntu/code approval remain pending; no passing feature claim. Mainc60 all10
 postmerge checks succeeded. Root CI assessment is drafted/committed with this
 checkpoint, no running root command. Current author/reviewer assignments are live
 only as observed now; inspect on resume rather than assume persistence.
+
+Source ad66ded/blob023451 integrates2aa14cd, author evidence5025715 integrates
+3ed2362. Author finished/clean; root configure/build/full53 passed and confirmed
+all7 baseline interface/test/contract artifacts unchanged. Separate code reviewer
+independently reproduced new24/full53 and is completing durable source/config
+approval. [Current implementation handoff](storage-010-handoff.md). No actual
+new Ubuntu acceptance run yet. Next: publish draft task PR, observe ordinary49
+case CI, integrate separate sourceapproval then finalmetadata/latesthead gates.
