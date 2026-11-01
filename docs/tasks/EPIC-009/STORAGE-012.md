@@ -48,3 +48,17 @@ build/CI/state/map/HTML/checkpoint. Existing opaque core configuration/context
 references and writer/migration interfaces remain unchanged. Concrete reference
 identity, numeric representation, optional known links, bounds and zero policy
 need explicit reviewed decisions; no finalized wire/config evaluator is inferred.
+
+## Proposed identity and lossless-codec reconciliation
+
+The actual [retention revision1 candidate](../../contracts/retained-context-v1.md)
+uses exact opaque version-reference/document bytes to BLOB and back. Current core
+configuration/context refs are strings; no numeric config-key type exists. Do not
+invent a numeric surrogate or reinterpret those references. Full uint64 decimal
+and binary representations must round-trip unchanged as bytes here, including
+zero/max and distinct spellings. This does not certify a typed numeric SQL codec
+or authorize domain zero. Actual ReceiptId/ContributionId/CapturedPlanRevision
+SQL codec/range/zero gates remain mandatory before their persistence in013/014/015.
+This written reconciliation needs different actual contract/brief review; no
+release-range requirement is removed or dependency changed. Root still owns
+physical DDL acceptance, manifest order/identity and exact projection/digest freeze.

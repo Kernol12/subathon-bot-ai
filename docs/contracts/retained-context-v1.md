@@ -103,6 +103,19 @@ CREATE TABLE subathon_retained_configurations(reference BLOB NOT NULL PRIMARY KE
 CREATE TABLE subathon_retained_contexts(reference BLOB NOT NULL PRIMARY KEY CHECK(typeof(reference)='blob' AND length(reference)>0), document BLOB NOT NULL CHECK(typeof(document)='blob'), configuration_ref BLOB CHECK(configuration_ref IS NULL OR (typeof(configuration_ref)='blob' AND length(configuration_ref)>0)) REFERENCES subathon_retained_configurations(reference))
 ```
 
+Integrator proposal for actual review: these exact two statements form application
+store migration version 1, immutable ID `retain-config-context-v1`, in that order.
+Supported starts are exactly 0 and 1. Its expected projection contains both tables,
+their NULL-SQL primary-key indexes `sqlite_autoindex_subathon_retained_configurations_1`
+and `sqlite_autoindex_subathon_retained_contexts_1`, and all three unchanged reserved
+catalog objects. No other object is omitted. Later receipt/contribution/plan slices
+append migrations; they must not rewrite this version's SQL, ID or projection.
+These root-owned choices still require separate actual contract review and exact
+independent fixture/digest freeze; selected official-Qt fixture validation precedes
+feature red. Root host existing-session probes confirmed both DDL statements and
+these generated NULL-SQL indexes; that is not official bundle or feature proof.
+[Probe evidence](../evidence/storagetest-012-probe.md).
+
 Root owns actual DDL acceptance, manifest identity/order and exact schema/digest
 fixtures before interface/test freeze. Use the verified migration/catalog mechanism;
 no second catalog, IF NOT EXISTS adoption, repair or disabled foreign keys. Existing

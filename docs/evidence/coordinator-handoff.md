@@ -101,3 +101,20 @@ and raw output under local-evidence/coordinator/storagetest012-binding-probe.*.
 Initial scratch compile-overload setup error was corrected and is notred. Both
 root compile/run sessions completed, no root running command. Contract author
 and prepared separate reviewer received exact host-only facts.
+
+## Actual retained-context candidate for separate review
+
+Author3cca59f/contractc53329e integrated8813dcc, author evidence committed and
+clean. Root adds explicit numeric scope reconciliation to012/013/014/015 briefs:
+opaque bytecodec preserves all uint64 forms now, actualtyped domainfields require
+their own lossless SQLcodecs/zero/range gates before persistence. Root proposes
+application migration1 `retain-config-context-v1`, ordered exacttwoDDL, starts0,1
+and7objects (two retained tables/twoNULLindexes/three existing reserved objects).
+These are still actual contract-review proposals, not implemented schema/data.
+
+Focusedexisting-writer host schema probe verifies both exactDDL/generatedNULL
+indexes, exit0; [probe evidence](storagetest-012-probe.md). SelectedofficialQt
+fixture check stillrequired beforefeaturered. No newheader/stub/test/production
+behavior or CIchange. Rootsource4ee/023 and all existing73 featurecases/green7
+are unchanged. Next resume separatepreparedreviewer for actualcontract+brief+
+rootmigrationproposalreview, then resolve findings beforeinterface/testauthoring.

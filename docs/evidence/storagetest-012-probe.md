@@ -54,3 +54,21 @@ new module schema/adapter behavior, later typed uint64 persistence, actual brows
 platform/package/backup/recovery/provider/live behavior are not established by this
 probe. New contract/examples still need actual separate review, then authored/
 reviewed tests and a compiling intended feature red before STORAGE-012 production.
+
+## Proposed DDL shape through the same host writer
+
+After actual contract candidate3cca59f/root8813dcc existed, root compiled a second
+isolated consumer against the same existing writer. It executed the exact two
+proposed CREATE statements from the contract, then SELECT type/name/tbl_name/sql
+from main.sqlite_schema in the same real work session and committed, exit0.
+The observation contains exactly two table rows with unchanged CREATE text and
+two generated index rows, each with SQL NULL:
+
+- sqlite_autoindex_subathon_retained_configurations_1
+- sqlite_autoindex_subathon_retained_contexts_1
+
+Ignored source/raw output: local-evidence/coordinator/storagetest012-schema-probe.cpp
+and .txt. This validates host fixture syntax/projection only. No actual application
+migration/source was created; root's proposed version1/ID/order/projection still
+needs separate contract review, independent literal freeze and selected officialQt
+fixture checks before genuine new retention red. No new module ran or passed.

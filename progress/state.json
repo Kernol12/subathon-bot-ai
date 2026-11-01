@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T13:34:07+00:00",
+  "updated_at": "2026-11-01T13:51:44+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4548,10 +4548,21 @@
       "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-012.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
-        "Claim from refreshed main29f3818 after STORAGE011 PR32 merged finalc31edca with all11checks/actualsource854+finalmetadataa70 reviews/no threads/currentnormalrules. Scope immutable caller-validated configuration/arrival-context opaque documents, version-specific refs/known optional links/conflicting reuse/missing/reopen and lossless numeric values where actualdomain requires; preserve existing opaque core ref strings and fulluint64range, no mutablelatest/evaluator/configwire schema/providerfacts. Initial author owns ONLY new docs/contracts/retained-context-v1.md + docs/evidence/storagetest-012-author.md; contract/examples actualdifferentreview precedes newminimalAPI/stubs/independentoracles/tests/build/review/intendedred. Root owns all actual schema/migrationordering/build/presets/workflow/state/map/HTML/checkpoint. Compose primitive repository ops on existing SqliteWorkSession for laterdurableintake; do not addconnection/thread/autoCOMMIT or changeexistingports/claims. Preserve oldmigration24/writer49/green7 and source4ee/023. No STORAGE012 production implementation before actual reviewed/redbaseline."
+        "Claim from refreshed main29f3818 after STORAGE011 PR32 merged finalc31edca with all11checks/actualsource854+finalmetadataa70 reviews/no threads/currentnormalrules. Scope immutable caller-validated configuration/arrival-context opaque documents, version-specific refs/known optional links/conflicting reuse/missing/reopen and lossless numeric values where actualdomain requires; preserve existing opaque core ref strings and fulluint64range, no mutablelatest/evaluator/configwire schema/providerfacts. Initial author owns ONLY new docs/contracts/retained-context-v1.md + docs/evidence/storagetest-012-author.md; contract/examples actualdifferentreview precedes newminimalAPI/stubs/independentoracles/tests/build/review/intendedred. Root owns all actual schema/migrationordering/build/presets/workflow/state/map/HTML/checkpoint. Compose primitive repository ops on existing SqliteWorkSession for laterdurableintake; do not addconnection/thread/autoCOMMIT or changeexistingports/claims. Preserve oldmigration24/writer49/green7 and source4ee/023. No STORAGE012 production implementation before actual reviewed/redbaseline.",
+        "Actual contract-only3cca59f/blobc53329e integrated8813dcc. Root adds explicit012/013/014/015 brief reconciliation: exactopaque BLOB keys/payload preservefulluint64byteforms now, actualReceiptId/ContributionId/CapturedPlanRevision typed SQLcodec gates remainmandatory later; no redundantnumericconfigID invented. Root proposes actual applicationmigration1 IDretain-config-context-v1 exacttwoDDL+7objects/starts0,1, pendingactualdifferentcontractreview. Focusedunchangedwriter HOSTprobes proveemptyBLOB/null/binarybindings andtwoDDL/generatedNULLindexes, notnewfeature/red/officialbundle. Source/header/tests/actualschema/build/CI unchanged. Authorcleancompleted; reviewerpreparedandmustresumeactualcandidate. Main29f3818all10checks passed."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "contract_authoring": "passed",
+        "contract_review": "not_run",
+        "authored_tests": "not_run",
+        "baseline": "not_run",
+        "product_acceptance": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storagetest-012-author.md",
+        "docs/evidence/storagetest-012-probe.md"
+      ],
       "review": null
     },
     {
@@ -11711,6 +11722,11 @@
       "date": "2026-11-01T13:34:07+00:00",
       "task": "STORAGETEST-012",
       "note": "Claim from refreshed main29f3818 after STORAGE011 PR32 merged finalc31edca with all11checks/actualsource854+finalmetadataa70 reviews/no threads/currentnormalrules. Scope immutable caller-validated configuration/arrival-context opaque documents, version-specific refs/known optional links/conflicting reuse/missing/reopen and lossless numeric values where actualdomain requires; preserve existing opaque core ref strings and fulluint64range, no mutablelatest/evaluator/configwire schema/providerfacts. Initial author owns ONLY new docs/contracts/retained-context-v1.md + docs/evidence/storagetest-012-author.md; contract/examples actualdifferentreview precedes newminimalAPI/stubs/independentoracles/tests/build/review/intendedred. Root owns all actual schema/migrationordering/build/presets/workflow/state/map/HTML/checkpoint. Compose primitive repository ops on existing SqliteWorkSession for laterdurableintake; do not addconnection/thread/autoCOMMIT or changeexistingports/claims. Preserve oldmigration24/writer49/green7 and source4ee/023. No STORAGE012 production implementation before actual reviewed/redbaseline."
+    },
+    {
+      "date": "2026-11-01T13:51:44+00:00",
+      "task": "STORAGETEST-012",
+      "note": "Actual contract-only3cca59f/blobc53329e integrated8813dcc. Root adds explicit012/013/014/015 brief reconciliation: exactopaque BLOB keys/payload preservefulluint64byteforms now, actualReceiptId/ContributionId/CapturedPlanRevision typed SQLcodec gates remainmandatory later; no redundantnumericconfigID invented. Root proposes actual applicationmigration1 IDretain-config-context-v1 exacttwoDDL+7objects/starts0,1, pendingactualdifferentcontractreview. Focusedunchangedwriter HOSTprobes proveemptyBLOB/null/binarybindings andtwoDDL/generatedNULLindexes, notnewfeature/red/officialbundle. Source/header/tests/actualschema/build/CI unchanged. Authorcleancompleted; reviewerpreparedandmustresumeactualcandidate. Main29f3818all10checks passed."
     }
   ]
 }
