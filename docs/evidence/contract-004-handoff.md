@@ -26,8 +26,9 @@ on the full graph. One stale shared claim snapshot used an unrecognized structur
 subsection ref; it was corrected centrally to §3 and the author ff-refreshed shared
 state before final checks. No tooling gate was changed and this is not feature red.
 
-Independent `/root/writer_transaction_reviewer` is examining actual8acbc0a in an
-isolated worktree; final approval and actual GitHub checks are pending. This task
+Independent `/root/writer_transaction_reviewer` approved actual8acbc0a in an
+isolated worktree (27ac83b); PR28 at ca5f7a8 has all11checks successful. Final
+completion-metadata review and latest-head merge gates remain pending. This task
 changes documentation/planning only, no C++/test/schema/migration/workflow behavior.
 Existing automatic suites apply and no new executable CI job is required. No local
 native/probe/provider/platform run is claimed. Existing test suites do not establish
