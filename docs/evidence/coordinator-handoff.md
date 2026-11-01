@@ -106,8 +106,9 @@ authority or a fabricated retained namespace. Actual HistoricalValuation rates/
 source/time remain STORAGE-015; actual ContributionValuation fields remain here.
 
 Latest resume audit:64 existing worktrees all clean,16 absent/prunable historical
-refs preserved; no competing open PR. Root HEAD0a2661d after contract review; task
-branch not yet pushed and no PR37 yet. Actual GitHub main e331714/PR36 MERGED and
+refs preserved; no competing open PR. Published draft [PR37](https://github.com/Kernol12/subathon-bot-ai/pull/37) at
+2b14939551c5607fe1b39efe9339ea0b6517e1f3. Root is preparing minimal build wiring
+while the author prepares the actual API; no new tests are registered yet. Actual GitHub main e331714/PR36 MERGED and
 all11 final PR checks SUCCESS. No native CMake/CTest/Ninja process was active;
 IDE/Codex processes only. Actual agents were completed, then two014 roles explicitly
 resumed as above. Inspect again before assuming these observations remain current.
