@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T13:06:57+00:00",
+  "updated_at": "2026-11-01T13:16:36+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4493,7 +4493,8 @@
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from refreshed mainef29c87 after PR31 merged final8973032 all11checks/no threads/normal rules. Complete baseline new22a85/header02/stub6c/green7832/JSON122/contractcbdea, fullreview01f0975/finale1be8ae, actual22stubredexit8 atcb3 AFTER approval+officialQtgreen7. Implement ONLY server/src/sqlite_migrations.cpp +ownimplementationevidence; rootowns shared build/CI/state/map/HTML/checkpoint/schemaorder. Preserve all reviewed fixtures/assertions/interfaces/contract, existingwriter023451+49 untouched. Scope canonicalcodec/manifestvalidation/exactmetadataidentity/fullschema+integrity/encoding/onewholeprefixtransaction/refusal/cancel/uncertainty through existing private writerAPI only. Accept new22/old49/green7/full76 passing with differentcode/configreview+observedautomaticUbuntu. No domainadapters/backup/updateauthority/appbundle/recovery/provider/platform claims.",
-        "Actual source9eb1fef/blobd91c7d integratede183527 and author evidence0ac896c integrated0118fea. Author/root original22+old49+green7/full76 pass locally; frozen contract/header/10vectors/oldwriter49 unchanged. Different source review found valid leading U+FEFF rejected by QString::fromUtf8 BOM stripping despite all76 green; hold approval/merge, no Unicode scope narrowing. Separate original baseline author assigned focused pure-codec/stored-schema regressions in storage011-unicode-regression; actual independent test review then current-source intended red required before source correction. Root owns shared CI/state/HTML/checkpoint; unconditional CI66be523 ready, actual Ubuntu acceptance pending. No owner question."
+        "Actual source9eb1fef/blobd91c7d integratede183527 and author evidence0ac896c integrated0118fea. Author/root original22+old49+green7/full76 pass locally; frozen contract/header/10vectors/oldwriter49 unchanged. Different source review found valid leading U+FEFF rejected by QString::fromUtf8 BOM stripping despite all76 green; hold approval/merge, no Unicode scope narrowing. Separate original baseline author assigned focused pure-codec/stored-schema regressions in storage011-unicode-regression; actual independent test review then current-source intended red required before source correction. Root owns shared CI/state/HTML/checkpoint; unconditional CI66be523 ready, actual Ubuntu acceptance pending. No owner question.",
+        "Blocking source requestchanges20cc636 integrated2fb5f89. Separate testauthor234c2ec integrated36aca32 adds only95lines/two Unicode regressions, testblob e94befdc; author/root configure/build/exact24discovery/78registrations pass, no newbody executed. All22originalmethods/tenoldvectors unchanged. Root independently reproduced exact638-byte literal/SHA baf9a94e...775b7d without UUT. Different actualtestreview nowrunning before rootred; productiond91 unchanged."
       ],
       "verification": {
         "native_build": "passed",
@@ -4505,9 +4506,18 @@
       },
       "evidence": [
         "docs/evidence/storage-011-implementation.md",
-        "docs/evidence/storage-011-ci.md"
+        "docs/evidence/storage-011-ci.md",
+        "docs/evidence/storage-011-handoff.md",
+        "docs/evidence/storage-011-code-review.md",
+        "docs/evidence/storage-011-unicode-regression.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/debt_code_reviewer (source); /root (shared configuration)",
+        "reviewer": "/root/storage_work_code_reviewer",
+        "outcome": "changes_requested",
+        "baseline": "actual source9eb1fef/blobd91c7d integratede183527, original22/full76 pass but valid initialU+FEFF rejected; review20cc636 integrated2fb5f89. Additive test234c2ec/e94befdc integrated36aca32 compiled24/78 but bodies not executed pending independent actual review.",
+        "evidence": "docs/evidence/storage-011-code-review.md"
+      }
     },
     {
       "id": "STORAGETEST-012",
@@ -11667,6 +11677,11 @@
       "date": "2026-11-01T13:06:57+00:00",
       "task": "STORAGE-011",
       "note": "Actual source9eb1fef/blobd91c7d integratede183527 and author evidence0ac896c integrated0118fea. Author/root original22+old49+green7/full76 pass locally; frozen contract/header/10vectors/oldwriter49 unchanged. Different source review found valid leading U+FEFF rejected by QString::fromUtf8 BOM stripping despite all76 green; hold approval/merge, no Unicode scope narrowing. Separate original baseline author assigned focused pure-codec/stored-schema regressions in storage011-unicode-regression; actual independent test review then current-source intended red required before source correction. Root owns shared CI/state/HTML/checkpoint; unconditional CI66be523 ready, actual Ubuntu acceptance pending. No owner question."
+    },
+    {
+      "date": "2026-11-01T13:16:36+00:00",
+      "task": "STORAGE-011",
+      "note": "Blocking source requestchanges20cc636 integrated2fb5f89. Separate testauthor234c2ec integrated36aca32 adds only95lines/two Unicode regressions, testblob e94befdc; author/root configure/build/exact24discovery/78registrations pass, no newbody executed. All22originalmethods/tenoldvectors unchanged. Root independently reproduced exact638-byte literal/SHA baf9a94e...775b7d without UUT. Different actualtestreview nowrunning before rootred; productiond91 unchanged."
     }
   ]
 }
