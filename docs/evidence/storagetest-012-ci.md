@@ -42,3 +42,28 @@ written latest-head CI gates remain mandatory. New feature fixture/review/red, f
 metadata and normal latest-head merge gates are unperformed. Full domain semantics,
 typed numeric fields in013/014/015, app bundle, recovery/backup/update authority,
 platform/package/browser/provider/live gates remain separate mandatory scope.
+
+## Actual minimal API and draft library build
+
+Author6bfbb90 integrateda6a4402 adds header55c828, explicitstubb27eb488 and
+contractprecision5b0ee84. Three public bodies throw feature_not_implemented;
+constructing the facade only copies the weak revocable session/limits. No lookup,
+retention, byte conversion or manifest generation is implemented.
+
+Root shared e5532d1 adds SUBATHON_BUILD_SQLITE_RETAINED_TESTS, the
+sqlite-retained-debug configure/build/test preset (inherits all existing migration
+flags), and subathon_sqlite_retained_context linked to existing dependencies.
+`cmake --preset sqlite-retained-debug` and `cmake --build --preset
+sqlite-retained-debug` both exit0, no warnings, actual new stub library built.
+CTest JSON discovery preserves exactly78 old registrations and zero new retention
+entries; no new feature body was run. Logs ignored under
+local-evidence/coordinator/storagetest012-api-{configure,build}.log.
+
+Different actual API/stub/precision/minimal-harness approval46fc8ee integrated
+2d0289b includes independent targeted configure/build and exact old-prefix counts.
+Original contract40d0dc6 review remains preserved. Draft PR33 head6fdf620
+all11 existing checks passed; the new module has not yet compiled/run in selected
+CI and no future test fixture/body is approved. New cases/environment/vectors are
+now assigned for authoring, with full actual review and selected fixture/red gates
+still pending. Root will extend the workflow and actual registration when those
+files exist. No earlier check is transferred to a later head.

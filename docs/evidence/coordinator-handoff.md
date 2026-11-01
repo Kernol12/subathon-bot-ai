@@ -39,107 +39,99 @@ No domain schema/realadapter/application bundle/backup/updateauthority/recovery
 or platform/provider upgrade. Preserve clean completed source/reviewer/regression
 worktrees and all historical branches/reviews.
 
-## Active task and ownership
+## Active task and exact current gates
 
-STORAGETEST-012 claimed on `task/STORAGETEST-012-retained-context` from refreshed
-main29f3818. Both dependencies STORAGE-011/CONTRACT-002 are done and actual
-prerequisite PRs integrated. Initial stage is contract/examples only; no new
-header/test/stub/schema/implementation or red claim. [Brief](../tasks/EPIC-009/STORAGE-012.md),
-[existing boundary](../contracts/event-state-boundaries-v1.md).
+STORAGETEST-012, root branch `task/STORAGETEST-012-retained-context`, claim036fad8
+from refreshed main29f3818. Dependencies STORAGE-011/CONTRACT-002 are done and
+integrated. [Draft PR33](https://github.com/Kernol12/subathon-bot-ai/pull/33) was
+published at791cacf, then6fdf620; all11 checks at both observed heads succeeded.
+Those are existing executable suites, not new retention acceptance. Current local
+API/harness/review commits are ahead of published6fdf620 until the next push.
 
-Scope: immutable caller-validated configuration/captured arrival-context opaque
-document bytes, exact version-specific references/known links, idempotent exact
-reuse versus conflict, explicit missing, reopen, lossless identifiers/revisions.
-Keep existing core opaque std::string refs unchanged; do not invent current-settings
-pointers, config/HTTP document shape, evaluator/provider facts or implicit latest
-fallback. Resolve concrete ref/numeric metadata/optional link/zero/bounds policies
-explicitly in reviewed contract. Do not add redundant numeric identity merely to
-exercise a codec; any actual numeric fields retain fulluint64 losslessly.
-Primitive repository operations compose on existing SqliteWorkSession; caller owns
-transaction/commit/publication. Root owns actual schema/migration order and shared
-CMake/presets/workflow/state/map/HTML/checkpoint.
+[Brief](../tasks/EPIC-009/STORAGE-012.md), [contract](../contracts/retained-context-v1.md),
+[author](storagetest-012-author.md), [independent review](storagetest-012-review.md),
+[host probes](storagetest-012-probe.md), [CI assessment](storagetest-012-ci.md).
 
-Author `/root/writer_transaction_reviewer` was explicitly reassigned to new
-isolated local-evidence/worktrees/storagetest012-author, branch
-task/STORAGETEST-012-author. Initial ONLY owned paths:
-docs/contracts/retained-context-v1.md and docs/evidence/storagetest-012-author.md.
-Different reviewer `/root/storage_work_code_reviewer` uses new isolated
-storagetest012-review/task/STORAGETEST-012-review and owns only new reviewevidence.
-No prior review transfers to absent contract/tests. Read-only preparation is done;
-no edits were made during it. Both new worktrees were created clean at claim036fad8
-and actual author/reviewer assignments sent. Author is active on the contract;
-reviewer is active on read-only requirements preparation and waits actual candidate.
-Inspect actual agents and files on resume; do not assume continued background work.
+- Actual contract author3cca59f/c53329e integrated8813dcc, root791cacf adds exact
+  migration1 `retain-config-context-v1`, ordered twoDDL/7objects/starts0,1 and
+  explicit012/013/014/015 scope reconciliation. Actual contracta884f016 approved
+  40d0dc6 integratededdbe2b; no futureartifact approval.
+- Actual API/stub/error precision6bfbb90 integrateda6a4402: header55c82815986052b996a46c408ab616e68815a4f2,
+  explicitstubb27eb48867df8a6dbc2c0c92da3eba0a80b11d76, contract5b0ee84acbbf1a3ce8dbc57f99c110f3073d353b.
+  Three public bodies only throw feature_not_implemented. Facade ctor/dtor copy
+  weak session/limits and do no SQL/cleanup. Source algorithms remain absent.
+- Shared minimal harness e5532d1: new SUBATHON_BUILD_SQLITE_RETAINED_TESTS,
+  sqlite-retained-debug preset, subathon_sqlite_retained_context library. Root
+  configure/build pass/0warnings, newstub library compiled, all78 old registrations
+  unchanged/zero new retention entries; no new body run. Different actual API/
+  precision/harness approval46fc8ee integrated2d0289b after independent targeted
+  build/discovery. Baseline is still in_progress; no feature red observed.
 
-Next actual contract/examples authoring → different actual review → minimal
-interfaces/explicitstubs/independentliteraltests → successful compile/green selected
-driver+old73/discovery → actual separate testreview → genuine intendedred. Only
-then can baseline complete and later STORAGE-012 implementation start. AssessCI
-for new suite without hiding intendedred or rerunning original acceptancebaseline.
-Normal focused PR/mainmerge gates remain mandatory. No owner question.
+Scope uses exact kind+opaque version-ref BLOB bytes, required present document
+bytes (empty allowed/null input invalid), one optional typed config link, immutable
+exactduplicate/conflict/missing and owned results. Public validation order is
+options→kind→key→retain document→link beforeSQL; valid calls retain unchanged
+session exceptions. Selected malformed/dangling known links and well-typed
+over-limit rows clean up before distinct known failures; uncertainty overrides.
+Caller owns ordinary transaction/commit/publication; no global audit, own writer,
+connection, autoBEGIN/COMMIT, current-pointer/evaluator/wire schema is supplied.
 
-Ruleset26170263 current applicable main rules: required PR/resolved threads, zero
-GitHubapprovals, no bypass/force/delete. No required-status-check rule; written
-all-applicable-latest-headCI gate still applies. GitHub approval requirements cannot
-be replaced by repository evidence. Actual postmerge main29f3818 all ten workflows succeeded.
+Fulluint64 opaque representations are preserved here without invented numeric
+config keys; actualReceiptId/ContributionId/CapturedPlanRevision typed SQL codecs
+remain explicit mandatory gates in013/014/015. All old4ee/023 sources, core ports,
+old73 feature cases/green7/fixtures/interfaces remain unchanged.
 
-Last full local audit before the additive author wrote:53 existingworktrees clean,
-16 absent historical/tmp references preserved; no pruning. Host repo-scoped audit
-found five CLion processes, no native build/test command then. Source/regression/
-review agents completed clean; no root running command after merge/fetch. Recheck
-actual state on resume; preserve unfinished work and valid reviews.
+## Actual ownership and next action
 
-Full agreed product remains incomplete: all seven integrations, three FXproviders,
-domain/application bundle/backup/update/recovery, renderers/UI/locales/themes,
+Author `/root/writer_transaction_reviewer` is explicitly active in isolated
+local-evidence/worktrees/storagetest012-author, branch task/STORAGETEST-012-author.
+Contract/API/stubs are now frozen at5b/55/b27. Expanded new owned paths:
+
+- tests/qt/sqlite_retained_context_tests.cpp
+- tests/qt/sqlite_retained_context_environment.cpp
+- tests/fixtures/retained_context_vectors.json
+- Existing docs/evidence/storagetest-012-author.md
+
+Planned16 feature slots and3 green existing-capability environment slots are NOT
+yet an actual authored/compiled/approved suite. Author may commit authored files
+before shared CMake integration; report uncompiled rather than inventing a run.
+Root then registers/builds actual artifacts. No new feature body may execute until
+actual separate fulltest/interface/fixture/harness approval AND selected officialQt
+greenfixture proof. Independent expected SQL/projection/fullpayload/SHA must not
+come from the new UUT factory/adapter; fixture init must not call an explicit stub.
+Green probes may exercise existing writer/literal fixture support only.
+
+Different reviewer `/root/storage_work_code_reviewer` completed API review clean
+in isolated storagetest012-review/task/STORAGETEST-012-review, owns only
+docs/evidence/storagetest-012-review.md. It must be explicitly resumed for actual
+new tests; no future approval transfer. Root owns all shared build/preset/CI,
+actual schema/migrationorder, state/map/HTML/checkpoint and integration. Root new
+test registration/workflow changes are still pending actual files. No owner question.
+
+Next author actualQt cases/env/vector→root register/configure/build/discovery and
+green localfixture→actual full separate review plus selectedofficialQt fixture
+proof→genuine intended feature red. STORAGE-012 implementation remains forbidden
+until that completed baseline. Retain all existing green behavior/reviews; do not
+repeat any original red or claim passing retention from compiling stubs.
+
+## Resume audit and full scope
+
+Latest actual full worktree audit:55 existing worktrees clean at the snapshot,16
+historical absent/tmp references preserved/no pruning. Author may write new files
+after that snapshot; inspect actual status/agents/processes/GitHub on resume.
+Root configure/build and prior native probe sessions completed, no root running
+command after this checkpoint commit. Earlier host process audit found five CLion
+processes/no native build/test command then; no process was killed. Preserve all
+old source/reviewer/regression branches and valid reviews. Author normal refresh
+resolved an add/add contract conflict to exact approveda884f016, preserving both
+histories in cf147a7; no reset/discard.
+
+Ruleset26170263 currently requires PR/resolved threads, zero GitHub approvals,
+no bypass/force/delete. There is no required-status-check rule; written applicable
+latest-head CI remains mandatory. No repository evidence replaces any required
+GitHub approval. Main29f3818 all ten postmerge workflows passed.
+
+Full agreed product remains incomplete: all seven integrations, three FX providers,
+domain/application bundle, backup/update/recovery, renderers/UI/locales/themes,
 packaging/platform/live/OBS gates remain mandatory. No live credentials/supporter
-data/chat/payment/deployment side effects.
-
-Root also ran a focused existing-writer host binary-binding probe (not012feature
-implementation/red), actual emptyBLOB/NULL/binary type/length/hex distinctions
-verified with realwork/commit. [Evidence](storagetest-012-probe.md), ignored source
-and raw output under local-evidence/coordinator/storagetest012-binding-probe.*.
-Initial scratch compile-overload setup error was corrected and is notred. Both
-root compile/run sessions completed, no root running command. Contract author
-and prepared separate reviewer received exact host-only facts.
-
-## Actual retained-context candidate for separate review
-
-Author3cca59f/contractc53329e integrated8813dcc, author evidence committed and
-clean. Root adds explicit numeric scope reconciliation to012/013/014/015 briefs:
-opaque bytecodec preserves all uint64 forms now, actualtyped domainfields require
-their own lossless SQLcodecs/zero/range gates before persistence. Root proposes
-application migration1 `retain-config-context-v1`, ordered exacttwoDDL, starts0,1
-and7objects (two retained tables/twoNULLindexes/three existing reserved objects).
-These are still actual contract-review proposals, not implemented schema/data.
-
-Focusedexisting-writer host schema probe verifies both exactDDL/generatedNULL
-indexes, exit0; [probe evidence](storagetest-012-probe.md). SelectedofficialQt
-fixture check stillrequired beforefeaturered. No newheader/stub/test/production
-behavior or CIchange. Rootsource4ee/023 and all existing73 featurecases/green7
-are unchanged. Next resume separatepreparedreviewer for actualcontract+brief+
-rootmigrationproposalreview, then resolve findings beforeinterface/testauthoring.
-
-## Current precise next stage
-
-Actual contract/root migration/brief proposal at791cacf, contracta884f016, was
-independently approved40d0dc6 integratededdbe2b for interface/test authoring ONLY.
-Draft [PR33](https://github.com/Kernol12/subathon-bot-ai/pull/33) published at
-791cacf has all11 existing checks SUCCESS; no newfeaturebody/API/selectedfixture
-was exercised there. [CI assessment](storagetest-012-ci.md).
-
-Author explicitly resumed in storagetest012-author for ONLY existing contract/
-author evidence plus NEW server/include/subathon/server/sqlite_retained_context.hpp
-and server/src/sqlite_retained_context.cpp, explicitfeature_not_implemented stubs
-and minimalvalueinterfaces. Freeze concrete error/precedence/empty-result ownership
-precision, commit actualAPI/stub candidate before fullQt testauthoring. No new
-Qtcase/env/vector files are assignedyet. Different reviewer completedcontractreview
-clean and waits tobe resumed for actualAPIprecisionreview, no approvaltransfer.
-Root owns minimalbuild/preset/CI andactualschema/order; no newharness edits yet.
-
-Next integrateAPI/stubprecision, review it, then expandauthorownership to actual
-Qt featuretests/onegreenfixtureprobe/independentfrozenmanifestvectors. Configure/
-build successfully, selectedofficialQt greenfixture proof, actualfulltest/interface/
-fixture/harnessreview, then intendedfeaturemissing red. STORAGE012 production
-implementation remainsprohibited untilthatnewbaselinegate, existing73 untouched.
-No ownerquestion/no root runningcommand. Inspect actualagent/file/GitHubstate on
-resume, especiallyauthoruncommittedAPIwork; preserve it.
+data/chat/payment/deployment side effects. No access or owner decision is needed.
