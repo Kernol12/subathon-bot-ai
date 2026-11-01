@@ -91,3 +91,47 @@ crash/power-loss durability, backup/recovery, Windows or release/provider/platfo
 verification is supplied. The low-level trusted-SQL boundary does not define product
 input limits or permit a caller to replace exact decimal/accounting contracts with
 floating point. Full release scope and downstream gates remain unchanged.
+
+## Reviewed ownership regression and focused correction
+
+The initial sourcef2a6379/blob a8e5c8e passed the original22 cases but did not
+fully own accepted raw-backed Qt data: implicit-sharing copies can retain
+QString::fromRawData/QByteArray::fromRawData storage. The coordinator held merge
+approval and commissioned three separate tests of the existing owned-admission
+guarantee. This corrects the earlier implementation's ownership gap; no contract
+or product scope changed.
+
+New tests blob`34c25c2786db42f6a4483fc874da9d4d3fc525a3` were independently approved
+in94820fa, integratedf79d002 before root ran their bodies. Actual sourcea8e5c8e
+failed all3 for the intended value differences (SQL9 instead of1, textzbc instead
+ofabc, blob7A6263 instead of616263), with successful fixtures,0skips and exit8.
+The approved/regression-red gate was committed1499d57 before the production fix.
+[Regression authoring](storage-001-ownership-tests.md),
+[independent review](storage-001-code-review.md) and
+[actual red](storage-001-ownership-red.txt) retain that sequence. The original
+22-case stub-red remains unchanged.
+
+Narrow source correctionbe533bd, blob
+`829d9c66e47168384510e8ed2ff436e272686414`, snapshots each admitted SQL QString
+and QString/QByteArray binding through their copying data/size constructors.
+Null buffers/variants remain null, non-null empty buffers remain distinct, other
+scalar values and QVariant types remain unchanged. Existing validation and payload/
+row/count limits run before the snapshot; transactions, scheduling and callbacks
+are unchanged. No test/interface/contract/shared build file was edited here.
+
+After the correction, actual commands on the same GNU16.2.1/Qt6.12.0 environment:
+
+| Command | Actual result |
+| --- | --- |
+| `clang-format -i server/src/sqlite_writer.cpp` | Exit0 |
+| `cmake --preset sqlite-writer-debug` | Exit0 |
+| `cmake --build --preset sqlite-writer-debug` | Exit0 |
+| `ctest --preset sqlite-writer-debug -L sqlite-writer` | Exit0; original22 + new3 =25/25,0skips |
+| `ctest --preset sqlite-writer-debug` | Exit0;28/28 including3 infrastructure checks |
+| `git diff --check` | Exit0 |
+
+Unchanged exact artifacts were rechecked: original22 test blobf8418e83, new3 blob
+34c25c27, public header11d204aa and contract4d280461. The implementer owns only
+this source and append-only evidence. Independent corrected-source approval,
+coordinator integration, actual Ubuntu automatic25-case acceptance and latest-head
+PR gates remain required; no application/recovery/provider/platform claim is added.
