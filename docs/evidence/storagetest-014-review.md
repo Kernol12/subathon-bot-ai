@@ -415,3 +415,77 @@ first genuine intended red. That runtime/raw record and final completion metadat
 need their actual attribution review; none is pre-approved here. No native/old-red
 repetition or new feature-body invocation was used for this review. Finish only
 PR37 and necessary gates/fixes, then stop; no next-task or source implementation.
+
+## Final actual completion, CI and first-red attribution review
+
+Verdict: **approved actual PR37 baseline completion metadata and attribution**,
+with no unresolved finding. Reviewed root
+df84978e9ee8f924cb84ed5cb393d90c8e1885ed and concrete checkpoint correction
+1661997733800353738a128428a56bca12c161dd, normally merged in the assigned
+review tree. Only this appendix changed here. No native, new feature/init or
+historical-red body was rerun for metadata. This approves no implementation,
+future-head CI or merge; after this review the reviewer stops.
+
+Checked all nine exact hashes listed in the full-review table/API references
+against actual81e0d5a, CI/red399fc442b960af943191b1ab35ca5a53e94df05d,
+completiondf84978, correction1661997 and review HEAD. Feature46c/green577/JSON44df/
+header0abee/stub0ad/logicalf503/physicaleeb/CMakef308/workflow48ece remain identical.
+The integrated1b4c48c review file is byte-identical to actual81e0d5a and that root
+integration is an ancestor of399fc44. Claim ancestry starts from actual integrated
+maine331714 before ae1251d/authoring. Original contracts/core/service/old assertions,
+passing implementations and prior red histories remain preserved. Four new
+entrypoints still immediately throw the named NotImplemented marker.
+
+Read the complete cached JSON and executed log for
+[automatic run41347563063](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41347563063),
+then independently fetched `gh run view 41347563063 --json
+databaseId,headSha,status,conclusion,event,url` and exact399fc44 check-runs.
+Actual pull_request run completed SUCCESS; all11 checks at that exact historical
+head are completed/success. Observed Qt/ICU hashes OK, GNU13.3.0,70-step build
+including new stub/feature/green sources, Qt6.12.0/SQLite3.53.4, all old111 cases
+unconditional and old diagnostics passing. Current577 green has the exact three
+compiled slots and5passes including init/cleanup,0failed/0skipped. Exact24 feature
+discovery passed; the separate manual feature step was SKIPPED because not invoked.
+No contribution feature-body PASS/FAIL appears in that official log. This proves
+the new selected fixture, beyond the earlier inherited-profile/API CI.
+
+CI job completion20:35:53Z precedes the separate recorded FIRST feature start
+2026-11-01T20:37:06.321566+00:00 at the SAME clean399fc44. Read ignored
+storagetest014-red-metadata.json: exact head/full-review/hash preflight, command,
+returncode8, timestamp and counts. Parsed every line of
+[original raw red](storagetest-014-red-ctest.txt), blob
+aaa572b05cb83d570cea8eb626d363dbf8c14e87. Recorded command is exactly
+`ctest --preset sqlite-contribution-debug -L '^sqlite-contribution$' --output-on-failure --parallel 1`.
+All24 unique failed names match the frozen slots and explicitly identify named/
+intentionally unimplemented contribution behavior; all24 initTestCase and24
+cleanupTestCase PASS, with24 summaries2passed/1failed/0skipped/0blacklisted.
+Actual CTest exit8/24failed/0.33s contains no crash/setup/dependency failure. This
+is genuine missing-behavior red, not successful later assertions: most remain
+unreached until future implementation. HostGNU16.2.1/SQLite3.54 and local119 stable
+results remain separately attributed from selected CI3.53.4 and local first red.
+
+Read current state/map/brief/handoff/CI/STOP checkpoint. All391 task IDs and
+dependencies are unchanged since full approval; only STORAGETEST-014 task data
+changed. Its done status is test_baseline completion, with baseline and product
+acceptance observed_red. STORAGE-014 stays planned/unclaimed with no verification
+or code review; DB-01 stays partial. No actual contribution codec/manifest/repository,
+semantic namespace/authorization, provider fact, effect/job/application bundle,
+backup/update/recovery/power-loss/platform/live/full-product capability is claimed.
+All remaining release scope is preserved. Fresh open-PR readback showed only37.
+The owner's explicit instruction remains finish PR37, reconcile main/GitHub and
+STOP; no next task or source14 continuation follows this baseline.
+
+The actual1661997 correction resolves the current checkpoint's stale preparation/
+next-review wording: it now attributes historical399 success, committeddf metadata,
+active final review and unpublished/latest-metadata CI as separate facts. Actual
+changes were inspected before this verdict. Independent inline raw/CI-log/hash/
+ancestry/state/map/chronology checks pass; `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check` and `git diff --check` pass391 tasks/
+122 decisions/current HTML. Root tooling19/DOM/format/actionlint reports remain
+attributed to root; no actual browser/OBS validation was performed here.
+
+Root still must publish the exact final metadata/review head, observe its current
+all checks, recheck actual rules/required approvals/resolved discussions/mergeability,
+merge normally with exact-head protection, refresh main and record actual stop/
+PR outcome while keeping main clean. Historical399 CI is not transferred to this
+review commit or a future head. After those PR37 actions, STOP.
