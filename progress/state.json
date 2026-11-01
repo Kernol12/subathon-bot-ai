@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T19:49:21.771969+00:00",
+  "updated_at": "2026-11-01T20:10:31.538830+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention and receipt-repository components have reviewed acceptance evidence. Contribution/plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4779,7 +4779,7 @@
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
-      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-014.",
+      "summary": "24 real-SQL contribution cases and independent literal/green fixtures compile; full baseline review, selected official Qt proof and first intended red remain pending.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claimfromfreshmain e331714e0a03aae0a7c908721f92ea19a1756f62 afterPR36actualnormalmerge2026-11-01T18:55:47Z final4fc0824/all11SUCCESS/source84+finalmetadatad6/currentrules0requiredapprovals/no threads. STORAGE013/ACCT002integrated; original21service/eligibilitysimulations remainnotSQLproof. InitialstageONLYnewsqlite-contributions-v1 contract/examples+ownevidence, thenactualdifferentcontractreview beforeAPI/stubs/tests. PreserveContributionEvidenceServicepolicy/ports/coretypes/originalsupport+receiptprojections/immutableobservations/independentconditions+evidence+linkstate/realcommit+knownrollbackvsuncertaintruth. TypedContributionIduint64actualcodec/absence/zero/max/exhaustion mustbeexplicit:newsearchfindsNOexistingContributionId0rejection (PlanEvent usesoptionalCId; validateCapture rejectsReceiptId0ONLY; oldfake1notpolicy). ProposedfullContributiondomain0..MAX/nullableallocatorbeforefirst0unlessactualagreednonzerorulefound; ReceiptId1..MAXunchanged. ValidatecommittedimmutableReceiptprojection/preconditionswithoutfabricatingnewprivatewriterproof/adoptcommitguarantee. ExistingContributionValuation hasmonetary/originalMoney/resolutionRef/missingRate, no actualratefields; actualrate/source/timeproofremainswritten015gate. Rootownsphysicalschema/globalmigration3/immutableprefix1+2/order/allbuild/CI/state/map/checkpoint. No provider/verificationauthority invention, money/timecorrelation, effects/jobs/applicationpermission/recovery scope upgrade. Newauthor/reviewer worktreeswillbecreatedfromclaim; no production/source14claim ornewred beforeactualreviewedcompiledbaseline.",
@@ -4788,13 +4788,34 @@
         "Actual contract-only approval f76817a integrated0a2661d for logical43bd/physicaleeb. Independent literal SQL diagnostics 241/179 expected refusals, exact20 objects/prefixes/F18126/SHA b72249ba...d1d. Author and reviewer were completed, then explicitly resumed for minimal new API/named stubs and read-only precision preparation respectively; no new tests/fixtures/red or production behavior authorized before actual next gates. Resume audit64 clean existing worktrees/16 absent preserved, no competing PR or native process; actual main e331714/PR36 MERGED. No owner access/decision needed.",
         "Published focused DRAFT PR37 at2b14939551c5607fe1b39efe9339ea0b6517e1f3. Existing ordinary checks started; actual new API/tests/fixture/red gates remain pending. Root tooling19/project391/currentHTML/DOM simulation/diff passed; no actual product browser/platform proof.",
         "Actual minimal API/stub candidate94681d integrated727f59d: typed CId encode/decode, manifest and repository begin are four immediate named NotImplemented throws; inert constructors only. Header0abeea2/stub0ad1315/logical precision1a96354. Root minimal CMake/new sqlite-contribution-debug configure/build62 steps and unchanged inherited118 tests pass2.56s, no new contribution body invoked/test authored/fixture/red observed. Different actual API/config review required next.",
-        "Actual API/STUB/minimalCONFIG approval77a9544 integrated29443f5 after docs-only2e056fe/root2530654 exact n+1 vector/qsize/qint64 bounds and ReceiptId0 error priority. Header0abeea2/stub0ad1315/final logicalf503/physicaleeb approved; independent62-step build and inherited118 discovery pass. Only then explicitly assigned feature author (new Qt test/own note), independent literal JSON+existing-writer green helper in new65th tree, and different read-only test-review preparation. No new feature body/red or implementation; full actual test/fixture/harness review and official green proof still pending."
+        "Actual API/STUB/minimalCONFIG approval77a9544 integrated29443f5 after docs-only2e056fe/root2530654 exact n+1 vector/qsize/qint64 bounds and ReceiptId0 error priority. Header0abeea2/stub0ad1315/final logicalf503/physicaleeb approved; independent62-step build and inherited118 discovery pass. Only then explicitly assigned feature author (new Qt test/own note), independent literal JSON+existing-writer green helper in new65th tree, and different read-only test-review preparation. No new feature body/red or implementation; full actual test/fixture/harness review and official green proof still pending.",
+        "Actual independent fixture/helper ea31c44 integratedc76c8e0: JSON44df9918/green9bf785d; literal18126-byte payload/SHA/prefix13+7 and six decimalSTRING/hex CIds independently derived, no UUT/root prototype. Manual existing-writer-only Qt consumer compile0warnings/green3 (5total/0skip) passes host Qt6.12/SQLite3.54; no14 feature call or prior-commit/provider semantics claim. Reviewer explicitly resumed preliminary fixture/green-only review of actual revision; feature author still writing24 cases, root shared harness edits await concrete feature candidate.",
+        "Latest owner instruction: cleanly finish open PRs and then STOP. Actual GitHub audit finds only DRAFT PR37. Finish this baseline PR through all applicable gates, normal merge, main reconciliation and clean handoff; do not start STORAGE-014 implementation or another task afterward. Full release scope remains incomplete.",
+        "Actual24 feature author d438e2e integrateda8eaf15, sourceaf2dc41f3e0db8c140eabab6663c5c2e2683864c. Corrected green577edeb/JSON44df independently approved27aa55f/rootdb633fb, preserving all old negatives and adding isolated ID-type/length INSERTs. Root actual full configure/build/link0warnings; exact143 registrations including24 compiled feature methods and3 green slots. Root119 inherited+green tests PASS2.59s; newgreen5 inclinitcleanup/0skip Qt6.12SQLite3.54. No NEW feature body/red. Actual shared CMake/workflow candidate switches same pinned job to new profile, preserves old111 unconditional SQL cases, adds automatic requiredgreen3/exact24discovery and explicit separate manual feature input defaultfalse. Different full actual baseline/harness review must precede selectedofficialNEWgreen proof and firstred. Latest owner says finish PR37 then STOP; source14 stays planned."
       ],
-      "verification": {},
+      "verification": {
+        "contract_authoring": "passed",
+        "contract_review": "passed",
+        "interface_authoring": "passed",
+        "interface_review": "passed",
+        "authored_tests": "passed",
+        "native_build": "passed",
+        "diagnostic_environment": "passed",
+        "official_qt_environment": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "product_acceptance": "not_run",
+        "platform_release": "not_run",
+        "existing_writer_acceptance": "passed",
+        "ci_harness": "partial",
+        "github_ci": "partial"
+      },
       "evidence": [
         "docs/evidence/storagetest-014-author.md",
         "docs/evidence/storagetest-014-probe.md",
-        "docs/evidence/storagetest-014-review.md"
+        "docs/evidence/storagetest-014-review.md",
+        "docs/evidence/storagetest-014-fixtures.md",
+        "docs/evidence/storagetest-014-ci.md"
       ],
       "review": null
     },

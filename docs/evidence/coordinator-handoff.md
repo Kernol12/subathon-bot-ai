@@ -1,8 +1,11 @@
 # Coordinator checkpoint — STORAGETEST-014 API stage
 
-Coordinator `/root`, 2026-11-01. Continue full specification v0.45 under AGENTS.md/
-COORDINATOR_PROMPT.md. No owner decision/access is needed; product remains
-incomplete. Inspect actual files/worktrees/agents/processes/GitHub before resuming;
+Coordinator `/root`, 2026-11-01. **Latest owner instruction: cleanly finish
+the open PRs, then STOP.** Actual open-PR audit finds only PR37, STORAGETEST-014.
+Complete its required review/build/official-green/first-red/CI/merge gates, then
+stop all coordination work. Do not select STORAGE-014 or another task afterward.
+Full specification v0.45 remains incomplete; no release completion is claimed.
+No owner decision/access is needed. Inspect actual files/worktrees/agents/processes/GitHub before resuming;
 this document never implies automatic background execution.
 
 ## Actual integrated main and completed gates
@@ -97,15 +100,34 @@ After integrating actual approval, root explicitly assigned:
   will compile/list new baseline, run all stable suites/new independent green
   automatically and keep intentionally red feature execution explicit/separate.
 
-Next integrate actual tests/fixtures and register exact compiled methods, then
-separate actual full test/fixture/harness review. Successful compilation and selected
-OFFICIAL Qt green setup must precede the FIRST intended missing-behavior red.
-STORAGE-014 implementation remains planned until that baseline is complete and
-integrated. No historical red repeated; all existing assertions remain frozen.
-Root has uncommitted tests/qt/CMakeLists.txt and sqlite-writer.yml additions for
-the planned24 feature methods, three required independent green slots and explicit
-manual red control. Do not configure until the actual candidate files arrive;
-review/register/compile exact committed artifacts before any execution.
+Actual independent helper ea31c44 integratedc76c8e0: JSON44df9918/green9bf785d,
+full18126-byte literal payload/SHA and old13/7 prefixes. Host manual writer-only
+compile0warnings/green3 (5total/0skip) passes Qt6.12/SQLite3.54. Actual helper is
+complete/clean; reviewer explicitly reassigned to preliminary FIXTURE/GREEN-ONLY
+inspection of c76c8e0 while feature author continues24 slots. No absent feature/
+full-harness/official-green/red approval. [Fixture evidence](storagetest-014-fixtures.md).
+
+Actual fixture cause-isolation fix5170208 integrated5471f85 preserves prior negatives
+and adds healthy unanchored INSERT cases for TEXT8/INTEGER/BLOB7/BLOB9/NULL.
+Different actual JSON/GREEN-only approval27aa55f integrateddb633fb accepts
+JSON44df9918/green577edeb; independent framing/schema and manualgreen5/0skip pass.
+
+Actual24 feature candidate d438e2e integrateda8eaf15, test source
+af2dc41f3e0db8c140eabab6663c5c2e2683864c. Root actual shared harness is now complete:
+configure/build/link0warnings; exact143 registrations/24 feature methods/3 green
+slots. Root stable+green119 PASS2.59s; actual green5/0skip Qt6.12SQLite3.54.
+Feature bodies have NOT RUN. API/stub/physical/old sources/assertions unchanged.
+New shared CI keeps old111 cases unconditional, required green3 automatic and full
+new baseline compile/discovery automatic; intentional feature red is explicit and
+separate (manual defaultfalse input, not invoked). actionlint/format/diff pass.
+
+Next obtain different ACTUAL FULL24/fixture/harness review at the committed root
+revision, then publish approved candidate and inspect actual selected OFFICIAL Qt
+NEWgreen3/compiled24 discovery/pins/oldlanes. Only after that, root FIRST intended
+missing-behavior red. Preserve that original record; do not repeat it. Complete
+metadata/CI-attribution review/latest-head checks/rules/discussions, normal merge
+PR37, verify main and STOP under latest owner instruction. STORAGE-014 remains
+planned; do not claim/select/implement another task. No historical red repeated.
 
 ## Preserved boundaries and audit
 
