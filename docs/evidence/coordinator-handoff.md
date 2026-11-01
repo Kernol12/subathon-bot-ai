@@ -1,4 +1,4 @@
-# Coordinator handoff — session checkpoint after PR26
+# Coordinator handoff — CORE-005 active
 
 Coordinator `/root`, resumed 2026-11-01. Standing full-specification v0.45 loop is active;
 no routine approval/product question remains. Earlier ownerstop was explicitly
@@ -133,31 +133,34 @@ No source/history/protection setting or approval was lost. Ruleset26170263 requi
 PRs/resolvedthreads, zero GitHub approvals, no main force/delete or bypass actors,
 and no required-status-check rule. All latest CIchecks remain written merge gates.
 
-## Next concrete action and remaining gates
+## Current CORE-005 assignment
 
-Session checkpoints for its context limit; no background execution is claimed.
-Standing full-v0.45 coordination is not complete and no owner question/access is
-needed. Nextselected task CORE-005 is dependency-ready but unclaimed: inspect actual
-main/branches/worktrees/PRs/checks/agents first, create a dedicated branch fromfresh
-main and claim before editing. Reuse reviewed32casebaseline above; assign bounded
-implementation of `core/src/time_debt.cpp` and separate code review in isolated
-worktrees. Preserve tests/header/contract. Safe signedMIN arithmetic, fullprovenance,
-wholehold/overflow, debt-before-cap and nonreducingheadroom0 are reviewedrequirements.
+Resume audit confirmed mainbca06e8 and PR26merged/final10438ca all11checks;
+mainall10checks success, no open PR/taskclaim/running oldagent/nativeprocess.
+40existingworktrees clean;16historicaltmpabsent refs preserved/no pruning.
+Local checkpointa85db0b is preserved and its metadata folded into this normal task.
 
-Root owns shared CMake/preset/CI/labels/state/map/checkpoint. Promote current
-`time-debt-build` from build/discovery to ordinary unconditional32case acceptance,
-observe actual passing UbuntuCI, require separate actualcodeapproval, final
-integration/localchecks/latestPRCI/discussions/currentrules before merge. No
-proportionalrefund/accounting transaction, provider/platform capability is implied.
-Then select the next ready bounded slice; STORAGE002 needs careful schema/repository
-scope decomposition as necessary, and other core/rules/modifiers/contracts remain.
+Claim05961a8 on `task/CORE-005-time-debt` fromfreshmainbca06e8.
+- `/root/debt_implementer` owns ONLY `core/src/time_debt.cpp` and
+  `docs/evidence/core-005-implementation.md` in
+  `local-evidence/worktrees/core005-implementation`, branch
+  `task/CORE-005-implementation`. Reports first32/full35pass; committed candidate
+  and independentreview still pending. Existingcontract/header/tests immutable.
+- `/root/debt_code_reviewer` completed read-only prep; actualcandidate and isolated
+  reviewerworktree follow sourcehandoff. No codeapproval yet.
+- Root owns CMake/presets/CI/labels/map/state/HTML/checkpoint/PR integration.
+  CI promotion removes manual behaviorguard, retains time-debt-build checkname,
+  adds exact compiledGoogleTest/CTestJSON registration equality then real32cases.
 
-Final GitHub inventory: no open PRs; main plus the three completed focused task
-heads (STORAGETEST001, STORAGE001, CORETEST005). No supportbranch was published.
-Earlier cleanup34/archives remain untouched; no new remote deletion is claimed.
-No uncommitted source/test/workflow or retained buildprocess exists. This local
-metadata checkpoint itself is committed after project/progress/diff verification.
+Reuse baselineapprovalb341/final547 and intended32stubred dba4401; never repeat
+completed preparation or change reviewedassertions to pass. Scope is pure already
+calculated signedreversals/debt-first additions, not proportionalentitlement or
+actual application/audit/permission/persistence/provider/platform behavior.
 
-Full product is NOT complete: application/aggregates/refunds, all7integrations/
-3rateproviders, supportedplatforms, both renderers, UI/localization/themes, packaging
-and live/OBS verification retain every recorded gate. No percentage is inferred.
+Next: integrate actualcandidate, rootconfigure/build/32/full35 checks, separate
+actualsource/configreview, focuseddraftPR and observed ordinaryUbuntu32acceptance.
+Then complete metadata/finalreview/latestCI/discussions/currentnormalrules before
+merge and immediately select nextreadytask. Root edits currently are CI promotion
+and this checkpoint; sourceauthor edits stay isolated. No ownerinput needed.
+Full product remains incomplete with all7integrations/3rateproviders, app/accounting,
+renderers, UI/locales/themes, packaging/platform and live/OBS gates preserved.

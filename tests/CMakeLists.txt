@@ -19,7 +19,7 @@ if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     target_link_libraries(core_time_debt_acceptance PRIVATE subathon_time_debt subathon_timer_lifecycle GTest::gtest_main)
     subathon_target_options(core_time_debt_acceptance)
     gtest_discover_tests(core_time_debt_acceptance PROPERTIES
-        LABELS "time-debt;acceptance;draft;core" TIMEOUT 5)
+        LABELS "time-debt;acceptance;core" TIMEOUT 5)
 endif()
 if(SUBATHON_BUILD_ACCEPTANCE_TESTS)
     add_executable(core_credit_acceptance acceptance/time_credit_tests.cpp)

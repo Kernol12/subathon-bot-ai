@@ -95,7 +95,7 @@
     },
     {
       "name": "time-debt-debug",
-      "displayName": "11 \u00b7 Time debt test baseline",
+      "displayName": "11 \u00b7 Time debt acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_TIME_DEBT_TESTS": "ON"
