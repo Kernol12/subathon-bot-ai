@@ -97,20 +97,34 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-Bounded STORAGE-001 implementation is done with separate code/configapproval
-d6f9c49 (integrated422acfd), sourcea8e5c8e, unchanged22testsf8418e83/header11d204aa/
-contract4d280461. Author/root/reviewer fullpreset25pass. Actual automatic Ubuntu
-CI41289246502 at[PR25](https://github.com/Kernol12/subathon-bot-ai/pull/25) headed5da87
-passed22real cases+Qtprobe1, Qt/ICUhashesOK/GNU13.3, all10checks passed there.
-Final completionmetadata/actualCI-evidence reviewapprovedfe07db0. Publish exact
-final approval, then require all latest PR25 checks/discussions/current normalrules
-before merge.
-After merging refreshmain and choose next dependency-ready bounded baseline;
-STORAGETEST-002 or CORETEST-005 unlock more authoritative application/accounting.
-Do not treat primitive writer success as full schema/application/recovery support.
+PR25 is draft again and STORAGE-001 in_review: premerge raw-buffer investigation
+confirmed an existing ownership guarantee violation in sourcea8e5c8e. Reviewer
+9623943 (integrated8b7f28e) holds only the disproved ownership conclusion of prior
+approval, preserving all valid22baseline/local/CI evidence. ActualQt6.12 probe kept
+raw backing alive, mutated after admission and observed acceptedSQL1->9/textabc->zbc/
+blob616263->7a6263. Probe is diagnosis, not reviewed regression/red evidence.
 
-Root's uncommitted edits are completion state/map/docs/handoff/CI outcome/checkpoint;
-source/config are committed and the author worktree is clean. No native root command is left running. Inspect
+`/root/storage_test_author` owns only new
+`tests/qt/sqlite_writer_ownership_tests.cpp` and ownership-author evidence in
+`local-evidence/worktrees/storage001-ownership-tests`, branch
+`task/STORAGE-001-ownership-tests` at5790bd5. Three cases preserve original22file/
+contract/header and keep raw buffers alive, mutate after admission, assert original
+admission values. Compile/discover only until separate reviewer approval. Root adds
+separate executable/CTest3 and grouped completeCI registration, no behavior skip.
+`/root/storage_code_reviewer` will review actual3cases before intendedred;
+`/root/storage_implementer` is explicitly waiting for reviewed regression+red before
+small deep-owned SQL/QString/QByteArray admission fix. Do not fix before that gate.
+
+Current nextaction: author handoff -> independent3case review -> actual intended
+red againsta8e -> normalize owned values -> rerun22+3/regressions and separate
+code/configreview -> actual automatic Ubuntu25acceptance -> finalstatus/review/
+latestCI/normalmerge. No owner decision needed; this enforces current contract,
+not a new product restriction. CORETEST-005 read-only prep by/root/debt_test_author
+is complete, no files/claim; its proposal is ready for a later dedicated task branch.
+
+Root's uncommitted edits are new regression harness/CI grouping and honest
+review-hold metadata/checkpoint. Original source is committed/unchanged; do not
+assume a fix or new regressionred has happened. No native root command is left running. Inspect
 actual worktrees/processes/agents/PRs if interrupted; do not assume active agents
 survive a session stop. No owner question or access decision remains.
 

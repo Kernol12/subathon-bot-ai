@@ -43,15 +43,20 @@ jobs:
           ctest --preset sqlite-writer-debug -L sqlite-writer --show-only
           ctest --preset sqlite-writer-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
           python3 - <<'PYTHON'
-          import json, os, subprocess
+          import collections, json, os, subprocess
           from pathlib import Path
           tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "writer-tests.json").read_text())["tests"]
           if not tests:
               raise SystemExit("No writer baseline registered")
-          expected = set(subprocess.check_output([tests[0]["command"][0], "-functions"], text=True).splitlines())
-          registered = {test["command"][1] + "()" for test in tests}
-          if not expected or registered != expected or len(tests) != len(expected):
-              raise SystemExit("CTest registration does not match the compiled Qt baseline")
+          groups = collections.defaultdict(list)
+          for test in tests:
+              groups[test["command"][0]].append(test["command"][1] + "()")
+          if len(groups) != 2:
+              raise SystemExit("Expected writer acceptance and ownership regression suites")
+          for executable, registered in groups.items():
+              expected = set(subprocess.check_output([executable, "-functions"], text=True).splitlines())
+              if not expected or set(registered) != expected or len(registered) != len(expected):
+                  raise SystemExit("CTest registration does not match a compiled Qt suite")
           print(f"Discovered all {len(tests)} compiled writer cases; behavior not run")
           PYTHON
       - name: Run reviewed writer acceptance

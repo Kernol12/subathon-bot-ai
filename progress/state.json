@@ -4174,7 +4174,7 @@
         "native_build": "passed",
         "acceptance": "passed",
         "regression": "passed",
-        "code_review": "passed",
+        "code_review": "blocked",
         "github_ci": "passed",
         "application_crash_backup_provider": "not_run",
         "platform_release": "not_run"
@@ -4188,8 +4188,8 @@
       "review": {
         "author": "/root/storage_implementer",
         "reviewer": "/root/storage_code_reviewer",
-        "outcome": "approved",
-        "baseline": "sourcef2a6379/a8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811; candidate850eef4; CI504240ef; reviewd6f9c49",
+        "outcome": "changes_requested",
+        "baseline": "sourcef2a6379/a8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811; candidate850eef4; CI504240ef; reviewd6f9c49; ownershipfinding9623943 holds prior approval",
         "evidence": "docs/evidence/storage-001-code-review.md"
       }
     },
