@@ -4177,7 +4177,8 @@
         "code_review": "blocked",
         "github_ci": "passed",
         "application_crash_backup_provider": "not_run",
-        "platform_release": "not_run"
+        "platform_release": "not_run",
+        "ownership_regression": "draft"
       },
       "evidence": [
         "docs/evidence/storage-001-implementation.md",

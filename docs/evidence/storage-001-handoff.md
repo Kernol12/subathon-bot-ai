@@ -55,3 +55,18 @@ final completion metadata review, latest-head CI and normal merge rules remain.
 [PR25](https://github.com/Kernol12/subathon-bot-ai/pull/25) carries publication.
 Project/currentHTML/diff checks and actionlint pass; no redundant broader native
 runs are claimed beyond the actual author/root/reviewer checks recorded above.
+
+## Premerge ownership finding — approval held
+
+A separate reviewer probe identified that plain Qt value-copy retained raw-data
+backing for accepted SQL/QString/QByteArray inputs. Sourcea8e5c8e therefore did not
+fully satisfy the existing owned queue promise despite the22 original cases.
+Review finding9623943 holds the affected ownership approval; PR25 is draft and
+STORAGE-001 in_review. Existing22 assertions and valid review/pass evidence remain.
+
+A different test author supplied3 focused regressions in a separate file; their
+actual oracles/lifetimes and new executable/CI registration require independent
+approval before intended red. Production normalization must wait for that reviewed
+red, then pass original22+new3 with separate code review and actual UbuntuCI.
+This enforces the existing contract rather than imposing a caller lifetime shortcut.
+No new test body/red or production fix is claimed in this entry.
