@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T14:55:16+00:00",
+  "updated_at": "2026-11-01T15:12:54+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4553,7 +4553,8 @@
         "Actual contract/brief/rootmigration1 proposal at791cacf/contracta884f016 independently approved40d0dc6 integratededdbe2b for minimalinterface/testauthoring only. DraftPR33 at791cacf all11checksSUCCESS, existing73 unchanged; no newfeaturetest/red claim. Author explicitlyresumed initialnewsqlite_retained_context.hpp/src.cpp EXPLICITunimplementedstubs+contracterror/emptyrepresentation precision only, fullQt cases/env/vectors notyetallowed. Different actualAPIreview beforefulltestauthoring; rootowns sharedharness/CI/schemaorder/state. SelectedofficialQt fixture gate stillpending, hostprobes are notfeatureproof.",
         "Actual minimalAPI/stub/precision6bfbb90 integrateda6a4402, header55c828/stubb27/contract5b; sharednewdraftpreset/library e5532d1. Root configure/build exit0/0warnings/all78oldregistrations unchanged/no newfeaturebodies; different targetedconfigure/build+APIprecisionapproval46fc8ee integrated2d0289b. Three publicmethod/factory bodies remainexplicit feature_not_implemented; no retentionalgorithm/manifestgeneration implemented. Author expandedONLYnewQt featurecases/environment/frozenJSON +ownnote; planned16feature/green3 notyetactualauthored. Fullactualtest/interface/fixture/harnessreview+selectedofficialQtgreenfixtureproof then intendedred remainbeforebaselinecomplete/STORAGE012production. Old73+green7 unchanged. DraftPR33 published6fdf620 all11existingchecks SUCCESS, no selectednewmodule/test result transferred.",
         "Actual new16/green3/vector author7d89c4c integrated320ae61; deterministicnegativefixture1eda545 integrated21fddd6. Differenttestreview foundmissingpost-retainstageproof andmissingbinarycontext/link+independentpositive-optioncoverage; separatelystrengthened e76/root180 and648/rootab4, allpriorassertions retained. Timeoutnodiscardwarning fixed70/root306 withoutfakecompletion. Currenttest c0e54003802f63a6f0393250f3bcca58cea8ee04/env aaa164/JSON0f76/header55/stubb27/contract5b. Root configure/build0warnings/exact16feature+green3slots/95CTestregistrations; green3 actual5inclinitcleanup0skip andold78 separatelypass. Independent full2000literal/SHA0906f121.../12opaquevectors verifiedwithoutnewUUT. Sharedharness/workflow27fea1d buildsall, runsold73+green7+mandatorynewgreen3, discoversnew16 and keepsintentionalnewstubfailure behindexplicitmanualbodyselection (no inversion). Actualfullreviewverdict +selectedofficialQtnewfixtureproof stillpending beforeANYnewfeaturebody/red. Sourcealgorithmremains3explicitthrows, baselinein_progress. APIselectedCI41315776368 at5e builtstub/GNU13.3/Qt6.12SQLite3.53.4/pins/old73+green7; notnewfixture/featureproof. Actualfullartifactapproval672f93c integrated beforefirstnewbody; onlyselectedofficialQtnewgreen3conditionremains beforeintendedred.",
-        "Fullactualartifactapproval672f93c integrated8d561a6 BEFORE rootfirst16featurebodyrun atcb7db2d. ActualselectedofficialQt41318070740 atsamehead passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/currentgreen3(5inclinitcleanup,0skip), old73+green7 andexactnew16discovery; manualnewbodywasnotrun. Thenroot ctest-Lsqlite-retained exit8, all16explicitfeature_not_implemented=0 failures,16init+16cleanup PASS,0skip/crash/dependency/setupfail. Rawredcommitted separately; expectedfull2000/SHA0906/all12opaquevectors independentlyverified. BaselineONLYdone; sourceb27 still3explicitthrows/STORAGE012unimplemented. Finalred/CIattributionmetadatareview/latesthead/discussions/rules remain publicationgates; PR33 draft/unmerged. No numerictypedcodec/evaluator/domainbundle/backup/recovery/provider/platform upgrade."
+        "Fullactualartifactapproval672f93c integrated8d561a6 BEFORE rootfirst16featurebodyrun atcb7db2d. ActualselectedofficialQt41318070740 atsamehead passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/currentgreen3(5inclinitcleanup,0skip), old73+green7 andexactnew16discovery; manualnewbodywasnotrun. Thenroot ctest-Lsqlite-retained exit8, all16explicitfeature_not_implemented=0 failures,16init+16cleanup PASS,0skip/crash/dependency/setupfail. Rawredcommitted separately; expectedfull2000/SHA0906/all12opaquevectors independentlyverified. BaselineONLYdone; sourceb27 still3explicitthrows/STORAGE012unimplemented. Finalred/CIattributionmetadatareview/latesthead/discussions/rules remain publicationgates; PR33 draft/unmerged. No numerictypedcodec/evaluator/domainbundle/backup/recovery/provider/platform upgrade.",
+        "PR33 actually mergedae57f2b at2026-11-01T15:08:19Z after exactfinal8353b00 all11SUCCESS, fullartifact672/finalmetadata9f reviews, no discussions/currentnormalrules. Mainrefreshed. Original16stubred atcb7 afteractualfullreview+selectedgreen3 retained; sourceimplementationstillseparate."
       ],
       "verification": {
         "contract_authoring": "passed",
@@ -4593,8 +4594,8 @@
       "title": "Immutable configuration and arrival-context version retention",
       "module": "Operations",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; implementer /root/debt_code_reviewer; code reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-011",
         "CONTRACT-002",
@@ -4609,7 +4610,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
       "summary": "Retain caller-validated versioned configuration/context document bytes and immutable references before durable intake can rely on them. This is not a rule/modifier evaluator or finalized HTTP/config document schema.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from freshlyintegrated mainae57f2b after PR33 merged final8353b00/all11checks/no threads/currentnormalrules. Exactbaseline API55c828/stubb27/featurec0e540/envAAA164/JSON0f76/contract5b, actualfullreview672/root8d BEFORE first16stubred(exit8/16init+16cleanup pass0skip) atcb7 AFTERselectedofficialQt41318070740 currentgreen3; finalmetadata9f retained. ImplementONLYserver/src/sqlite_retained_context.cpp +ownimplementationevidence onfreshisolatedbranch/worktree; preserveallreviewedassertions/API/vectors/contracts/oldsource4ee+023/old73+green7+newgreen3. Scope literalimmutablemanifest1 andsynchronousBLOBretention/find primitives only; exactopaque refs/docs/typedknownlink/idempotence/conflict/missing/ownedempty/inputprecedence/limits/knowncleanup-vs-uncertainty, existingcaller-ownedSqliteWorkSession. No newQtSQLhandle/connection/thread/owntransaction/retry/coreport/numerickeys/evaluator/providers. RootownssharedCIpromotion/CMake/presets/state/map/HTML/checkpoint/schemaorder. Acceptactualnew16/full95 passing, differentactualsource/configreview andobservedautomaticunconditionalnew16selectedUbuntuCI beforedone; no productiondomainbundle/backup/recovery/live/platform upgrade. Read-onlyprepwascompleted/noearlierimplementation."
       ],
       "verification": {},
       "evidence": [],
@@ -11770,6 +11772,16 @@
       "date": "2026-11-01T14:55:16+00:00",
       "task": "STORAGETEST-012",
       "note": "Fullactualartifactapproval672f93c integrated8d561a6 BEFORE rootfirst16featurebodyrun atcb7db2d. ActualselectedofficialQt41318070740 atsamehead passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/currentgreen3(5inclinitcleanup,0skip), old73+green7 andexactnew16discovery; manualnewbodywasnotrun. Thenroot ctest-Lsqlite-retained exit8, all16explicitfeature_not_implemented=0 failures,16init+16cleanup PASS,0skip/crash/dependency/setupfail. Rawredcommitted separately; expectedfull2000/SHA0906/all12opaquevectors independentlyverified. BaselineONLYdone; sourceb27 still3explicitthrows/STORAGE012unimplemented. Finalred/CIattributionmetadatareview/latesthead/discussions/rules remain publicationgates; PR33 draft/unmerged. No numerictypedcodec/evaluator/domainbundle/backup/recovery/provider/platform upgrade."
+    },
+    {
+      "date": "2026-11-01T15:12:54+00:00",
+      "task": "STORAGETEST-012",
+      "note": "PR33 actually mergedae57f2b at2026-11-01T15:08:19Z after exactfinal8353b00 all11SUCCESS, fullartifact672/finalmetadata9f reviews, no discussions/currentnormalrules. Mainrefreshed. Original16stubred atcb7 afteractualfullreview+selectedgreen3 retained; sourceimplementationstillseparate."
+    },
+    {
+      "date": "2026-11-01T15:12:54+00:00",
+      "task": "STORAGE-012",
+      "note": "Claim from freshlyintegrated mainae57f2b after PR33 merged final8353b00/all11checks/no threads/currentnormalrules. Exactbaseline API55c828/stubb27/featurec0e540/envAAA164/JSON0f76/contract5b, actualfullreview672/root8d BEFORE first16stubred(exit8/16init+16cleanup pass0skip) atcb7 AFTERselectedofficialQt41318070740 currentgreen3; finalmetadata9f retained. ImplementONLYserver/src/sqlite_retained_context.cpp +ownimplementationevidence onfreshisolatedbranch/worktree; preserveallreviewedassertions/API/vectors/contracts/oldsource4ee+023/old73+green7+newgreen3. Scope literalimmutablemanifest1 andsynchronousBLOBretention/find primitives only; exactopaque refs/docs/typedknownlink/idempotence/conflict/missing/ownedempty/inputprecedence/limits/knowncleanup-vs-uncertainty, existingcaller-ownedSqliteWorkSession. No newQtSQLhandle/connection/thread/owntransaction/retry/coreport/numerickeys/evaluator/providers. RootownssharedCIpromotion/CMake/presets/state/map/HTML/checkpoint/schemaorder. Acceptactualnew16/full95 passing, differentactualsource/configreview andobservedautomaticunconditionalnew16selectedUbuntuCI beforedone; no productiondomainbundle/backup/recovery/live/platform upgrade. Read-onlyprepwascompleted/noearlierimplementation."
     }
   ]
 }
