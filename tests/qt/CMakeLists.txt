@@ -20,7 +20,7 @@ if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
     target_compile_definitions(server_sqlite_migration_acceptance PRIVATE
         SUBATHON_MIGRATION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/migration_catalog_vectors.json")
     subathon_target_options(server_sqlite_migration_acceptance)
-    # Intentionally red until STORAGE-011; the environment probe is a separate green gate.
+    # Reviewed migration cases retain their baseline names and separate processes.
     foreach(case IN ITEMS
         canonicalPayloadAndDigestMatchLiteralVector
         canonicalNullUnicodeOrderingAndInvalidText
@@ -47,7 +47,7 @@ if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
     )
         add_test(NAME sqlite-migrations.${case} COMMAND server_sqlite_migration_acceptance ${case})
         set_tests_properties(sqlite-migrations.${case} PROPERTIES
-            LABELS "sqlite-migrations;acceptance;draft;qt;server" TIMEOUT 20)
+            LABELS "sqlite-migrations;acceptance;qt;server" TIMEOUT 20)
     endforeach()
 endif()
 
