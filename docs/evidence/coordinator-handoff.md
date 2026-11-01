@@ -75,11 +75,13 @@ Shared66be523 promotes migration cases to unconditional automatic CI after
 mandatory green7 and old49; exact compiled discovery and selected Qt/ICU/action
 pins remain. Dynamic registration includes the two new cases:24 migration and
 78 total. Actionlint, Python tooling19, DOM simulation, project391/currentHTML
-and whitespace checks pass. Actual automatic Ubuntu acceptance is still pending;
-host SQLite3.54.0 is distinct from bundled3.53.4. No actual browser claim.
+and whitespace checks pass. Actual automatic Ubuntu acceptance passed at the
+attributed head below; final latest-head checks remain a publication gate. Host
+SQLite3.54.0 is distinct from bundled3.53.4. No actual browser claim.
 
 [Draft PR32](https://github.com/Kernol12/subathon-bot-ai/pull/32) is published at
-head da7cbde. Actual selected officialQt Ubuntu run41310940283 and all11 checks
+initial evidence head da7cbde; final metadata candidate e0d8d5b is under review.
+Actual selected officialQt Ubuntu run41310940283 and all11 checks
 at that head passed. Hashes/GNU13.3/Qt6.12SQLite3.53.4/old49/green7/exact24/real24
 were read from actual logs; see CI evidence. Root final CI/map/state/HTML metadata
 records implementation done, publication still pending. Next obtain final metadata/CI attribution review
