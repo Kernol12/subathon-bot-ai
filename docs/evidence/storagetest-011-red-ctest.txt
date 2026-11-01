@@ -1,0 +1,294 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-migrations-debug
+      Start  6: sqlite-migrations.canonicalPayloadAndDigestMatchLiteralVector
+ 1/22 Test  #6: sqlite-migrations.canonicalPayloadAndDigestMatchLiteralVector .............***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::canonicalPayloadAndDigestMatchLiteralVector() 'error.reason() != MigrationReason::feature_not_implemented' returned FALSE. (feature_not_implemented: canonical migration codec stub)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(288)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start  7: sqlite-migrations.canonicalNullUnicodeOrderingAndInvalidText
+ 2/22 Test  #7: sqlite-migrations.canonicalNullUnicodeOrderingAndInvalidText ..............***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::canonicalNullUnicodeOrderingAndInvalidText() 'error.reason() != MigrationReason::feature_not_implemented' returned FALSE. (feature_not_implemented: canonical migration codec stub)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(308)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start  8: sqlite-migrations.freshAdvanceCommitsWholePrefix
+ 3/22 Test  #8: sqlite-migrations.freshAdvanceCommitsWholePrefix ..........................***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::freshAdvanceCommitsWholePrefix() 'run(writer, input, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(356)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start  9: sqlite-migrations.supportedOldAdvancesOnceAndCurrentDoesNotReplay
+ 4/22 Test  #9: sqlite-migrations.supportedOldAdvancesOnceAndCurrentDoesNotReplay .........***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::supportedOldAdvancesOnceAndCurrentDoesNotReplay() 'run(writer, request(), result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(371)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 10: sqlite-migrations.inspectionReportsFreshOldAndCurrentWithoutAdvancement
+ 5/22 Test #10: sqlite-migrations.inspectionReportsFreshOldAndCurrentWithoutAdvancement ...***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::inspectionReportsFreshOldAndCurrentWithoutAdvancement() 'run(writer, input, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(388)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 11: sqlite-migrations.foreignPartialAndMismatchingCatalogsAreRefused
+ 6/22 Test #11: sqlite-migrations.foreignPartialAndMismatchingCatalogsAreRefused ..........***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::foreignPartialAndMismatchingCatalogsAreRefused() 'run(writer, request(), result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(441)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 12: sqlite-migrations.futureAndUnsupportedOldVersionsAreRefused
+ 7/22 Test #12: sqlite-migrations.futureAndUnsupportedOldVersionsAreRefused ...............***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::futureAndUnsupportedOldVersionsAreRefused() 'run(writer, input, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(463)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 13: sqlite-migrations.invalidManifestsAreRejectedBeforeAdmission
+ 8/22 Test #13: sqlite-migrations.invalidManifestsAreRejectedBeforeAdmission ..............***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::invalidManifestsAreRejectedBeforeAdmission() Compared values are not the same
+   Actual   (admission.error)              : 1
+   Expected (StorageError::invalid_options): 4
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(540)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 14: sqlite-migrations.historyAndSchemaMismatchesAreRefused
+ 9/22 Test #14: sqlite-migrations.historyAndSchemaMismatchesAreRefused ....................***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::historyAndSchemaMismatchesAreRefused() 'run(writer, input, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(598)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 15: sqlite-migrations.storedTypesRangesAndCardinalityAreValidated
+10/22 Test #15: sqlite-migrations.storedTypesRangesAndCardinalityAreValidated .............***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::storedTypesRangesAndCardinalityAreValidated() 'run(writer, request(), result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(648)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 16: sqlite-migrations.checkConstraintIntegrityFailurePreservesData
+11/22 Test #16: sqlite-migrations.checkConstraintIntegrityFailurePreservesData ............***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::checkConstraintIntegrityFailurePreservesData() 'run(writer, profile_request("checked"), result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(661)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 17: sqlite-migrations.foreignKeyFailureCannotPassIntegrity
+12/22 Test #17: sqlite-migrations.foreignKeyFailureCannotPassIntegrity ....................***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::foreignKeyFailureCannotPassIntegrity() 'run(writer, profile_request("foreign_keys"), result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(677)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 18: sqlite-migrations.failedMigrationRollsBackDdlHistoryAndPriorWrites
+13/22 Test #18: sqlite-migrations.failedMigrationRollsBackDdlHistoryAndPriorWrites ........***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::failedMigrationRollsBackDdlHistoryAndPriorWrites() 'run(writer, input, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(703)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 19: sqlite-migrations.cancellationRollsBackWholeBootstrapAndPrefix
+14/22 Test #19: sqlite-migrations.cancellationRollsBackWholeBootstrapAndPrefix ............***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::cancellationRollsBackWholeBootstrapAndPrefix() 'run(writer, input, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(752)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 20: sqlite-migrations.busyMigrationDoesNotReplay
+15/22 Test #20: sqlite-migrations.busyMigrationDoesNotReplay ..............................***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::busyMigrationDoesNotReplay() 'run(writer, input, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(776)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 21: sqlite-migrations.lostCommitAckFailsClosedWithPhysicalTarget
+16/22 Test #21: sqlite-migrations.lostCommitAckFailsClosedWithPhysicalTarget ..............***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::lostCommitAckFailsClosedWithPhysicalTarget() Compared values are not the same
+   Actual   (admission.error)   : 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(801)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 22: sqlite-migrations.lostRollbackAckOverridesSqlFailure
+17/22 Test #22: sqlite-migrations.lostRollbackAckOverridesSqlFailure ......................***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::lostRollbackAckOverridesSqlFailure() Compared values are not the same
+   Actual   (admission.error)   : 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(861)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 23: sqlite-migrations.cumulativeBudgetsAndManifestLimitsHaveExactBoundaries
+18/22 Test #23: sqlite-migrations.cumulativeBudgetsAndManifestLimitsHaveExactBoundaries ...***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::cumulativeBudgetsAndManifestLimitsHaveExactBoundaries() 'run(writer, exact, result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(900)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 24: sqlite-migrations.diagnosticShadowsAreRefusedWithoutRepair
+19/22 Test #24: sqlite-migrations.diagnosticShadowsAreRefusedWithoutRepair ................***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::diagnosticShadowsAreRefusedWithoutRepair() 'run(writer, profile_request(name), result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(992)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 25: sqlite-migrations.utf16StoresAreRefusedWithoutConversion
+20/22 Test #25: sqlite-migrations.utf16StoresAreRefusedWithoutConversion ..................***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::utf16StoresAreRefusedWithoutConversion() 'run(writer, request(), result)' returned FALSE. (Migration admission error=1 reason=1 feature_not_implemented)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(1008)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 26: sqlite-migrations.ownedRequestReportAndAdmissionRemainBounded
+21/22 Test #26: sqlite-migrations.ownedRequestReportAndAdmissionRemainBounded .............***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::ownedRequestReportAndAdmissionRemainBounded() Compared values are not the same
+   Actual   (admission.error)   : 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(1027)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+      Start 27: sqlite-migrations.shutdownAndCompletionLifetimePreserveWriterRules
+22/22 Test #27: sqlite-migrations.shutdownAndCompletionLifetimePreserveWriterRules ........***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::shutdownAndCompletionLifetimePreserveWriterRules() Compared values are not the same
+   Actual   (admission.error)   : 1
+   Expected (StorageError::none): 0
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(1097)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+
+0% tests passed, 22 tests failed out of 22
+
+Label Time Summary:
+acceptance           =   0.11 sec*proc (22 tests)
+draft                =   0.11 sec*proc (22 tests)
+qt                   =   0.11 sec*proc (22 tests)
+server               =   0.11 sec*proc (22 tests)
+sqlite-migrations    =   0.11 sec*proc (22 tests)
+
+Total Test time (real) =   0.11 sec
+
+The following tests FAILED:
+	  6 - sqlite-migrations.canonicalPayloadAndDigestMatchLiteralVector (Failed) acceptance draft qt server sqlite-migrations
+	  7 - sqlite-migrations.canonicalNullUnicodeOrderingAndInvalidText (Failed) acceptance draft qt server sqlite-migrations
+	  8 - sqlite-migrations.freshAdvanceCommitsWholePrefix (Failed) acceptance draft qt server sqlite-migrations
+	  9 - sqlite-migrations.supportedOldAdvancesOnceAndCurrentDoesNotReplay (Failed) acceptance draft qt server sqlite-migrations
+	 10 - sqlite-migrations.inspectionReportsFreshOldAndCurrentWithoutAdvancement (Failed) acceptance draft qt server sqlite-migrations
+	 11 - sqlite-migrations.foreignPartialAndMismatchingCatalogsAreRefused (Failed) acceptance draft qt server sqlite-migrations
+	 12 - sqlite-migrations.futureAndUnsupportedOldVersionsAreRefused (Failed) acceptance draft qt server sqlite-migrations
+	 13 - sqlite-migrations.invalidManifestsAreRejectedBeforeAdmission (Failed) acceptance draft qt server sqlite-migrations
+	 14 - sqlite-migrations.historyAndSchemaMismatchesAreRefused (Failed) acceptance draft qt server sqlite-migrations
+	 15 - sqlite-migrations.storedTypesRangesAndCardinalityAreValidated (Failed) acceptance draft qt server sqlite-migrations
+	 16 - sqlite-migrations.checkConstraintIntegrityFailurePreservesData (Failed) acceptance draft qt server sqlite-migrations
+	 17 - sqlite-migrations.foreignKeyFailureCannotPassIntegrity (Failed) acceptance draft qt server sqlite-migrations
+	 18 - sqlite-migrations.failedMigrationRollsBackDdlHistoryAndPriorWrites (Failed) acceptance draft qt server sqlite-migrations
+	 19 - sqlite-migrations.cancellationRollsBackWholeBootstrapAndPrefix (Failed) acceptance draft qt server sqlite-migrations
+	 20 - sqlite-migrations.busyMigrationDoesNotReplay (Failed) acceptance draft qt server sqlite-migrations
+	 21 - sqlite-migrations.lostCommitAckFailsClosedWithPhysicalTarget (Failed) acceptance draft qt server sqlite-migrations
+	 22 - sqlite-migrations.lostRollbackAckOverridesSqlFailure (Failed) acceptance draft qt server sqlite-migrations
+	 23 - sqlite-migrations.cumulativeBudgetsAndManifestLimitsHaveExactBoundaries (Failed) acceptance draft qt server sqlite-migrations
+	 24 - sqlite-migrations.diagnosticShadowsAreRefusedWithoutRepair (Failed) acceptance draft qt server sqlite-migrations
+	 25 - sqlite-migrations.utf16StoresAreRefusedWithoutConversion (Failed) acceptance draft qt server sqlite-migrations
+	 26 - sqlite-migrations.ownedRequestReportAndAdmissionRemainBounded (Failed) acceptance draft qt server sqlite-migrations
+	 27 - sqlite-migrations.shutdownAndCompletionLifetimePreserveWriterRules (Failed) acceptance draft qt server sqlite-migrations
+Errors while running CTest
+
+Observed process exit: 8
+Revision: cb3c1b2 (actual independent full baseline approval integrated before execution)
+Selected official Qt prerequisite: PR31 head4fa008f run41307014192 green7 passed before this run.
+All22 failures are explicit missing-feature codec/admission stubs, not fixture/init/dependency failures.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T12:31:57+00:00",
+  "updated_at": "2026-11-01T12:42:31+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4419,7 +4419,7 @@
       "title": "Review and demonstrate red: Version catalog and transactional migration harness",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; contract/test author /root/writer_transaction_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-010"
@@ -4437,34 +4437,38 @@
         "Actual doc contract6a92fce/cf627 integrated1d221ae; initial different reviewd60021e integratede11d150 requests changes before approval. Root coordinated simple metadataDDL and explicitframing/0/text policies; real shadow-name diagnosticcounterexample confirmed in selectedhostQt, so corrected zeroarg() syntax required. Probes are existing capability investigations, not migrationacceptance/red. Author resumed for actual doccorrections; no new C++/schema/tests/implementation yet, all49 foundations preserved.",
         "Actual finalcontract1683461 independently approved1bfdfa8(root9ee8951), onlycontractgate. Prior requestchanges/shadowing/encoding evidence preserved. Root expanded author to NEW minimalmigrationAPI/explicitstubs/Qtcase/greenenvprobe/optionalvectors; oldwriter023451/header/hook/49 unchanged. Future actualtestreview+compile/selectedQtgreenenvproof+intendedred stillrequired; no production migration/digest algorithm or red claimed. Root independently matched literal636/SHA3d1 vector.",
         "Actualearlyheader86b74/stub6c507 and contractcbdea1a independently precision-reviewed112bf38(rootc677); MC15amendment separatelyapprovedecff. Rootsharedharness3df prepares22newcases/separategreen7/expected76 with old49unconditional, actionlint/project pass. Authoruntrackedcase/probe/vector files preserved; no newcompile/discovery/body/greenCI/red yet. Fullactualtest/interface/fixture/harnessreview and selectedQtprobe remain gates, no approvaltransfer.",
-        "Actualfa16183/rootb67e81b compiled22/green7/76, header02f83/stub6c507/JSON12280. Rootgreen54 pass, all10 literalpayload/SHA/base1127 independentlyverified; oldsource/header/hook/49 unchanged. No newmigrationbodyrun. Fullactualreviewpending reservedDDLvariant authorresumed; officialQtgreen7/build/discovery then actualtestapproval/newred beforebaselinecompletion. No productionalgorithm or ownerquestion."
+        "Actualfa16183/rootb67e81b compiled22/green7/76, header02f83/stub6c507/JSON12280. Rootgreen54 pass, all10 literalpayload/SHA/base1127 independentlyverified; oldsource/header/hook/49 unchanged. No newmigrationbodyrun. Fullactualreviewpending reservedDDLvariant authorresumed; officialQtgreen7/build/discovery then actualtestapproval/newred beforebaselinecompletion. No productionalgorithm or ownerquestion.",
+        "Fullactual4fa tests a85a/header02/stub6c/env832/JSON122/contractcbdea approved01f0975, integratedcb3c1b2 BEFORE actual22codec/admissionstubred(exit8), allinitpass/zeroskips. SelectedofficialQt41307014192 at4fa passed hashes/GNU13.3/Qt6.12SQLite3.53.4/realold49/green7/exact22discovery, all11checks there success. Ten literalvectors/base1127 independentlyverified. Baseline done only; STORAGE011 stillunimplemented. Final metadata/red/CI attributionreview/latesthead/discussions/rules remain publicationgates; no actualbackup/update/recovery/platform/provider upgrade."
       ],
       "verification": {
         "contract_authoring": "passed",
         "contract_review": "passed",
         "authored_tests": "passed",
-        "baseline": "not_run",
-        "github_ci": "not_run",
+        "baseline": "observed_red",
+        "github_ci": "passed",
         "native_build": "passed",
         "diagnostic_environment": "passed",
         "interface_review": "passed",
-        "ci_harness": "partial",
-        "official_qt_environment": "not_run",
-        "test_review": "not_run",
-        "existing_writer_acceptance": "passed"
+        "ci_harness": "passed",
+        "official_qt_environment": "passed",
+        "test_review": "passed",
+        "existing_writer_acceptance": "passed",
+        "product_acceptance": "observed_red",
+        "platform_release": "not_run"
       },
       "evidence": [
         "docs/evidence/storagetest-011-handoff.md",
         "docs/evidence/storagetest-011-author.md",
         "docs/evidence/storagetest-011-probe.md",
         "docs/evidence/storagetest-011-review.md",
-        "docs/evidence/storagetest-011-ci.md"
+        "docs/evidence/storagetest-011-ci.md",
+        "docs/evidence/storagetest-011-red-ctest.txt"
       ],
       "review": {
-        "author": "/root/writer_transaction_reviewer (contract only; executable review pending)",
+        "author": "/root/writer_transaction_reviewer (contract/API/tests/fixtures); /root (shared harness)",
         "reviewer": "/root/storage_work_code_reviewer",
         "outcome": "approved",
-        "baseline": "CONTRACT/INTERFACE ONLY currentcbdea1a/header86b74/stub6c507; approvals1bfdfa8/ecff4f5/112bf38 integrated9ee8951/bc491af/c677173; initialrequestchangesd600 retained; no actual22/7/vector/fullharness/red approval",
+        "baseline": "actual4fa008f tests a85a6c05/header02f83ce/stub6c507/greenenv832fe616/JSON12280c8f/contractcbdea1a/harness3df; fullapproval01f0975 integratedcb3c1b2 BEFOREactual22stubred(exit8), officialQt41307014192 green7 prerequisite satisfied first",
         "evidence": "docs/evidence/storagetest-011-review.md"
       }
     },
@@ -11636,6 +11640,11 @@
       "date": "2026-11-01T12:31:57+00:00",
       "task": "STORAGETEST-011",
       "note": "Actualfa16183/rootb67e81b compiled22/green7/76, header02f83/stub6c507/JSON12280. Rootgreen54 pass, all10 literalpayload/SHA/base1127 independentlyverified; oldsource/header/hook/49 unchanged. No newmigrationbodyrun. Fullactualreviewpending reservedDDLvariant authorresumed; officialQtgreen7/build/discovery then actualtestapproval/newred beforebaselinecompletion. No productionalgorithm or ownerquestion."
+    },
+    {
+      "date": "2026-11-01T12:42:31+00:00",
+      "task": "STORAGETEST-011",
+      "note": "Fullactual4fa tests a85a/header02/stub6c/env832/JSON122/contractcbdea approved01f0975, integratedcb3c1b2 BEFORE actual22codec/admissionstubred(exit8), allinitpass/zeroskips. SelectedofficialQt41307014192 at4fa passed hashes/GNU13.3/Qt6.12SQLite3.53.4/realold49/green7/exact22discovery, all11checks there success. Ten literalvectors/base1127 independentlyverified. Baseline done only; STORAGE011 stillunimplemented. Final metadata/red/CI attributionreview/latesthead/discussions/rules remain publicationgates; no actualbackup/update/recovery/platform/provider upgrade."
     }
   ]
 }

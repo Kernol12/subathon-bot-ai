@@ -95,62 +95,60 @@ unconditionalreal49. [Implementation](storage-010-handoff.md), [review](storage-
 [CI](storage-010-ci.md). No real domainadapter/schema/backup/recovery/platform claim.
 Old implementation/reviewer worktrees finished clean; preserve branches/reviews.
 
-STORAGETEST-011 active/local-unpublished on `task/STORAGETEST-011-migration-catalog`,
-claim9dba71d from refreshedmain88e86c1. No task PR yet, no owner question.
-Author `/root/writer_transaction_reviewer` works in isolated
-`local-evidence/worktrees/storagetest011-author`, branch `task/STORAGETEST-011-author`.
-Different `/root/storage_work_code_reviewer` owns only review evidence in isolated
-`local-evidence/worktrees/storagetest011-review`, branch `task/STORAGETEST-011-review`.
-Roles explicitly reassigned/resumed; never assume historical agents still live.
+## Current migration baseline and publication gate
 
-Contract-only history: initial6a92fce/cf627 received actual requestchangesd600,
-retained inreview. PhysicalDDL/framing/UTF8/shadow fixes cd25/05c yielded1683461,
-approved1bfdfa8(root9ee8951). MC15 query-plan-independent resourceoracle amendment
-1dfadece approvedecff4f5(rootbc491af). Latest explicit admission/ID/payload/error
-precisioncbdea1a and actualheader86b74 approved112bf38(rootc677173), CONTRACT/API
-ONLY. [Contract](../contracts/migration-catalog-v1.md), [review](storagetest-011-review.md).
-No future test/harness/red gate was approved by these staged reviews.
+STORAGETEST-011 is done as reviewed/red tests ONLY on
+`task/STORAGETEST-011-migration-catalog`, claim9dba71d from integrated main88e86c1.
+[PR31](https://github.com/Kernol12/subathon-bot-ai/pull/31) is draft. Last observed
+published4fa008f all11 checks successful; later metadata heads need fresh CI. No
+owner question. Main does not yet contain this baseline; STORAGE-011 still planned.
 
-Actual new publicheader86b74/explicitstub6c507 integratefe72a14/e99c955; no digest,
-validation, SQL/catalog/queue behavior in stubs. Inspection is the safe default;
-advance explicit, requestpreflight→callback→existingwriter priority and error/
-resource mapping are pinned. Root owns shared schemas/order/build/presets/CI/
-state/HTML/map/checkpoint. Existingwriter023451/header/hook/49 assertions and old
-contracts remain unchanged. Author owns newAPI/stub/22Qtcase/7greenenv/optionalJSON/
-authorevidence only. Unfinished untracked Qt case/probe/vector files stay in its
-worktree; preserve them. No newbody/greenprobe/build/discovery result yet.
+Author `/root/writer_transaction_reviewer`, explicitly reassigned, completed clean
+in `local-evidence/worktrees/storagetest011-author`, branch
+`task/STORAGETEST-011-author` atcae0267. Author owns new API/stub/22Qtcase/green7/
+JSON/authornote; root owns shared schema/order/build/presets/workflow/map/state/HTML/
+checkpoint/PR. Different `/root/storage_work_code_reviewer` owns only011-review
+in isolated `local-evidence/worktrees/storagetest011-review`, branch
+`task/STORAGETEST-011-review`; completed fullapproval01f0975, finalintegration next.
 
-Shared harness3df1dd2 prepares sqlite-migrations-debug, new22 registered slots,
-separateoneCTest green7 executable and literalvector path. Expected total76 not
-observed yet. Old49 remain automatic. Mandatory selectedQt green7 runs before
-new22 compiled-discovery guard; new22 real bodies only explicit manual input until
-STORAGE011 promotes acceptance. Actionlint/project/currentHTML/diff passed; actual
-changed Ubuntu run is pending. [CI](storagetest-011-ci.md), [handoff](storagetest-011-handoff.md),
-[author](storagetest-011-author.md), [technical probes](storagetest-011-probe.md).
+Contract provenance retained: initialcf627 requestchangesd600, realbare-name
+shadowcounterexample and CASTencodingprecision. Corrected168 approved1bfdfa8;
+query-plan-independentMC15 amendment1df approvedecff4f5; explicitadmission/ID/raw
+payload/errorprecisioncbdea1a approved112bf38. All actual revisions/reasons remain
+in [review history](storagetest-011-review.md). No approval transfer over unseen code.
 
-Next: author commits actual22/7/vector candidate after successfulcompile/list and
-greenexistingcaplocalprobe; rootobservesselectedofficialQt greenprobe/build/old49/
-newdiscovery CI, different actualFULL test/interface/fixture/harness review, THEN
-real new missing-feature red. Only completedbaseline unlocks STORAGE011 production.
-Do not run newbodies before review; no failed dependency/skip/zerotest counts asred.
-Different reviewer finishedearlyprecisionreview clean; explicitly resumeforactual
-fullcandidate. Authoractive; inspect actual status/processes onresume.
+Actualfullfa16183 integratedb67e81b, required reservedcatalogDDLvariantcae0267
+integrated4fa008f. Finaltests a85a6c05/header02f83ce/stub6c5073/greenenv832fe616/
+JSON12280c8f/contractcbdea1a/harness3df1dd2. Different FULL test/interface/fixture/
+harness approval01f0975 integratedcb3c1b2 BEFORE newbodyexecution. Existing source
+023451/header/hook/49 assertions/contracts remain byte-identical to main88e86c1.
 
-Postmerge main88e86c1 all10checks succeeded. Historical audit50existingclean/16absenttmp
-refs preserved; authornowhasunfinishednewtestfiles. Rootclean/no runningcommand
-aftercheckpointcommit. Fullproduct incomplete: domainstores/appbundle/recovery/
-backup/update/all seven integrations/three rate providers/UI/renderers/locales/
-themes/platform/packaging/live gates remain. OPS02 is realcaller/product authority,
-never fakeproofmetadata.
+Root/author/reviewer build/exact22+7/76discovery and greenexisting checks pass;
+rootgreen54 (49old+infra5) passes. Independent root/reviewer reframe all10 literal
+payload/length/SHA vectors/base1127; no newUUT used. ActualcorrectedUbuntu
+41307014192 at4fa008f passes hashes/GNU13.3/Qtloop1/old49/exactgreen7, Qt6.12.0/
+SQLite3.53.4,9Qtpasses includinginitcleanup/0skips, thenexact22discovery without
+newbodies. All11checks there succeed. LocalhostQtSQLite3.54 is separatelyattributed.
 
-Actual fullcandidatefa16183 integratesb67e81b: header02f83ce/stub6c5073/tests22
-95f1fd2e/green7 832fe616/JSON12280c8f/author7d1cde38. Author/rootconfigurebuild/
-22+7+76discovery pass; rootgreen54(old49+infra5) pass; rootindependentlyverifies10
-payload/SHA vectors/base1127. No newmigrationbodyrun. Different revieweractual
-fullreviewfound reservedcatalogDDL coveragegap; completedauthor explicitlyresumed
-forALTERsubathon_catalogADDextra variant withschema_mismatch/knownrollback/raw
-preservation, same22 slots. Approval awaitsactualfix. PublishingdrafttaskPR now
-forofficialQtgreen7/build/discovery beforeacceptedred; exactPR/headnextobserve.
-Hostprocessaudit(escalated/read-only, cwdscoped) found4CLionIDEinstances and only
-currentaudit shell/Python, no nativebuild/testprocess; earlier sandbox-scopeprocess
-checks are not universal host assertions. No process was killed.
+After both actualapproval andofficialgreenprerequisite, root atcb3c1b2 executed
+new22 CTest: realexit8,22explicitmissing-featurefailures, allcaseinitializationpass,
+zeroskips/crashes/dependency/compilefailures. [Baseline](storagetest-011-handoff.md),
+[raw red](storagetest-011-red-ctest.txt), [author](storagetest-011-author.md),
+[CI](storagetest-011-ci.md). Newcatalog/codec/runner remain explicitstubs; defaultCI
+builds/discovers22 andruns49+green7, manualrunpropagatesrealnewfailures. No feature
+passingacceptance or productbackup/update/recoveryauthority follows frombaseline.
+
+Next: final independentcompletionmetadata/red/actualCI attributionreview ofconcrete
+completioncommit; publishapproval, requirealllatestheadchecks/discussions/current
+normalrules beforePR31merge. Refreshmain andclaim STORAGE-011 separately; implement
+onlynewmodule againstunchanged reviewed22/10vectors, differentcodereview, real
+new22+old49+green7/full76 pass, promote ordinaryautomaticnewacceptance. Neverrepeat
+this originalred as a newverificationstage or weakenassertions.
+
+Rootclean/no runningcommand aftercheckpointcommit. Host-scoped readonlyprocessaudit
+found4CLionIDEinstances/currentauditshell only, no repo-nativebuild/testprocess; no
+processkilled. Historical16absenttmp refs preserved; oldbranch/reviewwork retained.
+Inspectactualagents/processes/worktrees/GitHub onresume; finalreviewer mustbe
+explicitlyresumed. Fullproductremainsincomplete includingdomainstores/appbundle/
+recovery/backup/update/all7integrations/3rateproviders/UI/renderers/locales/themes/
+platform/packaging/livegates.

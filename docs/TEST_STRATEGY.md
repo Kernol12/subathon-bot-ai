@@ -190,3 +190,17 @@ infrastructure/Qt probe. The same49 now run automatically on PR/main/manual with
 complete registration guards, no manual boolean or failure inversion. This is no
 product schema, real repository adapter, application bundle, recovery, power-loss
 or release-platform/provider proof.
+
+## Migration catalog baseline
+
+STORAGETEST-011 supplies22 separately reviewed real Qt cases/ten independent frozen
+vectors and actual intended missing-feature red after successful compilation and
+selected officialQt green diagnostics. [Baseline handoff](evidence/storagetest-011-handoff.md)
+pins exact artifacts/approval/exit8. Configure/build sqlite-migrations-debug; new
+`-L sqlite-migrations` bodies are intentionally red until STORAGE-011. Green-only
+CTest `-E '^sqlite-migrations\.'` runs54 existing/infrastructure checks, including
+the separate7-slot driver probe. Ordinary CI runs old49+green7/build/discovery;
+manual run_migration_acceptance propagates real new failures. STORAGE-011 must
+preserve reviewed assertions, implement/code-review/pass and enable new automatic
+acceptance. No dependency/fixture/skip/zero-test error counts as red; no migration
+behavior or full operational release follows from a completed baseline.

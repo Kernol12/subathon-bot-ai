@@ -1,58 +1,48 @@
-# STORAGETEST-011 CI assessment — prepared baseline harness
+# STORAGETEST-011 CI assessment
 
-Coordinator `/root`, 2026-11-01. The new sqlite-migrations-debug preset enables
-existing writer/work49, Qt probe, a separate green diagnostic environment executable
-and the proposed22 migration cases with explicit missing-feature stubs. Source
-023451/header/hook/old49 and their valid review/pass evidence remain unchanged.
-Migration production behavior and new intendedred are not yet claimed.
+Coordinator `/root`, 2026-11-01. sqlite-migrations-debug builds existing writer/work49,
+Qt probe, separategreen7 diagnostic environment and22 new migration cases with
+explicit stubs. No migration/digest production algorithm is implemented. Existing
+source023451/header/hook/49 and their valid historical reviews/red/pass are unchanged.
 
-Shared harness3df1dd2 preserves sqlite-writer-build and selected action/Qt6.12/ICU
-pins. It builds the new library/tests, runs existing49 unconditionally, validates
-all7 required environment slot names, then runs that whole Qt environment suite
-verbosely. Only after the green dependency probe does it discover the new migration
-suite and compare every compiled Qt function to nonempty/count-equal CTest entries.
-The preset is expected to register76 CTest cases once authored:49 old,22 new,
-4 prior infrastructure and1 new environment executable containing7 Qt slots. That
-is a planned count, not an observed build/discovery result at this stage.
+Sharedharness3df1dd2 retains sqlite-writer-build and selected action/Qt6.12/ICU pins.
+It runs old49 unconditionally, checks all7 exact environment slot names, executes
+that whole suite verbosely, then checks all22 compiled-versus-CTest names/counts.
+The preset has76 CTest entries:49old,22new,4prior infrastructure and1 environment
+executable with7 Qt slots. Root configure/build/exact22+7/76 passed; green-only
+`ctest --preset sqlite-migrations-debug -E '^sqlite-migrations\.'` passed54/54.
+New22 bodies remain explicit intentionalred, manual run_migration_acceptance=true
+with normal failure propagation. No WILL_FAIL, skip or continue-on-error. STORAGE-011
+must promote unchanged real acceptance once its reviewed implementation passes.
 
-New22 bodies remain a separate intentional-red operation. Explicit manual
-run_migration_acceptance=true propagates real failures normally; ordinary PR/main
-build/list the baseline and run only stable behavior and the green environment.
-There is no WILL_FAIL, failure inversion, QSKIP or blanket continue-on-error.
-STORAGE-011 must later preserve reviewed assertions, pass them and promote new
-acceptance to ordinary automatic execution before its merge.
+The green probe links ONLY existing writer/QtTest, not migration stubs. It checks
+fixed encoding()/integrity()/FK() diagnostics, actual UTF8/raw multibyte bytes,
+metadata SQL/NULL-index projection, all three shadow-function errors, real UTF16
+observations and integrity/FK distinction. No unsupported driver/fixture/zero-test
+result is counted as red. [Technical probe history](storagetest-011-probe.md)
+keeps failed TVF(1), bare-name shadowing and encoding findings separate.
 
-The green probe links ONLY existing writer/QtTest, not migration stubs. It must
-check forced encoding()/integrity()/FK() SELECT diagnostics, actual UTF8 creation/
-raw multibyte data, exact metadata SQL/NULL-index projection, real UTF16 encoding
-and shadow-name failures. It verifies selected-driver capabilities independently
-of a migration stub's early failure. Unsupported TVFs/encoding/fixture errors or
-zero-case selections are not acceptable red. Contract-only technical host probes
-remain separately attributed in [probe evidence](storagetest-011-probe.md).
+## Actual selected officialQt prerequisite before red
 
-Root actionlint1.7.12, project391/current HTML and whitespace checks passed for
-prepared config. Different reviewer inspected shared config preliminarily; full
-actual API/assertions/fixtures/harness review is still pending authored22/7/vector
-files, compilation, green local/officialQt CI and genuine postreview red. No new
-executable suite ran yet and no actual changed GitHub workflow run exists for this
-task. No domain adapter/schema, backup/update authority, recovery, platform/live
-provider or power-loss capability follows. Ruleset workflow gates must still be
-checked at the latest final PR revision; changing YAML adds no enforcement rule.
+[Corrected run41307014192](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41307014192)
+at exact PR31 head4fa008f succeeded; all11 PR checks there passed. Actual logs
+show selectedQt/ICU SHA256 checks OK, GNU13.3, Qt loop1, realold25+24 acceptance,
+exact7environment guard and Qt6.12.0/SQLite3.53.4. The green suite reports9 passed
+(7cases+init/cleanup),0failed,0skipped; exact22 compiled discovery follows it and
+new migration behavior is explicitly NOT run. Earlier69ba668/run41306951887
+proved the same unchanged probe before the reserved-DDL test correction. Root
+inspected both actual logs; ignored raw copies are in local-evidence/coordinator.
+HostQt SQLite3.54 differs from official3.53.4; no version support was presumed.
 
-## Actual authored candidate, local green validation
+Only AFTER actualfullapproval01f0975 (integratedcb3c1b2) AND this official green
+prerequisite did root run new22 locally: real exit8,22 explicit missing-feature
+failures, all initialization passed, zero skips/compile/dependency failures.
+[Original red output](storagetest-011-red-ctest.txt). Root/reviewer independently
+reframed all10 frozen vectors and base1127 bytes without invoking the new UUT.
+Actionlint/project391/render/format/diff checks passed for actual candidate.
 
-Authorfa16183 integratedb67e81b. Actual new22/green7/JSON/interface/stub compile
-under sqlite-migrations-debug; root exactly compared22 compiled functions to
-CTest registration,7 environment slots,76 total. Root `ctest --preset
-sqlite-migrations-debug -E '^sqlite-migrations\.'` exited0 with54/54 green:
-existing49 plus infrastructure5. No new migration body ran. Root independently
-reframed all10 JSON vectors and verified complete payload/length/SHA and literal
-base1127 byte count, without calling the UUT. Existing source/header/hook/49 diff
-from88e86c1 is empty. One initial scratch JSON inspection assumed a list where
-the fixture uses a dictionary; corrected independent validation passed. That
-read-only script error is neither acceptance nor red.
-
-Independent full review is underway and requests an isolated altered-reserved-DDL
-variant before approval; author is fixing it in the same22 slots. Official selected
-Qt CI green7/build/discovery remains pending at publication; later source revisions
-need their own checks. No future passing migration behavior is claimed.
+This completes the reviewed/red baseline, not migration behavior. Final integration/
+metadata/CI attribution review and latest-head CI/discussions/currentnormalrules
+remain publication gates. Workflow edits add no GitHub enforcement rule. No actual
+backup/update authority, domain store/appbundle/recovery, power-loss, live provider
+or platform release capability is established by these checks.

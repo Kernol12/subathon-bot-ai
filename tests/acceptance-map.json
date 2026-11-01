@@ -661,9 +661,10 @@
         "docs/evidence/storagetest-011-handoff.md",
         "docs/evidence/storagetest-011-author.md",
         "docs/evidence/storagetest-011-review.md",
-        "docs/evidence/storagetest-011-ci.md"
+        "docs/evidence/storagetest-011-ci.md",
+        "docs/evidence/storagetest-011-red-ctest.txt"
       ],
-      "scope": "25 reviewed writer/ownership cases plus24 unchanged separately reviewed work cases pass the same private Qt SQL implementation, with independent source/config review and actual automatic Ubuntu Qt6.12 49-case acceptance. Real synchronous service commit, rollback before errors, revocable capabilities, explicit uncertain outcomes, cumulative budgets and mixed FIFO/shutdown are covered using disposable SQL and a synthetic ReceiptIntake port. Original reviewed stub-red and ownership history retained. No product schema/migration/real repository adapter/application bundle/recovery/power-loss/provider/platform release verification. STORAGETEST-011 additionally authors/compiles22 catalog cases,7 green driver checks and10 frozen independent vectors; full test review/officialQt greenproof/newred remain pending and migration behavior is explicitly stubbed."
+      "scope": "25 reviewed writer/ownership cases plus24 unchanged separately reviewed work cases pass the same private Qt SQL implementation, with independent source/config review and actual automatic Ubuntu Qt6.12 49-case acceptance. Real synchronous service commit, rollback before errors, revocable capabilities, explicit uncertain outcomes, cumulative budgets and mixed FIFO/shutdown are covered using disposable SQL and a synthetic ReceiptIntake port. Original reviewed stub-red and ownership history retained. No product schema/migration/real repository adapter/application bundle/recovery/power-loss/provider/platform release verification. STORAGETEST-011 additionally supplies22 separately reviewed catalog cases/10 independent vectors, successful build/discovery, actual selected officialQt green7 diagnostic checks and genuine postapproval22stub-red(exit8/no skips). Baseline complete only; migration behavior remains explicitly stubbed until STORAGE-011 implementation/code review/passing acceptance/automatic CI."
     },
     {
       "id": "AUTH-11",
