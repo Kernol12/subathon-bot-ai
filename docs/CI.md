@@ -14,22 +14,22 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | receipt-intake.yml | Reviewed receipt service with primitive simulation storage |
 | contribution-evidence.yml | Reviewed eligibility/linkage with primitive simulation storage |
 | application-plan.yml | Reviewed owned captured-plan transformations |
-| sqlite-writer.yml | Qt6.12 build, environment probe and discovery of the intentional-red writer baseline |
+| sqlite-writer.yml | Qt6.12 build, environment probe, complete registration and reviewed real SQLite writer acceptance |
 
-The SQLite baseline lane does **not** run writer behavior as a passing automatic
-gate. Explicit workflow dispatch with `run_acceptance=true` runs the real cases and
-must fail while the explicit stubs remain. Local reviewed/red evidence is required
-before STORAGE-001. That implementation task must promote the unchanged reviewed
-cases to ordinary automatic PR/main acceptance and observe actual passing CI.
-No failure inversion, skipped baseline, WILL_FAIL or continue-on-error is allowed.
+The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
+and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
+[actual acceptance evidence](evidence/storage-001-ci.md) records the first passing
+Ubuntu run. The existing `sqlite-writer-build` check name is retained. Historical
+stub-red and the earlier build-only scope remain in baseline evidence. No failure
+inversion, skipped baseline, WILL_FAIL or continue-on-error is allowed.
 
 The SQLite lane downloads official Qtbase6.12.0 and ICU archives with fixed SHA-256
 hashes, extracts with bsdtar, and uses the explicit prefix. Core/Sql/Test compilation and the Qt event loop are checked automatically;
-the QSQLITE plugin file is verified, but loading/opening it belongs to the real
-behavior cases, which remain outside this automatic baseline lane. This adds no installer
+the QSQLITE plugin file is verified and the actual behavior cases load/open it
+on disposable files in ordinary automatic acceptance. This adds no installer
 action, automatic local download or committed binary. Qt6.12 remains required;
-Ubuntu's older system Qt is not substituted. The actual Ubuntu workflow must pass
-before the baseline PR merges; local archive-consumer evidence alone is insufficient.
+Ubuntu's older system Qt is not substituted. The actual Ubuntu acceptance workflow passed for STORAGE-001; latest-head checks
+remain required before every merge. Local archive-consumer evidence alone is insufficient.
 
 The checkout action remains pinned to official v7.0.1. Numeric-dependent stable
 lanes retain pinned Boost1.83 Ubuntu headers. System runner/compiler/runtime package

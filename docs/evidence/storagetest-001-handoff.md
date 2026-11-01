@@ -67,3 +67,9 @@ baseline, actual red and CI logs. STORAGETEST-001 is done as reviewed/red baseli
 STORAGE-001 waits for this prerequisite merge. Narrow completion-metadata review
 and final-head CI/normal rules remain publication gates. Existing valid numeric,
 timer/pause/accounting tests are unchanged and remain automatically checked.
+
+Actual PR24 mergedc2ca25a at09:23:31Z on2026-11-01. Finalheadf413511 had all10
+checks passed, no review threads and current normal rules satisfied. No bypass or
+GitHub approval waiver was used (rules require zero GitHub approvals). STORAGE-001
+is now separately claimed from integrated prerequisite; preserve all baseline and
+independent-review evidence above.

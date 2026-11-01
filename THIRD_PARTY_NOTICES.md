@@ -4,13 +4,13 @@ No dependency binaries or sources are bundled. System tools are not redistribute
 
 | Component | Intended use | State |
 | --- | --- | --- |
-| Qt >=6.12 | Server/desktop, Qt Test/Quick Test | Required for product; optional environment probe and Qt SQL writer baseline |
+| Qt >=6.12 | Server/desktop, Qt Test/Quick Test | Required for product; optional environment probe and Qt SQL writer acceptance |
 | GoogleTest >=1.17 | Native acceptance tests | System/local source, or opt-in v1.18.0 commit fetch |
 | Drogon | HTTP/webhooks/WebSockets | Selected architecture; not integrated |
 | Boost.Multiprecision | Exact arithmetic | Bounded numeric primitives use installed headers; local1.92.0 and pinned Ubuntu1.83.0 CI tested; Boost Software License1.0; no sources/binaries bundled |
 | libsodium | Passwords/credentials/backups | Selected; not integrated |
 | QtKeychain | Linux remembered login | Selected; not integrated |
-| SQLite via Qt SQL | Durable state | Real disposable-file writer baseline; production writer not yet implemented |
+| SQLite via Qt SQL | Durable state | Bounded Qt SQL writer/reader tested with disposable files; application schema/recovery remain pending |
 | React/TypeScript/Vite | Browser management/viewer | Selected; manifests await frontend foundation task |
 | Vitest/Playwright | Browser tests | Selected; not installed/bundled |
 | Noto Sans | Default fonts | Selected; no font files bundled yet |

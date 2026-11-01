@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T08:20:47+00:00",
+  "updated_at": "2026-11-01T08:52:26+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4117,7 +4117,8 @@
         "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claim from integrated main ba4e94c after live GitHub/worktree/agent audit on 2026-11-01. No active unfinished claims or open PRs; preserved local-only postmerge checkpoint and all support worktrees. Scope: storage writer contract revision 1, Qt SQL/SQLite thread ownership, single writer, WAL/FULL, bounded admission, rollback/busy/shutdown and separate read-only connections; no application schema/migration/backup/recovery product claims. Root owns CMake/presets/workflows/state/HTML/checkpoint/map; author owns contract, minimal interface/explicit stubs and Qt tests; independent reviewer will inspect exact revision before intended red. STORAGE-001 waits for reviewed baseline and behavioral red.",
         "Authored final819edbb integrated48db98c; contract4d280461/testsf8418e83/header11d204aa/stubf0edd7e6.22Qt slots compile/discover with real systemQt6.12; no bodies/red yet. Independent reviewer isolated at local-evidence/worktrees/storagetest001-review on exact integrated candidate; workflow9144d8b separately approved by qt_ci_investigator, actual Ubuntu execution pending. Root harness/progress/map/checkpoint ownership retained; author clean/complete.",
-        "Independent baseline3e7c8c7 integrated6647490 before actual22-case stub-red(exit8), all fixtures/init pass/no skips. Correctedworkflow398733eb independently actionlint-reviewed; actualUbuntuCI41288299328 atda98505 succeeded: Qt/ICU hashesOK, GNU13.3, probe1pass/exact22registration. All10PR24 checks pass there. Finalintegration0f4cf52 independently verified actualred/CI and unchangedbaseline. This completes reviewed/red tests only, not writer behavior; completionmetadatareview/latestheadCI/merge remain publication gates. STORAGE-001 preserves exact22baseline and must enable ordinary automatic acceptance."
+        "Independent baseline3e7c8c7 integrated6647490 before actual22-case stub-red(exit8), all fixtures/init pass/no skips. Correctedworkflow398733eb independently actionlint-reviewed; actualUbuntuCI41288299328 atda98505 succeeded: Qt/ICU hashesOK, GNU13.3, probe1pass/exact22registration. All10PR24 checks pass there. Finalintegration0f4cf52 independently verified actualred/CI and unchangedbaseline. This completes reviewed/red tests only, not writer behavior; completionmetadatareview/latestheadCI/merge remain publication gates. STORAGE-001 preserves exact22baseline and must enable ordinary automatic acceptance.",
+        "PR24 actually mergedc2ca25a at09:23:31Z 2026-11-01, finalf413511 all10latestchecks success/no threads/normalrules. Preserveauthor819edbb, baselineapproval3e7c8c7, integration0f4cf52/completionb9d84ae, contract/header/tests/stub hashes and actualred6647490. STORAGE-001 now separately claimed from integratedmain with isolated implementer; no repeatedbaseline or platformupgrade."
       ],
       "verification": {
         "authored_tests": "passed",
@@ -4148,8 +4149,8 @@
       "title": "Qt SQL ownership and single SQLite writer",
       "module": "Operations",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; implementer /root/storage_implementer; reviewer /root/storage_code_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "SPIKE-001",
@@ -4163,11 +4164,39 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
       "summary": "Use Qt SQL SQLite with WAL and synchronous=FULL; each connection stays in its owning thread.",
       "notes": [
-        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claim from refreshed mainc2ca25a after PR24 merged finalf413511 all10checks/no threads/normalrules. Prerequisite STORAGETEST-001 complete: contract4d280461/header11d204aa/testsf8418e83, review3e7c8c7/finalb9d84ae, actual22stubred6647490(exit8), Qt6.12 officialarchiveCI41288299328 observed. Scope only current revision1 Qt writer/reader owned connections/queued transactions/bounds/rollback/busy/shutdown. Implementer owns ONLYserver/src/sqlite_writer.cpp +docs/evidence/storage-001-implementation.md; root owns shared CMake/presets/workflows/labels/state/HTML/map/status/checkpoint. Preserve22 reviewed assertions/interfaces/contracts. Accept22passing cases+separate code/configreview+actualautomatic acceptanceCI; no application schema/migration/crash/backup/transport/provider/platform claim.",
+        "Sourceauthorf2a6379 integrated5562eaa, bloba8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811; evidence64e049e. All22 unchanged realQtSQLcases and fullpreset25pass author/root with Qt6.12/GNU16.2.1; contract/header/test hashes unchanged. Actualcandidate850eef4 includes unconditionalordinaryacceptanceCI/rootconfig promotion; isolated independentcode reviewer examining actualsource/bounds/ownership/failclosed/reentrancy. Sourceimplemented but codeapproval/UbuntuacceptanceCI/finalintegration/status/merge remain gates. No application schema/migration/recovery/provider/platform claim.",
+        "Sourcef2a6379/a8e5c8e and unchanged22cases pass author/root/reviewer, fullpreset25pass. Independent code/configapprovald6f9c49 integrated422acfd. ActualordinaryUbuntuacceptanceCI41289246502 atPR25headed5da87 passed22+environmentprobe1, Qt/ICUhashesOK GNU13.3; all10checks passedthere. Boundedownedwriter/reader done; finalintegrationmetadatareview/latestheadCI/merge remain publicationgates. No app schema/repository/aggregate/job/migration/crash/backup/provider/platform claim. Originalreviewedred6647490 preserved.",
+        "Premerge ownership investigation confirmed genuine gap in sourcea8e5c8e: realQt6.12 reviewer probe shows fromRawData SQL/QString/blob inputs remain borrowed after queue valuecopy and caller backing mutation changes accepted work. This violates existing ownedqueue guarantee, not new product scope. Hold earlier ownership approval/PR25merge; preserve valid22baseline and observed passes. Author separately reviewed new regression, observe real intendedred before implementer deep-own normalization fix; no assertion weakening or originalbaseline repetition.",
+        "New3 ownershiptests34c25c27 approved94820fa before actual3bodyred atf79d002 (record1499d57, exit8). Only THEN authorbe533bd deep-owned SQL/QString/QByteArray atadmission; finalsource829d9c66 integrated9d96363, evidence22edea4. Original22/header/contract/new3 unchanged. Author/root25writer+full28pass. Fresh affectedcode/configreview and actualUbuntu25CI pending; prior22CI/otherreview retained but cannot satisfy newsource mergegate.",
+        "Correctedsource829d9c66 after separatelyreviewed3regressions34c25c27/approval94820fa/actualred1499d57 now passes original22+new3 andfull28 author/root/reviewer. Freshcode/configapprovalc029a53 supersedesonlyownershiphold962. ActualUbuntuCI41290532883 at883d0ab passed25real+probe1/hashesOK/GNU13.3; all10checks there. Correctedboundedwriter done; finalmetadatareview/latestCI/merge remain gates. Original22/header/contract and validhistory preserved; no app/recovery/provider/platform upgrade."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "github_ci": "passed",
+        "application_crash_backup_provider": "not_run",
+        "platform_release": "not_run",
+        "ownership_regression": "passed"
+      },
+      "evidence": [
+        "docs/evidence/storage-001-implementation.md",
+        "docs/evidence/storage-001-handoff.md",
+        "docs/evidence/storage-001-ci.md",
+        "docs/evidence/storage-001-code-review.md",
+        "docs/evidence/storage-001-ownership-tests.md",
+        "docs/evidence/storage-001-ownership-red.txt"
+      ],
+      "review": {
+        "author": "/root/storage_implementer",
+        "reviewer": "/root/storage_code_reviewer",
+        "outcome": "approved",
+        "baseline": "initialf2a6379/a8e5c8e reviewd6f9c49; ownershipfinding9623943; regression34c25c27 reviewed94820fa thenactualred1499d57; correctedsourcebe533bd/829d9c66e47168384510e8ed2ff436e272686414; freshapprovalc029a53; CIguardd99df8ad",
+        "evidence": "docs/evidence/storage-001-code-review.md"
+      }
     },
     {
       "id": "STORAGETEST-002",
@@ -10899,6 +10928,41 @@
       "date": "2026-11-01T08:20:47+00:00",
       "task": "STORAGETEST-001",
       "note": "Independent baseline3e7c8c7 integrated6647490 before actual22-case stub-red(exit8), all fixtures/init pass/no skips. Correctedworkflow398733eb independently actionlint-reviewed; actualUbuntuCI41288299328 atda98505 succeeded: Qt/ICU hashesOK, GNU13.3, probe1pass/exact22registration. All10PR24 checks pass there. Finalintegration0f4cf52 independently verified actualred/CI and unchangedbaseline. This completes reviewed/red tests only, not writer behavior; completionmetadatareview/latestheadCI/merge remain publication gates. STORAGE-001 preserves exact22baseline and must enable ordinary automatic acceptance."
+    },
+    {
+      "date": "2026-11-01T08:23:55+00:00",
+      "task": "STORAGE-001",
+      "note": "Claim from refreshed mainc2ca25a after PR24 merged finalf413511 all10checks/no threads/normalrules. Prerequisite STORAGETEST-001 complete: contract4d280461/header11d204aa/testsf8418e83, review3e7c8c7/finalb9d84ae, actual22stubred6647490(exit8), Qt6.12 officialarchiveCI41288299328 observed. Scope only current revision1 Qt writer/reader owned connections/queued transactions/bounds/rollback/busy/shutdown. Implementer owns ONLYserver/src/sqlite_writer.cpp +docs/evidence/storage-001-implementation.md; root owns shared CMake/presets/workflows/labels/state/HTML/map/status/checkpoint. Preserve22 reviewed assertions/interfaces/contracts. Accept22passing cases+separate code/configreview+actualautomatic acceptanceCI; no application schema/migration/crash/backup/transport/provider/platform claim."
+    },
+    {
+      "date": "2026-11-01T08:25:04+00:00",
+      "task": "STORAGETEST-001",
+      "note": "PR24 actually mergedc2ca25a at09:23:31Z 2026-11-01, finalf413511 all10latestchecks success/no threads/normalrules. Preserveauthor819edbb, baselineapproval3e7c8c7, integration0f4cf52/completionb9d84ae, contract/header/tests/stub hashes and actualred6647490. STORAGE-001 now separately claimed from integratedmain with isolated implementer; no repeatedbaseline or platformupgrade."
+    },
+    {
+      "date": "2026-11-01T08:31:13+00:00",
+      "task": "STORAGE-001",
+      "note": "Sourceauthorf2a6379 integrated5562eaa, bloba8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811; evidence64e049e. All22 unchanged realQtSQLcases and fullpreset25pass author/root with Qt6.12/GNU16.2.1; contract/header/test hashes unchanged. Actualcandidate850eef4 includes unconditionalordinaryacceptanceCI/rootconfig promotion; isolated independentcode reviewer examining actualsource/bounds/ownership/failclosed/reentrancy. Sourceimplemented but codeapproval/UbuntuacceptanceCI/finalintegration/status/merge remain gates. No application schema/migration/recovery/provider/platform claim."
+    },
+    {
+      "date": "2026-11-01T08:33:30+00:00",
+      "task": "STORAGE-001",
+      "note": "Sourcef2a6379/a8e5c8e and unchanged22cases pass author/root/reviewer, fullpreset25pass. Independent code/configapprovald6f9c49 integrated422acfd. ActualordinaryUbuntuacceptanceCI41289246502 atPR25headed5da87 passed22+environmentprobe1, Qt/ICUhashesOK GNU13.3; all10checks passedthere. Boundedownedwriter/reader done; finalintegrationmetadatareview/latestheadCI/merge remain publicationgates. No app schema/repository/aggregate/job/migration/crash/backup/provider/platform claim. Originalreviewedred6647490 preserved."
+    },
+    {
+      "date": "2026-11-01T08:40:08+00:00",
+      "task": "STORAGE-001",
+      "note": "Premerge ownership investigation confirmed genuine gap in sourcea8e5c8e: realQt6.12 reviewer probe shows fromRawData SQL/QString/blob inputs remain borrowed after queue valuecopy and caller backing mutation changes accepted work. This violates existing ownedqueue guarantee, not new product scope. Hold earlier ownership approval/PR25merge; preserve valid22baseline and observed passes. Author separately reviewed new regression, observe real intendedred before implementer deep-own normalization fix; no assertion weakening or originalbaseline repetition."
+    },
+    {
+      "date": "2026-11-01T08:50:23+00:00",
+      "task": "STORAGE-001",
+      "note": "New3 ownershiptests34c25c27 approved94820fa before actual3bodyred atf79d002 (record1499d57, exit8). Only THEN authorbe533bd deep-owned SQL/QString/QByteArray atadmission; finalsource829d9c66 integrated9d96363, evidence22edea4. Original22/header/contract/new3 unchanged. Author/root25writer+full28pass. Fresh affectedcode/configreview and actualUbuntu25CI pending; prior22CI/otherreview retained but cannot satisfy newsource mergegate."
+    },
+    {
+      "date": "2026-11-01T08:52:26+00:00",
+      "task": "STORAGE-001",
+      "note": "Correctedsource829d9c66 after separatelyreviewed3regressions34c25c27/approval94820fa/actualred1499d57 now passes original22+new3 andfull28 author/root/reviewer. Freshcode/configapprovalc029a53 supersedesonlyownershiphold962. ActualUbuntuCI41290532883 at883d0ab passed25real+probe1/hashesOK/GNU13.3; all10checks there. Correctedboundedwriter done; finalmetadatareview/latestCI/merge remain gates. Original22/header/contract and validhistory preserved; no app/recovery/provider/platform upgrade."
     }
   ]
 }

@@ -1,9 +1,9 @@
-# Coordinator handoff — STORAGETEST-001 active
+# Coordinator handoff — STORAGE-001 active
 
 Coordinator `/root`, resumed 2026-11-01. Standing full-specification v0.45 loop is active;
 no routine approval/product question remains. Earlier ownerstop was explicitly
 revoked by resume. Last observed integrated main
-`ba4e94cc1586aed73e0ae1649d2a2d02e48d670f`; inspect actual state before resuming.
+`c2ca25a4a1ffe76cfea4ccf1e354e436ff91f8a0`; inspect actual state before resuming.
 
 ## Integrated work to preserve
 
@@ -32,47 +32,53 @@ work also remains valid; never repeat completed setup or upgrade live/platform g
   final9aea69e,22 actualstubfailures afterapprovalata524447;
   [baseline](accttest-003-baseline-handoff.md). Interface501112d6/testsf93287fa preserved.
 
-## Current task and live audit
+## STORAGETEST-001 integrated; current STORAGE-001 claim
 
-Fresh GitHub fetch/audit confirms main `ba4e94cc1586aed73e0ae1649d2a2d02e48d670f`,
-PR23 merged at21:47:53UTC, all9 final checks passed. No open PRs; only main remote
-branch. All preserved worktrees were clean; no prior subagents or native build/test
-processes remain. Local checkpoint `checkpoint/2026-10-31-session-handoff` is
-preserved, and its postmerge outcome facts are folded into this normal task branch.
-No completed task or review is restarted.
+[PR24](https://github.com/Kernol12/subathon-bot-ai/pull/24) actually mergedc2ca25a
+at09:23:31Z on2026-11-01. Finalheadf413511 all10checks passed, no discussions,
+current normal rules satisfied. Main was freshly fetched before the new task.
+[Baseline handoff](storagetest-001-handoff.md) retains exact contract4d280461,
+header11d204aa, stubf0edd7e6, testsf8418e83, author819edbb, separate review3e7c8c7,
+final integration0f4cf52/completionb9d84ae and actual22-case intended red at6647490
+(exit8, all real QSQLITE fixture/init checks pass, no skips). No baseline is repeated.
+Pinned official Qt/ICU build/probe/discovery actually passed UbuntuCI41288299328
+atda98505 and all finalhead checks. Initial workflow context failure and corrected
+398733eb/actionlint approval remain honest historical evidence in
+[CI assessment](storagetest-001-ci.md); no passing writer feature was claimed.
 
-`STORAGETEST-001` is now claimed on `task/STORAGETEST-001-writer-baseline`, from
-integrated main. Acceptance: reviewed contract/examples, executable Qt SQL/SQLite
-tests and explicit stubs, independent review, then actual intended red. `STORAGE-001`
-implementation waits for that gate. Local Qt Core/Sql/Test6.12.0 is installed.
+`STORAGE-001` now claimed on `task/STORAGE-001-sqlite-writer`, base currentmain
+c2ca25a; claimc76bfb0. Acceptance: preserve22 reviewed tests/interface/contract,
+implement bounded owned writer/reader, pass actual cases, separate code review,
+ordinary automatic acceptance CI and final latest-head PR/rules gates.
 
-- `/root/storage_test_author` owns `sqlite-writer-v1.md`, writer header/stub,
-  Qt test source and author evidence in
-  `local-evidence/worktrees/storagetest001-author`, branch
-  `task/STORAGETEST-001-writer-author`. Authoring complete at819edbb, integrated48db98c; separate review3e7c8c7
-  integrated6647490 before actual22-case intended stub-red, exit8.
-- `/root/storage_test_reviewer` is independently preparing requirements review;
-  actual candidate48db98c is in `local-evidence/worktrees/storagetest001-review`,
-  branch `task/STORAGETEST-001-writer-review`. Review/compile/discovery complete at3e7c8c7; exact candidate approved.
-  Final integration/CI evidence review remains after actual runner result.
-- `/root/qt_ci_investigator` completed read-only Qt6.12 archive investigation and separately approved workflow
-  blob398733eb after actionlint reproduced/fixed the initial GitHub context
-  validation failure; see [CI assessment](storagetest-001-ci.md). No task agent from
-  the previous session is assumed running.
-- Root owns shared CMake/presets/workflows/state/HTML/map/checkpoint/PR integration.
-  No other concurrent writer edits these paths.
+- `/root/storage_implementer` owns ONLY `server/src/sqlite_writer.cpp` and
+  `docs/evidence/storage-001-implementation.md` in isolated
+  `local-evidence/worktrees/storage001-implementation`, branch
+  `task/STORAGE-001-implementation`. Final sourcebe533bd/blob829d9c66 after separately reviewed ownership
+  regression/red, integrated9d96363; author evidence22edea4. Original22+new3
+  writercases/full28 pass author/root/reviewer. Author clean/complete.
+- `/root/storage_code_reviewer` has completed read-only requirement preparation;
+  initial candidate850eef4 and corrected9d96363 were reviewed in isolated
+  `local-evidence/worktrees/storage001-review`, branch `task/STORAGE-001-code-review`.
+  Reviewer independently ran fullpreset28pass on correctedsource829. Fresh
+  codeapprovalc029a53 and final correctedintegrationd3f36e2 supersede only the
+  oldownershipconclusion; historicald6/fe07 and962finding remain in evidence.
+- Earlier author/reviewer/Qt investigator completed. All existing support worktrees, valid review commits and the local-only checkpoint
+  branch are preserved. A corrected exit-code-aware audit found36existing worktrees
+  clean and16historical `/tmp/subathon-*` paths absent; their branches/review commits
+  and worktree metadata remain preserved without pruning. Initial startup summary
+  incorrectly treated missing-path command errors as clean; no missing path is now
+  claimed inspected/clean. Those completed tasks are not restarted. No old agent
+  is assumed running; only new task authors write.
+- Root owns shared CMake/presets/workflow/labels/state/HTML/map/checkpoint/PR changes.
+  Root promoted existing pinnedQt workflow to ordinary actual acceptance while
+  preserving stable `sqlite-writer-build` check name; no failure inversion/skip.
 
 The writer remains on the authoritative Qt command/state thread, with separate
-owned read-only connections; no hidden competing writer thread. Scope includes
-WAL/FULL, thread misuse, bounded admission, transaction failure/busy and shutdown.
-Application schemas/migrations, backup/recovery, aggregate/effect/job atomicity,
-transport/provider/live/platform support remain separate release gates.
-
-[PR23 implementation](acct-003-handoff.md) and [CI evidence](acct-003-ci.md) retain
-source `dcf0990`/`42b47e4a`, reviews `4425064`/`b548192`, interface `501112d6`, tests
-`f93287fa`, original intended red `a524447`,22 passing owned-transform cases and
-actual GNU13.3/Boost1.83 CI. No evaluator/actual permission/current cap/application
-or provider capability claim is upgraded.
+owned read-only connections; no competing writer thread. Scope is WAL/FULL,
+thread checks, owned FIFO transactions/bounds, rollback/busy/error and shutdown.
+Application schemas/migrations, app effects/aggregate/job atomicity, crash/backup/
+recovery, transport/provider/live/platform behavior remain later gates.
 
 ## Completed user-requested GitHub branch cleanup
 
@@ -82,7 +88,8 @@ rechecked exact audited tips/protection/default/openPR/content before atomic del
 with exact-head leases. Alllocalbranches/worktrees remain; deletedtips archived under
 refs/archive/remote-cleanup/2026-10-31/. Subsequently merged PR21, PR22 and PR23 heads were
 also archived/deleted using exacthead/ancestry/no-openPR guards:34 removedtotal after also archiving/deleting the completed PR23 head.
-Final live GitHub inventory has mainonly and no open PRs. No completed supportbranch is
+End-of-2026-10-31 cleanup inventory had mainonly and no open PRs;
+new task branches/PR24 were subsequently created under normal coordination. No completed supportbranch is
 republished. Ignored manifest records exactheads/proofs and historicalremainingrefs:
 `local-evidence/coordinator/remote-branch-cleanup-2026-10-31.json`.
 
@@ -92,27 +99,48 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-STORAGETEST-001 reviewed/red baseline is done; final PR publication gates remain.
-Actual corrected UbuntuCI41288299328 atda98505 passed: Qt/ICU hashesOK, GNU13.3,
-Qt event-loop1/1 and exact compiled/discovered22; all10PR checks passed there.
-[Baseline handoff](storagetest-001-handoff.md) records contract4d280461,
-interface11d204aa, stubf0edd7e6, testsf8418e83, independent review3e7c8c7 and
-actual22-case intended red at6647490(exit8). Source/test/assertions are unchanged.
-Separate final integration review0f4cf52 verified actual red and successful CI.
+Corrected STORAGE-001 implementation is done; PR25 publication gates remain.
+Premerge9623943 correctly held the originala8ownership conclusion after an actual
+Qt6.12 alias probe. Different author supplied3new tests34c25c27, with caller views
+ending before rawbuffer mutation. Independent regressionapproval94820fa was
+integratedf79d002 BEFORE actual3red (exit8: SQL9vs1/textzbcvsabc/blob7A6263vs616263,
+allfixture/init/cleanup pass/no skips), retained in ownership-red artifact and
+committed1499d57. Only THEN be533bd/source829d9c66 deep-owned admitted SQL/QString/
+QByteArray without changing original22/header/contract/new3 assertions.
 
-Final completion metadata approvedb9d84ae; root publishes that exact review. Require
-all latest PR24 checks, resolved discussions and current normal rules before
-ready/merge. After merging, refresh main and immediately claim STORAGE-001 on a
-dedicated branch from integrated reviewed/red prerequisite; assign implementation
-and separate code review. Root owns automatic acceptance promotion and shared
-progress/build/CI/checkpoint integration. Do not repeat completed setup/authoring.
-No production writer implementation has started.
+Fresh code/configapprovalc029a53 (integrated133e443) resolves the affected hold for
+correctedsource829. Author/root/reviewer25real/full28pass, groupedCIguardd99df8ad
+requires2executables/exact25registration. Actual UbuntuCI41290532883 atPR25head
+883d0ab passed25real+Qtprobe1, Qt/ICUhashesOK/GNU13.3; all10checks passed there.
+Historical22-only CI and sourcea8defect evidence remain; they do not prove newsource.
+[Implementation handoff](storage-001-handoff.md), [review](storage-001-code-review.md),
+[CI](storage-001-ci.md) and [ownership author/red](storage-001-ownership-tests.md).
 
-Author worktree is clean/complete at819edbb; reviewer worktree remains isolated
-at `local-evidence/worktrees/storagetest001-review`, final review0f4cf52 and narrow completion approvalb9d84ae complete.
-No previous-session agent is assumed running. Root's uncommitted changes are
-completion metadata/checkpoint/CI outcome only; no native command remains running.
-No owner question or access decision remains. Full product is NOT complete:
-authoritative transactions/aggregates/refunds, all7 integrations/3rate providers,
-supported platforms, both renderers, UIs/localization/themes, packaging and live/OBS
-verification retain their recorded gates. No completion percentage is inferred.
+Final corrected completionmetadata/actualCI-evidence reviewapprovedd3f36e2.
+Publish that exact approval, then require all latest PR25 checks/discussions/
+currentnormalrules before
+ready/merge. After merging refreshmain and start next dependency-ready task.
+No owner decision is needed. Do not repeat completed setup/baseline or weaken any
+reviewed assertion. App schema/application/recovery/backup/provider/platform gates
+remain separate even after the corrected library merges.
+
+CORETEST-005 read-only preparation by/root/debt_test_author is complete, no files
+or claim. Unreviewed proposed boundary: TimerState+separate nonnegative signed64
+debt; already-computed reversal magnitude and opaque provenance, separate requested/
+Main/debt/held/cap amounts, debt-first eligible additions. Example100/150 yields
+StopMain0/unapplied50, Carrydebt50, Reviewhold150; Main55/debt2/request10/cap60
+repays2/adds5/caps3. Proportional entitlement remains ACCT006; permissions/atomic
+persistence/currentclock and CORE002 end-mode progression remain caller gates.
+Require-review-only-on-overflow is a proposed interpretation needing independent
+contract/test review, not an invented owner decision or implemented behavior.
+
+Root's uncommitted edits are corrected completion state/map/docs/CI outcome and
+checkpoint; source829/new3/config are committed. Fresh approval and actual25CI
+are recorded above; latest-head merge gates still apply. No native root command is left running. Inspect
+actual worktrees/processes/agents/PRs if interrupted; do not assume active agents
+survive a session stop. No owner question or access decision remains.
+
+Full product is NOT complete: authoritative application/aggregates/refunds,
+all7 integrations/3rate providers, supported platforms, both renderers,
+UIs/localization/themes, packaging and live/OBS verification retain their gates.
+No completion percentage is inferred.

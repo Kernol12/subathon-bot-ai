@@ -11,7 +11,7 @@ if(SUBATHON_BUILD_SQLITE_WRITER_TESTS)
     add_executable(server_sqlite_writer_acceptance sqlite_writer_tests.cpp)
     target_link_libraries(server_sqlite_writer_acceptance PRIVATE subathon_sqlite_writer Qt6::Test)
     subathon_target_options(server_sqlite_writer_acceptance)
-    # Separate processes retain every intended failure and isolate temporary databases.
+    # Separate processes isolate temporary databases and report each reviewed case.
     foreach(case IN ITEMS
         opensWalFullOnOwnerThread
         commitsFifoBatchesBeforeCompletion
@@ -38,7 +38,22 @@ if(SUBATHON_BUILD_SQLITE_WRITER_TESTS)
     )
         add_test(NAME sqlite-writer.${case} COMMAND server_sqlite_writer_acceptance ${case})
         set_tests_properties(sqlite-writer.${case} PROPERTIES
-            LABELS "sqlite-writer;acceptance;draft;qt;server"
+            LABELS "sqlite-writer;acceptance;qt;server"
+            TIMEOUT 15)
+    endforeach()
+
+    add_executable(server_sqlite_writer_ownership_regression sqlite_writer_ownership_tests.cpp)
+    target_link_libraries(server_sqlite_writer_ownership_regression PRIVATE subathon_sqlite_writer Qt6::Test)
+    subathon_target_options(server_sqlite_writer_ownership_regression)
+    foreach(case IN ITEMS
+        ownsRawBackedSqlAtAdmission
+        ownsRawBackedTextBindingAtAdmission
+        ownsRawBackedBlobBindingAtAdmission
+    )
+        add_test(NAME sqlite-writer-regression.${case}
+            COMMAND server_sqlite_writer_ownership_regression ${case})
+        set_tests_properties(sqlite-writer-regression.${case} PROPERTIES
+            LABELS "sqlite-writer;regression;qt;server"
             TIMEOUT 15)
     endforeach()
 endif()

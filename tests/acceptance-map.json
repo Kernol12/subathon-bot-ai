@@ -622,14 +622,21 @@
       "id": "DB-01",
       "status": "partial",
       "tests": [
-        "tests/qt/sqlite_writer_tests.cpp"
+        "tests/qt/sqlite_writer_tests.cpp",
+        "tests/qt/sqlite_writer_ownership_tests.cpp"
       ],
       "evidence": [
         "docs/evidence/storagetest-001-review.md",
         "docs/evidence/storagetest-001-red-ctest.txt",
-        "docs/evidence/storagetest-001-handoff.md"
+        "docs/evidence/storagetest-001-handoff.md",
+        "docs/evidence/storage-001-implementation.md",
+        "docs/evidence/storage-001-code-review.md",
+        "docs/evidence/storage-001-ci.md",
+        "docs/evidence/storage-001-handoff.md",
+        "docs/evidence/storage-001-ownership-tests.md",
+        "docs/evidence/storage-001-ownership-red.txt"
       ],
-      "scope": "22 independently reviewed real Qt SQL/SQLite disposable-file cases observed intended red from explicit feature_not_implemented stubs. No production writer, app schema/migration/atomicity, crash/backup/recovery or supported-platform release verification yet."
+      "scope": "22 unchanged reviewed real Qt SQL/SQLite acceptance cases plus3 independently reviewed raw-buffer ownership regressions pass corrected owned writer/reader implementation, with separate corrected-source review and actual automatic Ubuntu Qt6.12 25-case acceptance. Original22stub-red and new3pre-fix-red retained. No application schema/migration/repository/atomicity, crash/backup/recovery or supported-platform release verification."
     },
     {
       "id": "AUTH-11",
