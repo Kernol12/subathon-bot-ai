@@ -100,8 +100,10 @@ Implementer `/root/debt_code_reviewer` is explicitly reassigned from completed
 CORE-005 review; new isolated worktree `local-evidence/worktrees/storage010-implementation`,
 branch `task/STORAGE-010-implementation`. Owns ONLY server/src/sqlite_writer.cpp
 and docs/evidence/storage-010-implementation.md. Root owns baseline stub removal,
-shared CMake/presets/workflow/map/state/HTML/checkpoint and PR. Different code
-reviewer will receive actual implementation in a separate worktree before approval.
+shared CMake/presets/workflow/map/state/HTML/checkpoint and PR. Different code reviewer `/root/storage_work_code_reviewer` is assigned in
+`local-evidence/worktrees/storage010-review`, branch `task/STORAGE-010-review`;
+initial read-only source/config checklist is complete, actual implementation
+revision is still pending before approval.
 Old baseline author/reviewer worktrees and reviews remain preserved, completed.
 
 Scope is additive same private authoritative writer connection, trusted dynamic
@@ -117,3 +119,13 @@ acceptance. No routine approval needed. No owner question or running root comman
 Inspect actual worktree/agent/process/GitHub state on resume. Historical absenttmp
 refs remain preserved. All seven integrations/three rate providers and full UI/
 renderers/locales/themes/platform/packaging/live gates remain release scope.
+
+Root shared configuration ce0a325 retires the original stub and points its
+historical review link to immutable c60e1ed/b47f. New24 acceptance is unconditional
+alongside old25 with the same compiled registration guard; no baseline assertion/
+header/hook/contract changes. Actionlint/project/diff passed. Implementer was sent
+this shared commit for merge before build. Implementation/real new24/full53/actual
+Ubuntu/code approval remain pending; no passing feature claim. Mainc60 all10
+postmerge checks succeeded. Root CI assessment is drafted/committed with this
+checkpoint, no running root command. Current author/reviewer assignments are live
+only as observed now; inspect on resume rather than assume persistence.

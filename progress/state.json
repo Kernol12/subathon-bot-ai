@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T10:56:48+00:00",
+  "updated_at": "2026-11-01T11:00:43+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4367,7 +4367,7 @@
       "module": "Operations",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "Coordinator /root; implementer /root/debt_code_reviewer; independent code reviewer to be assigned",
+      "owner": "Coordinator /root; implementer /root/debt_code_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "CONTRACT-004",
         "STORAGE-001",
@@ -4386,7 +4386,8 @@
       "summary": "Extend the controlled writer with the separately reviewed work/session boundary, preserving prebuilt batch and read-only reader behavior. No real receipt/contribution tables belong to this mechanism slice.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
-        "Claim from refreshed main c60e1ed after PR29 merged final b9216ad all11 latest checks, no threads, normal rules. Reviewed baseline d09d330 tests eb9e3b6/header afc9f483/hook a2cd7b89/stub b47f131a, review96c1481/final879a04d; actual24 stub-red(exit8) at75c07fc AFTER approval. Scope additive same-private-writer work/context/session mechanism only; preserve old25 and new24 assertions, synchronous real service commit, revocation, outcomes/errors, SQL budgets/FIFO/capacity/shutdown. Implementer owns only server/src/sqlite_writer.cpp and new implementation evidence; root owns stub removal/shared build/CI/state/HTML/map/checkpoint. Accept real49 combined cases plus separate code/config review and observed automatic Ubuntu acceptance. No domain schemas/migrations/repository adapter/provider/platform capability."
+        "Claim from refreshed main c60e1ed after PR29 merged final b9216ad all11 latest checks, no threads, normal rules. Reviewed baseline d09d330 tests eb9e3b6/header afc9f483/hook a2cd7b89/stub b47f131a, review96c1481/final879a04d; actual24 stub-red(exit8) at75c07fc AFTER approval. Scope additive same-private-writer work/context/session mechanism only; preserve old25 and new24 assertions, synchronous real service commit, revocation, outcomes/errors, SQL budgets/FIFO/capacity/shutdown. Implementer owns only server/src/sqlite_writer.cpp and new implementation evidence; root owns stub removal/shared build/CI/state/HTML/map/checkpoint. Accept real49 combined cases plus separate code/config review and observed automatic Ubuntu acceptance. No domain schemas/migrations/repository adapter/provider/platform capability.",
+        "Isolated source implementer explicitly resumed; new different code reviewer assigned in storage010-review. Root ce0a325 retires baseline stub and updates only its historical Markdown link to immutable c60e1ed/b47f source, promotes unchanged new24 to unconditional acceptance alongside old25 and keeps exact registration guard. Header/hook/tests/contracts unchanged. Shared actionlint/project/diff pass; actual implementation/local49/full53/source-review/Ubuntu acceptance are pending. Main c60e1ed postmerge all10 checks successful."
       ],
       "verification": {},
       "evidence": [],
@@ -11544,6 +11545,11 @@
       "date": "2026-11-01T10:56:48+00:00",
       "task": "STORAGE-010",
       "note": "Claim from refreshed main c60e1ed after PR29 merged final b9216ad all11 latest checks, no threads, normal rules. Reviewed baseline d09d330 tests eb9e3b6/header afc9f483/hook a2cd7b89/stub b47f131a, review96c1481/final879a04d; actual24 stub-red(exit8) at75c07fc AFTER approval. Scope additive same-private-writer work/context/session mechanism only; preserve old25 and new24 assertions, synchronous real service commit, revocation, outcomes/errors, SQL budgets/FIFO/capacity/shutdown. Implementer owns only server/src/sqlite_writer.cpp and new implementation evidence; root owns stub removal/shared build/CI/state/HTML/map/checkpoint. Accept real49 combined cases plus separate code/config review and observed automatic Ubuntu acceptance. No domain schemas/migrations/repository adapter/provider/platform capability."
+    },
+    {
+      "date": "2026-11-01T11:00:43+00:00",
+      "task": "STORAGE-010",
+      "note": "Isolated source implementer explicitly resumed; new different code reviewer assigned in storage010-review. Root ce0a325 retires baseline stub and updates only its historical Markdown link to immutable c60e1ed/b47f source, promotes unchanged new24 to unconditional acceptance alongside old25 and keeps exact registration guard. Header/hook/tests/contracts unchanged. Shared actionlint/project/diff pass; actual implementation/local49/full53/source-review/Ubuntu acceptance are pending. Main c60e1ed postmerge all10 checks successful."
     }
   ]
 }
