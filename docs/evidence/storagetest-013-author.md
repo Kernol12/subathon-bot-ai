@@ -319,3 +319,24 @@ feature blob: `0e61209e5ad16448416f62305de7eda90191d8e1`. Exact Qt6 MOC/C++20 sy
 warnings; clang-format and git diff --check pass. No feature body, early red or
 production change ran. Root actual build and independent full artifact re-review
 remain required before the approved first runtime gate.
+
+
+## Content-equivalent wrong-type allocator oracle
+
+Different full review of source0e61209 found that previous TEXT allocator values
+also differed from greatest receipt ID1, allowing consistency checks to hide a
+missing SQLtypeof check. Root authorized one additive SR01 strict-BLOB variant in
+the existing allocator/history slot. With canonical originalID1 present, independent
+fixture SQL now assigns last_allocated=CAST(X'0000000000000001' AS TEXT), and asserts
+typeof='text' plus raw CAST-to-BLOB hex exactly0000000000000001 before the feature
+call. A new identity must fail as known invalid_stored_data with no returned
+intake result and identical raw snapshot. Blindly converting TEXT to bytes would
+produce the valid consistent value1 and incorrectly allocate2, so this variant
+isolates actual storage-class validation without a different-number fallback.
+
+Every existing malformed allocator/history variant and assertion remains, as do
+all22 slots/prior reviewed corrections. No schema/JSON/API/production change or
+feature/red body run occurred. Revised feature blob: `d039830d3e628f88f0cd2023c46c50ec3da34efc`.
+Exact Qt6 MOC/C++20 syntax-only checks pass with zero warnings; clang-format and
+git diff --check pass. Actual root CMake build and different artifact re-review
+remain gates before runtime acceptance.

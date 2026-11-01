@@ -1314,6 +1314,21 @@ class SqliteReceiptTests final : public QObject {
             QVERIFY(!result);
             QCOMPARE(fixture_->snapshot(), before);
         }
+        // Same bytes as the real greatest ID1: consistency alone cannot reject
+        // this value. The allocator's actual SQL storage class must be BLOB.
+        QVERIFY(fixture_->exec("UPDATE main.subathon_receipt_allocator SET "
+                               "last_allocated=CAST(X'0000000000000001' AS TEXT)"));
+        QCOMPARE(fixture_->rows("SELECT typeof(last_allocated),hex(CAST(last_allocated AS BLOB)) "
+                                "FROM main.subathon_receipt_allocator"),
+                 SqlRows({{"text", "0000000000000001"}}));
+        const auto equivalent_text_before = fixture_->snapshot();
+        std::optional<ReceiptIntakeResult> equivalent_text_result;
+        auto equivalent_text =
+            ingest(writer, input("allocator-text-same-value"), equivalent_text_result);
+        KNOWN(equivalent_text, SqliteReceiptStorageReason::invalid_stored_data,
+              WorkError::work_exception);
+        QVERIFY(!equivalent_text_result);
+        QCOMPARE(fixture_->snapshot(), equivalent_text_before);
         QVERIFY(fixture_->exec("DELETE FROM main.subathon_receipt_allocator"));
         std::optional<ReceiptIntakeResult> result;
         auto absent = ingest(writer, input("allocator-absent"), result);
