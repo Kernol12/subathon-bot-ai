@@ -308,3 +308,74 @@ actual selected official-Qt green3/current schema plus complete22 discovery, and
 only then record the first genuine intended receipt red. Actual implementation,
 its separate code/config review, passing acceptance/unconditional CI and all
 previous operational/domain/provider/platform gates remain subsequent work.
+
+## Final baseline metadata, first-red and CI attribution review
+
+Verdict: **approved the actual baseline completion metadata and recorded gates**.
+Reviewed root80ad5f29300a7cad9c9a7f6e4c1aef778e1fa43c and the concrete wording
+correction57e1ad0e10398ebcc049e9970276ccabcb14589a, normally merged here at
+7f9804ed34e40df546e05170999f464406591b3a. No unresolved finding. This is no
+production approval or approval of future/latest-head CI. No native, feature,
+setup or historical-red body was rerun for this metadata review.
+
+Independently checked all nine frozen blobs above across actual full approval
+7df446e, executed CI/red head5ffe2e4, completion80ad5f2, correction57e1ad0 and
+this review HEAD. They remain exactly testdab97946568e09f15119a8995735539eb2e14c4d,
+green8189f0274a38bb840c612673e0f858fe8d1777eb,
+JSONa79e5e71a3b9ca101441852c7fb7f26f735e9626 and the previously listed complete
+APIb43/stubfaf/logicale1/physical2ef/CMakeff3/workflowfeb hashes. The integrated
+b1c77e1 review file is byte-identical to actual7df446e; b1c77e1 is an ancestor of
+5ffe2e428c1b219688a268ed155056d54a224988. Old writer/migration/retention source
+and retained prefix fixture are unchanged from merged maina4bb565.
+
+Read actual cached metadata and full executed log for
+[run41334070282](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41334070282),
+and independently fetched `gh run view 41334070282 --json
+databaseId,headSha,status,conclusion,event,url` plus the exact5ffe2e4 commit's
+check-runs API. This pull_request run completed SUCCESS at that exact head; all11
+checks there are completed/success. Observed Qt/ICU archive hashes OK, GNU13.3.0,
+new executables compiled, Qt6.12.0/SQLite3.53.4, actual old25/work24/migration24/
+retention16 success, migration green7 and retention green3 success, and NEW current
+818 receipt fixture3 with5passes including init/cleanup and0skips. Complete22
+compiled/CTest discovery succeeded. The manual feature-body step was not invoked.
+This is new-fixture proof, distinct from earlier API-only CI and hostSQLite3.54.
+
+Actual CI job completion17:58:13Z precedes the first-red metadata timestamp
+2026-11-01T18:00:26.517274+00:00 at the same5ffe2e4. Read the separate ignored
+storagetest013-red-metadata.json and parsed the complete tracked
+[raw first red](storagetest-013-red-ctest.txt), blob
+5b345cc45f2b7ddf643edd27a1290ea161e85870. Recorded command is exactly
+`ctest --preset sqlite-receipt-debug -L sqlite-receipt --output-on-failure --parallel 1`,
+actual returncode8. Every one of22 unique failed names matches an approved slot
+and explicitly identifies missing receipt behavior. All22 initTestCase and22
+cleanupTestCase passes are present; all22 summaries are2passed/1failed/0skipped/
+0blacklisted, total0.22s. There is no crash, dependency or setup failure supplying
+the red. Most later behavioral assertions remain unreached until implementation;
+these failures do not prove their eventual runtime behavior.
+
+Read current state, DB-01 map, brief, architecture/test strategy, handoff, CI and
+checkpoint. Only STORAGETEST-013 task data changed since8dfaf22; all391 IDs and
+dependencies are unchanged. Its kind is test_baseline and done means reviewed,
+compiling, observed-red baseline only. STORAGE-013 stays planned/unassigned with
+no verification or code review; DB-01 stays partial. Four explicit named throws
+remain. ReceiptIntake still owns classification, domainReceiptId1..MAX versus
+purecodec0..MAX is preserved, downstream actual numeric/rate codecs and all
+application/operational/provider/platform gates remain. No full118 pass, live
+operation, browser, power-loss or product-release claim was introduced.
+
+The current CI intro's stale future-red wording was corrected in57e1ad0, along
+with checkpoint text that still described already committed completion work.
+Those actual corrections were inspected; historical preparation sections keep
+their stage attribution. Source-head checks are not transferred to the metadata
+or this review commit. Fresh latest-head CI, ready PR, resolved discussions,
+current rules/required approvals, normal exact-head merge and refreshed main
+remain root publication gates before a separate STORAGE-013 claim.
+
+Actual independent checks: inline Python raw/metadata/hash/ancestry/state/map
+validation passed; fresh GitHub readbacks matched the cached historical run;
+`python3 tools/check_project.py` passed391 tasks/122 decisions;
+`python3 tools/progress.py render --check` and `git diff --check` passed. Initial
+review-script assumptions about inline slot syntax/map collection were corrected
+before the successful complete parse; no repository artifact changed for them.
+Only this review appendix was authored here. Prior native results remain attributed
+above; no native or red rerun and no actual browser validation were performed.
