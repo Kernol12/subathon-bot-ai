@@ -237,3 +237,69 @@ green fixture/harness and workflow review, successful compile/discovery, selecte
 official green and first genuine intended red remain separate mandatory gates
 before STORAGE-014. Only this review appendix changed here; no future approval or
 broader semantic/provider/platform/operational capability is implied.
+
+## Preliminary actual literal-fixture and green-only review
+
+Verdict: **approved the actual independent JSON and revised green helper only**.
+No unresolved fixture/green finding. This is not full feature/harness/API-CI
+approval or authorization to invoke new contribution bodies/red. The actual
+feature24 source and committed shared harness were not supplied at this stage.
+Root's pending shared edits were not included in this verdict.
+
+Read fixture author ea31c44f56b867852d7554f1cb119b52c907f25d/root
+c76c8e0c00a1eeb3bc2cce8f9d75f40947a5c502, complete535-line green source,
+JSON and author note, then the separately authorized actual correction
+5170208592f4633d7a7df6a3ce3b2cd5d6b8d713/root
+5471f851d5f6537d048ee016166d0c7e28c6be7e. Exact scoped artifacts:
+
+| Artifact | Git blob |
+| --- | --- |
+| Independent contribution JSON | 44df9918cc8494dc209e3b1812784a080860e06c |
+| Revised green3 helper | 577edeb0517e02e79263f5d439dedf5bc12306b1 |
+
+Independently reconstructed all four SQL values from the approved physical
+Markdown, complete20-object projection and unchanged7/13 prefix tuples; compared
+the actual stdlib SQLite3.54 schema. Implemented separate F framing/unsigned UTF-8
+sorting and compared complete payload hex/length/hash for all three versions.
+New18126/SHA b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d
+matches. All six decimalSTRING/hex pairs match literal expected values and Python
+int.to_bytes, never the new codec. Metadata/starts0,1,2,3/index SQLNULL and exact
+old fixture blobs0f76/a79 are preserved. No UUT supplied expected values.
+
+The green calls only the existing writer and literal SQL. Readbacks cover20
+schema rows/history1/2/3/allocator, all six BLOB8 IDs, allocator0 and optional
+association0 versus SQLNULL, independent current/captured state dimensions,
+money/decision/proof/role groups and raw binary/empty values. SQLNULL alone is
+selected unresolved. No same-session seed is claimed to prove prior commit,
+provider verification, semantic resolution, permission or valid application.
+No new/old receipt/contribution codec, factory, repository, service or migration
+runner participates in this helper's setup/expectations/link.
+
+Actual review finding: the old wrong-TEXT ID UPDATE on an already linked parent
+could fail child FK without exercising the strict ID CHECK. Different author517
+preserved all original UPDATE negatives and extended the existing isolated
+minimal INSERT on healthy unanchored receipt3 to TEXT8/INTEGER textual8/BLOB7/
+BLOB9/NULL. Exact preconditions prove existing receipt/no original anchor/no PK
+collision, then insert_reached is asserted outside the body before accepting
+rolled_back/sql_failure/no value. All other columns are valid, with no child FK
+or unrelated key/role cause. The actual revision resolves the finding without
+weakening assertions or fabricating a selected-NULL row.
+
+Independent manual build used the already built unchanged old-writer archive,
+three absolute vector macros, selected Qt6 moc/pkg-config libraries and the same
+project warning flags, treating Qt includes as system includes. Actual command:
+`python3 /tmp/storagetest014-green-review/build-run.py`. Exit0/zero warnings;
+`-functions` is exactly the three intended names. Actual revised577 executable
+passes all3 slots plus init/cleanup,5total/0failed/0skipped, Qt6.12.0/SQLite3.54.0.
+The link command and nm audit include old SqliteWriter::enqueue_work but exclude
+all receipt/contribution codecs/factories/repositories/services and migration runner.
+Initial scratch compilation selected PATH's Qt5 moc and ordinary Qt include flags;
+corrected to explicit /usr/lib/qt6/moc6.12 and system includes before any green
+body ran. That setup failure was not feature red or an artifact defect.
+
+Captures are /tmp/storagetest014-green-review/{compile-577.log,functions-577.txt,
+green-577.log}. Project391/render/format/diff checks pass. No feature body, old
+native suite or historical red was invoked, and only this review appendix changes.
+Host green does not establish selected official bundled Qt proof. Actual feature
+source/all oracles, shared CMake/link/discovery/CI, selected official NEW green
+and first authorized intended feature red remain separate mandatory gates.
