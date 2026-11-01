@@ -298,3 +298,24 @@ Current revised feature source blob:
 `eea4bf721ec03e8687583a2fb341a4d24cfbe92c`. Exact Qt6 MOC/syntax checking passed
 with zero warnings; project391/render/diff checks passed. No feature runtime claim
 or approval follows from those checks.
+
+
+## Fault decorator observes each new staged row
+
+The different reviewer found a further SR08/specification §3.4 stage-proof gap
+in source eea4bf721ec03e8687583a2fb341a4d24cfbe92c: count>0 after append may be
+satisfied by already committed attempts for retry/conflict. Root authorized a
+helper-only strengthening. Before forwarding each create/append, the decorator
+now reads the owner's actual table count. After real primitive return it requires
+count_after == count_before+1, retains the existing positive-count assertion,
+and only then sets the existing stage flag before forcing later real SQL failure.
+An earlier matching exception or a no-op append cannot prove that new stage.
+This remains an independent SQL observation, without classification, expected
+results from UUT, hidden query-count calibration or synthetic rollback.
+
+All original flags/outer assertions/22 names and prior SR01/SR10/target-mapping
+fixes are preserved. Only the helper and this evidence change. Revised actual
+feature blob: `0e61209e5ad16448416f62305de7eda90191d8e1`. Exact Qt6 MOC/C++20 syntax-only checks pass with zero
+warnings; clang-format and git diff --check pass. No feature body, early red or
+production change ran. Root actual build and independent full artifact re-review
+remain required before the approved first runtime gate.

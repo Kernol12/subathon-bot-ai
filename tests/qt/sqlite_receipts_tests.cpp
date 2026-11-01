@@ -314,22 +314,35 @@ class FailAfterStage final : public ReceiptRepository {
             }
             ReceiptId create(const ReceiptIdentity &i, const ReceiptFacts &f,
                              const ReceiptArrival &a) override {
+                const auto count_before =
+                    session_.execute({"SELECT count(*) FROM main.subathon_receipts", {}})[0][0]
+                        .toLongLong();
                 const auto id = inner_->create(i, f, a);
-                created_ = true; // Only after actual primitive returned successfully.
-                require(session_.execute({"SELECT count(*) FROM main.subathon_receipts", {}})[0][0]
-                                .toLongLong() > 0,
-                        "actual original staging not visible to owner");
+                const auto count_after =
+                    session_.execute({"SELECT count(*) FROM main.subathon_receipts", {}})[0][0]
+                        .toLongLong();
+                require(count_after == count_before + 1,
+                        "actual create must stage one new original before fault");
+                require(count_after > 0, "actual original staging not visible to owner");
+                created_ = true; // Only after actual return AND observed new-row delta.
                 if (point_ == Point::create)
                     fail();
                 return id;
             }
             void append_attempt(ReceiptId id, const ReceiptAttempt &a) override {
+                const auto count_before =
+                    session_
+                        .execute({"SELECT count(*) FROM main.subathon_receipt_attempts", {}})[0][0]
+                        .toLongLong();
                 inner_->append_attempt(id, a);
+                const auto count_after =
+                    session_
+                        .execute({"SELECT count(*) FROM main.subathon_receipt_attempts", {}})[0][0]
+                        .toLongLong();
+                require(count_after == count_before + 1,
+                        "actual append must stage one new attempt before fault");
+                require(count_after > 0, "actual attempt staging not visible to owner");
                 appended_ = true;
-                require(session_.execute({"SELECT count(*) FROM main.subathon_receipt_attempts",
-                                          {}})[0][0]
-                                .toLongLong() > 0,
-                        "actual attempt staging not visible to owner");
                 if (point_ == Point::append)
                     fail();
             }
