@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T08:25:04+00:00",
+  "updated_at": "2026-11-01T08:31:13+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4149,8 +4149,8 @@
       "title": "Qt SQL ownership and single SQLite writer",
       "module": "Operations",
       "kind": "implementation",
-      "status": "in_progress",
-      "owner": "Coordinator /root; implementer /root/storage_implementer; independent code review pending",
+      "status": "in_review",
+      "owner": "Coordinator /root; implementer /root/storage_implementer; reviewer /root/storage_code_reviewer",
       "depends_on": [
         "CONTRACT-002",
         "SPIKE-001",
@@ -4165,10 +4165,23 @@
       "summary": "Use Qt SQL SQLite with WAL and synchronous=FULL; each connection stays in its owning thread.",
       "notes": [
         "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claim from refreshed mainc2ca25a after PR24 merged finalf413511 all10checks/no threads/normalrules. Prerequisite STORAGETEST-001 complete: contract4d280461/header11d204aa/testsf8418e83, review3e7c8c7/finalb9d84ae, actual22stubred6647490(exit8), Qt6.12 officialarchiveCI41288299328 observed. Scope only current revision1 Qt writer/reader owned connections/queued transactions/bounds/rollback/busy/shutdown. Implementer owns ONLYserver/src/sqlite_writer.cpp +docs/evidence/storage-001-implementation.md; root owns shared CMake/presets/workflows/labels/state/HTML/map/status/checkpoint. Preserve22 reviewed assertions/interfaces/contracts. Accept22passing cases+separate code/configreview+actualautomatic acceptanceCI; no application schema/migration/crash/backup/transport/provider/platform claim."
+        "Claim from refreshed mainc2ca25a after PR24 merged finalf413511 all10checks/no threads/normalrules. Prerequisite STORAGETEST-001 complete: contract4d280461/header11d204aa/testsf8418e83, review3e7c8c7/finalb9d84ae, actual22stubred6647490(exit8), Qt6.12 officialarchiveCI41288299328 observed. Scope only current revision1 Qt writer/reader owned connections/queued transactions/bounds/rollback/busy/shutdown. Implementer owns ONLYserver/src/sqlite_writer.cpp +docs/evidence/storage-001-implementation.md; root owns shared CMake/presets/workflows/labels/state/HTML/map/status/checkpoint. Preserve22 reviewed assertions/interfaces/contracts. Accept22passing cases+separate code/configreview+actualautomatic acceptanceCI; no application schema/migration/crash/backup/transport/provider/platform claim.",
+        "Sourceauthorf2a6379 integrated5562eaa, bloba8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811; evidence64e049e. All22 unchanged realQtSQLcases and fullpreset25pass author/root with Qt6.12/GNU16.2.1; contract/header/test hashes unchanged. Actualcandidate850eef4 includes unconditionalordinaryacceptanceCI/rootconfig promotion; isolated independentcode reviewer examining actualsource/bounds/ownership/failclosed/reentrancy. Sourceimplemented but codeapproval/UbuntuacceptanceCI/finalintegration/status/merge remain gates. No application schema/migration/recovery/provider/platform claim."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "not_run",
+        "github_ci": "not_run",
+        "application_crash_backup_provider": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storage-001-implementation.md",
+        "docs/evidence/storage-001-handoff.md",
+        "docs/evidence/storage-001-ci.md"
+      ],
       "review": null
     },
     {
@@ -10911,6 +10924,11 @@
       "date": "2026-11-01T08:25:04+00:00",
       "task": "STORAGETEST-001",
       "note": "PR24 actually mergedc2ca25a at09:23:31Z 2026-11-01, finalf413511 all10latestchecks success/no threads/normalrules. Preserveauthor819edbb, baselineapproval3e7c8c7, integration0f4cf52/completionb9d84ae, contract/header/tests/stub hashes and actualred6647490. STORAGE-001 now separately claimed from integratedmain with isolated implementer; no repeatedbaseline or platformupgrade."
+    },
+    {
+      "date": "2026-11-01T08:31:13+00:00",
+      "task": "STORAGE-001",
+      "note": "Sourceauthorf2a6379 integrated5562eaa, bloba8e5c8e80ebb9bde8321d01f7fbc1b1d826c2811; evidence64e049e. All22 unchanged realQtSQLcases and fullpreset25pass author/root with Qt6.12/GNU16.2.1; contract/header/test hashes unchanged. Actualcandidate850eef4 includes unconditionalordinaryacceptanceCI/rootconfig promotion; isolated independentcode reviewer examining actualsource/bounds/ownership/failclosed/reentrancy. Sourceimplemented but codeapproval/UbuntuacceptanceCI/finalintegration/status/merge remain gates. No application schema/migration/recovery/provider/platform claim."
     }
   ]
 }

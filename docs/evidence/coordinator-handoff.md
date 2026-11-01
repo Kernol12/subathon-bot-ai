@@ -54,9 +54,12 @@ ordinary automatic acceptance CI and final latest-head PR/rules gates.
 - `/root/storage_implementer` owns ONLY `server/src/sqlite_writer.cpp` and
   `docs/evidence/storage-001-implementation.md` in isolated
   `local-evidence/worktrees/storage001-implementation`, branch
-  `task/STORAGE-001-implementation`. Implementation active; no candidate approved.
+  `task/STORAGE-001-implementation`. Sourcef2a6379/bloba8e5c8e integrated5562eaa, author evidence64e049e;
+  author/root22label and fullpreset25pass. Author is clean/complete.
 - `/root/storage_code_reviewer` has completed read-only requirement preparation;
-  actual candidate/reviewer worktree follows author handoff. No code approval yet.
+  actual candidate850eef4 is being reviewed in isolated
+  `local-evidence/worktrees/storage001-review`, branch `task/STORAGE-001-code-review`.
+  Reviewer independently ran fullpreset25pass; source review verdict pending.
 - Earlier author/reviewer/Qt investigator completed. All existing support worktrees, valid review commits and the local-only checkpoint
   branch are preserved. A corrected exit-code-aware audit found36existing worktrees
   clean and16historical `/tmp/subathon-*` paths absent; their branches/review commits
@@ -93,16 +96,16 @@ and no required-status-check rule. All latest CIchecks remain written merge gate
 
 ## Next concrete action and remaining gates
 
-Obtain actual implementation candidate, integrate source without touching approved
-assertions, configure/build/run22real cases and applicable regression checks. Supply
-exact candidate/config to independent code reviewer and resolve actual findings.
-Then publish focused STORAGE-001 PR, observe real automatic acceptance on Ubuntu
-Qt6.12, update implementation/map/status/evidence and require final reviews/latest
-CI/normal rules before merge. Reuse valid reviewed/red preparation, not the old
-spike implementation. No unrelated production slice belongs in this PR.
+Finish actual code/config review, publish focused draft STORAGE-001 PR and observe
+ordinary automatic acceptance using real UbuntuQt6.12/QSQLITE. Current source
+bloba8e5c8e and approved22testsf8418e83 pass root/author/reviewer(full25); interface/
+contract unchanged. Root CI promotion is unconditional, not a passing build-only
+claim. Update reviewed implementation/map/status/evidence only after actual code
+approval and CI; require final reviews/latest CI/normal rules before merge. No
+unrelated production slice belongs in this PR.
 
-Root's uncommitted edits are CI/label promotion and coordination outcome/checkpoint;
-implementer work is isolated. No native root command is left running. Inspect
+Root's uncommitted edits are passing-source status/handoff/CI assessment/checkpoint;
+source/config are committed and the author worktree is clean. No native root command is left running. Inspect
 actual worktrees/processes/agents/PRs if interrupted; do not assume active agents
 survive a session stop. No owner question or access decision remains.
 
