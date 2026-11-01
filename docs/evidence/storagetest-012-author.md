@@ -250,3 +250,21 @@ No new feature body ran. Root's reported actual first candidate build/discovery,
 green3 and old78 success are root evidence, not independently repeated here.
 Author ran clang-format and git diff --check for this bounded correction; actual
 corrected compilation and separate artifact review remain gates.
+
+A second actual different-agent review found that the RC03 nontext/NUL/BOM key
+vectors covered configuration identity while context identity and present link
+used ASCII only. The byte/reopen slot now adds one configuration target with
+reference efbbbf6100ff and context identity 00ffefbbbf62, exact binary payloads,
+exact typed DTO equality, independent raw SQL typeof/hex for the context key and
+known link, and reopened equality for both records. This checks every opaque
+reference branch without changing the immutable schema or creating a new slot.
+All original byte/reopen assertions remain before this added variant.
+
+The same focused revision independently checks each nonpositive configured bound:
+{0,0}, {0,4}, {4,0}, {-1,4}, {4,-1}. Each must report invalid_options before invalid
+kind/reference/stale-session handling. This preserves the original precedence
+check and proves one valid bound cannot mask the other invalid bound. Existing
+positive exact-bound tests remain unchanged. Frozen JSON/probe/API/stub/contract
+and all 16 names are unchanged; no new feature body ran. clang-format and
+`git diff --check` passed; root performs one build of the corrected target and
+the different reviewer must inspect this actual revision before approval.

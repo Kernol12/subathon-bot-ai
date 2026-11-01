@@ -323,6 +323,43 @@ class SqliteRetainedContextTests final : public QObject {
         QCOMPARE(fixture_->rows("SELECT typeof(document),hex(document) FROM "
                                 "main.subathon_retained_configurations"),
                  SqlRows({{"blob", "00FF4100"}}));
+
+        // These are distinct codec paths: context identity and present link must
+        // preserve nontext/NUL/BOM bytes just as configuration identity does.
+        const auto binary_cfg = document(config(opaque(QByteArray::fromHex("efbbbf6100ff"))),
+                                         QByteArray::fromHex("ff00"));
+        const auto binary_ctx =
+            document(context(opaque(QByteArray::fromHex("00ffefbbbf62"))),
+                     QByteArray::fromHex("00ff"), ConfigurationReference{binary_cfg.key.reference});
+        auto binary = run(reopened, [&](auto session) -> QVariant {
+            SqliteRetainedContextStore store(session);
+            require(store.retain(binary_cfg) == RetainDisposition::inserted, "binary link target");
+            require(store.retain(binary_ctx) == RetainDisposition::inserted,
+                    "binary context key/link");
+            require(store.find(binary_ctx.key) == binary_ctx, "exact binary context DTO");
+            session.commit();
+            return 2;
+        });
+        OK(binary);
+        QCOMPARE(
+            fixture_->rows("SELECT typeof(reference),hex(reference),typeof(document),"
+                           "hex(document),typeof(configuration_ref),hex(configuration_ref) "
+                           "FROM main.subathon_retained_contexts WHERE reference=X'00FFEFBBBF62'"),
+            SqlRows({{"blob", "00FFEFBBBF62", "blob", "00FF", "blob", "EFBBBF6100FF"}}));
+        bool stopped = false;
+        QCOMPARE(reopened.shutdown([&] { stopped = true; }), StorageError::none);
+        QVERIFY(QTest::qWaitFor([&] { return stopped; }));
+        SqliteWriter binary_reopened;
+        QCOMPARE(binary_reopened.open(path_), StorageError::none);
+        auto again = run(binary_reopened, [&](auto session) -> QVariant {
+            SqliteRetainedContextStore store(session);
+            require(store.find(binary_cfg.key) == binary_cfg &&
+                        store.find(binary_ctx.key) == binary_ctx,
+                    "binary context key and link survive reopen");
+            session.commit();
+            return 2;
+        });
+        OK(again);
     }
 
     void presentEmptyRoundTripsAndRetainsAsDuplicate() {
@@ -609,12 +646,15 @@ class SqliteRetainedContextTests final : public QObject {
 
     void invalidInputPrecedencePreservesHealthySession() {
         // Default ticket proves pure checks precede any SQL/capability access.
-        SqliteRetainedContextStore stale({}, {0, 0});
-        try {
-            expect_local([&] { (void)stale.find({static_cast<RetainedKind>(99), ""}); },
-                         RetentionError::invalid_options);
-        } catch (const std::exception &failure) {
-            QFAIL(failure.what());
+        for (const auto limits : {RetainedLimits{0, 0}, RetainedLimits{0, 4}, RetainedLimits{4, 0},
+                                  RetainedLimits{-1, 4}, RetainedLimits{4, -1}}) {
+            SqliteRetainedContextStore stale({}, limits);
+            try {
+                expect_local([&] { (void)stale.find({static_cast<RetainedKind>(99), ""}); },
+                             RetentionError::invalid_options);
+            } catch (const std::exception &failure) {
+                QFAIL(failure.what());
+            }
         }
         SqliteWriter writer;
         QCOMPARE(writer.open(path_), StorageError::none);
