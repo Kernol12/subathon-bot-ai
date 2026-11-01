@@ -78,8 +78,7 @@ enum class MigrationReason {
 class MigrationFailure final : public std::runtime_error {
   public:
     explicit MigrationFailure(MigrationReason reason)
-        : std::runtime_error("Migration feature is intentionally unimplemented or invalid"),
-          reason_(reason) {}
+        : std::runtime_error("SQLite migration operation failed"), reason_(reason) {}
     [[nodiscard]] MigrationReason reason() const noexcept { return reason_; }
 
   private:

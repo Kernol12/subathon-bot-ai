@@ -1,0 +1,474 @@
+{
+  "license": "GPL-3.0-or-later",
+  "reference": "Independent Python standard-library framing/SHA256; frozen literals, not future UUT output. empty_sql is codec-only, not a valid reserved catalog schema.",
+  "metadata_sql": [
+    "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)",
+    "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+  ],
+  "base": {
+    "catalog_format": 1,
+    "store_identity": "subathon.sqlite-store",
+    "supported_starting_versions": [
+      0,
+      1,
+      2
+    ],
+    "steps": [
+      {
+        "version": 1,
+        "id": "create-sample",
+        "sql": [
+          "CREATE TABLE sample(id INTEGER PRIMARY KEY, amount INTEGER)",
+          "INSERT INTO sample VALUES (1,10)"
+        ],
+        "expected_schema": [
+          {
+            "type": "table",
+            "name": "subathon_catalog",
+            "table_name": "subathon_catalog",
+            "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+          },
+          {
+            "type": "table",
+            "name": "subathon_migration_history",
+            "table_name": "subathon_migration_history",
+            "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+          },
+          {
+            "type": "index",
+            "name": "sqlite_autoindex_subathon_migration_history_1",
+            "table_name": "subathon_migration_history",
+            "sql": null
+          },
+          {
+            "type": "table",
+            "name": "sample",
+            "table_name": "sample",
+            "sql": "CREATE TABLE sample(id INTEGER PRIMARY KEY, amount INTEGER)"
+          }
+        ],
+        "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3131333a6372656174652d73616d706c65313a3235393a435245415445205441424c452073616d706c6528696420494e5445474552205052494d415259204b45592c20616d6f756e7420494e54454745522933323a494e5345525420494e544f2073616d706c652056414c5545532028312c313029313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c65363a73616d706c65363a73616d706c65313a3135393a435245415445205441424c452073616d706c6528696420494e5445474552205052494d415259204b45592c20616d6f756e7420494e544547455229353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+        "sha256_hex": "3cacc20e2e6af6558ac8afbacd5e78c04a69ab06f4f64a290a1cc737ce8272a4",
+        "payload_bytes": 700
+      },
+      {
+        "version": 2,
+        "id": "add-second",
+        "sql": [
+          "INSERT INTO sample VALUES (2,20)"
+        ],
+        "expected_schema": [
+          {
+            "type": "table",
+            "name": "subathon_catalog",
+            "table_name": "subathon_catalog",
+            "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+          },
+          {
+            "type": "table",
+            "name": "subathon_migration_history",
+            "table_name": "subathon_migration_history",
+            "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+          },
+          {
+            "type": "index",
+            "name": "sqlite_autoindex_subathon_migration_history_1",
+            "table_name": "subathon_migration_history",
+            "sql": null
+          },
+          {
+            "type": "table",
+            "name": "sample",
+            "table_name": "sample",
+            "sql": "CREATE TABLE sample(id INTEGER PRIMARY KEY, amount INTEGER)"
+          }
+        ],
+        "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3231303a6164642d7365636f6e64313a3133323a494e5345525420494e544f2073616d706c652056414c5545532028322c323029313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c65363a73616d706c65363a73616d706c65313a3135393a435245415445205441424c452073616d706c6528696420494e5445474552205052494d415259204b45592c20616d6f756e7420494e544547455229353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+        "sha256_hex": "a1857aaa66117fb82a44cd9e8cbbdb51eede6d4bf8dca77361dab73b955c6d48",
+        "payload_bytes": 635
+      }
+    ],
+    "manifest_utf8_bytes": 1127
+  },
+  "vectors": {
+    "m1": {
+      "version": 1,
+      "id": "m1",
+      "sql": [
+        "CREATE TABLE sample(label TEXT)",
+        "INSERT INTO sample VALUES ('\u00e9\ud83d\ude42')"
+      ],
+      "expected_schema": [
+        {
+          "type": "table",
+          "name": "subathon_catalog",
+          "table_name": "subathon_catalog",
+          "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+        },
+        {
+          "type": "table",
+          "name": "subathon_migration_history",
+          "table_name": "subathon_migration_history",
+          "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+        },
+        {
+          "type": "index",
+          "name": "sqlite_autoindex_subathon_migration_history_1",
+          "table_name": "subathon_migration_history",
+          "sql": null
+        },
+        {
+          "type": "table",
+          "name": "sample",
+          "table_name": "sample",
+          "sql": "CREATE TABLE sample(label TEXT)"
+        }
+      ],
+      "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a31323a6d31313a3233313a435245415445205441424c452073616d706c65286c6162656c20544558542933363a494e5345525420494e544f2073616d706c652056414c554553202827c3a9f09f99822729313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c65363a73616d706c65363a73616d706c65313a3133313a435245415445205441424c452073616d706c65286c6162656c205445585429353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+      "sha256_hex": "3d1e0f776ae0a3f84c9036c099b0a1333ea735eb88e22fc666f5f3f72bf972bc",
+      "payload_bytes": 636
+    },
+    "empty_sql": {
+      "version": 1,
+      "id": "m1",
+      "sql": [
+        "CREATE TABLE sample(label TEXT)",
+        "INSERT INTO sample VALUES ('\u00e9\ud83d\ude42')"
+      ],
+      "expected_schema": [
+        {
+          "type": "table",
+          "name": "subathon_catalog",
+          "table_name": "subathon_catalog",
+          "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+        },
+        {
+          "type": "table",
+          "name": "subathon_migration_history",
+          "table_name": "subathon_migration_history",
+          "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+        },
+        {
+          "type": "index",
+          "name": "sqlite_autoindex_subathon_migration_history_1",
+          "table_name": "subathon_migration_history",
+          "sql": ""
+        },
+        {
+          "type": "table",
+          "name": "sample",
+          "table_name": "sample",
+          "sql": "CREATE TABLE sample(label TEXT)"
+        }
+      ],
+      "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a31323a6d31313a3233313a435245415445205441424c452073616d706c65286c6162656c20544558542933363a494e5345525420494e544f2073616d706c652056414c554553202827c3a9f09f99822729313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a31303a353a7461626c65363a73616d706c65363a73616d706c65313a3133313a435245415445205441424c452073616d706c65286c6162656c205445585429353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+      "sha256_hex": "422f8ee753140b53751737c79e7a0fd3394cb63e081261886c2d244cfc81c2cb",
+      "payload_bytes": 638
+    },
+    "unicode_order": {
+      "version": 1,
+      "id": "unicode-order",
+      "sql": [
+        "CREATE TABLE \"\ud800\udc00\"(value TEXT)",
+        "CREATE TABLE \"\ue000\"(value TEXT)"
+      ],
+      "expected_schema": [
+        {
+          "type": "table",
+          "name": "subathon_catalog",
+          "table_name": "subathon_catalog",
+          "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+        },
+        {
+          "type": "table",
+          "name": "subathon_migration_history",
+          "table_name": "subathon_migration_history",
+          "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+        },
+        {
+          "type": "index",
+          "name": "sqlite_autoindex_subathon_migration_history_1",
+          "table_name": "subathon_migration_history",
+          "sql": null
+        },
+        {
+          "type": "table",
+          "name": "\ud800\udc00",
+          "table_name": "\ud800\udc00",
+          "sql": "CREATE TABLE \"\ud800\udc00\"(value TEXT)"
+        },
+        {
+          "type": "table",
+          "name": "\ue000",
+          "table_name": "\ue000",
+          "sql": "CREATE TABLE \"\ue000\"(value TEXT)"
+        }
+      ],
+      "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3131333a756e69636f64652d6f72646572313a3233313a435245415445205441424c452022f0908080222876616c756520544558542933303a435245415445205441424c452022ee8080222876616c7565205445585429313a35353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29353a7461626c65333aee8080333aee8080313a3133303a435245415445205441424c452022ee8080222876616c7565205445585429353a7461626c65343af0908080343af0908080313a3133313a435245415445205441424c452022f0908080222876616c7565205445585429",
+      "sha256_hex": "a29cc1cc0c49c9e65763851b6a47679d7816b12257195bfd8cef4cdd4b0bf807",
+      "payload_bytes": 691
+    }
+  },
+  "profiles": {
+    "checked": {
+      "catalog_format": 1,
+      "store_identity": "subathon.sqlite-store",
+      "supported_starting_versions": [
+        0,
+        1
+      ],
+      "steps": [
+        {
+          "version": 1,
+          "id": "checked-store",
+          "sql": [
+            "CREATE TABLE checked(id INTEGER PRIMARY KEY, n INTEGER CHECK(n>=0))"
+          ],
+          "expected_schema": [
+            {
+              "type": "table",
+              "name": "subathon_catalog",
+              "table_name": "subathon_catalog",
+              "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+            },
+            {
+              "type": "table",
+              "name": "subathon_migration_history",
+              "table_name": "subathon_migration_history",
+              "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+            },
+            {
+              "type": "index",
+              "name": "sqlite_autoindex_subathon_migration_history_1",
+              "table_name": "subathon_migration_history",
+              "sql": null
+            },
+            {
+              "type": "table",
+              "name": "checked",
+              "table_name": "checked",
+              "sql": "CREATE TABLE checked(id INTEGER PRIMARY KEY, n INTEGER CHECK(n>=0))"
+            }
+          ],
+          "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3131333a636865636b65642d73746f7265313a3136373a435245415445205441424c4520636865636b656428696420494e5445474552205052494d415259204b45592c206e20494e544547455220434845434b286e3e3d302929313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c65373a636865636b6564373a636865636b6564313a3136373a435245415445205441424c4520636865636b656428696420494e5445474552205052494d415259204b45592c206e20494e544547455220434845434b286e3e3d302929353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+          "sha256_hex": "96e3e7c913ffc41e1f4603076425e74a95a28efecf9753cde45755a14b93581a",
+          "payload_bytes": 683
+        }
+      ],
+      "fixture_sql": [
+        "CREATE TABLE checked(id INTEGER PRIMARY KEY, n INTEGER CHECK(n>=0))",
+        "PRAGMA ignore_check_constraints=ON",
+        "INSERT INTO checked VALUES (1,-1)",
+        "PRAGMA ignore_check_constraints=OFF"
+      ]
+    },
+    "foreign_keys": {
+      "catalog_format": 1,
+      "store_identity": "subathon.sqlite-store",
+      "supported_starting_versions": [
+        0,
+        1
+      ],
+      "steps": [
+        {
+          "version": 1,
+          "id": "foreign-key-store",
+          "sql": [
+            "CREATE TABLE parents(id INTEGER PRIMARY KEY)",
+            "CREATE TABLE children(id INTEGER PRIMARY KEY, parent_id INTEGER REFERENCES parents(id))"
+          ],
+          "expected_schema": [
+            {
+              "type": "table",
+              "name": "subathon_catalog",
+              "table_name": "subathon_catalog",
+              "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+            },
+            {
+              "type": "table",
+              "name": "subathon_migration_history",
+              "table_name": "subathon_migration_history",
+              "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+            },
+            {
+              "type": "index",
+              "name": "sqlite_autoindex_subathon_migration_history_1",
+              "table_name": "subathon_migration_history",
+              "sql": null
+            },
+            {
+              "type": "table",
+              "name": "parents",
+              "table_name": "parents",
+              "sql": "CREATE TABLE parents(id INTEGER PRIMARY KEY)"
+            },
+            {
+              "type": "table",
+              "name": "children",
+              "table_name": "children",
+              "sql": "CREATE TABLE children(id INTEGER PRIMARY KEY, parent_id INTEGER REFERENCES parents(id))"
+            }
+          ],
+          "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3131373a666f726569676e2d6b65792d73746f7265313a3234343a435245415445205441424c4520706172656e747328696420494e5445474552205052494d415259204b45592938373a435245415445205441424c45206368696c6472656e28696420494e5445474552205052494d415259204b45592c20706172656e745f696420494e5445474552205245464552454e43455320706172656e74732869642929313a35353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c65383a6368696c6472656e383a6368696c6472656e313a3138373a435245415445205441424c45206368696c6472656e28696420494e5445474552205052494d415259204b45592c20706172656e745f696420494e5445474552205245464552454e43455320706172656e74732869642929353a7461626c65373a706172656e7473373a706172656e7473313a3134343a435245415445205441424c4520706172656e747328696420494e5445474552205052494d415259204b455929353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+          "sha256_hex": "4a42efb860e620cb8929c958d9ba4ee379ccd6a44fa4d9a53021f3abbc17df35",
+          "payload_bytes": 851
+        }
+      ],
+      "fixture_sql": [
+        "PRAGMA foreign_keys=OFF",
+        "CREATE TABLE parents(id INTEGER PRIMARY KEY)",
+        "CREATE TABLE children(id INTEGER PRIMARY KEY, parent_id INTEGER REFERENCES parents(id))",
+        "INSERT INTO children VALUES (1,404)"
+      ]
+    },
+    "pragma_integrity_check": {
+      "catalog_format": 1,
+      "store_identity": "subathon.sqlite-store",
+      "supported_starting_versions": [
+        0,
+        1
+      ],
+      "steps": [
+        {
+          "version": 1,
+          "id": "shadow-pragma_integrity_check",
+          "sql": [
+            "CREATE TABLE pragma_integrity_check(value TEXT)"
+          ],
+          "expected_schema": [
+            {
+              "type": "table",
+              "name": "subathon_catalog",
+              "table_name": "subathon_catalog",
+              "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+            },
+            {
+              "type": "table",
+              "name": "subathon_migration_history",
+              "table_name": "subathon_migration_history",
+              "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+            },
+            {
+              "type": "index",
+              "name": "sqlite_autoindex_subathon_migration_history_1",
+              "table_name": "subathon_migration_history",
+              "sql": null
+            },
+            {
+              "type": "table",
+              "name": "pragma_integrity_check",
+              "table_name": "pragma_integrity_check",
+              "sql": "CREATE TABLE pragma_integrity_check(value TEXT)"
+            }
+          ],
+          "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3132393a736861646f772d707261676d615f696e746567726974795f636865636b313a3134373a435245415445205441424c4520707261676d615f696e746567726974795f636865636b2876616c7565205445585429313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c6532323a707261676d615f696e746567726974795f636865636b32323a707261676d615f696e746567726974795f636865636b313a3134373a435245415445205441424c4520707261676d615f696e746567726974795f636865636b2876616c7565205445585429353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+          "sha256_hex": "922eced851ce247b9a602df1bee83a26ee3236ec44b5ed8a031ba1c440e13e2e",
+          "payload_bytes": 691
+        }
+      ],
+      "fixture_sql": [
+        "CREATE TABLE pragma_integrity_check(value TEXT)",
+        "INSERT INTO pragma_integrity_check VALUES ('ok')"
+      ]
+    },
+    "pragma_foreign_key_check": {
+      "catalog_format": 1,
+      "store_identity": "subathon.sqlite-store",
+      "supported_starting_versions": [
+        0,
+        1
+      ],
+      "steps": [
+        {
+          "version": 1,
+          "id": "shadow-pragma_foreign_key_check",
+          "sql": [
+            "CREATE TABLE pragma_foreign_key_check(value TEXT)"
+          ],
+          "expected_schema": [
+            {
+              "type": "table",
+              "name": "subathon_catalog",
+              "table_name": "subathon_catalog",
+              "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+            },
+            {
+              "type": "table",
+              "name": "subathon_migration_history",
+              "table_name": "subathon_migration_history",
+              "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+            },
+            {
+              "type": "index",
+              "name": "sqlite_autoindex_subathon_migration_history_1",
+              "table_name": "subathon_migration_history",
+              "sql": null
+            },
+            {
+              "type": "table",
+              "name": "pragma_foreign_key_check",
+              "table_name": "pragma_foreign_key_check",
+              "sql": "CREATE TABLE pragma_foreign_key_check(value TEXT)"
+            }
+          ],
+          "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3133313a736861646f772d707261676d615f666f726569676e5f6b65795f636865636b313a3134393a435245415445205441424c4520707261676d615f666f726569676e5f6b65795f636865636b2876616c7565205445585429313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c6532343a707261676d615f666f726569676e5f6b65795f636865636b32343a707261676d615f666f726569676e5f6b65795f636865636b313a3134393a435245415445205441424c4520707261676d615f666f726569676e5f6b65795f636865636b2876616c7565205445585429353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+          "sha256_hex": "3640d82d27b6b27e4bfd41b4dc3479d6d0eab763dc36b446c9f3be930f1a1938",
+          "payload_bytes": 701
+        }
+      ],
+      "fixture_sql": [
+        "CREATE TABLE pragma_foreign_key_check(value TEXT)"
+      ]
+    },
+    "pragma_encoding": {
+      "catalog_format": 1,
+      "store_identity": "subathon.sqlite-store",
+      "supported_starting_versions": [
+        0,
+        1
+      ],
+      "steps": [
+        {
+          "version": 1,
+          "id": "shadow-pragma_encoding",
+          "sql": [
+            "CREATE TABLE pragma_encoding(value TEXT)"
+          ],
+          "expected_schema": [
+            {
+              "type": "table",
+              "name": "subathon_catalog",
+              "table_name": "subathon_catalog",
+              "sql": "CREATE TABLE subathon_catalog(singleton INTEGER PRIMARY KEY, catalog_format INTEGER NOT NULL, store_identity TEXT NOT NULL)"
+            },
+            {
+              "type": "table",
+              "name": "subathon_migration_history",
+              "table_name": "subathon_migration_history",
+              "sql": "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)"
+            },
+            {
+              "type": "index",
+              "name": "sqlite_autoindex_subathon_migration_history_1",
+              "table_name": "subathon_migration_history",
+              "sql": null
+            },
+            {
+              "type": "table",
+              "name": "pragma_encoding",
+              "table_name": "pragma_encoding",
+              "sql": "CREATE TABLE pragma_encoding(value TEXT)"
+            }
+          ],
+          "payload_hex": "32303a6d6967726174696f6e2d636174616c6f672d7631313a3132323a736861646f772d707261676d615f656e636f64696e67313a3134303a435245415445205441424c4520707261676d615f656e636f64696e672876616c7565205445585429313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a30353a7461626c6531353a707261676d615f656e636f64696e6731353a707261676d615f656e636f64696e67313a3134303a435245415445205441424c4520707261676d615f656e636f64696e672876616c7565205445585429353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d6967726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d6967726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f73686132353620424c4f42204e4f54204e554c4c29",
+          "sha256_hex": "1d9898bd1e004809811c8e7f66dc7328a3ae01840303bca4bdd487689bf9011b",
+          "payload_bytes": 656
+        }
+      ],
+      "fixture_sql": [
+        "CREATE TABLE pragma_encoding(value TEXT)",
+        "INSERT INTO pragma_encoding VALUES ('UTF-8')"
+      ]
+    }
+  }
+}
