@@ -50,3 +50,10 @@ Bounded CORE005 behavior is done; final completionmetadata/actualCI-evidence rev
 latest-head checks/discussions/currentnormalrules remain before
 [PR27](https://github.com/Kernol12/subathon-bot-ai/pull/27) merges. Other full-release
 and application gates above remain explicit and unverified by this helper.
+
+Actual [PR27](https://github.com/Kernol12/subathon-bot-ai/pull/27) merged1259cfb
+at09:53:12Z on2026-11-01. Finalheadcba35c3 all11expectedchecks success, no
+review threads/currentnormalrules. Final integrationapproval387a4f6 retained;
+no bypass or required-approval substitution. CONTRACT-004 is separately claimed
+from refreshed main to define the writer/service transaction prerequisite before
+new storage adapters; CORE005 is not a full refund/application completion claim.

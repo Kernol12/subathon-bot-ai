@@ -13,7 +13,7 @@ those promises without a second writer, fragmented batches, nested event-loop wa
 or deferred commit presented as synchronous success.
 
 Author owns ONLY docs/contracts/writer-transactions-v1.md and
- docs/evidence/contract-004-author.md in an isolated worktree. Coordinator owns this
+docs/evidence/contract-004-author.md in an isolated worktree. Coordinator owns this
 brief, storage execution split/ADR, shared progress/HTML/checkpoint/architecture/PR.
 Independent reviewer consumes the actual authored revision. No C++/schema/migration/
 production behavior or executable/red-baseline claim belongs to this contract task.

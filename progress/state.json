@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T09:56:38+00:00",
+  "updated_at": "2026-11-01T10:03:32+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -511,7 +511,7 @@
       ],
       "spec_refs": [
         "§2",
-        "§3.4",
+        "§3",
         "DB-01",
         "SERVER-01"
       ],
@@ -519,7 +519,8 @@
       "summary": "Define scoped writer-owned dynamic service transactions before adapting synchronous repository ports; no implementation or finalized domain schema.",
       "notes": [
         "New bounded prerequisite discovered before claiming oversized STORAGE-002; preserve its complete scope through explicit planned packages.",
-        "Claim fromfreshmain1259cfb after PR27merged finalcba35c3 all11CI/no threads/normalrules. Scope doc-onlywriter-owned transaction/session contract for existing synchronousReceipt/Contribution ports, preserving actualcommit return semantics/privateonewriter/FIFO/bounds/error/shutdown. Author owns onlynewcontract+evidence; root owns taskbrief/storageplanneddecomposition/ADR/state/HTML/checkpoint/PR. No C++/schema/production/testred claims. Independentreview actualcontract+dependencygraph beforedone; STORAGETEST010 remains laterreviewed/red gate."
+        "Claim fromfreshmain1259cfb after PR27merged finalcba35c3 all11CI/no threads/normalrules. Scope doc-onlywriter-owned transaction/session contract for existing synchronousReceipt/Contribution ports, preserving actualcommit return semantics/privateonewriter/FIFO/bounds/error/shutdown. Author owns onlynewcontract+evidence; root owns taskbrief/storageplanneddecomposition/ADR/state/HTML/checkpoint/PR. No C++/schema/production/testred claims. Independentreview actualcontract+dependencygraph beforedone; STORAGETEST010 remains laterreviewed/red gate.",
+        "Rootrecorded proposedADR0002 and pairedplannedSTORAGE010–015 pluslaterSTORAGECONTRACT001; original002kindandrealbaseline retained, dependenciesacyclic anddownstreamACCT004unchanged. Entire originalmigration/receipt/contribution/config/plan/bundle scope preserved; no newtests/code/verification claimed. Authornewcontract and independentreview ofactualdocument+graph stillpending."
       ],
       "verification": {},
       "evidence": [],
@@ -4155,7 +4156,21 @@
         "STORAGETEST-008",
         "STORAGE-008",
         "STORAGETEST-009",
-        "STORAGE-009"
+        "STORAGE-009",
+        "CONTRACT-004",
+        "STORAGETEST-010",
+        "STORAGE-010",
+        "STORAGETEST-011",
+        "STORAGE-011",
+        "STORAGETEST-012",
+        "STORAGE-012",
+        "STORAGETEST-013",
+        "STORAGE-013",
+        "STORAGETEST-014",
+        "STORAGE-014",
+        "STORAGETEST-015",
+        "STORAGE-015",
+        "STORAGECONTRACT-001"
       ],
       "spec_refs": [
         "§16"
@@ -4275,14 +4290,361 @@
       }
     },
     {
-      "id": "STORAGETEST-002",
-      "title": "Review and demonstrate red: Versioned schema migrations and transaction repositories",
+      "id": "STORAGETEST-010",
+      "title": "Review and demonstrate red: Writer-owned dynamic repository transactions",
       "module": "Operations",
       "kind": "test_baseline",
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "STORAGE-001"
+        "CONTRACT-004",
+        "STORAGE-001",
+        "ACCT-001",
+        "ACCT-002",
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "§2",
+        "§3",
+        "DB-01",
+        "SERVER-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-010.md",
+      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-010.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-010",
+      "title": "Writer-owned dynamic repository transactions",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-004",
+        "STORAGE-001",
+        "ACCT-001",
+        "ACCT-002",
+        "CONTRACT-002",
+        "STORAGETEST-010"
+      ],
+      "spec_refs": [
+        "§2",
+        "§3",
+        "DB-01",
+        "SERVER-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-010.md",
+      "summary": "Extend the controlled writer with the separately reviewed work/session boundary, preserving prebuilt batch and read-only reader behavior. No real receipt/contribution tables belong to this mechanism slice.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-011",
+      "title": "Review and demonstrate red: Version catalog and transactional migration harness",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-010"
+      ],
+      "spec_refs": [
+        "§16",
+        "DB-01",
+        "OPS-02"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-011.md",
+      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-011.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-011",
+      "title": "Version catalog and transactional migration harness",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-010",
+        "STORAGETEST-011"
+      ],
+      "spec_refs": [
+        "§16",
+        "DB-01",
+        "OPS-02"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-011.md",
+      "summary": "Add the internal version catalog and controlled migration runner, without inventing application effect/job schemas. Later repository tasks own their versioned domain migrations.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-012",
+      "title": "Review and demonstrate red: Immutable configuration and arrival-context version retention",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-011",
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "§3",
+        "§6",
+        "§7",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
+      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-012.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-012",
+      "title": "Immutable configuration and arrival-context version retention",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-011",
+        "CONTRACT-002",
+        "STORAGETEST-012"
+      ],
+      "spec_refs": [
+        "§3",
+        "§6",
+        "§7",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
+      "summary": "Retain caller-validated versioned configuration/context document bytes and immutable references before durable intake can rely on them. This is not a rule/modifier evaluator or finalized HTTP/config document schema.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-013",
+      "title": "Review and demonstrate red: Identified-receipt SQLite repository adapter",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-012",
+        "ACCT-001"
+      ],
+      "spec_refs": [
+        "§3",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-013.md",
+      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-013.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-013",
+      "title": "Identified-receipt SQLite repository adapter",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-012",
+        "ACCT-001",
+        "STORAGETEST-013"
+      ],
+      "spec_refs": [
+        "§3",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-013.md",
+      "summary": "Implement the existing synchronous ReceiptRepository/ReceiptTransaction ports through writer-owned work, with immutable original receipt facts, attempts and scoped uniqueness. Do not move intake policy into storage fakes.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-014",
+      "title": "Review and demonstrate red: Contribution evidence and receipt-association SQLite adapter",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-013",
+        "ACCT-002"
+      ],
+      "spec_refs": [
+        "§3",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
+      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-014.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-014",
+      "title": "Contribution evidence and receipt-association SQLite adapter",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-013",
+        "ACCT-002",
+        "STORAGETEST-014"
+      ],
+      "spec_refs": [
+        "§3",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
+      "summary": "Implement existing contribution/evidence transaction ports on the controlled connection. Persist independent evidence/review/valuation dimensions and immutable original-receipt linkage, not actual contribution effects.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-015",
+      "title": "Review and demonstrate red: Captured application-plan and revision-history persistence",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-014",
+        "STORAGE-012",
+        "ACCT-003"
+      ],
+      "spec_refs": [
+        "§3",
+        "§6",
+        "§7",
+        "NUM-01",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-015.md",
+      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-015.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-015",
+      "title": "Captured application-plan and revision-history persistence",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-014",
+        "STORAGE-012",
+        "ACCT-003",
+        "STORAGETEST-015"
+      ],
+      "spec_refs": [
+        "§3",
+        "§6",
+        "§7",
+        "NUM-01",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-015.md",
+      "summary": "Persist owned captured plans and immutable revision history with retained source/config/context references. No evaluator, actual permission engine, current-cap effect application or provider valuation is supplied.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGECONTRACT-001",
+      "title": "Define internal application bundle row/port contract",
+      "module": "Operations",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002",
+        "STORAGE-015",
+        "ACCT-003",
+        "CORE-005"
+      ],
+      "spec_refs": [
+        "§3",
+        "§16",
+        "DB-01",
+        "NUM-01",
+        "NUM-03"
+      ],
+      "brief": "docs/tasks/STORAGECONTRACT-001.md",
+      "summary": "Define internal atomic application effect/state/job/result/audit bundle before its real baseline, without depending on its future consumer ACCT-004.",
+      "notes": [
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-002",
+      "title": "Review and demonstrate red: application bundle repositories and storage integration",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGE-001",
+        "STORAGE-015",
+        "STORAGECONTRACT-001"
       ],
       "spec_refs": [
         "§3",
@@ -4293,7 +4655,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STORAGE-002.",
       "notes": [
-        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Original migration/receipt/contribution/config/plan scope is retained as mandatory010–015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite."
       ],
       "verification": {},
       "evidence": [],
@@ -4301,14 +4664,21 @@
     },
     {
       "id": "STORAGE-002",
-      "title": "Versioned schema migrations and transaction repositories",
+      "title": "Application bundle repositories and transactional storage integration",
       "module": "Operations",
       "kind": "implementation",
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
         "STORAGE-001",
-        "STORAGETEST-002"
+        "STORAGETEST-002",
+        "STORAGE-010",
+        "STORAGE-011",
+        "STORAGE-012",
+        "STORAGE-013",
+        "STORAGE-014",
+        "STORAGE-015",
+        "STORAGECONTRACT-001"
       ],
       "spec_refs": [
         "§3",
@@ -4319,7 +4689,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-002.md",
       "summary": "Persist lossless original money/rates and signed 64-bit credited values without implicit SQLite REAL conversion.",
       "notes": [
-        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Original migration/receipt/contribution/config/plan scope is retained as mandatory010–015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite."
       ],
       "verification": {},
       "evidence": [],
@@ -11089,6 +11460,11 @@
       "date": "2026-11-01T09:56:38+00:00",
       "task": "CORE-005",
       "note": "ActualPR27merged1259cfb at09:53:12Z 2026-11-01, finalcba35c3 all11expectedchecks success/no discussions/currentnormalrules. Source68141b15/approval98f3f04/final387a4f6 retained; original32cases unchanged actualUbuntu32passes. CONTRACT004 now separatelyclaimed fromfreshmain to resolve writer/session integration gap before storage adapters; fullscopegates remain."
+    },
+    {
+      "date": "2026-11-01T10:03:32+00:00",
+      "task": "CONTRACT-004",
+      "note": "Rootrecorded proposedADR0002 and pairedplannedSTORAGE010–015 pluslaterSTORAGECONTRACT001; original002kindandrealbaseline retained, dependenciesacyclic anddownstreamACCT004unchanged. Entire originalmigration/receipt/contribution/config/plan/bundle scope preserved; no newtests/code/verification claimed. Authornewcontract and independentreview ofactualdocument+graph stillpending."
     }
   ]
 }
