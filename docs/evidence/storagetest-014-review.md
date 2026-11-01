@@ -138,3 +138,102 @@ STORAGE-014 production. Preserve old21 simulation and all passing118/history.
 Full app/effects/jobs/semantic resolution/permission/reconciliation/backup/update/
 recovery/power-loss/platform/provider/UI/packaging gates and all seven integrations/
 three rate providers remain required. No owner decision/access is pending.
+
+## Actual API, explicit-stub and minimal-build review
+
+Verdict: **approved these actual API/stub/precision/minimal configuration artifacts**,
+with no unresolved finding. This is separate from contract approvalf76817a and
+does not approve absent tests/fixtures/CI/red or an implementation. Logical/API
+author94681d321ebecd2527f0dd18506c23a3674fa9c1 integrated727f59d, root minimal
+buildda8e80d53709f24bdd17eb2a83d97485bb703770, then actual author correction
+2e056fe4b96eb5201507442c82089c8402121bca/root
+2530654e8363d63fd26b03f0c452c08d30b10a84 were normally merged and examined.
+
+| Actual artifact | Git blob |
+| --- | --- |
+| New public API | 0abeea2bb6d1e99faad7d6585400ad3d80e2eae8 |
+| Four named explicit stubs/inert constructors | 0ad1315601218601289923fe7b02eebfb8573aaa |
+| Logical contract with corrected API precision | f503f385bbd4fd4ce4b43dd3243911dc3bce8f40 |
+| Unchanged exact physical contract | eeb2fe04be49b7eeced0db6cf9eea29520dffc64 |
+| Root CMake | abfaad0c7a0b20f4927f7995d326e7035f92ba20 |
+| Presets | 904495aa623ee7fbecbdf4433257739f32c1fd25 |
+| Core CMake | bb8f17950394712daf203c7418fa1bba926c32db |
+| Server CMake | 26b328b8b9e5c09561400e8e9c16a8ec2f29a1e9 |
+
+Read the complete header/source and appended precision against actual core/ports/
+service and approved logical/physical rules. The approved43bd contract is an exact
+byte prefix; only API precision is appended. Existing interfaces/source/old21 and
+all SQLite tests/fixtures/physical proposal/prefixes remain unchanged. Four new
+functions immediately throw SqliteContributionsNotImplemented: typed encode,
+typed decode, pure manifest and repository begin. Constructors only retain inert
+weak tickets/options/current thread identity. No new validation, codec, query,
+wrapper, transaction, classification or cleanup behavior is hidden in these stubs.
+The marker derives from logic_error, never the known-uncommitted port category.
+
+Two concrete review findings were corrected by the different author before this
+approval, using only logical precision/own evidence, no source/assertion edits:
+
+- Original option wording did not identify the vector type or whether n versus
+  n+1 must fit. Actualf503 first rejects n<1; for nonnegative uintmax conversions,
+  it requires n strictly below qsizetype max, qint64 max and
+  std::vector<ContributionEvidenceRecord>{}.max_size. This deterministically
+  reserves n+1 for every named representation before signed addition. Tests may
+  derive the exact standard-library boundary independently, without UUT/query-cost
+  calibration. Byte limits remain positive representable qsizetype; configured
+  bounds promise neither available memory nor a larger writer budget.
+- Original create/append/link table omitted the exact ReceiptId0 category and
+  append's full-projection category. Actualf503 explicitly places
+  invalid_receipt_id first, then invalid_receipt for the complete projection.
+  Combined-invalid future oracles no longer infer the category from prose.
+
+All ContributionId values including0 remain valid for codecs, link/update and
+present optional association. ReceiptId0 remains separately invalid. Primitive
+pure validation precedes owner/capability/pending state; begin's options precede
+owner and local single-use guard. Present default/empty semantic strings gain no
+invented resolver/nonempty rule. Exact state/role/group/activity/origin/proof
+vocabulary and reference/value/retained-document limits are pinned without policy.
+
+The noncopy/nonmove owner facade has inert construction/destruction and explicit
+adoption. Wrapper allocation precedes authority transfer/BEGIN, it independently
+owns copied state, and double adoption is an honest caller exclusion rather than
+a nonexistent registry. Same-target link validates all stored data/targets/key
+before no-op. Own pending anchors can be read, persisted missing anchors are
+corrupt; completion requires exact original support observation/association while
+current conditions may have changed. Required real SQL precedes incomplete refusal
+so stale/terminal cleanup no-op cannot fabricate known rollback. Pending bookkeeping
+must be allocation-safe before writes. Actual enforcement still awaits source.
+
+Known port reasons, selected-invalid versus oversized data, stored-original-before-
+candidate comparison, retention mapping, unchanged sticky SQL outcomes and original
+capability/protocol/unknown precedence are explicit. No missing semantic-reference
+or permission reason is invented. Complete unresolved reads differ from targeted
+link/update writes; no materialization quota, nested13 transaction wrapper or new
+public original-reader API is introduced.
+
+Reviewed all four minimal build diffs: default-off contribution flag is added to
+required dependency conditions, core/service targets remain framework-free, new
+library links existing receipt/contribution service/QtCore, and the new
+sqlite-contribution-debug preset inherits the old stable SQL profile. No dependency,
+test registration, assertion, workflow/pin/permission or checker change occurred.
+The ordinary workflow still uses the receipt profile at this stage; later actual
+test/CI integration must enable the new profile and prove its fixture on selected Qt.
+
+Actual independent checks atda8e80d (correction changes only two Markdown files):
+
+| Command/check | Result |
+| --- | --- |
+| `cmake --preset sqlite-contribution-debug` | Exit0, fresh configure/generate |
+| `cmake --build --preset sqlite-contribution-debug` | Exit0,62 steps/zero warnings; new source compiles and libsubathon_sqlite_contributions.a links |
+| `ctest --preset sqlite-contribution-debug --show-only=json-v1` plus actual-label guard | Exact inherited118 registrations/25writer+24work+24migration+16retention+22receipt; no new contribution body registered or invoked |
+| Approved-prefix/four-stub/frozen-artifact checks | Pass; no SQL/commit/cleanup call or new feature algorithm |
+| `clang-format --dry-run --Werror` on new header/source | Exit0 |
+| `python3 tools/check_project.py`, `python3 tools/progress.py render --check`, `git diff --check` | Exit0;391 tasks/122 decisions/current HTML |
+
+Local logs are /tmp/storagetest014-api-review-{configure,build}.log and discovery
+JSON. Root independently reports inherited118/118 passing in2.56s; this reviewer
+did not repeat unchanged native suites or invoke any new stub/old red. Compilation
+does not prove future validation or behavior. Actual tests/independent vectors/
+green fixture/harness and workflow review, successful compile/discovery, selected
+official green and first genuine intended red remain separate mandatory gates
+before STORAGE-014. Only this review appendix changed here; no future approval or
+broader semantic/provider/platform/operational capability is implied.
