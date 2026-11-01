@@ -79,7 +79,8 @@ STORAGE-013 is dependency-ready, separately claimed on root branch
 [Brief](../tasks/EPIC-009/STORAGE-013.md). Initial source remains the four-body stub;
 no implementation/passing new acceptance is claimed yet. No PR36 exists yet.
 
-Next root creates two NEW worktrees from its claim commit, then explicitly assigns:
+Root created both NEW worktrees clean at claim4d10d61 and actually sent the
+following explicit assignments:
 
 - Implementer `/root/debt_code_reviewer`: expected
   local-evidence/worktrees/storage013-implementation, task/STORAGE-013-implementation.
@@ -91,8 +92,9 @@ Next root creates two NEW worktrees from its claim commit, then explicitly assig
   docs/evidence/storage-013-code-review.md after actual source exists. Preparation
   is read-only, no future source approval.
 
-These new worktrees/assignments are planned at claim; inspect actual creation and
-agent state before assuming they exist/run. Earlier storagetest013 author/fixture/
+Both worktrees now exist and both assignments were sent. The implementation
+author is active on the cpp; reviewer is doing read-only preparation only. Inspect
+actual files and agents on resume rather than assuming continued liveness. Earlier storagetest013 author/fixture/
 review worktrees are clean/completed; preserve them. Read-only implementation prep
 has actually finished on the approved baseline, no contradictions/owner questions,
 no files/claim/feature bodies changed. Root owns all shared schema/order/build/
@@ -100,7 +102,7 @@ preset/CI/state/map/HTML/checkpoint and will explicitly accept approved constant
 
 ## Implementation gates and next concrete action
 
-Create the worktrees/explicit assignments. Author implements only approved cpp and
+Worktrees/assignments are actual. Author implements only approved cpp and
 own evidence. Preallocate pending-ID storage and prepare bindings before first
 mutation; also inspect framework allocation/exception behavior after writes so a
 caught allocation failure cannot commit an untracked original. No new private API.
