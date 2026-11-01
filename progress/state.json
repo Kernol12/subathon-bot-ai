@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T12:42:31+00:00",
+  "updated_at": "2026-11-01T13:25:55+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4477,8 +4477,8 @@
       "title": "Version catalog and transactional migration harness",
       "module": "Operations",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; implementer /root/debt_code_reviewer; code reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-010",
         "STORAGETEST-011"
@@ -4491,11 +4491,40 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-011.md",
       "summary": "Add the internal version catalog and controlled migration runner, without inventing application effect/job schemas. Later repository tasks own their versioned domain migrations.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from refreshed mainef29c87 after PR31 merged final8973032 all11checks/no threads/normal rules. Complete baseline new22a85/header02/stub6c/green7832/JSON122/contractcbdea, fullreview01f0975/finale1be8ae, actual22stubredexit8 atcb3 AFTER approval+officialQtgreen7. Implement ONLY server/src/sqlite_migrations.cpp +ownimplementationevidence; rootowns shared build/CI/state/map/HTML/checkpoint/schemaorder. Preserve all reviewed fixtures/assertions/interfaces/contract, existingwriter023451+49 untouched. Scope canonicalcodec/manifestvalidation/exactmetadataidentity/fullschema+integrity/encoding/onewholeprefixtransaction/refusal/cancel/uncertainty through existing private writerAPI only. Accept new22/old49/green7/full76 passing with differentcode/configreview+observedautomaticUbuntu. No domainadapters/backup/updateauthority/appbundle/recovery/provider/platform claims.",
+        "Actual source9eb1fef/blobd91c7d integratede183527 and author evidence0ac896c integrated0118fea. Author/root original22+old49+green7/full76 pass locally; frozen contract/header/10vectors/oldwriter49 unchanged. Different source review found valid leading U+FEFF rejected by QString::fromUtf8 BOM stripping despite all76 green; hold approval/merge, no Unicode scope narrowing. Separate original baseline author assigned focused pure-codec/stored-schema regressions in storage011-unicode-regression; actual independent test review then current-source intended red required before source correction. Root owns shared CI/state/HTML/checkpoint; unconditional CI66be523 ready, actual Ubuntu acceptance pending. No owner question.",
+        "Blocking source requestchanges20cc636 integrated2fb5f89. Separate testauthor234c2ec integrated36aca32 adds only95lines/two Unicode regressions, testblob e94befdc; author/root configure/build/exact24discovery/78registrations pass, no newbody executed. All22originalmethods/tenoldvectors unchanged. Root independently reproduced exact638-byte literal/SHA baf9a94e...775b7d without UUT. Different actualtestreview nowrunning before rootred; productiond91 unchanged.",
+        "Actual additive approvalad4f54d integrated8c70e6e BEFORE root selected2redexit8 atd91/e94 (fixture/initcleanup pass/0skip), recorded1482636. Then sourcecorrection071af3b/blob4ee2365 integrated2cb0d1b removes only faulty BOM-consuming decoder equality after strict scalar validation, preserving raw-byte comparisons. Root build/full78 passes (new24+old49+5infrastructure includinggreen7), format/diff/frozen-artifact checks pass. Different actual corrected-source/config review running; automatic officialUbuntu and latesthead PRmerge gates pending. No sourceapproval is transferred from prior requestchanges.",
+        "Corrected source4ee2365/071af3b integrated2cb0d1b independently approved854cace/root790afc0 after actual new24/full78 pass by author/root/reviewer; initial requestchanges/actual independent additive testreview/red/fix history preserved. Actual automatic officialQt Ubuntu41310940283 atPR32 da7cbde passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/old25+work24+green7/exactmigration24/unconditionalreal24 includingUFEFF. All11checks atthathead success. Internal mechanism implementation done; final metadata/CI-attribution review/latesthead/discussions/current rules remain publication gates, PR32 stilldraft/unmerged. No domain schema/realadapter/appbundle/backup/updateauthority/recovery/powerloss/provider/platform upgrade."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "native_build": "passed",
+        "original_acceptance": "passed",
+        "regression": "passed",
+        "code_review": "passed",
+        "github_ci": "passed",
+        "platform_release": "not_run",
+        "acceptance": "passed",
+        "unicode_test_review": "passed",
+        "unicode_regression_baseline": "observed_red",
+        "application_schema_recovery_provider": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storage-011-implementation.md",
+        "docs/evidence/storage-011-ci.md",
+        "docs/evidence/storage-011-handoff.md",
+        "docs/evidence/storage-011-code-review.md",
+        "docs/evidence/storage-011-unicode-regression.md",
+        "docs/evidence/storage-011-unicode-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/debt_code_reviewer (source); /root (shared configuration)",
+        "reviewer": "/root/storage_work_code_reviewer",
+        "outcome": "approved",
+        "baseline": "corrected071af3b/source4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f integrated2cb0d1b; actualsource/configapproval854cace integrated790afc0; additive teste94befdc approvedad4f54d/root8c70e6e BEFORE rootselected2red1482636; unchanged original22/old49/header/contract/10vectors/greenprobe",
+        "evidence": "docs/evidence/storage-011-code-review.md"
+      }
     },
     {
       "id": "STORAGETEST-012",
@@ -11645,6 +11674,31 @@
       "date": "2026-11-01T12:42:31+00:00",
       "task": "STORAGETEST-011",
       "note": "Fullactual4fa tests a85a/header02/stub6c/env832/JSON122/contractcbdea approved01f0975, integratedcb3c1b2 BEFORE actual22codec/admissionstubred(exit8), allinitpass/zeroskips. SelectedofficialQt41307014192 at4fa passed hashes/GNU13.3/Qt6.12SQLite3.53.4/realold49/green7/exact22discovery, all11checks there success. Ten literalvectors/base1127 independentlyverified. Baseline done only; STORAGE011 stillunimplemented. Final metadata/red/CI attributionreview/latesthead/discussions/rules remain publicationgates; no actualbackup/update/recovery/platform/provider upgrade."
+    },
+    {
+      "date": "2026-11-01T12:50:24+00:00",
+      "task": "STORAGE-011",
+      "note": "Claim from refreshed mainef29c87 after PR31 merged final8973032 all11checks/no threads/normal rules. Complete baseline new22a85/header02/stub6c/green7832/JSON122/contractcbdea, fullreview01f0975/finale1be8ae, actual22stubredexit8 atcb3 AFTER approval+officialQtgreen7. Implement ONLY server/src/sqlite_migrations.cpp +ownimplementationevidence; rootowns shared build/CI/state/map/HTML/checkpoint/schemaorder. Preserve all reviewed fixtures/assertions/interfaces/contract, existingwriter023451+49 untouched. Scope canonicalcodec/manifestvalidation/exactmetadataidentity/fullschema+integrity/encoding/onewholeprefixtransaction/refusal/cancel/uncertainty through existing private writerAPI only. Accept new22/old49/green7/full76 passing with differentcode/configreview+observedautomaticUbuntu. No domainadapters/backup/updateauthority/appbundle/recovery/provider/platform claims."
+    },
+    {
+      "date": "2026-11-01T13:06:57+00:00",
+      "task": "STORAGE-011",
+      "note": "Actual source9eb1fef/blobd91c7d integratede183527 and author evidence0ac896c integrated0118fea. Author/root original22+old49+green7/full76 pass locally; frozen contract/header/10vectors/oldwriter49 unchanged. Different source review found valid leading U+FEFF rejected by QString::fromUtf8 BOM stripping despite all76 green; hold approval/merge, no Unicode scope narrowing. Separate original baseline author assigned focused pure-codec/stored-schema regressions in storage011-unicode-regression; actual independent test review then current-source intended red required before source correction. Root owns shared CI/state/HTML/checkpoint; unconditional CI66be523 ready, actual Ubuntu acceptance pending. No owner question."
+    },
+    {
+      "date": "2026-11-01T13:16:36+00:00",
+      "task": "STORAGE-011",
+      "note": "Blocking source requestchanges20cc636 integrated2fb5f89. Separate testauthor234c2ec integrated36aca32 adds only95lines/two Unicode regressions, testblob e94befdc; author/root configure/build/exact24discovery/78registrations pass, no newbody executed. All22originalmethods/tenoldvectors unchanged. Root independently reproduced exact638-byte literal/SHA baf9a94e...775b7d without UUT. Different actualtestreview nowrunning before rootred; productiond91 unchanged."
+    },
+    {
+      "date": "2026-11-01T13:22:01+00:00",
+      "task": "STORAGE-011",
+      "note": "Actual additive approvalad4f54d integrated8c70e6e BEFORE root selected2redexit8 atd91/e94 (fixture/initcleanup pass/0skip), recorded1482636. Then sourcecorrection071af3b/blob4ee2365 integrated2cb0d1b removes only faulty BOM-consuming decoder equality after strict scalar validation, preserving raw-byte comparisons. Root build/full78 passes (new24+old49+5infrastructure includinggreen7), format/diff/frozen-artifact checks pass. Different actual corrected-source/config review running; automatic officialUbuntu and latesthead PRmerge gates pending. No sourceapproval is transferred from prior requestchanges."
+    },
+    {
+      "date": "2026-11-01T13:25:55+00:00",
+      "task": "STORAGE-011",
+      "note": "Corrected source4ee2365/071af3b integrated2cb0d1b independently approved854cace/root790afc0 after actual new24/full78 pass by author/root/reviewer; initial requestchanges/actual independent additive testreview/red/fix history preserved. Actual automatic officialQt Ubuntu41310940283 atPR32 da7cbde passed pinnedhashes/GNU13.3/Qt6.12SQLite3.53.4/old25+work24+green7/exactmigration24/unconditionalreal24 includingUFEFF. All11checks atthathead success. Internal mechanism implementation done; final metadata/CI-attribution review/latesthead/discussions/current rules remain publication gates, PR32 stilldraft/unmerged. No domain schema/realadapter/appbundle/backup/updateauthority/recovery/powerloss/provider/platform upgrade."
     }
   ]
 }

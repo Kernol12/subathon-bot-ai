@@ -1,0 +1,38 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-migrations-debug
+    Start 8: sqlite-migrations.canonicalCodecPreservesInitialBom
+1/2 Test #8: sqlite-migrations.canonicalCodecPreservesInitialBom ...***Failed    0.00 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::canonicalCodecPreservesInitialBom() Valid initial U+FEFF was rejected by the codec, reason=2
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(1213)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of SqliteMigrationTests *********
+
+    Start 9: sqlite-migrations.storedSchemaPreservesInitialBom
+2/2 Test #9: sqlite-migrations.storedSchemaPreservesInitialBom .....***Failed    0.01 sec
+********* Start testing of SqliteMigrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteMigrationTests::initTestCase()
+FAIL!  : SqliteMigrationTests::storedSchemaPreservesInitialBom() 'run(writer, input, result)' returned FALSE. (Migration admission error=4 reason=2)
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_migration_tests.cpp(1255)]
+PASS   : SqliteMigrationTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of SqliteMigrationTests *********
+
+
+0% tests passed, 2 tests failed out of 2
+
+Label Time Summary:
+acceptance           =   0.01 sec*proc (2 tests)
+qt                   =   0.01 sec*proc (2 tests)
+server               =   0.01 sec*proc (2 tests)
+sqlite-migrations    =   0.01 sec*proc (2 tests)
+
+Total Test time (real) =   0.01 sec
+
+The following tests FAILED:
+	  8 - sqlite-migrations.canonicalCodecPreservesInitialBom (Failed) acceptance qt server sqlite-migrations
+	  9 - sqlite-migrations.storedSchemaPreservesInitialBom (Failed) acceptance qt server sqlite-migrations
+Errors while running CTest

@@ -69,3 +69,8 @@ Final completion/red/CI attribution atbd81512 independently approvede1be8ae.
 Reviewer parsed all22 explicit failures and init/cleanup/exit8, verified prior
 approval ancestry and independently fetched actual41307014192 metadata/logs/exact
 4fa11checks. No native/red rerun. Publication-head CI/discussions/rules remain.
+
+PR31 merged normally asef29c87c433fb18af3747805961ce87a826b3929 at
+2026-11-01T12:48:44Z. Final8973032 all11checks success, no reviewthreads,
+MERGEABLE/CLEAN/currentnormalrules. Main refreshed; STORAGE-011 separatelyclaimed,
+with every original approval/vector/red record preserved.

@@ -662,9 +662,15 @@
         "docs/evidence/storagetest-011-author.md",
         "docs/evidence/storagetest-011-review.md",
         "docs/evidence/storagetest-011-ci.md",
-        "docs/evidence/storagetest-011-red-ctest.txt"
+        "docs/evidence/storagetest-011-red-ctest.txt",
+        "docs/evidence/storage-011-implementation.md",
+        "docs/evidence/storage-011-ci.md",
+        "docs/evidence/storage-011-handoff.md",
+        "docs/evidence/storage-011-code-review.md",
+        "docs/evidence/storage-011-unicode-regression.md",
+        "docs/evidence/storage-011-unicode-red-ctest.txt"
       ],
-      "scope": "25 reviewed writer/ownership cases plus24 unchanged separately reviewed work cases pass the same private Qt SQL implementation, with independent source/config review and actual automatic Ubuntu Qt6.12 49-case acceptance. Real synchronous service commit, rollback before errors, revocable capabilities, explicit uncertain outcomes, cumulative budgets and mixed FIFO/shutdown are covered using disposable SQL and a synthetic ReceiptIntake port. Original reviewed stub-red and ownership history retained. No product schema/migration/real repository adapter/application bundle/recovery/power-loss/provider/platform release verification. STORAGETEST-011 additionally supplies22 separately reviewed catalog cases/10 independent vectors, successful build/discovery, actual selected officialQt green7 diagnostic checks and genuine postapproval22stub-red(exit8/no skips). Baseline complete only; migration behavior remains explicitly stubbed until STORAGE-011 implementation/code review/passing acceptance/automatic CI."
+      "scope": "25 reviewed writer/ownership cases and24 unchanged work cases pass the same private Qt SQL writer with separate source/config review and actual automatic Ubuntu Qt6.12 acceptance. STORAGE-011 adds24 passing migration cases (original22 plus two separately reviewed initial-U+FEFF regressions), ten independent frozen vectors, exact codec/catalog/schema/content identity, one whole-prefix transaction and explicit refusal/cancellation/uncertainty. Original reviewed stub-red and additive regression-review/red/fix history are retained. Author/root/different reviewer full78 pass; actual selected officialQt Ubuntu41310940283 at da7cbde passes pinned hashes, GNU13.3, Qt6.12/SQLite3.53.4, old49, requiredgreen7 and all24 unconditional migration cases. Existing writer API/allowlist and original assertions are unchanged. No domain schema/real repository adapter/application bundle/backup or update authority/recovery/power-loss/provider/platform release verification."
     },
     {
       "id": "AUTH-11",

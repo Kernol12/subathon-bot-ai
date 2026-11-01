@@ -1,8 +1,10 @@
 # STORAGE-011 — Version catalog and transactional migration harness
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §16, DB-01, OPS-02.
-Status/owner/dependencies: progress/state.json. Planned work only; no finalized
-slice interface, authored/reviewed tests or implementation is claimed by this brief.
+Status/owner/dependencies: progress/state.json. The versioned
+[contract](../../contracts/migration-catalog-v1.md) and
+[reviewed/red baseline](../../evidence/storagetest-011-handoff.md) are integrated.
+Implementation remains a separate source/code-review/acceptance gate.
 
 ## Scope and ownership
 

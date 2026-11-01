@@ -28,6 +28,27 @@ const QString history_ddl = "CREATE TABLE subathon_migration_history(version INT
                             "migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)";
 const QString sample_ddl = "CREATE TABLE sample(id INTEGER PRIMARY KEY, amount INTEGER)";
 
+// Independent literal contract vector: version1/bom-name, quoted U+FEFF+a table,
+// CREATE + literal INSERT17, reserved catalog objects. Python/hashlib reference;
+// never generated from the production codec or from QString::fromUtf8(BOM bytes).
+const QByteArray bom_payload = QByteArray::fromHex(
+    "32303a6d6967726174696f6e2d636174616c6f672d7631313a31383a626f6d2d6e616d65313a3233343a4352454154"
+    "45205441424c452022efbbbf61222876616c756520494e54454745522933303a494e5345525420494e544f2022efbb"
+    "bf61222056414c5545532028313729313a34353a696e64657834353a73716c6974655f6175746f696e6465785f7375"
+    "626174686f6e5f6d6967726174696f6e5f686973746f72795f3132363a7375626174686f6e5f6d6967726174696f6e"
+    "5f686973746f7279313a30353a7461626c6531363a7375626174686f6e5f636174616c6f6731363a7375626174686f"
+    "6e5f636174616c6f67313a313132333a435245415445205441424c45207375626174686f6e5f636174616c6f672873"
+    "696e676c65746f6e20494e5445474552205052494d415259204b45592c20636174616c6f675f666f726d617420494e"
+    "5445474552204e4f54204e554c4c2c2073746f72655f6964656e746974792054455854204e4f54204e554c4c29353a"
+    "7461626c6532363a7375626174686f6e5f6d6967726174696f6e5f686973746f727932363a7375626174686f6e5f6d"
+    "6967726174696f6e5f686973746f7279313a313133333a435245415445205441424c45207375626174686f6e5f6d69"
+    "67726174696f6e5f686973746f72792876657273696f6e20494e5445474552205052494d415259204b45592c206d69"
+    "67726174696f6e5f69642054455854204e4f54204e554c4c20554e495155452c20636f6e74656e745f736861323536"
+    "20424c4f42204e4f54204e554c4c29353a7461626c65343aefbbbf61343aefbbbf61313a3133343a43524541544520"
+    "5441424c452022efbbbf61222876616c756520494e544547455229");
+const QByteArray bom_digest =
+    QByteArray::fromHex("baf9a94eeb7cbdd3994a277363ae6dd1cd4b63af76f99b02b48f8f3ac4775b7d");
+
 QString quoted(QString name) {
     name.replace('"', "\"\"");
     return '"' + name + '"';
@@ -199,6 +220,20 @@ class SqliteMigrationTests final : public QObject {
         value.mode = mode; // Advancement is always explicit; API default is inspect.
         value.manifest = base();
         return value;
+    }
+    MigrationStep bom_step() const {
+        const QString name = QString(QChar(0xfeff)) + 'a';
+        const QString ddl = "CREATE TABLE " + quoted(name) + "(value INTEGER)";
+        MigrationStep step;
+        step.version = 1;
+        step.id = "bom-name";
+        step.sql = {ddl, "INSERT INTO " + quoted(name) + " VALUES (17)"};
+        const auto manifest = base();
+        for (const auto &object : manifest.steps[0].expected_schema)
+            if (object.name != "sample")
+                step.expected_schema.append(object);
+        step.expected_schema.append({"table", name, name, ddl});
+        return step;
     }
     QByteArray digest(int version) const {
         const auto step = literals_["base"].toObject()["steps"].toArray()[version - 1].toObject();
@@ -1162,6 +1197,66 @@ class SqliteMigrationTests final : public QObject {
         SqliteWriter replacement;
         QCOMPARE(replacement.open(path_), StorageError::none);
         QCOMPARE(fixture_->scalar("SELECT SUM(amount) FROM sample").toInt(), 30);
+    }
+
+    void canonicalCodecPreservesInitialBom() {
+        const auto step = bom_step();
+        const QString name = QString(QChar(0xfeff)) + 'a';
+        QCOMPARE(name.size(), 2);
+        QCOMPARE(name.front(), QChar(0xfeff));
+        QCOMPARE(name.toUtf8(), QByteArray::fromHex("efbbbf61"));
+        QByteArray payload, digest;
+        try {
+            payload = canonical_migration_payload(step);
+            digest = migration_content_sha256(step);
+        } catch (const MigrationFailure &error) {
+            QFAIL(qPrintable(QString("Valid initial U+FEFF was rejected by the codec, reason=%1")
+                                 .arg(static_cast<int>(error.reason()))));
+        }
+        QCOMPARE(payload, bom_payload);
+        QCOMPARE(payload.size(), 638);
+        QCOMPARE(digest, bom_digest);
+    }
+
+    void storedSchemaPreservesInitialBom() {
+        const auto step = bom_step();
+        const QString name = QString(QChar(0xfeff)) + 'a';
+        QVERIFY(fixture_->exec(header_ddl));
+        QVERIFY(fixture_->exec(history_ddl));
+        QVERIFY(
+            fixture_->exec("INSERT INTO subathon_catalog VALUES (1,1,'subathon.sqlite-store')"));
+        // Literal quoted SQL keeps U+FEFF in the identifier; binding a leading
+        // mark through some SQLite text APIs can consume it before storage.
+        QVERIFY(fixture_->exec("CREATE TABLE " + quoted(name) + "(value INTEGER)"));
+        QVERIFY(fixture_->exec("INSERT INTO " + quoted(name) + " VALUES (17)"));
+        QVERIFY(fixture_->exec("INSERT INTO subathon_migration_history VALUES (1,'bom-name',?)",
+                               {bom_digest}));
+        const auto observed = fixture_->rows(
+            "SELECT name,tbl_name,CAST(name AS BLOB),CAST(tbl_name AS BLOB) "
+            "FROM main.sqlite_schema WHERE type='table' AND name!='subathon_catalog' "
+            "AND name!='subathon_migration_history'");
+        QCOMPARE(observed.size(), 1);
+        QCOMPARE(observed[0].size(), 4);
+        QCOMPARE(observed[0][0].toString(), name);
+        QCOMPARE(observed[0][1].toString(), name);
+        QCOMPARE(observed[0][0].toString().toUtf8(), QByteArray::fromHex("efbbbf61"));
+        QCOMPARE(observed[0][2].metaType().id(), QMetaType::QByteArray);
+        QCOMPARE(observed[0][3].metaType().id(), QMetaType::QByteArray);
+        QCOMPARE(observed[0][2].toByteArray(), QByteArray::fromHex("efbbbf61"));
+        QCOMPARE(observed[0][3].toByteArray(), QByteArray::fromHex("efbbbf61"));
+        const auto before = fixture_->snapshot();
+        SqliteWriter writer;
+        QCOMPARE(writer.open(path_), StorageError::none);
+        MigrationRequest input;
+        input.mode = MigrationMode::inspect;
+        input.manifest.steps = {step};
+        input.manifest.supported_starting_versions = {0, 1};
+        MigrationResult result;
+        RUN_MIGRATION(writer, input, result);
+        current(result, 1, 0);
+        QCOMPARE(fixture_->scalar("SELECT value FROM main." + quoted(name)).toInt(), 17);
+        QCOMPARE(fixture_->snapshot(), before);
+        QVERIFY(fixture_->lock_released());
     }
 };
 

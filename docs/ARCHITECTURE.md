@@ -132,6 +132,12 @@ internal identity/history/content/schema/UTF8, whole-prefix transactions and
 explicit-update caller boundaries. STORAGETEST-011 supplies22 independently reviewed
 Qt SQL cases/ten literal vectors, selected officialQt green7 diagnostic support
 and actual intended stub-red; [baseline](evidence/storagetest-011-handoff.md).
-The catalog/codec/runner remain explicit stubs until STORAGE-011 implementation.
-Existingwriter49/privateAPI/allowlist are unchanged; metadata DDL is not a domain
-store, application bundle, backup/update authorization or recovery mechanism.
+STORAGE-011 now implements this internal codec/catalog/runner with24 passing
+migration cases (original22 plus two independently reviewed Unicode regressions),
+unchanged writer49, separate source/config approval and actual automatic selected
+Ubuntu Qt6.12 acceptance. [Implementation](evidence/storage-011-handoff.md) records
+exact revisions and the review-found initial-U+FEFF defect, reviewed regression
+red and correction. Existing private writer API/allowlist are unchanged. Explicit
+advancement commits the whole missing prefix in one transaction; opening a writer
+does not initiate it. Metadata DDL supplies no domain store, application bundle,
+backup/update authority or recovery mechanism. Caller OPS-02 obligations remain.

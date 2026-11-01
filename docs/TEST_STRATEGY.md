@@ -191,16 +191,26 @@ complete registration guards, no manual boolean or failure inversion. This is no
 product schema, real repository adapter, application bundle, recovery, power-loss
 or release-platform/provider proof.
 
-## Migration catalog baseline
+## Migration catalog acceptance
 
 STORAGETEST-011 supplies22 separately reviewed real Qt cases/ten independent frozen
-vectors and actual intended missing-feature red after successful compilation and
-selected officialQt green diagnostics. [Baseline handoff](evidence/storagetest-011-handoff.md)
-pins exact artifacts/approval/exit8. Configure/build sqlite-migrations-debug; new
-`-L sqlite-migrations` bodies are intentionally red until STORAGE-011. Green-only
-CTest `-E '^sqlite-migrations\.'` runs54 existing/infrastructure checks, including
-the separate7-slot driver probe. Ordinary CI runs old49+green7/build/discovery;
-manual run_migration_acceptance propagates real new failures. STORAGE-011 must
-preserve reviewed assertions, implement/code-review/pass and enable new automatic
-acceptance. No dependency/fixture/skip/zero-test error counts as red; no migration
-behavior or full operational release follows from a completed baseline.
+vectors and genuine missing-feature red after successful compilation and selected
+officialQt green diagnostics. [Baseline](evidence/storagetest-011-handoff.md) pins
+actual approval/red evidence; do not repeat that completed gate. STORAGE-011
+preserves every original assertion and adds two separately authored/reviewed
+initial-U+FEFF regressions after independent code review found a valid Unicode
+edge. [Regression evidence](evidence/storage-011-unicode-regression.md) records
+actual selected2 red before the correction; no contract narrowing was accepted.
+
+Configure/build sqlite-migrations-debug; `ctest --preset sqlite-migrations-debug
+-L sqlite-migrations` now runs24 passing migration cases. Full preset runs78:
+migration24, existing writer/work49 and infrastructure5 including the separate
+seven-case driver diagnostic executable. Author/root/different reviewer passed
+local suites. Automatic PR/main/manual CI runs old49, mandatorygreen7 and all24
+migration cases with exact compiled-registration checks, unchanged selected
+Qt/ICU/action pins and no manual acceptance boolean or failure inversion.
+[Implementation](evidence/storage-011-handoff.md), [CI](evidence/storage-011-ci.md)
+and [source/config review](evidence/storage-011-code-review.md) record actual
+official Ubuntu Qt6.12/SQLite3.53.4 acceptance separately from hostSQLite3.54.0.
+No actual backup/update/recovery, domain/application schema, power-loss or release
+platform/provider proof follows from this internal mechanism.

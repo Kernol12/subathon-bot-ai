@@ -113,7 +113,7 @@
     },
     {
       "name": "sqlite-migrations-debug",
-      "displayName": "13 \u00b7 Migration catalog baseline (intentional red)",
+      "displayName": "13 \u00b7 Migration catalog acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON",
