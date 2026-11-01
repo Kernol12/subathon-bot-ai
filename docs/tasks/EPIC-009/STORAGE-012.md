@@ -1,9 +1,9 @@
 # STORAGE-012 — Immutable configuration and arrival-context version retention
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, DB-01.
-Status/owner/dependencies: progress/state.json. Initial contract/examples authoring
-is claimed from integrated STORAGE-011; no finalized interface, authored/reviewed
-tests or implementation is claimed by this brief.
+Status/owner/dependencies: progress/state.json. The contract/API/tests are reviewed;
+[baseline handoff](../../evidence/storagetest-012-handoff.md) establishes the
+intended stub-red. Production implementation remains a separate STORAGE-012 gate.
 
 ## Scope and ownership
 
@@ -49,9 +49,9 @@ references and writer/migration interfaces remain unchanged. Concrete reference
 identity, numeric representation, optional known links, bounds and zero policy
 need explicit reviewed decisions; no finalized wire/config evaluator is inferred.
 
-## Proposed identity and lossless-codec reconciliation
+## Reviewed identity and lossless-codec reconciliation
 
-The actual [retention revision1 candidate](../../contracts/retained-context-v1.md)
+The actual [retention revision1 contract](../../contracts/retained-context-v1.md)
 uses exact opaque version-reference/document bytes to BLOB and back. Current core
 configuration/context refs are strings; no numeric config-key type exists. Do not
 invent a numeric surrogate or reinterpret those references. Full uint64 decimal
@@ -59,6 +59,6 @@ and binary representations must round-trip unchanged as bytes here, including
 zero/max and distinct spellings. This does not certify a typed numeric SQL codec
 or authorize domain zero. Actual ReceiptId/ContributionId/CapturedPlanRevision
 SQL codec/range/zero gates remain mandatory before their persistence in013/014/015.
-This written reconciliation needs different actual contract/brief review; no
-release-range requirement is removed or dependency changed. Root still owns
+This written reconciliation passed separate actual contract/brief and full
+baseline review; no release-range requirement is removed or dependency changed. Root still owns
 physical DDL acceptance, manifest order/identity and exact projection/digest freeze.

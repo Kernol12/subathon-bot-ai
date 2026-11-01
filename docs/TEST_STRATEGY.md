@@ -214,3 +214,25 @@ and [source/config review](evidence/storage-011-code-review.md) record actual
 official Ubuntu Qt6.12/SQLite3.53.4 acceptance separately from hostSQLite3.54.0.
 No actual backup/update/recovery, domain/application schema, power-loss or release
 platform/provider proof follows from this internal mechanism.
+
+## Retained configuration/context baseline
+
+STORAGETEST-012 provides16 separately reviewed Qt feature cases plus a separate
+three-slot existing-driver fixture diagnostic and independent frozen manifest/
+opaque byte vectors. [Baseline](evidence/storagetest-012-handoff.md) records actual
+fullapproval672f93c before root16stub-red atcb7db2d, after selected officialQt
+green3 succeeded. Every init/cleanup passed and zero cases skipped. Source remains
+explicitly unimplemented until STORAGE-012; a completed test baseline is no feature
+completion. Both review-found oracle gaps were strengthened before red.
+
+Configure/build sqlite-retained-debug. The full preset registers95 tests: old78,
+one new fixture executable (3 slots) and16 new retention cases. New `-L
+sqlite-retained` is intentionally red; green-only `-E '^sqlite-retained\.'` runs
+79 existing/infrastructure checks. CI automatically builds/discovers new16, runs
+mandatorynewgreen3 and allold73/green7. Optional manual run_retained_acceptance
+propagates actual new-body failure; no failure inversion or blanket continuation.
+STORAGE-012 must preserve reviewed assertions, implement/code-review/pass and
+promote new16 to unconditional automatic execution. No dependency/fixture/compile/
+skip/zero-test error establishes red. Independent references/documents are opaque
+bytes; typed receipt/contribution/plan numeric codecs and semantic/evaluator,
+application/recovery/provider/platform gates remain separate and mandatory.

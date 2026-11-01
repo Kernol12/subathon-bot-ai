@@ -1,87 +1,83 @@
-# STORAGETEST-012 — CI coverage and observed results
+# STORAGETEST-012 — observed continuous integration and red baseline
 
-Coordinator `/root`, 2026-11-01. [Draft PR33](https://github.com/Kernol12/subathon-bot-ai/pull/33)
-from main29f3818/merged STORAGE-011. Contract40d0dc6 and API/stub/precision/
-minimalbuild46fc8ee approvals are preserved in [review](storagetest-012-review.md).
-New test fullreview and intended red are still separate gates. No retention
-implementation or feature pass is claimed from compiling explicit stubs.
+Coordinator `/root`, 2026-11-01. [Draft PR33](https://github.com/Kernol12/subathon-bot-ai/pull/33),
+from main29f3818/merged STORAGE-011. [Baseline handoff](storagetest-012-handoff.md),
+[author](storagetest-012-author.md), [actual review](storagetest-012-review.md),
+[raw first red](storagetest-012-red-ctest.txt). Baseline gates complete; retention
+implementation remains explicit stubs and final publication gates remain.
 
-## Actual current artifacts and coverage
+## Coverage and reviewed artifacts
 
-Author7d89c4c/root320ae61 supplies16 feature cases, green3 existing-capability
-fixture cases and independent JSON0f76fd2c. Negative fixture1eda545/root21fddd6
-explicitly disables FK only on the independent corrupt-data setup connection.
-Product writer enforcement remains ON. Actual different source review identified
-two oracle gaps, separately strengthened by e76/180 and648/ab4: post-retain stage
-proof before later failures, binary context/link byte preservation and independent
-positive bounds. Helper70/306 consumes qWaitFor's result and records timeout
-without faking completion. Current featuretestc0e54003, environmentaaa16447;
-API55c828/stubb27eb488/contract5b0ee84 and all old implementation/tests are unchanged.
+The sqlite-retained-debug preset builds the new module, existing suites, new16
+feature cases and a separate green fixture executable with3 slots. Full local
+registration is95. Current featuretestc0e54003/envAAA164/JSON0f76/API55/stubb27/
+contract5b were fully reviewed by a different agent in672f93c/root8d561a6 at
+actual shared27fea1d BEFORE any new feature-body execution. Both oracle findings
+were strengthened separately; no assertion weakening or future-code approval.
 
-Shared e5532d1 adds the sqlite-retained-debug draft preset/library. Workflow5e9a266
-uses that preset to build the reviewed stubs while running every existing suite.
-Shared27fea1d registers16 isolated draft acceptance cases plus a separate green
-fixture executable (3 slots), supplies the frozen vector macro to both targets,
-and extends CI with mandatory exact3 fixture execution and exact compiled16
-discovery. Green fixture target links only the existing writer, never new adapter
-or factory; no new UUT call supplies its expected rows or hashes.
+The green target links only the existing writer/QtTest and uses independent
+literal vectors, never new factory/adapter results. All old25/work24/migration24
+and mandatorygreen7 remain unconditional. CI now automatically runs exactnewgreen3
+and builds/discovers allnew16 with compiled-versus-CTest completeness guards.
+Unimplemented bodies remain visible and separate: explicit optional manual
+run_retained_acceptance propagates their real failure without inversion or blanket
+continuation. Default green CI does not establish new retention acceptance.
+STORAGE-012 must promote new16 to unconditional automatic execution when implemented.
+No dependency/action pins, permissions or check names were weakened; no WILL_FAIL,
+zero-test success, fixture weakening or hidden result-limit increase.
 
-All old25/work24/migration24 and mandatorygreen7 remain unconditional. New
-unimplemented bodies are separate and visible: optional workflow_dispatch boolean
-run_retained_acceptance executes their real CTest result without inversion or
-continue-on-error. Default passing CI does not claim new retention acceptance.
-STORAGE-012 must promote reviewed16 to unconditional execution after implementation.
-No assertion/fixture weakening, WILL_FAIL, zero-test success or changed dependency
-pins/permissions/check names. Root owns shared schema/migration order/build/state.
+## Actual selected official-Qt fixture prerequisite
 
-## Actual local verification before any new feature body
+[Run41318070740](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41318070740)
+at cb7db2db511d54422eb5961168cd64df1e758ed4 completed SUCCESS. Root read
+metadata and actual logs BEFORE the first new feature-body call.
 
-Linux x86-64, GNU16.2.1, Qt6.12.0/hostSQLite3.54.0.
-
-| Command/check | Actual result |
+| Actual stage | Result |
 | --- | --- |
-| cmake --preset sqlite-retained-debug | Exit0 |
-| cmake --build --preset sqlite-retained-debug | Exit0; final helper build zero warnings |
-| Compiled -functions vs CTest JSON | Exact16 feature/3 green slots;95 total registrations |
-| Green fixture executable only, verbose | 3 cases plus init/cleanup pass,0skip |
-| Old suite excluding new16 and already-run new fixture | 78/78 pass; no new feature body |
-| Independent F framing/unsigned sort/hashlib | Complete2000-byte payload and SHA0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e match |
-| Independent opaque vectors | All12 exact uint64 spelling/binary/BOM/NUL forms verified |
-| Formatting/actionlint1.7.12/project391/currentHTML/render/diff | Pass |
+| Official Qt/ICU archive SHA-256 | Both OK against unchanged pinned values |
+| Compiler / runtime | GNU13.3; Qt6.12.0/QSQLITE SQLite3.53.4 |
+| New stub library and both new Qt targets | Compiled/linked successfully |
+| Existing Qt event-loop probe | 1/1 pass |
+| Existing writer/work/migration behavior | 25/25,24/24,24/24 pass |
+| Existing required diagnostic environment | Exact7;9 including init/cleanup pass,0skip |
+| New required retained fixture diagnostics | Exact3;5 including init/cleanup pass,0skip |
+| New feature registration | Exact16 compiled/registered; bodies not executed |
+| Explicit optional feature-body step | Not executed, as intentional baseline separation |
 
-Ignored logs under local-evidence/coordinator/storagetest012-*: tests-configure,
-tests-build, tests-final-build, environment-local and existing-local. Initial build
-had the ignored-nodiscard warning, fixed explicitly before final zero-warning build.
-Root's first vector-check script incorrectly assumed a steps array; correcting it
-to the actual flat fixture manifest independently matched full bytes. Those setup/
-script errors are not feature red. Full95 has NOT been run while new16 await review.
+All11 PR checks atcb7db2d were SUCCESS. Ignored metadata/logs:
+local-evidence/coordinator/storagetest012-ci-cb7db2d.{json,log}.
+Earlier API-only run41315776368 at5e9a266 built stubs/old suites; it was not used
+as proof of new fixture support. No result transfers to later PR heads.
 
-## Actual selected-Qt API compilation, new fixture still pending
+## Actual local build, review and first red
 
-[Run41315776368](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41315776368)
-at head5e9a266b0662197d5a06927489835d090cbf19d9 completed successfully. Actual
-metadata/logs show officialQt/ICU hashes OK, GNU13.3, explicit new stub source
-compiled and static library linked, Qt6.12 with bundledSQLite3.53.4, old25+24+24
-pass and existinggreen7 (9 including init/cleanup,0skip) pass. This predates the
-new feature files/fixture/harness and does not establish their selected support.
-Ignored log: local-evidence/coordinator/storagetest012-api-ci-5e9a266.log.
-Earlier contract-stage791cacf and API metadata6fdf620 all11 checks passed; none
-is transferred to later heads.
+Host Linux x86-64/GNU16.2.1/Qt6.12.0/SQLite3.54.0, distinct from bundled3.53.4.
+Configure/build sqlite-retained-debug exit0, final build zero warnings. Exact
+compiled16/registered16 and3 green slots match95 total registrations. Newgreen3
+(5 including init/cleanup,0skip) and old78 passed separately before any new body.
+Author/root/reviewer independently derive the full2000-byte payload and SHA256
+0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e,
+seven-object projection and12 full-range opaque byte vectors without UUT outputs.
 
-Next observe actual automatic selected officialQt execution of the new green3
-and discovery/build of new16 at current frozen artifacts. A different reviewer
-must approve the actual complete tests/interface/fixture/harness. Only after BOTH
-gates may root run new16 for genuine intended missing-behavior red. No dependency,
-fixture, compile, skipped or zero-test failure counts. Final metadata/CI attribution,
-latest-head checks/discussions/current rules/normal merge follow baseline completion.
+Only after actual fullapproval ancestry and selected-fixture success were checked,
+root ran `ctest --preset sqlite-retained-debug -L sqlite-retained --output-on-failure`
+atcb7db2d. Actualexit8: all16 explicitfeature_not_implemented=0 failures, all16
+init+16cleanup pass,0skip/crash/dependency/setupfail,total0.09s. No full95 pass
+is claimed; original red is durable and must not be repeated for bookkeeping.
 
-Ruleset26170263 requires PR/resolved threads, zero GitHubapprovals, no bypass/force/
-delete; no required-status-check rule. Written all applicable latest-head CI still
-applies. Synthetic/disposable state only. Domain semantics, typed numeric fields
-in013/014/015, app bundle, recovery/backup/update authority, browser/platform/
-packaging/provider/live verification remain mandatory separate scope.
+Ignored local logs under local-evidence/coordinator/storagetest012-*: tests-configure,
+tests-build, tests-final-build, environment-local, existing-local. The initial
+nodiscard warning was fixed explicitly before the final zero-warning build. Root's
+first vector-check script assumed a steps array; correcting it to the flat fixture
+matched full bytes. These setup/script issues were not product red.
 
-Actual fulltest/interface/fixture/harness approval672f93c is integrated beforeany
-newbody. It approves exact27fea/c0/AAA/0f/55/b27/5b with independent95/16/3/green3
-checks, preserving required selectedofficialQtfixture success beforefirst16red.
-No baseline completion, feature pass or implementation is claimed yet.
+Formatting, actionlint1.7.12, project391/currentHTML/render, Python tooling19, DOM
+simulation and whitespace pass. Actual browser not run. Final red/CI-attribution
+metadata review plus latest-head CI/discussions/current rules/normal merge remain.
+Ruleset26170263 requires PR/resolved threads,zero GitHub approvals,no bypass/force/
+delete; no required-status-check rule. Written latest-head checks still apply.
+
+Default fixtures are synthetic/disposable. No semantic config/evaluator, typed
+numeric SQL fields in013/014/015, domain application bundle, backup/update/recovery,
+platform/package/browser/provider/live behavior is established. Full release scope
+retains all seven integrations and three FX providers.
