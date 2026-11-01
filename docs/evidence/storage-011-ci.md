@@ -1,54 +1,69 @@
-# STORAGE-011 CI assessment — implementation in progress
+# STORAGE-011 — continuous integration evidence
 
-Coordinator `/root`, 2026-11-01. Task starts from merged PR31/main ef29c87,
-with actual22 reviewed/red baseline, green selectedQt7 and frozen vectors/API.
-Original [test-first evidence](storagetest-011-handoff.md) stays valid and is not
-repeated. New production source is still being authored; no new pass is claimed.
+Coordinator `/root`, 2026-11-01. [Draft PR32](https://github.com/Kernol12/subathon-bot-ai/pull/32)
+from main ef29c87. [Original reviewed/red baseline](storagetest-011-handoff.md),
+[additive Unicode review/red](storage-011-unicode-regression.md) and
+[independent code/config review](storage-011-code-review.md) are separate gates.
 
-Shared66be523 changes only acceptance descriptions/draft label and the workflow's
-manual migration guard: unchanged22 now execute unconditionally on PR/main/manual,
-after the mandatory selected-driver green7 and existing49 acceptance. Pinned
-Qt/ICU/action sources, sqlite-writer-build name, full compiled registration guards,
-fixture path and all76 registrations remain. There is no failure inversion,
-continue-on-error, WILL_FAIL, source/test skip or hidden limit adjustment.
+## Coverage change
 
-Root actionlint1.7.12/project391/current HTML/diff checks pass for that config.
-Different code reviewer prepared from the actual frozen contract/API/new22/10
-vectors/green7/old49; actual source/config approval waits the implementation.
-Acceptance requires real unchangednew22+old49+green7/full76 locally, a different
-actual code/config review, observed ordinary automatic Ubuntu migration execution
-and all applicable latest-head CI/discussion/current-rule merge gates. Editing a
-workflow adds no required-check enforcement rule.
+Shared66be523 removes the manual migration-acceptance boolean/draft label and
+promotes migration acceptance to unconditional PR/main/manual execution. The
+same sqlite-writer-build job runs old25, work24, mandatory selected-driver green7,
+exact compiled migration discovery and migration24 (original22 plus two focused
+Unicode regressions registered by8534118). Full local preset has78 registrations.
+The selected Qt/ICU archives, hashes, pinned checkout, permissions, commands and
+complete-registration guards remain. No failure inversion, continue-on-error,
+WILL_FAIL, skipped baseline or test/fixture weakening was introduced.
 
-Default runs use disposable synthetic databases. The framework will not prove
-backup/update authority, production domain schemas/adapters, application bundle,
-recovery, power-loss or live/platform release behavior. OPS02 remains a real
-caller/product precondition, never a fabricated proof field. Full scope is retained.
+## Actual selected official-Qt result
 
-## Local source candidate and review finding
+[Run41310940283](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41310940283)
+on PR32 head `da7cbde476020b3718d64a81dfebd140c3289ac8` completed successfully
+at2026-11-01T13:23:06Z. Metadata and actual logs were read; ignored log copy:
+local-evidence/coordinator/storage011-ci-da7cbde.log. The source is corrected
+blob4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f, testblobe94befdc, contractcbdea1a,
+header02f83ce, vectors12280c8f, environment832fe616, oldwriter023451.
 
-Source9eb1fef/blobd91c7d integratede183527, evidence0ac896c/root0118fea, compiled
-and passed all76 local CTest registrations (original22+old49+infrastructure5,
-including green seven-case environment executable), with Qt6.12/SQLite3.54.0.
-Separate actual code review then found missing valid initial-U+FEFF coverage;
-QString::fromUtf8 strips that character, causing invalid_manifest rejection.
-No approval, Ubuntu result or implementation completion follows from local green.
-Focused separately authored/reviewed Unicode regressions and an intended red
-against this source precede correction. Original reviewed baseline remains intact.
+| Actual job stage | Result |
+| --- | --- |
+| Ubuntu24.04 / compiler | GNU13.3.0 |
+| Official Qt6.12.0 / bundled QSQLITE | Runtime SQLite3.53.4; distinct from host3.54.0 |
+| qtbase/ICU SHA-256 checks | Both OK against unchanged pinned hashes |
+| Configure/build sqlite-migrations-debug | Both exit0 |
+| Qt event-loop probe | 1/1 pass |
+| Writer compiled discovery / real acceptance | Exact25;25/25 pass |
+| Work compiled discovery / real acceptance | Exact24;24/24 pass |
+| Required diagnostic environment | Exact7 slots;9 including init/cleanup pass,0skip |
+| Migration compiled discovery / real unconditional acceptance | Exact24;24/24 pass |
+| Both initial-U+FEFF regression cases | Individually listed and passed |
 
-Focused two-case regression234c2ec/teste94befdc was actually approvedad4f54d
-(root8c70e6e) before root observedexit8 on both bodies againstd91. Fixture/raw
-guards/initcleanup passed,0skip. [Regression evidence](storage-011-unicode-regression.md),
-[raw red](storage-011-unicode-red-ctest.txt). Root harness8534118 registers both;
-compiled24 and total78 exactly match. Dynamic workflow discovery guards include
-the new cases automatically. Source correction/different review/Ubuntu pending.
+The changed workflow was observed executing actual behavior, including every
+original22 migration case and both independently reviewed new regressions. All11
+PR check runs at da7cbde were observed SUCCESS/MERGEABLE/CLEAN. This result is
+attributed only to that head; later metadata/review commits still require their
+own latest-head CI/discussion/current-rule verification before merge.
 
-## Corrected local candidate
+## Local checks and remaining gates
 
-Correction071af3b/root2cb0d1b/source4ee2365 follows actual separate regression
-approval and genuine intended red. Root real build/full78 pass with Qt6.12 and
-host SQLite3.54.0: new24, unchanged49 and infrastructure5 including green7.
-Exact24 compiled names match all24 registrations; total78. Format/diff and
-frozen contract/header/JSON/probe/oldwriter artifact checks pass. Separate
-corrected-source/config approval and actual automatic selected officialQt Ubuntu
-acceptance are pending; no previous CI result is transferred to this source.
+Author/root build and full78 pass with host Qt6.12.0/SQLite3.54.0/GNU16.2.1,
+including all new24, old49 and infrastructure5 (one is the seven-slot diagnostic
+executable). Exact24 compiled slots match registration; original22 bodies and
+frozen contract/header/ten vectors/green probe/oldwriter49 remain unchanged.
+Root independently reproduced the full638-byte Unicode payload and literal SHA
+baf9a94e...775b7d without using production outputs. Formatting, actionlint1.7.12,
+project391/currentHTML, Python tooling19, DOM simulation and whitespace pass.
+Different corrected-source/config approval854cace is integrated790afc0 after
+independent new24/full78 passes. Final metadata/publication gates remain pending.
+
+Ruleset26170263 was actually rechecked: PR/resolved threads, zero GitHub approvals,
+no bypass actors/force/delete, no required-status-check rule. Adding this workflow
+does not configure enforcement; the written all-applicable-latest-head CI gate
+still applies. Actual required GitHub approval would not be replaced by repository
+agent evidence.
+
+Synthetic disposable state only. OPS-02 actual operator initiation, restorable
+backup, compatibility/update orchestration and maintenance exclusion remain caller
+requirements. No production domain schema/adapter, application bundle, recovery,
+power-loss, actual browser, release-platform or live-provider verification follows.
+All seven integrations and three exchange-rate providers retain full release scope.

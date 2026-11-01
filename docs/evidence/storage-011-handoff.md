@@ -1,65 +1,76 @@
 # STORAGE-011 — migration catalog implementation handoff
 
-Coordinator `/root`, 2026-11-01. Contract: [migration catalog revision1](../contracts/migration-catalog-v1.md),
-specification v0.45 §16/DB-01/OPS-02. Branch `task/STORAGE-011-migration-catalog`
-starts from PR31/main `ef29c87`. Corrected implementation is under independent review; no source approval or
-merge is claimed.
+Coordinator `/root`, 2026-11-01. [PR32](https://github.com/Kernol12/subathon-bot-ai/pull/32),
+branch `task/STORAGE-011-migration-catalog`, from PR31/main ef29c87. Internal
+implementation gates pass; final metadata review/latest-head CI and normal merge
+gates remain. Specification v0.45 §16/DB-01/OPS-02; unchanged
+[migration catalog revision1](../contracts/migration-catalog-v1.md).
 
-## Change and scope
+## Result and limits
 
-The runner inspects catalog, complete schema projection, raw Unicode bytes,
-encoding, integrity, foreign keys and full content-hashed history before normal
-store use. Explicit advancement applies bootstrap and the whole missing prefix
-in one existing writer transaction; refusals/cancellation preserve old state,
-and unknown outcomes remain fail-closed without a normal readiness report.
-Pure codec/preflight, budgets and admission use the frozen revision1 boundary.
-No writer API, generic SQL allowlist, domain schema, new dependency or connection
-is added. OPS-02 operator initiation/backup/compatibility/quiescence remain
-actual trusted caller obligations, not request-field claims.
+Explicit inspection validates UTF-8 encoding, raw text, exact reserved/full schema,
+well-typed catalog, complete content-hashed history, integrity and foreign keys.
+Explicit advancement commits bootstrap and the whole missing prefix in one
+existing writer transaction. Refusals/cancellation preserve old state; budgets,
+raw WorkResult and unknown-outcome fail-close semantics remain. Pure F-framing,
+unsigned UTF-8 sorting, SHA-256 and preflight implement the frozen contract.
+Opening a writer never initiates migration. No new dependency/connection, writer
+API/SQL allowlist change, domain table or real repository adapter was added.
 
-## Exact evidence and verification
+OPS-02 actual operator initiation, restorable backup, compatibility information
+and maintenance exclusion remain trusted caller/integration requirements. No
+request field or diagnostic report proves those. Application bundle, backup/
+recovery/update orchestration, power-loss, supported release platforms and live
+providers remain separate full-scope gates. Synthetic disposable files only.
 
-- [Original reviewed/red baseline](storagetest-011-handoff.md) and
-  [review](storagetest-011-review.md) remain intact. Original22 assertion coverage
-  and ten independent literal vectors are preserved. No original red repeated.
-- [Implementation](storage-011-implementation.md): source9eb1fef/blobd91c7d,
-  integratede183527; evidence0ac896c integrated0118fea. Author/root real
-  configure/build/full76 pass locally with Qt6.12/SQLite3.54.0, GNU16.2.1.
-- [CI assessment](storage-011-ci.md): shared66be523 promotes the unchanged22
-  to unconditional automatic CI behind mandatory green7 and old49; exact
-  compiled registration guards and pinned selected Qt/ICU/actions remain.
-- Separate source reviewer found valid initial U+FEFF rejected through a Qt
-  fromUtf8 round-trip BOM removal. Passing76 did not cover this. Approval/merge
-  are held for separate regression authoring/review/red before correction.
+## Exact test-first, review and source evidence
 
-## Ownership and next gate
+- [Original baseline](storagetest-011-handoff.md): actual fullapproval01f0975
+  integratedcb3c1b2 BEFORE original22 stub-red(exit8/zero skips), after officialQt
+  green7 prerequisite. Final baseline approvale1be8ae retained; no red repeated.
+- Frozen contractcbdea1a/header02f83ce/ten vectors12280c8f/greenprobe832fe616 and
+  writer023451/old49 are unchanged. Original22 test bodies remain byte-identical.
+- [Implementation](storage-011-implementation.md): originalsource9eb1fef/d91c7d
+  integratede183527 and evidence0ac896c/root0118fea. Original76 passed locally.
+- [Different source review](storage-011-code-review.md): requestchanges20cc636/
+  root2fb5f89 found valid initial U+FEFF rejected through a BOM-consuming decoder.
+  Green76 did not discharge it; no contract narrowing or assertion weakening.
+- [Additive regression](storage-011-unicode-regression.md): different author
+  234c2ec/root36aca32, testblobe94befdc, adds95 lines/two slots. Actual approval
+  ad4f54d/root8c70e6e BEFORE root selected2 intended red at unchangedd91/e94.
+  Both fail for invalid_manifest reason2; rawfixture/initcleanup pass, zero skips.
+  [Raw red](storage-011-unicode-red-ctest.txt), durable1482636. Independent full
+  638-byte literal payload/SHA baf9a94e...775b7d derived without production.
+- Only then source correction071af3b/root2cb0d1b, sourceblob
+  4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f, removes the faulty decoder equality
+  after strict scalar validation. Encoded-length and raw stored-byte equality
+  remain. Corrected author evidence639650d integrated41c02ea.
+- Actual corrected source/config approval854cace integrated790afc0, from different
+  `/root/storage_work_code_reviewer`, after independent migration24/full78 passes.
 
-Implementer `/root/debt_code_reviewer` owns only server/src/sqlite_migrations.cpp
-and implementation evidence in storage011-implementation. Different reviewer
-`/root/storage_work_code_reviewer` owns code-review evidence in storage011-review.
-`/root/writer_transaction_reviewer` owns additive Unicode Qt regressions/evidence
-in new storage011-unicode-regression. Root owns shared build/CI/state/HTML/map/
-checkpoint and integration. Original baseline contract/header/vectors/green7 and
-writer023451/49 are unchanged. No user decision/access is needed.
+## Verification and publication
 
-Next: actual regression test approval, current-source intended red, Unicode
-correction and actual different code/config review, then ordinary automatic
-Ubuntu acceptance and all latest-head PR/thread/rules merge gates. Default files
-are synthetic/disposable. No app bundle/domain adapters, backup/recovery,
-power-loss, supported release platform or live-provider verification is claimed.
+Author/root/reviewer configure/build pass and full78 CTest pass: migration24,
+unchanged writer/work49, infrastructure5 including separate diagnosticgreen7.
+Root exact compiled24 equals registered24; total78. Formatting, project391/current
+HTML, Python tooling19, DOM simulation, actionlint1.7.12 and whitespace pass.
+Local environment: Linux x86-64, GNU16.2.1, Qt6.12.0/SQLite3.54.0, CMake4.4.5,
+Ninja1.13.2, Python3.14.8. No actual browser/platform claim.
 
-## Corrected local candidate
+[Actual automatic Ubuntu run41310940283](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41310940283)
+at PR32 da7cbde passes pinned archive hashes/GNU13.3/Qt6.12 and bundled
+SQLite3.53.4, Qt probe1, old25+work24, green7(9 including init/cleanup,0skip),
+exact migration24 discovery and all24 unconditional cases including U+FEFF.
+All11 PR checks at that head succeeded; [CI evidence](storage-011-ci.md).
+Later metadata/review revisions require their own final checks.
 
-Actual additive test approvalad4f54d/root8c70e6e preceded the root selected2
-intended red at d91c7d/e94befdc, exit8 with fixture/init/cleanup passing and
-zero skips. [Regression evidence](storage-011-unicode-regression.md) and
-[raw output](storage-011-unicode-red-ctest.txt) preserve the sequence.
-Correction071af3b/root2cb0d1b, sourceblob4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f,
-removes the faulty decoder equality after complete Unicode-scalar validation.
-Exact encoded-length and raw stored-byte comparisons remain. Root actual build
-and full78 CTest pass (migration24, writer/work49, infrastructure5 including
-the seven-slot green probe). Root independent framing rederived all638 bytes and
-SHA baf9a94e...775b7d; no UUT supplied expected results. Original22 bodies, ten
-JSON vectors, contract/header, green probe and writer49 remain unchanged.
-Different corrected-source/config review and actual officialQt Ubuntu CI remain
-required before implementation completion. No live/platform gate is upgraded.
+Root owns shared CMake/presets/workflow/state/map/HTML/checkpoint/schema order.
+Implementer `/root/debt_code_reviewer` owns only source/implementation evidence
+in storage011-implementation; reviewer owns only review evidence in
+storage011-review; regression author `/root/writer_transaction_reviewer` owns
+only additive test/evidence in storage011-unicode-regression. Separate branches/
+worktrees and all valid historical reviews are preserved. No owner question.
+
+Next actual final metadata/CI-attribution review, latest-head all applicable CI,
+resolved discussions/current rules and normal exact-head merge. Then refresh main
+and claim dependency-ready STORAGETEST-012. Full agreed product remains incomplete.

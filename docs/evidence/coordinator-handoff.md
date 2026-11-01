@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-011 under review
+# Coordinator checkpoint — STORAGE-011 publication gates
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
 loop under AGENTS.md and COORDINATOR_PROMPT.md. No owner decision or access
@@ -64,8 +64,9 @@ Correction071af3b integrated2cb0d1b, sourceblob
 equality after strict Unicode-scalar validation; encoded length and exact raw
 stored-byte comparison remain. Root actual build/full78 pass (new24+old49+
 infrastructure5 including green7), format/diff/invariant checks pass. Different
-actual corrected-source/config review is running; no source approval is assumed.
-Author final evidence is pending. Root build/test commands finished successfully;
+actual corrected-source/config approval854cace is integrated790afc0 after
+independent new24/full78 passes. Implementation is done, PR still unmerged.
+Author final evidence639650d is integrated as41c02ea. Root build/test commands finished successfully;
 logs ignored under local-evidence/coordinator/storage011-fixed-*.log.
 
 ## Publication, checks and next action
@@ -77,9 +78,11 @@ pins remain. Dynamic registration includes the two new cases:24 migration and
 and whitespace checks pass. Actual automatic Ubuntu acceptance is still pending;
 host SQLite3.54.0 is distinct from bundled3.53.4. No actual browser claim.
 
-Next publish the focused STORAGE-011 draft PR, observe selected officialQt Ubuntu
-new24+old49+green7, integrate actual corrected source/config approval and author
-evidence, update final CI/map/state/HTML metadata, obtain applicable final review
+[Draft PR32](https://github.com/Kernol12/subathon-bot-ai/pull/32) is published at
+head da7cbde. Actual selected officialQt Ubuntu run41310940283 and all11 checks
+at that head passed. Hashes/GNU13.3/Qt6.12SQLite3.53.4/old49/green7/exact24/real24
+were read from actual logs; see CI evidence. Root final CI/map/state/HTML metadata
+records implementation done, publication still pending. Next obtain final metadata/CI attribution review
 and verify latest-head all checks/discussions/current rules before normal merge.
 Then refresh main and start dependency-ready STORAGETEST-012 from integrated011.
 Ruleset26170263 was rechecked: required PR/resolved threads, zero GitHub approvals,
