@@ -7,6 +7,50 @@ if(SUBATHON_BUILD_QT_PROBE)
     set_tests_properties(scaffold.qt_event_loop PROPERTIES LABELS "scaffold;qt")
 endif()
 
+if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
+    add_executable(server_sqlite_migration_environment sqlite_migration_environment.cpp)
+    target_link_libraries(server_sqlite_migration_environment PRIVATE subathon_sqlite_writer Qt6::Test)
+    subathon_target_options(server_sqlite_migration_environment)
+    add_test(NAME scaffold.sqlite_migration_environment COMMAND server_sqlite_migration_environment)
+    set_tests_properties(scaffold.sqlite_migration_environment PROPERTIES
+        LABELS "scaffold;qt;migration-environment" TIMEOUT 30)
+
+    add_executable(server_sqlite_migration_acceptance sqlite_migration_tests.cpp)
+    target_link_libraries(server_sqlite_migration_acceptance PRIVATE subathon_sqlite_migrations Qt6::Test)
+    target_compile_definitions(server_sqlite_migration_acceptance PRIVATE
+        SUBATHON_MIGRATION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/migration_catalog_vectors.json")
+    subathon_target_options(server_sqlite_migration_acceptance)
+    # Intentionally red until STORAGE-011; the environment probe is a separate green gate.
+    foreach(case IN ITEMS
+        canonicalPayloadAndDigestMatchLiteralVector
+        canonicalNullUnicodeOrderingAndInvalidText
+        freshAdvanceCommitsWholePrefix
+        supportedOldAdvancesOnceAndCurrentDoesNotReplay
+        inspectionReportsFreshOldAndCurrentWithoutAdvancement
+        foreignPartialAndMismatchingCatalogsAreRefused
+        futureAndUnsupportedOldVersionsAreRefused
+        invalidManifestsAreRejectedBeforeAdmission
+        historyAndSchemaMismatchesAreRefused
+        storedTypesRangesAndCardinalityAreValidated
+        checkConstraintIntegrityFailurePreservesData
+        foreignKeyFailureCannotPassIntegrity
+        failedMigrationRollsBackDdlHistoryAndPriorWrites
+        cancellationRollsBackWholeBootstrapAndPrefix
+        busyMigrationDoesNotReplay
+        lostCommitAckFailsClosedWithPhysicalTarget
+        lostRollbackAckOverridesSqlFailure
+        cumulativeBudgetsAndManifestLimitsHaveExactBoundaries
+        diagnosticShadowsAreRefusedWithoutRepair
+        utf16StoresAreRefusedWithoutConversion
+        ownedRequestReportAndAdmissionRemainBounded
+        shutdownAndCompletionLifetimePreserveWriterRules
+    )
+        add_test(NAME sqlite-migrations.${case} COMMAND server_sqlite_migration_acceptance ${case})
+        set_tests_properties(sqlite-migrations.${case} PROPERTIES
+            LABELS "sqlite-migrations;acceptance;draft;qt;server" TIMEOUT 20)
+    endforeach()
+endif()
+
 if(SUBATHON_BUILD_SQLITE_WORK_TESTS)
     add_executable(server_sqlite_work_acceptance sqlite_writer_work_tests.cpp)
     target_link_libraries(server_sqlite_work_acceptance PRIVATE

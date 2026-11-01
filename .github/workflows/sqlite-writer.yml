@@ -5,6 +5,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      run_migration_acceptance:
+        description: Run intentionally red migration cases after independent review
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -33,15 +38,15 @@ jobs:
           bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
-      - name: Configure the reviewed writer and transaction-work acceptance
-        run: cmake --preset sqlite-work-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+      - name: Configure stable writer/work suites and the migration baseline
+        run: cmake --preset sqlite-migrations-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
       - name: Build the writer and both test boundaries
-        run: cmake --build --preset sqlite-work-debug
+        run: cmake --build --preset sqlite-migrations-debug
       - name: Run the environment probe and list the writer baseline
         run: |
-          ctest --preset sqlite-work-debug -R '^scaffold.qt_event_loop$'
-          ctest --preset sqlite-work-debug -L sqlite-writer --show-only
-          ctest --preset sqlite-work-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
+          ctest --preset sqlite-migrations-debug -R '^scaffold.qt_event_loop$'
+          ctest --preset sqlite-migrations-debug -L sqlite-writer --show-only
+          ctest --preset sqlite-migrations-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
           python3 - <<'PYTHON'
           import collections, json, os, subprocess
           from pathlib import Path
@@ -60,11 +65,11 @@ jobs:
           print(f"Discovered all {len(tests)} compiled writer cases; behavior not run")
           PYTHON
       - name: Run reviewed writer acceptance
-        run: ctest --preset sqlite-work-debug -L sqlite-writer
+        run: ctest --preset sqlite-migrations-debug -L sqlite-writer
       - name: Check complete transaction-work registration
         run: |
-          ctest --preset sqlite-work-debug -L sqlite-work --show-only
-          ctest --preset sqlite-work-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
+          ctest --preset sqlite-migrations-debug -L sqlite-work --show-only
+          ctest --preset sqlite-migrations-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -81,4 +86,46 @@ jobs:
           print(f"Discovered all {len(tests)} compiled transaction-work cases")
           PYTHON
       - name: Run reviewed transaction-work acceptance
-        run: ctest --preset sqlite-work-debug -L sqlite-work
+        run: ctest --preset sqlite-migrations-debug -L sqlite-work
+      - name: Run required selected-Qt migration diagnostic environment probe
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-migrations-debug/tests/qt/server_sqlite_migration_environment"
+          expected = {
+              "fixedFunctionsUseExistingWriterAndUtf8()",
+              "metadataProjectionHasExpectedNullIndexSql()",
+              "integrityFunctionRejectsOrdinaryShadow()",
+              "foreignKeyFunctionRejectsOrdinaryShadow()",
+              "encodingFunctionRejectsOrdinaryShadow()",
+              "utf16EncodingAndRawBytesAreObservedWithoutConversion()",
+              "integrityAndForeignKeyDiagnosticsAreDistinct()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required diagnostic environment cases do not match compiled slots")
+          print("Discovered all 7 required diagnostic environment cases")
+          PYTHON
+          ctest --preset sqlite-migrations-debug -R '^scaffold.sqlite_migration_environment$' --verbose
+      - name: List the intentionally red migration catalog baseline
+        run: |
+          ctest --preset sqlite-migrations-debug -L sqlite-migrations --show-only
+          ctest --preset sqlite-migrations-debug -L sqlite-migrations --show-only=json-v1 > "$RUNNER_TEMP/migration-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "migration-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No migration catalog baseline registered")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one migration catalog Qt suite")
+          expected = set(subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines())
+          registered = [test["command"][1] + "()" for test in tests]
+          if not expected or set(registered) != expected or len(registered) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled migration suite")
+          print(f"Discovered all {len(tests)} compiled migration cases; intentional red behavior not run")
+          PYTHON
+      - name: Run real migration cases with normal failure propagation
+        if: github.event_name == 'workflow_dispatch' && inputs.run_migration_acceptance
+        run: ctest --preset sqlite-migrations-debug -L sqlite-migrations

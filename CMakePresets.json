@@ -110,6 +110,17 @@
         "SUBATHON_BUILD_SQLITE_WORK_TESTS": "ON",
         "SUBATHON_BUILD_QT_PROBE": "ON"
       }
+    },
+    {
+      "name": "sqlite-migrations-debug",
+      "displayName": "13 \u00b7 Migration catalog baseline (intentional red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON",
+        "SUBATHON_BUILD_SQLITE_WORK_TESTS": "ON",
+        "SUBATHON_BUILD_SQLITE_MIGRATION_TESTS": "ON",
+        "SUBATHON_BUILD_QT_PROBE": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -160,6 +171,10 @@
     {
       "name": "sqlite-work-debug",
       "configurePreset": "sqlite-work-debug"
+    },
+    {
+      "name": "sqlite-migrations-debug",
+      "configurePreset": "sqlite-migrations-debug"
     }
   ],
   "testPresets": [
@@ -276,6 +291,16 @@
     {
       "name": "sqlite-work-debug",
       "configurePreset": "sqlite-work-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-migrations-debug",
+      "configurePreset": "sqlite-migrations-debug",
       "output": {
         "outputOnFailure": true
       },
