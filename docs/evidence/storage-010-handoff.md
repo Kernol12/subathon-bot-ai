@@ -59,3 +59,8 @@ Final completion metadata and actual CI attribution at f370eeb independently
 approved19e383b. Reviewer independently fetched the exacta1e3a89 run41300728417
 metadata/logs and preserved391 task graph/executable artifacts. No native suite
 was repeated. Latest publication-head CI/discussion/current-rule gates remain.
+
+PR30 merged normally as88e86c12b3c0e089461f1df2eb970ed0a4b05c68 at
+2026-11-01T11:18:59Z. Final6d35918 had all11 checks success, no reviewthreads,
+MERGEABLE/CLEAN and current normal rules satisfied. Main refreshed; next baseline
+STORAGETEST-011 separately claimed. Source023451 and valid reviews remain retained.

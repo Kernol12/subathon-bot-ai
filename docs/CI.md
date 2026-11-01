@@ -63,3 +63,10 @@ results and remaining gates. Source023451 is independently approved9216d8d; actu
 a1e3a89 passed new24/old25/probe1 with verified selected archives and exact
 registration. Latest-head CI still applies before merge; these49 cases do not
 establish product schemas/recovery/platform/provider release behavior.
+
+STORAGETEST-011 prepares `sqlite-migrations-debug`: old49 still execute automatically;
+a separate7-slot green existing-driver probe is mandatory before exact new22
+migration-case discovery. Those22 are explicit stubs/intentionalred, run only with
+manual run_migration_acceptance until STORAGE-011 implements and promotes them.
+[Baseline CI evidence](evidence/storagetest-011-ci.md) records actual local/Ubuntu
+results and pending gates. No driver/init/skip/zero-case error establishes red.

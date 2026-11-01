@@ -126,3 +126,12 @@ ordinary Ubuntu acceptance. [Implementation handoff](evidence/storage-010-handof
 records exact artifacts and retained reviewed/red baseline. Existing wire/provider/
 application schema boundaries remain unchanged: no domain repository adapter,
 migration, application bundle, recovery authorization or running server is supplied.
+
+[Migration catalog revision1](contracts/migration-catalog-v1.md) now defines strict
+internal identity/history/content/schema/UTF8, whole-prefix transactions and
+explicit-update caller boundaries. STORAGETEST-011 supplies22 independently reviewed
+Qt SQL cases/ten literal vectors, selected officialQt green7 diagnostic support
+and actual intended stub-red; [baseline](evidence/storagetest-011-handoff.md).
+The catalog/codec/runner remain explicit stubs until STORAGE-011 implementation.
+Existingwriter49/privateAPI/allowlist are unchanged; metadata DDL is not a domain
+store, application bundle, backup/update authorization or recovery mechanism.
