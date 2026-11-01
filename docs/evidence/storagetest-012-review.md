@@ -239,3 +239,106 @@ interface, test, fixture and contract blobs match claim `036fad8` exactly.
 Project391/render/diff checks pass. No new feature body ran; full test/harness
 approval remains pending actual compiled registration and required environment
 evidence, rather than inferred from this source inspection.
+
+## Full actual test, interface, fixture and shared-harness verdict
+
+Verdict: **approved actual baseline artifacts for intended feature red, subject to
+the separately required selected official-Qt green fixture proof before execution**.
+Both findings above are resolved. This approves no unobserved red, implemented
+retention, future amendment, platform result or future CI head. This reviewer ran
+zero of the sixteen new feature bodies.
+
+Reviewed actual root `27fea1db536b627812f3aed1f5c79ecebf3ab7f9`, normally
+merged into this worktree as `12ac17f8862c8dcfc3df1bbc485064b7ec798784`, including
+the prior actual corrections. Final feature source is
+`c0e54003802f63a6f0393250f3bcca58cea8ee04`: author
+`70d98ede33a87d1c5785e81978db1c76d30e2bab` / root `3064bef` only consumes
+the qWaitFor return and records a timeout diagnostic. It does not set done,
+manufacture a result, alter any method assertion or turn a setup failure into red.
+Environment `aaa1644771decdb722b1105d220bac5313d54c6e`, JSON
+`0f76fd2c1bb1766c46a47ddcd38f46c18d4704a8`, header55c82815, stub b27eb488
+and contract5b0ee84 remain the exact reviewed artifacts.
+
+All sixteen actual bodies and helpers were read against RC01–RC12 and the public
+error precision. In particular:
+
+- The independent fixture creates the exact literal schema/header/history with
+  the frozen digest, not a new UUT factory call in init. Deliberate dangling rows
+  use an explicitly FK-disabled independent fixture connection; the product writer
+  and required environment proof retain FK enforcement. SQL warnings, bad setup,
+  missing driver or failed fixture reads fail the suite instead of skipping it.
+- The manifest case checks factory identity/starts/version/SQL order/projection,
+  full independent payload and digest. Other cases exercise exact raw and owned
+  records, normalized present-empty versus missing, all twelve opaque full-range
+  spellings, distinct namespaces, binary context/link paths, reopen, immutable
+  duplicate/conflict, all optional-link presence changes and preserved old history.
+- Same-session staged configuration/context visibility, observer invisibility,
+  facade destruction without commit/rollback, immediate physical caller commit,
+  explicit caller refusal policy and abandoned whole-unit rollback are observed
+  separately. Domain refusal remains distinct from successful insertion.
+- Ordered pure input errors include each invalid option, invalid enum/reference,
+  null/oversized document and invalid link; valid foreign/stale/terminal capability
+  errors preserve their existing categories. Owned binary results are checked
+  after session and writer destruction. Terminal misuse preserves committed fact
+  while suppressing the normal work value.
+- Exact 4096/262144 defaults and 4/3 configured boundaries are literal, not a query
+  count calibrated from the implementation. Selected well-typed over-limit rows
+  cause synchronous known rollback; a literal 1048577-byte result after a proved
+  retain exhausts the shared result budget and removes the staged write.
+  Selected malformed rows, dangling links and malformed known targets abort;
+  unrelated corrupt data is not silently made a required global audit.
+- Known SQL failure and both physical acknowledgment-loss seams preserve outcome,
+  first error, no normal result, actual data/snapshot and fail-close distinctions.
+  The four externally asserted successful-retain flags prevent earlier failure
+  from satisfying a later-stage oracle. Existing low-level failure, busy, FIFO and
+  ownership acceptance remains unchanged rather than being duplicated here.
+
+The three environment bodies use only existing writer/Qt SQL and literal fixture
+data. They prove bound empty-BLOB/NULL/binary distinctions, all seven actual schema
+objects and SQL-NULL indexes, enabled FK/valid link/orphan rejection, selected empty
+and absent values, initial BOM/NUL/FF bytes, and invalid required/type/link rows.
+They deliberately do not assume Qt empty-buffer nullness; adapter normalization
+remains a feature assertion. The actual generated link command contains the old
+writer library and neither the new adapter nor migrations library.
+
+Actual shared CMake defines the vector path for both executables, links the feature
+target to the explicit stub and registers exactly sixteen separate processes with
+ordinary CTest results. Environment is a separate mandatory three-slot executable.
+Reviewed the entire resulting workflow: automatic selected-Qt builds, old25/24/24
+and migration-environment7 bodies remain required, the new environment3 runs before
+new-feature discovery, and exact compiled/CTest membership is guarded. New feature
+bodies run only through explicit workflow_dispatch/run_retained_acceptance with
+default false during this stub stage; any selected execution propagates real CTest
+failure. No WILL_FAIL, blanket continue-on-error or executed-failure suppression
+was added. Ordinary automatic feature acceptance still must be enabled when the
+later implementation passes. Existing action/archive pins and read-only permission
+scope remain unchanged.
+
+Actual independent reviewer checks at this candidate:
+
+| Command/check | Result |
+| --- | --- |
+| `cmake --preset sqlite-retained-debug` | Exit0 |
+| `cmake --build --preset sqlite-retained-debug --target server_sqlite_retained_context_acceptance server_sqlite_retained_context_environment -j2` | Exit0; eight AUTOMOC/compile/link steps, zero warnings; bodies not executed |
+| `ctest --preset sqlite-retained-debug --show-only=json-v1` plus both executables' `-functions` | Exit0; 95 configured entries; exact sixteen compiled/registered feature slots and three compiled environment slots |
+| `ctest --preset sqlite-retained-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose` | Exit0; three cases plus init/cleanup = five passed, zero failed/skipped; Qt6.12.0/hostSQLite3.54.0, GNU16.2.1 |
+| Independent Python contract-literal/schema/F/hashlib/vector check | Full 2000-byte hex/SHA0906f121…91f5e, seven object tuples and twelve exact vectors match, no UUT-derived expected value |
+| Git blob checks | Thirteen old core/source/interface/test/fixture/contract blobs match036fad8; six current header/stub/contract/test/environment/JSON blobs match their exact revisions above |
+| `ninja -C build/sqlite-retained-debug -t commands server_sqlite_retained_context_environment` inspected without execution | Environment link uses existing writer only |
+| `/tmp/subathon-actionlint-1.7.12/actionlint .github/workflows/sqlite-writer.yml` | Exit0 |
+| `python3 tools/check_project.py`; `python3 tools/progress.py render --check`; `git diff --check` | Exit0; 391 records/122 decisions, current snapshot |
+
+Only the new targets were built here, and only the green environment was run.
+Configured95 is not a full95 passing claim. Root's separate old78 run is reported
+by root; this reviewer did not repeat it absent an unchanged-code concern. The
+previous API-only official run at5e9a266 cannot prove the new environment fixture.
+At this verdict the new selected official-Qt environment run remains unobserved
+by this reviewer and is a required separate pre-red condition. Its actual head,
+runtime and logs must be checked rather than transferring the host3.54 result or
+older officialSQLite3.53.4 evidence. Root must integrate this actual approval before
+the first feature body runs and then preserve the raw intended-red result.
+
+No test body/skip/dependency/compile failure has been called red here. STORAGE-012
+production remains unimplemented; no caller/domain/evaluator/provider or release
+gate is completed by this test review. The previous documented scope and typed
+numeric-codec obligations remain intact.
