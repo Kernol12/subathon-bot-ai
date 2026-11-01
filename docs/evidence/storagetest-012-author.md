@@ -268,3 +268,12 @@ positive exact-bound tests remain unchanged. Frozen JSON/probe/API/stub/contract
 and all 16 names are unchanged; no new feature body ran. clang-format and
 `git diff --check` passed; root performs one build of the corrected target and
 the different reviewer must inspect this actual revision before approval.
+
+Root's corrected-candidate CMake build passed and discovered exact95/16/3 without
+executing new feature bodies. It reported one nodiscard warning: the feature run
+helper ignored qWaitFor's result. The helper now consumes that result and records
+an explicit timeout diagnostic while leaving done=false and every prior success/
+category assertion intact. It does not fabricate completion, invert a failure,
+skip a test or change a fixture. This bounded warning correction changes only
+the test helper and this note. clang-format/git diff --check passed; no feature
+body was executed and root retains corrected build/review responsibility.

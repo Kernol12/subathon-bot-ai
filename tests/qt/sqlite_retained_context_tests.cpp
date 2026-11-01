@@ -165,8 +165,8 @@ Run run(SqliteWriter &writer, std::function<QVariant(SqliteWorkSession)> body) {
             state->done = true;
         });
     state->admitted = admission == StorageError::none;
-    if (state->admitted)
-        QTest::qWaitFor([state] { return state->done; }, 5000);
+    if (state->admitted && !QTest::qWaitFor([state] { return state->done; }, 5000))
+        state->unexpected = "Timed out waiting for writer completion";
     return *state;
 }
 } // namespace
