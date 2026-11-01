@@ -182,3 +182,21 @@ pass, no newbodies executed; independent actualtestreview is running in
 storage011-review before rootred. Independent literal638/SHA baf9a94e verified
 without UUT. Root build completed, no root running command. Productiond91
 unchanged; implementer waiting for explicit reviewed-red authorization.
+
+## Reviewed Unicode red and authorized correction
+
+Actual additive testapprovalad4f54d integrated8c70e6e BEFORE root's selected2
+CTest run. Both fail for expected valid-U+FEFF invalid_manifest reason2; all
+init/cleanup and stored-fixture rawbytes guards pass,0skip/no crash/dependency
+failure. Source d91c7d/teste94befdc unchanged atred. Durable1482636 contains
+[regression handoff](storage-011-unicode-regression.md) and
+[raw red](storage-011-unicode-red-ctest.txt). Original22 stub-red not repeated.
+
+Implementer /root/debt_code_reviewer explicitly resumed in existing
+storage011-implementation, normalmerge1482636 then ONLY source/own evidence
+correction permitted; preserve every assertion/header/contract/vector/oldwriter.
+Accept new24/full78/green7/old49 and independentactualnewsource/configreview.
+Reviewer storage_work_code_reviewer completed testapproval clean and is available
+for actualnewsource review; no sourceapproval transfer. Root no running command,
+no PRyet/no ownerquestion. Next integrate correction, verify, publish focuseddraft
+PR and observe automaticselectedUbuntu new24 beforelatestheadnormalmerge.

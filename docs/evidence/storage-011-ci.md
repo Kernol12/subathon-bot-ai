@@ -35,3 +35,10 @@ QString::fromUtf8 strips that character, causing invalid_manifest rejection.
 No approval, Ubuntu result or implementation completion follows from local green.
 Focused separately authored/reviewed Unicode regressions and an intended red
 against this source precede correction. Original reviewed baseline remains intact.
+
+Focused two-case regression234c2ec/teste94befdc was actually approvedad4f54d
+(root8c70e6e) before root observedexit8 on both bodies againstd91. Fixture/raw
+guards/initcleanup passed,0skip. [Regression evidence](storage-011-unicode-regression.md),
+[raw red](storage-011-unicode-red-ctest.txt). Root harness8534118 registers both;
+compiled24 and total78 exactly match. Dynamic workflow discovery guards include
+the new cases automatically. Source correction/different review/Ubuntu pending.
