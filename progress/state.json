@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T11:13:46+00:00",
+  "updated_at": "2026-11-01T11:20:33+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4419,8 +4419,8 @@
       "title": "Review and demonstrate red: Version catalog and transactional migration harness",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; contract/test author /root/writer_transaction_reviewer; reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-010"
       ],
@@ -4432,7 +4432,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-011.md",
       "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-011.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from refreshed main88e86c1 after PR30 merged final6d35918 all11 checks/no threads/normal rules. Preserve completed writer/work source023451 and original reviewed49 cases. Scope versioned internal catalog/migration contract/examples first, then minimal interface/stub/real disposable SQLite tests, different actual review and new intended missing-behavior red. No STORAGE-011 implementation before baseline. Author initially owns ONLY new docs/contracts/migration-catalog-v1.md + author evidence; root owns shared schemas/order/build/presets/workflow/state/HTML/checkpoint. OPS-02 explicit updates, backup/compatibility preconditions and no unattended active-event upgrade remain product gates; no real backup/adapter/application schema is inferred. Existing generic SQL allowlist stays unchanged; proposed integrity/migration capabilities need additive reviewed contract."
       ],
       "verification": {},
       "evidence": [],
@@ -11581,6 +11582,11 @@
       "date": "2026-11-01T11:13:46+00:00",
       "task": "STORAGE-010",
       "note": "Source023451/ad66ded integrated2aa14cd independently approved9216d8d (root17adb35), unchanged new24/old25/header/hook/contracts. Author/root/reviewer real full53 pass; actual automatic Ubuntu41300728417 at PR30 a1e3a89 passed selected hashes/GNU13.3/probe1/exact49 registration/realold25+new24, all11checks there success. Internal mechanism done; final metadata/CI attribution review/latesthead/discussions/current rules remain publication gates. No domain schema/real adapter/application bundle/recovery/power-loss/provider/platform upgrade. Original reviewed/red evidence retained."
+    },
+    {
+      "date": "2026-11-01T11:20:33+00:00",
+      "task": "STORAGETEST-011",
+      "note": "Claim from refreshed main88e86c1 after PR30 merged final6d35918 all11 checks/no threads/normal rules. Preserve completed writer/work source023451 and original reviewed49 cases. Scope versioned internal catalog/migration contract/examples first, then minimal interface/stub/real disposable SQLite tests, different actual review and new intended missing-behavior red. No STORAGE-011 implementation before baseline. Author initially owns ONLY new docs/contracts/migration-catalog-v1.md + author evidence; root owns shared schemas/order/build/presets/workflow/state/HTML/checkpoint. OPS-02 explicit updates, backup/compatibility preconditions and no unattended active-event upgrade remain product gates; no real backup/adapter/application schema is inferred. Existing generic SQL allowlist stays unchanged; proposed integrity/migration capabilities need additive reviewed contract."
     }
   ]
 }

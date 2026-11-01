@@ -1,7 +1,7 @@
-# Coordinator checkpoint — STORAGE-010 active
+# Coordinator checkpoint — STORAGETEST-011 active
 
 Coordinator `/root`, 2026-11-01. Standing full specification v0.45 loop continues.
-Last observed main `c60e1ed3f4d5cec3c76686199dbca135e38bc3c2`; inspect live state
+Last observed main `88e86c12b3c0e089461f1df2eb970ed0a4b05c68`; inspect live state
 on resume. No owner decision/access question is pending. Full product is incomplete.
 
 ## Preserved integrated evidence
@@ -84,55 +84,42 @@ All seven integrations/three rate providers, app/accounting, renderers, UI/local
 themes, packaging/platform and live/OBS gates remain full release scope. No percentage
 or completed product claim is made. Old branches/reviews/archives remain preserved.
 
-## Integrated baseline and current implementation publication
+## Latest integrated mechanism and active migration baseline
 
-PR29 merged c60e1ed at2026-11-01T10:55:19Z after final b9216ad all11 checks/no
-threads/normal rules; postmerge main all10 checks succeeded. Actual baseline
-new24 eb9e3b6/header afc9f483/hook a2cd7b89/contracts4ba20506+4d280461 remain
-unchanged. Separate approval96c1481 integrated75c07fc BEFORE genuine24 stub-red
-(exit8/no skips), final879a04d retained. [Baseline](storagetest-010-handoff.md).
-No repeated red or inferred implementation from baseline completion.
+PR29 mergedc60e1ed with reviewed49 foundations and new24 original stub-red retained.
+PR30 STORAGE-010 merged88e86c1 at2026-11-01T11:18:59Z after final6d35918 all11
+checks/no threads/normal rules. Sourcead66ded/blob023451, different sourceapproval
+9216d8d and finalmetadata19e383b remain valid. Author/root/reviewer full53 pass;
+actualUbuntu41300728417 at a1e3a89 passed hashes/GNU13.3/probe1/exact25+24 discovery/
+unconditionalreal49. [Implementation](storage-010-handoff.md), [review](storage-010-code-review.md),
+[CI](storage-010-ci.md). No real domainadapter/schema/backup/recovery/platform claim.
+Old implementation/reviewer worktrees finished clean; preserve branches/reviews.
 
-STORAGE-010 is done for its bounded internal mechanism on
-`task/STORAGE-010-writer-work`, claim368c6bb from refreshed mainc60e1ed.
-[PR30](https://github.com/Kernol12/subathon-bot-ai/pull/30) is draft; last observed
-published a1e3a89 all11 checks succeeded. Later heads need fresh CI. No owner
-question. Main is not assumed to include this unmerged task.
+STORAGETEST-011 is claimed from refreshedmain88e86c1 on
+`task/STORAGETEST-011-migration-catalog`. Initially contract/examples only, before
+actual test authoring/stubs. Author `/root/writer_transaction_reviewer` is explicitly
+reassigned from completed CONTRACT004/STORAGETEST010 review to new isolated
+`local-evidence/worktrees/storagetest011-author`, branch
+`task/STORAGETEST-011-author`. Owns ONLY docs/contracts/migration-catalog-v1.md
+and docs/evidence/storagetest-011-author.md at this stage. No C++/schema edits yet.
+Different `/root/storage_work_code_reviewer` will independently review actual
+contract then authored tests in `local-evidence/worktrees/storagetest011-review`,
+branch `task/STORAGETEST-011-review`; no future approval is assumed.
 
-Implementer `/root/debt_code_reviewer`, explicitly reassigned from completed
-CORE-005 review, finished sourcead66ded/blob023451 and evidence5025715, integrated
-2aa14cd/3ed2362. Worktree `local-evidence/worktrees/storage010-implementation`,
-branch `task/STORAGE-010-implementation`, clean/completed. Owns only source and
-implementation evidence. Root owns shared CMake/presets/workflow/map/state/HTML/
-checkpoint and PR. Shared ce0a325 retires baseline stub, keeps historical review
-through immutable c60e1ed/b47f link and makes unchanged new24 ordinary automatic.
+Root owns shared schemas/migration ordering/build/presets/workflow/map/state/HTML/
+checkpoint/PR. Next: define bounded catalog identity/version refusal, atomic
+migration failure/interruption, actual integrity proof, supported prior fixtures
+and narrowly scoped writer-only admin diagnostics without silently widening old
+SQL allowlist. Contract must preserve OPS02 explicit initiated update/no unattended
+active-event upgrade/backup+compatibility preconditions. Future application/update/
+backup workflow remains separate; no invented backup proof or final domain schema.
 
-Different `/root/storage_work_code_reviewer` independently approved actual
-source023451/sharedce0a325 in9216d8d, integrated17adb35. Isolated
-`local-evidence/worktrees/storage010-review`, branch `task/STORAGE-010-review`,
-clean/completed after initial code approval; resume explicitly for final integration.
-No sourcefinding or assertion/interface/contract change. Immutable7 artifacts
-confirmed against merged baseline. One private connection/state generation, real
-synchronous commit, known rollback/unknown-outcome precedence, revocable weak
-capabilities, cumulative SQL budgets, mixed FIFO/active capacity and safe completion
-were inspected. Fault seam lies below actual successful physical control.
-
-Author/root/reviewer configure/build/full53 all pass (new24+old25+scaffold4). Actual
-Ubuntu41300728417 at a1e3a89 passed Qt/ICUhashes/GNU13.3/probe1/exact25+24 discovery/
-unconditionalreal25+24 acceptance; all11 checks there succeed. [Implementation](storage-010-handoff.md),
-[source review](storage-010-code-review.md), [CI](storage-010-ci.md) pin commands,
-artifacts and limits. Default fixtures are disposable/synthetic, no live side effects.
-
-Final completionmetadata/actualCI attribution at f370eeb independently approved
-19e383b. Root observed all11 f370 checks successful after the reviewer’s earlier
-pending-check snapshot. Next: publish final approval, require all latest-head checks,
-resolved threads/currentnormalrules before normal PR30 merge. Refresh main, then
-claim dependency-ready STORAGETEST-011 with versioned contract/examples, actual
-separate test review and genuine new missing-behavior red. Do not repeat completed
-baselines or infer product schema/real adapters from this mechanism.
-
-No root command remains running or uncommitted work after checkpoint commit.
-Old author/reviewer branches/reviews/absenttmp refs remain preserved. Inspect actual
-agents/processes/worktrees/GitHub on resume. Full migrations/config/receipts/
-contributions/plans/application bundle/recovery, all seven integrations/three rate
-providers, both renderers/UI/locales/themes/platform/packaging/live gates remain.
+After actual contract review, authorize minimal interface/stubs and focused QtSQL
+cases, separately review their actual revision, THEN observe genuine missing-behavior
+red after successful compile. Preserve all existing49 assertions and valid reviews;
+STORAGE-011 production waits for this gate. Current author/reviewer need explicit
+assignment/resume; inspect actual agents/processes/worktrees/GitHub on resumption.
+No owner question or running root command; root clean after this checkpoint commit.
+Historical absenttmp refs/metadata remain preserved. Full product is incomplete,
+including all seven integrations/three rate providers and UI/renderers/locales/
+themes/platform/packaging/live/recovery/application bundle requirements.
