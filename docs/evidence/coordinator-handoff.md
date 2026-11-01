@@ -42,7 +42,7 @@ freshmain1259cfb. Documentation-only boundary before writer/repository adapters.
   Authorf68fd54/contract4ba20506 integrated8acbc0a; author is clean/complete.
 - `/root/writer_transaction_reviewer` completed independent review of actual8acbc0a in isolated
   `local-evidence/worktrees/contract004-review`, branch `task/CONTRACT-004-review`.
-  Actualcontract/graphapproval27ac83b; finalmetadata review next.
+  Actualcontract/graphapproval27ac83b; finalmetadata approvald87b961 atd6be1d1.
 - Root owns task briefs, proposed ADR0002/storage graph, state/HTML/checkpoint,
   architecture/PR integration. No source/header/schema/test/workflow change in this task.
 
@@ -69,10 +69,10 @@ application bundle scope remains mandatory through package prerequisites.
 Python tooling19/DOM/project/currentHTML/diff pass. Initial structured subsection
 references were corrected to known section IDs; no schema/tool gate was weakened.
 
-Contract/ADR/brief/graphapproved27ac83b; actualPR28head6136e10 all11checks success.
-Next: final completionmetadata/CI attribution review, publish exactapproval and
-require all latest checks/discussions/currentnormalrules before
-merge. No implementation or feature test/red claim belongs to CONTRACT004. Then
+Contract/ADR/brief/graphapproved27ac83b; finalmetadata approvedd87b961 atd6be1d1.
+ActualPR28headca5f7a8 had all11checks success; those are not transferred to later heads.
+Next: publish integrated finalapproval and require all latest checks/discussions/
+currentnormalrules before merge. No implementation or feature test/red claim belongs to CONTRACT004. Then
 start STORAGETEST010 from integrated contract with its own actual test review/red gate.
 Full uint64 IDs/revisions, original money/rate spellings, optional unknown values and
 arbitrary rational fields must not silently narrow to SQLite signed64/REAL in later

@@ -56,3 +56,7 @@ all11checks successful. Those unchanged executable suites validate regressions a
 metadata; they do not prove a new transaction mechanism. Contract004 is done for
 documentation/planning only, ADR0002 accepted on that basis. Final completionmetadata
 review, latest-head CI/discussions/currentnormalrules remain publication gates.
+
+Final metadata at d6be1d1 independently approved in d87b961; actual contract,
+future briefs and dependency lists remain unchanged. Final latest-head publication,
+CI and normal merge gates follow; earlier ca5f7a8 success is not a later-head result.
