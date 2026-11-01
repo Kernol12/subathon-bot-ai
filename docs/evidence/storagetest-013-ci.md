@@ -72,3 +72,16 @@ init/cleanup/0skip. Captures use storagetest013-revised-* under the same ignored
 coordinator directory. No feature body/red was run. Actual full re-review and
 selected official new-fixture proof remain pending; no prior API-only CI result
 is relabeled as the new fixture proof.
+
+
+## Actual full review before selected fixture publication
+
+Final strict-type913354a/root8630e74 and safe worker diagnostic183c908/root8dfaf22
+produce testdab97946. Root rebuilt it without warnings and rediscovered exact118/
+22. Different actual full approval7df446e, integratedb1c77e1, covers finaldab,
+green818/JSONa79/frozen interfaces/contracts and shared harness. All oracle and
+diagnostic findings are resolved. Reviewer independently compiled/discovered final
+artifacts; prior green5/stable96 inputs are unchanged. No feature body/red has run.
+Root now publishes the approved full candidate for required actual selected NEW
+fixture green3 and22discovery. Its actual run/result must be recorded before the
+first intended feature red; earlier API-only success cannot replace this proof.

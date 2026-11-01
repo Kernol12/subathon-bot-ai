@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-013 full test review
+# Coordinator checkpoint — STORAGETEST-013 selected CI gate
 
 Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
 loop under AGENTS.md and COORDINATOR_PROMPT.md. No owner decision/access is needed.
@@ -38,7 +38,8 @@ STORAGETEST-013, dependency-ready from STORAGE-012/ACCT-001 integrated on main.
 Root branch `task/STORAGETEST-013-receipt-repository`, root worktree repository cwd.
 [Draft PR35](https://github.com/Kernol12/subathon-bot-ai/pull/35), latest published
 head observed `a152a82ed66413c73e99a5fbe443eabdaf569528`, all eleven checks SUCCESS.
-Root later integrated actual API approval16b15e9 and stage checkpoint7ab7429;
+Root later integrated actual API approval16b15e9, all test revisions and full
+review7df446e/rootb1c77e1; publishing the approved full candidate now.
 these and subsequent local commits may not yet be pushed. Inspect actual heads.
 Task now in_review; STORAGE-013 implementation remains planned.
 
@@ -171,3 +172,20 @@ All seven integrations, three FX providers, application bundles/effects/jobs,
 backup/update/recovery, both renderers/UI/locales/themes, packaging, platform/live/
 OBS verification remain required. No credentials/supporter data/live chat/payment/
 deployment side effect. No owner question or access request is pending.
+
+
+## Current authoritative final gate
+
+Final strict-type patch913354a/root8630e74 and worker diagnostic183c908/root8dfaf22
+produce testdab97946568e09f15119a8995735539eb2e14c4d. It rebuilds without warnings;
+final118/exact22 discovery passes. Green818/JSONa79/APIb43/stubfaf/logicale1/
+physical2ef/CMakeff3/workflowfeb remain unchanged. The different reviewer read and
+approved ALL actual artifacts in7df446e, integratedb1c77e1; all findings resolved.
+Reviewer final compile/discovery passed; prior green5/stable96 inputs are unchanged.
+No feature body/red has run. Authors/reviewer completed clean, no native command
+pending. Root is publishing this candidate for actual selected official-Qt NEW
+fixture green3/current818 and22discovery proof. Existing API-only CI cannot satisfy
+that gate. After actual success and invariant/approval ancestry checks, root runs
+FIRST intended receipt feature red, records raw results, then completion metadata/
+final review/latest-head CI/discussion/rules checks before normal PR35 merge.
+No owner action/access is needed; STORAGE-013 source remains unimplemented.
