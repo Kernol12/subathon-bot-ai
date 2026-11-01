@@ -358,3 +358,61 @@ STORAGETEST-011 completion metadata/publication and STORAGE-011 implementation,
 code review, passing unchanged acceptance and automatic execution remain later
 gates. No domain schema, update/backup authority, recovery, power-loss, provider
 or release-platform capability is approved.
+
+## Final baseline completion, recorded red and CI attribution
+
+The same reviewer normally merged and inspected actual completion candidate
+`bd81512642b4bf495edcbbe43635ea01eea7dfd1` on 2026-11-01. Its executable,
+fixture, contract and build/workflow paths are byte-identical to approved
+`4fa008f`; the exact artifact table above remains current. Full approval
+`01f0975` is integrated as `cb3c1b25e1617ed3b88ed42d2a895cc7b4231754`, an ancestor
+of the completion candidate and the recorded run revision. No native suite or
+original red was rerun during this final review.
+
+The actual [recorded red output](storagetest-011-red-ctest.txt), blob
+`e87777a77eb8e25830baa00a0eb01c7f0dd045bc`, records root's
+`ctest --preset sqlite-migrations-debug -L sqlite-migrations` at `cb3c1b2`, after
+integration of full approval and the selected-Qt prerequisite. The independent
+parser matched exactly22 unique failure names to registered cases. Every process
+has successful init/cleanup, exactly one expected missing-feature failure, zero
+skips and no crash/setup/dependency/compilation failure: two named codec-stub
+failures,15 named admission-stub failures and five admission comparisons against
+the explicit feature_not_implemented enum value1. Actual exit8 and revision are
+retained. This establishes the intended missing-boundary red; it does not establish
+successful execution of the migration scenarios behind those stubs.
+
+The reviewer independently fetched `gh run view 41307014192 --json ...` and its
+actual logs, then parsed the fixed proof points. The corrected
+[official-Qt run](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41307014192)
+is a successful pull_request run at exact
+`4fa008fcecd20d8784de04436fde2c3fd67c9066`. Logs establish both archive SHA256
+checks OK, GNU13.3.0, actual old25 and work24 passing bodies, the exact seven-slot
+environment guard, Qt6.12.0/SQLite3.53.4 and9 Qt passes including init/cleanup with
+zero failures/skips. Exact22 compiled migration discovery follows; the new bodies
+are explicitly not run, and run metadata marks their manual step skipped. This
+fulfills the selected-driver prerequisite independently of missing migration code.
+The separate host SQLite3.54.0 results are not transferred to this bundled runtime.
+An exact-commit check-runs query confirms all11 checks succeeded at `4fa008f`.
+
+State, acceptance map, architecture, strategy, CI assessment, handoff and checkpoint
+were inspected. All391 task identities/dependencies are unchanged; only the
+STORAGETEST-011 task data changed. Its done status means reviewed tests plus genuine
+observed red; product acceptance remains observed_red and STORAGE-011 remains
+unimplemented. Historical findings/approvals and all49 existing writer assertions
+remain intact. Publication and implementation/code-review/passing acceptance/
+automatic-execution gates are still explicit, as are the full downstream product,
+update/backup/recovery/provider/platform requirements.
+
+Independent project consistency, progress render-check, whitespace, exact-artifact
+and task/dependency checks passed. A live
+[PR31](https://github.com/Kernol12/subathon-bot-ai/pull/31) query observed OPEN/DRAFT
+at `bd81512`, MERGEABLE with no GitHub reviews and its latest SQLite check then
+IN_PROGRESS. Prior successful checks are correctly attributed to `4fa008f`, not
+claimed for this later head.
+
+**Final verdict: approved actual STORAGETEST-011 baseline completion, recorded red
+and CI attribution at `bd81512`.** No blocking finding or owner decision remains.
+Publish this review, observe all applicable checks for the exact final PR head,
+resolve discussions and satisfy current rules/normal merge gates. No merge or
+migration implementation is assumed, and the original red must not be repeated as
+a new preparation stage.
