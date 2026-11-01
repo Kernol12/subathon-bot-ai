@@ -1,19 +1,20 @@
-# Coordinator checkpoint — STORAGE-013 component complete, merge gates pending
+# Coordinator checkpoint — STORAGETEST-014 contract claim
 
-Coordinator `/root`, 2026-11-01. Continue the full specification v0.45 standing
-loop under AGENTS.md/COORDINATOR_PROMPT.md. No owner decision/access is needed.
-Full product remains incomplete. Inspect actual worktrees/files/agents/processes
-and GitHub before resuming; no background liveness is implied.
+Coordinator `/root`, 2026-11-01. Continue full specification v0.45 under AGENTS.md/
+COORDINATOR_PROMPT.md. No owner decision/access is needed; product remains
+incomplete. Inspect actual files/worktrees/agents/processes/GitHub before resuming;
+this document never implies automatic background execution.
 
-## Actual main and preserved integrated work
+## Actual integrated main and completed gates
 
-Last refreshed main `a97e048b198a2293b58a25bd09d92518e95b0da5` includes PR35,
-merged2026-11-01T18:16:21Z. Exact final8a66a3a had all11 SUCCESS, full7df446e
-and final metadata81ad4ca reviews, no threads/current normal rules/0 GitHub approvals;
-normal exact-head merge. All ten postmerge main workflows actually succeeded,
-including writer41335754108. Root claim followed actual integration, not task labels.
+Fresh main `e331714e0a03aae0a7c908721f92ea19a1756f62` includes actual PR36 merge
+2026-11-01T18:55:47Z. Exact final4fc0824 all11 SUCCESS, source/config84e2045 and
+final metadata/CI-attributiond6ce21c approvals, no threads/current normal rules/
+0 GitHub approvals, ready/MERGEABLE/CLEAN. Normal exact-head merge, no bypass/
+force/deletion, then fetch/main refresh. Observe actual postmerge workflows before
+claiming their result. No other open PR was observed before the new branch claim.
 
-| Recent task | Merged PR | Evidence |
+| Recent completed task | Merged PR | Evidence |
 | --- | --- | --- |
 | CORE-005 | [27](https://github.com/Kernol12/subathon-bot-ai/pull/27) | [Handoff](core-005-handoff.md) |
 | CONTRACT-004 | [28](https://github.com/Kernol12/subathon-bot-ai/pull/28) | [Handoff](contract-004-handoff.md) |
@@ -24,104 +25,104 @@ including writer41335754108. Root claim followed actual integration, not task la
 | STORAGETEST-012 | [33](https://github.com/Kernol12/subathon-bot-ai/pull/33) | [Handoff](storagetest-012-handoff.md) |
 | STORAGE-012 | [34](https://github.com/Kernol12/subathon-bot-ai/pull/34) | [Handoff](storage-012-handoff.md) |
 | STORAGETEST-013 | [35](https://github.com/Kernol12/subathon-bot-ai/pull/35) | [Handoff](storagetest-013-handoff.md) |
+| STORAGE-013 | [36](https://github.com/Kernol12/subathon-bot-ai/pull/36) | [Handoff](storage-013-handoff.md) |
 
-Preserve all old contracts/reviews/original reds/refs/local-only checkpoints and
-completed worktrees. Never repeat completed stub reds, including migration22+
-U+FEFF2, retention16 and receipt22. Current passing implementation checks followed
-actual new source. No baseline assertions or old implementations were changed.
+Preserve every valid historical contract/review/red/ref and completed worktree.
+No original red may be repeated, including migration22+U+FEFF2, retention16,
+receipt22. Existing writer0234519/migration4ee2365/retentionc96dae9 and new receipt
+af095d97c255182c79d00a4b574e124f75734aad are passing bounded mechanisms, not a
+running server/full application/provider/platform release.
 
-## Current component, actual publication and gates
+Receipt baseline full7df/rootb1 preceded actual selected fixture41334070282 at
+5ffe2e4, then first22 explicitstub-red/22init+22cleanup/0skip/0.22s. Source13
+changed actual cpp after this completed gate; author/root/reviewer22/full118 pass,
+actual separate source/config84/root39 plus automatic officialQt41337727868 at
+af65401 pins/GNU13.3/Qt6.12SQLite3.53.4/old89/green7+3+3/UNCONDITIONAL22PASS0.61s.
+Final4fc writer41338942002/all11 pass before merge. Original raw red and all source/
+fixture/metadata review chronology remain linked in handoffs. No proof is relabeled.
 
-Root branch task/STORAGE-013-receipt-repository. [Draft PR36](https://github.com/Kernol12/subathon-bot-ai/pull/36),
-actual published headaf6540171a09ccc7d6fe68abd6a218794a2687de. All11 checks at
-that exact head SUCCESS. Actual component source/config review and official
-unconditional receipt CI passed. Completion metadata is committed e5128ad; its latest-head CI was pending at
-publication. Final metadata/CI-attribution review is active; normal merge gates
-remain, with actual current checks to be inspected.
-STORAGE-013 is done as a bounded component, not yet integrated. No dependent task
-may start production/baseline writing until this PR actually merges/fresh main.
+## Current executable task and planned ownership
 
-[Handoff](storage-013-handoff.md), [implementation](storage-013-implementation.md),
-[code/config review](storage-013-code-review.md), [CI](storage-013-ci.md),
-[brief](../tasks/EPIC-009/STORAGE-013.md), [contract](../contracts/sqlite-receipts-v1.md),
-[physical schema](../contracts/sqlite-receipts-schema-v1.md).
+STORAGETEST-014 is unclaimed/dependency-ready on integrated main: STORAGE-013 and
+ACCT-002 are done. Root created dedicated branch
+`task/STORAGETEST-014-contribution-repository` from actual e331714 BEFORE claim
+edits. [Brief](../tasks/EPIC-009/STORAGE-014.md),
+[existing contract](../contracts/contribution-eligibility-v1.md),
+[actual ports](../../server/include/subathon/server/contribution_evidence.hpp),
+[core values](../../core/include/subathon/core/contribution.hpp),
+[service](../../server/src/contribution_evidence.cpp).
+Task is now claimed/in_progress; STORAGE-014 production remains planned.
 
-Actual source d815b928/root458546e, blobaf095d97c255182c79d00a4b574e124f75734aad;
-author evidence1304280/rootf8a13ae. Only owned cpp changed. Actual different
-source/config approval84e2045/root39e3177 covers this source, exact
-manifest/unsigned codec/strict row+target semantics, exception/pending allocation
-and capability/uncertainty behavior beyond assertions, plus committed promotion9098eca.
-No unresolved source/config finding. Native author/root/reviewer22/full118 pass;
-root full1182.56s, reviewer fresh56buildsteps/0warnings/receipt22.38s/full1182.56s.
+Initial stage ONLY a versioned SQLite contribution/evidence contract/examples and
+own author evidence. No new C++/API/stub/Qtcase/JSON/schema-source/implementation
+or feature/red body before the actual different contract/API/test gates.
+Root owns exact additive global migration3/schema/order/immutableprefix1+2 and all
+shared build/preset/CI/state/map/HTML/checkpoint. Do not invent a domain wire or
+provider capability; original21 pure/fake service cases remain simulation, not SQL.
 
-Root9098eca removes manual receipt input/if and draft labels/descriptions, retains
-all22 names/assertions/green3 guards/pins/permissions/old lanes, runs22 unconditionally.
-Exact current config: rootCMakea52b81fb1716252f12f3938c5058394133203c84,
-presets6126906eb93707ca0265d591a41ae326a8c3c237,
-QtCMake559292247747fba8d090b209f39469012c198662,
-workflowfa26cdbe41febf6c07ca8fb18aafa344f2b181c8.
+After this claim commit root will create NEW clean trees and explicitly assign:
 
-Actual automatic run41337727868 ataf65401, event pull_request, SUCCESS:
-root read metadata/full logs; both archive hashes OK, GNU13.3/Qt6.12/SQLite3.53.4,
-new source/targets compiled, old25/work24/migration24/retention16 and green7+3+3
-pass, exact22 discovery and actual UNCONDITIONAL receipt22 PASS in0.61s. The
-receipt runtime step succeeded without input/if, not fixture-only proof. All11
-checks ataf65401 SUCCESS. Cached actual metadata/logs are ignored under
-local-evidence/coordinator/storage013-ci-af65401.*. Host SQLite3.54/GNU16.2.1
-is distinguished from CI bundled3.53.4/GNU13.3. No future-head approval is assumed.
+- Author /root/writer_transaction_reviewer: expected
+  local-evidence/worktrees/storagetest014-author, task/STORAGETEST-014-author.
+  ONLY NEW docs/contracts/sqlite-contributions-v1.md and
+  NEW docs/evidence/storagetest-014-author.md initially.
+- Different reviewer /root/storage_work_code_reviewer: expected
+  local-evidence/worktrees/storagetest014-review, task/STORAGETEST-014-review.
+  ONLY future NEW docs/evidence/storagetest-014-review.md; preparation read-only,
+  approval must inspect the actual authored revision/physical proposal.
 
-Frozen APIb43f9b6026498af18df22c2f695e76b23cb4064a,
-testdab97946568e09f15119a8995735539eb2e14c4d,
-green8189f0274a38bb840c612673e0f858fe8d1777eb,
-JSONa79e5e71a3b9ca101441852c7fb7f26f735e9626,
-logicale1ed975875e8b62d77d8efff67cfe5e8d5c95038,
-physical2ef4f1384c5c95c1bef5728b095ff5f4e7877e6a and old writer0234519/
-migration4ee2365/retentionc96dae9 remain unchanged. Original sourcefaf was the
-historical four-body stub, now replaced only by approved af095 implementation.
-The [baseline handoff](storagetest-013-handoff.md) preserves actual full review,
-selected fixture proof before first red, raw22fail/22init+22cleanup/0skip/0.22s at
-5ffe2e4. No original red was repeated or relabeled as passing product behavior.
+These new trees/assignments are planned at this checkpoint; inspect actual creation
+before assuming they exist/run. Previous source/baseline agents completed clean;
+do not blindly resume their old tasks. Root may assign a separate read-only
+feasibility/helper role later, with no authoring authority before the proper gate.
 
-## Ownership, process state and next action
+## Actual preliminary compatibility findings
 
-Implementer /root/debt_code_reviewer completed clean in
-local-evidence/worktrees/storage013-implementation, task/STORAGE-013-implementation.
-Different /root/storage_work_code_reviewer completed actual source/config review
-clean in local-evidence/worktrees/storage013-review, task/STORAGE-013-review.
-Root owns shared schema/order/build/CI/state/map/HTML/checkpoint. The different
-reviewer has explicitly resumed for ONLY completion metadata/actual-CI attribution
-review of committed e5128ad and concrete wording corrections. No source/test/native/red rerun is needed for metadata. Do not
-assume these completed agents still run; inspect actual state before assignment.
+Current searches found NO ContributionId0 rejection: core PlanEvent stores an
+optional ContributionId; validate_capture rejects ReceiptId0 only, and contribution
+service has no ContributionId-zero rule. The old fake's allocation start1 is not a
+domain rule. Proposed full ContributionId0..MAX with nullable allocator absence/
+first0 must receive actual review; if an agreed nonzero constraint is found,
+reconcile it explicitly. ReceiptId remains1..MAX under the established contract.
+Never treat present ContributionId0 as missing/unlinked; std::optional provides
+absence. Typed field/SQL full-range proof remains a new required gate even though
+the existing pure receipt uint64 codec is lossless.
 
-Root completion edits affect state/HTML, DB01partial map, architecture/test strategy,
-brief/CI/handoff/checkpoint only. Run appropriate tooling/project/render/DOM/format/
-actionlint/diff checks, commit, obtain actual final metadata review, push/observe
-latest-head all11CI. Recheck fresh main/current protections/required approvals/
-resolved discussions/normal mergeability; ready PR36 and merge exact reviewed head
-normally only after all gates pass. Then refresh main and claim next dependency-
-ready executable task, likely STORAGETEST-014 contribution/evidence SQL baseline.
-Read its actual brief/core contracts/zero policy and separate schema/API/test gates;
-do not infer provider behavior or reuse the old receipt-zero proposal.
+Persist independent evidence/conditions/valuation/review/application/reversal/
+settlement and immutable first support/observation provenance. Existing service
+owns dedup/link/promotion, not the store. Confirmation may link/update evidence
+without replacing original support/conditions or inventing financial certainty.
+ContributionValuation has monetary/original_money/resolution_ref/missing_rate,
+not actual fetched/effective rates; keep actual HistoricalValuation rate/source/
+time proof downstream015, with a written scope reconciliation if needed.
 
-Last full audit:60 old existing worktrees clean plus2 created source/reviewer trees
-makes62;16 historical absent/prunable /tmp refs preserved, no pruning/discard.
-All root native source checks completed; actual source/review worktrees clean.
-Inspect new uncommitted edits/agents/commands on resume. Latest protections26170263:
-PR/resolved threads,0 GitHub approvals,no bypass/force/delete,no required-status-
-check rule. Written latest-head CI and independent reviews remain mandatory;
-repository evidence cannot substitute for any required GitHub approval.
+A VerifiedActivityLink/nonempty proof string is not authorization/provider proof.
+Semantic policy/decision/actor/valuation/verification references are trusted existing
+preconditions unless an actual retained namespace/format contract defines more;
+do not invent a FK meaning or claim unknown source fields are verified. Required
+arrival config/context still resolves through actual stored receipts/retention.
+The caller requires a real committed immutable receipt projection. Same-session
+visibility alone is not proof of prior commit; pin constructor/adoption validation
+and error boundaries honestly without new private writer state or false guarantees.
 
-## Remaining scope and constraints
+## Next concrete action and remaining scope
 
-This implements one controlled-writer receipt repository, not a running server,
-contribution/plan/effect/job/application bundle. Pure codec0..MAX and persisted
-ReceiptId1..MAX preserve the reviewed plan-zero rule. Immutable manifest1+exact2,
-13objects/10535payload/SHA24614f68..., no new writer/private API/dependency.
-No classification moved from ReceiptIntake, rate field/provider capability invented,
-context-link equality inferred or actual malformed state silently repaired.
-No OOM/power-loss/platform proof is invented; ordinalMAX guards are code-reviewed
-mathematically. All actual ContributionId/plan codecs, lossless rates/source/time,
-semantic config/evaluation/bundles, backup/update/recovery, seven integrations/
-three FX providers, both renderers/UI/locales/themes/packaging/platform/live/OBS
-remain required. No credentials/supporter data/live operation or owner access/
-decision is involved.
+Commit claim and create/assign new trees. Author reads all actual contracts/core/
+service/21 cases, writes bounded examples/zero policy/projection/state/link/atomic/
+error/lifetime/bounds contract. Root accepts exact physical migration3 only after
+an actual proposal. Different actual contract review precedes minimal interfaces/
+stubs; later actual test/fixture/harness review +successful compilation +selected
+Qt green setup precede first intended red. STORAGE-014 source waits that integrated
+baseline. Preserve prior passing118/source/interfaces/assertions and immutable
+manifest1/2, including full step2 payload10535/SHA24614f68... without regeneration.
+
+Last full audit before source13 claim:62 existing worktrees clean,16 absent/prunable
+historical refs preserved; no other open PR. Root current claim edits are state/
+HTML/brief/prior-source merge outcome/checkpoint only. No new native process/red
+command has started; inspect actual processes/files on resume. Never prune/discard.
+Latest ruleset26170263 PR/resolvedthreads/0 GitHubapprovals/no bypass/force/delete,
+no required-status-check rule; written latest-head CI and separate reviews mandatory.
+All seven integrations/three FX providers, downstream codecs/rates/app bundles/
+effects/jobs, semantic config/evaluation, backup/update/recovery/power-loss,
+renderers/UI/locales/themes/packaging/platform/live/OBS remain required. No owner
+question/access, credentials/supporter data or live side effect is involved.

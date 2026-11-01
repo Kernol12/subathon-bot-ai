@@ -48,3 +48,26 @@ representations (including values above signed64 and UINT64_MAX), then establish
 the genuine reviewed red. No signed INTEGER/REAL coercion or opaque-byte test
 substitutes for that typed gate. Existing identifiers/dependencies/acceptance and
 all original lossless/provenance scope remain unchanged.
+
+
+## Initial baseline ownership and cross-contract checks
+
+STORAGETEST-014 is separately claimed from actual integrated maine331714 after
+PR36. Initial author owns only new sqlite-contributions-v1 contract and own
+stage evidence; a different actual contract review precedes API/stubs/tests.
+Root owns actual additive migration3/order/schema and shared build/CI/state/map/
+checkpoint; immutable retention1/receipt2 and all previous interfaces/tests remain.
+
+Review domain-zero policy from actual existing contracts, not a fake's allocator
+start. Current inspection found no ContributionId0 rejection: PlanEvent has an
+optional ContributionId and Capture rejects ReceiptId0 only. Thus proposed full
+ContributionId0..MAX with explicit nullable absence/first0 needs actual review;
+ReceiptId remains1..MAX. If an agreed nonzero rule is found, reconcile it explicitly.
+Never use zero as missing/unlinked where std::optional already represents absence.
+ContributionValuation stores original money and a resolution reference/missing-rate
+flag, not fetched/effective rates. Preserve all actual fields; keep downstream
+HistoricalValuation rates/source/time in015 rather than invent an unused column.
+A plain VerifiedActivityLink/proof reference is not provider authorization. Preserve
+trusted upstream semantic/pre-committed-receipt preconditions and actual resolvable
+arrival references; do not invent stronger proof from merely nonempty bytes or
+same-session visibility. Independent review must pin any validation/error boundary.
