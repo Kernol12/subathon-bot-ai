@@ -267,3 +267,125 @@ unimplemented until that gate. Backup/update/recovery authority, power loss,
 provider/source capability, complete normalized wire formats, contributions,
 evaluation, effects/jobs/application bundle and release platforms remain separate
 requirements; all seven integrations and three rate providers remain in scope.
+
+## Concrete API precision for separate review
+
+The new [sqlite_receipts.hpp](../../server/include/subathon/server/sqlite_receipts.hpp)
+provides encode_receipt_uint64(uint64), decode_receipt_uint64(QByteArray), pure
+receipt_repository_manifest(), SqliteReceiptLimits and the concrete noncopyable,
+nonmovable SqliteReceiptRepository implementing the unchanged ReceiptRepository.
+Its context constructor and explicit adopt_active_receipt_session tag select the
+two modes above. No concrete transaction type or Qt SQL handle enters the public
+port. Repository construction stores only capability/options and the construction
+QThread identity; its destructor releases values without SQL or cleanup.
+
+Options are fixed for the wrapper's lifetime. Reference/value byte options must
+be positive qsizetype values (their type supplies the upper representable bound).
+Attempts_per_find must satisfy 1 <= value < numeric_limits<qsizetype>::max(),
+reserving a representable count+1 sentinel; checked conversions must also fit
+SQLite signed64 and std::vector size. Current targets use signed64 qsizetype.
+No artificial statement-count/binding-cost ceiling is added to these options.
+Limits default to4096/262144/1024 as above. Value_bytes also bounds selected
+retained documents when resolving targets: pass the same reference/value limits
+to the existing retention facade, rather than silently applying unrelated defaults.
+A well-typed larger retained document maps to result_limit, not corrupt/missing.
+
+The concrete input failures derive from std::invalid_argument and expose
+SqliteReceiptInputError. They make no SQL/state/cleanup change when caught:
+
+| Operation | Ordered pre-SQL checks / category |
+| --- | --- |
+| decode_receipt_uint64 | Null or length other than8: invalid_codec; every canonical eight-byte value including zero decodes |
+| Repository begin | Invalid options: invalid_options; then construction-thread guard; then consumed single-use guard: already_begun |
+| Transaction find | Identity: each component required nonempty and bounded: invalid_identity |
+| Transaction create | Identity, then facts byte bounds: invalid_facts, then arrival ref byte bounds/required config/context: invalid_arrival |
+| Transaction append_attempt | ID0: invalid_receipt_id; facts; arrival; then unknown disposition enum: invalid_disposition |
+
+Facts byte validation includes all present grouped values without parsing them:
+optional linkage component bounds use reference_bytes, event/actor/money fields
+use value_bytes. Arrival connection may be empty but is bounded; required config/
+context refs cannot be empty. All timestamps and uint32 values are already typed,
+including extrema/zero; no extra input rule rejects those. Present-empty optional
+std::string values remain valid storage representations. Valid pure codec encode
+has no domain-zero check; stored SQL type checks belong to row decoding, not a
+QByteArray-only codec's invented QVariant conversion.
+
+For repository begin, invalid options precede foreign-thread/local-use rejection.
+Compare construction-thread identity before reading or mutating the single-use
+guard. A foreign call throws SqliteWorkFailure(wrong_thread) without touching
+that guard or SQL; a later valid owner call remains possible. This local identity
+is not a promise to inspect a weak ticket's true owner/phase: constructing a
+repository itself is required on its authoritative owner, and actual context/
+session operations enforce their own owner/lifetime/protocol checks. Adoption's
+true-owner/active precondition remains the caller's responsibility until then.
+
+A caught second PORT begin throws SqliteReceiptInputFailure(already_begun), not
+an invented sticky writer protocol failure or ReceiptStorageError. It leaves the
+first transaction usable and neither commits nor cleans it, whether that first
+wrapper is active, terminal or already destroyed. A foreign caller receives its
+thread rejection before this guard. The repository is single-use after a real
+first BEGIN attempt even if that attempt is busy/failed; underlying writer second
+begin behavior is not altered. No mutable guard is shared across threads.
+
+Construction/allocation failure before a wrapper owns anything leaves adoption's
+session/cleanup authority with the caller and does not consume the local guard.
+Mark adoption consumed and transfer authority only after successful allocation/
+construction; returning the owning unique_ptr must not allocate again. In context
+mode, arrange allocation before BEGIN or use an exception-safe guard that cleans a
+newly begun session if later construction fails. Never leave an active transaction
+because std::bad_alloc interrupted wrapper construction. Once returned, a wrapper
+owns its copied session/options, owner identity and pending-first-attempt set
+independently of repository lifetime; it must not retain a dangling repository
+reference. Its destructor only calls the existing noexcept cleanup operation.
+
+Transaction primitive input checks above precede thread/session access. For valid
+input, reject a foreign construction-owner call before reading/mutating pending
+state, then let actual session SQL/commit enforce ticket validity and sticky
+terminal semantics. Commit has no field preflight; thread rejection precedes its
+pending-first-attempt guard. Every ordinary commit actually invokes session.commit;
+there is no outer pending vote. A pending original without an append uses the
+known incomplete_receipt failure only after active rollback. Trusted callers may
+not independently commit/rollback the adopted session behind the wrapper.
+
+Find materializes the complete selected history within attempts_per_find or fails
+result_limit after known cleanup. Append instead validates order via an owned
+single-row COUNT/MIN/MAX aggregate (and selected original/target checks), not by
+calling full-history find. Under the required UNIQUE positive ordinal key,
+count=N/min=1/max=N establishes contiguous order; zero attempts are permitted only
+for this wrapper's newly pending original. Validate aggregate types/ranges before
+checked max+1. Appending does not apply attempts_per_find as a write quota or
+silently discard old attempts. SQL execution still consumes the same work budgets;
+no hard query-runtime promise follows from a small aggregate result.
+
+Known-uncommitted SqliteReceiptStorageFailure derives from the existing
+ReceiptStorageError and exposes SqliteReceiptStorageReason:
+
+| Cause | reason / required outcome |
+| --- | --- |
+| Confirmed busy BEGIN, or known rollback after busy SQL/COMMIT | busy; preserve actual not_started/rolled_back outcome |
+| Underlying known-rollback SQL/constraint failure | sql_failure; preserve actual outer sql_failure |
+| Underlying resource_limit / result_limit | Same named reason; preserve actual sticky outer category |
+| Missing candidate retained target or absent append receipt | missing_reference after known rollback |
+| Malformed selected row/history/target/allocator or inconsistent allocator | invalid_stored_data after known rollback |
+| Valid selected field/history/retained document beyond configured bound | result_limit after known rollback |
+| Last allocated UINT64_MAX or signed64 ordinal exhaustion | allocator_exhausted / attempt_order_exhausted after known rollback |
+| New original lacks its first appended attempt at commit | incomplete_receipt after known rollback |
+
+Known nonbusy BEGIN SQL failure uses sql_failure with not_started. Underlying
+invalid_statement (an adapter/trusted-SQL defect) or capability/protocol errors
+propagate their original SqliteWorkFailure instead of inventing a port reason.
+Pure input, allocation and explicit stub exceptions do not claim known rollback.
+Map retention's already-known invalid_stored_data/result_limit to the corresponding
+port reason after its cleanup; do not call missing_reference for a malformed
+stored target. Any cleanup failure/unknown durability propagates actual
+SqliteWorkFailure(uncertain_outcome), overriding a local reason and never deriving
+from ReceiptStorageError. Existing outer outcome/error/value rules remain intact.
+
+The initial [source](../../server/src/sqlite_receipts.cpp) contains four explicit
+SqliteReceiptsNotImplemented logic-error throws: codec encode, codec decode,
+manifest and repository begin. Constructors only capture inert values/current
+construction-thread identity; no actual transaction wrapper/SQL/allocation codec
+or manifest implementation exists yet. The marker is distinct from known rollback
+and therefore cannot falsely assert that earlier adopted-session writes vanished.
+No test body/init/discovery is implied by these declarations. Actual different API/
+stub/precision/harness review is required before new test authoring permission.

@@ -89,3 +89,58 @@ The first project check rejected repository links containing source line suffixe
 they were changed to ordinary repository links with line numbers in prose, then
 the same check passed. This documentary correction is neither runtime red nor a
 behavior/requirement change. No shared generated file required author mutation.
+
+## Minimal API/stub stage after actual contract/schema approval
+
+Root integrated different contract approval15bd1f7 at e7479d2 before expanding this
+author's ownership to the new sqlite_receipts.hpp/cpp and appended logical
+contract/API precision plus this evidence only. The normal root merge had one
+add/add conflict because the new contract arrived through root integration with
+an appended physical-schema link. The author kept root's exact approved f8af1b99
+contract, preserving both histories in cf32852; no reviewed prose was discarded.
+Root-owned schema companion2ef and migration1 remain unchanged.
+
+The minimal header declares full-range pure uint64 encode/decode, pure approved
+receipt manifest and a noncopyable/nonmovable repository with explicit context
+versus tagged adoption constructors. Its only value behavior captures weak
+capability/options/construction-thread identity. All four new function bodies
+throw named SqliteReceiptsNotImplemented logic_error; they contain no validation,
+SQL, codec/allocation, manifest construction or transaction wrapper behavior.
+The stub never asserts known rollback of an adopted caller's staged state.
+
+Concrete precision pins input category order/positive representable limits,
+selected-limit versus corruption/missing, full-codec versus domain-zero scope,
+construction-owner before mutable guard, local already_begun preserving the first
+unit, actual weak-ticket ownership/phase delegated to session operations, and
+allocation-safe transfer. A transaction will own all state independently of the
+repository. Append's bounded-result aggregate does not impose find's materialized
+history limit as a write quota. Known port failures require actual known rollback;
+uncertainty/capability/protocol remains original WorkFailure with outer semantics.
+No finalized C++ wrapper/private query algorithm is implemented by these comments.
+
+This stage has no new Qt case, JSON, environment fixture, CMake/preset/workflow,
+state/map/HTML or actual migration source change. Future tests must use independent
+literal setup through existing verified capabilities, never the new stub factory
+in init/discovery; post-create/append failure scenarios need stage flags set after
+actual successful primitive return and asserted outside catch. Root owns later
+shared harness/selected official Qt proof and intended red only after different
+actual full test review. Original15 simulation and existing SQLite suites remain
+unchanged evidence.
+
+Actual API-stage checks:
+
+| Command/check | Actual result |
+| --- | --- |
+| `clang-format -i` on the new header/source | Completed |
+| Python argument-vector `c++ -std=c++20 -fPIC -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Iserver/include -Icore/include <pkg-config Qt6Core/Qt6Sql cflags> -fsyntax-only server/src/sqlite_receipts.cpp` | Exit0; syntax only, no link or feature invocation |
+| `python3 tools/check_project.py` | Exit0;391 records/122 decisions/current links/presets/HTML |
+| `python3 tools/progress.py render --check` | Exit0; root-owned snapshot current |
+| `git diff --check` | Exit0 |
+
+The initial manual syntax command omitted -Icore/include and failed to locate the
+existing core receipt header; adding the required include path produced the
+reported successful syntax check. This was a scratch command setup defect, not
+intended red. Manual non-system Qt include flags emitted one existing qbitarray.h
+conversion warning; no new source diagnostic was emitted. Root's real CMake
+harness supplies transitive include/link settings and remains the actual build
+gate. No native suite or new feature body ran, and no API review is self-certified.
