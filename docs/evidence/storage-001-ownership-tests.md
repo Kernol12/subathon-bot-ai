@@ -25,12 +25,19 @@ The new executable contains three focused cases:
 | ownsRawBackedBlobBindingAtAdmission | Raw byte binding 616263 becomes7a6263 | Independent fixture SQL reads one persisted row, SQLite type blob, hex616263 |
 
 Each backing array remains alive through Qt completion. A nested scope destroys
-the caller's raw-data view and `WriteBatch` before event-loop dispatch. The test
-also verifies that the caller view sees the mutation, so normal Qt copy-on-write
-detachment cannot accidentally turn this into the old owned-container case.
+the caller's raw-data view and `WriteBatch` before the backing array is changed
+and before event-loop dispatch. The caller view's constData pointer is first checked
+against the raw array, proving that admission receives an actually borrowed view.
+No caller-side Qt raw-data view is used after mutation, and the caller satisfies its
+nonmutation precondition throughout the view's lifetime. Only a writer queue that
+violates its advertised ownership could still retain a raw-data view at mutation.
 No dangling memory, concurrent mutation, clocks, sleeps or implementation-generated
 expected values are involved. `!completed` verifies that mutation precedes dispatch;
-QTRY waits only after all mutation/view destruction is complete.
+QTRY waits only after caller-view destruction and raw mutation are complete.
+
+The independent reviewer requested this caller-lifetime correction to the initial
+candidate82b006b before approval. The original literal output assertions remain;
+no test body ran before or during this correction.
 
 The fixture uses a disposable SQLite file, real Qt SQL, and a separate owner-thread
 connection. Its SQL only creates a synthetic table and reads committed literals.

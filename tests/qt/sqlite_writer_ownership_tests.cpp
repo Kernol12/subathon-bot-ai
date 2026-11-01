@@ -76,6 +76,7 @@ class SqliteWriterOwnershipTests final : public QObject {
         WriteResult result;
         {
             const QString sql_view = QString::fromRawData(raw_sql, 8);
+            QVERIFY(sql_view.constData() == raw_sql);
             const WriteBatch caller_batch{{sql_view, {}}};
             QCOMPARE(writer.enqueue(caller_batch,
                                     [&](WriteResult value) {
@@ -84,9 +85,8 @@ class SqliteWriterOwnershipTests final : public QObject {
                                     }),
                      StorageError::none);
             QVERIFY(!completed);
-            raw_sql[7] = u'9';
-            QCOMPARE(sql_view, QString("SELECT 9"));
         } // Caller view/batch are gone; raw storage stays alive through completion.
+        raw_sql[7] = u'9';
         QTRY_VERIFY(completed);
         QCOMPARE(result.error, StorageError::none);
         QCOMPARE(result.rows, QList<SqlRows>({{{1}}}));
@@ -100,6 +100,7 @@ class SqliteWriterOwnershipTests final : public QObject {
         WriteResult result;
         {
             const QString text_view = QString::fromRawData(raw_text, 3);
+            QVERIFY(text_view.constData() == raw_text);
             const WriteBatch caller_batch{
                 {"INSERT INTO payloads(id, text_value) VALUES (1, ?)", {text_view}}};
             QCOMPARE(writer.enqueue(caller_batch,
@@ -109,9 +110,8 @@ class SqliteWriterOwnershipTests final : public QObject {
                                     }),
                      StorageError::none);
             QVERIFY(!completed);
-            raw_text[0] = u'z';
-            QCOMPARE(text_view, QString("zbc"));
         }
+        raw_text[0] = u'z';
         QTRY_VERIFY(completed);
         QCOMPARE(result.error, StorageError::none);
         QCOMPARE(fixture_->scalar("SELECT COUNT(*) FROM payloads").toInt(), 1);
@@ -127,6 +127,7 @@ class SqliteWriterOwnershipTests final : public QObject {
         WriteResult result;
         {
             const QByteArray blob_view = QByteArray::fromRawData(raw_blob, 3);
+            QVERIFY(blob_view.constData() == raw_blob);
             const WriteBatch caller_batch{
                 {"INSERT INTO payloads(id, blob_value) VALUES (1, ?)", {blob_view}}};
             QCOMPARE(writer.enqueue(caller_batch,
@@ -136,9 +137,8 @@ class SqliteWriterOwnershipTests final : public QObject {
                                     }),
                      StorageError::none);
             QVERIFY(!completed);
-            raw_blob[0] = 'z';
-            QCOMPARE(blob_view, QByteArray("zbc"));
         }
+        raw_blob[0] = 'z';
         QTRY_VERIFY(completed);
         QCOMPARE(result.error, StorageError::none);
         QCOMPARE(fixture_->scalar("SELECT COUNT(*) FROM payloads").toInt(), 1);
