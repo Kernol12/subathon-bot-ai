@@ -120,3 +120,46 @@ passing checks. Actual new automatic Ubuntu acceptance, final metadata and
 latest-head discussion/rules/merge gates remain with the coordinator. This internal
 mechanism grants no update/backup authority, domain migration, application bundle,
 recovery, power-loss, provider or release-platform capability.
+
+## Separate actual U+FEFF regression review before red/fix
+
+The reviewer normally merged and inspected actual regression author
+`234c2ec9f9b61b010cf875a140f3bdffa5d415f3`, integrated `36aca32`. Regression author
+`/root/writer_transaction_reviewer` is different from both this reviewer and the
+production author. Actual test blob:
+`e94befdc01ceff62d2e486e1e5bff556cabe1e55`; the new CTest names are coordinated
+in shared `8534118`. Production source remains the rejected `d91c7d` above.
+
+Both actual new slots and their fixture/helper/constants were read. The codec case
+constructs the exact U+FEFF+a QString from QChar, asserts two units and literal
+`efbbbf61` bytes, then requires the entire independent payload/digest. Its ID stays
+ASCII. The stored case uses literal quoted DDL/data and a frozen history BLOB;
+before the runner it asserts actual name/table-name QString values and raw BLOB
+types/bytes, then requires committed current inspection, version1/applied0,
+normal report/value, retained row17, unchanged raw snapshot and a released lock.
+No expected catalog value/digest comes from the production codec or runner.
+
+The reviewer independently reconstructed the full F-framed payload with standard
+Python bytes/hashlib, from the exact metadata DDL, quoted Unicode table, ordered
+CREATE/INSERT SQL and unsigned UTF-8 tuple order. Every byte matches the frozen
+inline hex:638 bytes, SHA256
+`baf9a94eeb7cbdd3994a277363ae6dd1cd4b63af76f99b02b48f8f3ac4775b7d`.
+The name frame independently equals `343aefbbbf61`. These oracles implement the
+existing full-Unicode contract without weakening malformed-text checks. The
+stored test can initially fail in preflight, while its full successful-inspection
+requirement also protects against a correction limited to only the public codec.
+
+The actual diff adds95 lines and deletes zero: original22 method bodies and all
+ten JSON vectors remain unchanged. Source/header/contract also remain unchanged.
+Independent configure/build passed. Compiled-functions versus CTest JSON confirms
+exactly24 migration names,78 total entries, including both new names. Project,
+progress render-check and whitespace checks passed. Neither new body was executed
+by this reviewer, and compilation/discovery is not a regression red result.
+
+**Regression-test verdict: approved the actual two new U+FEFF assertions/fixture
+and their registration at test blob `e94befdc01ceff62d2e486e1e5bff556cabe1e55`,
+integrated `36aca32`, for the intended current-source red.** The coordinator may
+now run and record those exact two against rejected source `d91c7d` after this
+approval, without replaying the original22 stub-red. Only then may the production
+author correct the source. Source/config approval remains held until that actual
+fix is reviewed and all applicable unchanged acceptance/regression checks pass.
