@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-01T15:34:39+00:00",
+  "updated_at": "2026-11-01T15:44:01+00:00",
   "summary": "IMPL-001 implements the reviewed revision-1 numeric time-credit helper: unchanged 19 acceptance cases and four reviewed signed-limit regressions pass, with independent code review. Refunds, persistence, UI and lifecycle remain separate tasks. SPIKE-001 bounded feasibility and all production/live/platform gates remain explicit.",
   "verification": [
     {
@@ -4594,7 +4594,7 @@
       "title": "Immutable configuration and arrival-context version retention",
       "module": "Operations",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; implementer /root/debt_code_reviewer; code reviewer /root/storage_work_code_reviewer",
       "depends_on": [
         "STORAGE-011",
@@ -4612,14 +4612,15 @@
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from freshlyintegrated mainae57f2b after PR33 merged final8353b00/all11checks/no threads/currentnormalrules. Exactbaseline API55c828/stubb27/featurec0e540/envAAA164/JSON0f76/contract5b, actualfullreview672/root8d BEFORE first16stubred(exit8/16init+16cleanup pass0skip) atcb7 AFTERselectedofficialQt41318070740 currentgreen3; finalmetadata9f retained. ImplementONLYserver/src/sqlite_retained_context.cpp +ownimplementationevidence onfreshisolatedbranch/worktree; preserveallreviewedassertions/API/vectors/contracts/oldsource4ee+023/old73+green7+newgreen3. Scope literalimmutablemanifest1 andsynchronousBLOBretention/find primitives only; exactopaque refs/docs/typedknownlink/idempotence/conflict/missing/ownedempty/inputprecedence/limits/knowncleanup-vs-uncertainty, existingcaller-ownedSqliteWorkSession. No newQtSQLhandle/connection/thread/owntransaction/retry/coreport/numerickeys/evaluator/providers. RootownssharedCIpromotion/CMake/presets/state/map/HTML/checkpoint/schemaorder. Acceptactualnew16/full95 passing, differentactualsource/configreview andobservedautomaticunconditionalnew16selectedUbuntuCI beforedone; no productiondomainbundle/backup/recovery/live/platform upgrade. Read-onlyprepwascompleted/noearlierimplementation.",
-        "Actualsourcea114225/blobc96dae9 integrated41ffb5a, ownb8evidenceintegrated4b3d116; onlyown.cpp algorithm changed. Author/root/differentreviewer realnew16/full95 pass/no warnings, exact95/compiled16+24+24+25/env7+3, frozenAPI55/contract5b/testc0/envAAA/JSON0f/old023+4ee unchanged. Differentactualsource+sharedconfigapproval8c4261d integratedefdb987. Rootsharedcaeb60d removesonlydraftclassification/manualnew16guard andmakesnew16automaticunconditional afterallold73/green7/green3, preservingpins/perms/checknames/assertions/registrations. Actionlint/project391/render/diffpass; no native/redrerunafterclassification-onlypromotion. Actualselectedautomaticnew16 CI notyetobserved; sourceimplin_review, no fullrelease/domainsemantics/numerictypedcodec/appbundle/recovery/provider/platformupgrade. Mainae57postmergeall10workflowsobservedSUCCESS. Implementer/reviewercompletedclean, no sourceapprovaltransferredtofuturechanges."
+        "Actualsourcea114225/blobc96dae9 integrated41ffb5a, ownb8evidenceintegrated4b3d116; onlyown.cpp algorithm changed. Author/root/differentreviewer realnew16/full95 pass/no warnings, exact95/compiled16+24+24+25/env7+3, frozenAPI55/contract5b/testc0/envAAA/JSON0f/old023+4ee unchanged. Differentactualsource+sharedconfigapproval8c4261d integratedefdb987. Rootsharedcaeb60d removesonlydraftclassification/manualnew16guard andmakesnew16automaticunconditional afterallold73/green7/green3, preservingpins/perms/checknames/assertions/registrations. Actionlint/project391/render/diffpass; no native/redrerunafterclassification-onlypromotion. Actualselectedautomaticnew16 CI notyetobserved; sourceimplin_review, no fullrelease/domainsemantics/numerictypedcodec/appbundle/recovery/provider/platformupgrade. Mainae57postmergeall10workflowsobservedSUCCESS. Implementer/reviewercompletedclean, no sourceapprovaltransferredtofuturechanges.",
+        "ActualautomaticPR34selectedQt41322157820 at2aadef3 SUCCESS: pinhashes/GNU13.3/Qt6.12SQLite3.53.4,old25+24+24,green7(9inclinitcleanup0skip),green3(5inclinitcleanup0skip),exact16discovery andUNCONDITIONALrealnew16/16 PASS. All11headchecksSUCCESS/MERGEABLE/CLEAN. Sourcec96/API55/contract5b/testc0/envAAA/JSON0f/old023+4ee unchanged fromactualcode/configapproval8c. Componentdone; finalmetadata/CIattributionreview/latesthead/discussions/rules remainpublicationgates, PR34stilldraft/unmerged. Actualopaque config/contextpersistence+puremanifestonly; no semantic/evaluator/typeduint64converter/receipt/contribution/plan/appbundle/recovery/provider/platform upgrade. Originalreviewedred preserved and notrepeated."
       ],
       "verification": {
         "native_build": "passed",
         "acceptance": "passed",
         "regression": "passed",
         "code_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "domain_semantics_bundle_recovery_provider": "not_run",
         "platform_release": "not_run"
       },
@@ -11807,6 +11808,11 @@
       "date": "2026-11-01T15:34:39+00:00",
       "task": "STORAGE-012",
       "note": "Actualsourcea114225/blobc96dae9 integrated41ffb5a, ownb8evidenceintegrated4b3d116; onlyown.cpp algorithm changed. Author/root/differentreviewer realnew16/full95 pass/no warnings, exact95/compiled16+24+24+25/env7+3, frozenAPI55/contract5b/testc0/envAAA/JSON0f/old023+4ee unchanged. Differentactualsource+sharedconfigapproval8c4261d integratedefdb987. Rootsharedcaeb60d removesonlydraftclassification/manualnew16guard andmakesnew16automaticunconditional afterallold73/green7/green3, preservingpins/perms/checknames/assertions/registrations. Actionlint/project391/render/diffpass; no native/redrerunafterclassification-onlypromotion. Actualselectedautomaticnew16 CI notyetobserved; sourceimplin_review, no fullrelease/domainsemantics/numerictypedcodec/appbundle/recovery/provider/platformupgrade. Mainae57postmergeall10workflowsobservedSUCCESS. Implementer/reviewercompletedclean, no sourceapprovaltransferredtofuturechanges."
+    },
+    {
+      "date": "2026-11-01T15:44:01+00:00",
+      "task": "STORAGE-012",
+      "note": "ActualautomaticPR34selectedQt41322157820 at2aadef3 SUCCESS: pinhashes/GNU13.3/Qt6.12SQLite3.53.4,old25+24+24,green7(9inclinitcleanup0skip),green3(5inclinitcleanup0skip),exact16discovery andUNCONDITIONALrealnew16/16 PASS. All11headchecksSUCCESS/MERGEABLE/CLEAN. Sourcec96/API55/contract5b/testc0/envAAA/JSON0f/old023+4ee unchanged fromactualcode/configapproval8c. Componentdone; finalmetadata/CIattributionreview/latesthead/discussions/rules remainpublicationgates, PR34stilldraft/unmerged. Actualopaque config/contextpersistence+puremanifestonly; no semantic/evaluator/typeduint64converter/receipt/contribution/plan/appbundle/recovery/provider/platform upgrade. Originalreviewedred preserved and notrepeated."
     }
   ]
 }

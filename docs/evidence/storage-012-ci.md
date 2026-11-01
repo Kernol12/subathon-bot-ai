@@ -3,7 +3,7 @@
 Coordinator `/root`, 2026-11-01. From mainae57f2b/merged PR33. The
 [reviewed/red baseline](storagetest-012-handoff.md) is complete and retained; no
 original red was repeated. Current source implements the frozen interface and
-passes local integration; actual automatic selected-Qt execution is still pending.
+passes local integration and actual automatic selected-Qt acceptance below.
 
 ## Current change and exact review
 
@@ -31,15 +31,37 @@ sqlite-retained-debug; ctest --preset sqlite-retained-debug --output-on-failure.
 Ignored logs local-evidence/coordinator/storage012-{configure,build,full-local}.log.
 After classification-only promotion, configure/JSON discovery verifies95 names/
 new16 and no draft tag; no native suite was repeated without a source change.
-Actionlint1.7.12/project391/currentHTML/render/format/whitespace checks pass.
+Actionlint1.7.12/project391/currentHTML/render/format/whitespace, Python tooling19
+and DOM simulation checks pass. Actual browser rendering was not run.
 
-## Remaining selected-Qt and publication gates
+## Actual selected official-Qt result and remaining publication gates
 
-Publish focused draft implementation PR; observe actual unconditionalnew16,
-old73 and both diagnostic suites with selected official Qt6.12/bundledSQLite3.53.4.
-Read actual workflow metadata/logs rather than transferring old baselineCI results.
-Then record current execution, completion scope, final metadata/CI-attribution
-review and exact latest-head checks/discussions/current-rule merge state.
+[PR34](https://github.com/Kernol12/subathon-bot-ai/pull/34),
+[run41322157820](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41322157820)
+at head2aadef323a5e1e47452a78a5005db04f835c9d28 completed SUCCESS on the
+automatic pull_request event. Root read actual metadata/logs, including the
+unconditional Run reviewed retained-context acceptance step's SUCCESS.
+
+| Actual selected stage | Result |
+| --- | --- |
+| Official Qt/ICU pinned SHA-256 | Both OK |
+| Compiler / runtime | GNU13.3; Qt6.12.0/QSQLITE SQLite3.53.4 |
+| Configure/build all reviewed targets | Exit0 |
+| Qt event-loop probe | 1/1 pass |
+| Existing writer/work/migration | 25/25,24/24,24/24 pass |
+| Required migration diagnostic | Exact7;9 including init/cleanup pass,0skip |
+| Required retention diagnostic | Exact3;5 including init/cleanup pass,0skip |
+| Retention discovery/real automatic body execution | Exact16;16/16 pass unconditionally |
+
+All11 PR checks at2aadef3 were SUCCESS, draft/MERGEABLE/CLEAN. This result is
+attributed only to that head. Ignored logs/metadata under
+local-evidence/coordinator/storage012-ci-2aadef3.{log,json}. Sourcec96, sharedcaeb,
+API55/contract5b/testc0/envAAA/JSON0f and old023+4ee are unchanged from reviewed
+candidate. No prior baseline result was substituted for new execution.
+
+Final completion metadata/CI-attribution review and fresh latest-head checks,
+discussions/current-rule merge remain before publication. No new source change
+justifies native repetition at this stage.
 
 Current ruleset26170263 requires PR/resolved threads and zero GitHubapprovals,
 no bypass/force/delete; no required-status-check rule. Written all-applicable

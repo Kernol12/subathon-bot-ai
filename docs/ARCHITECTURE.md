@@ -142,14 +142,16 @@ advancement commits the whole missing prefix in one transaction; opening a write
 does not initiate it. Metadata DDL supplies no domain store, application bundle,
 backup/update authority or recovery mechanism. Caller OPS-02 obligations remain.
 
-[Retained configuration/context revision1](contracts/retained-context-v1.md) now
-fixes immutable opaque byte identities/documents and optional typed configuration
-links composed on a caller-owned existing session. STORAGETEST-012 supplies16
-separately reviewed Qt cases, independent literal migration/byte vectors and
-actual selectedQt green3 followed by intended stub-red;
-[baseline handoff](evidence/storagetest-012-handoff.md). Its facade/manifest remain
-explicit stubs until STORAGE-012; no mutable current-settings pointer, core-port
-change, rule/modifier interpretation or wire format is inferred. Root migration1
-is retain-config-context-v1 with only two retained tables, two generated indexes
-and unchanged catalog objects. Typed uint64 domain persistence remains explicit
-in later013/014/015; byte retention cannot substitute for their codec/range gates.
+[Retained configuration/context revision1](contracts/retained-context-v1.md) fixes
+immutable opaque byte identities/documents and optional typed configuration links
+composed on a caller-owned existing session. STORAGE-012 now implements its pure
+manifest and synchronous find/retain primitives, with16 unchanged reviewed cases,
+independent code/config approval, author/root/reviewer full95 pass and actual
+automatic selected Ubuntu Qt6.12 acceptance. [Implementation](evidence/storage-012-handoff.md)
+retains original reviewed/red evidence and exact source/interface/test revisions.
+Root migration1 retain-config-context-v1 has only two retained tables/two generated
+indexes plus catalog objects. The caller still owns transaction/commit/publication,
+startup inspection and actual update/backup/maintenance obligations. No current-
+settings pointer, core port change, semantic config/evaluator or wire layout is
+supplied. Typed uint64 domain codecs remain explicit013/014/015 gates; opaque
+byte retention does not certify those, domain application bundle or recovery.

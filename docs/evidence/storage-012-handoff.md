@@ -2,7 +2,8 @@
 
 Coordinator `/root`, 2026-11-01. Branch task/STORAGE-012-retained-context, claim
 49719cc from refreshed mainae57f2b after PR33 merged. Source and local acceptance
-are independently approved; actual automatic selected-Qt CI/publication remain.
+are independently approved; actual automatic selected-Qt CI passes. Final metadata/
+publication review and exact-latest-head gates remain.
 [Brief](../tasks/EPIC-009/STORAGE-012.md), [contract](../contracts/retained-context-v1.md),
 [baseline](storagetest-012-handoff.md), [implementation](storage-012-implementation.md),
 [code/config review](storage-012-code-review.md), [CI assessment](storage-012-ci.md).
@@ -22,6 +23,8 @@ API55/contract5b/testc0/envAAA/JSON0f/old023+4ee remain. Author/root/different
 reviewer new16/full95 pass, no warnings. Actual different code/config approval
 8c4261d integratedefdb987 includes sharedcaeb60d unconditional new16 CI promotion.
 Original fulltest approval/red/selected-fixture gate remains intact, not repeated.
+Project391/currentHTML/render/format/actionlint/whitespace, Python tooling19 and
+DOM simulation pass; actual browser/platform verification remains unperformed.
 
 Factory is exactly migration1 retain-config-context-v1, starts0/1, approvedtwoDDL
 and7objects, independent2000-byte payload/SHA0906f121... verified by frozen test.
@@ -37,7 +40,19 @@ in storage012-implementation; reviewer /root/storage_work_code_reviewer owns onl
 new code-review evidence in storage012-review. Both isolated branches completed
 clean. Root owns shared build/CI/state/map/HTML/checkpoint/schema order.
 
-Next publish focused draft PR, observe automatic selected officialQt new16/old73/
-green diagnostics, complete exact CI/metadata review and latest-head discussion/
-rules merge gates. Then refresh main and select dependency-ready STORAGETEST-013.
+Automatic selected officialQt new16/old73/green diagnostics now pass below.
+Next final CI/metadata review and latest-head discussion/rules merge gates, then
+refresh main and select dependency-ready STORAGETEST-013.
 No owner question; full agreed product remains incomplete.
+
+## Actual selected official-Qt automatic acceptance
+
+[PR34](https://github.com/Kernol12/subathon-bot-ai/pull/34),
+[run41322157820](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41322157820)
+on2aadef323a5e1e47452a78a5005db04f835c9d28 completed SUCCESS as an automatic
+pull_request run. Root read actual metadata/logs: hashes/GNU13.3/Qt6.12SQLite3.53.4,
+old25/work24/migration24,green7(9 including init/cleanup,0skip),green3(5 including
+init/cleanup,0skip),exact16discovery and real unconditional16/16 pass. All11 PR
+checks atthathead SUCCESS/MERGEABLE/CLEAN; no transfer to later metadata heads.
+Rootsourcec96 and all frozen artifacts match actual source/configapproval8c.
+Component done, finalmetadata/CI attribution review/latesthead merge stillpending.
