@@ -337,11 +337,22 @@ ReceiptId arguments remain nonzero independently. No input ContributionId value
 is rejected as a sentinel, including link/update targets and optional association.
 
 Options default reference_bytes4096/value_bytes262144/unresolved_per_lookup1024.
-Byte bounds are positive qsizetype, at most that type's representable maximum;
-unresolved_per_lookup satisfies 1 <= value < numeric_limits<qsizetype>::max() to
-reserve checked count+1. Query limits/conversions must also fit signed64 and vector
-size. Configured bounds do not promise memory availability or increase underlying
-writer budgets. Receipt actor/event/money and valuation money use value_bytes;
+Byte bounds are positive qsizetype, at most that type's representable maximum.
+For n=unresolved_per_lookup, reject n<1 as invalid_options before conversion. Let
+U convert a nonnegative value to std::uintmax_t. The exact remaining preflight
+predicate is all three strict comparisons:
+
+- U(n) < U(std::numeric_limits<qsizetype>::max()).
+- U(n) < U(std::numeric_limits<qint64>::max()).
+- U(n) < U(std::vector<ContributionEvidenceRecord>{}.max_size()).
+
+Otherwise reject invalid_options. These overflow-safe comparisons require the
+lookahead count n+1, not only n, to fit qsizetype, signed64 SQL LIMIT and the exact
+public result-vector type's max_size. Do not evaluate signed n+1 before those
+checks. The named standard vector bound can be derived independently by tests;
+there is no hidden quota, UUT calibration or requirement that memory for n+1 is
+currently available. Configured bounds do not promise allocation success or
+increase underlying writer budgets. Receipt actor/event/money and valuation money use value_bytes;
 semantic decision actor_ref and identity/ref/proof/policy/decision/resolution use
 reference_bytes. Existing retention checks receive the same reference/value
 bounds, including selected document payloads, rather than hidden larger defaults.
@@ -356,9 +367,9 @@ Future implemented primitives follow this exact pre-SQL priority:
 | Repository begin | Options -> invalid_options; construction-owner thread; local single-use -> already_begun |
 | find_receipt | ReceiptId0 -> invalid_receipt_id |
 | find_activity / unresolved_activity | Required nonempty/bounded exact four-part key -> invalid_activity |
-| create | Support ReceiptId0; full receipt identity/facts/arrival byte/required-ref shape -> invalid_receipt; optional activity key/origin -> invalid_activity; state enums/byte bounds -> invalid_state |
-| append_observation | ReceiptId0; complete receipt shape; kind/evidence/role-support-group shape -> invalid_observation; verified key/proof/origin -> invalid_activity; present support-condition enums/bounds -> invalid_state |
-| link_observation | ReceiptId0; any ContributionId including0 remains valid |
+| create | Support ReceiptId0 -> invalid_receipt_id; full receipt identity/facts/arrival byte/required-ref shape -> invalid_receipt; optional activity key/origin -> invalid_activity; state enums/byte bounds -> invalid_state |
+| append_observation | ReceiptId0 -> invalid_receipt_id; complete receipt shape -> invalid_receipt; kind/evidence/role-support-group shape -> invalid_observation; verified key/proof/origin -> invalid_activity; present support-condition enums/bounds -> invalid_state |
+| link_observation | ReceiptId0 -> invalid_receipt_id; any ContributionId including0 remains valid |
 | update_state | State enum/byte bounds -> invalid_state; any ContributionId remains valid |
 
 Full receipt shape uses the accepted13 rules: nonempty/bounded four-part identity,

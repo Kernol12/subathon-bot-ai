@@ -146,3 +146,31 @@ Root's prepared actual CMake target/preset is outside author ownership and still
 the real link/build/config review gate. No native suite/new contribution method
 or feature body was invoked. These checks and the earlier contract approval do
 not approve this new API or transfer permission to absent fixtures/tests/source.
+
+## Narrow actual API-review documentation correction
+
+The different reviewer read actual API94681d3/header0abee/stub0ad and found two
+precision gaps, not a production-code defect. Root authorized logical precision
+and author evidence only, after normal refresh of rootda8e80d. No source/header,
+options default, API enum, schema, test/fixture or behavior was changed.
+
+The unresolved limit predicate now names std::vector<ContributionEvidenceRecord>
+explicitly and requires n+1 to fit every relevant bound. Reject n<1 before unsigned
+conversion; converting nonnegative operands to std::uintmax_t, require n strictly
+less than each qsizetype max, qint64 max and the named vector's max_size. All
+comparisons are overflow-safe and reserve the lookahead element before any signed
+n+1 evaluation. The exact standard-library type supplies an independently derivable
+boundary, not an invented hidden quota/query-cost guess or memory guarantee.
+Byte bounds remain positive representable qsizetype and defaults remain unchanged.
+
+The primitive priority table now explicitly maps ReceiptId0 to invalid_receipt_id
+for create/append/link, before full projection invalid_receipt. Append's complete
+projection category is written explicitly too; combined-invalid tests no longer
+need infer a category from prose. ContributionId0 remains valid everywhere.
+The proposal was sent directly to the different reviewer before this edit for
+actual reassessment. No API approval/future test permission is inferred here.
+
+Actual corrected document blob: `f503f385bbd4fd4ce4b43dd3243911dc3bce8f40`.
+Project391/render/diff checks passed. No native compilation/test body/red was
+needed or run for this documentation-only correction; original API/stub blobs
+remain exactly0abeea2b/0ad13156. Root/different actual review remain the next gate.
