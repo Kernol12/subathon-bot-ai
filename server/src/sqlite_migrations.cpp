@@ -49,7 +49,9 @@ qsizetype utf8_size(const QString &text) {
 QByteArray strict_utf8(const QString &text) {
     const auto size = utf8_size(text);
     const auto bytes = text.toUtf8();
-    if (bytes.size() != size || QString::fromUtf8(bytes) != text)
+    // utf8_size already establishes valid Unicode scalars. A decoder round trip
+    // would consume an initial BOM, which is content in these framed fields.
+    if (bytes.size() != size)
         invalid_manifest();
     return bytes;
 }
