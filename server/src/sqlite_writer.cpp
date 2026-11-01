@@ -177,6 +177,28 @@ bool valid_batch(const WriteBatch &batch, const StorageLimits &limits) {
     return true;
 }
 
+// The data/size constructors copy backing storage, including fromRawData views.
+// Keep null buffers distinct from non-null empty buffers and preserve QVariant types.
+template <typename Buffer> Buffer owned_buffer(const Buffer &value) {
+    return value.isNull() ? Buffer{} : Buffer(value.constData(), value.size());
+}
+
+WriteBatch owned_batch(const WriteBatch &batch) {
+    WriteBatch owned = batch;
+    for (auto &statement : owned) {
+        statement.sql = owned_buffer(statement.sql);
+        for (auto &value : statement.bindings) {
+            if (value.isNull())
+                continue;
+            if (value.metaType().id() == QMetaType::QString)
+                value = owned_buffer(value.toString());
+            else if (value.metaType().id() == QMetaType::QByteArray)
+                value = owned_buffer(value.toByteArray());
+        }
+    }
+    return owned;
+}
+
 // Rows/bytes are shared across the whole writer batch; the reader passes its own
 // row limit. A query failure or exceeded bound never publishes partial rows.
 ReadResult statement_result(Connection &connection, const SqlStatement &statement,
@@ -268,7 +290,7 @@ class SqliteWriter::Impl {
         const auto outstanding = static_cast<qsizetype>(queue_.size()) + (active_ ? 1 : 0);
         if (outstanding >= limits_.pending_batches)
             return StorageError::queue_full;
-        queue_.push_back({batch, std::move(completion)});
+        queue_.push_back({owned_batch(batch), std::move(completion)});
         schedule();
         return StorageError::none;
     }
