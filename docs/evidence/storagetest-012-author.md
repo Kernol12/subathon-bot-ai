@@ -146,3 +146,83 @@ does not establish feature acceptance, intended red or a new test baseline.
 These artifacts still require different-agent actual API/precision review before
 root expands test/probe/vector ownership. No future body, red, implementation or
 platform result is transferred from the earlier contract approval.
+
+## Actual 16-case / three-environment / literal-vector candidate
+
+After actual different-agent API/stub/precision/shared-harness approval46fc8ee
+(root integrated2d0289b), this author normally refreshed root in f16745e. Root
+expanded ownership only to the two new Qt sources, JSON fixture and this note.
+The approved contract5b0ee84, header55c82815 and explicit stub b27eb488 are
+unchanged. No production retention algorithm, new schema source, core port,
+existing assertion, build registration, CI or progress record is authored here.
+
+The committed candidate is **authored but not compiled or executed yet**. Root
+explicitly permitted this bounded handoff before adding the real shared testcase
+registration, so compilation/discovery can overlap a different actual artifact
+review. No missing dependency/compiler/init/skip result is a red baseline.
+None of the 16 new feature bodies has run. The three environment bodies likewise
+have not run in this author stage; they link/use only existing writer/QtSQL and
+contain no retention header/factory/store calls. Selected official Qt green
+fixture proof and actual different full baseline review still precede new red.
+
+The independent JSON freezes exact migration1/retain-config-context-v1, starts
+[0,1], two SQL statements in approved order and all seven objects, including the
+three NULL-SQL generated indexes. A standalone Python stdlib reference constructed
+ASCII decimal-length F frames and unsigned UTF-8 tuple order from literal contract
+DDL, then hashlib.sha256; it never called a production factory, codec or runner.
+Its complete payload is **2000 bytes**, SHA-256
+`0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e`.
+Full payload hex and exact expected projection are durable JSON, not only a hash.
+The manifest feature case compares actual factory data and existing codec output
+to these literals. Fixture setup uses only independent literal SQL/BLOB/history
+values; it never calls the new stub factory during init.
+
+| Case | Contract oracles |
+| --- | --- |
+| manifestMatchesApprovedRetentionMigration | Exact version/ID/start policy/SQL/order/projection, full literal F payload and digest |
+| retainsExactBytesAndResolvesAfterReopen | RC01/03: binary/NUL/BOM bytes, input mutation after synchronous return, physical commit before body success, explicit missing, reopened exact records |
+| presentEmptyRoundTripsAndRetainsAsDuplicate | RC02: present empty BLOB normalizes to non-null owned QByteArray, re-retains as duplicate, distinct missing |
+| opaqueReferencesAndFullRangeBytesStayDistinct | RC03/10: twelve exact decimal/binary vectors, zero through uint64 max as opaque spellings, distinct 1/01, NUL/FF/BOM and raw SQLtypeof/hex |
+| sameBytesRemainSeparateAcrossNamespaces | RC05: identical key bytes in two kinds remain separate |
+| exactDuplicateAndConflictDoNotMutate | RC04: idempotence, payload conflict, complete raw snapshot unchanged |
+| optionalConfigurationLinkPresenceIsImmutable | RC04/06: absent/present/retarget/removal conflict, exact known-link duplicate, new missing target cannot mask healthy existing conflict, absence across reopen |
+| missingAndWrongNamespaceLinksCannotCreateContext | RC05: missing/wrong-kind targets cannot create orphan; subsequent config write proves healthy transaction |
+| newVersionsPreserveHistoricalReferences | RC07: v2 insert preserves v1 config/context bytes and exact old link |
+| sameSessionStagesConfigurationAndContext | RC08: same-session uncommitted link resolution, observer invisibility, facade destruction does not commit/rollback, caller's real commit visible before return |
+| callerOwnsCommitRollbackAndConflictPolicy | RC08/09: conflict preserves prior write; explicit caller rollback versus diagnostic commit; uncaught caller failure abandons staged config+context together |
+| invalidInputPrecedencePreservesHealthySession | Ordered options/kind/ref/payload/link errors; stale preflight precedence, null versus empty, no undo of prior healthy retain |
+| configuredBoundsAndSelectedLimitsAreExact | RC11: exact 4096/262144 defaults and 4/3 configured bounds, one-over rejection, selected valid larger record is result_limit and synchronous rollback lock release; literal 1048577-byte SQL result after proved prior retain rolls back whole work |
+| selectedInvalidRowsAndDanglingLinksAbort | Selected wrong document type/dangling stored link/bad known target abort; conflict cannot mask corruption; lock probe proves cleanup before throw; unrelated corrupt record does not imply global audit |
+| ownedResultsAndCapabilityFailuresRemainSafe | Owned binary result after writer destruction; valid foreign/stale/terminal calls keep inherited errors; invalid input wins foreign/stale; caught postcommit protocol error retains committed physical outcome and no normal payload |
+| sqlFailureAndUnknownOutcomeAreNotSuccess | RC12: known SQL error after retain rolls back; existing physical commit-ack seam persists data but reports unknown/no payload; rollback-ack loss during corrupt-read cleanup overrides local reason with uncertainty and physically rolls back staged write |
+
+The many byte vectors use a generous explicit statement allowance to avoid
+inventing an internal query-count plan. The resource-failure oracle uses a literal
+result larger than the existing default budget after a proved retain, not a
+calibrated implementation cost or a reset session. Prior exact session-boundary
+writer assertions remain untouched. The physical-ack seam is the already reviewed
+one-shot existing-writer seam after actual SQL control; it neither fabricates a
+retention result nor claims power-loss/disk-failure coverage.
+
+Green environment cases are:
+`emptyNullAndOpaqueBindingsRemainDistinct` (actual bound null/nonnull-empty/binary
+SQLtype/length/hex), `retentionMigrationShapeAndLinksUseExistingSql` (literal seven
+objects, SQLNULL indexes, enabled FK/valid known target/orphan SQL rejection), and
+`selectedEmptyAndOptionalValuesKeepTheirSqlTypes` (literal selected BLOB-empty,
+optional NULL, BOM/NUL/FF bytes and SQL rejection of requiredNULL/wrong-type/empty
+known-link). They deliberately do not assert driver empty-buffer nullness: stored
+SQL type and length establish presence; adapter normalization is a feature oracle.
+
+Actual author-stage checks: clang-format completed on the two new sources;
+`python3 tools/check_project.py` passed (391 records/122 decisions),
+`python3 tools/progress.py render --check` passed and `git diff --check` passed.
+These are documentary/format checks only. Root owns actual CMake attachment,
+Qt compilation, exact16/3 discovery, green existing73+green7 compatibility and
+selected official-Qt environment results. Any compiler/test defect requires an
+explicit separate revision; no current check is presented as new acceptance.
+
+Typed uint64 SQL codecs/zero policies still belong to the actual downstream
+ReceiptId/ContributionId/CapturedPlanRevision slices. Opaque full-range vectors
+here do not certify numeric SQL conversion. Configuration schemas/resolvers,
+backup/recovery/update authority, evaluators, providers and release-platform
+verification remain outside this bounded baseline and remain required later.
