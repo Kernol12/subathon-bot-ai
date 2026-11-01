@@ -57,9 +57,13 @@ ordinary automatic acceptance CI and final latest-head PR/rules gates.
   `task/STORAGE-001-implementation`. Implementation active; no candidate approved.
 - `/root/storage_code_reviewer` has completed read-only requirement preparation;
   actual candidate/reviewer worktree follows author handoff. No code approval yet.
-- Earlier author/reviewer/Qt investigator completed. All previous support worktrees,
-  valid review commits and local-only checkpoint branch are preserved. No old agent
-  is assumed running. Startup all worktrees were clean; only new task authors write.
+- Earlier author/reviewer/Qt investigator completed. All existing support worktrees, valid review commits and the local-only checkpoint
+  branch are preserved. A corrected exit-code-aware audit found36existing worktrees
+  clean and16historical `/tmp/subathon-*` paths absent; their branches/review commits
+  and worktree metadata remain preserved without pruning. Initial startup summary
+  incorrectly treated missing-path command errors as clean; no missing path is now
+  claimed inspected/clean. Those completed tasks are not restarted. No old agent
+  is assumed running; only new task authors write.
 - Root owns shared CMake/presets/workflow/labels/state/HTML/map/checkpoint/PR changes.
   Root is promoting existing pinnedQt workflow to ordinary actual acceptance while
   preserving stable `sqlite-writer-build` check name; no failure inversion/skip.
@@ -78,7 +82,8 @@ rechecked exact audited tips/protection/default/openPR/content before atomic del
 with exact-head leases. Alllocalbranches/worktrees remain; deletedtips archived under
 refs/archive/remote-cleanup/2026-10-31/. Subsequently merged PR21, PR22 and PR23 heads were
 also archived/deleted using exacthead/ancestry/no-openPR guards:34 removedtotal after also archiving/deleting the completed PR23 head.
-Final live GitHub inventory has mainonly and no open PRs. No completed supportbranch is
+End-of-2026-10-31 cleanup inventory had mainonly and no open PRs;
+new task branches/PR24 were subsequently created under normal coordination. No completed supportbranch is
 republished. Ignored manifest records exactheads/proofs and historicalremainingrefs:
 `local-evidence/coordinator/remote-branch-cleanup-2026-10-31.json`.
 
