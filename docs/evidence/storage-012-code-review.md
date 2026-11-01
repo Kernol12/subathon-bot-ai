@@ -150,3 +150,62 @@ no standalone receipt adapter, format/evaluator, typed numeric converter, domain
 application bundle, backup/update/recovery or power-loss/platform/provider proof
 is supplied. All seven integrations, three FX providers and full release scope
 remain required. No live action occurred.
+
+## Final completion metadata and actual automatic CI attribution
+
+Verdict: **approved actual component-completion metadata and CI attribution** at
+`ccee62a53f733567c2b83eee3ab53105adda409d`, normally merged into this worktree
+as `d411e538625cbbbcc4db9b3b6599f80e4b419173`. No findings. This approval is
+for the implemented retention component and its actual evidence; publication
+still requires the final PR revision's checks, discussions and current rules.
+
+Read actual state/map, architecture/test strategy, implementation handoff, CI
+assessment and coordinator checkpoint. No native acceptance or historical red
+was rerun. Twelve source/interface/contract/test/fixture/build/workflow blobs
+are identical across source/config approval8c4261d, CI head2aadef3 and metadata
+ccee62a. Root's integrated reviewefdb987 is hash-identical to8c4261d and is an
+ancestor of2aadef3. The original reviewed16 stub-red file remains hash-identical
+to claim49719cc; its approval/selected-fixture-before-red history is preserved.
+
+The prior pending official-execution gate is now supported for these exact
+artifacts. Independently read actual ignored
+`local-evidence/coordinator/storage012-ci-2aadef3.{json,log}` and refreshed
+[run41322157820](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41322157820)
+through `gh run view`. It completed successfully on automatic pull_request at
+`2aadef323a5e1e47452a78a5005db04f835c9d28`; exact-head check-runs API
+independently reports eleven successes. The actual run confirms:
+
+- Qt/ICU pinned archive hashes pass, GNU13.3.0 builds reviewed targets and the
+  selected Qt6.12.0/QSQLITE runtime reports SQLite3.53.4.
+- Old writer25, work24 and migration24 each pass. Required diagnostic environment7
+  has nine passes including init/cleanup, and retained environment3 has five;
+  both report zero skips.
+- All sixteen compiled retention cases are discovered, then the unconditional
+  Run reviewed retained-context acceptance step succeeds. Its actual log contains
+  sixteen distinct passed-case lines and the16/16 passing CTest summary. This is
+  real execution, not merely compilation/discovery or inherited baseline CI.
+
+Local author/root/reviewer full95 evidence remains separately attributed to host
+Qt6.12/SQLite3.54/GNU16.2.1. The official workflow's executed lanes are stated
+explicitly rather than claimed as a full95 run. No assertion, fixture or budget
+change obtains the result, and no future PR head inherits the2aadef3 outcome.
+
+State comparison againstcaeb60d preserves all391 IDs and dependency edges and
+changes only STORAGE-012 task data. Its done status covers the retained-byte
+component with passing acceptance/regression/separate code review/actual CI;
+domain semantics/bundle/recovery/provider and platform_release remain not_run.
+STORAGETEST-012 retains its observed_red baseline, and DB-01 remains partial.
+The current documents correctly describe real primitive persistence while keeping
+caller transaction/publication/update/backup obligations, typed numeric codecs
+in013/014/015, semantic config/evaluator, receipt/contribution/plan/application
+bundle and recovery/platform/provider gates explicit. Tooling19/DOM simulation
+is distinguished from an actual browser. No scope upgrade was found.
+
+Actual reviewer commands/checks: Python cache-log/metadata, twelve-blob and
+approval-ancestry/hash assertions; state/graph/DB-01 assertions; read-only
+`gh run view`, exact-head check-runs API and `gh pr view 34`; project391/render,
+actionlint1.7.12 and whitespace checks all pass. Fresh PR34 snapshot is OPEN/DRAFT
+atccee62a, CLEAN with eleven successful current checks. This is only that snapshot:
+root must integrate this review and recheck all applicable latest-head CI,
+discussions/current rules and normal merge, then refresh main before claiming
+the next baseline. No platform, live operation or future artifact is approved.
