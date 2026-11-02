@@ -12,7 +12,7 @@ Fresh main71139958465e7dde17a661a93b288fd825d1c09e is actual normal PR38 merge
 reviews, currentrules0requiredGHapprovals/no threads/readyMERGEABLECLEAN. Initial
 GitHub GraphQL internal error left OPEN/head/main unchanged (rechecked), then same
 protected exact-SHA REST normal merge succeeded; no admin/force/bypass. Root main
-refreshed clean. Postmerge10 workflows are being observed, not assumed passed.
+refreshed clean. All10 postmerge workflows actually completedSUCCESS, SQL41479891179.
 [Implementation](storage-014-handoff.md), [source review](storage-014-code-review.md),
 [CI](storage-014-ci.md). Source615 frozen; author/root/reviewer24/full143PASS.
 Actual automatic officialQt41477399818 atd0ce5c8 pins/GNU13.3/Qt6.12SQLite3.53.4/
@@ -41,7 +41,7 @@ actual logical/physical/API/test gates. Root owns exact additive migration4/glob
 schema/order/immutableprefix1+2+3 and all shared CMake/preset/workflow/state/map/HTML/
 checkpoint changes. No old producer/API/core/test modification to obtain green.
 
-Planned isolated assignments after claim commit (NOT yet running):
+Actual isolated assignments, created clean at8d90219 and explicitly reassigned:
 - contribution_implementer: NEW storagetest015-author tree/task branch, ONLY
   docs/contracts/sqlite-application-plans-v1.md and own storagetest-015-author.md.
 - contribution_reviewer: NEW storagetest015-review tree/task branch, read-only
@@ -57,7 +57,12 @@ explicit015 scope. No numeric SQL REAL or generated expected values. Semantic
 refs/authority without finalized physical namespaces must not become fake FKs or
 provider proof; actual retained cfg/context/source targets still require resolution.
 
-Next create clean support trees and actually reassign idle agents; author reads
+Both new trees now exist (69 existing total/16 absentrefs preserved); the old
+source14 assignments are completed and not running. New author is active on
+contract-only and different reviewer on read-only preparation. No API/test/feature
+body or schema source has been authored yet.
+
+Next author reads
 existing core/source/22cases and proposes bounded immutable-history/atomicappend/
 expectedhead/ownership/bounds/failure contract. Root physical4 proposal follows
 actual logical candidate. Different actual review before minimal API/stubs, then

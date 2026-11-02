@@ -65,3 +65,14 @@ All seven integrations/three FX providers, actual plan/rate provenance, applicat
 bundles/effects/jobs, semantic configuration/evaluation/permission, backup/update/
 recovery/power-loss, both renderers/UI/locales/themes/packaging/platform/live/OBS
 remain incomplete release gates. No live credential/supporter/chat/payment action.
+
+## Actual integration outcome
+
+PR38 normally merged71139958465e7dde17a661a93b288fd825d1c09e at
+2026-11-02T16:16:48Z after exact final2949/all11SUCCESS/sourcea751+finaled3
+reviews/current protection/0 required GH approvals/no discussions. An initial
+GitHub GraphQL internal error made no change (actual OPEN/head/main rechecked);
+same protected exact-SHA REST normal merge succeeded without bypass/admin/force.
+Main refreshed clean. All10 postmerge workflows actually SUCCESS, including SQL
+41479891179. Standing loop continued on a fresh STORAGETEST-015 contract-only
+branch; this implementation was not repeated and all historical reds remain.
