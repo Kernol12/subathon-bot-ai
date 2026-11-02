@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T21:07:14.393809+00:00",
+  "updated_at": "2026-11-02T21:10:22.103219+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt, contribution and captured-plan repository components have reviewed acceptance evidence. The application-bundle logical contract is reviewed; concrete bundle baseline/implementation, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5084,7 +5084,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; concrete contract/minimal API author /root/contribution_implementer; independent reviewer /root/contribution_reviewer; later independent fixture/test assignments pending API review",
+      "owner": "Coordinator /root; independent fixture author /root/plan_fixture_author; reviewer /root/contribution_reviewer; API author /root/contribution_implementer completed",
       "depends_on": [
         "STORAGE-001",
         "STORAGE-015",
@@ -5109,7 +5109,8 @@
         "Actual minimal API author1662219 clean imported: header8e24f062/375lines, source83e9a0a7/36lines EXACT7 immediate namedstubs +inertticket/optionsctor; no validation/SQL/codec/transaction behavior/equality/oldcore edits. Authorized new typed read_reversal_basis fixes lackofprogressread forpreparinglinks: ownedselectedactualbasis/provenance/currentprogress, healthyzero vs missing/corrupt explicit; logical2f6e9a8e andSB15 additionPENDINGdifferent actualextension/APIreview. Prior4d approval remainsvalidexactcf462/f13 subsets; physical14DDL/all14oldSBrows unchanged, no retroactiveapproval fornewprojection. Authorformat/staticchecks pass, no compiler/native/newentrypoint/red. Rootuncommitted5build/configfiles addnewflag/target/preset and workflowpreset tokenonly, actionlint/listpresets/project/diffPASS; newinterfacecompile+old173native checks follow actualintegration, then publish/observe ownCI and actualdifferent API/configreview beforefixtures/tests.",
         "Root actualminimalconfigure/fresh84-step build PASS/0warnings newheader8e24/source83e9 plusexactrecordedintegratorconfigblobs; sevenentrypointsremainimmediatemarkers andnoneinvoked. Exact173OLDCTestregistration/no newfeature test, alloldsource/headers/tests/fixtures unchanged; removingonlynewmethod/subsection/SB15 restoresapprovedcf462byteexact. Thiscommitfreezesactualcode/config beforeold173execution; no old-suitePASS/newfeature/red yet. OwnpublishedsourceheadCI/differentactualextension/API/config review remainpending.",
         "Actual clean frozen source/config79b69d437d12df5511f7e38fdc975eb7f0452e12 fullold173 PASS4.51s/exit0, allQt0fail/skip/blacklisted; logsconfirmQt6.12/SQLite3.54/GNU16.2.1. No newentrypoint/feature/red invoked; sevenstubsremain. RawLastTest preserved andSHA logs inCI evidence. ScratchsummaryparsercorrectedobservedCTest4.4 wording+173Passedlines, read-only/no rerun/red. Source/API/ext/build independentreview andownpinnedpublishedCI next; fixture/testbaseline notyetauthored.",
-        "Actual different API/typedreadextension/config approvalef0ba764 clean integratede033177/reviewMD49876fc2 accepts8e24/83e9/2f6/physicalf13/5configpins. Ownfresh84build0warnings/exactold173/full173PASS4.48s/0Qt skip. Actualofficial41523469879 exact848 SUCCESS20:54:29–20:56:03Z/GNU13.3/pinnedBoost1.83macro108300/checkedQt6.12archives/SQLite3.53.4/fresh84/newobject+archive/0warnings/old164+required7+3+3+3+4greens/Qtprobe/all11. Same-source CI/reviewparallel correctlyattributed, no futurehead approval. No new66-objectfixture/newgreen/featuretest/red yet. MinimalAPIpassedONLY; taskgithubCIpartial/productnotrun/baselinereviewnull. Nextindependentfixtureauthor freshisolatedtree onlynewliteralJSON+oldwriter-onlyQtgreen+ownnote, no newfacade/manifest/codec asoracle/setup; rootsharedCmake/CI/state. Actualfixture review/host+officialnewgreen/featuretestsfullreview+compile+discovery stillbeforeFIRSTintendedred, sourceimplementationnotauthorized."
+        "Actual different API/typedreadextension/config approvalef0ba764 clean integratede033177/reviewMD49876fc2 accepts8e24/83e9/2f6/physicalf13/5configpins. Ownfresh84build0warnings/exactold173/full173PASS4.48s/0Qt skip. Actualofficial41523469879 exact848 SUCCESS20:54:29–20:56:03Z/GNU13.3/pinnedBoost1.83macro108300/checkedQt6.12archives/SQLite3.53.4/fresh84/newobject+archive/0warnings/old164+required7+3+3+3+4greens/Qtprobe/all11. Same-source CI/reviewparallel correctlyattributed, no futurehead approval. No new66-objectfixture/newgreen/featuretest/red yet. MinimalAPIpassedONLY; taskgithubCIpartial/productnotrun/baselinereviewnull. Nextindependentfixtureauthor freshisolatedtree onlynewliteralJSON+oldwriter-onlyQtgreen+ownnote, no newfacade/manifest/codec asoracle/setup; rootsharedCmake/CI/state. Actualfixture review/host+officialnewgreen/featuretestsfullreview+compile+discovery stillbeforeFIRSTintendedred, sourceimplementationnotauthorized.",
+        "Fresh task/STORAGETEST-002-independent-fixtures /local-evidence/worktrees/storage002-fixtures createdcleanfrozen3dc433f afteractual APIef+official848 passed. plan_fixture_author EXPLICITLYresumednewfixture role RUNNING, ownONLYtests/fixtures/sqlite_application_bundle_vectors.json +tests/qt/sqlite_application_bundle_environment.cpp +ownfixtureauthorMD. New94registered=78existing/16absentrefs preserved, no prune/reset. Existingreviewer READONLYfixtureprep COMPLETEcleanef, actual3filecandidate/helper-slot/harness requiredbeforeverdict; APIauthorcompleteclean166. No newfixture/feature/red existsyet. Root owns sharedQtCmake/profile/CI/state/HTML/map; oldwriter-onlyhelpermustnot include/link/call7newstubs/manifest/codec asoracle/setup. Expectedmetadata/framing/typedmoney/range/provenance/numericvectors independentlymanual; no fakehealthyMAXhistory or QVariantInvalidNULLchecks. Publicationcheckpoint follows actualroles, no absentapproval."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -12208,6 +12209,11 @@
       "date": "2026-11-02T21:07:14.393809+00:00",
       "task": "STORAGETEST-002",
       "note": "Actualef API/extension/config review and official848 profileCI passed; advance independent fixture stage only, no newbehavior/testbaseline/red."
+    },
+    {
+      "date": "2026-11-02T21:10:22.103219+00:00",
+      "task": "STORAGETEST-002",
+      "note": "Explicitly assigned fresh independent fixture author/running at3dc; reviewer read-onlyprep complete, no fixture/test/red yet."
     }
   ]
 }

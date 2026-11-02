@@ -89,18 +89,21 @@ sqlite_application_bundle_vectors.json, sqlite_application_bundle_environment.cp
 and own fixture-author evidence. Oldwriter/QtTest ONLY, no newheader/facade/manifest/
 codec or implementation-generated expecteddata. Root owns helperCMake/profile/CI
 integration; independent ACTUAL fixture review/required old-writer green before
-feature test authoring. No fixture/test is authored merely by assignment. Then real
+feature test authoring. Fresh fixture branch task/STORAGETEST-002-independent-fixtures /
+local-evidence/worktrees/storage002-fixtures createdclean3dc433f after gates;
+fixtureauthor explicitly resumed/RUNNING. No fixture/test authored merely by assignment. Then real
 feature tests need actualfullreview/compile/exactdiscovery/selectedofficialnewgreen
 before FIRSTmissingbehaviorred. All7 stubs stay frozen. STORAGE-002 production
 staysplanned until this realbaseline integrates; no ownerneed.
 
-Author APIrolecompletedclean166, reviewer APIrolecompletedcleanef0ba764; fixtureauthor
-read-onlyprep completedclean61f. Root explicitly reassigns fresh fixture author after
-committing this phase. Existing old reviewer tree retained; next fixture review
+Author APIrolecompletedclean166. Reviewer APIrolecompletedcleanef0ba764, then
+explicitly resumed READONLYfixtureprep, nowCOMPLETEcleanef. Fixtureauthor RUNNING
+in NEWstorage002-fixtures at3dc; old61f correction tree preserved. Existing old reviewer tree retained; next fixture review
 must receive actual authoredJSON/helper, no absent-artifact approval. Root native/
 CI download/edit sessions complete; no runningrootcommand. Header/source unchanged,
 rootstate/HTML/checkpoint updates are metadata only. Actual newtree path/head and
-agentstatus must be recorded after creation. Preserve93existingrefs accounting above.
+agentstatus must be recorded after creation. Accounting now94registered=78existing/16absent refs, allpreserved. Rootsource/API
+unchanged; next obtainactualJSON/helper/ownnote commit before hostgreen/harnessreview.
 
 ## Actual integrated main / earlier gates
 

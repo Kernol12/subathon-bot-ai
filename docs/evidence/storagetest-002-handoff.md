@@ -85,3 +85,8 @@ fixture review and host/selectedQt requirednewgreen still precede featurebaselin
 review/compile/discovery/FIRSTmissingbehaviorred. Root owns sharedCMake/CI/state.
 Fresh fixture branch/tree from this accepted API checkpoint will preserve all prior
 work; no fixture has been authored merely by claiming this role.
+
+Fresh storage002-fixtures branch/tree createdclean3dc433f, fixtureauthor explicitly
+resumed/RUNNING for only3 exact owned files. Reviewer actual read-onlyfixtureprep
+completecleanef; no absentfixture approval. All94registered/78existing/16absent refs
+preserved. No feature-body/newentrypoint/oldred or extra native suite was invoked.
