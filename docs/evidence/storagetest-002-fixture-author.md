@@ -187,3 +187,55 @@ Project/render/diff checks pass with391 tasks/122 decisions/current HTML. No own
 access/decision is needed. Full application/semantic/job/clock/refund-allocation,
 all seven integrations/three FX providers, UI/renderers/platform/security/package/
 backup/recovery/live release gates remain required and incomplete.
+
+## Native instrumentation setup correction after actual first host run
+
+The coordinator integrated the candidate as603091b and actually configured/built
+its owned native harness: incremental18 steps, zero warnings, exactly five compiled
+helper slots and174 registered tests. The FIRST host helper run exited8 in0.45s:
+6PASS/1FAIL/0skip including setup/cleanup, with only
+`conditionalMidstageFaultRollsBackPreparedUnit` failing at old line580,
+`committed(installed)`. This occurred BEFORE its application unit. I read the actual
+root log `local-evidence/storagetest002-fixture-green-initial.txt`, SHA256
+`a1dba3dab2e923a6edb65d4bbce2cd4eb53cd4b5818db4495502f2d252592148`.
+These native results are attributed coordinator observations, not my invocation;
+the failure is instrumentation setup, not an intended feature red.
+
+The exact cause is the preserved existing
+[writer contract](../contracts/sqlite-writer-v1.md): ANY semicolon in SQL text is
+rejected before admission/execution. The [work contract](../contracts/writer-transactions-v1.md)
+explicitly preserves that boundary. Actual `allowed_writer_sql` at
+`server/src/sqlite_writer.cpp:142` checks `sql.contains(';')`. The unchanged compound
+trigger literal necessarily contains `BEGIN SELECT RAISE(...); END`; sending its
+DDL through the controlled session therefore yields invalid_statement before
+SQLite can install it. Removing its semicolon would invalidate trigger syntax;
+weakening the writer filter would change an unrelated reviewed public contract.
+
+The minimal helper correction instead executes the SAME unsupported disposable
+trigger install/removal DDL on the already-existing independent Observer's own
+QSqlDatabase test connection, only after prior controlled work has completed.
+An independent BEGIN IMMEDIATE/ROLLBACK first confirms no active SQL lock. Explicit
+assertions require successful DDL and the exact `(type,name,sql)` catalog row;
+a subsequent real controlled-writer BEGIN/SELECT/COMMIT must observe that identical
+trigger row before starting the application unit. Removal requires success and
+absence observed from BOTH connections, followed by the original exact clean-prior
+snapshot comparison before fault-off retry. Observer ownership comments now include
+this idle fixture-instrumentation DDL; no private writer handle escapes.
+
+ALL pending0→staged1, old-head, actual-prepared-row, separate-reader invisibility,
+inside-catch independent actual BEGIN, complete typed snapshot/known rollback,
+no normal payload and identical fault-off retry assertions remain. No JSON,
+trigger predicate, source data, math oracle, production filter/source/API/stub,
+old test or feature assertion changed. JSON remains blob
+`e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d` /
+SHA256 `aebff7061f91fdf7598b321963bae155c139ed1dc2d1705e3122268bed84c312`.
+
+Helper changes from blob `d9d441b5140726f6564ec1ea1ccc044b000fe2f6` to
+`b0a5c72f152f193370d6c39af526fba61d332fdb`, SHA256
+`51d3101ca414c213cd42612ffd754091db9397506ffd20cfe54e75bb7fade07b`;
+actual helper is now667 lines with the same five slots. `clang-format --dry-run
+--Werror`, project/render and `git diff --check` pass. No native run, new API/feature,
+old full173 or red was invoked by this author for this fix. Root will compile/run
+the actual committed correction with its existing owned harness. Actual separate
+review of the final helper and selected official green remain pending; the first
+failed harness is preserved locally and is not published as passing evidence.

@@ -163,7 +163,8 @@ QString quoted(QString name) {
     return '"' + name + '"';
 }
 // Separate disposable observer connection, never a raw handle to the controlled writer.
-// Its only control writes are BEGIN IMMEDIATE/ROLLBACK lock-release probes after failure.
+// Test instrumentation DDL is installed/removed only while the controlled writer is idle.
+// Application writes use that writer; BEGIN IMMEDIATE/ROLLBACK also probes lock release.
 class Observer final {
   public:
     Observer()
@@ -194,6 +195,10 @@ class Observer final {
     bool released() {
         QSqlQuery query(db_);
         return query.exec("BEGIN IMMEDIATE") && query.exec("ROLLBACK");
+    }
+    bool test_instrumentation_ddl(const QString &sql) {
+        QSqlQuery query(db_);
+        return query.exec(sql);
     }
     QList<SqlRows> snapshot() {
         QList<SqlRows> result;
@@ -571,13 +576,26 @@ class SqliteApplicationBundleEnvironment final : public QObject {
                    queries_["pending"].toObject());
         const auto clean_prior = observer.snapshot();
         const auto fault = fixture_["fault"].toObject();
+        // The completed bootstrap leaves the controlled writer idle. Its SQL
+        // contract rejects semicolons, so compound test-only trigger DDL belongs
+        // to this independent fixture connection, never to a writer bypass.
+        QVERIFY(observer.released());
+        QVERIFY(observer.test_instrumentation_ddl(fault["create_trigger"].toString()));
+        const QString trigger_catalog =
+            "SELECT type,name,sql FROM main.sqlite_schema WHERE type='trigger' "
+            "AND name='storage002_job_fault'";
+        const SqlRows expected_trigger{
+            {"trigger", "storage002_job_fault", fault["create_trigger"].toString()}};
+        QCOMPARE(observer.rows(trigger_catalog), expected_trigger);
+        SqlRows writer_trigger;
         const auto installed = run(writer, [&](auto context) {
             auto session = context.begin();
-            (void)session.execute({fault["create_trigger"].toString(), {}});
+            writer_trigger = session.execute({trigger_catalog, {}});
             session.commit();
             return QVariant(1);
         });
         QVERIFY2(committed(installed), qPrintable(installed.problem));
+        QCOMPARE(writer_trigger, expected_trigger);
         const auto with_trigger = observer.snapshot();
         bool prepared_seen = false, outside_pending = false, caught = false;
         const auto observed = run(writer, [&](auto context) {
@@ -611,13 +629,18 @@ class SqliteApplicationBundleEnvironment final : public QObject {
         QCOMPARE(observer.snapshot(), with_trigger);
         check_rows(observer.rows(queries_["pending"].toObject()["sql"].toString()),
                    queries_["pending"].toObject());
+        QVERIFY(observer.released());
+        QVERIFY(observer.test_instrumentation_ddl(fault["drop_trigger"].toString()));
+        QVERIFY(observer.rows(trigger_catalog).isEmpty());
+        writer_trigger.clear();
         const auto removed = run(writer, [&](auto context) {
             auto session = context.begin();
-            (void)session.execute({fault["drop_trigger"].toString(), {}});
+            writer_trigger = session.execute({trigger_catalog, {}});
             session.commit();
             return QVariant(1);
         });
         QVERIFY2(committed(removed), qPrintable(removed.problem));
+        QVERIFY(writer_trigger.isEmpty());
         QCOMPARE(observer.snapshot(), clean_prior);
         const auto retry = run(writer, [&](auto context) {
             auto session = context.begin();
