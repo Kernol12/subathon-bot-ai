@@ -79,7 +79,7 @@ owned `sqlite-bundle.` registration. The following groups cover all32 slots:
 | `staleStateContributionPlanAndTokenRebindRefuse` | SB07 all15 CURRENT cells, token/plan freshness, identical old-token reuse, applied-without-claim unavailable |
 | `clockAdvancedBeforeIsDistinctFromPersistedHead` | Three-snapshot400→0→300 distinction; actually approved80f8 source mismatch/whole rollback |
 | `sourceAndSelectedClosureFailuresRollbackBeforeCatch` | Typed retained/source/support references and missing actual basis; copied unit/target source mismatch |
-| `fullLookupRejectsMissingCountsGroupsAndCorruptSelectedBodies` | SB12 complete result/audit/claim/history/children/count/group/body validation without repair |
+| `fullLookupRejectsMissingCountsGroupsAndCorruptSelectedBodies` | SB12 complete result/audit/claim/history/children/count/group/body validation without repair; SB11 equivalent noncanonical Exact and class→size→grammar priority |
 | `typedReferenceClassesNullsAndSparseMaxAreStrict` | SB08/11 actual classes/NULL groups/domain; sparse count3/headMAX explicitly invalid |
 | `returnedAndInputBoundsHaveExactOneOverCategories` | Positive options, count/byte/combined bounds, selected-only returned vectors; no truncation |
 | `invalidInputPriorityPreservesHealthyUnit` | Exact preflight priority before expired/foreign ticket; prior staged caller writes remain committable |
@@ -95,7 +95,7 @@ owned `sqlite-bundle.` registration. The following groups cover all32 slots:
 | `cleanupAckLossOutranksSelectedFailure` | AT18 actual rollback acknowledgement loss overrides selected cause; closed writer/no replay |
 | `postCommitBodyFailurePreservesAccountingWithoutPayload` | Confirmed COMMIT then body failure versus later response failure; durable retrieval never reapplies |
 | `genuineMidstageJobFaultRollsBackWholeCallerUnit` | SB09/B08 approved idle-observer trigger, actual conditional write prerequisites, inside-catch lock/snapshot rollback and identical fault-off commit |
-| `cumulativeWriterBudgetsAbortObservedStaging` | Two individually fitting600k selected results exhaust cumulative1MiB after observed new refund staging; whole rollback/no reset |
+| `cumulativeWriterBudgetsAbortObservedStaging` | Observed new refund staging, then explicit old-session600k read leaves too little of cumulative1MiB for required full lookup; whole rollback/no reset |
 | `borrowedStoreLifetimeAndCapabilityErrorsStayTruthful` | Borrowed copies/destructor, actual owner/terminal/stale tickets, pure-before-thread, owner abandonment |
 | `presentEmptyAndOpaqueEnvelopeFieldsAreLossless` | Owned BLOB/NULL/present-empty and BOM/NUL/FF operation/state/group/audit/document bytes |
 
@@ -166,3 +166,64 @@ New source blob `054acbc2d9da87b1b705fc558b4b3201a4acae98`, SHA256
 `450f1141916279d642772f0d578603cf18eadc622e9e1eded59c4164cd4b8654`.
 Scoped formatting/diff/project/render checks pass. Further actual compilation and
 full independent review remain root gates; this author still ran no native/body.
+
+## Actual full-review corrections before first feature execution
+
+The different reviewer found two material defects in source054acbc2 (root's
+warning-only `selected_state` rename gives source64678efb at c3e8e988) and one
+selected Exact coverage gap. Root explicitly assigned these corrections within
+the same two owned paths. Root reports that the preceding candidate's32 slots
+compiled and registered; no new entrypoint or feature body has run. That prior
+build does not verify this corrected source.
+
+1. A600000-byte returned job does not imply its public lookup can fit a1MiB
+   cumulative writer budget: the contract specifies no fixed SQL query/read cost.
+   After actual observed refund staging, the test now executes exactly one old
+   session SELECT of the known job and asserts its real BLOB class and all600000
+   supplied bytes. This leaves at most448576 bytes of the1MiB budget. A subsequent
+   full lookup must return that600000-byte body and therefore exhausts the same
+   cumulative budget regardless of how it validates or materializes it. Separate
+   staged/consumed/caught flags, typed `result_limit`, actual writer
+   `WorkError::result_limit`, independent BEGIN inside catch and exact pre-unit
+   snapshot preservation remain mandatory. No assumed first public lookup cost
+   remains.
+2. Renaming the original state token before its immediate foreign-key references
+   was an unreachable positive setup. The corrected setup uses existing
+   `add_state(head)` to commit a complete fresh opaque snapshot plus balances,
+   then repoints the singleton head in another acknowledged old writer unit.
+   Explicit counts retain the original immutable `start` snapshot and both
+   balances. All BOM/NUL/FF, opaque key/group, owned bytes, present-empty and
+   SQLNULL assertions remain; controlled-writer foreign keys stay enabled.
+3. The existing full-lookup slot now independently corrupts the selected score
+   effect whose actual immutable request is100. BLOB `200`/`2` must be rejected
+   as noncanonical even though numerically equal. With `component_bytes=3`, a
+   four-byte non-ASCII BLOB numerator plus valid denominator must return
+   `result_limit` before grammar; the same oversized numerator with a TEXT
+   denominator must return `invalid_stored_data` before size. The contract's
+   explicit BOTH-classes/nonempty-shapes, BOTH-sizes, then grammar/gcd order is
+   the oracle. All untouched literal selected plan/effect components are asserted
+   to fit three bytes. Each case has its own database, feasible observer
+   CHECK-off UPDATE, inside-catch rollback/lock proof and exact snapshot comparison.
+
+The root `selected_state` warning rename is preserved exactly. Current source
+blob `682346f83893e093a2b49ea4ebf3ea67d0047fb3`, SHA256
+`f3466734915136ce85b1539862cfe056b26c525283fe7a06b58443667502aee5`.
+
+Actual author checks after these changes:
+
+```sh
+clang-format -i tests/qt/sqlite_application_bundle_tests.cpp
+clang-format --dry-run --Werror tests/qt/sqlite_application_bundle_tests.cpp
+git diff --check
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+```
+
+All pass; project check remains391 tasks/122 decisions/current HTML. An inline
+Python text-only inventory compared the35 Qt slot/lifecycle names against2ade878
+byte-for-byte, confirmed32 feature slots, no skips/new entrypoints in Qt setup,
+the preserved warning rename and all focused correction markers. No SQL, native
+compiler, new entrypoint or body was invoked by this author. Different actual
+full review, compilation and root's selected official green/first-red gates remain
+pending for this source. No production implementation is assigned; finishPR42
+then STOP remains the owner boundary.

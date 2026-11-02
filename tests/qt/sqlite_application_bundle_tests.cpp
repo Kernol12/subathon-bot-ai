@@ -1859,6 +1859,57 @@ class SqliteApplicationBundleTests final : public QObject {
                 require(caught && f->snapshot() == before,
                         "no incomplete result synthesis/replay/repair, exact snapshot preserved");
             }
+            const auto original = l_->prepared();
+            require(original.effects[2].request_ordinal == 3 &&
+                        original.effects[2].exact_requested_units == 100 &&
+                        original.effects[2].requested_units == 100,
+                    "selected score request independently fixes canonical100/1");
+            for (const auto &effect : original.effects)
+                require(numerator(effect.exact_requested_units).str().size() <= 3 &&
+                            denominator(effect.exact_requested_units).str().size() <= 3 &&
+                            numerator(effect.rounding_residual).str().size() <= 3 &&
+                            denominator(effect.rounding_residual).str().size() <= 3,
+                        "all untouched literal selected effect Exact components fit three bytes");
+            for (const auto &request : l_->capture("plan-P").captured.requested_effects)
+                require(numerator(request.exact_requested_units).str().size() <= 3 &&
+                            denominator(request.exact_requested_units).str().size() <= 3,
+                        "all literal selected plan Exact components fit three bytes");
+            struct ExactFault {
+                QString name;
+                QVariant numerator;
+                QVariant denominator;
+                SR reason;
+            };
+            const std::array<ExactFault, 3> exact_faults{
+                {{"equivalent-noncanonical", blob("200"), blob("2"), SR::invalid_stored_data},
+                 {"size-before-grammar", QByteArray::fromHex("FF000080"), blob("1"),
+                  SR::result_limit},
+                 {"class-before-size", QByteArray::fromHex("FF000080"), QString("1"),
+                  SR::invalid_stored_data}}};
+            for (const auto &fault : exact_faults) {
+                auto f = another("selected-exact-" + fault.name);
+                f->seed({"original_prepare", "original_finish"});
+                require(f->exec("PRAGMA ignore_check_constraints=ON") &&
+                            f->exec("UPDATE subathon_app_effects SET exact_numerator=?,"
+                                    "exact_denominator=? WHERE operation_scope=? AND "
+                                    "operation_ref=? AND request_ordinal=3",
+                                    {fault.numerator, fault.denominator, blob("scope"),
+                                     blob("original")}),
+                        "feasible independent selected Exact corruption");
+                const auto before = f->snapshot();
+                SqliteWriter w;
+                open(w, *f);
+                SqliteBundleLimits limits;
+                limits.component_bytes = 3;
+                bool caught = false;
+                auto r = refusal(
+                    w, *f, [](auto &store) { (void)store.lookup(key()); }, fault.reason, caught,
+                    limits);
+                known(r, fault.reason);
+                require(caught && f->snapshot() == before,
+                        "both component classes then both sizes then canonical grammar/gcd; "
+                        "equivalent value is never normalized and prior work rolls back");
+            }
         });
     }
     void typedReferenceClassesNullsAndSparseMaxAreStrict() {
@@ -3022,7 +3073,7 @@ class SqliteApplicationBundleTests final : public QObject {
             limits.value_bytes = 700000;
             SqliteWriter w;
             open(w, *f_, budget);
-            bool staged = false, first = false, caught = false;
+            bool staged = false, consumed = false, caught = false;
             const auto refund = l_->prepared("refund1");
             const auto r = run(w, [&](auto context) -> QVariant {
                 auto s = context.begin();
@@ -3035,16 +3086,21 @@ class SqliteApplicationBundleTests final : public QObject {
                         2,
                     "actual +1 staged operation before budget failure");
                 staged = true;
-                const auto initial = store.lookup(key());
-                require(initial && initial->jobs[0].envelope.document.size() == 600000,
-                        "first individually fitting full selected result");
-                first = true;
+                const auto selected_job =
+                    s.execute({"SELECT typeof(document),document FROM subathon_app_jobs WHERE "
+                               "operation_scope=? AND operation_ref=? AND ordinal=1",
+                               {blob("scope"), blob("original")}});
+                require(selected_job.size() == 1 && selected_job[0].size() == 2 &&
+                            selected_job[0][0].toString() == "blob" &&
+                            bytes(selected_job[0][1]) == std::string(600000, 'x'),
+                        "one explicit old-session read consumes at least600000 result bytes");
+                consumed = true;
                 try {
                     (void)store.lookup(key());
                 } catch (const SqliteBundleStorageFailure &e) {
                     require(e.reason() == SR::result_limit && f_->released(),
-                            "second individually fitting result exhausts CUMULATIVE writer budget "
-                            "and rolls unit back inside catch");
+                            "required600000-byte body exceeds at most448576 remaining cumulative "
+                            "result bytes and rolls unit back inside catch");
                     caught = true;
                     throw;
                 }
@@ -3052,7 +3108,7 @@ class SqliteApplicationBundleTests final : public QObject {
                 return 1;
             });
             known(r, SR::result_limit, WorkError::result_limit);
-            require(staged && first && caught && f_->snapshot() == before,
+            require(staged && consumed && caught && f_->snapshot() == before,
                     "no reset/truncate/partial application, prior durable original and large body "
                     "unchanged");
         });
@@ -3137,12 +3193,16 @@ class SqliteApplicationBundleTests final : public QObject {
             auto p = l_->prepared();
             auto head = l_->state("start");
             head.token = opaque + "-head";
+            f_->add_state(head);
             f_->apply(
-                {{"UPDATE subathon_app_states SET token=? WHERE token=X'7374617274'",
-                  {blob(head.token)}},
-                 {"UPDATE subathon_app_balances SET token=? WHERE token=X'7374617274'",
-                  {blob(head.token)}},
-                 {"UPDATE subathon_app_head SET token=? WHERE singleton=1", {blob(head.token)}}});
+                {{"UPDATE subathon_app_head SET token=? WHERE singleton=1", {blob(head.token)}}});
+            require(f_->scalar("SELECT count(*) FROM subathon_app_states WHERE "
+                               "token=X'7374617274'")
+                                .toInt() == 1 &&
+                        f_->scalar("SELECT count(*) FROM subathon_app_balances WHERE "
+                                   "token=X'7374617274'")
+                                .toInt() == 2,
+                    "prior immutable start snapshot and balances remain while head moves");
             p.intent.operation = {opaque, opaque + "-operation"};
             p.intent.expected_state_token = head.token;
             p.advanced_before.token = opaque + "-before";
