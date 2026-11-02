@@ -376,3 +376,237 @@ three exchange-rate providers remain intended release scope.
 Root now supplies the actual [migration4 physical proposal](sqlite-application-plans-schema-v1.md)
 (five tables/30 total objects/29015-byte payload); full different logical/physical
 review must inspect that exact companion before minimal API/stub authorization.
+
+## Concrete API precision for separate review
+
+The new internal [API](../../server/include/subathon/server/sqlite_application_plans.hpp)
+uses SqliteApplicationPlanStore over a copied SqliteWorkSession and SqlitePlanLimits.
+Constructor/copy/destructor are inert. Methods are const, synchronous and repeatable;
+there is no mutable single-use repository guard, construction-thread identity,
+BEGIN/commit method, authority transfer or store-destructor cleanup. Valid calls
+reach the actual ticket, which enforces true owner/work/phase/lifetime. Pure input
+checks precede that access even on a stale/foreign ticket. The caller still owns
+active-session exclusivity, immutable input buffers through each call, real commit
+and publication; returned values own their bytes/Exact data beyond session closure.
+
+### Exact declared functions and staged results
+
+- encode_plan_revision_uint64(uint64) -> QByteArray and its decode counterpart
+  cover the FULL numeric0..MAX range. Null or length other than8 is invalid_codec.
+  No method treats codec0 as a valid stored revision/head/parent.
+- SqlitePlanExactComponents owns numerator/denominator QByteArrays.
+  encode_plan_exact(Exact,component_bytes=16384) and decode_plan_exact(components,
+  component_bytes=16384) operate only on canonical rational VALUE described above.
+- application_plan_repository_manifest() is pure description of exact immutable
+  prefix1/2/3 plus approved step4. No SQL/open/operational authority.
+- retain_initial(plan_ref,initial CapturedPlanRevision) -> inserted, already_present
+  or conflict. inserted means complete staged revision1, never durable success.
+- find(plan_ref) -> optional complete owned ApplicationPlan.
+- find_revision(plan_ref,positive revision) -> optional SqlitePlanRevisionSnapshot,
+  containing owned plan_ref and ONE CapturedPlanRevision. The distinct snapshot
+  type deliberately makes no complete-history/current-preview certification.
+- append(plan_ref,expected_head,next CapturedPlanRevision) -> appended,
+  missing_plan, stale_head, revision_conflict or event_conflict. appended is staged.
+  revision_conflict means a locally valid candidate whose number/parent does not
+  follow the actual matching head; event_conflict means an event rewrite. Both,
+  like stale/missing and initial conflict, make no primitive writes/cleanup.
+
+expected_head is an optimistic token, not a persisted domain value. ALL uint64
+tokens, including0/MAX, are valid arguments: expected0 is stale against every
+valid stored head. Do not reject it as a zero revision, bind it through signed64,
+or calculate expected+1 before reading/validating actual head. Targeted revision0
+is invalid_revision. No preview/current authoritative state token is introduced.
+
+### Options and complete field-to-bound mapping
+
+SqlitePlanLimits has exactly the six proposed fields/defaults. reference_bytes,
+value_bytes and component_bytes must be positive representable qsizetype values.
+For each count reject n<1 before any unsigned conversion; using U(nonnegative)
+as std::uintmax_t, require strict n<qsizetypeMAX and n<qint64MAX. Additionally:
+
+| Count | Further exact representability predicate |
+| --- | --- |
+| revisions_per_full_find | U(n) < U(std::vector<core::CapturedPlanRevision>{}.max_size()) |
+| items_per_vector | U(n) strictly below EACH max_size of std::vector<core::RuleSelection>, std::vector<core::ModifierSelection>, std::vector<core::RequestedEffect> |
+| items_per_full_find | U(n) < U(std::numeric_limits<std::size_t>::max()); it is a checked TOTAL across separate vectors, not capacity of one invented vector |
+
+These strict comparisons reserve n+1 lookahead without first overflowing signed
+arithmetic. No huge vector is required to be allocated by validation, and no memory
+availability is promised. Aggregate item counters use checked addition/subtraction;
+full-find totals count all three returned child collections across every revision.
+The total excludes revision scalars, the shared event and unmaterialized metadata.
+Full read fails if either per-vector or total bound would be exceeded. Targeted
+read uses the same per-vector bounds for its one selected body and does NOT apply
+either full-plan count bound; append/initial input uses per-vector bounds only.
+
+The metadata audit's private page size is64 rows, independently of the full-plan
+read bound; page/key arithmetic and all result lookahead still require checked
+conversion. Use strict greater-than-last canonical revision key, ordered ascending,
+with termination and expected next revision verified. A full page is not permission
+to skip another page. This defines bounded page materialization, not a fixed SQL
+statement count or hard callback deadline. Existing cumulative statement/binding/
+result budgets remain unchanged and may refuse any operation safely.
+
+| Bound | Every covered byte field |
+| --- | --- |
+| reference_bytes | plan_ref; event_ref/root_event_ref/optional parent_event_ref; receipt origin/provider/account/identifier namespace/opaque ID; receipt optional payment/activity namespace+ID pairs; arrival connection/configuration/modifier-context refs; ContributionState resolution/policy/decision/decision-actor refs; HistoricalValuation resolution/snapshot/optional source/manual-decision refs; rule_ref/version_ref; modifier definition-version/instance-revision/target/group/group-operator/target-operator; request action/action-version/rule/target/reversal refs; override actor/decision refs; actual selected retained keys/known links |
+| value_bytes | receipt event_type/optional actor ID/display-name/money decimal+currency; ContributionState original-money decimal+currency; HistoricalValuation original-money decimal+currency/comparison currency/effective-rate/optional fetched-rate spellings; rule explanation; modifier original factor; request calculation explanation; override reason; selected retained document payloads |
+| component_bytes | Canonical ASCII numerator and denominator separately, including a numerator minus sign |
+
+All optional-present strings use their field's bound, even when empty. Only the
+already agreed required identities and override audit fields require nonempty;
+empty policy/decision/actor/resolution/rule/action/quote strings otherwise remain
+present exact BLOB. Limits never become a grammar, currency-normalization, semantic
+namespace or provider-verification rule. No original receipt schema/timestamp
+narrowing or new source version/time-zero restriction is added.
+
+### Pure preflight and exact input categories
+
+All store methods check the complete options predicate first (invalid_options),
+then nonempty/bounded plan_ref (invalid_plan_ref). Find_revision then checks its
+requested revision>0 (invalid_revision). Retain/append next check this ordering:
+
+1. Numerical role/parent shape: initial revision1 with no parent; next revision>1,
+   parent>0/belowMAX and revision=parent+1 after checked arithmetic. Otherwise
+   invalid_revision. This is candidate-local shape, not relation to expected_head.
+2. Sizes of all three candidate vectors, before walking them: collection_limit if
+   any exceeds items_per_vector. Full-find count limits do not limit these inputs.
+3. Override role: initial has no override; append has authorized2 and nonempty
+   bounded actor/reason/decision. Wrong authority/presence/audit -> invalid_override.
+4. ReceiptId0 -> invalid_receipt_id, then full event/source byte/required-ref shape,
+   ancestry presence and required nonempty event/root refs -> invalid_event.
+   Any optional ContributionId0..MAX is allowed; its real target is checked later.
+5. ContributionState known enum/group/member bounds -> invalid_contribution_state.
+6. PlanValuation known state/whole quote presence/original-money equality and
+   missing_historical versus bounded request dependency flags -> invalid_valuation.
+7. Rule fields in order -> invalid_rule, then modifier fields -> invalid_modifier,
+   then request known unit/byte fields -> invalid_request. For each request its
+   exact rational component bound check follows these request shape checks and
+   propagates exact_component_limit; no numeric correctness/rounding is computed.
+
+This new storage preflight is distinct from core revise_application_plan's existing
+history/expected-token/decision/source order; no core function is changed, called
+with fake sources or relabelled to implement these checks. Pure input failures
+are SqlitePlanInputFailure deriving std::invalid_argument; when caught they do no
+SQL, rollback or caller-unit mutation. A later stored comparison failure is never
+misreported as one of these pre-SQL categories.
+
+Standalone Exact functions check positive component_bytes first (invalid_options).
+Encoding rejects components whose canonical ASCII length exceeds it as
+exact_component_limit, without invoking parser/finalizer policies. Decoding checks
+null/empty components first (invalid_exact), then either component's byte overage
+(exact_component_limit), then canonical ASCII grammar/positive denominator/reduced
+pair/zero0over1 (invalid_exact). Numerator sign counts toward the same byte bound.
+QByteArray is a byte input, not SQL; these functions do not validate QVariant types
+or claim stored BLOB proof. Selected SQL component decoding first checks actual
+SQL type/presence/declared length, then bounds before expensive grammar/arithmetic:
+wrong SQL class/shape -> invalid_stored_data; a larger correctly typed BLOB uses
+result_limit before inspecting its unread digits; fitting noncanonical data uses
+invalid_stored_data. No silent truncation or normalization. Combined-error priority
+is explicit; malformed cases and valid one-over cases must have independent oracles.
+
+### Actual selected scope and no-own-write refusal ordering
+
+Every method first performs the pure checks above, then actual session operations.
+Missing header returns absent/missing_plan; it does not trigger a global orphan-row
+audit or proposed new-target resolution. For a present header, validate exact
+stored identity/ancestry/positive head and actual receipt-original projection with
+typed cfg/context/known-config resolution and the same reference/document bounds.
+A context's known configuration may differ from arrival configuration.
+
+The present-CID lookup is deliberately a physical ID/REFERENCE projection: select
+actual contribution_id and original_receipt_id, strictly decode BLOB8/nonzero
+receipt/BLOB8 CID including0, require the matching contribution identity and an
+actual correctly typed matching original receipt identity target. It does NOT
+materialize/claim validation of that contribution's current state/valuation,
+original facts/arrival/context or original support observation. Those unselected
+payloads/anchor remain STORAGE-014/application validation obligations. Never require
+that support receipt equals this PlanEvent receipt, impose observation kind/linkage
+or compare live state with captured historical state. Missing/dangling/wrong-class
+selected identity/reference fields fail, not fallback to another namespace.
+
+Full find validates basic numeric summary (all revision key types/domain,
+cardinality/min/max/head/count) before its full-read revision bound. Inconsistent
+summary -> invalid_stored_data, not result_limit. A count over the bound then fails
+result_limit without claiming unread scalar/child payloads valid. Otherwise decode
+all scalar rows/immediate parents/audits/capture valuation and full ordered children
+under all selected bounds, yielding a complete ApplicationPlan only on full success.
+
+Find_revision validates header/actual max agreement and initial-anchor scalar/
+audit/capture-valuation metadata INCLUDING actual original quote money and all
+request dependency flag metadata. No complete child payload/Exact grammar/ordinal
+validity is claimed for an unselected initial anchor. A missing requested row then
+returns absent even when its absence would be a global gap; a missing/invalid
+required initial or head/max marker is invalid_stored_data. A found target validates
+its complete selected scalar/body/children and local positive immediate-parent
+identity target; it does NOT recurse into that parent's own chain/body. Its distinct
+snapshot result never certifies a complete history. This is precisely the limited
+scope of the sparse MAX diagnostic, not a corruption-tolerant aggregate import.
+
+For existing retain_initial and every append, perform the complete declared
+structural metadata audit independent of full-read caps: numeric summary plus
+paged chain, immediate parent, required authorized audit and capture-valuation/
+quote-original-money/dependency-flag checks. Old child numeric/string payloads
+not selected by that audit are not certified. For existing initial retention,
+fully decode/compare the actual initial scalar/ordered bodies and complete event:
+exact match -> already_present, difference -> conflict, before checking newly
+proposed targets. A selected malformed original cannot be hidden by conflict.
+
+For append, after healthy old structural audit compare expected_head: mismatch
+(including expected0) -> stale_head. Only a matching actually valid MAX head can
+cause revision_exhausted; a sparse MAX fixture first fails structural history.
+For a matching non-MAX head, a candidate number/parent different from actual
+head+1/head -> revision_conflict; then any complete event difference -> event_conflict.
+Each is a no-own-write result, and none resolves proposed replacement targets first.
+Only a successful exact relation stages the complete new scalar/children/head.
+No stale token, event conflict or duplicate performs store cleanup or discards
+unrelated earlier writes. No duplicate result can turn into an upsert/retarget.
+
+For new initial retention, only after header absence resolve proposed actual
+receipt/projection/typed targets, then stage a complete first revision/header/
+children. Missing actual receipt -> missing_receipt; missing new CID target ->
+missing_contribution; different otherwise valid original -> receipt_mismatch.
+Stored malformed/dangling source/header target is invalid_stored_data. Stored
+source/selected limits take precedence over a candidate projection mismatch;
+never compare guessed/partially decoded data or normalize it to obtain equality.
+
+### Known failure, allocation and uncertainty boundaries
+
+SqlitePlanStorageFailure is the new known-uncommitted port error with exactly
+SqlitePlanStorageReason: busy, sql_failure, resource_limit, result_limit,
+missing_receipt, missing_contribution, receipt_mismatch, invalid_stored_data and
+revision_exhausted. Domain no-own-write dispositions are not storage exceptions.
+Stored enum/group/revision/ordinal/chain/ambiguity/canonical component faults and
+dangling selected targets use invalid_stored_data; selected byte/component/
+collection/full-read bounds use result_limit. Busy/SQL/resource/result failures
+map only after the actual writer has established the recorded rollback/outcome.
+Existing retention selected failures map their known invalid_stored_data/result_limit
+after its real rollback; an inactive second cleanup is not fresh rollback proof.
+
+Local selected failures on an active unit must establish actual rollback before
+throwing a known port exception. Capability/phase/protocol/invalid-statement and
+other unmapped WorkFailure stay original. Unknown COMMIT/cleanup always stays
+SqliteWorkFailure(uncertain_outcome), outranks local reasons, closes admission and
+provides no permission to replay. The caller owns real commit/control faults;
+the store has no hidden commit path or implicit recovery/resolution. Mapping
+inside this facade covers only failures raised by its own primitive calls; a
+caller session.commit failure remains that caller's original SqliteWorkFailure,
+not a store exception.
+
+Prepare/guard initial+append writes so a caught allocation exception after any own
+writes cannot leave a partial head/header/revision/child set. Cleanup covers the
+whole existing caller unit, including earlier staged work, or actual unknown
+outranks the original allocation exception. std::bad_alloc is not automatically
+labelled resource_limit or a known port error. No cleanup is performed merely for
+pure input or a no-own-write domain refusal. Store destruction remains inert even
+with caller-staged writes; owner session finalization is the actual backstop.
+
+The initial [source](../../server/src/sqlite_application_plans.cpp) contains only
+an inert session/options constructor and NINE immediate named
+SqliteApplicationPlansNotImplemented logic-error throws: two uint64 codecs, two
+Exact codecs, manifest and four store methods. No validator, serialization,
+manifest/schema source, SQL/target/metadata audit, counter, write guard or durable
+behavior is implemented by these stubs. Invalid calls also reach that explicit
+marker; this makes no claim that validation passed or caller writes rolled back.
+Different actual API/stub/shared-build precision review precedes any new tests/
+fixtures/green diagnostic or production behavior.

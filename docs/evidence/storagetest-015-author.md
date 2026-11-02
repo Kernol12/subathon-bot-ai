@@ -114,3 +114,86 @@ STORAGE-015 implementation. No owner decision/access is needed for this bounded
 proposal. All seven integrations/three FX providers, complete application bundles/
 effects/jobs, evaluator/permission/semantic resolution, backup/update/recovery/
 power-loss, renderers/UI/locales/themes/packaging/platform/live/OBS remain required.
+
+## Minimal API/stub stage after actual full contract approval
+
+Root authorized this stage only AFTER actual full logical/physical approvala2926ee
+integratedc61b990. The author normally merged that actual commit. One expected
+add/add logical-document conflict was resolved by retaining the exact approved
+root1b204cbc document, preserving both histories in merge786a94a. Physical99bf45b4
+and the entire approved logical document remain unchanged; Concrete API precision
+is appended only.
+
+Only expanded author-owned paths are new sqlite_application_plans.hpp/cpp,
+appended precision and this own evidence. Root's shared CMake/profile/CI candidate
+is outside this worktree and remains separately reviewed build integration.
+
+The API declares an inert copyable active-session store with four const methods,
+one selected-revision snapshot type, staged initial/append dispositions, six limits
+and structured pure/known-storage exceptions. It owns no transaction/cleanup,
+constructor-thread guard or commit. Expected head0 is a valid optimistic stale
+token, distinct from invalid stored/requested revision0. Candidate-local revision
+shape and actual matching-head relation are separate checks, so revision_conflict
+and event_conflict make no own writes rather than claiming a pre-SQL rejection.
+
+Standalone codecs cover full uint64 and canonical Exact component bytes; manifest
+is pure description. Source contains exactly NINE immediate named logic-error
+throws plus inert weak-session/options construction. No validator, Exact arithmetic,
+serialization, actual manifest/SQL, metadata audit, source lookup or staged write
+algorithm is supplied. No caller rollback claim derives from this baseline marker.
+
+Appended precision explicitly records:
+
+- Every field-to-reference/value/component bound, exact standard vector max_size/
+  signed/qsize count+1 predicates, checked totals and private64-row metadata pages.
+  Per-vector limits apply to one selected/new body; full-plan limits never limit
+  append/initial inputs or selected-snapshot materialization. Memory availability,
+  exact SQL statement count or a hard callback deadline are not promised.
+- Options/plan/role/count/override/event/state/valuation/rule/modifier/request order
+  and exact input categories, distinct from unchanged core function ordering.
+  Exact byte/grammar/normal-form priority is explicit; selected wrong SQL class,
+  fitting malformed data and larger BLOB limits remain different cases. Old core
+  parser512/256 and finalizer4096-bit limits are never reused as storage policy.
+- Each primitive's actual header/summary/scalar/child/target scope, including
+  targeted absence after required anchors and request DEPENDENCY FLAG metadata for
+  missing_historical initial anchors. No generic full-history validation is
+  accidentally applied to targeted lookup; unread payloads are not certified.
+- Actual CID lookup selects only contribution ID/original-receipt reference and
+  that actual receipt identity target. It does not claim current state, quote,
+  source facts/context or original support anchor were inspected. It never forces
+  contribution original receipt==PlanEvent receipt or current state==capture.
+- Existing healthy conflict/stale/missing/revision/event refusals precede new
+  proposed-target resolution and leave caller work active. Full old structural
+  metadata audit checks core chain/audit/valuation/original-money/dependency rules
+  without silently claiming all old rational/string payloads were examined.
+- Actual rollback precedes known storage reasons; existing capability/protocol/
+  invalid-statement/unknown WorkFailure remains unchanged. Allocation after own
+  writes cleans the entire caller unit or propagates actual unknown. Store
+  destruction is inert; no inactive cleanup no-op fabricates rollback proof.
+
+Actual API-stage artifacts:
+
+| Artifact | Git blob |
+| --- | --- |
+| New header | 4634d7b57dccc5c559f2ab05a968833b4b925feb |
+| Nine-throw stub | e989d70f5021a9285db0dbc79c32d1153b4e7700 |
+| Logical with appended precision | 3af256cdf82a4737c2fc71a67c88b8b332d6ba71 |
+
+Actual checks after these files were written:
+
+| Command/check | Actual result |
+| --- | --- |
+| `clang-format -i` and `clang-format --dry-run --Werror` on the two new C++ files | Pass |
+| Python subprocess argv `c++ -std=c++20 -fPIC -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Iserver/include -Icore/include <Qt6Core/Qt6Sql pkg-config system include/define flags> -fsyntax-only server/src/sqlite_application_plans.cpp` | Pass0warnings; syntax only, no linking/invocation |
+| Approved logical-prefix check against actualc61b990 | Exact1b204cbc bytes preserved, precision appended only |
+| Explicit immediate stub count | Nine named SqliteApplicationPlansNotImplemented throws |
+| `python3 tools/check_project.py` | Pass391 tasks/122 decisions/current HTML/links/presets |
+| `python3 tools/progress.py render --check` | Root-owned snapshot current |
+| `git diff --check` | Pass |
+
+No native suite, stub/function body, prior red, new red, SQL/schema/Exact diagnostic,
+fixture/test/green helper or live action was executed. Root must integrate/build
+these actual artifacts with the existing selected Boost/Qt chain; different actual
+API/stub/precision/shared-build review precedes any test/fixture authorization.
+No absent API review, compiled selected-runtime result, first red or implementation
+approval is inferred from these syntax/document checks.
