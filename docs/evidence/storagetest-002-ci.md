@@ -278,3 +278,29 @@ are authored/static-checked but NOT yet compiler-checked or finally approved. Ro
 now freezes complete current code before target build/metadata ONLY. Same32 slots,
 CMake91035/workflow453f; stubs/API/physical/JSON/helper remain unchanged. No feature
 body/new entrypoint/red has run. Do not attribute earlier646/a6 build to this source.
+
+## Actual final warning-free compiler and full separate approval
+
+At CLEAN60a2fcc7f0755f2b6325947d7dc133f363477667, corrected CPP4b60 actually passes
+target build3 worksteps/6.99s/ZERO warnings, compiled32 slots/32 enabled registered
+cases/206 total, EXACT old174 names/commands/properties preserved. Root invokes
+only -functions and CTest show-only, no new feature body or API entrypoint.
+
+| Final actual root artifact | SHA256 |
+| --- | --- |
+| `local-evidence/storagetest002-feature-build-final.txt` | `ce87c10c45ef0f180c64dcfd47f7868013b11a63b223989a4397408ddfbce7be` |
+| `local-evidence/storagetest002-feature-functions-final.txt` | `b7f236b0608cfae062eec4ff3670967d4cf50453e5467d89894d88ef361c4ee6` |
+| `local-evidence/storagetest002-feature-discovery-final-all.json` | `33c64ad3de5ed26c786ed2e68539576d4fb142f27ddf06b935eb48aa13830568` |
+| `local-evidence/storagetest002-feature-discovery-final-bundle.json` | `7e7be459fb1241afe4c07a4c80b8ac3e943016f170fb2e65bbec188359f5811a` |
+
+Actual independent FULL test/harness approval917092155253912b6dad18d281fd5fddd852872d
+imported306f134/reviewMD782c73237577499f381001aef12433e2a8ef5b3b accepts same4b60/
+authorcaac/CMake91035/workflow453f, all six preliminary plus four full findings
+resolved. Own fresh targeted28-step dependency+case build0warnings,32compiled/
+32enabled/global206/static checks pass. Independent pure literal weights reproduce
+838/112/20-9-10. No old native/fixture suite replay, feature body or new entrypoint.
+
+Next publish this complete clean approved source/harness/evidence revision and
+observe ITS OWN official required NEW-five green plus exact32 compiled guard and
+all eleven latest checks BEFORE FIRST missing-behavior body/red. Earlier published
+bed9 checkpoint CI is not this future full-feature proof. No implementation yet.

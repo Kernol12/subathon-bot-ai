@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T21:58:19.713954+00:00",
+  "updated_at": "2026-11-02T23:06:46.975146+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt, contribution and captured-plan repository components have reviewed acceptance evidence. The application-bundle logical contract is reviewed; concrete bundle baseline/implementation, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5084,7 +5084,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; actual full reviewer /root/contribution_reviewer; source author /root/plan_fixture_author completed",
+      "owner": "Coordinator /root; actual full reviewer /root/contribution_reviewer completed; source author /root/plan_fixture_author completed",
       "depends_on": [
         "STORAGE-001",
         "STORAGE-015",
@@ -5123,13 +5123,14 @@
         "ActualCLEANa6bb6283e792c5b5804db9c371d103f710b0f502 zero-warningtargetrebuildPASS3worksteps/6.91s. CPP64678efb/QtCmake91035/WF453f/authorMD3c3. Compiled32functions matchall32enabledCTestslots,206total; removingnew32restoresEXACTold174names/commands/properties fromacceptedfixturediscovery. No featurebody/newentrypoint/intendedred ran; no unchangedold173native replay. Fullactualdifferentreviewnowactiveagainstcompleteactualsource/harness/note; publishonlyafterverdict/corrections andobserveOWNsame-clean-approved-feature-head requiredofficial5green+32discovery beforeFIRSTred. Latestpublishedbed9all11SUCCESS/SQL41535643464 ischeckpointONLYnotnewfeature-harnessproof.",
         "Actualfullreviewrequests2focusedtestcorrections beforeapproval: cumulative1MiBbudgettestincorrectlyassumesfirst600knewlookupread-oncefits (contractmakesnofixedSQLcostpromise), replacefirstUUTlookupwithoneexplicitoldsession600kSELECTthenrequirenewlookupcumulativefailure/rollback; opaquehealthyheadsetupUPDATEtokenviolatesimmediatehead/balanceFKs, replacewithcompletefreshsnapshot+balancesinsertthenheadrepointretainingoldstart. SourceauthorEXPLICITLYresumedownCPP/MDonly, allassertions/foreignkeyenforcementpreserved. No newbody/entrypoint/red, no implementation; actualfullverdictpending.",
         "Actualsource87372b2 imported598a815/CPP682346f8/authorMD7aa86b5c implements3fullreviewcorrections; differentreviewerACTUALLYinspectedandconfirmedall3. Fullsource/harnessreadcomplete/6earlyfixesconfirmed/independent838/112/20-9-10weightsreproduced; no othermaterialfindings except4thcriticalactualcreditboundgap. SourceauthorEXPLICITLYresumedaddingcappedrequest600actualMain120/cap480 andfreshlocallyvalidrefund130 withentitlement120/residual-10: readbasisactual120, thennormalreversal_conflict/no-own-write/committablecaller. Same32slots/noAPI/fixturechanges. Current682notyetrebuilt; lastnativeproof646remainsvalidhistoricalonly. Finalsourcecompile/discovery/differentactualverdict/ownofficialgreen precedeFIRSTred.",
-        "Finalboundedauthor0a655f93 clean imported6f1a23c: CPP4b60fcaa/authorMDcaac2022 addsactualcappedbasis120vsrequest600andlocallyvalidrefund130/entitlement120/residual-10/fullfalse. Refusalnormalreversal_conflict preservesobservedcallermarkerthroughactualCOMMIT; lateronlymarkerDELETEthenexacttypedbefore snapshot. Prior3actualfixesconfirmedbydifferentreviewer; fourthactualartifact/fullfinalverdictpending. Same32slots/currentharness91035/WF453f/7producerstubsrc83/physicalf13/JSONe8b/helperb0unchanged. Rootfreezesnewsource/metadata beforeFINALtargetcompile/discoveryONLY; currentfeaturebuildpartial untilactualnewartifactpass, no body/newentrypoint/red."
+        "Finalboundedauthor0a655f93 clean imported6f1a23c: CPP4b60fcaa/authorMDcaac2022 addsactualcappedbasis120vsrequest600andlocallyvalidrefund130/entitlement120/residual-10/fullfalse. Refusalnormalreversal_conflict preservesobservedcallermarkerthroughactualCOMMIT; lateronlymarkerDELETEthenexacttypedbefore snapshot. Prior3actualfixesconfirmedbydifferentreviewer; fourthactualartifact/fullfinalverdictpending. Same32slots/currentharness91035/WF453f/7producerstubsrc83/physicalf13/JSONe8b/helperb0unchanged. Rootfreezesnewsource/metadata beforeFINALtargetcompile/discoveryONLY; currentfeaturebuildpartial untilactualnewartifactpass, no body/newentrypoint/red.",
+        "Actual full separate32-case/harness approval917092155253912b6dad18d281fd5fddd852872d clean imported306f134/reviewMD782c7323 accepts exactCPP4b60/authorMDcaac/QtCMake91035/WF453f atclean60a. All6preliminary+4fullfindingsresolved; own fresh28-step targeted build0warnings/32compiled/32enabled/global206/independent838-112-20-9-10/staticchecksPASS. Rootmatchingclean60a finalbuild3steps6.99s0warnings/exact32/old174unchanged PASS. No body/newAPI/red. Publishcompleteapprovedrevisionnow; observeITSOWNrequiredofficialnew5green+32guard/all11 beforeFIRST32missingbehaviorred. Implementationremainsplanned; stopafterPR42."
       ],
       "verification": {
         "concrete_contract": "passed",
         "api_review": "passed",
         "fixture_review": "passed",
-        "test_review": "partial",
+        "test_review": "passed",
         "intended_red": "not_run",
         "github_ci": "partial",
         "product_acceptance": "not_run",
@@ -5146,9 +5147,9 @@
         "fixture_selected_qt": "passed",
         "clock_before_category_review": "passed",
         "feature_authoring": "passed",
-        "feature_native_build": "partial",
+        "feature_native_build": "passed",
         "authored_tests": "passed",
-        "feature_registration": "partial",
+        "feature_registration": "passed",
         "existing_registration_preserved": "passed"
       },
       "evidence": [
@@ -5159,7 +5160,13 @@
         "docs/evidence/storagetest-002-fixture-author.md",
         "docs/evidence/storagetest-002-test-author.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/plan_fixture_author (independent fixtures and feature tests); /root/contribution_implementer (contract/API); /root (shared schema/build/CI and focused compiler rename)",
+        "reviewer": "/root/contribution_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual full test/harness approval917092155253912b6dad18d281fd5fddd852872d integrated306f134 accepts CPP4b60/authorMDcaac/QtCMake91035/WF453f at clean60a. Six preliminary and four full findings resolved. Root final target build3 steps/6.99s and reviewer fresh target28 steps both zero warnings; exact32 compiled/enabled cases,206 total/old174 preserved. Independent838/112/20-9-10 oracles reproduced. This is test-baseline approval only: official same-clean-approved-published-feature-head new-five green/32 discovery and FIRST actual red remain pending; no implementation or observed red is claimed.",
+        "evidence": "docs/evidence/storagetest-002-review.md"
+      }
     },
     {
       "id": "STORAGE-002",

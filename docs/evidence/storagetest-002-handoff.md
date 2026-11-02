@@ -162,3 +162,16 @@ API/source/physical/literal/helper unchanged. Actual rollback precedes known
 source_mismatch; uncertain cleanup remains original WorkFailure. Reviewer confirms
 20/9/10 returned-vector counts. Feature author explicitly notified this approved
 precision; full actual feature baseline review and first red remain pending.
+
+## Actual complete feature-test approval; official/red gates next
+
+All32 independently authored cases now have ACTUAL full different review91709215
+(imported306f134, reviewMD782c7323), exact CPP4b60/authorMDcaac/QtCMake91035/WF453f
+at clean60a. Six preliminary and four full-review findings are resolved in actual
+source. Root final3-step/6.99s build0warnings and reviewer fresh target28-step
+build0warnings; compiled32/registered32enabled/global206/old174 preserved. Pure
+independent weights838/112/20-9-10 confirmed. [CI evidence](storagetest-002-ci.md)
+records exact logs/hashes and prior build failures accurately. No feature body/new
+entrypoint/intended red has run. Publish complete clean approved revision; ITS OWN
+selected official required5-slot green/32guard/all11 must pass before FIRST32red.
+Then final attribution/completion/latest-head merge gates; stop after PR42.

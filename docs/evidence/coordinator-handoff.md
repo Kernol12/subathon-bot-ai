@@ -17,7 +17,7 @@ has all11 checks SUCCESS including SQL41535643464; it predates the new feature
 source/harness. New complete feature revision is local and UNPUBLISHED.
 
 Actual feature CPP is authored, compiled warning-free and metadata-discovered.
-Full different ACTUAL test/harness review is active; NO final verdict yet. No new
+Full different ACTUAL test/harness review91709215 is APPROVED for exact4b60/91035/453f. No new
 bundle entrypoint/feature body has run; NO intended feature red is observed. The
 source still has seven immediate named stubs. STORAGE-002 remains planned.
 
@@ -35,7 +35,7 @@ source still has seven immediate named stubs. STORAGE-002 remains planned.
 | Seven immediate stub source | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
 | Literal JSON | `e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d` |
 | Old-writer-only fixture helper | `b0a5c72f152f193370d6c39af526fba61d332fdb` |
-| New32-case CPP (four fixes, rebuild pending) | `4b60fcaa06dec8136f0b81e7ac6d01374df94a48` |
+| New32-case CPP (compiled and independently approved) | `4b60fcaa06dec8136f0b81e7ac6d01374df94a48` |
 | Feature author note | `caac20224fbd364149d907e175a3ca21830d8a61` |
 | Qt CMake | `91035af6f5ab00916770c1ba508db01997354ffe` |
 | SQL workflow | `453f1a2df00f11442330f2649d9c4ded41d7841e` |
@@ -149,3 +149,16 @@ Author COMPLETE/available, own tree clean0a655. Reviewer has confirmed previous
 three corrections but must inspect this ACTUAL new block and final complete revision.
 Root freezes pending shared evidence before new compiler/discovery ONLY. Last
 zero-warning proof646/a6 is historical, not the current4b artifact. No body/API/red.
+
+## Actual full approval and publication gate
+
+Actual different FULL32 test/harness approval917092155253912b6dad18d281fd5fddd852872d
+clean imported306f134, reviewMD782c7323, exact CPP4b60/authorcaac/CMake91035/WF453f.
+All6+4 findings resolved. Reviewer own fresh target28 steps0warnings/32compiled/
+32enabled/global206/static checks/independent838-112-20-9-10 pass. Root matching
+CLEAN60a final3-step build6.99s0warnings/32metadata/exactold174 preserved PASS.
+Reviewer and source author are COMPLETE/available, clean917/0a; only root active.
+No new feature body/API/red. Root now publishes this clean approved full-feature
+revision, then MUST observe its OWN official new5 green +32 registration/all11
+BEFORE FIRST32 intended red. Inspect actual PR head/runs; bed9 was prior checkpoint
+only. Subsequent final red/attribution/latest-head gates and stopping point unchanged.
