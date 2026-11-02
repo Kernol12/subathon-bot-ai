@@ -173,3 +173,20 @@ existing storage15/baseline/null-fix trees completedclean/preserved. Root owns
 sharedmetadata/architecture/map/brief/checkpoint. No source/contract author edit
 has begun at claim. No owner decision/access currently needed. All fullrelease
 requirements remain mandatory and incomplete.
+
+
+### Actual new documentation assignments
+
+Root claim commit e53dc0d45f31ce772fb1cb31833e62d08719490a. NEW isolated trees/
+branches created clean there, then explicit followup messages delivered:
+- contribution_implementer: local-evidence/worktrees/storagecontract001-author,
+  task/STORAGECONTRACT-001-author; ONLY new docs/contracts/application-transaction-
+  bundle-v1.md and docs/evidence/storagecontract-001-author.md. Actual author active.
+- contribution_reviewer: local-evidence/worktrees/storagecontract001-review,
+  task/STORAGECONTRACT-001-review; initial READONLY prep, ONLY later actual
+  docs/evidence/storagecontract-001-review.md. Actual preparation active, no verdict.
+Old storage15/oldbaseline/nullfix roles completed and preserved. Actual total75
+existing +16absent/prunable refs, no prune/reset. Root holds all sharedmetadata/
+brief/architecture/map/checkpoint; no code/schema/test/runtime edit belongs here.
+Next root publishes focused draft/checkpoint; actual authored contract then separate
+review/fixes/docschecks/CI before completion. No owner decision/access currently.
