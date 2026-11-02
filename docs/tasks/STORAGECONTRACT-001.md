@@ -19,3 +19,13 @@ policy implementation or permission/rule evaluation. Do not finalize unknown fie
 from a conceptual record table. Identify remaining questions explicitly, preserve
 all release scope, obtain separate actual review and record appropriate documentation
 CI checks. No code, schema implementation or feature-red claim belongs to this task.
+
+
+## Initial documentation claim
+
+Claimed from actual accepted plan-persistence mainfba7590 after PR40. The author
+owns ONLY new docs/contracts/application-transaction-bundle-v1.md and own
+storagecontract-001-author.md; reviewer owns separate storagecontract-001-review.md.
+Root retains shared progress/HTML/map/architecture/brief/checkpoint integration.
+Use existing concrete types/contracts/ports as authority; no new code/schema source,
+test baseline/red or provider/public-wire/delivery/recovery capability is implied.

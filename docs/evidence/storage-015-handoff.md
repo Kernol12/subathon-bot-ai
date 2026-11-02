@@ -96,3 +96,14 @@ All seven integrations/three FX providers, recovery/backup/update/power-loss,
 renderers/UI/locales/themes/packaging/platform/live/OBS remain mandatory/open.
 No credentials/supporter data/live chat/payment/deployment action occurred.
 Progress/state/HTML distinguish this bounded component from those remaining gates.
+
+
+## Actual merge outcome
+
+PR40 normally merged as fba7590652f2dc96da0daa4b649a6cccd0f9a159 at
+2026-11-02T18:57:20Z, exactfinal584/all11SUCCESS. Actualsource d154/final3dc9
+reviews/currentrules/zero unresolvedthreads/readyMERGEABLECLEAN verified; no force/
+admin/bypass. Root main ff refreshed clean, merge tree equals reviewedfinal584.
+ALL10 postmerge main workflows actually SUCCESS, SQL41505406242. The next separate
+STORAGECONTRACT-001 documentation task is claimed; no original red or source task
+is repeated. Implementation remains bounded, full release gates remain open.

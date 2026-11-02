@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-015 implemented, final evidence/merge pending
+# Coordinator checkpoint — STORAGECONTRACT-001 documentation claim
 
 Coordinator `/root`,2026-11-02. Continue full specification v0.45 under AGENTS.md/
 COORDINATOR_PROMPT.md. Earlier stop was honored and then revoked by explicit
@@ -146,3 +146,30 @@ actual effect/job application, full app bundle or running server. DB-01/full rel
 remain partial. All seven integrations/three FX providers, backup/update/recovery/
 power-loss, renderers/UI/locales/themes/packaging/platform/live/OBS remain mandatory
 and incomplete. No live credentials/supporter/chat/payment/deployment action used.
+
+
+## Latest actual PR40 merge and next documentation claim
+
+Actual normal PR40 mergefba7590652f2dc96da0daa4b649a6cccd0f9a159,
+2026-11-02T18:57:20Z; exact final584/all11SUCCESS/source d154+final3dc9/current
+rules0formal approvals/zero threads/readyMERGEABLECLEAN, no bypass. Main ff clean,
+tree equals reviewedfinal584. ALL10 postmain workflows actually SUCCESS, SQL
+41505406242. Earlier pending-merge paragraphs are historical. No native/watch
+command remains running at this claim; inspect actual state on resume.
+
+Root created task/STORAGECONTRACT-001-application-bundle from fresh mainfba BEFORE
+claim edits. All CONTRACT-002/STORAGE-015/ACCT-003/CORE-005 dependencies integrated.
+Documentation ONLY: new application-transaction-bundle-v1.md +ownauthornote;
+actual different reviewMD. No code/schema implementation/API harness/tests/red.
+Define versioned internal atomic effect/state/application/job/operation-result/audit
+bundle with existing typed source/provenance/exactnumeric/uniqueness semantics,
+already-durable intake vs knownfailedapplication B08 pending/no partialsuccess.
+Unknown conceptual fields/wire/provider/permission/recovery/delivery behavior remain
+explicit unresolved/deferred owning gates; no invented capability or scope shrink.
+Never add future consumers ACCT-004/STORAGE-002 as prerequisites/cycle.
+
+Fresh author/reviewer trees/actual reassignment are next after claim commit;
+existing storage15/baseline/null-fix trees completedclean/preserved. Root owns
+sharedmetadata/architecture/map/brief/checkpoint. No source/contract author edit
+has begun at claim. No owner decision/access currently needed. All fullrelease
+requirements remain mandatory and incomplete.
