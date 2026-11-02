@@ -82,3 +82,61 @@ after-state/key/count closure as concrete obligations. Author must preserve
 multiple originals without inventing immutable request positions. Any physical
 revision invalidates the draft-specific F61448 digest as a latest-artifact claim;
 rederive after the actual replacement. No full review or runtime gate is passed.
+
+## Actual replacement physical draft and early logical finding
+
+Author accepted multi-original provenance cardinality finding and introduced a
+composite reversal relation with many original components per immutable current
+request. Operations now retain persisted-head, supplied advanced-before and after
+state refs; clock advance is an upstream supplied fact, accounting deltas are
+checked from advanced-before. No synthetic request splitting or clock evaluator.
+
+Root `python3 /tmp/storage002-root-frame-audit-v2.py` passed on replacement
+physical document SHA256
+`464f5426ccbfabab15cb92c12f4428c3ea2918662d121fb9f91c8d57a7b48aad`:
+14tables/22NULLautoindexes/full66; old30 and F29015/bbb digest remain exact.
+Proposed step5 now frames62465bytes/SHA256
+`c9ba98fa4fe2a42cc6ed9776baa011fc2b93cf879e7374b53e9a6128f7d7afbb`.
+Column counts in statement order:11,4,2,15,19,4,16,7,4,9,9,7,18,9. Empty FK/integrity
+checks pass, no inserted-data/API/test/red approval. Earlier67/F61448/27832741
+identifies the superseded draft only.
+
+Different actual early review of398-line logical draft SHA256
+e7c998053fd04b1660f7d49fdd88ae4264c38b14dd35dabcb75cd5d752061e85 identified
+a material direct-score/count conservation gap: requested-20/progress20 must not
+permit supplied component-1000 plus a matching after-balance. Author must require
+component=requested units for direct effects; equality is a storage conservation
+check, not recomputing policy. No full verdict until actual corrected3MD candidate.
+
+V2 scratch script SHA256 `df97fa839440edc8b67f29772ec7d56121e3f875e05faed659709b86f5d95bf8`;
+summary `/tmp/storage002-root-frame-audit-v2.json`.
+
+## Actual concrete candidate integrated; full review pending
+
+Author committed `404de065f69626324b92ee7c31d5175fe2bd3c88`, clean tree; root
+integrated only3MD ascf10b7e. Actual logical407lines blob
+`6d7e1d5ff3759550fbfb4f1dccc1e0c21eea5e69`, physical238lines
+`f13fca6d11e57410a31a7d307a8b12eaa21a68f9`, author161lines
+`be8741e8e614d8b337c941e39203b2b7a1bf913f`.
+[Concrete proposal](../contracts/sqlite-application-bundle-v1.md),
+[physical proposal](../contracts/sqlite-application-bundle-schema-v1.md),
+[author evidence](storagetest-002-api-author.md).
+
+SB13 represents one immutable request/two original bases; SB14 requires direct
+component=requested amount. Three snapshot refs/advance annotation, current14
+full comparison/application-only patch, selected full plan metadata proof, typed
+closure/counts/byte/query/error scopes and named future semantic gates are explicit.
+These author revisions address early findings but are NOT yet full approval.
+Author raw34 constraint refusals/6 documented SQL-admitted runtime obligations and
+positive one-request/two-links source-backed example pass, properly attributed
+only to rawSQL. Author tooling19 PASS0.278s; no native/newAPI/feature/red ran.
+
+Root `python3 /tmp/storage002-root-frame-audit-final.py` independently rechecked
+actual integrated final document SQL. Same14/22/full66/F62465/c9ba98 and old30/
+F29015/bbb remain exact; only proposal prose differs from earlier V2. This checks
+final-artifact identity/catalog framing, not data/application behavior.
+Different actual full contract/physical review is next; no header/stub/build/fixture/
+feature test edit authorized before that verdict and next explicit assignment.
+
+Final scratch script SHA256 `3963c22ce4b5b7f71484390ae53510da8af86121073ae5b22895fae93b2baa93`;
+summary `/tmp/storage002-root-frame-audit-final.json`.

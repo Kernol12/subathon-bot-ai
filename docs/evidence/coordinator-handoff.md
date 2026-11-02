@@ -57,11 +57,11 @@ checkpoint. Claimf50ef596e128857cb9d7964f7f6ec888161c395d. Actual focused DRAFT
 SUCCESS/CLEAN. This is claim-head infrastructure/regression CI only, not absent
 concrete artifact approval, selected newgreen, testbaseline/red or bundle behavior. Agents were explicitly
 reassigned to NEW isolated trees from that claim; actual agent list shows both
-running. No committed full concrete candidate exists yet; no absent review approval:
+running. Actual full3MD candidate404de065 is integratedcf10b7e; actual fullreview pending:
 - contribution_implementer: task/STORAGETEST-002-contract-author,
-  local-evidence/worktrees/storage002-contract-author, initialcleanf50. Owns only
+  local-evidence/worktrees/storage002-contract-author, clean404de065. Owned only
   new sqlite-application-bundle-v1.md/schema companion and storagetest-002-api-author.md.
-  Concrete DOCUMENT only now; no header/stub/test/source implementation yet.
+  Complete concrete DOCUMENT candidate; no header/stub/test/source implementation.
 - contribution_reviewer: task/STORAGETEST-002-contract-review,
   local-evidence/worktrees/storage002-contract-review, initialcleanf50. Read-only
   prep, eventual ONLY storagetest-002-review.md after actual candidate supplied.
@@ -74,17 +74,19 @@ running. Fetch/merge/push/create sessions completed. Actual independent reviewer
 read-only prep completed cleanf50: source dimensions need explicit comparison,
 immutable state-token binding/no ABA and complete structural plan proof. It is
 not approval of any absent concrete artifact. Reinspect actual agents/processes on resume; entries do not
-prove continued execution. Actual uncommitted physical proposal now exists14DDL/14tables+23NULLindexes/67
-objects; root independently checked emptySQLite/framing/prefix30, F61448/SHA27832741
-at draftdocSHA74e1911e (see taskhandoff). It is no inserted-constraint/API/test/red
-proof. Author actively finishes logical/API document; reviewer may read-only inspect
-this actual physical draft for early findings, no fullapproval before actual
-committed3MD. Next obtain consistent actual3MD, integrate/send exactrevision for
-actual complete review; no premature feature authoring. Early actual physical
-review flags multi-original refund cardinality (do not invent request positions),
-exact subject/claim/CID, reversalhead same-row identity and after-state closure.
-No full verdict; author resolving before final3MD. F61448/27832741 remains a
-historical draft diagnostic only if DDL changes.
+prove continued execution. Actual author404de065f69626324b92ee7c31d5175fe2bd3c88 clean integratedcf10b7e,
+ONLY3MD: logical407lines6d7e1d5ff3759550fbfb4f1dccc1e0c21eea5e69,
+physical238linesf13fca6d11e57410a31a7d307a8b12eaa21a68f9,
+author161linesbe8741e8e614d8b337c941e39203b2b7a1bf913f. Early findings addressed
+in actual SB13/SB14/multi-basis relation/three-state-ref+current14 rules, but no
+FULLreview approval yet. Author rawpositive one-request/two-bases +34constraint
+refusals/6runtime-only admissions/project/tooling19PASS0.278s; no native/API/red.
+Root independently rechecked final integrated14SQL/full66/F62465/c9ba98, old30/
+F29015bbb unchanged. Historical67/F61448/27832741 remains superseded ONLY.
+See taskhandoff for exact scratch command/hashes and limited scope. No behavior/
+newbaseline claim. Next send committed resulting rootcandidate for different ACTUAL
+complete logical/physical review, integrate verdict/resolve findings. No C++/stubs/
+fixture/test until that gate and next assignment; no absence/futurehead approval.
 
 ## Earlier storage proof to preserve
 
