@@ -46,7 +46,8 @@ Selected actual input Git blobs:
 
 ## Contract decisions and examples for actual review
 
-The 360-line candidate contains20 manually derived literal examples AT01–AT20.
+The INITIAL360-line candidate contains20 manually derived literal examples AT01–AT20.
+Its actual first review finding and the later21-example revision are recorded below.
 It proposes a NEW internal session-borrowing bundle port and logical relation
 obligations, not a C++ header or physical migration. ONE caller exclusively owns
 actual BEGIN/COMMIT/rollback; existing owning receipt/contribution wrappers cannot
@@ -115,3 +116,67 @@ shared metadata/linkage, latest-head ordinary CI/reviews/discussions/rules and n
 focused PR merge. This author does not self-approve or certify future artifacts.
 All seven integrations/three FX providers, both renderers/UI/locales/themes,
 supported platforms, packaging/security/backup/recovery/live release scope remains.
+
+
+## Actual review finding and documentation revision
+
+Different reviewer `/root/contribution_reviewer` actually read all original360
+lines/20 examples at author commit `a8bf8cf21ab65b1439ef8b963f9f88ae1a9a187e`,
+contract blob `02e7b70bebcda58c9276948c4367cec525bc8e7a`. The reviewer WITHHELD
+approval for a material protocol ambiguity: borrowed active-session lookup/result/
+duplicate wording promised committed records, but same-unit stage→lookup sees
+PROVISIONAL rows. SQL row presence, data/closure validation and weak tickets cannot
+prove a prior COMMIT. Generic "staged return" wording did not sufficiently define
+read/duplicate/subject-claim behavior. The coordinator explicitly assigned this
+focused two-Markdown-file clarification; no owner access/decision was needed.
+
+The revised contract is399 lines, blob
+`d8e111a2c98a11ce9c53433efcf610300a22a70f`. It chooses ONE explicit simple protocol:
+
+- ALL active-session read/lookup/recorded-result/exact-duplicate/claim-refusal and
+  stage returns are transaction-visible provisional INTERNAL data, never durable
+  certification or published normal work success. Preparing/readback of internal
+  result rows is permitted before commit; external publication is not.
+- Earlier intake/capture DURABILITY is an honest caller precondition established
+  by earlier acknowledged units; SELECT cannot infer it, and staging a source in
+  this unit cannot satisfy that prior-commit protocol.
+- A same-unit exact duplicate returns the same provisional data/links without
+  extra effects/status/jobs/results/audit. A second operation key for the same
+  staged original-subject claim refuses without own writes/cleanup/durability
+  assertion, leaving all earlier caller staging active and unchanged.
+- New literal AT21 starts from the same independently durable AT01 inputs in two
+  fresh branches. Both exercise stage→lookup/read→exact duplicate→second-key claim
+  with state-b freshness so the claim path is not merely a stale-token refusal;
+  external observers still see no new application. Abandonment/known rollback
+  removes all prepared rows and keeps intake pending; real COMMIT+normal completion
+  instead makes exactly ONE application/effect/job/result/audit durable/publishable.
+- A caller-known earlier committed duplicate preserves its original outcome without
+  revaluation, but cannot turn THIS work's actual unknown/error into normal success
+  or replay permission. B08 and fail-closed unknown distinctions are unchanged.
+
+The reviewer additionally identified timing ambiguity in original AT18, which
+combined a postCOMMIT body exception with a later publication exception. Revised
+AT18 and the protocol now distinguish actual confirmed COMMIT followed by BODY
+exception BEFORE normal completion (committed/no normal WORK payload) from a LATER
+publication/response failure AFTER normal completion (accounting and durable result
+remain committed; already-produced work payload cannot be erased/reclassified).
+Retrieving a recorded result is not reapplication. This follows the existing writer
+contract; no new response/delivery/retry policy is invented. Minor AT15 wording now
+explicitly says preserve the requested amount and actual0, avoiding a requested0
+reading without changing any numeric oracle.
+
+Actual checks AFTER this revision:
+
+| Command/check | Observed result |
+| --- | --- |
+| Python stdlib inline preservation/arithmetic audit | PASS21 unique ordered AT examples; all old20 numeric literals unchanged; AT01–14/16–17/19–20 byte-identical; existing Fraction/integer cap/debt/refund/half-even/residual/signed-minimum expectations unchanged; no producer/runtime invoked |
+| `python3 -m unittest discover -s tests/tooling -v` | PASS19,0.266s; tooling only |
+| `python3 tools/check_project.py` | PASS391 tasks/122 decisions/current HTML/links/presets |
+| `python3 tools/progress.py render --check` | Current root-owned snapshot; no shared write |
+| `git diff --check` | PASS |
+
+Only the same two delegated Markdown files changed. All numeric/ownership/reversal
+and unfinalized semantic/job/wire/recovery gates remain. No code/API/DDL/test/fixture,
+feature/native/stub-red or live action was performed. The actual revised document
+requires actual DIFFERENT re-review; no approval or consumer implementation/test
+baseline is claimed in advance.

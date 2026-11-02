@@ -17,9 +17,13 @@ receipt/contribution/plan/numeric/writer contracts remain unchanged.
 
 An application starts with already-DURABLE intake: an actual immutable ReceiptId,
 its retained configuration/context, and any contribution/plan records required by
-that input already exist from earlier acknowledged commits. Recording intake is
-not applying it. A pending receipt here means its application is outstanding; no
-new pending flag is invented on the existing immutable receipt row. The existing
+that input already exist from earlier acknowledged commits. This is an honest
+CALLER precondition established by its earlier intake/capture protocol, not a fact
+inferred from SELECT, row presence or a copied session ticket. Staging intake or
+a new capture in this unit cannot satisfy that earlier-commit precondition.
+Recording intake is not applying it. A pending receipt here means its application
+is outstanding; no new pending flag is invented on the existing immutable receipt
+row. The existing
 contribution dimension is `ContributionApplication::not_applied` where applicable.
 
 The authoritative Qt queue advances/revalidates current state, permission,
@@ -27,17 +31,21 @@ eligibility, operation identity and selected plan revision, resolves current
 capacity/debt/lifecycle/milestones, and prepares ONE complete application bundle.
 One real SQL transaction commits its effects, resulting authoritative state,
 application claim/status, required job intents/groups, retrievable operation result
-and audit together. There is no success result, state publication or external
-send before acknowledged COMMIT and normal committed work completion.
+and audit together. Internal prepared result records and owned read/duplicate
+values may exist provisionally INSIDE that transaction. They are not durable or
+publishable normal success. No state/result publication or external send precedes
+acknowledged COMMIT and normal committed work completion.
 
 B08 is an exact unit boundary: a KNOWN uncommitted failure after preparing any
 subset removes ALL this application's prepared records/updates, including success
 result/audit. Already-durable intake remains unchanged and pending/not-applied.
 It does not lose its original receipt, attempts, evidence, context or plan. A later
 permitted retry rechecks identity, current state and conditions and applies at most
-once. A failed application cannot mark itself applied, expose an effect/job, or
-keep only the successful actions from a mixed input. No failure audit is smuggled
-into the failed unit as if it committed; operational diagnostics are distinct.
+once. A failed application cannot leave a durable applied status/effect/job or
+publish success, or keep only the successful actions from a mixed input. Same-session
+observation of staged rows before rollback is not external/durable visibility. No
+failure audit is smuggled into the failed unit as if it committed; operational
+diagnostics are distinct.
 
 An actual unknown COMMIT/rollback outcome is NOT B08 known rollback. It establishes
 neither no effects nor a pending receipt. Preserve the existing `outcome_unknown` /
@@ -59,15 +67,43 @@ logical operations, not supplied code/signatures:
 
 | Primitive | Required meaning |
 | --- | --- |
-| Look up operation | Read the complete existing committed intent/result/links for an operation key, strictly validating the selected record closure; absence is not authority to apply |
-| Read application inputs | Resolve actual receipt/contribution/selected plan and the relevant current authoritative snapshot under the same active unit; return owned values and checked revision information |
+| Look up operation | Read the complete transaction-visible intent/result/links for an operation key, strictly validating the selected record closure; presence proves no prior COMMIT and absence is not authority to apply |
+| Read application inputs | Resolve actual receipt/contribution/selected plan and the relevant current snapshot under the same active unit; return owned transaction-visible values and checked revision information, with earlier intake/capture durability a caller precondition |
 | Stage bundle | Atomically check identity/claims/revisions/references and stage the whole bounded supplied bundle or a no-own-write domain refusal; never evaluate rules, grant permission or commit internally |
-| Read recorded application | Return owned immutable effect/result/audit/job-intent provenance for authorized publication/retrieval; historical after-state need not equal current live state |
+| Read recorded application | Return owned transaction-visible immutable effect/result/audit/job-intent provenance, which may be own staged data; no durability/publication certification; historical after-state need not equal current live state |
 
-The future facade owns no destructor cleanup or transaction transfer. A staged
-return is provisional; the caller must perform actual COMMIT. Known local selected
-storage failures require actual rollback of the entire caller unit before a known
-port exception. Writer/retention errors already establishing rollback must not be
+ALL normal returns from this borrowed-session port are transaction-visible,
+provisional internal values: input reads, operation lookups, recorded-application
+reads, exact duplicates, subject-claim refusals and new staging alike. SQL under
+an active session sees its own writes. Validating data/closure/identity does not
+distinguish prior committed rows from rows staged earlier in this unit and must
+not label either lookup as certified durable. No lookup result, duplicate result
+or healthy refusal is a committed/published normal work result by itself.
+
+After a complete stage, lookup/read of the same operation may return its own
+provisional result/links. An exact same-intent duplicate must return that same
+transaction-visible data with NO additional effect/status/job/result/audit rows.
+A second operation key for the same original subject must observe the staged
+claim and refuse a second award without certifying that the claim is durable.
+Healthy refusals leave all earlier staged caller work active and unchanged; they
+neither commit nor clean it. Abandonment/known rollback removes the staged original
+and its duplicate/claim evidence together. Actual COMMIT plus normal completion
+instead exposes exactly one application. AT21 makes both branches explicit.
+
+Even when the caller knows an existing application was committed earlier, lookup
+returns its original data without revaluation under today's state. That prior fact
+cannot convert an unknown/error outcome of THIS work into normal success. The
+current writer's real completion/outcome controls its normal payload/publication;
+unknown remains unknown and grants no replay. Publication/response failure AFTER
+normal committed completion cannot erase the durable operation result or
+retroactively reclassify the already-produced work payload. In contrast, a body
+exception AFTER physical COMMIT but BEFORE normal completion leaves accounting
+committed with no normal work payload under the existing writer contract.
+
+The future facade owns no destructor cleanup or transaction transfer. The caller
+must perform actual COMMIT and await normal committed completion before publishing
+normal success from any path. Known local selected storage failures require actual
+rollback of the entire caller unit before a known port exception. Writer/retention errors already establishing rollback must not be
 "proved" by another inactive cleanup. Capability/thread/phase/protocol/invalid-
 statement and actual unknown failures retain their writer truth. Allocation after
 own writes must roll back the whole unit or propagate actual unknown; preparing
@@ -107,12 +143,12 @@ names/amounts/times, a transport connection or a nonempty opaque ref.
 | Logical record | Required retained content / relation |
 | --- | --- |
 | Operation intent | Stable scoped operation key; complete owned input intent and explicit choices; source receipt, optional contribution, selected plan+revision, supplied freshness constraints, reversal identity/basis when applicable |
-| Application claim | The original application's typed subject and operation key; a durable uniqueness guard against another original award to that subject; original claim remains after a refund |
+| Application claim | The original application's typed subject and operation key; a uniqueness guard observed while staged and made durable on commit against another original award to that subject; original claim remains after a refund |
 | Applied effect occurrence | Selected captured request occurrence, requested Exact and signed64 units, actual signed64 components by target/unit, actual-cap/debt/rounding explanation, immutable source/calculation/reversal provenance |
 | State transition | Relevant before/after authoritative values and checked revision relation; preserve actual timer transition trace and independent debt/pause/lifecycle/score/count fields that this operation touches |
 | Application status change | Actual selected subject's not-applied→applied change on successful original application; preserve unrelated current evidence/valuation/review/reversal dimensions, never replace them with an old capture |
 | Required job intent / group relation | Stable scoped identity and owned captured versioned action meaning, source effect/event and required ordering/holds; no remote execution claim; exact envelope fields remain a gate below |
-| Recorded operation result | Original operation key, committed application/effect/job references and exact requested/actual outcome plus checked/resulting state relation; retrievable without applying again |
+| Recorded operation result | Original operation key, application/effect/job references intended to commit in the SAME unit and exact requested/actual outcome plus checked/resulting state relation; retrievable without applying again, provisionally while the unit is active |
 | Application audit | The operation/source/plan/revision, actual actor/decision/reason/options where known, current checks/choices, resulting records and provenance; unknown fields remain absent, not invented |
 | Reversal progress / occurrence | Original immutable effect locator, this reversal identity/source receipt, cumulative entitlement, previous cumulative reversed amounts, this incremental request, actual timer/score/count outcome, policy/hold and rounding residuals |
 
@@ -153,13 +189,14 @@ mistaken for foreign keys or a new job allocator policy.
 
 ## Idempotency and reversal uniqueness
 
-After actual selected-record integrity checks, the logical outcomes are:
+After actual selected-record integrity checks, the following logical outcomes
+remain PROVISIONAL/transaction-visible under the port protocol above:
 
 | Observation | Required behavior |
 | --- | --- |
-| Same operation key, same complete intent, complete committed result exists | Return that recorded result/references, no new effects/status/jobs/audit; do not recompute under current caps |
+| Same operation key, same complete intent, complete transaction-visible result exists (prior committed OR own staged) | Return the same provisional recorded data/references, no new effects/status/jobs/result/audit; do not recompute under current caps or claim prior durability from SELECT |
 | Same key, different intent | Operation conflict, no own writes or retarget/upsert |
-| New key, original subject already applied | Existing-application/conflict result referencing the original claim, no second award or duplicate jobs; do not silently bind the new key as a new success |
+| New key, original subject has an existing transaction-visible application claim/status (prior committed OR own staged) | Provisional existing-application/conflict data referencing that claim, no second award/jobs; leave earlier staged work unchanged and do not certify claim durability or bind the new key as a new success |
 | Missing/dangling/corrupt selected closure | Explicit stored-data/reference failure with known rollback only when established; never replay to "repair" a missing result or incomplete bundle |
 | State/plan relation changed since preparation | No-own-write stale/conflict or explicit whole reproposal before staging; never a partial application |
 
@@ -315,16 +352,18 @@ are independently established; strings/fixtures alone do not prove those facts.
 | AT12 — original actual1 micro-point; cumulative refunded1/3,2/3,full/B06 | Exact cumulative entitlements1/3,2/3,1; half-even rounded0,1,1; residuals1/3,-1/3,0; incremental reversal0,1,0. Keep zero occurrences/provenance. A whole-count original1 stays until full, then reverses1 |
 | AT13 — original request10min cap-limited to actual5min, full refund | Basis is actual300000ms, not requested600000. Full reversal clears exact remaining actual minus prior reversals; no fresh current-rule computation. A proposed cumulative amount above original actual cannot be committed as a valid refund |
 | AT14 — exact finalizer value3/2 micro-points then5/2 | Half-even resolved requests2 and2; exact residuals-1/2 and+1/2 respectively, original decimals/quote spelling unchanged. Aggregate overflow (e.g currentINT64_MAX plus actual1) holds input with no partial effect/job; cap-limiting to actual0 is a distinct valid numeric outcome |
-| AT15 — otherwise eligible original application resolves actual0 because cap is full | Record requested/actual0/cap provenance and the single original application claim/status/result/audit. It is not pending credit waiting to grow when capacity returns. Required job set is whatever the independently validated action policy supplied, possibly empty |
+| AT15 — otherwise eligible original application resolves actual0 because cap is full | Preserve the requested amount and actual0/cap provenance with the single original application claim/status/result/audit. It is not pending credit waiting to grow when capacity returns. Required job set is whatever the independently validated action policy supplied, possibly empty |
 | AT16 — selected ReceiptIdMAX/plan revisionMAX or optional CID0; wrong SQL class, ReceiptId0, absent typed cfg, dangling plan/reversal original | Full existing numeric domains/NULL distinctions remain; strict selected type/closure validation required. A sparse1,MAX-1,MAX plan is NOT a valid complete application history or valid exhaustion proof. Refuse bad/dangling sources without effect/status/job/result publication |
 | AT17 — physical whole-bundle COMMIT succeeds but acknowledgement is lost | Actual whole bundle may be durable; outcome_unknown/uncertain_outcome, no normal success payload, closed writer/no blind retry. Do not report known rollback or receipt pending; later outcome resolution owns the next decision |
-| AT18 — local selected failure or abandonment; actual rollback acknowledgement lost | No fabricated known-uncommitted port error/pending claim from inactive cleanup. Unknown outranks local cause, writer closes, no replay. Separately, confirmed COMMIT then a body/publication exception remains committed with no normal result; it cannot undo accounting |
+| AT18 — local selected failure or abandonment; actual rollback acknowledgement lost | No fabricated known-uncommitted port error/pending claim from inactive cleanup. Unknown outranks local cause, writer closes, no replay. Separately, confirmed COMMIT then a BODY exception before normal completion leaves accounting committed/no normal work payload. A LATER publication/response failure after normal completion leaves accounting and durable operation result committed; it cannot erase the already-produced payload, and retrieving that result is not reapplication |
 | AT19 — timer hard end reached while paused/Grace/wait before ordinary credit; OR deficit exhausts Main | Advance first: reached deadline finishes, ordinary credit cannot reopen. For valid reversal Main exhaustion, preserve zero-elapsed reducer transitions and Grace/pause/debt distinctions in one unit; no invented transition UTC or negative Grace |
 | AT20 — a committed queued job fails remotely or send outcome is uncertain/B09 | Internal effects/status/result remain committed. Later delivery transitions return through authoritative writer; no rollback of accounting, no known-undelivered claim or remote exactly-once/replay promise |
+| AT21 — two fresh branches start from AT01's same earlier-COMMITTED intake/state-a. In one active unit stage op-A, then lookup/read it, repeat same op-A+intent, then try op-B for the same CID0 with current transaction-visible state-b freshness | Own-session reads/duplicate return the SAME provisional+120000/state-a→state-b data/links; no extra effect/job/result/audit. The second-key subject claim refuses without own writes/cleanup; all earlier staging stays active. Outside the unit, the prior application status remains not-applied and no new rows/state are visible yet. Branch1: abandon or confirm rollback—NONE of op-A's prepared records survive, prior intake stays pending. Branch2: actual COMMIT+normal completion—exactly ONE application/effect/job-J/result/audit becomes durable/publishable. No path infers durability from staged row presence or publishes before that completion |
 
 STORAGETEST-002 must turn bounded examples into independently reviewed real-SQL
 oracles: actual prior intake commit, observed intermediate staged rows, separate
 reader invisibility/inside-catch real rollback, complete database snapshots,
+same-unit reads/duplicates/claim refusals and their commit-versus-abandon branches,
 uniqueness/duplicate payload conflicts, actual commit/cleanup uncertainty, reopen
 and full-range literal data. An independently supplied expected fixture is required;
 never derive expected actual effects or manifest data by calling the producer.
