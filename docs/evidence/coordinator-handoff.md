@@ -1,102 +1,85 @@
-# Coordinator checkpoint — STORAGE-014 resumed
+# Coordinator checkpoint — STORAGE-014 accepted, PR38 merge gates
 
-Coordinator `/root`,2026-11-02. Latest explicit owner request resumes the full
-standing coordination loop under AGENTS.md/COORDINATOR_PROMPT.md. The earlier
-finish-PR37-and-stop instruction was honored and is superseded by this resume.
-No owner decision/access is needed. Inspect actual GitHub/files/agents/processes
-on resume; this file does not imply background execution.
+Coordinator `/root`,2026-11-02. Latest owner explicitly resumes the full standing
+coordination loop under AGENTS.md/COORDINATOR_PROMPT.md. Earlier finish-PR37-and-
+stop was honored and superseded by this request. Continue after eligible merges;
+no owner decision/access is needed. Inspect actual state on resume; this file
+never implies background execution.
 
-## Reconstructed integrated state
+## Actual integrated main and preserved baseline
 
-Actual freshly fetched main8859b644e8d99b34b3e899d0e44e1e2cce386e78 includes normal
-PR37 merge2026-11-01T20:49:19Z. Finalf825 all11SUCCESS; full baseline81e0d5a and
-final metadata6ee37fa independent approvals. All10 postmerge workflows actually
-SUCCESS, including SQL41348814553. No open PR. Root/main and all65 existing
-worktrees were clean;16 absent/prunable historical refs preserved. No previous
-subagent is alive in this session; only root listed. No native build/test process
-was active (IDE/Codex only). Prior actual stop receipt remains ignored under
-local-evidence/coordinator/storagetest014-stop.json. Preserve every old tree/ref.
+Fresh main8859b644e8d99b34b3e899d0e44e1e2cce386e78 includes normal PR37 merge
+2026-11-01T20:49:19Z. Finalf825/all11SUCCESS/full81e0d5a+final6ee reviews;
+all10 postmerge workflows SUCCESS (SQL41348814553). No open PR existed at resume.
+65 existing worktrees were clean,16 absent/prunable historical refs preserved;
+no previous subagent alive and no native build/test process. Prior stop receipt
+remains ignored under local-evidence/coordinator/storagetest014-stop.json.
 
-STORAGETEST-014 is integrated/done BASELINE ONLY. Actual frozen feature46c901e,
-green577edeb, JSON44df9918, API0abeea2, stub0ad1315 match the reviewed artifacts.
-Full approval81/root1b preceded officialQt41347563063 at399fc44; only then FIRST
-24 explicit-stub red, exit8/all24init+24cleanupPASS/0skip/crash/setup failure/0.33s.
-Original raw record inspected, not rerun. [Baseline](storagetest-014-handoff.md),
-[review](storagetest-014-review.md), [CI](storagetest-014-ci.md),
-[original red](storagetest-014-red-ctest.txt). Preserve these valid gates.
+STORAGETEST-014 integrated/done baseline remains valid: feature46c901e/green577/
+JSON44df/API0abee/logicalf503/physicaleeb match. Original24 explicit-stub red at399
+followed actual full81/root1b and officialQt41347563063: exit8/all24init+cleanup
+PASS/0skip/crash/setup failure/0.33s. Read, NOT rerun. [Baseline](storagetest-014-handoff.md),
+[original review](storagetest-014-review.md), [original red](storagetest-014-red-ctest.txt).
+All earlier source/assertions/interfaces/prefixes/reviews remain preserved.
 
-## Current claim and ownership
+## Current accepted component and actual publication
 
-Root created dedicated task/STORAGE-014-contribution-repository from current
-origin/main BEFORE claiming STORAGE-014 in progress/state.json. Dependencies
-STORAGE-013/ACCT-002/STORAGETEST-014 are done/integrated. [Brief](../tasks/EPIC-009/STORAGE-014.md).
-Logical/API contractf503f385 and exact physicaleeb2fe04 remain unchanged. Root
-owns all shared build/preset/CI/schema ordering/state/map/HTML/checkpoint updates.
+Root created task/STORAGE-014-contribution-repository from actual origin/main
+BEFORE claimb065b9d. Dependencies STORAGE-013/ACCT-002/STORAGETEST-014 integrated.
+Source5acd3d6 integrateda7659b5, blob61569bd13e34f515802271da1c2ea9c89b23c473,
+889lines, only new14 CPP. Existing ports/service/core/oldproducer sources unchanged.
+Pure manifest3 preserves1/2; full CId0..MAX/NULL, immutable support/observations,
+independent state, compatiblelinks, original-only receipt/typed target hydration,
+owner/singleuse/adoption/allocation-safe pending/activeRAII/realcommit/truthful
+known rollback versus unknown. No provider/policy or false prior-commit proof.
 
-Actual new isolated assignments, created clean at claim b065b9d:
+Author/root/different reviewer24 and full143 PASS; fresh author/reviewer70-step
+build0warnings. Root24PASS0.74s/full143PASS3.17s; reviewer24PASS0.73s/full143PASS3.18s.
+Host GNU16.2.1/Qt6.12/SQLite3.54. Separate SOURCE/CONFIG approvala751d54 integrated
+5ed4194 accepts615/CMake17ca/preset35e/QtCMake2da/workflow1fe. Root promotion removes
+manualinput/if, makes24 unconditional, preserves111 oldcases/requiredgreen/exact
+compiled discovery/pins/perms/checkname. All baseline artifacts are frozen.
 
-- /root/contribution_implementer: local-evidence/worktrees/storage014-implementation,
-  task/STORAGE-014-implementation;
-  ONLY server/src/sqlite_contributions.cpp and own storage-014-implementation.md.
-- /root/contribution_reviewer: local-evidence/worktrees/storage014-review,
-  task/STORAGE-014-review;
-  read-only preparation completed clean with no contract conflict; waits actual
-  source/config revision for explicit reassignment. ONLY own storage-014-code-review.md;
-  no absent source approval. Implementer remains active on its bounded source task.
+DRAFT [PR38](https://github.com/Kernol12/subathon-bot-ai/pull/38) published exact
+d0ce5c8b62aec6a7bd0735b3caa24ffaaaea362e after that actual approval. Automatic
+[officialQt41477399818](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41477399818)
+SUCCESS: both pinned hashes/GNU13.3/Qt6.12SQLite3.53.4/70build/newCPPcompiled/
+old111+green7/3/3/3/exact24/UNCONDITIONAL24PASS. All11 source-head checks SUCCESS.
+JSON/full log actually read, ignored local-evidence/coordinator/storage014-ci-d0ce5c8.*.
+No test/fixture/API/earlier source change, skip, failure inversion or red repeat.
 
-Implement existing ports on the same controlled writer/session, with exact CId
-0..MAX/NULL, pure manifest3 preserving prefix1/2, immutable originals/observations,
-independent state, exact link rules, private original-only receipt decoding and
-actual typed retained targets. No wrapper around growing receipt history, nested
-commit/writer, provider proof or policy inference. Own pending anchors, allocation
-safety, single use/owner/adoption/RAII, real commit and truthful known rollback/
-unknown durability are explicit obligations. Prior receipt commitment remains an
-honest upstream precondition; same-session visibility cannot prove it.
+STORAGE-014 status done means accepted bounded implementation, NOT integrated yet
+or complete release. Root completion metadata in this commit awaits different
+final evidence/CI-attribution review. Historicald0 CI success does not transfer
+to later metadata revisions; latest head checks must be inspected before merge.
+[Implementation](storage-014-handoff.md), [author](storage-014-implementation.md),
+[code/config review](storage-014-code-review.md), [CI](storage-014-ci.md).
 
-Both new agents actually spawned; no former agent assumed running.67 existing
-worktrees now preserved. Root has an uncommitted CI promotion candidate (option/
-preset/labels/manual-guard removal); it will only be published with actual passing
-implementation and different source/config review. No feature body invoked yet.
+## Actual agent ownership and next concrete action
 
-Next integrate actual
-implementation, run changed-source24/full143 acceptance, independent source/config
-review, promote passing24 to unconditional ordinary CI without any assertion or
-pin weakening. Observe actual selected official Qt CI, complete evidence/progress,
-latest-head checks/discussions/rules/normal merge; then select next ready task.
-Do not rerun unchanged historical stub-red gates. Never merge before all gates.
+- `/root/contribution_implementer`: local-evidence/worktrees/storage014-implementation,
+  task/STORAGE-014-implementation; source5acd/evidence1439125 complete/clean.
+- `/root/contribution_reviewer`: local-evidence/worktrees/storage014-review,
+  task/STORAGE-014-review; actual a751 source/config approval complete/clean.
+  Next ONLY explicit final metadata/CI attribution assignment after completion
+  commit. Own storage-014-code-review.md, no source/test edits or red runs.
+- Root owns shared schema order/build/preset/CI/map/state/HTML/checkpoint.67 existing
+  worktrees now preserved plus16 absent refs; no pruning/discard or old-agent reuse
+  assumed. Check actual status/processes on resume.
 
-All seven integrations/three FX providers, typed plan/rate provenance, complete
-application bundles/effects/jobs, semantic config/evaluation/permissions,
-backup/update/recovery/power-loss, both renderers/UI/locales/themes/packaging and
-platform/live/OBS remain mandatory and incomplete. No live credentials/supporter
-data/chat/payment/deployment action is authorized by this bounded task.
+Next obtain different actual final metadata/CI review, publish latest review head,
+observe all current-head checks, current main/rules/GitHub approvals/resolved
+threads/mergeability, then normal exact-head merge. Never bypass protection or
+weaken tests. Latest known ruleset26170263 has PR/resolvedthreads/0 GitHub approvals/
+no bypass/force/delete and no required-status-check rule; written all-CI/reviews
+remain mandatory. Recheck actual configuration before merge.
 
-Current local checks: project391/render/diff/tooling19/DOM simulation PASS. Actual
-host GNU16.2.1/CMake4.4.5/Qt6.12.0. Pinned actionlint1.7.12 restored in /tmp with
-release checksum verified; CI promotion candidate lint PASS. No new feature body
-run by root or reviewer while the implementation is still being authored.
+After actual merge refresh main/reconcile outcome and immediately claim dependency-
+ready STORAGETEST-015 from integrated main, initially contract-only with separate
+review before API/tests. Do not start STORAGE-015 production before its own real
+reviewed/red baseline. No owner question, credentials, supporter data or live action.
 
-## Actual source and root acceptance candidate
-
-Source5acd3d6 integrateda7659b5, blob61569bd1 (889lines), source-only. Author fresh
-build0warnings/24PASS0.76s/full143PASS3.25s; root actual configure/build/link
-0warnings/24PASS0.74s/full143PASS3.17s with CI promotion candidate. All frozen
-tests/fixtures/API/contracts/earlier producer sources match main. No old red
-repeated. Root CI promotion now accompanies the passing source, with111 earlier
-cases/green/discovery/pins unchanged and24unconditional. [CI assessment](storage-014-ci.md).
-Next commit exact source/config candidate and explicitly resume reviewer on actual
-revision; author finishes own evidence. No source/code review or official CI yet.
-
-## Actual code/config approval and publication stage
-
-Different actual a751d54 integrated5ed4194 APPROVES source61569bd/metadata17ca/
-35e/2da/workflow1fe; independent fresh70-step build0warnings/24PASS0.73s/full143
-PASS3.18s/newgreen5PASS0skip/exact143/24+3. Source/evidence author and reviewer
-completed clean; no old agent remains assigned to code. Actual relevant source
-acceptance+separate review passed; task in_review while officialCI/finalmetadata/
-latestheadmerge gates remain. [Implementation handoff](storage-014-handoff.md),
-[code/config verdict](storage-014-code-review.md).
-Next publish focused DRAFT PR with this actual candidate, observe automatic
-selected official Qt24 UNCONDITIONAL success/pins/old135 total SQL cases, then
-complete metadata/finalreview/latestheadchecks/currentrules/discussions/normalmerge.
-Do not stop after merge; next ready task is STORAGETEST-015 only once integrated.
+All seven integrations/three FX providers, actual plan/rate provenance, full app
+bundles/effects/jobs, semantic config/evaluation/permissions, backup/update/recovery/
+power-loss, both renderers/UI/locales/themes/packaging/platform/live/OBS remain
+required and incomplete. This component supplies no running server or release.

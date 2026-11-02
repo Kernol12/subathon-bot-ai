@@ -3,8 +3,8 @@
 Coordinator `/root`,2026-11-02, task/STORAGE-014-contribution-repository from
 actual integrated main8859b644e8d99b34b3e899d0e44e1e2cce386e78. Current owner request
 resumes the standing loop; the earlier stop was honored and is superseded.
-Specification v0.45 §§3.2–3.5/DB-01. Implementation task is in_review; no merge or
-release completion is claimed at this stage.
+Specification v0.45 §§3.2–3.5/DB-01. Implementation component is accepted/done; [PR38](https://github.com/Kernol12/subathon-bot-ai/pull/38)
+awaits final metadata/latest-head merge gates. Full release remains incomplete.
 
 ## Scope and preserved baseline
 
@@ -48,15 +48,17 @@ Formatting/actionlint/project391/currentHTML/tooling19/DOM simulation pass; brow
 OBS remain separate. [Author evidence](storage-014-implementation.md),
 [CI assessment](storage-014-ci.md). Different actual code/config approvala751d54 integrated5ed4194 accepts source615
 and exact shared configuration; fresh reviewer24PASS0.73s/full143PASS3.18s.
-[Actual code review](storage-014-code-review.md). Actual automatic selected official Qt
-CI remains required, then final metadata/CI review/latest-head checks/current rules/
-resolved discussions and normal exact-head merge. Root promotion removes the manual
+[Actual code review](storage-014-code-review.md). Actual automatic selected official Qt run41477399818 atd0ce5c8 passes pins/GNU13.3/
+Qt6.12SQLite3.53.4/70build/old111+requiredgreen/exact24/UNCONDITIONAL24. All11 checks
+pass for that source head. Final metadata/CI review/latest-head checks/current rules/
+resolved discussions and normal exact-head merge remain. Root promotion removes the manual
 feature control and makes24 unconditional while preserving old111/green/discovery/
 pins/permissions/check name. No test weakening or failure inversion.
 
 Changed paths: new adapter CPP/evidence; root CMake option/preset/test-label metadata,
 SQL workflow and progress/map/HTML/checkpoint integration. No API/old source/test/
-fixture changes. Source review and CI must complete before task done/merge. Afterwards
+fixture changes. Actual source review and CI are complete; final evidence and latest-head merge
+gates remain before integration. Afterwards
 refresh main and select the next dependency-ready task under the standing loop.
 
 All seven integrations/three FX providers, actual plan/rate provenance, application

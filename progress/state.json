@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T16:01:15.786788+00:00",
-  "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention and receipt-repository components have reviewed acceptance evidence. Contribution/plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
+  "updated_at": "2026-11-02T16:05:48.342150+00:00",
+  "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt and contribution repository components have reviewed acceptance evidence. Plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -4837,7 +4837,7 @@
       "title": "Contribution evidence and receipt-association SQLite adapter",
       "module": "Operations",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; implementation /root/contribution_implementer; independent review /root/contribution_reviewer",
       "depends_on": [
         "STORAGE-013",
@@ -4849,22 +4849,25 @@
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
-      "summary": "Implement existing contribution/evidence transaction ports on the controlled connection. Persist independent evidence/review/valuation dimensions and immutable original-receipt linkage, not actual contribution effects.",
+      "summary": "Implements full-range typed contribution IDs, exact migration3 and unchanged contribution ports on the controlled writer;24/full143 acceptance, separate source/config review and automatic official Qt CI pass. Full application/release gates remain open.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claim from freshly fetched main8859b64 on dedicated task/STORAGE-014-contribution-repository BEFORE edits. Specv0.45/§3/DB-01; approved logicalf503/physicaleeb/API0abee; baseline46c/577/44df independently approved81e0d5a and finalmetadata6ee, actual original24stub-red at399fc44 after officialQt41347563063; do NOT repeat completed red. Implement only new server/src/sqlite_contributions.cpp +own implementation evidence, preserving publicports/API, every assertion/fixture and immutable migration1/2. Existing service owns policy. Pure typed CId0..MAX/NULL distinction, exactmigration3, strict original-only receipt+typed targets, independentstate/immutableobservations, compatiblelinks/pendinganchor, allocation-safe owner/adoption/RAII/realcommit/knownrollbackvsunknown required. Prior committed/nonconflicting receipt and semantic/provider authorization remain upstream preconditions. Rates015/effects/jobs/bundle/recovery/platform remain open. Root owns CMake/preset/workflow promotion, state/map/HTML/checkpoint; different reviewer actual source+config required. Fresh67 planned trees only after claim; no old agents assumed live. No open PR/native process; all65 existing trees clean/16 missing refs preserved. Current resume revokes earlier stop; continue standing loop after eligible merges.",
         "Actual implementation5acd3d6 integrateda7659b5, source61569bd13e34f515802271da1c2ea9c89b23c473 (889lines), onlynew14CPP. Author fresh70-step build0warnings/24PASS0.76s/full143PASS3.25s after actualsource change. Root configure/build/link0warnings, targeted24PASS0.74s/full143PASS3.17s. Frozen46c/577/44df/API0abee/logicalf503/physicaleeb/oldsources unchanged. Root actual bounded CI promotion removes manualinput/if and makes24unconditional, preserves old111/green/discovery/pins/perms/job; option/preset/draftlabels only metadata. Actionlint/format/project/render/tooling19/DOM PASS. Actual independent source/config review next; no acceptance completion/merge yet, no unchangedred repeat.",
-        "Actual independent SOURCE/CONFIG approvala751d54 integrated5ed4194 covers615/CMake17ca/preset35e/QtCMake2da/workflow1fe, whole889CPP+config/contracts/oldmechanisms. Fresh70-step0warning build/exact143+24+green3/24PASS0.73s/full143PASS3.18s/green5PASS0skip. No blockers; all baseline/rawred/old producers unchanged. Only now publishing focused DRAFT implementation PR for actual automatic officialQt unconditional24 proof; finalmetadata/latesthead/rules/discussions/merge stillpending."
+        "Actual independent SOURCE/CONFIG approvala751d54 integrated5ed4194 covers615/CMake17ca/preset35e/QtCMake2da/workflow1fe, whole889CPP+config/contracts/oldmechanisms. Fresh70-step0warning build/exact143+24+green3/24PASS0.73s/full143PASS3.18s/green5PASS0skip. No blockers; all baseline/rawred/old producers unchanged. Only now publishing focused DRAFT implementation PR for actual automatic officialQt unconditional24 proof; finalmetadata/latesthead/rules/discussions/merge stillpending.",
+        "Actual automatic officialQt run41477399818 atd0ce5c8 SUCCESS after source/configa751/root5ed: pinnedarchivesOK/GNU13.3/Qt6.12SQLite3.53.4/70build/newCPPcompiled/old111+green7/3/3/3/exact24/UNCONDITIONAL24PASS; all11 sourceheadchecksSUCCESS. Native author/root/reviewer24/full143pass with frozenbaseline/API/contracts/oldproducers. Implementation acceptance+separatecode review complete; markdone boundedcomponent only. PR38 remainsDRAFT pending finalmetadata/CI-attributionreview/latestheadallchecks/currentrules/threads/normalmerge. Originalrednotrepeated; no live/appbundle/recovery/platform upgrade."
       ],
       "verification": {
         "native_build": "passed",
         "acceptance": "passed",
         "regression": "passed",
         "code_review": "passed",
-        "github_ci": "not_run",
-        "official_qt_environment": "not_run",
+        "github_ci": "passed",
+        "official_qt_environment": "passed",
         "platform_release": "not_run",
-        "application_bundle": "not_run"
+        "application_bundle": "not_run",
+        "product_acceptance": "passed",
+        "live_provider": "not_run"
       },
       "evidence": [
         "docs/evidence/storage-014-implementation.md",
@@ -4876,7 +4879,7 @@
         "author": "/root/contribution_implementer (source); /root (shared CI/build integration)",
         "reviewer": "/root/contribution_reviewer",
         "outcome": "approved",
-        "baseline": "Actual source61569bd13e34f515802271da1c2ea9c89b23c473 +root CMake17ca259/preset35e0c15/QtCMake2da4c8e/workflow1fe3544 approveda751d54 integrated5ed4194. Reviewer fresh70build0warnings/exact143+24+green3/24PASS0.73s/full143PASS3.18s; frozen baseline/old producers unchanged. Actual selected official CI and final evidence/latest-head merge gates remain.",
+        "baseline": "Actual source61569bd13e34f515802271da1c2ea9c89b23c473 +root CMake17ca259/preset35e0c15/QtCMake2da4c8e/workflow1fe3544 approveda751d54 integrated5ed4194. Reviewer fresh70build0warnings/exact143+24+green3/24PASS0.73s/full143PASS3.18s; frozen baseline/old producers unchanged. Actual selected official CI and final evidence/latest-head merge gates remain. Actual automatic selectedQt41477399818 atd0ce5c8 passed pins/GNU13.3/Qt6.12SQLite3.53.4/old111+requiredgreen/exact24/UNCONDITIONAL24; all11 sourcehead checks SUCCESS. Final evidence/latest-head merge gates remain.",
         "evidence": "docs/evidence/storage-014-code-review.md"
       }
     },

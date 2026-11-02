@@ -93,3 +93,12 @@ is now separately claimed on its dedicated branch; baseline/source/CI reviews
 and original red remain valid. Implementation owns only the new adapter source
 and evidence; root controls shared integration/CI promotion. No baseline rerun or
 assertion/fixture/API change is authorized merely to obtain passing results.
+
+## Accepted implementation checkpoint
+
+Source61569bd implements this bounded adapter and preserves all reviewed baseline
+artifacts. Author/root/reviewer24/full143 pass; different source/config approvala751
+and actual automatic selected officialQt41477399818 atd0ce5c8 pass unconditional24.
+[Implementation handoff](../../evidence/storage-014-handoff.md) distinguishes
+accepted component from pending PR38 integration/final merge gates. Next work
+remains separately claimed from actual integrated main under the standing loop.

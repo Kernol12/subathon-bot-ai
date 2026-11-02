@@ -168,3 +168,14 @@ commit, immutable originals/every attempt/retained targets and truthful uncertai
 No new writer/core/provider/wire API is added. This supplies no running server,
 contribution/plan/effect/job/application bundle or operational/platform release
 capability; downstream typed codecs/rates and all full-release scope remain open.
+
+The [contribution SQL adapter](contracts/sqlite-contributions-v1.md) now implements
+the unchanged primitive repository ports with full CId0..MAX/NULL distinction,
+immutable original-receipt/observation provenance and independent current state.
+24 preserved real-SQL cases/full143 pass with separate source/config review and
+actual automatic selected Qt6.12/SQLite3.53.4 acceptance. [Handoff](evidence/storage-014-handoff.md)
+records source615, exact additive migration3 and prior reviewed/red baseline.
+Existing service owns policy. One controlled session owns real commit/RAII rollback
+and uncertainty; receipt prior commitment and semantic/provider authority remain
+upstream preconditions. No app bundle/effect/job, plan/rate history, permission,
+recovery/operational or platform/provider release capability follows.
