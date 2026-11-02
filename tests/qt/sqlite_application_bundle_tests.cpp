@@ -691,15 +691,15 @@ class Fixture final {
         return result;
     }
     static SqlStatement insert(const QString &table, const Cells &cells) {
-        QStringList columns, slots;
+        QStringList columns, placeholders;
         QList<QVariant> values;
         for (auto it = cells.begin(); it != cells.end(); ++it) {
             columns.append(quoted(it.key()));
-            slots.append("?");
+            placeholders.append("?");
             values.append(it.value());
         }
         return {"INSERT INTO " + quoted(table) + "(" + columns.join(',') + ") VALUES(" +
-                    slots.join(',') + ")",
+                    placeholders.join(',') + ")",
                 values};
     }
     void apply(const QList<SqlStatement> &steps) {
