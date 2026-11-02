@@ -117,3 +117,14 @@ Next commit exact root proposal and ask different reviewer actual logical+physic
 review. Only its actual approval can unlock minimal API/stub precision drafting.
 Author completed clean; reviewer has preliminary logical findings only, no absent
 physical verdict. All prior code/tests/reviews/red gates preserved.
+
+## Actual physical-review handoff / PR publication
+
+Actual root93136966f61a85f82e996d3e586500a4adbd8bcc contains logical1b204cbc
+(original6e plus companionlink only) and physical99bf45b4. Different reviewer
+explicitly resumed to inspect both actual documents and independently verify
+SQL/groups/FKs/oldprefixes/F-framing/schema30/hash; no absent verdict. Author is
+completed/clean, waits next gate. Root published focused DRAFT
+[PR39](https://github.com/Kernol12/subathon-bot-ai/pull/39) at9313696. Current CI
+checks cover inherited implemented components only; no new plan API/test exists.
+No API/stub/test authoring before actual fullcontract approval.
