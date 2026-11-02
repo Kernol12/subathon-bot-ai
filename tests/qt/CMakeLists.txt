@@ -1,4 +1,19 @@
 set(CMAKE_AUTOMOC ON)
+if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+    add_executable(server_sqlite_application_bundle_environment sqlite_application_bundle_environment.cpp)
+    target_link_libraries(server_sqlite_application_bundle_environment PRIVATE subathon_sqlite_writer Qt6::Test)
+    target_compile_definitions(server_sqlite_application_bundle_environment PRIVATE
+        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
+        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
+    subathon_target_options(server_sqlite_application_bundle_environment)
+    add_test(NAME scaffold.sqlite_application_bundle_environment COMMAND server_sqlite_application_bundle_environment)
+    set_tests_properties(scaffold.sqlite_application_bundle_environment PROPERTIES
+        LABELS "scaffold;qt;bundle-environment" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)
     add_executable(server_sqlite_application_plans_environment sqlite_application_plans_environment.cpp)
     target_link_libraries(server_sqlite_application_plans_environment PRIVATE subathon_sqlite_writer Qt6::Test)

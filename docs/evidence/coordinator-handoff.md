@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-002 independent fixture stage
+# Coordinator checkpoint — STORAGETEST-002 fixture/helper full review pending
 
 Coordinator `/root`,2026-11-02. Continue full specification v0.45 under AGENTS.md/
 COORDINATOR_PROMPT.md; earlier stop was revoked by explicit resume. No owner access/
@@ -84,26 +84,40 @@ pins/checkpoint/CI. No other source writer overlaps. Last accounting93registered
 branches and valid reviews preserved. Root old173 session41867 completed0; no native/
 watch command running at checkpoint. Inspect actual state on resume.
 
-NEXT: fresh isolated independent fixture author owns ONLY new
-sqlite_application_bundle_vectors.json, sqlite_application_bundle_environment.cpp
-and own fixture-author evidence. Oldwriter/QtTest ONLY, no newheader/facade/manifest/
-codec or implementation-generated expecteddata. Root owns helperCMake/profile/CI
-integration; independent ACTUAL fixture review/required old-writer green before
-feature test authoring. Fresh fixture branch task/STORAGETEST-002-independent-fixtures /
-local-evidence/worktrees/storage002-fixtures createdclean3dc433f after gates;
-fixtureauthor explicitly resumed/RUNNING. No fixture/test authored merely by assignment. Then real
-feature tests need actualfullreview/compile/exactdiscovery/selectedofficialnewgreen
-before FIRSTmissingbehaviorred. All7 stubs stay frozen. STORAGE-002 production
-staysplanned until this realbaseline integrates; no ownerneed.
+CURRENT actual independentfixture author7375b3273765b815c50f0bf867d7be6fdc03079d
+imported603091b. JSONe8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d /SHAaebff706,
+461783bytes. Early actualdifferent rawJSON review atthathash passed66/F62465c9/
+all56setup+6rawscenarios+queries/28constraintrefusals/10runtimeadmissions/Fraction;
+no CPP/helper approval was inferred. Initial644helperd9 compiled18/0warning but
+hostdriverfailed only compoundtrigger installation atline580 (6PASS1FAIL0skip),
+because writercontract rejects ANYsemicolon. Rawfailure preserved, NOTfeature red.
 
-Author APIrolecompletedclean166. Reviewer APIrolecompletedcleanef0ba764, then
-explicitly resumed READONLYfixtureprep, nowCOMPLETEcleanef. Fixtureauthor RUNNING
-in NEWstorage002-fixtures at3dc; old61f correction tree preserved. Existing old reviewer tree retained; next fixture review
-must receive actual authoredJSON/helper, no absent-artifact approval. Root native/
-CI download/edit sessions complete; no runningrootcommand. Header/source unchanged,
-rootstate/HTML/checkpoint updates are metadata only. Actual newtree path/head and
-agentstatus must be recorded after creation. Accounting now94registered=78existing/16absent refs, allpreserved. Rootsource/API
-unchanged; next obtainactualJSON/helper/ownnote commit before hostgreen/harnessreview.
+Narrow author5b161be61e2204ef8a2652c3789d288a8b224a1c imported73b0167:
+667linehelperb0a5c72f152f193370d6c39af526fba61d332fdb, JSON/predicates unchanged.
+TestDDL uses independentownedobserverwhilewriteridle withbothconnectioncatalog
+proof; allpending0→staged1/oldhead/observerpending0/insidecatchBEGIN/fulltypedrollback/
+faultoffcommit assertions retained. Productionfilter/source/API/oldtests untouched.
+Correctedrootincremental3build0warnings/5compiledslots/174=old173+newdriver,
+hostdriver7PASS0FAIL0SKIP443ms/CTest0.45s. Source7stubs NEVERcalled. Rootharness
+QtCMake15lines/CI18lines preserveoldbyteexact andrequire5slots/runautomatically.
+[Fixture author](storagetest-002-fixture-author.md), CIrecordexactlogs/hashes.
+
+Author fixturetree nowCOMPLETEclean5b, APIauthorcompleteclean166; reviewer earlyJSON
+read-onlycompletecleanef. Root will explicitlyresume actualFULL3filefixture/helper/
+harnessreview after freezing this candidate; no absentverdict. Author owns ONLY
+newJSON/helper/ownnote; root ownsQtCMake/WF/sharedmetadata/schemaorder/pins. No
+rootnative/CIwatch running aftercorrectedtestcompleted0. All94registered=78existing/
+16absentrefs preserved. No prune/reset/oldred/old173 replay. Actualpublication still
+previous30d sourceAPI; newfixture candidate/harnessawaitspush/ownCI.
+
+NEXT: fullactual differentreview of committedJSON+corrected667CPP+ownnote+2harness
+files; observe ownselectedofficialNEW5green/full66. Resolveanyrealfindings keeping
+fixeddata/assertions. Onlythen independentlyauthorfeaturetests, actualfullbaseline
+review/compile/exactdiscovery/selectedofficialgreen atapprovedsamehead before
+FIRSTmissingbehaviorred. Rootsource7stubs/header8e24/physicalf13 frozen. No feature
+bodytestexists yet, nointendedred observed, STORAGE-002 implementationPLANNED.
+All routineauthorized workcontinues; no ownerneed. Inspectactualagents/processes/
+heads onresume, checkpointdoesnotprove oldagentsstillrunning.
 
 ## Actual integrated main / earlier gates
 

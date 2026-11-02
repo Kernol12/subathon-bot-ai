@@ -90,3 +90,18 @@ Fresh storage002-fixtures branch/tree createdclean3dc433f, fixtureauthor explici
 resumed/RUNNING for only3 exact owned files. Reviewer actual read-onlyfixtureprep
 completecleanef; no absentfixture approval. All94registered/78existing/16absent refs
 preserved. No feature-body/newentrypoint/oldred or extra native suite was invoked.
+
+## Actual fixture/helper candidate and host diagnostic
+
+Independent author7375/root603 addedJSONe8b6/aebff706 (461783bytes), oldwriter-only
+CPP+ownnote. Initialrootbuild18/5slots/174registration0warnings passed, but first
+driverfailed solely installing compoundtrigger through semicolon-prohibiting
+writer. This was setup, NOT feature red. Source7stubs nevercalled. Author5b/root73b
+corrects ONLY testDDL installation/removal throughownedidleobserver, bothconnection
+catalogvisibility assertions; allJSON/numerics/schema/rollback/faultoff unchanged.
+Corrected667linehelperb0a5/rootincremental3compile0warnings/7PASS0skip443ms(0.45s).
+EarlyindependentJSONraw/framing/28constraints/10runtimeadmissions checks valid.
+Root2fileharness adds oldwriter-only5-slot driver/requiredunconditionalCIguard,
+old173defs/pins untouched; fullfixture/helper/harness review andofficialNEW-green
+stillpending, no actualfeaturetest or intendedred yet. [CI record](storagetest-002-ci.md)
+contains failed/pass logs/hashes and exactsemicolonscope correction.

@@ -112,3 +112,52 @@ physicalf13/all5configurationpins. Own fresh84build0warnings/old173PASS4.48s/0sk
 CI and independent review were parallel and correctly pinned to848 source, not a
 future artifact. Header/source/physical remain frozen for independent fixtures.
 Latest-head merge CI remains a separate future gate.
+
+## Actual independent fixture/helper host diagnostic (review pending)
+
+Author7375b327/root603091b added ONLY independent JSONe8b6c77e (SHA aebff706),
+initial644-line oldwriter-helperd9d441b5 and own evidence. Root first configure/
+incremental18build/5compiledslots/174registrations PASS0warnings, then hosthelper
+FAILED0.45s/6PASS1FAIL0skip at trigger installation BEFOREapplicationunit.
+The real writer's reviewed prohibition of ANYsemicolon rejected compound trigger
+DDL; no new facade/feature/missing-behavior red was invoked. Raw failure preserved.
+
+Narrow authorfix5b161be6/roots73b0167 changed only helper+ownnote:667linehelper
+`b0a5c72f152f193370d6c39af526fba61d332fdb`, same JSONaeb/e8b and predicates.
+Test-only triggerDDL uses the separate owned observer while the controlledwriter
+is idle, with real lock/catalog visibility checks on BOTH connections. Production
+SQL filter, data, schema, all rollback/staged/observer/faultoff assertions unchanged.
+Written actual reason and independent final-review requirement are in authornote.
+
+Root corrected `cmake --build --preset sqlite-bundle-debug`: incremental3 steps
+PASS/0warnings. `ctest --preset sqlite-bundle-debug -R
+'^scaffold.sqlite_application_bundle_environment$' --verbose`: **7PASS0FAIL0SKIP**,
+443ms methods/0.45s CTest, Qt6.12/SQLite3.54. Five diagnostics plus init/cleanup;
+actual intermediate pending0→staged1, prepared effects/state with oldhead/outside
+pending0, realSQLabort/insidecatchBEGIN/fulltypedrollback and faultoffcommit proved
+ONLY for oldwriter/rawliteral foundation, never futurefacade reach/product behavior.
+
+174 registrations are old173+one newdriver executable; NO bundle feature case.
+Old definitions are byte-identical after removing exactly the new15-line CMake
+block, so old173 hostproof remains valid without another unrelated full replay.
+Source/header/physical allfrozen; helper links only oldwriter+QtTest. Workflow
+appends exactly18 lines: unconditional required5-slot guard/run. All old commands/
+pins/permissions/checknames otherwise unchanged. Actionlint/project/render/diffPASS.
+
+These tests used the exact listed helper/JSON and integrator harness working-tree
+bytes; this review candidate freezes those unchanged. Actual full fixture/helper/
+harness review and selected official NEW-green remain pending before featuretest
+authoring/firstred. No new entrypoint or previously completed red ran.
+
+| Preserved local diagnostic | SHA256 |
+| --- | --- |
+| `local-evidence/storagetest002-fixture-build.txt` | `e3fdfd04b45c0b9ae5c96d5d954b655f92d2bc5ae55476555bf6252337a78cfc` |
+| `local-evidence/storagetest002-fixture-green-initial.txt` | `a1dba3dab2e923a6edb65d4bbce2cd4eb53cd4b5818db4495502f2d252592148` |
+| `local-evidence/storagetest002-fixture-build-corrected.txt` | `b500a464aa63fa487501cc6764b98f9d36f4a6436e0547e462a576f1731a1af6` |
+| `local-evidence/storagetest002-fixture-discovery.json` | `b294482ff4f0f8b9300a12579f3e73449ac5fc21b5bedcc8b2f60e412207b4a3` |
+| `local-evidence/storagetest002-fixture-green-corrected.txt` | `43a5a5fd0130cf1dad4c257ab9120214889450436394f9a5146f5a4420cce304` |
+
+| New actual harness | Git blob |
+| --- | --- |
+| `tests/qt/CMakeLists.txt` | `203db2f439add44c6fe20b6ce5152134aa61f572` |
+| `.github/workflows/sqlite-writer.yml` | `b9e1a49583e8e54800997215ba4e65ec58ee2b8c` |

@@ -289,3 +289,21 @@ jobs:
           PYTHON
       - name: Run reviewed captured-plan acceptance
         run: ctest --preset sqlite-bundle-debug -L sqlite-plan
+      - name: Check and run required application-bundle fixture diagnostics
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-bundle-debug/tests/qt/server_sqlite_application_bundle_environment"
+          expected = {
+              "bundleSchemaPrefixMatchesLiteralProjection()",
+              "typedBundlePayloadsAndHistoricalProvenanceRemainExact()",
+              "multipleOriginalBasesShareOneRequestAndHeads()",
+              "bundleConstraintsAndRuntimeOnlyAdmissionsAreExplicit()",
+              "conditionalMidstageFaultRollsBackPreparedUnit()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required bundle fixture cases do not match compiled slots")
+          print("Discovered all 5 required application-bundle fixture cases")
+          PYTHON
+          ctest --preset sqlite-bundle-debug -R '^scaffold.sqlite_application_bundle_environment$' --verbose
