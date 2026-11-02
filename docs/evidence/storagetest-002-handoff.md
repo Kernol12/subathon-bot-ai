@@ -189,3 +189,10 @@ planned and DB-01 partial. Original old baselines/valid reviews/source/fixtures 
 unchanged. Do not repeat first red. Final separate attribution/completion review,
 latest publication CI/discussions/rules/normal exact-head merge remain. Owner says
 finish existing PR42, then STOP; do not start dependency-ready implementation.
+
+Actual final completion/CI-red-attribution reviewa32ac35a1395de9fae455512bab24b6d3e1c94bb
+imported a8d6654 approves exact1ff metadata/raw scope and chronological ordering.
+Original full review imported306 at23:05:39Z precedes official23:07:25–23:08:45Z;
+SAMEclean90fa FIRST32red starts23:10:27.403781. Raw/source/tree/status all verified.
+No source or body rerun; final latest-head CI/discussions/rules/normal merge and
+postmerge reconciliation remain. Current98/82/16 clean/preserved; STOP afterPR42.

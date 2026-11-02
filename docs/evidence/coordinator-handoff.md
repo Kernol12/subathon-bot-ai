@@ -12,8 +12,8 @@ observed intended red. Production STORAGE-002 remains planned; source7functions
 are immediate named stubs. DB-01 remains partial. Root branch is
 `task/STORAGETEST-002-application-bundle`. Main local/remote remains100171b47709ab6d4323fa1ca0d627cad6c24719.
 Only PR42 is open/DRAFT. Published approved source head90faea02ce0bdbff204d5eda4b9ea41b2e74d5c8
-has all11 checks SUCCESS. This completion metadata/raw evidence still needs final
-separate attribution/scope review and latest-publication CI before normal merge.
+has all11 checks SUCCESS. Completion metadata/raw evidence has final separate approvala32ac35a (roota8d6654).
+Latest-publication CI and actual GitHub merge gates remain before normal merge.
 
 [Handoff](storagetest-002-handoff.md), [actual reviews](storagetest-002-review.md),
 [CI/build/evidence](storagetest-002-ci.md), [test author](storagetest-002-test-author.md),
@@ -63,12 +63,13 @@ baselines. Initial AutoMoc/fixture-trigger setup failures were never called red.
 
 ## Roles and preservation
 
-All97 registered=81 existing+16 absent/prunable refs preserved; no prune/reset/discard.
+Actual root reinspection: all98 registered=82 existing+16 absent/prunable refs
+preserved, all existing worktrees clean; no prune/reset/discard.
 - plan_fixture_author COMPLETE, clean0a655f93, storage002-feature-author branch/tree;
   earlier fixture5b preserved. No further source edits assigned.
-- contribution_reviewer COMPLETE full test approval, clean91709215 in
-  storage002-feature-review; earlier5cf/42f trees preserved. Root must explicitly
-  resume in a fresh final-attribution branch/tree at actual completion commit.
+- contribution_reviewer COMPLETE full test approval91709215 and final attribution
+  approvala32ac35a; clean storage002-final-review branch/tree, original full review
+ 917 and earlier5cf/42f trees preserved. No active reviewer or body rerun.
 - contribution_implementer COMPLETE clean1662219 in storage002-contract-author;
   no production assignment. Old debt/Qt names do not establish running agents.
 Root owns shared metadata/build/CI/schema order/pins and integration. No root native
@@ -76,9 +77,9 @@ watch is running. Inspect actual processes/worktrees/agent state on interruption
 
 ## Next concrete actions and stopping point
 
-1. Final reviewer inspects actual completion commit/raw red/official chronology/
-   scope/map/state/HTML without executing bodies or old diagnostics. Preserve the
-   valid source approvals; no implementation approval by implication.
+1. Actual final completion/attribution approvala32ac35a imported a8d6654 accepts1ff
+   metadata/raw and exact chronology/hash/status. No body/native check rerun.
+   Source4b60/harness91035/453f and all earlier valid approvals are unchanged.
 2. Publish final reviewed metadata; observe all applicable latest-head CI, current
    discussions/rules/required GitHub approvals/mergeability. Normal exact-head merge
    only; no bypass. Rules26170263 last observed GHapprovals0/no required-status rule,
@@ -90,3 +91,14 @@ All seven integrations/three FX, full authority/application/state/jobs/delivery/
 refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/security/
 backup/update/live/OBS remain required/incomplete. Synthetic disposable work only;
 no credentials/supporter/chat/payment/deployment side effects.
+
+## Final publication handoff
+
+Actual final reviewa32ac35a1395de9fae455512bab24b6d3e1c94bb imported a8d6654,
+reviewMD6be0d3d76adc4aaf77c05916d6a0a468aebb8a14, confirms exact1ff scope and original
+red. Root reinspection98/82/16 finds ALL existing trees clean; prior production
+implementations/old plan baseline are byte-identical to main. No new task started.
+Only latest FINAL publication checks/current rules/discussions/normal exact-head
+merge and postmerge reconciliation remain. Publish this final metadata once;
+observe latest11, ready/merge normally, refresh main/postmain checks, write actual
+stop checkpoint and STOP. Source and review agents are COMPLETE, not running.
