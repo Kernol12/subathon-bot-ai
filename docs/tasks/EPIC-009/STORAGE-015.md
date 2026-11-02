@@ -1,12 +1,11 @@
 # STORAGE-015 — Captured application-plan and revision-history persistence
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, NUM-01, DB-01.
-Status/owner/dependencies: progress/state.json. Production implementation remains
-planned. STORAGETEST-015 completed29 independently reviewed feature cases and
-the first explicit-stub red after actual selected official fixture/build/discovery
-gates. The new codec/manifest/store still contain explicit stubs; this does not
-implement persistence. See [baseline handoff](../../evidence/storagetest-015-handoff.md)
-and [actual stage reviews](../../evidence/storagetest-015-review.md).
+Status/owner/dependencies: progress/state.json. The bounded persistence component
+now has passing29/full173 acceptance, different source/config review and actual
+automatic selected official29 execution. [Implementation handoff](../../evidence/storage-015-handoff.md)
+records scope and remaining merge/release gates. The [original baseline](../../evidence/storagetest-015-handoff.md)
+and its red remain historical, with a separately reviewed SQL NULL oracle correction.
 
 ## Scope and ownership
 
@@ -61,3 +60,15 @@ contract/examples; root owns additive migration4/order/shared integration. Exist
 core firstrevision1/contiguous history and all actual HistoricalValuation rate/
 source/time/manual provenance stay authoritative. Separate actual contract/API/
 test reviews and a genuine compiled missing-behavior red precede production.
+
+
+## Production claim after integrated baseline
+
+STORAGE-015 is claimed from actual PR39/maina7a1844 after full8b/final3dec review,
+same-head official NEWgreen and original29 explicit-stub red. Only new source
+body server/src/sqlite_application_plans.cpp and own implementation evidence are
+delegated; root retains shared build/CI/state/schema ordering. Fresh isolated
+implementation/review worktrees are required. Preserve every reviewed assertion,
+fixture, contract and header; no behavior change or new dependency is implied.
+Passing29/full173, separate actual source/config review and observed automatic
+selected official acceptance are required before implementation done/merge.

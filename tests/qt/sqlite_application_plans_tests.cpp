@@ -1000,14 +1000,23 @@ class SqliteApplicationPlanTests final : public QObject {
             fixture_->rows(
                 "SELECT * FROM main.subathon_plan_revisions WHERE revision=X'0000000000000001'"),
             original);
-        QCOMPARE(fixture_->rows("SELECT "
-                                "hex(revision),hex(parent_revision),override_authority,hex("
-                                "override_actor_ref),hex(override_reason),hex(override_decision_"
-                                "ref) FROM main.subathon_plan_revisions ORDER BY revision"),
-                 (SqlRows{{"0000000000000001", "", QVariant{}, "", "", ""},
-                          {"0000000000000002", "0000000000000001", qint64(2), "6163746F722D37",
+        auto stored_revisions = fixture_->rows(
+            "SELECT hex(revision),hex(parent_revision),override_authority,"
+            "typeof(override_authority),hex(override_actor_ref),hex(override_reason),"
+            "hex(override_decision_ref) FROM main.subathon_plan_revisions ORDER BY revision");
+        QCOMPARE(stored_revisions.size(), 3);
+        for (const auto &row : stored_revisions)
+            QCOMPARE(row.size(), 7);
+        QVERIFY(stored_revisions[0][2].isNull());
+        QCOMPARE(stored_revisions[1][2], QVariant(qint64(2)));
+        QCOMPARE(stored_revisions[2][2], QVariant(qint64(2)));
+        for (auto &row : stored_revisions)
+            row.removeAt(2);
+        QCOMPARE(stored_revisions,
+                 (SqlRows{{"0000000000000001", "", "null", "", "", ""},
+                          {"0000000000000002", "0000000000000001", "integer", "6163746F722D37",
                            "6578706C69636974206F76657272696465", "6465636973696F6E2D37"},
-                          {"0000000000000003", "0000000000000002", qint64(2), "6163746F722D37",
+                          {"0000000000000003", "0000000000000002", "integer", "6163746F722D37",
                            "6578706C69636974206F76657272696465", "6465636973696F6E2D37"}}));
     }
     void quotesAndIndependentStatesRetainAllProvenanceAfterReopen() {

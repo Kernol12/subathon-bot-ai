@@ -21,7 +21,7 @@ option(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS "Build reviewed migration catalog a
 option(SUBATHON_BUILD_SQLITE_RETAINED_TESTS "Build reviewed retained-context acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS "Build reviewed identified-receipt SQLite acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS "Build reviewed contribution SQLite acceptance tests" OFF)
-option(SUBATHON_BUILD_SQLITE_PLAN_TESTS "Build draft captured-plan SQLite baseline tests" OFF)
+option(SUBATHON_BUILD_SQLITE_PLAN_TESTS "Build reviewed captured-plan SQLite acceptance tests" OFF)
 option(SUBATHON_BUILD_TIME_DEBT_TESTS "Build reviewed time-debt acceptance tests" OFF)
 set(SUBATHON_GOOGLETEST_SOURCE_DIR "" CACHE PATH "Optional local GoogleTest source checkout")
 include(cmake/ProjectOptions.cmake)

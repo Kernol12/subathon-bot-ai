@@ -5,11 +5,6 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      run_plan_feature_tests:
-        description: Run the reviewed captured-plan feature baseline (intentionally red until STORAGE-015)
-        type: boolean
-        default: false
 permissions:
   contents: read
 jobs:
@@ -273,7 +268,7 @@ jobs:
           print("Discovered all 4 required captured-plan fixture cases")
           PYTHON
           ctest --preset sqlite-plan-debug -R '^scaffold.sqlite_application_plans_environment$' --verbose
-      - name: Check complete captured-plan baseline registration without running behavior
+      - name: Check complete captured-plan acceptance registration
         run: |
           ctest --preset sqlite-plan-debug -L sqlite-plan --show-only
           ctest --preset sqlite-plan-debug -L sqlite-plan --show-only=json-v1 > "$RUNNER_TEMP/plan-tests.json"
@@ -292,6 +287,5 @@ jobs:
               raise SystemExit("CTest registration does not match the compiled captured-plan suite")
           print(f"Discovered all {len(tests)} compiled captured-plan cases; behavior not run")
           PYTHON
-      - name: Run explicit captured-plan feature baseline
-        if: github.event_name == 'workflow_dispatch' && inputs.run_plan_feature_tests
+      - name: Run reviewed captured-plan acceptance
         run: ctest --preset sqlite-plan-debug -L sqlite-plan

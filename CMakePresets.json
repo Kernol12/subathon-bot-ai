@@ -148,7 +148,7 @@
     },
     {
       "name": "sqlite-plan-debug",
-      "displayName": "17 \u00b7 Captured-plan SQLite baseline (draft)",
+      "displayName": "17 \u00b7 Captured-plan SQLite acceptance",
       "inherits": "sqlite-contribution-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_PLAN_TESTS": "ON"
