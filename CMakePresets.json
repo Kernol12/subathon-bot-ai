@@ -153,6 +153,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_PLAN_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-bundle-debug",
+      "displayName": "18 \u00b7 Application-bundle SQLite baseline",
+      "inherits": "sqlite-plan-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_BUNDLE_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -223,6 +231,10 @@
     {
       "name": "sqlite-plan-debug",
       "configurePreset": "sqlite-plan-debug"
+    },
+    {
+      "name": "sqlite-bundle-debug",
+      "configurePreset": "sqlite-bundle-debug"
     }
   ],
   "testPresets": [
@@ -389,6 +401,16 @@
     {
       "name": "sqlite-plan-debug",
       "configurePreset": "sqlite-plan-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-bundle-debug",
+      "configurePreset": "sqlite-bundle-debug",
       "output": {
         "outputOnFailure": true
       },
