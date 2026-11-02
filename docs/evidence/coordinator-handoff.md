@@ -35,8 +35,8 @@ source still has seven immediate named stubs. STORAGE-002 remains planned.
 | Seven immediate stub source | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
 | Literal JSON | `e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d` |
 | Old-writer-only fixture helper | `b0a5c72f152f193370d6c39af526fba61d332fdb` |
-| New32-case CPP | `64678efb6db3884160f30150060bfd547df6e466` |
-| Feature author note | `3c3bcd62bfe4873e1397fe8be618d34f23c25a70` |
+| New32-case CPP (four fixes, rebuild pending) | `4b60fcaa06dec8136f0b81e7ac6d01374df94a48` |
+| Feature author note | `caac20224fbd364149d907e175a3ca21830d8a61` |
 | Qt CMake | `91035af6f5ab00916770c1ba508db01997354ffe` |
 | SQL workflow | `453f1a2df00f11442330f2649d9c4ded41d7841e` |
 
@@ -113,3 +113,39 @@ All seven integrations/three FX, full authority/application/state/jobs/delivery/
 refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/security/
 backup/update/live/OBS remain required/incomplete. Synthetic disposable work only;
 no credentials/supporter/chat/payment/deployment side effects.
+
+## Actual full-review findings awaiting source correction
+
+Full reviewer requested two concrete corrections, no approval: first600k lookup
+under1MiB assumes unpromised SQL read-once cost; consume600k through one explicit
+old session SELECT before new lookup's cumulative failure instead. Opaque-head
+UPDATE violates immediate head/balance FKs; insert complete fresh snapshot/balances
+then repoint head, retaining old start. plan_fixture_author was EXPLICITLY resumed
+for ONLY CPP/ownMD corrections; reviewer continues actual review. Root old compile
+proof remains pinned64678, not future corrections. No body/new entrypoint/red.
+
+## Actual three fixes reviewed; fourth bound case in progress
+
+Author87372b2 clean imported598a815: CPP682346f8/MD7aa86b5c implements deterministic
+budget, feasible opaque-head FK setup, and three selected Exact precedence rows.
+Reviewer ACTUALLY inspected all three and confirmed them resolved. Complete prior
+source/harness read also confirmed six early fixes and independently reproduced
+838/112/20-9-10 weights. No other material findings except actual-credit bound:
+source author explicitly resumed for cappedrequest600/actual120/cap480, ready
+basis120, and locally valid refund130 (fraction1/entitlement120/residual-10) that
+must normal reversal_conflict with prior caller marker committable. Same32slots;
+no source API/fixture/harness change. No new body/API execution. Current682 is NOT
+yet rebuilt; last zero-warning/compiler/discovery proof is historical646/a6 only.
+Await actual fourth-case commit, then root rebuild/discovery and actual final
+different review before publishing own clean full-feature CI revision.
+
+## Final actual bounded source handoff
+
+Author0a655f93 clean imported6f1a23c adds the fourth actual basis-bound case; CPP4b60fcaa
+and MDcaac2022 above are current. Capped original600→actual120/cap480 and locally
+valid refund130 isolate both ready basis and over-original normal refusal; caller
+marker actual COMMIT then only-marker cleanup establishes no own writes/cleanup.
+Author COMPLETE/available, own tree clean0a655. Reviewer has confirmed previous
+three corrections but must inspect this ACTUAL new block and final complete revision.
+Root freezes pending shared evidence before new compiler/discovery ONLY. Last
+zero-warning proof646/a6 is historical, not the current4b artifact. No body/API/red.

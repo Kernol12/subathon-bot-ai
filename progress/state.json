@@ -5084,7 +5084,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; actual full test/harness reviewer /root/contribution_reviewer; feature author /root/plan_fixture_author completed",
+      "owner": "Coordinator /root; actual full reviewer /root/contribution_reviewer; source author /root/plan_fixture_author completed",
       "depends_on": [
         "STORAGE-001",
         "STORAGE-015",
@@ -5120,13 +5120,16 @@
         "ActualindependentfeatureCPPauthor eb5bab9423c52a3b3d1d9e0b274a1171954de259 clean imported8b59d78: source88e9b1b8/SHA0a69e875/3194lines/32actualslots. Root48+lineCmake/19lineworkflow addsseparatetarget/exact32registrationandcompiled-slotguardONLY; allolddefinitions/required5slotgreen preserved. Sixactualprelimfindingsresolvedinauthoredcandidate, fullactualreviewstillpending; authorownMDsecondcommitinprogress. Rootfreezescompletecode/harness beforeCOMPILE/DISCOVERYONLY; no newentrypoint/body/native/redyet. Samecleanapprovedfullfeatureheadselectedofficialnewgreen stillrequiredBEFOREfirstred. OwnerfinishPR42thenSTOP/noimplementation.",
         "Actualclean9fa configurePASS0.20s; firstfeaturetargetbuildEXIT1/0.22s AutoMocbeforeC++compilation becausehelperlocalvariable slots collideswithQtkeyword atCPP694. Focusedrename requestedfromsourceauthor, originalrawlogs/hashes preserved; NOTintendedred/no newbinary/body/entrypoint. DifferentactualFULLtest/harnessreview explicitlyresumedNEWstorage002-feature-review branch/tree9fa; authorownMDstillforthcoming, no finalverdict. All97registered/81existing/16absent refs preserved, no oldred/old173rerun.",
         "Actualauthor2ade878e clean importedeb90824: focusedslots\u2192placeholders Qtkeywordrename ONLY and168lineauthorMD3c3bcd62; source054acbc2/SHA450f1141. CorrectedtargetbuildactuallyPASS4steps/7.12s, one-Wshadowlocalvaluewarning (notzero). Rootrenameinnerlocalto selected_state ONLY, preservingallassertions, andfreezesnextsourcebeforewarning-freebuild/discovery. Sixprelimissuesexplicitlyresolved/32case-map/independent838input+112state/20-9-10returnoracles documented. Fullactualdifferentreview active, no verdict/newentrypoint/body/redyet.",
-        "ActualCLEANa6bb6283e792c5b5804db9c371d103f710b0f502 zero-warningtargetrebuildPASS3worksteps/6.91s. CPP64678efb/QtCmake91035/WF453f/authorMD3c3. Compiled32functions matchall32enabledCTestslots,206total; removingnew32restoresEXACTold174names/commands/properties fromacceptedfixturediscovery. No featurebody/newentrypoint/intendedred ran; no unchangedold173native replay. Fullactualdifferentreviewnowactiveagainstcompleteactualsource/harness/note; publishonlyafterverdict/corrections andobserveOWNsame-clean-approved-feature-head requiredofficial5green+32discovery beforeFIRSTred. Latestpublishedbed9all11SUCCESS/SQL41535643464 ischeckpointONLYnotnewfeature-harnessproof."
+        "ActualCLEANa6bb6283e792c5b5804db9c371d103f710b0f502 zero-warningtargetrebuildPASS3worksteps/6.91s. CPP64678efb/QtCmake91035/WF453f/authorMD3c3. Compiled32functions matchall32enabledCTestslots,206total; removingnew32restoresEXACTold174names/commands/properties fromacceptedfixturediscovery. No featurebody/newentrypoint/intendedred ran; no unchangedold173native replay. Fullactualdifferentreviewnowactiveagainstcompleteactualsource/harness/note; publishonlyafterverdict/corrections andobserveOWNsame-clean-approved-feature-head requiredofficial5green+32discovery beforeFIRSTred. Latestpublishedbed9all11SUCCESS/SQL41535643464 ischeckpointONLYnotnewfeature-harnessproof.",
+        "Actualfullreviewrequests2focusedtestcorrections beforeapproval: cumulative1MiBbudgettestincorrectlyassumesfirst600knewlookupread-oncefits (contractmakesnofixedSQLcostpromise), replacefirstUUTlookupwithoneexplicitoldsession600kSELECTthenrequirenewlookupcumulativefailure/rollback; opaquehealthyheadsetupUPDATEtokenviolatesimmediatehead/balanceFKs, replacewithcompletefreshsnapshot+balancesinsertthenheadrepointretainingoldstart. SourceauthorEXPLICITLYresumedownCPP/MDonly, allassertions/foreignkeyenforcementpreserved. No newbody/entrypoint/red, no implementation; actualfullverdictpending.",
+        "Actualsource87372b2 imported598a815/CPP682346f8/authorMD7aa86b5c implements3fullreviewcorrections; differentreviewerACTUALLYinspectedandconfirmedall3. Fullsource/harnessreadcomplete/6earlyfixesconfirmed/independent838/112/20-9-10weightsreproduced; no othermaterialfindings except4thcriticalactualcreditboundgap. SourceauthorEXPLICITLYresumedaddingcappedrequest600actualMain120/cap480 andfreshlocallyvalidrefund130 withentitlement120/residual-10: readbasisactual120, thennormalreversal_conflict/no-own-write/committablecaller. Same32slots/noAPI/fixturechanges. Current682notyetrebuilt; lastnativeproof646remainsvalidhistoricalonly. Finalsourcecompile/discovery/differentactualverdict/ownofficialgreen precedeFIRSTred.",
+        "Finalboundedauthor0a655f93 clean imported6f1a23c: CPP4b60fcaa/authorMDcaac2022 addsactualcappedbasis120vsrequest600andlocallyvalidrefund130/entitlement120/residual-10/fullfalse. Refusalnormalreversal_conflict preservesobservedcallermarkerthroughactualCOMMIT; lateronlymarkerDELETEthenexacttypedbefore snapshot. Prior3actualfixesconfirmedbydifferentreviewer; fourthactualartifact/fullfinalverdictpending. Same32slots/currentharness91035/WF453f/7producerstubsrc83/physicalf13/JSONe8b/helperb0unchanged. Rootfreezesnewsource/metadata beforeFINALtargetcompile/discoveryONLY; currentfeaturebuildpartial untilactualnewartifactpass, no body/newentrypoint/red."
       ],
       "verification": {
         "concrete_contract": "passed",
         "api_review": "passed",
         "fixture_review": "passed",
-        "test_review": "not_run",
+        "test_review": "partial",
         "intended_red": "not_run",
         "github_ci": "partial",
         "product_acceptance": "not_run",
@@ -5143,9 +5146,9 @@
         "fixture_selected_qt": "passed",
         "clock_before_category_review": "passed",
         "feature_authoring": "passed",
-        "feature_native_build": "passed",
+        "feature_native_build": "partial",
         "authored_tests": "passed",
-        "feature_registration": "passed",
+        "feature_registration": "partial",
         "existing_registration_preserved": "passed"
       },
       "evidence": [

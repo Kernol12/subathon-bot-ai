@@ -258,3 +258,23 @@ Published checkpoint bed9abcfaca95323501b5a992ed5dfe7d215a41d has all11 checks
 SUCCESS (SQL41535643464), but excludes the new feature target/registration guard.
 The approved complete-feature revision must receive its OWN official required
 five-slot fixture green and32-case registration before FIRST real body/red.
+
+## Actual full-review corrections and final compiler candidate
+
+Actual author87372b2 imported598a815 corrects three full-review findings: deterministic
+explicit old-session600k result consumption before new lookup, FK-feasible fresh
+opaque snapshot/balances then head repoint, and three selected Exact strictness/
+class→size→grammar rows. Different reviewer inspected CPP682346/MD7aa and confirmed
+all three resolved. Earlier complete source/harness review confirmed six preliminary
+fixes and independently reproduced838/112/20-9-10 without SQL/new producer.
+
+Fourth actual correction0a655f93c7a60ef3066c9579e43492979350211a imported6f1a23c
+adds capped Main1000→1120: request600/actual120/cap480, then ready actualbasis120
+and a locally valid fresh refund130/entitlement120/residual-10/fullfalse. Normal
+reversal_conflict must preserve a caller marker through real COMMIT; after deleting
+ONLY that marker in a later acknowledged old unit, exact typed snapshot equals
+before. Current CPP4b60fcaa06dec8136f0b81e7ac6d01374df94a48/authorMDcaac20224fbd364149d907e175a3ca21830d8a61
+are authored/static-checked but NOT yet compiler-checked or finally approved. Root
+now freezes complete current code before target build/metadata ONLY. Same32 slots,
+CMake91035/workflow453f; stubs/API/physical/JSON/helper remain unchanged. No feature
+body/new entrypoint/red has run. Do not attribute earlier646/a6 build to this source.
