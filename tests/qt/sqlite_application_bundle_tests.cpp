@@ -2604,6 +2604,87 @@ class SqliteApplicationBundleTests final : public QObject {
                 SR::source_mismatch, caught);
             known(r, SR::source_mismatch);
             require(caught, "no reversal-of-reversal source masquerading as original");
+            auto capped = another("capped-actual-basis");
+            const auto capped_request =
+                request_like(l_->capture("plan-P").captured.requested_effects[0], 600);
+            const auto refund_request =
+                request_like(l_->capture("plan-R1").captured.requested_effects[0], -130);
+            capped->replace_requests("plan-P", {capped_request});
+            capped->replace_requests("plan-R1", {refund_request});
+            auto capped_original = single(*l_, capped_request, 1000, 0, 1120, 0, AR::time_addition,
+                                          {{CK::main_delta, 120, {}},
+                                           {CK::debt_delta, 0, {}},
+                                           {CK::cap_limited_time, 480, {}}});
+            capped_original.effects[0].maximum_main_ms = 1120;
+            capped->set_initial(capped_original.advanced_before);
+            SqliteWriter capped_writer;
+            open(capped_writer, *capped);
+            ok(stage(capped_writer, capped_original));
+            ApplicationReversalBasisResult capped_basis;
+            r = run(capped_writer, [&](auto context) -> QVariant {
+                auto s = context.begin();
+                SqliteApplicationBundleStore store(s);
+                capped_basis = store.read_reversal_basis(main_basis());
+                s.commit();
+                return 1;
+            });
+            ok(r);
+            require(capped_basis.disposition == SqliteBundleBasisDisposition::ready &&
+                        capped_basis.basis && capped_basis.basis->actual_credit_units == 120 &&
+                        capped_basis.basis->effect.requested_units == 600 &&
+                        same(capped_basis.basis->effect, capped_original.effects[0]) &&
+                        capped_basis.basis->progress.position == 0 &&
+                        capped_basis.basis->progress.cumulative == 0 &&
+                        !capped_basis.basis->progress.last,
+                    "no-debt cap480 never becomes reversal credit: actual Main120 differs from "
+                    "requested600");
+            auto over_original = l_->prepared("refund1");
+            over_original.intent.expected_state_token = capped_original.after.token;
+            over_original.advanced_before = capped_original.after;
+            over_original.after = capped_original.after;
+            over_original.after.token = "over-actual-credit-after";
+            over_original.after.timer.main_remaining_ms = 990;
+            over_original.advance_explanation.clear();
+            over_original.effects[0].exact_requested_units = -130;
+            over_original.effects[0].requested_units = -130;
+            over_original.effects[0].rounding_residual = 0;
+            over_original.effects[0].deficit_policy = RefundDeficitPolicy::CarryTimeDebt;
+            over_original.effects[0].deficit_disposition = TimeReversalDisposition::Applied;
+            over_original.effects[0].components = {
+                {CK::main_delta, -130, {}}, {CK::debt_delta, 0, {}}, {CK::unapplied_time, 0, {}}};
+            over_original.reversals.resize(1);
+            auto &over_link = over_original.reversals[0];
+            over_link.original = main_basis();
+            over_link.expected_prior_position = 0;
+            over_link.expected_prior_cumulative = 0;
+            over_link.cumulative = 130;
+            over_link.requested_increment = -130;
+            over_link.cumulative_fraction = 1;
+            over_link.exact_entitlement = 120;
+            over_link.rounding_residual = -10;
+            over_link.full_refund = false;
+            const auto capped_before = capped->snapshot();
+            ApplicationBundleStageResult capped_refusal;
+            r = domain(capped_writer, over_original, capped_refusal, true);
+            disposition(r, SD::reversal_conflict, capped_refusal);
+            require(!capped_refusal.existing &&
+                        capped->rows("SELECT typeof(document),hex(document) FROM "
+                                     "subathon_retained_configurations WHERE "
+                                     "reference=X'646F6D61696E2D7072696F72'") ==
+                            SqlRows({{"blob", "79"}}),
+                    "locally valid130 is below request600 but above actual120: normal refusal "
+                    "preserves caller bytes and real COMMIT without cleanup");
+            ok(run(capped_writer, [&](auto context) -> QVariant {
+                auto s = context.begin();
+                (void)s.execute({"DELETE FROM subathon_retained_configurations WHERE "
+                                 "reference=X'646F6D61696E2D7072696F72'",
+                                 {}});
+                s.commit();
+                return 1;
+            }));
+            require(capped->snapshot() == capped_before,
+                    "after removing only the caller marker in a later committed old unit, ALL "
+                    "typed source/bundle/state/progress bytes prove refusal made no own writes");
             auto debt = another("unsupported-debt-basis");
             debt->seed({"original_prepare", "original_finish"});
             debt->apply(

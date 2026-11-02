@@ -86,7 +86,7 @@ owned `sqlite-bundle.` registration. The following groups cover all32 slots:
 | `signedExactResidualAndAggregateConservationAreExact` | SB11 exact residuals, fitting >4096-bit storage, one-over component, aggregate overflow without wrap |
 | `multiBasisRefundsUseOneCurrentRequestAndIndependentProgress` | SB04/13 one request/two originals;100/200 quarter/full;100/50→-30; repeated SAME basis at two current occurrences in one bundle |
 | `zeroIncrementFullRefundAndStaleProgressStayDistinct` | SB05 cumulative0/1/1, increments0/-1/0/residuals, final zero/full provenance, stale position AND prior cumulative |
-| `reversalBasisReadReturnsActualCreditAndTerminalKey` | SB15 real zero progress versus missing; complete selected credit/unit/source/target/last key; unsupported debt-allocation conflict |
+| `reversalBasisReadReturnsActualCreditAndTerminalKey` | SB15 real zero progress versus missing; complete selected credit/unit/source/target/last key; NUM-03/SB05 capped request600 versus actual credit120 and over-original130 refusal; unsupported debt-allocation conflict |
 | `selectedSourceMetadataDoesNotCertifyUnselectedBodies` | Narrow source metadata ignores ONLY unselected job/Exact bodies; full lookup rejects them; missing sibling still fails |
 | `pagedMetadataBeyondSixtyFourHasNoMaterializationQuota` | Actual contiguous65 job, plan and per-basis progress rows; strict selected return caps; malformed65th metadata cannot hide |
 | `progressHeadPathsAndSparseSequenceAreValidated` | Both last-head paths/cumulative/head absence; two-row position1/MAX is INVALID before exhaustion |
@@ -205,7 +205,8 @@ build does not verify this corrected source.
    to fit three bytes. Each case has its own database, feasible observer
    CHECK-off UPDATE, inside-catch rollback/lock proof and exact snapshot comparison.
 
-The root `selected_state` warning rename is preserved exactly. Current source
+The root `selected_state` warning rename is preserved exactly. Source for these
+first three full-review corrections is
 blob `682346f83893e093a2b49ea4ebf3ea67d0047fb3`, SHA256
 `f3466734915136ce85b1539862cfe056b26c525283fe7a06b58443667502aee5`.
 
@@ -227,3 +228,51 @@ compiler, new entrypoint or body was invoked by this author. Different actual
 full review, compilation and root's selected official green/first-red gates remain
 pending for this source. No production implementation is assigned; finishPR42
 then STOP remains the owner boundary.
+
+## Fourth full-review correction: actual credited basis bound
+
+The actual full-source reviewer found that prior ready-basis/refund examples all
+had actual credit equal to requested units. A getter returning the request, or a
+stage omitting the cumulative<=actual-original check, could escape those assertions.
+Root explicitly assigned one final correction within the existing basis slot;
+no additional slot, API, fixture or production change is involved.
+
+The new independent no-debt original has initial Main1000, request600, actual Main
+credit120, cap-limited480, cap1120 and after Main1120. The actual basis getter must
+return120 while preserving its selected effect's requested600 and complete supplied
+120/0/480 partition. An actual captured current refund request is separately changed
+to-130 before any application unit. The proposed refund matches the fresh head,
+complete current state and actual selected capture: Main1120→990, debt0, components
+-130/0/0, expected prior position/cumulative0, fraction1, entitlement120, residual-10,
+increment-130 and full flagfalse. Pure shape, local signed conservation, selected
+request equality and exact entitlement/residual algebra remain valid. Cumulative130
+is less than requested600 but exceeds the ACTUAL credited120, so it must return the
+normal no-own-write `reversal_conflict`, never a pure-input/storage error or staging.
+These intentionally invalid reversal amounts test the storage bound; they do not
+claim valid financial refund eligibility or choose an upstream rounding policy.
+
+The caller inserts an earlier marker, obtains the normal refusal, remains usable
+and actually commits. Its exact durable BLOB bytes prove no facade cleanup erased
+caller work. A subsequent acknowledged old-writer unit removes ONLY that marker;
+the complete typed schema/data snapshot must then equal the pre-refusal snapshot.
+Any changed application/source/progress/state byte remains observable. This proves
+no own writes while preserving the successful original and its real120 basis.
+
+Inline Python stdlib `Fraction` arithmetic independently checked:
+
+```text
+600 = 120 - 0 + 480
+1000 + 120 = 1120
+1120 - 130 = 990 >= 0
+120 * 1 = 120; 120 - 130 = -10
+-(130 - 0) = -130; 120 < 130 < 600
+```
+
+Final source blob `4b60fcaa06dec8136f0b81e7ac6d01374df94a48`, SHA256
+`6f84dfa02c0a6ad2dfccf1d6c87b004cb188678ca439a43b35858a59467a0b19`.
+Scoped clang-format/diff/project/render and unchanged32-slot/setup-only inventory
+checks pass. Only the owned CPP and this note changed. No SQL, compiler, native
+suite, new entrypoint or feature body was invoked by this author. The actual final
+source still requires root compilation/discovery, different full-review verdict
+and the gated first intended red. Finish existingPR42 then STOP; production
+implementation remains unassigned.
