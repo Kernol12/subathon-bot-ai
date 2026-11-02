@@ -159,3 +159,67 @@ then passing acceptance, separate source/config review and automatic official CI
 No task completion, absent artifact approval or product correctness is inferred.
 All seven integrations/three FX, both renderers/UI/locales/themes/platforms,
 packaging/security/backup/recovery/live obligations remain required.
+
+## Actual source-closure review clarification
+
+Different reviewer `/root/contribution_reviewer` read the actual integrated4956
+candidate, including original logical blob
+`6d7e1d5ff3759550fbfb4f1dccc1e0c21eea5e69` / author404de065. Independent raw catalog/
+framing/many-basis/constraint diagnostics do not settle a prose validation-scope
+promise. Review identified the phrase original-kind "complete application" as too
+broad beside the narrower reversal SOURCE projection's unspecified "declared-count
+metadata": it was unclear whether actual unselected sibling counts/ordinals were
+checked or merely trusted, and whether unselected payloads were certified. Root
+explicitly authorized this bounded documentation revision before final verdict.
+
+Revised logical contract blob is
+`cf4624bf113b375c8614b4163b83245be67d9f0a`. It requires a SELECTED-SOURCE closure,
+not full lookup/whole-application certification, and enumerates actual queries:
+
+- Decode fixed original header/Intent/result/audit/claim and optional matching
+  historical contribution snapshot; resolve immutable snapshot scalar/envelope/
+  configuration/source/CID identity under the already declared bounds.
+- Compare each snapshot's declared balance_count with ACTUAL sibling count and
+  validate token/kind/target keys/unique canonical ordering/keysets. Fully decode
+  the selected target row, without certifying every unselected balance amount.
+- Compare actual effect count with declared result count AND actual selected plan
+  request count; inspect operation/plan identity, contiguous typed request ordinal
+  and known role/unit metadata. Compare actual component count and per-parent
+  kind-set/ownership/before-target identity; selected original effect's entire
+  component set is fully checked for its actual credit/sign/partition/direct
+  equality and refundable-Main debt0 condition.
+- Compare actual job count; validate scoped identities, contiguous global/group
+  positions, group presence and actual source-effect membership. Compare actual
+  transition count/ordinals/known scalar vocabulary. Original source requires
+  actual reversal children0 as well as declared reversal_count0.
+- Leave unselected application-effect amount/Exact/algebra/explanation and job
+  format/document bodies explicitly NOT decoded/certified. Whole-original-operation
+  component/snapshot delta correctness cannot be inferred from those metadata
+  checks. Full lookup remains the separate full selected-record operation.
+
+Missing unselected siblings or order/group gaps therefore fail declared structural
+closure, while an existing unselected malformed body is not falsely certified by
+source resolution. Identity/order metadata traverses finite64-row pages/checked65
+lookahead with actual cumulative writer budgets; default full-result/vector/item/
+owned-byte materialization totals do NOT cap historical metadata row count. No
+lifetime quota, global payload audit, replay/repair or additional semantic authority
+is introduced. Already declared selected plan/source and fixed/selected field
+bounds remain unchanged. This is a requirement-based precision correction to the
+claim of what is checked, not a change to numeric/current-state/refund policy.
+
+Actual limited checks after revision:
+
+| Command/check | Observed result |
+| --- | --- |
+| Python direct previous/current comparison | All14 SB01–SB14 numeric/vector rows BYTE-IDENTICAL; physicalMD byte-identical to404de065, therefore all14 exactSQL/projection/F62465/c9ba98 unchanged; accepted logical3c8 unchanged |
+| `python3 tools/check_project.py` | PASS391 tasks/122 decisions/current HTML/links/presets |
+| `python3 tools/progress.py render --check` | Root-owned snapshot current |
+| `git diff --check` | PASS |
+
+Only existing concrete logicalMD and this evidence changed. Physical companion
+blob remains `f13fca6d11e57410a31a7d307a8b12eaa21a68f9`. No code/header/stub/schema
+source/test/fixture/native/red or repeated raw runtime was performed. Different
+reviewer must inspect the ACTUAL replacement before approval; old4956 CI/diagnostics
+cannot approve a future revision. All earlier ownership/release/next-stage gates
+remain, including explicit original actual-credit limits and no unknown debt
+allocation policy. No owner access/decision is needed for this clarification.

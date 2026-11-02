@@ -166,8 +166,10 @@ portions of the same basis under the same refund; the per-basis positions/cumula
 chain must advance in the declared order. Duplicate same-current-occurrence/basis
 links are invalid; two equal action refs at different current ordinals remain distinct.
 
-Original operation must actually be an original-kind complete application. Resolve
-its immutable selected credited component0/2/3, with nonnegative actual amount;
+Resolve a stored ORIGINAL-kind operation through the selected-source closure
+specified below. This projection does NOT certify the complete original application
+or all of its payloads merely because its selected rows exist. Resolve its immutable
+selected credited component0/2/3, with nonnegative actual amount;
 cap-limited5, unapplied4 and debt delta1 are NEVER assumed refundable credit bases. Require matching unit and actual requested occurrence/target.
 The basis is its actual nonnegative credited component amount, not requested or a
 current rule. Signed original corrections remain valid stored effects; inventing a
@@ -276,13 +278,39 @@ original-receipt identity target, not unselected current state/anchor. All immut
 plan/receipt/config provenance still resolves. It cannot invent a result for an
 incomplete bundle, normalize corrupt bytes or replay to repair missing rows.
 
-A reversal SOURCE lookup is bounded/targeted: original operation fixed header/result/
-audit/claim and declared-count metadata; immutable head/before/after scalar/envelope/config
-rows; selected original effect/component/target and selected complete plan/source.
-Unselected old effects/job payloads are NOT materialized/certified. Its per-basis
-progress audit is independent of full RecordedBundle read caps. No recursive reversal-
-of-reversal source is admitted; original source kind must0. This is an exact scope,
-not a claim that every historical payload was audited.
+A reversal SOURCE lookup validates the following SELECTED-SOURCE closure. It is
+not full lookup or a whole-application certificate. "Declared-count metadata" means
+comparison with ACTUAL sibling rows and their scalar identity/order metadata,
+not trusting result counters alone:
+
+| Source projection | Exact checks / intentionally unselected data |
+| --- | --- |
+| Fixed rows | Decode the original operation header/Intent and require kind0; exactly one result and audit, exactly one matching tagged original claim, and one matching historical contribution snapshot iff CID present. Validate their declared fields/bytes under existing bounds. Resolve immutable head/before/after scalar/envelope/config rows and actual source/CID identity; never compare them with today's head/current contribution |
+| State balance metadata | For EACH referenced snapshot, actual balance COUNT equals its declared balance_count. Inspect token/kind/target keys, known kind2/3, exact snapshot ownership, required typed/nonempty target and unique canonical key order. Head/before/after keysets must agree. Unselected balance AMOUNTS and whole-operation numeric deltas are not certified by this metadata projection; fully decode the selected component's required before-target row |
+| Effects | Actual COUNT equals result.effect_count and actual selected plan-request count. Inspect operation/plan key equality, typed request ordinals exactly1..N and known arithmetic_role/unit with the corresponding role/unit shape. These are scalar identity/order checks. Unselected Exact/request/residual/amount algebra and application_explanation are NOT decoded/certified |
+| Components | Actual total COUNT equals result.component_count. Inspect operation/request/kind keys; every parent effect exists, no missing/extra/duplicate kind and exact role-specific kind set. Inspect before_token equality and target presence/type/identity, including actual referenced before Balance for counter kinds. Unselected component AMOUNTS are not decoded or summed. The selected original EFFECT's complete component set IS fully decoded and checked for its local signs/partition/direct equality/actual basis, including debt-repayment0 for refundable Main |
+| Jobs | Actual COUNT equals result.job_count; inspect operation identity, global ordinal exactly1..N, typed/nonempty unique op-scoped job_ref, optional source ordinal membership, whole group-ref/ordinal presence and each op-scoped group's ordinals exactly1..group count. Do NOT select/certify unselected job format/document bodies or delivery semantics |
+| Transitions | Actual COUNT equals result.transition_count; inspect operation ownership, ordinal exactly1..N, actual INTEGER/known transition0..5. This validates the supplied scalar trace vocabulary/order only, not clock/event chronology |
+| Reversal rows | Original-kind source requires result.reversal_count0 AND actual COUNT0 in reversals for that operation. It cannot hide unexpected reversal children by declaring0 |
+| Selected meaning | Fully decode the selected original effect and its complete components/target, and the already-declared selected complete immutable plan/source projection, checking actual request/unit/target/provenance and actual nonnegative credited basis. All existing selected-field bounds apply. No recursive reversal-of-reversal source: original kind must0 |
+
+Sibling metadata is visited in finite64-row keyset pages with checked65 lookahead;
+identity/order counters use checked arithmetic and actual cumulative writer budgets.
+Do NOT apply effects_per_bundle/jobs_per_bundle/transitions_per_bundle/result_items/
+owned_bytes materialization totals to the number of historical METADATA rows. There
+is no lifetime quota or unbounded vector containing all siblings. Existing bounds
+still apply to fixed/actually selected owned fields and selected plan bodies; the
+per-basis progress audit remains independent of full RecordedBundle read caps.
+
+A missing unselected sibling or ordinal/group gap therefore fails this declared
+structural closure. An existing unselected job document or effect rational can
+still be malformed without this narrower projection certifying or decoding it;
+full lookup would inspect those bodies. Nor does this projection recheck the full
+original operation's snapshot/component-delta conservation from unselected amounts.
+Do not call its outcome a complete-application validation or repair/replay missing
+records. These scoped checks preserve the selected actual-credit bound and progress
+requirements above without silently turning source resolution into a global
+historical payload audit.
 
 ## Bounds, byte roles and failure priority
 
