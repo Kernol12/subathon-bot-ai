@@ -48,3 +48,12 @@ representations (including values above signed64 and UINT64_MAX), then establish
 the genuine reviewed red. No signed INTEGER/REAL coercion or opaque-byte test
 substitutes for that typed gate. Existing identifiers/dependencies/acceptance and
 all original lossless/provenance scope remain unchanged.
+
+## Initial baseline claim
+
+STORAGETEST-015 is separately claimed from actual integrated main7113995 after
+PR38 contribution persistence. Initial scope is only a versioned SQL persistence
+contract/examples; root owns additive migration4/order/shared integration. Existing
+core firstrevision1/contiguous history and all actual HistoricalValuation rate/
+source/time/manual provenance stay authoritative. Separate actual contract/API/
+test reviews and a genuine compiled missing-behavior red precede production.
