@@ -1,101 +1,64 @@
-# Coordinator checkpoint — finish PR37, then STOP
+# Coordinator checkpoint — STORAGE-014 resumed
 
-Coordinator `/root`,2026-11-01. **Latest owner instruction: cleanly finish open
-PRs, then STOP.** Actual open-PR audit found only
-[PR37](https://github.com/Kernol12/subathon-bot-ai/pull/37), STORAGETEST-014.
-Finish its remaining merge gates, reconcile actual main/GitHub state, then end
-execution. Do not select/claim STORAGE-014 or another task. Full product remains
-incomplete; no owner decision/access is needed. This is not background execution.
+Coordinator `/root`,2026-11-02. Latest explicit owner request resumes the full
+standing coordination loop under AGENTS.md/COORDINATOR_PROMPT.md. The earlier
+finish-PR37-and-stop instruction was honored and is superseded by this resume.
+No owner decision/access is needed. Inspect actual GitHub/files/agents/processes
+on resume; this file does not imply background execution.
 
-## Actual baseline completed, merge still gated
+## Reconstructed integrated state
 
-Branch `task/STORAGETEST-014-contribution-repository`, from integrated main
-`e331714e0a03aae0a7c908721f92ea19a1756f62` (PR36). Source branch published exact
-head399fc442b960af943191b1ab35ca5a53e94df05d; all11 checks SUCCESS at that
-historical published source head. Completion metadata and the FIRST raw red are
-committed at df84978e9ee8f924cb84ed5cb393d90c8e1885ed. Final metadata/CI-attribution
-review is active; CI for the latest metadata revision awaits publication. Actual
-source/config/fixture artifacts remain frozen at the reviewed hashes; no implementation or new task.
-[Self-contained task handoff](storagetest-014-handoff.md).
+Actual freshly fetched main8859b644e8d99b34b3e899d0e44e1e2cce386e78 includes normal
+PR37 merge2026-11-01T20:49:19Z. Finalf825 all11SUCCESS; full baseline81e0d5a and
+final metadata6ee37fa independent approvals. All10 postmerge workflows actually
+SUCCESS, including SQL41348814553. No open PR. Root/main and all65 existing
+worktrees were clean;16 absent/prunable historical refs preserved. No previous
+subagent is alive in this session; only root listed. No native build/test process
+was active (IDE/Codex only). Prior actual stop receipt remains ignored under
+local-evidence/coordinator/storagetest014-stop.json. Preserve every old tree/ref.
 
-Full authored-baseline/harness approval81e0d5a integrated1b4c48c preceded publication
-and actual selected officialQt41347563063 at399fc44. Final feature46c901e/green577/
-JSON44df/header0abee/stub0ad/logicalf503/physicaleeb/CMakef308/workflow48ece accepted.
-Actual new three-slot green has5PASS/0skip on officialQt6.12/SQLite3.53.4;
-pinned hashes/GNU13.3/70-step build/old111 unconditional/exact24 discovery PASS.
-Manual feature step was NOT invoked. [Actual review](storagetest-014-review.md),
-[CI evidence](storagetest-014-ci.md). Host119 stable/green PASS separately.
+STORAGETEST-014 is integrated/done BASELINE ONLY. Actual frozen feature46c901e,
+green577edeb, JSON44df9918, API0abeea2, stub0ad1315 match the reviewed artifacts.
+Full approval81/root1b preceded officialQt41347563063 at399fc44; only then FIRST
+24 explicit-stub red, exit8/all24init+24cleanupPASS/0skip/crash/setup failure/0.33s.
+Original raw record inspected, not rerun. [Baseline](storagetest-014-handoff.md),
+[review](storagetest-014-review.md), [CI](storagetest-014-ci.md),
+[original red](storagetest-014-red-ctest.txt). Preserve these valid gates.
 
-Only AFTER reading that actual proof, root verified clean sameHEAD399fc44,
-review ancestry/exact artifact hashes/unrun status and began FIRST actual feature
-execution2026-11-01T20:37:06.321566Z. CTest exit8/all24 explicit NotImplemented,
-24init+24cleanup PASS,0skip/crash/setup/dependency failure,total0.33s. Original
-[raw red](storagetest-014-red-ctest.txt) is retained; DO NOT REPEAT. Test baseline
-is done; product acceptance is observed_red and STORAGE-014 stays planned/unclaimed.
-No old red repeated. Exact head/command/hash/timestamp/count metadata and CI logs
-remain ignored under local-evidence/coordinator/storagetest014-*.
+## Current claim and ownership
 
-## Actual reviews and ownership
+Root created dedicated task/STORAGE-014-contribution-repository from current
+origin/main BEFORE claiming STORAGE-014 in progress/state.json. Dependencies
+STORAGE-013/ACCT-002/STORAGETEST-014 are done/integrated. [Brief](../tasks/EPIC-009/STORAGE-014.md).
+Logical/API contractf503f385 and exact physicaleeb2fe04 remain unchanged. Root
+owns all shared build/preset/CI/schema ordering/state/map/HTML/checkpoint updates.
 
-- Author `/root/writer_transaction_reviewer`,
-  `local-evidence/worktrees/storagetest014-author`, branch
-  `task/STORAGETEST-014-author`: completed/clean. Contract/API/tests and own note.
-  Actual12ba6df/root3f85 corrected the three full-review coverage gaps additively:
-  integer extrema/private original decoder/reopen, active adopted wrapper cleanup
-  before owner finalization, typed context/known-config lookup including unequal
-  historical cfg and same-byte wrong namespaces. Every assertion/24 slots preserved.
-- Literal helper `/root/debt_code_reviewer`,
-  `local-evidence/worktrees/storagetest014-fixtures`, branch
-  `task/STORAGETEST-014-fixtures`: completed/clean/stopped. Independent JSON/green;
-  actual5170208/root5471 isolated strict ID types/lengths without removing prior
-  negatives. Additional bounded static feature audit found no further issue.
-- Different reviewer `/root/storage_work_code_reviewer`,
-  `local-evidence/worktrees/storagetest014-review`, branch
-  `task/STORAGETEST-014-review`: actual full baseline81e0d5a complete/clean. Active
-  final metadata/CI-red-attribution review of committed df84978 and this narrow
-  current phase wording correction;
-  no feature body/red or source work. Do not assume running until inspected/reassigned.
-- Root owns schema/order/CMake/presets/CI/map/state/HTML/checkpoint/integration.
-  New source has only inert constructors/four immediate named stubs. All previous
-  ports/service/core/producer sources/assertions and migration1/2 remain unchanged.
+Planned new isolated assignments after the claim commit (not yet running):
 
-Actual last full worktree audit:64 clean existing plus16 absent/prunable refs;
-new fixture tree makes65 existing. Preserve every tree/ref, never prune/discard.
-No native command remains running from root; inspect actual processes/agents on
-resume. Root completion scope is metadata/raw red only; inspect actual git status
-instead of assuming changes remain uncommitted. No credential, supporter data, live/provider/chat/payment action.
+- contribution_implementer: new storage014-implementation worktree/branch;
+  ONLY server/src/sqlite_contributions.cpp and own storage-014-implementation.md.
+- contribution_reviewer: new storage014-review worktree/branch;
+  read-only preparation, then actual different code/config review; ONLY own
+  storage-014-code-review.md. No absent source approval.
 
-## Remaining concrete actions and stop boundary
+Implement existing ports on the same controlled writer/session, with exact CId
+0..MAX/NULL, pure manifest3 preserving prefix1/2, immutable originals/observations,
+independent state, exact link rules, private original-only receipt decoding and
+actual typed retained targets. No wrapper around growing receipt history, nested
+commit/writer, provider proof or policy inference. Own pending anchors, allocation
+safety, single use/owner/adoption/RAII, real commit and truthful known rollback/
+unknown durability are explicit obligations. Prior receipt commitment remains an
+honest upstream precondition; same-session visibility cannot prove it.
 
-1. Complete active different final evidence/
-   CI-attribution approval. Source/full baseline approval remains valid only for
-   exact frozen artifacts. No new feature invocation.
-2. Publish latest metadata/review head, inspect actual all checks/current main,
-   rules/required approvals/resolved discussions/mergeability. Last observed
-   ruleset26170263: active PR/resolved threads/0 required GitHub approvals,
-   no bypass/force/delete; no required-status-check rule. Written all-CI/separate
-   review gates remain mandatory. Recheck actual rules; no admin/force bypass.
-3. Ready PR37 and normal exact-head merge after every applicable gate passes.
-   Refresh main, inspect merge and postmerge CI/open PRs, preserve clean worktrees.
-   Record actual outcome in ignored local-evidence/coordinator/
-   storagetest014-stop.json, PR metadata and final handoff without editing main. Then
-   STOP. No next task, source implementation or autonomous continuation.
+Next create clean support trees and actually assign agents, integrate actual
+implementation, run changed-source24/full143 acceptance, independent source/config
+review, promote passing24 to unconditional ordinary CI without any assertion or
+pin weakening. Observe actual selected official Qt CI, complete evidence/progress,
+latest-head checks/discussions/rules/normal merge; then select next ready task.
+Do not rerun unchanged historical stub-red gates. Never merge before all gates.
 
-Last known integrated main remains e331714 until the actual normal PR37 merge is
-observed. PR36 final4fc checks/source84+metadatad6 reviews/normal merge and all10
-postmerge workflows passed. Recent preserved task evidence:
-
-| Task | Merged PR | Handoff |
-| --- | --- | --- |
-| CONTRACT-004 | [28](https://github.com/Kernol12/subathon-bot-ai/pull/28) | [Handoff](contract-004-handoff.md) |
-| STORAGETEST-010 / STORAGE-010 | [29](https://github.com/Kernol12/subathon-bot-ai/pull/29) / [30](https://github.com/Kernol12/subathon-bot-ai/pull/30) | [Baseline](storagetest-010-handoff.md) / [source](storage-010-handoff.md) |
-| STORAGETEST-011 / STORAGE-011 | [31](https://github.com/Kernol12/subathon-bot-ai/pull/31) / [32](https://github.com/Kernol12/subathon-bot-ai/pull/32) | [Baseline](storagetest-011-handoff.md) / [source](storage-011-handoff.md) |
-| STORAGETEST-012 / STORAGE-012 | [33](https://github.com/Kernol12/subathon-bot-ai/pull/33) / [34](https://github.com/Kernol12/subathon-bot-ai/pull/34) | [Baseline](storagetest-012-handoff.md) / [source](storage-012-handoff.md) |
-| STORAGETEST-013 / STORAGE-013 | [35](https://github.com/Kernol12/subathon-bot-ai/pull/35) / [36](https://github.com/Kernol12/subathon-bot-ai/pull/36) | [Baseline](storagetest-013-handoff.md) / [source](storage-013-handoff.md) |
-
-All seven integrations, three FX providers, downstream numeric plan/rate codecs,
-app bundles/effects/jobs, semantic config/evaluation/permission, backup/update/
-recovery/power-loss, both renderers/UI/locales/themes/packaging/platform/live/OBS
-remain required. This baseline and green infrastructure never establish release
-completion. A future explicit owner continuation must inspect actual GitHub/main,
-checkpoint/state/evidence/worktrees/processes before resuming any planned task.
+All seven integrations/three FX providers, typed plan/rate provenance, complete
+application bundles/effects/jobs, semantic config/evaluation/permissions,
+backup/update/recovery/power-loss, both renderers/UI/locales/themes/packaging and
+platform/live/OBS remain mandatory and incomplete. No live credentials/supporter
+data/chat/payment/deployment action is authorized by this bounded task.

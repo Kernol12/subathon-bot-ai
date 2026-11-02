@@ -84,3 +84,12 @@ Qt41347563063 at399fc44 (newgreen3/exact24/pins/stable lanes), then one genuine
 test-author gate. STORAGE-014 remains planned and unclaimed; no codec/manifest/
 repository behavior is implemented. Latest owner instruction is to finish PR37
 and STOP, so implementation requires a future explicit continuation.
+
+## Implementation resume
+
+The owner's explicit2026-11-02 resume supersedes the earlier stop. PR37 is
+confirmed integrated at8859b64 with all final/postmerge checks passing. STORAGE-014
+is now separately claimed on its dedicated branch; baseline/source/CI reviews
+and original red remain valid. Implementation owns only the new adapter source
+and evidence; root controls shared integration/CI promotion. No baseline rerun or
+assertion/fixture/API change is authorized merely to obtain passing results.
