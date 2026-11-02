@@ -14,8 +14,8 @@ review270a1d91/root7da, completion-scope review7fa92eac/root80ce, zero threads,
 ready/MERGEABLE/CLEAN/currentrules26170263/requiredGHapprovals0; no bypass.
 SQL41511497997 passed old135/greens/plan29 (2.29s), no compiler warnings. Timer
 workflow cleanup delay completedSUCCESS without rerun. Localmain ff clean; tree
-identical final98ac. Postmain10 workflows at claim: sevenSUCCESS/threein_progress;
-inspect eventual actual results. [Handoff](storagecontract-001-handoff.md),
+identical final98ac. All10 postmain workflows actuallySUCCESS, including SQL41512197291;
+no postmerge failure remains. [Handoff](storagecontract-001-handoff.md),
 [review](storagecontract-001-review.md), [author](storagecontract-001-author.md).
 
 STORAGECONTRACT-001 is done LOGICAL DOCUMENT only: contract
@@ -51,19 +51,25 @@ combined query budgets. Unknown job/provider/semantic/permission/recovery meanin
 are not capabilities. Main-versus-prior-debt refund allocation remains ACCT-006.
 
 Root owns sharedstate/HTML/map/rootbuild/presets/workflows/migration order/pins/
-checkpoint. Author/reviewer will be explicitly reassigned to fresh isolated trees
-from integrated main plus claim, old work preserved. Current statuses at claim:
-- contribution_implementer: completed read-only next-design prep, old
-  storagecontract001-author cleanb972; no next edits/branch/native/red.
-- contribution_reviewer: completed read-only risks, old storagecontract001-review
-  clean7fa; no next edits or absent-artifact approval.
+checkpoint. Claimf50ef596e128857cb9d7964f7f6ec888161c395d. Agents were explicitly
+reassigned to NEW isolated trees from that claim; actual agent list shows both
+running. No authored concrete candidate exists yet; no absent review approval:
+- contribution_implementer: task/STORAGETEST-002-contract-author,
+  local-evidence/worktrees/storage002-contract-author, initialcleanf50. Owns only
+  new sqlite-application-bundle-v1.md/schema companion and storagetest-002-api-author.md.
+  Concrete DOCUMENT only now; no header/stub/test/source implementation yet.
+- contribution_reviewer: task/STORAGETEST-002-contract-review,
+  local-evidence/worktrees/storage002-contract-review, initialcleanf50. Read-only
+  prep, eventual ONLY storagetest-002-review.md after actual candidate supplied.
 - plan_fixture_author: prior SQLNULL correction role completeclean61f;
-  no new assignment. Independent fixture/test role follows actual frozen contract/API.
+  no new assignment. Fixture/test role follows actual frozen contract/API.
 
-91 registered trees=75existing/16absent at resumption; all clean, no prune/reset/
-discard. No root native/remote-watch command running. Last fetch/merge/push/edit
-sessions completed. New isolated task trees and publication follow committed claim.
-Reinspect actual agents/processes; these entries do not prove continued execution.
+New2trees preserve old storagecontract001-authorb972/review7fa and all earlier work.
+93registered=77existing/16absent, no prune/reset/discard. No root native/watch command
+running. Fetch/merge/push/edit sessions completed; draft task publication follows
+this role checkpoint. Reinspect actual agents/processes on resume; entries do not
+prove continued execution. Next concrete step: obtain actual3MD proposal, integrate
+and send its exactrevision to different reviewer; no premature feature authoring.
 
 ## Earlier storage proof to preserve
 

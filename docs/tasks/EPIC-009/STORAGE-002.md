@@ -56,3 +56,15 @@ Read root/server/tests AGENTS.md; integrator owns shared schemas/migration order
 CMake/presets/progress/HTML. Synthetic/redacted disposable data only. Extend/observe
 ordinary stable CI, record commands/environment/revisions and publish focused PRs.
 No full application/provider/platform/backup/recovery release claim follows.
+
+## Active STORAGETEST-002 contract stage
+
+Claimed from actual normal PR41 main100171b after the separately reviewed logical
+contract integrated. Begin concrete bounded API/physical/limits/closure documents,
+actual independent review, then explicit stubs/minimal compile harness and actual
+API review before fixtures/tests. One complete application unit remains required;
+this baseline does not split effects/state/jobs into independently committed parts.
+Root owns shared schema order/build/presets/CI/state/HTML; isolated authors/reviewers
+have exact scoped paths in the current checkpoint. All earlier storage prefixes/
+assertions remain preserved. No concrete interface, feature test/red or runtime
+application has been approved merely by claiming this task.

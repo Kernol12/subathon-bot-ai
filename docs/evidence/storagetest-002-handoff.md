@@ -16,7 +16,9 @@ No concrete artifact/test/review/red or implementation is claimed at this checkp
 The author owns only new concrete contract/schema companion Markdown and own
 API-author evidence initially. Root owns progress/HTML/map/build/presets/CI and
 migration order/pins. The reviewer owns only independent review Markdown after an
-actual authored revision. New isolated author/review trees will preserve prior work.
+actual authored revision. Fresh storage002-contract-author/review trees at committed claimf50 preserve
+prior work; agents explicitly reassigned/running. Only concrete Markdown authoring
+and read-only review prep are active, no concrete candidate/review verdict yet.
 
 Required precision includes one inert borrowed-session facade/provisional data,
 non-owning current contribution application patch, opaque-state CAS plus separately
