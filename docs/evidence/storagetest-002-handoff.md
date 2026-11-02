@@ -131,3 +131,18 @@ new supportheader only. Reviewer explicitly resumed read-only feature-review pre
 actual feature candidate/full review still pending. Root owns all shared harness,
 CI/state/map and final integration. No new entrypoint/body/red/implementation ran.
 [Current checkpoint](coordinator-handoff.md) records exact roles/gates/stopping point.
+
+## Narrow category clarification awaiting actual separate review
+
+Feature author identified that the refusal of a well-shaped advanced-before
+snapshot that violates its actual healthy persisted-head binding or preserved
+clock-only accounting fields had no explicit typed category. Root adds only a
+paragraph after stage-order step7: after identity/freshness/fresh-token checks,
+report source_mismatch with existing known whole-unit rollback. No pure input
+category can inspect unseen head data; matching token is not stale_state and
+healthy stored rows are not invalid_stored_data. Refusal/rollback, API enums,
+physical schema, literals, source and prior reviewed text remain unchanged.
+This actual addition is PENDING different review; no new test oracle is approved.
+Actual returned-vector count interpretation is unchanged: original lookup20
+(6balances+4effects+8components+2jobs), inputs9, selected Main basis10. Hidden
+validation consumes real writer budgets, not invisible returned PlanDTO elements.

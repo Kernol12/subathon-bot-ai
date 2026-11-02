@@ -429,6 +429,16 @@ Stage's stored/domain order after pure checks:
    audit/reversal occurrences+heads; advance head LAST under checked persisted head token.
    Guard EVERY post-write allocation/error through real whole-unit rollback/unknown.
 
+After existing-operation/claim handling, current-token/contribution/plan freshness
+and proposed fresh-token checks, a well-shaped supplied advanced-before snapshot
+must satisfy its actual persisted-head relationship. If its token equals the head
+but its bound data differs, or a fresh clock-only snapshot changes preserved debt,
+balance keys/values, configuration or format, report `source_mismatch` and perform
+the required known whole-unit rollback. These comparisons require actual stored
+head data: they are not pure input errors, `stale_state` for a matching expected
+token, or `invalid_stored_data` when the selected stored rows are healthy. The
+existing refusal/rollback requirement is unchanged; this fixes its error category.
+
 Known storage reasons: busy/sql_failure/resource_limit/result_limit/missing_state/
 missing_receipt/missing_contribution/missing_plan/missing_reference/source_mismatch/
 invalid_stored_data/sequence_exhausted. Local known failures require ACTUAL rollback;

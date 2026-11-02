@@ -110,3 +110,21 @@ All seven integrations/three FX, full application/authority/state/jobs/delivery/
 wire/refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/
 security/backup/update/live/OBS remain required and incomplete. Synthetic disposable
 work only; no credentials/supporter/chat/payment/deployment side effects.
+
+## Uncommitted harness preparation while feature author works
+
+Root1964e59 checkpoint commit is cleanly recorded. Root then prepared uncommitted
+`tests/qt/CMakeLists.txt` (separate target/proposed32 slots) and
+`.github/workflows/sqlite-writer.yml` (compiled registration guard only). No configure,
+feature body or new entrypoint has run; candidate source is still being authored.
+Confirm names/macros against the actual handoff, integrate candidate, then compile
+and review before publishing. Existing target/fixture guard bytes remain intact.
+Reviewer completed read-only prep, clean5cf/no files/no repeated checks; explicitly
+resume for actual candidate when available. Preserve these root pending edits.
+
+Root proposes one narrow contract error-category paragraph for actual healthy-head
+versus supplied advanced-before mismatch. Current new logical blob58ea4f9 is
+PENDING different actual review; old2f6 approval remains valid for unchanged text.
+Existing refusal/rollback obligation is unchanged, no API/schema/source/literal edit.
+See task handoff; task concrete_contract partial/newcategoryreview not_run until
+actual reviewer verdict. No feature body or new oracle execution occurred.
