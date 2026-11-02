@@ -140,7 +140,7 @@
     },
     {
       "name": "sqlite-contribution-debug",
-      "displayName": "16 \u00b7 Contribution SQLite baseline (draft)",
+      "displayName": "16 \u00b7 Contribution SQLite acceptance",
       "inherits": "sqlite-receipt-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS": "ON"

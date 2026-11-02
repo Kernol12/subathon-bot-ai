@@ -264,3 +264,24 @@ Qt6.12/SQLite3.53.4, green7+3+3, old stable suites and actual22 PASS. The origin
 baseline remains historical red; it was not repeated or weakened to obtain green.
 Existing15 fake-backed service tests remain simulation; no provider identity,
 missing-ID policy, valuation/effect/application-bundle or platform/live proof follows.
+
+## Contribution evidence SQLite acceptance
+
+STORAGETEST-014 supplied24 independently reviewed cases/typed six CId literals/
+exact20-object migration3 and a separate three-slot existing-writer diagnostic.
+[Baseline](evidence/storagetest-014-handoff.md) preserves actual full81/final6ee
+review and original24 explicit-stub red after selected official green proof;
+all init/cleanup passed,0skip. That historical red is not repeated.
+
+STORAGE-014 preserves every assertion and passes actual contribution primitives,
+including zero/NULL, immutable provenance, independent dimensions, typed original/
+target decoding, linking/limits, active RAII and known rollback/physical unknown.
+Configure/build sqlite-contribution-debug; targeted -L sqlite-contribution runs24,
+fullpreset143 passes. Author/root/different reviewer pass, with separate source/
+config approval and actual automatic run41477399818 atd0ce5c8 on GNU13.3/official
+Qt6.12/SQLite3.53.4. Ordinary CI now runs24 unconditionally after exact discovery/
+required green; old111 cases/pins remain. No manual feature input, failure inversion
+or weakened fixture. [Implementation](evidence/storage-014-handoff.md),
+[review](evidence/storage-014-code-review.md), [CI](evidence/storage-014-ci.md).
+Original21 fake-backed service simulations remain distinct; no full app bundle,
+semantic authority/provider proof, plan/rate/recovery/platform release is claimed.
