@@ -250,7 +250,7 @@ if(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
     subathon_target_options(server_sqlite_contributions_acceptance)
-    # Intentional feature baseline remains separate from passing stable lanes.
+    # Reviewed contribution cases retain their baseline names and separate processes.
     foreach(case IN ITEMS
         codecsPreserveZeroAndFullUnsignedRange
         codecRejectsMalformedValues
@@ -279,6 +279,6 @@ if(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS)
     )
         add_test(NAME sqlite-contribution.${case} COMMAND server_sqlite_contributions_acceptance ${case})
         set_tests_properties(sqlite-contribution.${case} PROPERTIES
-            LABELS "sqlite-contribution;acceptance;draft;qt;server" TIMEOUT 30)
+            LABELS "sqlite-contribution;acceptance;qt;server" TIMEOUT 30)
     endforeach()
 endif()

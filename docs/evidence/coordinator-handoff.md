@@ -75,3 +75,14 @@ Current local checks: project391/render/diff/tooling19/DOM simulation PASS. Actu
 host GNU16.2.1/CMake4.4.5/Qt6.12.0. Pinned actionlint1.7.12 restored in /tmp with
 release checksum verified; CI promotion candidate lint PASS. No new feature body
 run by root or reviewer while the implementation is still being authored.
+
+## Actual source and root acceptance candidate
+
+Source5acd3d6 integrateda7659b5, blob61569bd1 (889lines), source-only. Author fresh
+build0warnings/24PASS0.76s/full143PASS3.25s; root actual configure/build/link
+0warnings/24PASS0.74s/full143PASS3.17s with CI promotion candidate. All frozen
+tests/fixtures/API/contracts/earlier producer sources match main. No old red
+repeated. Root CI promotion now accompanies the passing source, with111 earlier
+cases/green/discovery/pins unchanged and24unconditional. [CI assessment](storage-014-ci.md).
+Next commit exact source/config candidate and explicitly resume reviewer on actual
+revision; author finishes own evidence. No source/code review or official CI yet.

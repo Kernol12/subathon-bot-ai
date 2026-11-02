@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T15:40:54.960662+00:00",
+  "updated_at": "2026-11-02T15:50:31.147934+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention and receipt-repository components have reviewed acceptance evidence. Contribution/plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4852,10 +4852,22 @@
       "summary": "Implement existing contribution/evidence transaction ports on the controlled connection. Persist independent evidence/review/valuation dimensions and immutable original-receipt linkage, not actual contribution effects.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
-        "Claim from freshly fetched main8859b64 on dedicated task/STORAGE-014-contribution-repository BEFORE edits. Specv0.45/§3/DB-01; approved logicalf503/physicaleeb/API0abee; baseline46c/577/44df independently approved81e0d5a and finalmetadata6ee, actual original24stub-red at399fc44 after officialQt41347563063; do NOT repeat completed red. Implement only new server/src/sqlite_contributions.cpp +own implementation evidence, preserving publicports/API, every assertion/fixture and immutable migration1/2. Existing service owns policy. Pure typed CId0..MAX/NULL distinction, exactmigration3, strict original-only receipt+typed targets, independentstate/immutableobservations, compatiblelinks/pendinganchor, allocation-safe owner/adoption/RAII/realcommit/knownrollbackvsunknown required. Prior committed/nonconflicting receipt and semantic/provider authorization remain upstream preconditions. Rates015/effects/jobs/bundle/recovery/platform remain open. Root owns CMake/preset/workflow promotion, state/map/HTML/checkpoint; different reviewer actual source+config required. Fresh67 planned trees only after claim; no old agents assumed live. No open PR/native process; all65 existing trees clean/16 missing refs preserved. Current resume revokes earlier stop; continue standing loop after eligible merges."
+        "Claim from freshly fetched main8859b64 on dedicated task/STORAGE-014-contribution-repository BEFORE edits. Specv0.45/§3/DB-01; approved logicalf503/physicaleeb/API0abee; baseline46c/577/44df independently approved81e0d5a and finalmetadata6ee, actual original24stub-red at399fc44 after officialQt41347563063; do NOT repeat completed red. Implement only new server/src/sqlite_contributions.cpp +own implementation evidence, preserving publicports/API, every assertion/fixture and immutable migration1/2. Existing service owns policy. Pure typed CId0..MAX/NULL distinction, exactmigration3, strict original-only receipt+typed targets, independentstate/immutableobservations, compatiblelinks/pendinganchor, allocation-safe owner/adoption/RAII/realcommit/knownrollbackvsunknown required. Prior committed/nonconflicting receipt and semantic/provider authorization remain upstream preconditions. Rates015/effects/jobs/bundle/recovery/platform remain open. Root owns CMake/preset/workflow promotion, state/map/HTML/checkpoint; different reviewer actual source+config required. Fresh67 planned trees only after claim; no old agents assumed live. No open PR/native process; all65 existing trees clean/16 missing refs preserved. Current resume revokes earlier stop; continue standing loop after eligible merges.",
+        "Actual implementation5acd3d6 integrateda7659b5, source61569bd13e34f515802271da1c2ea9c89b23c473 (889lines), onlynew14CPP. Author fresh70-step build0warnings/24PASS0.76s/full143PASS3.25s after actualsource change. Root configure/build/link0warnings, targeted24PASS0.74s/full143PASS3.17s. Frozen46c/577/44df/API0abee/logicalf503/physicaleeb/oldsources unchanged. Root actual bounded CI promotion removes manualinput/if and makes24unconditional, preserves old111/green/discovery/pins/perms/job; option/preset/draftlabels only metadata. Actionlint/format/project/render/tooling19/DOM PASS. Actual independent source/config review next; no acceptance completion/merge yet, no unchangedred repeat."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "native_build": "passed",
+        "acceptance": "passed",
+        "regression": "passed",
+        "code_review": "not_run",
+        "github_ci": "not_run",
+        "official_qt_environment": "not_run",
+        "platform_release": "not_run",
+        "application_bundle": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storage-014-ci.md"
+      ],
       "review": null
     },
     {
