@@ -105,3 +105,9 @@ final reviewed d8. Postmerge nine workflows are observed SUCCESS; SQL41497596911
 is still building, explicitly not yet passed. Separate STORAGE-015 is now claimed
 from that integrated main; no baseline/red is repeated. Later checkpoint records
 actual remaining postmain result and production gates.
+
+
+Postmerge reconciliation: all10 actual main a7 workflows subsequently completed
+SUCCESS, including SQL41497596911. The earlier pending statement is historical;
+no unchanged feature red was repeated. Separate source15 author/reviewer roles
+are explicitly resumed in fresh isolated trees, with all frozen artifacts retained.
