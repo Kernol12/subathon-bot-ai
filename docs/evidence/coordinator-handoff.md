@@ -185,3 +185,20 @@ and independent literalfixture/old-writer green (plan_fixture_author NEW isolate
 artifacts before fulltest verdict. Root owns registration/sharedworkflow/state/map.
 No production algorithms, old reds or new plan body invocation authorized yet;
 successful compile/full actualtestreview/selectedofficialNEWgreen precede firstred.
+
+### Actual new author assignments and isolated fixture tree
+
+Root created task/STORAGETEST-015-fixtures at fresh origin/main7113995, then
+normally merged eee1f61; new local-evidence/worktrees/storagetest015-fixtures clean.
+Total70 existing worktrees/16 absentrefs preserved. plan_fixture_author explicitly
+resumed ONLY new tests/fixtures/sqlite_application_plans_vectors.json,
+tests/qt/sqlite_application_plans_environment.cpp and own storagetest-015-fixtures.md.
+Independently derive literals from actual approved docs+frozen old fixtures, no root
+scratch/UUT oracle. Green links ONLY old writer+Qt and may run on host; no new API.
+Feature author explicitly resumed existing015author ONLY new
+sqlite_application_plans_tests.cpp+ownauthornote; coordinate fixture shape directly.
+No old source/tests/fixtures/config edits. Both can compile/list functions; no new
+plan body/feature run before actual fulltestreview+selectedofficialNEWgreen.
+Reviewer completed actual API stage clean and awaits concrete authored artifacts.
+Root owns newregistration/workflow/state/evidence, next concrete action integrate
+actual authored candidates, compile/register, actual separate fullbaseline review.
