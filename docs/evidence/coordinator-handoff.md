@@ -57,7 +57,7 @@ checkpoint. Claimf50ef596e128857cb9d7964f7f6ec888161c395d. Actual focused DRAFT
 SUCCESS/CLEAN. This is claim-head infrastructure/regression CI only, not absent
 concrete artifact approval, selected newgreen, testbaseline/red or bundle behavior. Agents were explicitly
 reassigned to NEW isolated trees from that claim; actual agent list shows both
-running. No authored concrete candidate exists yet; no absent review approval:
+running. No committed full concrete candidate exists yet; no absent review approval:
 - contribution_implementer: task/STORAGETEST-002-contract-author,
   local-evidence/worktrees/storage002-contract-author, initialcleanf50. Owns only
   new sqlite-application-bundle-v1.md/schema companion and storagetest-002-api-author.md.
@@ -74,8 +74,17 @@ running. Fetch/merge/push/create sessions completed. Actual independent reviewer
 read-only prep completed cleanf50: source dimensions need explicit comparison,
 immutable state-token binding/no ABA and complete structural plan proof. It is
 not approval of any absent concrete artifact. Reinspect actual agents/processes on resume; entries do not
-prove continued execution. Next concrete step: obtain actual3MD proposal, integrate
-and send its exactrevision to different reviewer; no premature feature authoring.
+prove continued execution. Actual uncommitted physical proposal now exists14DDL/14tables+23NULLindexes/67
+objects; root independently checked emptySQLite/framing/prefix30, F61448/SHA27832741
+at draftdocSHA74e1911e (see taskhandoff). It is no inserted-constraint/API/test/red
+proof. Author actively finishes logical/API document; reviewer may read-only inspect
+this actual physical draft for early findings, no fullapproval before actual
+committed3MD. Next obtain consistent actual3MD, integrate/send exactrevision for
+actual complete review; no premature feature authoring. Early actual physical
+review flags multi-original refund cardinality (do not invent request positions),
+exact subject/claim/CID, reversalhead same-row identity and after-state closure.
+No full verdict; author resolving before final3MD. F61448/27832741 remains a
+historical draft diagnostic only if DDL changes.
 
 ## Earlier storage proof to preserve
 

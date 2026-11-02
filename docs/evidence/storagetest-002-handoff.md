@@ -48,3 +48,37 @@ commands/environment/revisions and update state/HTML/evidence before completion.
 No native/red command has run for this newly claimed task. All seven integrations,
 three FX, full application/delivery, UI/renderers/locales/themes/platform/security/
 packaging/recovery/live gates remain mandatory and unfinished. No live side effects.
+
+## Initial concrete physical draft diagnostic (not review/baseline)
+
+2026-11-02 root independently read the author's uncommitted14-statement physical
+proposal (document SHA256
+`74e1911eb907d52171c69f53ec1b1b529a22800a88732b63e178bf4e7ea4675e`).
+Command `python3 /tmp/storage002-root-frame-audit.py` passed on Python3.14.8/
+SQLite3.54.0 using a separate disposable in-memory database. No future C++ API,
+production manifest/codec or feature/red test was called.
+
+The script manually implements the reviewed framing definition, reproduces frozen
+prefix4 payload29015/SHA bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50,
+constructs expected14 new table/23 SQLNULL-autoindex rows independently of SQLite
+output, then compares actual full67 objects and unchanged old30 bytes. Empty-database
+foreign_key_check/integrity_check pass. This does NOT exercise inserted-data
+constraints, complete application closure, API contracts or runtime behavior.
+
+Proposed exact step5 ID atomic-application-bundles-v1 frames61448bytes with SHA256
+`278327413ac9198f09c7a864065b10d98dc90d70d66c708e36a9badd1168e93c`.
+These values identify ONLY that draft's14 exact SQL literals; any later SQL change
+requires new derivation. Author still finishes the concrete contract; actual
+different full review and independent fixture/test derivations remain future.
+
+Scratch script SHA256 `339ce49ab9ee91a8d4d40ae6f51900befb24bd41408d81e40d189df9c65fa363`; summary
+`/tmp/storage002-root-frame-audit.json`.
+
+Actual early different read-only physical review at that draft found no obvious
+FK-parent or CHECK-NULL defect, but withheld a full verdict pending logical/API
+context. It flagged one-original-basis-per-request reversal cardinality, exact
+operation/claim/contribution subject equality, reversal-head FK row identity and
+after-state/key/count closure as concrete obligations. Author must preserve
+multiple originals without inventing immutable request positions. Any physical
+revision invalidates the draft-specific F61448 digest as a latest-artifact claim;
+rederive after the actual replacement. No full review or runtime gate is passed.
