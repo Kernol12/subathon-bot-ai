@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T19:43:56.650812+00:00",
+  "updated_at": "2026-11-02T19:47:42.087967+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt, contribution and captured-plan repository components have reviewed acceptance evidence. The application-bundle logical contract is reviewed; concrete bundle baseline/implementation, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5102,7 +5102,8 @@
         "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Original migration/receipt/contribution/config/plan scope is retained as mandatory010–015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite.",
         "Claimed on dedicated task/STORAGETEST-002-application-bundle from actual integrated main100171b after normal PR41 merge; branch created BEFORE edits. Preserve accepted logicalcontract3c8/actuallogical270+finalscope7fa/all11 final98ac CI and prior storage gates. First stage ONLY concrete API/physical-contract Markdown+own author evidence, independently reviewed before signatures/stubs/minimal compile harness; no implementation. Resolve non-owning current contribution application patch, current opaque state token/CAS and explicit separately compared source dimensions, complete selected-plan structural metadata proof independent of materialization caps, intent/outcome/typed claim/effect-component/reversal uniqueness, retained bounded state/job document meaning and actual FK/closure/ordinal/NULL/fullrange/canonicalExact/error/budget limits. Root owns sharedstate/HTML/map/rootbuild/presets/workflow and migration order/pins; may delegate physical contract proposal only. Author and reviewer get NEW isolated branches/worktrees from fresh main plus claim, old trees remain clean/preserved. After actual concrete/API approval, independent fixtures/green on existing writer, real feature tests/different fullreview/compile/exactdiscovery/requiredselectedofficialQt newgreen must precede FIRST intended newstubred. Passingold173/21logicalexamples are not newbundle acceptance/red. No semantic authority/provider/delivery/recovery/fullrefundallocation invention, no existing frozenports/schemas/tests weakened. Production STORAGE-002 remains separate planned task and blocked by this actual baseline. No owner decision/access identified.",
-        "Actual committed claimf50, fresh storage002-contract-author/review isolated branches/trees created; existing agents explicitly reassigned, both running. Author ONLY concrete contract/schema companion/ownnote Markdown; reviewer read-only prep/actualfuture reviewMD. No concrete candidate or absentverdict yet. Root owns source schema/order/pins/sharedmetadata/build/CI; next integrate actual3MD and obtain different actual review before any C++/fixture/tests. All10postmain100171b workflows actualSUCCESS inclSQL41512197291. All93registered=77existing/16absent trees preserved; no native/red/watch task running."
+        "Actual committed claimf50, fresh storage002-contract-author/review isolated branches/trees created; existing agents explicitly reassigned, both running. Author ONLY concrete contract/schema companion/ownnote Markdown; reviewer read-only prep/actualfuture reviewMD. No concrete candidate or absentverdict yet. Root owns source schema/order/pins/sharedmetadata/build/CI; next integrate actual3MD and obtain different actual review before any C++/fixture/tests. All10postmain100171b workflows actualSUCCESS inclSQL41512197291. All93registered=77existing/16absent trees preserved; no native/red/watch task running.",
+        "Actual focused DRAFT PR42 published claim/role headd537dee5962c179ccfc54a25a8ec9fd1c123e333; all11 inherited checks SUCCESS/CLEAN. Concrete3MD authoring active, no candidate/verdict yet; separate review/fixture agents completed read-only prep and sent sourcecoverage/noABA/midstageB08 evidence risks. No newgreen/newtest/red/runtime approval follows initialCI. Root checkpoint records actualPR/main/roles; no new native/red repeated."
       ],
       "verification": {
         "concrete_contract": "not_run",
@@ -12162,6 +12163,11 @@
       "date": "2026-11-02T19:43:56.650812+00:00",
       "task": "STORAGETEST-002",
       "note": "Explicitly assigned fresh isolated concrete-contract author and independent reviewer; only Markdown authoring/read-only prep, all10 postmain100171b workflows SUCCESS."
+    },
+    {
+      "date": "2026-11-02T19:47:42.087967+00:00",
+      "task": "STORAGETEST-002",
+      "note": "Published focused draftPR42 atd537/all11inheritedCI passed; concretecontract authoring active, read-only independent prep complete, no newbaseline/runtime claim."
     }
   ]
 }
