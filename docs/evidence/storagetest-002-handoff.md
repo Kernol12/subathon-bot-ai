@@ -105,3 +105,16 @@ Root2fileharness adds oldwriter-only5-slot driver/requiredunconditionalCIguard,
 old173defs/pins untouched; fullfixture/helper/harness review andofficialNEW-green
 stillpending, no actualfeaturetest or intendedred yet. [CI record](storagetest-002-ci.md)
 contains failed/pass logs/hashes and exactsemicolonscope correction.
+
+## Actual fixture gates complete; feature authoring next
+
+Full different approval5cf5dc2e4a3674ba34b09b90d3091d0e77673c40 integrated809ec16
+accepts exactJSONe8b6/aeb/CPPb0a5/authorb5a2/QtCmake203db2/WFb9e1 at e2e.
+Own4targetsteps0warnings/174discovery/helper7PASS0skip. Actualofficial41531137766
+samee2e/all11SUCCESS/fresh88/Qt6.12SQLite3.53.4/new5guard+7PASS0skip914ms.
+No newentrypoint/featurebody ran. These real fixture gates now permit independent
+FEATURE TEST AUTHORING only, not execution/implementation. Newtests need actual
+fullreview/compile/discovery/officialnewgreen on their own complete cleanrevision
+before FIRSTintendedstubred. Oldhelper/source/data/API stayfrozen; root owns all
+CMake/CI/state integration. New focused testauthor branch/tree will be explicitly
+assigned from this accepted checkpoint, preserving fixturetree5b.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T21:44:30.157673+00:00",
+  "updated_at": "2026-11-02T21:58:19.713954+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt, contribution and captured-plan repository components have reviewed acceptance evidence. The application-bundle logical contract is reviewed; concrete bundle baseline/implementation, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5084,7 +5084,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; independent fixture author /root/plan_fixture_author; reviewer /root/contribution_reviewer; API author /root/contribution_implementer completed",
+      "owner": "Coordinator /root; independent feature-test author /root/plan_fixture_author; reviewer /root/contribution_reviewer; API/fixture roles completed",
       "depends_on": [
         "STORAGE-001",
         "STORAGE-015",
@@ -5111,12 +5111,13 @@
         "Actual clean frozen source/config79b69d437d12df5511f7e38fdc975eb7f0452e12 fullold173 PASS4.51s/exit0, allQt0fail/skip/blacklisted; logsconfirmQt6.12/SQLite3.54/GNU16.2.1. No newentrypoint/feature/red invoked; sevenstubsremain. RawLastTest preserved andSHA logs inCI evidence. ScratchsummaryparsercorrectedobservedCTest4.4 wording+173Passedlines, read-only/no rerun/red. Source/API/ext/build independentreview andownpinnedpublishedCI next; fixture/testbaseline notyetauthored.",
         "Actual different API/typedreadextension/config approvalef0ba764 clean integratede033177/reviewMD49876fc2 accepts8e24/83e9/2f6/physicalf13/5configpins. Ownfresh84build0warnings/exactold173/full173PASS4.48s/0Qt skip. Actualofficial41523469879 exact848 SUCCESS20:54:29–20:56:03Z/GNU13.3/pinnedBoost1.83macro108300/checkedQt6.12archives/SQLite3.53.4/fresh84/newobject+archive/0warnings/old164+required7+3+3+3+4greens/Qtprobe/all11. Same-source CI/reviewparallel correctlyattributed, no futurehead approval. No new66-objectfixture/newgreen/featuretest/red yet. MinimalAPIpassedONLY; taskgithubCIpartial/productnotrun/baselinereviewnull. Nextindependentfixtureauthor freshisolatedtree onlynewliteralJSON+oldwriter-onlyQtgreen+ownnote, no newfacade/manifest/codec asoracle/setup; rootsharedCmake/CI/state. Actualfixture review/host+officialnewgreen/featuretestsfullreview+compile+discovery stillbeforeFIRSTintendedred, sourceimplementationnotauthorized.",
         "Fresh task/STORAGETEST-002-independent-fixtures /local-evidence/worktrees/storage002-fixtures createdcleanfrozen3dc433f afteractual APIef+official848 passed. plan_fixture_author EXPLICITLYresumednewfixture role RUNNING, ownONLYtests/fixtures/sqlite_application_bundle_vectors.json +tests/qt/sqlite_application_bundle_environment.cpp +ownfixtureauthorMD. New94registered=78existing/16absentrefs preserved, no prune/reset. Existingreviewer READONLYfixtureprep COMPLETEcleanef, actual3filecandidate/helper-slot/harness requiredbeforeverdict; APIauthorcompleteclean166. No newfixture/feature/red existsyet. Root owns sharedQtCmake/profile/CI/state/HTML/map; oldwriter-onlyhelpermustnot include/link/call7newstubs/manifest/codec asoracle/setup. Expectedmetadata/framing/typedmoney/range/provenance/numericvectors independentlymanual; no fakehealthyMAXhistory or QVariantInvalidNULLchecks. Publicationcheckpoint follows actualroles, no absentapproval.",
-        "Actual independentfixture7375/root603: JSONe8b6/aebff706/461783bytes plusoldwriteronly644helperd9/ownnote, independent rawSQL/framing/math66/F62465c9/56setup/28refusals/10runtimeonlyadmissions/11quote/three-snapshot/multibasis/typedvectors PASS. Roothelperinitialincremental18compile0warning/5slots/174registration thenhostgreen6PASS1FAIL0skip0.45s atcontrolledwriterTRIGGERinstall BEFOREappunit: exactreviewedANYsemicolonprohibition, notfeature red. Authornarrowfix5b/root73b changesONLYhelperb0a5/667lines+ownnote, JSON/predicate/assertions/productionfilter unchanged; separateownedidleobservertestDDL +bothconnectioncatalogproof, real rollback/faultoffassertions preserved. Correctedrootincremental3build0warning/driver5+initcleanup7PASS0skip443ms/CTest0.45s, no new7entrypoints. Rootunconditional5slotrequiredCIstep+15lineQtCMake preserveallolddefinitions/pins; actualfixture/fullhelper/harnessreview andofficialNEWgreen PENDING. EarlyJSONaeb reviewrawchecks retained butnofullverdict beforeactualCPP. Wholebaselineinprogress/no featuretests/red, sourceimplementationnotauthorized."
+        "Actual independentfixture7375/root603: JSONe8b6/aebff706/461783bytes plusoldwriteronly644helperd9/ownnote, independent rawSQL/framing/math66/F62465c9/56setup/28refusals/10runtimeonlyadmissions/11quote/three-snapshot/multibasis/typedvectors PASS. Roothelperinitialincremental18compile0warning/5slots/174registration thenhostgreen6PASS1FAIL0skip0.45s atcontrolledwriterTRIGGERinstall BEFOREappunit: exactreviewedANYsemicolonprohibition, notfeature red. Authornarrowfix5b/root73b changesONLYhelperb0a5/667lines+ownnote, JSON/predicate/assertions/productionfilter unchanged; separateownedidleobservertestDDL +bothconnectioncatalogproof, real rollback/faultoffassertions preserved. Correctedrootincremental3build0warning/driver5+initcleanup7PASS0skip443ms/CTest0.45s, no new7entrypoints. Rootunconditional5slotrequiredCIstep+15lineQtCMake preserveallolddefinitions/pins; actualfixture/fullhelper/harnessreview andofficialNEWgreen PENDING. EarlyJSONaeb reviewrawchecks retained butnofullverdict beforeactualCPP. Wholebaselineinprogress/no featuretests/red, sourceimplementationnotauthorized.",
+        "Actualfullfixture/helper/harness approval5cf5dc2e clean integrated809ec16/review05a3cac0 acceptsJSONe8b6/aeb/CPPb0a5/evidenceb5a2/QtCmake203db2/WFb9e1; own4stepcompile0warnings/5slots/174/helper7PASS0skip. Actualofficial41531137766 exacte2e SUCCESS21:44:50–21:48:33/GNU13.3/pinnedBoost1.83macro108300/checkedQt6.12/SQLite3.53.4/fresh88/old164+oldgreens+NEWunconditional5guard/helper7PASS0skip914ms/all11. No new7entrypoints/featurebody. PriorJSONchecks retainedsamebytes/oldtests/source/APIunchanged. These preparationgates permitFEATURE TESTAUTHORINGonly: freshnewtestCPP/ownnote/optionaltestsupportheader, no setup/newmanifest/codec/readbody/oraclesfromproducer, no newbodyrunbeforeactualfullreview. Rootallcase/harness/CI/stateownership. Featurebaseline review/compile/exactdiscovery/officialnewgreen onownsamecleanfeaturehead mustprecedeFIRSTmissingbehaviorred; implementationnotauthorized."
       ],
       "verification": {
         "concrete_contract": "passed",
         "api_review": "passed",
-        "fixture_review": "not_run",
+        "fixture_review": "passed",
         "test_review": "not_run",
         "intended_red": "not_run",
         "github_ci": "partial",
@@ -5128,9 +5129,10 @@
         "native_build": "passed",
         "existing_regressions": "passed",
         "minimal_api_ci": "passed",
-        "fixture_authoring": "draft",
+        "fixture_authoring": "passed",
         "fixture_native_build": "passed",
-        "fixture_driver": "passed"
+        "fixture_driver": "passed",
+        "fixture_selected_qt": "passed"
       },
       "evidence": [
         "docs/evidence/storagetest-002-handoff.md",
@@ -12224,6 +12226,11 @@
       "date": "2026-11-02T21:44:30.157673+00:00",
       "task": "STORAGETEST-002",
       "note": "Integrated independentfixture/helper; corrected unsupportedtrigger setup only, hostoldwriterdriver7PASS0skip, actualfullfixture+harnessreview/officialnewgreen next."
+    },
+    {
+      "date": "2026-11-02T21:58:19.713954+00:00",
+      "task": "STORAGETEST-002",
+      "note": "Actualfixture5cf review and samee2e officialNEW5green/all11 passed; advance independentfeaturetestauthoring only, firstred stillnotrun."
     }
   ]
 }

@@ -161,3 +161,27 @@ authoring/firstred. No new entrypoint or previously completed red ran.
 | --- | --- |
 | `tests/qt/CMakeLists.txt` | `203db2f439add44c6fe20b6ce5152134aa61f572` |
 | `.github/workflows/sqlite-writer.yml` | `b9e1a49583e8e54800997215ba4e65ec58ee2b8c` |
+
+## Actual selected official NEW-five fixture diagnostic
+
+[41531137766](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41531137766)
+SUCCESS at exacte2e290b548cf38bfb3ef4527b75dc3833ad0f7ef,2026-11-02T21:44:50Z–
+21:48:33Z. ActualGNU13.3/pinnedBoost1.83macro108300/checkedQt6.12 archives, fresh88
+steps/newhelperobject, zero warnings, old164/mandatoryoldgreens/Qtprobe and NEW
+unconditional exact5-slot guard +helper **7PASS0FAIL0SKIP**,914ms, actual
+Qt6.12.0/SQLite3.53.4. All11PRchecksSUCCESS. Newfull66literal fixture/observer fault
+foundation executes, but none of the7newbundleentrypoints or featurebody executes.
+Raw local-evidence/storagetest002-fixture-official-ci.txt SHA256
+`b1be03c31aca37a72cd9f23d00e125f11ac3f5f47f6e08af93f5b11df546d9d8`.
+
+Actual independent fixture/helper/harness approval5cf5dc2e4a3674ba34b09b90d3091d0e77673c40
+(root809ec16/reviewMD05a3cac0) accepts JSONe8b6/CPPb0a5/authorb5a2/QtCmake203db2/
+WFb9e1 atsamee2e source. Own4-step targetbuild0warnings/5functions/174registration/
+7PASS0skip443ms confirmed. Prior JSONrawchecks reused byte-identicalaeb; no old173
+replay. Review/CIparallel pinned correctly, no futurefeaturehead preapproval.
+
+Independent feature tests are next. They must compile and receive ACTUAL full
+baseline review BEFORE any new entrypoint body/intentional red. Then observe
+requirednewgreen +exactcompiledfeaturediscovery on the actual approved same clean
+revision before FIRSTmissingbehaviorred. This fixture-head result alone is not
+that future complete-feature-harness proof. No production implementation yet.

@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-002 fixture/helper full review pending
+# Coordinator checkpoint — STORAGETEST-002 feature-test authoring
 
 Coordinator `/root`,2026-11-02. Continue full specification v0.45 under AGENTS.md/
 COORDINATOR_PROMPT.md; earlier stop was revoked by explicit resume. No owner access/
@@ -110,14 +110,31 @@ rootnative/CIwatch running aftercorrectedtestcompleted0. All94registered=78exist
 16absentrefs preserved. No prune/reset/oldred/old173 replay. Actualpublication still
 previous30d sourceAPI; newfixture candidate/harnessawaitspush/ownCI.
 
-NEXT: fullactual differentreview of committedJSON+corrected667CPP+ownnote+2harness
-files; observe ownselectedofficialNEW5green/full66. Resolveanyrealfindings keeping
-fixeddata/assertions. Onlythen independentlyauthorfeaturetests, actualfullbaseline
-review/compile/exactdiscovery/selectedofficialgreen atapprovedsamehead before
-FIRSTmissingbehaviorred. Rootsource7stubs/header8e24/physicalf13 frozen. No feature
-bodytestexists yet, nointendedred observed, STORAGE-002 implementationPLANNED.
-All routineauthorized workcontinues; no ownerneed. Inspectactualagents/processes/
-heads onresume, checkpointdoesnotprove oldagentsstillrunning.
+ACTUAL fullfixture/helper/harness approval5cf5dc2e4a3674ba34b09b90d3091d0e77673c40
+integrated809ec16/reviewMD05a3cac0, exactJSONe8b6/aeb/CPPb0a5/authorb5a2/QtCmake
+203db2/WFb9e1. Own4targetbuild0warnings/5functions/174old+driver/helper7PASS0skip.
+ACTUAL official41531137766 atsamee2e/all11SUCCESS/GNU13.3/Boost1.83/checkedQt6.12/
+SQLite3.53.4/fresh88/new5guard+7PASS0skip914ms. No new7entrypoints/featurebody.
+CI/reviewparallel butsameexactsource, not futurefeatureharness approval.
+
+NEXT authorized role: independently author actual new bundle featuretests and own
+spec-linked testauthor evidence from this accepted API/fixture checkpoint. Ownnew
+sqlite_application_bundle_tests.cpp and optionalsmallnewtest-supportheader only;
+NO API/header/source/physical/JSON/helper/oldtests changes. Root owns CMake/case
+registration/CI/state; no featurebody/newentrypoint/firstred before ACTUALfullreview.
+All setup must use frozenliteralJSON/oldwriter only; no newmanifest/codec/readbody
+in init/static/setup or asoracle. Expectedresults independentliteral, not producer.
+Tests cover boundedmissingbundle behavior, not old173aggregate/madeupMAXhistory.
+Rootwill createfreshfeatureauthor branch/tree andexplicitlyresumeplan_fixture_author;
+fixturetreeclean5b/reviewerfullfixtureclean5cf preserved. No featuretest authoredyet.
+
+Afteractualtestcommit, compile/metadata-discover withoutbody, obtaindifferentACTUAL
+fulltest/harnessreview, observeownsamecleanheadselectedofficialnew5green+complete
+featurediscovery; ONLYTHEN FIRSTnamedmissingbehaviorred withallinit/cleanupPASS0skip/
+setupfail/crash. Recordactualexit/log/hashes. STORAGE-002 remainsPLANNED untilthis
+realbaseline integrates. Current7stubs/source8e24/83e9/physicalf13/JSONe8b6/helperb0
+frozen. Ownerneednone. All94registered=78existing/16absent refs preserved; no running
+rootnative/watch, edit/download sessionscomplete. Inspectactualstatus onresume.
 
 ## Actual integrated main / earlier gates
 
