@@ -364,3 +364,141 @@ unchanged reviews remain valid. Actual feature assertions/full baseline review,
 selected same-revision green/discovery and FIRST intended red are still required;
 no future artifact, executable behavior, CI/head/merge or release approval follows.
 Owner scope remains finish existing PR42, then STOP; no implementation assignment.
+
+## Actual full32 feature-test and harness review
+
+2026-11-03 (Europe/Zurich), different reviewer `/root/contribution_reviewer`:
+**APPROVED FOR TEST BASELINE**, limited to the actual assertions/setup/harness
+below. This is not observed red, passing bundle behavior, production/source
+approval or a future CI/head/merge approval. Reviewed the complete3335-line source,
+278-line author note and actual root harness at clean
+`60a2fcc7f0755f2b6325947d7dc133f363477667` in the NEW isolated
+`task/STORAGETEST-002-feature-review` tree. No feature body has run.
+
+| Actual accepted artifact | Git blob |
+| --- | --- |
+| [Feature assertions and independent builders](../../tests/qt/sqlite_application_bundle_tests.cpp) | `4b60fcaa06dec8136f0b81e7ac6d01374df94a48` |
+| [Actual author evidence /32-case specification map](storagetest-002-test-author.md) | `caac20224fbd364149d907e175a3ca21830d8a61` |
+| `tests/qt/CMakeLists.txt` | `91035af6f5ab00916770c1ba508db01997354ffe` |
+| `.github/workflows/sqlite-writer.yml` | `453f1a2df00f11442330f2649d9c4ded41d7841e` |
+
+Source SHA256 is
+`6f84dfa02c0a6ad2dfccf1d6c87b004cb188678ca439a43b35858a59467a0b19`.
+Header8e24/source83e9 (seven immediate named stubs), logical80f8/category42f,
+physicalf13, JSONe8b6 and old-writer helperb0 remain exactly unchanged. Earlier
+contract/API/fixture/SQL/green reviews remain valid for these frozen subsets.
+
+### Actual findings and resolutions
+
+The initial bounded read-only snapshot240402b was not a baseline verdict. All six
+reported defects are resolved in this actual source: MAX expected current state
+comes from its own literal row; deliberate rollback rejects hidden assertion/work
+exceptions; NULL corruption uses a genuinely nullable required quote cell; complete
+current activity and support verification fields are compared; full typed prefix
+snapshot/schema is compared with ONLY the separately asserted CID0 application
+delta normalized; optional presence uses explicit bool-compatible assertions.
+
+Four further findings from the whole authored source are resolved in the actual
+87372b2/0a655f9 revisions integrated into60a:
+
+1. Cumulative-budget proof no longer assumes a public lookup reads a600k value
+   once. After observed refund staging, ONE explicit old-session query consumes
+   at least600000 bytes; the required full result cannot fit the remaining1MiB
+   budget. Typed result-limit, actual rollback inside catch and complete prior
+   snapshot preservation remain. No SQL algorithm or budget reset is prescribed.
+2. Opaque-key setup no longer changes a referenced PK before its immediate FKs.
+   It inserts a complete fresh snapshot/balances then repoints the head, explicitly
+   retaining old `start` data with writer FK enforcement intact.
+3. Three independent selected-Exact corruptions distinguish equivalent noncanonical
+   200/2 from actual100, well-typed oversized malformed bytes before grammar, and
+   wrong denominator SQL class before numerator size. Untouched selected components
+   fit the chosen limit3. BOTH classes/shapes→BOTH sizes→grammar/gcd is asserted.
+4. A capped original request600/actual Main120/cap480 with1000→1120 independently
+   proves actual-credit projection. A matching fresh refund request-130/after990,
+   fraction1/entitlement120/residual-10 is locally valid yet above actual credit.
+   It must return `reversal_conflict`, preserving a prior caller marker through
+   actual COMMIT. Removing ONLY that marker in a later acknowledged unit restores
+   the exact before snapshot. A getter using requested600 or a missing over-original
+   guard can no longer escape the oracle.
+
+The Qt-keyword `slots` build defect and later shadow warning were also corrected
+without assertion changes. Their initial build results are honestly setup/compiler
+history, never a feature red. Approval is for the actual final source above.
+
+### Assertions and reachable scopes assessed
+
+Checked against specification v0.45 §§3.3–3.5/4/8/16, DB-01/NUM-01–04 and actual
+AT01–21/SB01–15: complete owned records/provenance and all independent current
+dimensions; explicit receipt/CIDNULL/CID0/MAX roles with healthy revision1; supplied
+signed cap/debt/deficit/residual values and exact aggregate conservation; provisional
+same-unit duplicate/claim branches with fresh state-b and real commit versus abandon;
+intent equality versus VALID changed computed outcome; freshness/token binding and
+actual80f8 post-SQL failure; selected/full/absent closure and type/group/count errors.
+
+Reviewed all reversal assertions: one current request/many original bases, repeated
+same basis at two current ordinals, actual credited bounds, independent progress/
+terminal identity, zero increments/full-final-zero and unsupported prior-debt
+allocation. Real65 job/plan/progress rows exercise64/65 continuation and late
+corruption without materialization quotas; sparse MAX remains invalid. Targeted
+source metadata explicitly leaves unselected body/numeric certification to full
+lookup. No provider/correlation/permission/clock/job-delivery or financial policy
+is inferred from synthetic data.
+
+Rollback assertions require actual inside-catch independent BEGIN and typed
+preservation while the facade lives. Conditional trigger predicates require real
+prepared rows/application patch/old head; fault-off identical retry separates
+mid-stage failure from a later caller exception. Actual control seams distinguish
+COMMIT/cleanup acknowledgement loss, confirmed-COMMIT body exception and later
+publication. Borrowed copying/destruction, owner abandonment, foreign/closed/stale
+tickets and pure-before-ticket priority remain observable. No destructor cleanup,
+inactive rollback proof or replay is invented.
+
+Builders/init use only independently frozen literals and old writer operations.
+No new entrypoint supplies setup or expected data. Marker-aware wrappers preserve
+the named NotImplemented failure; deliberate rollback cannot absorb failed
+assertions. All32 bodies still need their first actual missing-behavior observation.
+
+### Own checks, without feature execution
+
+Independent pure-Python field weighting from frozen JSON and public logical
+members, `python3 /tmp/storage002-feature-owned-review.py`, reproduces
+145+122+121+41+216+116+36+41=838 input bytes,112 current-state bytes and20/9/10
+returned vector items. Script SHA256
+`66d2c7eaa476b146a7fc7bb90b2c63e5717a580a3b786e00e99181c9ca78b081`.
+It invokes no SQL, producer or new API. Input838/837, state112/111 and the returned
+item boundaries are therefore independent expected values.
+
+| Actual command/check | Result |
+| --- | --- |
+| `cmake --preset sqlite-bundle-debug` | PASS; GNU16.2.1/CMake4.4.5/Boost1.92, Qt>=6.12 build dependency |
+| `cmake --build --preset sqlite-bundle-debug --target server_sqlite_application_bundle_acceptance` | Fresh28 dependency/object/link steps PASS, zero warnings |
+| Built acceptance executable `-functions` | Exactly32 compiled slots; no body/init invocation |
+| `ctest --preset sqlite-bundle-debug -L '^sqlite-bundle$' --show-only=json-v1` |32 matching enabled commands; no inversion |
+| `ctest --preset sqlite-bundle-debug --show-only=json-v1` |206=unchanged174 earlier names plus32 feature registrations |
+| Project391/122, current render, diff, actionlint, source clang-format | PASS |
+
+An initial read-only slot inventory also matched ordinary fixture helper methods;
+restricting it to Qt's actual slot section matches the already captured32 compiled
+names. No test execution or source change resulted. Removing the49-line feature
+CMake block restores the approved fixture harness byte-for-byte; workflow only
+appends19 lines of compiled-registration checks after required new-five diagnostics.
+Old commands/pins/guards/check names/permissions remain unchanged. Neither automatic
+CI nor these commands execute intentional-red bodies or suppress their failures.
+
+Own `/tmp/storagetest002-feature-review-*` evidence SHA256:
+
+| Suffix | SHA256 |
+| --- | --- |
+| `configure.log` | `4288f26fcc8d31998c48929132b8fb231ff554c790591c0398ebf4e2a38231d8` |
+| `build.log` | `1bca3d9e247a535ae1ffba46dfd1ed286b941090779cb6cc9f1b37cf3915ff6d` |
+| `functions.log` | `b7f236b0608cfae062eec4ff3670967d4cf50453e5467d89894d88ef361c4ee6` |
+| `bundle-discovery.json` | `427b6fff1f7ee820fee745560cd5ac9a66296bb132848d46ba2edfd834c40e05` |
+| `all-discovery.json` | `d99f7d7de579ca098e932ce2008b1249d435247821eba88aaeaf9bec5846d93a` |
+
+No feature body/new entrypoint, original red or unchanged native/fixture suite ran
+in this review. Root must observe required selected official NEW-five green and
+exact32 discovery on the complete clean approved revision BEFORE FIRST intended
+red, then record the original32 failures and separately review final attribution/
+completion metadata. Latest published-head CI/discussions/rules/normal merge gates
+remain. Production STORAGE-002 stays planned; owner scope is finish PR42 baseline
+then STOP, with all broader semantic/financial/platform/release gates preserved.
