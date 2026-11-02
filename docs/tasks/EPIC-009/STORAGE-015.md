@@ -1,8 +1,12 @@
 # STORAGE-015 — Captured application-plan and revision-history persistence
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, NUM-01, DB-01.
-Status/owner/dependencies: progress/state.json. Planned work only; no finalized
-slice interface, authored/reviewed tests or implementation is claimed by this brief.
+Status/owner/dependencies: progress/state.json. Production implementation remains
+planned. STORAGETEST-015 completed29 independently reviewed feature cases and
+the first explicit-stub red after actual selected official fixture/build/discovery
+gates. The new codec/manifest/store still contain explicit stubs; this does not
+implement persistence. See [baseline handoff](../../evidence/storagetest-015-handoff.md)
+and [actual stage reviews](../../evidence/storagetest-015-review.md).
 
 ## Scope and ownership
 
@@ -48,3 +52,12 @@ representations (including values above signed64 and UINT64_MAX), then establish
 the genuine reviewed red. No signed INTEGER/REAL coercion or opaque-byte test
 substitutes for that typed gate. Existing identifiers/dependencies/acceptance and
 all original lossless/provenance scope remain unchanged.
+
+## Initial baseline claim
+
+STORAGETEST-015 is separately claimed from actual integrated main7113995 after
+PR38 contribution persistence. Initial scope is only a versioned SQL persistence
+contract/examples; root owns additive migration4/order/shared integration. Existing
+core firstrevision1/contiguous history and all actual HistoricalValuation rate/
+source/time/manual provenance stay authoritative. Separate actual contract/API/
+test reviews and a genuine compiled missing-behavior red precede production.

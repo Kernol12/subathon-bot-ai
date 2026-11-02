@@ -1,4 +1,63 @@
 set(CMAKE_AUTOMOC ON)
+if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)
+    add_executable(server_sqlite_application_plans_environment sqlite_application_plans_environment.cpp)
+    target_link_libraries(server_sqlite_application_plans_environment PRIVATE subathon_sqlite_writer Qt6::Test)
+    target_compile_definitions(server_sqlite_application_plans_environment PRIVATE
+        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
+    subathon_target_options(server_sqlite_application_plans_environment)
+    add_test(NAME scaffold.sqlite_application_plans_environment COMMAND server_sqlite_application_plans_environment)
+    set_tests_properties(scaffold.sqlite_application_plans_environment PROPERTIES
+        LABELS "scaffold;qt;plan-environment" TIMEOUT 30)
+
+    add_executable(server_sqlite_application_plans_acceptance sqlite_application_plans_tests.cpp)
+    target_link_libraries(server_sqlite_application_plans_acceptance PRIVATE subathon_sqlite_application_plans Qt6::Test)
+    target_compile_definitions(server_sqlite_application_plans_acceptance PRIVATE
+        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
+    subathon_target_options(server_sqlite_application_plans_acceptance)
+    # Draft behavior stays separate from required old-writer fixture diagnostics.
+    foreach(case IN ITEMS
+        revisionCodecMatchesIndependentFullRange
+        revisionCodecRejectsMalformedBuffers
+        exactCodecMatchesCanonicalLiteralVectorsAndLargeValue
+        exactCodecRejectsInvalidAndOversizedComponents
+        manifestPreservesPrefixesAndMatchesLiteralPlanStep
+        initialRoundTripPreservesCompleteOwnedSnapshot
+        revisionsAppendContiguouslyWithoutRewritingInitial
+        quotesAndIndependentStatesRetainAllProvenanceAfterReopen
+        orderedDuplicatesAndOpaqueBytesRemainExact
+        initialDuplicateAndConflictKeepEarlierCallerWrites
+        appendRefusalsDoNotWriteOrResolveProposedTargets
+        queuedExpectedHeadHasOneWinner
+        fullFindCapsNeverBecomeAppendQuotas
+        targetedMaxIsExactWhileAggregateSparseHistoryRefuses
+        targetedScopesDoNotCertifyUnselectedPayloads
+        selectedOriginalAndTypedTargetsAreRequired
+        selectedContributionIdentityDoesNotRequireSupportReceiptOrCurrentState
+        inputPreflightPriorityAndRepresentability
+        byteAndCollectionBoundsHaveExactEdges
+        selectedMalformedScalarAndChildDataRollback
+        selectedExactSqlTypesGrammarAndBoundsStayDistinct
+        selectedHistoryAndOrdinalCorruptionRefuses
+        laterMetadataPagesCannotHideCorruptCapture
+        stagedRowsAndHeadRollbackWithCallerUnit
+        cumulativeResultsRollbackObservedWrites
+        inertStoreAndStagedResultsNeedCallerCommit
+        foreignStaleTerminalAndOwnedLifetimes
+        callerCommitAckLossRemainsUnknownWithPhysicalPlan
+        cleanupAckLossOutranksSelectedFailure
+    )
+        add_test(NAME sqlite-plan.${case} COMMAND server_sqlite_application_plans_acceptance ${case})
+        set_tests_properties(sqlite-plan.${case} PROPERTIES
+            LABELS "sqlite-plan;acceptance;qt;server;draft" TIMEOUT 20)
+    endforeach()
+endif()
+
 if(SUBATHON_BUILD_QT_PROBE)
     add_executable(qt_environment_probe qt_environment_probe.cpp)
     target_link_libraries(qt_environment_probe PRIVATE Qt6::Core Qt6::Test)

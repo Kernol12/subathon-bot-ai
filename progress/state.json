@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T16:05:48.342150+00:00",
+  "updated_at": "2026-11-02T17:55:52.160459+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt and contribution repository components have reviewed acceptance evidence. Plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4855,7 +4855,9 @@
         "Claim from freshly fetched main8859b64 on dedicated task/STORAGE-014-contribution-repository BEFORE edits. Specv0.45/§3/DB-01; approved logicalf503/physicaleeb/API0abee; baseline46c/577/44df independently approved81e0d5a and finalmetadata6ee, actual original24stub-red at399fc44 after officialQt41347563063; do NOT repeat completed red. Implement only new server/src/sqlite_contributions.cpp +own implementation evidence, preserving publicports/API, every assertion/fixture and immutable migration1/2. Existing service owns policy. Pure typed CId0..MAX/NULL distinction, exactmigration3, strict original-only receipt+typed targets, independentstate/immutableobservations, compatiblelinks/pendinganchor, allocation-safe owner/adoption/RAII/realcommit/knownrollbackvsunknown required. Prior committed/nonconflicting receipt and semantic/provider authorization remain upstream preconditions. Rates015/effects/jobs/bundle/recovery/platform remain open. Root owns CMake/preset/workflow promotion, state/map/HTML/checkpoint; different reviewer actual source+config required. Fresh67 planned trees only after claim; no old agents assumed live. No open PR/native process; all65 existing trees clean/16 missing refs preserved. Current resume revokes earlier stop; continue standing loop after eligible merges.",
         "Actual implementation5acd3d6 integrateda7659b5, source61569bd13e34f515802271da1c2ea9c89b23c473 (889lines), onlynew14CPP. Author fresh70-step build0warnings/24PASS0.76s/full143PASS3.25s after actualsource change. Root configure/build/link0warnings, targeted24PASS0.74s/full143PASS3.17s. Frozen46c/577/44df/API0abee/logicalf503/physicaleeb/oldsources unchanged. Root actual bounded CI promotion removes manualinput/if and makes24unconditional, preserves old111/green/discovery/pins/perms/job; option/preset/draftlabels only metadata. Actionlint/format/project/render/tooling19/DOM PASS. Actual independent source/config review next; no acceptance completion/merge yet, no unchangedred repeat.",
         "Actual independent SOURCE/CONFIG approvala751d54 integrated5ed4194 covers615/CMake17ca/preset35e/QtCMake2da/workflow1fe, whole889CPP+config/contracts/oldmechanisms. Fresh70-step0warning build/exact143+24+green3/24PASS0.73s/full143PASS3.18s/green5PASS0skip. No blockers; all baseline/rawred/old producers unchanged. Only now publishing focused DRAFT implementation PR for actual automatic officialQt unconditional24 proof; finalmetadata/latesthead/rules/discussions/merge stillpending.",
-        "Actual automatic officialQt run41477399818 atd0ce5c8 SUCCESS after source/configa751/root5ed: pinnedarchivesOK/GNU13.3/Qt6.12SQLite3.53.4/70build/newCPPcompiled/old111+green7/3/3/3/exact24/UNCONDITIONAL24PASS; all11 sourceheadchecksSUCCESS. Native author/root/reviewer24/full143pass with frozenbaseline/API/contracts/oldproducers. Implementation acceptance+separatecode review complete; markdone boundedcomponent only. PR38 remainsDRAFT pending finalmetadata/CI-attributionreview/latestheadallchecks/currentrules/threads/normalmerge. Originalrednotrepeated; no live/appbundle/recovery/platform upgrade."
+        "Actual automatic officialQt run41477399818 atd0ce5c8 SUCCESS after source/configa751/root5ed: pinnedarchivesOK/GNU13.3/Qt6.12SQLite3.53.4/70build/newCPPcompiled/old111+green7/3/3/3/exact24/UNCONDITIONAL24PASS; all11 sourceheadchecksSUCCESS. Native author/root/reviewer24/full143pass with frozenbaseline/API/contracts/oldproducers. Implementation acceptance+separatecode review complete; markdone boundedcomponent only. PR38 remainsDRAFT pending finalmetadata/CI-attributionreview/latestheadallchecks/currentrules/threads/normalmerge. Originalrednotrepeated; no live/appbundle/recovery/platform upgrade.",
+        "PR38 actually normal-merged71139958465e7dde17a661a93b288fd825d1c09e at2026-11-02T16:16:48Z after exact2949/all11SUCCESS/a751 source+ed3 finalreviews/currentrules0GHapprovals/no threads. Initial GraphQL server error made no change (OPEN/head/main rechecked); same protected exact-SHA REST normal merge succeeded, no bypass/admin/force. Main refreshed clean; component integrated, postmergeCI being observed. Standingloop continues to separate STORAGETEST-015, no oldred repeat.",
+        "Actual postmerge main7113995 all10 workflows completedSUCCESS, SQL41479891179. No open PR after PR38; new STORAGETEST015 contract-only agents explicitly reassigned in new trees, no source15 API/test/production behavior begun."
       ],
       "verification": {
         "native_build": "passed",
@@ -4888,8 +4890,8 @@
       "title": "Review and demonstrate red: Captured application-plan and revision-history persistence",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; test author /root/contribution_implementer; independent fixtures /root/plan_fixture_author; independent reviewer /root/contribution_reviewer",
       "depends_on": [
         "STORAGE-014",
         "STORAGE-012",
@@ -4903,13 +4905,63 @@
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-015.md",
-      "summary": "Refine bounded examples, author tests, obtain separate review and observe intended red before STORAGE-015.",
+      "summary": "29 independently reviewed captured-plan SQLite cases compile and reach explicit missing-behavior red after actual selected official diagnostics/build/discovery. Production STORAGE-015 remains planned.",
       "notes": [
-        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed."
+        "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
+        "Claim from actual integrated main7113995 after PR38 normalmerge/all11/sourcea751+finaled3. Dedicated task/STORAGETEST-015-captured-plans created BEFORE edits. Initial ONLY versioned sqlite-application-plans-v1 contract/examples+own evidence; actual different logical+root physical4 review before API/stubs/tests/fixtures, then actual fulltestreview/compile/officialgreen/firstred before STORAGE015. Existing application-plans-v1/core model/source22 reviewed pure cases authoritative: initialrevision1/contiguousparented, ReceiptId nonzero, optionalContributionId includes0. Puretypeduint64codec full0..MAX vs persistedrevision1..MAX must explicit; cannot silently copy0domain. Capture/immutable original+revision history+expectedheadconflict, allHistoricalValuation exactoriginal/effective/fetchedrates/snapshot/source/times/manualrefs, completeownedrules/modifiers/requests/overrideprovenance/Exact rational numerator+denominator/signed64units required. No evaluator/actualpermissions/effects/caps/providerproof invention; semantic refs lackingphysicalnamespace remain honest explicit prerequisites/deferred owninggates while actual retained cfg/context/source records resolve. Root owns additive manifest4/schema/order/prefix1/2/3 immutability/sharedbuild/state/map/HTML/checkpoint. Plan-reference/parent-link/expectedhead options/bounds/API shape to be versioned and reviewed, no production/tests yet. New isolated author/reviewer trees/assignments afterclaim; old67 clean preserved/16 missingrefs notpruned.",
+        "New storagetest015-author/review trees created clean at8d90219 and actual existing agents explicitly reassigned to new bounded DOCONLY roles. AuthorONLYnewlogicalcontract+ownnote; reviewerread-onlyprep/futureactualcontractreviewMD. Total69 existing/16 absentpreserved. Rootactualpostmain711 all10SUCCESSobserved, no openPR/native task started. Physical4/featuregates remain future actual stages.",
+        "Read-only prep complete: reviewer no existingcontract conflict/clean/no edits ornative; actualcandidateawaited. Authorproposes caller-owned activeSession stagedstore (like012), immutableheader/revisions/orderedchildren/expectedhead atomicappend; fullreadcap notappendquota. Separate targetedrevision DTO may prove selectedMAX diagnostic WITHOUTclaiming tiny sparse1..MAX historyvalid; aggregatefind/append must refusebrokenchain. Exact cpp_rational canonicalvalue (not rawinputspelling), independentstoragebounds notparser/finalizerbits; fullHistoricalValuation mandatory. OptionalCID0 canbelinkedconfirmation, no originalsupportRID==eventRID fiction. RootactualBoosthost1.92 read; existing selectedCIpin1.83 retainedfuturebuild. No API/test/schema-source/body/red yet; actualdoc/physical review future.",
+        "Actual logicalauthora44aa00/rootaf2b724 (logical6e37 before rootcompanionlink), only2MD; reviewercomplete374lineactual logical inspection no blocker/fullapproval awaitsphysical. Root exactproposal4 captured-application-plans-v1/fiveCREATE/fiveTables+fiveNULLindexes/full30/old20,13,7unchanged/29015payload/SHA bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50. IndependentPythonSQLite3.54framing/schema PASS; actualQt6.12/SQLite3.54 oldwriter-only consumer exact30/schemaNULL/presentCID0/rawMAX,parent/ExactBLOB/signedMIN PASS0warnings final-Werror. Sparse1,MAX-1(parent1),MAX(parentMAX-1) explicitlyINVALIDaggregatecount3/headMAX; onlySQLtypedfield/localparent representation, nevervalidfullhistory/exhaustion. No newAPI/codec/store/schema-source/fixture/test/red. Fullactualphysical/logicalreview next.",
+        "Published focused DRAFT PR39 at93136966f61a85f82e996d3e586500a4adbd8bcc actual logical1b204cbc (6e+rootcompanionlink only)/physical99bf45b4/probe evidence. Reviewer explicitly resumed ACTUAL full logical+physical review/independent SQL/framing/prefixes; author completedclean, waits gate. No absentapproval/newAPI/stub/test/featurebody; inherited ordinaryCI is not newplanproof.",
+        "Actual full CONTRACT-ONLY approvala2926ee integratedc61b990 forlogical1b204cbc/physical99bf45b4; independent314SQLcases217constraintrefusals/schema30/F29015/SHA/prefixes20,13,7 allpass/no blocker. Only THEN author explicitly authorized minimalnew sqlite_application_plans.hpp/.cpp immediate namedstubs+ConcreteAPIprecision+ownnote. No APIcandidateyet/no validationcodec/schema/storealgorithms/tests/fixtures authorized. Reviewerread-onlyAPIprepcompletedclean, waitsconcretecandidate. Root4uncommittedCMake/presetfiles newPlanflag/profile/library link existingBoost coreplan WITHOUT enablingGoogleTest; no configurebeforeactualstubsource exists. ActualAPI/config review precedes anynewtestfixtureauthoring.",
+        "Actual minimalAPIcandidate134c9f4 integrateddc3676b; header4634/stube989/logical3af256 preserveapprovedprefix+physical99bf. Nineimmediatenamedlogicstubs+inertcallerSessionctorONLY. Root5sharedbuild/workflowfiles newPlanprofile/library/BoostwithoutGoogleTest; existingSQLworkflowbodybyteidenticalmoduloprofilepath, pinnedexistingBoost1.83/headercheck added. Actualrootconfigure/74buildsteps0warnings/143inheritedPASS3.23s/no newmethodinvoked; actualAPI/configreviewpending. Authorcompletedclean. plan_fixture_author explicitlyassignedREADONLYpreparationcompleted/noeditsSQLtests, awaitsactualAPIapproval/isolatedtree. No newtestfixture/green/red/implementation authorizedyet.",
+        "Actual different API/stub/build approval4282cc4 integrated2836aac after full review of concrete f24ac08 artifacts. Reviewer independently built74steps0warnings/exact143registration/full143PASS3.25s and read actual root-observed officialSQL41488687802 f24 SUCCESS (Qt6.12/SQLite3.53.4/GNU13.3/pinnedBoost1.83/newCPP/library/old135+requiredgreen7,3,3,3). All11 f24 checksSUCCESS. This unlocks separately authored NEW tests/independent literalfixtures/oldwriter-onlygreen, not their approval or absentred/implementation. Root explicitly reassigns roles after actual integrated approval; existing stubs/approved contract/schema/config frozen pending separately reviewed changes.",
+        "After actual API approval integration, feature author explicitly resumed in existing015author tree (ONLY newQtfeaturefile+ownnote) and independent fixture author resumed in NEW task/STORAGETEST-015-fixtures/tree created from freshmain711 BEFORE edits, normalmergeeee1f61, clean. FixtureONLY newJSON/newoldwriter-onlyQtgreen/ownevidence; no futurefactory/codec/store oracle. Root owns registration/CI/sharedstate. Total70existingtrees/16absentrefs preserved. Both may compile/list; no newfeatureentrypoint until actual fullbaselineapproval+selectedofficialNEWgreen. Reviewer waits actual artifacts; no absentapproval.",
+        "Actual independent fixture author6c276fc integrated6b4a2a2: ONLY newJSON64eb8b4e/helpera8d63d6a/ownnote. Independent literalSQL/F29015/hash/prefix30/uint64strings/ExactFraction4201bits/11quotecells/sparseINVALID observations and actual OLDwriter-only hostQt6.12SQLite3.54 -Werror build/fourcompiledslots/6PASS0skip14ms/22isolatedconstraintrefusals. Initial manualmoc5/systemheaderwarnings/secondcontrolledwriter setup corrected and explicitly NOTfeature red. Different reviewer explicitly resumed ACTUAL fixture/helper-only review; featureauthor still writing29slotcandidate and must mergeactualJSON. Root harness2files+checkpoint/brief dirty/unconfigured pendingfeature source; no newplanentrypoint/oldred invoked, fullbaseline/officialNEWgreen/firstred remainrequired.",
+        "Independent fixture/helper-only approval 53c0f621 was integrated as dab24ab. It pins JSON64eb8b4e and helpera8d63d6a after independent derivation and a fresh old-writer-only -Werror build; exact four slots passed (6 total, no skips,13ms). Feature assertions and final root harness remain unreviewed. Coordinator found that the rollback draft only faulted after append returned; author added a disposable conditional trigger to fault during append after scalar staging, while keeping the whole-unit after-return proof. Exact mechanism validation and full review are pending; no new plan method has run.",
+        "Feature author 2771c9bb integrated as c1cde5b: 29 actual slots, source blob0f8e625f, with independent JSON/helper unchanged. Root complete Qt/CI harness builds in20 incremental steps with zero warnings. Exact173 registrations/29 compiled feature slots/four green slots verified without invocation. Root first inspected the144-test excluded-label selection to ensure zero feature names, then all144 inherited+approved newgreen passed3.51s. Tooling19/actionlint/project391/122/render/diff pass. Actual intra-append fault assertion added and raw trigger mechanism validated by author. Task now in_review; actual full test/config review, changed officialNEWgreen/build/discovery and first genuine red still pending. No new plan entrypoint/old red executed; implementation15 remains planned.",
+        "Actual full authored-baseline/harness approval 8b537cdb was integrated as bcd08e6. It pins feature0f8e625f, QtCMake1ef6dfcc and workflow4d8c5f8d; prior fixture/API/schema approvals remain applicable. Independent reviewer reproduced20 incremental build steps/zero warnings, exact173 registrations/29+4 compiled slots and inspected144-test green-only selection before144PASS3.57s. Tooling19 and static checks passed. Only the next selected official NEW fixture green/build/discovery is authorized, then the first explicit named-stub red. No feature entrypoint has run and no production behavior is approved.",
+        "After full8b537cdb/rootbcd08e6 approval, actual official41494786280 at clean approved aa6907b passed pinnedarchives/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/fresh82build/old135+requiredgreens/newgreen4(6PASS0skip39ms)/exact29 discovery; all11 same-head checksSUCCESS. ONLY THEN root FIRST29 feature red at SAME aa6907b,2026-11-02T17:52:55.646037Z exited8/all29 explicit markers (6 direct+23 typed wrappers)/all29 init+cleanupPASS/0skip/crash/setup failure/CTest0.57s. Raw original ae3e0e25 preserved, never repeat. Baseline done only; producer e989 remains nine explicit stubs, STORAGE-015 planned. Final metadata/CI/red review and future latest-head merge gates remain; full release stays incomplete."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "contract_authoring": "passed",
+        "contract_review": "passed",
+        "interface_authoring": "passed",
+        "interface_review": "passed",
+        "authored_tests": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "observed_red",
+        "platform_release": "not_run",
+        "official_interface_build": "passed",
+        "fixture_authoring": "passed",
+        "fixture_host_diagnostic": "passed",
+        "fixture_review": "passed",
+        "harness_build": "passed",
+        "test_review": "passed",
+        "native_build": "passed",
+        "diagnostic_environment": "passed",
+        "ci_harness": "passed",
+        "official_qt_environment": "passed",
+        "github_ci": "passed",
+        "existing_writer_acceptance": "passed"
+      },
+      "evidence": [
+        "docs/evidence/storagetest-015-author.md",
+        "docs/evidence/storagetest-015-probe.md",
+        "docs/evidence/storagetest-015-review.md",
+        "docs/evidence/storagetest-015-interface.md",
+        "docs/evidence/storagetest-015-ci.md",
+        "docs/evidence/storagetest-015-fixtures.md",
+        "docs/evidence/storagetest-015-handoff.md",
+        "docs/evidence/storagetest-015-red-ctest.txt"
+      ],
+      "review": {
+        "author": "/root/contribution_implementer (logical/API/feature tests); /root/plan_fixture_author (independent literal fixtures/old-writer green); /root (physical schema/shared build/CI)",
+        "reviewer": "/root/contribution_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual full8b537cdb/rootbcd08e6 approved frozen feature0f8/JSON64eb/helpera8d/header4634/stube989/logical3af/physical99bf/Qt1ef/workflow4d8 BEFORE official41494786280 at clean aa6907b (newgreen4→6PASS0skip39ms/exact29/build82/old135/pins/all11SUCCESS), THEN root FIRST29 explicit-stub red at SAME aa6907b,2026-11-02T17:52:55.646037Z, exit8/all29 init+cleanupPASS/0skip/crash/setup failure/0.57s. No production approval; final metadata/CI/red attribution and latest-head merge gates remain.",
+        "evidence": "docs/evidence/storagetest-015-review.md"
+      }
     },
     {
       "id": "STORAGE-015",
@@ -12000,6 +12052,16 @@
       "date": "2026-11-02T15:40:54.960662+00:00",
       "task": "STORAGE-014",
       "note": "Resumed coordination from verified integrated PR37, claimed contribution SQL implementation on dedicated branch; original reviewed/red baseline preserved."
+    },
+    {
+      "date": "2026-11-02T16:18:38.348209+00:00",
+      "task": "STORAGETEST-015",
+      "note": "Selected dependency-ready captured-plan SQLite baseline after verified integrated contribution persistence; initial stage contract/examples only."
+    },
+    {
+      "date": "2026-11-02T17:55:52.160459+00:00",
+      "task": "STORAGETEST-015",
+      "note": "Completed actual reviewed29-case baseline and first intended explicit-stub red after same-head selected official new diagnostics/build/discovery; no implementation or full-release claim."
     }
   ]
 }

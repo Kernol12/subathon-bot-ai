@@ -92,6 +92,15 @@ freshness.22 preserved cases pass with separate code review and pinned automatic
 and requests; the helper never evaluates rules/modifiers, validates real permission,
 applies current caps/effects, or persists state. Those remain API/accounting/writer gates.
 
+The [captured-plan SQLite contract](contracts/sqlite-application-plans-v1.md)
+has29 separately reviewed tests and an observed explicit-stub baseline after
+selected official fixture/build/discovery gates; [handoff](evidence/storagetest-015-handoff.md).
+Its codec/manifest/store remain unimplemented. The contract preserves full owned
+capture/valuation/provenance and exact rational values under caller-owned writer
+sessions; selected revision snapshots do not certify a complete history. STORAGE-015
+must implement the behavior, pass acceptance and obtain separate source review before any
+persistence capability is claimed.
+
 The [SQLite writer boundary](contracts/sqlite-writer-v1.md) implements owned queued
 transactions/private connections on the authoritative Qt command/state thread and
 separate actual read-only readers.22 unchanged reviewed cases plus3 independent

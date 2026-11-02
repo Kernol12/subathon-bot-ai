@@ -5,6 +5,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      run_plan_feature_tests:
+        description: Run the reviewed captured-plan feature baseline (intentionally red until STORAGE-015)
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -15,11 +20,25 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Install archive and Qt runtime dependencies
+      - name: Install archive, Qt runtime and pinned Boost headers
         run: |
           echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g
+          sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g libboost1.83-dev=1.83.0-2.1ubuntu3
+          dpkg-query -W libboost1.83-dev
+      - name: Verify the compiler's selected Boost header version
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          macros = subprocess.check_output(
+              ["c++", "-dM", "-E", "-x", "c++", "-include", "boost/version.hpp", "/dev/null"],
+              text=True,
+          )
+          expected = "#define BOOST_VERSION 108300"
+          if expected not in macros.splitlines():
+              raise SystemExit("Compiler did not select pinned Boost 1.83.0 headers")
+          print(expected)
+          PYTHON
       - name: Fetch and verify the selected official Qt 6.12.0 archives
         working-directory: ${{ runner.temp }}
         run: |
@@ -34,14 +53,17 @@ jobs:
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
       - name: Configure reviewed SQL suites
-        run: cmake --preset sqlite-contribution-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+        run: >-
+          cmake --preset sqlite-plan-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+          -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
+          -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build reviewed SQL suites
-        run: cmake --build --preset sqlite-contribution-debug
+        run: cmake --build --preset sqlite-plan-debug
       - name: Run the environment probe and list the writer baseline
         run: |
-          ctest --preset sqlite-contribution-debug -R '^scaffold.qt_event_loop$'
-          ctest --preset sqlite-contribution-debug -L sqlite-writer --show-only
-          ctest --preset sqlite-contribution-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
+          ctest --preset sqlite-plan-debug -R '^scaffold.qt_event_loop$'
+          ctest --preset sqlite-plan-debug -L sqlite-writer --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
           python3 - <<'PYTHON'
           import collections, json, os, subprocess
           from pathlib import Path
@@ -60,11 +82,11 @@ jobs:
           print(f"Discovered all {len(tests)} compiled writer cases; behavior not run")
           PYTHON
       - name: Run reviewed writer acceptance
-        run: ctest --preset sqlite-contribution-debug -L sqlite-writer
+        run: ctest --preset sqlite-plan-debug -L sqlite-writer
       - name: Check complete transaction-work registration
         run: |
-          ctest --preset sqlite-contribution-debug -L sqlite-work --show-only
-          ctest --preset sqlite-contribution-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
+          ctest --preset sqlite-plan-debug -L sqlite-work --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-work --show-only=json-v1 > "$RUNNER_TEMP/work-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -81,12 +103,12 @@ jobs:
           print(f"Discovered all {len(tests)} compiled transaction-work cases")
           PYTHON
       - name: Run reviewed transaction-work acceptance
-        run: ctest --preset sqlite-contribution-debug -L sqlite-work
+        run: ctest --preset sqlite-plan-debug -L sqlite-work
       - name: Run required selected-Qt migration diagnostic environment probe
         run: |
           python3 - <<'PYTHON'
           import subprocess
-          executable = "build/sqlite-contribution-debug/tests/qt/server_sqlite_migration_environment"
+          executable = "build/sqlite-plan-debug/tests/qt/server_sqlite_migration_environment"
           expected = {
               "fixedFunctionsUseExistingWriterAndUtf8()",
               "metadataProjectionHasExpectedNullIndexSql()",
@@ -101,11 +123,11 @@ jobs:
               raise SystemExit("Required diagnostic environment cases do not match compiled slots")
           print("Discovered all 7 required diagnostic environment cases")
           PYTHON
-          ctest --preset sqlite-contribution-debug -R '^scaffold.sqlite_migration_environment$' --verbose
+          ctest --preset sqlite-plan-debug -R '^scaffold.sqlite_migration_environment$' --verbose
       - name: Check complete migration catalog registration
         run: |
-          ctest --preset sqlite-contribution-debug -L sqlite-migrations --show-only
-          ctest --preset sqlite-contribution-debug -L sqlite-migrations --show-only=json-v1 > "$RUNNER_TEMP/migration-tests.json"
+          ctest --preset sqlite-plan-debug -L sqlite-migrations --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-migrations --show-only=json-v1 > "$RUNNER_TEMP/migration-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -122,12 +144,12 @@ jobs:
           print(f"Discovered all {len(tests)} compiled migration cases")
           PYTHON
       - name: Run reviewed migration catalog acceptance
-        run: ctest --preset sqlite-contribution-debug -L sqlite-migrations
+        run: ctest --preset sqlite-plan-debug -L sqlite-migrations
       - name: Check and run required retained-context fixture diagnostics
         run: |
           python3 - <<'PYTHON'
           import subprocess
-          executable = "build/sqlite-contribution-debug/tests/qt/server_sqlite_retained_context_environment"
+          executable = "build/sqlite-plan-debug/tests/qt/server_sqlite_retained_context_environment"
           expected = {
               "emptyNullAndOpaqueBindingsRemainDistinct()",
               "retentionMigrationShapeAndLinksUseExistingSql()",
@@ -138,11 +160,11 @@ jobs:
               raise SystemExit("Required retention fixture cases do not match compiled slots")
           print("Discovered all 3 required retention fixture cases")
           PYTHON
-          ctest --preset sqlite-contribution-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose
+          ctest --preset sqlite-plan-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose
       - name: Check complete retained-context registration
         run: |
-          ctest --preset sqlite-contribution-debug -L sqlite-retained --show-only
-          ctest --preset sqlite-contribution-debug -L sqlite-retained --show-only=json-v1 > "$RUNNER_TEMP/retained-tests.json"
+          ctest --preset sqlite-plan-debug -L sqlite-retained --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-retained --show-only=json-v1 > "$RUNNER_TEMP/retained-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -159,12 +181,12 @@ jobs:
           print(f"Discovered all {len(tests)} compiled retained-context cases")
           PYTHON
       - name: Run reviewed retained-context acceptance
-        run: ctest --preset sqlite-contribution-debug -L sqlite-retained
+        run: ctest --preset sqlite-plan-debug -L sqlite-retained
       - name: Check and run required receipt fixture diagnostics
         run: |
           python3 - <<'PYTHON'
           import subprocess
-          executable = "build/sqlite-contribution-debug/tests/qt/server_sqlite_receipts_environment"
+          executable = "build/sqlite-plan-debug/tests/qt/server_sqlite_receipts_environment"
           expected = {
               "receiptSchemaPrefixMatchesLiteralProjection()",
               "unsignedIdsAndSignedFieldsRemainExact()",
@@ -175,11 +197,11 @@ jobs:
               raise SystemExit("Required receipt fixture cases do not match compiled slots")
           print("Discovered all 3 required receipt fixture cases")
           PYTHON
-          ctest --preset sqlite-contribution-debug -R '^scaffold.sqlite_receipts_environment$' --verbose
+          ctest --preset sqlite-plan-debug -R '^scaffold.sqlite_receipts_environment$' --verbose
       - name: Check complete receipt acceptance registration
         run: |
-          ctest --preset sqlite-contribution-debug -L sqlite-receipt --show-only
-          ctest --preset sqlite-contribution-debug -L sqlite-receipt --show-only=json-v1 > "$RUNNER_TEMP/receipt-tests.json"
+          ctest --preset sqlite-plan-debug -L sqlite-receipt --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-receipt --show-only=json-v1 > "$RUNNER_TEMP/receipt-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -196,12 +218,12 @@ jobs:
           print(f"Discovered all {len(tests)} compiled receipt acceptance cases")
           PYTHON
       - name: Run reviewed identified-receipt acceptance
-        run: ctest --preset sqlite-contribution-debug -L sqlite-receipt
+        run: ctest --preset sqlite-plan-debug -L sqlite-receipt
       - name: Check and run required contribution fixture diagnostics
         run: |
           python3 - <<'PYTHON'
           import subprocess
-          executable = "build/sqlite-contribution-debug/tests/qt/server_sqlite_contributions_environment"
+          executable = "build/sqlite-plan-debug/tests/qt/server_sqlite_contributions_environment"
           expected = {
               "contributionSchemaPrefixMatchesLiteralProjection()",
               "unsignedContributionIdsAndNullableAssociationsStayDistinct()",
@@ -212,11 +234,11 @@ jobs:
               raise SystemExit("Required contribution fixture cases do not match compiled slots")
           print("Discovered all 3 required contribution fixture cases")
           PYTHON
-          ctest --preset sqlite-contribution-debug -R '^scaffold.sqlite_contributions_environment$' --verbose
+          ctest --preset sqlite-plan-debug -R '^scaffold.sqlite_contributions_environment$' --verbose
       - name: Check complete contribution acceptance registration
         run: |
-          ctest --preset sqlite-contribution-debug -L sqlite-contribution --show-only
-          ctest --preset sqlite-contribution-debug -L sqlite-contribution --show-only=json-v1 > "$RUNNER_TEMP/contribution-tests.json"
+          ctest --preset sqlite-plan-debug -L sqlite-contribution --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-contribution --show-only=json-v1 > "$RUNNER_TEMP/contribution-tests.json"
           python3 - <<'PYTHON'
           import json, os, subprocess
           from pathlib import Path
@@ -233,4 +255,43 @@ jobs:
           print(f"Discovered all {len(tests)} compiled contribution acceptance cases")
           PYTHON
       - name: Run reviewed contribution acceptance
-        run: ctest --preset sqlite-contribution-debug -L sqlite-contribution
+        run: ctest --preset sqlite-plan-debug -L sqlite-contribution
+      - name: Check and run required captured-plan fixture diagnostics
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-plan-debug/tests/qt/server_sqlite_application_plans_environment"
+          expected = {
+              "planSchemaPrefixMatchesLiteralProjection()",
+              "unsignedRevisionFieldsAndSparseHistoryStayExplicit()",
+              "exactValuationAndOrderedPayloadsKeepLiteralTypes()",
+              "planConstraintsRefuseInvalidPhysicalValues()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required captured-plan fixture cases do not match compiled slots")
+          print("Discovered all 4 required captured-plan fixture cases")
+          PYTHON
+          ctest --preset sqlite-plan-debug -R '^scaffold.sqlite_application_plans_environment$' --verbose
+      - name: Check complete captured-plan baseline registration without running behavior
+        run: |
+          ctest --preset sqlite-plan-debug -L sqlite-plan --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-plan --show-only=json-v1 > "$RUNNER_TEMP/plan-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "plan-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No captured-plan baseline registered")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one captured-plan Qt suite")
+          expected = set(subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines())
+          registered = [test["command"][1] + "()" for test in tests]
+          if not expected or set(registered) != expected or len(registered) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled captured-plan suite")
+          print(f"Discovered all {len(tests)} compiled captured-plan cases; behavior not run")
+          PYTHON
+      - name: Run explicit captured-plan feature baseline
+        if: github.event_name == 'workflow_dispatch' && inputs.run_plan_feature_tests
+        run: ctest --preset sqlite-plan-debug -L sqlite-plan
