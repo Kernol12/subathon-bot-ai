@@ -240,6 +240,7 @@ AFTER actual contract approval; constructor is inert. No such artifact exists he
 | read_state() | Optional current snapshot via actual head; zero head+zero snapshots→absent, missing/inconsistent metadata→failure. Return all its declared balances under bounds |
 | read_inputs(PlanKey,SubjectKind) | missing_plan/stale_plan/ready; actual full structural plan audit before stale classification; ready owns selected head body, current snapshot and current contribution projection. Explicit source classification remains a caller precondition |
 | lookup(OperationKey) | Optional complete RecordedBundle, own staged or earlier rows; strict full selected closure below. Absence performs no global orphan audit |
+| read_reversal_basis(OriginalComponent) — ADDED projection, pending API/extension review | ready/reversal_conflict with optional OWNED selected basis/current progress; uses the exact selected-source closure and per-basis metadata audit below, not full RecordedBundle/global payload loading. Missing actual basis is a typed failure, never invented credit0 |
 | stage(PreparedBundle) | staged/already_present/operation_conflict/subject_claimed/source_claimed/reversal_identity_conflict/stale_state/stale_contribution/stale_plan/state_token_conflict/stale_reversal/reversal_conflict/subject_unavailable. Every non-staged outcome makes NO own writes/cleanup; existing-result references/data remain provisional |
 
 Original-operation claim is tagged CID0..MAX or ReceiptId1..MAX according to explicit
@@ -311,6 +312,53 @@ Do not call its outcome a complete-application validation or repair/replay missi
 records. These scoped checks preserve the selected actual-credit bound and progress
 requirements above without silently turning source resolution into a global
 historical payload audit.
+
+### Added typed reversal-basis read — pending actual extension review
+
+Root explicitly authorizes this narrow additional projection for the minimal API;
+it was NOT retroactively included in approval4d7b98a2 of the earlier five-method
+contract. It avoids requiring a future caller to use private/raw SQL or fabricate
+expected progress. Earlier reviewed semantics/physical14SQL remain unchanged.
+
+Proposed const method `read_reversal_basis(ApplicationOriginalComponent)` returns
+`ApplicationReversalBasisResult`: ready has one owned basis; reversal_conflict has
+no basis and makes no own writes/cleanup. The locator is original OperationKey,
+positive signed request ordinal and credited component kind0/2/3, with no new ID.
+Pure priority is options, operation key→invalid_key, then ordinal/kind→invalid_reversal,
+BEFORE ticket access. No expected prior position is passed to this read.
+
+Ready contains the actual original locator/explicit stored SubjectKind/PlanKey,
+selected complete captured revision (including immutable receipt/CID/arrival/rate/
+selection/request provenance), selected complete ApplicationEffect/component set,
+actual nonnegative credited units, selected before Balance only for score/count,
+actual application-before token/configuration ref, optional actual contribution
+original ReceiptId and current progress. Original support ReceiptId need not equal
+event ReceiptId. This is DATA, not a complete original application/authority certificate.
+
+Current progress owns actual positive position/cumulative/fraction/full flag and
+last-occurrence key (current OperationKey/request ordinal PLUS original component).
+For an actually resolved valid basis with NO occurrences/head it returns position0,
+cumulative0,fraction0,fullfalse,no last. Missing locator uses missing_reference;
+known non-original operation kind uses source_mismatch. Corrupt/dangling selected
+stored closure, head without matching history, missing progress head with existing
+occurrences, noncanonical selected last fields or sparse MAX use the existing
+stored/reference failures and ACTUAL known rollback; no unknown source becomes a
+zero basis. A valid original but ineligible actual credited basis (negative amount,
+wrong arithmetic credit role or the unsupported debt-repayment allocation path)
+returns reversal_conflict after its declared selected-source checks; no policy is
+invented. The corresponding established stage basis/progress predicates are unchanged.
+
+Both actual progress-head FK paths must resolve the SAME selected last occurrence,
+original component/position/cumulative and its canonical fraction/full fields;
+per-basis structural history uses the existing64/65 metadata audit. Historical
+state/result is not compared with today's current state. No full original bundle
+or unselected sibling payloads are materialized/certified beyond the exact preceding
+selected-source table. Result vector/owned-byte bounds apply to ACTUALLY returned
+plan children/component set/optional target and owning key/Exact fields; they do
+not cap sibling/history metadata counts. Existing selected field bounds and writer
+cumulative budgets remain. The snapshot may become stale before another unit;
+stage rechecks actual progress/identity, not authority from this returned value.
+ALL results remain provisional under the borrowed session/caller commit protocol.
 
 ## Bounds, byte roles and failure priority
 
@@ -417,6 +465,7 @@ raw stdlib/SQLite can independently establish literal setup/oracles after approv
 | SB12 | corrupt/missing selected result, audit, declared sibling, claim, source or progress head fails without repair. Historical lookup after head/counter/contribution changes returns old snapshots, not a false comparison with today's state. Large history is audited in finite64-page queries with actual cumulative budgets |
 | SB13 | one captured refund request ordinal1 aggregates two original Main credits100 and50. Links to those distinct originals move cumulative0→20 and0→10; increments-20/-10 SUM to the immutable request-30. ONE current effect occurrence remains ordinal1 with TWO links; no adapter-generated request ordinal or synthetic plan revision. Stale/over-original relation on either link prevents the WHOLE bundle |
 | SB14 | actual original score100, immutable refund request-20, fraction1/5/prior0/new cumulative20/linkincrement-20: sole direct score component MUST be-20. Component-1000 is invalid even if after balance was adjusted by-1000 and every link field looks valid. This is local copied-amount conservation, not rerunning refund evaluation |
+| SB15 — added typed-read example, pending actual extension review | actual original Main credit100 with no progress→ready credit100/ms/original plan/receipt/CID provenance plus position0/cumulative0/fraction0/fullfalse/no last. After actual stored occurrence position1/cumulative20/fraction1/5, return those exact current fields and the complete last-occurrence key. Missing original is a typed reference failure, not ready credit0; missing unselected sibling fails metadata, while unselected body payload is not certified. No helper evaluation, whole-bundle materialization or authority follows |
 
 ## Compatibility and next gates
 

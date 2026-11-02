@@ -223,3 +223,125 @@ reviewer must inspect the ACTUAL replacement before approval; old4956 CI/diagnos
 cannot approve a future revision. All earlier ownership/release/next-stage gates
 remain, including explicit original actual-credit limits and no unknown debt
 allocation policy. No owner access/decision is needed for this clarification.
+
+## Minimal owned interface/stubs and authorized typed-read extension
+
+Actual DIFFERENT document approval
+`4d7b98a2ef6c92024879dbcde0f622a1036cb650`, integratedd62823c, accepted logicalcf462/
+physicalf13/evidenceb737. Root then explicitly authorized MINIMAL INTERFACE/STUBS
+only and supplied actual prerequisite
+`6ca2146e80c130bd3677797d28669f1bdf73830d`. This author normally merged it into
+clean eba8dc5 as `b00079fdfff7b63101c0f7370e2757bd80fc2211`, preserving all work.
+No old red/implementation or prior review was repeated.
+
+During drafting, the author identified a missing typed acquisition path for
+expected per-basis reversal progress. Root EXPLICITLY authorized adding a narrow
+read_reversal_basis projection NOW, with actual independent extension/API review
+before fixtures/tests. This is NOT retroactively covered by4d approval of the
+old five-method document. The earlier six-throw331/32 draft was uncommitted and
+uncompiled; the current artifacts include the authorized seventh throw.
+
+Exact current author paths are
+[sqlite_application_bundle.hpp](../../server/include/subathon/server/sqlite_application_bundle.hpp),
+[sqlite_application_bundle.cpp](../../server/src/sqlite_application_bundle.cpp),
+this appended evidence and the authorized additive logical method/bounds/priority/
+example extension. Root EXCLUSIVELY owns CMake/root+server+core/preset/workflow/
+target/pins/state/map/checkpoint. Physicalf13/all14SQL/F62465/c9ba98 remains frozen.
+All previous approved logical text/14SB rows are byte-preserved outside the THREE
+explicit extension insertions (method-table row, new typed-read subsection, SB15).
+
+| Current artifact | Git blob |
+| --- | --- |
+| Header,375 lines | `8e24f0624673bf88f86405651f9aabee1026a226` |
+| Source,36 lines | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
+| Logical with pending read extension | `2f6e9a8ea8aa76a979fe9d800c3bf69ffbee24b6` |
+| Unchanged physical | `f13fca6d11e57410a31a7d307a8b12eaa21a68f9` |
+
+The header supplies complete OWNED data/signatures for six store methods plus
+pure manifest: retain_initial_state/read_state/read_inputs/lookup/read_reversal_basis/
+stage and application_bundle_repository_manifest. It names all options/defaults,
+concrete input/storage errors, initialization/input/basis/staging dispositions and
+returned ownership/presence invariants. No DTO claims authority/durability, a complete
+job format, portable checkpoint or verified provider/financial semantics.
+
+Data retains explicit SubjectKind and optional CID0 versus absence, actual existing
+uint64/ReceiptId/ContributionState/RequestedUnit/Exact/TimerState/debt types, all three
+state snapshots, complete15-dimension historical contribution/applicationAfter,
+current ContributionRecord PLUS bounded immutable full support-anchor projection,
+ordered effects/components/jobs/transitions and MANY reversal bases per immutable
+request. Input link expected prior position/cumulative is distinct from recorded
+actual basis_position/previous_cumulative. No new numeric StateRevision/EffectId/JobId,
+codec/serialization algorithm or global source-closure certificate is introduced.
+No new equality operator is supplied: existing TimerState lacks operator==, and
+this baseline does not default-delete aggregate comparisons or alter core.
+
+ALL port returns remain transaction-visible/provisional, including reads/duplicates/
+claim data. InputResult.inputs is present exactly for ready. StageResult.existing
+is present exactly for already_present/subject_claimed/source_claimed and owns the
+validated FULL selected RecordedBundle; other outcomes carry no existing record,
+and new staged data can be read by same-session lookup. Conflicts still validate
+their selected stored closure before classification. No external wire/conflict or
+permission policy follows from this trusted internal result shape. Current unknown
+cannot become normal success because an old record was previously durable.
+
+Header comments freeze reduced method-specific preflight/absence and accepted
+stage pure/stored priority. read_inputs requires explicit known SubjectKind; an
+actual selected role/CID mismatch is source_mismatch, not retroactive pure failure.
+Positive count ceilings allow empty vectors; each relevant concrete vector reserves
+n+1, checked totals do not invent an aggregate vector capacity, and64/65 metadata
+never acquires a materialization/lifetime quota. Actual writer budgets and selected
+byte/type/Exact/error order remain obligations, not implemented by these stubs.
+
+### Added typed reversal-basis projection (PENDING actual extension review)
+
+The read takes typed original operation key/request ordinal/credited component kind.
+Options then key validation precede positive ordinal/known0/2/3 input validation,
+then actual ticket access. Ready result owns actual original locator/explicit
+stored subject/PlanKey, selected complete capture (actual receipt/CID/arrival/rate/
+rule/modifier/request provenance), complete selected effect/components, actual
+nonnegative credit/unit, optional counter before-target, application-before token/
+configuration ref, optional actual contribution original ReceiptId and current
+position/cumulative/fraction/full/complete last-occurrence identity. No broad
+RecordedBundle or unselected payload audit is added.
+
+Valid actual basis without occurrences/head yields position0/cumulative0/fraction0/
+fullfalse/no last; missing/corrupt actual sources use existing typed reference/stored
+failures and actual known rollback, NEVER an invented zero basis. Known non-original
+kind uses source_mismatch. Valid original but unsupported actual credited basis
+(negative amount, wrong arithmetic credit role, unresolved debt-repayment allocation)
+returns reversal_conflict with no basis/no own writes/cleanup. This is an explicit
+normal relation result, not financial permission or a new refund policy.
+
+Selected-source closure is EXACTLY the previously reviewed fixed+actual sibling
+metadata+selected effect/component/plan/source scope; per-basis64/65 structural
+progress checks both actual FK paths/position/cumulative and selected canonical
+last fraction/full. Result limits count ACTUALLY returned vectors/fields, never
+historical metadata row counts. A snapshot may stale before a later unit; stage
+rechecks actual progress. The separate SB15 example preserves the original14SB
+rows and shows actual100-credit initial0 progress, later20/1/5 progress, missing
+source failure, selected scope and no authority. Existing physicalDDL is unchanged.
+
+Source contains EXACTLY SEVEN immediate `SqliteApplicationBundleNotImplemented`
+throws: all six meaningful methods and pure manifest. Constructor ONLY captures
+revocable session/options. No validation/comparison/codec/manifest/DDL/SQL/source
+query/status patch/numeric evaluation/BEGIN/commit/adoption/destructor cleanup is
+implemented. Invalid input also reaches the marker; it asserts neither acceptance
+nor known rollback. Exception enum getters/owned DTO declarations are data interfaces.
+
+Actual checks at this stage:
+
+| Command/check | Observed result |
+| --- | --- |
+| `clang-format -i` and `clang-format --dry-run --Werror` on TWO new C++ files | PASS |
+| Python source/static assertion | EXACT7 immediate named bodies, inert session/options ctor, no SQL/transaction calls or new equality |
+| Python old/current byte preservation | Removing only the THREE authorized extension additions restores approved logicalcf462 EXACTLY; all14 previousSB rows and physicalf13/all14SQL unchanged |
+| `python3 tools/check_project.py` | PASS391 tasks/122 decisions/current HTML/links/presets |
+| `python3 tools/progress.py render --check` | Current root-owned snapshot |
+| `git diff --check` | PASS |
+
+NO C++ compilation, native/feature/init/stub entrypoint, new red, fixture/schema
+runtime, old native/red or live action ran. Root will integrate these ACTUAL committed
+files with its selected minimal target/profile, compile, then obtain DIFFERENT
+actual API/build/config AND added-read contract review before fixture/test authoring.
+No absent build/API/test verdict or first-red gate is inferred. Physical source/
+manifest/order and every wider release gate remain as previously recorded.
