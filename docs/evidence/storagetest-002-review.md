@@ -132,3 +132,95 @@ provider correlation and refund allocation across prior debt remain owning gates
 ACCT-004/STORAGE-002 consume this contract, not prerequisites creating a cycle.
 All seven integrations/three FX and full application/UI/platform/package/security/
 backup/recovery/live release requirements remain open and unchanged.
+
+## Actual typed-read extension / minimal API and build review
+
+2026-11-02: **APPROVE this actual additional contract projection, minimal owned
+API, immediate named stubs and build/config revision.** Normally merged root
+`848e76d7b4269391ff457e572cf9cafbe78cf313` into the clean review branch as
+`0465ea0f654ef359cd5f43a2d9b9219b8925456b`; its tree matches the supplied candidate.
+Source/config were frozen by root `79b69d437d12df5511f7e38fdc975eb7f0452e12`.
+The earlier approval above remains valid for its unchanged exact subsets.
+
+| Actually reviewed artifact | Git blob |
+| --- | --- |
+| `server/include/subathon/server/sqlite_application_bundle.hpp` | `8e24f0624673bf88f86405651f9aabee1026a226` |
+| `server/src/sqlite_application_bundle.cpp` | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
+| Concrete logical with separately reviewed typed read | `2f6e9a8ea8aa76a979fe9d800c3bf69ffbee24b6` |
+| Author evidence | `4f09e3b70f581113371ba53d10bedf2614fdcfc4` |
+| `CMakeLists.txt` | `1f25732eb1d6b114df21bd9327203dd2e551149f` |
+| `core/CMakeLists.txt` | `9fb0b58ba84fd081b34c59013c858120eb0fc42a` |
+| `server/CMakeLists.txt` | `23b740486282e1bf01c85e5845c1403795e3ac6d` |
+| `CMakePresets.json` | `70af89b3f04995224b1210baa53b6affacd71495` |
+| `.github/workflows/sqlite-writer.yml` | `a9835c8cded5d0568ad27dd6696cbe3271e5b402` |
+
+Read the complete375-line header/36-line source, actual logical extension/author
+and root CI evidence and all five config changes. There are exactly SEVEN immediate
+`SqliteApplicationBundleNotImplemented` bodies: manifest and six facade methods.
+The constructor only stores the existing revocable weak session and options;
+implicit copying/destruction transfers no owner or cleanup responsibility. There
+is no validation, codec, query, manifest/DDL, numeric or transaction implementation.
+
+The added `read_reversal_basis` and SB15 were NOT covered retroactively by the prior
+contract verdict. They now receive actual review: typed locator contains original
+operation/request position/credited kind0/2/3; ready owns selected complete capture,
+effect/component set, actual credit/target/provenance and progress with complete
+last-occurrence identity. Valid source without history gives exact zero progress;
+missing/corrupt source is a typed failure, not invented zero credit. Unsupported
+actual credit returns the declared conflict. It uses the explicitly reviewed
+selected-source closure and separate64/65 per-basis audit; unselected payloads,
+whole-operation arithmetic, policy and authority are not certified. Future stage
+rechecks actual progress. All results remain provisional under caller ownership.
+
+DTOs retain all three snapshots, current and historical complete contribution
+dimensions/application-after, bounded support provenance, full selected plan,
+ordered occurrences and MANY links per immutable request. Explicit subject/CID0
+versus absence, positive full-range receipt/revision fields, signed64 units/positions,
+known enum roles, presence invariants, positive option ceilings versus valid empty
+vectors, concrete vector n+1/total bounds and method preflight/absence/error priorities
+match the contract. Pure failure/healthy refusal versus actual whole-unit rollback/
+unknown semantics are obligations for later implementation, not behavior observed
+from these stubs. Existing Exact codec semantics remain unchanged.
+
+Independent byte comparisons confirm removing ONLY the new method row/subsection/
+SB15 restores approved logicalcf462 EXACTLY. Physicalf13/all14 SQL and old14 SB
+rows are unchanged; previous raw SQL/framing/arithmetic checks need no repeat.
+All old core/server headers/producers and tests/fixtures remain byte-identical.
+Workflow normalization replacing only `sqlite-bundle-debug` with `sqlite-plan-debug`
+reproduces its previous file exactly: old commands/guards/pins/permissions/job names
+are preserved. The new flag/profile/library compile existing selected dependencies;
+no new test registration or new feature call is introduced.
+
+Own actual commands in the isolated review tree:
+
+| Command | Outcome |
+| --- | --- |
+| `cmake --preset sqlite-bundle-debug` | PASS; GNU16.2.1/CMake4.4.5/Boost1.92.0/Python3.14.8 |
+| `cmake --build --preset sqlite-bundle-debug` | Fresh84 steps PASS, zero warnings; new source object and library actually built |
+| `ctest --preset sqlite-bundle-debug --show-only=json-v1` | Exactly173 OLD cases, zero new bundle registrations; inspected before execution |
+| `ctest --preset sqlite-bundle-debug` |173/173 PASS,4.48s;170 Qt summaries all0failed/0skipped/0blacklisted; actual Qt6.12.0/SQLite3.54.0 |
+| `clang-format --dry-run --Werror` on both new C++ files | PASS |
+| `/tmp/subathon-actionlint-1.7.12/actionlint .github/workflows/sqlite-writer.yml` | PASS |
+| `python3 tools/check_project.py`, `python3 tools/progress.py render --check`, `git diff --check` | PASS391/122/current HTML and consistency |
+
+Preserved scratch logs `/tmp/storagetest002-api-review-*` SHA256:
+
+| Suffix | SHA256 |
+| --- | --- |
+| `configure.log` | `763893e9ca897f016c8a3c66853509674229d32ff843bc36eebfe0b0fee641c7` |
+| `build.log` | `3576f43fd4b9bda7f762c2a38db1a6bea406b5f72f4d6a92ef1da89bca0146ff` |
+| `discovery.json` | `141fc7776727b5537ae564c9d6e6e91828b6379ec768496a5eb5d43e793bfd1a` |
+| `old173.log` | `b312cd9deae9ddbbe2ecd0ef69882c388f95624cd2ad806325f5ef7de115e0a9` |
+| `LastTest.log` | `98efc692ed789efec91a56b8b87380b535df2d2665d5b5d4f52c0c4495709248` |
+
+A read-only postprocessor initially searched for compact `SQLite3.54.0`; the actual
+banner contains `SQLite 3.54.0`. Corrected that parser without rerunning tests.
+No new bundle entrypoint, original red or additional native suite was invoked.
+Old173 proves existing stability and minimal compilation, not bundle acceptance.
+
+Actual selected official CI for this profile remains the coordinator's separately
+observed gate; this verdict does not presume a future head passed. Independent
+fixture/old-writer green and feature authoring/review, selected NEW-green/exact
+discovery and FIRST genuine missing-behavior red remain required. No feature-test
+baseline, source implementation, release capability, future CI or merge approval
+follows; all earlier unknown semantic/financial/platform/release gates remain.
