@@ -1,7 +1,10 @@
 # STORAGECONTRACT-001 — Internal application transaction bundle
 
 Module: Operations. Kind: contract. Specification v0.45 §3.4/§16, DB-01, NUM-01–04.
-Status/owner/dependencies: progress/state.json. Documentation-only future task.
+Status/owner/dependencies: progress/state.json. Reviewed documentation-only logical
+contract delivered; concrete API/schema/test baseline/implementation remain later
+gates. See [handoff](../evidence/storagecontract-001-handoff.md) and
+[actual review](../evidence/storagecontract-001-review.md).
 
 After STORAGE-015, define versioned internal row/port examples for the atomic
 application effect/state/job/operation-result/audit bundle, using retained receipt,
@@ -19,3 +22,13 @@ policy implementation or permission/rule evaluation. Do not finalize unknown fie
 from a conceptual record table. Identify remaining questions explicitly, preserve
 all release scope, obtain separate actual review and record appropriate documentation
 CI checks. No code, schema implementation or feature-red claim belongs to this task.
+
+
+## Initial documentation claim
+
+Claimed from actual accepted plan-persistence mainfba7590 after PR40. The author
+owns ONLY new docs/contracts/application-transaction-bundle-v1.md and own
+storagecontract-001-author.md; reviewer owns separate storagecontract-001-review.md.
+Root retains shared progress/HTML/map/architecture/brief/checkpoint integration.
+Use existing concrete types/contracts/ports as authority; no new code/schema source,
+test baseline/red or provider/public-wire/delivery/recovery capability is implied.

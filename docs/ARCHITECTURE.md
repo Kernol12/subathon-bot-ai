@@ -100,6 +100,13 @@ Qt acceptance; [handoff](evidence/storage-015-handoff.md). Caller commit/cleanup
 remain actual; semantic authority/evaluation, effects/jobs/full app transactions,
 provider valuation and operational/platform verification remain separate gates.
 
+The [application transaction bundle contract](contracts/application-transaction-bundle-v1.md)
+defines logical row/port obligations and21 reviewed examples, not a concrete API or
+repository implementation; [handoff](evidence/storagecontract-001-handoff.md).
+One caller owns commit/cleanup; active-session reads/duplicates are provisional,
+and known B08 rollback differs from unknown or later publication failure. Concrete
+state/job/wire/semantic gates and the real STORAGETEST-002 baseline remain required.
+
 The [SQLite writer boundary](contracts/sqlite-writer-v1.md) implements owned queued
 transactions/private connections on the authoritative Qt command/state thread and
 separate actual read-only readers.22 unchanged reviewed cases plus3 independent
