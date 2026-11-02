@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T23:06:46.975146+00:00",
-  "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt, contribution and captured-plan repository components have reviewed acceptance evidence. The application-bundle logical contract is reviewed; concrete bundle baseline/implementation, all integrations/FX/UI and operational/platform release scope remain incomplete.",
+  "updated_at": "2026-11-02T23:14:29.003760+00:00",
+  "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt, contribution and captured-plan components have reviewed acceptance evidence. The32-case application-bundle test baseline is independently reviewed and observed red against explicit stubs; its implementation, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -5083,8 +5083,8 @@
       "title": "Review and demonstrate red: application bundle repositories and storage integration",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_progress",
-      "owner": "Coordinator /root; actual full reviewer /root/contribution_reviewer completed; source author /root/plan_fixture_author completed",
+      "status": "done",
+      "owner": "Coordinator /root; feature author /root/plan_fixture_author; independent reviewer /root/contribution_reviewer",
       "depends_on": [
         "STORAGE-001",
         "STORAGE-015",
@@ -5097,7 +5097,7 @@
         "OPS-02"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-002.md",
-      "summary": "Define/review concrete bounded storage bundle API/physical closure, independently author/review real SQLite tests and observe genuine intended missing-behavior red. No production bundle implementation authorized before that gate.",
+      "summary": "32 independently reviewed real-SQL application-bundle cases compile and have an observed intended stub-red baseline after same-clean-head official fixture/discovery green. Production STORAGE-002 remains planned.",
       "notes": [
         "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Original migration/receipt/contribution/config/plan scope is retained as mandatory010\u2013015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite.",
@@ -5124,16 +5124,17 @@
         "Actualfullreviewrequests2focusedtestcorrections beforeapproval: cumulative1MiBbudgettestincorrectlyassumesfirst600knewlookupread-oncefits (contractmakesnofixedSQLcostpromise), replacefirstUUTlookupwithoneexplicitoldsession600kSELECTthenrequirenewlookupcumulativefailure/rollback; opaquehealthyheadsetupUPDATEtokenviolatesimmediatehead/balanceFKs, replacewithcompletefreshsnapshot+balancesinsertthenheadrepointretainingoldstart. SourceauthorEXPLICITLYresumedownCPP/MDonly, allassertions/foreignkeyenforcementpreserved. No newbody/entrypoint/red, no implementation; actualfullverdictpending.",
         "Actualsource87372b2 imported598a815/CPP682346f8/authorMD7aa86b5c implements3fullreviewcorrections; differentreviewerACTUALLYinspectedandconfirmedall3. Fullsource/harnessreadcomplete/6earlyfixesconfirmed/independent838/112/20-9-10weightsreproduced; no othermaterialfindings except4thcriticalactualcreditboundgap. SourceauthorEXPLICITLYresumedaddingcappedrequest600actualMain120/cap480 andfreshlocallyvalidrefund130 withentitlement120/residual-10: readbasisactual120, thennormalreversal_conflict/no-own-write/committablecaller. Same32slots/noAPI/fixturechanges. Current682notyetrebuilt; lastnativeproof646remainsvalidhistoricalonly. Finalsourcecompile/discovery/differentactualverdict/ownofficialgreen precedeFIRSTred.",
         "Finalboundedauthor0a655f93 clean imported6f1a23c: CPP4b60fcaa/authorMDcaac2022 addsactualcappedbasis120vsrequest600andlocallyvalidrefund130/entitlement120/residual-10/fullfalse. Refusalnormalreversal_conflict preservesobservedcallermarkerthroughactualCOMMIT; lateronlymarkerDELETEthenexacttypedbefore snapshot. Prior3actualfixesconfirmedbydifferentreviewer; fourthactualartifact/fullfinalverdictpending. Same32slots/currentharness91035/WF453f/7producerstubsrc83/physicalf13/JSONe8b/helperb0unchanged. Rootfreezesnewsource/metadata beforeFINALtargetcompile/discoveryONLY; currentfeaturebuildpartial untilactualnewartifactpass, no body/newentrypoint/red.",
-        "Actual full separate32-case/harness approval917092155253912b6dad18d281fd5fddd852872d clean imported306f134/reviewMD782c7323 accepts exactCPP4b60/authorMDcaac/QtCMake91035/WF453f atclean60a. All6preliminary+4fullfindingsresolved; own fresh28-step targeted build0warnings/32compiled/32enabled/global206/independent838-112-20-9-10/staticchecksPASS. Rootmatchingclean60a finalbuild3steps6.99s0warnings/exact32/old174unchanged PASS. No body/newAPI/red. Publishcompleteapprovedrevisionnow; observeITSOWNrequiredofficialnew5green+32guard/all11 beforeFIRST32missingbehaviorred. Implementationremainsplanned; stopafterPR42."
+        "Actual full separate32-case/harness approval917092155253912b6dad18d281fd5fddd852872d clean imported306f134/reviewMD782c7323 accepts exactCPP4b60/authorMDcaac/QtCMake91035/WF453f atclean60a. All6preliminary+4fullfindingsresolved; own fresh28-step targeted build0warnings/32compiled/32enabled/global206/independent838-112-20-9-10/staticchecksPASS. Rootmatchingclean60a finalbuild3steps6.99s0warnings/exact32/old174unchanged PASS. No body/newAPI/red. Publishcompleteapprovedrevisionnow; observeITSOWNrequiredofficialnew5green+32guard/all11 beforeFIRST32missingbehaviorred. Implementationremainsplanned; stopafterPR42.",
+        "Actualrequiredselectedofficial41542900598 at completeapprovedCLEAN90fa SUCCESS2026-11-02T23:07:25Z\u201323:08:45Z: fresh92/0warnings/GNU13.3/pinnedBoost1.83macro108300/checkedQt6.12archives/SQLite3.53.4/old164+oldgreens/NEWfiveguard+7PASS0FAIL0SKIP639ms/exact32compiledguard/all11SUCCESS. ONLYTHEN rootFIRST32newfeature execution atSAMECLEAN90fa starts2026-11-02T23:10:27.403781+00:00, exits8/CTest0.71s/0.722037wall; all32failEXACTnamedNotImplementedmessage, all32init+32cleanupPASS,0skip/blacklist/crash/setupfailure/warnings. RaworiginalpreservedSHA1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f; doNOTrepeat. STORAGETEST002doneTESTBASELINEonly/DB01partial/7productionstubsimmediate/STORAGE002planned. Finalcompletionmetadata/attributionreview/latestheadCI/discussions/rules/normalmergepending; stopafterPR42."
       ],
       "verification": {
         "concrete_contract": "passed",
         "api_review": "passed",
         "fixture_review": "passed",
         "test_review": "passed",
-        "intended_red": "not_run",
-        "github_ci": "partial",
-        "product_acceptance": "not_run",
+        "intended_red": "observed_red",
+        "github_ci": "passed",
+        "product_acceptance": "observed_red",
         "platform_release": "not_run",
         "contract_review": "passed",
         "api_contract_extension": "passed",
@@ -5150,7 +5151,11 @@
         "feature_native_build": "passed",
         "authored_tests": "passed",
         "feature_registration": "passed",
-        "existing_registration_preserved": "passed"
+        "existing_registration_preserved": "passed",
+        "baseline": "observed_red",
+        "official_pre_red_gate": "passed",
+        "ci_harness": "passed",
+        "official_qt_environment": "passed"
       },
       "evidence": [
         "docs/evidence/storagetest-002-handoff.md",
@@ -5158,13 +5163,14 @@
         "docs/evidence/storagetest-002-review.md",
         "docs/evidence/storagetest-002-ci.md",
         "docs/evidence/storagetest-002-fixture-author.md",
-        "docs/evidence/storagetest-002-test-author.md"
+        "docs/evidence/storagetest-002-test-author.md",
+        "docs/evidence/storagetest-002-red-ctest.txt"
       ],
       "review": {
         "author": "/root/plan_fixture_author (independent fixtures and feature tests); /root/contribution_implementer (contract/API); /root (shared schema/build/CI and focused compiler rename)",
         "reviewer": "/root/contribution_reviewer",
         "outcome": "approved",
-        "baseline": "Actual full test/harness approval917092155253912b6dad18d281fd5fddd852872d integrated306f134 accepts CPP4b60/authorMDcaac/QtCMake91035/WF453f at clean60a. Six preliminary and four full findings resolved. Root final target build3 steps/6.99s and reviewer fresh target28 steps both zero warnings; exact32 compiled/enabled cases,206 total/old174 preserved. Independent838/112/20-9-10 oracles reproduced. This is test-baseline approval only: official same-clean-approved-published-feature-head new-five green/32 discovery and FIRST actual red remain pending; no implementation or observed red is claimed.",
+        "baseline": "Actual full test/harness approval917092155253912b6dad18d281fd5fddd852872d/root306f134 accepts CPP4b60/authorcaac/CMake91035/WF453f at60a. Six preliminary/four full findings resolved; root/reviewer zero-warning builds and exact32/206 discovery. Official41542900598 at CLEAN90faea02ce0bdbff204d5eda4b9ea41b2e74d5c8 then passes fresh92/pins/Qt6.12SQLite3.53.4/requirednewfive7PASS0skip/exact32/all11. ONLY THEN FIRST32 actual named-stub red at SAME clean90fa,2026-11-02T23:10:27.403781+00:00, exit8/CTest0.71s/all32 init+cleanupPASS/0skip/crash/setup failure; rawSHA1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f. Baseline task done ONLY; final attribution/latest-publication CI/merge remain pending. No implementation approval.",
         "evidence": "docs/evidence/storagetest-002-review.md"
       }
     },
@@ -5196,7 +5202,8 @@
       "summary": "Persist lossless original money/rates and signed 64-bit credited values without implicit SQLite REAL conversion.",
       "notes": [
         "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Original migration/receipt/contribution/config/plan scope is retained as mandatory010\u2013015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite."
+        "Original migration/receipt/contribution/config/plan scope is retained as mandatory010\u2013015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite.",
+        "STORAGETEST-002 supplies real reviewed32-case/observed-red baseline, not implementation. Preserve exact CPP4b60/contract80f8/physicalf13/fixturee8b and originalfirstred90fa/SHA1e677. When explicitly resumed after baseline integration, implement this separately from integrated main, obtain actual source review/passing acceptance, and extend SQL workflow to run reviewed sqlite-bundle label unconditionally once stable; preserve mandatoryfive fixture diagnostics/32registration guard and alloldtests. Latest owner currently says finishPR42thenSTOP: no implementation claim or assignment now."
       ],
       "verification": {},
       "evidence": [],

@@ -304,3 +304,32 @@ Next publish this complete clean approved source/harness/evidence revision and
 observe ITS OWN official required NEW-five green plus exact32 compiled guard and
 all eleven latest checks BEFORE FIRST missing-behavior body/red. Earlier published
 bed9 checkpoint CI is not this future full-feature proof. No implementation yet.
+
+## Actual complete-head official NEW-green and FIRST intended red
+
+Official [41542900598](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41542900598)
+SUCCESS at complete approved CLEAN `90faea02ce0bdbff204d5eda4b9ea41b2e74d5c8`,
+2026-11-02T23:07:25Z–23:08:45Z: fresh92-step build/ZERO compiler warnings, GNU13.3,
+pinned Boost1.83/macro108300, checked official Qt6.12 archives, SQLite3.53.4, old164
+plus mandatory old diagnostics/Qt probe. NEW unconditional exactfive fixture guard
++7PASS/0FAIL/0SKIP/0blacklisted/639ms, then exact32 compiled-registration guard,
+intentional bodies not run. All11 latest checks SUCCESS at SAME90fa. Raw official
+log `local-evidence/storagetest002-feature-official-ci.txt` SHA256
+`b1bfe24345e344e3845be7c5461e7d80a2c8f397b93f0cfad896b0e96f80facc`.
+
+ONLY THEN root ran FIRST `ctest --preset sqlite-bundle-debug -L '^sqlite-bundle$'`
+at SAME CLEAN90fa, tree1ed459e3c61f059feed658fc3417db4db185c99e, UTC start
+2026-11-02T23:10:27.403781+00:00/end23:10:28.125807+00:00. Observed exit8, CTest0.71s,
+wall0.722037s. All32 bodies fail EXACT immediate named NotImplemented message;
+all32 initTestCase+32 cleanupTestCase PASS, zero skips/blacklists/warnings/crashes/
+setup failure. This is the genuine intended red after reviewed tests, compilation,
+exact discovery and required SAME-head official green; neither previous AutoMoc
+failure nor initial fixture trigger setup failure was counted as red.
+
+Original [raw first run](storagetest-002-red-ctest.txt), byte-exact copy, SHA256
+`1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f`. The raw run and
+meta remain local-evidence/storagetest002-first-red-{ctest.txt,meta.json}; original
+LastTest also preserved. DO NOT repeat this completed baseline. Seven source
+functions remain immediate stubs; no production implementation or passing bundle
+acceptance follows. Final attribution/completion/latest-head CI/normal merge gates
+remain before stopping after PR42.

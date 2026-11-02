@@ -175,3 +175,17 @@ records exact logs/hashes and prior build failures accurately. No feature body/n
 entrypoint/intended red has run. Publish complete clean approved revision; ITS OWN
 selected official required5-slot green/32guard/all11 must pass before FIRST32red.
 Then final attribution/completion/latest-head merge gates; stop after PR42.
+
+## Completed real test baseline; final PR gates remain
+
+STORAGETEST-002 is now DONE as test_baseline only. Actual full917 approval for4b60/
+91035/453f precedes OWN official41542900598 at complete CLEAN90fa (fresh92/pins/
+Qt6.12SQLite3.53.4/requirednewfive7PASS0skip639ms/exact32/all11). ONLY THEN FIRST32
+actual named-stub red ran at SAME90fa,2026-11-02T23:10:27.403781+00:00, exit8/CTest
+0.71s/all32setup+cleanupPASS/0skip/crash/setup failure. [Raw evidence](storagetest-002-red-ctest.txt)
+SHA1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f is preserved.
+No production behavior was implemented; source remains7immediate stubs, STORAGE-002
+planned and DB-01 partial. Original old baselines/valid reviews/source/fixtures are
+unchanged. Do not repeat first red. Final separate attribution/completion review,
+latest publication CI/discussions/rules/normal exact-head merge remain. Owner says
+finish existing PR42, then STOP; do not start dependency-ready implementation.
