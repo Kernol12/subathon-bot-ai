@@ -197,3 +197,146 @@ these actual artifacts with the existing selected Boost/Qt chain; different actu
 API/stub/precision/shared-build review precedes any test/fixture authorization.
 No absent API review, compiled selected-runtime result, first red or implementation
 approval is inferred from these syntax/document checks.
+
+## Feature-test author candidate (2026-11-02; execution gate still closed)
+
+The coordinator authorized test authoring only after actual API/config approval
+`4282cc453d653571917c972b805b3929b646d7b9`, integrated in `2836aac` and checkpointed
+in `eee1f61`. This author normally merged `eee1f61`, then the actual independent
+fixture integration `6b4a2a2` as local merge `c294ade`. The separately owned fixture
+commit is `6c276fca3d8763ad216c069c8ac97dd9ea7d2d01`. No production behavior is
+implemented by this candidate.
+
+Author scope is exactly NEW
+[sqlite_application_plans_tests.cpp](../../tests/qt/sqlite_application_plans_tests.cpp)
+and this appended note. The source supplies 29 focused Qt Test feature slots,
+plus ordinary init/cleanup. Root retains all registration, build, workflow,
+progress, HTML and checkpoint ownership. Independent fixture/environment files
+were consumed through the normal merge, never edited by this author.
+
+Frozen inputs remain unchanged:
+
+| Artifact | Actual Git blob |
+| --- | --- |
+| Reviewed logical/API contract | `3af256cdf82a4737c2fc71a67c88b8b332d6ba71` |
+| Reviewed physical contract | `99bf45b46f6c9d361b899fdb975dc2db51da4554` |
+| Minimal header | `4634d7b57dccc5c559f2ab05a968833b4b925feb` |
+| Nine immediate named stubs | `e989d70f5021a9285db0dbc79c32d1153b4e7700` |
+| Independent literal JSON | `64eb8b4e0d709bc34ab6d33a4860a62883f06c6b` |
+
+The JSON SHA256 is
+`9a603917d75019b3fe18c8dd6e7dbb05386d48f64b90ee340f5d2d66d21b968a`.
+Manifest4 remains 29015 payload bytes, SHA256
+`bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50`,
+with 30 cumulative schema objects and exact unchanged prefixes1/2/3.
+
+### Actual slot-to-contract matrix
+
+| Qt slot | Contract coverage |
+| --- | --- |
+| `revisionCodecMatchesIndependentFullRange` | SP01: six decimal STRING/hex literals, full0..MAX without QJson double |
+| `revisionCodecRejectsMalformedBuffers` | SP01: null/empty/7/9-byte/text-sized buffers, codec0 distinct from persisted positive domain |
+| `exactCodecMatchesCanonicalLiteralVectorsAndLargeValue` | SP07: independent integer/rational values, reduced2/4, negative/zero and fitting >4096-bit components |
+| `exactCodecRejectsInvalidAndOversizedComponents` | SP08: canonical grammar, gcd, positive denominator, zero0/1, per-component exact/over byte edges and error priority |
+| `manifestPreservesPrefixesAndMatchesLiteralPlanStep` | Independent literal four-step SQL/schema/support-start comparison; no generated expected manifest |
+| `initialRoundTripPreservesCompleteOwnedSnapshot` | SP02/07/12: complete owned initial, raw BLOB/INTEGER/NULL projection, CID0, uint32 schema and signed64 source/arrival extrema |
+| `revisionsAppendContiguouslyWithoutRewritingInitial` | SP02/11/13:1→2→3, immutable old rows/input snapshots despite later receipt attempts/current-state changes |
+| `quotesAndIndependentStatesRetainAllProvenanceAfterReopen` | SP09/10: missing/resolved/not-applicable snapshots, all11 quote scalars and all optional presence states, independent dimensions and reopen |
+| `orderedDuplicatesAndOpaqueBytesRemainExact` | SP07/11: embedded NUL/non-UTF8, duplicate ordered rules/modifiers/actions, raw operators/factor/explanation/components and signed requested extrema |
+| `initialDuplicateAndConflictKeepEarlierCallerWrites` | SP03: exact duplicate/different conflict before missing proposed targets, prior caller config survives real COMMIT |
+| `appendRefusalsDoNotWriteOrResolveProposedTargets` | SP03/13: missing/stale/expected0/revision/event refusals; every stable event member/optional presence, prior writes survive COMMIT |
+| `queuedExpectedHeadHasOneWinner` | SP04: two actual queued bodies expected1 produce appended2/stale with actual caller commits |
+| `fullFindCapsNeverBecomeAppendQuotas` | SP05/11: exact/one-over revision and total-child materialization, append beyond read cap, targeted scope |
+| `targetedMaxIsExactWhileAggregateSparseHistoryRefuses` | SP01/06: actual MAX/local parent BLOB8 and CID0/NULL; full/append reject globally sparse fixture as invalid, never fake exhaustion |
+| `targetedScopesDoNotCertifyUnselectedPayloads` | SP06/10/15: unread payload freedom; required anchor dependency/original-money metadata even when target absent; no global absent-header audit |
+| `selectedOriginalAndTypedTargetsAreRequired` | SP12: actual original/mismatch/missing/CID targets, typed cfg/context/known cfg, unequal known cfg, exact/+1 retained document bounds before mismatch |
+| `selectedContributionIdentityDoesNotRequireSupportReceiptOrCurrentState` | SP12: confirmation receipt2 may reference CID0 with support1; narrow physical identity projection, unselected state/anchor not certified |
+| `inputPreflightPriorityAndRepresentability` | SP10/15/17: options/count+1/vector maxima, role/audit/event/state/valuation/body priorities before session; caught inputs preserve committable caller unit |
+| `byteAndCollectionBoundsHaveExactEdges` | SP07/11/15: every field-to-bound role, all three vector input limits, exact byte/component edges and combined total |
+| `selectedMalformedScalarAndChildDataRollback` | SP01/10/15: actual SQL classes, numeric domain/enum/group/child shape with real prior writes and inside-catch independent lock probe |
+| `selectedExactSqlTypesGrammarAndBoundsStayDistinct` | SP08/15: SQL class vs fitting canonical corruption vs BLOB over-limit, exact selected categories and complete rollback |
+| `selectedHistoryAndOrdinalCorruptionRefuses` | SP05/06/11/15: head/chain/audit/key/ordinal corruption and malformed summary before read cap; required missing anchor |
+| `laterMetadataPagesCannotHideCorruptCapture` | SP10/14/15: bad65th capture dependency metadata before stale/read cap with explicit ample cumulative budgets and proved prior full staged plan |
+| `stagedRowsAndHeadRollbackWithCallerUnit` | SP14: actual+1 complete staged rows/head2, later caller SQL rollback; separate DURING-append child SQL fault after scalar preparation, synchronous port rollback and explicit fault-off retry |
+| `cumulativeResultsRollbackObservedWrites` | SP14/16: proved staged plan, first600000-byte value returned, second individually fitting value exhausts cumulative1MiB, rollback inside body |
+| `inertStoreAndStagedResultsNeedCallerCommit` | SP17: inert copy/destruction, external invisibility before caller COMMIT, real abandonment rollback owned by writer, not facade |
+| `foreignStaleTerminalAndOwnedLifetimes` | SP11/17: actual weak-session thread/phase/expiry, pure-input priority, fresh-session safety, owned results survive connection/input/row lifetimes |
+| `callerCommitAckLossRemainsUnknownWithPhysicalPlan` | SP17: real caller physical COMMIT acknowledgement loss, staged vs durable truth, no known port remap/no result/no replay/closed admission |
+| `cleanupAckLossOutranksSelectedFailure` | SP14/17: proved complete new staging, corrupt selected read, actual rollback acknowledgement loss outranks local reason, one body/no payload/no replay |
+
+### Fixture and observation boundaries
+
+`initTestCase` reads literal independent JSON and checks only its advertised shape.
+Each disposable-file setup uses the existing migration runner with those literal
+steps and raw original-receipt/retained/CID fixture SQL. Setup invokes no new plan
+manifest, codec or store method. First meaningful new UUT invocation is inside
+each actual slot. Named `SqliteApplicationPlansNotImplemented` is preserved in
+failure diagnostics, including cross-thread/queued callbacks. Compilation or
+setup failure is never relabelled an intended feature red.
+
+Expected uint64 bytes and Exact components come from independent decimal STRING/
+hex JSON or explicit literals. Arbitrary integer reference construction uses
+manual decimal digit accumulation and exact rational arithmetic; no double or
+new codec is used. Raw SQL fixture packing is explicit independent big-endian
+packing plus existing core rational numerator/denominator values, never a future
+plan serializer or generated expected manifest. DTO equality is supplemented by
+raw storage-class/hex/order/nullability assertions for critical fields.
+
+Every selected known-failure helper first proves an unrelated staged caller row,
+then probes independent `BEGIN IMMEDIATE`/`ROLLBACK` INSIDE the exception catch
+while the facade is alive. The late-page and uncertainty cases additionally prove
+complete staged plan rows. Whole-database snapshots catch leftover rows, children,
+head changes and loss of earlier caller work. Successful domain refusal cases
+instead actually commit prior caller rows. No inferred cleanup or terminal no-op
+is used as rollback proof.
+
+The midcall fault is explicitly disposable test DDL, not an accepted production
+catalog or a changed manifest. A trigger on request insertion for plan `rollback`,
+revision2 raises SQLite ABORT only when its scalar2 exists. Correct immediate FK
+ordering and the explicit same-input fault-off successful retry make the scalar-
+preparation/child-insertion location meaningful. The test demands the known
+`sql_failure`, inside-catch actual rollback, unchanged fault snapshot/head1, trigger
+removal restoring the original catalog, and explicit caller retry from head1.
+The earlier post-return SQL failure is retained as a distinct whole-unit proof.
+
+### Actual author checks and limits of this evidence
+
+Host: GCC16.2.1 (20260810), Qt6.12.0 Core/Sql/Test, Boost1.92 headers,
+clang-format23.1.4. The independent Python trigger probe used SQLite3.54.0.
+These host versions do not change root's selected/pinned official CI dependencies.
+
+| Actual command | Observed result |
+| --- | --- |
+| `clang-format -i tests/qt/sqlite_application_plans_tests.cpp` then `clang-format --dry-run --Werror tests/qt/sqlite_application_plans_tests.cpp` | Pass |
+| `/usr/lib/qt6/moc tests/qt/sqlite_application_plans_tests.cpp -o /tmp/storagetest015-author-moc/sqlite_application_plans_tests.moc` | Pass; explicitly Qt6 moc |
+| `python3 /tmp/storagetest015-author-compile.py` | Pass: the moc command plus strict syntax and object compilation,0diagnostics; no linking/execution |
+| `python3 /tmp/storagetest015-trigger-probe.py` | Pass: raw literal SQLite harness for exact trigger syntax/RAISE message, observed scalar2, ABORT leaves transaction active, explicit rollback restores1, fault-off retry commits scalar/request/head2 and removes trigger; no new plan API |
+| `python3 tools/check_project.py` | Pass391 task records/122 decisions/current HTML/links/presets |
+| `python3 tools/progress.py render --check` | Root-owned snapshot current |
+| `git diff --check` | Pass |
+
+The compile script invokes subprocess argv, avoiding shell interpolation. Its exact
+compiler base is `c++ -std=c++20 -fPIC -Wall -Wextra -Wpedantic -Wconversion
+-Wshadow -Iserver/include -Icore/include -I/tmp/storagetest015-author-moc`, plus
+`pkg-config --cflags Qt6Core Qt6Sql Qt6Test` with `-I` entries mapped to `-isystem`,
+and four quoted absolute fixture macros `SUBATHON_PLAN_VECTOR_PATH`,
+`SUBATHON_CONTRIBUTION_VECTOR_PATH`, `SUBATHON_RECEIPT_VECTOR_PATH`,
+`SUBATHON_RETAINED_VECTOR_PATH`. It runs once with `-fsyntax-only <source>` and once
+with `-c <source> -o /tmp/storagetest015-author-moc/sqlite_application_plans_tests.o`.
+No method/slot/init was invoked by these compiler checks.
+
+The independent raw trigger probe applies literal migrations1–4 in an in-memory
+file, seeds only its FK-local synthetic rows, enables actual foreign keys for the
+append/child operation, and checks the exact trigger error text before explicit
+rollback/retry. Its deliberately minimal source header is not claimed a valid
+complete application plan or a source/precommit proof. This diagnostic validates
+the fault MECHANISM only. The new facade's rollback behavior remains an unexecuted
+feature assertion requiring the later reviewed runtime baseline.
+
+No feature entrypoint, test/init body, old red, new red, new native feature suite
+or live action ran. No test approval, official selected-green result, feature red,
+implementation success or merge permission is inferred. Remaining gates belong to
+root: integrate actual candidate/shared registrations, full compile/discovery,
+different independent ACTUAL feature-test/fixture/config review, selected official
+new old-writer green, then authorized explicit named-stub feature red. Only that
+observed reviewed baseline can authorize STORAGE-015 implementation.
