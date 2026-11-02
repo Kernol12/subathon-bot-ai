@@ -168,3 +168,20 @@ APIapproval before isolatedfixtureassignment. Different contribution_reviewer wi
 receive this actual complete API/build/workflow commit; no absentapproval. Next
 actual review/fixes, THEN actualfixture/test/green authoring under separateownership.
 All production15/officialnewgreen/firstred/fullreleasegates remain open. No ownerask.
+
+## Actual API approval; test/fixture authoring unlocked
+
+Actual different API/stub/build verdict4282cc4 integrated2836aac approves exact
+f24 artifacts; reviewer independent74steps0warnings/exact143/full143PASS3.25s.
+Root-observed actual official SQL41488687802 atf24 SUCCESS: selectedarchivesOK,
+GNU13.3/Qt6.12SQLite3.53.4/pinnedBoost1.83header108300/new74build/allold135+
+requiredgreen7/3/3/3; all11 currentchecksSUCCESS. Reviewer read actual full log.
+[CI attribution](storagetest-015-ci.md). No new fixture/green/feature existed.
+
+Only after this integrated approval, root advances to separate test authoring
+(contribution_implementer existing015author tree; new Qt featurefile + own note)
+and independent literalfixture/old-writer green (plan_fixture_author NEW isolated
+015fixtures tree, exact paths assigned at handoff). Reviewer awaits actual authored
+artifacts before fulltest verdict. Root owns registration/sharedworkflow/state/map.
+No production algorithms, old reds or new plan body invocation authorized yet;
+successful compile/full actualtestreview/selectedofficialNEWgreen precede firstred.
