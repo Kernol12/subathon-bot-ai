@@ -1,7 +1,10 @@
 # STORAGECONTRACT-001 — Internal application transaction bundle
 
 Module: Operations. Kind: contract. Specification v0.45 §3.4/§16, DB-01, NUM-01–04.
-Status/owner/dependencies: progress/state.json. Documentation-only future task.
+Status/owner/dependencies: progress/state.json. Reviewed documentation-only logical
+contract delivered; concrete API/schema/test baseline/implementation remain later
+gates. See [handoff](../evidence/storagecontract-001-handoff.md) and
+[actual review](../evidence/storagecontract-001-review.md).
 
 After STORAGE-015, define versioned internal row/port examples for the atomic
 application effect/state/job/operation-result/audit bundle, using retained receipt,

@@ -323,3 +323,20 @@ label/text are removed; pins/old assertions/check name persist. [Source review](
 [CI](evidence/storage-015-ci.md), [handoff](evidence/storage-015-handoff.md).
 This is real synthetic SQLite component acceptance, not evaluator/permission,
 actual app effects/jobs/provider/recovery/UI/platform or full release verification.
+
+
+## Internal application-bundle logical contract
+
+STORAGECONTRACT-001 delivers a separately reviewed DOCUMENT contract with21
+literal AT01–21 oracles and independent Fraction/integer audit. The revision
+clarifies provisional same-unit lookup/duplicates/staged claims, B08 prior durable
+intake, unknown/no replay, exact Main/debt/refund provenance and body-precompletion
+versus later publication failure. [Contract](contracts/application-transaction-bundle-v1.md),
+[review](evidence/storagecontract-001-review.md), [handoff](evidence/storagecontract-001-handoff.md).
+
+No feature tests, interface/build harness, physical schema or red was authored here.
+STORAGETEST-002 must define/review concrete API/physical limits and independent
+real-SQL oracles, compile and observe its own intended missing behavior before
+implementation. Existing173/other child passes or logical examples cannot be
+aggregated into that red/feature claim. Documentation/link/progress/tooling checks
+and unchanged stable CI cover this document-only task; all release gates remain.

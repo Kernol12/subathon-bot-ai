@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T19:03:34.177955+00:00",
+  "updated_at": "2026-11-02T19:29:38.258641+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt and contribution repository components have reviewed acceptance evidence. Plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5030,7 +5030,7 @@
       "title": "Define internal application bundle row/port contract",
       "module": "Operations",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Coordinator /root; contract author /root/contribution_implementer; independent reviewer /root/contribution_reviewer",
       "depends_on": [
         "CONTRACT-002",
@@ -5046,22 +5046,36 @@
         "NUM-03"
       ],
       "brief": "docs/tasks/STORAGECONTRACT-001.md",
-      "summary": "Define internal atomic application effect/state/job/result/audit bundle before its real baseline, without depending on its future consumer ACCT-004.",
+      "summary": "Reviewed internal logical application-bundle row/port contract with21 independent literal examples: B08/uncertainty, one commit owner, provisional same-unit reads/duplicates/claims, exact cap/debt/refund provenance and explicit future gates. No C++/DDL/testbaseline/implementation delivered.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claimed from actual integrated main fba7590 after normal PR40 merge2026-11-02T18:57:20Z, final584 all11SUCCESS/source d154+final3dc9/zero threads/currentrules/normal exacthead; all10 postmain workflows SUCCESS including SQL41505406242. Dedicated task/STORAGECONTRACT-001-application-bundle created BEFORE claim edits. Documentation ONLY: new versioned internal application transaction bundle row/port examples + own author evidence; no code/schema implementation/API harness/test/red/runtime capability claim. Author exactpaths docs/contracts/application-transaction-bundle-v1.md and docs/evidence/storagecontract-001-author.md; reviewer only own storagecontract-001-review.md after actual candidate. Root owns state/HTML/map/sharedarchitecture/brief/checkpoint/integration. Depends existing CONTRACT-002/STORAGE-015/ACCT-003/CORE-005, never future consumers ACCT-004/STORAGE-002. Specify atomic effect/state/application/job/operation-result/audit, already-durable intake vs known application failure B08 pending/no partialsuccess, exact signed64/cap-limited actual effects/rounding-reversal provenance/fullrange existing IDs/typed source refs/uniqueness. Preserve actual core/ports and all release scope; do not finalize unknown fields/semantic namespaces/provider/wire/recovery/delivery/permission behavior from conceptual tables. Separate actual documentation review and relevant static/CI gates before done/merge. Fresh isolated author/reviewer assignments follow claim commit; prior work preserved.",
-        "Fresh storagecontract001-author/review branches/worktrees created clean at e53dc0d, then existing agents explicitly reassigned to NEW documentation-only roles. Actual agent list shows both running, prior fixture/correction role completed. Author only new versioned bundle Markdown+ownnote; reviewer initial read-only prep/actual future reviewMD only. Total75 existingtrees/16absent refs preserved. Root no native/remote watch commands; no code/DDL/API/test/red edit. Actual all10 postmainfba SUCCESS confirmed before claim. Open focused draft publication next; no absentcontract/review capability is inferred."
+        "Fresh storagecontract001-author/review branches/worktrees created clean at e53dc0d, then existing agents explicitly reassigned to NEW documentation-only roles. Actual agent list shows both running, prior fixture/correction role completed. Author only new versioned bundle Markdown+ownnote; reviewer initial read-only prep/actual future reviewMD only. Total75 existingtrees/16absent refs preserved. Root no native/remote watch commands; no code/DDL/API/test/red edit. Actual all10 postmainfba SUCCESS confirmed before claim. Open focused draft publication next; no absentcontract/review capability is inferred.",
+        "Focused DRAFT PR41 actually published03c610f93ca92bb1625f69b4916098f5a483881b, all11 inherited checks SUCCESS; this is not absentcontract approval. Reviewer READONLY prep completedclean e53 with material B08/one-commit-owner/debt-refund/unknown-state risks sent to author, no runtime/red. Author reports no blocking requirement conflict and is drafting only agreed logical rows/ports/examples, preserving unresolved semantic/job/snapshot/wire/recovery/delivery gates. Actual contract candidate not yet present/committed. Root closedPR39/40 descriptions reconciled actual merges/postmain outcomes; no prior work repeated.",
+        "Actual authora8bf8cf2 integrated4fd4a2e, only360-line contract02e7b70b and117-line ownevidence422ab1c1.20 literal AT01–AT20 examples, one actual caller commit owner, B08/unknown, scoped identity/claims/partial reversals/Main-debt/residual/currentcap and explicit unfinalized owning gates. Author tooling19/project391/122/render/diff and independent stdlib arithmetic PASS; root docs/link/progress checks pass. ACTUAL different full360line/20example review assigned; no absentverdict. Coordinator flagged possible active-session lookup vs prior-commit knowledge ambiguity for reviewer to assess; no source/schema/API/feature/red edit. Productacceptance staysnot_run, docs taskin_review only.",
+        "Actual full review of360lines/20oracles withheld approval pending two concrete durability clarifications: active borrowed-session lookup/duplicate/read-recorded cannot infer earlierCOMMIT from visible staged rows; internal provisional result data vs normal durable success must be explicit including sameunit claims/duplicates. AT18 must split body-exception-afterCOMMIT-beforefinish (committed accounting/no normal work payload) from later publication failure after normal completion (durable result/accounting remain, transport may fail, no reapply). Author resumed same2MD scope with AT21 sameunit oracle requested. Reviewer independently checked all20 arithmetic with Fraction/integer and docs/tooling19 PASS, no other blocker so far; actual revised doc/review stillpending, no native/red/codework.",
+        "Actual revised42dd/root11a resolves sameunit durability/AT18 timing and addsAT21; finalb972/root1a7 fixes both inference phrases. Different actual logical-only approval270a1d91 integrated7da0c7a pins contract3c8cbd86/evidence10b0864d, all21 independently Fraction/integer/control-flow checked; original20 numeric literals/18rows unchanged. No remaining logicalcontract blocker. Docs/project/render/diff/tooling19 pass, no code/DDL/API/test/native/red/runtime work. Documentation taskdone only; final completion-scope review and latest published-headCI/merge gates remain. ConcreteSTORAGETEST002/API/physical/limits/tests/actualred, laterimplementation, job/state/semantic/refundallocation/wire/recovery/provider/platform gates stillrequired."
       ],
       "verification": {
-        "contract_authoring": "not_run",
-        "contract_review": "not_run",
-        "documentation_checks": "not_run",
+        "contract_authoring": "passed",
+        "contract_review": "passed",
+        "documentation_checks": "passed",
         "github_ci": "not_run",
         "product_acceptance": "not_run",
         "platform_release": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "docs/evidence/storagecontract-001-author.md",
+        "docs/evidence/storagecontract-001-review.md",
+        "docs/evidence/storagecontract-001-handoff.md"
+      ],
+      "review": {
+        "author": "/root/contribution_implementer (logical contract/examples); /root (shared coordination metadata)",
+        "reviewer": "/root/contribution_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual logical DOCUMENT approval270a1d9175713334ee243b0bf53c6cafe7633b15/root7da0c7a accepts final3c8cbd869800f6aa4cd117016ef568f789d3ace9/evidence10b0864d after actual02e7/d8 findings/revisions.21 independentoracles/unchangedoriginal20numerics; provisional lookup/duplicates/claims/priorcommitpreconditions/AT21 and AT18 timing resolved. Actualdoc/tooling/arithmeticcheckspass. No C++/DDL/API/testbaseline/feature-red/runtime/implementation/futureCI/merge/fullrelease approval.",
+        "evidence": "docs/evidence/storagecontract-001-review.md"
+      }
     },
     {
       "id": "STORAGETEST-002",
@@ -12119,6 +12133,11 @@
       "date": "2026-11-02T19:00:30.244801+00:00",
       "task": "STORAGECONTRACT-001",
       "note": "Selected dependency-ready documentation-only internal atomic application bundle contract after integrated accepted plan persistence; dedicated branch before claim, no code/schema/test-red authorization."
+    },
+    {
+      "date": "2026-11-02T19:29:38.258641+00:00",
+      "task": "STORAGECONTRACT-001",
+      "note": "Completed actual reviewed logical-document contract/21oracles after resolving staged-visibility and publication-timing findings; no new code/schema/testbaseline/runtime capability, final metadata/latest-CI merge gates pending."
     }
   ]
 }
