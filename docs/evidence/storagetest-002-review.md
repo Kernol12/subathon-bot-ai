@@ -224,3 +224,97 @@ fixture/old-writer green and feature authoring/review, selected NEW-green/exact
 discovery and FIRST genuine missing-behavior red remain required. No feature-test
 baseline, source implementation, release capability, future CI or merge approval
 follows; all earlier unknown semantic/financial/platform/release gates remain.
+
+## Actual independent fixture/helper and harness review
+
+2026-11-02: **APPROVE the actual independent literals, old-writer foundation
+helper and its two-file harness below.** Normally merged complete root candidate
+`e2e290b548cf38bfb3ef4527b75dc3833ad0f7ef` as review merge
+`c134543e089eef6cf524ebfb9ed6494d54c2f4f7`. Author7375b327 and narrow setup-fix
+5b161be6 are integrated. Read the entire JSON,667-line helper, author evidence,
+changed harness and coordinator CI assessment. Earlier contract/API verdicts are
+preserved; their headers/source/physical and all old tests remain unchanged.
+
+| Actually reviewed artifact | Git blob |
+| --- | --- |
+| `tests/fixtures/sqlite_application_bundle_vectors.json` | `e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d` |
+| `tests/qt/sqlite_application_bundle_environment.cpp` | `b0a5c72f152f193370d6c39af526fba61d332fdb` |
+| `docs/evidence/storagetest-002-fixture-author.md` | `b5a22d25416015572f8381aa80bf60c4cd3c11af` |
+| `tests/qt/CMakeLists.txt` | `203db2f439add44c6fe20b6ce5152134aa61f572` |
+| `.github/workflows/sqlite-writer.yml` | `b9e1a49583e8e54800997215ba4e65ec58ee2b8c` |
+
+Final JSON SHA256 `aebff7061f91fdf7598b321963bae155c139ed1dc2d1705e3122268bed84c312`
+equals the exact earlier draft snapshot independently checked by this reviewer.
+`python3 /tmp/storage002-fixture-draft-review.py`, source SHA256
+`0207baa56a662bb8038a75cc3aecab21965b4dc02c1b3cd92459413c453a2433`, passed:
+manual14-table/22-NULL-index/full66 projection versus document SQL/frozen prefix30,
+F62465/c9ba98 full payload,56 typed setup statements/all six raw scenarios/all
+expected queries,28 feasible SQL refusals and10 SQL-admitted runtime obligations,
+conditional trigger's actual prepared predicate/exact error, uint64/signed64/
+canonical4201/4200-bit and Fraction arithmetic. It uses no future producer or
+author/root diagnostic as oracle. An initial hash guard caught authoring drift
+from38fa BEFORE running; then the actual aeb snapshot was pinned and checked.
+These completed raw checks were retained for byte-identical final JSON, not rerun.
+
+Checked source validity beyond FKs against actual old15 source/capture rules:
+positive plan quotes match their ACTUAL event money20/5/15/4 on receipts7/8/9/10,
+while CID0's original support receipt1/amount20 remains distinct. Original/support
+anchor, confirmation links, known-versus-arrival configuration, complete current/
+captured dimensions, typed groups and all11 historical-quote cells resolve under
+the stated storage scopes. SQLNULL uses actual nullness/typeof, not Invalid
+QVariant equality. ONE immutable refund request references TWO bases; per-basis
+positions/cumulative/head paths and direct-copy SB14 remain independent oracles.
+Sparse MAX/raw-boundary rows are explicitly INCOMPLETE/INVALID aggregate evidence.
+Supplied clock400→advanced0→after300 and opaque state/job formats certify no clock,
+authority, policy, delivery or complete application semantics.
+
+The initial d9 helper failed ONLY trigger setup before its application unit:
+the existing writer rejects ANY semicolon. The preserved coordinator first-run
+record is honestly setup failure, not a feature red. The b0 correction installs
+the SAME disposable compound trigger through its owned observer ONLY while the
+controlled writer is idle. Actual BEGIN/ROLLBACK and exact catalog row visibility
+on both connections prove instrumentation installation/removal. It changes no
+writer restriction, JSON/predicate or staged/rollback assertion. Fresh prior
+pending0, actual in-unit application1/effects/state with OLD head, outside pending0,
+real SQL abort, inside-catch lock acquisition/full typed snapshot, trigger removal
+and identical fault-off commit are all asserted. This proves raw/old-writer
+foundation reach and rollback, not future bundle-facade reach.
+
+Own actual commands (GNU16.2.1/CMake4.4.5/Boost1.92/Qt6.12.0,SQLite3.54.0):
+
+| Command/check | Outcome |
+| --- | --- |
+| `cmake --preset sqlite-bundle-debug` | PASS |
+| `cmake --build --preset sqlite-bundle-debug --target server_sqlite_application_bundle_environment` |4 compile/link steps PASS, zero warnings |
+| Built helper `-functions` | Exactly five slots listed below |
+| `ctest --preset sqlite-bundle-debug --show-only=json-v1` |174=exact prior173 plus this one driver; no feature case |
+| `ctest --preset sqlite-bundle-debug -R '^scaffold.sqlite_application_bundle_environment$' --verbose` |7PASS/0FAIL/0SKIP/0blacklisted,443ms; CTest0.45s |
+| Actual Ninja link command / `nm -C` | Only old writer project library; no new Store/manifest symbols |
+| Project391/122, current render, diff, actionlint and helper clang-format checks | PASS |
+
+Exact compiled slots are `bundleSchemaPrefixMatchesLiteralProjection`,
+`typedBundlePayloadsAndHistoricalProvenanceRemainExact`,
+`multipleOriginalBasesShareOneRequestAndHeads`,
+`bundleConstraintsAndRuntimeOnlyAdmissionsAreExplicit` and
+`conditionalMidstageFaultRollsBackPreparedUnit` (each `()`). Removing the15-line
+CMake addition restores the previous file exactly; workflow only appends18 lines
+with unconditional exact-five compiled discovery and required execution. All old
+commands/pins/guards/permissions/check names are preserved.
+
+Own `/tmp/storagetest002-fixture-review-*` logs SHA256:
+
+| Suffix | SHA256 |
+| --- | --- |
+| `configure.log` | `9b0b79c1777c96ff52f3958b5ee1d85523fb582cd5786698ed980d4f1c662e73` |
+| `build.log` | `ed07969bef561630a7d6782ad49ca1610606a604943c5659c51e27752e502e6b` |
+| `functions.log` | `c5d94e66cd638a4d8da0a78c3b07cfafc512ff734436c093fbf753ee89d61417` |
+| `discovery.json` | `57377aeb34efdde99bb3d97d322ccec352f9eeda77bb0d50aa87e3c6856b0ea7` |
+| `green.log` | `552c2c0e2b181b4dc6ede71fe6cacf26761c725a3a6f85b33428aac19c0355a6` |
+| `LastTest.log` | `746538cd957010fcd64bad0f46e2968f39f1ed2101f743310f1e2f94bf1d67f5` |
+
+No old173 replay, new bundle entrypoint, feature body, original red or live action
+ran. Selected official NEW-five green remains a separate coordinator-observed
+gate before feature authoring. Actual feature assertions/full baseline review,
+compiled exact discovery/environment ordering and FIRST genuine named-stub red
+remain required before STORAGE-002 production. This approves no absent test/source,
+future CI/head/merge or wider semantic/financial/platform/release capability.
