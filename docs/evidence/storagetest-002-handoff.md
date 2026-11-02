@@ -196,3 +196,20 @@ Original full review imported306 at23:05:39Z precedes official23:07:25–23:08:4
 SAMEclean90fa FIRST32red starts23:10:27.403781. Raw/source/tree/status all verified.
 No source or body rerun; final latest-head CI/discussions/rules/normal merge and
 postmerge reconciliation remain. Current98/82/16 clean/preserved; STOP afterPR42.
+
+## Actual normal merge and coordinator stop
+
+[PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42) normally merged exact
+final head2ccd767a6874151f7760b619a56f48033d57b9d0 at2026-11-02T23:27:00Z as
+main995e0fa683e58115094d8a4212c336191cff7241. All11 latest checks SUCCESS, including
+[final SQL41545089788](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41545089788).
+Actual ready/MERGEABLE/CLEAN/zero threads/effective26170263(requiredGHapprovals0)
+were rechecked; normal merge used exact-head guard, no bypass/force/delete. Local
+main fast-forwarded clean and is tree-identical to final PR. All10 postmain
+workflows SUCCESS, including [SQL41545518637](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41545518637).
+No open PR remains. Seven functions are still immediate stubs; baseline alone is
+complete/integrated, STORAGE-002 planned/unassigned and full product incomplete.
+Owner stopping instruction honoured: no next task or implementation started. All
+support branches/worktrees/reviews preserved; task agents complete, no native
+watch. Postmerge checkpoint is retained separately on checkpoint/PR42-stopped,
+with no new PR or direct main edit.
