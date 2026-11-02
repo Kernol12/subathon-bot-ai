@@ -4913,12 +4913,13 @@
         "Read-only prep complete: reviewer no existingcontract conflict/clean/no edits ornative; actualcandidateawaited. Authorproposes caller-owned activeSession stagedstore (like012), immutableheader/revisions/orderedchildren/expectedhead atomicappend; fullreadcap notappendquota. Separate targetedrevision DTO may prove selectedMAX diagnostic WITHOUTclaiming tiny sparse1..MAX historyvalid; aggregatefind/append must refusebrokenchain. Exact cpp_rational canonicalvalue (not rawinputspelling), independentstoragebounds notparser/finalizerbits; fullHistoricalValuation mandatory. OptionalCID0 canbelinkedconfirmation, no originalsupportRID==eventRID fiction. RootactualBoosthost1.92 read; existing selectedCIpin1.83 retainedfuturebuild. No API/test/schema-source/body/red yet; actualdoc/physical review future.",
         "Actual logicalauthora44aa00/rootaf2b724 (logical6e37 before rootcompanionlink), only2MD; reviewercomplete374lineactual logical inspection no blocker/fullapproval awaitsphysical. Root exactproposal4 captured-application-plans-v1/fiveCREATE/fiveTables+fiveNULLindexes/full30/old20,13,7unchanged/29015payload/SHA bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50. IndependentPythonSQLite3.54framing/schema PASS; actualQt6.12/SQLite3.54 oldwriter-only consumer exact30/schemaNULL/presentCID0/rawMAX,parent/ExactBLOB/signedMIN PASS0warnings final-Werror. Sparse1,MAX-1(parent1),MAX(parentMAX-1) explicitlyINVALIDaggregatecount3/headMAX; onlySQLtypedfield/localparent representation, nevervalidfullhistory/exhaustion. No newAPI/codec/store/schema-source/fixture/test/red. Fullactualphysical/logicalreview next.",
         "Published focused DRAFT PR39 at93136966f61a85f82e996d3e586500a4adbd8bcc actual logical1b204cbc (6e+rootcompanionlink only)/physical99bf45b4/probe evidence. Reviewer explicitly resumed ACTUAL full logical+physical review/independent SQL/framing/prefixes; author completedclean, waits gate. No absentapproval/newAPI/stub/test/featurebody; inherited ordinaryCI is not newplanproof.",
-        "Actual full CONTRACT-ONLY approvala2926ee integratedc61b990 forlogical1b204cbc/physical99bf45b4; independent314SQLcases217constraintrefusals/schema30/F29015/SHA/prefixes20,13,7 allpass/no blocker. Only THEN author explicitly authorized minimalnew sqlite_application_plans.hpp/.cpp immediate namedstubs+ConcreteAPIprecision+ownnote. No APIcandidateyet/no validationcodec/schema/storealgorithms/tests/fixtures authorized. Reviewerread-onlyAPIprepcompletedclean, waitsconcretecandidate. Root4uncommittedCMake/presetfiles newPlanflag/profile/library link existingBoost coreplan WITHOUT enablingGoogleTest; no configurebeforeactualstubsource exists. ActualAPI/config review precedes anynewtestfixtureauthoring."
+        "Actual full CONTRACT-ONLY approvala2926ee integratedc61b990 forlogical1b204cbc/physical99bf45b4; independent314SQLcases217constraintrefusals/schema30/F29015/SHA/prefixes20,13,7 allpass/no blocker. Only THEN author explicitly authorized minimalnew sqlite_application_plans.hpp/.cpp immediate namedstubs+ConcreteAPIprecision+ownnote. No APIcandidateyet/no validationcodec/schema/storealgorithms/tests/fixtures authorized. Reviewerread-onlyAPIprepcompletedclean, waitsconcretecandidate. Root4uncommittedCMake/presetfiles newPlanflag/profile/library link existingBoost coreplan WITHOUT enablingGoogleTest; no configurebeforeactualstubsource exists. ActualAPI/config review precedes anynewtestfixtureauthoring.",
+        "Actual minimalAPIcandidate134c9f4 integrateddc3676b; header4634/stube989/logical3af256 preserveapprovedprefix+physical99bf. Nineimmediatenamedlogicstubs+inertcallerSessionctorONLY. Root5sharedbuild/workflowfiles newPlanprofile/library/BoostwithoutGoogleTest; existingSQLworkflowbodybyteidenticalmoduloprofilepath, pinnedexistingBoost1.83/headercheck added. Actualrootconfigure/74buildsteps0warnings/143inheritedPASS3.23s/no newmethodinvoked; actualAPI/configreviewpending. Authorcompletedclean. plan_fixture_author explicitlyassignedREADONLYpreparationcompleted/noeditsSQLtests, awaitsactualAPIapproval/isolatedtree. No newtestfixture/green/red/implementation authorizedyet."
       ],
       "verification": {
         "contract_authoring": "passed",
         "contract_review": "passed",
-        "interface_authoring": "not_run",
+        "interface_authoring": "passed",
         "interface_review": "not_run",
         "authored_tests": "not_run",
         "baseline": "not_run",
@@ -4928,7 +4929,8 @@
       "evidence": [
         "docs/evidence/storagetest-015-author.md",
         "docs/evidence/storagetest-015-probe.md",
-        "docs/evidence/storagetest-015-review.md"
+        "docs/evidence/storagetest-015-review.md",
+        "docs/evidence/storagetest-015-interface.md"
       ],
       "review": null
     },

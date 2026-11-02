@@ -148,3 +148,23 @@ library subathon_sqlite_application_plans. They enable existing Boost/coreplan
 without enablingGoogleTest. Do not configure until actual stubfile exists; after
 actual build, different API/config review precedes new test/fixture authoring.
 No new plan feature or any old red has run.
+
+## Actual minimal interface build and API-review handoff
+
+Actual author134c9f4 integrateddc3676b: newheader4634/stube989/logical3af256,
+only inert Session/options ctor and NINE immediate namedlogicthrows, appended
+precision with explicit limits/errorpriority/selectedscopes/CIDidentityprojection/
+healthyrefusals/allocationtruth. Author completed clean; no methods invoked.
+Root owns5shared config paths (previous4CMake plus SQLworkflow) for newPlanprofile,
+existingBoost header/config pin, unchanged old automatic SQLbody modulo profilepath.
+Actual fresh configure/74buildsteps0warnings/full143 inheritedPASS3.23s; no newplan
+registration/body/red. [Exact integration evidence](storagetest-015-interface.md).
+
+Nov2 resume audit actual69existingtrees/16absentrefs preserved; root5configdirty,
+authornewfiles accounted then actualcommit/integration; no staleformeragentassumed.
+Actual PR39 published2b7bdcb all11SUCCESS was inherited proof only; maingitremote711.
+New plan_fixture_author completed READONLY prep/nofilesSQLtests and awaits actual
+APIapproval before isolatedfixtureassignment. Different contribution_reviewer will
+receive this actual complete API/build/workflow commit; no absentapproval. Next
+actual review/fixes, THEN actualfixture/test/green authoring under separateownership.
+All production15/officialnewgreen/firstred/fullreleasegates remain open. No ownerask.

@@ -145,6 +145,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-plan-debug",
+      "displayName": "17 \u00b7 Captured-plan SQLite baseline (draft)",
+      "inherits": "sqlite-contribution-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_PLAN_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -211,6 +219,10 @@
     {
       "name": "sqlite-contribution-debug",
       "configurePreset": "sqlite-contribution-debug"
+    },
+    {
+      "name": "sqlite-plan-debug",
+      "configurePreset": "sqlite-plan-debug"
     }
   ],
   "testPresets": [
@@ -367,6 +379,16 @@
     {
       "name": "sqlite-contribution-debug",
       "configurePreset": "sqlite-contribution-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-plan-debug",
+      "configurePreset": "sqlite-plan-debug",
       "output": {
         "outputOnFailure": true
       },
