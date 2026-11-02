@@ -25,8 +25,8 @@ after selected official41494786280. That completed red is never repeated.
 | Original stub-red output | `ae3e0e25956b16b0d3bc26065c71247263bca421` |
 
 No API, contract, fixture, baseline assertion, earlier producer or build/CI file
-was edited by this author. A separately reviewed baseline adapter correction is
-pending below; it cannot be inferred or silently incorporated here.
+was edited by this author. The baseline adapter correction recorded below was separately authored/reviewed
+and then normally integrated; this implementation author did not edit it.
 
 ## Implemented candidate behavior
 
@@ -113,19 +113,66 @@ Subsequent static source refinement reuses the configured component bound during
 prepared-write serialization, simplifies statement-capacity counting, and handles
 allocation while constructing mapped exceptions AFTER established rollback.
 Intermediate untested c784c9a was transient; fdc1496a compiled successfully in3 steps.
-Current candidate source is `9b0b01f1f6cc8862ed4abac80a43ab0b54211a47`, compiled
-successfully in another3 steps/0warnings; this later source has not yet run the
-feature/full suites. Exact attribution is preserved; earlier runs do not certify
-later source revisions.
+At the first candidate commit, source was
+`9b0b01f1f6cc8862ed4abac80a43ab0b54211a47`, compiled successfully in another3
+steps/0warnings but not yet runtime tested. Exact attribution is preserved; earlier
+runs did not certify that later source revision. The later passing checks below
+now certify the unchanged9b0 candidate against the explicitly revised baseline.
+
+## Reviewed correction and passing changed-source verification
+
+Actual separate correction `61f424243a428d2f7e96b7249ffe350f919a0ff7` received
+DIFFERENT actual approval `90eceb0c`; root integrated correction6d09bee and review
+`bddd8477bdf3e339d43b30cfb567a066c0f43c69`. This author read the actual
+[correction evidence](storage-015-null-baseline-correction.md) and
+[independent review](storage-015-null-baseline-review.md), then normally merged
+bddd847 into the clean implementation branch as
+`f581596bc9396dd946d3cbcea03290f1b0e8bfdd`. The implementation source remains
+`9b0b01f1f6cc8862ed4abac80a43ab0b54211a47`; reviewed revised feature baseline is
+`a805674e014c0c7ae325474460bc64d6b10de770`.
+
+Every original outside-slot byte and all original history/data/audit comparisons
+are preserved. The revised slot explicitly checks SQLtypeof NULL/INTEGER, raw
+initial isNull and exact later qint64(2), avoiding unsupported Invalid-QVariant
+comparison. Source/API/contracts/independent fixture/helper/red remain unchanged.
+This is a documented separate baseline defect correction, not a new stub red or
+an implementation-generated oracle. The original0f8/redae3 remain historical.
+
+Actual commands AFTER integration at clean f581596,2026-11-02T18:29Z:
+
+| Command | Observed outcome |
+| --- | --- |
+| `cmake --build --preset sqlite-plan-debug -j 4` | Incremental MOC/compile/link PASS,0warnings; source library unchanged |
+| `ctest --preset sqlite-plan-debug -L '^sqlite-plan$'` | All29 PASS,0skip,1.15s |
+| `ctest --preset sqlite-plan-debug` | All173 PASS,0skip,4.65s; includes all144 inherited/diagnostic cases |
+| `python3 tools/check_project.py` | PASS391 task records/122 decisions/current HTML/links/presets |
+| `python3 tools/progress.py render --check` | Root-owned snapshot current |
+| `clang-format --dry-run --Werror server/src/sqlite_application_plans.cpp` | PASS |
+| `git diff --check` | PASS |
+
+Actual runtime old-writer diagnostic within full173 reports Qt6.12.0/
+SQLite3.54.0; compiler GNU16.2.1, CMake4.4.5, selected host Boost1.92 headers.
+These host checks are separate from the later official pinned toolchain/automatic
+feature acceptance. No feature case was skipped, inverted or changed by this author.
+
+Preserved raw scratch logs:
+
+| File | SHA256 |
+| --- | --- |
+| `/tmp/storage015-corrected-targeted29-LastTest.log` | `0709cdcb384a192ac81402769c71a8fb6ccbf1bb6f04be6aef6acd4a66c54309` |
+| `/tmp/storage015-corrected-full173-LastTest.log` | `1c1e44aa771ed957ad58089109eebf8278d39a6d1f422fbe08e8ede9c34304bc` |
+
+Source commit7dd67bb is focused production/evidence; f581596 incorporates only
+coordinated external baseline/review/checkpoint changes via normal merge. The
+following author update is evidence-only. Implementation tree is clean on handoff.
 
 ## Remaining gates
 
-Await separately reviewed baseline adapter correction, normal integration without
-altering this author's scope, then changed-source targeted29/full173 reruns.
-Different actual implementation/config review, unconditional automatic feature CI
-promotion, latest-head selected official results/reviews/discussions/current rules
-and normal merge remain root gates. No passing29/full173, completed implementation,
-source approval, official acceptance or merge permission is claimed yet.
+Targeted29/full173 now PASS on the exact source/revised baseline above. Different
+actual implementation/config review, unconditional automatic feature CI promotion,
+latest-head selected official results/reviews/discussions/current rules and normal
+merge remain root gates. No independent source approval, official acceptance,
+completed coordination/merge or full release completion is claimed here.
 
 No evaluator, semantic namespace proof, permission engine, provider verification,
 actual effects/jobs/full application transaction, live action or full release
