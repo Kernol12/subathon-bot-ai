@@ -318,3 +318,120 @@ uncommitted final root harness. Complete actual baseline/harness review, success
 build, selected official NEW-green execution and first genuine new feature red
 remain required; production behavior/source/acceptance gates stay later. Earlier
 contract/API approvals and all release obligations remain preserved.
+
+## Actual complete feature baseline and harness review
+
+2026-11-02, contribution_reviewer. **APPROVED: actual authored baseline and
+final harness for the next selected official green and first missing-behavior
+red gates.** Reviewed root candidate `ebfe1c4deca996d85e676cc3ede89740b003b552`, including actual author
+`2771c9bb4ed1722882b114b7b6d79a4de8fbb9e2`, normally merged into the isolated
+review tree at `5942ca81a3fd9bc4f93ada6612f62e6f4cd4b2a5`.
+No blocking finding remains. This is test review, not a passing feature result
+or implementation authorization before the remaining gates.
+
+| Actual artifact | Git blob |
+| --- | --- |
+| Complete 2624-line feature source | `0f8e625ff7c238776602fd1be102959f8c43b073` |
+| Complete Qt CMake registration | `1ef6dfccf4e6bd4b369aa2886716eeb899a76811` |
+| Complete SQL workflow | `4d8c5f8d3a79d40233d7e7851b791535f2729d5b` |
+
+Header4634d7b, nine-throw stube989d70, logical3af256c, physical99bf45b,
+JSON64eb8b4 and helpera8d63d6 remain byte-identical to the exact full hashes in the
+earlier approvals. The fixture/helper verdict therefore remains applicable;
+its completed independent literal derivation was not repeated. Existing producer
+sources, earlier reviewed assertions and all old prefix fixtures remain intact.
+
+I read the entire feature source, its complete 29-slot/SP01–SP17 matrix,
+[author evidence](storagetest-015-author.md), exact raw trigger probe and final
+registration/workflow diffs. The actual assertions establish these useful oracles:
+
+- Literal full-range codecs and independent canonical Exact components, including
+  the true fitting large rational, complement real selected MAX BLOB8/local-parent
+  fields. Sparse history remains globally INVALID; full find/append reject its
+  count/head gap. A snapshot is never passed off as a complete one-element plan.
+- Complete captured DTO comparisons are supplemented by raw type/hex/NULL/order
+  observations. Stable event members, immutable old rows, ordered duplicates,
+  independent contribution dimensions and all eleven valuation cells retain
+  precision/presence through later revisions, input/current-state changes/reopen.
+- Existing initial conflict, missing/stale/expected0, revision conflict and every
+  event-member conflict precede proposed-target resolution; prior caller rows
+  actually commit after caught domain refusals. Queued expected1 writes require
+  exactly appended2/stale outcomes with real commits. Full-find count/total caps
+  cannot become append quotas; targeted lookup stays within its declared scope.
+- Typed receipt/config/context/known-config/CID targets include unequal known
+  configuration and confirmation-linked CID0. Deliberately corrupt unselected
+  contribution state/support anchor is not certified; selected identity corruption
+  still fails. Source limits precede mismatch and later attempts cannot replace
+  original receipt facts. Input priority and count/vector n+1 representability
+  precede session access; field roles have explicit one-over cases with positive
+  edge/combined-total/Exact cases.
+- Negative SQL seeds are feasible under disposable connection-local constraint
+  bypass, without changing production DDL. Selected class/group/enum/revision/
+  ordinal/canonical component faults and well-typed over-limit blobs have explicit
+  distinct categories. Malformed summary precedes read caps. Initial-anchor quote
+  money/dependency metadata is selected even for an absent target; unselected
+  payloads remain outside the targeted claim.
+- The 65th revision's dependent-request metadata fault is beyond the private
+  64-row page, with generous cumulative budgets and a proved prior staged plan.
+  It must fail before expected0 or tiny full-read caps can hide it. Known selected
+  failures first observe caller staging, then prove synchronous lock release via
+  independent BEGIN IMMEDIATE/ROLLBACK inside the catch while the facade lives.
+- Both rollback paths are retained. The first observes complete staged initial/
+  appended child rows and head2 before a later caller SQL fault. The second uses
+  disposable request2 INSERT fault DDL conditional on actual scalar2 existence,
+  requires exact sql_failure/inside-catch rollback, compares the complete fault
+  snapshot including prior caller work/head1, removes the trigger/restores catalog
+  and explicitly retries the same append from durable head1. The author's raw
+  SQLite3.54 probe validates that exact trigger mechanism, not new-facade behavior;
+  I read it and do not claim to have run the feature or observed its stage yet.
+- Two individually fitting 600000-byte results exhaust the unchanged cumulative
+  1MiB budget after actual plan staging. Inert destruction leaves caller writes
+  active; abandonment is finalized by the writer. Actual foreign/stale/terminal
+  capabilities and owned lifetimes retain writer truth. Commit/cleanup ack-loss
+  asserts one body, unknown/no result/no replay, closed admission, and independent
+  physical rows versus rollback snapshot as appropriate.
+
+Shared harness review independently confirms the preexisting workflow job body
+is an exact prefix and old Qt registrations an exact suffix. All old135 automatic
+SQL cases, required old diagnostics, pins, permissions and check name survive.
+New required green executes automatically with exact four compiled-slot discovery;
+feature discovery compares registrations with actual compiled functions without
+executing them. Intentional feature red is explicit workflow_dispatch input only,
+with no WILL_FAIL, skip, continue-on-error or failure inversion. Separate draft
+labels make the new feature baseline visible without calling green a product pass.
+
+Actual independent commands, all exit 0:
+
+```sh
+cmake --preset sqlite-plan-debug
+cmake --build --preset sqlite-plan-debug
+ctest --preset sqlite-plan-debug --show-only=json-v1
+ctest --preset sqlite-plan-debug -LE '^sqlite-plan$' --show-only=json-v1
+build/sqlite-plan-debug/tests/qt/server_sqlite_application_plans_acceptance -functions
+build/sqlite-plan-debug/tests/qt/server_sqlite_application_plans_environment -functions
+ctest --preset sqlite-plan-debug -LE '^sqlite-plan$'
+python3 -m unittest discover -s tests/tooling -v
+/tmp/subathon-actionlint-1.7.12/actionlint .github/workflows/sqlite-writer.yml
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+Host environment remains GNU16.2.1/CMake4.4.5/Qt6.12/Boost1.92. Actual incremental
+build is **20 steps, zero warnings**, including both new Qt executables. Exact
+registration is **173 = old143 + green1 + feature29**; compiled discovery matches
+all29/all4 slots. BEFORE executing I inspected the actual excluded-label JSON:
+**144 tests, zero feature names/commands, exactly old143 plus the new green**.
+Only that selection ran: **144 passed in3.57s**. Tooling19, actionlint, project391/
+122, current render and diff checks pass. Logs/registration/functions are scratch
+`/tmp/storagetest015-review-baseline-*`. No new plan entrypoint, feature/init body
+or historical red was invoked.
+
+Selected official NEW-green/build/discovery remains pending at the published
+baseline revision; earlier interface CI cannot certify it. Only after that gate
+may the coordinator run the first actual compiled feature baseline and verify
+that setup succeeded and failures originate the named new missing-behavior stub,
+not missing dependencies, registration, compilation or setup errors. Record the
+exact red revision/environment/oracles before STORAGE-015 implementation. Later
+passing feature acceptance and separate actual source review remain required;
+latest-head CI/discussions/rules/merge and full release gates are not preapproved.
