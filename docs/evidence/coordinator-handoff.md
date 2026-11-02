@@ -211,3 +211,18 @@ then actual latest official NEWgreen/build/discovery before FIRST genuine red.
 Root is committing the complete shared harness/checkpoint for this actual review;
 previous unconfigured-source warning is now historical, sources are integrated.
 No root build/test command remains running. Production source/stub unchanged.
+
+## Actual full baseline approval; next official NEW-green gate
+
+Actual full review8b537cdbe3f0d55d56034a013f6e4cbaebc7baee integratedbcd08e6,
+reviewMD b4ffde20. No blocker: feature0f8/Qt1ef/workflow4d8 and unchanged
+JSON64eb/helpera8d/API/schema all pinned. Reviewer actual20steps0warnings/exact173/
+compiled29+4/inspected144selection with NOfeature commands, THEN144PASS3.57s;
+tooling19/static checks pass. Entire source and exact trigger probe read. This
+approves the authored baseline/harness only, not production or an absent red.
+Root now publishes this approved checkpoint for actual selected official NEWgreen4/
+build/discovery. Observe the actual run/head/logs; earlier f24 interface CI is
+insufficient. Only AFTER that observed gate may FIRST compiled29 feature red run.
+No new plan entrypoint or old red has run. Root tree clean at publication; all
+current authors/reviewer completed clean, available for actual final metadata/CI/
+red review. Inspect actual processes/agents before inferring any active assignment.
