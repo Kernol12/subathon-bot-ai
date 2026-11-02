@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGECONTRACT-001 complete, final evidence/merge pending
+# Coordinator checkpoint — STORAGECONTRACT-001 reviewed, publication/merge pending
 
 Coordinator `/root`,2026-11-02. Continue full specification v0.45 under AGENTS.md/
 COORDINATOR_PROMPT.md. Earlier stop was honored, then revoked by explicit resume.
@@ -22,10 +22,12 @@ mainfba BEFORE claim e53dc0d45f31ce772fb1cb31833e62d08719490a.
 [PR41](https://github.com/Kernol12/subathon-bot-ai/pull/41) remains DRAFT. Last
 published head03c610f93ca92bb1625f69b4916098f5a483881b had all11 inherited checks
 SUCCESS; that is not final-document CI or new bundle behavior. Root integrated
-actual final contract review as7da0c7a and is now writing completion metadata only.
-Keep final contract3c8 bytes intact. Pending actual final scope/evidence review,
-publish resulting head/observe its OWN latest CI/threads/current rules/required
-approvals/mergeability, then normal exact-head merge. Never infer future CI.
+actual logical review7da0c7a and completed documentation metadata1f046de. Actual
+different final scope/evidence approval7fa92eac6a7b14fc7d2f117ed5db5b526e781557
+was integrated80ce017; reviewMD93ca1f3ff5cd1ff3967e9771b025e6b08f8fcf46. Keep
+final contract3c8 bytes intact. Publish resulting head/observe its OWN latest CI/
+threads/current rules/required approvals/mergeability, then normal exact-head merge.
+Never infer future CI.
 
 ## Actual author/review sequence and resolved findings
 
@@ -99,9 +101,9 @@ command remains running at checkpoint. Inspect actual statuses before reassignme
   local-evidence/worktrees/storagecontract001-author, cleanb9721ca8; owned ONLY
   contract+own evidence Markdown, no code/DDL/tests.
 - contribution_reviewer: task/STORAGECONTRACT-001-review,
-  local-evidence/worktrees/storagecontract001-review, clean270a1d91; owned ONLY new
-  storagecontract-001-review.md. Available for actual final scope/evidence metadata
-  review after root commits completion candidate.
+  local-evidence/worktrees/storagecontract001-review, clean7fa92eac; owned ONLY
+  storagecontract-001-review.md. Actual final metadata review completed; available
+  for explicit reassignment after this task integrates.
 - plan_fixture_author: prior storage015-null-baseline branch/tree, completed61f;
   no new assignment. Preserve actual reviewed SQLNULL correction.
 - Root owns sharedstate/HTML/map/architecture/teststrategy/brief/checkpoint/handoff/
@@ -110,9 +112,11 @@ command remains running at checkpoint. Inspect actual statuses before reassignme
 
 Last accounting91 registered =75 existing +16 absent/prunable refs, all preserved;
 no prune/reset/discard. Old source/baseline/nullfix branches/worktrees remain intact.
-Root about to commit completion metadata, then ask different ACTUAL final metadata/
-scope review. Integrate its verdict, publish one focused final head, observe all
-latest checks/discussions/current rules/required approvals/mergeability. Normal
+Actual final metadata/scope approval7fa92eac accepted exact1f046de with no
+blocker. It rechecked frozen3c8/10b/60ad, graph/links/DBpartial/all7+3 and
+391tasks/122decisions/currentHTML; no new native/red/tooling repeat. Root80ce017
+contains its verdict. Publish one focused final head, observe all latest checks/
+discussions/current rules/required approvals/mergeability. Normal
 exact-head merge only; refresh main/reconcile actual outcome and immediately select
 next ready task from integrated prerequisites. No routine owner approval needed.
 STORAGETEST-002 still must define actual API/physical closure/limits, independently
