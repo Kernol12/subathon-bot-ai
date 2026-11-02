@@ -59,7 +59,8 @@ provider proof; actual retained cfg/context/source targets still require resolut
 
 Both new trees now exist (69 existing total/16 absentrefs preserved); the old
 source14 assignments are completed and not running. New author is active on
-contract-only and different reviewer on read-only preparation. No API/test/feature
+contract-only; different reviewer completed read-only preparation clean with no
+existing-contract conflict and awaits the actual authored revision. No API/test/feature
 body or schema source has been authored yet.
 
 Next author reads
@@ -73,3 +74,28 @@ All seven integrations/three FX providers, application bundles/effects/jobs,
 semantic evaluation/permissions, backup/update/recovery/powerloss, both renderers/
 UI/locales/themes/packaging/platform/live/OBS remain mandatory and incomplete.
 No credential/supporter data/live chat/payment/deployment side effect authorized.
+
+## Current preparation findings (not absent-contract approval)
+
+Author proposes an inert active-Session value store like012, with caller-owned
+real transaction/commit/cleanup and explicit staged outcomes. Complete immutable
+header/revisions/ordered children and atomic expected-head append are under
+design. Full find materialization cap must not become append/history quota;
+bounded audit remains charged to actual existing writer budgets. Separate targeted
+revision DTO lookup could prove selected full-range MAX field using a diagnostic
+sparse fixture without certifying that fixture as a valid complete1..MAX history;
+full aggregate find/append must still refuse malformed chain. Actual document +
+root physical proposal/different review remain required.
+
+Reviewer prep confirms first1/parent/audit/stableEvent rules, all quote/rate/time
+fields, ordered duplicates/exclusions/requests and actualtyped references. Optional
+CID0 may name a confirmation: do not require contribution original-supportRID to
+equal plan eventRID. Exact is cpp_rational canonical VALUE, reduced numerator/
+positive denominator/zero0over1, not its input spelling. Existing512/256 decimal
+parser or4096bit finalizer policies are NOT persistence bounds. Unknown semantic
+reference/authorization namespaces must remain explicit upstream gates, no fakeFK.
+
+Root read actual host Boost header1.92.0; existing application-plan CI already
+pins Boost1.83.0-2.1ubuntu3 and verifies selected header/config. Future SQLplan
+build will need that existing selected dependency, not a new numeric library.
+No plan API/stub/fixture/test/schema source or new native/red execution exists.
