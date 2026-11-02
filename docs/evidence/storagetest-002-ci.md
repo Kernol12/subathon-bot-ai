@@ -67,3 +67,24 @@ recovery/provider/platform/release capability follows from this minimal build.
 The existing check name is preserved. No branch-protection/ruleset change is made;
 written latest-head CI/review/threads/approvals/mergeability gates still apply.
 All seven integrations/three FX and full release scope remain mandatory.
+
+## Actual frozen existing-suite execution
+
+Root froze these exact code/config bytes as
+`79b69d437d12df5511f7e38fdc975eb7f0452e12`, clean tree, then ran
+`ctest --preset sqlite-bundle-debug`: **173/173 PASS,4.51s**, actual exit0.
+All recorded Qt totals0fail/0skip/0blacklisted; existing diagnostic logs confirm
+Qt6.12.0/SQLite3.54.0 on hostGNU16.2.1. This remains old-suite stability, no new
+entrypoint/feature/red. Raw LastTest copied before any future run can overwrite it.
+
+First scratch postprocessor expected older CTest summary wording; it was corrected
+to the actual CTest4.4 `100% tests passed out of 173` plus exact173 individual
+Passed lines. This was read-only parsing, no test rerun, baseline change or red.
+
+| Preserved local evidence | SHA256 |
+| --- | --- |
+| `local-evidence/storagetest002-api-configure.txt` | `8b0af1ea03a16d9fdea862570954585d3e70100c1fdd5458bca76cfcf71c472f` |
+| `local-evidence/storagetest002-api-build.txt` | `a9d1b3e2522519c8fd19a6053c172ff4e94faecfd672aa51ded1f0c692de0fc0` |
+| `local-evidence/storagetest002-api-discovery.json` | `08b7fb3222fdab5d8f84fa7c186ef01f36b7ae317cd17673ab9fa51a869d07cc` |
+| `local-evidence/storagetest002-api-old173.txt` | `a0d061f246c79923f0b61fa37d4ebdaa5aba541a78546931438a78ad7ddb0c58` |
+| `local-evidence/storagetest002-api-old173-LastTest.log` | `6fbc4e2dde08c383abcef879f6f2ed65b70fbb751acfba3d212808dc9da3eef9` |
