@@ -502,3 +502,79 @@ red, then record the original32 failures and separately review final attribution
 completion metadata. Latest published-head CI/discussions/rules/normal merge gates
 remain. Production STORAGE-002 stays planned; owner scope is finish PR42 baseline
 then STOP, with all broader semantic/financial/platform/release gates preserved.
+
+## Actual final CI / original-red / completion attribution review
+
+2026-11-03, independent reviewer `/root/contribution_reviewer`, NEW isolated
+`task/STORAGETEST-002-final-review` tree at actual
+`1ff02d333c6e8d76e83a91fdf692f6b1cfc4e1cf`. **APPROVED the actual baseline
+completion and evidence attribution**, with publication/merge gates still open.
+Read all seven changed metadata/raw files since the approved published source
+head, the original409-line red record, and the coordinator's downloaded official
+log/run/status/gate/first-run metadata. No native test, feature body or old red ran
+for this review. Prior valid source/contract/API/fixture/full-test reviews remain.
+
+Verified actual root review import
+`306f1345ef01bc07ed3d37042d8c537ff48e2295` carries independent917 review blob
+`782c73237577499f381001aef12433e2a8ef5b3b` into the published head; its commit time
+is2026-11-02T23:05:39Z, before official execution. Support-review SHA ancestry need
+not be invented: the actual integrated document blob and root ancestry are checked.
+CPP4b60/CMake91035/WF453f/header8e24/stub83e9 and all fixtures/old source remain
+unchanged. The90fa→1ff diff has ONLY state/HTML/map/checkpoint/handoff/CI evidence
+and the original red record, with no executable/schema/workflow/assertion change.
+
+Actual official run [41542900598](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41542900598)
+completed SUCCESS at CLEAN approved
+`90faea02ce0bdbff204d5eda4b9ea41b2e74d5c8`,2026-11-02T23:07:25Z–23:08:45Z.
+Independently read its preserved primary log and cached head metadata: both archive
+hashes OK, GNU13.3.0, pinned Boost1.83/header108300/config, selected Qt6.12.0 /
+SQLite3.53.4, fresh92 build including actual feature object/link, zero compiler
+warnings, old164/required earlier diagnostics, NEW exactfive helper guard and
+7PASS/0FAIL/0SKIP/0blacklisted/639ms, then exact32 compiled-registration guard.
+Intentional feature bodies did not run in that workflow. All11 recorded same-head
+checks SUCCESS. Official log SHA256
+`b1bfe24345e344e3845be7c5461e7d80a2c8f397b93f0cfad896b0e96f80facc` matches.
+This is coordinator-invoked CI independently inspected from its actual evidence,
+not this reviewer's invocation or a claim for a later head.
+
+ONLY AFTER that completed gate, the original FIRST32 run at SAME CLEAN90fa starts
+2026-11-02T23:10:27.403781+00:00 and ends23:10:28.125807+00:00: actual exit8,
+CTest0.71s, measured wall0.722037s. Recorded clean-start tree
+`1ed459e3c61f059feed658fc3417db4db185c99e` equals the Git commit's actual tree.
+All32 unique failed case names exactly match the reviewed32 slots; every failure
+has the exact named-stub message. All32 initTestCase and32 cleanupTestCase PASS,
+with32 totals of2passed/1failed/0skipped/0blacklisted; no warning, crash or unexpected
+setup failure is present. Initial AutoMoc and helper-trigger setup defects remain
+historical compiler/instrumentation failures and were not called feature red.
+
+Committed [original first-run record](storagetest-002-red-ctest.txt), blob
+`b9cf17aed8a875a27f777e1d2de301d1c66a1c37`, is byte-identical to the preserved
+local original; SHA256
+`1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f` matches.
+Original run metadata/LastTest remain preserved. This review parsed that evidence;
+it did not repeat the completed red or infer passing application behavior.
+
+State correctly completes ONLY `STORAGETEST-002` of kind `test_baseline` with
+reviewed/observed-red verification. `STORAGE-002` remains planned/Unassigned with
+no implementation verification and an explicit future automatic-acceptance CI
+obligation when resumed. Seven new functions remain immediate stubs. DB-01 remains
+partial; map/evidence links and generated HTML agree. Full seven integrations /
+three FX and semantic/authority/state/job/delivery/refund-allocation/recovery/UI/
+platform/package/security/live requirements stay incomplete. No full-release or
+future consumer capability follows from this baseline. Owner instruction remains
+finish existing PR42, reconcile and STOP, without starting implementation.
+
+Own meaningful checks: direct Git blob/diff/import/metadata comparisons, literal
+red-name/message/count/hash and chronology assertions; `python3 tools/check_project.py`
+PASS391/122; `python3 tools/progress.py render --check` current; `git diff --check`
+PASS. Actual worktree inventory is98 registered/82 existing/16 absent, all preserved;
+the1ff checkpoint's97 count predates creation of this final-review tree. Coordinator
+updates current final-role/inventory bookkeeping with this handoff; no cleanup or
+pruning is authorized or needed. Existing compiler/runtime/tooling proof was not
+replayed for metadata-only changes.
+
+Remaining gates: publish the final reviewed metadata/evidence head, observe ITS OWN
+latest required CI, recheck current discussions/rules/required GitHub approvals/
+mergeability and perform only eligible normal exact-head merge; refresh main and
+reconcile actual merge/postmerge results, then STOP. The90fa CI success does not
+preapprove subsequent head CI, future metadata, merge or implementation.
