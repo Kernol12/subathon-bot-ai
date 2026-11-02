@@ -93,3 +93,15 @@ integrations/three FX providers, backup/update/recovery/power-loss, renderers/UI
 locales/themes/packaging/platform/live/OBS remain required and incomplete. No live
 credential/supporter/chat/payment/deployment action occurred. State/HTML record
 baseline completion only. [Coordinator checkpoint](coordinator-handoff.md).
+
+
+## Actual merge outcome
+
+PR39 normally merged at a7a1844d3f20495e4edcf179a4a48caf22a1123b,
+2026-11-02T18:07:39Z, exact finald8/all11SUCCESS. Actual full8b and final3dec
+reviews, readyMERGEABLECLEAN, zero discussions, current requiredGHapprovals0/rules
+were checked. No force/admin/bypass. Root main refreshed clean; its tree equals
+final reviewed d8. Postmerge nine workflows are observed SUCCESS; SQL41497596911
+is still building, explicitly not yet passed. Separate STORAGE-015 is now claimed
+from that integrated main; no baseline/red is repeated. Later checkpoint records
+actual remaining postmain result and production gates.

@@ -61,3 +61,15 @@ contract/examples; root owns additive migration4/order/shared integration. Exist
 core firstrevision1/contiguous history and all actual HistoricalValuation rate/
 source/time/manual provenance stay authoritative. Separate actual contract/API/
 test reviews and a genuine compiled missing-behavior red precede production.
+
+
+## Production claim after integrated baseline
+
+STORAGE-015 is claimed from actual PR39/maina7a1844 after full8b/final3dec review,
+same-head official NEWgreen and original29 explicit-stub red. Only new source
+body server/src/sqlite_application_plans.cpp and own implementation evidence are
+delegated; root retains shared build/CI/state/schema ordering. Fresh isolated
+implementation/review worktrees are required. Preserve every reviewed assertion,
+fixture, contract and header; no behavior change or new dependency is implied.
+Passing29/full173, separate actual source/config review and observed automatic
+selected official acceptance are required before implementation done/merge.

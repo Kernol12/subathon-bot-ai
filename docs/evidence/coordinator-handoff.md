@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-015 baseline complete, merge pending
+# Coordinator checkpoint — STORAGE-015 production claim
 
 Coordinator `/root`,2026-11-02. Continue the full specification v0.45 under
 AGENTS.md/COORDINATOR_PROMPT.md. Earlier stop was honored and then revoked by
@@ -152,3 +152,28 @@ evaluator behavior, full application bundles/effects/jobs, backup/update/recover
 power-loss, both renderers, UI/locales/themes/packaging/platform/live/OBS remain
 mandatory and incomplete. No live chat/payment/deployment/credential operation is
 in scope. DB-01 stays partial. Baseline completion is not full product completion.
+
+
+## Actual PR39 merge and new production claim (latest state)
+
+Actual normal PR39 merge a7a1844d3f20495e4edcf179a4a48caf22a1123b,
+2026-11-02T18:07:39Z. Exact finald8 all11SUCCESS, actualfull8b/final3dec reviews,
+currentrules0formalapprovals/zero threads/readyMERGEABLECLEAN; no bypass. Localmain
+ff refreshed clean, byte-identical tree to finald8. Postmain9/10 observedSUCCESS;
+SQL41497596911 still BUILDING, remote watch session15013 needs inspection, no root
+native command. Do not assume success. Previous pending-merge sections are historical.
+
+Root created task/STORAGE-015-captured-plan-store from actual fresh maina7 BEFORE
+claim edits. All dependencies including baseline15 are done/integrated. Source15
+now in_progress, scope ONLY new sqlite_application_plans.cpp body plus author's
+new storage-015-implementation.md. Fresh author/reviewer worktrees/branches are
+next; existing storagetest trees remain completed/preserved. Actual agent reassign
+messages must follow claim commit; do not infer already running. Reviewer owns new
+storage-015-code-review.md only. Root owns CI promotion/sharedmetadata/config.
+
+Use existing full8b/final3dec/official41494786280/first29 aa-red evidence; DO NOT
+repeat completed red or test authoring. Preserve all frozen API/contract/test/
+fixture/old source artifacts. New29 and relevant full173 must pass after actual
+implementation, with separate source/config review and automaticCI promotion.
+No source algorithm edit has started at claim. No owner decision/access needed;
+all full-release/semantic/app/provider/recovery/UI/platform gates remain open.
