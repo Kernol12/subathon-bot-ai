@@ -236,3 +236,85 @@ missing-behavior red remain required before STORAGE-015. No previous red was
 repeated, no old assertion/source/fixture weakened, and no unprovided test or
 implementation is approved. Latest-head CI, discussions, rules and publication
 remain coordinator gates. The earlier full-release limitations remain unchanged.
+
+## Actual fixture and old-writer diagnostic review
+
+2026-11-02, contribution_reviewer. **APPROVED: actual fixture/helper only.**
+Reviewed author `6c276fca3d8763ad216c069c8ac97dd9ea7d2d01`, integrated root
+`6b4a2a2` and normally merged into this tree at
+`bed2b3af412173b1e7905ff3df7e0023b48e4295`. No blocking finding remains in:
+
+| Actual artifact | Git blob |
+| --- | --- |
+| sqlite_application_plans_vectors.json | `64eb8b4e0d709bc34ab6d33a4860a62883f06c6b` |
+| sqlite_application_plans_environment.cpp | `a8d63d6a220992fcb71273d89a3aa32609870051` |
+
+Read the complete 681-line helper, literal JSON and
+[author derivation/run evidence](storagetest-015-fixtures.md). The helper includes
+only existing sqlite_writer.hpp and links no new plan library. All old producer
+source, schemas, assertions and prefix fixtures remain unchanged. No feature
+assertions or final registration/workflow changes are in this scoped candidate.
+
+Independent command: `python3 /tmp/storagetest015-fixture-review.py`, exit 0.
+Scratch script SHA256:
+`77a3b4e863f68c2592b489332a8a005a147b1ad6aaebc0266b94a36d4a6f28f1`.
+I derived expected SQL from the actual approved physical document, expected new
+object names/NULL indexes from its five tables, and old objects from the immutable
+prefix fixtures. Independent F framing, hashlib, stdlib SQLite and Fraction used
+no new product producer or root/author expected-data generator. Observed:
+
+- No duplicate JSON keys. Exact five SQL strings, sorted full30 objects, five
+  new SQL-NULL indexes, unchanged20/13/7 prefixes and 7/34/7/10/14 columns match.
+  All new tables start empty. Full payload29015 and SHA
+  `bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50`
+  match byte-for-byte, not just a digest supplied by a producer.
+- Six uint64 decimal strings/hex values independently match 0/1/above2^53/
+  signedMAX/above signedMAX/MAX. Four rational input/value/ASCII-hex pairs match
+  Fraction, including reduced2/4, zero0/7, negative magnitude beyond uint64 and
+  literal `(2^4200+1)/(2^4199)`, with actual4201/4200-bit components. No JSON
+  floating-point conversion or parser/finalizer bound substitutes for that value.
+- Both historical groups retain all eleven required/optional cells, effective
+  versus fetched precision, binary refs, present-empty versus absent source/manual
+  refs and signed timestamp MIN/MAX. Explicit independent byte/value literals
+  match. Sparse1,MAX-1(parent1),MAX(parentMAX-1) and count3/headMAX are expressly
+  INVALID as a complete history; they prove no valid exhaustion/import/permission.
+
+Actual independent native commands, all exit 0:
+
+```sh
+python3 /tmp/storagetest015-review-fixture-build.py
+/tmp/storagetest015-review-fixture-native/environment -functions
+/tmp/storagetest015-review-fixture-native/environment -v1
+```
+
+My compile script uses own reviewed writer archive, explicit Qt6 moc, four own-tree
+absolute fixture macros, Qt imported-header-equivalent system includes and
+C++20/-Wall/-Wextra/-Wpedantic/-Wconversion/-Wshadow/-Werror. Script SHA256
+`3b1976674e6de59232313cbb89f9c05914f99ee56d71bc797284de2812530156`;
+archive SHA256 `0846fa0edd81b7119194baae62797a3ca63af3c7f500aeaec06d549beb4c0080`,
+unchanged writer source blob `023451987e40a9330fef91c6c0955f0e527f14e6`.
+Build has zero warnings; nm confirms no plan store/manifest/revision/Exact-codec
+symbols. Discovery matches exactly the four approved diagnostic names. Actual
+host GNU16.2.1 / QtTest+Qt6.12.0 / SQLite3.54.0: **6 passed, 0 failed/skipped,
+13ms**, including setup/cleanup. All four behavior slots passed.
+
+Read assertions prove exact schema/history/types, selected raw MAX/local parent,
+NULL/zero/empty distinctions, ordered duplicate provenance and independent Exact
+BLOB/signed unit extrema. Each of 22 isolated bad physical statements is reached
+after a marker-header write; actual work result is rolled_back/sql_failure/no
+payload. Fresh real BEGIN/COMMIT plus separate read-only observations verify no
+marker/partial durable changes, without catch-and-reuse of an aborted ticket.
+These direct synthetic rows establish physical capability, not complete product
+capture, prior semantic normalization, canonical codec behavior or authority.
+
+Raw logs are under `/tmp/storagetest015-review-fixture-native/`: build.log SHA256
+`57ef126c7fa8f7a44bc763738677e5422766d4a59c7410a0264371da0607326b`,
+functions.log `e066b42550ca836aabc6955c20d837f1abe97e07f012125d425e5e54ce53d16a`,
+green.log `5e8edb79d231e809d05f15090e6df1458bf468b6be33e8585981a7798121ebb3`.
+Diff/project/current-HTML checks pass. No new plan method or previous red ran.
+
+This host fixture approval does not approve absent feature assertions or the
+uncommitted final root harness. Complete actual baseline/harness review, successful
+build, selected official NEW-green execution and first genuine new feature red
+remain required; production behavior/source/acceptance gates stay later. Earlier
+contract/API approvals and all release obligations remain preserved.
