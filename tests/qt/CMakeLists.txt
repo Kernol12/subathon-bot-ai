@@ -12,6 +12,55 @@ if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
     add_test(NAME scaffold.sqlite_application_bundle_environment COMMAND server_sqlite_application_bundle_environment)
     set_tests_properties(scaffold.sqlite_application_bundle_environment PROPERTIES
         LABELS "scaffold;qt;bundle-environment" TIMEOUT 30)
+
+    add_executable(server_sqlite_application_bundle_acceptance sqlite_application_bundle_tests.cpp)
+    target_link_libraries(server_sqlite_application_bundle_acceptance PRIVATE subathon_sqlite_application_bundle Qt6::Test)
+    target_compile_definitions(server_sqlite_application_bundle_acceptance PRIVATE
+        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
+        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
+    subathon_target_options(server_sqlite_application_bundle_acceptance)
+    # Intentional missing-behavior baseline stays separate from required fixture diagnostics.
+    foreach(case IN ITEMS
+        manifestMatchesFrozenStepFiveAndPrefixes
+        initialStateAndEmptyAbsenceUseRealCallerUnit
+        readInputsResolvesCurrentAndHistoricalProvenance
+        stateAndRecordedValuesOwnBytesAfterReopen
+        explicitReceiptSubjectAndContributionZeroStayDistinct
+        originalStageCommitsCompleteBundleAndPatchesOnlyApplication
+        capDebtAndDeficitOutcomesPreserveSuppliedConservation
+        sameUnitReadDuplicateAndClaimRollbackOrCommit
+        existingIntentComparisonIgnoresFreshComputedOutcome
+        operationSourceAndReversalIdentityConflictsDoNotWrite
+        staleStateContributionPlanAndTokenRebindRefuse
+        clockAdvancedBeforeIsDistinctFromPersistedHead
+        sourceAndSelectedClosureFailuresRollbackBeforeCatch
+        fullLookupRejectsMissingCountsGroupsAndCorruptSelectedBodies
+        typedReferenceClassesNullsAndSparseMaxAreStrict
+        returnedAndInputBoundsHaveExactOneOverCategories
+        invalidInputPriorityPreservesHealthyUnit
+        signedExactResidualAndAggregateConservationAreExact
+        multiBasisRefundsUseOneCurrentRequestAndIndependentProgress
+        zeroIncrementFullRefundAndStaleProgressStayDistinct
+        reversalBasisReadReturnsActualCreditAndTerminalKey
+        selectedSourceMetadataDoesNotCertifyUnselectedBodies
+        pagedMetadataBeyondSixtyFourHasNoMaterializationQuota
+        progressHeadPathsAndSparseSequenceAreValidated
+        directAmountMustMatchCopiedRequestEvenWhenDeltaBalances
+        callerCommitAckLossKeepsUnknownWithPhysicalWholeBundle
+        cleanupAckLossOutranksSelectedFailure
+        postCommitBodyFailurePreservesAccountingWithoutPayload
+        genuineMidstageJobFaultRollsBackWholeCallerUnit
+        cumulativeWriterBudgetsAbortObservedStaging
+        borrowedStoreLifetimeAndCapabilityErrorsStayTruthful
+        presentEmptyAndOpaqueEnvelopeFieldsAreLossless
+    )
+        add_test(NAME sqlite-bundle.${case} COMMAND server_sqlite_application_bundle_acceptance ${case})
+        set_tests_properties(sqlite-bundle.${case} PROPERTIES
+            LABELS "sqlite-bundle;acceptance;qt;server" TIMEOUT 30)
+    endforeach()
 endif()
 
 if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)

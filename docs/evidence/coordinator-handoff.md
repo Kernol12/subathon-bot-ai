@@ -141,3 +141,43 @@ feature verdict. Author was explicitly sent approved oracle and independently
 confirmed result_items counts lookup20/inputs9/Mainbasis10. Source still7stubs,
 no newentrypoint/body/red. Root latest review integration70f0258; only shared
 CMake/workflow additions remain pending actual test candidate.
+
+## Published checkpoint and preliminary actual-code audit
+
+Actual bed9abcfaca95323501b5a992ed5dfe7d215a41d published to existing DRAFT PR42;
+all eleven latest checks SUCCESS, including SQL41535643464. Main remains100171b.
+This metadata/category checkpoint still has only accepted five-slot fixture
+diagnostics, not the unpublished feature harness; do not attribute it to future
+full feature discovery or red. Root uncommitted CMake/workflow additions preserved.
+
+Feature author has written actual partial testCPP and is completing the remaining
+case bodies/evidence; no body/new entrypoint/native run. Reviewer explicitly resumed
+for READ-ONLY preliminary actual-code audit while writing continues, not approval.
+A concrete draft MAX-CID positive fixture mismatch was found at snapshot240402b7:
+it reused CID0 expected current15state while actualMAX state differs. Root sent
+correction request to derive expectedMAX from its own matching literal, preserving
+complete comparator/assertions. Full candidate/final actual review still required.
+No production assignment; owner stopping instruction remains finishPR42 thenSTOP.
+
+Preliminary read-only audit is now COMPLETE, not an approval: reviewer inspected
+snapshot SHA240402b79aaa3fee1f98b36beb3e0037dc285fb0291ae601af70229f55cb7000
+(567 lines/74983 bytes, preserved /tmp/storage002-feature-preliminary-snapshot.cpp).
+Six findings were sent to the author: expected CIDMAX state mismatch; deliberate
+rollback masking earlier assertions; an impossible NOTNULL-to-NULL seed; omitted
+owned activity/verified-link assertions; an unused captured prefix snapshot; and
+explicit optional-to-bool compile errors. Author has acknowledged corrections in
+progress. Reviewer changed no file or review note and ran no compiler/body/checks.
+Actual complete committed candidate plus root harness must receive the full review.
+
+## Actual frozen feature source and root compile handoff
+
+Actual author eb5bab9423c52a3b3d1d9e0b274a1171954de259 clean imported8b59d78:
+newCPP3194 lines/blob88e9b1b83056fb90420b7f238ebdf2f7d0a5c16d/SHA0a69e875,
+all32 actual slots and five macros match root harness. Source writer is complete
+for this unreviewed candidate; author is now writing own evidence note only. Root
+freezes separate target/32 CTest cases/compiled-registration CI guard, preserving
+all old definitions and required fixture diagnostics. Root next COMPILES/DISCOVERS
+ONLY; no body/new entrypoint has run. Full different actual review remains pending;
+no final verdict follows from the preliminary audit. Official same-clean-approved-
+feature-head NEWgreen/discovery still must precede FIRST genuine red. Do not start
+STORAGE-002 after PR42; latest owner stopping instruction remains in force.

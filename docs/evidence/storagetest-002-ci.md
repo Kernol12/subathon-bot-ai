@@ -185,3 +185,22 @@ baseline review BEFORE any new entrypoint body/intentional red. Then observe
 requirednewgreen +exactcompiledfeaturediscovery on the actual approved same clean
 revision before FIRSTmissingbehaviorred. This fixture-head result alone is not
 that future complete-feature-harness proof. No production implementation yet.
+
+## Complete feature compile candidate — execution still gated
+
+Independent author frozen eb5bab9423c52a3b3d1d9e0b274a1171954de259 imported8b59d78
+adds only tests/qt/sqlite_application_bundle_tests.cpp: blob88e9b1b83056fb90420b7f238ebdf2f7d0a5c16d,
+SHA2560a69e8756e16160c7be7733299a2df676a6ae9685a17138958be730b49813670,3194lines.
+All32 actual slots match root's explicit CTest list; all five vector-path macros
+match the target. CMake adds a separate target linked to the bundle library and
+QtTest. Workflow appends an exact32 compiled-slot/registration guard ONLY, after
+the unchanged required five-slot fixture diagnostics. Intentional red bodies are
+separate and will not run in passing CI at this baseline stage. No skip/inversion/
+continue-on-error was added. Removing only root's two new blocks restores the
+accepted fixture harness byte-for-byte. Actionlint/diff/static checks pass.
+
+This commit freezes source/config before root compilation and metadata discovery.
+No feature body or new entrypoint has run; no new baseline red or whole-test
+approval is claimed. Author's focused evidence follows separately. Full different
+actual review, successful compiler/exact discovery, and official required fixture
+green on the actual clean approved complete-feature revision precede FIRST red.

@@ -307,3 +307,22 @@ jobs:
           print("Discovered all 5 required application-bundle fixture cases")
           PYTHON
           ctest --preset sqlite-bundle-debug -R '^scaffold.sqlite_application_bundle_environment$' --verbose
+      - name: Check complete application-bundle baseline registration (behavior remains intentionally red)
+        run: |
+          ctest --preset sqlite-bundle-debug -L '^sqlite-bundle$' --show-only
+          ctest --preset sqlite-bundle-debug -L '^sqlite-bundle$' --show-only=json-v1 > "$RUNNER_TEMP/bundle-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "bundle-tests.json").read_text())["tests"]
+          if len(tests) != 32:
+              raise SystemExit("Expected all 32 application-bundle baseline cases")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one application-bundle Qt suite")
+          expected = set(subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines())
+          registered = [test["command"][1] + "()" for test in tests]
+          if not expected or set(registered) != expected or len(registered) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled application-bundle suite")
+          print(f"Discovered all {len(tests)} compiled application-bundle cases; intentional red behavior not run")
+          PYTHON
