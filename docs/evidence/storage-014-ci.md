@@ -68,3 +68,12 @@ local-evidence/coordinator/storage014-root-{24,143}.txt. Actual frozen46c/577/44
 match integrated main. No baseline assertion/fixture is changed. The original
 stub-red remains historical and was not repeated. Independent code/config review
 and actual automatic selected official Qt CI remain required; task in_progress.
+
+## Actual independent source/config approval
+
+Different reviewer a751d54 integrated5ed4194 approves source61569bd and exact root
+CMake17ca259/preset35e0c15/QtCMake2da4c8e/workflow1fe3544. Fresh70-step build
+0warnings; exact143/24+green3;24PASS0.73s/full143PASS3.18s/newgreen5PASS0skip on
+hostQt6.12/SQLite3.54. [Actual review](storage-014-code-review.md). All frozen
+baseline/API/old sources remain unchanged. Publish the reviewed candidate next;
+actual automatic selected officialQt workflow result is still pending, not inferred.

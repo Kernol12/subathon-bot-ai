@@ -86,3 +86,17 @@ repeated. Root CI promotion now accompanies the passing source, with111 earlier
 cases/green/discovery/pins unchanged and24unconditional. [CI assessment](storage-014-ci.md).
 Next commit exact source/config candidate and explicitly resume reviewer on actual
 revision; author finishes own evidence. No source/code review or official CI yet.
+
+## Actual code/config approval and publication stage
+
+Different actual a751d54 integrated5ed4194 APPROVES source61569bd/metadata17ca/
+35e/2da/workflow1fe; independent fresh70-step build0warnings/24PASS0.73s/full143
+PASS3.18s/newgreen5PASS0skip/exact143/24+3. Source/evidence author and reviewer
+completed clean; no old agent remains assigned to code. Actual relevant source
+acceptance+separate review passed; task in_review while officialCI/finalmetadata/
+latestheadmerge gates remain. [Implementation handoff](storage-014-handoff.md),
+[code/config verdict](storage-014-code-review.md).
+Next publish focused DRAFT PR with this actual candidate, observe automatic
+selected official Qt24 UNCONDITIONAL success/pins/old135 total SQL cases, then
+complete metadata/finalreview/latestheadchecks/currentrules/discussions/normalmerge.
+Do not stop after merge; next ready task is STORAGETEST-015 only once integrated.
