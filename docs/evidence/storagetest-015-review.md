@@ -435,3 +435,76 @@ not missing dependencies, registration, compilation or setup errors. Record the
 exact red revision/environment/oracles before STORAGE-015 implementation. Later
 passing feature acceptance and separate actual source review remain required;
 latest-head CI/discussions/rules/merge and full release gates are not preapproved.
+
+## Actual final metadata, official CI and first-red attribution review
+
+2026-11-02, contribution_reviewer. **APPROVED: actual completion metadata and
+ordered evidence attribution** at root
+`e8c5a41027f4a5a99988c9332d98abce8942feba`, normally merged into this review tree
+at `67ce67109769b38d6f94d61a4714d4ae0f632e92`. No blocking finding remains.
+This verdict establishes the done test-baseline record, not implemented persistence,
+passing product acceptance, future-head CI or merge permission.
+
+I inspected the original red, completed handoff/CI/checkpoint, brief, architecture,
+test strategy, task graph/state/current HTML and acceptance map. Independently
+verified no core/server/schema/Qt-test/fixture/workflow/root-build changes between
+approved source head `aa6907bcea8338c4f6a418de8b5c16b3253d8f1e` and this completion
+candidate. All exact source/config/fixture pins from the preceding approval remain
+applicable; earlier review content is preserved. Root integration
+`bcd08e6d2458d928f2e84f68e950b740b889ee9a` has exactly the actual8b537cdb review
+blob and precedes aa6907b in ancestry, before the following observed gates.
+
+I inspected root-cached `storagetest015-approved-ci.json`, full CI log and all-checks
+JSON under root `local-evidence/coordinator/`, plus the capture script's preflight
+and original output. This is independently inspected coordinator evidence; I did
+not invoke remote workflows or repeat native execution.
+
+1. Actual official run `41494786280` is completed/SUCCESS at exact aa6907b,
+   2026-11-02T17:49:36Z–17:51:13Z. Both archive checks are OK; installed package
+   Boost1.83.0-2.1ubuntu3/header108300 and configured Boost1.83.0, project GNU13.3,
+   selected Qt6.12/SQLite3.53.4 are actual log values. All82 fresh build steps finish
+   without warnings, including new executables. Old135 cases/required old7/3/3/3,
+   new four compiled diagnostic slots with6PASS/0skip/39ms, and exact29 feature
+   discovery all pass. JSON confirms the explicit feature step was not invoked;
+   it is distinct from skipped assertions. Cached eleven checks are SUCCESS at
+   that published gate. These results belong to that head, not a future metadata head.
+2. FIRST feature red is recorded at the SAME clean aa6907b, starting
+   **2026-11-02T17:52:55.646037Z**, after actual official completion. The capture
+   script checks clean head, full-review ancestry, frozen artifacts, official
+   same-head success/required steps and eleven checks, and refuses an existing
+   original output file before invoking CTest once. Actual exit is **8**, CTest
+   **0.57s**. The immutable output has exactly29 distinct expected test failures,
+   matching reviewed compiled discovery: six direct what-message markers and23
+   typed SqliteApplicationPlansNotImplemented wrapper markers. All29 init and
+   cleanup records PASS; all29 totals have0skip/blacklist with no crash/setup or
+   dependency failure. The banner identifies host Qt6.12/GCC16.2.1, separate from
+   the preceding official GNU13.3/selected bundled SQLite observation.
+
+Original [red record](storagetest-015-red-ctest.txt) remains unchanged, Git blob
+`ae3e0e25956b16b0d3bc26065c71247263bca421`, SHA256
+`79ddd03f9f37e9657740691b5f8bbb1b7dceff93b2de62499b345f14a8b16f41`.
+No red or native feature was repeated during this review. The first red proves
+reviewed missing behavior; it does not prove that deeper feature assertions pass.
+
+Static command `python3 /tmp/storagetest015-final-review.py` passed; script SHA256
+`3f34e82f6288913dd836e1c009481dbf228ed66cab8e3f560d0b22372dcb4889`.
+It checks actual review integration/ancestry, immutable paths/red hash, all marker/
+setup counts, CI head/time/step ordering, preserved map prefix/reviews and graph.
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check` and
+`git diff --check` passed:391 tasks/122 decisions/current HTML and valid links.
+
+STORAGETEST-015 is honestly done with baseline/product_acceptance recorded as
+observed_red. STORAGE-015 remains planned/unassigned with no implementation
+verification; nine named stubs remain. DB-01 remains partial and preserves all
+previous acceptance/evidence scope. Architecture/strategy/brief/handoff distinguish
+baseline completion from actual persistence, sparse selectedMAX from valid complete
+history, and host from selected official evidence. Full application, semantic
+authority/evaluation/effects, all seven integrations/three FX providers, operational
+recovery, UI/platform/live release gates remain open.
+
+Publish the resulting reviewed metadata head and observe its own latest-head CI,
+required reviews/rules, resolved discussions and mergeability before normal merge.
+This review cannot certify those future external states or any absent implementation.
+After integration, a separately claimed STORAGE-015 must preserve the baseline,
+pass relevant acceptance/regressions, obtain different actual source/config review
+and promote29 to unconditional automatic CI with an observed passing workflow.
