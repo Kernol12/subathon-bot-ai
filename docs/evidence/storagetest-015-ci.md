@@ -39,3 +39,45 @@ test-baseline approval or first plan red. Actual different API/config approval
 still precedes new test/fixture authoring. STORAGE-015 implementation remains
 planned; complete application, semantic authority/evaluation, providers/FX,
 operational recovery and platform/UI/live release gates remain open.
+
+## Actual approved baseline official NEW-green gate
+
+Full actual baseline/harness approval `8b537cdb` was integrated as `bcd08e6`
+BEFORE publishing `aa6907bcea8338c4f6a418de8b5c16b3253d8f1e`. Actual
+[run41494786280](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41494786280)
+at that same head ran2026-11-02T17:49:36Z–17:51:13Z and concluded **SUCCESS**.
+All11 same-head PR checks completed SUCCESS. Root captured and inspected actual
+run JSON/full log and check list under ignored
+`local-evidence/coordinator/storagetest015-approved-{ci.json,ci.log,all-checks.json}`.
+
+Both selected archives checked OK; project compiler GNU13.3.0, configured pinned
+Boost1.83.0/package1.83.0-2.1ubuntu3/header108300, Qt6.12.0 and bundled SQLite3.53.4.
+Actual fresh build **82 steps**, including both new Qt source objects and
+executables, no build warnings. All135 previous automatic SQL cases/required old
+green7/3/3/3 still pass. Actual NEW helper discovery is4; verbose new helper reports
+**6 passed,0 failed,0 skipped,39ms**, including init/cleanup, actual selected runtime
+and explicitly INVALID sparse count3/headMAX. Actual feature discovery reports
+all29 compiled cases; behavior was not run. New Qt fixture/runtime proof therefore
+belongs to the actual final reviewed source/configuration, unlike the earlier f24
+minimal-interface run. The feature step remains an explicit manual baseline gate.
+
+Only after observing this gate did root run FIRST actual feature red at SAME
+clean `aa6907b`,2026-11-02T17:52:55.646037Z. Actual command
+`ctest --preset sqlite-plan-debug -L '^sqlite-plan$'` exited **8**: all29 cases fail
+on explicit new missing-behavior markers, all29 init+cleanup pass, zero skipped/
+crash/setup failures, CTest0.57s. Six cases print the marker's direct what-message;
+23 print the typed `SqliteApplicationPlansNotImplemented` wrapper marker. Root's
+first scratch count recognized only the six direct message spellings; inspection
+confirmed all29 are the same actual intended marker, without rerunning anything.
+[Original immutable red](storagetest-015-red-ctest.txt), blob
+`ae3e0e25956b16b0d3bc26065c71247263bca421`, SHA256
+`79ddd03f9f37e9657740691b5f8bbb1b7dceff93b2de62499b345f14a8b16f41`.
+
+Root's capture script checked clean exact head, integrated full-review ancestry,
+nine frozen artifact hashes, actual same-head official success/required step
+results and all11 checks before invoking CTest once. It preserved the actual
+CTest exit8 and original raw output. No failure inversion or passing product
+claim follows. Header/source remain explicit stubs; STORAGE-015 needs separate
+implementation/acceptance/source review and automatic CI promotion. Final metadata
+and CI/red attribution review, future latest-head CI/discussions/rules/merge still
+remain PR gates. This baseline does not establish any platform/live release gate.

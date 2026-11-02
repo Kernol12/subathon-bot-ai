@@ -285,3 +285,23 @@ or weakened fixture. [Implementation](evidence/storage-014-handoff.md),
 [review](evidence/storage-014-code-review.md), [CI](evidence/storage-014-ci.md).
 Original21 fake-backed service simulations remain distinct; no full app bundle,
 semantic authority/provider proof, plan/rate/recovery/platform release is claimed.
+
+
+## Captured-plan SQLite reviewed baseline
+
+STORAGETEST-015 supplies29 independently reviewed cases, full uint64 revision
+literals, canonical rational values beyond4096 bits, exact migration4/full30
+schema and four old-writer-only fixture diagnostics. [Baseline](evidence/storagetest-015-handoff.md)
+records full8b537cdb approval, then actual selected official41494786280 at aa6907b:
+newgreen4/6PASS0skip, exact29 compiled discovery,82-step build, old135/pins PASS.
+Only then root FIRST29 explicit-stub red at SAME clean head exited8 with all29
+init+cleanupPASS/0skip/crash/setup failure/0.57s. Preserve that original red.
+
+Configure/build sqlite-plan-debug; exact registrations173, green-only selection
+`-LE '^sqlite-plan$'` is144 (old143 plus new fixture suite). New feature label
+sqlite-plan is an intentional red baseline, not a passing product suite. Ordinary
+CI runs stable suites/required diagnostics and discovers29 without invoking them;
+manual feature execution remains explicit until STORAGE-015 implements and passes
+its reviewed behavior with different source/config review and actual CI promotion.
+The sparse selectedMAX fixture is globally INVALID history. No complete app,
+semantic authority/evaluator, provider/FX/recovery/platform release proof follows.

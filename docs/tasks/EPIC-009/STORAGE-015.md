@@ -2,10 +2,11 @@
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, NUM-01, DB-01.
 Status/owner/dependencies: progress/state.json. Production implementation remains
-planned. STORAGETEST-015 has separately reviewed the concrete persistence contract
-and minimal stub API; actual test/fixture authoring is in progress. Full baseline
-review, selected official fixture diagnostics and the intended red remain required.
-See [actual stage reviews](../../evidence/storagetest-015-review.md).
+planned. STORAGETEST-015 completed29 independently reviewed feature cases and
+the first explicit-stub red after actual selected official fixture/build/discovery
+gates. The new codec/manifest/store still contain explicit stubs; this does not
+implement persistence. See [baseline handoff](../../evidence/storagetest-015-handoff.md)
+and [actual stage reviews](../../evidence/storagetest-015-review.md).
 
 ## Scope and ownership
 
