@@ -88,3 +88,27 @@ Passed lines. This was read-only parsing, no test rerun, baseline change or red.
 | `local-evidence/storagetest002-api-discovery.json` | `08b7fb3222fdab5d8f84fa7c186ef01f36b7ae317cd17673ab9fa51a869d07cc` |
 | `local-evidence/storagetest002-api-old173.txt` | `a0d061f246c79923f0b61fa37d4ebdaa5aba541a78546931438a78ad7ddb0c58` |
 | `local-evidence/storagetest002-api-old173-LastTest.log` | `6fbc4e2dde08c383abcef879f6f2ed65b70fbb751acfba3d212808dc9da3eef9` |
+
+## Actual official minimal-interface workflow
+
+[41523469879](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41523469879)
+actually SUCCESS at exact published
+`848e76d7b4269391ff457e572cf9cafbe78cf313`,2026-11-02T20:54:29Z–20:56:03Z.
+All11 PR checks SUCCESS. Actual log verifies new sqlite-bundle-debug configure,
+GNU13.3.0/pinned Boost1.83 compiler macro108300, selected checked Qt6.12 archives,
+fresh84-step build including new.cpp/newarchive, zero compiler warnings, existing
+164 writer/work/migration/retention/receipt/contribution/plan cases and required
+7+3+3+3+4 fixture methods/Qtprobe. Existing mandatory diagnostics all0skips and
+report actual SQLite3.53.4. No new bundle fixture/feature exists or ran.
+
+Raw local-evidence/storagetest002-api-official-ci.txt SHA256
+`1819b577ef7e431817ad0104a481fab7ec767403d2328d6806f9a32290308b6a`.
+This is observed same-source official interface compilation/old-suite CI, not
+new66-object fixture/newgreen or bundle acceptance.
+
+Actual different extension/API/config approvalef0ba764c6f0b24f534c373d6e28ef5c696a1f71
+(root e033177/reviewMD49876fc2) accepts exactheader8e24/source83e9/logical2f6/
+physicalf13/all5configurationpins. Own fresh84build0warnings/old173PASS4.48s/0skip.
+CI and independent review were parallel and correctly pinned to848 source, not a
+future artifact. Header/source/physical remain frozen for independent fixtures.
+Latest-head merge CI remains a separate future gate.

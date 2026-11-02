@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-002 minimal API review / CI
+# Coordinator checkpoint — STORAGETEST-002 independent fixture stage
 
 Coordinator `/root`,2026-11-02. Continue full specification v0.45 under AGENTS.md/
 COORDINATOR_PROMPT.md; earlier stop was revoked by explicit resume. No owner access/
@@ -43,9 +43,9 @@ proposal did not expose current per-basis progress for preparing links. It owns
 selected actual-credit/provenance/progress under the already-defined source audit;
 no rawSQL caller workaround, new schema, allocation policy or authority. Valid
 basis/no history gives actual zero progress; missing/corrupt source never invents
-credit0. Addition/SB15/header/build need ACTUAL independent extension/API/config
-review. Removing only addition restores priorcf462 exactly, preserving4d's valid
-subset. Task contract fields partial/API draft; full baseline review remainsnull.
+credit0. Addition/SB15/header/build received ACTUAL independent extension/API/config
+approvalef0ba764c6f0b24f534c373d6e28ef5c696a1f71 (integratede033177). Removing only addition restores priorcf462 exactly, preserving4d's valid
+subset. Task contract/API stagespassed; full baseline review remainsnull.
 
 Root configure/fresh84-step build PASS/0warnings for exact CI-recorded blobs.
 Discovery exactly173 OLD tests/no newfeature. At CLEAN79b source/config revision:
@@ -58,9 +58,10 @@ diff/actionlint pass. Old suite success is NOT bundle acceptance or new baseline
 
 Root owns newflag/library/sqlite-bundle-debug preset inheriting oldplan, exact
 workflow preset/build-dir token substitution ONLY. All pins/permissions/checknames/
-oldguards/commands preserved. No new fixture/feature registered yet. Source/config
-must receive actual ordinary pinnedCI; published document-only6ca all11SUCCESS is
-not proof of a later interface build. Publication/review metadata follows79b.
+oldguards/commands preserved. No new fixture/feature registered yet. Source/config848 ACTUAL official41523469879 SUCCESS/fresh84/newlib/0warnings/
+GNU13.3/pinnedBoost1.83/selectedQt6.12SQLite3.53.4/old164+mandatorygreens/all11.
+Differentreviewef0ba764 independentlyfresh84/old173PASS4.48s/0Qt skips. These are
+minimalinterface/sourceCI gates only, no new66fixture/newgreen/featurebaseline.
 
 ## Actual roles, preserved work and next action
 
@@ -83,16 +84,23 @@ pins/checkpoint/CI. No other source writer overlaps. Last accounting93registered
 branches and valid reviews preserved. Root old173 session41867 completed0; no native/
 watch command running at checkpoint. Inspect actual state on resume.
 
-NEXT: publish resulting actual API/build evidence revision; observe its own pinned
-Ubuntu/GNU13.3/Boost1.83/Qt6.12 official workflow (no newgreen exists yet). Explicitly
-resume different reviewer to normalmerge/read exact candidate, independently
-compile/old173 and review header/stubs/typed-read extension/config. Resolve findings
-before independent fixture/test authoring. Then newliteral fixture/old-writer-only
-newgreen and real feature tests need separate actual review, successful compilation/
-exact discovery/selectedofficialQtnewgreen before FIRST intended missing-behavior
-red. Passing old173/examples cannot substitute. STORAGE-002 production staysplanned
-and waits for the integrated real baseline, then passing acceptance/source review/
-automaticCI. No routine owner approval needed; no newred repeated prematurely.
+NEXT: fresh isolated independent fixture author owns ONLY new
+sqlite_application_bundle_vectors.json, sqlite_application_bundle_environment.cpp
+and own fixture-author evidence. Oldwriter/QtTest ONLY, no newheader/facade/manifest/
+codec or implementation-generated expecteddata. Root owns helperCMake/profile/CI
+integration; independent ACTUAL fixture review/required old-writer green before
+feature test authoring. No fixture/test is authored merely by assignment. Then real
+feature tests need actualfullreview/compile/exactdiscovery/selectedofficialnewgreen
+before FIRSTmissingbehaviorred. All7 stubs stay frozen. STORAGE-002 production
+staysplanned until this realbaseline integrates; no ownerneed.
+
+Author APIrolecompletedclean166, reviewer APIrolecompletedcleanef0ba764; fixtureauthor
+read-onlyprep completedclean61f. Root explicitly reassigns fresh fixture author after
+committing this phase. Existing old reviewer tree retained; next fixture review
+must receive actual authoredJSON/helper, no absent-artifact approval. Root native/
+CI download/edit sessions complete; no runningrootcommand. Header/source unchanged,
+rootstate/HTML/checkpoint updates are metadata only. Actual newtree path/head and
+agentstatus must be recorded after creation. Preserve93existingrefs accounting above.
 
 ## Actual integrated main / earlier gates
 

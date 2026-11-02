@@ -68,3 +68,20 @@ All seven integrations/three FX, full application/delivery/authority/state/job/w
 refund allocation/recovery, renderers/UI/locales/themes/platform/security/packaging/
 backup/live scope remain required. Synthetic/disposable only, no live side effects.
 No owner decision/access is needed at this stage.
+
+## Actual API/extension/config and source-CI gates passed
+
+Different actual approvalef0ba764c6f0b24f534c373d6e28ef5c696a1f71 integratede033177
+accepts exact8e24/83e9/2f6/physicalf13 and5configpins; own fresh84/0warnings/
+old173PASS4.48s/0Qt skips. Actual official41523469879 at848 SUCCESS/GNU13.3/
+Boost1.83/selectedQt6.12SQLite3.53.4/fresh84/newlib/old164+mandatorygreens/all11.
+This passes minimal API preparation, NOT bundle behavior/new66fixture/firstred.
+
+Next exact independent fixture role: new tests/fixtures/sqlite_application_bundle_vectors.json,
+tests/qt/sqlite_application_bundle_environment.cpp using ONLY oldwriter/QtTest,
+and own storagetest-002-fixture-author.md. No newfacade/header/manifest/codec used
+for setup or expecteddata; no production source/feature body. Independent actual
+fixture review and host/selectedQt requirednewgreen still precede featurebaseline
+review/compile/discovery/FIRSTmissingbehaviorred. Root owns sharedCMake/CI/state.
+Fresh fixture branch/tree from this accepted API checkpoint will preserve all prior
+work; no fixture has been authored merely by claiming this role.
