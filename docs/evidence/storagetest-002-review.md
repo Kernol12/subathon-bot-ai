@@ -318,3 +318,49 @@ gate before feature authoring. Actual feature assertions/full baseline review,
 compiled exact discovery/environment ordering and FIRST genuine named-stub red
 remain required before STORAGE-002 production. This approves no absent test/source,
 future CI/head/merge or wider semantic/financial/platform/release capability.
+
+## Actual post-SQL snapshot-mismatch category precision review
+
+Author: coordinator `/root`; different reviewer `/root/contribution_reviewer`,
+2026-11-02, NEW isolated `task/STORAGETEST-002-category-review` tree.
+Actually reviewed root `e6e0be348c3112093fee18803f86fabc1ed88578`, logical blob
+`80f8ee65869a27c6b1b7b6d3819a0065777958b7`, against specification §3.4/B08,
+accepted logical2f6, existing known-storage-error/unknown-outcome protocol and
+the concrete API. Scope is ONLY the additional12-line contract paragraph.
+
+The prior contract required persisted-head→advanced-before binding/clock-only
+conservation but did not specify this post-SQL case's category or cleanup: expected
+head matches, selected stored rows are healthy, but same-token data differs or a
+fresh advanced-before changes preserved debt/counters/configuration/format. It
+cannot be a pure-input failure based on unseen data, matching-token `stale_state`,
+or stored corruption. I had proposed a coherent normal `state_token_conflict`
+alternative; that was a proposal, not an established test oracle.
+
+The actual chosen `source_mismatch` with actual whole-unit rollback is independently
+consistent with source-relative validation and B08: the supplied proposal disagrees
+with the resolved head binding, and the existing known-storage-failure protocol
+aborts the whole caller unit. Earlier DURABLE intake survives; earlier merely staged
+caller work is rolled back. Existing operation/claim/current and plan freshness/
+fresh-token priority remains ahead of this relation check. It introduces no clock
+evaluation, permission or new stored corruption claim.
+
+Requested changes on original58ea wording were material: cleanup had also been
+underspecified, and reporting a known error needs actual rollback proof. Actual80f8
+resolves both: it explicitly selects category AND cleanup while preserving the
+preexisting rejection, requires rollback BEFORE reporting `source_mismatch`, and
+preserves real rollback/cleanup uncertainty as WorkFailure. No inactive cleanup or
+successful rollback is presumed. This is approval of the actual replacement,
+not agreement inferred from the coordinator's choice.
+
+Own commands: `python3 tools/check_project.py` PASS391/122;
+`python3 tools/progress.py render --check` current; `git diff --check` PASS.
+Independent byte comparison removes exactly the paragraph to restore2f6, including
+all15 literal vectors. Header8e24/source83e9/physicalf13/JSONe8b/helperb0 remain
+byte-identical. No API/schema/source/test/fixture changes or native/new-entrypoint/
+feature-body/red invocation occurred.
+
+Verdict: **APPROVED for integration of this documentation precision ONLY.** Prior
+unchanged reviews remain valid. Actual feature assertions/full baseline review,
+selected same-revision green/discovery and FIRST intended red are still required;
+no future artifact, executable behavior, CI/head/merge or release approval follows.
+Owner scope remains finish existing PR42, then STOP; no implementation assignment.
