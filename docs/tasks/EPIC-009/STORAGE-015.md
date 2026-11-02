@@ -1,12 +1,11 @@
 # STORAGE-015 — Captured application-plan and revision-history persistence
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, NUM-01, DB-01.
-Status/owner/dependencies: progress/state.json. Production implementation remains
-planned. STORAGETEST-015 completed29 independently reviewed feature cases and
-the first explicit-stub red after actual selected official fixture/build/discovery
-gates. The new codec/manifest/store still contain explicit stubs; this does not
-implement persistence. See [baseline handoff](../../evidence/storagetest-015-handoff.md)
-and [actual stage reviews](../../evidence/storagetest-015-review.md).
+Status/owner/dependencies: progress/state.json. The bounded persistence component
+now has passing29/full173 acceptance, different source/config review and actual
+automatic selected official29 execution. [Implementation handoff](../../evidence/storage-015-handoff.md)
+records scope and remaining merge/release gates. The [original baseline](../../evidence/storagetest-015-handoff.md)
+and its red remain historical, with a separately reviewed SQL NULL oracle correction.
 
 ## Scope and ownership
 

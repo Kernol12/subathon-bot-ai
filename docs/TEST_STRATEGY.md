@@ -298,10 +298,28 @@ Only then root FIRST29 explicit-stub red at SAME clean head exited8 with all29
 init+cleanupPASS/0skip/crash/setup failure/0.57s. Preserve that original red.
 
 Configure/build sqlite-plan-debug; exact registrations173, green-only selection
-`-LE '^sqlite-plan$'` is144 (old143 plus new fixture suite). New feature label
-sqlite-plan is an intentional red baseline, not a passing product suite. Ordinary
-CI runs stable suites/required diagnostics and discovers29 without invoking them;
-manual feature execution remains explicit until STORAGE-015 implements and passes
-its reviewed behavior with different source/config review and actual CI promotion.
+`-LE '^sqlite-plan$'` is144 (old143 plus new fixture suite). At that baseline stage label sqlite-plan was intentionally red and ordinary CI
+discovered29 without invoking them. That historical red remains preserved; the
+current STORAGE-015 implementation and CI promotion are described below.
 The sparse selectedMAX fixture is globally INVALID history. No complete app,
 semantic authority/evaluator, provider/FX/recovery/platform release proof follows.
+
+
+## Captured-plan SQLite implementation
+
+STORAGE-015 now preserves all baseline data/history assertions and passes29/full173
+with separate source/config approvald154. A genuine raw SQLNULL oracle defect was
+corrected independently61f/90: only one history-slot assertion changes0f8→a805,
+with explicit SQLtypeof/isNull/laterexact2 replacing unsupported QVariant::Invalid
+metatype equality. All other bytes/assertions remain; original redae3 is untouched.
+[Correction/proof](evidence/storage-015-null-baseline-correction.md),
+[review](evidence/storage-015-null-baseline-review.md).
+
+Configure/build sqlite-plan-debug, targeted -L sqlite-plan runs29, full173 passes.
+Author/root/reviewer pass with0warnings/skips. Actual automatic41503096872 at1bf
+uses GNU13.3/pinnedBoost1.83/Qt6.12SQLite3.53.4, old135/requiredgreens/newgreen4/
+exact29discovery and UNCONDITIONAL29PASS1.70s. Manual input/condition and draft
+label/text are removed; pins/old assertions/check name persist. [Source review](evidence/storage-015-code-review.md),
+[CI](evidence/storage-015-ci.md), [handoff](evidence/storage-015-handoff.md).
+This is real synthetic SQLite component acceptance, not evaluator/permission,
+actual app effects/jobs/provider/recovery/UI/platform or full release verification.

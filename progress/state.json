@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T18:34:13.891470+00:00",
+  "updated_at": "2026-11-02T18:47:54.244746+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt and contribution repository components have reviewed acceptance evidence. Plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4971,7 +4971,7 @@
       "title": "Captured application-plan and revision-history persistence",
       "module": "Operations",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "Coordinator /root; implementer /root/contribution_implementer; independent code reviewer /root/contribution_reviewer",
       "depends_on": [
         "STORAGE-014",
@@ -4987,21 +4987,23 @@
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-015.md",
-      "summary": "Persist owned captured plans and immutable revision history with retained source/config/context references. No evaluator, actual permission engine, current-cap effect application or provider valuation is supplied.",
+      "summary": "Implemented caller-owned captured-plan SQLite persistence, full uint64/canonical Exact codecs, exact manifest4 and immutable scoped history with passing29/full173, different source/config approval and actual automatic official29 acceptance. Full application/release gates remain open.",
       "notes": [
         "Parent EPIC-009; decomposition only. Existing scope/gates preserved; no test, review, implementation or verification completed.",
         "Claimed from actual integrated main a7a1844 after normal PR39 merge2026-11-02T18:07:39Z. Dedicated task/STORAGE-015-captured-plan-store created BEFORE edits. Final d8 head all11CI/actual full8b+final3dec reviews/zero threads/current rules and normal exact-head merge passed. Main tree is byte-identical to final reviewed d8; postmerge9/10 workflows SUCCESS, SQL41497596911 still building, not assumed passed. Test-first gate already fulfilled: actual29 explicit-stub FIRST red at clean aa6907b after full8b/rootbcd and selectedofficial41494786280 newgreen4/build/discovery, all29initcleanupPASS/0skip/exit8/0.57s. Do not repeat that completed red or test authoring. Implement ONLY server/src/sqlite_application_plans.cpp plus own storage-015-implementation.md in a fresh isolated branch/worktree; preserve header4634/logical3af/physical99bf/feature0f8/JSON64eb/helpera8d and all old sources/assertions/fixtures. Independent reviewer owns only new storage-015-code-review.md after actual candidate. Root owns shared config/CI promotion/state/map/HTML/checkpoint. Acceptance: new29 and relevant full173 pass, real scoped lookup/typeduint64/canonicalExact/immutablehistory/atomic staged append/actual rollback and uncertainty, independent source/config review and actual automatic official29 promotion. All semantic authority/evaluator/effects/jobs/fullapp/recovery/providers/UI/platform release gates remain open.",
         "Fresh storage015-implementation and storage015-review trees/task branches created clean at ef8fb219, then actual existing agents explicitly reassigned. Author ONLY sqlite_application_plans.cpp plus own new evidence; reviewer read-only prep completed clean/no edits/native/red/no blocker and awaits actual source. Total72 existing trees/16 absent refs preserved. Actual postmerge main a7 now ALL10 workflows SUCCESS, including SQL41497596911; pending claim note remains historical. Root no native/watch command running; no old red repeated. Source production candidate not integrated yet.",
         "Published focused DRAFT PR40 at1859ef2 (claim/checkpoint only). Author replaced all nine stubs in isolated tree; first actual tested source blob b69784303454029a19509c8e5375ee0746036445 built82steps0warnings, targeted28/29PASS1.16s/full172/173PASS4.68s. Sole failure is frozen history-slot raw SQLNULL authority expected QVariant{} Invalid versus driver QVariant(QString,empty); C++ metatype is not SQL contract. Root observed c784 later during unbuilt serialization-limit tightening, NOT a tested revision; author will pin later rebuilt candidate separately. No29/full173 pass is claimed. Separate plan_fixture_author assigned fresh storage015-null-baseline branch/tree at1859 (only minimal affected test-slot correction plus own reason/evidence), different reviewer read-only prep supports genuine spec mismatch but actual SQL typeof/nullness proof and committed correction review still pending. Preserve all original data/history assertions and original redae3; no weakening/requirement change/oldred repeat. Total73 existingtrees/16absent refs preserved; production author continues own source/static audit only.",
-        "Actual source7dd67bb integrated89daa8a, current source9b0b01f; evidence-only8b565969 integrated3898199. Initial tested b697 failure was separately corrected by61f4242/root6d09bee and approved90eceb0c/rootbddd847: feature0f8→a805, all outside-slot assertions/data preserved with stronger SQLtypeof/isNull/exact2. Originalreda3 unchanged, no requirement change or old red repeat. After actual review/integration current9b0/a805 author29/full173PASS1.15s/4.65s; root29/full173PASS1.11s/4.45s. Only THEN root4sharedconfig promotion removes draft text/label/manualfeatureinput+condition; all29 become unconditional after exactdiscovery/green4, old135/pins/checkname unchanged. Task in_review, separate actual source/config approval and official automatic29 CI remain required before done/merge."
+        "Actual source7dd67bb integrated89daa8a, current source9b0b01f; evidence-only8b565969 integrated3898199. Initial tested b697 failure was separately corrected by61f4242/root6d09bee and approved90eceb0c/rootbddd847: feature0f8→a805, all outside-slot assertions/data preserved with stronger SQLtypeof/isNull/exact2. Originalredae3 unchanged, no requirement change or old red repeat. After actual review/integration current9b0/a805 author29/full173PASS1.15s/4.65s; root29/full173PASS1.11s/4.45s. Only THEN root4sharedconfig promotion removes draft text/label/manualfeatureinput+condition; all29 become unconditional after exactdiscovery/green4, old135/pins/checkname unchanged. Task in_review, separate actual source/config approval and official automatic29 CI remain required before done/merge.",
+        "Actual different source/config approval d15450be/root6192617 accepts source9b0/testa805/root16381/preset43c39/Qt08bc/workflowce4b, own fresh82build0warnings/29PASS1.11s/full173PASS4.45s/0skip. Actual official automatic41503096872 at SAME reviewed source/config candidate1bf SUCCESS18:42:23–18:43:35Z: selectedarchives/GNU13.3/pinnedBoost1.83/Qt6.12SQLite3.53.4/fresh82/no warnings/old135+requiredgreens/newgreen4(6PASS0skip26ms)/UNCONDITIONAL29PASS1.70s; all11 source-head checksSUCCESS. CI/review parallel, no futurehead claim; source/config bytes unchanged afterward. Bounded implementation done only; final completion/CI review and latest-head merge gates remain, DB-01/full release partial."
       ],
       "verification": {
         "reviewed_red_baseline": "passed",
         "implementation": "passed",
         "acceptance": "passed",
-        "code_review": "not_run",
-        "official_qt_acceptance": "not_run",
-        "platform_release": "not_run"
+        "code_review": "passed",
+        "official_qt_acceptance": "passed",
+        "platform_release": "not_run",
+        "github_ci": "passed"
       },
       "evidence": [
         "docs/evidence/storagetest-015-handoff.md",
@@ -5010,9 +5012,17 @@
         "docs/evidence/storage-015-implementation.md",
         "docs/evidence/storage-015-null-baseline-correction.md",
         "docs/evidence/storage-015-null-baseline-review.md",
-        "docs/evidence/storage-015-ci.md"
+        "docs/evidence/storage-015-ci.md",
+        "docs/evidence/storage-015-handoff.md",
+        "docs/evidence/storage-015-code-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/contribution_implementer (production source); /root/plan_fixture_author (narrow SQL NULL oracle correction); /root (shared CI/configuration/completion metadata)",
+        "reviewer": "/root/contribution_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual source/config d15450bef3c1ed8025d3a5caf2bf3e689c27eb3a/root6192617 approves source9b0/revisedtesta805/configce4b and actual82-step0-warning/29/full173 pass. Separate correction90eceb0c preserves all original history/audit assertions and strengthens SQLNULL/type oracle. Actual automatic official41503096872 at reviewed1bf passes pins/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/old135/newgreen4/UNCONDITIONAL29PASS1.70s/all11. No full-release or future-head merge approval; final metadata/CI attribution/latest-head gates remain.",
+        "evidence": "docs/evidence/storage-015-code-review.md"
+      }
     },
     {
       "id": "STORAGECONTRACT-001",
@@ -12089,6 +12099,11 @@
       "date": "2026-11-02T18:12:18.751662+00:00",
       "task": "STORAGE-015",
       "note": "Selected bounded production persistence after actual integrated reviewed/red baseline PR39; dedicated branch created before claim, fresh isolated author/reviewer assignments next. Postmerge SQL check still running and explicitly tracked."
+    },
+    {
+      "date": "2026-11-02T18:47:54.244746+00:00",
+      "task": "STORAGE-015",
+      "note": "Completed bounded persistence with current source9b0/revised semantic SQLNULL baseline, passing29/full173, actual different source/config review and automatic official29 acceptance; final evidence/latest-head merge gates still pending."
     }
   ]
 }

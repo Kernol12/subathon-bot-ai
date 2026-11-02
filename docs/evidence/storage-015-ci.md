@@ -66,3 +66,38 @@ exact173 registrations/29 feature cases remain and no feature draft label surviv
 Actionlint1.7.12/diff/project/render checks pass. Source/config approval and actual
 changed automatic official workflow are still required before completion/merge.
 All semantic/app/provider/operational/UI/platform release gates stay open.
+
+## Actual source/config approval and automatic official acceptance
+
+Different actual [source review](storage-015-code-review.md)
+`d15450bef3c1ed8025d3a5caf2bf3e689c27eb3a` integrated `6192617` accepts exact
+candidate `1bf47f0e6e72bac154413e0c7f290e36ec2024fc`: source9b0/revised testa805 and
+four shared config blobs above. Reviewer read all1176 source lines, traced the
+scope/ownership/rollback/allocation paths beyond assertions, independently matched
+five DDL to physical99bf and preserved old config steps. Its actual fresh82-step
+build had0 warnings;29/full173 PASS1.11s/4.45s, zero Qt failures/skips. No absent
+future revision, CI result or full-release claim was approved.
+
+Actual automatic [run41503096872](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41503096872)
+at SAME source/config candidate1bf ran2026-11-02T18:42:23Z–18:43:35Z and concluded
+SUCCESS. CI and code review proceeded in parallel; this is attributed source-head
+CI, not a claim that a later evidence commit was in that job. Source/config/fixture
+bytes remain unchanged after1bf. Root inspected actual JSON/full log and all-checks
+list under ignored `local-evidence/coordinator/storage015-source-*`.
+
+Observed actual job:
+
+- Both selected Qt archive hashes OK; project GNU13.3.0, pinned Boost1.83 package/
+  selected header108300/configs, Qt6.12.0 and bundled SQLite3.53.4.
+- Fresh82-step build, including actual new implementation and both Qt suites,
+  zero build warnings; complete compiled discovery matches all29.
+- All old135 automatic SQL cases/old required green7+3+3+3 pass. New green4 reports
+  actual6PASS0fail/0skip26ms with selected Qt/SQLite identity and INVALID sparseMAX.
+- **Run reviewed captured-plan acceptance** executes unconditionally and reports
+  **100% tests passed,0 failed out of29,1.70s**. It is not a dispatch-only discovery
+  or suppressed failure. All11 source-head checks completedSUCCESS.
+
+These satisfy bounded implementation acceptance plus different source/config
+review. Final completion metadata/CI-attribution review and future latest-head
+checks/discussions/rules/normal merge remain separate. The historical baseline
+red is unchanged; no unsupported full-app/provider/platform capability follows.
