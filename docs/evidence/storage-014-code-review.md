@@ -112,3 +112,58 @@ semantic configuration/authorization, actual plan/rate provenance, backup/update
 recovery/power-loss, both renderers/UI/locales/themes/packaging/platform/live/OBS
 and full product verification remain mandatory and incomplete. No owner decision
 or access is required for this bounded component.
+
+## Final actual completion metadata and official CI attribution
+
+Verdict: **approved actual completion metadata/CI attribution**, no unresolved
+finding. Reviewed rootc56fe98a05d29d7320cd22074a65dbbeca89e125, normally merged
+in this review tree. Only this appendix is authored here. Source/config approval
+above remains valid for its exact artifacts; no native or historical-red suite
+was rerun for this metadata-only review.
+
+Compared all twelve source/config/frozen baseline/API/contract/original-red hashes
+across actuala751d54, publishedd0ce5c8b62aec6a7bd0735b3caa24ffaaaea362e,
+completionc56fe98 and review HEAD. Source615/CMake17ca/preset35e/QtCMake2da/
+workflow1fe and all reviewed baseline artifacts remain identical. Root5ed4194
+integration is an ancestor ofd0, and the review file there is byte-identical to
+actuala751d54. Thus actual independent approval preceded this publication/run.
+
+Read the full cached JSON and executed log for
+[automatic run41477399818](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41477399818)
+from root local-evidence/coordinator/storage014-ci-d0ce5c8.{json,log}. Independently
+fetched `gh run view 41477399818 --json databaseId,headSha,event,status,conclusion,url`
+and current PR38 check rollup. Fresh GH confirms the exactd0 pull_request run
+completed SUCCESS and all11 checks at that historical source head succeeded.
+The cached JSON does not include event; that field was verified through the fresh
+GH response rather than assumed from an unrequested cache field.
+
+Actual full log shows both pinned archive hashes OK, GNU13.3.0,70-step build
+including sqlite_contributions.cpp, Qt6.12.0/bundled SQLite3.53.4, all earlier111
+cases and required green7/3/3/3 passing. New green has5 total passes including
+init/cleanup,0skip. Exact24 compiled registration passes, followed by all24
+individual contribution cases and final24/24PASS,2.54s. The real contribution step
+reports SUCCESS and executes unconditionally; no manual feature control/if or
+failure inversion remains. Host Qt6.12/SQLite3.54 local24/full143 results stay
+separate from this selected bundled proof. Qt's own GCC11 library banner is not
+this project's compiler. No result or latest-head success was inferred from a label.
+
+Read completion state/map, architecture/test strategy additions, brief, handoff,
+CI record and current checkpoint. All391 IDs/dependencies are unchanged since
+source approval; only STORAGE-014 task data changes. Its implementation done status
+has actual acceptance=passed and a different approved source/config reviewer,
+while publication/merge remain separately pending. DB-01 remains partial. The
+old baseline's explicit-stub statement is now historical; original red/review/
+assertions are preserved. No app bundle/effect/job/rate-plan/semantic permission,
+provider authority, recovery/power-loss/platform/live/full-release claim appears.
+All seven integrations/three FX providers and remaining release gates remain.
+The explicit owner resume supersedes the prior honored stop; subsequent work
+still requires integrated prerequisites and its own baseline/review gates.
+
+Independent exact-hash/ancestry/task-graph/log/CI-state checks pass, as do
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check` and
+`git diff --check`:391 tasks/122 decisions/current HTML. No native/test/fixture/
+source mutation was used for these attribution checks. Root still must publish
+its final metadata/review revision, observe that actual latest-head CI, inspect
+current main/protection/required approvals/discussions/mergeability and merge
+normally. Historicald0 success is not transferred to this review commit or any
+future head; this verdict does not preapprove those remaining actions.
