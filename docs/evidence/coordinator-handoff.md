@@ -1,207 +1,115 @@
 # Coordinator checkpoint — finish PR42, then stop
 
-The latest owner instruction is **“Cleanly finish the open PRs and then stop.”**
-This narrows the standing coordinator loop: complete the existing STORAGETEST-002
-baseline PR42, merge only after all applicable gates pass, reconcile its outcome,
-and stop. Do not claim or start STORAGE-002 or another task after that merge.
-No owner decision or access is currently needed. The full product is incomplete.
+Latest owner instruction: **“Cleanly finish the open PRs and then stop.”** Finish
+only existing [PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42), merge only
+after every applicable gate passes, reconcile actual outcomes, then STOP. Do not
+claim or implement STORAGE-002 or start another task. No owner access/decision is
+needed. Full product remains incomplete.
 
-## Actual repository and GitHub reconciliation
+## Actual repository, publication and active stage
 
-Coordinator `/root`, 2026-11-02. Root branch is
-`task/STORAGETEST-002-application-bundle`, clean at inspected phase commit
-`47ebdcae836a795a25ef1c27bebbae26bb16ce48` before this checkpoint edit.
-Local and remote main are `100171b47709ab6d4323fa1ca0d627cad6c24719`, normal PR41
-merge. Only [PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42) is open.
-Its published head `e2e290b548cf38bfb3ef4527b75dc3833ad0f7ef` is DRAFT,
-MERGEABLE/CLEAN, with all eleven checks SUCCESS and no GitHub reviews. Root has
-integrated actual fixture review and the feature-author phase locally since that
-publication. These later commits still need their own latest-revision checks.
+STORAGETEST-002 is in_progress/test_baseline, not implementation. Root branch
+`task/STORAGETEST-002-application-bundle`; actual source/build freeze
+`a6bb6283e792c5b5804db9c371d103f710b0f502` is clean before this evidence update.
+Local/remote main remain `100171b47709ab6d4323fa1ca0d627cad6c24719` (normal PR41).
+Only PR42 is open/DRAFT. Published head `bed9abcfaca95323501b5a992ed5dfe7d215a41d`
+has all11 checks SUCCESS including SQL41535643464; it predates the new feature
+source/harness. New complete feature revision is local and UNPUBLISHED.
 
-All **96 registered worktrees = 80 existing + 16 absent/prunable references** were
-inspected and preserved. Existing worktrees were clean before new assignments.
-No native build/test/CLI watch was running. No prune, reset or discard was used.
-On interruption inspect actual worktrees/processes/agents/GitHub again; names in
-old checkpoints do not establish that an agent is still running.
+Actual feature CPP is authored, compiled warning-free and metadata-discovered.
+Full different ACTUAL test/harness review is active; NO final verdict yet. No new
+bundle entrypoint/feature body has run; NO intended feature red is observed. The
+source still has seven immediate named stubs. STORAGE-002 remains planned.
 
-## Task, accepted artifacts and valid evidence
+[Task handoff](storagetest-002-handoff.md), [actual reviews](storagetest-002-review.md),
+[build/CI evidence](storagetest-002-ci.md), [feature author](storagetest-002-test-author.md),
+[fixture author](storagetest-002-fixture-author.md), [API author](storagetest-002-api-author.md).
 
-STORAGETEST-002 remains `in_progress`, kind `test_baseline`; STORAGE-002 remains
-`planned`. [Task handoff](storagetest-002-handoff.md),
-[build and CI evidence](storagetest-002-ci.md),
-[actual independent reviews](storagetest-002-review.md),
-[API author](storagetest-002-api-author.md),
-[fixture author](storagetest-002-fixture-author.md).
+## Exact artifacts and preserved approvals
 
-| Frozen artifact | Git blob |
+| Artifact | Current Git blob |
 | --- | --- |
-| Logical concrete contract, including reviewed typed basis read/SB15 and category precision | `80f8ee65869a27c6b1b7b6d3819a0065777958b7` |
-| Physical step5 contract | `f13fca6d11e57410a31a7d307a8b12eaa21a68f9` |
+| Concrete logical contract | `80f8ee65869a27c6b1b7b6d3819a0065777958b7` |
+| Physical contract | `f13fca6d11e57410a31a7d307a8b12eaa21a68f9` |
 | Header | `8e24f0624673bf88f86405651f9aabee1026a226` |
-| Immediate stub source | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
-| Independent literal JSON | `e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d` |
+| Seven immediate stub source | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
+| Literal JSON | `e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d` |
 | Old-writer-only fixture helper | `b0a5c72f152f193370d6c39af526fba61d332fdb` |
-| Fixture-stage Qt CMake | `203db2f439add44c6fe20b6ce5152134aa61f572` |
-| Fixture-stage SQL workflow | `b9e1a49583e8e54800997215ba4e65ec58ee2b8c` |
+| New32-case CPP | `64678efb6db3884160f30150060bfd547df6e466` |
+| Feature author note | `3c3bcd62bfe4873e1397fe8be618d34f23c25a70` |
+| Qt CMake | `91035af6f5ab00916770c1ba508db01997354ffe` |
+| SQL workflow | `453f1a2df00f11442330f2649d9c4ded41d7841e` |
 
-Actual document approval `4d7b98a2ef6c92024879dbcde0f622a1036cb650`, actual
-API/typed-read/config approval `ef0ba764c6f0b24f534c373d6e28ef5c696a1f71`, and
-actual full fixture/helper/harness approval
-`5cf5dc2e4a3674ba34b09b90d3091d0e77673c40` remain valid for their exact artifacts.
-The last review integrated as `809ec1666d24dba05b31b37e6ad8381ef4b1c074`.
-Do not repeat completed preparation, old red baselines or unchanged native suites.
+Actual document4d7b98a2, API/typed-read/configef0ba764 and full fixture/helper/harness
+5cf5dc2e reviews remain valid for their exact subsets. New12-line category precision
+80f8 was ACTUALLY independently approved42f8ef5354e068d45694c753088093506582ca4c
+(root70f0258): matched healthy-head/advanced-before mismatch requires ACTUAL whole
+rollback before known source_mismatch; uncertain cleanup remains WorkFailure.
+Rejection was already required, but category AND cleanup are newly explicit.
+Removing12 lines restores prior2f6/all15SB; no API/schema/source/literal change.
 
-Official SQL run [41531137766](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41531137766)
-at exact published e2e succeeded: GNU13.3, pinned Boost1.83, checked Qt6.12 archives,
-SQLite3.53.4, fresh88-step build, old164/required old diagnostics/Qt probe and NEW
-unconditional five-slot guard plus **7PASS/0FAIL/0SKIP**,914ms. All eleven PR checks
-succeeded. Host corrected helper also passed seven Qt totals/zero skips. Initial
-trigger installation through the semicolon-restricted writer was a documented
-setup failure, corrected through a separately owned idle observer and reviewed;
-JSON, trigger predicates, rollback assertions and production filter were preserved.
-This is genuine fixture preparation, not feature red or implementation acceptance.
+Official fixture run41531137766 at exacte2e passed pinned Boost1.83/checkedQt6.12/
+SQLite3.53.4/fresh88 steps/old164+old diagnostics/NEW unconditional five-slot guard
+plus7PASS/0FAIL/0SKIP. All11 fixture-head checks passed. Initial trigger installation
+through the semicolon-restricted writer was a documented setup failure, corrected
+through reviewed idle observer with JSON/predicates/rollback assertions preserved.
+Neither this nor later checkpoint CI is future feature-harness proof.
 
-Seven new bundle functions remain immediate named NotImplemented throws; the
-constructor only retains session/options. No new bundle feature body/entrypoint
-has run, no real feature red has been observed, and no production implementation
-is authorized. Full66-object/F62465/c9ba98 manifest, exact old prefixes, three-state
-snapshots, many-basis reversals and selected-source versus full-lookup closure are
-frozen in the reviewed contract and literal fixture, not implementation output.
+## Actual source handoff and compiler/discovery evidence
 
-## Explicit resumed assignments and ownership
+Author eb5bab9423c52a3b3d1d9e0b274a1171954de259 imported8b59d78 authored all32 cases.
+Six preliminary findings were corrected: wrong MAX expected state; masked rollback
+assertions; impossible NOTNULL seed; missing activity/verification provenance;
+unused prefix snapshot; optional-to-bool compile errors. Actual full review must
+verify resolutions and all later source; preliminary audit was not approval.
 
-- `/root/plan_fixture_author` explicitly resumed as FEATURE TEST AUTHOR in fresh
-  `local-evidence/worktrees/storage002-feature-author`, branch
-  `task/STORAGETEST-002-feature-author`, base47ebdca. Own only new
-  `tests/qt/sqlite_application_bundle_tests.cpp`, own test-author evidence and
-  optional small new test-support header. Preserve old fixture tree, clean5b161be6.
-  No feature body/new entrypoint invocation before actual full separate review.
-  Setup/oracles use approved literals and old real writer only; no new producer.
-- `/root/contribution_reviewer` explicitly resumed for read-only FEATURE-REVIEW
-  PREPARATION, existing `storage002-contract-review` branch/tree clean5cf5dc2e.
-  No feature verdict before actual authored candidate and root harness arrive.
-  Own only append to its review evidence when actually reviewing the candidate.
-- `/root/contribution_implementer` completed minimal API in clean1662219, preserved
-  `storage002-contract-author` branch/tree. No active implementation assignment.
+Root9fa configure passed. First build stopped AutoMoc before C++: helper variable
+slots was reserved by Qt, NOT feature red. Author2ade878e clean importedeb90824
+renames only to placeholders and adds focused author note. Second build linked,
+with one Wshadow warning; roota6 renames ONLY inner value to selected_state.
+At CLEANa6, target build PASS/3 worksteps/6.91s/ZERO warnings. -functions exactly32;
+CTest show-only exactly32 enabled bundle cases/206 total. Removingnew32 restores
+EXACT old174 names/commands/properties. No feature bodies or old173 rerun. Raw logs,
+failed/passed build hashes and metadata hashes are in CI evidence. No root native
+watch is running; inspect actual reviewer processes if interrupted.
 
-Root owns state/HTML/acceptance map, all CMake/presets/workflows, migration order,
-shared schemas/pins, integration and checkpoint. Feature author sends exact slot
-names. No concurrent writer shares these paths. Completed roles are not running
-merely because old checkpoints called them active.
+## Explicit roles, worktrees and ownership
+
+All97 registered =81 existing +16 absent/prunable refs preserved; no prune/reset/
+discard. Prior existing trees were inspected clean before new assignments.
+
+- plan_fixture_author: COMPLETE/available, clean2ade878e at branch
+  task/STORAGETEST-002-feature-author, local-evidence/worktrees/storage002-feature-author.
+  Own CPP/author note; no ongoing source edits unless explicitly resumed for findings.
+  Prior fixture tree clean5b161be6 preserved.
+- contribution_reviewer: explicitly RUNNING ACTUAL full test/harness review at fresh
+  task/STORAGETEST-002-feature-review, local-evidence/worktrees/storage002-feature-review.
+  Actual complete source/harness/author note and roota6 build/discovery were supplied.
+  Own ONLY append review MD; no feature body execution. Preserve previous full
+  fixture review tree5cf and category review tree42f. Never infer a verdict.
+- contribution_implementer: COMPLETE clean1662219 in storage002-contract-author;
+  no production implementation assignment.
+
+Root owns shared state/HTML/map/CMake/presets/workflows/schema order/pins/checkpoint
+and integration. New target/CI registration additions preserve every old definition
+and unconditional five-slot fixture guard. Known-red bodies stay separate from
+passing CI; no skip/inversion/blanket failure suppression.
 
 ## Next concrete gates and stopping point
 
-1. Integrate actual feature tests/evidence; root wires separate acceptance target
-   and exact slot registration plus automatic compiled-discovery guard. Preserve
-   all old assertions and unconditional five-slot fixture diagnostics. No feature
-   bodies in static/init/setup or as expected-value producers.
-2. Obtain actual full separate test/harness review, resolve findings, compile and
-   discover exact cases. Observe required official NEW fixture green and complete
-   feature registration on the same clean reviewed full-feature revision.
-3. Only then run FIRST real named missing-behavior red; preserve raw log, exit,
-   exact clean commit, hashes and setup/cleanup/zero-skip evidence. A compiler,
-   dependency or setup failure is not the intended red baseline.
-4. Complete evidence/state/HTML, final scope review, latest-head CI, threads and
-   applicable rules/approvals. Recheck before normal exact-head merge; no bypass.
-5. Reconcile actual merged main/PR outcome, preserve support branches/worktrees,
-   stop all task agents, and **STOP**. Do not start downstream STORAGE-002.
+1. Obtain actual full different test/harness verdict; resolve findings with exact
+   source revisions and meaningful compiler/discovery follow-up. Preserve assertions.
+2. Publish CLEAN approved complete-feature revision. Observe its OWN official NEW
+   fixture five-slot green and exact32 compiled registration/all11 latest checks.
+3. ONLY THEN FIRST `ctest --preset sqlite-bundle-debug -L '^sqlite-bundle$'` named
+   missing-behavior red. Preserve raw log/exit/timestamp/cleanhead/hashes and confirm
+   every setup/cleanup passes, zero skip/setup failure/crash. Build failure is not red.
+4. Update actual task/map/evidence/HTML, final separate scope review, latest-head CI,
+   discussions/rules/required approvals. Normal exact-head merge only; no bypass.
+5. Reconcile actual main/PR and postmerge checks; preserve support work and stop
+   task agents. STOP; no next task or STORAGE-002 implementation.
 
-All seven integrations/three FX, full application/authority/state/jobs/delivery/
-wire/refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/
-security/backup/update/live/OBS remain required and incomplete. Synthetic disposable
-work only; no credentials/supporter/chat/payment/deployment side effects.
-
-## Uncommitted harness preparation while feature author works
-
-Root1964e59 checkpoint commit is cleanly recorded. Root then prepared uncommitted
-`tests/qt/CMakeLists.txt` (separate target/proposed32 slots) and
-`.github/workflows/sqlite-writer.yml` (compiled registration guard only). No configure,
-feature body or new entrypoint has run; candidate source is still being authored.
-Confirm names/macros against the actual handoff, integrate candidate, then compile
-and review before publishing. Existing target/fixture guard bytes remain intact.
-Reviewer completed read-only prep, clean5cf/no files/no repeated checks; explicitly
-resume for actual candidate when available. Preserve these root pending edits.
-
-## Actual category precision approved
-
-Feature author identified an unbound post-SQL error/cleanup category for a supplied
-advanced-before snapshot that violates its matched healthy head binding or
-clock-only preserved fields. Actual different review42f8ef5354e068d45694c753088093506582ca4c
-integrated70f0258 accepts revised logical80f8ee65869a27c6b1b7b6d3819a0065777958b7:
-actual whole-unit rollback must precede known source_mismatch, while uncertain
-cleanup remains original WorkFailure. Rejection was already required; category
-AND cleanup are newly explicit. Reviewer requested/corrected the initial wording
-that overstated prior cleanup precision. Removing12 added lines restores prior
-2f6/all15SB exactly; API/source/physical/literals/helper remain frozen.
-
-New category-review branch/tree (`task/STORAGETEST-002-category-review`,
-`local-evidence/worktrees/storage002-category-review`) is clean42f8, old5cf preserved.
-Reviewer is complete/available for actual full feature candidate; no anticipated
-feature verdict. Author was explicitly sent approved oracle and independently
-confirmed result_items counts lookup20/inputs9/Mainbasis10. Source still7stubs,
-no newentrypoint/body/red. Root latest review integration70f0258; only shared
-CMake/workflow additions remain pending actual test candidate.
-
-## Published checkpoint and preliminary actual-code audit
-
-Actual bed9abcfaca95323501b5a992ed5dfe7d215a41d published to existing DRAFT PR42;
-all eleven latest checks SUCCESS, including SQL41535643464. Main remains100171b.
-This metadata/category checkpoint still has only accepted five-slot fixture
-diagnostics, not the unpublished feature harness; do not attribute it to future
-full feature discovery or red. Root uncommitted CMake/workflow additions preserved.
-
-Feature author has written actual partial testCPP and is completing the remaining
-case bodies/evidence; no body/new entrypoint/native run. Reviewer explicitly resumed
-for READ-ONLY preliminary actual-code audit while writing continues, not approval.
-A concrete draft MAX-CID positive fixture mismatch was found at snapshot240402b7:
-it reused CID0 expected current15state while actualMAX state differs. Root sent
-correction request to derive expectedMAX from its own matching literal, preserving
-complete comparator/assertions. Full candidate/final actual review still required.
-No production assignment; owner stopping instruction remains finishPR42 thenSTOP.
-
-Preliminary read-only audit is now COMPLETE, not an approval: reviewer inspected
-snapshot SHA240402b79aaa3fee1f98b36beb3e0037dc285fb0291ae601af70229f55cb7000
-(567 lines/74983 bytes, preserved /tmp/storage002-feature-preliminary-snapshot.cpp).
-Six findings were sent to the author: expected CIDMAX state mismatch; deliberate
-rollback masking earlier assertions; an impossible NOTNULL-to-NULL seed; omitted
-owned activity/verified-link assertions; an unused captured prefix snapshot; and
-explicit optional-to-bool compile errors. Author has acknowledged corrections in
-progress. Reviewer changed no file or review note and ran no compiler/body/checks.
-Actual complete committed candidate plus root harness must receive the full review.
-
-## Actual frozen feature source and root compile handoff
-
-Actual author eb5bab9423c52a3b3d1d9e0b274a1171954de259 clean imported8b59d78:
-newCPP3194 lines/blob88e9b1b83056fb90420b7f238ebdf2f7d0a5c16d/SHA0a69e875,
-all32 actual slots and five macros match root harness. Source writer is complete
-for this unreviewed candidate; author is now writing own evidence note only. Root
-freezes separate target/32 CTest cases/compiled-registration CI guard, preserving
-all old definitions and required fixture diagnostics. Root next COMPILES/DISCOVERS
-ONLY; no body/new entrypoint has run. Full different actual review remains pending;
-no final verdict follows from the preliminary audit. Official same-clean-approved-
-feature-head NEWgreen/discovery still must precede FIRST genuine red. Do not start
-STORAGE-002 after PR42; latest owner stopping instruction remains in force.
-
-## Actual build defect and full-review assignment
-
-At clean9fa, configure passed; first target build failed AutoMoc before C++ because
-local variable `slots` is reserved by Qt (CPP694). Author is correcting this focused
-helper name and writing own evidence MD; raw failure/config logs and hashes are
-in task CI evidence. This is NOT feature red; no binary/body/new entrypoint ran.
-Fresh task/STORAGETEST-002-feature-review tree at9fa was created and reviewer
-EXPLICITLY resumed for the ACTUAL full32-case/harness review. No final approval
-until actual author note/corrections and complete review. All97 registered =81
-existing+16 absent references preserved. Root build command completed; no native
-watch is running. Root will integrate exact author fix, rebuild/discover ONLY,
-resolve actual review, then publish clean approved full-feature revision for own
-official newgreen/discovery BEFORE FIRST body/red. Stop after PR42 completion.
-
-## Actual author handoff and first C++ link
-
-Actual author2ade878e clean importedeb90824 adds focused Qt reserved-name fix and
-complete authorMD3c3bcd62; author is COMPLETE/available, not still writing. Actual
-CPP054acbc2 built/linked in4 steps/7.12s with one Wshadow warning. Root changes
-ONLY the inner read_state local name to selected_state and freezes this source
-before zero-warning rebuild/discovery. Review agent was sent actualeb908/source/
-author note and is actively conducting full review; no anticipated verdict. No
-new entrypoint/body/red has run. Fixture/API/physical/source stubs unchanged.
+All seven integrations/three FX, full authority/application/state/jobs/delivery/wire/
+refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/security/
+backup/update/live/OBS remain required/incomplete. Synthetic disposable work only;
+no credentials/supporter/chat/payment/deployment side effects.

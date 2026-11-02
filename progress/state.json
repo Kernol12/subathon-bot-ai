@@ -5084,7 +5084,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "Coordinator /root; independent feature-test author /root/plan_fixture_author; reviewer /root/contribution_reviewer; API/fixture roles completed",
+      "owner": "Coordinator /root; actual full test/harness reviewer /root/contribution_reviewer; feature author /root/plan_fixture_author completed",
       "depends_on": [
         "STORAGE-001",
         "STORAGE-015",
@@ -5119,7 +5119,8 @@
         "Actualdifferentcategoryapproval42f8ef5354e068d45694c753088093506582ca4c imported70f0258/reviewMD3f666572 accepts revisedlogical80f8ee65 at e6e0be3. Exact12lineaddition binds matchedhealthyhead/advanced-before relationmismatch toactualknownrollbackBEFOREsource_mismatch, actualuncertaintyoriginalWorkFailure; oldrejectionunchanged/categoryANDcleanupnewlyspecified. Reviewerconfirmedremove12linesrestoresprior2f6/all15SB/header/source/physical/JSON/helperunchanged; staticproject/render/diffPASS/no newbody. Featureauthor explicitlynotified actualapprovedoracle and20/9/10resultcounts; completefeaturetests/fullreview/compile/discovery/officialsameheadgreen/FIRSTred remainpending.",
         "ActualindependentfeatureCPPauthor eb5bab9423c52a3b3d1d9e0b274a1171954de259 clean imported8b59d78: source88e9b1b8/SHA0a69e875/3194lines/32actualslots. Root48+lineCmake/19lineworkflow addsseparatetarget/exact32registrationandcompiled-slotguardONLY; allolddefinitions/required5slotgreen preserved. Sixactualprelimfindingsresolvedinauthoredcandidate, fullactualreviewstillpending; authorownMDsecondcommitinprogress. Rootfreezescompletecode/harness beforeCOMPILE/DISCOVERYONLY; no newentrypoint/body/native/redyet. Samecleanapprovedfullfeatureheadselectedofficialnewgreen stillrequiredBEFOREfirstred. OwnerfinishPR42thenSTOP/noimplementation.",
         "Actualclean9fa configurePASS0.20s; firstfeaturetargetbuildEXIT1/0.22s AutoMocbeforeC++compilation becausehelperlocalvariable slots collideswithQtkeyword atCPP694. Focusedrename requestedfromsourceauthor, originalrawlogs/hashes preserved; NOTintendedred/no newbinary/body/entrypoint. DifferentactualFULLtest/harnessreview explicitlyresumedNEWstorage002-feature-review branch/tree9fa; authorownMDstillforthcoming, no finalverdict. All97registered/81existing/16absent refs preserved, no oldred/old173rerun.",
-        "Actualauthor2ade878e clean importedeb90824: focusedslots\u2192placeholders Qtkeywordrename ONLY and168lineauthorMD3c3bcd62; source054acbc2/SHA450f1141. CorrectedtargetbuildactuallyPASS4steps/7.12s, one-Wshadowlocalvaluewarning (notzero). Rootrenameinnerlocalto selected_state ONLY, preservingallassertions, andfreezesnextsourcebeforewarning-freebuild/discovery. Sixprelimissuesexplicitlyresolved/32case-map/independent838input+112state/20-9-10returnoracles documented. Fullactualdifferentreview active, no verdict/newentrypoint/body/redyet."
+        "Actualauthor2ade878e clean importedeb90824: focusedslots\u2192placeholders Qtkeywordrename ONLY and168lineauthorMD3c3bcd62; source054acbc2/SHA450f1141. CorrectedtargetbuildactuallyPASS4steps/7.12s, one-Wshadowlocalvaluewarning (notzero). Rootrenameinnerlocalto selected_state ONLY, preservingallassertions, andfreezesnextsourcebeforewarning-freebuild/discovery. Sixprelimissuesexplicitlyresolved/32case-map/independent838input+112state/20-9-10returnoracles documented. Fullactualdifferentreview active, no verdict/newentrypoint/body/redyet.",
+        "ActualCLEANa6bb6283e792c5b5804db9c371d103f710b0f502 zero-warningtargetrebuildPASS3worksteps/6.91s. CPP64678efb/QtCmake91035/WF453f/authorMD3c3. Compiled32functions matchall32enabledCTestslots,206total; removingnew32restoresEXACTold174names/commands/properties fromacceptedfixturediscovery. No featurebody/newentrypoint/intendedred ran; no unchangedold173native replay. Fullactualdifferentreviewnowactiveagainstcompleteactualsource/harness/note; publishonlyafterverdict/corrections andobserveOWNsame-clean-approved-feature-head requiredofficial5green+32discovery beforeFIRSTred. Latestpublishedbed9all11SUCCESS/SQL41535643464 ischeckpointONLYnotnewfeature-harnessproof."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -5142,8 +5143,10 @@
         "fixture_selected_qt": "passed",
         "clock_before_category_review": "passed",
         "feature_authoring": "passed",
-        "feature_native_build": "partial",
-        "authored_tests": "passed"
+        "feature_native_build": "passed",
+        "authored_tests": "passed",
+        "feature_registration": "passed",
+        "existing_registration_preserved": "passed"
       },
       "evidence": [
         "docs/evidence/storagetest-002-handoff.md",

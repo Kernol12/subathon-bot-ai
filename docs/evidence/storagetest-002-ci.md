@@ -233,3 +233,28 @@ before the next compiler/discovery check. No feature body/new entrypoint ran.
 Preserved actual successful-with-warning build log `local-evidence/storagetest002-feature-build-moc-corrected.txt` SHA256
 `ed0595659ed8212ce137a9ef49f6bf6e32aaed4fd3e70a6188e59a4b07387cec`.
 Full different review now has actual source/harness/author note; no verdict yet.
+
+### Actual clean warning-free build and complete metadata discovery
+
+At CLEAN a6bb6283e792c5b5804db9c371d103f710b0f502, the same target command passed
+with3 actual work steps/6.91s and ZERO warnings. Source64678efb6db3884160f30150060bfd547df6e466;
+QtCMake91035af6f5ab00916770c1ba508db01997354ffe; workflow453f1a2df00f11442330f2649d9c4ded41d7841e.
+Root ran ONLY compiled `server_sqlite_application_bundle_acceptance -functions`
+and `ctest --preset sqlite-bundle-debug --show-only=json-v1` (all and
+`-L '^sqlite-bundle$'`). Exactly32 compiled slots/32 enabled registrations match the
+explicit list,206 total; no DISABLED/WILL_FAIL. Removing the new32 entries restores
+EXACT accepted old174 names, commands and properties. No feature bodies/new entrypoints
+ran; no unchanged old native suite was replayed. This is compiler/metadata proof,
+not acceptance/red/full-review approval. Actual full independent review is active.
+
+| Preserved actual metadata/build artifact | SHA256 |
+| --- | --- |
+| `local-evidence/storagetest002-feature-build-warning-free.txt` | `ce87c10c45ef0f180c64dcfd47f7868013b11a63b223989a4397408ddfbce7be` |
+| `local-evidence/storagetest002-feature-functions.txt` | `b7f236b0608cfae062eec4ff3670967d4cf50453e5467d89894d88ef361c4ee6` |
+| `local-evidence/storagetest002-feature-discovery-all.json` | `33c64ad3de5ed26c786ed2e68539576d4fb142f27ddf06b935eb48aa13830568` |
+| `local-evidence/storagetest002-feature-discovery-bundle.json` | `7e7be459fb1241afe4c07a4c80b8ac3e943016f170fb2e65bbec188359f5811a` |
+
+Published checkpoint bed9abcfaca95323501b5a992ed5dfe7d215a41d has all11 checks
+SUCCESS (SQL41535643464), but excludes the new feature target/registration guard.
+The approved complete-feature revision must receive its OWN official required
+five-slot fixture green and32-case registration before FIRST real body/red.
