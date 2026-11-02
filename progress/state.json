@@ -4890,7 +4890,7 @@
       "title": "Review and demonstrate red: Captured application-plan and revision-history persistence",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Coordinator /root; test author /root/contribution_implementer; independent fixtures /root/plan_fixture_author; independent reviewer /root/contribution_reviewer",
       "depends_on": [
         "STORAGE-014",
@@ -4916,25 +4916,34 @@
         "Actual full CONTRACT-ONLY approvala2926ee integratedc61b990 forlogical1b204cbc/physical99bf45b4; independent314SQLcases217constraintrefusals/schema30/F29015/SHA/prefixes20,13,7 allpass/no blocker. Only THEN author explicitly authorized minimalnew sqlite_application_plans.hpp/.cpp immediate namedstubs+ConcreteAPIprecision+ownnote. No APIcandidateyet/no validationcodec/schema/storealgorithms/tests/fixtures authorized. Reviewerread-onlyAPIprepcompletedclean, waitsconcretecandidate. Root4uncommittedCMake/presetfiles newPlanflag/profile/library link existingBoost coreplan WITHOUT enablingGoogleTest; no configurebeforeactualstubsource exists. ActualAPI/config review precedes anynewtestfixtureauthoring.",
         "Actual minimalAPIcandidate134c9f4 integrateddc3676b; header4634/stube989/logical3af256 preserveapprovedprefix+physical99bf. Nineimmediatenamedlogicstubs+inertcallerSessionctorONLY. Root5sharedbuild/workflowfiles newPlanprofile/library/BoostwithoutGoogleTest; existingSQLworkflowbodybyteidenticalmoduloprofilepath, pinnedexistingBoost1.83/headercheck added. Actualrootconfigure/74buildsteps0warnings/143inheritedPASS3.23s/no newmethodinvoked; actualAPI/configreviewpending. Authorcompletedclean. plan_fixture_author explicitlyassignedREADONLYpreparationcompleted/noeditsSQLtests, awaitsactualAPIapproval/isolatedtree. No newtestfixture/green/red/implementation authorizedyet.",
         "Actual different API/stub/build approval4282cc4 integrated2836aac after full review of concrete f24ac08 artifacts. Reviewer independently built74steps0warnings/exact143registration/full143PASS3.25s and read actual root-observed officialSQL41488687802 f24 SUCCESS (Qt6.12/SQLite3.53.4/GNU13.3/pinnedBoost1.83/newCPP/library/old135+requiredgreen7,3,3,3). All11 f24 checksSUCCESS. This unlocks separately authored NEW tests/independent literalfixtures/oldwriter-onlygreen, not their approval or absentred/implementation. Root explicitly reassigns roles after actual integrated approval; existing stubs/approved contract/schema/config frozen pending separately reviewed changes.",
-        "After actual API approval integration, feature author explicitly resumed in existing015author tree (ONLY newQtfeaturefile+ownnote) and independent fixture author resumed in NEW task/STORAGETEST-015-fixtures/tree created from freshmain711 BEFORE edits, normalmergeeee1f61, clean. FixtureONLY newJSON/newoldwriter-onlyQtgreen/ownevidence; no futurefactory/codec/store oracle. Root owns registration/CI/sharedstate. Total70existingtrees/16absentrefs preserved. Both may compile/list; no newfeatureentrypoint until actual fullbaselineapproval+selectedofficialNEWgreen. Reviewer waits actual artifacts; no absentapproval."
+        "After actual API approval integration, feature author explicitly resumed in existing015author tree (ONLY newQtfeaturefile+ownnote) and independent fixture author resumed in NEW task/STORAGETEST-015-fixtures/tree created from freshmain711 BEFORE edits, normalmergeeee1f61, clean. FixtureONLY newJSON/newoldwriter-onlyQtgreen/ownevidence; no futurefactory/codec/store oracle. Root owns registration/CI/sharedstate. Total70existingtrees/16absentrefs preserved. Both may compile/list; no newfeatureentrypoint until actual fullbaselineapproval+selectedofficialNEWgreen. Reviewer waits actual artifacts; no absentapproval.",
+        "Actual independent fixture author6c276fc integrated6b4a2a2: ONLY newJSON64eb8b4e/helpera8d63d6a/ownnote. Independent literalSQL/F29015/hash/prefix30/uint64strings/ExactFraction4201bits/11quotecells/sparseINVALID observations and actual OLDwriter-only hostQt6.12SQLite3.54 -Werror build/fourcompiledslots/6PASS0skip14ms/22isolatedconstraintrefusals. Initial manualmoc5/systemheaderwarnings/secondcontrolledwriter setup corrected and explicitly NOTfeature red. Different reviewer explicitly resumed ACTUAL fixture/helper-only review; featureauthor still writing29slotcandidate and must mergeactualJSON. Root harness2files+checkpoint/brief dirty/unconfigured pendingfeature source; no newplanentrypoint/oldred invoked, fullbaseline/officialNEWgreen/firstred remainrequired.",
+        "Independent fixture/helper-only approval 53c0f621 was integrated as dab24ab. It pins JSON64eb8b4e and helpera8d63d6a after independent derivation and a fresh old-writer-only -Werror build; exact four slots passed (6 total, no skips,13ms). Feature assertions and final root harness remain unreviewed. Coordinator found that the rollback draft only faulted after append returned; author added a disposable conditional trigger to fault during append after scalar staging, while keeping the whole-unit after-return proof. Exact mechanism validation and full review are pending; no new plan method has run.",
+        "Feature author 2771c9bb integrated as c1cde5b: 29 actual slots, source blob0f8e625f, with independent JSON/helper unchanged. Root complete Qt/CI harness builds in20 incremental steps with zero warnings. Exact173 registrations/29 compiled feature slots/four green slots verified without invocation. Root first inspected the144-test excluded-label selection to ensure zero feature names, then all144 inherited+approved newgreen passed3.51s. Tooling19/actionlint/project391/122/render/diff pass. Actual intra-append fault assertion added and raw trigger mechanism validated by author. Task now in_review; actual full test/config review, changed officialNEWgreen/build/discovery and first genuine red still pending. No new plan entrypoint/old red executed; implementation15 remains planned."
       ],
       "verification": {
         "contract_authoring": "passed",
         "contract_review": "passed",
         "interface_authoring": "passed",
         "interface_review": "passed",
-        "authored_tests": "not_run",
+        "authored_tests": "passed",
         "baseline": "not_run",
         "product_acceptance": "not_run",
         "platform_release": "not_run",
-        "official_interface_build": "passed"
+        "official_interface_build": "passed",
+        "fixture_authoring": "passed",
+        "fixture_host_diagnostic": "passed",
+        "fixture_review": "passed",
+        "harness_build": "passed",
+        "test_review": "not_run"
       },
       "evidence": [
         "docs/evidence/storagetest-015-author.md",
         "docs/evidence/storagetest-015-probe.md",
         "docs/evidence/storagetest-015-review.md",
         "docs/evidence/storagetest-015-interface.md",
-        "docs/evidence/storagetest-015-ci.md"
+        "docs/evidence/storagetest-015-ci.md",
+        "docs/evidence/storagetest-015-fixtures.md"
       ],
       "review": null
     },

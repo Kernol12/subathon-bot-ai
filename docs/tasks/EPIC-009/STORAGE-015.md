@@ -1,8 +1,11 @@
 # STORAGE-015 — Captured application-plan and revision-history persistence
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, NUM-01, DB-01.
-Status/owner/dependencies: progress/state.json. Planned work only; no finalized
-slice interface, authored/reviewed tests or implementation is claimed by this brief.
+Status/owner/dependencies: progress/state.json. Production implementation remains
+planned. STORAGETEST-015 has separately reviewed the concrete persistence contract
+and minimal stub API; actual test/fixture authoring is in progress. Full baseline
+review, selected official fixture diagnostics and the intended red remain required.
+See [actual stage reviews](../../evidence/storagetest-015-review.md).
 
 ## Scope and ownership
 

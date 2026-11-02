@@ -5,6 +5,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      run_plan_feature_tests:
+        description: Run the reviewed captured-plan feature baseline (intentionally red until STORAGE-015)
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -251,3 +256,42 @@ jobs:
           PYTHON
       - name: Run reviewed contribution acceptance
         run: ctest --preset sqlite-plan-debug -L sqlite-contribution
+      - name: Check and run required captured-plan fixture diagnostics
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-plan-debug/tests/qt/server_sqlite_application_plans_environment"
+          expected = {
+              "planSchemaPrefixMatchesLiteralProjection()",
+              "unsignedRevisionFieldsAndSparseHistoryStayExplicit()",
+              "exactValuationAndOrderedPayloadsKeepLiteralTypes()",
+              "planConstraintsRefuseInvalidPhysicalValues()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required captured-plan fixture cases do not match compiled slots")
+          print("Discovered all 4 required captured-plan fixture cases")
+          PYTHON
+          ctest --preset sqlite-plan-debug -R '^scaffold.sqlite_application_plans_environment$' --verbose
+      - name: Check complete captured-plan baseline registration without running behavior
+        run: |
+          ctest --preset sqlite-plan-debug -L sqlite-plan --show-only
+          ctest --preset sqlite-plan-debug -L sqlite-plan --show-only=json-v1 > "$RUNNER_TEMP/plan-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "plan-tests.json").read_text())["tests"]
+          if not tests:
+              raise SystemExit("No captured-plan baseline registered")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one captured-plan Qt suite")
+          expected = set(subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines())
+          registered = [test["command"][1] + "()" for test in tests]
+          if not expected or set(registered) != expected or len(registered) != len(expected):
+              raise SystemExit("CTest registration does not match the compiled captured-plan suite")
+          print(f"Discovered all {len(tests)} compiled captured-plan cases; behavior not run")
+          PYTHON
+      - name: Run explicit captured-plan feature baseline
+        if: github.event_name == 'workflow_dispatch' && inputs.run_plan_feature_tests
+        run: ctest --preset sqlite-plan-debug -L sqlite-plan
