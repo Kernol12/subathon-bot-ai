@@ -128,3 +128,10 @@ PENDING different actual review; old2f6 approval remains valid for unchanged tex
 Existing refusal/rollback obligation is unchanged, no API/schema/source/literal edit.
 See task handoff; task concrete_contract partial/newcategoryreview not_run until
 actual reviewer verdict. No feature body or new oracle execution occurred.
+
+Actual different58ea category review requested precision/cleanup-order wording;
+root revised actualparagraph accordingly (no approval yet): require actual whole
+rollback before known source_mismatch, preserve uncertain cleanup as WorkFailure,
+and truthfully say this newly binds category AND cleanup, not already-bound
+rollback. Rejection itself is unchanged. New isolated category-review tree at
+7f9be9c adds one registered/existing tree (96/80/16); old5cf tree preserved.

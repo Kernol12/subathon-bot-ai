@@ -146,3 +146,11 @@ This actual addition is PENDING different review; no new test oracle is approved
 Actual returned-vector count interpretation is unchanged: original lookup20
 (6balances+4effects+8components+2jobs), inputs9, selected Main basis10. Hidden
 validation consumes real writer budgets, not invisible returned PlanDTO elements.
+
+Actual separate58ea review found the chosen source_mismatch/whole-unit rollback
+coherent, but requested truthful wording: prior2f6 required rejection without
+assigning this case to normal refusal versus known failure. Root revised the
+paragraph to require ACTUAL rollback before known source_mismatch and preserve
+actual cleanup uncertainty as WorkFailure; it now explicitly selects category
+AND rollback behavior. This corrects the earlier overstatement that cleanup was
+already bound. Actual revised-blob approval is pending, no body/entrypoint ran.
