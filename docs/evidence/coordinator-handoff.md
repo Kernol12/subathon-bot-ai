@@ -33,13 +33,16 @@ STORAGE-013/ACCT-002/STORAGETEST-014 are done/integrated. [Brief](../tasks/EPIC-
 Logical/API contractf503f385 and exact physicaleeb2fe04 remain unchanged. Root
 owns all shared build/preset/CI/schema ordering/state/map/HTML/checkpoint updates.
 
-Planned new isolated assignments after the claim commit (not yet running):
+Actual new isolated assignments, created clean at claim b065b9d:
 
-- contribution_implementer: new storage014-implementation worktree/branch;
+- /root/contribution_implementer: local-evidence/worktrees/storage014-implementation,
+  task/STORAGE-014-implementation;
   ONLY server/src/sqlite_contributions.cpp and own storage-014-implementation.md.
-- contribution_reviewer: new storage014-review worktree/branch;
-  read-only preparation, then actual different code/config review; ONLY own
-  storage-014-code-review.md. No absent source approval.
+- /root/contribution_reviewer: local-evidence/worktrees/storage014-review,
+  task/STORAGE-014-review;
+  read-only preparation completed clean with no contract conflict; waits actual
+  source/config revision for explicit reassignment. ONLY own storage-014-code-review.md;
+  no absent source approval. Implementer remains active on its bounded source task.
 
 Implement existing ports on the same controlled writer/session, with exact CId
 0..MAX/NULL, pure manifest3 preserving prefix1/2, immutable originals/observations,
@@ -50,7 +53,12 @@ safety, single use/owner/adoption/RAII, real commit and truthful known rollback/
 unknown durability are explicit obligations. Prior receipt commitment remains an
 honest upstream precondition; same-session visibility cannot prove it.
 
-Next create clean support trees and actually assign agents, integrate actual
+Both new agents actually spawned; no former agent assumed running.67 existing
+worktrees now preserved. Root has an uncommitted CI promotion candidate (option/
+preset/labels/manual-guard removal); it will only be published with actual passing
+implementation and different source/config review. No feature body invoked yet.
+
+Next integrate actual
 implementation, run changed-source24/full143 acceptance, independent source/config
 review, promote passing24 to unconditional ordinary CI without any assertion or
 pin weakening. Observe actual selected official Qt CI, complete evidence/progress,
@@ -62,3 +70,8 @@ application bundles/effects/jobs, semantic config/evaluation/permissions,
 backup/update/recovery/power-loss, both renderers/UI/locales/themes/packaging and
 platform/live/OBS remain mandatory and incomplete. No live credentials/supporter
 data/chat/payment/deployment action is authorized by this bounded task.
+
+Current local checks: project391/render/diff/tooling19/DOM simulation PASS. Actual
+host GNU16.2.1/CMake4.4.5/Qt6.12.0. Pinned actionlint1.7.12 restored in /tmp with
+release checksum verified; CI promotion candidate lint PASS. No new feature body
+run by root or reviewer while the implementation is still being authored.
