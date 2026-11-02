@@ -118,3 +118,16 @@ fullreview/compile/discovery/officialnewgreen on their own complete cleanrevisio
 before FIRSTintendedstubred. Oldhelper/source/data/API stayfrozen; root owns all
 CMake/CI/state integration. New focused testauthor branch/tree will be explicitly
 assigned from this accepted checkpoint, preserving fixturetree5b.
+
+## Resumed feature authoring; owner stopping instruction
+
+Latest owner instruction: cleanly finish existing open PR42, then stop. Do not
+start STORAGE-002 or another task after merge. Actual root47ebdca/main100171b,
+published draftPR42e2e all11SUCCESS; actual fixture review5cf integrated809ec16
+and preserved. All95 registered/79 existing/16 absent references preserved; no
+root native/CLI watch was running. Fresh feature-author tree/branch base47ebdca
+explicitly assigned to plan_fixture_author for new testCPP/ownnote/optional small
+new supportheader only. Reviewer explicitly resumed read-only feature-review prep;
+actual feature candidate/full review still pending. Root owns all shared harness,
+CI/state/map and final integration. No new entrypoint/body/red/implementation ran.
+[Current checkpoint](coordinator-handoff.md) records exact roles/gates/stopping point.

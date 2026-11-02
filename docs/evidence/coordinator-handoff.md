@@ -1,164 +1,112 @@
-# Coordinator checkpoint — STORAGETEST-002 feature-test authoring
+# Coordinator checkpoint — finish PR42, then stop
 
-Coordinator `/root`,2026-11-02. Continue full specification v0.45 under AGENTS.md/
-COORDINATOR_PROMPT.md; earlier stop was revoked by explicit resume. No owner access/
-decision needed. Full product remains incomplete. On resume inspect ACTUAL main,
-branches/worktrees/uncommitted work, processes/agents and GitHub before acting.
+The latest owner instruction is **“Cleanly finish the open PRs and then stop.”**
+This narrows the standing coordinator loop: complete the existing STORAGETEST-002
+baseline PR42, merge only after all applicable gates pass, reconcile its outcome,
+and stop. Do not claim or start STORAGE-002 or another task after that merge.
+No owner decision or access is currently needed. The full product is incomplete.
 
-## Current task and exact artifacts
+## Actual repository and GitHub reconciliation
 
-STORAGETEST-002 remains in_progress, genuine test_baseline, NOT implementation or
-an aggregate old-suite red. Root task/STORAGETEST-002-application-bundle; focused
-[DRAFT PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42).
-[Task handoff](storagetest-002-handoff.md), [CI/build](storagetest-002-ci.md),
-[author](storagetest-002-api-author.md), [actual reviews](storagetest-002-review.md).
+Coordinator `/root`, 2026-11-02. Root branch is
+`task/STORAGETEST-002-application-bundle`, clean at inspected phase commit
+`47ebdcae836a795a25ef1c27bebbae26bb16ce48` before this checkpoint edit.
+Local and remote main are `100171b47709ab6d4323fa1ca0d627cad6c24719`, normal PR41
+merge. Only [PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42) is open.
+Its published head `e2e290b548cf38bfb3ef4527b75dc3833ad0f7ef` is DRAFT,
+MERGEABLE/CLEAN, with all eleven checks SUCCESS and no GitHub reviews. Root has
+integrated actual fixture review and the feature-author phase locally since that
+publication. These later commits still need their own latest-revision checks.
 
-Actual minimum API author1662219db8b9478648c9c0de4751e048273c21cd clean imported
-2d0794e; root build/config freeze `79b69d437d12df5511f7e38fdc975eb7f0452e12`.
+All **95 registered worktrees = 79 existing + 16 absent/prunable references** were
+inspected and preserved. Existing worktrees were clean before new assignments.
+No native build/test/CLI watch was running. No prune, reset or discard was used.
+On interruption inspect actual worktrees/processes/agents/GitHub again; names in
+old checkpoints do not establish that an agent is still running.
 
-| Artifact | Actual Git blob |
+## Task, accepted artifacts and valid evidence
+
+STORAGETEST-002 remains `in_progress`, kind `test_baseline`; STORAGE-002 remains
+`planned`. [Task handoff](storagetest-002-handoff.md),
+[build and CI evidence](storagetest-002-ci.md),
+[actual independent reviews](storagetest-002-review.md),
+[API author](storagetest-002-api-author.md),
+[fixture author](storagetest-002-fixture-author.md).
+
+| Frozen artifact | Git blob |
 | --- | --- |
-| header375lines |8e24f0624673bf88f86405651f9aabee1026a226 |
-| source36lines |83e9a0a745bad413066ad75cf9eb82fd210b2186 |
-| logical with proposed read/SB15 |2f6e9a8ea8aa76a979fe9d800c3bf69ffbee24b6 |
-| exact physical proposal |f13fca6d11e57410a31a7d307a8b12eaa21a68f9 |
-| author evidence |4f09e3b70f581113371ba53d10bedf2614fdcfc4 |
+| Logical concrete contract, including reviewed typed basis read/SB15 | `2f6e9a8ea8aa76a979fe9d800c3bf69ffbee24b6` |
+| Physical step5 contract | `f13fca6d11e57410a31a7d307a8b12eaa21a68f9` |
+| Header | `8e24f0624673bf88f86405651f9aabee1026a226` |
+| Immediate stub source | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
+| Independent literal JSON | `e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d` |
+| Old-writer-only fixture helper | `b0a5c72f152f193370d6c39af526fba61d332fdb` |
+| Fixture-stage Qt CMake | `203db2f439add44c6fe20b6ce5152134aa61f572` |
+| Fixture-stage SQL workflow | `b9e1a49583e8e54800997215ba4e65ec58ee2b8c` |
 
-Seven meaningful functions are IMMEDIATE named NotImplemented throws (manifest+
-six facade methods); constructor only stores weak session/options. No validation,
-SQL/DDL/codec/transaction/effect implementation or feature test exists. Core stays
-framework independent, old interfaces/producers/tests/fixtures are unchanged.
+Actual document approval `4d7b98a2ef6c92024879dbcde0f622a1036cb650`, actual
+API/typed-read/config approval `ef0ba764c6f0b24f534c373d6e28ef5c696a1f71`, and
+actual full fixture/helper/harness approval
+`5cf5dc2e4a3674ba34b09b90d3091d0e77673c40` remain valid for their exact artifacts.
+The last review integrated as `809ec1666d24dba05b31b37e6ad8381ef4b1c074`.
+Do not repeat completed preparation, old red baselines or unchanged native suites.
 
-## Valid review, new projection and actual checks
+Official SQL run [41531137766](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41531137766)
+at exact published e2e succeeded: GNU13.3, pinned Boost1.83, checked Qt6.12 archives,
+SQLite3.53.4, fresh88-step build, old164/required old diagnostics/Qt probe and NEW
+unconditional five-slot guard plus **7PASS/0FAIL/0SKIP**,914ms. All eleven PR checks
+succeeded. Host corrected helper also passed seven Qt totals/zero skips. Initial
+trigger installation through the semicolon-restricted writer was a documented
+setup failure, corrected through a separately owned idle observer and reviewed;
+JSON, trigger predicates, rollback assertions and production filter were preserved.
+This is genuine fixture preparation, not feature red or implementation acceptance.
 
-Actual independent DOCUMENT approval4d7b98a2ef6c92024879dbcde0f622a1036cb650,
-rootd62823c/reviewMDe1b082ac, accepts prior logicalcf462/physicalf13/authorb737.
-It resolved multi-original reversal cardinality/direct score-count conservation/
-three snapshots and exact selected-source sibling metadata versus unselected-body
-certification. Raw independent66objects/F62465/SHA c9ba98fa4fe2a42cc6ed9776baa011fc2b93cf879e7374b53e9a6128f7d7afbb,
-prefix30/F29015bbb and14 literal SB rows remain valid, not new runtime proof.
+Seven new bundle functions remain immediate named NotImplemented throws; the
+constructor only retains session/options. No new bundle feature body/entrypoint
+has run, no real feature red has been observed, and no production implementation
+is authorized. Full66-object/F62465/c9ba98 manifest, exact old prefixes, three-state
+snapshots, many-basis reversals and selected-source versus full-lookup closure are
+frozen in the reviewed contract and literal fixture, not implementation output.
 
-Root explicitly added a narrow typed read_reversal_basis because the five-method
-proposal did not expose current per-basis progress for preparing links. It owns
-selected actual-credit/provenance/progress under the already-defined source audit;
-no rawSQL caller workaround, new schema, allocation policy or authority. Valid
-basis/no history gives actual zero progress; missing/corrupt source never invents
-credit0. Addition/SB15/header/build received ACTUAL independent extension/API/config
-approvalef0ba764c6f0b24f534c373d6e28ef5c696a1f71 (integratede033177). Removing only addition restores priorcf462 exactly, preserving4d's valid
-subset. Task contract/API stagespassed; full baseline review remainsnull.
+## Explicit resumed assignments and ownership
 
-Root configure/fresh84-step build PASS/0warnings for exact CI-recorded blobs.
-Discovery exactly173 OLD tests/no newfeature. At CLEAN79b source/config revision:
-`ctest --preset sqlite-bundle-debug` actually173/173PASS4.51s, all Qt totals0skip/
-0fail/0blacklisted. HostGNU16.2.1/Boost1.92/Python3.14.8/Qt6.12/SQLite3.54.
-Logs/hashes in CI evidence; raw LastTest preserved. No new entrypoint/old red ran.
-First scratch summary parser expected older CTest wording; corrected to observed
-CTest4.4 format+173Passed lines, no test rerun/red. Static project391/122/render/
-diff/actionlint pass. Old suite success is NOT bundle acceptance or new baseline.
+- `/root/plan_fixture_author` explicitly resumed as FEATURE TEST AUTHOR in fresh
+  `local-evidence/worktrees/storage002-feature-author`, branch
+  `task/STORAGETEST-002-feature-author`, base47ebdca. Own only new
+  `tests/qt/sqlite_application_bundle_tests.cpp`, own test-author evidence and
+  optional small new test-support header. Preserve old fixture tree, clean5b161be6.
+  No feature body/new entrypoint invocation before actual full separate review.
+  Setup/oracles use approved literals and old real writer only; no new producer.
+- `/root/contribution_reviewer` explicitly resumed for read-only FEATURE-REVIEW
+  PREPARATION, existing `storage002-contract-review` branch/tree clean5cf5dc2e.
+  No feature verdict before actual authored candidate and root harness arrive.
+  Own only append to its review evidence when actually reviewing the candidate.
+- `/root/contribution_implementer` completed minimal API in clean1662219, preserved
+  `storage002-contract-author` branch/tree. No active implementation assignment.
 
-Root owns newflag/library/sqlite-bundle-debug preset inheriting oldplan, exact
-workflow preset/build-dir token substitution ONLY. All pins/permissions/checknames/
-oldguards/commands preserved. No new fixture/feature registered yet. Source/config848 ACTUAL official41523469879 SUCCESS/fresh84/newlib/0warnings/
-GNU13.3/pinnedBoost1.83/selectedQt6.12SQLite3.53.4/old164+mandatorygreens/all11.
-Differentreviewef0ba764 independentlyfresh84/old173PASS4.48s/0Qt skips. These are
-minimalinterface/sourceCI gates only, no new66fixture/newgreen/featurebaseline.
+Root owns state/HTML/acceptance map, all CMake/presets/workflows, migration order,
+shared schemas/pins, integration and checkpoint. Feature author sends exact slot
+names. No concurrent writer shares these paths. Completed roles are not running
+merely because old checkpoints called them active.
 
-## Actual roles, preserved work and next action
+## Next concrete gates and stopping point
 
-All prior active writing completed clean before next explicit assignment:
-- contribution_implementer: task/STORAGETEST-002-contract-author,
-  local-evidence/worktrees/storage002-contract-author, clean1662219. Owned new
-  header/source and ownnote/logical extension only; physicalSQL frozen. Available
-  for actual API findings, no production implementation authorization.
-- contribution_reviewer: task/STORAGETEST-002-contract-review,
-  local-evidence/worktrees/storage002-contract-review, clean4d7b98a. Completed
-  read-onlyAPIprep; must explicitly resume for actual upcoming API/build revision.
-  ONLY append own storagetest-002-review.md after reading actual artifacts.
-- plan_fixture_author: old storage015-null-baseline tree clean61f; newtask read-only
-  prep complete, NO newfixture assignment. Fresh isolated fixture tree follows
-  actual extension/API review; never infer old agents still running.
+1. Integrate actual feature tests/evidence; root wires separate acceptance target
+   and exact slot registration plus automatic compiled-discovery guard. Preserve
+   all old assertions and unconditional five-slot fixture diagnostics. No feature
+   bodies in static/init/setup or as expected-value producers.
+2. Obtain actual full separate test/harness review, resolve findings, compile and
+   discover exact cases. Observe required official NEW fixture green and complete
+   feature registration on the same clean reviewed full-feature revision.
+3. Only then run FIRST real named missing-behavior red; preserve raw log, exit,
+   exact clean commit, hashes and setup/cleanup/zero-skip evidence. A compiler,
+   dependency or setup failure is not the intended red baseline.
+4. Complete evidence/state/HTML, final scope review, latest-head CI, threads and
+   applicable rules/approvals. Recheck before normal exact-head merge; no bypass.
+5. Reconcile actual merged main/PR outcome, preserve support branches/worktrees,
+   stop all task agents, and **STOP**. Do not start downstream STORAGE-002.
 
-Root owns sharedstate/HTML/map/CMake/core+server build/presets/workflow/schemaorder/
-pins/checkpoint/CI. No other source writer overlaps. Last accounting93registered=
-77existing/16absent refs, no prune/reset/discard. Old source/baseline/null-correction
-branches and valid reviews preserved. Root old173 session41867 completed0; no native/
-watch command running at checkpoint. Inspect actual state on resume.
-
-CURRENT actual independentfixture author7375b3273765b815c50f0bf867d7be6fdc03079d
-imported603091b. JSONe8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d /SHAaebff706,
-461783bytes. Early actualdifferent rawJSON review atthathash passed66/F62465c9/
-all56setup+6rawscenarios+queries/28constraintrefusals/10runtimeadmissions/Fraction;
-no CPP/helper approval was inferred. Initial644helperd9 compiled18/0warning but
-hostdriverfailed only compoundtrigger installation atline580 (6PASS1FAIL0skip),
-because writercontract rejects ANYsemicolon. Rawfailure preserved, NOTfeature red.
-
-Narrow author5b161be61e2204ef8a2652c3789d288a8b224a1c imported73b0167:
-667linehelperb0a5c72f152f193370d6c39af526fba61d332fdb, JSON/predicates unchanged.
-TestDDL uses independentownedobserverwhilewriteridle withbothconnectioncatalog
-proof; allpending0→staged1/oldhead/observerpending0/insidecatchBEGIN/fulltypedrollback/
-faultoffcommit assertions retained. Productionfilter/source/API/oldtests untouched.
-Correctedrootincremental3build0warnings/5compiledslots/174=old173+newdriver,
-hostdriver7PASS0FAIL0SKIP443ms/CTest0.45s. Source7stubs NEVERcalled. Rootharness
-QtCMake15lines/CI18lines preserveoldbyteexact andrequire5slots/runautomatically.
-[Fixture author](storagetest-002-fixture-author.md), CIrecordexactlogs/hashes.
-
-Author fixturetree nowCOMPLETEclean5b, APIauthorcompleteclean166; reviewer earlyJSON
-read-onlycompletecleanef. Root will explicitlyresume actualFULL3filefixture/helper/
-harnessreview after freezing this candidate; no absentverdict. Author owns ONLY
-newJSON/helper/ownnote; root ownsQtCMake/WF/sharedmetadata/schemaorder/pins. No
-rootnative/CIwatch running aftercorrectedtestcompleted0. All94registered=78existing/
-16absentrefs preserved. No prune/reset/oldred/old173 replay. Actualpublication still
-previous30d sourceAPI; newfixture candidate/harnessawaitspush/ownCI.
-
-ACTUAL fullfixture/helper/harness approval5cf5dc2e4a3674ba34b09b90d3091d0e77673c40
-integrated809ec16/reviewMD05a3cac0, exactJSONe8b6/aeb/CPPb0a5/authorb5a2/QtCmake
-203db2/WFb9e1. Own4targetbuild0warnings/5functions/174old+driver/helper7PASS0skip.
-ACTUAL official41531137766 atsamee2e/all11SUCCESS/GNU13.3/Boost1.83/checkedQt6.12/
-SQLite3.53.4/fresh88/new5guard+7PASS0skip914ms. No new7entrypoints/featurebody.
-CI/reviewparallel butsameexactsource, not futurefeatureharness approval.
-
-NEXT authorized role: independently author actual new bundle featuretests and own
-spec-linked testauthor evidence from this accepted API/fixture checkpoint. Ownnew
-sqlite_application_bundle_tests.cpp and optionalsmallnewtest-supportheader only;
-NO API/header/source/physical/JSON/helper/oldtests changes. Root owns CMake/case
-registration/CI/state; no featurebody/newentrypoint/firstred before ACTUALfullreview.
-All setup must use frozenliteralJSON/oldwriter only; no newmanifest/codec/readbody
-in init/static/setup or asoracle. Expectedresults independentliteral, not producer.
-Tests cover boundedmissingbundle behavior, not old173aggregate/madeupMAXhistory.
-Rootwill createfreshfeatureauthor branch/tree andexplicitlyresumeplan_fixture_author;
-fixturetreeclean5b/reviewerfullfixtureclean5cf preserved. No featuretest authoredyet.
-
-Afteractualtestcommit, compile/metadata-discover withoutbody, obtaindifferentACTUAL
-fulltest/harnessreview, observeownsamecleanheadselectedofficialnew5green+complete
-featurediscovery; ONLYTHEN FIRSTnamedmissingbehaviorred withallinit/cleanupPASS0skip/
-setupfail/crash. Recordactualexit/log/hashes. STORAGE-002 remainsPLANNED untilthis
-realbaseline integrates. Current7stubs/source8e24/83e9/physicalf13/JSONe8b6/helperb0
-frozen. Ownerneednone. All94registered=78existing/16absent refs preserved; no running
-rootnative/watch, edit/download sessionscomplete. Inspectactualstatus onresume.
-
-## Actual integrated main / earlier gates
-
-Main `100171b47709ab6d4323fa1ca0d627cad6c24719` is normal PR41 exact98ac merge
-2026-11-02T19:40:54Z; finalall11/source270+finalscope7fa/zero threads/currentrules
-26170263/requiredGHapprovals0/readyMERGEABLECLEAN. Localmain ff clean/treeidentical;
-all10postmainSUCCESS including SQL41512197291. [Logical-contract handoff](storagecontract-001-handoff.md).
-NewPR42 remainsdraft; main has no new bundle implementation. Recheck latest rules/
-requiredapprovals/discussions/checks/mergeability before any normal exact-head merge.
-
-[STORAGE-015](storage-015-handoff.md) PR40 mainfba/final584, source9b0/revisedtesta805,
-author/root/different reviewer29/full173PASS, actualautomatic41503096872 at1bf
-UNCONDITIONAL29PASS/all11, source d154/final3dc9 reviews. Separately reviewed real
-SQLNULL correction61f/90 stronger typeof/isNull/exact2 preserves other assertions.
-Initialtestedb697 failedoldoracle; c784 UNBUILT, never falsely attributed as tested.
-All prior source/baseline evidence remains linked through state and handoffs.
-
-[STORAGETEST-015](storagetest-015-handoff.md) PR39 original first29 explicitstubred
-AFTER samecleanaa official41494786280 preserved: rawblobae3e0e25956b16b0d3bc26065c71247263bca421,
-SHA79ddd03f9f37e9657740691b5f8bbb1b7dceff93b2de62499b345f14a8b16f41,
-2026-11-02T17:52:55.646037Z/exit8/0.57s/29init+cleanupPASS/0skip/setup/crash.
-Do NOT repeat completed preparation/red or turn it into a new bundle baseline.
-
-All seven integrations/three FX, full application/effects/delivery/state/authority,
-renderers/UI/locales/themes/platforms/packaging/security/backup/update/recovery/
-powerloss/live/OBS remain required and incomplete; DB-01/fullreleasepartial.
-Synthetic disposable work only; no credentials/supporter/chat/payment/deployment.
+All seven integrations/three FX, full application/authority/state/jobs/delivery/
+wire/refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/
+security/backup/update/live/OBS remain required and incomplete. Synthetic disposable
+work only; no credentials/supporter/chat/payment/deployment side effects.
