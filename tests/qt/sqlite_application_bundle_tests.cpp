@@ -2071,9 +2071,9 @@ class SqliteApplicationBundleTests final : public QObject {
             r = run(owned_writer, [&](auto context) -> QVariant {
                 auto s = context.begin();
                 SqliteApplicationBundleStore store(s, state_bytes);
-                auto value = store.read_state();
+                auto selected_state = store.read_state();
                 require(
-                    value && same(*value, l_->state("start")),
+                    selected_state && same(*selected_state, l_->state("start")),
                     "returned state literal112=57identity/envelope/config+27timer/debt+28balances");
                 s.commit();
                 return 1;

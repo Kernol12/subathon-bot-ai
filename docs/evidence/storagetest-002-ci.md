@@ -204,3 +204,32 @@ No feature body or new entrypoint has run; no new baseline red or whole-test
 approval is claimed. Author's focused evidence follows separately. Full different
 actual review, successful compiler/exact discovery, and official required fixture
 green on the actual clean approved complete-feature revision precede FIRST red.
+
+### First actual compiler attempt (not feature red)
+
+At clean9faabbec29528d69855ca402035cc80ea5afc6af, `cmake --preset sqlite-bundle-debug`
+passed (0.20s). `cmake --build --preset sqlite-bundle-debug --target
+server_sqlite_application_bundle_acceptance` stopped in AutoMoc (exit1,0.22s) before
+C++ compilation: CPP694 local variable `slots` collides with Qt's reserved keyword.
+Author was sent a focused rename request; full actual source/harness review began
+in fresh storage002-feature-review branch/tree at9fa. No binary/feature body/new
+entrypoint/intended red ran. Do not classify this build failure as a red baseline.
+
+| Preserved actual log | SHA256 |
+| --- | --- |
+| `local-evidence/storagetest002-feature-configure.txt` | `cfeace8b49df34f4d088d32653fefc3c7dce16a1d1be43f5d88d2175bee8fe09` |
+| `local-evidence/storagetest002-feature-build.txt` | `a7bf4c73961c1737a15bc721dc207539b3725b7164d52a08d4b7f00ca3db99c5` |
+
+### Actual source correction, complete author evidence and C++ build
+
+Actual author2ade878e93e5241d14a2f97fec69aea7396923c8 importedeb90824 includes ONLY
+local slots→placeholders correction plus168-line focused author evidence3c3bcd62.
+Its CPP054acbc2d9da87b1b705fc558b4b3201a4acae98/SHA450f1141 actually built and
+linked in4 steps/7.12s. One Wshadow warning remained for an inner read_state local
+`value` at2074; root changes only that local name and use to `selected_state`.
+No assertion/oracle/behavior is changed. This commit freezes that focused rename
+before the next compiler/discovery check. No feature body/new entrypoint ran.
+
+Preserved actual successful-with-warning build log `local-evidence/storagetest002-feature-build-moc-corrected.txt` SHA256
+`ed0595659ed8212ce137a9ef49f6bf6e32aaed4fd3e70a6188e59a4b07387cec`.
+Full different review now has actual source/harness/author note; no verdict yet.

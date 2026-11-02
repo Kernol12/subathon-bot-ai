@@ -181,3 +181,27 @@ ONLY; no body/new entrypoint has run. Full different actual review remains pendi
 no final verdict follows from the preliminary audit. Official same-clean-approved-
 feature-head NEWgreen/discovery still must precede FIRST genuine red. Do not start
 STORAGE-002 after PR42; latest owner stopping instruction remains in force.
+
+## Actual build defect and full-review assignment
+
+At clean9fa, configure passed; first target build failed AutoMoc before C++ because
+local variable `slots` is reserved by Qt (CPP694). Author is correcting this focused
+helper name and writing own evidence MD; raw failure/config logs and hashes are
+in task CI evidence. This is NOT feature red; no binary/body/new entrypoint ran.
+Fresh task/STORAGETEST-002-feature-review tree at9fa was created and reviewer
+EXPLICITLY resumed for the ACTUAL full32-case/harness review. No final approval
+until actual author note/corrections and complete review. All97 registered =81
+existing+16 absent references preserved. Root build command completed; no native
+watch is running. Root will integrate exact author fix, rebuild/discover ONLY,
+resolve actual review, then publish clean approved full-feature revision for own
+official newgreen/discovery BEFORE FIRST body/red. Stop after PR42 completion.
+
+## Actual author handoff and first C++ link
+
+Actual author2ade878e clean importedeb90824 adds focused Qt reserved-name fix and
+complete authorMD3c3bcd62; author is COMPLETE/available, not still writing. Actual
+CPP054acbc2 built/linked in4 steps/7.12s with one Wshadow warning. Root changes
+ONLY the inner read_state local name to selected_state and freezes this source
+before zero-warning rebuild/discovery. Review agent was sent actualeb908/source/
+author note and is actively conducting full review; no anticipated verdict. No
+new entrypoint/body/red has run. Fixture/API/physical/source stubs unchanged.
