@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-015 implementation active
+# Coordinator checkpoint — STORAGE-015 actual source/config review
 
 Coordinator `/root`,2026-11-02. Continue the full agreed specification v0.45 under
 AGENTS.md and COORDINATOR_PROMPT.md. The earlier stop was honored and then revoked
@@ -136,3 +136,60 @@ All seven integrations/three FX providers, semantic authority/evaluator, full
 application bundles/effects/jobs, backup/update/recovery/power-loss, renderers/UI/
 locales/themes/packaging/platform/live/OBS remain mandatory and incomplete. No live
 credentials/supporter/chat/payment/deployment action is authorized or performed.
+
+
+## Latest source milestone and separately reviewed baseline-defect correction
+
+Focused DRAFT [PR40](https://github.com/Kernol12/subathon-bot-ai/pull/40) published
+claim/checkpoint at1859ef24. Author actual first TESTED sourceb69784303454029a19509c8e5375ee0746036445
+built82steps0warnings; targeted28/29PASS1.16s and full172/173PASS4.68s. Root observed
+c784 later during UNBUILT serialization-limit tightening, not a tested revision;
+author subsequently rebuilt and continues allocation/knownrollback static audit.
+Later final source revision is not yet integrated or accepted. No29/full173 pass.
+
+Sole failure: frozen history raw-authority projection line1003 expects QVariant{}
+(Invalid), but driver formats the actual value as QString/empty. Contract requires
+SQLNULL, not Qt metatype. Pretty-print alone is insufficient proof of nullness.
+Root preserved author failure log in ignored coordinator/storage015-initial-null-
+failure-LastTest.log; author original full log /tmp/storage015-initial-full173-LastTest.log.
+
+NEW independent correction tree local-evidence/worktrees/storage015-null-baseline,
+branch task/STORAGE-015-null-baseline created clean at1859. plan_fixture_author
+explicitly owns ONLY minimal affected-slot correction and new
+storage-015-null-baseline-correction.md; must preserve every original six-column/
+revision/parent/audit/full-history assertion, add typeof NULL/integer and initial
+isNull/later exact2, prove driver behavior with old/raw Qt only. No production or
+other baseline edits. Total73 existing/16absent refs preserved.
+
+Different contribution_reviewer completed READONLY defect prep: genuine spec-based
+oracle mismatch supported, but ACTUAL correction/rawSQL typeof+isNull proof must
+arrive before approval. Eventual ONLY new storage-015-null-baseline-review.md.
+Production author was told NOT to edit tests or claim acceptance. Original feature
+0f8/redae3 remain preserved; revised assertion hash/reason will be separately
+reviewed/linked. No original red or new stub run. Root metadata/checkpoint now dirty
+with this actual failure/ownership note; no source integration/CI promotion yet.
+
+
+## Latest actual corrected-baseline source acceptance / review handoff
+
+Source author7dd67bb integrated89daa8a (source9b0b01f1f6cc8862ed4abac80a43ab0b54211a47),
+author evidence-only8b565969 integrated3898199; author tree clean. Correction61f4242
+actually approved90eceb0c, integrated6d09bee+bddd847; revised featurea805674e.
+Only affected slot changes, every outside/history/audit value remains, SQLNULL/
+type checks stronger. Independent rawQt proof confirms true typedNULL. Original
+redae3 immutable; no requirement/API/fixture change or original red repeat.
+
+After approval, actual current9b0/a805 author29/full173PASS1.15/4.65s; root29/full173
+PASS1.11/4.45s. Root builds0warnings. Only then shared CI/CMake proposal removes
+draft labels/text/manualinput+condition, makes29 unconditional aftergreen4/exact
+compileddiscovery; old135/oldrequiredgreens/pins/checkname unchanged. Root reconfigure/
+build/exact173 registration pass; actionlint/project/render/diff pass. [Source and
+CI candidate evidence](storage-015-ci.md). Task in_review, not done; actual different
+SOURCE/CONFIG review and official automatic29 acceptance remain pending.
+
+New reviewer actual code-review task will receive complete committed candidate;
+its null-correction verdict is NOT source approval. Root currently has uncommitted
+shared promotion/state/HTML/checkpoint/CI-note changes awaiting this actual commit.
+No root native command remains running. Source author completed clean/available.
+Inspect actual agents/processes before resuming. Total73 existing/16absent refs
+preserved; null-correction support tree completedclean61f. No owner decision/access.

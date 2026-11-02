@@ -20,7 +20,7 @@ if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
     subathon_target_options(server_sqlite_application_plans_acceptance)
-    # Draft behavior stays separate from required old-writer fixture diagnostics.
+    # Reviewed behavior stays separate from required old-writer fixture diagnostics.
     foreach(case IN ITEMS
         revisionCodecMatchesIndependentFullRange
         revisionCodecRejectsMalformedBuffers
@@ -54,7 +54,7 @@ if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)
     )
         add_test(NAME sqlite-plan.${case} COMMAND server_sqlite_application_plans_acceptance ${case})
         set_tests_properties(sqlite-plan.${case} PROPERTIES
-            LABELS "sqlite-plan;acceptance;qt;server;draft" TIMEOUT 20)
+            LABELS "sqlite-plan;acceptance;qt;server" TIMEOUT 20)
     endforeach()
 endif()
 
