@@ -372,3 +372,7 @@ No old red, native feature body, rate provider, live credential/action, applicat
 bundle, permission/evaluator, effect/job, backup/update/recovery/power-loss or
 platform/UI/packaging release proof is supplied. All seven integrations and all
 three exchange-rate providers remain intended release scope.
+
+Root now supplies the actual [migration4 physical proposal](sqlite-application-plans-schema-v1.md)
+(five tables/30 total objects/29015-byte payload); full different logical/physical
+review must inspect that exact companion before minimal API/stub authorization.

@@ -99,3 +99,21 @@ Root read actual host Boost header1.92.0; existing application-plan CI already
 pins Boost1.83.0-2.1ubuntu3 and verifies selected header/config. Future SQLplan
 build will need that existing selected dependency, not a new numeric library.
 No plan API/stub/fixture/test/schema source or new native/red execution exists.
+
+## Actual logical candidate and root physical4 proposal
+
+Authora44aa00 integratedaf2b724, logical6e37 before root companion link; actual
+374-line preliminary review no blocker, full approval awaits physical. Root now
+proposes captured-application-plans-v1 at4: fiveCREATE/five tables/fiveNULLindexes/
+full30 objects/exactold20+13+7/29015-byte payload/SHA
+bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50.
+[Proposal diagnostic](storagetest-015-probe.md): actual independent PythonSQLite3.54
+and real Qt6.12/private OLDwriter-only30projection/typedMAX+parent/CID0/ExactBLOB/
+signedMIN observations PASS. Scratch formatting warning corrected before final
+-Werror rebuild; no feature red. Deliberate sparse history is NOT valid aggregate.
+
+No new API/stub/plan codec/store/schema-source/fixture/test/feature/red exists.
+Next commit exact root proposal and ask different reviewer actual logical+physical
+review. Only its actual approval can unlock minimal API/stub precision drafting.
+Author completed clean; reviewer has preliminary logical findings only, no absent
+physical verdict. All prior code/tests/reviews/red gates preserved.
