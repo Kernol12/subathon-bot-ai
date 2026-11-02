@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T16:46:19.748753+00:00",
+  "updated_at": "2026-11-02T16:58:03.945804+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt and contribution repository components have reviewed acceptance evidence. Plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4912,12 +4912,23 @@
         "New storagetest015-author/review trees created clean at8d90219 and actual existing agents explicitly reassigned to new bounded DOCONLY roles. AuthorONLYnewlogicalcontract+ownnote; reviewerread-onlyprep/futureactualcontractreviewMD. Total69 existing/16 absentpreserved. Rootactualpostmain711 all10SUCCESSobserved, no openPR/native task started. Physical4/featuregates remain future actual stages.",
         "Read-only prep complete: reviewer no existingcontract conflict/clean/no edits ornative; actualcandidateawaited. Authorproposes caller-owned activeSession stagedstore (like012), immutableheader/revisions/orderedchildren/expectedhead atomicappend; fullreadcap notappendquota. Separate targetedrevision DTO may prove selectedMAX diagnostic WITHOUTclaiming tiny sparse1..MAX historyvalid; aggregatefind/append must refusebrokenchain. Exact cpp_rational canonicalvalue (not rawinputspelling), independentstoragebounds notparser/finalizerbits; fullHistoricalValuation mandatory. OptionalCID0 canbelinkedconfirmation, no originalsupportRID==eventRID fiction. RootactualBoosthost1.92 read; existing selectedCIpin1.83 retainedfuturebuild. No API/test/schema-source/body/red yet; actualdoc/physical review future.",
         "Actual logicalauthora44aa00/rootaf2b724 (logical6e37 before rootcompanionlink), only2MD; reviewercomplete374lineactual logical inspection no blocker/fullapproval awaitsphysical. Root exactproposal4 captured-application-plans-v1/fiveCREATE/fiveTables+fiveNULLindexes/full30/old20,13,7unchanged/29015payload/SHA bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50. IndependentPythonSQLite3.54framing/schema PASS; actualQt6.12/SQLite3.54 oldwriter-only consumer exact30/schemaNULL/presentCID0/rawMAX,parent/ExactBLOB/signedMIN PASS0warnings final-Werror. Sparse1,MAX-1(parent1),MAX(parentMAX-1) explicitlyINVALIDaggregatecount3/headMAX; onlySQLtypedfield/localparent representation, nevervalidfullhistory/exhaustion. No newAPI/codec/store/schema-source/fixture/test/red. Fullactualphysical/logicalreview next.",
-        "Published focused DRAFT PR39 at93136966f61a85f82e996d3e586500a4adbd8bcc actual logical1b204cbc (6e+rootcompanionlink only)/physical99bf45b4/probe evidence. Reviewer explicitly resumed ACTUAL full logical+physical review/independent SQL/framing/prefixes; author completedclean, waits gate. No absentapproval/newAPI/stub/test/featurebody; inherited ordinaryCI is not newplanproof."
+        "Published focused DRAFT PR39 at93136966f61a85f82e996d3e586500a4adbd8bcc actual logical1b204cbc (6e+rootcompanionlink only)/physical99bf45b4/probe evidence. Reviewer explicitly resumed ACTUAL full logical+physical review/independent SQL/framing/prefixes; author completedclean, waits gate. No absentapproval/newAPI/stub/test/featurebody; inherited ordinaryCI is not newplanproof.",
+        "Actual full CONTRACT-ONLY approvala2926ee integratedc61b990 forlogical1b204cbc/physical99bf45b4; independent314SQLcases217constraintrefusals/schema30/F29015/SHA/prefixes20,13,7 allpass/no blocker. Only THEN author explicitly authorized minimalnew sqlite_application_plans.hpp/.cpp immediate namedstubs+ConcreteAPIprecision+ownnote. No APIcandidateyet/no validationcodec/schema/storealgorithms/tests/fixtures authorized. Reviewerread-onlyAPIprepcompletedclean, waitsconcretecandidate. Root4uncommittedCMake/presetfiles newPlanflag/profile/library link existingBoost coreplan WITHOUT enablingGoogleTest; no configurebeforeactualstubsource exists. ActualAPI/config review precedes anynewtestfixtureauthoring."
       ],
-      "verification": {},
+      "verification": {
+        "contract_authoring": "passed",
+        "contract_review": "passed",
+        "interface_authoring": "not_run",
+        "interface_review": "not_run",
+        "authored_tests": "not_run",
+        "baseline": "not_run",
+        "product_acceptance": "not_run",
+        "platform_release": "not_run"
+      },
       "evidence": [
         "docs/evidence/storagetest-015-author.md",
-        "docs/evidence/storagetest-015-probe.md"
+        "docs/evidence/storagetest-015-probe.md",
+        "docs/evidence/storagetest-015-review.md"
       ],
       "review": null
     },

@@ -128,3 +128,23 @@ completed/clean, waits next gate. Root published focused DRAFT
 [PR39](https://github.com/Kernol12/subathon-bot-ai/pull/39) at9313696. Current CI
 checks cover inherited implemented components only; no new plan API/test exists.
 No API/stub/test authoring before actual fullcontract approval.
+
+## Actual contract approval and minimal API stage
+
+ACTUAL full CONTRACT-ONLY approvala2926ee integratedc61b990 accepts logical1b204cbc/
+physical99bf45b4. Independent314 focused SQL cases/217 expected refusals, exact30/
+NULLindexes/prefix20+13+7/F29015/SHA all match. No blocker. This is not approval
+of absent API/tests/fixture/officialgreen/red. [Actual review](storagetest-015-review.md).
+
+Only after integration root explicitly reassigned author in existing015 tree to
+new server/include/subathon/server/sqlite_application_plans.hpp and
+server/src/sqlite_application_plans.cpp (immediate namedNotImplemented stubs only),
+ConcreteAPIprecision appended to logical contract and own author note. NO pure
+validator/codec/manifest/store algorithm, test/JSON/green/source schema body.
+Reviewer completed read-only APIprep clean and waits actual candidate; no absent
+approval. Root owns current UNCOMMITTED CMakeLists/CMakePresets/core+CMake/server
+CMake additions for newflag SUBATHON_BUILD_SQLITE_PLAN_TESTS/preset sqlite-plan-debug/
+library subathon_sqlite_application_plans. They enable existing Boost/coreplan
+without enablingGoogleTest. Do not configure until actual stubfile exists; after
+actual build, different API/config review precedes new test/fixture authoring.
+No new plan feature or any old red has run.
