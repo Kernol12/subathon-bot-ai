@@ -96,7 +96,7 @@ scratch bootstrap omission corrected before PASS, notred. No native/feature/red 
 Prior4956 all11CI passes are exactthathead only. Historical67/F61448/27832741 is
 superseded ONLY. [Actual review](storagetest-002-review.md), taskhandoff/evidence.
 
-NEXT authorized stage AFTER actualcontractapproval: author NEW minimal owned
+CURRENT authorized stage AFTER actualcontractapproval: author NEW minimal owned
 server/include/subathon/server/sqlite_application_bundle.hpp and
 server/src/sqlite_application_bundle.cpp with inert constructor and ALL meaningful
 new methods/manifest IMMEDIATE named unimplemented throws. No validation, codecs,
@@ -106,10 +106,13 @@ Root owns minimal CMake/presets/workflow lane/config/evidence integration; compi
 newlib with old173 stability only after actualfiles exist, observe ordinary pinned
 CI. Different ACTUAL API/build/config review precedes fixtures/tests/newgreen/red.
 
-Both prior author/reviewer assignments COMPLETEclean author eba/reviewer4d. Root
-will explicitly resume author in existing isolated storage002-contract-author tree
-and normalmerge currentroot; no API file exists yet at checkpoint. Reviewer receives
-actual futureheader/stubs/config before approval. Fixtureauthor remains completed
+Root explicitly RESUMED author in existing isolated storage002-contract-author
+tree to normalmerge6ca2146; actual agent list authorRUNNING, reviewercompleted
+read-onlyAPIprep clean4d, fixtureauthorcompleted read-onlyprep clean61f. Last
+observed author tree was cleaneba before that merge; inspectactualcurrenthead.
+No API file exists at this checkpoint. Reviewer receives actualfutureheader/stubs/
+config before approval. NewGitHubpublication6ca2146 actual, ownCI toinspect; PR42
+body reconciled actual4d documentapproval and unfinishedinterface/testgates. Fixtureauthor remains completed
 read-only prep, not fixtureauthoring. Whole STORAGETEST-002 in_progress/reviewnull:
 contract stage passed, API/fixture/test/newgreen/intendedred stillnotrun. No owner need.
 
@@ -139,3 +142,59 @@ themes/packaging/platform/security/backup/update/recovery/powerloss/live/OBS rem
 required/incomplete; DB-01/fullreleasepartial. Synthetic disposable work only;
 no credentials/supporter/chat/payment/deployment effects. Continue next actual stage
 without routine owner approval; ask only genuine needed access/requirement decision.
+
+## Uncommitted root minimal-build preparation
+
+Root owns pending edits ONLY CMakeLists.txt, core/CMakeLists.txt,
+server/CMakeLists.txt, CMakePresets.json, .github/workflows/sqlite-writer.yml plus
+this checkpoint/taskhandoff. New SUBATHON_BUILD_SQLITE_BUNDLE_TESTS option and
+subathon_sqlite_application_bundle target, sqlite-bundle-debug inheriting oldplan.
+Workflow diff is EXACTLY oldpreset/builddirectory token→newpreset; alloldguards/
+commands/pins/permissions/checknames otherwise byte-identical. Actual actionlint1.7.12,
+cmake --list-presets, project391/122 and diff checks PASS. NO configure/build/native
+command yet: newauthor.cpp/header do not exist. Do not publish missing-source config
+alone; integrate actual owned API/stubs first, compile/run old173, then actual
+different API/build review and published pinnedCI. Preserve these unfinished edits.
+All command sessions (push/edit) completed; no root native/watch running.
+
+## Minimal API drafting update / new projection gate
+
+Author normalmerged6ca asb00079f in its isolated tree; actual uncommitted header/
+stub/ownnote exist (latest author reports375/36lines, seven immediate markers).
+Root has NOT integrated or compiled them yet. Typed reversal-progress read was a
+real consumer gap in the five-method proposal; root authorized ONE extra narrow
+read_reversal_basis(typed originalcomponent) with existing selected-source/progress
+closure and owned actual basis/current progress. Existing docapproval4d remains
+valid for its exactcf462/f13 subset; this added projection/doc/SB15/API is PENDING
+actual independent extension/API/build review before fixtures/tests. All14original
+SB rows/physicalSQL must stay frozen. No policy/correlation/delivery or combined
+debt-refund enablement, no production code; every method remains namedstub.
+
+Current author workspace has newheader/.cpp and ownnote uncommitted; logicalMD
+may also change for this explicit extension. Root config/checkpoint edits remain
+uncommitted as above. Preserve both; inspect actual clean commits before importing.
+Actual published6ca has all11 inherited/document checksSUCCESS; it proves no new
+interface compile. Next import actual finalownedfiles, compile newtarget/old173,
+then ask differentactual extension/API/config review and observe pinned CI.
+
+## Current actual integrated API / compilation checkpoint
+
+Author1662219db8b9478648c9c0de4751e048273c21cd CLEAN imported2d0794e:
+header8e24f0624673bf88f86405651f9aabee1026a226 (375lines),
+stub83e9a0a745bad413066ad75cf9eb82fd210b2186 (36lines),
+logical2f6e9a8ea8aa76a979fe9d800c3bf69ffbee24b6 /ownnote4f09e3b7.
+Seven immediate named marker bodies/inert constructor, NO validation/SQL/codec/
+transaction behavior. Added read_reversal_basis+SB15 pendingactualextension/API
+review; prior4d exactoldsubset preserved. Physicalf13/all14SB untouched.
+
+Root's exact5configfiles now wire newflag/library/preset and workflowpreset ONLY.
+Actual configure/fresh84build/0warnings/exact173oldregistration PASS; no entrypoint
+invoked. [CI/minimal-build record](storagetest-002-ci.md) pins actualartifactblobs
+and logs. This commit freezes code/config bytes before old173 execution. NO old173
+pass or newbehavior/red claimed yet. Root state marks contractbasepartial pending
+newprojectionreview/minimalAPIdraft/nativebuildpassed; wholebaseline in_progress.
+Author nowcompletedclean166; reviewercompletedread-onlyprep4d. Next run old173 on
+this clean build revision, record outcomes, publish source/config head, obtain
+actualdifferent extension/API/build review and pinnedCI beforefixture/test authoring.
+Root no running command at this exactcheckpoint; all build sessions completed.
+Earlier uncommitted/missing-source statements above are historical, superseded.

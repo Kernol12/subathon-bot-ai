@@ -172,3 +172,29 @@ required selectedQt newgreen and FIRST genuine missing-behavior red. Whole basel
 remains in_progress; no implementation approval. Prior4956all11CI cannot approve
 future035/d628 or interface artifacts. Author/reviewer are completeclean at this
 checkpoint and will be explicitly reassigned; no API file exists yet.
+
+Minimal-build preparation is now UNCOMMITTED in root-owned CMake/core/server/preset/
+SQLworkflow files. Newflag/target/preset only; workflow commands/pins/oldguards
+normalize byte-exact after replacing preset/build-directory token. Actual actionlint,
+list-presets/project/diff pass, NO native configure/build yet because author source
+is not present. Actual author role explicitly resumed/running for newheader/stubs,
+reviewer read-onlyAPIprep completed. Integrate source before publishing build wiring.
+
+Root authorized one explicit contract/API extension while drafting: narrow owned
+read_reversal_basis for selected actual-credit/provenance and current per-basis
+progress. Existing method table lacked a typed progress read for preparing links.
+This proposal uses the already defined selected-source/progress scope; no policy
+or schema change, no rawSQL caller shortcut. Seven meaningful entrypoints will
+remain immediate namedstubs (six facade methods+manifest). The addition/SB15 is
+NOT covered by prior4d exactcf462 approval and must receive actual extension/API
+review before fixture/tests. Author source/header/note are uncommitted; root has
+not compiled them. Actual6caall11docCI passes do not prove newinterface build.
+
+Actual author166 clean imported2d:375line header8e24/36line source83e9/7 immediate
+marker functions, addedtypedread contract2f6 explicitlypendingextension/APIreview.
+Root minimalconfigure/fresh84build0warnings/exact173oldregistration PASS; no new
+entrypoint or old-suite execution yet. Shared5configfiles normalize workflow only
+by preset token; oldsource/tests/fixtures/physicalf13/14SB unchanged.
+[Detailed minimal-build/CI assessment](storagetest-002-ci.md) pins exact bytes/logs.
+Freeze this revision then runold173, publish/observe sourceCI and obtain actual
+separate API/extension/config review beforefixtures/tests. No newbehavior/red.
