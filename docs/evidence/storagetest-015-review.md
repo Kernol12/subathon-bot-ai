@@ -115,3 +115,124 @@ passing acceptance are separate. Latest published revision CI, discussions and
 merge rules remain coordinator gates; this approval cannot preapprove later edits.
 Full application/effects, authority/providers/FX, recovery/platform/UI and all
 seven integrations/three rate providers remain in release scope.
+
+## Actual minimal API, stub and build review
+
+2026-11-02, contribution_reviewer. **APPROVED: actual minimal API/stub/build
+precision stage.** Reviewed root candidate
+`f24ac08ac182b5c749b407d7323334b452912bee`, normally merged into the isolated
+review tree at `c6d7566247dc21f8b94bff1e6fec3847dc31d25e`. No blocking finding
+remains for separately authored tests, literal fixtures and green diagnostics.
+This is not their approval and does not authorize production implementation.
+
+| Actual artifact | Git blob |
+| --- | --- |
+| sqlite_application_plans.hpp | `4634d7b57dccc5c559f2ab05a968833b4b925feb` |
+| sqlite_application_plans.cpp | `e989d70f5021a9285db0dbc79c32d1153b4e7700` |
+| Logical contract plus Concrete API precision | `3af256cdf82a4737c2fc71a67c88b8b332d6ba71` |
+| Root CMake | `58e443305f4c5fbc5834d0946e3a7facdf416e42` |
+| Presets | `16cdf68c05f10907a6b6de24fd2032bcf05bb37d` |
+| Core CMake | `90de2e1e3add9063066c58fb843b2eb2d648b58d` |
+| Server CMake | `5f4a3179d1e16a77d7da421d91799cbb51037d0b` |
+| SQL workflow | `81ba8204cfc8d10abec8ec3f8b7a87c710d132ac` |
+
+I read the complete 132-line header, 41-line source, all 234 appended precision
+lines and five build/workflow diffs. Independently verified the previous approved
+logical bytes are an exact prefix; physical blob `99bf45b46f6c9d361b899fdb975dc2db51da4554`
+is unchanged. Source has exactly nine immediate named NotImplemented throws plus
+the inert session/options constructor. No validation, serializer, Exact/numeric
+codec, schema factory, target resolver, audit, SQL statement or writer behavior is
+hidden in the minimal source.
+
+The concrete signatures and precision preserve these reviewed boundaries:
+
+- Copyable const/repeatable store facade owns no transaction, cleanup or destructor
+  promise. Valid calls rely on actual ticket owner/phase checks after pure input
+  validation. Staged insertion/append is distinct from the caller's real commit
+  and publication; failures of that caller commit remain original WorkFailure.
+- Expected head zero is a valid stale token; a targeted stored revision zero is
+  invalid input. Candidate-local immediate-parent shape is checked separately
+  from matching the stored head. Healthy stored audit precedes stale, revision
+  conflict and then complete-event conflict; these make no own writes and do not
+  resolve proposed replacement targets or discard earlier caller work.
+- Absent header means absent/missing plan without a global orphan audit. Targeted
+  lookup checks the declared header/head/max and actual initial-anchor scalar,
+  quote-original-money and request-dependency metadata before returning an absent
+  revision. Found snapshots validate their full body and local parent identity,
+  not the unselected parent's history. Full-find summary precedes read caps;
+  over-cap refusal does not certify unread payloads. Existing initial retention
+  and append perform the declared paged structural audit independent of read caps.
+- The private audit page is 64, with ordered strict-key progress and checked
+  termination/lookahead. Initial-anchor and old revision metadata include the
+  actual missing-historical dependency flags; unselected child payloads/Exact or
+  initial ordinals are not incorrectly certified by a metadata-only check.
+- Present CID selects actual ID, original ReceiptId and its matching receipt
+  identity target. That limited projection neither validates nor imposes equality
+  on unselected current contribution state, source facts/context or support anchor.
+  Full contribution validation and trusted relationship/authorization semantics
+  remain existing upstream obligations. Typed zero CID and NULL remain distinct.
+- All actual HistoricalValuation fields and independent contribution dimensions
+  retain their types/presence. The full field-to-bound table covers refs, value
+  spellings/documents/reasons and independent Exact components. Count predicates
+  reject nonpositive/unrepresentable values before conversion and reserve n+1
+  against signed/Qt/vector limits; checked full-find totals are not a fictitious
+  combined vector or an append/history quota.
+- Pure Exact functions handle canonical rational VALUE, not source expressions,
+  parsing or rounding policy. Their explicit null/size/grammar/gcd ordering is
+  distinct from selected SQL class/shape/size checks. Large fitting values above
+  4096 bits remain required; wrongly typed/noncanonical versus correctly typed
+  over-limit stored components have distinct specified failure precedence.
+- Known port failures require actual rollback, including mapped retention errors;
+  inactive cleanup alone is not proof. Capability/protocol/invalid-statement and
+  actual unknown outcomes remain original writer failures. Partial-own-write
+  allocation guard requirements cover the whole caller unit; bad_alloc is not
+  automatically relabelled resource_limit. No-own-write refusals do no cleanup.
+
+Build review confirmed the existing Boost dependency is propagated through the
+core plan target without introducing Qt into core or enabling GoogleTest baseline
+flags/fetching. The new plan profile inherits all old SQL flags. Independently
+compared the complete workflow body from the environment-probe step onward:
+byte-identical after only replacing the profile path. All old registration checks,
+unconditional suites, action/archive pins, permissions and check name remain.
+Pinned Boost 1.83 headers/package/config checks are explicit; actual workflow
+execution is attributed separately below.
+
+Actual independent commands, all successful:
+
+```sh
+cmake --preset sqlite-plan-debug
+cmake --build --preset sqlite-plan-debug
+ctest --preset sqlite-plan-debug
+ctest --preset sqlite-plan-debug --show-only=json-v1
+/tmp/subathon-actionlint-1.7.12/actionlint .github/workflows/sqlite-writer.yml
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+Fresh configure/build: Linux x86-64, GNU 16.2.1, CMake/CTest 4.4.5, host Qt 6.12.0
+and Boost 1.92.0; **74 steps, zero warnings**, including the new source/library.
+Cache confirms APPLICATION_PLAN_TESTS, EXACT_NUMERIC_TESTS and FETCH_GOOGLETEST
+remain OFF, SQLITE_PLAN_TESTS ON. Exact registration count is **143 inherited
+cases**, with no plan feature registration or invocation; all passed in **3.25s**.
+Logs/registration JSON are `/tmp/storagetest015-review-{configure,build,ctest}.log`
+and `/tmp/storagetest015-review-registered.json`. Project/render checks remain
+current. These are minimal-build/inherited regression observations, not new plan
+green, red, official bundled Qt or product behavior evidence.
+
+Coordinator reports actual official run `41488687802` SUCCESS at exact published
+`f24ac08ac182b5c749b407d7323334b452912bee`. I read its downloaded full log at
+`local-evidence/coordinator/storagetest015-interface-ci-f24ac08.log` in the root
+checkout: both selected Qt archives OK, installed Boost 1.83.0-2.1ubuntu3, actual
+header macro 108300/configured Boost 1.83.0, GNU 13.3 and 74-step new-profile build
+including new source/library. All existing automatic 135 SQL cases and required
+old 7/3/3/3 diagnostic functions passed. This is root-observed CI with independently
+read log, not my own remote invocation or a future-head result. No new plan
+fixture/diagnostic/feature existed or ran, so it supplies no such behavior proof.
+
+Separate actual fixture/test/green-helper review, literal independent expected
+data, compilation, selected official diagnostic execution and first genuine
+missing-behavior red remain required before STORAGE-015. No previous red was
+repeated, no old assertion/source/fixture weakened, and no unprovided test or
+implementation is approved. Latest-head CI, discussions, rules and publication
+remain coordinator gates. The earlier full-release limitations remain unchanged.
