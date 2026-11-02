@@ -180,3 +180,26 @@ and unfinalized semantic/job/wire/recovery gates remain. No code/API/DDL/test/fi
 feature/native/stub-red or live action was performed. The actual revised document
 requires actual DIFFERENT re-review; no approval or consumer implementation/test
 baseline is claimed in advance.
+
+### Final durability wording precision
+
+After root integrated42dd as11a9b68 and actual re-review began, the coordinator
+identified literal ambiguity in the lookup primitive table: `presence proves no
+prior COMMIT` could assert non-commit. Exact replacement: `presence does not prove
+prior COMMIT`. The actual reviewer then identified the same overstatement in the
+intro's `They are not durable or publishable normal success`, since a lookup may
+describe prior committed data. It now says `These values do not by themselves
+certify durability or publishable normal success`. Both align with the unchanged
+explicit protocol: presence cannot distinguish prior committed from own staged
+data, and the returned value alone certifies neither durability nor publication.
+
+These TWO exact wording replacements are the only contract changes; every other
+contract byte/semantic rule and all21 oracles remain unchanged. Contract blob
+changes from `d8e111a2c98a11ce9c53433efcf610300a22a70f` to
+`3c8cbd869800f6aa4cd117016ef568f789d3ace9`.
+
+Actual `python3 tools/check_project.py` PASS391/122/current HTML/links/presets,
+`python3 tools/progress.py render --check` current, and `git diff --check` PASS.
+A direct previous/current comparison confirms only those two exact replacements.
+No code/API/schema/test/native/red action occurred. Actual independent approval
+must name the corrected artifact; none is assumed.

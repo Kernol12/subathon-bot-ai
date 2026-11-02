@@ -32,8 +32,9 @@ capacity/debt/lifecycle/milestones, and prepares ONE complete application bundle
 One real SQL transaction commits its effects, resulting authoritative state,
 application claim/status, required job intents/groups, retrievable operation result
 and audit together. Internal prepared result records and owned read/duplicate
-values may exist provisionally INSIDE that transaction. They are not durable or
-publishable normal success. No state/result publication or external send precedes
+values may exist provisionally INSIDE that transaction. These values do not by
+themselves certify durability or publishable normal success. No state/result
+publication or external send precedes
 acknowledged COMMIT and normal committed work completion.
 
 B08 is an exact unit boundary: a KNOWN uncommitted failure after preparing any
@@ -67,7 +68,7 @@ logical operations, not supplied code/signatures:
 
 | Primitive | Required meaning |
 | --- | --- |
-| Look up operation | Read the complete transaction-visible intent/result/links for an operation key, strictly validating the selected record closure; presence proves no prior COMMIT and absence is not authority to apply |
+| Look up operation | Read the complete transaction-visible intent/result/links for an operation key, strictly validating the selected record closure; presence does not prove prior COMMIT and absence is not authority to apply |
 | Read application inputs | Resolve actual receipt/contribution/selected plan and the relevant current snapshot under the same active unit; return owned transaction-visible values and checked revision information, with earlier intake/capture durability a caller precondition |
 | Stage bundle | Atomically check identity/claims/revisions/references and stage the whole bounded supplied bundle or a no-own-write domain refusal; never evaluate rules, grant permission or commit internally |
 | Read recorded application | Return owned transaction-visible immutable effect/result/audit/job-intent provenance, which may be own staged data; no durability/publication certification; historical after-state need not equal current live state |
