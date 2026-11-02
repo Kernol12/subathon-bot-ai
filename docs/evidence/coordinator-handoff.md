@@ -18,7 +18,7 @@ MERGEABLE/CLEAN, with all eleven checks SUCCESS and no GitHub reviews. Root has
 integrated actual fixture review and the feature-author phase locally since that
 publication. These later commits still need their own latest-revision checks.
 
-All **95 registered worktrees = 79 existing + 16 absent/prunable references** were
+All **96 registered worktrees = 80 existing + 16 absent/prunable references** were
 inspected and preserved. Existing worktrees were clean before new assignments.
 No native build/test/CLI watch was running. No prune, reset or discard was used.
 On interruption inspect actual worktrees/processes/agents/GitHub again; names in
@@ -35,7 +35,7 @@ STORAGETEST-002 remains `in_progress`, kind `test_baseline`; STORAGE-002 remains
 
 | Frozen artifact | Git blob |
 | --- | --- |
-| Logical concrete contract, including reviewed typed basis read/SB15 | `2f6e9a8ea8aa76a979fe9d800c3bf69ffbee24b6` |
+| Logical concrete contract, including reviewed typed basis read/SB15 and category precision | `80f8ee65869a27c6b1b7b6d3819a0065777958b7` |
 | Physical step5 contract | `f13fca6d11e57410a31a7d307a8b12eaa21a68f9` |
 | Header | `8e24f0624673bf88f86405651f9aabee1026a226` |
 | Immediate stub source | `83e9a0a745bad413066ad75cf9eb82fd210b2186` |
@@ -122,16 +122,22 @@ and review before publishing. Existing target/fixture guard bytes remain intact.
 Reviewer completed read-only prep, clean5cf/no files/no repeated checks; explicitly
 resume for actual candidate when available. Preserve these root pending edits.
 
-Root proposes one narrow contract error-category paragraph for actual healthy-head
-versus supplied advanced-before mismatch. Current new logical blob58ea4f9 is
-PENDING different actual review; old2f6 approval remains valid for unchanged text.
-Existing refusal/rollback obligation is unchanged, no API/schema/source/literal edit.
-See task handoff; task concrete_contract partial/newcategoryreview not_run until
-actual reviewer verdict. No feature body or new oracle execution occurred.
+## Actual category precision approved
 
-Actual different58ea category review requested precision/cleanup-order wording;
-root revised actualparagraph accordingly (no approval yet): require actual whole
-rollback before known source_mismatch, preserve uncertain cleanup as WorkFailure,
-and truthfully say this newly binds category AND cleanup, not already-bound
-rollback. Rejection itself is unchanged. New isolated category-review tree at
-7f9be9c adds one registered/existing tree (96/80/16); old5cf tree preserved.
+Feature author identified an unbound post-SQL error/cleanup category for a supplied
+advanced-before snapshot that violates its matched healthy head binding or
+clock-only preserved fields. Actual different review42f8ef5354e068d45694c753088093506582ca4c
+integrated70f0258 accepts revised logical80f8ee65869a27c6b1b7b6d3819a0065777958b7:
+actual whole-unit rollback must precede known source_mismatch, while uncertain
+cleanup remains original WorkFailure. Rejection was already required; category
+AND cleanup are newly explicit. Reviewer requested/corrected the initial wording
+that overstated prior cleanup precision. Removing12 added lines restores prior
+2f6/all15SB exactly; API/source/physical/literals/helper remain frozen.
+
+New category-review branch/tree (`task/STORAGETEST-002-category-review`,
+`local-evidence/worktrees/storage002-category-review`) is clean42f8, old5cf preserved.
+Reviewer is complete/available for actual full feature candidate; no anticipated
+feature verdict. Author was explicitly sent approved oracle and independently
+confirmed result_items counts lookup20/inputs9/Mainbasis10. Source still7stubs,
+no newentrypoint/body/red. Root latest review integration70f0258; only shared
+CMake/workflow additions remain pending actual test candidate.

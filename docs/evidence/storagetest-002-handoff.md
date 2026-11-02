@@ -154,3 +154,11 @@ paragraph to require ACTUAL rollback before known source_mismatch and preserve
 actual cleanup uncertainty as WorkFailure; it now explicitly selects category
 AND rollback behavior. This corrects the earlier overstatement that cleanup was
 already bound. Actual revised-blob approval is pending, no body/entrypoint ran.
+
+Actual different category approval42f8ef5354e068d45694c753088093506582ca4c
+integrated70f0258 accepts revised logical80f8ee65869a27c6b1b7b6d3819a0065777958b7
+at e6e0be3. Exact12-line addition removal restores prior2f6/all15SB byte-for-byte;
+API/source/physical/literal/helper unchanged. Actual rollback precedes known
+source_mismatch; uncertain cleanup remains original WorkFailure. Reviewer confirms
+20/9/10 returned-vector counts. Feature author explicitly notified this approved
+precision; full actual feature baseline review and first red remain pending.
