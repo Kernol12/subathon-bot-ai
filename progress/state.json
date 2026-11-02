@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-02T19:29:38.258641+00:00",
-  "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt and contribution repository components have reviewed acceptance evidence. Plan persistence, complete application transactions, all integrations/FX/UI and operational/platform release scope remain incomplete.",
+  "updated_at": "2026-11-02T19:42:41.256971+00:00",
+  "summary": "Bounded core/accounting and controlled SQLite writer, migration, immutable retention, receipt, contribution and captured-plan repository components have reviewed acceptance evidence. The application-bundle logical contract is reviewed; concrete bundle baseline/implementation, all integrations/FX/UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -5054,13 +5054,14 @@
         "Focused DRAFT PR41 actually published03c610f93ca92bb1625f69b4916098f5a483881b, all11 inherited checks SUCCESS; this is not absentcontract approval. Reviewer READONLY prep completedclean e53 with material B08/one-commit-owner/debt-refund/unknown-state risks sent to author, no runtime/red. Author reports no blocking requirement conflict and is drafting only agreed logical rows/ports/examples, preserving unresolved semantic/job/snapshot/wire/recovery/delivery gates. Actual contract candidate not yet present/committed. Root closedPR39/40 descriptions reconciled actual merges/postmain outcomes; no prior work repeated.",
         "Actual authora8bf8cf2 integrated4fd4a2e, only360-line contract02e7b70b and117-line ownevidence422ab1c1.20 literal AT01–AT20 examples, one actual caller commit owner, B08/unknown, scoped identity/claims/partial reversals/Main-debt/residual/currentcap and explicit unfinalized owning gates. Author tooling19/project391/122/render/diff and independent stdlib arithmetic PASS; root docs/link/progress checks pass. ACTUAL different full360line/20example review assigned; no absentverdict. Coordinator flagged possible active-session lookup vs prior-commit knowledge ambiguity for reviewer to assess; no source/schema/API/feature/red edit. Productacceptance staysnot_run, docs taskin_review only.",
         "Actual full review of360lines/20oracles withheld approval pending two concrete durability clarifications: active borrowed-session lookup/duplicate/read-recorded cannot infer earlierCOMMIT from visible staged rows; internal provisional result data vs normal durable success must be explicit including sameunit claims/duplicates. AT18 must split body-exception-afterCOMMIT-beforefinish (committed accounting/no normal work payload) from later publication failure after normal completion (durable result/accounting remain, transport may fail, no reapply). Author resumed same2MD scope with AT21 sameunit oracle requested. Reviewer independently checked all20 arithmetic with Fraction/integer and docs/tooling19 PASS, no other blocker so far; actual revised doc/review stillpending, no native/red/codework.",
-        "Actual revised42dd/root11a resolves sameunit durability/AT18 timing and addsAT21; finalb972/root1a7 fixes both inference phrases. Different actual logical-only approval270a1d91 integrated7da0c7a pins contract3c8cbd86/evidence10b0864d, all21 independently Fraction/integer/control-flow checked; original20 numeric literals/18rows unchanged. No remaining logicalcontract blocker. Docs/project/render/diff/tooling19 pass, no code/DDL/API/test/native/red/runtime work. Documentation taskdone only; final completion-scope review and latest published-headCI/merge gates remain. ConcreteSTORAGETEST002/API/physical/limits/tests/actualred, laterimplementation, job/state/semantic/refundallocation/wire/recovery/provider/platform gates stillrequired."
+        "Actual revised42dd/root11a resolves sameunit durability/AT18 timing and addsAT21; finalb972/root1a7 fixes both inference phrases. Different actual logical-only approval270a1d91 integrated7da0c7a pins contract3c8cbd86/evidence10b0864d, all21 independently Fraction/integer/control-flow checked; original20 numeric literals/18rows unchanged. No remaining logicalcontract blocker. Docs/project/render/diff/tooling19 pass, no code/DDL/API/test/native/red/runtime work. Documentation taskdone only; final completion-scope review and latest published-headCI/merge gates remain. ConcreteSTORAGETEST002/API/physical/limits/tests/actualred, laterimplementation, job/state/semantic/refundallocation/wire/recovery/provider/platform gates stillrequired.",
+        "Actual final completion/scope approval7fa92eac at exact1f046de integrated80ce017; final published98acadcfcf28d9d64bcd2b00cf3b447ff7951762 all11SUCCESS, SQL41511497997/29PASS+old135+greens/0warnings. Timer workflow cleanup delay completed successfully without rerun. Ready/MERGEABLE/CLEAN/zero threads/currentrules26170263/requiredGHapprovals0 checked, normal exacthead PR41 merged2026-11-02T19:40:54Z as100171b47709ab6d4323fa1ca0d627cad6c24719. Localmain ff clean/treeidentical finalhead; postmain10 actual workflows observed sevenSUCCESS/threein_progress at nextclaim. No runtime/testbaseline/product acceptance claim; concreteSTORAGETEST002 and fullrelease remain open."
       ],
       "verification": {
         "contract_authoring": "passed",
         "contract_review": "passed",
         "documentation_checks": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run",
         "platform_release": "not_run"
       },
@@ -5082,8 +5083,8 @@
       "title": "Review and demonstrate red: application bundle repositories and storage integration",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Coordinator /root; concrete contract/API author /root/contribution_implementer; independent reviewer /root/contribution_reviewer; fixture/test author assignments follow frozen actual API",
       "depends_on": [
         "STORAGE-001",
         "STORAGE-015",
@@ -5096,13 +5097,25 @@
         "OPS-02"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-002.md",
-      "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STORAGE-002.",
+      "summary": "Define/review concrete bounded storage bundle API/physical closure, independently author/review real SQLite tests and observe genuine intended missing-behavior red. No production bundle implementation authorized before that gate.",
       "notes": [
         "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Original migration/receipt/contribution/config/plan scope is retained as mandatory010–015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite."
+        "Original migration/receipt/contribution/config/plan scope is retained as mandatory010–015 prerequisites. This ID remains a real final application-bundle baseline/implementation, not an aggregate red claim. Downstream ACCT-004/other consumers keep their STORAGE-002 prerequisite.",
+        "Claimed on dedicated task/STORAGETEST-002-application-bundle from actual integrated main100171b after normal PR41 merge; branch created BEFORE edits. Preserve accepted logicalcontract3c8/actuallogical270+finalscope7fa/all11 final98ac CI and prior storage gates. First stage ONLY concrete API/physical-contract Markdown+own author evidence, independently reviewed before signatures/stubs/minimal compile harness; no implementation. Resolve non-owning current contribution application patch, current opaque state token/CAS and explicit separately compared source dimensions, complete selected-plan structural metadata proof independent of materialization caps, intent/outcome/typed claim/effect-component/reversal uniqueness, retained bounded state/job document meaning and actual FK/closure/ordinal/NULL/fullrange/canonicalExact/error/budget limits. Root owns sharedstate/HTML/map/rootbuild/presets/workflow and migration order/pins; may delegate physical contract proposal only. Author and reviewer get NEW isolated branches/worktrees from fresh main plus claim, old trees remain clean/preserved. After actual concrete/API approval, independent fixtures/green on existing writer, real feature tests/different fullreview/compile/exactdiscovery/requiredselectedofficialQt newgreen must precede FIRST intended newstubred. Passingold173/21logicalexamples are not newbundle acceptance/red. No semantic authority/provider/delivery/recovery/fullrefundallocation invention, no existing frozenports/schemas/tests weakened. Production STORAGE-002 remains separate planned task and blocked by this actual baseline. No owner decision/access identified."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "concrete_contract": "not_run",
+        "api_review": "not_run",
+        "fixture_review": "not_run",
+        "test_review": "not_run",
+        "intended_red": "not_run",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/storagetest-002-handoff.md"
+      ],
       "review": null
     },
     {
@@ -12138,6 +12151,11 @@
       "date": "2026-11-02T19:29:38.258641+00:00",
       "task": "STORAGECONTRACT-001",
       "note": "Completed actual reviewed logical-document contract/21oracles after resolving staged-visibility and publication-timing findings; no new code/schema/testbaseline/runtime capability, final metadata/latest-CI merge gates pending."
+    },
+    {
+      "date": "2026-11-02T19:42:41.256971+00:00",
+      "task": "STORAGETEST-002",
+      "note": "Claimed real application-bundle baseline from normal integrated PR41; concrete contract/API/physical stage precedes independent fixtures/tests/review and genuine missing-behavior red. No production implementation."
     }
   ]
 }

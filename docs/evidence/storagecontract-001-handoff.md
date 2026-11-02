@@ -85,3 +85,17 @@ locales/themes/platform/security/packaging/backup/update/recovery/live/OBS remai
 mandatory and incomplete. DB-01/full release staypartial. No credentials/supporter/
 live chat/payment/deployment action occurred. State/HTML distinguish this document
 from implementation; [checkpoint](coordinator-handoff.md) holds current coordination.
+
+## Actual publication and integration
+
+Final scope approval7fa92eac integrated80ce017; published
+`98acadcfcf28d9d64bcd2b00cf3b447ff7951762` passed all11 checks. SQL
+[41511497997](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41511497997)
+passed unchanged old135/greens and captured-plan29 (2.29s), zero compiler warnings.
+Timer cleanup delay completed successfully; no workflow rerun. Effective ruleset
+26170263 required0 GitHub approvals; no review threads, ready/MERGEABLE/CLEAN.
+Normal exact-head PR41 merged2026-11-02T19:40:54Z as
+`100171b47709ab6d4323fa1ca0d627cad6c24719`; main fast-forwarded clean and its
+tree equals final98ac. At next-task claim, postmain10 workflows were sevenSUCCESS/
+threein_progress. This observed document integration is no runtime bundle proof.
+The coordinator claimed STORAGETEST-002 from integrated main; see current checkpoint.

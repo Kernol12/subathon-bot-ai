@@ -1,152 +1,93 @@
-# Coordinator checkpoint — STORAGECONTRACT-001 reviewed, publication/merge pending
+# Coordinator checkpoint — STORAGETEST-002 concrete contract stage
 
 Coordinator `/root`,2026-11-02. Continue full specification v0.45 under AGENTS.md/
-COORDINATOR_PROMPT.md. Earlier stop was honored, then revoked by explicit resume.
-No owner decision/access currently needed. On resume inspect actual branches,
-worktrees/uncommitted files, processes, agents and GitHub; do not infer running
-assignments or discard unfinished historical work. Full product is NOT complete.
+COORDINATOR_PROMPT.md; prior stop was revoked by explicit resume. No owner decision/
+access identified. Full product remains incomplete. On resume inspect ACTUAL main,
+branches/worktrees/uncommitted files, processes/agents and GitHub before acting.
 
-## Current objective and actual publication
+## Actual integrated predecessor
 
-STORAGECONTRACT-001 logical DOCUMENT contract is done after actual independent
-review. [Handoff](storagecontract-001-handoff.md),
-[contract](../contracts/application-transaction-bundle-v1.md),
+[PR41](https://github.com/Kernol12/subathon-bot-ai/pull/41) NORMAL exact-head merge
+2026-11-02T19:40:54Z, main `100171b47709ab6d4323fa1ca0d627cad6c24719`.
+Final `98acadcfcf28d9d64bcd2b00cf3b447ff7951762` all11SUCCESS, actual logical
+review270a1d91/root7da, completion-scope review7fa92eac/root80ce, zero threads,
+ready/MERGEABLE/CLEAN/currentrules26170263/requiredGHapprovals0; no bypass.
+SQL41511497997 passed old135/greens/plan29 (2.29s), no compiler warnings. Timer
+workflow cleanup delay completedSUCCESS without rerun. Localmain ff clean; tree
+identical final98ac. Postmain10 workflows at claim: sevenSUCCESS/threein_progress;
+inspect eventual actual results. [Handoff](storagecontract-001-handoff.md),
 [review](storagecontract-001-review.md), [author](storagecontract-001-author.md).
-It supplies logical rows/ports and21 literal oracles, NO C++/wire API/DDL/schema/
-fixture/testbaseline/red/runtime application implementation. Concrete STORAGETEST-002
-and named semantic/job/state/refund/recovery/provider/wire gates remain unfinished.
-DB-01/full release staypartial; no next consumer task is claimed yet.
 
-Root branch task/STORAGECONTRACT-001-application-bundle created from actual fresh
-mainfba BEFORE claim e53dc0d45f31ce772fb1cb31833e62d08719490a.
-[PR41](https://github.com/Kernol12/subathon-bot-ai/pull/41) remains DRAFT. Last
-published head03c610f93ca92bb1625f69b4916098f5a483881b had all11 inherited checks
-SUCCESS; that is not final-document CI or new bundle behavior. Root integrated
-actual logical review7da0c7a and completed documentation metadata1f046de. Actual
-different final scope/evidence approval7fa92eac6a7b14fc7d2f117ed5db5b526e781557
-was integrated80ce017; reviewMD93ca1f3ff5cd1ff3967e9771b025e6b08f8fcf46. Keep
-final contract3c8 bytes intact. Publish resulting head/observe its OWN latest CI/
-threads/current rules/required approvals/mergeability, then normal exact-head merge.
-Never infer future CI.
+STORAGECONTRACT-001 is done LOGICAL DOCUMENT only: contract
+`3c8cbd869800f6aa4cd117016ef568f789d3ace9`, author10b/review93ca.21 independent
+literal arithmetic/control-flow examples, no C++/wire/DDL/fixture/test/red/runtime
+bundle. Review resolved provisional sameunit read/duplicate/claim durability and
+postCOMMIT body-precompletion versus later publication failure. Concrete and all
+semantic/job/state/refund/recovery/provider/wire release gates remain explicit.
 
-## Actual author/review sequence and resolved findings
+## Current task and ownership
 
-Initial authora8bf8cf2/root4fd4a2e:360lines/20 AT oracles, contract02e7b70b. Actual
-full different review withheld approval: borrowed active-session lookup/duplicates
-could see own staged rows while claiming committed intent/result; AT18 mixed
-postCOMMIT BODY failure before normal completion with later publication failure.
+Dedicated `task/STORAGETEST-002-application-bundle` was created from actual fresh
+main100171b BEFORE claim edits. STORAGETEST-002 in_progress, real test_baseline,
+not an aggregate old-suite red. [Handoff](storagetest-002-handoff.md),
+[brief](../tasks/EPIC-009/STORAGE-002.md). All prerequisites integrated/done.
+STORAGE-002 production remains planned; no implementation authorization before
+actual independent tests/review/compile/intended new red.
 
-Actual author42dd2dea/root11a9b68 explicitly makes all port reads/lookups/duplicates/
-claim refusals/stages provisional transaction-visible. Earlier durable intake/
-capture are caller facts, not SELECT/ticket inference. Same-unit duplicates add
-no rows; staged subject claim refuses another key without cleaning earlier stage.
-AT21 specifies fresh state-b freshness and commit-versus-abandon/knownrollback
-branches. AT18 separates body-precompletion error from later response/publication
-failure. AT15 keeps requested amount distinct from actual0.
+Initial bounded stage: concrete API/physical-contract proposal Markdown only,
+actual different review, then reviewed minimal API/explicit stubs/build harness.
+Next independent fixtures/old-writer-only newgreen/review, real feature tests/full
+actual different review/build/discovery/selectedofficialQtnewgreen before FIRST
+missing-behavior red. No concrete artifact/approval/test/red exists yet. Preserve
+21 logical oracles and all earlier reviewed assertions/ports/schema prefixes.
 
-Final authorb9721ca8/root1a7b4fc changes exactly two inference phrases: presence
-DOES NOT prove priorCOMMIT; returned data does not itself certify durability or
-publishable normal success. No positive OR negative durability certificate follows
-from active-session visibility. Contract final blob
-`3c8cbd869800f6aa4cd117016ef568f789d3ace9`; author evidence
-`10b0864d6a6244da442f32e0ecaabe333f3ed6a0`. All21 oracles/current other bytes
-unchanged by final wording; original20 numeric literals and18 unaffected rows
-remain preserved. No blocking requirement conflict remains.
+Required concrete precision: non-owning current contribution application-only patch,
+one commit owner/provisional returns, exact intent versus derived outcome/typed
+subject/component/reversal keys, current opaque state CAS plus separately compared
+relevant sources, complete selected-plan metadata validation without full-read quota,
+retained versioned bounded state/job document meaning, actual FKs/closure/ordinals/
+NULL/SQLclass/fullrange/canonicalExact, error priority and overflow-safe byte/vector/
+combined query budgets. Unknown job/provider/semantic/permission/recovery meanings
+are not capabilities. Main-versus-prior-debt refund allocation remains ACCT-006.
 
-Different ACTUAL logical-contract approval270a1d9175713334ee243b0bf53c6cafe7633b15
-integrated7da0c7a, reviewMD60ad2225931a3abe48c4703be29fbe37aa6693ca. Whole original
-and actual revisions read; final exacthash pinned; both findings/wording resolved.
-Independent Fraction/integer/control-flow audit covers21 oracles, no producer:
-current-cap120000/480000; debt2/Main5/capped3; policies/signedMIN/overflow;
-refund75000/10000000 then225000/30000000; cumulative0/1/1 increments0/1/0,
-residuals±1/3; half-even3/2,5/2→2/2; AT21 no staged durability/publication inference.
+Root owns sharedstate/HTML/map/rootbuild/presets/workflows/migration order/pins/
+checkpoint. Author/reviewer will be explicitly reassigned to fresh isolated trees
+from integrated main plus claim, old work preserved. Current statuses at claim:
+- contribution_implementer: completed read-only next-design prep, old
+  storagecontract001-author cleanb972; no next edits/branch/native/red.
+- contribution_reviewer: completed read-only risks, old storagecontract001-review
+  clean7fa; no next edits or absent-artifact approval.
+- plan_fixture_author: prior SQLNULL correction role completeclean61f;
+  no new assignment. Independent fixture/test role follows actual frozen contract/API.
 
-Author/reviewer/root doc/link/project/render/diff checks pass391tasks/122decisions.
-Tooling19 PASS author0.266/reviewer0.272/root0.255s; unchanged tools. HostPython3.14.8.
-No unchanged native suite, new feature/red, schema/API harness or live action ran.
-Existing doc/link/progress/tooling CI plus unchanged stable jobs cover this scope;
-no new module/suite/dependency/workflow needs adding. Actual latest-head CI remains
-future. Logical approval is NOT concrete API/schema/testbaseline/runtime/source/
-future merge/fullrelease approval.
+91 registered trees=75existing/16absent at resumption; all clean, no prune/reset/
+discard. No root native/remote-watch command running. Last fetch/merge/push/edit
+sessions completed. New isolated task trees and publication follow committed claim.
+Reinspect actual agents/processes; these entries do not prove continued execution.
 
-## Scope and current explicit future gates
+## Earlier storage proof to preserve
 
-One actual caller owns BEGIN/COMMIT/cleanup. Existing receipt/contribution wrappers
-OWN commit after begin/adoption; retention/plan facades borrow, so no nested owners/
-inner commits. Known B08 failure rolls whole application effects/state/status/jobs/
-result/audit back, leaving earlier durable intake pending; unknown is not known
-pending/no-effects and grants no replay. Prior committed result data cannot turn
-THIS failed/unknown work into normal success. Body exception after COMMIT can leave
-accounting committed with no normal work payload; later publication failure cannot
-erase a completed durable operation result. Actual COMMIT+normal completion controls
-normal publication; all active port return values remain provisional.
+[STORAGE-015](storage-015-handoff.md) PR40 mainfba/final584 all11/actual source d154+
+final3dc9/current rules/normalmerge, all10postmainSUCCESS SQL41505406242. Source9b0,
+revisedtesta805; author/root/different reviewer29/full173PASS. Actual automatic
+41503096872 at1bf pinnedGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/82build/0warnings/
+old135+greens/newgreen4→6PASS0skip/UNCONDITIONAL29PASS1.70s/all11. Code review andCI
+parallel but correctly samefrozenhead attributed, not futurehead approval.
+Actual separately authored61f/reviewed90 SQLNULL oracle correction strengthens only
+one history slot with typeof/isNull/exact2; allotherassertions/fixtures preserved.
+Initial testedsourceb697 failedonlyoldtypedNULLoracle; c784 was UNBUILT intermediate,
+never a tested revision. Current9b0 passes. No producer-normalization workaround.
 
-Current advanced caps/debt/lifecycle/authority differ from captured plan/preview
-freshness. Main/debt/capped/held effects and exact request/actual/residual/reversal
-provenance remain separate; debt-only credit does not rescue Grace/wait. RequireReview
-is a deficit TIMER hold, not invented product eligibility. Refund cumulative basis
-uses original ACTUAL cap-limited credit/rates; whole counts only on full refund.
-Main-versus-prior-debt allocation/held multi-effect policy remain ACCT-006 gates.
-Operation scopes/intent/state-version coverage API-002/ACCT-004, concrete owned types/
-physical/vector/error limits STORAGETEST-002, full job envelopes/milestone choices,
-state/clock/recovery and CONTRACT-003 wire/provider/platform meanings remain explicit.
-Future consumers ACCT-004/STORAGE-002 are NEVER prerequisites/cycles for this contract.
-
-## Roles, preserved work and next concrete action
-
-All current author/reviewer tasks completed clean; no root native or remote-watch
-command remains running at checkpoint. Inspect actual statuses before reassignment:
-
-- contribution_implementer: task/STORAGECONTRACT-001-author,
-  local-evidence/worktrees/storagecontract001-author, cleanb9721ca8; owned ONLY
-  contract+own evidence Markdown, no code/DDL/tests.
-- contribution_reviewer: task/STORAGECONTRACT-001-review,
-  local-evidence/worktrees/storagecontract001-review, clean7fa92eac; owned ONLY
-  storagecontract-001-review.md. Actual final metadata review completed; available
-  for explicit reassignment after this task integrates.
-- plan_fixture_author: prior storage015-null-baseline branch/tree, completed61f;
-  no new assignment. Preserve actual reviewed SQLNULL correction.
-- Root owns sharedstate/HTML/map/architecture/teststrategy/brief/checkpoint/handoff/
-  CI assessment/integration. Current completion paths are documentation/metadata;
-  contract3c8/author10b/review60ad stay frozen, production artifacts unchanged.
-
-Last accounting91 registered =75 existing +16 absent/prunable refs, all preserved;
-no prune/reset/discard. Old source/baseline/nullfix branches/worktrees remain intact.
-Actual final metadata/scope approval7fa92eac accepted exact1f046de with no
-blocker. It rechecked frozen3c8/10b/60ad, graph/links/DBpartial/all7+3 and
-391tasks/122decisions/currentHTML; no new native/red/tooling repeat. Root80ce017
-contains its verdict. Publish one focused final head, observe all latest checks/
-discussions/current rules/required approvals/mergeability. Normal
-exact-head merge only; refresh main/reconcile actual outcome and immediately select
-next ready task from integrated prerequisites. No routine owner approval needed.
-STORAGETEST-002 still must define actual API/physical closure/limits, independently
-author/review real fixtures/tests, compile and observe genuine missing-behavior
-red; passing child suites/examples cannot be aggregated into that gate.
-
-## Actual integrated main and previous source proof
-
-Mainfba7590652f2dc96da0daa4b649a6cccd0f9a159 is NORMAL
-[PR40](https://github.com/Kernol12/subathon-bot-ai/pull/40) merge2026-11-02T18:57:20Z,
-final584/all11SUCCESS/SQL41504908017, actual source d154/final3dc9/typedNULL90
-reviews/current ruleset26170263/requiredGHapprovals0/zero threads/readyMERGEABLECLEAN,
-exacthead checked; no force/admin/bypass. Main ff clean, tree equals final584.
-ALL10 postmerge main workflows actuallySUCCESS, SQL41505406242.
-[Source handoff](storage-015-handoff.md), [source/final reviews](storage-015-code-review.md),
-[CI](storage-015-ci.md): source9b0/revisedtesta805, author/root/reviewer29/full173PASS;
-actual official41503096872 at1bf pinnedarchives/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/
-82build0warnings/old135+greens/newgreen4→6PASS0skip26ms/UNCONDITIONAL29PASS1.70s/all11.
-CI/code review parallel, correctly exact-source attributed. SQLNULL oracle genuine
-correction61f/90 only one slot0f8→a805, stronger SQLtypeof/isNull/exact2; original
-allotherbytes/history preserved. Initial tested sourceb697 failedonlythatoldoracle;
-c784 was an UNBUILT intermediate, never falsely used as tested; current9b0 passes.
-
-Original [PR39 baseline](storagetest-015-handoff.md) maina7/full8b/final3dec and
-first29red after official41494786280 remain preserved. Rawredae3e0e25956b16b0d3bc26065c71247263bca421,
+[STORAGETEST-015](storagetest-015-handoff.md) PR39 maina7/full8b/final3dec and FIRST29
+red AFTER samecleanaa official41494786280 preserved: rawblobae3e0e25956b16b0d3bc26065c71247263bca421,
 SHA79ddd03f9f37e9657740691b5f8bbb1b7dceff93b2de62499b345f14a8b16f41,
-clean aa6907b/2026-11-02T17:52:55.646037Z/exit8/0.57s/all29init+cleanupPASS/0skip/
-crash/setup. Six direct+23 typed markers; do NOT repeat completed red/preparation.
+2026-11-02T17:52:55.646037Z/exit8/0.57s/all29init+cleanupPASS/0skip/crash/setup.
+Do not repeat completed preparations/old reds or claim old173 as newbundle proof.
+Older reviewed receipt/contribution/retention/migration/writer gates remain linked
+through state and those source/baseline handoffs; preserve all branches/evidence.
 
 All seven integrations/three FX, full app/effects/delivery, renderers/UI/locales/
-themes/packaging/platform/security/backup/update/recovery/power-loss/live/OBS remain
-mandatory and incomplete. No credentials/supporter/chat/payment/deployment action.
-Ask owner only actual needed access or genuine requirement choices; none identified.
+themes/packaging/platform/security/backup/update/recovery/powerloss/live/OBS remain
+required/incomplete; DB-01/fullreleasepartial. Synthetic disposable work only;
+no credentials/supporter/chat/payment/deployment effects. Continue next actual stage
+without routine owner approval; ask only genuine needed access/requirement decision.
