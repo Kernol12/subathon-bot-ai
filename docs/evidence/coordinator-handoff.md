@@ -54,10 +54,14 @@ Root owns sharedstate/HTML/map/rootbuild/presets/workflows/migration order/pins/
 checkpoint. Claimf50ef596e128857cb9d7964f7f6ec888161c395d. Actual focused DRAFT
 [PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42) published
 `d537dee5962c179ccfc54a25a8ec9fd1c123e333`; all11 inherited checks actually
-SUCCESS/CLEAN. This is claim-head infrastructure/regression CI only, not absent
-concrete artifact approval, selected newgreen, testbaseline/red or bundle behavior. Agents were explicitly
+SUCCESS/CLEAN. Current published head is
+`4956f56a7965fdf4659599db5bbac95039baee4f`, actual integrated3MD concrete proposal
+plus truthful metadata; ALL11 own inherited/document checks actuallySUCCESS,
+actual fullreview subsequently approved finalcf462/f13 in4d7b98a;
+035/d628 later revisions still require own futureCI at publication. Claim-head results are not later-head/newgreen/baseline
+or bundle behavior approval. Agents were explicitly
 reassigned to NEW isolated trees from that claim; actual agent list shows both
-running. Actual full3MD candidate404de065 is integratedcf10b7e; actual fullreview pending:
+running. Actual final concrete-document approval4d7b98a is integratedd62823c; minimal API next:
 - contribution_implementer: task/STORAGETEST-002-contract-author,
   local-evidence/worktrees/storage002-contract-author, clean404de065. Owned only
   new sqlite-application-bundle-v1.md/schema companion and storagetest-002-api-author.md.
@@ -74,19 +78,40 @@ running. Fetch/merge/push/create sessions completed. Actual independent reviewer
 read-only prep completed cleanf50: source dimensions need explicit comparison,
 immutable state-token binding/no ABA and complete structural plan proof. It is
 not approval of any absent concrete artifact. Reinspect actual agents/processes on resume; entries do not
-prove continued execution. Actual author404de065f69626324b92ee7c31d5175fe2bd3c88 clean integratedcf10b7e,
-ONLY3MD: logical407lines6d7e1d5ff3759550fbfb4f1dccc1e0c21eea5e69,
-physical238linesf13fca6d11e57410a31a7d307a8b12eaa21a68f9,
-author161linesbe8741e8e614d8b337c941e39203b2b7a1bf913f. Early findings addressed
-in actual SB13/SB14/multi-basis relation/three-state-ref+current14 rules, but no
-FULLreview approval yet. Author rawpositive one-request/two-bases +34constraint
-refusals/6runtime-only admissions/project/tooling19PASS0.278s; no native/API/red.
-Root independently rechecked final integrated14SQL/full66/F62465/c9ba98, old30/
-F29015bbb unchanged. Historical67/F61448/27832741 remains superseded ONLY.
-See taskhandoff for exact scratch command/hashes and limited scope. No behavior/
-newbaseline claim. Next send committed resulting rootcandidate for different ACTUAL
-complete logical/physical review, integrate verdict/resolve findings. No C++/stubs/
-fixture/test until that gate and next assignment; no absence/futurehead approval.
+prove continued execution. Actual author404de065/rootcf10 and narrow revisioneba8dc5712b79f17f566daf1992cfe62364d38c5/
+root035268a242c1809ffff6d56b83756edaf950226f produced final logical435lines
+cf4624bf113b375c8614b4163b83245be67d9f0a /physical238lines
+f13fca6d11e57410a31a7d307a8b12eaa21a68f9 /author225lines
+b737a1ab6cc594739a8534d98e25e357bf6e521d. Material multi-basis/directconservation/
+three-snapshot/source-scope findings resolved in actual revisions. Independent FULL
+DOCUMENT approval4d7b98a2ef6c92024879dbcde0f622a1036cb650 integratedd62823c,
+reviewMDe1b082ac3440daa46327e500f50afcb1db14a552. Source lookup explicitly audits
+actual sibling scalar metadata/selected complete effect but NOT unselected payloads
+or whole-operation deltas. All14SB/physicalf13 unchanged through final clarification.
+
+Author34/refusals+6runtime-only admissions and reviewerINDEPENDENT28+6/rawSQL
+representability/Fraction/canonicalprefixes/full66/F62465c9/prefix30/F29015bbb/static/
+tooling19PASS documented; NOT application/runtime/transaction proof. Initial reviewer
+scratch bootstrap omission corrected before PASS, notred. No native/feature/red ran.
+Prior4956 all11CI passes are exactthathead only. Historical67/F61448/27832741 is
+superseded ONLY. [Actual review](storagetest-002-review.md), taskhandoff/evidence.
+
+NEXT authorized stage AFTER actualcontractapproval: author NEW minimal owned
+server/include/subathon/server/sqlite_application_bundle.hpp and
+server/src/sqlite_application_bundle.cpp with inert constructor and ALL meaningful
+new methods/manifest IMMEDIATE named unimplemented throws. No validation, codecs,
+SQL, DDL, reads/writes, evaluation or transaction implementation. Author may append
+own API evidence and align logical names only; physicalf13/oldports/tests frozen.
+Root owns minimal CMake/presets/workflow lane/config/evidence integration; compile
+newlib with old173 stability only after actualfiles exist, observe ordinary pinned
+CI. Different ACTUAL API/build/config review precedes fixtures/tests/newgreen/red.
+
+Both prior author/reviewer assignments COMPLETEclean author eba/reviewer4d. Root
+will explicitly resume author in existing isolated storage002-contract-author tree
+and normalmerge currentroot; no API file exists yet at checkpoint. Reviewer receives
+actual futureheader/stubs/config before approval. Fixtureauthor remains completed
+read-only prep, not fixtureauthoring. Whole STORAGETEST-002 in_progress/reviewnull:
+contract stage passed, API/fixture/test/newgreen/intendedred stillnotrun. No owner need.
 
 ## Earlier storage proof to preserve
 

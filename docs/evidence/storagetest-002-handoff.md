@@ -140,3 +140,35 @@ feature test edit authorized before that verdict and next explicit assignment.
 
 Final scratch script SHA256 `3963c22ce4b5b7f71484390ae53510da8af86121073ae5b22895fae93b2baa93`;
 summary `/tmp/storage002-root-frame-audit-final.json`.
+
+Actual root review candidate `4956f56a7965fdf4659599db5bbac95039baee4f` was
+published to DRAFT PR42. Its own CI runs in parallel with different actual full
+contract review; neither a later head nor future interface/test gate is approved.
+PR description now names the actual3MD candidate and remaining gates.
+
+Actual published4956f56 now has ALL11 inherited/document workflow checks SUCCESS.
+Different full concrete-contract review is still pending; these CI results do not
+close interface/fixture/test/newgreen/intended-red or runtime gates.
+
+## Actual document approval and minimal interface stage
+
+Different full contract DOCUMENT approval
+`4d7b98a2ef6c92024879dbcde0f622a1036cb650`, integratedd62823c;
+[actual review](storagetest-002-review.md), blobe1b082ac3440daa46327e500f50afcb1db14a552.
+Accepted final logical435lines `cf4624bf113b375c8614b4163b83245be67d9f0a`,
+physicalf13 unchanged, author225linesb737. Narrow authorrevisioneba/root035 resolves
+source certification: actual sibling count/identity/order metadata plus selected
+full source are checked; unselected bodies and whole-operation deltas are not.
+All14 SB rows/SQL unchanged; root direct/static checks pass without raw/native/red
+repeat. Reviewer independently passed prefixes/full66/F62465/c9,28 SQL refusals/
+6 runtime-only admissions/Fraction/static and tooling19(0.282s at original4956).
+Initial scratch bootstrap issue is recorded as setup, never feature red.
+
+Only minimal owned header/immediate named stubs are now authorized, with inert
+constructor and no validation/codec/SQL/DDL/state effects. Root owns additive minimal
+CMake/preset/workflow wiring and later actual build/old-suite stability evidence.
+Different actual API/build/config review still precedes independent fixtures/tests,
+required selectedQt newgreen and FIRST genuine missing-behavior red. Whole baseline
+remains in_progress; no implementation approval. Prior4956all11CI cannot approve
+future035/d628 or interface artifacts. Author/reviewer are completeclean at this
+checkpoint and will be explicitly reassigned; no API file exists yet.
