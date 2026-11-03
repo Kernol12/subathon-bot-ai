@@ -172,3 +172,8 @@ mandatoryrun afterunchangedold35; actualbuild20/0warnings/green5PASS0skip37ms,
 registered210=old209+newgreen, NOnewqueryfeaturetest/body/red. Source130e staysstub.
 Differentfixture/harnessreviewactive; actualownNEWselectedofficialgreen notyet
 observed. Featureauthor mustWAITbothbeforewritingnewreader tests. No implementation.
+
+Actualdifferentfixture/helper/harness6cfb2c73 APPROVED+imported, exactbea127/67d4/
+7dad/d1a4/548f/b7bb with ownindependentraw+3slotgreen5PASS0skip. ROOT publishing
+reviewedfoundationOWNselectedNEWgreen now; featureauthorstillUNASSIGNED untilits
+actualsuccess. No newfeaturetest/body/red/implementation yet.

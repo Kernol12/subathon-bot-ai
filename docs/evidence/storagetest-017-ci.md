@@ -100,3 +100,16 @@ its OWN selected officialNEWgreen. Old209 was not replayed again: its source/
 fixture/registration definitions remain byte-identical after removing only the
 newgreen block, prior root/reviewer/APIofficial stability retained. No full210
 execution or newfeature/red pass is claimed by adding one registered executable.
+
+
+## Actual different fixture/helper/harness approval
+
+[Fixture review6cfb2c73](storagetest-017-fixture-review.md) accepts exactJSONbea127/
+helper67d4/environment7dad/author d1a4/QtCmake548f/workflowb7bb. Independent stdlib
+45steps/all9typedqueries/full66/5hashes/FK0/integrity/exhaustedMAX/singleplanrev1
+PASS, manualA161/B160+enum1 and signedC10-3=7. Own4-step warning-free build,
+oldprimitivegreen5PASS0FAIL0SKIP39ms/CTest0.05s/exact3slots/global210. No newreader
+reference/invocation, no old209 replay, no future featuretest/firstred approval.
+Root is now publishing the actual reviewed newfoundation and must observe ITS OWN
+selected official NEW3 green before feature-test authoring. EarlierAPIhead689 does
+not validate this later fixture/harness. Implementation017 remainsplanned.

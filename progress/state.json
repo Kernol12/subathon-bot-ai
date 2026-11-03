@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T07:15:07.581489+00:00",
+  "updated_at": "2026-11-03T07:33:24.926728+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5394,7 +5394,8 @@
         "Claimed task/STORAGETEST-017-early-claims from fetched actualmain21c AFTER normalPR44merge, before anynewreaderartifact. Freshauthor/review worktrees from21c: storagetest017-contract-author/task-STORAGETEST017-contract-author andstoragetest017-review/task-STORAGETEST017-review. FIRSTstage ONLY concretequerycontract+ownauthorMD, differentactualreview beforeminimaladditivetypes/constentrypoint/immediatenamedstub; rootownsbuild/presets/workflow and actualAPI/configreviewbeforeindependentfixtures/tests. Proposed smallestquery ORIGINAL subject/source selector(knownrole,positiveReceiptId,optionalCIDincl0) returns optionaltypedmatch{subject/source,ownedfullrecord}; subjectfirstGLOBALdatabase thenkind0receipt source, no scopefilter/currentstate/plan/OperationKey/dummystage/commandcodec inference. Options→sourcepurepreflight, absent no global/candidatesourceaudit, selectedfullclosure/actualknownrollback/originalWorkFailureunknown/currentbudgets/transaction-visible owneddata. Existingstageequality and allold35/209/schema/fixtures remain. ConcreteAPI/fixtureoracles notfinalized by thisclaim or read-onlyprep. Afterreview/compiler/exactdiscovery/requiredoldprimitivegreen/ownselectedofficialCI, FIRSTnewnamedstubred; no oldbaseline rerun/aggregateproof. STORAGE017production waits completeownbaseline. 016durableholds remainsrequiredplanned separatetask, notsilentlyreduced.",
         "ActualdifferentconcreteDOCapproval39a50970→bb27 acceptsbad19/author0239 beforeAPIphase. Actual minimalAPIbd3→d290 headercf721/source130=new3types+constmethod+uniqueimmediatenamedthrow only; removingnewblocksrestores8e24/a905. RootminimalconfigCMake4a404/preset323e/WF4015 onlynewflag/preset19/profiletoken substitution, no newbody/pins/guard changes. Actual configure/fresh92stepbuildPASS0warnings/exact209OLDregistrations; no newreader/test/fixture/red invoked. Freezeconfigbeforeold209run; actualdifferentAPIreview andOWNSOURCEselectedCI pendingbeforeindependentfixtures/tests. Wholebaseline remainsINPROGRESS, STORAGE017PLANNED.",
         "ActualindependentAPI/configapproval2fd02c31 acceptsheadercf721/source130/CMake4a404/presets323e/WF4015: ownfresh92build0warnings/old209PASS7.03s/206Qt0skip/exact209enabledold35. RootcleanCF7old209PASS7.05s. Scopednewblocksrestore8e24/a905, workflowtokenreversalold783 andpresetremovaloldb9 exact. No newentrypoint/test/fixture/red invoked. Publish OWNAPIhead selectedofficialCI now; fixtureauthorassignment stillwaitsits actualsuccess. STORAGETEST017notdone/production017planned.",
-        "ActualOWNAPIselectedofficialSQL41593838583 SUCCESS exact689599bd6c040677058da894a1259ee9742bad2b 07:03:58–07:05:26Z: fresh92/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedQt6.12SQLite3.53.4/profile19/old164+greens/old35/all11SUCCESS. RawSHA610034e5945c95f4e1663b863484411fee6f2ceae0dda9547cdaa451814cf978. ONLYTHEN independentfixtureauthor explicitlyassignednewstoragetest017-fixtures tree branchfromfetchedmain21c+ffapproved689, ownnewJSON/helper/environment/authorMD only. Freeze independentA/Bminimalbody161+1 andreceipt-taggedsigned ORIGINALC (Receipt8NOTclaimedconfirmation), coherentMAXallocator/catalog; old20 separate. Newreader NEVERinvoked, oldsourceHEADERstubunchanged. Actualdifferentfixture/harnessreview/ownnewgreen requiredbeforefeaturetestauthoring. No fixturecandidate/verdict/newtest/redyet."
+        "ActualOWNAPIselectedofficialSQL41593838583 SUCCESS exact689599bd6c040677058da894a1259ee9742bad2b 07:03:58–07:05:26Z: fresh92/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedQt6.12SQLite3.53.4/profile19/old164+greens/old35/all11SUCCESS. RawSHA610034e5945c95f4e1663b863484411fee6f2ceae0dda9547cdaa451814cf978. ONLYTHEN independentfixtureauthor explicitlyassignednewstoragetest017-fixtures tree branchfromfetchedmain21c+ffapproved689, ownnewJSON/helper/environment/authorMD only. Freeze independentA/Bminimalbody161+1 andreceipt-taggedsigned ORIGINALC (Receipt8NOTclaimedconfirmation), coherentMAXallocator/catalog; old20 separate. Newreader NEVERinvoked, oldsourceHEADERstubunchanged. Actualdifferentfixture/harnessreview/ownnewgreen requiredbeforefeaturetestauthoring. No fixturecandidate/verdict/newtest/redyet.",
+        "Actualindependentfixture/helper/harnessapproval6cfb2c73 acceptsJSONbea127/helper67d4/env7dad/author d1a4/QtCMake548f/WFb7bb: own45steps9queries66schema5hashes/FK0/integrity/coherentMAXalloc+single-rev1/manualA161B160+enum1/signedC-3; own4build0warnings/green5PASS0skip39ms/210reg exact3slots. Scopeonlyoldprimitives, newreaderneverreferenced/invoked; old209notreplayedandnotnewfeatureproof. RootpublishOWNSOURCEselectedNEWgreen now, featureauthorstillwaitsactualsuccess; no newquerytest/red/production17 yet."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -5402,7 +5403,9 @@
         "api_review": "passed",
         "feature_tests": "not_run",
         "observed_red": "not_run",
-        "api_official_qt": "passed"
+        "api_official_qt": "passed",
+        "fixture_review": "passed",
+        "fixture_host_diagnostic": "passed"
       },
       "evidence": [
         "docs/contracts/sqlite-original-claims-v1.md",
@@ -5410,7 +5413,9 @@
         "docs/evidence/storagetest-017-contract-review.md",
         "docs/evidence/storagetest-017-api-author.md",
         "docs/evidence/storagetest-017-ci.md",
-        "docs/evidence/storagetest-017-api-review.md"
+        "docs/evidence/storagetest-017-api-review.md",
+        "docs/evidence/storagetest-017-fixture-author.md",
+        "docs/evidence/storagetest-017-fixture-review.md"
       ],
       "review": null
     },
