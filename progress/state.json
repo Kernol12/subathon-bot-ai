@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T06:00:00.602322+00:00",
+  "updated_at": "2026-11-03T06:02:44.179148+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1254,7 +1254,8 @@
       "brief": "docs/tasks/EPIC-001/CORE-008.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before CORE-008.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
       ],
       "verification": {},
       "evidence": [],
@@ -1278,7 +1279,8 @@
       "brief": "docs/tasks/EPIC-001/CORE-008.md",
       "summary": "Record requested/actual signed corrections and validate cap/deadline changes through reviewed contracts without overflow or hidden history rewrite.",
       "notes": [
-        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
       ],
       "verification": {},
       "evidence": [],
@@ -1622,7 +1624,8 @@
       "brief": "docs/tasks/ACCTCONTRACT-001.md",
       "summary": "Documentation-only original application-service/current policy/commit and durable-hold semantics; no API/test/red or implementation. Explicit prerequisite for the separate hold repository and service baselines.",
       "notes": [
-        "Parent epic: EPIC-002. Explicitly split after actual contract-stage finding; ADR0003 preserves original service scope and adds durable-hold prerequisites, no cycle or test-gate waiver. Dedicated task/ACCTTEST-004-application-service branch/PR44 from actualmain8c7 existed BEFORE logical-document edits and initially claimed only that stage; historical branchname retained, now focused executable ACCTCONTRACT001. Root owns sharedmetadata/config/schemaorder; author owns only application-service-v1.md+ownMD on fresh8c7author tree; different reviewer actualdocumentreview required. No service code/test/red authored."
+        "Parent epic: EPIC-002. Explicitly split after actual contract-stage finding; ADR0003 preserves original service scope and adds durable-hold prerequisites, no cycle or test-gate waiver. Dedicated task/ACCTTEST-004-application-service branch/PR44 from actualmain8c7 existed BEFORE logical-document edits and initially claimed only that stage; historical branchname retained, now focused executable ACCTCONTRACT001. Root owns sharedmetadata/config/schemaorder; author owns only application-service-v1.md+ownMD on fresh8c7author tree; different reviewer actualdocumentreview required. No service code/test/red authored.",
+        "Separate query-only STORAGE017 logicalobligation identified: typedearlyapplicationclaimread with full selectedclosure before newnumericproposal; no rawSQL/dummystage or oldIntent-equality change. Independent baseline017 thenimplementation017 joinhold016 before originalservicebaseline. No newcode/test/DDL or approval claimed by planning."
       ],
       "verification": {},
       "evidence": [],
@@ -1640,7 +1643,8 @@
         "STORAGE-002",
         "CORE-005",
         "ACCTCONTRACT-001",
-        "STORAGE-016"
+        "STORAGE-016",
+        "STORAGE-017"
       ],
       "spec_refs": [
         "§3",
@@ -1651,7 +1655,8 @@
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed dedicated task/ACCTTEST-004-application-service from fetched actualmain8c7f71f AFTER normal PR43merge; no dependent edits beforeintegration. Firststage ONLY bounded application-service logical contract/examples and own Markdown evidence, separate actual review BEFORE C++API/stubs/minimalharness, then separate APIreview/independent realSQL fixtures/tests/review/actualintendedred. All prior reviewed/red gates preserved, old209 passes are NOT new service acceptance/red. Contract connects ORIGINAL application orchestration over existing nonowning SQLbundle, exactCORE005/002 numeric/lifecycle, all15currentcontribution dimensions/planhead, explicit typed currentpolicy/clock/authority ports, duplicate/claim/currentaccess ordering, actualcallerCOMMIT+normalcompletion versus knownrollback/unknown/publication. Cap/config/clock/permission must not be fabricated from opaqueenvelopes. Existing neighboring ACCT005 batch/review, ACCT006 financialrefundallocation, milestones/API/jobs/recovery/provider gates remain mandatory; identify requirementconflicts explicitly. Authorisolated task/ACCTTEST-004-contract-author atlocal-evidence/worktrees/accttest004-contract-author owns ONLYdocs/contracts/application-service-v1.md +ownauthornote; reviewer task/ACCTTEST-004-contract-review atlocal-evidence/worktrees/accttest004-contract-review ownsreviewMD only and waitsactualcandidate. Root owns sharedstate/HTML/map/rootbuild/presets/workflow/schemas/migrationorder. ACCT004 production remainsplanned until this REAL reviewed service baseline+red.",
-        "Actual logical-stage investigation found missing nonowning durable application holds needed for NUM04. Explicit ADR0003 split: original task planned behind new independently reviewed documentcontract ACCTCONTRACT001 and real STORAGETEST016→STORAGE016. Initial PR44/branch was logicaldocs-only and now delivers only ACCTCONTRACT001; no new serviceAPI/test/red/implementation exists, no old pass aggregated. Full originalservice requirement retained after integratedprereqs; all release scope preserved."
+        "Actual logical-stage investigation found missing nonowning durable application holds needed for NUM04. Explicit ADR0003 split: original task planned behind new independently reviewed documentcontract ACCTCONTRACT001 and real STORAGETEST016→STORAGE016. Initial PR44/branch was logicaldocs-only and now delivers only ACCTCONTRACT001; no new serviceAPI/test/red/implementation exists, no old pass aggregated. Full originalservice requirement retained after integratedprereqs; all release scope preserved.",
+        "Actual second integrationgap: existingbundle stage purepreflight requirescomputedproposal before subject/sourceclaim checks; service needs typed earlyclaimprojection to return historicalclaim before todayrevaluation without rawSQL/dummyproposal. Separate STORAGETEST017→STORAGE017 prerequisite added; hold016 staysfocused, oldstageIntent equality/schema/assertions remain. These are planningrecords, not authoredAPI/tests/red/implementation."
       ],
       "verification": {},
       "evidence": [],
@@ -1699,7 +1704,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-005.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
       ],
       "verification": {},
       "evidence": [],
@@ -1722,7 +1728,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-005.md",
       "summary": "Preview accept/reject individually and in batches with actor/options/audit and arrival-context preservation.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
       ],
       "verification": {},
       "evidence": [],
@@ -1747,7 +1754,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-006.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-006.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
       ],
       "verification": {},
       "evidence": [],
@@ -1773,7 +1781,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-006.md",
       "summary": "For a 20-euro contribution credited 5 minutes/40 points, a 5-euro refund entitles 75 seconds/10 points.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
       ],
       "verification": {},
       "evidence": [],
@@ -4225,7 +4234,9 @@
         "STORAGE-015",
         "STORAGECONTRACT-001",
         "STORAGETEST-016",
-        "STORAGE-016"
+        "STORAGE-016",
+        "STORAGETEST-017",
+        "STORAGE-017"
       ],
       "spec_refs": [
         "§16"
@@ -5337,6 +5348,59 @@
       "review": null,
       "status": "planned",
       "owner": "Unassigned"
+    },
+    {
+      "id": "STORAGETEST-017",
+      "title": "Review and demonstrate red: typed early application-claim projection",
+      "kind": "test_baseline",
+      "depends_on": [
+        "ACCTCONTRACT-001",
+        "STORAGE-002"
+      ],
+      "summary": "Review additive borrowed-session claim read, independent real-SQL tests and actual intended red; no aggregate old-lookup/stage proof.",
+      "module": "Operations",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§3",
+        "§5",
+        "DB-01",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
+      "notes": [
+        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-017",
+      "title": "Typed early application-claim projection",
+      "kind": "implementation",
+      "depends_on": [
+        "ACCTCONTRACT-001",
+        "STORAGE-002",
+        "STORAGETEST-017"
+      ],
+      "summary": "Read complete existing operation/subject/source claims before new proposal computation, preserving full closure/provisional/rollback/unknown semantics.",
+      "module": "Operations",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§3",
+        "§5",
+        "DB-01",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
+      "notes": [
+        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
     },
     {
       "id": "STORAGETEST-003",

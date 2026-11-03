@@ -46,3 +46,19 @@ actually ran; no unbuilt test target or unrun command is evidence. Update applic
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
+
+
+## Explicit mixed-deficit policy gate
+
+[Application-service logical preparation](../../contracts/application-service-v1.md)
+retains CORE-005/AT09's timer-only RequireReview meaning. It does not select whole-
+input deferral versus a complete atomic result containing timer-held/unapplied and
+other actual effects. Signed manual command policy (CORE-008), original review/
+global-status and authorized continuation (ACCT-005), and financial reversal policy
+(ACCT-006) must settle their respective mapping through actual reviewed contracts/
+examples before enabling those paths. Preserve existing applied components and
+exact held remaining amount; resolution/apply is one unit, never automatic replay.
+Unknown policy stays not-ready, not an invented default. Post-finish mixed time/
+score likewise needs explicit reviewed policy and complete retained representation;
+never disguise lifecycle denial as cap limitation or invent unsupported components.
+This is an explicit required follow-up, not a behavior/support claim or scope waiver.

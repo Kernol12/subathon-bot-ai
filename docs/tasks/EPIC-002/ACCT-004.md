@@ -57,3 +57,7 @@ missing durable-review-hold port discovered during logical preparation. The sepa
 must integrate before this task's own executable baseline. Successful-bundle storage
 or a transient Held return cannot establish durable NUM-04 review enforcement.
 No original atomicity/idempotency requirement or reviewed/red gate is removed.
+
+The additional [STORAGE-017 claim projection](../EPIC-009/STORAGE-017.md) must also
+integrate before the service baseline: claim precedence cannot require a fresh
+numeric proposal or bypass pure shape checks with a fabricated bundle.

@@ -19,7 +19,10 @@ Specify stable tagged-subject durable whole-input overflow holds and independent
 timer-deficit proposals: immutable history, active-gate lookup, authorized resolution
 and atomic no-award behavior without new-key/replan bypass. A concrete nonowning
 hold repository is a separate required STORAGETEST-016/STORAGE-016 baseline/implementation,
-not something existing successful-bundle storage already provides.
+not something existing successful-bundle storage already provides. A separate
+STORAGETEST-017/STORAGE-017 typed early claim projection is also required so
+claims precede new revaluation without raw SQL/dummy proposals or changed Intent
+equality. Keep its full selected closure and actual provisional semantics.
 
 Map signed original corrections, paused/recovery/finished inputs, batch/silent review,
 financial refunds, milestone/job/delivery/recovery authority explicitly to their

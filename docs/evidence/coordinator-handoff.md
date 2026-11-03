@@ -83,3 +83,27 @@ Latest source/CI artifact pins and raw hashes are in linked task evidence.
 Actual planningcheck394tasks/122decisions/local links/acyclicdependencies/currentHTML/
 tooling19PASS0.265s/diffPASS. PR44 initialclaim81b CI is inherited-only, not new
 service/hold proof. Author/reviewer explicitly reassigned documenttask only.
+
+
+## Actual logical candidate and further prerequisite precision
+
+Author9614dd4 importedafe2762, then actual review requestedchanges on inferred
+whole-operation timerRequireReview default and Ready/Finished/deadline ordering.
+Author17c0b22→c861ad8 andc6052e8→4f515b9 now supply final412-line DOCUMENT contract
+with21AS literal examples+independent7integer/Fraction audit. No serviceAPI/schema/
+fixtures/tests/red/production changed. Complete actual differentdocument/decomposition
+review is active; there is NO final approval yet. Initialcandidatefindings are not
+newfeaturetestfailures or intendedred.
+
+STORAGETEST017→STORAGE017 added separately for typed EARLY applicationclaimprojection
+(currentstage requiresalreadycomputedproposal). No rawSQL/dummybundle/oldIntent-
+equality change. Hold016 andquery017 independently follow the reviewedlogicaldoc;
+servicebaseline waits bothintegrated implementations. Actual396tasks/122decisions/
+191workpackages350childrecords graph passeslinks/acyclic/currentHTML. Existing
+CORE008/ACCT005/ACCT006 notes/briefs track unresolved mixeddeficit/continuation and
+postfinish representations explicitly; no newglobalpolicy selected. Old209 passes
+remain component evidence only. Rootplanningchanges await finalsameactualreview.
+
+Next: freeze actualfinaldoc+planning, obtain separateapproval, publish focused DOC
+PR44 under ACCTCONTRACT001 title, observe latestunchangedstableCI, normalmerge only
+after allgates. Then claim new016/017 baseline task(s) from integratedcurrentmain.

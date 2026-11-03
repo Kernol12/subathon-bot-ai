@@ -22,14 +22,21 @@ conditions/provenance and does not supply a reviewed hold repository.
 2. STORAGETEST-016 → STORAGE-016 separately defines/reviews concrete nonowning
    durable application-hold storage, exact additive schema/API/fixtures and a real
    intended red before production implementation. Preserve immutable prefix1–5.
-3. Original ACCTTEST-004 → ACCT-004 then establishes/implements the actual service
+3. STORAGETEST-017 → STORAGE-017 separately adds a typed early claim projection
+   over existing bundle rows. Current stage requires an already valid computed
+   proposal before its claim checks; the service needs claims before today's
+   revaluation/overflow without raw SQL or dummy proposals. Keep existing Intent
+   equality/schema and full selected closure; no migration is expected.
+4. Original ACCTTEST-004 → ACCT-004 then establishes/implements the actual service
    over integrated numeric/bundle/hold prerequisites. Old209 passes are neither
    service acceptance nor its own intended red. Its original atomic/idempotency
    requirements remain; this is no aggregate-red shortcut.
 
 The service contract does NOT depend on future service tests/implementation.
 Hold storage depends on that reviewed logical contract and integrated storage;
-service baseline depends on implemented hold storage. No epic/child cycle.
+service baseline depends on implemented hold016 and claim017 storage. The two
+new storage slices can proceed independently after the logical contract; shared
+root build/schema ownership remains coordinated. No epic/child cycle.
 
 Whole-input numerical overflow must hold without applying any mixed effects/jobs.
 Timer-only deficit RequireReview is a distinct CORE-005 proposal and cannot silently

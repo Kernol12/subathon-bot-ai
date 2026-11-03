@@ -82,7 +82,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-006 — Invites, permissions, local/Twitch identities and chat roles](EPIC-006.md) | 7 | 14 |
 | [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 7 | 14 |
 | [EPIC-008 — Qt/Drogon API server, durable intake and live snapshots](EPIC-008.md) | 9 | 18 |
-| [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 18 | 34 |
+| [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 19 | 36 |
 | [EPIC-010 — Twitch API, EventSub and both chat identities](EPIC-010.md) | 6 | 11 |
 | [EPIC-011 — betterplace public integration and aggregate visibility](EPIC-011.md) | 4 | 7 |
 | [EPIC-012 — Patreon v2 payment evidence, webhooks and reconciliation](EPIC-012.md) | 4 | 7 |
@@ -102,7 +102,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
 
-Total: 190 work packages, 348 child records
+Total: 191 work packages, 350 child records
 (157 test baselines plus their paired
 implementations and distinct feasibility/verification/documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.

@@ -54,3 +54,19 @@ it does not choose whether a hard deadline affects Ready before first start or h
 first start validates an already-passed deadline. Resolve those first-start/deadline
 semantics with API-007 before claiming complete lifecycle command support. This is
 an explicit contract/acceptance gate, not implemented or verified behavior.
+
+
+## Explicit mixed-deficit policy gate
+
+[Application-service logical preparation](../../contracts/application-service-v1.md)
+retains CORE-005/AT09's timer-only RequireReview meaning. It does not select whole-
+input deferral versus a complete atomic result containing timer-held/unapplied and
+other actual effects. Signed manual command policy (CORE-008), original review/
+global-status and authorized continuation (ACCT-005), and financial reversal policy
+(ACCT-006) must settle their respective mapping through actual reviewed contracts/
+examples before enabling those paths. Preserve existing applied components and
+exact held remaining amount; resolution/apply is one unit, never automatic replay.
+Unknown policy stays not-ready, not an invented default. Post-finish mixed time/
+score likewise needs explicit reviewed policy and complete retained representation;
+never disguise lifecycle denial as cap limitation or invent unsupported components.
+This is an explicit required follow-up, not a behavior/support claim or scope waiver.
