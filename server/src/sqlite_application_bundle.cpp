@@ -946,6 +946,28 @@ class Access {
         return add_result_items(add_result_items(p.rules.size(), p.modifiers.size()),
                                 p.captured.requested_effects.size());
     }
+    // The original complete-record field walk is shared without changing any
+    // old charge/order; a claim match adds its own one-byte discriminator later.
+    static void record_bytes(bundle_detail::ByteCount &count, const RecordedApplicationBundle &v) {
+        bundle_detail::count_bytes(count, v.intent);
+        bundle_detail::count_bytes(count, v.persisted_head);
+        bundle_detail::count_bytes(count, v.advanced_before);
+        bundle_detail::count_bytes(count, v.after);
+        bundle_detail::count_bytes(count, v.advance_explanation);
+        if (v.contribution) {
+            count.add(8 + 1);
+            bundle_detail::count_bytes(count, v.contribution->before);
+        }
+        for (const auto &e : v.effects)
+            bundle_detail::count_bytes(count, e);
+        for (const auto &j : v.jobs)
+            bundle_detail::count_bytes(count, j);
+        count.add(v.transitions.size());
+        for (const auto &r : v.reversals)
+            bundle_detail::count_bytes(count, r);
+        bundle_detail::count_bytes(count, v.result);
+        bundle_detail::count_bytes(count, v.audit);
+    }
     struct Plan {
         CapturedPlanRevision selected;
         std::uint64_t head;
@@ -1733,27 +1755,63 @@ class Access {
             n = add_result_items(n, count);
         for (const auto &e : v.effects)
             n = add_result_items(n, e.components.size());
-        result_bytes(n, [&](auto &count) {
-            bundle_detail::count_bytes(count, v.intent);
-            bundle_detail::count_bytes(count, v.persisted_head);
-            bundle_detail::count_bytes(count, v.advanced_before);
-            bundle_detail::count_bytes(count, v.after);
-            bundle_detail::count_bytes(count, v.advance_explanation);
-            if (v.contribution) {
-                count.add(8 + 1);
-                bundle_detail::count_bytes(count, v.contribution->before);
-            }
-            for (const auto &e : v.effects)
-                bundle_detail::count_bytes(count, e);
-            for (const auto &j : v.jobs)
-                bundle_detail::count_bytes(count, j);
-            count.add(v.transitions.size());
-            for (const auto &r : v.reversals)
-                bundle_detail::count_bytes(count, r);
-            bundle_detail::count_bytes(count, v.result);
-            bundle_detail::count_bytes(count, v.audit);
-        });
+        result_bytes(n, [&](auto &count) { record_bytes(count, v); });
         return std::move(v);
+    }
+    std::optional<ApplicationOriginalClaimMatch>
+    original_claim(const ApplicationOriginalClaimSelector &selector) {
+        const auto subject_id =
+            selector.contribution_id ? selector.contribution_id->value : selector.receipt_id.value;
+        const auto claim =
+            one("subathon_app_claims", app_claims_columns, "subject_kind=? AND subject_id=?",
+                {int(selector.subject_kind), encode_plan_revision_uint64(subject_id)});
+        ApplicationOperationKey key;
+        auto kind = SqliteOriginalClaimKind::subject;
+        if (claim) {
+            if (enumeration(*claim, 0, 1) != int(selector.subject_kind) ||
+                id(*claim, 1, selector.subject_kind == ApplicationSubjectKind::receipt) !=
+                    subject_id)
+                fail(Reason::invalid_stored_data);
+            key = {string(*claim, 2, limits_.reference_bytes, true),
+                   string(*claim, 3, limits_.reference_bytes, true)};
+        } else {
+            const auto source =
+                one("subathon_app_operations",
+                    {"operation_scope", "operation_ref", "operation_kind", "receipt_id"},
+                    "operation_kind=? AND receipt_id=?",
+                    {int(ApplicationOperationKind::original),
+                     encode_plan_revision_uint64(selector.receipt_id.value)});
+            if (!source)
+                return std::nullopt;
+            if (enumeration(*source, 2, 1) != int(ApplicationOperationKind::original) ||
+                id(*source, 3, true) != selector.receipt_id.value)
+                fail(Reason::invalid_stored_data);
+            key = {string(*source, 0, limits_.reference_bytes, true),
+                   string(*source, 1, limits_.reference_bytes, true)};
+            kind = SqliteOriginalClaimKind::source;
+        }
+        // A selected corrupt/dangling subject must fail; it never falls through
+        // to a different receipt's result. lookup validates the full old closure.
+        auto existing = lookup(key);
+        if (!existing || existing->intent.kind != ApplicationOperationKind::original)
+            fail(Reason::invalid_stored_data);
+        const auto &intent = existing->intent;
+        if (kind == SqliteOriginalClaimKind::subject) {
+            if (intent.subject_kind != selector.subject_kind ||
+                intent.contribution_id != selector.contribution_id ||
+                (selector.subject_kind == ApplicationSubjectKind::receipt &&
+                 intent.receipt_id != selector.receipt_id))
+                fail(Reason::invalid_stored_data);
+        } else if (intent.receipt_id != selector.receipt_id) {
+            fail(Reason::invalid_stored_data);
+        }
+        // lookup already checked every returned vector item. This fixed wrapper
+        // adds no item, but its discriminator adds exactly one owned byte.
+        result_bytes(0, [&](auto &count) {
+            record_bytes(count, *existing);
+            count.add(1);
+        });
+        return ApplicationOriginalClaimMatch{kind, std::move(*existing)};
     }
     bool head_relation(const ApplicationStateSnapshot &head, const ApplicationStateSnapshot &before,
                        const std::string &explanation) {
@@ -2083,8 +2141,15 @@ SqliteApplicationBundleStore::lookup(const ApplicationOperationKey &k) const {
     return a.guarded([&] { return a.lookup(k); });
 }
 std::optional<ApplicationOriginalClaimMatch> SqliteApplicationBundleStore::lookup_original_claim(
-    const ApplicationOriginalClaimSelector &) const {
-    throw SqliteOriginalClaimNotImplemented();
+    const ApplicationOriginalClaimSelector &selector) const {
+    bundle_detail::validate_options(limits_);
+    if (int(selector.subject_kind) < 0 || int(selector.subject_kind) > 1 ||
+        selector.receipt_id.value == 0 ||
+        (selector.subject_kind == ApplicationSubjectKind::contribution) !=
+            selector.contribution_id.has_value())
+        throw SqliteBundleInputFailure(SqliteBundleInputError::invalid_source);
+    Access a(session_, limits_);
+    return a.guarded([&] { return a.original_claim(selector); });
 }
 ApplicationReversalBasisResult
 SqliteApplicationBundleStore::read_reversal_basis(const ApplicationOriginalComponent &o) const {
