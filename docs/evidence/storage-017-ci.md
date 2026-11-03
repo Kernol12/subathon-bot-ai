@@ -97,3 +97,12 @@ the earlier in-progress run-list snapshot is not cited as final success.
 STORAGE017 is DONE as a synthetic SQLite component. The final metadata head
 requires actual latest CI/discussion/rules/readiness/normal merge checks. These
 source-head outcomes do not preapprove a future revision or broader release.
+
+
+Completion metadata initially omitted the canonical `verification.acceptance` key
+while recording passing native/product acceptance elsewhere. Progress render
+correctly rejected that record; root inadvertently published intermediatef1a9b63
+before checking the failed command. The record now maps the ALREADY observed
+root/reviewer/validator18/full228 and official18 evidence to `acceptance=passed`.
+No validator, assertion, source or fixture changed, and no failed render is called
+a pass. Fresh progress/project/HTML checks and latest-head CI remain required.
