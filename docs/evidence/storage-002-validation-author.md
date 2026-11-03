@@ -36,3 +36,18 @@ old suite or red baseline was executed by these syntax checks. Integration must 
 the unchanged32 and full206 cases, obtain actual different source/config review,
 and observe promoted ordinary CI before task completion. This helper authoring
 alone establishes no passing application-bundle acceptance or full release support.
+
+Focused follow-up diagnostic at unchanged helper824f58d also PASSED:
+`/tmp/bundle_values_probe` prints `PASS pure838/837, returned112, three prepared
+shapes, exactfive manifests/full66`. Its temporary translation unit reuses only
+this baseline's frozen-literal DTO parser (no store/session/setup/test method), then
+calls the new pure helper. It checks the independently reviewed838/837 input byte
+boundary,112 returned-state bytes, all three supplied original/refund1/refund2
+shapes, and byte-exact canonical payload+SHA for EACH independently frozen prefix1–5
+manifest/full66 inventory. It does not derive expected values from this helper.
+
+Built with C++20/-fPIC/O0, current core/server includes and pkg-config flags/libraries
+for Qt6Core/Sql/Test, the five existing fixture-path macros, and the unchanged main
+sqlite-bundle-debug native static archives. Compiler/link exit0, diagnostic exit0.
+No production source besides this pure header is introduced by that diagnostic.
+The full unchanged integration/native/CI gates remain as stated above.
