@@ -23,7 +23,7 @@ option(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS "Build reviewed identified-receipt SQ
 option(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS "Build reviewed contribution SQLite acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_PLAN_TESTS "Build reviewed captured-plan SQLite acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS "Build application-bundle SQLite baseline interfaces and tests" OFF)
-option(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS "Build typed original-claim SQLite baseline interfaces and tests" OFF)
+option(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS "Build typed original-claim SQLite acceptance tests" OFF)
 if(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS)
     set(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS ON)
 endif()

@@ -374,7 +374,6 @@ class SqliteApplicationBundleStore final {
     // vector items. All values remain provisional, never authority/durability.
     // Healthy reads do no writes/cleanup; known failures require actual whole-unit
     // rollback, while capability/protocol/unknown retain original WorkFailure.
-    // This additive entrypoint remains a named stub pending its own reviewed red.
     [[nodiscard]] std::optional<ApplicationOriginalClaimMatch>
     lookup_original_claim(const ApplicationOriginalClaimSelector &selector) const;
     // Options then original operation key, positive request position and credited

@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-017 implementation claimed
+# Coordinator checkpoint — STORAGE-017 source integrated, independent review active
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md). Full product remains
 incomplete; all seven integrations/threeFX, both renderers/platform/UI/operational
@@ -19,7 +19,7 @@ Fetched/local main **a40b42fc6d6e2a419f90f3abfd246c29dfd8173c**.
   **2026-11-03T08:35:37Z**. All11finalSUCCESS inclSQL41604081877; ready/CLEAN/
   MERGEABLE/zero unresolvedthreads/currentrules26170263formalGHapprovals0/
   rootclean/criticalreviewedblobsunchanged. Normal exact-head merge, no bypass/
-  force/deletion. Mainffclean, merge tree equals final48. PostmainCI NOT YETobserved.
+  force/deletion. Mainffclean, merge tree equals final48. Postmain all10SUCCESS observed, includingSQL41604430192.
   [Handoff](storagetest-017-handoff.md), [fullreviewf5c6](storagetest-017-review.md),
   [final attributiona729+eb563](storagetest-017-final-review.md), [CI](storagetest-017-ci.md).
 
@@ -45,7 +45,7 @@ until implementation passes. Preserve original red; DO NOT REPLAY as a new basel
 
 ## Active implementation / ownership
 
-STORAGE017 in_progress. Root `task/STORAGE-017-original-claims` created from
+STORAGE017 in_review; [draft PR46](https://github.com/Kernol12/subathon-bot-ai/pull/46). Root `task/STORAGE-017-original-claims` created from
 actual refresheda40 BEFORE edits/claim. [Brief](../tasks/EPIC-009/STORAGE-017.md).
 Only implement approved const query; no schema/header/old equality/fixture/test
 weakening. Options→source pure preflight, global taggedsubject first then ORIGINAL
@@ -58,27 +58,32 @@ Fresh isolated worktrees/branches from integrateda40:
 - `/root/bundle_implementer` explicitly reassigned runtime source author.
   `local-evidence/worktrees/storage017-source`, `task/STORAGE-017-source`.
   Own ONLY `server/src/sqlite_application_bundle.cpp` and
-  `docs/evidence/storage-017-author.md`. No candidate yet.
+  `docs/evidence/storage-017-author.md`. COMPLETE d675eb9+a9d184d, clean source
+  tree; runtime834336d3/author492add53 imported34f7dd5/7de22a6.
 - `/root/bundle_reviewer` independent source/config reviewer.
   `local-evidence/worktrees/storage017-review`, `task/STORAGE-017-review`.
-  Own ONLY `docs/evidence/storage-017-code-review.md`; prep read-only until
-  actual source/harness supplied, no prospective approval.
+  Own ONLY `docs/evidence/storage-017-code-review.md`; actual source/harness full review ACTIVE on834+five rootfiles, no verdict yet.
 - `/root/bundle_validation` independent native validator.
   `local-evidence/worktrees/storage017-validation`, `task/STORAGE-017-validation`.
-  Own ONLY `docs/evidence/storage-017-validation.md`; actual source candidate
-  required before running new acceptance, no repeat original red.
+  Own ONLY `docs/evidence/storage-017-validation.md`; actual source834 native validation ACTIVE; exact five rootfiles supplied, no
+  verdict yet. No original red replay.
 - Root owns state/HTML/map/build/presets/workflow/schema order and actual merge.
 
 Source author read-only preparation recommends one existing Access+guarded path,
 global strict key projections and existing lookup full closure; extract the exact
 existing recorded-body byte walk for oldlookup+wrapper reuse, preserving charges/
-order and checking one extra enum byte only after selected identity. No production
-code was written during that preparation.
+order and checking one extra enum byte only after selected identity. That preparation preceded actual source d675eb9. Root [CI/native evidence](storage-017-ci.md):
+initialnew18PASS0.81s, promoted candidate26buildsteps/0warnings/full228PASS7.88s/
+225Qt totals715PASS0fail0skip, compiled18=registered18/full228. Baseline tests/
+fixtures/helper unchanged. Header8614 removes ONLY obsolete1stubstatuscomment;
+rootCMakea713/preset0acd descriptions, QtCMake687a removes newdraft/comment,
+workflowc5d1 promotes mandatoryordinary18 after oldstable/new3green/exactguard.
+Different actual source/config review and validation pending; ownselectedCIpending.
 
 ## Next concrete actions / preservation
 
-1. Integrate actual source candidate; zero-warning build and exact18/full228
-   native acceptance. No assertions/fixtures changed to get green. Genuine test
+1. Actual source834 integrated and native acceptance PASS. Obtain actual separate
+   source/config review and independent validation, resolve findings on examined revisions. No assertions/fixtures changed to get green. Genuine test
    defect needs written specification reason and separate review first.
 2. Root promotes new suite to unconditional ordinaryCI only after it passes:
    preserve selected pins/check names/oldguards/new3green and exact18 guard.
@@ -95,7 +100,8 @@ code was written during that preparation.
 Previous branches/worktrees and valid reviews preserved. Earlier storage002-review
 retains3 root-config verificationcopies; storagetest017-review retains4. No unfinished
 old source/test work, no prune/reset/discard. Latest preclaim inventory107refs/
-91existing/16absent; three new trees added here. Root claim metadata is the only
-uncommitted work at this checkpoint; no build/native process running.
+91existing/16absent; three new trees added here. Root shared promotion/CI/state/checkpoint updates are being frozen for publication;
+independent reviewer/validator may be running native work. Inspect actual processes
+and worktrees on resumption. All prior dirty verification copies preserved.
 Current ruleset has no required-status-check rule; coordinator explicitly verifies
 all11 checks. No future source/query/service/platform/live evidence claimed.

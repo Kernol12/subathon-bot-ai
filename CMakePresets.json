@@ -164,7 +164,7 @@
     },
     {
       "name": "sqlite-original-claim-debug",
-      "displayName": "19 \u00b7 Typed original-claim SQLite baseline",
+      "displayName": "19 \u00b7 Typed original-claim SQLite acceptance",
       "inherits": "sqlite-bundle-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS": "ON"

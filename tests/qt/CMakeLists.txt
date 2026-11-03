@@ -24,7 +24,7 @@ if(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
     subathon_target_options(server_sqlite_original_claim_acceptance)
-    # Intentional missing-reader baseline is separate from required old-primitive diagnostics.
+    # Keep query acceptance separate from the old-primitive environment diagnostics.
     foreach(case IN ITEMS
         frozenSelectorsPreserveGlobalPriorityAndRoles
         originalFilterExcludesFinancialReversalRows
@@ -47,7 +47,7 @@ if(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS)
     )
         add_test(NAME sqlite-original-claim.${case} COMMAND server_sqlite_original_claim_acceptance ${case})
         set_tests_properties(sqlite-original-claim.${case} PROPERTIES
-            LABELS "sqlite-original-claim;acceptance;draft;qt;server" TIMEOUT 30)
+            LABELS "sqlite-original-claim;acceptance;qt;server" TIMEOUT 30)
     endforeach()
 endif()
 
