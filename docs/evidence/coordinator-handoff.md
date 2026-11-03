@@ -230,3 +230,28 @@ No owner decision/access needed. All seven integrations/three FX, real authority
 policy/clock/action adapters, bothrenderers/locales/themes, financial/refund/review/
 continuation workflows, security/recovery/backup/platform/packaging/live/fullrelease
 remain mandatory/incomplete. A merged component PR is a checkpoint, not completion.
+
+## Current pre-baseline review findings and SAH2 proposal
+
+Actual early35 author47618850→root117829e CPP9a3c300abb6323bb6f3558d0191a478cbc32484f
+adds released policy groups plus old FIFO rejection barrier and callback exception
+transport. Earlier c849→5e9ed24 CPP01f3/note95069 fixes rawinput COW escape/exact
+result_limit and semantic reasons; different boundedreviewer independently checked
+those3fixes. Review8e69fc8+2ea8e5d imported ee4b7d1+f46b670; current35 barrierdiff
+stillneedsactualreview. Root updates explicit35 guard/registrations, no feature run.
+Fullreviewer requested additive denied/unknown SELECTEDstructuralcorruption rows:
+oldlookup accepts opaque malformedSAR1, so codec corruptionalone cannot prove
+lookupordering. Author notified; preserve prior2rows, add2realcorruption rows.
+
+Fullreviewer+originalAPIauthor independently identify a real durableMIN policygap.
+A revisionidentity alone doesnot retain selectedperordinal correctionenum; oldhold
+matrix'scapturedtargetmain mustnot be renameddebt. Rootnowowns boundedconcreteDOC
+proposal + docs/evidence/accttest-004-hold-policy-clarification.md, contractblob
+ aa40f9ba86a83aad984edfe0b5d6d4aa51e54af8/noted1324f6ff45177d358e464b4007a1e293a2d8f1f.
+SAH2/v2 preservescompleteSAH1body thenfullorderedcorrectionvector+optionalknown
+failedbalance, selectedONLYknownnonemptycorrectionlist; MINtargetmain/debt1/attempt
+2^63/Carry1. Header/source/schema/oldSAH1/SAA1/SAS1/SAR1unchanged. ActualdifferentDOC
+review pending BEFORE independentadditive min_policy_overflow case/freshhMin-dMin-vMin,
+fullold-onlyclosure/fixture review/OWNselectedgate andaffectedtestrelease. Preserve
+EVERYoldcaseobject/oracle; noimplementedbehavior or firstred exists. This gate adds
+requiredprovenance, no scopewaiver. No ownerdecision/access needed.

@@ -476,8 +476,9 @@ policy/config/clock agree with successful snapshot observation/provenance.
 A success outcome has neither Failure nor missing reason; numeric has Failure only;
 unresolved_policy has missing reason only. These grammar alternatives remain
 recognized historical DATA. This service produces SAA1 success0 for a successful
-application audit; its new whole-input holds use SAH1 in EVERY field below,
-including when policy and clock are known. Policy values are retained explanations,
+application audit; its new whole-input holds use the selected SAH1/SAH2 envelope
+in EVERY applicable field below, including when policy and clock are known.
+Policy values are retained explanations,
 not reusable grants.
 
 subathon.internal.application-hold-observation.v1 uses magic SAH1 then
@@ -487,18 +488,55 @@ stage/ordinal/target/Exact tuple above, EXCLUDING FailureEvidence.annotation.
 It never embeds another SAH1 or itself. Every present duplicate agrees with typed
 cause/observation/failure; missing Policy/Clock remains absent.
 
+For a supported bound policy with a NONEMPTY correction_policies list, use
+subathon.internal.application-hold-observation.v2, magic SAH2. Its body has the
+EXACT same complete field sequence as SAH1 after the magic, followed by:
+
+~~~text
+V(I64(request_ordinal), U8(deficit_policy))
+O(U8(failed_balance))
+~~~
+
+The vector retains the FULL actual ordered BoundApplicationPolicy.correction_policies,
+not only the failing entry: ordinals are positive, strictly increasing and identify
+the selected negative milliseconds occurrences; enum values are exactly
+StopAtZero0/CarryTimeDebt1/RequireReview2. Existing supported-policy binding and
+per-occurrence validation still apply. A policy revision ref alone does not retain
+these selected values or establish a durable immutable policy document.
+
+failed_balance is main0/debt1/score2/count3. It is present for a numeric failure
+whose failed balance is known, and absent for nonnumeric holds or a genuinely
+unknown balance. It identifies the arithmetic balance, not a captured target key.
+FailureEvidence.failing_target_ref and the duplicated Failure leaf continue to
+copy the actual selected occurrence target when known, as required by the existing
+hold matrix. For INT64_MIN/Main0/debt0/CarryTimeDebt, retain ordinal1, captured
+target main, exact attempted debt9223372036854775808, failed_balance debt1 and
+the actual correction entry (1,CarryTimeDebt1). Never rename the captured target
+to debt or infer the selected policy/balance from prose or the attempted number.
+
+SAH2 requires a present supported Policy and a nonempty suffix vector. Its list,
+failure discriminator and duplicated typed fields must agree with the known
+selected plan/policy/failure groups; malformed grammar is invalid_known_document,
+and contradictory known copies are contradictory_document. Unknown formats remain
+unsupported. Empty correction lists or unavailable policy continue to use SAH1;
+no suffix, new field or byte is added to any existing SAH1/SAA1/SAS1/SAR1 document.
+All applicable SAH2 owners contain the same complete owned envelope. Its Failure
+leaf still excludes the annotation, so neither format recurses. Parsed suffix
+items count as internal intermediate ownership; they add no phantom vector items
+to the opaque returned hold. Every real annotation copy is charged in hold B/I.
+
 | New service-produced field | Exact outer format / copy |
 | --- | --- |
 | PreparedBundle.intent.choices; HoldCause.command.intent | subathon.internal.application-command.v1 / SAC1, complete original command |
 | PreparedBundle.advanced_before.envelope; after.envelope | subathon.internal.application-state.v1 / SAS1; head reuse retains exact old envelope |
 | PreparedBundle.result | subathon.internal.application-result.v1 / SAR1 |
 | PreparedBundle.audit.envelope | subathon.internal.application-audit.v1 / SAA1 success0 |
-| HoldCause.first_observation.annotation | subathon.internal.application-hold-observation.v1 / SAH1 |
-| Detection.request.observation.annotation | SAME SAH1 envelope as this creation's first observation |
-| HoldCause.failure.annotation, present only for numeric overflow | SAME complete SAH1 envelope, whose Failure leaf excludes this annotation |
-| Detection.request.audit | SAME complete SAH1 envelope |
+| HoldCause.first_observation.annotation | selected subathon.internal.application-hold-observation.v1 / SAH1 or .v2 / SAH2 as specified above |
+| Detection.request.observation.annotation | SAME selected envelope as this creation's first observation |
+| HoldCause.failure.annotation, present only for numeric overflow | SAME complete selected envelope, whose Failure leaf excludes this annotation |
+| Detection.request.audit | SAME complete selected envelope |
 
-For one fresh whole-input hold creation, those four applicable SAH1 fields are
+For one fresh whole-input hold creation, those four applicable annotation fields are
 byte-identical owned copies, EACH charged in actual hold B/I accounting. Policy
 holds have no FailureEvidence; no numeric/failure fiction is added. Both first and
 attempt typed observations copy the actual retained head. A failed arithmetic
@@ -528,7 +566,7 @@ Deterministic service-owned strings are source copies or exact empty/fixed bytes
 | --- | --- |
 | ApplicationEffect.application_explanation | selected RequestedEffect.calculation_explanation verbatim |
 | captured HoldPlanEvidence occurrence.explanation | same selected request string, PRESENT even when empty |
-| SAA1.calculation_explanation; SAH1.explanation | non-null empty bytes; structured outcome/provenance carries the actual evidence |
+| SAA1.calculation_explanation; SAH1/SAH2.explanation | non-null empty bytes; structured outcome/provenance carries the actual evidence |
 | SAA1.action_explanation | PreparedApplicationActions.explanation verbatim |
 | SAA1 Policy.explanation | BoundApplicationPolicy.explanation verbatim |
 | ApplicationAudit actor_ref/decision_ref/reason | original command optionals verbatim, not guessed identities |

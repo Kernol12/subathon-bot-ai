@@ -47,6 +47,8 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
         globalClaimsBeforeCurrentWork
         allActiveHoldsGateNewKeys
         numericOverflowCommitsOnlyDurableHold
+        unresolvedPolicyAndClockAreHonest
+        capturedActionUnavailableHolds
         closedDetectionRetryCannotClaimHeld
         lifecyclePauseAndDeadlineDoNotCredit
         portBindingsAndIntermediateBounds
