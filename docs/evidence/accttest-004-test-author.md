@@ -1,0 +1,169 @@
+# ACCTTEST-004 public feature test author evidence
+
+Author bundle_implementer,2026-11-03. FEATURE TEST AUTHORING only: no test body,
+service/codec/view method, missing marker or intended red has been executed here.
+Different full test/oracle/harness review and the COMPLETE feature head's OWN
+selected foundation green must precede FIRST intended red. Root owns those gates,
+shared CMake/presets/workflows/guards/progress and PR49 integration.
+
+Root release798d350062c945e9ffe713d547b0f52b48ade0cb preceded edits in NEW isolated
+task/ACCTTEST-004-feature-tests / local-evidence/worktrees/accttest004-feature-tests.
+The previous clean API author tree and every old storage/fixture/review tree remain.
+Only tests/qt/application_service_tests.cpp and this evidence are authored here.
+
+## Frozen authorities and current checkpoint
+
+Logical6d0cd67f487dae92a17d41eb07dda5b407c78a56 (AS01–21), concrete
+862c419395f4e9daf34f8ae8790a06abbec6f410 (CS01–18), document note78f36dd7;
+header03a747a70ab7decd49227396466ff12a32c31864 and immediate source
+ebbea2388b7f4fb6474940b53cc14b95853969cb remain unchanged.
+
+Root supplied the actual fixture review/gate BEFORE authoring: full15f3149→90c45c3,
+approved fixture head8dfcf55, selectedSQL41685005509 SUCCESS17:31:06–17:33:56Z,
+fresh122/zero warnings, six mandatory foundation registrations/37QtPASS0skip,
+all11 latest gates. That is OLD-primitive/fixture acceptance, NOT feature acceptance.
+
+Current approved fixture pins: JSON0ae4957c65879cb3d5056f39b3d215f45a381e00,
+helper069bf7b91ce79f1821a44f67747e8d3354219dbd,
+environment5a36a407b9423920346d73d86817430a7068b6cc.
+No fixture/helper/environment/source/header/schema is edited here.
+
+Early sourceee7e6a3df26d1b9f2fdacfe0766e37d28b36da50 was frozen before root
+compile/discovery wiring. Current refinementd723bdd3f9cfcaf3062bb169a0c02d9ba40166aa,
+CPP blobc725dde22740f393789dae06cb413fad9ac39ca2, has **33 feature slots /
+206 authored scenarios**. Two policy-hold slot groups await the separately reviewed,
+OWN-selected-green fixture additions; they are not silently omitted or treated
+as complete. No final baseline review/approval is claimed for this checkpoint.
+
+## Actual slot inventory and requirement mapping
+
+Qt _data methods are NOT feature slots; helpers File::arrange/modify are not slots.
+Counts below reflect the actual approved30 case objects, four command anchors and
+18 complete successful record goldens, without invoking a data/feature function.
+
+| Actual feature slot | Rows | Independent requirement |
+| --- | ---: | --- |
+| commandEncodingMatchesFrozenFrames |34| complete SAC1 exact frames/every owned command field; CS14/17 |
+| commandDecodingMatchesFrozenMembers |34| lossless fields/optional/raw bytes/uint64 domain; AS11 |
+| codecBoundsUseActualOwnedDTOs |8| actual input/output B/I,25→98 and opaque-vector distinction; CS17 |
+| codecMalformedAndPurePriority |12| options→source/count/body/group, unsupported versus malformed framing |
+| codecOwnsBinaryBuffers |1| input/output fromRawData/BOM/NUL/FF ownership |
+| admissionPreflightBeforeQueue |7| pure errors before queue/ports or SQL effects |
+| foreignAdmissionAndMissingCallbacks |4| exact enqueue-return/make_work-throw; safe thread attribution |
+| arithmeticCommitsCompleteFrozenRecord |18| AS01–08/17–20; CS01–03/09/13/18; all record/state/effect/job/audit bytes |
+| exactPreviewAndCurrentPlanRefuse |3| exact preview, actual complete plan-head2, missing plan; AS01/20 |
+| currentEligibilityKeepsIndependentConditions |1| independent evidence/rate/review/settlement; AS09 |
+| currentDimensionsAreCopiedAtExecution |15| all15 current fields independently read before execution, immutable support separate; AS20/CS10 |
+| accessBeforeProtectedLookup |2| deny/unknown before deliberately malformed protected historical lookup; AS10/CS05 |
+| historicalCompleteCommandAndDisclosure |14| exact old outcome, current disclosure, valid single-field complete-intent changes; AS10–11/CS05 |
+| globalClaimsBeforeCurrentWork |4| genuine confirmation9/CID0, subject priority over MAX receipt, absent-CID source fallback, signed ORIGINAL receipt claim; AS11/CS06 |
+| allActiveHoldsGateNewKeys |2| complete h1/h2 set versus protected details; AS21/CS07 |
+| numericOverflowCommitsOnlyDurableHold |4| whole-input score/count/MIN/clock-advanced overflow; AS07/18/CS04/13 |
+| closedDetectionRetryCannotClaimHeld |1| actual resolved hRetry exact old detection retry is conflict; CS16 |
+| lifecyclePauseAndDeadlineDoNotCredit |7| Ready/Finished/paused/hardend/missing target/mixed policy; AS16/17/21,CS08/10/13 |
+| portBindingsAndIntermediateBounds |5| invalid current echoes/segments and actual bounded port value |
+| issuerCollisionsNeverRegenerate |3| occupied head token, wrong echoed binding, unavailable issuer; AS19/CS15 |
+| referenceViewPureAndCallbackLifetime |4| pure key before default expiry, narrower callback expiry, real same-session read |
+| referenceViewForeignReadAndUnderlyingBudget |2| safe joined foreign view; actual already-aborted retained query WorkError |
+| recordSemanticFormatsAreChecked |6| healthy unsupported versus malformed/contradictory SAS1/SAR1; CS14 |
+| resultBoundsCountOwnedPayloadOnly |4| record2131+enum1=2132; actual returned items11, no phantom parsed items |
+| actualKnownRollbackAtLateJobWrite |1| genuine engine B08 conditional prerequisite/whole rollback/retry; AS13/CS11 |
+| commitAckLossHasNoNormalResponse |2| actual new commit and old duplicate read COMMIT acknowledgement loss; AS14/CS11 |
+| rollbackAckLossOutranksLocalFailure |1| actual cleanup uncertainty dominates local reason |
+| postCommitBodyTailCannotPublish |1| real ACK-COMMIT then outer body exception; AS15/CS12 |
+| wrongWorkValueCannotPublish |2| actual generic WorkResult wrong/invalid QVariant rejected without invented WorkError |
+| completionFailureDoesNotUndoDurability |1| normal payload exists before later host response exception; AS15/CS12 |
+| fifoAcceptanceAwardsOnce |1| two real queued requests/one award; AS12 |
+| queuedAndReturnedBytesStayOwned |1| admission snapshot and result after service/writer lifetime; CS15 |
+| freshServiceReopenReturnsOriginal |1| real close/reopen/new service immutable duplicate without replay; AS15/CS12 |
+
+All successful record expectations come from reviewed frozen literal DATA,
+never from a service encoder/output. Old typed stores are used to set up an actual
+prior complete plan revision or inspect post-commit storage; they do not generate
+the service's expected numeric/frame output. Numeric source order, requested/
+actual/capped/debt components, untouched balances, residuals, complete command,
+three snapshots, job grouping/envelope, audit and current contribution are compared.
+Clock elapsed_success specifically freezes100→90→100; repeated requests60→60 never
+reuse58 or double-credit. Synthetic SAJ1 is explicitly non-deliverable.
+
+New score/clock holds compare ALL four independently frozen SAH1 copies and complete
+typed source/plan/first+current versions/observations/failure/empty-presence groups.
+Count/MIN boundaries compare independently frozen request/evidence/attempt and
+whole atomic absence; full score/clock bytes supply representative complete SAH proof.
+The closed retry checks historical active v1 does NOT become a current held claim.
+A real global claim may resolve a different historical receipt/CID than the
+candidate; no malformed candidate source is invented to force admission.
+
+## Named marker and actual writer completion mechanics
+
+Each test body is wrapped by a scenario catcher for EXACTLY these new families:
+OriginalApplicationCommandEncodeNotImplemented → MISSING_ENCODE;
+OriginalApplicationCommandDecodeNotImplemented → MISSING_DECODE;
+ApplicationReferenceReadNotImplemented → MISSING_VIEW;
+OriginalApplicationServiceNotImplemented → MISSING_SERVICE.
+The exact class name is included in the Qt failure text.
+
+Direct encode/decode groups first reach their corresponding markers. Direct
+default read-view rows first reach MISSING_VIEW. All service/prepared/callback-view
+groups first reach MISSING_SERVICE. No blanket logic_error/old stub or skip is an
+accepted marker. Expected pure/local/store errors do not catch these marker types.
+Foreign threads catch exception_ptr, join and transfer exact markers to the owner;
+there is no uncaught thread termination or timeout masquerading as red.
+
+The prepared runner wraps the REAL body's callable and matching REAL completion.
+It records actual raw SqliteWorkResult separately from ApplicationServiceCompletion,
+checks matching transaction/error and exactly one callback, and rethrows any exact
+new marker caught through body exception_ptr. It never installs a fabricated result.
+Negative/unknown paths use this capture-style runner, not the old success-only run().
+The old run() helper is used ONLY for acknowledged setup/read transactions.
+
+B08 installs a disposable trigger through an idle independent observer. It aborts
+ONLY after operation/effect/new state/contribution patch exist and head is still a;
+a missing prerequisite does not force the same expected failure. The test requires
+actual SQL failure/known whole rollback, unchanged complete prior snapshot, then
+removes the trigger and uses the exact same command once. Ack-loss uses the old
+real physical-control seam. Post-commit-tail and wrong-QVariant wrap the actual
+prepared body; response callback failure occurs after actual normal completion.
+No fake port writes SQL, adopts a session, pumps events or changes current state.
+
+## Honest proof partition
+
+The15-field cases mutate data in an EARLIER acknowledged setup unit, inspect actual
+input supplied to policy, then require ineligible/no write. They do not claim a
+within-session race or all15 changed values reached a successful stage.
+Full successful contribution records separately prove actual current expected data.
+Existing bundle staleStateContributionPlanAndTokenRebindRefuse covers all15 stale
+EXPECTED-versus-CURRENT mismatches and actual plan head; existing reducer tests cover
+paused hardend. Service tests prove clock callback before refusal, visible unpaused
+hardend, no hidden clock write, plus public policy/source ordering. Discarded private
+paused transitions/mid-body mutation remain unexecuted service observations.
+Future DIFFERENT actual source audit must trace full-current copies/direct stage/
+defensive stale mappings and reducer-before-final-admission. No requirement waiver,
+new phase hook, write-capable fake or prospective source approval is introduced.
+
+## Actual author checks — compile/static ONLY
+
+Linux/GNU16.2.1/Qt6.12.0/C++20. New service, codec, view, marker and test BODY calls
+remain forbidden and were NOT run. No intended red/native feature acceptance claim.
+
+- clang-format -i tests/qt/application_service_tests.cpp — PASS.
+- /usr/lib/qt6/moc with existing QtCore/Test/Sql flags and all frozen fixture-path
+  definitions generated ONLY /tmp/accttest004-feature-syntax/application_service_tests.moc.
+- c++ -std=c++20 -Wall -Wextra -Wshadow -Wpedantic -fsyntax-only with the same flags/
+  server/core/test includes and explicit path definitions — PASS after an initial
+  admission .error accessor compile typo was corrected. Compilation error is NOT red.
+- Root's actual integrated compile/discovery found one unused enqueued_run helper
+  warning that syntax-only had not emitted. The unused helper was removed; no test
+  assertion was deleted. It is a build diagnostic, NOT intended feature failure.
+- c++ -std=c++20 -Wall -Wextra -Wshadow -Wpedantic -c with the same flags/defines,
+  output /tmp/accttest004-feature-syntax/application_service_tests.o — actual
+  code-generation compile PASS with zero diagnostics atd723bdd.
+- Static source/JSON enumeration:33 actual slots/206 rows above. This is not executing
+  Qt data methods. Root independently compiles/discovers actual registrations.
+- git diff --check — PASS. Only owned CPP/note changes; old frozen files untouched.
+
+Pending: three independent policy-hold goldens' actual review/own selected foundation
+gate, the two affected feature slots, final own compile/discovery and author pins,
+different FULL test/oracle/harness review, COMPLETE-head own selected-green and FIRST
+same-clean intended named-marker red. No bodies run before those gates; no source/
+fixture weakening, provider capability or production ACCT-004 completion is claimed.
