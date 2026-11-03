@@ -136,3 +136,14 @@ ZEROwarnings andexact209OLDregistration. No newtest/fixture/readerbody/red.
 Root now freezingconfig+metadata, then old209 run and publish OWN API-sourceCI.
 DifferentactualAPI/configreviewactive; no verdictyet. Futurefixtureauthor notyet
 assigned, must waitAPIreview/ownselectedCI; STORAGETEST017 notdone.
+
+At actualCLEANcf7 API+minimalconfig, rootold209PASS7.05s/206Qt0fail0skip; rawSHA
+04a0a8c281c828ea27d1aaf6a44b6449b1d5ec0e4a0f0e843b8d794059983e33.
+No newreaderbody/test/fixture/red. APIreview independentlybuilding/running old209;
+its actualverdict/ownsourceofficialCI stillpending before any fixtureauthoring.
+
+Actual independent API/config2fd02c31 now imported: fresh92/0warnings/old209PASS
+7.03s/206Qt0skip and exactheader/source/config review. ROOT publishingcomplete
+APIcandidate forOWNselectedofficialCI; fixtures/tests/newreaderred stillNOTauthored.
+Newreviewtree preserves3uncommitted rootconfigcopies used forverification, no
+unfinishedAPI/test/source edits. Priorreviewsetupcopies remainuntouched elsewhere.
