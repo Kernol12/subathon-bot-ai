@@ -1,4 +1,4 @@
-# Coordinator checkpoint — corrected hold baseline awaiting fresh CI and valid red
+# Coordinator checkpoint — hold baseline complete, final PR gates pending
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Full
 product is incomplete. No owner decision/access currently needed. Do not stop at
@@ -29,7 +29,7 @@ workflows successful, including SQL41607196319. Completed normal task merges:
 
 Root `task/STORAGETEST-016-durable-holds` from actual main before claim.
 [Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47), last published
-**af310e7d68dfe6c239719bcdf69569a06c4ba526**, all11 checks successful. Complete
+**598a96e89bd836e50e45b45b15a26b4b1e2f34ef**, all11 checks successful. The earlier complete
 source-specific SQL41637913237 succeeded12:42:01–12:44:17Z: fresh110/zero warnings/
 GNU13.3/Boost108300/Qt6.12/SQLite3.53.4/new3 diagnostic5PASS0skip186ms/exact35
 compiled/old stable. Raw SHA256c565c760b6935299e68d13d074f363a6495ca08e429d12c0e019a78645f3367c.
@@ -60,9 +60,20 @@ native OLD-library Qt6.12/SQLite3.54 exact-query diagnostic, genuine source mism
 and FK0; no feature replay. [Correction review](storagetest-016-setup-correction-review.md).
 Root corrected compile3steps/zero warnings/exact35 registered/discovery only.
 [Current CI evidence](storagetest-016-ci.md), [author](storagetest-016-author.md).
-Current state: STORAGETEST-016 in_progress/baseline failed until valid revised red;
-corrected test review passed; new complete corrected-head official Qt not_run.
-STORAGE-016 planned. Source/header still six unconditional unimplemented stubs.
+Current state: STORAGETEST-016 DONE/baseline observed_red after actual final
+independent attribution8d3a9bc→root020f67c. STORAGE-016 remains planned and waits
+normal baseline merge. [Handoff](storagetest-016-handoff.md),
+[final attribution](storagetest-016-final-review.md). Six entrypoints still stubs.
+
+Actual NEW corrected-head SQL41640390883 FOR598 succeeded12:59:45–13:01:46Z:
+fresh110/0warnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/new3green5PASS0skip188ms/
+exact35compiled/oldstable/all11, raw42f3066c. Usualsynthetic02ad181 tree148090bd
+equals598 tree (APIverified), not literalcheckout claim. ONLYTHEN at SAME CLEAN598
+revisednative13:02:29.325–13:02:35.196Z/exit8:35slotsfail/265UNIQUEexactmarkers/
+70initcleanupPASS/0HOLD-ASSERT/setup/skip/blacklist. Trackedraw59a4d6d3/Lastb6892801
+retained; no validred replay. Initialaf310invalidattempt remains preserved.
+New completionmetadata/map/HTML are being finalized locally; latestHEAD CI and
+currentrules/threads/readiness/normalmerge remain required, no production yet.
 
 Preserved prerequisite approvals (do not repeat):
 
@@ -89,14 +100,15 @@ Preserved prerequisite approvals (do not repeat):
 ## Roles and preservation
 
 - Root owns shared state/HTML/maps/schema order/build/presets/workflow/integration.
- Local new initial-attempt logs/CI metadata/checkpoint are being committed before
- publishing a complete corrected candidate. No new feature execution since initial.
+ Local completion metadata/red evidence/map/HTML are being committed before final
+ PR publication. Initial AND revised logs are retained; no further baseline replay.
 - `/root/bundle_validation`: feature/source correction author COMPLETE, clean
  `local-evidence/worktrees/storagetest016-feature-author`,
  `task/STORAGETEST-016-feature-author`, latest3aa286. Owns ONLY testCPP/authorMD.
  No feature body was run by author; native setup diagnostic uses old library only.
  Prior API tree/four config copies remain preserved.
-- `/root/bundle_reviewer`: correction review COMPLETE743b87fe. Existing
+- `/root/bundle_reviewer`: correction743b87fe and final actual attribution8d3a9bc
+ COMPLETE, no replay. Existing
  `local-evidence/worktrees/storagetest016-review`, `task/STORAGETEST-016-review`;
  six verification copies dirty (root/server CMake,presets,workflow,Qt CMake,API doc).
  All independent review commits preserved; no baseline replay by reviewer.
@@ -111,23 +123,18 @@ on resume, never assume running. Use followup_task for completed agents.
 
 ## Next concrete actions
 
-1. Publish the complete corrected candidate with new approval and preserved initial
- evidence. Observe its OWN selected official job/new3 green/exact35 compiled/all11;
- prior af310 CI does not satisfy the changed-source gate.
-2. Keep that new HEAD/worktree CLEAN after CI. Save raw CI/rollup under ignored
- local-evidence; do not write tracked outcome metadata before execution. Record
- revised full `ctest --preset sqlite-hold-debug -L '^sqlite-hold$' --verbose` ONLY
- after actual corrected-source approval plus own CI. Preserve initial artifacts;
- use distinct REVISED paths. Parse canonical LastTest, not repeated stdout.
- Valid revised red requires35 failed slots/265 unique exact named missing rows,
- 70 init-cleanup PASS/0skip/0HOLD-ASSERT/setup failures. No valid full red exists yet.
-3. Retain exact head/timestamps/exit/log+LastTest hashes; request separate final
- attribution without replay. Update state/map/HTML/handoff and latest CI before
- normal exact-head merge. Recheck current rules, required approvals and threads.
-4. Only then STORAGE-016 from integrated main, separate implementation/source review/
- acceptance/promoted ordinary CI. Service004 still waits its own reviewed/red gates.
+1. Finish final baseline completion metadata/handoff/map/HTML and project checks.
+ Publish the completion head, keep PR47 draft until all latest11 checks pass.
+2. Recheck actual current main/rules/formal approvals/review threads/readiness,
+ exact reviewed blobs/root clean, then normal `gh pr merge47 --merge
+ --match-head-commit SHA` (with proper CLI spacing). No force/admin/bypass/delete.
+3. Refresh main/record actual merge and postmain checks. ONLY THEN claim STORAGE-016
+ in a fresh branch from integrated main, separate source/review/validation agents.
+ Preserve CPP0cce9545/fixtures/helper/contracts/all old baselines. Actual passing35/
+265 acceptance, source/allocation-order review and unconditional ordinary selected
+ CI promotion are required before implementation done. Service004 retains own red.
 
-No owner access or policy decision needed for these engineering corrections. Current
-rules previously26170263 formal approval0; recheck actual rules before merge, manually
-require all11 latest checks. All seven integrations/three FX, both renderers,
-locales/themes/platforms/packaging/security/recovery/live/release remain incomplete.
+No owner decision/access currently needed. Latest effective rules previously
+26170263/formal approval0, recheck actual before merge. All seven integrations/
+three FX, both renderers/locales/themes/platforms/packaging/security/recovery/live/
+release gates remain mandatory and incomplete. A baseline task is not the product.

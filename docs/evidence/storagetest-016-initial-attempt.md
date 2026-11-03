@@ -62,3 +62,9 @@ production implementation is authorized by this incomplete attempt.
 Original ignored recorder/analysis/API result files remain under `local-evidence/`.
 All six production entrypoints remain unconditional marker stubs; no hold behavior
 or service/policy/live/platform capability is reported implemented or passing.
+
+
+Subsequent outcome: the [separately approved setup revision](storagetest-016-setup-correction-review.md)
+and NEW complete-head official gate precede the [valid revised baseline](storagetest-016-final-review.md).
+This original attempt remains invalid and unchanged; see the current
+[handoff](storagetest-016-handoff.md) for task status.

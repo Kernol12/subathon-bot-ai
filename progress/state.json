@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T12:58:35Z",
+  "updated_at": "2026-11-03T13:11:13Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5354,16 +5354,18 @@
         "Actual FULL independent feature/source/harness approval adb04045+41aa858 imported7ab0e0d+220dc21 accepts finalcomplete25da01e and exact four artifacts81644120/fc167da2/ea1e3cab/b9529c18, currentAPI46c/unchangedheaderfe50/6stubs5b10/frozenfixtures. ALL2353lines/35slots/265 staticallycounted authoredrows read; actual40corruption/source29/65+257/dualtrigger audits and every category/owned boundary checked. One portability defect corrected additively beforeapproval; no blocker. Reviewerfinal3stepcompile0warnings/exact35registered/global264, NO feature/init/cleanup/body/factory/marker call. Native tests demand count corruption vs overage; actual allocation ordering remains source-review duty, not claimed measured. Publish COMPLETE approvedfeaturecandidate for ownselectedQt foundationgreen+35compile/discovery now; ONLYTHEN rootFIRSTmarkerred on SAMEcleanhead. Baseline remainsin_review/not_run; STORAGE016planned, no supported producthold behavior.",
         "Actual complete initialcandidate OWN officialSQL41637913237 SUCCESS exactCLEANaf310e7d68dfe6c239719bcdf69569a06c4ba52612:42:01–12:44:17Z: fresh110/0warnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/required3holdguard5PASS0skip186ms/exact35compiled/oldstable/all11. OfficialrawSHA c565c760b6935299e68d13d074f363a6495ca08e429d12c0e019a78645f3367c. FIRSTactual feature attempt SAMEcleanhead12:45:01.970–12:45:07.795Z/exit8/35slotsfail. Per-invocation LastTest35summaries70initcleanupPASS265FAIL0skip:261 uniqueexactHOLD-MISSING but4HOLD-ASSERT setup failures (3timerkind1 +wrong-retained-context). CTest verbose/outputOnFailure repeats stdout; recorder doubledprintedcounts but rejectedrun. This is NOT validwholebaseline/red and production16staysplanned. Originalraw4c2dd57f/LastTest6d439803 preservedtracked+ignored; separate reviewer independently confirmed attribution and two actual schema defects. No actual first-successful-red replay claimed.",
         "Actual narrow setup correction da588312 integrated45b3de6: CPP0cce9545c3a3851b25df9131e6e35e97366aacee. Preserve BOTH timer identity/count comparisons using qualified real results.effect_count via compound operations/results JOIN; retained context INSERT now explicit(reference,document,configuration_ref)=(other,empty,other). No assertions/counts/expectedcategory/fixtures/helpers/production changes. Author independent OLD-library nativeQt6.12/SQLite3.54 exact extractedSQL diagnostic passes both4-field/two-row snapshots/all3variants and actualvalidothercontext/FK0; newfeaturebodies not rerun. Actual correction source review accepts necessaryschemafix, final note/native diagnostic inspection pending before writtenrevisionapproval. Newcompletecorrectedcandidate ownselectedCI still required before revised observedred;261oldmarkers/validpriorreviews retained.",
-        "Actual separate setup-correction approval743b87fe integrated7607f8b independently accepts da588312→root45b3de6 test0cce9545 and final3aa286→roote567141 author1a65cc9e, exact e567 Gitobjects/oldharness/fixtures/source unchanged. Reviewer inspected EXACT nativeQt diagnostic generator/CPP/CMake/build/output and actualsourcequeries/context inserts; confirms legitimate2timerrows/realothercontext/FK0 and no featurecalls. Root corrected3stepcompile0warnings/exact35registered/discovery-only passed; setup-build9e40a80c/functions94056a92/discovery0e3c7891. All assertions/265rows retained. Publish NEW complete corrected candidate, actual ownselectedCI before revised intendedred. Initialfailedattempt and261 reachedmarkers remain documented; baseline failed until revisedvalidexecution, not waived."
+        "Actual separate setup-correction approval743b87fe integrated7607f8b independently accepts da588312→root45b3de6 test0cce9545 and final3aa286→roote567141 author1a65cc9e, exact e567 Gitobjects/oldharness/fixtures/source unchanged. Reviewer inspected EXACT nativeQt diagnostic generator/CPP/CMake/build/output and actualsourcequeries/context inserts; confirms legitimate2timerrows/realothercontext/FK0 and no featurecalls. Root corrected3stepcompile0warnings/exact35registered/discovery-only passed; setup-build9e40a80c/functions94056a92/discovery0e3c7891. All assertions/265rows retained. Publish NEW complete corrected candidate, actual ownselectedCI before revised intendedred. Initialfailedattempt and261 reachedmarkers remain documented; baseline failed until revisedvalidexecution, not waived.",
+        "Corrected COMPLETEcandidate598a96e89bd836e50e45b45b15a26b4b1e2f34ef OWN selectedSQL41640390883 SUCCESS12:59:45–13:01:46Z/fresh110/ZEROwarnings/GNU13.3/pinnedBoost108300/Qt6.12SQLite3.53.4/required3guard5PASS0skip188ms/exact35compiled/oldstable/all11. Raw42f3066c15a44bd7b5e7833563701697cb6bb903e5a94fa81213a9efedb6d2c1. UsualCIcheckout02ad181fb2d2f99d4beed657026478ec3f7e851b parentsaad+598; GitHubAPI tree148090bdf9968f094e29730181ab8c6fd498d93f equals local598tree, exactreviewedcontent, notliteralbranchcheckout claim.",
+        "ONLYTHEN FIRST VALID REVISED complete native baseline at SAME CLEAN59813:02:29.325–13:02:35.196Z/5.872s/actualctestexit8:canonicalLastTest35summaries/35failingslots/265UNIQUEexactHOLD-MISSINGrows/70initcleanupPASS/0HOLD-ASSERT/setup/skip/blacklist. Trackedraw59a4d6d38f08300cf372b8d461e7f3b6c4059ecae940bda094f4b75edc51da75/Lastb6892801f9b234cf370e48088c692bf785b9abd73580ea603dd4864f5dfdaaa2, recorderhead/pins/clean guards pass. Actualindependentfinalattribution8d3a9bc imported020f67c verifies265distribution/35slots/exactmarkers/CIordering/Gitobjects; NO replay. Initialaf310attempt261markers+4genuinesetupfailures remainsINVALIDandpreserved. Baseline taskDONE only; downstreampoststubassertions NOTexecutedyet; STORAGE016planned/unintegratedPR47 meansdependentproduction waitsnormalmerge. Completionmetadata latestCI/rules/discussions/readiness/normalexactmerge remainfuture, DB01NUM02NUM04partial/allreleasegates retained."
       ],
       "verification": {
         "concrete_contract": "passed",
         "api_review": "passed",
         "fixture_review": "passed",
         "test_review": "passed",
-        "baseline": "failed",
+        "baseline": "observed_red",
         "native_build": "passed",
-        "official_qt": "not_run",
+        "official_qt": "passed",
         "platform_release": "not_run",
         "contract_authoring": "passed",
         "contract_review": "passed",
@@ -5383,7 +5385,11 @@
         "initial_execution": "failed",
         "initial_candidate_official_qt": "passed",
         "setup_correction_review": "passed",
-        "setup_native_diagnostic": "passed"
+        "setup_native_diagnostic": "passed",
+        "github_ci": "passed",
+        "ci_harness": "passed",
+        "revised_baseline_attribution": "passed",
+        "completion_ci": "not_run"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
@@ -5408,17 +5414,21 @@
         "docs/evidence/storagetest-016-initial-attempt.md",
         "docs/evidence/storagetest-016-initial-attempt-ctest.txt",
         "docs/evidence/storagetest-016-initial-attempt-last-test.txt",
-        "docs/evidence/storagetest-016-setup-correction-review.md"
+        "docs/evidence/storagetest-016-setup-correction-review.md",
+        "docs/evidence/storagetest-016-final-review.md",
+        "docs/evidence/storagetest-016-red-ctest.txt",
+        "docs/evidence/storagetest-016-red-last-test.txt",
+        "docs/evidence/storagetest-016-handoff.md"
       ],
       "review": {
-        "author": "/root/bundle_validation (tests and SQL setup correction); /root (harness)",
+        "author": "/root/bundle_validation (tests); /root (shared harness)",
         "reviewer": "/root/bundle_reviewer",
         "outcome": "approved",
-        "baseline": "Fullapprovaladb0404+41aa858 retained for unchanged tests; actual separate correction743b87fe accepts CPP0cce9545/author1a65cc9e at e567141, unchangedQt ea1e3cab/WF b9529c18/API46c/headerfe50/6stubs5b10/fixtures. All35slots/265scenarios/assertions preserved. Initialaf310 attempt261markers+4setuperrors is NOT validcomplete red; raw preserved. NEW corrected complete-head ownselectedCI and revised validred remain pending; no production.",
-        "evidence": "docs/evidence/storagetest-016-setup-correction-review.md"
+        "baseline": "Fulladb0404+41aa858 plus genuine setup revision743b87fe approve currentCPP0cce9545/author1a65cc9e/Qt ea1e3cab/WF b9529c18/API46c. Actual final8d3a9bc independently verifies FIRST VALID revisedred at SAME CLEAN598a96e after ownselectedSQL41640390883/all11:35slotsfail/265uniqueexactmarkers/70initcleanupPASS/0setup/skip. Initialaf310261+4 invalidattempt preserved; no weakening. Baseline only DONE, implementation16PLANNED, completionmetadata latestCI/normalmerge pending.",
+        "evidence": "docs/evidence/storagetest-016-final-review.md"
       },
-      "status": "in_progress",
-      "owner": "coordinator /root (corrected complete-head CI then revised valid red); test author /root/bundle_validation complete; separate correction reviewer /root/bundle_reviewer approved; fixture author /root/bundle_implementer complete"
+      "status": "done",
+      "owner": "coordinator /root; test author /root/bundle_validation; independent reviewer /root/bundle_reviewer; independent fixture author /root/bundle_implementer"
     },
     {
       "id": "STORAGE-016",
@@ -12674,6 +12684,11 @@
       "date": "2026-11-03T06:31:35.339083+00:00",
       "task": "STORAGETEST-017",
       "note": "NormallymergedPR44 exactdd5 asmain21c afterall11latestgates; fetched/localmainFFbeforefreshdedicatedclaim. Begin concrete earlyoriginalclaims querycontract only; actualdifferentreview beforeAPI/stubs/build/independentfixtures/tests/red. No newreader artifacts or behavior yet."
+    },
+    {
+      "date": "2026-11-03",
+      "task": "STORAGETEST-016",
+      "note": "Reviewed durable-hold35-slot/265-scenario baseline reaches independently verified revised intended red after genuine SQL-setup corrections and own selectedQt gate. Initial invalid attempt retained. Baseline done; PR47 final metadata CI/merge and STORAGE016 production remain separate."
     }
   ]
 }
