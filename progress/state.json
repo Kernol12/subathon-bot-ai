@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T06:18:50.839133+00:00",
+  "updated_at": "2026-11-03T08:32:40Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1626,7 +1626,8 @@
       "notes": [
         "Parent epic: EPIC-002. Explicitly split after actual contract-stage finding; ADR0003 preserves original service scope and adds durable-hold prerequisites, no cycle or test-gate waiver. Dedicated task/ACCTTEST-004-application-service branch/PR44 from actualmain8c7 existed BEFORE logical-document edits and initially claimed only that stage; historical branchname retained, now focused executable ACCTCONTRACT001. Root owns sharedmetadata/config/schemaorder; author owns only application-service-v1.md+ownMD on fresh8c7author tree; different reviewer actualdocumentreview required. No service code/test/red authored.",
         "Separate query-only STORAGE017 logicalobligation identified: typedearlyapplicationclaimread with full selectedclosure before newnumericproposal; no rawSQL/dummystage or oldIntent-equality change. Independent baseline017 thenimplementation017 joinhold016 before originalservicebaseline. No newcode/test/DDL or approval claimed by planning.",
-        "Actual different DOCUMENT/decomposition approval925deab1 accepts final412line6d0/author8f87/ADR303/briefb762+377+385 at e0; independent7Fraction+AS06+signedbounds/static396/122PASS. No ownerdecisionneeded now, unknownmixedpolicyrequiresowninggatebeforefutureenablement. Actuale0 all11CI SUCCESS/SQL41588383068 is unchangedstablecomponentprotection only. DONEdocumenttask but PR44UNMERGED; finalcompletionhead ownlatestCI/reviews/threads/rules/normalmerge pending. Originalservice baseline/production remainplannedbehind016+017."
+        "Actual different DOCUMENT/decomposition approval925deab1 accepts final412line6d0/author8f87/ADR303/briefb762+377+385 at e0; independent7Fraction+AS06+signedbounds/static396/122PASS. No ownerdecisionneeded now, unknownmixedpolicyrequiresowninggatebeforefutureenablement. Actuale0 all11CI SUCCESS/SQL41588383068 is unchangedstablecomponentprotection only. DONEdocumenttask but PR44UNMERGED; finalcompletionhead ownlatestCI/reviews/threads/rules/normalmerge pending. Originalservice baseline/production remainplannedbehind016+017.",
+        "PR44 normally MERGED2026-11-03T06:23:15Z exactfinaldd5e6f1713ceb589430def628be310e8945d16c2 asmain21c087154638ffcdc03663696b568a4bf454462d. All11 latestSUCCESS inclSQL41589293437/ready/CLEAN/MERGEABLE/zero unresolvedthreads/effective26170263requiredGHapprovals0/approveddoc6dunchanged/no productiondiff rechecked; normal exacthead --merge, no bypass/force/delete. LocalmainFFactual21c before nexttaskbranch/claim. Documentonlyacceptance integrated, 016/017/serviceAPI/red/implementation stillfuture."
       ],
       "verification": {
         "documentation": "passed",
@@ -5379,8 +5380,8 @@
       ],
       "summary": "Review additive borrowed-session claim read, independent real-SQL tests and actual intended red; no aggregate old-lookup/stage proof.",
       "module": "Operations",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; feature-test author /root/bundle_implementer; independent full reviewer /root/bundle_reviewer",
       "spec_refs": [
         "§3",
         "§5",
@@ -5389,11 +5390,60 @@
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
       "notes": [
-        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged."
+        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged.",
+        "Claimed task/STORAGETEST-017-early-claims from fetched actualmain21c AFTER normalPR44merge, before anynewreaderartifact. Freshauthor/review worktrees from21c: storagetest017-contract-author/task-STORAGETEST017-contract-author andstoragetest017-review/task-STORAGETEST017-review. FIRSTstage ONLY concretequerycontract+ownauthorMD, differentactualreview beforeminimaladditivetypes/constentrypoint/immediatenamedstub; rootownsbuild/presets/workflow and actualAPI/configreviewbeforeindependentfixtures/tests. Proposed smallestquery ORIGINAL subject/source selector(knownrole,positiveReceiptId,optionalCIDincl0) returns optionaltypedmatch{subject/source,ownedfullrecord}; subjectfirstGLOBALdatabase thenkind0receipt source, no scopefilter/currentstate/plan/OperationKey/dummystage/commandcodec inference. Options→sourcepurepreflight, absent no global/candidatesourceaudit, selectedfullclosure/actualknownrollback/originalWorkFailureunknown/currentbudgets/transaction-visible owneddata. Existingstageequality and allold35/209/schema/fixtures remain. ConcreteAPI/fixtureoracles notfinalized by thisclaim or read-onlyprep. Afterreview/compiler/exactdiscovery/requiredoldprimitivegreen/ownselectedofficialCI, FIRSTnewnamedstubred; no oldbaseline rerun/aggregateproof. STORAGE017production waits completeownbaseline. 016durableholds remainsrequiredplanned separatetask, notsilentlyreduced.",
+        "ActualdifferentconcreteDOCapproval39a50970→bb27 acceptsbad19/author0239 beforeAPIphase. Actual minimalAPIbd3→d290 headercf721/source130=new3types+constmethod+uniqueimmediatenamedthrow only; removingnewblocksrestores8e24/a905. RootminimalconfigCMake4a404/preset323e/WF4015 onlynewflag/preset19/profiletoken substitution, no newbody/pins/guard changes. Actual configure/fresh92stepbuildPASS0warnings/exact209OLDregistrations; no newreader/test/fixture/red invoked. Freezeconfigbeforeold209run; actualdifferentAPIreview andOWNSOURCEselectedCI pendingbeforeindependentfixtures/tests. Wholebaseline remainsINPROGRESS, STORAGE017PLANNED.",
+        "ActualindependentAPI/configapproval2fd02c31 acceptsheadercf721/source130/CMake4a404/presets323e/WF4015: ownfresh92build0warnings/old209PASS7.03s/206Qt0skip/exact209enabledold35. RootcleanCF7old209PASS7.05s. Scopednewblocksrestore8e24/a905, workflowtokenreversalold783 andpresetremovaloldb9 exact. No newentrypoint/test/fixture/red invoked. Publish OWNAPIhead selectedofficialCI now; fixtureauthorassignment stillwaitsits actualsuccess. STORAGETEST017notdone/production017planned.",
+        "ActualOWNAPIselectedofficialSQL41593838583 SUCCESS exact689599bd6c040677058da894a1259ee9742bad2b 07:03:58–07:05:26Z: fresh92/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedQt6.12SQLite3.53.4/profile19/old164+greens/old35/all11SUCCESS. RawSHA610034e5945c95f4e1663b863484411fee6f2ceae0dda9547cdaa451814cf978. ONLYTHEN independentfixtureauthor explicitlyassignednewstoragetest017-fixtures tree branchfromfetchedmain21c+ffapproved689, ownnewJSON/helper/environment/authorMD only. Freeze independentA/Bminimalbody161+1 andreceipt-taggedsigned ORIGINALC (Receipt8NOTclaimedconfirmation), coherentMAXallocator/catalog; old20 separate. Newreader NEVERinvoked, oldsourceHEADERstubunchanged. Actualdifferentfixture/harnessreview/ownnewgreen requiredbeforefeaturetestauthoring. No fixturecandidate/verdict/newtest/redyet.",
+        "Actualindependentfixture/helper/harnessapproval6cfb2c73 acceptsJSONbea127/helper67d4/env7dad/author d1a4/QtCMake548f/WFb7bb: own45steps9queries66schema5hashes/FK0/integrity/coherentMAXalloc+single-rev1/manualA161B160+enum1/signedC-3; own4build0warnings/green5PASS0skip39ms/210reg exact3slots. Scopeonlyoldprimitives, newreaderneverreferenced/invoked; old209notreplayedandnotnewfeatureproof. RootpublishOWNSOURCEselectedNEWgreen now, featureauthorstillwaitsactualsuccess; no newquerytest/red/production17 yet.",
+        "ActualOWNNEWfixtureselectedofficialSQL41597109078 SUCCESS exactad69fecf9110c7dbdefa64d8374cdd83c0f13398 07:33:32–07:34:53Z: fresh96/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedQt6.12SQLite3.53.4/oldstable/requiredNEW3guard+5PASS0FAIL0SKIP49ms/all11. RawSHAdb8c362c0acce9f6fdf84436d8e0ee3fd3cb078e38f467872bacbdf03ef8ccab. ONLYTHEN explicitlyassigned mainfeatureauthorNEWstoragetest017-feature-author branchfromfetchedmain21c+ffapprovedad69; ownsONLYnewfeatureCPP+ownMD. NO newbody/UUTinvocation beforeactualdifferentFULLtestreview; compile/discoveryonly. Rootnewharnessguardafteractualsource; SAMEcompleteapprovedheadownselectedNEWgreen/discovery/oldCIbeforeFIRSTnewreaderstubred. Actualtestsource/verdict notyetready; STORAGE017production stillplanned.",
+        "Actual feature author d0312a8→a526f9b CPP246667ba232580ccd3653d12dc941513cb1fd2f9, authorMD590313c→7b227a1/d95bf855. Eighteen public slots/33 literal scenario rows authored ONLY after own fixture selectedCI success. Root harness QtCMakec35ccf28/WF7fec9ade adds18 enabled cases and compiled-discovery-only guard; prior210 and required3-slot fixture green unchanged. Root configure/build4steps ZEROwarnings, -functions/exact18/total228 metadata verified; NO new feature body or new reader invoked. Different actual full source/harness review now assigned; no verdict, red or production implementation yet. SAME completeapprovedhead own selectedNEW3green+compiled18/oldstableCI must precede FIRST namedstubred.",
+        "Full actual independent test/harness approval f5c6dc1 (root478a1f8) accepts final CPP0e4f4f006d2a0e161857e38255cac487f7de83a9, author6fdfb5fb, unchanged QtCMakec35ccf28/WF7fec9ade and approved API/fixtures. Three concrete findings corrected additively in649/ce732: initial selector snapshot, B SOURCE160+1 bound and broken selected PA history. All18 slots/35 scenarios examined. Reviewer own four-step build zero warnings, exact18 compiled/CTest and global228; root final three-step build zero warnings/exact18. NO feature body/new reader invoked. Freeze/publish complete reviewed head for its OWN selected official new fixture green, compiled18 guard and stable CI before first actual named-stub red. No production behavior implemented.",
+        "Complete approved CLEANc24fb6eb4d7c4bb666b1dba3ff077a54014dd865 received OWN selected official41602589680 SUCCESS 08:20:48–08:22:39Z: fresh100 steps/ZEROwarnings/GNU13.3/pinnedBoost108300/Qt6.12SQLite3.53.4/requirednew3guard+5PASS0skip88ms/exact18compiledguard/oldstable incl35/all11SUCCESS. ONLY THEN FIRST feature invocation at SAME clean c24, 08:24:35.551068–08:24:36.110621Z, ctest exit8/0.55sec/all18FAILED; all35 Qt scenario rows EXACT named new-reader marker,36init+cleanupPASS/0skip/crash/setupfailure. RawSHA90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0 preserved; do not repeat first red. Test baseline DONE ONLY; source130 immediate stub/STORAGE017 planned. Final evidence attribution/latest-head CI/merge gates pending, no production/other release approval.",
+        "Actual independent final attribution approval a72992c plus eb5639a rule-clarification addendum validates completion6757+f856+f679, official-before-first-red chronology and exact raw/LastTest hashes/all35 markers/36initcleanup/0skip. Clarified historical CI checkpoints and unexecuted downstream assertions; only test baseline17 done, prod17/16/service planned, DB01NUM04 partial. Critical headercf721/source130/test0e4/QtCMakec35/WF7fec unchanged. Effective26170263 has formal GHapproval count0/threadresolutiontrue/no required-status-check rule; coordinator must explicitly recheck latestall11. Final metadata publication CI/normal exact merge pending."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "concrete_contract": "passed",
+        "native_build": "passed",
+        "api_review": "passed",
+        "feature_tests": "observed_red",
+        "observed_red": "observed_red",
+        "api_official_qt": "passed",
+        "fixture_review": "passed",
+        "fixture_host_diagnostic": "passed",
+        "fixture_official_qt": "passed",
+        "feature_build": "passed",
+        "feature_registration": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "product_acceptance": "observed_red",
+        "official_pre_red_gate": "passed",
+        "github_ci": "passed",
+        "platform_release": "not_run",
+        "final_attribution_review": "passed"
+      },
+      "evidence": [
+        "docs/contracts/sqlite-original-claims-v1.md",
+        "docs/evidence/storagetest-017-contract-author.md",
+        "docs/evidence/storagetest-017-contract-review.md",
+        "docs/evidence/storagetest-017-api-author.md",
+        "docs/evidence/storagetest-017-ci.md",
+        "docs/evidence/storagetest-017-api-review.md",
+        "docs/evidence/storagetest-017-fixture-author.md",
+        "docs/evidence/storagetest-017-fixture-review.md",
+        "docs/evidence/storagetest-017-test-author.md",
+        "docs/evidence/storagetest-017-review.md",
+        "docs/evidence/storagetest-017-red-ctest.txt",
+        "docs/evidence/storagetest-017-handoff.md",
+        "docs/evidence/storagetest-017-final-review.md"
+      ],
+      "review": {
+        "author": "/root/bundle_implementer; independent fixtures /root/bundle_validation; shared harness /root",
+        "reviewer": "/root/bundle_reviewer",
+        "outcome": "approved",
+        "baseline": "Full f5c6dc1/root478a1f8 accepts CPP0e4f4f00/headercf721/source130/fixturesbea127+67d4/QtCMakec35/WF7fec. Complete approved clean c24 gets own selected official41602589680 SUCCESS/new3green5PASS/exact18/oldstable/all11, THEN FIRST sameclean c24 red08:24:35.551Z, exit8/all18fail/35exact markers/36initcleanupPASS/0skip/crash/setupfailure/rawSHA90f3c739. Test baseline only; final attribution/latestCI/merge pending. Actual final attribution a72992c+eb5639a verifies completion6757/f856/f679 and rawCI/red without replay; future latest-headCI/normalmerge remain actual coordinator gates.",
+        "evidence": "docs/evidence/storagetest-017-review.md"
+      }
     },
     {
       "id": "STORAGE-017",
@@ -12501,6 +12551,11 @@
       "date": "2026-11-03T06:18:50.839133+00:00",
       "task": "ACCTCONTRACT-001",
       "note": "Actual925 independentlogicaldocument+planningapproval;21literalAS/7independentexactaudits,396acyclicgraph, no implicitglobaltimerpolicy. CompleteDOCtaskonly; API/schema/test/red/implementations016/017/servicefuture. PR44 latestcompletion/normalmerge gates next."
+    },
+    {
+      "date": "2026-11-03T06:31:35.339083+00:00",
+      "task": "STORAGETEST-017",
+      "note": "NormallymergedPR44 exactdd5 asmain21c afterall11latestgates; fetched/localmainFFbeforefreshdedicatedclaim. Begin concrete earlyoriginalclaims querycontract only; actualdifferentreview beforeAPI/stubs/build/independentfixtures/tests/red. No newreader artifacts or behavior yet."
     }
   ]
 }

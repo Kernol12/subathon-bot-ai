@@ -1,90 +1,117 @@
-# Coordinator — PR43 integrated; PR44 reviewed contract ready for completion checks
+# Coordinator checkpoint — STORAGETEST-017 baseline reviewed, publishing final merge candidate
 
-Owner explicitly resumed2026-11-03. Full product remains incomplete; all seven
-integrations/threeFX and UI/operational/platform release scope stay mandatory.
-No owner decision/access currently needed. Continue the standing loop after gates.
+Owner resumed 2026-11-03 under [standing coordinator instructions](../COORDINATOR_PROMPT.md).
+Continue the loop; full specification remains incomplete. No owner decision or
+access needed now. All seven integrations, three FX providers and all platform/UI/
+operational release gates remain required. Synthetic disposable data only.
 
-## Actual main and completed implementation
+## Integrated work and actual main
 
-Actual fetched/localmain8c7f71f424126727f1a846edc01541d0f091529f is normal PR43 merge
-at2026-11-03T05:49:50Z from exactfinal34ed520. All11 latestfinalCI including
-SQL41585878746/ready/CLEAN/MERGEABLE/zero threads/requiredGHapprovals0/rules26170263/
-cleanroot/unchangedreviewedsource verified before exacthead normalmerge. All10
-postmain8c7 workflows subsequentlySUCCESS, including SQL41586180251.
-[STORAGE-002 handoff](storage-002-handoff.md), [actual source approval](storage-002-code-review.md),
-[final attribution](storage-002-final-review.md), [CI](storage-002-ci.md).
-35/full209 root+differentreviewerPASS, selectedofficial35unconditionalCI PASS.
-Original32 red90fa retained; one independently corrected terminaloracle and3
-separately reviewed/reached-red regressions documented (statekind1alreadygreen).
-All prior fixtures/header/schema/ports/reviews preserved, no releaseclaim implied.
+Last observed main: **21c087154638ffcdc03663696b568a4bf454462d**.
 
-## Current focused contract task / publication
+- [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43) STORAGE-002 merged
+  reviewed exact34ed520→8c7f71f at05:49:50Z. All11 final checks and all10 postmain
+  workflows passed. [Handoff](storage-002-handoff.md), [code review](storage-002-code-review.md),
+  [CI evidence](storage-002-ci.md). Original baseline, separately reviewed terminal
+  oracle correction and three additional observed-red regressions preserved.
+- [PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44) ACCTCONTRACT-001
+  merged reviewed exactdd5e6f1→21c0871 at06:23:15Z. All11 final checks and all10
+  postmain workflows passed. Document only, accepted service contract6d0cd67;
+  [handoff](acctcontract-001-handoff.md), [review](accttest-004-contract-review.md),
+  [ADR0003](../decisions/0003-application-service-prerequisites.md). Durable holds016
+  and early claims017 are required separate prerequisites; original ACCTTEST004
+  waits their integrated implementations and its own reviewed service red.
 
-ACCTCONTRACT-001 is DONE/DOCUMENT ONLY, PR44 still UNMERGED at this checkpoint.
-Historical branch task/ACCTTEST-004-application-service retained from actual8c7;
-initialclaim81b authorized the same logical-document stage before edits. Actual
-missing durablehold/earlyclaim primitives led to explicit reviewed decomposition,
-not a silently narrowed service baseline. [ADR0003](../decisions/0003-application-service-prerequisites.md).
+## Active task and exact completed gates
 
-[PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44) now delivers ONLY the
-[412-line logical contract](../contracts/application-service-v1.md)6d0cd67f and21AS
-literal examples, independent7Fraction/integer/ordered/signed-bound audits.
-[Author](accttest-004-contract-author.md), [actual full review925deab1](accttest-004-contract-review.md),
-[task handoff](acctcontract-001-handoff.md). Review accepts doc6d0/author8f87/ADR303/
-taskb762/holdbrief377/claimbrief385 at roote0affbd; no API/DDL/fixture/test/red/
-implementation is approved. Three genuine docfindings corrected before approval:
-no inferred globalmixedtimerRequireReview default; no Ready reducer/fakepostfinish
-components; knownhardend observed before finalpausedadmission with no privateclock
-publication. Unknown mixedpolicy remains an explicit owning-task gate, no choice
-needed to complete the bounded document. Future enablement may require one.
+STORAGETEST-017 DONE test_baseline only (UNMERGED), STORAGE-017 production planned. Dedicated root
+branch `task/STORAGETEST-017-early-claims`, from integrated21c before edits.
+[Draft PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45), actual complete reviewed published
+headc24fb6eb4d7c4bb666b1dba3ff077a54014dd865; all11 checksSUCCESS and
+FIRST samecleanhead red now recorded. Final completion metadata awaits ownCI. Brief: [STORAGE017](../tasks/EPIC-009/STORAGE-017.md).
 
-Published complete candidatee0affbd all11CISUCCESS, including unchangedstable
-SQL41588383068. Old component checks are NOT new service/hold/query acceptance.
-Root completion metadata/handoff/map are now being frozen; latestcompletionhead
-must receive its OWNCI and actualready/threads/reviews/rules/mergeability before
-normal exacthead merge. Current review approval is not futureCI approval.
-Root owns sharedstate/HTML/map/build/presets/workflow/schemaorder/pins.
+- Concrete contractbad19c47, actual different doc review39a50970:
+  [contract](../contracts/sqlite-original-claims-v1.md), [review](storagetest-017-contract-review.md).
+- Minimal headercf721e7/source130e3db: three new types/enum, const entrypoint,
+  unique unconditional `SqliteOriginalClaimNotImplemented` only. Removing additions
+  restores old8e24/a905 exactly. [API review2fd02c31](storagetest-017-api-review.md).
+  Own selected API CI41593838583 at689599bd passed before fixture assignment.
+- Independent fixtures608e63c (roota29d603): JSONbea1273c, helper67d4fbd2,
+  environment7dad8108, author d1a4e740. Actual [fixture review6cfb2c73](storagetest-017-fixture-review.md).
+  A/B full body161/160 plus one tag byte; CReceipt8 signed ORIGINAL correction,
+  not a confirmation. Old nonempty20 fixture unchanged. Full66 schema/catalog/FK/
+  allocator coherence audited. Mandatory diagnostic invokes ONLY old primitives.
+  Own new selected fixture CI41597109078 atad69 passed07:33:32–07:34:53Z, fresh96
+  zero warnings, GNU13.3/Boost1.83/Qt6.12/SQLite3.53.4, three compiled slots and
+  5 Qt PASS/0fail/0skip; all11 checks. [All compiler/CI evidence](storagetest-017-ci.md).
+- ONLY THEN feature author d0312a8 (roota526f9b), CPP
+  **0e4f4f006d2a0e161857e38255cac487f7de83a9**, 18 slots/35 scenario rows;
+  [author MD](storagetest-017-test-author.md), final6fdfb5fb after actual649/ce732
+  review corrections. [Full actual reviewf5c6dc1](storagetest-017-review.md),
+  root478a1f8, approves exact final CPP/harness after all three findings resolved.
+  Root actual harness QtCMakec35ccf28/workflow7fec9ade adds18 enabled registrations
+  and compiled-only guard, preserves prior210/required new three-slot green.
+  Configure/four-step build zero warnings; compiled-functions/metadata18 exact,
+  global228=prior210+18. These compile checks preceded the FIRST feature run recorded below.
 
-## Exact next executable sequence
+Query contract: globally tagged subject first, then ORIGINAL receipt source,
+no operation-scope filter. Fixed scalar predicate has no aggregate input quota;
+all options→source preflight before ticket. Absent does not admit/audit unrelated
+source/namespace. Selected result inherits FULL old lookup closure, one returned
+tag byte, actual known whole-unit rollback, original unknown/capability failure
+and provisional owned results. No schema/stage equality/old assertion changes.
 
-1. Finish PR44 completion/checks and normal merge, refreshactualmain.
-2. Claim either/both independent STORAGETEST-016 and STORAGETEST-017 from that
-   integratedmain on fresh dedicated branches/worktrees. Each starts concrete
-   contract/API/limits review, immediate namedstub/minimalbuild/APIreview,
-   independent fixture/test author/review/compiler/discovery/own intendedred.
-3. Their separate STORAGE016/017 production tasks then require acceptance,
-   different code review and automaticselectedCI before integration.
-4. Original ACCTTEST004→ACCT004 waits integrated016+017 and retains its OWN
-   service baseline/red. It is PLANNED, not finished by old209 or document approval.
+## Agents, ownership and preserved work
 
-396tasks/122decisions,191packages350children graph is acyclic; root/reviewer
-links/presets/currentHTML/diffPASS, tooling19PASS0.265s after decomposition.
-STORAGE016 means policy-neutral durableholds/history/active taggedsubject gates/
-authorized atomic resolution; STORAGE017 means early ORIGINALsubject-before-source
-fullclaim projection without dummyproposal/rawSQL/oldIntent-equality changes.
-Mixeddeficit/globalstatus/continuation and mixedpostfinish representation are
-explicitly mapped in CORE008/ACCT005/ACCT006 briefs; no invented default/feature.
+Root owns shared state/HTML/map/build/presets/workflow/schema order.
 
-## Agents/worktrees and preservation
+- `/root/bundle_implementer`: feature author complete, available for concrete corrections.
+  `local-evidence/worktrees/storagetest017-feature-author`,
+  `task/STORAGETEST-017-feature-author`, cleance732e0. Owned new feature CPP and
+  authorMD only. No new-body execution authorized yet.
+- `/root/bundle_reviewer`: explicitly assigned actual FULL CPP/35 scenarios and
+  root harness review COMPLETE, approvedf5c6dc1. No body run. Own only
+  `docs/evidence/storagetest-017-review.md`. Tree
+  `local-evidence/worktrees/storagetest017-review`, branch
+  `task/STORAGETEST-017-review`. Preserve root configuration verification copies
+  in this tree; no unfinished source. Compile/discovery only until full approval.
+- `/root/bundle_validation`: fixture author complete608e63c, clean
+  `local-evidence/worktrees/storagetest017-fixtures` on
+  `task/STORAGETEST-017-fixtures`. No active writing assignment. Read-only independent
+  source-only arrangement proof sent author: frozen steps0–22, reset both current
+  contributions application0, head a; b/c/d/application history never existed.
 
-All agents COMPLETE at last actual handoff; no native/test/SQL/debugger process:
+Startup reconciled all existing worktrees/branches and stale agents. All previous
+work preserved; no prune/reset/discard. Earlier storage002-review5b tree retains
+three root-config verification copies; current17review tree similarly retains
+verification copies. No old source/test assignment remains running.
 
-- /root/bundle_implementer, new accttest004-contract-author tree,
-  task/ACCTTEST-004-contract-author clean c6052e8. Doccandidate integrated root4f515b9.
-  Also completed read-only17prep: smallest originalclaimselector role/Receipt/CID,
-  optional typedmatch(subject/source)+fullrecord; globalDBsubject then originalsource,
-  no OperationKey/plan/currentstate/computedbundle input; fullclosure and original
-  rollback/capability/unknown budgets reused. No nexttask API/edits claimed.
-- /root/bundle_reviewer, new accttest004-contract-review tree,
-  task/ACCTTEST-004-contract-review clean925deab1, actual DOCapproval imported68465e7.
-- /root/bundle_validation completed read-only16prep only; old storage002-validation
-  tree task/STORAGE-002-boundary-regressions068 remains preserved. Proposed storage
-  questions: repeateddetection/causeidentity, independentactiveholds, version/history/
-  resolution and no clear-then-apply gap. None are a finalized API/schema/policy.
-- OLD storage002-review tree5b71576 still contains exactly3 uncommitted rootconfig
-  verification copies(workflow/presets/QtCmake), not unfinished source/test work.
-  Prior98registered refs/trees plus newtask43three/task44two preserved; no prune/reset.
+## First red complete / next concrete actions and remaining gates
 
-No dependent edits/claims before PR44 integration. No real credentials/supporter
-or provider/chat/payment/deployment effects. Preserve valid old reviews/red evidence
-and inspect actual GitHub/process/branch state again if interrupted.
+Actual complete approved clean c24 selected official41602589680 SUCCESS
+08:20:48–08:22:39Z/fresh100/zero/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/
+requirednew3guard+5PASS0skip88ms/exact18compiledguard/oldstable/all11. ONLY THEN
+FIRST feature invocation at SAME clean c24,08:24:35.551–08:24:36.110Z, actualexit8/
+0.55s/all18fail; all35rows EXACT namedmarker,36initcleanupPASS/0skip/crash/setup
+failure. [Original raw](storagetest-017-red-ctest.txt) SHA90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0,
+[CI](storagetest-017-ci.md), [handoff](storagetest-017-handoff.md). Do not repeat.
+
+1. Actual final [attribution reviewa72992c+eb5639a](storagetest-017-final-review.md)
+   APPROVED completion6757/f856/f679, exact original rawCI/red and current rules.
+   Full test reviewf5c6 remains valid; no source/test/harness changed or red replayed.
+2. Publish completion metadata, observe latest all11CI, recheck rules/reviews/zero
+   threads/ready/CLEAN/MERGEABLE/cleanroot and unchanged reviewed blobs, normal
+   exact-head PR45 merge only. No production query exists yet; source130 is stub.
+3. Refresh main after integration, claim STORAGE017 on a new task branch and
+   explicitly assign source author + separate actual reviewer. Preserve frozen
+   tests/rawred, run green18/full228, promote mandatory new acceptance in CI.
+   Hold016 remains separately required; service004 waits both integrated ports.
+
+No owner question pending. No live/provider/platform/release verification claimed.
+
+Actual latest inventory:107 worktree refs,91 existing/16 absent. Only storage002-review
+and storagetest017-review have preserved root-config verification copies; root and
+author trees clean. No native/SQL/build process left. Fixture author’s read-only016
+preparation confirms dependency-ready separate baseline; global subject gating,
+detection/hold identities, multiple active holds, version transitions and continuation
+linkage require concrete contract review. No implicit unresolved policy enablement.

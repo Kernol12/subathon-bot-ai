@@ -364,3 +364,22 @@ frozen fixtures remain. Unconditional35 CI preserves exact compiled-registration
 guards and selected dependency pins. This remains synthetic real-SQL component
 acceptance, not application authority/policy, provider/FX, delivery/recovery,
 UI/platform or release proof. [Handoff](evidence/storage-002-handoff.md).
+
+
+## Typed early ORIGINAL claim query baseline
+
+STORAGETEST-017 supplies18 enabled Qt cases/35 scenarios with separate concrete
+contract/API/fixture/full-test review. [Full review](evidence/storagetest-017-review.md)
+pins final CPP0e4f4f00 and exact harness. The old-primitive new foundation is
+mandatory green; feature bodies remain intentionally red and separate from CI.
+Configure/build sqlite-original-claim-debug, discover exact18 with label
+`^sqlite-original-claim$`; full registration228=prior210+new18.
+
+Complete approved clean c24 received its own official selected Qt6.12 CI41602589680
+(required3-slot diagnostic5PASS0skip, compiled18, oldstable/all11), THEN FIRST
+same-head feature execution failed all18 cases/all35 rows from the exact named
+missing-query marker, with36init/cleanupPASS and no skip/crash/setup failure.
+[Raw first red](evidence/storagetest-017-red-ctest.txt),
+[CI chronology](evidence/storagetest-017-ci.md), [handoff](evidence/storagetest-017-handoff.md).
+This completes only the baseline. STORAGE017 query implementation, durablehold016
+and service004 retain separate gates; DB-01/NUM-04 and full release remain partial.
