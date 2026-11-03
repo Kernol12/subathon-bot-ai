@@ -36,9 +36,12 @@ Root branch `task/STORAGE-016-durable-holds` from integrated017d BEFORE claim/ed
 its OWN selectedSQL41658920776 SUCCESS14:57:58–15:00:42Z/fresh110/ZEROwarnings/
 GNU13.3/Boost108300/officialQt6.12SQLite3.53.4/new3guard5PASS0skip181ms/exact35/
 UNCONDITIONAL35PASS26.41s/oldstable/all11SUCCESS. That is PRIOR269-row source proof.
-Final corrected runtime/source/evidence throughf8c6241 are now being published for
-OWN UPDATED270-row CI. [CI](storage-016-ci.md), [handoff](storage-016-handoff.md).
-Task IN_REVIEW; actual final source/config verdict stillpending, not done/merged.
+Final corrected runtime/source/evidence now published297ca74f60f31e12b571a7a2e6603a9daf059149;
+OWN UPDATED270-row SQL41662457471 SUCCESS15:18:10–15:20:45Z/fresh110/0warnings/
+new3guard5PASS0skip174ms/exact35/UNCONDITIONAL35PASS26.61s/alloldstable/all11SUCCESS.
+Raw119ebf40 and APIverifiedsynthetic9bc7b438/equal297tree d23d29d7 in CI note. [CI](storage-016-ci.md), [handoff](storage-016-handoff.md).
+Task DONE as bounded component after actual full approval8c8ad3a (import40ccc74),
+UNMERGED; latestcompletionCI/rules/discussions/readiness/normalmerge remain.
 
 Final code pins:
 
@@ -83,8 +86,10 @@ actualCTestexit0/full264PASS19.94s at15:15–15:16Z, all35slots270scenarios,
 LocalArch/GNU16.2.1/Boost1.92/Qt6.12/SQLite3.54 is not updatedofficialCI.
 [Runtime author](storage-016-author.md) ce194761/99343a8c and
 [pure author](storage-016-values-author.md)7257a06/744d0dd9 complete. Early
-[values review](storage-016-values-review.md) NOTAPPROVED is historical; final
-actualfullsource/configverdict must accept CURRENT44376762/13828 revisions.
+[values review](storage-016-values-review.md) NOTAPPROVED is historical with resolved
+addendum. Final [source/config approval](storage-016-code-review.md)8c8ad3a accepts
+CURRENT44376762/13828/test0e172/root5configs/author993+744; different actual code/
+allocation/oldfactoring/rollback audits and final270/native/officialAPIchecks pass.
 No current authority/application orchestrator/provider/release claim.
 
 ## Roles and preservation
@@ -98,10 +103,10 @@ No current authority/application orchestrator/provider/release claim.
 - Pure author `/root/bundle_validation` COMPLETE, clean
   local-evidence/worktrees/storage016-values/task/STORAGE-016-values at7257a06;
   owns ONLY holdvalues/authorMD, not independent validation.
-- Actual full reviewer `/root/bundle_reviewer` ACTIVE,
+- Actual full reviewer `/root/bundle_reviewer` COMPLETE,
   local-evidence/worktrees/storage016-review/task/STORAGE-016-review;
-  owns reviewMD only. Whole-source areas audited satisfactory; final concrete
-  retainedseamfix review/verdict pending, desired storage-016-code-review.md.
+  owns reviewMD only. Final actual approval8c8ad3a
+  imported40ccc74, including retainedseamfix/tokenstaging/currentcompletedCI.
 - Reserved root native validation tree local-evidence/worktrees/storage016-validation
   remains old-library prep; actual root runs above provide independent validation.
 
@@ -113,9 +118,9 @@ sandbox failure, no user session/breakpoint/state changed. No owner decision/acc
 
 ## Next action
 
-Publish complete corrected270-row candidate to draftPR48; observe its OWN promoted
-selectedQt mandatory3fixture/UNCONDITIONAL35 and all11 checks. Integrate actual
-finalsource/config approval; complete map/handoff/status/HTML, then latestmetadataCI,
+Corrected270-row candidate297ca74 ownofficialCI/all11 PASS; actual finalsource
+approval8c8ad3a integrated40ccc74. Map/handoff/status/HTML completion nowpublished,
+then observe latestmetadataCI,
 current rules/discussions/readiness/clean exactartifacts and normal exact-head merge.
 Never substitute prior269CI or oldbaseline approval for these finalgates.
 After merge refreshmain, reclaim ACCTTEST004 and author concrete service API/complete

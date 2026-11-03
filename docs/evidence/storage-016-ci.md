@@ -55,3 +55,32 @@ inside retained configuration/context lookup. A new independent public regressio
 522faee/test0e172a16 adds one270th scenario and is awaiting its actual review/red
 before any source fix. The35-slot CI above proves the269-row candidate; it is not
 acceptance of this new row or future source. PR remains draft, no final approval.
+
+## Actual final270 corrected-source official acceptance
+
+Complete final candidate **297ca74f60f31e12b571a7a2e6603a9daf059149**, runtime44376762/
+helper13828/test0e172a16, passed its OWN updated
+[official selected41662457471](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41662457471)
+15:18:10–15:20:45Z: fresh110/ZEROwarnings/GNU13.3/Boost108300/officialQt6.12/
+SQLite3.53.4, all old stable suites, requirednew3fixture guard5PASS0skip174ms,
+exact35compiled/registered, **UNCONDITIONAL35PASS26.61s**. All11 same-head PR checks
+completedSUCCESS. Root final native full264/270rows also passed,1060QtPASS0skip.
+
+Downloaded raw `local-evidence/storage016-final270-source-official-ci.txt` SHA256
+119ebf406015bdab26b1fbd321ceaeb71f8e03497831dd00a272dd8ef6d23f3d. Actual
+syntheticcheckout9bc7b4380352f32632251cf022e6ebf6d9024f51 has parents017d+297,
+GitHubAPI tree d23d29d76bf3eea47e16d03f5ed348ded4b2355d equals local297tree.
+Records `local-evidence/storage016-final270-source-ci-run.json` and
+`local-evidence/storage016-final270-source-ci-checkout.json` retain exact fields.
+
+Earlier269-row success is historical and preserved, not substituted for this
+corrected-source run. Final written source/config verdict and later completion
+metadata/current rules/discussions/latestheadCI/normal merge remain separate.
+
+Actual full independent source/config approval8c8ad3a (imported40ccc74) inspected
+the final270 root logs, completed corrected official run/checkout and independently
+queried all11 successful current297 checks. [Final review](storage-016-code-review.md)
+accepts exact source/config/author pins. Component acceptance complete; latest
+completion-headCI and current rules/discussions/readiness/normalmerge remain gates.
+Current rules26170263 formalrequiredapprovals0/resolvedthreads required, actual
+threads0; no bypass. Final source/metadata formatting and full-PR diff check pass.

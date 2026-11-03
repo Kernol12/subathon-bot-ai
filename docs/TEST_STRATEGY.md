@@ -398,3 +398,34 @@ compiled18/UNCONDITIONAL18PASS1.29/oldstable/all11. The same profile now has228
 passing cases, with the new draft label removed. [Handoff](evidence/storage-017-handoff.md).
 These synthetic real-SQL component checks do not establish durablehold016, service
 policy/authority, providers/FX/recovery/UI/platform or complete release acceptance.
+
+## Durable application-review hold storage
+
+STORAGETEST-016 originally established35 separately reviewed real-SQL slots/
+265 scenarios, frozen independent89-object migration/source/DTO/byte oracles and
+mandatory old-primitive fixture diagnostics. The first valid revised stub-red was
+on SAME CLEAN598 after its own official selected CI41640390883:265 exact named
+markers/70initcleanupPASS/0setup/skip. The initial261markers+4 genuine setup errors
+remain preserved as invalid, with separately reviewed assertion-preserving SQL
+corrections. [Baseline](evidence/storagetest-016-handoff.md),
+[actual final attribution](evidence/storagetest-016-final-review.md).
+
+STORAGE-016 retains every original assertion/oracle/fixture, with two separately
+reviewed history cursor input corrections and FIVE additive regression rows.
+Each new defect reached actual behavior red before its bounded correction;
+[revision and debugger evidence](evidence/storage-016-baseline-revision.md) and
+[different revision reviews](evidence/storage-016-baseline-revision-review.md)
+separate those results from the completed original stub baseline. Current suite:
+35 slots/270 scenarios. Root final full264 CTest passes,261Qtprocesses1060PASS/
+0FAIL/skip/blacklist,0warnings. Allocation ordering also needs actual source audit;
+it is not measured by the test outcomes.
+
+Configure/build `sqlite-hold-debug`; run `ctest --preset sqlite-hold-debug
+-L '^sqlite-hold$'`. Ordinary selected CI executes all35 unconditionally after
+mandatory3-slot fixture guard and exact compiled-registration checks. Actual
+[official41662457471](evidence/storage-016-ci.md) at297ca74 passes fresh110/
+GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/new3guard5PASS0skip174ms/35PASS26.61s/
+all old stable suites/all11checks. [Native validation](evidence/storage-016-validation.md)
+and [handoff](evidence/storage-016-handoff.md) distinguish final source/publication
+gates. No application orchestrator, real authority/policy/clock/action producer,
+provider/FX/financial entitlement/recovery/UI/platform or full release proof.

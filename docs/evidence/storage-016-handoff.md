@@ -5,9 +5,10 @@ Coordinator/integrator and independent native validator `/root`,2026-11-03,
 Runtime author `/root/bundle_implementer`; pure-value author `/root/bundle_validation`;
 different source reviewer `/root/bundle_reviewer`.
 
-Final270 native acceptance PASS; final full independent source/config review
-and corrected source official CI are pending. Task remains in_review, not done or merged. Completion metadata
-and latest CI/current rules/discussions/readiness/normal merge remain separate.
+STORAGE-016 component acceptance COMPLETE: final270 native and corrected-source
+official CI pass, actual separate source/config approval8c8ad3a imported40ccc74.
+Task DONE but UNMERGED. Completion metadata latest CI/current rules/discussions/
+readiness/normal merge remain separate.
 
 ## Scope and contracts
 
@@ -31,8 +32,8 @@ Final runtime CPP44376762d972cd22a23ff0e635827c7c27d42094 and final pure helper
 unfiltered actual counts before vector materialization,64/65 metadata buffers,
 constant-space ancestry and exact returned B/I accounting. Existing bundle reader
 factoring into privateAccess7107d0ee preserves old behavior/body/queries/accounting;
-old bundle valuesb0ca921c is unchanged. Actual allocation ordering still requires
-the separate final source audit; passing tests alone do not measure allocations.
+old bundle valuesb0ca921c is unchanged. Actual separate [source/allocation/config review](storage-016-code-review.md)
+accepts these concrete artifacts; passing tests alone do not measure allocations.
 
 ## Reviewed baseline and genuine corrections
 
@@ -71,7 +72,9 @@ tree equality. New suite executes automatically; old tests/pins/permissions/chec
 names remain fixed. No failure inversion/disabled tests/manual switch/hiding.
 
 Project consistency/progress rendering and source/metadata whitespace checks pass.
-Final source review, completion metadata and latest-head CI are still required.
+Actual source/config review8c8ad3a approves final artifacts and independently
+inspected final270 native/full264 plus corrected officialCI. Completion metadata
+and latest-head CI remain required.
 
 ## Remaining gates and next task
 
@@ -92,13 +95,14 @@ document under logical6d0cd67f/ADR0003, independently reviewed BEFORE minimal AP
 stubs, independent real-SQL fixtures/tests, review and its OWN valid service red.
 Older component acceptance is not service acceptance. Do not stop at this PR.
 
-Final source audit found a retained-source query exception mapping gap after the
-above269-row acceptance. New test522faee/0e172a16 adds one270th row, under actual
-independent review before red/source correction. Known writer result failures
-inside the retained primitive must map to Hold result_limit after already-known
-rollback; capability/protocol/unknown errors must remain original writer truth.
-Separate reviewce7c61a, actual public red on707cb3a and GDB already-rolled-back
-stack preceded sourcefixef1ca070 (only3 inserted lines, no cleanup). Root current270
-acceptance nowPASS/full26419.94s/1060QtPASS0skip. Different final source approval
-and corrected source own updated official CI are still pending. The prior269-row
-official pass stays attributed to its earlier candidate.
+Final retained-query seam correction followed separately approved regression and
+actual red/GDB at707cb3a; known rollback was already established. Runtimefixef1ca070
+adds only3 lines, reuses the old four-known-reason mapper, performs no cleanup and
+retains default original Work truth. Final270 root acceptance passes as above.
+Corrected source OWN official41662457471 at297ca74 succeeds15:18:10–15:20:45Z:
+fresh110/ZEROwarnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/required3fixture
+guard5PASS0skip174ms/exact35/**UNCONDITIONAL35PASS26.61s**/oldstable/all11SUCCESS.
+Raw119ebf40/APIverifiedcheckouttree d23d29d7 in CI note. Earlier269-row official
+success remains preserved as historical evidence, not substituted for this run.
+No code/config changes follow final actual approval8c8ad3a; latest completion-head
+CI/rules/discussions/readiness and normal exact-head merge remain to be observed.

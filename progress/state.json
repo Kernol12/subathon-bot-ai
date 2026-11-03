@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T15:17:57Z",
+  "updated_at": "2026-11-03T15:27:21Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5466,21 +5466,24 @@
         "Actual bounded correction18cc890→617ecdd helper13828cc3 removes only premature Captured cause/request-token checks from required-body stage; matrixchecks retained, no other branch/accounting/manifest change. Root final3stepbuildZEROwarnings and actualCTexit0/full264PASS19.97s at14:57Z,35slots269scenarios/261Qtprocesses1059PASS0FAIL0skip0blacklist. Raw6777936f6ca1e833bd4377f5edd6cac70cdcf4547441d532c333239e9a0492df. Final testsd740a175/allfrozenoracles fixed. Fullactual different source/configreview inprogress; ownpromoted official CI nowtoobserve, oldclaimCI notproof. Task remainsin_progress/unmerged untilallgates.",
         "Own complete final implementation candidate7a3dcfcfe292b77f29ba648809c7eb0a03b46913 selectedSQL41658920776 SUCCESS14:57:58–15:00:42Z: fresh110/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedofficialQt6.12SQLite3.53.4/new3guard5PASS0skip181ms/exact35compiled/UNCONDITIONAL35PASS26.41s/oldstable/all11SUCCESS. Synthetic checkoutcfd682626cf4db12a6673f3f315071b0c8f66d76 parents017d+7a3, APIverifiedtree6ae4af8baa291ddd9f5f9faa67f60f2859418d1a equalscandidate. Rawc9a54d03788ad6e106354597f5f54c47e43bc07a694a956b8635fdf53ebe6cd8. Finalhelper evidence7257a06/MD744d integratede7d2603 sourceunchanged13828. Actualfullseparatesource/configreview stillactive; taskin_review notdone; finalmetadataheadCI/currentrules/discussions/normalmerge stillrequired.",
         "Actual finalsourceaudit finds retained-reference query seam misses known Work busy/sql/resource/result→Hold mapping; Retention find forwards Work, outerguard forwardsall, unlike old Access.resolve. Correction explicitly HOLD for reviewed additive publicregression/red. Root522faee/test0e172a16 adds ONE270th row inexistingbudgetslot: healthy selectedcfg131072bytes < defaultretained262144, actualwriter resultbytes65536, exactHoldresult_limit/Workresult_limit/whole-unitrollback/release/caught assertions. No old assertion/fixture/sourcechanged. Independent concrete review active, newrow notrun; prior269 native/officialpasses preserved for exactcandidate. Final270/sourcefix/sourceapproval/officialCI/latestmetadata gates remain.",
-        "Actual separate retainedregression reviewce7c61a→707cb3a, ONLY new publicrow red at SAME CLEAN707cb3a 15:12:04.841429-.889799Z/exit1/2initcleanupPASS1FAIL0skip, rawce70bd02. Read-onlyGDB proves writer result_limit/stickyresult_limit/phase_rolled_back and exactretained select_record92→Holdretained657→find(hOverflow) stack, log29d614ad. ONLYTHEN released boundedfixef1ca070→8f5afbb runtime44376762, exactly3insertedlines catchingWork atretained/reusingoldknown4mapper/no cleanup/defaultoriginal. AuthorMDce194761/99343a8c integratedf8c6241 records0warning2steplibcompile. Root final270/full264actualexit0PASS19.94s/261Qt1060PASS0FAIL/skip/blacklist/ZEROwarnings, raw6f9a43da09675092c945c9cffbc1d053babd71c7dffe0c198c93e40dee335e6c. Finaldifferentfullsource/configreview and OWNupdatedofficialCI stillpending; old7a3CIproves269candidate only."
+        "Actual separate retainedregression reviewce7c61a→707cb3a, ONLY new publicrow red at SAME CLEAN707cb3a 15:12:04.841429-.889799Z/exit1/2initcleanupPASS1FAIL0skip, rawce70bd02. Read-onlyGDB proves writer result_limit/stickyresult_limit/phase_rolled_back and exactretained select_record92→Holdretained657→find(hOverflow) stack, log29d614ad. ONLYTHEN released boundedfixef1ca070→8f5afbb runtime44376762, exactly3insertedlines catchingWork atretained/reusingoldknown4mapper/no cleanup/defaultoriginal. AuthorMDce194761/99343a8c integratedf8c6241 records0warning2steplibcompile. Root final270/full264actualexit0PASS19.94s/261Qt1060PASS0FAIL/skip/blacklist/ZEROwarnings, raw6f9a43da09675092c945c9cffbc1d053babd71c7dffe0c198c93e40dee335e6c. Finaldifferentfullsource/configreview and OWNupdatedofficialCI stillpending; old7a3CIproves269candidate only.",
+        "Corrected COMPLETEfinalcandidate297ca74f60f31e12b571a7a2e6603a9daf059149 runtime44376762/helper13828/test0e172a16 OWNupdated officialSQL41662457471 SUCCESS15:18:10–15:20:45Z: fresh110/ZEROwarnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/new3guard5PASS0skip174ms/exact35/UNCONDITIONAL35PASS26.61s/oldstable/all11SUCCESS. Raw119ebf406015bdab26b1fbd321ceaeb71f8e03497831dd00a272dd8ef6d23f3d; synthetic9bc7b4380352f32632251cf022e6ebf6d9024f51 parents017d+297, APIverifiedtree d23d29d76bf3eea47e16d03f5ed348ded4b2355d equals297. Actual fullsourceauditor reports no remaining confirmed blocker after3linefix; finalwrittenverdict pending completedcurrentCIinspection. Task remainsin_review untilactualapproval, finalcompletionmetadata/latestCI/normalmerge separate.",
+        "Actual different FINAL full source/allocation/config APPROVAL8c8ad3a912971373161541a0f395d5ef5b26824d imported40ccc74, accepts current44376762/13828/0e172 +exactroot5/authorpins and allclosure/preallocation/finitechain/rollback/unknown/oldfactoring/nullablectx/purestaging/accounting/manifest. Different reviewer independently parsed finalnative270/full264, completed corrected OWNofficial41662457471/APIequalcheckout and independentlyqueried ALL11current297SUCCESS. No remainingcodeblocker; STORAGE016 DONE as bounded syntheticSQLcomponent, UNMERGED untilcompletionmetadata latestCI/currentrules/discussions/readiness/normalexactmerge. DB01/NUM02/NUM04 remainpartial; fullrelease scopes unchanged."
       ],
       "verification": {
         "baseline": "observed_red",
         "implementation": "passed",
         "native_build": "passed",
         "acceptance": "passed",
-        "code_review": "partial",
+        "code_review": "passed",
         "independent_validation": "passed",
-        "official_qt": "partial",
+        "official_qt": "passed",
         "platform_release": "not_run",
         "native_environment": "passed",
         "regression_review": "passed",
         "regression_baseline": "observed_red",
-        "github_ci": "partial"
+        "github_ci": "passed",
+        "completion_ci": "not_run"
       },
       "evidence": [
         "docs/contracts/sqlite-application-holds-v1.md",
@@ -5503,10 +5506,17 @@
         "docs/evidence/storage-016-token-regression-red.txt",
         "docs/evidence/storage-016-ci.md",
         "docs/evidence/storage-016-handoff.md",
-        "docs/evidence/storage-016-retained-regression-red.txt"
+        "docs/evidence/storage-016-retained-regression-red.txt",
+        "docs/evidence/storage-016-code-review.md"
       ],
-      "review": null,
-      "status": "in_review",
+      "review": {
+        "author": "/root/bundle_implementer (runtime); /root/bundle_validation (pure values); /root (revised tests/shared CI)",
+        "reviewer": "/root/bundle_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual full source/config approval8c8ad3a at297ca74 (imported40ccc74) accepts runtime44376762/helper13828/test0e172a16/privateAccess7107/oldbundle2475/oldvaluesb0ca/publicheaderb904/root5configs, finalauthor99343a8c/744d0dd9. Original baseline265 markers598 retained; genuine two history-input corrections and five additive regressions separately reviewed/reached-red before fixes; no fixture/assertion weakening. Root final270/full26419.94s/1060QtPASS0skip/0warnings; actual OWN corrected official41662457471 fresh110/new3green/exact35/UNCONDITIONAL35PASS26.61/all11SUCCESS and APIcheckouttreeequal inspected independently. Component done, finalmetadata/latestCI/rules/discussions/normalmerge remain separate.",
+        "evidence": "docs/evidence/storage-016-code-review.md"
+      },
+      "status": "done",
       "owner": "coordinator/integrator and independent native validator /root; runtime author /root/bundle_implementer; pure-values author /root/bundle_validation; independent full source reviewer /root/bundle_reviewer"
     },
     {

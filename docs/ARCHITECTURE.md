@@ -207,3 +207,15 @@ records35/full209 local component passes and separate source/config approval;
 promoted official CI/publication gates are recorded separately. This does not
 implement the authoritative application orchestrator or interpret permission,
 clock/cap policies, financial refund allocation, delivery or recovery documents.
+
+The [durable application-review hold store](contracts/sqlite-application-holds-v1.md)
+implements immutable causes, detection/resolution history, stable tagged-subject
+active gating, complete-set resolution and finite replacement results on that same
+caller session. The exact additive migration6 preserves prefix1–5 and supplies
+full89 catalog objects. Strict reference readers reuse private bundle decoding;
+connectors/clients acquire no authoritative writer. All results remain provisional
+until actual caller commit and normal work completion. [Handoff](evidence/storage-016-handoff.md)
+records270 reviewed scenarios/full264 native acceptance and selected official CI,
+with final review/publication gates recorded separately. Storage does not decide
+authority, numeric policy, mixed timer outcomes or review resolution permission;
+the application service and actual policy/clock/action adapters remain required.
