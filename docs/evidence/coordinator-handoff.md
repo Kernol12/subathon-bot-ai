@@ -90,3 +90,16 @@ then reachedred precede correction integration. Complete source/config review is
 INPROGRESS, not approved. No task done/implementation acceptance/changed official
 CI claim. PR43 published head remains claima139/all11PASS only; source candidate
 not yet pushed. No owner decision/access needed.
+
+## Actual byte regression completed
+
+Root targeted new1105 regression FIRSTred at CLEANe6bc, actualexit8/0.04s,
+init+cleanupPASS/0skip; raw tracked storage-002-byte-regression-red.txt SHA3267a29d.
+Actual GDB attribution confirmed result_limit/rolled_back/work_exception at1105.
+Only then helper159 correction integrated55c059f (evidence5dc→f510199). Warning-free
+build and targeted1/1PASS0.04s. Root still runtimef969 (93 held pending two newly
+assigned tests). Reviewer original32 with approved terminal correction32/32PASS.
+Reviewer discovered/preparing source review requires checked count sums and
+preconstructed final changes-query before writes; main author fixing in own tree.
+No full source approval/taskdone/latest sourceofficialCI yet. Actual newtest review/
+red then93+followup source and35/full209 next; no owner access/decision needed.

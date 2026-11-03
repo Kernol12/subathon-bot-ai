@@ -1,0 +1,46 @@
+UpdateCTestConfiguration  from :/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/DartConfiguration.tcl
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 21
+    Start 21: sqlite-bundle.supportAnchorConditionsUseExactReturnedByteBoundary
+
+21: Test command: /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug/tests/qt/server_sqlite_application_bundle_acceptance "supportAnchorConditionsUseExactReturnedByteBoundary"
+21: Working Directory: /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug/tests/qt
+21: Test timeout computed to be: 30
+21: ********* Start testing of SqliteApplicationBundleTests *********
+21: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+21: PASS   : SqliteApplicationBundleTests::initTestCase()
+21: FAIL!  : SqliteApplicationBundleTests::supportAnchorConditionsUseExactReturnedByteBoundary() required committed normal work: 
+21:    Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+21: PASS   : SqliteApplicationBundleTests::cleanupTestCase()
+21: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 20ms
+21: ********* Finished testing of SqliteApplicationBundleTests *********
+1/1 Test #21: sqlite-bundle.supportAnchorConditionsUseExactReturnedByteBoundary ...***Failed    0.02 sec
+********* Start testing of SqliteApplicationBundleTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteApplicationBundleTests::initTestCase()
+FAIL!  : SqliteApplicationBundleTests::supportAnchorConditionsUseExactReturnedByteBoundary() required committed normal work: 
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+PASS   : SqliteApplicationBundleTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 20ms
+********* Finished testing of SqliteApplicationBundleTests *********
+
+
+0% tests passed, 1 tests failed out of 1
+
+Label Time Summary:
+acceptance       =   0.02 sec*proc (1 test)
+qt               =   0.02 sec*proc (1 test)
+server           =   0.02 sec*proc (1 test)
+sqlite-bundle    =   0.02 sec*proc (1 test)
+
+Total Test time (real) =   0.04 sec
+
+The following tests FAILED:
+	 21 - sqlite-bundle.supportAnchorConditionsUseExactReturnedByteBoundary (Failed) acceptance qt server sqlite-bundle
+Errors while running CTest
