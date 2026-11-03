@@ -29,8 +29,8 @@ environment5a36a407b9423920346d73d86817430a7068b6cc.
 No fixture/helper/environment/source/header/schema is edited here.
 
 Early sourceee7e6a3df26d1b9f2fdacfe0766e37d28b36da50 was frozen before root
-compile/discovery wiring. Current refinementd723bdd3f9cfcaf3062bb169a0c02d9ba40166aa,
-CPP blobc725dde22740f393789dae06cb413fad9ac39ca2, has **33 feature slots /
+compile/discovery wiring. Prior refinementd723bdd3f9cfcaf3062bb169a0c02d9ba40166aa,
+CPP blobc725dde22740f393789dae06cb413fad9ac39ca2, established **33 feature slots /
 206 authored scenarios**. Two policy-hold slot groups await the separately reviewed,
 OWN-selected-green fixture additions; they are not silently omitted or treated
 as complete. No final baseline review/approval is claimed for this checkpoint.
@@ -167,3 +167,28 @@ gate, the two affected feature slots, final own compile/discovery and author pin
 different FULL test/oracle/harness review, COMPLETE-head own selected-green and FIRST
 same-clean intended named-marker red. No bodies run before those gates; no source/
 fixture weakening, provider capability or production ACCT-004 completion is claimed.
+
+## Actual independent ownership-oracle correction
+
+The independent codec reviewer identified that copying encoded.document into
+wire_backing left encoded as a Qt sharing owner; fill() could detach while a raw
+decoder input still saw unchanged old bytes. That would let an incorrect borrowed
+decoder pass. Root released a bounded test correction before any body execution.
+The oracle now independently allocates the backing bytes, saves its mutable data
+pointer before decode, mutates THAT actual storage through the pointer and proves
+the raw input changed without COW detachment. Expected command bytes/members remain
+the same independent frozen anchor; no assertion or fixture was weakened.
+
+The same actual bounded review found two overly broad failure oracles. Low final
+response-bound rows now retain all known-rollback/no-payload assertions AND require
+the local reason result_limit (without inventing an unpinned source category).
+Healthy unknown retained formats require exact unsupported_retained_format;
+known malformed magic/trailing require retained_semantics/invalid_known_document,
+while typed-copy contradiction requires contradictory_document. These strengthen
+specified distinctions rather than accepting unrelated busy/SQL/semantic errors.
+
+After these three bounded corrections, python3
+/tmp/accttest004-feature-syntax/compile_only.py (moc plus GNU C++20 object compile
+with the exact warning flags/fixture defines above) passed with zero diagnostics.
+No executable, data method, feature method or marker was invoked. Slot/row totals
+remain33/206; check_project396/122 and diff --check pass.

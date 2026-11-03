@@ -532,11 +532,16 @@ class ApplicationServiceTests final : public QObject {
             const auto encoded = encode_original_application_command(c);
             backing.fill('Z');
             original_claim_fixture::same_envelope(encoded, envelope(a["envelope"]));
-            auto wire_backing = encoded.document;
+            // Independent allocation: copying encoded.document would leave its
+            // shared owner alive and fill() could detach without mutating input.
+            QByteArray wire_backing(encoded.document.constData(), encoded.document.size());
+            char *const wire_bytes = wire_backing.data();
             auto input = encoded;
-            input.document = QByteArray::fromRawData(wire_backing.constData(), wire_backing.size());
+            input.document = QByteArray::fromRawData(wire_bytes, wire_backing.size());
             const auto decoded = decode_original_application_command(input);
-            wire_backing.fill('Q');
+            std::fill_n(wire_bytes, size_t(wire_backing.size()), 'Q');
+            require(input.document != encoded.document && input.document.constData() == wire_bytes,
+                    "Actual raw input bytes changed in place, without COW alias escape");
             require(same_command(decoded, command(a["command"])),
                     "Decoded buffers own BOM/NUL/FF beyond caller storage");
         });
@@ -1462,13 +1467,17 @@ class ApplicationServiceTests final : public QObject {
             auto ports = p.ports();
             OriginalApplicationService service(f.writer, ports);
             const auto r = prepared_run(service, f.writer, c);
-            if (name.startsWith("unknown"))
+            if (name.startsWith("unknown")) {
                 not_ready(r->service);
-            else {
-                known(r->service);
-                require(r->service.failure->source ==
-                            ApplicationServiceFailureSource::retained_semantics,
-                        "Known malformed/contradictory document is semantic failure, no fallback");
+                require(
+                    std::get<ApplicationNotReadyPayload>(r->service.response->payload).reason_ref ==
+                        "unsupported_retained_format",
+                    "Exact supported-versus-unsupported retained-format distinction");
+            } else {
+                local_failure(r->service, ApplicationServiceFailureSource::retained_semantics,
+                              name == "known_state_typed_contradiction"
+                                  ? LR::contradictory_document
+                                  : LR::invalid_known_document);
             }
             require(std::find(p.script.calls.begin(), p.script.calls.end(), "actions") ==
                         p.script.calls.end(),
@@ -1499,9 +1508,12 @@ class ApplicationServiceTests final : public QObject {
             auto ports = p.ports();
             OriginalApplicationService service(f.writer, ports, l);
             const auto r = prepared_run(service, f.writer, c);
-            if (row == 1 || row == 3)
+            if (row == 1 || row == 3) {
                 known(r->service);
-            else {
+                require(std::holds_alternative<LR>(r->service.failure->reason) &&
+                            std::get<LR>(r->service.failure->reason) == LR::result_limit,
+                        "Exact post-BEGIN result bound, not unrelated known rollback");
+            } else {
                 disposition(r->service, D::existing_operation);
                 check_record(std::get<RecordedApplicationBundle>(r->service.response->payload),
                              record(h));
