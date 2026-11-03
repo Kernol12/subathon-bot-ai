@@ -22,7 +22,7 @@ if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
     subathon_target_options(server_sqlite_application_bundle_acceptance)
-    # Intentional missing-behavior baseline stays separate from required fixture diagnostics.
+    # Reviewed application-bundle cases retain their baseline names and separate processes.
     foreach(case IN ITEMS
         manifestMatchesFrozenStepFiveAndPrefixes
         initialStateAndEmptyAbsenceUseRealCallerUnit
@@ -40,6 +40,7 @@ if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
         fullLookupRejectsMissingCountsGroupsAndCorruptSelectedBodies
         typedReferenceClassesNullsAndSparseMaxAreStrict
         returnedAndInputBoundsHaveExactOneOverCategories
+        supportAnchorConditionsUseExactReturnedByteBoundary
         invalidInputPriorityPreservesHealthyUnit
         signedExactResidualAndAggregateConservationAreExact
         multiBasisRefundsUseOneCurrentRequestAndIndependentProgress
