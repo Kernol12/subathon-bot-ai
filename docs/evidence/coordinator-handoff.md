@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-016 concrete document approved, physical proposal next
+# Coordinator checkpoint — STORAGETEST-016 physical document frozen, actual independent review active
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md). Owner requested full
 autonomous coordination with subagents/focused PRs; no routine approval needed.
@@ -137,14 +137,38 @@ not approved future behavior. No hold code/schema/API/tests/red/native yet.
 
 ## Explicit next assignment after actual concrete approval
 
-`/root/bundle_implementer` will author ONLY
+`/root/bundle_implementer` authored ONLY
 `docs/contracts/sqlite-application-holds-schema-v1.md` and
 `docs/evidence/storagetest-016-physical-author.md` in new
 `local-evidence/worktrees/storagetest016-physical-author`, branch
 `task/STORAGETEST-016-physical-author`, createdfromcurrentmain then ffapproved
 rootdocument revision. Literal additive step6 layout/constraints/catalog identity/
 fullinventory and exact source/crosspath/metadata walks must preserve all accepted
-prefix1–5/66 and frozen manifests. No DDL execution/C++/stub/API/fixture/test yet.
+prefix1–5/66 and frozen manifests. No production migration/schema/API/stub/fixture/test yet. Scratch stdlibSQLite
+proposal diagnostics are explicitly separate and do not prove hold behavior.
 Root owns eventual actual manifest/schemaorder/build/pins; different actual physical
 review precedes further artifacts. Reviewermayprep read-only, no prospectiveapproval.
 Concreteauthorcomplete, availableforlaterexplicitAPIassignment only.
+
+## Actual frozen physical candidate awaiting verdict
+
+Physical8b363ed imported9d72242, contract
+**972e67a6ab37de927e41582d197783581cf0393c**,464lines; author50b7a63
+imported3569a89, MDf905a1bc112lines. Step6 IDdurable-application-holds-v1,
+12literalstatements/10tables+11NULLautoindexes+2queryindexes=23delta/full89.
+FinalF89806/SHAe09430872e5102cddc84270110ac95886cb54277960e45c0613fa71168652fcd;
+earlier89396 draft is superseded. ALLprefix1–5 payloadhex/hash/projection identities
+remain exact. ScratchstdlibSQLite3.54 literalproposaldiagnostic matchesraw89/FK0/
+integrityok; NO new producer/manifest/API/source/fixture/nativefeature/red.
+PhysicalauthorCOMPLETE clean50b7a63, availableforactualcorrections; reviewer
+ACTIVELYFULLreviewing972+f905 in16reviewtree, owns ONLY
+`docs/evidence/storagetest-016-physical-review.md`. Usefollowup_task ifauthoridle
+whenreviewfindingsarrive; send_messagealone doesnotstart completedagentturn.
+Root/physicalsource branches clean; currentroot beforemetadata commit3569a89.
+Next actualphysicalapproval precedes explicitminimalAPI/namedstub/byteformula
+proposal+differentreview/rootminimalbuild; no hold behavior implemented.
+Readonlypublictype/reader reuse map COMPLETE: ApplicationPlanKey/OperationKey/
+Envelope/State/Subject/Exact/IDs exist, but current-state/current-plan getters are
+not historicalhold validators. Same-session source/knownhistoricalstate/selected
+plan+metadata need explicitprivateSQL/decoder work later, no owningadoption/dummy
+bundle/newpublicgetter or separateconnection. Future minimalAPI author notassignedyet.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T09:36:59Z",
+  "updated_at": "2026-11-03T09:58:05Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5337,7 +5337,8 @@
         "Claimed task/STORAGETEST-016-durable-holds from fetched actualmainaad1ad11dd2f826d11d81897319671aa10017b8c AFTER normalPR46merge08:57:48Z and cleanmainff, before edits. DependenciesACCTCONTRACT001+STORAGE002 integrated; newquery017 alsointegrated but not retroactivelyaddedgate. FIRSTphase ONLY concreteholdDOCUMENT+ownauthorMD, actualdifferentdocreview before anyphysicalschema/API/stub/fixture/test. Freshcontractauthor/review trees fromactualaad. Authorbundle_validation ownsdocs/contracts/sqlite-application-holds-v1.md+storagetest016contractauthorMD only; differentreviewerbundle_reviewer ownscontractreviewMD only; bundle_implementer read-onlycounterexampleaudit. Rootownssharedstate/HTML/map/schemaorder/build/pins/CI. Scope: caller-session nonowning durablehold namespace for immutable cause/source/plan/state/provenance, globaltaggedsubject activegating independentnewrequest/replan, idempotentdetection versus independenthold identity, multipleindependentactiveholds, expectedversion history/resolution/atomiccallercomposition. Concretize boundspurepriority/completeclosure/strictIDNULL/knownrollback/unknown/provisional semantics. Explicitly separate recording caller-supplied reviewed decisions from enabling unresolved timer/mixed/postfinish/continuation productpolicy. No contributions-overwrite, successclaim/effects/jobs/head/result for whole-inputoverflow, no owntransaction/commit/connection/authorization/delivery. No concreteport/schema/policy finalized by thisclaim; futurestep6mustpreserveacceptedprefix1–5/full66 and allpriorassertions. ACCTTEST004/service004 waits integratedhold16 plus ownreviewedred, no oldlookup/228passaggregation.",
         "Focused draftPR47 openedhttps://github.com/Kernol12/subathon-bot-ai/pull/47 atclaima284. Actualread-onlycounterexampleaudit found no new hard requirement conflict: globalgating/detectionidentity/completeactiveclosure/versionlineage/wholeinputnosuccess/realrollback-vsunknown remaincontractengineering choices; unresolvedtimer/mixed/postfinish/continuationpolicy remains owning-taskgate, notownerquestion now. Contractauthoractive/documentONLY, reviewerprepcomplete/no actualcandidateverdict. Postmainaad all10SUCCESS observed, not16proof.",
         "ActualDOCUMENTcandidate2ad07f7→root33279ee contractb1f0a092053f628283016454106720e988735f05/authorMDccdbf472,366/107lines,16literalH01–16 examples. Proposedglobalheldsubject/immutablecause+retryidentities/perholdversions/multipleactiveholds/fullactivemetadatahistory/atomicresolutionreplacement/bounds/errorpriority. ExplicitCapturedRevisionvsFailedCapture evidence handles actualRequestedEffect int64requirement beforevalidplan; currentservice004selectedcompleteplanprotocol unchanged andupstreamfailedcaptureproducer/semanticcodec remains ownreviewgate. No fabricated0/rev0/sourcefacts orpolicyenablement. AuthorindependentFraction/int H07/08/09/10/14/static396/122/render/diffPASS only, no C++/DDL/API/stub/fixture/test/native. DifferentactualFULLDOCreview nowACTIVE onb1f innew16reviewtree, noverdict; production16 stillplanned. Futurephysicalstep6/API and ownbaseline remaingated.",
-        "ActualdifferentDOCUMENTapprovalc0ed4b6→rootc3c5568 accepts correctedcontract701c710f83b0361a075c0d0bca7cf6ec07fb351e413lines/authorc14f6567. All5actualfindings corrected0adfdec→1c8ef5c: one sharedrawmutationRef/actualkindclosure, sameunitlinkonlydata/serviceprotocol, retry→closednew→activecause/version/token priority+H05, exhaustivecause×plan×numericstage+3extentmatrix, H15purepreservecallerworkvsselectedknownrollback. All16Hrechecked, differentFraction/int auditPASS/static396/122. DOCUMENTONLY approved; no physical/schema/API/stub/fixture/native/test/red/holdcapability. Next explicitphysical-step6DOCUMENTauthorbundle_implementer in freshisolatedbranch fromcurrentmain+approveddoc; ownphysicalcompanion+authorMDonly. Differentactualphysicalreview before minimalAPI/stubs/rootbuild, independentfixtures/tests+review/ownselectedgreen/firstred. Existingprefix1–5/66/228 andallfrozenfixtures unchanged; unknownproducer/mixed/continuationpolicies retainowninggates."
+        "ActualdifferentDOCUMENTapprovalc0ed4b6→rootc3c5568 accepts correctedcontract701c710f83b0361a075c0d0bca7cf6ec07fb351e413lines/authorc14f6567. All5actualfindings corrected0adfdec→1c8ef5c: one sharedrawmutationRef/actualkindclosure, sameunitlinkonlydata/serviceprotocol, retry→closednew→activecause/version/token priority+H05, exhaustivecause×plan×numericstage+3extentmatrix, H15purepreservecallerworkvsselectedknownrollback. All16Hrechecked, differentFraction/int auditPASS/static396/122. DOCUMENTONLY approved; no physical/schema/API/stub/fixture/native/test/red/holdcapability. Next explicitphysical-step6DOCUMENTauthorbundle_implementer in freshisolatedbranch fromcurrentmain+approveddoc; ownphysicalcompanion+authorMDonly. Differentactualphysicalreview before minimalAPI/stubs/rootbuild, independentfixtures/tests+review/ownselectedgreen/firstred. Existingprefix1–5/66/228 andallfrozenfixtures unchanged; unknownproducer/mixed/continuationpolicies retainowninggates.",
+        "ActualphysicalDOCUMENT8b363ed→root9d72242, blob972e67a6ab37de927e41582d197783581cf0393c464lines, authorMD50b7a63→3569a89/f905a1bc112lines. Twelve literalstep6 statements/10newtables+11NULLautoindexes+2queryindexes=23delta/full89; F89806/SHAe09430872e5102cddc84270110ac95886cb54277960e45c0613fa71168652fcd, EACHprefix1–5 literalpayloadhex/hash/projections7/13/20/30/66 unchanged. ActualscratchstdlibSQLite3.54proposaldiagnostic matchesraw89/FK0/integrityok, no Qt/feature/native/API calls orproductionmanifest/schemaartifact. Pinsfiniteevent/historicalclosure, sourceactualeventvsoriginalsupport/currentdimensions, sameglobalRawMutationRef, headlast/completeparentcounts, no recursiveHoldView expansion/cachedactivefilter. IndependentactualFULLphysicalDOCUMENTreviewACTIVE on972+f905, noverdict; no API/stub/fixture/test/red/implementation phaseadvance. EarlierdraftF89396 superseded—notnewclaim."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -5350,14 +5351,17 @@
         "platform_release": "not_run",
         "contract_authoring": "passed",
         "contract_review": "passed",
-        "physical_contract": "not_run"
+        "physical_contract": "not_run",
+        "physical_authoring": "passed"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
         "docs/decisions/0003-application-service-prerequisites.md",
         "docs/contracts/sqlite-application-holds-v1.md",
         "docs/evidence/storagetest-016-contract-author.md",
-        "docs/evidence/storagetest-016-contract-review.md"
+        "docs/evidence/storagetest-016-contract-review.md",
+        "docs/contracts/sqlite-application-holds-schema-v1.md",
+        "docs/evidence/storagetest-016-physical-author.md"
       ],
       "review": {
         "author": "/root/bundle_validation (concrete document)",
