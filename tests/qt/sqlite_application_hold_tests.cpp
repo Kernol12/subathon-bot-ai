@@ -572,7 +572,7 @@ class SqliteApplicationHoldTests final : public QObject {
                 same(store.find("hOld"), std::optional{d.view("hOld")});
                 same(store.find("hNew"), std::optional{d.view("hNew")});
                 require(!store.find("missing"), "Only absent anchor gives absence");
-                same(store.history({"hOld", 0, {}, 64}),
+                same(store.history({"hOld", 1, {}, 64}),
                      ApplicationHoldHistoryResult{HD::ready, d.history_page("old_resolution")});
                 same(store.history({"hPause", 0, {}, 2}),
                      ApplicationHoldHistoryResult{HD::ready, d.history_page("pause_first2")});
@@ -1937,7 +1937,7 @@ class SqliteApplicationHoldTests final : public QObject {
                     same(store.history({"hPause", 0, {}, 2}),
                          ApplicationHoldHistoryResult{HD::ready, d.history_page("pause_first2")});
                 else if (which == 10)
-                    same(store.history({"hOld", 0, {}, 64}),
+                    same(store.history({"hOld", 1, {}, 64}),
                          ApplicationHoldHistoryResult{HD::ready, d.history_page("old_resolution")});
                 else
                     same(store.active(receipt(7)), ApplicationHoldActiveSet{receipt(7), {}});
