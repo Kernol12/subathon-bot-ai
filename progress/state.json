@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T13:11:13Z",
+  "updated_at": "2026-11-03T15:27:21Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5356,7 +5356,9 @@
         "Actual narrow setup correction da588312 integrated45b3de6: CPP0cce9545c3a3851b25df9131e6e35e97366aacee. Preserve BOTH timer identity/count comparisons using qualified real results.effect_count via compound operations/results JOIN; retained context INSERT now explicit(reference,document,configuration_ref)=(other,empty,other). No assertions/counts/expectedcategory/fixtures/helpers/production changes. Author independent OLD-library nativeQt6.12/SQLite3.54 exact extractedSQL diagnostic passes both4-field/two-row snapshots/all3variants and actualvalidothercontext/FK0; newfeaturebodies not rerun. Actual correction source review accepts necessaryschemafix, final note/native diagnostic inspection pending before writtenrevisionapproval. Newcompletecorrectedcandidate ownselectedCI still required before revised observedred;261oldmarkers/validpriorreviews retained.",
         "Actual separate setup-correction approval743b87fe integrated7607f8b independently accepts da588312→root45b3de6 test0cce9545 and final3aa286→roote567141 author1a65cc9e, exact e567 Gitobjects/oldharness/fixtures/source unchanged. Reviewer inspected EXACT nativeQt diagnostic generator/CPP/CMake/build/output and actualsourcequeries/context inserts; confirms legitimate2timerrows/realothercontext/FK0 and no featurecalls. Root corrected3stepcompile0warnings/exact35registered/discovery-only passed; setup-build9e40a80c/functions94056a92/discovery0e3c7891. All assertions/265rows retained. Publish NEW complete corrected candidate, actual ownselectedCI before revised intendedred. Initialfailedattempt and261 reachedmarkers remain documented; baseline failed until revisedvalidexecution, not waived.",
         "Corrected COMPLETEcandidate598a96e89bd836e50e45b45b15a26b4b1e2f34ef OWN selectedSQL41640390883 SUCCESS12:59:45–13:01:46Z/fresh110/ZEROwarnings/GNU13.3/pinnedBoost108300/Qt6.12SQLite3.53.4/required3guard5PASS0skip188ms/exact35compiled/oldstable/all11. Raw42f3066c15a44bd7b5e7833563701697cb6bb903e5a94fa81213a9efedb6d2c1. UsualCIcheckout02ad181fb2d2f99d4beed657026478ec3f7e851b parentsaad+598; GitHubAPI tree148090bdf9968f094e29730181ab8c6fd498d93f equals local598tree, exactreviewedcontent, notliteralbranchcheckout claim.",
-        "ONLYTHEN FIRST VALID REVISED complete native baseline at SAME CLEAN59813:02:29.325–13:02:35.196Z/5.872s/actualctestexit8:canonicalLastTest35summaries/35failingslots/265UNIQUEexactHOLD-MISSINGrows/70initcleanupPASS/0HOLD-ASSERT/setup/skip/blacklist. Trackedraw59a4d6d38f08300cf372b8d461e7f3b6c4059ecae940bda094f4b75edc51da75/Lastb6892801f9b234cf370e48088c692bf785b9abd73580ea603dd4864f5dfdaaa2, recorderhead/pins/clean guards pass. Actualindependentfinalattribution8d3a9bc imported020f67c verifies265distribution/35slots/exactmarkers/CIordering/Gitobjects; NO replay. Initialaf310attempt261markers+4genuinesetupfailures remainsINVALIDandpreserved. Baseline taskDONE only; downstreampoststubassertions NOTexecutedyet; STORAGE016planned/unintegratedPR47 meansdependentproduction waitsnormalmerge. Completionmetadata latestCI/rules/discussions/readiness/normalexactmerge remainfuture, DB01NUM02NUM04partial/allreleasegates retained."
+        "ONLYTHEN FIRST VALID REVISED complete native baseline at SAME CLEAN59813:02:29.325–13:02:35.196Z/5.872s/actualctestexit8:canonicalLastTest35summaries/35failingslots/265UNIQUEexactHOLD-MISSINGrows/70initcleanupPASS/0HOLD-ASSERT/setup/skip/blacklist. Trackedraw59a4d6d38f08300cf372b8d461e7f3b6c4059ecae940bda094f4b75edc51da75/Lastb6892801f9b234cf370e48088c692bf785b9abd73580ea603dd4864f5dfdaaa2, recorderhead/pins/clean guards pass. Actualindependentfinalattribution8d3a9bc imported020f67c verifies265distribution/35slots/exactmarkers/CIordering/Gitobjects; NO replay. Initialaf310attempt261markers+4genuinesetupfailures remainsINVALIDandpreserved. Baseline taskDONE only; downstreampoststubassertions NOTexecutedyet; STORAGE016planned/unintegratedPR47 meansdependentproduction waitsnormalmerge. Completionmetadata latestCI/rules/discussions/readiness/normalexactmerge remainfuture, DB01NUM02NUM04partial/allreleasegates retained.",
+        "NormalPR47 MERGED2026-11-03T13:20:43Z exactfinalb5a782feef83f9d3cca6edcf80259e86800617f4→main017d40f6233e3416b4a785924052a9ab9bbeb83f after all11latestSUCCESS inclSQL41642632696, readyCLEAN/MERGEABLE/currentrules26170263formal0/0threads/rootclean/reviewedcodeblobsunchanged. No bypass/force/delete. Main fastforwardtree1ffff4409a030ac068bfa3076e15c1c8adfae4db equalsb5. ActualpostmainCI separatependingobservation. Baseline integrated; onlynowclaim STORAGE016 in newdedicatedbranch from017d beforeedits.",
+        "Actualpostmerge017d main all10workflows observedcompletedSUCCESS includingSQL41643509589; no missing-feature red replay. Separate STORAGE016 productionauthoring active."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -5389,7 +5391,7 @@
         "github_ci": "passed",
         "ci_harness": "passed",
         "revised_baseline_attribution": "passed",
-        "completion_ci": "not_run"
+        "completion_ci": "passed"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
@@ -5451,13 +5453,71 @@
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-016.md",
       "notes": [
-        "Parent epic: EPIC-009. ADR0003 preserves durable numerical-review requirements through separate concrete contract/test/red and implementation gates; planning only, no API/schema/tests/red/implementation or capability verified. Root controls shared schema/migration order/build/presets/workflow/pins."
+        "Parent epic: EPIC-009. ADR0003 preserves durable numerical-review requirements through separate concrete contract/test/red and implementation gates; planning only, no API/schema/tests/red/implementation or capability verified. Root controls shared schema/migration order/build/presets/workflow/pins.",
+        "Claimed task/STORAGE-016-durable-holds from actual integratedmain017d40f6233e3416b4a785924052a9ab9bbeb83f AFTER normalPR47merge13:20:43Z/all11finalCI. Reviewed baseline CPP0cce9545/author1a65/35slots265scenarios, currentcontracts logical701c710f/physical83e96362/API46c70297/headerfe50; fulladb+41/setup743/final8d3. OwnselectedC2CI41640390883 then SAMECLEAN598 revisedvalidred265exactmarkers/70initcleanupPASS/0setupskip. Originalinvalid261+4 attempt remainsretained; no redreplay. Scope ONLY6caller-session holdfactory/find/active/history/detection/resolution behaviors, exactstep6/full89/oldprefixes, finiteownedvalues/completeidentity+history/sourceclosure/input+resultbounds/count-beforeallocation/realrollbackvsunknown/revocablecapabilities/cumulativeSQL. No applicationorchestrator/authority/permission/producer/mixedpolicy/entitlement/provider/UI orrelease claim.",
+        "Fileownership: sourceauthor newholdruntimeCPP and optional newprivatehold/reader helperheaders, plus authorMD; existingprivatebundle_values.hpp/bundle.cpp may be factored ONLY for same-session strict reference decoding with byte-for-byte old behavior/API/equality/queryscope preserved, report concrete paths early. No publicheader/contract/fixture/test/rootbuild/schema/preset/workflow/progress edits bysourceauthor. Rootowns sharedfiles/CIpromotion afteractualsource35/full264PASS; reviewer and nativevalidator ownseparateevidence ONLY inisolatedbranches/worktrees. Acceptance: all35/265poststubassertions pass, full2640Qt skips/zero-warningbuild, frozenbaseline+oldacceptance/schema exact, actual source/allocation-order/unknown-guard review, independent nativevalidation and ownpromoted ordinary selectedQt new3mandatorygreen+UNCONDITIONAL35/all11latest before normalmerge. Genuine testdefects require written spec reason/separate review/newbaseline evidence, never weakened to pass.",
+        "Runtimeauthor concrete design requests bounded pure-header helper. Explicitly reassign bundle_validation from planned independentvalidator to PUREvaluesauthor; root and separate bundle_reviewer provide independent nativevalidation (neither writes production). NEW values tree/branch fromcurrentmain017d+rootclaim, preservingunusedvalidationtree. Runtimeauthor owns PRIVATE sqlite_application_bundle_access.hpp factoring existing Access/source/state/plan decoders with oldbody/query/accounting preserved, plus holdruntime. Helper owns ONLY PRIVATE server/src/sqlite_application_hold_values.hpp and docs/evidence/storage-016-values-author.md: pureoptions/key/count/shape/Exact/order+inputB/I, storedshape withoutINPUTaggregatecaps, completebytes/items/equality, exactpuremanifest. Shared helpernamespace hold_detail interface coordinateddirectly; reuse actualoldpurebundle-options validator namespace, no fakeadapter/getter or SQL/cleanup in helper. Reviewercannotprospectivelyapprove absentcode, bothauthorscannotselfcertifyindependentreview. No newdeps/publicAPI/test/fixture/rootfile changes.",
+        "Focused draftPR48 openedhttps://github.com/Kernol12/subathon-bot-ai/pull/48 atclaimb2b5934; no productioncandidate integratedyet. All10 postmain017d workflows nowobservedSUCCESS/SQL41643509589. Runtime/pureauthors runninginNEWseparatetrees; independentreviewerstaticreuseprep only/noverdict. Rootreservedvalidationtree mayconfigure/compileexistinglibrariesONLY as environmentprep, no repeatedbaseline/featurebody untilactualimplementationcandidate.",
+        "Actualdifferentreviewerstaticprep d59d197 integrated7728512 records oldstrictselectedreader/context/refaggregate/rollbackseams and messages to bothauthors; PREPONLY/no codeapproval. Rootreservedvalidationtree configuredprofile20 and built ONLY existing subathon_sqlite_application_holds library/olddependencies26stepsZEROwarnings, no feature/newbaseline/body execution. This environmentprep is not newsource acceptance; allimplementation/native-build/acceptance/source-review/ordinaryCI gates stillnot_run pendingactualcandidate.",
+        "Actual runtime0fe+21b95a5 now integrated: runtime8d82aa22, private access7107d0ee, old bundle24759a20; author proves old834336d3 body/queries/accounting byte-exact after factoring; oldvaluesb0ca unchanged. Final pure helper1b8af36/ec78b697 and values evidence286efa8/179f0f06 integrated. Runtime author finalea53fb2/MD1a8fcf89 records35slots268scenarios PASS11.88s/full264PASS19.94s/0warnings/skips. All six production entrypoints implemented provisionally; independent full source/allocation/rollback review active, not approved.",
+        "Genuine history input correction1a32ed8 changes ONLY two cursor0 to1 matching frozen position2-only oracle338B6I; no oracle/assertion changed. Additive three-row regression70c430f accepted by different reviewer1650658; revised test82980fdb/35slots268rows. Actual reached-red on unchanged buggy CLEAN68dc779 at14:20:25.413-.514Z:3processes EACHexit1/2initcleanupPASS1FAIL0skip0missingmarker. Separate actual attributionb83c500 accepted; priority11/9 vs8 and read-onlyGDB proves narrow lineage body returned normally, not mutated bytes. ONLYTHEN root released corrections. Original firstred598/265markers and all frozen JSON/helpers preserved. New raw storage-016-regression-red.txt retained; no baseline replay.",
+        "Root independent actual configure/build29steps0warnings/full264PASS19.73s at14:47Z with finalruntime8d82/helper ec78/test82980;261Qtprocesses1058PASS0FAIL0skip0blacklist. Full log SHA f7ddbe8664e85621799f94eaf60f658e5f62f843e61d58a15d762d8798be50ee. Root concrete shared promotion removes ONLY hold35 draft-red label, updates descriptions/header obsolete comment only, preserves mandatory new3diagnostics/oldsteps/pins and appends UNCONDITIONAL35 to ordinary selectedQt workflow14ff57de. Actual source/config review active; one Captured token-presence phase question explicitly under review; no prospective approval. DraftPR48 still published claim4d8dba8, old all11green does not verify actual productioncandidate. Own promoted selectedCI/latestall11/normalmerge remain required.",
+        "Final ec78 review found Captured first-token presence incorrectly promoted before required audit; API46c explicitly retains this as MATRIX. Root additive one-row testd740a175/35slots269rows independently approved001896f and observed genuine PUBLIC red at SAME CLEANf67ae73 14:54:48.238859-.266877Z exit1/2initcleanupPASS1FAIL0skip, exactcategoryfailure; different pureprobe6vs8. Raw95d80748 preserved. ONLYTHEN released bounded bodytokencheck removal preserving matrixchecks; all original268rows/oracles/fixtures unchanged. Prior264green applies268candidate; final269 acceptance and updatedsourceapproval pending.",
+        "Actual bounded correction18cc890→617ecdd helper13828cc3 removes only premature Captured cause/request-token checks from required-body stage; matrixchecks retained, no other branch/accounting/manifest change. Root final3stepbuildZEROwarnings and actualCTexit0/full264PASS19.97s at14:57Z,35slots269scenarios/261Qtprocesses1059PASS0FAIL0skip0blacklist. Raw6777936f6ca1e833bd4377f5edd6cac70cdcf4547441d532c333239e9a0492df. Final testsd740a175/allfrozenoracles fixed. Fullactual different source/configreview inprogress; ownpromoted official CI nowtoobserve, oldclaimCI notproof. Task remainsin_progress/unmerged untilallgates.",
+        "Own complete final implementation candidate7a3dcfcfe292b77f29ba648809c7eb0a03b46913 selectedSQL41658920776 SUCCESS14:57:58–15:00:42Z: fresh110/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedofficialQt6.12SQLite3.53.4/new3guard5PASS0skip181ms/exact35compiled/UNCONDITIONAL35PASS26.41s/oldstable/all11SUCCESS. Synthetic checkoutcfd682626cf4db12a6673f3f315071b0c8f66d76 parents017d+7a3, APIverifiedtree6ae4af8baa291ddd9f5f9faa67f60f2859418d1a equalscandidate. Rawc9a54d03788ad6e106354597f5f54c47e43bc07a694a956b8635fdf53ebe6cd8. Finalhelper evidence7257a06/MD744d integratede7d2603 sourceunchanged13828. Actualfullseparatesource/configreview stillactive; taskin_review notdone; finalmetadataheadCI/currentrules/discussions/normalmerge stillrequired.",
+        "Actual finalsourceaudit finds retained-reference query seam misses known Work busy/sql/resource/result→Hold mapping; Retention find forwards Work, outerguard forwardsall, unlike old Access.resolve. Correction explicitly HOLD for reviewed additive publicregression/red. Root522faee/test0e172a16 adds ONE270th row inexistingbudgetslot: healthy selectedcfg131072bytes < defaultretained262144, actualwriter resultbytes65536, exactHoldresult_limit/Workresult_limit/whole-unitrollback/release/caught assertions. No old assertion/fixture/sourcechanged. Independent concrete review active, newrow notrun; prior269 native/officialpasses preserved for exactcandidate. Final270/sourcefix/sourceapproval/officialCI/latestmetadata gates remain.",
+        "Actual separate retainedregression reviewce7c61a→707cb3a, ONLY new publicrow red at SAME CLEAN707cb3a 15:12:04.841429-.889799Z/exit1/2initcleanupPASS1FAIL0skip, rawce70bd02. Read-onlyGDB proves writer result_limit/stickyresult_limit/phase_rolled_back and exactretained select_record92→Holdretained657→find(hOverflow) stack, log29d614ad. ONLYTHEN released boundedfixef1ca070→8f5afbb runtime44376762, exactly3insertedlines catchingWork atretained/reusingoldknown4mapper/no cleanup/defaultoriginal. AuthorMDce194761/99343a8c integratedf8c6241 records0warning2steplibcompile. Root final270/full264actualexit0PASS19.94s/261Qt1060PASS0FAIL/skip/blacklist/ZEROwarnings, raw6f9a43da09675092c945c9cffbc1d053babd71c7dffe0c198c93e40dee335e6c. Finaldifferentfullsource/configreview and OWNupdatedofficialCI stillpending; old7a3CIproves269candidate only.",
+        "Corrected COMPLETEfinalcandidate297ca74f60f31e12b571a7a2e6603a9daf059149 runtime44376762/helper13828/test0e172a16 OWNupdated officialSQL41662457471 SUCCESS15:18:10–15:20:45Z: fresh110/ZEROwarnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/new3guard5PASS0skip174ms/exact35/UNCONDITIONAL35PASS26.61s/oldstable/all11SUCCESS. Raw119ebf406015bdab26b1fbd321ceaeb71f8e03497831dd00a272dd8ef6d23f3d; synthetic9bc7b4380352f32632251cf022e6ebf6d9024f51 parents017d+297, APIverifiedtree d23d29d76bf3eea47e16d03f5ed348ded4b2355d equals297. Actual fullsourceauditor reports no remaining confirmed blocker after3linefix; finalwrittenverdict pending completedcurrentCIinspection. Task remainsin_review untilactualapproval, finalcompletionmetadata/latestCI/normalmerge separate.",
+        "Actual different FINAL full source/allocation/config APPROVAL8c8ad3a912971373161541a0f395d5ef5b26824d imported40ccc74, accepts current44376762/13828/0e172 +exactroot5/authorpins and allclosure/preallocation/finitechain/rollback/unknown/oldfactoring/nullablectx/purestaging/accounting/manifest. Different reviewer independently parsed finalnative270/full264, completed corrected OWNofficial41662457471/APIequalcheckout and independentlyqueried ALL11current297SUCCESS. No remainingcodeblocker; STORAGE016 DONE as bounded syntheticSQLcomponent, UNMERGED untilcompletionmetadata latestCI/currentrules/discussions/readiness/normalexactmerge. DB01/NUM02/NUM04 remainpartial; fullrelease scopes unchanged."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null,
-      "status": "planned",
-      "owner": "Unassigned"
+      "verification": {
+        "baseline": "observed_red",
+        "implementation": "passed",
+        "native_build": "passed",
+        "acceptance": "passed",
+        "code_review": "passed",
+        "independent_validation": "passed",
+        "official_qt": "passed",
+        "platform_release": "not_run",
+        "native_environment": "passed",
+        "regression_review": "passed",
+        "regression_baseline": "observed_red",
+        "github_ci": "passed",
+        "completion_ci": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/sqlite-application-holds-v1.md",
+        "docs/contracts/sqlite-application-holds-schema-v1.md",
+        "docs/contracts/sqlite-application-holds-api-v1.md",
+        "docs/evidence/storagetest-016-handoff.md",
+        "docs/evidence/storagetest-016-review.md",
+        "docs/evidence/storagetest-016-setup-correction-review.md",
+        "docs/evidence/storagetest-016-final-review.md",
+        "docs/evidence/storagetest-016-red-ctest.txt",
+        "docs/evidence/storagetest-016-red-last-test.txt",
+        "docs/evidence/storage-016-review-prep.md",
+        "docs/evidence/storage-016-author.md",
+        "docs/evidence/storage-016-values-author.md",
+        "docs/evidence/storage-016-values-review.md",
+        "docs/evidence/storage-016-baseline-revision.md",
+        "docs/evidence/storage-016-baseline-revision-review.md",
+        "docs/evidence/storage-016-regression-red.txt",
+        "docs/evidence/storage-016-validation.md",
+        "docs/evidence/storage-016-token-regression-red.txt",
+        "docs/evidence/storage-016-ci.md",
+        "docs/evidence/storage-016-handoff.md",
+        "docs/evidence/storage-016-retained-regression-red.txt",
+        "docs/evidence/storage-016-code-review.md"
+      ],
+      "review": {
+        "author": "/root/bundle_implementer (runtime); /root/bundle_validation (pure values); /root (revised tests/shared CI)",
+        "reviewer": "/root/bundle_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual full source/config approval8c8ad3a at297ca74 (imported40ccc74) accepts runtime44376762/helper13828/test0e172a16/privateAccess7107/oldbundle2475/oldvaluesb0ca/publicheaderb904/root5configs, finalauthor99343a8c/744d0dd9. Original baseline265 markers598 retained; genuine two history-input corrections and five additive regressions separately reviewed/reached-red before fixes; no fixture/assertion weakening. Root final270/full26419.94s/1060QtPASS0skip/0warnings; actual OWN corrected official41662457471 fresh110/new3green/exact35/UNCONDITIONAL35PASS26.61/all11SUCCESS and APIcheckouttreeequal inspected independently. Component done, finalmetadata/latestCI/rules/discussions/normalmerge remain separate.",
+        "evidence": "docs/evidence/storage-016-code-review.md"
+      },
+      "status": "done",
+      "owner": "coordinator/integrator and independent native validator /root; runtime author /root/bundle_implementer; pure-values author /root/bundle_validation; independent full source reviewer /root/bundle_reviewer"
     },
     {
       "id": "STORAGETEST-017",
@@ -12689,6 +12749,11 @@
       "date": "2026-11-03",
       "task": "STORAGETEST-016",
       "note": "Reviewed durable-hold35-slot/265-scenario baseline reaches independently verified revised intended red after genuine SQL-setup corrections and own selectedQt gate. Initial invalid attempt retained. Baseline done; PR47 final metadata CI/merge and STORAGE016 production remain separate."
+    },
+    {
+      "date": "2026-11-03",
+      "task": "STORAGE-016",
+      "note": "After gated baselinePR47 merge017d, claim separate caller-session durable-hold implementation. Reviewed/red baseline preserved; separate source/review/native-validation branches, root shared-file ownership and ordinary CI promotion required."
     }
   ]
 }

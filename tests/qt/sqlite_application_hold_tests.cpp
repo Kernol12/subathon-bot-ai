@@ -10,6 +10,7 @@
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 #include <thread>
 #include <tuple>
+#include <utility>
 
 using namespace application_hold_fixture;
 using subathon::server::testing::SqliteWriterWorkAccess;
@@ -572,7 +573,7 @@ class SqliteApplicationHoldTests final : public QObject {
                 same(store.find("hOld"), std::optional{d.view("hOld")});
                 same(store.find("hNew"), std::optional{d.view("hNew")});
                 require(!store.find("missing"), "Only absent anchor gives absence");
-                same(store.history({"hOld", 0, {}, 64}),
+                same(store.history({"hOld", 1, {}, 64}),
                      ApplicationHoldHistoryResult{HD::ready, d.history_page("old_resolution")});
                 same(store.history({"hPause", 0, {}, 2}),
                      ApplicationHoldHistoryResult{HD::ready, d.history_page("pause_first2")});
@@ -1265,6 +1266,10 @@ class SqliteApplicationHoldTests final : public QObject {
             "DELETE FROM subathon_app_components WHERE operation_scope=X'74696D6572' AND "
             "operation_ref=X'6F726967696E616C' AND request_ordinal=2",
             6);
+        row("narrow-supersedes-first-producer-mismatch",
+            "UPDATE subathon_hold_causes SET first_detection_ref=X'644661696C' WHERE "
+            "hold_ref=X'684F6C64'",
+            7);
     }
     void selectedCorruptionCannotBecomeAbsenceConflictOrPartialSuccess() {
         QFETCH(QString, sql);
@@ -1278,6 +1283,9 @@ class SqliteApplicationHoldTests final : public QObject {
             require(db.observer->rows("SELECT changes()").front().front().toInt() > 0,
                     "Literal corruption really changed existing selected rows");
             db.modify("PRAGMA ignore_check_constraints=OFF");
+            if (scope == 7)
+                require(db.observer->rows("PRAGMA foreign_key_check").empty(),
+                        "Ancestor witness retains real same-subject detection FK targets");
             known(refusal(
                       db,
                       [&](auto s) {
@@ -1292,6 +1300,8 @@ class SqliteApplicationHoldTests final : public QObject {
                               (void)store.find("hOld");
                           else if (scope == 6)
                               (void)store.find("hTimer");
+                          else if (scope == 7)
+                              (void)store.find("hNew");
                           else
                               (void)store.find("hOverflow");
                       },
@@ -1600,7 +1610,7 @@ class SqliteApplicationHoldTests final : public QObject {
     void pureInputShapeCountsMatrixExactAndOrderingPreserveCallerStaging_data() {
         QTest::addColumn<int>("which");
         QTest::addColumn<int>("error");
-        const std::array<std::pair<const char *, IE>, 34> rows{
+        const std::array<std::pair<const char *, IE>, 37> rows{
             {{"empty-hold-key", IE::invalid_key},
              {"zero-receipt-subject", IE::invalid_subject},
              {"zero-source-receipt", IE::invalid_subject},
@@ -1634,7 +1644,10 @@ class SqliteApplicationHoldTests final : public QObject {
              {"negative-history-cursor", IE::invalid_cursor},
              {"page-count-over-ceiling", IE::collection_limit},
              {"keys-before-counts", IE::invalid_key},
-             {"input-items-before-owned-bytes", IE::collection_limit}}};
+             {"input-items-before-owned-bytes", IE::collection_limit},
+             {"required-audit-before-Exact", IE::invalid_detection},
+             {"replacement-audit-before-set-order", IE::invalid_detection},
+             {"required-audit-before-captured-token-matrix", IE::invalid_detection}}};
         for (int i = 0; i < int(rows.size()); ++i)
             QTest::newRow(rows[size_t(i)].first) << i << int(rows[size_t(i)].second);
     }
@@ -1746,12 +1759,25 @@ class SqliteApplicationHoldTests final : public QObject {
                 l.input_items = 1;
                 l.owned_bytes = 1;
             }
+            if (which == 34) {
+                x.request.audit.document = {};
+                l.references.component_bytes = 2;
+            }
+            if (which == 35) {
+                b = d.resolution("rReplace").request;
+                std::swap(b.expected_active[0], b.expected_active[1]);
+                b.entries[0].replacement->request.audit.document = {};
+            }
+            if (which == 36) {
+                x.request.audit.document = {};
+                x.cause.first_observation.persisted_state_token.reset();
+            }
             committed(read(db, [&](auto s) {
                 marker(s);
                 SqliteApplicationHoldStore store(s, l);
                 input_failure(
                     [&] {
-                        if (which >= 25 && which <= 29)
+                        if ((which >= 25 && which <= 29) || which == 35)
                             (void)store.stage_resolution(b);
                         else if (which == 30)
                             (void)store.history({"hPause", -1, {}, 1});
@@ -1937,7 +1963,7 @@ class SqliteApplicationHoldTests final : public QObject {
                     same(store.history({"hPause", 0, {}, 2}),
                          ApplicationHoldHistoryResult{HD::ready, d.history_page("pause_first2")});
                 else if (which == 10)
-                    same(store.history({"hOld", 0, {}, 64}),
+                    same(store.history({"hOld", 1, {}, 64}),
                          ApplicationHoldHistoryResult{HD::ready, d.history_page("old_resolution")});
                 else
                     same(store.active(receipt(7)), ApplicationHoldActiveSet{receipt(7), {}});
@@ -2169,11 +2195,12 @@ class SqliteApplicationHoldTests final : public QObject {
     }
     void callerAndAllBorrowedPortsShareActualCumulativeWriterBudgets_data() {
         QTest::addColumn<int>("which");
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < 5; ++i)
             QTest::newRow(i == 0   ? "statement-count"
                           : i == 1 ? "binding-bytes"
                           : i == 2 ? "result-rows"
-                                   : "result-bytes")
+                          : i == 3 ? "result-bytes"
+                                   : "retained-reference-result-bytes")
                 << i;
     }
     void callerAndAllBorrowedPortsShareActualCumulativeWriterBudgets() {
@@ -2190,6 +2217,13 @@ class SqliteApplicationHoldTests final : public QObject {
                 l.result_rows = 1;
             if (which == 3)
                 l.result_value_bytes = 264;
+            if (which == 4) {
+                db.modify("UPDATE subathon_retained_configurations SET document=zeroblob(131072) "
+                          "WHERE reference=X'636667'");
+                require(db.observer->rows("SELECT changes()") == SqlRows{{qint64(1)}},
+                        "Selected retained configuration was enlarged");
+                l.result_value_bytes = 65536;
+            }
             db.reopen(l);
             const auto before = db.saved();
             bool caught = false;

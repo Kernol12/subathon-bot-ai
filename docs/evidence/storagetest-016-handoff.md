@@ -2,8 +2,11 @@
 
 Coordinator/integrator /root,2026-11-03,
 `task/STORAGETEST-016-durable-holds`, [PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47).
-Baseline acceptance COMPLETE; final metadata CI and normal merge remain pending.
-STORAGE-016 implementation is PLANNED and must start from integrated main.
+Baseline acceptance COMPLETE. PR47 merged2026-11-03T13:20:43Z, exactfinal
+b5a782fe→main017d40f6233e3416b4a785924052a9ab9bbeb83f, after all11 latest
+checks successful (SQL41642632696), current rules/threads/readiness gates satisfied.
+Root refreshed main; its tree equalsb5. STORAGE-016 is now separately claimed
+from integrated017d, never from an unmerged prerequisite.
 
 The baseline provides reviewed logical/physical/API contracts, unconditional stubs,
 independent frozen native SQL fixtures and35 feature slots/265 scenarios. It proves
@@ -53,8 +56,7 @@ code-style or test gate is relaxed. New cases are enabled draft-red; ordinary CI
 runs mandatory foundation/old acceptance and compiles/discovers the intentional red.
 No WILL_FAIL/disabled/ignored failure. Post-stub assertions await implementation.
 
-Next: finish latest metadata CI/rules/thread/readiness gates and normal exact-head
-merge; refresh main; claim STORAGE-016 in a dedicated branch before editing. Preserve
+Next: STORAGE-016 is claimed in a dedicated branch from integrated017d. Preserve
 source0cce9545/all independent oracles. Implement exact schema/closure/mutation/
 metadata/bounds/rollback/unknown semantics, with separate source/allocation-order
 review and actual passing acceptance/promoted CI. Do not pretend sparseMAX history
