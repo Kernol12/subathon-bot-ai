@@ -119,3 +119,30 @@ artifacts are unchanged, so the existing minimal-interface review remains applic
 Project396/122/render/diff checks pass. No native/feature/codec call or new fixture
 golden ran for this re-review. Separate bounded review and actual fixture/test/
 first-red/implementation gates remain; this approves no unexamined artifact.
+
+## SAH2 negative-time provenance — actual bounded review
+
+**APPROVED — DOCUMENT ONLY**: inspected actual root proposala73d293 and final
+cross-reference correction9437cc7, complete relevant format/protocol sections and
+new reasoning note. Final contract blob
+bbd6cd834b8a959ccff16d63a638e0b77d9c6e4c; note
+`docs/evidence/accttest-004-hold-policy-clarification.md` blob
+d1324f6ff45177d358e464b4007a1e293a2d8f1f. Review used these immutable root objects;
+the reviewer does not author or commit the contract/shared metadata.
+
+Logical service requires a retained explicit negative-time deficit policy. Existing
+SAH1's revision ref identifies provenance but does not promise a durable immutable
+policy document containing the actual selected enum. SAH2 correctly retains the
+full ordered known per-ordinal policy list and explicit known failed balance.
+MIN debt overflow therefore keeps captured selector main, failed balance debt1,
+exact attempted2^63 and actual CarryTimeDebt1; it neither renames the selected
+target nor violates the old hold matrix or infers policy from prose/numbers.
+
+Conditional v2 selection, supported Policy requirement, strict ordinal/enum/group
+validation, identical applicable copies and nonrecursive Failure leaf are coherent.
+Parsed suffix vectors use intermediate budgets; returned opaque hold B/I charges
+bytes without fictional vector items. Empty/unknown policy lists retain honest
+SAH1 meaning. Old wire bytes, public ABI, storage/schema, authority and mixed-policy
+gates remain unchanged. No source/native/new method/marker was invoked. Actual
+independently authored SAH2 fixture/oracles, their review/current-head selected green,
+affected test review and genuine first red remain future gates; none is approved here.
