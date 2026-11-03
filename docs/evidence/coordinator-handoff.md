@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-016 physical document frozen, actual independent review active
+# Coordinator checkpoint — STORAGETEST-016 concrete and physical documents approved, minimal API next
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md). Owner requested full
 autonomous coordination with subagents/focused PRs; no routine approval needed.
@@ -172,3 +172,32 @@ Envelope/State/Subject/Exact/IDs exist, but current-state/current-plan getters a
 not historicalhold validators. Same-session source/knownhistoricalstate/selected
 plan+metadata need explicitprivateSQL/decoder work later, no owningadoption/dummy
 bundle/newpublicgetter or separateconnection. Future minimalAPI author notassignedyet.
+
+## Actual physical approval / next minimal API stage
+
+Actual [physicalDOCUMENTapproval696d7f9](storagetest-016-physical-review.md)
+imported568b3cf accepts **83e96362dd8dd9af0e6ab2ac0fea91269774571c**495lines/
+author082659a9 afteractualab0 fixes. SQLNULLlinkguard, actualcounts before allocation
+and H11kind0oldBesidealias reviewed; everyprefix1–5 byte/hash exact. Final step6
+F89890/SHA9f5b61d41dc644c417808d781cea73144a8d019ad95646373c30751e71596d0a,
+12statements/full89. Earlier89806/e094 and972 are superseded physicaldrafts.
+RawScratchSQLiteDDL/FK/CHECK/DMLdiagnostics are proposal proof only, no actual
+hold API/manifest/source/fixture/nativefeature/firstred supplied.
+
+`/root/bundle_validation` next explicit minimalAPI author in fresh
+`local-evidence/worktrees/storagetest016-api-author`,
+`task/STORAGETEST-016-api-author` fromverifiedcurrentmainaad then ffapprovedroot.
+OwnONLY `docs/contracts/sqlite-application-holds-api-v1.md`,
+`server/include/subathon/server/sqlite_application_holds.hpp`,
+`server/src/sqlite_application_holds.cpp`, `docs/evidence/storagetest-016-api-author.md`.
+Define exact finiteownedtypes/normalresultshapes/equality/errorpriority/bounds/
+input-outputlogicalbytes in DOC/header; sourceEVERYnewentrypoint inclcatalogfactory
+IMMEDIATEUNCONDITIONALunique named missing-feature throw, constructor/copy inert.
+No new validation/query/SQL/realDDL/catalog/persistence/evaluation implementation.
+Rootownsnewconditionaltarget/flag/preset20/CIminimalold228probes, actualdifferent
+API/configreview and OWNAPI-source selectedofficialstablegreen before fixtures.
+Physicalauthor COMPLETEcleanab0, readyfuturefixtures onlyafterexplicitassignment;
+reviewerphysicalCOMPLETE696, nextread-onlyAPIprep untilactualcandidate.
+STORAGE016production remainsPLANNED; baseline16NOTDONE; allfuturefixtures/tests/
+actualFULLreview/compiledexactdiscovery/ownselectedgreen/FIRSTgenuineholdstubred
+remain required. No owner question/access needed.
