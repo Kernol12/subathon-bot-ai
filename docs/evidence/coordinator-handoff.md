@@ -88,8 +88,12 @@ Actual full reviewer identified an additional explicit phase conflict in ec78:
 Captured first-token presence is a MATRIX requirement (API46c198–200/35b1092),
 but body_cause checks it BEFORE required attempt audit. Root now adds ONE focused
 public-method regression, `required-audit-before-captured-token-matrix` (35slots,
-268→269rows). Independent review then reached-red on unchanged ec78 required BEFORE
-any source correction; current268green retained, no old baseline replay.
+268→269rows). Actual different review001896f integratedf67ae73 approved testd740/note3d6ac.
+Root actual public red at SAME CLEANf67ae73 on unchanged ec78,14:54:48.238859–.266877Z:
+exit1/2initcleanupPASS1FAIL0skip/category assertion, pureprobe6vs8.
+[Raw](storage-016-token-regression-red.txt) SHA95d80748 retained. ONLYTHEN released
+bounded bodytokencheck removal to pure author; matrix checks stay. Current268green
+retained, no old baseline replay.
 
 ## Roles, preserved work and next action
 
@@ -98,10 +102,10 @@ any source correction; current268green retained, no old baseline replay.
 - `/root/bundle_implementer` runtime author COMPLETE, clean
   `local-evidence/worktrees/storage016-source`, `task/STORAGE-016-source`, ea53fb2.
   Own runtimeCPP/privateAccess/factoredoldbundle/authorMD only.
-- `/root/bundle_validation` pure author COMPLETE, clean
+- `/root/bundle_validation` pure author REASSIGNED bounded token-phase correction,
   `local-evidence/worktrees/storage016-values`, `task/STORAGE-016-values`,286efa8.
-  Own only hold_values.hpp/values-authorMD. Explicitly HOLD next correction for
-  reviewed actual focused red; do not treat it as independent validation role.
+  Own only hold_values.hpp/values-authorMD. Actual reviewed focused public red reached and correction explicitly RELEASED;
+  do not treat it as an independent validation role.
 - `/root/bundle_reviewer` actual FULL source/config review ACTIVE,
   `local-evidence/worktrees/storage016-review`, `task/STORAGE-016-review`.
   Own only review evidence; no source/config/rootmetadata edits.
@@ -114,12 +118,11 @@ verification trees/storage002-review/storagetest017-review/storage017-review/
 storage017-validation/baseline016-review/APIauthor copies remain untouched.
 Inspect actual processes/agents/branches on resume; never reset/prune/discard.
 No native command still running after completed root264; source reviewer resumed
-with followup_task, both authors complete. User debugger state untouched; actual
+with followup_task, runtime author read-only next-slice preparation; pure author correcting token phase. User debugger state untouched; actual
 read-only batch GDB used because IDE had no applicable Qt-test run configuration.
 
-Next: independent review of focused row → actual narrow red ec78 → release ONLY
-bounded token-phase correction → actual separate final source/config review and
-root affected checks. Publish complete implementation candidate to draftPR48 and
+Next: integrate released bounded token-phase correction → actual separate final
+source/config review and root269/full264 checks. Publish complete implementation candidate to draftPR48 and
 observe own promoted selectedQt (mandatory3fixture green +UNCONDITIONAL35), all11
 latest, current rules/discussions/readiness, normal exact-head merge. Mark done only
 when applicable acceptance/review/CI gates pass, record publication separately.

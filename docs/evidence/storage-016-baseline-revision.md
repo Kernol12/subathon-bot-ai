@@ -134,3 +134,17 @@ No old row/oracle/assertion or fixture changes;35 slots/268→269 scenarios.
 Independent review and an actual reached-red on unchanged ec78 are required
 before releasing this next helper correction. Full264 green on the previous
 268-row candidate remains valid evidence for that candidate, not this new row.
+
+Actual separate approval001896f85ad5b0211075a38b1ae0b96a1b292991, integrated
+f67ae73, pins revised testd740a175 and this note3d6ac2f4. Root three-step native
+rebuild completed without warnings. At SAME CLEAN f67ae7393d105a696ae835649162a3110d8a1568,
+unmodified helper ec78/testd740, actual public row14:54:48.238859–.266877Z:
+exit1,2init/cleanupPASS/1FAIL/0skip/blacklist,0missing markers. Failure is the exact
+input-category assertion; reviewer's independent pure probe observes6 instead of8.
+[Exact public output](storage-016-token-regression-red.txt), SHA256
+95d80748d94dddbe89c3ca389791910b403cf5705cb7a29c0717f6e8ac584dc4.
+Root then explicitly released ONLY moving captured token-presence checks out of
+body_cause/body_detection, retaining matrix checks. Other optional-group rules
+remain unchanged. This new genuine red precedes source correction; no baseline
+replay or weakened assertion. Final source/config review and269-row green remain
+future gates.
