@@ -51,3 +51,29 @@ active(MAX) auditing every anchor is not a substitute for narrow find closure.
 Root will add focused independently reviewed public-method cases, observe their
 actual failure on unchanged buggy implementation, then explicitly release only
 the affected source fixes. This note does not approve or claim any future result.
+
+## Actual additive regression candidate
+
+Exactly THREE rows are added to existing slots (35 compiled slots remain; total
+scenarios265→268). No old row/assertion, independent oracle or fixture is removed.
+
+- `required-audit-before-Exact`: valid dOverflow keys/counts, null attempt audit,
+  component_bytes2 makes its existing numeric failure Exact oversized. Expected
+  invalid_detection is the earlier REQUIRED-envelope stage, before Exact bounds.
+- `replacement-audit-before-set-order`: valid frozen rReplace keys/counts, reversed
+  expected-active set and null replacement DetectionData audit. Expected
+  invalid_detection comes before local set ordering; no unrelated same-stage
+  tie-break is invented. Both preserve caller staging through the existing helper.
+- `narrow-supersedes-first-producer-mismatch`: change ONLY hOld.first_detection_ref
+  to existing same-CIDMAX kind0 dFail (actually belongs to hFail), retaining real
+  FK targets. Explicit FK0 and changed-row assertions establish setup. Narrow
+  find(hNew), not active(MAX), must detect the referenced ancestor's mismatch with
+  its real first produced version/dOld and return invalid_stored_data after actual
+  whole-unit rollback. No sibling full-view or unrelated-document audit is required.
+
+Actual reviewer direct-native a18 diagnostic already observed incorrect errors11
+(exact_component_limit) and9 (invalid_resolution), versus required8
+(invalid_detection). That scratch result is implementation evidence, not execution
+of these newly authored public-method regressions. Actual review of this revision
+and reached-red on unchanged buggy implementation are still pending. Both affected
+production authors are explicitly HOLDING corrections until that gate is recorded.
