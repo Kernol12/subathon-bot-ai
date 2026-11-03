@@ -11,7 +11,7 @@ merge at2026-11-03T06:23:15Z from exactfinaldd5e6f1. All11 latestchecksSUCCESS
 including SQL41589293437/ready/CLEAN/MERGEABLE/zero unresolvedthreads/effective
 26170263 requiredGHapprovals0/cleanroot/approveddoc6dunchanged/no productiondiff
 verified before normal exacthead merge. No bypass/force/deletion. Postmain21c
-workflows not yet observed; do not invent results.
+workflows now observedall10SUCCESS, including SQL41589556714.
 
 - [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), STORAGE002, merged
   exact34ed→8c7 at05:49:50Z. 35/full209 root+differentreviewerPASS0warnings/Qt skips,
@@ -91,3 +91,48 @@ local-evidence/acctcontract001-final-merge-gate.json; actual43 gate separately k
 Next: concrete017doccandidate +different actualreview, thenminimalAPI/namedstub/
 rootminimalharness/APIreview before independentfixture/test work. All scoped
 instructions/gates apply. Preserve fullrelease scope and valid oldreview/red data.
+
+[Draft PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45) publishes initial
+claim7b725d8. AuthorconcreteDOCactive, reviewprepcomplete/no verdict. No newreader
+artifact/API/stub/build/fixture/test/red yet. Disposition tag must count its actual
+1 logicalownedbyte in matchedresult; exactfixedselector budget roles are being
+concretized, not inferred. Existing35/209 onlystablecomponentproof.
+
+## Actual concreteDOCcandidate awaiting verdict
+
+Authordcae000→root0993bcc plus narrowreviewfixd775713→078059f now committed:
+newdocs/contracts/sqlite-original-claims-v1.md292+lines andownauthorMD only.
+14OCexamples, minimalhealthyORIGINAL A/B chaineda→b→c withReceipt/CID0/MAX and
+actualplanrevision1; independentbodyA161/match162 andoldvector20 audit.
+Explicitfixedscalarselector no aggregateinputquota follows oldread-onlypattern;
+returnedtag adds1byte,0items. Selectedstructuralvalidation is notsemantic/global
+certification; futureMAXfixture mustpin allocator exhaustion/catalog coherence.
+ActualdifferentfinalDOCreviewactive/no verdictyet; NO newAPI/stub/code/build/
+fixture/test/red hasbeenauthored. Rootstatic396/122/diffPASS. NextDOCapproval
+before explicitminimalAPIphase. Existingoldreview/red remainsvalid.
+
+
+## Actual DOC gate complete; minimal API phase active
+
+ActualdifferentDOCapproval39a50970 importedbb27a06 accepts contractbad19c47/
+author02394078, independently161/162/20/MAX, no native/SQL/API/feature proof.
+ONLY THEN author explicitly assigned minimaladditiveheader3types/constmethod/
+unique immediate namedstub+ownAPIMD; no validation/query/stored matching behavior.
+Root prepared minimalnewflag/preset19 sqlite-original-claim-debug andworkflow
+profiletoken substitution ONLY, preserving oldsteps/pins/guard counts/checkname.
+CMake listpresets/static396/122/diffPASS. No newreader invocation/test/red; future
+API/configactualreview +ownsourceCI before independentfixtures/tests. Current
+preparedconfigchangesuncommitted; APIauthoractive/newreviewerprep, not approvedyet.
+
+
+## Actual minimal API candidate compiled; invocation still forbidden
+
+SourceAPIbd3 importedd29033d: headercf721/source130 contain only3newDTOs/enum,
+unique SqliteOriginalClaimNotImplemented and4lineunconditionalnewentrypointthrow.
+Removingnewblocks restores old8e24/a905 EXACT. Oldconstructor/7methods/209 tests/
+fixtures/schema/pins unchanged. Rootactualminimalconfig4a404/323e/4015 selects
+profile19/newflag→oldbundle, workflowprofiletokens ONLY. Fresh92stepbuildPASS/
+ZEROwarnings andexact209OLDregistration. No newtest/fixture/readerbody/red.
+Root now freezingconfig+metadata, then old209 run and publish OWN API-sourceCI.
+DifferentactualAPI/configreviewactive; no verdictyet. Futurefixtureauthor notyet
+assigned, must waitAPIreview/ownselectedCI; STORAGETEST017 notdone.

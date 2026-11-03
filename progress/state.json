@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T06:31:35.339083+00:00",
+  "updated_at": "2026-11-03T06:58:35.928140+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5391,10 +5391,23 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
       "notes": [
         "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged.",
-        "Claimed task/STORAGETEST-017-early-claims from fetched actualmain21c AFTER normalPR44merge, before anynewreaderartifact. Freshauthor/review worktrees from21c: storagetest017-contract-author/task-STORAGETEST017-contract-author andstoragetest017-review/task-STORAGETEST017-review. FIRSTstage ONLY concretequerycontract+ownauthorMD, differentactualreview beforeminimaladditivetypes/constentrypoint/immediatenamedstub; rootownsbuild/presets/workflow and actualAPI/configreviewbeforeindependentfixtures/tests. Proposed smallestquery ORIGINAL subject/source selector(knownrole,positiveReceiptId,optionalCIDincl0) returns optionaltypedmatch{subject/source,ownedfullrecord}; subjectfirstGLOBALdatabase thenkind0receipt source, no scopefilter/currentstate/plan/OperationKey/dummystage/commandcodec inference. Options→sourcepurepreflight, absent no global/candidatesourceaudit, selectedfullclosure/actualknownrollback/originalWorkFailureunknown/currentbudgets/transaction-visible owneddata. Existingstageequality and allold35/209/schema/fixtures remain. ConcreteAPI/fixtureoracles notfinalized by thisclaim or read-onlyprep. Afterreview/compiler/exactdiscovery/requiredoldprimitivegreen/ownselectedofficialCI, FIRSTnewnamedstubred; no oldbaseline rerun/aggregateproof. STORAGE017production waits completeownbaseline. 016durableholds remainsrequiredplanned separatetask, notsilentlyreduced."
+        "Claimed task/STORAGETEST-017-early-claims from fetched actualmain21c AFTER normalPR44merge, before anynewreaderartifact. Freshauthor/review worktrees from21c: storagetest017-contract-author/task-STORAGETEST017-contract-author andstoragetest017-review/task-STORAGETEST017-review. FIRSTstage ONLY concretequerycontract+ownauthorMD, differentactualreview beforeminimaladditivetypes/constentrypoint/immediatenamedstub; rootownsbuild/presets/workflow and actualAPI/configreviewbeforeindependentfixtures/tests. Proposed smallestquery ORIGINAL subject/source selector(knownrole,positiveReceiptId,optionalCIDincl0) returns optionaltypedmatch{subject/source,ownedfullrecord}; subjectfirstGLOBALdatabase thenkind0receipt source, no scopefilter/currentstate/plan/OperationKey/dummystage/commandcodec inference. Options→sourcepurepreflight, absent no global/candidatesourceaudit, selectedfullclosure/actualknownrollback/originalWorkFailureunknown/currentbudgets/transaction-visible owneddata. Existingstageequality and allold35/209/schema/fixtures remain. ConcreteAPI/fixtureoracles notfinalized by thisclaim or read-onlyprep. Afterreview/compiler/exactdiscovery/requiredoldprimitivegreen/ownselectedofficialCI, FIRSTnewnamedstubred; no oldbaseline rerun/aggregateproof. STORAGE017production waits completeownbaseline. 016durableholds remainsrequiredplanned separatetask, notsilentlyreduced.",
+        "ActualdifferentconcreteDOCapproval39a50970→bb27 acceptsbad19/author0239 beforeAPIphase. Actual minimalAPIbd3→d290 headercf721/source130=new3types+constmethod+uniqueimmediatenamedthrow only; removingnewblocksrestores8e24/a905. RootminimalconfigCMake4a404/preset323e/WF4015 onlynewflag/preset19/profiletoken substitution, no newbody/pins/guard changes. Actual configure/fresh92stepbuildPASS0warnings/exact209OLDregistrations; no newreader/test/fixture/red invoked. Freezeconfigbeforeold209run; actualdifferentAPIreview andOWNSOURCEselectedCI pendingbeforeindependentfixtures/tests. Wholebaseline remainsINPROGRESS, STORAGE017PLANNED."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "concrete_contract": "passed",
+        "native_build": "passed",
+        "api_review": "not_run",
+        "feature_tests": "not_run",
+        "observed_red": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/sqlite-original-claims-v1.md",
+        "docs/evidence/storagetest-017-contract-author.md",
+        "docs/evidence/storagetest-017-contract-review.md",
+        "docs/evidence/storagetest-017-api-author.md",
+        "docs/evidence/storagetest-017-ci.md"
+      ],
       "review": null
     },
     {

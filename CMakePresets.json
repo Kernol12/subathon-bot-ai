@@ -161,6 +161,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_BUNDLE_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-original-claim-debug",
+      "displayName": "19 \u00b7 Typed original-claim SQLite baseline",
+      "inherits": "sqlite-bundle-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -235,6 +243,10 @@
     {
       "name": "sqlite-bundle-debug",
       "configurePreset": "sqlite-bundle-debug"
+    },
+    {
+      "name": "sqlite-original-claim-debug",
+      "configurePreset": "sqlite-original-claim-debug"
     }
   ],
   "testPresets": [
@@ -411,6 +423,16 @@
     {
       "name": "sqlite-bundle-debug",
       "configurePreset": "sqlite-bundle-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-original-claim-debug",
+      "configurePreset": "sqlite-original-claim-debug",
       "output": {
         "outputOnFailure": true
       },
