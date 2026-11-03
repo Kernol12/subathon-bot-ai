@@ -230,3 +230,22 @@ featuretests innewtree, separateactualfullreview, completecandidateownselected
 foundationgreen, then FIRSTsameclean namedservice red. Reviewer COMPLETE15f
 (6dirtyverificationconfigs preserved), fixtureauthor COMPLETE05f/clean, source
 author COMPLETEaba/clean. Rootnativeprocessdone; CIidentity/status toinspect next.
+
+## Actual own fixture CI PASS; feature test authoring released
+
+Completeapprovedfixturehead8dfcf5563013f1b06108de68bed4b0766e62aa24 OWNselected
+SQL41685005509 SUCCESS17:31:06–17:33:56Z/fresh1220warn/GNU13.3/Boost108300/
+Qt6.12SQLite3.53.4/oldstable/exact6compiledguard/37QtPASS0skip1785ms1.80s/
+all11SUCCESS. Rawd46a7df4, APIverifiedsynthetic930cfce8/equalcandidate ae9e17a4
+recorded in [fixture CI](accttest-004-fixture-ci.md). No newservice/codec/view/
+stub/marker ran. PriorAPI/DOC CI was not substituted.
+ONLY NOW root assigns independentfeaturetestauthoring: NEW task/ACCTTEST-004-feature-tests
+atlocal-evidence/worktrees/accttest004-feature-tests, bundle_implementer owns ONLY
+tests/qt/application_service_tests.cpp and docs/evidence/accttest-004-test-author.md.
+Root owns featuretarget/Qtregistration/workflow/state/schema. Frozenfixture0ae/069/
+5a36/7d4, contract862/78f, header03a/sourceebbe remainexact. Authorcompile/discovery
+ONLY: NO newtest/body/init/marker invocation beforeACTUALfullsource/oraclereview
+plus completeapprovedfeatureheadOWNselectedfoundationgreen; root then FIRSTsame
+CLEAN intendednamedred with per-invocation counts/LastTest (not verbose doubled
+stdout). Expectedvalues fromspec/frozenindependentoracles, never implementation.
+SourceACCT004 stillPLANNED. Newtree/explicitfollowup assignments follow.

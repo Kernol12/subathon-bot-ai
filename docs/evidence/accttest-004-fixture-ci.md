@@ -63,3 +63,27 @@ before feature-test authoring. That run is still pending at this checkpoint.
 No service acceptance, first named red, implementation or release capability is
 claimed. Future test author/review/complete-head selected guard/FIRST same-clean
 red and ACCT004 production remain separate required gates.
+
+## Actual own complete-fixture selected gate PASS
+
+Complete approved fixture candidate **8dfcf5563013f1b06108de68bed4b0766e62aa24**
+passed OWN [selected41685005509](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41685005509)
+17:31:06–17:33:56Z: fresh122/ZEROwarnings/GNU13.3/compiler-selected pinned
+Boost108300/verified officialQt6.12/SQLite3.53.4. All old stable suites and required
+hold fixtures/35acceptance pass; exact SIX compiled independent service fixture
+slots guarded, then **37QtPASS/0FAIL/0skip/blacklist1785ms**, CTest1.80s. All11
+same-head PR checks completedSUCCESS. No new service/codec/view/stub/marker ran.
+
+Downloaded local-evidence/accttest004-fixture-official-ci.txt SHA256
+d46a7df4f8a6ec9c61f84ca217a73ba714f1692b9fb6f0d0334e7985df0896c2. Actual
+syntheticcheckout930cfce8ae5d67178a5286f49afd5d8db9394e99 parents efe+8dfcf55,
+APIverified tree ae9e17a401845b68574f1d5fde20c560ffdd85ac equals localcandidate.
+Exact run/checkout records are accttest004-fixture-ci-run.json and
+accttest004-fixture-ci-checkout.json under ignored local-evidence. Prior API or
+DOC-only CI was not substituted for this actual complete fixture proof.
+
+Only NOW may root assign feature-test authoring. Actual full independent test
+review, compiled registration/complete-featurehead ownselectedfixturegreen and
+FIRSTsameclean named missing-service red remain UNPERFORMED. ACCT004 production
+remains planned. Any genuine baseline defect needs written spec reason/separate
+actual review; never weaken assertions, invent provider data or hide failures.
