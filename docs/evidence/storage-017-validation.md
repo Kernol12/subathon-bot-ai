@@ -13,6 +13,14 @@ root-owned promotion/configuration files for validation. No test, fixture, schem
 public API or domain value was edited. The local verification copies remain
 uncommitted deliberately; this branch commits ONLY this evidence note.
 
+After these actual checks, the coordinator published complete candidate
+`680209e67a8c4931eb5c703be3a16d7449a8dccd` on draft PR46. Independent git-object
+comparison confirms its runtime/header/all five configuration/test artifacts
+match the exact validated blobs below; no native rerun is warranted for that
+publication alone. Author evidence492add53 (a9d184d/root7de22a6) was read separately
+and remains the author's evidence, not this validator's commands. This note claims
+no future selected official-CI result or approval for a later changed revision.
+
 ## Exact validated artifacts
 
 | Artifact | Git blob |
