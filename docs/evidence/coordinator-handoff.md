@@ -255,3 +255,12 @@ review pending BEFORE independentadditive min_policy_overflow case/freshhMin-dMi
 fullold-onlyclosure/fixture review/OWNselectedgate andaffectedtestrelease. Preserve
 EVERYoldcaseobject/oracle; noimplementedbehavior or firstred exists. This gate adds
 requiredprovenance, no scopewaiver. No ownerdecision/access needed.
+
+
+SAH2 proposal NOW independently DOCUMENT-approved bb20d653→root9efb586;
+finalcontractbbd6cd834b8a959ccff16d63a638e0b77d9c6e4c/note d1324f6f. ONLYNOW
+release independentONEadditiveMIN fixture, preservingalloldcaseobjects/oracles.
+Actual35 CPP476→117829e compiled/discoveredexact35/ZEROwarnings locally, no bodies.
+Actualadditiveprecedence c25cd73→0921762 CPP06bc2a040301447e5ddf8f6afcd29af431da71cc
+has35/218 static scenarios (twoextra real selected-auditcorruption/accessrows,
+oneactiveholdbeforemissingPlanKey), allpriorrows preserved; actualreview/notefollow.
