@@ -197,3 +197,24 @@ candidate to draftPR49. NO header/stub/fixture/test/codec/service/native call.
 Only after ACTUAL written document approvals integrate may root assign minimal
 API/immediate unique stubs/buildharness, then separate actual API review/ownselected
 environment before independent fixtures/tests/review/FIRST service markerred.
+
+## Actual document gates COMPLETE; minimal interface phase released
+
+Full DOCUMENT approvalb098c7ef imported99d3ef6 (MD615b64db) and separate bounded
+codec/accounting/arithmetic approval7b501fd3 imported950db76 (MDc9133b0e) BOTH
+accept exact8fa0c76/608acc1. Originalchangesrequests and actualfixes retained;
+CS17 and CS18 independently checked. No future code/fixture/test is approved.
+Root state now explicitly releases MINIMAL API/header/stub stage only: same sole
+author owns NEWserver/include/subathon/server/application_service.hpp,
+server/src/application_service.cpp, NEWdocs/evidence/accttest-004-header-author.md.
+Freeze approvedcontract/authornote, no amendments without explicit actualreview.
+Complete owned types/trivial erroraccessors/virtualports/inertconstructors and
+IMMEDIATE stable named NotImplemented stubs for ALL codec/service/view methods.
+NO behavioral helper, validator, byteaccounting, encoder/decoder, policy evaluation,
+queue/transaction/SQL/commit/publication implementation before OWN reviewed tests/red.
+Rootalone owns sharedCMake/coretargetconditions/presets/workflows/state/schema.
+Next create actual interfaces → separate actual header/stub/buildreview → own
+selectedenvironment/oldregressions → independentrealSQLfixtures/tests/fullreview/
+FIRSTsamecleanservice markerred. ACCT004 production PLANNED. No stubs called yet.
+Actual agent reassignment follows with followup_task; completed agents stay idle
+until explicitly resumed. MinimalAPI source does not exist at this checkpoint.
