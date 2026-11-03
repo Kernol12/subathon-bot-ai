@@ -36,7 +36,8 @@ exactfinal5fa01364fa2636c6b68de4281816057c5030604f→main
 **efe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089**. All11 latestSUCCESS inclSQL41664119920,
 readyCLEAN/MERGEABLE/currentrules26170263formal0/threads0/rootclean/14reviewedblobs
 unchanged, no bypass/force/delete. Refreshedmain tree45216582d5b715ae63b220d5df1aca2c17f417b4
-equals5fa. PostmainCI separatelypending; inspect actual runs, do not assume success.
+equals5fa. Postmain efe ALL10workflows actually observedcompletedSUCCESS, includingSQL41664725048;
+ignored record local-evidence/storage016-post-main-runs.json.
 [Hold handoff](storage-016-handoff.md), [approval8c8ad3a](storage-016-code-review.md),
 [final270 validation](storage-016-validation.md), [CI](storage-016-ci.md),
 [genuine test revisions/red](storage-016-baseline-revision.md). Original265markerred598
@@ -66,8 +67,9 @@ service acceptance/red. No concrete serviceAPI/codec/tests/stub/red exists yet.
   `task/ACCTTEST-004-service-api-review`,
   `local-evidence/worktrees/accttest004-service-api-review` fromefe+claim.
   Own ONLY actual API/codec reviewMD; await authoredrevision, no prospective verdict.
-- `/root/bundle_validation`: COMPLETE holdpureauthor7257a06; available for later
-  independent fixtures/tests after concrete/API gates. Not active servicewriter.
+- `/root/bundle_validation`: COMPLETE holdpureauthor7257a06; now explicitly resumed
+  for bounded READONLY writer completion/faultseam investigation, no edits/branch/
+  tests/reviewclaim. Available for later independent fixtures after concrete/API gates.
 - Root owns sharedstate/HTML/maps/schemaorder/rootbuild/presets/workflows/integration;
   no otherwriter changes those. Later API/fixtures/test ownership assigned explicitly.
 
@@ -85,17 +87,20 @@ Read-only nextprep `local-evidence/accttest004-next-prep.md` retained; no testsf
 
 ## Next concrete action and continuity
 
-Create actual newtrees fromcurrentefe+rootclaim, then explicitly resume agents with
-followup_task (completed agents do not run from send_message). Read actual processes/
-roles on resume. Author concrete document → actual different review → minimal API/
+Actual newtrees already created fromefe+claim5236d88; author+reviewer explicitly
+resumed with followup_task, both currently working. Author using ONLY two assigned
+MDpaths/no extra codecfile. Reviewer read-only prep+actualportseams, awaiting actual
+doc revision for verdict; third agent bounded read-only completion investigation.
+Root shared state/checkpoint publication active; no native process. Read actual
+roles/processes on resume, never assume agents running. Author concrete document → actual different review → minimal API/
 immediate unique stubs/build harness → actual APIreview → independent realSQLfixtures/
 tests/fulltestreview → owncompletecandidate selectedfoundationgreen → FIRSTsameclean
 intendedservice markerred. NO production implementation before its own valid baseline.
 Focused draft taskPR after concrete reviewablework; normal merge only afterallgates.
 
 Old storage/logical branches/worktrees/dirtyverificationcopies/validreviews preserved;
-last120registered104existing16absent before newtrees, do not reset/prune/discard.
-All holdauthors/reviewer complete; no native command running. No live/platformchecks.
+now122registered106existing16absent after two fresh trees, do not reset/prune/discard.
+All holdtasks/reviews complete, SAME agents now explicitly reassigned above; no native command running. No live/platformchecks.
 Current main done is boundedcomponent proof only; all seven integrations/threeFX,
 bothrenderers/locales/themes/platforms/packaging/security/recovery/fullrelease remain
 mandatory/incomplete. Continue actual coordination; a merged PR is a checkpoint.
