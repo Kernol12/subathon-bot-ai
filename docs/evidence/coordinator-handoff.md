@@ -1,8 +1,11 @@
 # Coordinator checkpoint — ACCTTEST-004 feature test authoring
 
-Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Product
-incomplete. No owner decision or access needed. Do not stop at a completed PR or
-repeat completed preparation/red. Inspect actual branches, agents and CI on resume.
+LATEST OWNER INSTRUCTION: finish the open PRs cleanly, then STOP. Actual GitHub
+inspection2026-11-03T18:32Z found ONLY [PR49](https://github.com/Kernol12/subathon-bot-ai/pull/49)
+open. Finish its remaining baseline/review/CI/normal merge gates, then stop all
+coordination; DO NOT select or start ACCT-004 or another task. This supersedes the
+standing loop's post-merge continuation instruction. Product remains incomplete.
+No owner decision or access is needed. Preserve all unfinished work and reviews.
 
 ## Actual integrated main
 
@@ -294,3 +297,35 @@ SAH2metadata commitslocaluntilnextfocusedpublish. PR49descriptionupdatedactualph
 FreshnewMINtree makes127registered111existing16absent; alloldmissing/dirtycopies
 preserved. Nativesessions32098/60175 completed, no runningnativecommand. Checkactual
 agents/worktrees/CI onresume ratherthanassumethisstillcurrent. Noowneraccessneeded.
+
+
+## Owner stop boundary and actual MIN fixture checkpoint
+
+User explicitly requested 'Cleanly finish the open PRs and then stop'. Root/agents
+acknowledged; ONLY PR49 open at18:32Z, no newproduction/task afteritsnormal merge.
+Actual newMIN source d585→6ac2e92 JSON6598ad48b12c4d4871a114be404e884cb7deffb1/
+env26ed3153d0fe31effcc194b118db1bd46eeea811/helperUNCHANGED1909eaac,
+authornote7b800b7→rootimport/blob5cc7bfbae8560c272644c4f7f0fc3c148f2bb2c3.
+Oneadditive min_policy_overflow/hMin-dMin-vMin retains2selectednegativeoccurrences
+MINCarry1 then-1Stop0/full24bytesuffix; capturedmain/debt1/attempt2^63. Allprior33
+caseobjects/everyoldoracle/source/catalog/arrangements exact. SAH2422/EnvB471/
+detection2459I2/view2501I2/response31I1. Rootold-only3step0warn/41PASS0skip993ms/
+CTest1.00s, rawb8fbd7c1111b535f4e4137d459be70e379b969c5ec4e6d098532e159d07e70c6.
+Actualindependentreviewer ACTIVEnewdata audit; no fixtureapproval/ownupdatedselected
+gate/testuse inferred. ONLY afterthosegatesresumecompletedtestauthor foraffected
+newMINnumericcase/fulltargetprojection/note; thenactualfullfinalreview, OWNcomplete
+headselectedgreen, FIRSTsamecleanmarkerred, finalCI/rules/discussions/normalmerge.
+
+Prior35checkpoint3b976da selected41693540591 SUCCESS18:24:39–18:27:49Z/fresh126zero/
+40PASS1457ms/exact35compile-discoveryONLY. Raw84cc9a087c90283611150d1ec59a83370ddd7ce3724f8359c16ee47df76672e6;
+actual404f1ccsynthetic parents efe+3b/tree25e037101030ed30eb0bc2c8fa5f4b432fd67851
+APIverifiedequalcandidate. DoesNOTsubstituteMINcandidateenvironmentgate. Fulltest
+checkpointbb3→440a96f explicitlyPENDING and actual35/218 againstprior33fixtures.
+No newservice/codec/view/test/init/body/marker EVER invoked; ACCT004stillplanned.
+
+
+ActualMINfixture full approvald19c8cf7 importedroot afterCOMPLETEd585+7b800;
+new6598/26ed/UNCHANGED1909/5cc7; independentframe/B-I/full2capture/ALLold33exact,
+own41PASS0skip988ms/3buildzero. No blocker. RootNOWpublishescompleteapprovedMIN
+candidate forOWNupdatedselected41foundation+compiled35green. Affectednumericnewcase
+stillCLOSEDuntilactualownCIgreen. RootandagentsstopafterPR49finish; no nexttask.

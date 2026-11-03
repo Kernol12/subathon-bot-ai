@@ -128,3 +128,40 @@ An initial abbreviated commit API lookup returned404; full observed SHA succeede
 This completes only the updated fixture gate; root may NOW release affected
 policy-hold test authoring. Complete final feature source review/current-head gate
 and FIRST clean named missing-feature red remain required, with production planned.
+
+## Actual additive MIN fixture host gate; selected gate pending
+
+After actual SAH2 DOCUMENT approvalbb20→9efb586, independent author
+bundle_validation supplied source d585e697→6ac2e92 and complete note7b800b7→d27d47f.
+Current JSON6598ad48b12c4d4871a114be404e884cb7deffb1,
+environment26ed3153d0fe31effcc194b118db1bd46eeea811,
+helperUNCHANGED1909eaacfdb9c84fdebe1df394e8f31acf6777d7,
+author5cc7bfbae8560c272644c4f7f0fc3c148f2bb2c3.
+
+ONE additive min_policy_overflow preserves all33 old case objects/every old oracle,
+source/catalog/arrangement. Its two valid negative requests retain MIN/Carry1 and
+unprocessed-1/Stop0, full24-byte suffix and explicit failed debt1 distinct from
+captured target main. SAH2422/Envelope471/four real copies; Detection2459B/I2,
+View2501B/I2, Response31B/I1. Separate actual new fixture review d19c8cf7 APPROVES these complete artifacts;
+its addendum independently records full framing/B-I/source and old33 preservation,
+plus own41PASS/0skip988ms/3buildzero. OWNupdatedselectedCI remains pending.
+
+Root actual `cmake --build --preset application-service-debug --parallel 2` passes
+3steps/zero warnings. `ctest --preset application-service-debug -R
+'^scaffold.application_service_environment$' --verbose` passes41Qt/0FAIL/0SKIP/
+0blacklist993ms, CTest1.00s. Exact six compiled foundation slots remain unchanged;
+the executable still excludes the service archive. New literal-only parser checks
+published grammar/suffix DATA, while existing stores validate both captured
+requests, record/find/outcome/rollback and whole-input no-success-subset truth.
+No new service/view/codec/test/body/marker ran.
+
+Ignored raw accttest004-min-fixture-build.txt SHA256
+0f6a60c63ad78294e72d91071cc8ac4c75c2ac04a2104c86c59f235c6b502191 and
+accttest004-min-fixture-foundation.txt SHA256
+b8fbd7c1111b535f4e4137d459be70e379b969c5ec4e6d098532e159d07e70c6.
+ONLY after actual complete fixture review AND this candidate's OWN selected-green
+may root release affected MIN feature test authoring. Prior35checkpoint3b selected
+41693540591 passed fresh126/zero warnings/40PASS1457ms/exact35 compiled discovery,
+raw84cc9a087c90283611150d1ec59a83370ddd7ce3724f8359c16ee47df76672e6; it does
+not substitute for updated MIN CI or final feature review/red. Owner now requests
+PR49 completion then STOP, with no next production task.
