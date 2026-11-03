@@ -80,3 +80,25 @@ PASS.261Qtprocess summaries sum1059PASS/0FAIL/0skip/0blacklist.
 This supersedes the earlier268-row result for final acceptance. Actual different
 full source/config review and own promoted official CI remain pending; task is
 not done or merged. No extra repeated original stub baseline.
+
+## Final270-row candidate after retained-query seam correction
+
+Separate regression approvalce7c61a and actual PUBLIC red/GDB at CLEAN707cb3a
+preceded runtime fixef1ca070→root8f5afbb. Final runtime Git blob
+44376762d972cd22a23ff0e635827c7c27d42094 adds ONLY3 lines at retained-query
+catch/reuses the old mapper; no extra cleanup, unchanged default Work truth.
+Final test0e172a161b8bb06efe2a35c1bce20b905e4eb541 adds ONE public source-seam row.
+Helper13828, all frozen fixtures/config/public-type/old-bundle pins remain exact.
+
+Root actual build3steps/ZEROwarnings and full264 CTestexit0/PASS19.94s completed
+15:15–15:16Z:35hold slots/270scenarios,261Qtprocesses1060PASS/0FAIL/skip/blacklist.
+Actual commands remain the same build plus verbose CTest preset; no old stub replay.
+
+- Build `local-evidence/storage016-final270-root-build.txt` SHA256
+  fc241a711dc587ee3e20078f5b8b785cccf0470417a632501daf207b781c9286.
+- Full `local-evidence/storage016-final270-root-full264.txt` SHA256
+  6f9a43da09675092c945c9cffbc1d053babd71c7dffe0c198c93e40dee335e6c.
+
+Final independent source/config approval and this270-row source candidate's own
+updated promoted official CI remain pending. Earlier269green stays attributed to
+its earlier exact source, not the corrected source.

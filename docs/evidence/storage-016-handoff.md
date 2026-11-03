@@ -5,8 +5,8 @@ Coordinator/integrator and independent native validator `/root`,2026-11-03,
 Runtime author `/root/bundle_implementer`; pure-value author `/root/bundle_validation`;
 different source reviewer `/root/bundle_reviewer`.
 
-Actual native and official acceptance PASS; final full independent source/config
-review is pending. Task remains in_review, not done or merged. Completion metadata
+Final270 native acceptance PASS; final full independent source/config review
+and corrected source official CI are pending. Task remains in_review, not done or merged. Completion metadata
 and latest CI/current rules/discussions/readiness/normal merge remain separate.
 
 ## Scope and contracts
@@ -26,7 +26,7 @@ DDL statements/full89 objects/F89890/SHA
 all five older prefixes remain exact. No new dependency, public type/signature,
 wire schema or policy interpretation.
 
-Runtime CPP8d82aa2268b39f19b8ed640c03383c99f640d6e3 and final pure helper
+Final runtime CPP44376762d972cd22a23ff0e635827c7c27d42094 and final pure helper
 13828cc3c72548791dc4299b7fd4c813c36b59f3 use strict selected-source closure,
 unfiltered actual counts before vector materialization,64/65 metadata buffers,
 constant-space ancestry and exact returned B/I accounting. Existing bundle reader
@@ -49,14 +49,14 @@ history query cursor0→1 corrections, matching the unchanged frozen position2-o
 1650658 reached actual behavior red on CLEAN68dc779 before corrections. A fourth
 token-phase regression approved001896f reached public red on CLEANf67ae73 before
 the final bounded helper correction. Both raw outputs are retained. No original
-row/assertion/oracle/fixture was removed or relaxed. Final testd740a175 has35slots/
-269scenarios; frozen JSON63de09c5/helper7ca946f2/environmenta17312fe remain unchanged.
+row/assertion/oracle/fixture was removed or relaxed. Final test0e172a16 has35slots/
+270scenarios; frozen JSON63de09c5/helper7ca946f2/environmenta17312fe remain unchanged.
 
 ## Actual checks and CI coverage
 
 [Independent native validation](storage-016-validation.md) pins the exact final
 code/config/test artifacts. Root final3-step build0warnings; actual full264 CTest
-exit0/PASS19.97s, including35hold slots/269scenarios.261Qtprocesses sum1059PASS/
+exit0/PASS19.94s, including35hold slots/270scenarios.261Qtprocesses sum1060PASS/
 0FAIL/0skip/blacklist on Arch/GNU16.2.1/Boost1.92/Qt6.12/SQLite3.54. Author checks
 and frozen accounting/manifest diagnostics are separately documented in
 [runtime author](storage-016-author.md) and [pure author](storage-016-values-author.md).
@@ -82,7 +82,7 @@ follows from hold persistence. DB-01/NUM-02/NUM-04 stay partial. All seven
 integrations and all three exchange-rate providers remain required.
 
 Changed paths: new hold runtime/private values/private shared access, factored old
-bundleCPP, comment-only public header, four additive test rows/two history inputs,
+bundleCPP, comment-only public header, five additive test rows/two history inputs,
 new hold CI promotion/build wording, evidence/progress/HTML. All prior worktrees,
 dirty verification copies and valid reviews remain preserved. No owner action.
 
@@ -97,4 +97,8 @@ above269-row acceptance. New test522faee/0e172a16 adds one270th row, under actua
 independent review before red/source correction. Known writer result failures
 inside the retained primitive must map to Hold result_limit after already-known
 rollback; capability/protocol/unknown errors must remain original writer truth.
-The269-row pass is preserved, but current270 acceptance/sourceapproval is pending.
+Separate reviewce7c61a, actual public red on707cb3a and GDB already-rolled-back
+stack preceded sourcefixef1ca070 (only3 inserted lines, no cleanup). Root current270
+acceptance nowPASS/full26419.94s/1060QtPASS0skip. Different final source approval
+and corrected source own updated official CI are still pending. The prior269-row
+official pass stays attributed to its earlier candidate.
