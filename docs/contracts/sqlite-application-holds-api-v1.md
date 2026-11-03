@@ -186,6 +186,24 @@ cleanup on any pure error, preserving earlier caller staging and preceding actua
 foreign/stale/closed capability errors. This is proposal semantics; no validator
 is implemented in the stub.
 
+For isolated malformed inputs, use these specific category mappings after the
+earlier options/key/subject/count checks:
+
+- A null `DetectionData.audit.document` is `invalid_detection`.
+- Missing required numeric `FailureEvidence` is `invalid_failure`.
+- An illegal PlanEvidence kind/extent/stopped_for branch for a known cause is
+  `invalid_plan_evidence`; a valid branch with an invalid numeric failure stage or
+  failing ordinal is `invalid_failure`.
+- An Observation-specific shape defect, including a null annotation document,
+  is `invalid_observation` in BOTH `first_observation` and `request.observation`.
+  A cause/plan matrix requirement for a known state token remains a plan-evidence
+  requirement, rather than making every absent observation token invalid.
+
+Required format/reference keys still use the earlier `invalid_key` tier. A
+non-null empty document is legitimate DATA. These mappings do not impose a total
+order among unrelated defects within one preflight stage; category examples
+isolate the relevant defect and preserve all previously specified precedence.
+
 After pure checks the exact701/83e selected actual-kind retry→closed/current state→
 active expected/version/token sequence applies. Resolution compares COMPLETE actual
 active set before per-entry existence/closed/expected/token checks. Corrupt full

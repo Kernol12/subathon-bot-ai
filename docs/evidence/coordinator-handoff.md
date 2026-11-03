@@ -1,6 +1,6 @@
-# Coordinator checkpoint — durable-hold fixture review
+# Coordinator checkpoint — durable-hold acceptance-test authoring
 
-Updated 2026-11-03 during STORAGETEST-016. Continue the
+Updated 2026-11-03 during STORAGETEST-016 acceptance-test authoring. Continue the
 [standing coordination loop](../COORDINATOR_PROMPT.md) under AGENTS. Full product
 scope remains incomplete; no owner decision or access is currently needed.
 
@@ -37,8 +37,11 @@ for that merge were observed successful, including SQL41607196319.
 
 Root branch `task/STORAGETEST-016-durable-holds` was created from actual main before
 claim/edit. [Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47)
-last published **a5e5998e9ac923c242c140e378169ce7609cc413**, all eleven checks
-successful, including OWN NEW selected foundation SQL41631527683. Local complete fixture/harness candidate **e31c5d4cda4b22b0b5f72944c14c18881d8deaff**
+latest observed full-CI head **8474e57675d100539d5de4b9133ffc3a2e39ef35** has all
+eleven checks successful. A newer narrow category-clarification follow-up is being
+saved on the same task branch; runtime, fixtures and harness remain unchanged. The prior complete source-specific OWN NEW selected
+foundation SQL41631527683 succeeded at a5e5998; its raw evidence is retained.
+The approved complete fixture/harness candidate **e31c5d4cda4b22b0b5f72944c14c18881d8deaff**
 is approved by separate e624614 (integrated a96367e). Source and harness remain
 unchanged. Concise reviewer follow-upd66f183 is integrated5909926, prose only.
 Own foundation CI succeeded at a5e5998,11:56:14–11:58:04Z/fresh106/zero warnings/
@@ -58,9 +61,12 @@ Completed actual gates:
   11 NULL autoindexes and2 query indexes; full89 objects. Frame89890 bytes,
   SHA2569f5b61d41dc644c417808d781cea73144a8d019ad95646373c30751e71596d0a.
   Every prior prefix1–5 remains exact.
-- Minimal API421acf29/headerfe50fb10/CPP5b10c0e0, author5217ec35;
+- Minimal API originally421acf29/headerfe50fb10/CPP5b10c0e0, author5217ec35;
   actual separate API/config approvalcfe443a8.
   [Review](storagetest-016-api-review.md), [compiler/CI](storagetest-016-api-ci.md).
+  Current API prose46c70297 adds18 classification lines, separately approved
+ 35b1092 (imported9e6e6a8); [precision review](storagetest-016-error-category-review.md).
+  Header/source/fixtures/ABI/bounds are unchanged; no broad same-stage ordering.
   Six functions immediately and unconditionally throw the unique marker; the
   constructor only retains session/limits. No hold method/factory/marker was invoked.
   Root/reviewer old228 pass; fresh102 compilation zero warnings.
@@ -102,7 +108,12 @@ Agent roles on last actual inspection:
   approved e624614 with no correction. All35 independent B/I oracles and raw
   402/64/full89/source/history audits pass; own5 Qt passes/zero skips76ms. Uses existing
   `local-evidence/worktrees/storagetest016-review`,
-  `task/STORAGETEST-016-review`; owns only the new fixture-review evidence.
+  `task/STORAGETEST-016-review`. Bounded error-category review is COMPLETE,
+  actual approval35b1092 at root API46c70297; owns ONLY
+  `docs/evidence/storagetest-016-error-category-review.md`. Root actual API prose
+  candidate46c70297 adds18 lines clarifying isolated null audit/numeric failure/
+  plan branch/nested Observation categories versus old421, preserving earlier keys
+  and no new same-stage total order. Actual insertion APPROVED; no calls.
   Preserve four old root API configuration verification copies; new Qt CMake and
   workflow copies are verification inputs only. Old-primitives native green is
   allowed; new hold entrypoints/factory/marker and feature authoring are forbidden.
@@ -123,23 +134,33 @@ Agent roles on last actual inspection:
 1. Full fixture approval e624614/d66f183 and OWN NEW selected official success
    SQL41631527683 at a5e5998 are complete; do not repeat these gates.
 2. Continue the explicitly assigned acceptance-test author in its fresh isolated
-   tree. No production behavior or frozen fixture modifications.
+   tree. Actual interim: sufficient source-only/timer fixtures found; explicit
+   finite DTO comparator and marker-aware writer capture in progress, then focused
+   data-driven identity/metadata/bounds/reference-corruption assertions. Author
+   flagged category precision; root18-line API clarification is now independently
+   approved35b1092, current prose46c70297. No fixture correction, feature invocation or
+   production behavior modification.
 3. Review full actual test
    source and root harness before invoking any new feature entry. Compiler and
-   exact discovery are not red. Same approved candidate's official environment
+   exact discovery are not red. After feature registration, do NOT run the whole
+   profile or new executable/test bodies before this gate; use compile, -functions
+   and CTest --show-only only. The required foundation uses old primitives only.
+   Same approved candidate's official environment
    must pass before the FIRST intended missing-feature run; preserve its exact
    head, time, marker attribution, raw log and LastTest hash.
 4. Finish only the test-baseline task after those gates. Merge a focused PR only
    with latest CI/current protection/discussions/independent reviews satisfied.
    STORAGE-016 follows on integrated main, then service004 retains its own red.
 
-Last actual inventory before the new feature-author tree:115 registered worktrees,
-99 existing,16 absent. All are preserved;
+Actual inventory after creation of the new feature-author tree:116 registered
+worktrees,100 existing,16 absent. All are preserved;
 no reset, prune, discard or deletion. Older dirty verification trees are
 storage002-review3 configs, storagetest017-review4, storage017-review5 and
 storage017-validation6. Current16 review retains5 config copies; API tree retains4.
 These are preserved verification copies, not unfinished source authorship.
-No prior agent/process is assumed running. Native root full229 has completed;
+No prior agent/process is assumed running. Feature author is active; fixture author
+and reviewer are complete. Native root
+full229 has completed;
 inspect actual processes and agents again on resumption. Use `followup_task` to
 restart a completed agent; `send_message` alone does not trigger a new turn.
 
