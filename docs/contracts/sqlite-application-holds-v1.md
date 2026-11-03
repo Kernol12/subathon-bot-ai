@@ -48,13 +48,16 @@ Use opaque nonempty bounded byte references supplied by the trusted caller:
 - HoldRef identifies ONE immutable cause. No allocator, monetary correlation or
   automatic deduplication of equal-looking causes. Multiple HoldRefs may be active
   for one subject; one current version/head exists PER HOLD, not per subject.
-- DetectionRef identifies ONE immutable detection request, globally within this
-  store's detection namespace. Exact retry returns that same historical detection;
-  altered payload conflicts. It never appends history twice or reactivates a hold.
-- ResolutionRef identifies ONE immutable resolution/replacement batch. Exact retry
-  returns that historical batch, including its recorded version results; changed
-  payload conflicts. It cannot be reused as a detection ref in a different kind
-  to alias the same mutation: mutation-kind is part of one shared identity domain.
+- DetectionRef and ResolutionRef are role names for ONE shared raw-byte mutation
+  key domain, unique across BOTH kinds in this database. The kind is stored DATA,
+  never an extra key namespace. Equal ref bytes with opposite kinds return
+  mutation_conflict BEFORE hold freshness/closed/version checks. First validate
+  the selected existing record under its ACTUAL stored kind; corruption is a
+  storage failure, not a healthy conflict or reinterpretation as the incoming kind.
+- A DetectionRef identifies ONE immutable detection request. Exact retry returns
+  that historical detection; altered payload conflicts. It never appends history
+  twice or reactivates a hold. A ResolutionRef similarly identifies ONE immutable
+  resolution/replacement batch and its recorded historical version results.
 - VersionRef is an opaque CAS token, unique for the lifetime of its HoldRef. Never
   rebind/reuse a version, including after resolution or an identical-data ABA.
   Caller issuance is not authority; collision refuses without retry/generation.
@@ -82,8 +85,8 @@ ReceiptId, ContributionId, ApplicationOperationKey/PlanKey, RequestedUnit and Ex
 | HoldCommand | actual original operation key; versioned complete owned command-intent envelope; no generated effect/success result or authority boolean |
 | HoldObservation | actual persisted application-head token required for CapturedRevision, optional/explicitly unknown for FailedCapture; versioned owned observation/failure annotation; optional ACTUAL policy/permission-revision/actor/decision refs, signed64 observed_utc_ms and nonnegative elapsed_ms only where known; annotated proposed clock values are not authoritative persisted state |
 | ProposedOccurrence | positive ordinal; known action/version/rule/target refs and unit where known; optional bounded canonical Exact attempted_units; optional signed64 finalized_units ONLY when actually produced; optional known explanation. Absence is unknown, never numeric0 |
-| FailureEvidence | known failure stage final_conversion or aggregate_after_finalization; complete ordered known occurrence list with explicit complete/incomplete-derivation vocabulary; optional actual failing ordinal/target and bounded canonical Exact attempted final/aggregate value; retained lossless source/provenance annotation |
-| PlanEvidence | tagged CapturedRevision or FailedCapture alternatives below; no magic revision0/invalid ApplicationPlan/PreparedBundle |
+| FailureEvidence | known numeric failure stage final_conversion or aggregate_after_finalization; optional actual failing ordinal/target into the PlanEvidence list and bounded canonical Exact attempted final/aggregate value; retained lossless source/provenance annotation. Absent for a nonnumeric policy/deficit cause |
+| PlanEvidence | tagged CapturedRevision or FailedCapture alternatives below; owns ordered known ProposedOccurrences plus explicit extent captured_complete, proposed_complete or known_prefix; no magic revision0/invalid ApplicationPlan/PreparedBundle |
 | HoldCause | HoldRef; immutable HoldSource/Command/first Observation/PlanEvidence; kind WholeInputNumericOverflow, TimerAdjustmentDeficit or UnresolvedPolicy; kind-specific data and composition below; optional supersedes HoldRef |
 | Detection | DetectionRef; complete immutable HoldCause; expected current VersionRef absent ONLY on creation; fresh proposed VersionRef; owned actual attempt observation/audit, retaining this detection separately from original cause |
 | HoldVersion | HoldRef/VersionRef/history position/parent VersionRef; state active or resolved; producing DetectionRef or ResolutionRef; owned actual detection/resolution annotation and optional replacement/application link; immutable |
@@ -102,12 +105,15 @@ an Exact aggregate/final state does not. Preserve the COMPLETE captured request
 list and the failing target/ordinal only where actually known. Future plan-head
 advancement does not rewrite this historical selection or reject its healthy read.
 
-FailedCapture is REQUIRED when conversion fails before any valid typed finalized
-request/PreparedBundle can exist. Existing RequestedEffect/PlanCapture REQUIRES a
-representable signed64 request and describes already-resolved final amounts; it
-cannot encode this failure by inventing0 or truncating. This alternative requires
-explicit pre-finalization stage, a versioned owned failed-capture/provenance envelope,
-the complete known occurrence list and known/unknown field distinctions. An ACTUAL
+FailedCapture is REQUIRED when numeric conversion prevents a valid finalized
+request/PreparedBundle, and may record an explicitly unresolved capture policy that
+also prevents finalization. Its stopped_for tag is numeric_conversion or
+unresolved_capture_policy, NEVER a guessed numeric error. Existing RequestedEffect/
+PlanCapture REQUIRES a representable signed64 request and describes already-resolved
+final amounts; it cannot encode a failed conversion by inventing0 or truncating.
+This alternative requires explicit pre-finalization mode, the matching stopped_for
+tag, a versioned owned failed-capture/provenance envelope, the complete KNOWN
+occurrence list and known/unknown field distinctions. An ACTUAL
 stored PlanKey may optionally identify prior selected context; when present it
 receives the SAME full selected closure/source check, not a permissive unchecked
 optional reference. It does NOT pretend the failed proposal became that revision.
@@ -115,6 +121,30 @@ When absent, actual receipt/config/context/support closure and required alternat
 evidence remain mandatory. An unknown pre-capture application head likewise stays
 absent; a known referenced token resolves its complete immutable snapshot, never a
 new fabricated current head. No fake plan/header/revision0 is inserted.
+
+The following cause/plan/stage matrix is EXHAUSTIVE; other combinations are
+invalid_plan_evidence or invalid_failure in the pure preflight order below:
+
+| Cause | PlanEvidence / extent | Numeric FailureEvidence / required shape |
+| --- | --- | --- |
+| WholeInputNumericOverflow | CapturedRevision / captured_complete | REQUIRED aggregate_after_finalization; every captured occurrence has known unit/exact/finalized signed64 values, matching the selected complete revision |
+| WholeInputNumericOverflow | FailedCapture / proposed_complete or known_prefix; stopped_for numeric_conversion | REQUIRED final_conversion; every occurrence whose conversion failed has finalized_units ABSENT. A known failing ordinal identifies such a retained occurrence; no representable0 is fabricated |
+| TimerAdjustmentDeficit | CapturedRevision / captured_complete ONLY | Numeric FailureEvidence ABSENT; actual selected finalized negative occurrence, explicit RequireReview and its full unapplied amount required. Unfinalized input cannot manufacture a timer deficit |
+| UnresolvedPolicy | CapturedRevision / captured_complete | Numeric FailureEvidence ABSENT; explicit missing-policy reason, actual captured context retained; no invented numeric failure |
+| UnresolvedPolicy | FailedCapture / proposed_complete or known_prefix; stopped_for unresolved_capture_policy | Numeric FailureEvidence ABSENT; explicit missing capture-policy reason and required alternative source/provenance retained; no invented finalized plan/amount |
+
+Extent captured_complete means ALL actual selected revision occurrences1..N;
+fields required by that finalized revision are present. Extent proposed_complete
+means the producer knew the WHOLE intended pre-finalization occurrence sequence
+1..N, not that all amounts finalized; unknown individual fields stay absent.
+Extent known_prefix means exactly the KNOWN ordered prefix1..K (possibly empty)
+is retained and the remaining sequence/length is explicitly unknown. It cannot
+be used for CapturedRevision or labeled complete, and cannot omit a known member.
+These are recording declarations with actual known provenance, not proof of a
+producer's evaluation/permissions. In every extent a known failing ordinal must
+identify a retained member; absent ordinal is genuinely unknown, never invented0.
+Optional prior PlanKey in FailedCapture does not change this matrix or make that
+unfinished proposal equal to the prior revision's finalized requests.
 
 This makes pre-capture failure RECORDING possible. It does not change service004's
 accepted selected-complete-plan application protocol. The earlier producer/evaluator/
@@ -146,6 +176,12 @@ no original financial allocation is derived. Composition is EXPLICIT:
   full bundle closure/source and exact selected timer facts, and retain the hold
   beside it in the SAME caller unit. The old original claim/result remains honest;
   this does not enable replay of already-applied sibling components.
+
+That selected application link proves record/subject/occurrence closure and owned
+DATA only. The same complete record could have been staged in this unit or committed
+in a prior unit; the adapter cannot certify which, or that hold/bundle COMMIT together.
+Same-unit composition remains an owning-service protocol with real transaction/
+completion tests. The link never grants replay of a previously processed application.
 
 Without a reviewed applicable mixed policy, record UnresolvedPolicy as a WHOLE-input
 non-success cause with explicit missing-policy meaning. Do NOT silently choose
@@ -179,10 +215,14 @@ historical selected closure. Exact request equality includes cause/observation,
 expected/proposed versions and all optional members. Exact replay returns its
 recorded historical outcome BEFORE today's version/closed-state checks, without
 reappending or reactivating. Changed payload is mutation_conflict. Missing identity
-then selects HoldRef: new hold requires absent expected version; existing hold
-requires exact immutable cause equality and current expected version. An unresolved
-hold may append a new separately identified observation/version. A resolved hold
-refuses a new detection as closed_hold; it never implicitly reopens.
+then selects HoldRef and validates its complete current closure. A RESOLVED hold
+returns closed_hold for this NEW mutation BEFORE inspecting stale expected version,
+new cause equality or proposed-version reuse. It never implicitly reopens. For an
+ACTIVE hold only, compare immutable cause (hold_conflict), expected current version
+(stale_version), THEN fresh proposed-version namespace (version_conflict). A missing
+hold requires absent expected version and an otherwise valid fresh creation. Thus
+exact mutation retry → selected closed state → active-transition freshness/token
+checks is explicit; a new observation can append only to an active hold.
 
 A genuine reoverflow/new cause uses a NEW HoldRef, immutable DetectionRef/cause and
 optional supersedes link to the same subject. An old resolved cause/history remains
@@ -195,7 +235,9 @@ A new independent cause may also be added without closing any existing hold.
 
 Resolution first checks exact ResolutionRef replay/changed-payload conflict, then
 actual complete subject ActiveSet against expected VersionLocators, then every
-selected entry's active/current version and proposed namespace. It prepares ALL
+entry's selected hold existence/closed state, expected current version and proposed
+namespace in that order. An old expected set may therefore give stale_active_set
+before an entry's closed_hold; a matching set does not make a closed entry active. It prepares ALL
 allocating data/statements before writes, appends immutable events/versions, inserts
 any replacements and advances per-hold heads LAST. No mutable cause/history or
 contribution dimension is overwritten. Every post-write failure/exception is guarded
@@ -209,6 +251,11 @@ this batch. Other payment/rate/pause/recovery/access checks remain owning-servic
 preconditions. Recheck current conditions and stage the actual complete new bundle
 and resolution together under the SAME caller unit; never clear-then-apply commits.
 The typed link resolves a complete actual bundle, never a fabricated success row.
+This checks selected row/subject/occurrence closure ONLY: row presence, the link or
+a local return cannot prove the bundle was newly staged THIS unit or that the two
+writes commit together. The SAME-unit protocol and no clear/apply gap are service
+obligations, not a storage-granted durable/transaction capability. A link to a prior
+committed record cannot authorize replay or satisfy those missing service proofs.
 
 Whole-input application links retain the same tagged input subject and actual
 source/proposed-plan provenance. A later timer correction instead retains the
@@ -332,7 +379,7 @@ These are hand-derived future oracles, NOT tests, engine output or observed red.
 | H02 exact detection | Detectiond1 creates h1/versionv1; exact d1 replay after headv2 or resolution | same historical d1/v1, no new event/reactivation; d1 with changed cause/actor/expected/newversion conflicts |
 | H03 independent causes | hOverflow/v1 and hPause/w1 both active CID0 | complete set has BOTH; resolving only overflow leaves pause active and does not clear missing evidence/rate/recovery |
 | H04 stale review | read {h1:v1,h2:w1}; another acknowledged detection advances h2:w2 | batch expected old set→stale_active_set, no own writes; matching set but wrong entry version→stale_version |
-| H05 no ABA | versionv1 existed; propose it again after v2 or closedv3, even identical bytes | version_conflict; new detection on closed h1→closed_hold; no overwritten cause or implicit reopen |
+| H05 no ABA/priority | v1 existed; NEW detection proposes v1 with current expectedv2 on ACTIVE h1, or proposes it after CLOSEDv3; exact original mutation retry is separate | ACTIVE/current expectedv2→version_conflict; CLOSED/new mutation→closed_hold BEFORE proposed-token reuse/stale version; exact retry→its historical result first. No overwritten cause/reactivation |
 | H06 replacement/reoverflow | active h1:v2 replaced by fresh h3:u1 with new immutable cause and supersedes h1 | one unit closes h1/creates h3, subject remains held; real failure rolls back BOTH. Later reoverflow after h1 resolved uses a NEW linked HoldRef, not mutation of h1 |
 | H07 whole mixed overflow | Main55/debt0; time+5 fits; scoreMAX +1 overflows | no time/score/job/claim/after-state/success result from that attempt; hold retains whole known list, failing score target/ordinal and exact9223372036854775808; prior intake remains |
 | H08 pre-conversion overflow | known proposed occurrence exact9223372036854775808 cannot finalize signed64; no valid RequestedEffect/PreparedBundle or stored plan yet | FailedCapture/source/context branch records exact attempt, finalized_unitsABSENT and failure stage; no fake0/revision0. Later producer policy still requires review |
@@ -342,7 +389,7 @@ These are hand-derived future oracles, NOT tests, engine output or observed red.
 | H12 selected corruption | subject anchor exists but head/terminal version is missing, bad status, or extra nonpositive history row exists | active lookup fails known invalid_stored_data with real rollback before inside-catch independent BEGIN; never empty/first-page-only/repair |
 | H13 scope of validation | resolved hold has healthy full metadata but malformed unselected old document | active discovery validates metadata without certifying that document; asking history page containing it fails. Unrelated other-subject orphan is not globally audited |
 | H14 finite result versus history | 65 healthy history events, metadata pages64+lookahead; selected active views fit own limits | audit all65 without lifetime quota;65th malformed metadata fails. Actual active result257 under ceiling256→result_limit, never partial/clear |
-| H15 resource overage | known Exact or failed-capture document exceeds fitting configured field/aggregate/writer budget | truthful input/result/resource failure with required rollback; no durable-Held claim merely because caller detected numerical failure |
+| H15 resource overage | incoming Exact/document/count/owned bytes exceed pure limits, OR selected stored data/actual writer budget exceeds post-SQL limits | PURE input overage→typed input failure, NO SQL/cleanup and earlier caller staging preserved. Selected/writer post-SQL known result/resource failure→actual whole-unit rollback; real uncertainty stays original unknown. Neither is a durable-Held result |
 | H16 provisional/unknown | d1/h1 staged then read; branches caller rollback, normal commit, commit acknowledgement loss | read is provisional; rollback removes ALL same-unit hold/history, normal committed completion exposes once, loss staysunknown/fail-closed/no payload/no blind retry despite a physically present hold |
 
 ## Next gates and retained release scope

@@ -8,7 +8,7 @@ at exactaad; it was inspected and reused as assigned, not reset over unfinished 
 Owned paths are ONLY sqlite-application-holds-v1.md and this author note.
 
 Actual proposal [contract](../contracts/sqlite-application-holds-v1.md), blob
-`b1f0a092053f628283016454106720e988735f05`, is DOCUMENT ONLY. It proposes owned
+`701c710f83b0361a075c0d0bca7cf6ec07fb351e`, is DOCUMENT ONLY. It proposes owned
 DTO meanings/selection/mutation/dispositions/bounds/16 independent literal examples.
 No C++ signature, stub, SQL schema/migration, fixture, feature test, runtime behavior
 or approval is supplied. Root owns shared task state/HTML/schema order/build/CI.
@@ -105,3 +105,43 @@ After approval/explicit assignment, physical step6 and minimal API/stub need the
 own review, then independent foundation/tests/official green/compiler/first real
 red. STORAGE-016 production and service004 remain later gates. All seven providers,
 threeFX and complete UI/renderers/platform/operational/release scope stay mandatory.
+
+## Actual full-review corrections (approval still pending)
+
+Different reviewer bundle_reviewer examined actual b1f/2ad and requested five
+focused corrections before approval. This revision addresses those actual findings:
+
+1. DetectionRef/ResolutionRef are now role names for the SAME raw-byte mutation
+   key, UNIQUE across both kinds. Stored kind is data, not a second key namespace.
+   Opposite-kind same bytes→mutation_conflict before freshness after validating
+   the actual existing kind's selected closure. The first author note intended
+   shared identity, but b1f's mixed wording did not pin that rule consistently.
+2. Full associated application linkage explicitly proves only selected row/subject/
+   occurrence closure. It cannot certify newly staged THIS-unit data, a shared
+   commit, no clear/apply gap or replay authority. Same-unit and current permission
+   checks remain owning-service protocols with their own actual transaction tests.
+3. Detection order explicitly selects exact historical retry first; a NEW mutation
+   on a resolved hold returns closed_hold BEFORE stale/new-token/cause checks.
+   Only an otherwise valid active/current transition reaches version_conflict.
+   H05 now distinguishes those cases rather than asserting two competing outcomes.
+   Resolution also states expected-active-set precedence before per-entry status.
+4. An exhaustive cause×PlanEvidence×numeric-stage matrix prohibits timer deficit
+   from unfinalized input, requires aggregate-stage complete finalized lists for
+   captured overflow and conversion-stage absent failed finalized values for
+   pre-capture overflow. UnresolvedPolicy may retain captured or explicit unfinalized
+   context WITHOUT inventing a numeric failure. PlanEvidence owns the known list;
+   captured_complete/proposed_complete/known_prefix meanings and optional prior-plan
+   closure are explicit. FailedCapture records why numeric conversion OR unresolved
+   capture policy stopped it, without changing accepted service004's protocol.
+5. H15 now separates PURE input/field/count/Exact/owned overage (NO SQL/cleanup,
+   earlier caller staging retained) from actual selected/writer post-SQL known
+   failures (real whole-unit rollback, uncertainty preserved). Neither is a
+   durably held result merely because numeric detection occurred.
+
+All16 literal example identities and original required scope remain. These are
+DOCUMENT-only corrections: no C++/API/DDL/stub/fixture/test/runtime was added or
+run. Current contract is413 lines, blob701c710f. check_project396/122,
+render --check and diff --check pass again for these actual Markdown artifacts.
+The earlier independent Fraction/integer arithmetic did not change and was not
+replayed. Actual different reviewer must inspect this revision before approval;
+no implementation or later phase is authorized by the correction itself.
