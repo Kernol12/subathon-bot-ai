@@ -2144,6 +2144,10 @@ class SqliteApplicationHoldTests final : public QObject {
             db.modify("CREATE TRIGGER hold_late_failure BEFORE UPDATE ON subathon_hold_heads WHEN "
                       "OLD.hold_ref=X'684F766572666C6F77' BEGIN SELECT RAISE(ABORT,'synthetic late "
                       "head failure'); END");
+            db.modify(
+                "CREATE TRIGGER hold_late_insert_failure BEFORE INSERT ON subathon_hold_heads "
+                "WHEN NEW.hold_ref=X'684F766572666C6F77' BEGIN SELECT RAISE(ABORT,'synthetic "
+                "late head failure'); END");
             known(refusal(
                       db, [&](auto s) { (void)SqliteApplicationHoldStore(s).stage_resolution(b); },
                       SR::sql_failure),
