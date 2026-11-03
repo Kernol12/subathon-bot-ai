@@ -1,7 +1,8 @@
 # ACCTTEST-004 — independent bounded codec/arithmetic document review
 
-Reviewer bundle_validation,2026-11-03. **Changes requested on actual6ee28717**;
-no document approval yet. Scope is ONLY framed grammar/literal bytes, logical B/I
+Reviewer bundle_validation,2026-11-03. **Final bounded DOCUMENT approval:8fa0c76 /
+author608acc1**, as recorded below. The initial **changes requested on actual6ee28717**
+record is preserved. Scope is ONLY framed grammar/literal bytes, logical B/I
 and limits/decode ordering, absence/empty/copy consistency, CS01–03 and CORE005→002
 composition. Main reviewer separately owns complete service semantics/ports/order.
 This is not API/header, fixture/test/red, runtime, implementation or policy approval.
@@ -116,3 +117,70 @@ approve future implementation or establish a failing baseline.
 Both findings were sent to root, author and main reviewer. Await the actual corrected
 document and author note, then re-pin/review within this bounded scope. All other
 semantics and phase/release gates remain the main review/coordinator's responsibility.
+
+## Final actual corrected-document re-review — APPROVED within bounded scope
+
+Actual author correction `6160e352613b2c1e5e0776099be9c648fd7d6a95`→root073c51e
+gave document3e497030/author1318dc51. Then inspected the COMPLETE actual narrow
+`ee05694510dbe3892d97a56ce52c65441a3a08b4`→rootde73386 delta. Final approved
+document blob is **8fa0c76ad90ad046712463dfc95206e2a99b4e40**; actual final
+author-note blob is **608acc129c48f8ee5ed97fd09db1ade541511c56**. Both were
+verified from the imported actual authored commits; no proposal bytes were edited
+by this reviewer. The final error-surface delta changes no codec, B/I, numeric
+example or timer-composition requirement. Its full semantic verdict belongs to the
+main reviewer; this approval is complementary and bounded as stated above.
+
+**C1 resolved.** SectionF now names the ACTUAL measured input/output at each public
+codec, admission, intermediate and final-response boundary. Public pure output
+overage is explicit result_limit7; intermediate/storage semantic overage after
+BEGIN is a known result_limit with actual rollback. Intermediate limits are
+independent per value, distinct from final Response and existing store profiles.
+Actual opaque envelope bytes count, but parsed temporary choices/segments/effects
+are NOT phantom vectors in a returned RecordedBundle. Fixed Completion/admission
+metadata does not become hidden response data. No global history quota is added.
+
+Decoder order is now explicit: options, outer envelope fields, actual input B,
+unsupported outer format, structurally bounded byte-view scan, typed preflight,
+output B/I projection, then materialization. Unreadable/truncated/trailing frames
+fail without inventing unreachable later fields; complete frames retain key/source/
+presence before configured counts and bodies/conditionals. Internal retained decode
+uses intermediate/store bounds and separately maps unsupported versus malformed
+versus overage, rather than reusing caller-input aggregate policy. This resolves
+the fixture-oracle ambiguity without claiming an implemented decoder/allocation audit.
+
+Independent CS17 derivation from the grammar (not author's script/UUT): fixed
+command format is40 bytes, so C0 Envelope B=40+58=98. Encode Command25 with
+input25/output97 passes input but exceeds output→specified pure7. Decode that98-byte
+Envelope with input25 fails input6 BEFORE parse/output. With two EMPTY x choices,
+document=58+2*(B(x)5+B(empty)4)=76, Envelope116, decoded Command27 and actual I2.
+At choices_per_command2/result_items1, decoded output fails7 while encoded opaque
+Envelope I0 fits. A proposal ownership illustration with two TimerState19 copies,
+debt8 and ClockObservation30 (five one-byte refs, UTC8, one17-byte segment) is B76/I1,
+consistent with the newly explicit actual members and no framing/hidden-copy charge.
+
+**C2 resolved.** D now explicitly feeds CORE002 the CURRENT running timer BEFORE
+THIS occurrence, including all preceding actual timer changes. Only the first uses
+the initial clock-advanced snapshot. CS18 independently gives58→60→60 for requests
++10,+10/cap60, actual2 then0, capped8 then10. Neither resetting to58 nor adding actual
+credit again to numeric Main_after is allowed. CS01–03, above-cap debt repayment,
+zero/positive Grace/wait rescue and signedMIN arithmetic remain unchanged/correct.
+
+All original literal hex, lengths58/66/62/73/39/90/88/182/178 and logical25/33/25/32
+were re-derived against the final actual document and still match. Optional absence
+versus present-empty and raw BOM/NUL/FF bytes are unchanged. Cross-field duplicated
+typed values remain required to agree; synthetic examples remain byte anchors,
+not healthy source/platform/provider fixtures. No unrelated codec/numeric scope
+regression was found in the actual corrections.
+
+Actual command: `python3 /tmp/acct004-codec-independent-final.py` PASS, stdlib
+struct/integer arithmetic ONLY, with no repository helper, author's script, native
+core/service/codec/API/stub/fixture/test/marker invocation. Script SHA256
+100e4402c471b8e1d276acce5fcb99b8c468c194fb0167b247e98fbb1c949b5a;
+output SHA2566a91ef93be4043e8174225574b58e9e26902d75576525be7df50a81d22e45b28.
+Static project/link and diff checks pass. The earlier changes-requested record and
+its independent scratch artifacts above remain preserved.
+
+This APPROVES only the actual final DOCUMENT's bounded codec/accounting/arithmetic
+scope. It does not approve a future header/layout/stub/harness, source allocator,
+independent fixture/test or intended-red baseline, service implementation, authority
+adapter or production policy. Main review/root retain all other actual gates.
