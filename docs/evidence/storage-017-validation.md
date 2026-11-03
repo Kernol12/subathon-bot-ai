@@ -67,8 +67,8 @@ live/provider operation. Root's selected officialQt6.12/SQLite3.53.4 CI is separ
    infrastructure and required fixture suites plus all18 new-reader cases.
 8. Programmatic source/metadata checks and `git diff --check`: exit0. Extracted
    old complete-record byte-walk and new factored record_bytes body have IDENTICAL
-   tokens/order. Removing only the obsolete stub comment restores original header
-   cf721 byte-exact. Frozen contract/tests/JSON/helper hashes match baseline above.
+   tokens/order. Restoring only the removed obsolete stub comment to header861
+   reproduces original headercf721 byte-exact. Frozen contract/tests/JSON/helper hashes match baseline above.
 
 Actual18/full228 logs, UTC/exit/Qt-total metadata and independent LastTest copies
 are preserved in ignored local-evidence/storage017-validation in this worktree.
