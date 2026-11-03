@@ -163,3 +163,21 @@ while authoring only unaffected rawfixturedata in NEWfixturetree. Sole docauthor
 COMPLETE/cleanaba965; header03a747/sourceebbea/headernotea863/ALLrootAPIharness
 BYTEEXACTunchanged. ExistingAPIapproval/compilerproof remains valid; no new code
 or featurecall. Wait actual full+bounded clarificationapproval before exactoutputs.
+
+## Clarification gate COMPLETE; exact fixture goldens released
+
+Actual full2cad8566 imported e2a323f/MD5fc8cd1b and actual bounded84bd39d1
+imported5c28e95/MDec4154c4 BOTHapprove exactCURRENT862c4193/78f36dd7. Root
+explicitly RELEASED independent exact newservice output/CS16 goldens only NOW.
+Fixtureauthor may import approvedaba965twoMDs asprerequisite into NEWfixturetree,
+then commits only owned4fixturepaths separately; root already hasapproveddocs.
+All header03a747/sourceebbea/headernotea863/5rootconfig blobs unchanged, actual
+compiler/APIreview proofs retained. NO service/codec/view/stub/marker called.
+ActualfixtureJSONuntrackedcheckpoint:32literaloldsourceSQL/24freshbranches/4command
+anchors. Planned6OLD-onlyfoundationQt slots (literals/branches/historicclaims/holds/
+fakeportDATA/realoldwritercompletion); actualcompilednames/countsourcepending.
+Authoring continues in NEWfixturetree. Fullfixture reviewer PREP COMPLETE/idle,
+explicit followup_task required onactualcompletecandidate. API/docauthor COMPLETE
+afteraba, no more currentcode edits; boundedreviewer and fixtureauthor sameagent
+in separatepreservedtrees, authoringfixtures now. Root waits actual files for
+mandatoryfoundationwiring. Featuretestsource/firstred/production remain blocked.
