@@ -1,9 +1,12 @@
 # STORAGETEST-016 feature compilation and first-red gates
 
-Current phase: complete feature source is authored, compiled and registered; actual
-independent full source/harness review has approved the actual corrected candidate.
-No hold method, factory or feature
-test body has run. Compilation and discovery are not an intended red.
+Current phase: the initial complete reviewed candidate passed its own official gate,
+but its first execution did NOT establish a complete intended red:261 scenarios
+reached named stubs, while four setup queries failed first. See the preserved
+[initial attempt](storagetest-016-initial-attempt.md). A narrow actual-schema
+correction is now separately approved; its fresh complete-head official gate and
+revised full intended red are pending. No production behavior is implemented.
+Historical compiler/review gates below remain valid for their exact revisions.
 
 The [reviewed fixture foundation](storagetest-016-fixture-review.md) and its
 [own selected official gate](storagetest-016-fixture-ci.md) passed before test
@@ -86,3 +89,49 @@ its own selected official foundation green and exact35 compilation/discovery. On
 then run the FIRST intended hold baseline and retain exact head/time/raw log/LastTest
 hash and named-marker attribution. Missing dependencies, compilation/setup failures,
 skips or prior green suites cannot supply that red. STORAGE-016 remains planned.
+
+
+## Initial complete official gate and incomplete execution
+
+Own selected SQL41637913237 at clean af310e7 succeeded12:42:01–12:44:17Z,
+fresh110/0warnings/GNU13.3/pinned Boost108300/Qt6.12/SQLite3.53.4/required new3
+foundation5PASS0skip186ms/exact35 compiled/oldstable/all11. Official raw SHA256
+c565c760b6935299e68d13d074f363a6495ca08e429d12c0e019a78645f3367c.
+Only then did first execution run at SAME clean af310e7,12:45:01.970–12:45:07.795Z,
+exit8. The [retained attempt](storagetest-016-initial-attempt.md) records actual
+per-invocation261 missing-feature rows and4 setup errors, not a valid full baseline.
+Do not convert repeated verbose output into extra invocations or hide the setup errors.
+
+Actual revised source0cce9545 (da588312→root45b3de6) fixes only two observer SELECTs
+and one context INSERT against the frozen physical schema; all assertions/counts
+stay intact. Author's OLD-library native Qt diagnostic validates the exact corrected
+queries without executing any feature body. Actual separate correction approval,
+updated author evidence and the NEW complete corrected head's own official gate
+must precede the revised complete baseline. Original attempt/raw/valid reviews and
+261 reached markers remain preserved; no production implementation yet.
+
+
+## Actual corrected baseline revision approved
+
+[Separate correction approval](storagetest-016-setup-correction-review.md)
+743b87fe, integrated7607f8b, accepts actual test source
+`0cce9545c3a3851b25df9131e6e35e97366aacee` and author note
+`1a65cc9e6f61a7c6a69f012a1b596c4165f89537` at e567141. The old full review
+remains valid for all unchanged tests; this review covers the genuine setup fixes.
+Every assertion,35 slots/265 scenarios and all fixture/header/stub/harness pins
+are retained. Exact setup SQL passed the OLD-library native Qt diagnostic, not
+feature execution. Root corrected three-step compile is warning-free; exact35
+compiled slots equal registration and global264 remains unchanged.
+
+Latest ignored root files `storagetest016-feature-setup-build.txt`,
+`...-setup-functions.txt`, `...-setup-discovery.json` have SHA256 respectively
+9e40a80c3ab15875c0ceea2b41bd2ea27bca4d1a02b8e79a3709c0b748defc3c,
+94056a922e885d2c658367be53890097a6d8ca043fa83d2252bc4ce5fcaf965f,
+0e3c7891520c766be4aa6eb19921addbbf05f73b192d520b7f428d79f3a2190d.
+
+Freeze/publish the complete corrected candidate, then observe its OWN selected
+foundation green and35 compiled cases. Keep that head/worktree clean for revised
+execution, preserving initial evidence. Parse the per-invocation LastTest rather
+than duplicate verbose output. A valid revised baseline requires all265 unique
+named missing-feature rows/35 failing slots/70 init-cleanup passes/zero setup errors
+or skips. No baseline rerun has yet occurred after correction; STORAGE-016 planned.

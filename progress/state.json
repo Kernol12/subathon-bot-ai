@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T12:41:13Z",
+  "updated_at": "2026-11-03T12:58:35Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5351,14 +5351,17 @@
         "During actual test authoring, a narrow malformed-input category ambiguity was identified explicitly. Root API421→46c70297bacddbdd1649abfe58a76b33ce9773c4 adds18 lines only: isolated null detection audit→invalid_detection; missing numeric failure→invalid_failure; illegal plan branch→invalid_plan_evidence; valid branch wrong failure stage/ordinal→invalid_failure; nested Observation-local shape→invalid_observation in both contexts. Earlier keys/counts and conditional captured-token matrix stay intact; nonnull empty DATA remains valid; no new same-stage total ordering. Separate actual insertion approval35b1092 integrated9e6e6a8 accepts exactdiff; no API enum/header/CPP/fixture/bounds/prod behavior change or invocation. Written test oracles must use clarified contract and remain unreviewed until actual full source review. No feature execution/red yet.",
         "Actual complete test source0c9f304+b3659bd integrated828bbd0+553310a, finalCPP5eb83416eedf0c1096490da3e61550be6391bdc0/2349lines/35slots. Author final addition separates two-produced-version result_items2 exactfit/1 rollback for replayed and newreplacement from input quotas. Root QtCMakeea1e3cab adds explicit35 enabled draft-red registrations/newholdtarget/7paths; workflowb9529c18 preserves entire oldprefix and appends discovery-only35 guard AFTER mandatory oldprimitive3green. Actual rootconfigure/initial4stepcompile/final3steprebuildZEROwarnings/exact35 compiled=registered/global264=unchanged229+new35/format/diffPASS. NO feature body/newentry/factory/marker invocation; compiler/discovery is not red. Actual full independent source/helpers/harness review explicitly active on these artifacts; authorMD follows. Interim fullread no blocker but no finalverdict; selectedsetup/category audit pending. Future completeapprovedfeaturehead ownselectedfoundationgreen precedes FIRST actualmarkerred; production16planned.",
         "Actual full test audit identified one genuine pre-baseline portability defect: UPDATE-only late-head trigger imposed an unrequired SQL verb. Separate reviewer rationale follows logical701 heads-LAST/physical83e. Author focusedf0d7da7 integrated5dd44d0 adds4 BEFORE INSERT lines for samehead, preserving original UPDATE guard and ALL assertions. FinalCPP816441205e4a2ff5c2b69dee535818ad648b1e40/2353lines/35slots; final authoraa17214 integratedd5e056e/MDfc167da2131655f9c9cb1a3f8a842c3f5b8088bc. Author+reviewer independent actual trigger diagnostics cover UPDATE/INSERT/REPLACE/UPSERT/unrelated allowed; no native feature body. Root corrected3stepbuild0warnings/exact35compiledregistered/global264/format/diffPASS, final logs feature-portable-* retained. Reviewer read fullsource/author92ab/harness/all40corruptiontargets/29source-only/65+257FKexpansions and independently counted265 authoredrows; now inspects final corrected note before written fullapproval. No marker/entrypoint/body ever invoked. Freeze actual2rootconfigs/code/evidence for OWN completeapprovedfeature-head selectedgreen, then FIRSTactualred. Earlier5eb candidate superseded only by additive trigger; no assertion weakening or production capability.",
-        "Actual FULL independent feature/source/harness approval adb04045+41aa858 imported7ab0e0d+220dc21 accepts finalcomplete25da01e and exact four artifacts81644120/fc167da2/ea1e3cab/b9529c18, currentAPI46c/unchangedheaderfe50/6stubs5b10/frozenfixtures. ALL2353lines/35slots/265 staticallycounted authoredrows read; actual40corruption/source29/65+257/dualtrigger audits and every category/owned boundary checked. One portability defect corrected additively beforeapproval; no blocker. Reviewerfinal3stepcompile0warnings/exact35registered/global264, NO feature/init/cleanup/body/factory/marker call. Native tests demand count corruption vs overage; actual allocation ordering remains source-review duty, not claimed measured. Publish COMPLETE approvedfeaturecandidate for ownselectedQt foundationgreen+35compile/discovery now; ONLYTHEN rootFIRSTmarkerred on SAMEcleanhead. Baseline remainsin_review/not_run; STORAGE016planned, no supported producthold behavior."
+        "Actual FULL independent feature/source/harness approval adb04045+41aa858 imported7ab0e0d+220dc21 accepts finalcomplete25da01e and exact four artifacts81644120/fc167da2/ea1e3cab/b9529c18, currentAPI46c/unchangedheaderfe50/6stubs5b10/frozenfixtures. ALL2353lines/35slots/265 staticallycounted authoredrows read; actual40corruption/source29/65+257/dualtrigger audits and every category/owned boundary checked. One portability defect corrected additively beforeapproval; no blocker. Reviewerfinal3stepcompile0warnings/exact35registered/global264, NO feature/init/cleanup/body/factory/marker call. Native tests demand count corruption vs overage; actual allocation ordering remains source-review duty, not claimed measured. Publish COMPLETE approvedfeaturecandidate for ownselectedQt foundationgreen+35compile/discovery now; ONLYTHEN rootFIRSTmarkerred on SAMEcleanhead. Baseline remainsin_review/not_run; STORAGE016planned, no supported producthold behavior.",
+        "Actual complete initialcandidate OWN officialSQL41637913237 SUCCESS exactCLEANaf310e7d68dfe6c239719bcdf69569a06c4ba52612:42:01–12:44:17Z: fresh110/0warnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/required3holdguard5PASS0skip186ms/exact35compiled/oldstable/all11. OfficialrawSHA c565c760b6935299e68d13d074f363a6495ca08e429d12c0e019a78645f3367c. FIRSTactual feature attempt SAMEcleanhead12:45:01.970–12:45:07.795Z/exit8/35slotsfail. Per-invocation LastTest35summaries70initcleanupPASS265FAIL0skip:261 uniqueexactHOLD-MISSING but4HOLD-ASSERT setup failures (3timerkind1 +wrong-retained-context). CTest verbose/outputOnFailure repeats stdout; recorder doubledprintedcounts but rejectedrun. This is NOT validwholebaseline/red and production16staysplanned. Originalraw4c2dd57f/LastTest6d439803 preservedtracked+ignored; separate reviewer independently confirmed attribution and two actual schema defects. No actual first-successful-red replay claimed.",
+        "Actual narrow setup correction da588312 integrated45b3de6: CPP0cce9545c3a3851b25df9131e6e35e97366aacee. Preserve BOTH timer identity/count comparisons using qualified real results.effect_count via compound operations/results JOIN; retained context INSERT now explicit(reference,document,configuration_ref)=(other,empty,other). No assertions/counts/expectedcategory/fixtures/helpers/production changes. Author independent OLD-library nativeQt6.12/SQLite3.54 exact extractedSQL diagnostic passes both4-field/two-row snapshots/all3variants and actualvalidothercontext/FK0; newfeaturebodies not rerun. Actual correction source review accepts necessaryschemafix, final note/native diagnostic inspection pending before writtenrevisionapproval. Newcompletecorrectedcandidate ownselectedCI still required before revised observedred;261oldmarkers/validpriorreviews retained.",
+        "Actual separate setup-correction approval743b87fe integrated7607f8b independently accepts da588312→root45b3de6 test0cce9545 and final3aa286→roote567141 author1a65cc9e, exact e567 Gitobjects/oldharness/fixtures/source unchanged. Reviewer inspected EXACT nativeQt diagnostic generator/CPP/CMake/build/output and actualsourcequeries/context inserts; confirms legitimate2timerrows/realothercontext/FK0 and no featurecalls. Root corrected3stepcompile0warnings/exact35registered/discovery-only passed; setup-build9e40a80c/functions94056a92/discovery0e3c7891. All assertions/265rows retained. Publish NEW complete corrected candidate, actual ownselectedCI before revised intendedred. Initialfailedattempt and261 reachedmarkers remain documented; baseline failed until revisedvalidexecution, not waived."
       ],
       "verification": {
         "concrete_contract": "passed",
         "api_review": "passed",
         "fixture_review": "passed",
         "test_review": "passed",
-        "baseline": "not_run",
+        "baseline": "failed",
         "native_build": "passed",
         "official_qt": "not_run",
         "platform_release": "not_run",
@@ -5376,7 +5379,11 @@
         "error_category_review": "passed",
         "feature_registration": "passed",
         "test_source": "passed",
-        "test_authoring": "passed"
+        "test_authoring": "passed",
+        "initial_execution": "failed",
+        "initial_candidate_official_qt": "passed",
+        "setup_correction_review": "passed",
+        "setup_native_diagnostic": "passed"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
@@ -5397,17 +5404,21 @@
         "docs/evidence/storagetest-016-error-category-review.md",
         "docs/evidence/storagetest-016-ci.md",
         "docs/evidence/storagetest-016-author.md",
-        "docs/evidence/storagetest-016-review.md"
+        "docs/evidence/storagetest-016-review.md",
+        "docs/evidence/storagetest-016-initial-attempt.md",
+        "docs/evidence/storagetest-016-initial-attempt-ctest.txt",
+        "docs/evidence/storagetest-016-initial-attempt-last-test.txt",
+        "docs/evidence/storagetest-016-setup-correction-review.md"
       ],
       "review": {
-        "author": "/root/bundle_validation (feature tests); /root (shared harness)",
+        "author": "/root/bundle_validation (tests and SQL setup correction); /root (harness)",
         "reviewer": "/root/bundle_reviewer",
         "outcome": "approved",
-        "baseline": "Actual FULL source/harness approvaladb0404+41aa858 accepts complete25da01e pins CPP81644120/authorfc167da2/QtCMakeea1e3cab/WFb9529c18/API46c/headerfe50/6stubs5b10/frozen63de+7ca+a173. All35 slots/265 authored scenario rows statically reviewed; actual additive trigger correction preserves all assertions. Root/reviewer compilation0warnings/exact35/global264, no feature body invoked. Own complete-approved-head selected foundation green and FIRST marker-red remain unperformed; baseline task not done.",
-        "evidence": "docs/evidence/storagetest-016-review.md"
+        "baseline": "Fullapprovaladb0404+41aa858 retained for unchanged tests; actual separate correction743b87fe accepts CPP0cce9545/author1a65cc9e at e567141, unchangedQt ea1e3cab/WF b9529c18/API46c/headerfe50/6stubs5b10/fixtures. All35slots/265scenarios/assertions preserved. Initialaf310 attempt261markers+4setuperrors is NOT validcomplete red; raw preserved. NEW corrected complete-head ownselectedCI and revised validred remain pending; no production.",
+        "evidence": "docs/evidence/storagetest-016-setup-correction-review.md"
       },
-      "status": "in_review",
-      "owner": "coordinator /root (complete-head selected CI and first-red operator); test author /root/bundle_validation complete; full reviewer /root/bundle_reviewer approved; fixture author /root/bundle_implementer complete"
+      "status": "in_progress",
+      "owner": "coordinator /root (corrected complete-head CI then revised valid red); test author /root/bundle_validation complete; separate correction reviewer /root/bundle_reviewer approved; fixture author /root/bundle_implementer complete"
     },
     {
       "id": "STORAGE-016",
