@@ -93,3 +93,8 @@ boundaries. No owner requirement was changed, no actual product policy inferred.
 `python3 tools/check_project.py` and `git diff --check` pass on this two-Markdown
 candidate. Arithmetic literal amounts remain unchanged; no native tests rerun.
 Actual different reviewer must inspect the revised document before approval.
+
+A final wording alignment scopes the protocol paragraph and port-table no-success
+rule explicitly to WHOLE-INPUT holds; both now cross-reference the separate timer-
+only composition. This removes contradictory shorthand left after the actual
+review correction. It changes no numeric example or selected policy.

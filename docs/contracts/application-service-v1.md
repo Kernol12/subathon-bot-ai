@@ -101,7 +101,7 @@ Concrete interfaces and capability lifetime tests follow actual logical approval
 | Segmented clock observation | Provide a bounded ordered sequence of explicit elapsed-monotonic/UTC/constant-pause segments from the current snapshot to ONE command observation, with configuration binding. No UTC-minus-monotonic subtraction, sleeps, restart-gap reconstruction or inferred segmentation from a final pause boolean |
 | Fresh state token | Return owned nonempty deterministic-test tokens for each required fresh snapshot. A production issuer needs a reviewed uniqueness strategy; service/storage verify actual namespace non-reuse. A collision is a conflict/error, never overwrite, ABA or an unbounded generate-again loop |
 | Required action preparation | Resolve actual retained action meaning from the selected captured context and complete calculated outcome. Return owned ordered required job intents/groups and audit explanation, or an explicit unresolved-policy hold. It does not deliver, evaluate new rules, mutate authoritative state or claim provider capability |
-| Review hold persistence | Stage a durable non-success input hold with source/command/reason/provenance on this SAME session when numeric overflow or unresolved required policy needs review. Never mark application applied or create success effects/jobs/claim. This nonowning primitive is missing today and needs a concrete reviewed schema/API/baseline before durable hold enforcement is claimed |
+| Review hold persistence | Stage a durable hold with source/command/reason/provenance on this SAME session. Whole-input overflow/unresolved-policy holds have no success effects/jobs/claim. A timer-only deficit hold may instead accompany a complete bundle under an explicitly reviewed mixed policy, as below. This missing nonowning primitive needs its own concrete reviewed schema/API/baseline before durable hold enforcement is claimed |
 
 The owner queue excludes concurrent policy mutations during this synchronous unit;
 mutable policy outside the state-token fields must be versioned/serialized by the
@@ -190,9 +190,9 @@ Within that unit, the required order is:
 
 Access and lookup operations may themselves encounter known storage failures;
 those retain actual whole-unit rollback and no normal payload. A domain refusal
-can finish by committing its read-only unit. A new durable hold commits only its
-specified non-success hold state and retained audit, never an application claim or
-success record. Prior intake remains durable in all known application rollbacks.
+can finish by committing its read-only unit. A new WHOLE-INPUT durable hold commits
+only its specified non-success hold state and retained audit, never an application
+claim or success record. The distinct timer-only composition is specified below. Prior intake remains durable in all known application rollbacks.
 An existing WHOLE-INPUT durable hold is not a completed successful operation,
 cannot consume the original award claim, and cannot authorize automatic repeated
 application. A TIMER-ONLY hold committed beside an explicitly approved complete
@@ -245,8 +245,8 @@ implement them in existing bundle/contribution storage or declare them verified.
   retains that request's actual0/unapplied timer components and other actual effects.
   The hold, original claim, complete result/audit and all required jobs then commit
   together; this is a complete supplied outcome, not a partial failed transaction.
-  Earlier durable intake/capture is retained. A failure staging/committing the hold follows the
-  same real rollback/unknown distinctions; do not report a durably held outcome
+  Earlier durable intake/capture is retained. A failure staging/committing the hold
+  follows the same real rollback/unknown distinctions; do not report a durably held outcome
   unless THIS hold unit's actual COMMIT and normal completion establish it.
 - Resolution requires explicit CURRENT authorized review/correction capability,
   exact hold identity/version and recorded decision/actor/reason/options. Unknown
