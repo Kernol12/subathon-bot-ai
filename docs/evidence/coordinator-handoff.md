@@ -1,116 +1,76 @@
-# Coordinator resumed — STORAGE-002 implementation
+# Coordinator — STORAGE-002 reviewed candidate ready for official CI
 
-Owner explicitly resumed the standing coordination loop on 2026-11-03; this
-supersedes the previous stop instruction. Objective: implement the bounded
-application-bundle SQLite store, then continue dependency-ready product slices.
+Owner explicitly resumed the standing loop on2026-11-03. Current objective:
+finish focused [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), then claim
+ACCTTEST-004 from integrated main. No owner decision/access needed. Full product,
+all seven integrations/threeFX and operational/platform scope remain incomplete.
 
-## Reconciled evidence
+## Reconciled repository and active task
 
-Fetched actual main `995e0fa683e58115094d8a4212c336191cff7241`. GitHub confirms
-[PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42) MERGED at exact
-`2ccd767a6874151f7760b619a56f48033d57b9d0`, all11 checks SUCCESS. No open PR.
-Effective rules26170263 require PR/zero GitHub approvals/resolved threads/no force
-or deletion; independent repository review gates still apply. Initial sandbox
-network/auth report was not an access blocker: elevated authorized fetch/API work.
-All82 existing worktrees were clean;16 absent/prunable refs preserved. No prior
-subagents exist in this session; no native build/test/watch was found. The prior
-stop metadata remains preserved on checkpoint/PR42-stopped (`8e52bfc`).
+Fetched/observed main995e0fa683e58115094d8a4212c336191cff7241, actual PR42 MERGED,
+all11 final checks and all10 main workflowsSUCCESS, no earlier openPR. Preserved
+prior stop checkpoint branch8e52bfc and all98 prior registered trees/refs
+(82existing clean+16absent/prunable). Added3 isolated trees, none deleted/pruned.
+No previous agents were assumed alive; fresh agents explicitly assigned.
 
-## Active task and ownership
+Root owns task/STORAGE-002-application-bundle at root and sharedstate/HTML/map/
+build/presets/workflow/schema order. STORAGE-002 is IN_REVIEW; baseline DONE only.
+[Task handoff](storage-002-handoff.md), [CI](storage-002-ci.md),
+[actual full source/config review](storage-002-code-review.md).
 
-- STORAGE-002: root coordinator on task/STORAGE-002-application-bundle, root tree.
-- /root/bundle_implementer explicitly assigned implementation on
-  task/STORAGE-002-implementation, local-evidence/worktrees/storage002-implementation.
-  Owns bundle source and own author evidence only; not old ports/tests/schema/pins.
-- /root/bundle_reviewer assigned different code review on task/STORAGE-002-code-review,
-  local-evidence/worktrees/storage002-review. Preparation only until actual source
-  revision exists; no prospective approval.
-- /root/bundle_validation owns ONLY new internal sqlite_application_bundle_values.hpp
-  and own author note, on task/STORAGE-002-validation,
-  local-evidence/worktrees/storage002-validation. Implementer agreed interface: pure
-  preflight/equality/manifest helpers, no SQL or public API/test/schema edits.
-- Root owns progress/HTML/map/build/presets/workflow/schema order and integration.
+Agents are now COMPLETE, no native build/test/debugger remains:
 
-Scope/acceptance: concrete revision1 logical80f8/physicalf13/API8e24; unchanged
-reviewed32 bundle cases/full206, actual known rollback and truthful unknown,
-selected source/history/current-state/reversal closure. No semantic application,
-provider, delivery or recovery capability inferred. Full release remains partial.
+- /root/bundle_implementer: task/STORAGE-002-implementation, clean2673893,
+  local-evidence/worktrees/storage002-implementation. Source integrated as6a6a200.
+- /root/bundle_validation: task/STORAGE-002-boundary-regressions, clean068249e,
+  local-evidence/worktrees/storage002-validation; prior validation branch159 held
+  then integrated only after reviewed reachedred. Purehelper/testauthor work done.
+- /root/bundle_reviewer: task/STORAGE-002-code-review,5b71576a,
+  local-evidence/worktrees/storage002-review. ONLY3 uncommitted files are preserved
+  exact rootec60 configuration copies used for independent fresh verification:
+  workflow, presets, tests/qt/CMakeLists. No unfinished source/test/review edits.
 
-## Preserved gates and next action
+## Exact gates already completed — do not repeat preparation
 
-[Baseline handoff](storagetest-002-handoff.md), [review](storagetest-002-review.md),
-[CI/red evidence](storagetest-002-ci.md), [raw first red](storagetest-002-red-ctest.txt).
-Full review9170921/final attributiona32ac35; feature CPP4b60fcaa, JSONe8b6c77e,
-helperb0a5c72f, header8e24f062, physicalf13fca6d preserved. Original first-red
-90fa/SHA2561e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f
-is complete: do not repeat baseline preparation. Production may now implement.
+Original STORAGETEST-002 fullreview917/finala32, CPP4b60/header8e24/physicalf13/
+JSONe8b/helperb0 and FIRST32 stubred90fa/rawSHA1e677e remain preserved in
+[baseline](storagetest-002-handoff.md). Actual root source final clean6a6a200:
 
-No new source/acceptance/CI/code-review pass is claimed yet. Next: author source,
-run relevant local checks, obtain actual different review, promote32 to ordinary
-unconditional CI, publish focused draft PR and observe latest-head checks. Recheck
-all applicable gates before merge. No owner decision/access currently needed.
-All seven integrations/threeFX and remaining UI/platform/operational release gates
-remain mandatory; synthetic disposable data only.
+| Artifact | Git blob |
+| --- | --- |
+| runtime |a9056be460d6f0536d66341d09e70f177a6638e3 |
+| internal values helper |b0ca921cb27068ecc33228d136b82506fcb6e0a3 |
+| tests |8bf359827feb544651ecf2f218a518f70c8de938 |
+| Qt CMake |0e0d039c781a8106c99ef6bd6a5d831edbe8eb87 |
+| presets |b9aabac860fecced1a29a290e875a56c4a4fafd1 |
+| workflow |783dda747bcf3a766fdb4c7892c5680fc51fece1 |
 
-## Publication and current work
+Root warning-free3-step build,35PASS2.33s/full209PASS7.07s. Different actual
+source/config approval5b71576a has fresh20-step0warnings/35PASS2.27s/full209PASS7.06s,
+all206Qt totals0fail/skip/blacklist, exact35compiled/enabled. HostSQLite3.54.
+Original32 retained with one [separately approved terminal oracle correction](storage-002-terminal-baseline-review.md).
+Automatic-review rejected a premature correction commit, so actual separate review
+preceded corrected commit945e; no owner override. Three additive slots have actual
+separate test approvals and reachedred before fixes:
+[byte1105](storage-002-regression-review.md), [quota/metadata](storage-002-metadata-regression.md).
+Statekind1 data row already passed; transition0/progress0 and quota were actual red.
+All frozen fixtures/public ports/prior schemas remain unchanged. No semantic
+application/authority/delivery/recovery/provider/platform proof is inferred.
 
-Focused [draft PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43),
-claim head a13970e. Authors working; reviewer is preparation-only. Root prepared
-(uncommitted/unpublished) SQL-workflow unconditional32 promotion and CMake comment
-update. Do not publish promotion until actual implementation candidate is ready.
-Root tooling19 PASS0.245s and project391/122/render/diff pass; actionlint is not on
-PATH in this session (not a feature failure); changed workflow requires actual CI.
-Confirmed all10 integrated-main995e0fa workflows SUCCESS via live GitHub API.
-No source/acceptance/review pass is claimed yet.
+## Publication / next concrete action
 
-## Actual source and review checkpoint
+PR43 remains DRAFT; initial publishedclaima139 received all11 inherited checksPASS.
+Root is now committing/publishing the complete reviewed source+35 unconditional CI
+and honest evidence/progress. Official selected UbuntuQt6.12/Boost1.83/SQLite3.53.4
+acceptance on THIS candidate is not yet observed. Do not infer it from claimCI.
+Run/check changed workflow, append actual results, complete task records, recheck
+latesthead CI/threads/reviews/effective rules/mergeability and normal exacthead
+merge. Current effective26170263 requires PR/resolvedthreads/no force/deletion,
+GitHub approvals0; written all-latest-CI/independent-review gates still apply.
 
-Root integrated helper824 as9690d19 and runtimef969 asd264bb2. Author real build
-0warnings; initial32 development29PASS/3FAIL then31PASS/1baselineoracleFAIL.
-Root independently identified terminal-ticket oracle inconsistency; auto-review
-rejected a premature correction commit, so root obtained actual separate approval
-[a241 review](storage-002-terminal-baseline-review.md) BEFORE corrected commit945e.
-Corrected baseline0024778 changes ONLY final expected work error tosession_closed;
-physical rollback/payload/capability assertions remain. Reviewer focused1/1PASS.
-Original4b60/red90fa remain preserved; no original-red rerun.
-
-Reviewer authored additive byte regression291; root independently approved its
-literal1105 calculation from raw frozenJSON, integrated991465a. Root CMake adds
-one explicit slot (33 total/207 all), workflow exact33 guard and unconditional run.
-Actual root configure/build completed without warnings (22 final steps). Next:
-freeze this clean source then run ONLY targeted new1105 test against helper824;
-held helper159 must remain UNINTEGRATED until actual defect-specific red.
-
-Reviewer found real input-only quota/keyset cardinality gaps; main author supplied
-held correction93f75ef (own205/206, only oldoracle failure). Root stillf969 for
-focused regression red. bundle_validation explicitly reassigned TWO additive
-public tests for returned-input-only budget and hidden nonpositive metadata; own
-branch may hold159, but root/main candidate still824. Different actual test review
-then reachedred precede correction integration. Complete source/config review is
-INPROGRESS, not approved. No task done/implementation acceptance/changed official
-CI claim. PR43 published head remains claima139/all11PASS only; source candidate
-not yet pushed. No owner decision/access needed.
-
-## Actual byte regression completed
-
-Root targeted new1105 regression FIRSTred at CLEANe6bc, actualexit8/0.04s,
-init+cleanupPASS/0skip; raw tracked storage-002-byte-regression-red.txt SHA3267a29d.
-Actual GDB attribution confirmed result_limit/rolled_back/work_exception at1105.
-Only then helper159 correction integrated55c059f (evidence5dc→f510199). Warning-free
-build and targeted1/1PASS0.04s. Root still runtimef969 (93 held pending two newly
-assigned tests). Reviewer original32 with approved terminal correction32/32PASS.
-Reviewer discovered/preparing source review requires checked count sums and
-preconstructed final changes-query before writes; main author fixing in own tree.
-No full source approval/taskdone/latest sourceofficialCI yet. Actual newtest review/
-red then93+followup source and35/full209 next; no owner access/decision needed.
-
-## New two-regression gate ready
-
-Actual independent test approvaled4486b importedeb4c30f before bodies; exact additive
-068 imported78e3150 (143 lines2slots+3data), frozen oldassertions retained except
-separately approved terminal correction. Root compile0warnings/discovery exact35/
-209, _data excluded, allenabled. Guard35+unconditionalCTest; preset display wording
-acceptance only. Next freeze clean head and FIRST targeted2 red against actual
-runtimef969/helper159 (bytefix unrelated);93+3e+final267 remain UNINTEGRATED root.
-Reviewer already reviewed source fixes in own tree; no finalapproval until root
-red/integration/final35/full209 and exact finalconfig review. No taskdone/CI claim.
+Then refresh main and immediately claim ACCTTEST-004. Read-only next-slice prep is
+complete, NO dependent edits/claim: begin bounded ORIGINAL application-orchestrator
+logical contract, actual independent review before API/tests. Explicit typed current
+policy/clock/authority ports are needed; storage envelopes certify none of them.
+Keep refunds ACCT006, batch/review ACCT005, milestones/delivery/recovery/wire as
+separate required gates. Do not invent capability from an opaque state document.

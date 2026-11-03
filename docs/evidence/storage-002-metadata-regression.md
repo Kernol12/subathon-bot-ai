@@ -77,3 +77,33 @@ acceptance/ordinary CI remain root's next gates. The author's local tree preserv
 held helper159 from the earlier helper assignment; that correction is unrelated to
 these two metadata/quota assertions and is NOT authority to integrate it early.
 Only the additive test diff and this note are handed off from this branch.
+
+## Actual reviewed first red and correction integration
+
+Different actual [test review](storage-002-metadata-regression-review.md) ed4486b
+was importedeb4c30f BEFORE bodies; tests068 imported78e3150. Root compiler has no
+warnings, compiled35=registered35/global209 with _data excluded. FIRST targeted
+command at CLEANec60f66028c4e5e6d6054eeda74a25c879f18e53, UTC2026-11-03T05:32:51Z:
+`ctest --preset sqlite-bundle-debug -R '^sqlite-bundle.(lookupUsesReturnedQuotaIndependentlyOfInputItems|metadataRejectsRowsOutsidePositiveKeysets)$' --verbose`.
+Actual exit8/0.10s; quota bodyFAIL, transitionordinal0/progressposition0 FAIL,
+statekind1 ALREADY PASS. All init/cleanup PASS,0skip/setup failures. The state data
+row is useful already-green coverage, not a claimed first-red witness. Earlier
+review inference that every nonpositive-key example was hidden was too broad.
+Actual root helper159 is the separately reviewed/red-corrected byte fix and is
+unrelated to these two tests; runtime remains uncorrectedf969 for this red.
+[Raw first targeted run](storage-002-metadata-regression-red.txt) SHA256
+7eaa601b868e47d8fedba62e2a7f51edcbabb1356979e6507d8602e8124a0c05.
+
+Supplemental actual read-only GDB inspection (bundle_implementer, debugger skill
+fallback because CLion router unavailable) confirmed quota=result_limit/rolled_back/
+work_exception/no value; transition and progress have no storage error, rolled_back/
+work_exception/no value and the refusal helper's deliberate "required selected
+storage failure missing" problem. Raw corrupt counts/FK/CHECK-restoration assertions
+had passed. No raw GDB logfile retained; no logging/source instrumentation added.
+
+ONLY THEN root integrated93→11813d0,3e→5413328,267→6a6a200. These enforce complete
+actual scoped cardinality before full materialization, independent read quotas,
+checked totals and prepared final query before writes. Final warning-free3-step
+build,35/35PASS2.33s and full209/209PASS7.07s on clean6a6a200;0Qt skips/failures.
+Independent final source/config review and actual promoted official CI remain
+separate future gates. Original32 historical red90fa is never repeated/reattributed.
