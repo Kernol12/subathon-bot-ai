@@ -3261,7 +3261,7 @@ class SqliteApplicationBundleTests final : public QObject {
                 work_failure([&] { (void)store.read_state(); }, WorkError::session_closed);
                 return 1;
             });
-            clean_rollback(r);
+            clean_rollback(r, WorkError::session_closed);
             require(saved.has_value(), "copied inert ticket retained for expiry test");
             work_failure([&] { (void)saved->read_state(); }, WorkError::stale_session);
         });
