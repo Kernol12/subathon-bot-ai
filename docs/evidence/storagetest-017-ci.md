@@ -182,3 +182,46 @@ No feature body/new reader has been invoked. The complete reviewed candidate
 is now frozen for ITS OWN selected official required new foundation-green and
 compiled18 guard/old stable suites before the first new named-stub red. Earlier
 API or fixture heads do not establish this future complete-candidate CI outcome.
+
+
+## Own complete reviewed-head official CI, then FIRST intended red
+
+[Official SQL41602589680](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41602589680)
+SUCCESS at exact complete reviewed clean **c24fb6eb4d7c4bb666b1dba3ff077a54014dd865**,
+2026-11-03T08:20:48Z–08:22:39Z. Fresh100 build steps, zero warnings, GNU13.3,
+pinned Boost1.83 macro108300, verified official Qt6.12 archives, actual SQLite3.53.4.
+Mandatory new three-slot foundation guard and diagnostic PASS (5 Qt passed,0failed/
+skipped/blacklisted,88ms); mandatory compiled18 guard, all old stable suites
+including35 bundle cases PASS. All11 exact-head PR checks SUCCESS. New feature
+bodies intentionally not invoked in CI. Raw official log SHA256
+80ab1c952321792a8419f1dc82c716610fc43d6345d0cab449abd5faf6bbe341.
+
+ONLY AFTER that actual success and actual full reviewf5c6dc1, root invoked the
+FIRST feature suite at the SAME clean c24 head, without altering any source, fixture
+or harness:
+
+```sh
+ctest --preset sqlite-original-claim-debug -L '^sqlite-original-claim$'
+```
+
+Started2026-11-03T08:24:35.551068Z, finished08:24:36.110621Z, actual exit8;
+CTest0.55s. **All18 CTest cases failed; all35 Qt scenario rows report exactly**
+`SQLite original-claim lookup is intentionally unimplemented; review tests first`.
+All36 init/cleanup results PASS; zero skipped/blacklisted/crashes/setup failures.
+The explicit marker survives the queued/foreign-thread paths and does not become
+a false unknown-success case. This is the genuine missing-query baseline, not a
+compiler, dependency or fixture failure. No completed old red was repeated.
+
+[Unmodified raw first-red record](storagetest-017-red-ctest.txt), SHA256
+90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0.
+Original local LastTest preserved separately SHA256
+821b3d3d46bd372cc570056d0db8bccda4e8324212cd1bd4ee7eb50218b9ffa5.
+Raw files under ignored local-evidence retain the official log and native LastTest.
+The log-parser’s first diagnostic-string assertion expected `SQLite=` rather than
+the actual diagnostic text; corrected log inspection confirmed the real version
+and gates before any feature execution. This parser mismatch is not feature red.
+
+STORAGETEST-017 is DONE as a test baseline only. STORAGE-017 remains planned with
+source130’s immediate named stub. Final attribution review and future latest-head
+CI/discussions/normal merge gates are not preapproved. DB-01/NUM-04 remain partial;
+hold/service/authority/provider/FX/recovery/UI/platform/release gates remain.

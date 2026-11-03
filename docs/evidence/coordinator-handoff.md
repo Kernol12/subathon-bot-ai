@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-017 approved tests, before first red
+# Coordinator checkpoint — STORAGETEST-017 first red recorded, final baseline gates
 
 Owner resumed 2026-11-03 under [standing coordinator instructions](../COORDINATOR_PROMPT.md).
 Continue the loop; full specification remains incomplete. No owner decision or
@@ -24,11 +24,11 @@ Last observed main: **21c087154638ffcdc03663696b568a4bf454462d**.
 
 ## Active task and exact completed gates
 
-STORAGETEST-017 in_review, STORAGE-017 production planned. Dedicated root
+STORAGETEST-017 DONE test_baseline only (UNMERGED), STORAGE-017 production planned. Dedicated root
 branch `task/STORAGETEST-017-early-claims`, from integrated21c before edits.
-[Draft PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45), last published
-headad69fecf9110c7dbdefa64d8374cdd83c0f13398; newer local test/metadata commits
-await complete review. Brief: [STORAGE017](../tasks/EPIC-009/STORAGE-017.md).
+[Draft PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45), actual complete reviewed published
+headc24fb6eb4d7c4bb666b1dba3ff077a54014dd865; all11 checksSUCCESS and
+FIRST samecleanhead red now recorded. Final completion metadata awaits ownCI. Brief: [STORAGE017](../tasks/EPIC-009/STORAGE-017.md).
 
 - Concrete contractbad19c47, actual different doc review39a50970:
   [contract](../contracts/sqlite-original-claims-v1.md), [review](storagetest-017-contract-review.md).
@@ -52,7 +52,7 @@ await complete review. Brief: [STORAGE017](../tasks/EPIC-009/STORAGE-017.md).
   Root actual harness QtCMakec35ccf28/workflow7fec9ade adds18 enabled registrations
   and compiled-only guard, preserves prior210/required new three-slot green.
   Configure/four-step build zero warnings; compiled-functions/metadata18 exact,
-  global228=prior210+18. **No feature body/new reader has been invoked.**
+  global228=prior210+18. These compile checks preceded the FIRST feature run recorded below.
 
 Query contract: globally tagged subject first, then ORIGINAL receipt source,
 no operation-scope filter. Fixed scalar predicate has no aggregate input quota;
@@ -86,23 +86,28 @@ work preserved; no prune/reset/discard. Earlier storage002-review5b tree retains
 three root-config verification copies; current17review tree similarly retains
 verification copies. No old source/test assignment remains running.
 
-## Next concrete actions and remaining gates
+## First red complete / next concrete actions and remaining gates
 
-1. Full independent test/harness review COMPLETE f5c6dc1. Preserve actual approved
-   CPP0e4f4f00; no new reader body has run.
-2. Freeze/publish complete approved test head; observe ITS OWN selected official
-   required new three-slot diagnostic, compiled18 guard, old stable suites/all11.
-3. ONLY THEN first `ctest --preset sqlite-original-claim-debug -L '^sqlite-original-claim$'`
-   at same clean approved head. Require18 CTest/33 rows to fail from exact named
-   new missing-feature marker, with no setup/compiler/skip/crash mistaken for red.
-   Preserve raw output/LastTest/head/time/hashes and review attribution.
-4. Finish only test_baseline017, all applicable latest gates/discussions/approvals,
-   normal exact-head PR45 merge. Then refreshmain and claim implementation017.
-   Hold016 remains required separately; service004 waits both integrated ports.
+Actual complete approved clean c24 selected official41602589680 SUCCESS
+08:20:48–08:22:39Z/fresh100/zero/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/
+requirednew3guard+5PASS0skip88ms/exact18compiledguard/oldstable/all11. ONLY THEN
+FIRST feature invocation at SAME clean c24,08:24:35.551–08:24:36.110Z, actualexit8/
+0.55s/all18fail; all35rows EXACT namedmarker,36initcleanupPASS/0skip/crash/setup
+failure. [Original raw](storagetest-017-red-ctest.txt) SHA90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0,
+[CI](storagetest-017-ci.md), [handoff](storagetest-017-handoff.md). Do not repeat.
 
-No source implementation or first red exists yet. API/fixture/source CI from
-prior revisions is not proof for future test or implementation heads. No live
-provider/platform/release verification claimed. No owner question currently pending.
+1. `/root/bundle_reviewer` now explicitly assigned actual final rawCI/red/completion
+   attribution review; writing only storagetest-017-final-review.md after actual
+   root completion candidate. Full test reviewf5c6 remains valid and unchanged.
+2. Publish completion metadata, observe latest all11CI, recheck rules/reviews/zero
+   threads/ready/CLEAN/MERGEABLE/cleanroot and unchanged reviewed blobs, normal
+   exact-head PR45 merge only. No production query exists yet; source130 is stub.
+3. Refresh main after integration, claim STORAGE017 on a new task branch and
+   explicitly assign source author + separate actual reviewer. Preserve frozen
+   tests/rawred, run green18/full228, promote mandatory new acceptance in CI.
+   Hold016 remains separately required; service004 waits both integrated ports.
+
+No owner question pending. No live/provider/platform/release verification claimed.
 
 Actual latest inventory:107 worktree refs,91 existing/16 absent. Only storage002-review
 and storagetest017-review have preserved root-config verification copies; root and
