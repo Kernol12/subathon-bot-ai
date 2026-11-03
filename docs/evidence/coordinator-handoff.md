@@ -152,3 +152,20 @@ existing components only. Next: handle actual document findings/reviews, then
 explicitly authorize minimal API/stubs/harness ONLY after those gates pass.
 All older source/contract/review worktrees, dirty copies and valid reviews retained.
 No native process or owner access/decision needed.
+
+## Active concrete findings and correction batch
+
+Actual6ee review found hold retry classification gap: ONLY newrecorded→held;
+already_recorded may carry a resolved historical hold, so typedstage_conflict/no-held
+plus complete detection disposition table/example needed. Explicit outstanding
+UNsubmitted preparedpair lifetime also requested. Bounded codec audit independently
+confirms ALL stated literalbytes/counts/CSarithmetic, but found C1 method-boundary
+accounting/error priority ambiguity (encodeCommand25→Envelope98 vs decode98→25,
+opaque envelopes do not own decodedvectors) and C2 multi-occurrence currenttimer
+clarity (Main58/two+10/cap60 must60→60; no fixed initialsnapshot reuse).
+Root explicitly RESUMED completed author with followup_task for ONLY ownedtwoMD
+correction batch/revisednote. Full and bounded reviewers still working actual6ee;
+no final verdict/approval. No serviceCPP/stubs/fixtures/tests/marker run. Root
+read-only futurebuild prep local-evidence/accttest004-build-prep.md confirms existing
+core targets can be reused without enabling unrelated GTest flags or a newdep;
+shared CMake changes wait actualdocument approval. Root PR49 remainsdraft.

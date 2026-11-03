@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T15:49:34Z",
+  "updated_at": "2026-11-03T15:56:42Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1683,7 +1683,8 @@
         "Actual NEWauthor/reviewer trees createdfromefe+claim5236d88 and explicitly resumed withfollowup_task. Authorwriting ONLY assignedAPI/authorMD, no extra codecfile; concrete mapping prep confirms stale_plan hasNOheadpayload, missingcounter notinitialized and overflowhold anchorsPERSISTEDhead. Different reviewer read-onlyprep/callseam auditactive, actualauthoreddocumentpendingbeforeanyverdict. Thirdagent bundle_validation explicitlyassigned bounded READONLY realwritercompletion/faultseam investigation, no files/branch/tests/approval. Rootpostmain efe ALL10SUCCESSobservedinclSQL41664725048; existingcomponentgreen isnotservicebaseline. No newAPI/stub/fixture/servicebody/red invocation.",
         "Read-only concrete port investigation is documented in accttest-004-api-prep.md; no approval/tests/native/service invocation. Actual writer completion value plus at-most-one BEGIN/terminal protocol proves one real commit/normal return without SQL counts. Concrete DOC must choose bounded trusted work-body entry/callable (or separately reviewed minimal tail seam) for AS15: invoke body then throw AFTER acknowledged COMMIT before outer return, durable rows but no publication. Existing commit-ack-loss hooks yield UNKNOWN and cannot substitute. Typed stage/claim/hold values remain provisional; historical produced versions are not an active certificate, conflicts have no invented payload and known rollback is no normal Held success. Both author/reviewer notified; author still only two MD paths, actual candidate pending. Reviewer preparation COMPLETE and idle awaiting actual revision; use followup_task when ready. Third investigator COMPLETE/read-only only.",
         "Actual complete concrete DOCUMENT d421471b927636cd159794adea223d5b5d49b3c2 integratedba6ae75: application-service-api-v1.md6ee28717e8aa78896180c1ac0cc22e31adf3bf2a/641lines. Prepared real Work+matching Completion pair used by enqueue enables AS15 without fakecommit or SQLinstrumentation; exact owned QVariant extraction/provisional body/actualcompletion publication; finite revocable read-only retained view/typedports/command+state/result/audit/holdobs/syntheticjob codecs/15CSexamples and bounds. Different FULL actual contract reviewer explicitly resumed on this revision; third agent separately assigned bounded independent literalcodec/B-I/quota/decode/arithmetic DOCUMENT audit in NEWtask/ACCTTEST-004-codec-review atlocal-evidence/worktrees/accttest004-codec-review (efe+523claim+d421doc=ab9ca61). Ownonly docs/evidence/accttest-004-codec-review.md, no proposal/source/test/config edits. AuthorMD follows; no verdict/header/stub/fixture/test/marker run yet.",
-        "Focused DRAFT PR49 https://github.com/Kernol12/subathon-bot-ai/pull/49 opened at57ffa79 with actualconcrete doc6ee28717. Finalauthor evidencebd9b354751e314222b71779f04884ad5e4b775f0 integratede7e6e1c, MD91636d764b8cc6dd02766060b7e2136166f60505; contractunchanged. Author COMPLETE/idle availableforreviewcorrections. FULLsemantic/ports reviewer and separate boundedcodec/arithmeticreviewer ACTIVE on actualdoc+note, no verdict yet. No serviceheader/stub/codecimplementation/fixture/test/marker invoked; productionACCT004 planned. OldstableCI is not newserviceacceptance."
+        "Focused DRAFT PR49 https://github.com/Kernol12/subathon-bot-ai/pull/49 opened at57ffa79 with actualconcrete doc6ee28717. Finalauthor evidencebd9b354751e314222b71779f04884ad5e4b775f0 integratede7e6e1c, MD91636d764b8cc6dd02766060b7e2136166f60505; contractunchanged. Author COMPLETE/idle availableforreviewcorrections. FULLsemantic/ports reviewer and separate boundedcodec/arithmeticreviewer ACTIVE on actualdoc+note, no verdict yet. No serviceheader/stub/codecimplementation/fixture/test/marker invoked; productionACCT004 planned. OldstableCI is not newserviceacceptance.",
+        "Actual6ee document reviews found bounded corrections BEFORE any API/fixture/code: full reviewer requires recorded-only newhold→held; historical already_recorded may be resolved and must map typedstage_conflict/no-held, with full detectiondisposition/impossible-output table and resolvedretry example. Root also requested explicit lifetime for UNsubmitted preparedpairs. Bounded reviewer independently confirms ALL literalbytes/counts/arithmetic, but requires method-boundary accounting/error table (encodeC0 inputCommand25→Envelope98; decode98→Command25; opaqueEnvelope must not charge decodedvectors) and CURRENT running pre-occurrence timer across requests (Main58/two+10/cap60→60→60), while preserving no-doubleadd within an occurrence. Author explicitly resumed for ONLY twoMDpaths correction batch/revisednote; reviewers continueactual6ee audit. No approvals/source/test/marker invocation or release requirement reduction."
       ],
       "verification": {
         "logical_contract": "passed",
@@ -1696,8 +1697,8 @@
         "official_qt": "not_run",
         "platform_release": "not_run",
         "contract_authoring": "passed",
-        "contract_review": "not_run",
-        "codec_review": "not_run"
+        "contract_review": "partial",
+        "codec_review": "partial"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
