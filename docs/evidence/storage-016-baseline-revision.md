@@ -148,3 +148,30 @@ body_cause/body_detection, retaining matrix checks. Other optional-group rules
 remain unchanged. This new genuine red precedes source correction; no baseline
 replay or weakened assertion. Final source/config review and269-row green remain
 future gates.
+
+## Retained-reference writer-failure mapping regression
+
+Actual full source review identified a separate source-adapter seam: retained
+configuration/context `find` forwards known writer busy/sql/resource/result errors
+after writer-established rollback. New HoldAccess.retained catches only
+RetentionFailure, and the outer guarded path forwards ALL SqliteWorkFailure.
+API46c217–224 explicitly requires known source-store busy/sql/resource/result
+errors to retain their matching HOLD reason after known rollback, while original
+capability/protocol/uncertain/unmapped failures must remain original writer truth.
+This is not permission to catch all writer errors or clean up a second time.
+
+One additive `retained-reference-result-bytes` row extends the existing cumulative
+writer-budget slot. It enlarges ONLY selected healthy configuration cfg's opaque
+document to131072 bytes, below the default retained262144-byte ceiling, then uses
+the actual writer result-byte ceiling65536. The selected row alone exceeds that
+writer ceiling, independent of a particular statement count or prior consumption.
+Existing small hold metadata can be read first. The public find(hOverflow) must
+return SqliteHoldStorageFailure(result_limit); existing assertions require the
+writer completion's result_limit, immediate writer release/whole-unit rollback,
+unchanged complete durable snapshot and a catch INSIDE the new port call.
+
+The setup asserts one actually changed configuration row. No immutable fixture,
+old row/oracle/assertion or source is changed.35slots/269→270 scenarios. Actual
+different review, narrow intended red and runtime stack attribution are required
+before releasing the correction; current official35 success is preserved for its
+269-row candidate and does not establish this additional seam.

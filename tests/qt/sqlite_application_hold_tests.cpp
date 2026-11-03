@@ -2195,11 +2195,12 @@ class SqliteApplicationHoldTests final : public QObject {
     }
     void callerAndAllBorrowedPortsShareActualCumulativeWriterBudgets_data() {
         QTest::addColumn<int>("which");
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < 5; ++i)
             QTest::newRow(i == 0   ? "statement-count"
                           : i == 1 ? "binding-bytes"
                           : i == 2 ? "result-rows"
-                                   : "result-bytes")
+                          : i == 3 ? "result-bytes"
+                                   : "retained-reference-result-bytes")
                 << i;
     }
     void callerAndAllBorrowedPortsShareActualCumulativeWriterBudgets() {
@@ -2216,6 +2217,13 @@ class SqliteApplicationHoldTests final : public QObject {
                 l.result_rows = 1;
             if (which == 3)
                 l.result_value_bytes = 264;
+            if (which == 4) {
+                db.modify("UPDATE subathon_retained_configurations SET document=zeroblob(131072) "
+                          "WHERE reference=X'636667'");
+                require(db.observer->rows("SELECT changes()") == SqlRows{{qint64(1)}},
+                        "Selected retained configuration was enlarged");
+                l.result_value_bytes = 65536;
+            }
             db.reopen(l);
             const auto before = db.saved();
             bool caught = false;
