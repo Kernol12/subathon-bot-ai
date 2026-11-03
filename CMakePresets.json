@@ -177,6 +177,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_HOLD_TESTS": "ON"
       }
+    },
+    {
+      "name": "application-service-debug",
+      "displayName": "21 \u00b7 Original application-service baseline",
+      "inherits": "sqlite-hold-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_APPLICATION_SERVICE_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -259,6 +267,10 @@
     {
       "name": "sqlite-hold-debug",
       "configurePreset": "sqlite-hold-debug"
+    },
+    {
+      "name": "application-service-debug",
+      "configurePreset": "application-service-debug"
     }
   ],
   "testPresets": [
@@ -455,6 +467,16 @@
     {
       "name": "sqlite-hold-debug",
       "configurePreset": "sqlite-hold-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "application-service-debug",
+      "configurePreset": "application-service-debug",
       "output": {
         "outputOnFailure": true
       },
