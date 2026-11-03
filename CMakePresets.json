@@ -169,6 +169,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-hold-debug",
+      "displayName": "20 \u00b7 Durable application-hold SQLite baseline",
+      "inherits": "sqlite-original-claim-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_HOLD_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -247,6 +255,10 @@
     {
       "name": "sqlite-original-claim-debug",
       "configurePreset": "sqlite-original-claim-debug"
+    },
+    {
+      "name": "sqlite-hold-debug",
+      "configurePreset": "sqlite-hold-debug"
     }
   ],
   "testPresets": [
@@ -433,6 +445,16 @@
     {
       "name": "sqlite-original-claim-debug",
       "configurePreset": "sqlite-original-claim-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-hold-debug",
+      "configurePreset": "sqlite-hold-debug",
       "output": {
         "outputOnFailure": true
       },

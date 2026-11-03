@@ -75,3 +75,16 @@ DB-01/NUM-04 stay partial. No current authorization/policy, full service, provid
 FX/refund/delivery/recovery/backup/UI/renderers/platform/package or full agreed
 release capability follows. All seven integrations/threeFX remain mandatory.
 No live effects or owner action needed now.
+
+
+## Actual integration
+
+PR46 normally MERGED2026-11-03T08:57:48Z at exact corrected final
+8120c231b9bdb1b974d1335f9c56ea449f0f1cf6 as main
+aad1ad11dd2f826d11d81897319671aa10017b8c. All11 latest checksSUCCESS,
+including final SQL41606867976; ready/CLEAN/MERGEABLE, zero unresolvedthreads,
+current required formal approvals0, clean root and unchanged reviewed artifacts
+rechecked. No bypass/force/branch deletion. Local main refreshed clean and tree
+equals final812, then dependency-ready STORAGETEST016 concrete-contract work
+was claimed on a new dedicated branch. Earlier UNMERGED text describes its
+historical checkpoint. Postmain workflows remain a separate observation.
