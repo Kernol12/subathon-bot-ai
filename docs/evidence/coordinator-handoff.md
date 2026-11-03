@@ -1,4 +1,4 @@
-# Coordinator checkpoint — hold baseline complete, final PR gates pending
+# Coordinator checkpoint — STORAGE-016 implementation claimed from integrated baseline
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Full
 product is incomplete. No owner decision/access currently needed. Do not stop at
@@ -6,8 +6,11 @@ this PR; implementation016 and service004 follow their own gates.
 
 ## Main and preserved integrated work
 
-Last observed main **aad1ad11dd2f826d11d81897319671aa10017b8c**; all ten postmerge
-workflows successful, including SQL41607196319. Completed normal task merges:
+Current refreshed main **017d40f6233e3416b4a785924052a9ab9bbeb83f**, normal PR47
+merge13:20:43Z from exactfinalb5a782fe after all11 latest successful, SQL41642632696,
+readyCLEAN/MERGEABLE/0threads/currentrules26170263formal0/rootclean/pinsunchanged.
+Main tree1ffff440 equalsb5. No bypass/force/delete. Postmain017d CI is pending
+separate observation. Earlieraad all10 were successful. Completed task merges:
 
 - [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), STORAGE-002:
  34ed520→8c7f71f,05:49:50Z. [Handoff](storage-002-handoff.md).
@@ -27,8 +30,8 @@ workflows successful, including SQL41607196319. Completed normal task merges:
 
 ## Active branch and actual incomplete execution
 
-Root `task/STORAGETEST-016-durable-holds` from actual main before claim.
-[Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47), last published
+Preserved baseline branch `task/STORAGETEST-016-durable-holds`.
+[Merged PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47), last published
 **598a96e89bd836e50e45b45b15a26b4b1e2f34ef**, all11 checks successful. The earlier complete
 source-specific SQL41637913237 succeeded12:42:01–12:44:17Z: fresh110/zero warnings/
 GNU13.3/Boost108300/Qt6.12/SQLite3.53.4/new3 diagnostic5PASS0skip186ms/exact35
@@ -121,20 +124,46 @@ storage017-review5, storage017-validation6 remain untouched. No reset/prune/disc
 Native root corrected build/discovery completed; inspect actual processes/agents
 on resume, never assume running. Use followup_task for completed agents.
 
+## Active STORAGE-016 implementation assignment
+
+Root `task/STORAGE-016-durable-holds` was created from refreshed017d BEFORE claim
+or edits. Implementation scope/acceptance/ownership is now recorded in state.json.
+No implementation candidate yet; six source functions still immediate stubs.
+
+New source tree `local-evidence/worktrees/storage016-source`, branch
+`task/STORAGE-016-source`, from currentmain017d plus rootclaim; implementer
+`/root/bundle_implementer` owns `server/src/sqlite_application_holds.cpp`, optional
+private hold/reader helperheaders, authorMD. Existing private bundle.cpp/bundle_values
+may be factored ONLY for strict same-session selected reference reuse with EXACT
+old behavior; report concrete paths early. No public API/contract/test/fixture/root
+config changes. Preserve normative701/83e/46c/headerfe50/test0cce/fixture63de+7ca+a173.
+
+New reviewer tree `local-evidence/worktrees/storage016-review`, branch
+`task/STORAGE-016-review`, owns only source-review evidence AFTER actual candidate.
+New validator tree `local-evidence/worktrees/storage016-validation`, branch
+`task/STORAGE-016-validation`, owns native validation evidence AFTER actual source.
+Root creates isolated trees/assignments next; do not assume agents running until
+actual followup calls. Root alone owns shared progress/HTML/maps/schemaorder/build/
+presets/workflow and later promotion (draft-red removal + mandatory35 execution).
+
 ## Next concrete actions
 
-1. Finish final baseline completion metadata/handoff/map/HTML and project checks.
- Publish the completion head, keep PR47 draft until all latest11 checks pass.
-2. Recheck actual current main/rules/formal approvals/review threads/readiness,
- exact reviewed blobs/root clean, then normal `gh pr merge47 --merge
- --match-head-commit SHA` (with proper CLI spacing). No force/admin/bypass/delete.
-3. Refresh main/record actual merge and postmain checks. ONLY THEN claim STORAGE-016
- in a fresh branch from integrated main, separate source/review/validation agents.
- Preserve CPP0cce9545/fixtures/helper/contracts/all old baselines. Actual passing35/
-265 acceptance, source/allocation-order review and unconditional ordinary selected
- CI promotion are required before implementation done. Service004 retains own red.
+1. Complete rootclaim commit/project/render checks, create the three isolated
+ branches/worktrees from017d plus claim, explicitly assign bounded source author.
+ Reviewer may do read-only prep but never prospectively approve absent source.
+2. Observe postmain017d CI without repeating completed baseline/red tasks. Source
+ author implements exact six functions/step6 + strict selected references, runs
+ new35/full264 actual acceptance. Native runtime investigations use applicable
+ debugger-first skill when control-flow/value evidence is needed. No baseline
+ weakening; genuine test defects require separate written reason/review.
+3. Integrate actual source; separate full source/allocation-order/rollback/unknown
+ review and independent native validation. Root promotes ordinary CI ONLY after
+ actual green, preserving oldsteps/pins and mandatory new3diagnostic. Own promoted
+ selectedQt job must execute35 unconditionally, plus latestall11/rules/threads/
+ normal exact-head merge gates before implementation done/merge.
+4. Continue dependent service004 only from integrated requiredports and its OWN
+ reviewed tests/red. No authority/policy/provider/platform capability inferred.
 
-No owner decision/access currently needed. Latest effective rules previously
-26170263/formal approval0, recheck actual before merge. All seven integrations/
-three FX, both renderers/locales/themes/platforms/packaging/security/recovery/live/
-release gates remain mandatory and incomplete. A baseline task is not the product.
+No owner decision/access currently needed. All seven integrations/three FX, both
+renderers/locales/themes/platforms/packaging/security/recovery/live/release gates
+remain mandatory/incomplete. A component baseline is not the full product.
