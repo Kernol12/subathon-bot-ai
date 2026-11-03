@@ -169,3 +169,13 @@ no final verdict/approval. No serviceCPP/stubs/fixtures/tests/marker run. Root
 read-only futurebuild prep local-evidence/accttest004-build-prep.md confirms existing
 core targets can be reused without enabling unrelated GTest flags or a newdep;
 shared CMake changes wait actualdocument approval. Root PR49 remainsdraft.
+
+Additional full-review findings R3/R4 are in the SAME active DOC correction batch:
+finite echoed issued-reference binding, finite token-free action calculation
+proposal, jobs→issue refs→complete token-bearing codecs/bundle order; and exact
+read-view expiry/foreign/pure-invalid-key errors versus real writer capability/query
+errors. Do not call narrower view expiry underlying stale_session or assume pure
+Retention invalid-key already rolled back. Author explicitly notified, owns sole
+proposal/note edits; no new source/test/harness authorization. Actual6ee full and
+bounded reviews ongoing; root local metadata captures these findings before the
+corrected actual document arrives.
