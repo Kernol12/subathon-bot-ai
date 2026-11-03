@@ -186,8 +186,7 @@ inline void body_cause(const ApplicationHoldCause &v, const SqliteHoldLimits &l)
         (p.failed_capture && !envelope_body(*p.failed_capture, l)))
         invalid(Input::invalid_plan_evidence);
     const bool captured = p.kind == ApplicationHoldPlanKind::captured_revision;
-    if ((captured && (!p.plan || !v.first_observation.persisted_state_token)) ||
-        (!captured && (!p.stopped_for || !p.failed_capture)))
+    if ((captured && !p.plan) || (!captured && (!p.stopped_for || !p.failed_capture)))
         invalid(Input::invalid_plan_evidence);
     for (const auto &o : p.occurrences)
         if (o.ordinal <= 0 || (o.unit && !enum_in(*o.unit, 2)) ||
@@ -235,9 +234,6 @@ inline void body_detection_data(const ApplicationHoldDetectionData &v, const Sql
 inline void body_detection(const ApplicationHoldDetection &v, const SqliteHoldLimits &l) {
     body_cause(v.cause, l);
     body_detection_data(v.request, l);
-    if (v.cause.plan_evidence.kind == ApplicationHoldPlanKind::captured_revision &&
-        !v.request.observation.persisted_state_token)
-        invalid(Input::invalid_plan_evidence);
 }
 inline void body_resolution(const ApplicationHoldResolutionBatch &v, const SqliteHoldLimits &l) {
     if (v.entries.empty() || !bounded(v.reason, l.references.value_bytes) ||
