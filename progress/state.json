@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T08:54:41Z",
+  "updated_at": "2026-11-03T08:59:30Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5333,13 +5333,26 @@
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-016.md",
       "notes": [
-        "Parent epic: EPIC-009. ADR0003 preserves durable numerical-review requirements through separate concrete contract/test/red and implementation gates; planning only, no API/schema/tests/red/implementation or capability verified. Root controls shared schema/migration order/build/presets/workflow/pins."
+        "Parent epic: EPIC-009. ADR0003 preserves durable numerical-review requirements through separate concrete contract/test/red and implementation gates; planning only, no API/schema/tests/red/implementation or capability verified. Root controls shared schema/migration order/build/presets/workflow/pins.",
+        "Claimed task/STORAGETEST-016-durable-holds from fetched actualmainaad1ad11dd2f826d11d81897319671aa10017b8c AFTER normalPR46merge08:57:48Z and cleanmainff, before edits. DependenciesACCTCONTRACT001+STORAGE002 integrated; newquery017 alsointegrated but not retroactivelyaddedgate. FIRSTphase ONLY concreteholdDOCUMENT+ownauthorMD, actualdifferentdocreview before anyphysicalschema/API/stub/fixture/test. Freshcontractauthor/review trees fromactualaad. Authorbundle_validation ownsdocs/contracts/sqlite-application-holds-v1.md+storagetest016contractauthorMD only; differentreviewerbundle_reviewer ownscontractreviewMD only; bundle_implementer read-onlycounterexampleaudit. Rootownssharedstate/HTML/map/schemaorder/build/pins/CI. Scope: caller-session nonowning durablehold namespace for immutable cause/source/plan/state/provenance, globaltaggedsubject activegating independentnewrequest/replan, idempotentdetection versus independenthold identity, multipleindependentactiveholds, expectedversion history/resolution/atomiccallercomposition. Concretize boundspurepriority/completeclosure/strictIDNULL/knownrollback/unknown/provisional semantics. Explicitly separate recording caller-supplied reviewed decisions from enabling unresolved timer/mixed/postfinish/continuation productpolicy. No contributions-overwrite, successclaim/effects/jobs/head/result for whole-inputoverflow, no owntransaction/commit/connection/authorization/delivery. No concreteport/schema/policy finalized by thisclaim; futurestep6mustpreserveacceptedprefix1–5/full66 and allpriorassertions. ACCTTEST004/service004 waits integratedhold16 plus ownreviewedred, no oldlookup/228passaggregation."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "concrete_contract": "not_run",
+        "api_review": "not_run",
+        "fixture_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "native_build": "not_run",
+        "official_qt": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/application-service-v1.md",
+        "docs/decisions/0003-application-service-prerequisites.md"
+      ],
       "review": null,
-      "status": "planned",
-      "owner": "Unassigned"
+      "status": "in_progress",
+      "owner": "coordinator /root; concrete hold contract author /root/bundle_validation; independent reviewer /root/bundle_reviewer; read-only scenario audit /root/bundle_implementer"
     },
     {
       "id": "STORAGE-016",
@@ -5472,7 +5485,8 @@
         "Claimed task/STORAGE-017-original-claims from fetched actual main a40b42fc6d6e2a419f90f3abfd246c29dfd8173c AFTER normalPR45merge08:35:37Z. Integrated baseline fullreviewf5c6/finala729+eb563, first clean c24 red35 exact markers/18cases/0skip after ownselectedCI41602589680, originalraw90f3 preserved; no red replay. Scope ONLY reviewed const original-claim query per contractbad19/APIcf721: pureoptions/source priority, globaltaggedsubject first then ORIGINAL receiptsource, complete selectedoldlookup closure, exact wrapper+1, ownedprovisionaldata, actualknownrollback/originalunknown/capability and samecumulativewriterbudget. No schema/header/oldstage-equality/fixtures/tests weakening/dependency change. Dedicated source/review/validation trees/branches from integrateda40. Root owns sharedstate/HTML/map/CMake/CI promotion after new18/full228 green; author only runtimeCPP+ownMD; differentreviewer ownreviewMD; validator ownvalidationMD with isolatednativechecks afteractualsource. Acceptance: preserve baselineCPP0e4 andalloldtests/fixtures, zero-warning compile/exact18+228, passingnew18/full228, separate actualsource/config review and promoted ordinary selectedQtCI/new3green+mandatory18/latestall11 before normalmerge. Hold016/service004 remain separate; no release/provider/policy capability inferred.",
         "Actual source d675eb9→root34f7dd5 CPP834336d34f532508cf35d9eabb58f8ed8f0e71bf implements only query + exact old byte-walk extraction; authorMDa9d184d→7de22a6/492add53. Author fresh100/zero warnings/new18PASS0.82s/full228PASS7.97s/0skip. Root initialnew18PASS0.81, then promoted ordinaryCI (workflowc5d152f6 unconditional18 after unchangedrequirednew3/oldstable/guard; QtCMake687a9d3e no newdraftlabel, rootCMakea713/preset0acd descriptionsONLY). Publicheader8614bcef removesONLYone obsolete stubstatuscomment, no APIchange. Root finalconfigure/26stepbuild0warnings/full228PASS7.88s,225Qt totals715PASS/0FAIL0SKIP0blacklisted, exact18=compiled/full228/noinversion; sourcehelperb0/test0e4/newJSONbea127/helper67d4 unchanged. Different actual source/configreview and independentvalidation ACTIVE on exact834+5rootfiles, no verdict yet; ownpromotedselectedofficialCI pending. No production task completion/merge claim.",
         "Actual independent source/config approval11012da→root634d45e accepts CPP834/header861(commentonly)/rootCMakea713/preset0acd/Qt687/WFc5d, fullclosure/strictidentity/bytewalkexact+1/guardedrollback-vsunknown beyondtests. Own fresh1000warnings/new18PASS0.82/full228PASS7.85/225Qt715PASS0skip/exact18+228. Independent nativevalidatorbcffc51+93b7001+9455421 imported4c1d/c5b/554: samecandidate680,new18PASS0.79/full228PASS7.97/715Qt0fail0skip/100+26build0warnings. Actual source-own promoted selectedofficial41605888462 SUCCESS exact680209e67a8c4931eb5c703be3a16d7449a8dccd08:47:22–08:48:51Z: fresh100/ZEROwarnings/GNU13.3/pinnedBoost108300/Qt6.12SQLite3.53.4/requirednew3guard+5PASS0skip61ms/exact18compiled/UNCONDITIONAL18PASS1.29s/oldstableincl35/all11SUCCESS, rawSHA9fa9ed917b4c489cdbcc87be6b3c0c29ffe768ba18828f5d16fe6e7819ae3f1e. Component implementationDONE but PR46UNMERGED; futurecompletion-headlatestCI/discussion/rules/readiness/normalmerge remainactualgates. Baseline0e4/raw90f/alloldtests/fixtures/helpers/schema unchanged; DB01NUM04 partial/hold16+service4 separate/no liveplatformreleaseproof.",
-        "Completion metadata initially omitted the progress validator’s canonical verification.acceptance field while product_acceptance/native/official evidence already passed. tools/progress.py correctly rejected render; coordinator mistakenly published that intermediate f1a9 metadata before noticing the failed command. Corrected by mapping the already observed root/reviewer/validator18/full228 and officialmandatory18 evidence to acceptance=passed, without changing validators/tests/source or claiming the failed render passed. Fresh project/render/currentHTML and latest-head CI required before merge."
+        "Completion metadata initially omitted the progress validator’s canonical verification.acceptance field while product_acceptance/native/official evidence already passed. tools/progress.py correctly rejected render; coordinator mistakenly published that intermediate f1a9 metadata before noticing the failed command. Corrected by mapping the already observed root/reviewer/validator18/full228 and officialmandatory18 evidence to acceptance=passed, without changing validators/tests/source or claiming the failed render passed. Fresh project/render/currentHTML and latest-head CI required before merge.",
+        "NormalPR46 MERGED2026-11-03T08:57:48Z exactfinal8120c231b9bdb1b974d1335f9c56ea449f0f1cf6→mainaad1ad11dd2f826d11d81897319671aa10017b8c after all11latestSUCCESS inclSQL41606867976, readyCLEANMERGEABLE/0threads/currentrulesformalapproval0/cleanroot/criticalreviewedblobs unchanged. Correctedmetadata812passedfreshlatestCI; no bypass/force/delete. Mainffclean/treeequal812 before new016baselineclaim. PostmainCI separatependingobservation."
       ],
       "verification": {
         "baseline": "observed_red",
