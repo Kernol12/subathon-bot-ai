@@ -38,8 +38,9 @@ for that merge were observed successful, including SQL41607196319.
 Root branch `task/STORAGETEST-016-durable-holds` was created from actual main before
 claim/edit. [Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47)
 last published **4ada6245a687f5a9bb2c88d6f6ef02f22b0e4c85**, all eleven checks
-successful. Current local source head **fc581602ec041e056948d6578735db83a67446cd**
-contains the authored fixtures; root green harness/metadata updates remain local.
+successful. Local complete fixture/harness candidate **e31c5d4cda4b22b0b5f72944c14c18881d8deaff**
+is approved by separate e624614 (integrated a96367e). Source and harness remain
+unchanged; publication metadata is being finalized before its own official CI.
 STORAGETEST-016 is in progress; STORAGE-016 is planned. The
 [task brief](../tasks/EPIC-009/STORAGE-016.md) retains separate baseline and
 implementation PRs. `progress/state.json` is authoritative.
@@ -94,8 +95,9 @@ Agent roles on last actual inspection:
 - `/root/bundle_implementer`: fixture author COMPLETE at2508658, clean isolated
   `local-evidence/worktrees/storagetest016-fixtures`,
   `task/STORAGETEST-016-fixtures`. Owns only the four fixture/author paths above.
-- `/root/bundle_reviewer`: explicitly resumed ACTUAL full fixture/helper/harness
-  review on the exact artifacts above. Uses existing
+- `/root/bundle_reviewer`: ACTUAL full fixture/helper/harness review COMPLETE,
+  approved e624614 with no correction. All35 independent B/I oracles and raw
+  402/64/full89/source/history audits pass; own5 Qt passes/zero skips76ms. Uses existing
   `local-evidence/worktrees/storagetest016-review`,
   `task/STORAGETEST-016-review`; owns only the new fixture-review evidence.
   Preserve four old root API configuration verification copies; new Qt CMake and
@@ -110,8 +112,8 @@ Agent roles on last actual inspection:
 
 ## Next concrete actions and preservation
 
-1. Resolve actual independent fixture-review findings without weakening old oracles.
-   Integrate written approval for the final exact files; freeze root harness.
+1. Actual full [fixture/harness approval](storagetest-016-fixture-review.md) e624614
+   is integrated a96367e; no correction needed. Freeze publication metadata.
 2. Publish the approved complete fixture candidate. Observe its OWN required new
    three-slot diagnostic and selected Qt green, old stable suites and all latest
    checks. API-source CI does not satisfy this gate.

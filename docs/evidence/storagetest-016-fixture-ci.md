@@ -1,8 +1,8 @@
 # STORAGETEST-016 fixture harness and environment evidence
 
 The independent fixture foundation is authored and passes the native harness.
-Full independent review and this new harness's own selected official Qt CI remain
-pending. Acceptance tests have not been assigned. All six hold entrypoints remain
+Full independent review has passed; this new harness's own selected official Qt CI
+remains pending. Acceptance tests have not been assigned. All six hold entrypoints remain
 uninvoked unconditional stubs; these checks use raw SQL, existing repositories and
 construction of declared DTO values only.
 
@@ -75,7 +75,13 @@ Raw files remain under ignored `local-evidence/`:
 | `storagetest016-fixture-all229.txt` | `66cf8ad0f44f564ef9f52a69e299e383041126fe2d1275a45bedeeca212bd2ab` |
 | `storagetest016-fixture-LastTest.log` | `b854a7f104fbb7790b25c85fe525b4076fb8b1cf62e9d85bf4cb97b2a6e2c3a6` |
 
-Next gates: actual full fixture/helper/harness review; own new selected official
+Actual separate [fixture/harness approval](storagetest-016-fixture-review.md)
+`e6246145996733aa6a6ab2730a494c7c3e76ab6e`, integrated `a96367e`, accepts the
+exact six artifacts above at clean `e31c5d4`. No correction was required. Independent
+raw catalog/source/history/DTO audit and all35 B/I oracles agree; reviewer native
+foundation passes5 Qt cases/zero skips76ms after four warning-free build steps.
+
+Next gates: own new selected official
 Qt6.12 foundation green; only then acceptance-test authoring. Actual test review,
 compiler/discovery and same approved candidate environment precede the first
 missing-feature red. STORAGE-016 remains a separate later implementation task.
