@@ -46,3 +46,14 @@ actually ran; no unbuilt test target or unrun command is evidence. Update applic
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
+
+
+## Explicit application-service prerequisites
+
+[ADR-0003](../../decisions/0003-application-service-prerequisites.md) records the actual
+missing durable-review-hold port discovered during logical preparation. The separate
+[ACCTCONTRACT-001](../ACCTCONTRACT-001.md) logical contract and
+[STORAGETEST-016/STORAGE-016](../EPIC-009/STORAGE-016.md) durable hold repository
+must integrate before this task's own executable baseline. Successful-bundle storage
+or a transient Held return cannot establish durable NUM-04 review enforcement.
+No original atomicity/idempotency requirement or reviewed/red gate is removed.

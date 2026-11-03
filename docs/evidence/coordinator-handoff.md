@@ -1,4 +1,4 @@
-# Coordinator — PR43 integrated; ACCTTEST-004 contract stage
+# Coordinator — PR43 integrated; ACCTCONTRACT-001 logical contract
 
 Owner resumed the standing loop2026-11-03. Full product is incomplete; all seven
 integrations/threeFX and UI/operational/platform release scope remain mandatory.
@@ -17,7 +17,7 @@ exacthead merge. No bypass/force/deletion. Localmain fast-forwarded toactual8c7.
 Root35/full209 and different reviewer35/full209PASS0warnings/Qt skips; actual
 selected official source6133 run41585131851 has verifiedQt6.12SQLite3.53.4/
 Boost1.83/UNCONDITIONAL35PASS, and final34ed ownlatestchecks alsoPASS.
-Postmain workflows not yet observed at this checkpoint.
+All10 postmain8c7 workflows now observedSUCCESS, including SQL41586180251.
 
 Original STORAGETEST-002 reviewed32 red90fa remains preserved, never repeated.
 One independently corrected terminal oracle and3 independently reviewed/reached-red
@@ -27,13 +27,20 @@ application authority, provider, delivery or recovery capability is inferred.
 
 ## Active task and exact ownership
 
-ACCTTEST-004 is IN_PROGRESS/test_baseline, ACCT-004 implementation remainsPLANNED.
-Dependency-ready only after actual PR43 integration. Root created dedicated
-`task/ACCTTEST-004-application-service` from actual8c7 BEFORE edits and claimed it.
-Brief: docs/tasks/EPIC-002/ACCT-004.md. Specificationv0.45 §§3,5/DB-01/NUM.
-Firststage is logical contract/examples ONLY, actual different review before any
-serviceC++/API/stubs/build/tests/fixtures. Old209/childnumeric passes establish
-neither new service acceptance nor its own intended red.
+ACCTCONTRACT-001 is IN_PROGRESS/document-only contract, actual investigation found
+missing durable numerical-review holds. [ADR0003](../decisions/0003-application-service-prerequisites.md)
+records explicit split; separate reviewed logicalcontract → STORAGETEST016 actual
+contract/API/fixture/tests/red → STORAGE016 holdimplementation → original
+ACCTTEST004 realservicebaseline → ACCT004 serviceimplementation. No dependency
+cycle, test-gate waiver or release shrink. ACCTTEST004 returnedPLANNED with explicit
+new prerequisites; no serviceAPI/fixtures/tests/red/production was authored.
+
+[Draft PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44) retains historical
+branchname task/ACCTTEST-004-application-service from actual8c7, created BEFORE
+logicaldoc stage. Its focused executable outcome is now ACCTCONTRACT001; initial
+claim81b authorized only that same logical stage. Newcontract/hold task briefs and
+rootclaimedgraph are actualworkingartifacts; planningawaits differentreview.
+Originalbaseline/impl remainmandatory. Rootcontrolssharedmetadata/config/schemaorder.
 
 Fresh isolated trees/branches from8c7, old trees preserved:
 
@@ -57,10 +64,11 @@ configuration/cap interpretation or clock segmentation. Keep batch/review ACCT00
 financial refund allocation ACCT006, milestones/delivery/recovery/wire/provider
 as separate mandatory gates; never silently shrink intended release scope.
 
-Next: author logical contract/literalexamples, obtain different actualreview,
-resolve findings, then explicitly authorize minimalAPI/stubs+harness/APIreview,
-independent fixtures/tests/review/compile/discovery/own intendednewservice-red.
-Production ACCT004 waits. No service artifacts/checks/approval claimed yet.
+Next: author logical contract/literalexamples and obtain different actualdocument
+and decomposition review. This PR ends at reviewed DOCUMENTcontract, not newAPI/
+fixtures/tests/red. After integration claim STORAGETEST016 with its own concrete
+review/red gates. Later ACCTTEST004 retains its own servicebaseline. Production
+ACCT004 waits. No newlogicalcandidateapproval/schema/API/test/red claimed yet.
 
 ## Preservation / commands
 
@@ -71,3 +79,7 @@ retains exactly3 uncommitted rootconfiguration copies used for verification
 Prior98registered trees/refs plus task43new3/newtask2 preserved; no prune/reset.
 Root task43 mergegate JSON local-evidence/storage002-final-merge-gate.json.
 Latest source/CI artifact pins and raw hashes are in linked task evidence.
+
+Actual planningcheck394tasks/122decisions/local links/acyclicdependencies/currentHTML/
+tooling19PASS0.265s/diffPASS. PR44 initialclaim81b CI is inherited-only, not new
+service/hold proof. Author/reviewer explicitly reassigned documenttask only.

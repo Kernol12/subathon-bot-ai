@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T05:51:26.743202+00:00",
+  "updated_at": "2026-11-03T06:00:00.602322+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1306,7 +1306,8 @@
         "ACCTTEST-006",
         "ACCT-006",
         "ACCTTEST-007",
-        "ACCT-007"
+        "ACCT-007",
+        "ACCTCONTRACT-001"
       ],
       "spec_refs": [
         "§3",
@@ -1599,16 +1600,47 @@
       }
     },
     {
-      "id": "ACCTTEST-004",
-      "title": "Review and demonstrate red: Atomic effect application and operation idempotency",
+      "id": "ACCTCONTRACT-001",
+      "title": "Define application-service and durable-hold logical contract",
       "module": "Accounting",
-      "kind": "test_baseline",
+      "kind": "contract",
       "status": "in_progress",
-      "owner": "coordinator /root; contract author /root/bundle_implementer; independent reviewer /root/bundle_reviewer",
+      "owner": "coordinator /root; author /root/bundle_implementer; independent reviewer /root/bundle_reviewer",
       "depends_on": [
         "ACCT-003",
         "STORAGE-002",
         "CORE-005"
+      ],
+      "spec_refs": [
+        "§3",
+        "§4",
+        "§5",
+        "NUM-02",
+        "NUM-04",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/ACCTCONTRACT-001.md",
+      "summary": "Documentation-only original application-service/current policy/commit and durable-hold semantics; no API/test/red or implementation. Explicit prerequisite for the separate hold repository and service baselines.",
+      "notes": [
+        "Parent epic: EPIC-002. Explicitly split after actual contract-stage finding; ADR0003 preserves original service scope and adds durable-hold prerequisites, no cycle or test-gate waiver. Dedicated task/ACCTTEST-004-application-service branch/PR44 from actualmain8c7 existed BEFORE logical-document edits and initially claimed only that stage; historical branchname retained, now focused executable ACCTCONTRACT001. Root owns sharedmetadata/config/schemaorder; author owns only application-service-v1.md+ownMD on fresh8c7author tree; different reviewer actualdocumentreview required. No service code/test/red authored."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "ACCTTEST-004",
+      "title": "Review and demonstrate red: Atomic effect application and operation idempotency",
+      "module": "Accounting",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned; logical stage explicitly split to ACCTCONTRACT-001",
+      "depends_on": [
+        "ACCT-003",
+        "STORAGE-002",
+        "CORE-005",
+        "ACCTCONTRACT-001",
+        "STORAGE-016"
       ],
       "spec_refs": [
         "§3",
@@ -1618,7 +1650,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-004.",
       "notes": [
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed dedicated task/ACCTTEST-004-application-service from fetched actualmain8c7f71f AFTER normal PR43merge; no dependent edits beforeintegration. Firststage ONLY bounded application-service logical contract/examples and own Markdown evidence, separate actual review BEFORE C++API/stubs/minimalharness, then separate APIreview/independent realSQL fixtures/tests/review/actualintendedred. All prior reviewed/red gates preserved, old209 passes are NOT new service acceptance/red. Contract connects ORIGINAL application orchestration over existing nonowning SQLbundle, exactCORE005/002 numeric/lifecycle, all15currentcontribution dimensions/planhead, explicit typed currentpolicy/clock/authority ports, duplicate/claim/currentaccess ordering, actualcallerCOMMIT+normalcompletion versus knownrollback/unknown/publication. Cap/config/clock/permission must not be fabricated from opaqueenvelopes. Existing neighboring ACCT005 batch/review, ACCT006 financialrefundallocation, milestones/API/jobs/recovery/provider gates remain mandatory; identify requirementconflicts explicitly. Authorisolated task/ACCTTEST-004-contract-author atlocal-evidence/worktrees/accttest004-contract-author owns ONLYdocs/contracts/application-service-v1.md +ownauthornote; reviewer task/ACCTTEST-004-contract-review atlocal-evidence/worktrees/accttest004-contract-review ownsreviewMD only and waitsactualcandidate. Root owns sharedstate/HTML/map/rootbuild/presets/workflow/schemas/migrationorder. ACCT004 production remainsplanned until this REAL reviewed service baseline+red."
+        "Claimed dedicated task/ACCTTEST-004-application-service from fetched actualmain8c7f71f AFTER normal PR43merge; no dependent edits beforeintegration. Firststage ONLY bounded application-service logical contract/examples and own Markdown evidence, separate actual review BEFORE C++API/stubs/minimalharness, then separate APIreview/independent realSQL fixtures/tests/review/actualintendedred. All prior reviewed/red gates preserved, old209 passes are NOT new service acceptance/red. Contract connects ORIGINAL application orchestration over existing nonowning SQLbundle, exactCORE005/002 numeric/lifecycle, all15currentcontribution dimensions/planhead, explicit typed currentpolicy/clock/authority ports, duplicate/claim/currentaccess ordering, actualcallerCOMMIT+normalcompletion versus knownrollback/unknown/publication. Cap/config/clock/permission must not be fabricated from opaqueenvelopes. Existing neighboring ACCT005 batch/review, ACCT006 financialrefundallocation, milestones/API/jobs/recovery/provider gates remain mandatory; identify requirementconflicts explicitly. Authorisolated task/ACCTTEST-004-contract-author atlocal-evidence/worktrees/accttest004-contract-author owns ONLYdocs/contracts/application-service-v1.md +ownauthornote; reviewer task/ACCTTEST-004-contract-review atlocal-evidence/worktrees/accttest004-contract-review ownsreviewMD only and waitsactualcandidate. Root owns sharedstate/HTML/map/rootbuild/presets/workflow/schemas/migrationorder. ACCT004 production remainsplanned until this REAL reviewed service baseline+red.",
+        "Actual logical-stage investigation found missing nonowning durable application holds needed for NUM04. Explicit ADR0003 split: original task planned behind new independently reviewed documentcontract ACCTCONTRACT001 and real STORAGETEST016→STORAGE016. Initial PR44/branch was logicaldocs-only and now delivers only ACCTCONTRACT001; no new serviceAPI/test/red/implementation exists, no old pass aggregated. Full originalservice requirement retained after integratedprereqs; all release scope preserved."
       ],
       "verification": {},
       "evidence": [],
@@ -4190,7 +4223,9 @@
         "STORAGE-014",
         "STORAGETEST-015",
         "STORAGE-015",
-        "STORAGECONTRACT-001"
+        "STORAGECONTRACT-001",
+        "STORAGETEST-016",
+        "STORAGE-016"
       ],
       "spec_refs": [
         "§16"
@@ -5245,6 +5280,63 @@
         "baseline": "Actual5b71576a approval of final sourcea905/helperb0ca/test8bf/Cmake0e0/WF783/presetsb9 at root6a6a200. Independent fresh build0warnings,35/full209PASS0Qt skips. Original32 preserved except separately approveda241 terminal oracle;3newslots have separate test reviews/reached-red. Actual automatic official41585131851 at6133afe SUCCESS fresh92/0warnings/GNU13.3/Boostmacro108300/Qt6.12SQLite3.53.4/old164+mandatorygreens/exact35guard/UNCONDITIONAL35PASS5.26s/all11. Completion-metadata latestCI/normal merge gates remain separate. Actual final attribution876cd975 independently verified source6133officialCI and completion metadata; no future completion-head CI approval.",
         "evidence": "docs/evidence/storage-002-code-review.md"
       }
+    },
+    {
+      "id": "STORAGETEST-016",
+      "title": "Review and demonstrate red: nonowning durable application-review holds",
+      "kind": "test_baseline",
+      "depends_on": [
+        "ACCTCONTRACT-001",
+        "STORAGE-002"
+      ],
+      "summary": "Concrete hold contract/API/additive schema, independent real-SQL oracles/tests, separate review and actual intended red before hold implementation.",
+      "module": "Operations",
+      "spec_refs": [
+        "§3",
+        "§4",
+        "§5",
+        "NUM-02",
+        "NUM-04",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-016.md",
+      "notes": [
+        "Parent epic: EPIC-009. ADR0003 preserves durable numerical-review requirements through separate concrete contract/test/red and implementation gates; planning only, no API/schema/tests/red/implementation or capability verified. Root controls shared schema/migration order/build/presets/workflow/pins."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "status": "planned",
+      "owner": "Unassigned"
+    },
+    {
+      "id": "STORAGE-016",
+      "title": "Nonowning durable application-review hold repository",
+      "kind": "implementation",
+      "depends_on": [
+        "ACCTCONTRACT-001",
+        "STORAGE-002",
+        "STORAGETEST-016"
+      ],
+      "summary": "Persist stable subject active holds, immutable cause/provenance/history and authorized resolution atomically on the caller writer session; preserve independent conditions.",
+      "module": "Operations",
+      "spec_refs": [
+        "§3",
+        "§4",
+        "§5",
+        "NUM-02",
+        "NUM-04",
+        "DB-01"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-016.md",
+      "notes": [
+        "Parent epic: EPIC-009. ADR0003 preserves durable numerical-review requirements through separate concrete contract/test/red and implementation gates; planning only, no API/schema/tests/red/implementation or capability verified. Root controls shared schema/migration order/build/presets/workflow/pins."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "status": "planned",
+      "owner": "Unassigned"
     },
     {
       "id": "STORAGETEST-003",
@@ -12315,6 +12407,11 @@
       "date": "2026-11-03T05:51:26.743202+00:00",
       "task": "ACCTTEST-004",
       "note": "Normally merged PR43 exact34ed asmain8c7 afterall11 latestgates. Claimed next dependency-ready servicebaseline; contract-only author/reviewer isolated branches created fromintegratedmain beforeedits. No serviceAPI/test/red/implementation authored yet."
+    },
+    {
+      "date": "2026-11-03T06:00:00.602322+00:00",
+      "task": "ACCTCONTRACT-001",
+      "note": "Actual missing durablehold port found; explicit logicalcontract+STORAGETEST016/STORAGE016 prerequisite split, originalservice baselineplanned. PR44 narrowed to documentationtask, no requirement/testgate removed. Author/reviewer reassigned same alreadyisolated8c7trees; no serviceproduction/API/test authored."
     }
   ]
 }

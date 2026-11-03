@@ -13,6 +13,7 @@ See [backlog workflow and complete epic index](README.md).
 | `ACCTTEST-001` → [ACCT-001](EPIC-002/ACCT-001.md) | Normalized receipt identity and duplicate-safe ingestion |
 | `ACCTTEST-002` → [ACCT-002](EPIC-002/ACCT-002.md) | Independent eligibility and confirmation linkage |
 | `ACCTTEST-003` → [ACCT-003](EPIC-002/ACCT-003.md) | Captured application plans and calculation provenance |
+| [ACCTCONTRACT-001](ACCTCONTRACT-001.md) | Logical application-service/current-policy/commit and durable-hold semantics |
 | `ACCTTEST-004` → [ACCT-004](EPIC-002/ACCT-004.md) | Atomic effect application and operation idempotency |
 | `ACCTTEST-005` → [ACCT-005](EPIC-002/ACCT-005.md) | Individual batch and silent contribution review |
 | `ACCTTEST-006` → [ACCT-006](EPIC-002/ACCT-006.md) | Cumulative partial and full reversal entitlements |
