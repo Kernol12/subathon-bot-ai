@@ -37,10 +37,13 @@ for that merge were observed successful, including SQL41607196319.
 
 Root branch `task/STORAGETEST-016-durable-holds` was created from actual main before
 claim/edit. [Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47)
-last published **4ada6245a687f5a9bb2c88d6f6ef02f22b0e4c85**, all eleven checks
-successful. Local complete fixture/harness candidate **e31c5d4cda4b22b0b5f72944c14c18881d8deaff**
+last published **a5e5998e9ac923c242c140e378169ce7609cc413**, all eleven checks
+successful, including OWN NEW selected foundation SQL41631527683. Local complete fixture/harness candidate **e31c5d4cda4b22b0b5f72944c14c18881d8deaff**
 is approved by separate e624614 (integrated a96367e). Source and harness remain
-unchanged; publication metadata is being finalized before its own official CI.
+unchanged. Concise reviewer follow-upd66f183 is integrated5909926, prose only.
+Own foundation CI succeeded at a5e5998,11:56:14–11:58:04Z/fresh106/zero warnings/
+GNU13.3/Boost108300/Qt6.12/SQLite3.53.4/exact3guard/5 Qt passes0 skips174ms;
+rawf16b109d retained. Acceptance-test authoring is now explicitly assigned.
 STORAGETEST-016 is in progress; STORAGE-016 is planned. The
 [task brief](../tasks/EPIC-009/STORAGE-016.md) retains separate baseline and
 implementation PRs. `progress/state.json` is authoritative.
@@ -103,22 +106,25 @@ Agent roles on last actual inspection:
   Preserve four old root API configuration verification copies; new Qt CMake and
   workflow copies are verification inputs only. Old-primitives native green is
   allowed; new hold entrypoints/factory/marker and feature authoring are forbidden.
-- `/root/bundle_validation`: minimal API author COMPLETE at77cddef. Existing
+- `/root/bundle_validation`: explicitly assigned acceptance-test author AFTER actual
+  full fixture approval and own new official success. New isolated
+  `local-evidence/worktrees/storagetest016-feature-author`,
+  `task/STORAGETEST-016-feature-author`, from current main plus approved foundation;
+  owns ONLY `tests/qt/sqlite_application_hold_tests.cpp` and
+  `docs/evidence/storagetest-016-author.md`. No feature candidate yet. Existing
   `local-evidence/worktrees/storagetest016-api-author`,
   `task/STORAGETEST-016-api-author` retains four uncommitted verification config
-  copies. Acceptance-test author is UNASSIGNED until actual full fixture review
-  and this new foundation's own selected official Qt green pass.
+  copies. New author may compile/discover ONLY; no hold factory/method/test body
+  invocation before full actual test review and same-candidate environment.
 - Root owns state/HTML/maps, shared schema order/build/presets/workflow and merges.
 
 ## Next concrete actions and preservation
 
-1. Actual full [fixture/harness approval](storagetest-016-fixture-review.md) e624614
-   is integrated a96367e; no correction needed. Freeze publication metadata.
-2. Publish the approved complete fixture candidate. Observe its OWN required new
-   three-slot diagnostic and selected Qt green, old stable suites and all latest
-   checks. API-source CI does not satisfy this gate.
-3. Only then assign feature tests to bundle_validation in a fresh isolated branch
-   from current main plus integrated approved foundation. Review full actual test
+1. Full fixture approval e624614/d66f183 and OWN NEW selected official success
+   SQL41631527683 at a5e5998 are complete; do not repeat these gates.
+2. Continue the explicitly assigned acceptance-test author in its fresh isolated
+   tree. No production behavior or frozen fixture modifications.
+3. Review full actual test
    source and root harness before invoking any new feature entry. Compiler and
    exact discovery are not red. Same approved candidate's official environment
    must pass before the FIRST intended missing-feature run; preserve its exact
@@ -127,10 +133,11 @@ Agent roles on last actual inspection:
    with latest CI/current protection/discussions/independent reviews satisfied.
    STORAGE-016 follows on integrated main, then service004 retains its own red.
 
-Actual inventory:115 registered worktrees,99 existing,16 absent. All are preserved;
+Last actual inventory before the new feature-author tree:115 registered worktrees,
+99 existing,16 absent. All are preserved;
 no reset, prune, discard or deletion. Older dirty verification trees are
 storage002-review3 configs, storagetest017-review4, storage017-review5 and
-storage017-validation6. The two current16 review/API trees retain4 each.
+storage017-validation6. Current16 review retains5 config copies; API tree retains4.
 These are preserved verification copies, not unfinished source authorship.
 No prior agent/process is assumed running. Native root full229 has completed;
 inspect actual processes and agents again on resumption. Use `followup_task` to

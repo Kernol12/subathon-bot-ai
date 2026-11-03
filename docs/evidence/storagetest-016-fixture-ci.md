@@ -1,8 +1,9 @@
 # STORAGETEST-016 fixture harness and environment evidence
 
 The independent fixture foundation is authored and passes the native harness.
-Full independent review has passed; this new harness's own selected official Qt CI
-remains pending. Acceptance tests have not been assigned. All six hold entrypoints remain
+Full independent review and this new harness's own selected official Qt CI have
+passed. Acceptance-test authoring is now permitted; full test review and first red
+remain later gates. All six hold entrypoints remain
 uninvoked unconditional stubs; these checks use raw SQL, existing repositories and
 construction of declared DTO values only.
 
@@ -81,7 +82,33 @@ exact six artifacts above at clean `e31c5d4`. No correction was required. Indepe
 raw catalog/source/history/DTO audit and all35 B/I oracles agree; reviewer native
 foundation passes5 Qt cases/zero skips76ms after four warning-free build steps.
 
-Next gates: own new selected official
-Qt6.12 foundation green; only then acceptance-test authoring. Actual test review,
+The native checkpoint alone did not establish the official gate recorded below.
+After actual official success, acceptance-test authoring is permitted. Full test review,
 compiler/discovery and same approved candidate environment precede the first
 missing-feature red. STORAGE-016 remains a separate later implementation task.
+
+
+## Actual own selected official foundation gate
+
+[SQL41631527683](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41631527683)
+SUCCESS at complete approved candidate
+**a5e5998e9ac923c242c140e378169ce7609cc413**,
+2026-11-03T11:56:14Z–11:58:04Z. Fresh106-step build, zero warnings/errors;
+GNU13.3, selected pinned Boost108300 and verified official Qt6.12/SQLite3.53.4.
+The new required compiled guard discovers EXACTLY3 hold foundation cases; actual
+execution has5 Qt passes/0 failures/0 skips/0 blacklists,174ms (CTest0.18s).
+Full89/prefix1–5/raw constraints/FKs, coherent pending/history and both old processed
+timer/correction closures pass. Existing stable suites and unconditional original18
+also pass; all eleven same-head checks completed successfully.
+
+Raw `local-evidence/storagetest016-fixture-official-ci.txt` SHA256
+f16b109dde5e8430ec4c2256e8608bd33c0113d82c8616129a7b2e8ba6dfd702.
+This is the NEW foundation's own selected gate, not the older API-source run.
+Concise reviewer follow-upd66f183, integrated5909926 after publication, changes
+only review prose and preserves its actual approval and all six artifact blobs.
+
+Only AFTER these actual gates is acceptance-test authoring assigned. It must
+preserve frozen fixtures, derive assertions from approved contracts and receive
+full independent actual-source review before any new hold entrypoint invocation.
+Compiler/discovery and that complete approved candidate's own selected environment
+precede the FIRST intended marker-red. STORAGE-016 remains planned.
