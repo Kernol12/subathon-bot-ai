@@ -1051,8 +1051,10 @@ class SqliteApplicationHoldTests final : public QObject {
                       SR::source_mismatch);
             else {
                 const auto original = db.observer->rows(
-                    "SELECT hex(operation_scope),hex(operation_ref),hex(receipt_id),effect_count "
-                    "FROM subathon_app_operations ORDER BY operation_ref");
+                    "SELECT "
+                    "hex(o.operation_scope),hex(o.operation_ref),hex(o.receipt_id),r.effect_count "
+                    "FROM subathon_app_operations o JOIN subathon_app_results r "
+                    "USING(operation_scope,operation_ref) ORDER BY o.operation_ref");
                 const auto expected =
                     produced("hTimer", "v2", 2, "v1", ApplicationHoldState::resolved, "rTimer");
                 committed(read(db, [&](auto s) {
@@ -1068,8 +1070,11 @@ class SqliteApplicationHoldTests final : public QObject {
                 }));
                 require(db.observer->rows(
                             "SELECT "
-                            "hex(operation_scope),hex(operation_ref),hex(receipt_id),effect_count "
-                            "FROM subathon_app_operations ORDER BY operation_ref") == original,
+                            "hex(o.operation_scope),hex(o.operation_ref),hex(o.receipt_id),r."
+                            "effect_count "
+                            "FROM subathon_app_operations o JOIN subathon_app_results r "
+                            "USING(operation_scope,operation_ref) ORDER BY o.operation_ref") ==
+                            original,
                         "Link did not replay or rewrite successful originals/effects");
                 require(b.application->operation.operation_ref == "correction",
                         "Explicit remaining DATA is retained; no -3 versus -150 entitlement policy "
@@ -1116,7 +1121,8 @@ class SqliteApplicationHoldTests final : public QObject {
             if (which == 4) {
                 db.modify("INSERT INTO subathon_retained_configurations VALUES(X'6F74686572',X'')");
                 db.modify("INSERT INTO subathon_retained_contexts "
-                          "VALUES(X'6F74686572',X'6F74686572',X'')");
+                          "(reference,document,configuration_ref) "
+                          "VALUES(X'6F74686572',X'',X'6F74686572')");
             }
             if (which == 5)
                 x.cause.plan_evidence.plan = ApplicationPlanKey{"PB", 1};
