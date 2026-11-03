@@ -1,7 +1,8 @@
 # ACCTTEST-004 — independent service fixture author
 
-Actual fixture candidate **0c1a675b9eeee1f08e51a5f81ff43d40bebac6f6**, with the
-AS19 addition recorded below, following complete81fbfe56c8b28da8f0122e8afd8c1e605a7ec8d6 and
+Actual fixture candidate **3cc76666f6535ad23a04923727e266b581b43b9a**, with the
+policy-hold additions recorded below, following AS190c1a675b9eeee1f08e51a5f81ff43d40bebac6f6,
+complete81fbfe56c8b28da8f0122e8afd8c1e605a7ec8d6 and
 early two-file checkpointaacc467201e1d397562327c3d40ee85b9fa6620f. Author
 bundle_validation,2026-11-03. This is synthetic foundation DATA and an OLD-storage
 environment check, **not service/codec implementation, feature acceptance or red**.
@@ -11,11 +12,11 @@ after actual minimal API review/own selected SQL41673443963. That release preced
 these edits. Only the following four paths are authored:
 
 - [Literal vectors](../../tests/fixtures/application_service_vectors.json), blob
-  0ae4957c65879cb3d5056f39b3d215f45a381e00.
+  7611f15d77bd85d02ea01c1b67983be267768f51.
 - [DATA/parser/scripted-port helper](../../tests/qt/support/application_service_fixture.hpp),
-  blob069bf7b91ce79f1821a44f67747e8d3354219dbd.
+  blob1909eaacfdb9c84fdebe1df394e8f31acf6777d7.
 - [Old-only environment](../../tests/qt/application_service_environment.cpp), blob
-  5a36a407b9423920346d73d86817430a7068b6cc.
+  1f3131f23c75606fca586293a5f2749770ac7aef.
 - This author evidence. Root owns all shared build/configuration/workflow/state files.
 
 Approved clarificationaba9657 was imported unchanged as prerequisite3eb4983,
@@ -213,3 +214,92 @@ focused case3b5570d36b8c5fdfc2712c4fb01c5daabbfb2da28849b5c0741891dac5c35e5b;
 full environmentde9ea8546a6f85883a22211950e10a3ef59218dc44949be2f647972e601b8f23.
 Artifacts are `/tmp/acct004-AS19-{build,functions,case,full}.txt`; earlier diagnostics
 and their hashes above remain preserved rather than rewritten as final evidence.
+
+## Unavailable-policy hold golden additions after actual test-author gap
+
+Root explicitly resumed the sole fixture author because no independent complete
+new-policy-hold golden existed for the three required known/unknown combinations.
+This is an ADDITION only, not a revised expected outcome or scope waiver. Structural
+JSON comparison against0c1a675 proves all30 prior case objects, every existing oracle,
+all original source/arrangement/schema/fault/snapshot data and old hold DTO values
+EXACT. Source3cc7666 adds only the following cases/hold DTOs and their literal oracles:
+
+| Case | Fresh hold/detection/version refs | Missing reason copied from actual scripted Unavailable | Retained annotation groups |
+| --- | --- | --- | --- |
+| policy_unavailable |hPolicyMissing/dPolicyMissing/vPolicyMissing |required-current-policy |Policy/Clock absent; policy ref/UTC/elapsed absent; permission grant known |
+| clock_unavailable |hClockMissing/dClockMissing/vClockMissing |required-clock-segmentation |Bound Policy/policy ref present; Clock/UTC/elapsed absent; permission grant known |
+| actions_unavailable |hActionsMissing/dActionsMissing/vActionsMissing |required-action-policy |Bound Policy and Clock present; policy/grant refs and UTC1000/elapsed0 known |
+
+All three are fresh operations under a fresh policy-fixture scope with full source
+receipt7/CID0/capturedPA revision1/retained heada closure. Each has complete selected
+request evidence, creation expected_version absent and explicit hold/detection/version
+issuer DATA only, with absent failing ordinal. There is no expected successful
+record, job, result or claim. Cause kind is unresolved_policy2; failure/timer groups
+are absent rather than numeric fiction. Each has THREE applicable byte-identical
+SAH1 owners (first observation, attempt observation, detection audit); the fourth
+FailureEvidence owner is inapplicable and absent. The known prior snapshot's UTC
+is not substituted when this attempt's Clock is unavailable.
+
+Action unavailability is reached after a complete known numeric proposal. This case
+retains that finite token-free proposal DATA, Main58→60 from request10/cap60 with
+components2/0/8, not a successful PreparedBundle. Its explicit literal clock-before
+timer58 supplies proposal construction without a dummy snapshot/bundle. The AS19
+before-snapshot path and every earlier successful proposal remain unchanged. Earlier
+unavailable cases have kind not_calculated and no fabricated arithmetic proposal.
+
+The action case additionally keeps command actor/decision PRESENT-empty. SAC1 and
+SAH1's complete embedded command retain both exact empty values; typed HoldObservation
+identity refs project to None. No principal substitute or command normalization is
+introduced. All three use empty deterministic SAH explanation, no Failure leaf and
+the exact scripted missing-reason bytes. SAH1 has no self/nested annotation here.
+
+Independent manual framing uses the accepted grammar only:
+
+- PolicyNone/ClockNone:213=4+(4+165)+5+1+1+1+(1+4+23)+4 wire bytes.
+- PolicySome/ClockNone:302=4+(4+164)+5+(1+86)+1+1+(1+4+27)+4.
+- PolicySome/ClockSome:362=4+(4+174)+5+(1+86)+(1+55)+1+(1+4+22)+4.
+
+SAC1 documents are165/164/174 bytes; the third's two present-empty command optionals
+add8 framed bytes and0 logical owned bytes. Hold-observation format is49 bytes,
+so one Envelope B is262/351/411; three real owners charge786/1053/1233. Complete
+Detection B1208/1486/1711 with I1; View B1310/1582/1819 with I1. Version B51/48/54
+and actual historical MutationOutcome B66/62/70 give final held Response
+B81/76/86 with I1, separately from detection/input ownership. No phantom vector or
+optional-engagement item is charged. These expected bytes/values came from authored
+stdlib framing and exact arithmetic, never any service, codec or implementation.
+
+Helper additions expose Data.policy_resolution/clock_resolution/action_resolution,
+and preserve known-value Data.policy/clock conveniences plus ScriptedPorts' existing
+public DATA fields. Fakes return the actual intended Unavailable alternative/reason;
+they still own no SQL/writer/session and never invoke a reference view. Direct fake
+checks stop at the intended unavailable callback and compare literal path DATA.
+No service callback order is claimed by those direct fake calls.
+
+Actual OLD record_detection→find checks all three full provisional hold closures,
+known/absent projection and exact annotation copies, then real rollback restores
+the complete observer snapshot. In-unit old SQL additionally proves0 operations,
+effects/jobs/claims/results and only the original one state: no successful subset
+or phantom state is implied by these hold-only inputs. This validates fixture
+coherence, not new-service durability or semantic behavior.
+
+Actual same old-only harness commands build the environment, discover `-functions`,
+run the three new source data rows plus independentHoldsAndResolvedRetryRetainLiteralHistory
+and scriptedPortsReturnOnlyOwnedSyntheticData, then the full environment. Six slots
+remain;33 data rows give **40PASS/0FAIL/0SKIP,901ms**. Focused check is
+**7PASS/0FAIL/0SKIP,233ms**. Final build3 steps/zero warnings. An initial author
+compile emitted two local-shadow warnings in the added fake DATA loop; renaming
+those two locals corrected them without changing DATA or expected assertions.
+Project/diff checks and the structural additions-only comparison pass.
+
+Actual `/tmp/acct004-policy-{build,functions,focused,full}-final.txt` SHA256s:
+buildb389d5d1cbdc44455571013090827d6e4873d2c2ceb2fa5a7ea280df0deba8c6;
+functions840a9a7e51ef8ec110a6e22235141916d8b5e8b852920fdbf4044d71862ded65;
+focused3e3df7bd143de566474d897a9b9e0aeb177891865f5250103502778070f6aad5;
+fullf5c053f77fb12f711760b90a63b8ff1da936d3488b3e7f49e80f0320e9214acd.
+Author-time stdlib script `/tmp/acct004-policy-holds.py` SHA256
+cd1a5c5e923300ba5a19e775a3eca1a9bbc0ca4cc6aa77b7e250fb292bf4b40d.
+Public header03a747/sourceebbea and root configuration remain untouched; no new
+service/view/codec/stub/marker call or feature-test body was linked or invoked.
+Different actual review and OWN selected foundation green MUST precede use of
+these new goldens by the feature author. Earlier evidence and approval gates are
+preserved; this author check does not grant that approval or establish service red.
