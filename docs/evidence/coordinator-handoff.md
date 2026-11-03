@@ -115,3 +115,24 @@ Author is drafting only two assigned MD paths, no committed document received ye
 No C++/test/harness/service body/marker invocation. A quoting error interrupted one
 metadata-update script;82e8f63 saved the prep document only. This follow-up records
 the actual state/roles; no failed edit is claimed as completed.
+
+## Latest actual concrete candidate and review assignments
+
+Author actual DOCUMENT commitd421471b927636cd159794adea223d5b5d49b3c2 importedba6ae75,
+contract blob6ee28717e8aa78896180c1ac0cc22e31adf3bf2a/641lines. Author note follows.
+Prepared real Work+MATCHING completion pair used by enqueue resolves AS15 body-tail
+seam; owned exact QVariant extraction/read-only revocable references/canonical
+command+record codecs/bounds/15CSexamples are authored proposals, not approvedcode.
+
+Main reviewer bundle_reviewer explicitly RESUMED full actual DOCUMENT review in
+assigned newtree; no verdict yet. Thirdagent bundle_validation explicitly reassigned
+from completed read-onlyprep to bounded independent actual codec/arithmetic DOCUMENT
+audit. NEW tree local-evidence/worktrees/accttest004-codec-review, branch
+task/ACCTTEST-004-codec-review atab9ca61 (=efe+523claim+d421doc), own ONLY
+docs/evidence/accttest-004-codec-review.md. Root created clean before any edits.
+They audit literalbytes/absence-empty/B-I/quotas/decodeorder/CS01–03 arithmetic;
+mainreviewer retains full semantic/ports/callorder review. Source/fixtures/tests/
+futureimplementation not prospectively approved. Oldtrees/commits preserved; now
+123registered107existing16absent. Root publishing first concrete draft taskPR.
+Next: authornote+actualfullreview+boundedcodec audit/corrections, then minimalAPI/
+stubs only after DOCUMENT gates pass. No new serviceC++/test/marker/codecbody run.
