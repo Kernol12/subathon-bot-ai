@@ -51,3 +51,14 @@ for Qt6Core/Sql/Test, the five existing fixture-path macros, and the unchanged m
 sqlite-bundle-debug native static archives. Compiler/link exit0, diagnostic exit0.
 No production source besides this pure header is introduced by that diagnostic.
 The full unchanged integration/native/CI gates remain as stated above.
+
+Actual separate reviewer found an extra absent payment-evidence byte in returned
+ApplicationContributionInput support_conditions accounting at824. The precommit
+refactor introduced the correct Conditions7-byte overload, but the multiline call
+still synthesized State{unknown,conditions} (8-byte dimensions). Corrected that
+call to count the actual Conditions member directly. This preserves the approved
+logical member rule rather than counting an invented scalar. The838/112 diagnostics
+do not select this returned DTO, so they did not detect it. The author's initial
+message that824 already fixed the call was incorrect and was explicitly corrected
+after actual git-show inspection. Include-TU syntax check again exit0/no diagnostic;
+actual corrected review and full integration remain required. No test/oracle changed.

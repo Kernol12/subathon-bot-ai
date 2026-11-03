@@ -660,8 +660,7 @@ inline void count_bytes(ByteCount &n, const ApplicationContributionInput &v) {
         count_bytes(n, o.verified_activity->verification_ref);
     }
     if (o.support_conditions)
-        count_bytes(n,
-                    core::ContributionState{core::PaymentEvidence::unknown, *o.support_conditions});
+        count_bytes(n, *o.support_conditions);
 }
 template <class T> inline size_t logical_bytes(const T &v) {
     try {
