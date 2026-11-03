@@ -7,7 +7,9 @@ validation and full source/allocation review remain required. No task completion
 runtime acceptance, ordinary CI promotion or merge is claimed here.
 The independent cross-stage priority finding in early a18a was held through root's
 actual additive regression/review/reached-red gate, then corrected at explicit
-release. Final corrected source still needs actual different review; author checks
+release. A later explicit Captured-token MATRIX finding likewise received its own
+reviewed public regression/red before bounded correction. Final source still needs
+actual different review; author checks
 are not approval or a public runtime/full-suite result.
 
 New isolated branch `task/STORAGE-016-values`, worktree
@@ -19,8 +21,10 @@ Header commit `1cf31dfe19350da9f6d70f942fc525b5af424f46`, blob
 `a18a0bd7705f8043daac75acd365471cc59e49c5` (868 lines), sent to runtime author
 for integration before initial author checks. Released correction commits
 `d883bdcabf00d07c35bd1271135a0bce9f48dff4` and
-`1b8af3652720b90814141c9a6317edf453fe9e6b` give final blob
-`ec78b69702ce0e1da3f78b9367dc10170c284bfc`. No shared/other-author files copied
+`1b8af3652720b90814141c9a6317edf453fe9e6b` gave blob
+`ec78b69702ce0e1da3f78b9367dc10170c284bfc`. Final token correction
+`18cc890d60a1aedfd1f8be7a148f07d619228bc5` gives blob
+`13828cc3c72548791dc4299b7fd4c813c36b59f3`. No shared/other-author files copied
 or changed. Runtime author owns actual SQL/session/reference/rollback implementation.
 
 ## Authority and agreed interface
@@ -108,7 +112,8 @@ was inspected unchanged. Root explicitly released this bounded correction afterw
 Final correction uses complete request-wide `body_*` → `matrix_*` → `order_*` passes.
 ALL causes, observations, audits, decisions, known enums and required groups/members,
 including later replacements and conditional captured/failed-capture members, are
-checked before ANY branch-matrix/Exact work. All matrix/Exact work finishes before
+checked before ANY branch-matrix/Exact work, with the explicit Captured token-presence
+MATRIX exception corrected below. All matrix/Exact work finishes before
 version/occurrence/entry/expected-set/replacement ordering/local links. Matrix ordinal
 membership finds the actual supplied member instead of assuming the as-yet-unchecked
 sequence is an array index. Existing categories, logical constraints and shape_*
@@ -200,3 +205,48 @@ Local `/tmp/` artifacts (not committed), SHA256:
 | storage016-values-priority-configure.txt |5c00cb4d37528e06718593cd3832d85b82be320a74885acd4889de21aa0cdea1 |
 | storage016-values-priority-author-build.txt |599f643c0d5e238de7ab28497da289ac5a8560ef756df09503b74a0e5b039173 |
 | storage016-values-priority-author-run.txt |013660e31823531bc07f4b27c3694b63f59407585630a071247b9026acf8bf2b |
+
+## Explicit Captured-token MATRIX correction
+
+Final independent review found that ec78 still put conditional Captured known-token
+presence into body_cause/body_detection, contrary to API46c's explicit matrix clause.
+Root independently authored new public row36 (testd740a175,35 slots/269 total rows),
+with separate actual review001896f integrated at SAME CLEAN
+`f67ae7393d105a696ae835649162a3110d8a1568`. Actual public row execution
+14:54:48.238859–.266877Z exited1:2 init/cleanup passes,1 exact-category failure,
+0 skips/missing markers, agreeing with the separate actual ec78 probe6 instead of8.
+Tracked `docs/evidence/storage-016-token-regression-red.txt` remains unchanged;
+SHA25695d80748d94dddbe89c3ca389791910b403cf5705cb7a29c0717f6e8ac584dc4
+was inspected. Root then explicitly released ONLY the token-phase correction.
+
+Commit18cc890 removes conditional first/request token presence ONLY from body_cause
+and body_detection (1 inserted/5 deleted lines). Both matrix_cause/matrix_detection
+checks remain byte-exact. No other conditional group is moved; accounting/equality/
+manifest/options/tests/fixtures are untouched. Captured token absence remains
+invalid_plan_evidence when it is the actual matrix failure, while required envelopes
+throughout the complete request still precede either conditional token check.
+
+Native direct private-function author checks pass0 warnings: exact reviewed new row
+payload→invalid_detection8; missing first token alone/request token alone→6/6;
+null audit with either token absent→8; either earlier replacement's token absence
+also defers past a later replacement's null audit→8. All prior35 B/I, manifest,
+71 detections/3 batches and priority probes remain PASS. This is NOT a claimed
+public-row/full-suite result or independent approval; root owns native full checks,
+ordinary selected CI and actual final source/config review. The root-authored test
+was inspected, not authored or changed here.
+
+Actual commands use the same configure/build pattern with temporary project include
+`/tmp/storage016-values-token-author-defer.cmake`, target
+`storage016_values_token_author_check`, and run only that direct pure-function
+author executable. Formatting/project/diff checks pass. Additional SHA256 artifacts:
+
+| `/tmp/` artifact | SHA256 |
+| --- | --- |
+| storage016-values-token-author.cpp |26fb9ee2c17f05f9da396329788f80c45c68f658e1a3a115aef69a06b860f311 |
+| storage016-values-token-author.cmake |47a5018d02afe15c6fbe2759b2e40df56b0be2fa6919a5ca5b19ac0b6b7995eb |
+| storage016-values-token-author-defer.cmake |cb9e5fa1bcbba1fe7102bed3995ff6e11e7f0dda98dc47e4001263b92497fd9d |
+| storage016-values-token-configure.txt |5c00cb4d37528e06718593cd3832d85b82be320a74885acd4889de21aa0cdea1 |
+| storage016-values-token-build.txt |599f643c0d5e238de7ab28497da289ac5a8560ef756df09503b74a0e5b039173 |
+| storage016-values-token-existing-checks.txt |013660e31823531bc07f4b27c3694b63f59407585630a071247b9026acf8bf2b |
+| storage016-values-token-author-build.txt |9e6fea44081793f9f1727a228ef785e45052f8a48eaca872c59002f1d7158312 |
+| storage016-values-token-author-run.txt |05bcfec11889b6169ff869de3cdb78a148e4a83f93978c5ad96835ad9d19ac8a |
