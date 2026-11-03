@@ -1,4 +1,4 @@
-# Coordinator checkpoint — ACCTTEST-004 independent fixtures
+# Coordinator checkpoint — ACCTTEST-004 feature test authoring
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Product
 incomplete. No owner decision or access needed. Do not stop at a completed PR or
@@ -37,16 +37,18 @@ Recent completed task PRs:
 ## Active primary task and current artifacts
 
 Root branch `task/ACCTTEST-004-service-baseline`, created from refreshed efe BEFORE
-claim5236d88. [Draft PR49](https://github.com/Kernol12/subathon-bot-ai/pull/49), last
-published complete API head **8d742239616aec1b8e9be65e972a42b4fcf2ae7a**; root now
-publishes review/gate/fixture-ownership metadata. Inspect actual HEAD/remote before
-acting. ACCTTEST004 in_progress; ACCT004 production PLANNED. No service feature
-suite, FIRST service red or implemented service behavior exists.
+claim5236d88. [Draft PR49](https://github.com/Kernol12/subathon-bot-ai/pull/49).
+Resume inspection: remote a26576727b89c5ffb22c089bcf16d4c6e4806be9/all11SUCCESS;
+root integrated policy fixtures3cc→bc86f81/authorcb7→6c24563 and actual early
+feature CPPee7→b4fd814. Inspect current HEAD/remote/checks before acting.
+ACCTTEST004 in_progress; ACCT004 production PLANNED. Early33 actual feature
+slots authored and compiled/discovered, not independently approved or invoked.
+FIRST service red and all production service behavior remain unperformed.
 
 Approved concrete DOCUMENT:
 
-- docs/contracts/application-service-api-v1.md **8fa0c76ad90ad046712463dfc95206e2a99b4e40**;
-  document author note **608acc129c48f8ee5ed97fd09db1ade541511c56**.
+- docs/contracts/application-service-api-v1.md **862c419395f4e9daf34f8ae8790a06abbec6f410**;
+  document author note **78f36dd7a3f0d0ad70cefb250f7af2a6b45c791c**.
 - Full actual approval b098c7ef imported99d3ef6,
   [review](accttest-004-api-review.md)615b64db.
 - Separate bounded codec/accounting/arithmetic approval7b501fd3 imported950db76,
@@ -123,21 +125,24 @@ created NEW isolated tree from that approvedtaskrevision:
   `task/ACCTTEST-004-feature-tests` at798d350 beforeedits.
   Own ONLY `tests/qt/application_service_tests.cpp` and
   `docs/evidence/accttest-004-test-author.md`.
-  CurrentPLAN35 meaningful publicQt slots with data rows; actual source/N/rows not
-  yet committed/verified. Four EXACT newmarkerfamilies must propagatethroughbody
+  Actual early CPPee7e6a3→rootb4fd814, refined d723bdd→root2e8e537/
+  blobc725dde22740f393789dae06cb413fad9ac39ca2
+  has33 compiled/discovered Qt slots. Two policy-hold slots and final authornote
+  follow the new fixture gate; final planned35 is not yet authored/discovered. Four EXACT newmarkerfamilies must propagatethroughbody
   exception_ptr/workerthread to namedQtFAIL, never blanketoldlogicerror or marker
   as expected success. Real WorkResult plusMATCHING service completion observed,
   no forged committed result. No new codec in fixture/setup/expected generation.
   Compile/static/Qt-functions discovery ONLY; author mayNOT execute any newtest/
   init/body/stub/marker before actual full review+completefeaturehead own green.
-- `/root/bundle_reviewer` test-review PREP COMPLETE/IDLE. Same preserved
+- `/root/bundle_reviewer` ACTIVE narrow new policy-fixture review (source audit PASS,
+  actual evidence commit follows), then actual complete feature-test review. Same preserved
   `local-evidence/worktrees/accttest004-service-api-review`,
   `task/ACCTTEST-004-service-api-review`; SIX verification config copies dirty
   (root/core/server CMake,presets,workflow,QtCMake), all preserved.
   MUST use followup_task on ACTUAL complete CPP/authornote/rootregistration.
   Own NEW `docs/evidence/accttest-004-test-review.md`, no prospectiveverdict or
   source/data edit. Completed fixture-CI audit2688 already integrated295a8fc.
-- `/root/bundle_validation` fixture author COMPLETE/clean05f3ddd in
+- `/root/bundle_validation` fixture author COMPLETE/cleancb7d3b1 in
   `local-evidence/worktrees/accttest004-service-fixtures`,
   `task/ACCTTEST-004-service-fixtures`. Own4fixturepaths remain frozen after review;
   new genuine data gaps need explicit spec reason/separateactualreview/currentgreen.
@@ -146,11 +151,42 @@ created NEW isolated tree from that approvedtaskrevision:
   Featuretarget and explicitN registrations/compiled-discovery guard WAITactualCPP;
   currentmandatoryfoundation6 executes onlyOLDprimitives, excludesservicearchive.
 
+## Actual policy-hold addition and early feature harness
+
+A real DATA coverage gap was found before affected tests: policy/clock/actions
+unavailable variants had no complete hold goldens. Explicit root assignment released
+three additive cases only, preserving ALLprior30 case objects/every existing oracle,
+source/catalog/arrangement. Actual source3cc76666→bc86f81 and authorcb7d3b1→6c24563:
+JSON7611f15d77bd85d02ea01c1b67983be267768f51/helper1909eaacfdb9c84fdebe1df394e8f31acf6777d7/
+env1f3131f23c75606fca586293a5f2749770ac7aef/author49a85cd3cca33e6e2c9dc77c6f47fc66a73a15c2.
+PolicyNone/ClockNone, PolicySome/ClockNone and known action-unavailable have THREE
+applicable SAH copies, honest absent UTC/elapsed/refs, exact scripted reasons and
+present-empty command refs projected to absent typed hold refs. No success subset.
+SAH213/302/362; detectionB1208/1486/1711I1; responseB81/76/86I1.
+Root focused old-only foundation40PASS/0FAIL/0skip955ms/CTest0.96s/3build0warnings,
+rawSHA f126e98fc93a171b57bae75f43a90f94ea64bdcf8878ccfac5bed803f4451ee6.
+Different reviewer actual full narrow source/note/oracle approvalc80e7c4e→root4823abc
+plus own40PASS985ms/3buildzero; current fixture-review addendum records exact facts. OWNupdatedselectedCI still REQUIRED;
+affected new goldens/test slots not released yet. Prior30 reviews remain valid.
+
+Root early feature harness: testsQtCMake d7470c37fcd26523556337eb38dc5110cda3fb97;
+workflow af0f961e7d86edcee73d339fcec95fdd5a138a3d. New real archive-linked executable,
+33 explicit separate-process registrations labelled application-service;draft-red,
+all enabled/noWILL_FAIL. Selected CI appends compiled/discovery exact33 equality
+ONLY after mandatory old-only foundation; NO new feature bodies executed in CI.
+All old workflow commands/guards/pins/permissions/checkname unchanged. Actual native
+configure/build/compiled-functions/CTestshow-only PASS33 exact/noinvocation. GNU
+actual build exposed one unused enqueued_run helper warning; actual author d723bdd→root2e8e537
+removes the unused helper and strengthens complete numeric/active hold comparisons.
+Refined native3-step compile/link ZEROwarnings; actual33 compiled slots equal
+33 enabled/no-inversion draft-red registrations. No feature invocation or red. Raw feature-buildSHA
+8571c28836349c821196f7e5a3899b88149e054ea1b99f78f9de34d4ca6b6241.
+
 ## Next concrete actions and non-negotiable first-red gate
 
-Receive actual authored testCPP checkpoint; wire root target/explicit compiledN
-registrations with intentional draft-red label, OLDstable/foundation stillmandatory.
-NO featurebody execution in CI or author diagnostics before fulltestapproval.
+Actual policy-fixture review is imported4823abc. Publish own updated selected foundation and
+inspect complete run/checkouts/log. Only then release affected policy-hold test cases.
+Complete authored testCPP/note; update root exactN guard/registrations as needed.
 Reviewer independently reads ACTUALsource/oracles/helpers/harness/authornote and
 links fullspec AS01–21/CS01–18. Preserveproofpartition: service tests pre-read15/
 plan reassessment, clockcallbackbeforepausedrefusal/no writes/visibleunpausedhardend;
@@ -170,14 +206,15 @@ integrated reviewed/red baseline and its OWN separate source/acceptance review.
 
 ## Continuity
 
-Currentrootbranch `task/ACCTTEST-004-service-baseline`, draftPR49, lastpublished
-fixturehead8df; root publishing gate/review/test-rolemetadata now. Inspect actual
-HEAD/remote/CI before acting. Taskin_progress; testsource/firstred/implementation
-NOTcomplete. Nativecommands done, no debugsession/newservicebody/marker evercalled.
-Old authorAPI/source/logical/dirtyverificationtrees/validreviews preserved; now
-125registered109existing16absent after new featuretesttree. Never reset/prune/discard.
-Use followup_task forcompletedagents; do not assume priorrolesstillrun. Current
-sourceauthor has separate cleanAPI/doctree ataba965; writes only NEWtesttree now.
+Actual resume inspection: root clean before new root harness edits; remotePR49 draft/
+CLEAN/MERGEABLE/no formalreviews/all11SUCCESS at a265767. Main freshly fetched equals
+efe1c7e; PR48 merge verified directly. Worktrees125registered109existing16absent,
+all preserved. Two agents active (test author, fixture reviewer); fixtureauthor
+complete cleancb7. Six dirty verification configs in reviewer tree and older dirty
+review/validation trees preserved in ignored resume-status JSON. Native session44370
+completed40PASS; feature compile/discovery96650 completed33, one helperwarning.
+No running build/test/debug/GitHub command remains. No new service/view/codec/stub/
+body/marker has EVER been invoked. Do not reset/prune/discard old work or replay reds.
 
 No owner decision/access needed. All seven integrations/three FX, real authority/
 policy/clock/action adapters, bothrenderers/locales/themes, financial/refund/review/

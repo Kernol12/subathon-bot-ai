@@ -87,3 +87,24 @@ review, compiled registration/complete-featurehead ownselectedfixturegreen and
 FIRSTsameclean named missing-service red remain UNPERFORMED. ACCT004 production
 remains planned. Any genuine baseline defect needs written spec reason/separate
 actual review; never weaken assertions, invent provider data or hide failures.
+
+## Additive unavailable-policy hold fixture gate
+
+Actual separate fixture author3cc76666→rootbc86f81/note cb7d3b1→6c24563 adds
+policy_unavailable, clock_unavailable and actions_unavailable only. JSON7611f15d/
+helper1909eaac/env1f3131f2/author49a85cd3 retain every prior30 case object and all
+old oracle/source/catalog/arrangement values. Different actual source/oracle/note
+approvalc80e7c4e imported4823abc is recorded in the fixture review addendum.
+
+Root `cmake --build --preset application-service-debug --parallel 2` passes3steps/
+zero warnings. `ctest --preset application-service-debug -R
+'^scaffold.application_service_environment$' --verbose` passes40Qt/0FAIL/0SKIP/
+0blacklist955ms, CTest0.96s. Raw local-evidence/accttest004-fixture-policy-build.txt
+SHA2560f6a60c63ad78294e72d91071cc8ac4c75c2ac04a2104c86c59f235c6b502191;
+accttest004-fixture-policy-foundation.txt SHA256
+f126e98fc93a171b57bae75f43a90f94ea64bdcf8878ccfac5bed803f4451ee6.
+The archive-excluding six-slot environment uses only old primitives. No new
+service/view/codec/marker was called. This candidate's OWN updated selected CI is
+pending; affected policy-hold goldens remain closed until that gate passes.
+Early feature source is compiled/static-discovered only and has no acceptance
+or red claim; later full test review and complete-head own gate remain required.

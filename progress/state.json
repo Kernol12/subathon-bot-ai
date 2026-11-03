@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T17:44:56Z",
+  "updated_at": "2026-11-03",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1658,7 +1658,7 @@
       "module": "Accounting",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator/integrator /root; concrete API/codec document author /root/bundle_implementer; actual independent reviewer /root/bundle_reviewer; later independent fixtures/tests roles assigned after concrete/API gates",
+      "owner": "coordinator/integrator /root; feature test author /root/bundle_implementer; actual independent reviewer /root/bundle_reviewer; separate fixture author /root/bundle_validation",
       "depends_on": [
         "ACCT-003",
         "STORAGE-002",
@@ -1697,7 +1697,9 @@
         "ACTUAL complete fixture3file checkpoints aacc467→e2bdc9a then81fbfe56→72f7c82: JSONc12b23dd4867bc15b68619d74b6c669ba094a059/helperc88c64e528270fdce271e1ed38f257a3a3172d2d/env611fe8b932a4eb00c0a8e747e142f027af5ea106; author41aae2db→414df4d/MDe9cabaa6. Parsedsemanticcomparison vs earlyaacc preserves original28facts+B-I/source32/4anchors/3arrangementSQL EXACT, representationcompaction26k→12k+specified29thclockoverflow/CS17/failingordinal/B-I/faultDATA additions. Authorold-onlynative6func/29rows/36PASS0skip808ms/zero warns; initial29setupassertfailures honestlyretained and spec-based environmentNULL/rollbackcategory corrected, notfixtures tuned forgreen. Root harnessd65b971 QtCMake69a21f68/workflow8c3a8f3b addsold-onlyenvtarget(NOnewservicearchive)+8macros/requiredcompiled6guard+unconditionalfoundation, alloldprefixunchanged. Rootbuild24zero/exact6/discovery265/foundation36QtPASS0skip0.82/fullOLD+foundation265PASS21.55/262Qt1096PASS0FAIL/skip, raw26dd7c2ffa651d7041e8de1be9d9b732bf4dc1e5e130c2e57bd0e580e59069a2. ActualFULL independentfixture/data/helper/env/author/harness review nowACTIVE; no futurefeatureapproval/marker call. Owncompleteapprovedfixtureselectedfoundationgreen stillmustprecede featuretestauthoring.",
         "AS19 actualindependentaddition0c1a675→23c81d0 and note05f3ddd→7cf9f40: FINALJSON0ae4957c/helper069bf7b9/env5a36a407/author7d4dafac. Allprior29objects+EVERYotherJSONvalueexact, oneelapsed_success100→90→+10→100, literalbeforetimer/freshb-c/preservedotherstate. Independent B-I cmd106/proposal201I7/record2129I11/response2130I11/SAS133149149/SAR470/SAA337. Rootupdated3build0warn/foundation6slots30rows37QtPASS0skip807ms0.81s, raw0df47714ba5baea5ba7b58e5e6ce2d59ddca54389fbb9349fe81c29d035072e4; no needlessold265replay. ActualFULLfixture/harness approval15f3149e1b84fdb4ef8baa768c14ae2ae539cff7 imported90c45c3/reviewf2ab656f acceptsFINAL3files+author+Qt69a/workflow8c3; independent150canonicalframes/23record-responseB-I/all30values/holds/arithmetic/raw32source+30branches+3arrangementsfull89FK0integrity/semanticpreservation/own37PASS0skip844ms/3build0warnings. No confirmedblocker, no newservicecalls. Onlynowpublish COMPLETEapprovedfixturecandidate for OWNmandatoryselectedfoundationgreen; tests stillnotauthorized.",
         "OWN COMPLETEapprovedfixturehead8dfcf5563013f1b06108de68bed4b0766e62aa24 selectedSQL41685005509 SUCCESS17:31:06–17:33:56Z/fresh122ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedofficialQt6.12SQLite3.53.4/oldstable/requiredcompiled6servicefoundationguard/37QtPASS0skip1785ms1.80s/all11SUCCESS. Rawd46a7df4f8a6ec9c61f84ca217a73ba714f1692b9fb6f0d0334e7985df0896c2; synthetic930cfce8 parents efe+8df/APIverifiedequalcandidate treeae9e17a401845b68574f1d5fde20c560ffdd85ac. No newfeatureentry/marker invoked. ONLY NOW release featureTESTauthoring: NEW task/ACCTTEST-004-feature-tests atlocal-evidence/worktrees/accttest004-feature-tests, authorbundle_implementer owns ONLY tests/qt/application_service_tests.cpp and docs/evidence/accttest-004-test-author.md. Frozenapproved fixtureJSON0ae/helper069/env5a36/author7d4, contract862/78f/header03a/sourceebbe untouched; root owns newfeatureCMake/workflow/registration/state/schema. Author MUST NOT run any newfeaturetest/body/marker before actualfulltestreview+completeheadOWNselectedfoundationgreen; compile/discovery only. Differentreviewer later owns test-reviewMD. No productionACCT004, no FIRSTservice redyet.",
-        "Actual ownfixture CI independentlyaudited byreviewer2688c1b3→295a8fc, fixture-reviewMD2fd6a15f, exact8df/41685005509/rawd46/treeequal/122zero/exact6/37PASS1785ms. New featuretesttree CREATEDat798d350 and author explicitly resumed; currentplan35focusedQt slotswithdatarows, exact4markerfamilies propagatedthroughbodyexception_ptr/workerthreads, rawREALWorkResult plusmatchingServiceCompletion retained, no genericerror cancountmarkerassuccess. Sourcefile/note notyetcommitted, no authoredcount/baselineclaim. Fulltestreviewer prepCOMPLETE/idle awaitingactualsource/note/rootregistration; usefollowup_task then. Fixtureauthor COMPLETE05f/clean. No newfeatureentry/body/markercalled; compile/discovery-onlygate remainscloseduntilactualfullreview+owncompletefeatureheadselectedfoundationgreen."
+        "Actual ownfixture CI independentlyaudited byreviewer2688c1b3→295a8fc, fixture-reviewMD2fd6a15f, exact8df/41685005509/rawd46/treeequal/122zero/exact6/37PASS1785ms. New featuretesttree CREATEDat798d350 and author explicitly resumed; currentplan35focusedQt slotswithdatarows, exact4markerfamilies propagatedthroughbodyexception_ptr/workerthreads, rawREALWorkResult plusmatchingServiceCompletion retained, no genericerror cancountmarkerassuccess. Sourcefile/note notyetcommitted, no authoredcount/baselineclaim. Fulltestreviewer prepCOMPLETE/idle awaitingactualsource/note/rootregistration; usefollowup_task then. Fixtureauthor COMPLETE05f/clean. No newfeatureentry/body/markercalled; compile/discovery-onlygate remainscloseduntilactualfullreview+owncompletefeatureheadselectedfoundationgreen.",
+        "Actual resume verified main efe/PR48 merge, rootclean/remotea265PR49draft/all11SUCCESS,125worktrees109existing16absent withdirtyverificationcopies preserved. New explicit bounded policyhold fixtures3cc→bc86f81/notecb7→6c24563 preserveALLprior30facts/oracles; actual independent reviewer sourceauditPASS/evidencefollows. Rootold-only40PASS0skip955ms/3build0warn; ownupdatedselectedCI requiredbeforeaffectedgoldens. EarlyfeatureCPPee7→b4fd814/blobaa5ff0bd has33actualslots; rootarchive-linkedtarget/exact33registrationguard withdraft-redenabled/noinversion compiled/discoveredONLY. No newbody/entry/markerinvoked. Nativeactualbuildoneunusedhelperwarning reportedtoauthor,notred. Final2policyslots/note/fullreview/OWNcompletefeatureheadselectedgreen/FIRSTsamecleanservice red remain gates; ACCT004planned.",
+        "Actual additivepolicy fixture approvalc80e7c4e→4823abc: currentJSON7611/helper1909/env1f31/author49a85 reviewedindependently, allprior30 preserved, SAH213/302/362/detection1208/1486/1711I1/held81/76/86I1, own40PASS0skip985ms/3buildzero. Updated ownselectedgate pending. Testauthor d723bdd→2e8e537 removesunusedhelper and adds fulltyped/source/plan/observation/first+currentholdversion/all4annotationcopies; CPPc725dde22740f393789dae06cb413fad9ac39ca2,33slots remains compile/discoveryONLY. No assertionweakened/no newbody/entry/marker invoked. Root exact33 harness addedforCI discovery, notpassingfeatureacceptance."
       ],
       "verification": {
         "logical_contract": "passed",
@@ -1720,7 +1722,9 @@
         "output_clarification": "passed",
         "fixture_host_diagnostic": "passed",
         "fixture_official_qt": "passed",
-        "test_authoring": "not_run"
+        "test_authoring": "not_run",
+        "policy_fixture_review": "passed",
+        "policy_fixture_official_qt": "not_run"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
@@ -12820,6 +12824,11 @@
       "date": "2026-11-03",
       "task": "STORAGE-016",
       "note": "After gated baselinePR47 merge017d, claim separate caller-session durable-hold implementation. Reviewed/red baseline preserved; separate source/review/native-validation branches, root shared-file ownership and ordinary CI promotion required."
+    },
+    {
+      "date": "2026-11-03",
+      "task": "ACCTTEST-004",
+      "note": "Resumed actual agents/worktrees/GitHub. Preserved prior reviews; additive policy fixtures under separate review, early33service slots compiled/discovered only. No feature body or marker invoked."
     }
   ]
 }
