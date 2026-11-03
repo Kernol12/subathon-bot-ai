@@ -175,3 +175,27 @@ old row/oracle/assertion or source is changed.35slots/269→270 scenarios. Actua
 different review, narrow intended red and runtime stack attribution are required
 before releasing the correction; current official35 success is preserved for its
 269-row candidate and does not establish this additional seam.
+
+Actual independent test approvalce7c61a integrated707cb3a pins test0e172a16 and
+note36d91536. Root rebuilt3steps/ZEROwarnings, then ONLY the new public row on
+SAME CLEAN707cb3ac0872715e9cdedd67b5190a105016b485/unmodifiedruntime8d82:
+15:12:04.841429–.889799Z, actualexit1/2initcleanupPASS1FAIL/0skip/blacklist.
+Failure is the exact synchronous Hold reason assertion, not setup or a missing
+feature marker. [Raw output](storage-016-retained-regression-red.txt) SHA256
+ce70bd025d997d36e9d1469394039a3254517398ee5118b2ccacc4a903c20b96.
+
+Root read-only batch GDB at writer.cpp404 proves error=result_limit,
+phase_=rolled_back and sticky first_error_=result_limit. Stack is actual retained
+select_record92→find153→HoldAccess.retained657→source_references675→full_cause
+→find(hOverflow)→test2243. No earlier HoldAccess.execute exhaustion. Exact ignored
+log `local-evidence/storage016-retained-regression-gdb.txt` SHA256
+29d614adf0eb12508625840317304b79e0ea5335875fa7115a818ab98560a696.
+IDE has no applicable Qt-test configuration; initial sandbox ptrace was unavailable,
+then approved read-only GDB fallback succeeded. No user debug state was modified.
+Different reviewer independently observed original WorkFailure(result_limit) and
+known rollback with the same public setup.
+
+Only AFTER actual reviewed public red and stack attribution did root release the
+bounded retained seam WorkFailure catch/reuse of the existing known-four mapper.
+No extra rollback, default/capability/unknown translation or old store change is
+authorized. Final270 green/fullsourceapproval/ownofficialCI remain pending.

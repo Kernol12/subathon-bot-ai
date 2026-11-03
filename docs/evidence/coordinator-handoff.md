@@ -154,3 +154,14 @@ now records this gate. Prior7a3 official35/all11 success is269-row evidence only
 Next: actual independent test review → focused public red/runtime stack attribution
 on unchanged8d82 → bounded retainedseam mapping fix → source approval +actual270
 native and OWN promoted officialCI. Preserve existing results, no baseline replay.
+
+Actual new test approvalce7c61a integrated707cb3a. ONLY new public row on SAME
+CLEAN707cb3ac0872715e9cdedd67b5190a105016b485/unchanged8d82 at15:12:04.841429–.889799Z:
+exit1/2initcleanupPASS1FAIL0skip/exactHoldtype assertion. Tracked rawce70bd02
+retained. Read-only GDB proves writer error/sticky firsterror=result_limit and
+phase=rolled_back, exact retained select_record92→find153→HoldAccess.retained657
+→source_references675→full_cause→find(hOverflow)→test2243. Ignored log
+local-evidence/storage016-retained-regression-gdb.txt SHA29d614ad.
+Only NOW root released bounded retained Work catch/oldfour-reason mapper/no cleanup
+to runtime author, explicitly resumed. Source checkpoint pending; then final270
+root acceptance, differentactualsource/configapproval and ownCI required.
