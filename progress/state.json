@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T14:57:48Z",
+  "updated_at": "2026-11-03T15:02:49Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5463,7 +5463,8 @@
         "Genuine history input correction1a32ed8 changes ONLY two cursor0 to1 matching frozen position2-only oracle338B6I; no oracle/assertion changed. Additive three-row regression70c430f accepted by different reviewer1650658; revised test82980fdb/35slots268rows. Actual reached-red on unchanged buggy CLEAN68dc779 at14:20:25.413-.514Z:3processes EACHexit1/2initcleanupPASS1FAIL0skip0missingmarker. Separate actual attributionb83c500 accepted; priority11/9 vs8 and read-onlyGDB proves narrow lineage body returned normally, not mutated bytes. ONLYTHEN root released corrections. Original firstred598/265markers and all frozen JSON/helpers preserved. New raw storage-016-regression-red.txt retained; no baseline replay.",
         "Root independent actual configure/build29steps0warnings/full264PASS19.73s at14:47Z with finalruntime8d82/helper ec78/test82980;261Qtprocesses1058PASS0FAIL0skip0blacklist. Full log SHA f7ddbe8664e85621799f94eaf60f658e5f62f843e61d58a15d762d8798be50ee. Root concrete shared promotion removes ONLY hold35 draft-red label, updates descriptions/header obsolete comment only, preserves mandatory new3diagnostics/oldsteps/pins and appends UNCONDITIONAL35 to ordinary selectedQt workflow14ff57de. Actual source/config review active; one Captured token-presence phase question explicitly under review; no prospective approval. DraftPR48 still published claim4d8dba8, old all11green does not verify actual productioncandidate. Own promoted selectedCI/latestall11/normalmerge remain required.",
         "Final ec78 review found Captured first-token presence incorrectly promoted before required audit; API46c explicitly retains this as MATRIX. Root additive one-row testd740a175/35slots269rows independently approved001896f and observed genuine PUBLIC red at SAME CLEANf67ae73 14:54:48.238859-.266877Z exit1/2initcleanupPASS1FAIL0skip, exactcategoryfailure; different pureprobe6vs8. Raw95d80748 preserved. ONLYTHEN released bounded bodytokencheck removal preserving matrixchecks; all original268rows/oracles/fixtures unchanged. Prior264green applies268candidate; final269 acceptance and updatedsourceapproval pending.",
-        "Actual bounded correction18cc890→617ecdd helper13828cc3 removes only premature Captured cause/request-token checks from required-body stage; matrixchecks retained, no other branch/accounting/manifest change. Root final3stepbuildZEROwarnings and actualCTexit0/full264PASS19.97s at14:57Z,35slots269scenarios/261Qtprocesses1059PASS0FAIL0skip0blacklist. Raw6777936f6ca1e833bd4377f5edd6cac70cdcf4547441d532c333239e9a0492df. Final testsd740a175/allfrozenoracles fixed. Fullactual different source/configreview inprogress; ownpromoted official CI nowtoobserve, oldclaimCI notproof. Task remainsin_progress/unmerged untilallgates."
+        "Actual bounded correction18cc890→617ecdd helper13828cc3 removes only premature Captured cause/request-token checks from required-body stage; matrixchecks retained, no other branch/accounting/manifest change. Root final3stepbuildZEROwarnings and actualCTexit0/full264PASS19.97s at14:57Z,35slots269scenarios/261Qtprocesses1059PASS0FAIL0skip0blacklist. Raw6777936f6ca1e833bd4377f5edd6cac70cdcf4547441d532c333239e9a0492df. Final testsd740a175/allfrozenoracles fixed. Fullactual different source/configreview inprogress; ownpromoted official CI nowtoobserve, oldclaimCI notproof. Task remainsin_progress/unmerged untilallgates.",
+        "Own complete final implementation candidate7a3dcfcfe292b77f29ba648809c7eb0a03b46913 selectedSQL41658920776 SUCCESS14:57:58–15:00:42Z: fresh110/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedofficialQt6.12SQLite3.53.4/new3guard5PASS0skip181ms/exact35compiled/UNCONDITIONAL35PASS26.41s/oldstable/all11SUCCESS. Synthetic checkoutcfd682626cf4db12a6673f3f315071b0c8f66d76 parents017d+7a3, APIverifiedtree6ae4af8baa291ddd9f5f9faa67f60f2859418d1a equalscandidate. Rawc9a54d03788ad6e106354597f5f54c47e43bc07a694a956b8635fdf53ebe6cd8. Finalhelper evidence7257a06/MD744d integratede7d2603 sourceunchanged13828. Actualfullseparatesource/configreview stillactive; taskin_review notdone; finalmetadataheadCI/currentrules/discussions/normalmerge stillrequired."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -5472,12 +5473,12 @@
         "acceptance": "passed",
         "code_review": "partial",
         "independent_validation": "passed",
-        "official_qt": "not_run",
+        "official_qt": "passed",
         "platform_release": "not_run",
         "native_environment": "passed",
         "regression_review": "passed",
         "regression_baseline": "observed_red",
-        "github_ci": "not_run"
+        "github_ci": "passed"
       },
       "evidence": [
         "docs/contracts/sqlite-application-holds-v1.md",
@@ -5497,10 +5498,11 @@
         "docs/evidence/storage-016-baseline-revision-review.md",
         "docs/evidence/storage-016-regression-red.txt",
         "docs/evidence/storage-016-validation.md",
-        "docs/evidence/storage-016-token-regression-red.txt"
+        "docs/evidence/storage-016-token-regression-red.txt",
+        "docs/evidence/storage-016-ci.md"
       ],
       "review": null,
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "coordinator/integrator and independent native validator /root; runtime author /root/bundle_implementer; pure-values author /root/bundle_validation; independent full source reviewer /root/bundle_reviewer"
     },
     {

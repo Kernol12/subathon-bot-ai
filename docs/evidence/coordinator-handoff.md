@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-016 implementation claimed from integrated baseline
+# Coordinator checkpoint — STORAGE-016 acceptance green; independent review active
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Full
 product is incomplete. No owner decision/access currently needed. Do not stop at
@@ -33,9 +33,13 @@ Completed task merges:
 
 Root branch `task/STORAGE-016-durable-holds`, from integrated main017d before
 claim/edits. [Draft PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) is
-published at4d8dba8 (claim/preparation only). Its old all11 successful checks do
-NOT verify the newer local implementation. Local source commits through617ecdd plus root final validation/publication
-metadata are being published as the complete candidate. No eligible merge or implementation-done claim.
+published complete candidate7a3dcfcfe292b77f29ba648809c7eb0a03b46913. Its own
+selectedSQL41658920776 completedSUCCESS14:57:58–15:00:42Z/fresh110/0warnings/
+GNU13.3/Boost108300/Qt6.12SQLite3.53.4/new3guard5PASS0skip181ms/exact35compiled/
+UNCONDITIONAL35PASS26.41s/oldstable/all11SUCCESS. [CI](storage-016-ci.md) records
+actual syntheticcheckoutcfd6826/APIverifiedequalcandidate tree6ae4af8b/rawc9a54d03.
+Local e7d2603 adds only final pure-author evidence7257a06/MD744d0dd9; final
+rootCI/status metadata are being committed. No eligible merge or implementation-done claim.
 
 Preserved reviewed baseline: logical701c710f/c0ed4b6, physical83e96362/696d7f9,
 API46c70297/category35b1092, frozen JSON63de09c5/helper7ca946f2/env a17312fe.
@@ -95,17 +99,18 @@ bounded bodytokencheck removal to pure author; matrix checks stay. Prior268green
 Actual final correction18cc890→617ecdd changes only1insert5deletes; matrixchecks
 remain. Root final3stepbuild0warnings/CTestexit0/full264PASS19.97s,14:57Z,
 all35slots269scenarios/261Qtprocesses1059PASS0FAIL/skip/blacklist; exactraw
-SHA6777936f in validation note. Full source/config approval and ownCI stillpending.
+SHA6777936f in validation note. Full source/config approval stillpending; owncompletecandidate officialCI nowSUCCESS.
 
 ## Roles, preserved work and next action
 
 - Root owns shared state/HTML/maps/schema order/build/presets/workflow/integration
   and new regression tests; independent native validator, no runtime authorship.
 - `/root/bundle_implementer` runtime author COMPLETE, clean
-  `local-evidence/worktrees/storage016-source`, `task/STORAGE-016-source`, ea53fb2.
+  `local-evidence/worktrees/storage016-source`, `task/STORAGE-016-source`, ea53fb2. Read-only service004 preparation complete; ignored detailed note
+  `local-evidence/accttest004-next-prep.md` preserves next API/codec contract gates.
   Own runtimeCPP/privateAccess/factoredoldbundle/authorMD only.
 - `/root/bundle_validation` pure author bounded token-phase correction COMPLETE,
-  `local-evidence/worktrees/storage016-values`, `task/STORAGE-016-values`,286efa8.
+  `local-evidence/worktrees/storage016-values`, `task/STORAGE-016-values`,7257a06.
   Own only hold_values.hpp/values-authorMD. Actual reviewed focused public red reached and correction explicitly RELEASED;
   do not treat it as an independent validation role.
 - `/root/bundle_reviewer` actual FULL source/config review ACTIVE,
@@ -123,10 +128,10 @@ No native command still running after completed root264; source reviewer resumed
 with followup_task, runtime author read-only next-slice preparation; pure author final evidence/diagnostics. User debugger state untouched; actual
 read-only batch GDB used because IDE had no applicable Qt-test run configuration.
 
-Next: actual separate final source/config review; root269/full264 nowPASS.
-Publish complete implementation candidate to draftPR48 and
-observe own promoted selectedQt (mandatory3fixture green +UNCONDITIONAL35), all11
-latest, current rules/discussions/readiness, normal exact-head merge. Mark done only
+Next: actual separate final source/config approval; root269/full264 and own
+promoted official35/all11 nowPASS. Complete handoff/map/status/HTML, publish final
+metadata to draftPR48; observe latestall11, current rules/discussions/readiness,
+normal exact-head merge. Mark done only
 when applicable acceptance/review/CI gates pass, record publication separately.
 Then refresh main and continue service004 from integrated016+017 and its OWN reviewed
 contract/tests/red. No owner decision/access needed. Full seven integrations/three
