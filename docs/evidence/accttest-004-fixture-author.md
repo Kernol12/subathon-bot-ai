@@ -1,6 +1,7 @@
 # ACCTTEST-004 — independent service fixture author
 
-Actual fixture candidate **81fbfe56c8b28da8f0122e8afd8c1e605a7ec8d6**, following
+Actual fixture candidate **0c1a675b9eeee1f08e51a5f81ff43d40bebac6f6**, with the
+AS19 addition recorded below, following complete81fbfe56c8b28da8f0122e8afd8c1e605a7ec8d6 and
 early two-file checkpointaacc467201e1d397562327c3d40ee85b9fa6620f. Author
 bundle_validation,2026-11-03. This is synthetic foundation DATA and an OLD-storage
 environment check, **not service/codec implementation, feature acceptance or red**.
@@ -10,11 +11,11 @@ after actual minimal API review/own selected SQL41673443963. That release preced
 these edits. Only the following four paths are authored:
 
 - [Literal vectors](../../tests/fixtures/application_service_vectors.json), blob
-  c12b23dd4867bc15b68619d74b6c669ba094a059.
+  0ae4957c65879cb3d5056f39b3d215f45a381e00.
 - [DATA/parser/scripted-port helper](../../tests/qt/support/application_service_fixture.hpp),
-  blobc88c64e528270fdce271e1ed38f257a3a3172d2d.
+  blob069bf7b91ce79f1821a44f67747e8d3354219dbd.
 - [Old-only environment](../../tests/qt/application_service_environment.cpp), blob
-  611fe8b932a4eb00c0a8e747e142f027af5ea106.
+  5a36a407b9423920346d73d86817430a7068b6cc.
 - This author evidence. Root owns all shared build/configuration/workflow/state files.
 
 Approved clarificationaba9657 was imported unchanged as prerequisite3eb4983,
@@ -52,7 +53,7 @@ plan revision1 and allocatorMAX/exhaustion anchors have real FK closure. Source
 intake/capture commits in a separate earlier unit. Raw source insertion order does
 not pretend to be allocator chronology or certify a provider's linkage semantics.
 
-The29 case branches retain exact requests/current state/policy/clock and manually
+The initial29 case branches retain exact requests/current state/policy/clock and manually
 calculated outcomes: Main58+10 and two ordered+10/cap60; debt55/2; above-cap100/5;
 Grace/wait debt-only and rescue; MAX debt; mixed score/count overflow; fractional
 3/2→2/residual−1/2 and5/2→2/residual+1/2; signed−150/StopAtZero/RequireReview and
@@ -126,7 +127,7 @@ Actual local environment: GNU16.2.1, system Boost1.92, QtTest/Qt6.12.0 and its r
 QSQLITE plugin. The plugin's engine version was not separately printed in this
 author log; root's later mandatory selected official probe remains independent.
 Fresh build30 steps, zero compiler warnings; successive focused recompiles also
-zero warnings. Final author native result **36PASS/0FAIL/0SKIP,808ms** (29 data rows,
+zero warnings. Initial complete native result **36PASS/0FAIL/0SKIP,808ms** (29 data rows,
 five other slots, init/cleanup). Temporary CTest show-only registers exactly6,
 matching compiled discovery6. Project check passes396 tasks/122 decisions; diff
 check and forbidden-new-call static scan pass. No old acceptance/red replay.
@@ -149,7 +150,7 @@ unchanged. Additions are the29th clock case, intermediate B/I, known failure ord
 in issuer bindings (required by accepted API), CS17 anchor, fixed snapshots/fault
 DATA and provenance. No literal expected value was tuned to obtain native green.
 
-Final raw artifact SHA256s:
+Initial complete raw artifact SHA256s:
 
 - configure-final:5ad6e3f64909b1d064990054f09a70e0bf7640f9e29d634fc5919a76ccad1aa3.
 - fresh build:86ae2b2d5890a2539a2801f6de3935c1f966b48052ed6ee1ed6f37cd6ed8297e.
@@ -163,3 +164,52 @@ foundation green remain REQUIRED before feature-test authoring. New service/view
 encode/decode/make_work/enqueue/stub/marker calls, feature-test bodies and first
 service red are all UNPERFORMED. No current product policy/provider/permission/
 delivery, private race/paused sequencing or implementation approval is inferred.
+
+## AS19 successful nonzero-clock addition after actual reviewer finding
+
+The independent reviewer correctly identified that all initial successful proposal
+fixtures had zero elapsed; only the whole-input overflow branch exercised a10ms
+clock change. Root explicitly resumed this bounded addition before fixture approval.
+Actual source commit0c1a675 changes only the three owned fixture/helper/environment
+paths; this note is the fourth owned path. Header03a747/sourceebbea and approved
+contract862c/author78f36 remain unchanged. Structural JSON comparison against81fbfe5
+proves EVERY prior29 case object and EVERY other top-level JSON value EXACT; the
+only DATA addition is the new `elapsed_success` case.
+
+Independent AS19 arithmetic: Active/Main100/debt0, unchanged pause/config/counters,
+one10ms nonpaused segment observedUTC1010, gives literal clock-beforeMain90. Selected
+Exact10/1/final10 with no cap gives Main_delta10/debt_delta0/cap_limited0 and
+afterMain100, no transitions. The numeric reducer consumes90; it must not reuse100
+or add credit twice. Prior source retention is identical and committed separately.
+Both fresh snapshot tokensb/c are explicit; clock-only before keeps all head debt,
+counter kinds/keys/units, configuration and format. Its new clock/annotation requires
+freshb despite afterMain returning to the original100.
+
+Expected `proposal.clock_advanced_timer` now comes from the independently frozen
+`expected_record.before.timer`, not a head-timer shortcut. The helper requires that
+complete literal snapshot. Existing successful case values remain unchanged. The
+foundation explicitly checks100→90→100,10ms, tokensa/b/c and every preserved before
+dimension, then OLD stage/lookup/actual rollback/full snapshot equality proves
+complete old-port/source closure. No future service reducer/codec produced a value.
+
+Manual framing gives SAC1 document151/Envelope191, SAS1 head133/before149/after149,
+SAR1 document470 and SAA1 document337. For example each new SAS1 is
+4+7+6+55+10+19+8+40=149: magic/config/present basis/Clock/policy/Timer/debt/two balances.
+SAA1 is4+155+78+55+3+14+1+1+1+4+21=337 with command/Policy/Clock/optional groups/
+plan/outcome/empty calculation/copied action explanation. Logical Command B106/I1;
+Proposal B=19+19+8+28+74+53=201/I7. RecordedBundle B2129/I11 and final Response
+B2130/I11 separately charge all actual owning copies, no opaque embedded vectors.
+
+Actual same old-only temporary harness: build3 steps/zero warnings; compiled slots
+remain exactly6. Focused `rawSourceStateAndPlanBranchesHaveCompleteOldClosure:elapsed_success`
+is3PASS/0FAIL/0SKIP,34ms including init/cleanup. Full environment is now
+**37PASS/0FAIL/0SKIP,822ms**, with30 data rows. Static project/diff checks pass.
+No new service/view/encode/decode/make_work/enqueue/stub/marker entry was linked or
+called; independent final review and OWN selected foundation green are still pending.
+
+Actual new raw SHA256: buildb389d5d1cbdc44455571013090827d6e4873d2c2ceb2fa5a7ea280df0deba8c6;
+functions840a9a7e51ef8ec110a6e22235141916d8b5e8b852920fdbf4044d71862ded65;
+focused case3b5570d36b8c5fdfc2712c4fb01c5daabbfb2da28849b5c0741891dac5c35e5b;
+full environmentde9ea8546a6f85883a22211950e10a3ef59218dc44949be2f647972e601b8f23.
+Artifacts are `/tmp/acct004-AS19-{build,functions,case,full}.txt`; earlier diagnostics
+and their hashes above remain preserved rather than rewritten as final evidence.
