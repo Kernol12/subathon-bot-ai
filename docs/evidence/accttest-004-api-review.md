@@ -84,3 +84,38 @@ Authentication/disclosure, current policy, clock lineage, reference uniqueness,
 real jobs/delivery, manual derivation, failed-capture producers, mixed/post-finish/
 paused/recovery/continuation/refund commands and all product/platform/live release
 obligations remain mandatory owning-task gates; none is enabled or waived here.
+
+## Fixture-golden clarification — actual re-review
+
+**APPROVED — DOCUMENT ONLY**: actual author revision
+aba965732eb38bfa81aad0d02fcb6a7d60d44d58, contract
+862c419395f4e9daf34f8ae8790a06abbec6f410 and author evidence
+78f36dd7a3f0d0ad70cefb250f7af2a6b45c791c. Read the complete correction diff,
+relevant protocol/format/bounds/examples sections and updated note against actual
+hold/core/bundle contracts and the named existing test bodies. Earlier review
+history remains valid for its pinned artifacts; this addendum pins the new text.
+
+Successful audits now unambiguously use SAA1; all applicable new whole-input hold
+annotation/audit/failure fields use the same owned SAH1, whose Failure leaf omits
+the annotation and cannot recurse. Every real copy remains charged. Request/port
+explanations are exact copies, remaining prose is empty, and changed-before
+advance explanation is the fixed20-byte ASCII clock-observation-v1. No new grammar
+or arbitrary future prose is needed. Empty actor/decision command DATA remains
+lossless while typed hold identity refs obey the existing nonempty-key domain.
+
+Actual HoldObservation UTC/elapsed are optional. Unavailable policy/segmentation
+can retain unknown Clock/time honestly, known permission and the actual persisted
+head; there is no fabricated0, prior timestamp, new time port or known-clock
+restriction on required unresolved-policy holds.
+
+AS20/CS10 and AS16/CS08 remain mandatory. Existing store tests establish stale
+EXPECTED/current mismatches, not a within-session race. Core tests establish paused
+deadline transitions. Future service tests and actual source review have explicit
+separate obligations; private paused traces and mid-body changes are not claimed
+as executed service observations. No write-capable fake port or phase hook appears.
+
+Minimal header03a747a7/sourceebbea238/header-author a863a1d9 and root build/workflow
+artifacts are unchanged, so the existing minimal-interface review remains applicable.
+Project396/122/render/diff checks pass. No native/feature/codec call or new fixture
+golden ran for this re-review. Separate bounded review and actual fixture/test/
+first-red/implementation gates remain; this approves no unexamined artifact.
