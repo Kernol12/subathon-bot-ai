@@ -1,8 +1,9 @@
 # ACCTTEST-004 — independent bounded test-code review
 
-Reviewer bundle_validation,2026-11-03. **Changes requested: admission queue
-observability remains pending.** Three earlier findings are resolved in the actual
-correction01f3a5d as recorded below. This is a review of OTHER author
+Reviewer bundle_validation,2026-11-03. **Bounded test-code APPROVAL of actual
+9a3c300**, as recorded in the final addendum. Initial changes-requested history is
+preserved; all four scoped findings are now resolved in actual authored source.
+This is a review of OTHER author
 bundle_implementer's test code, not approval of this reviewer's fixture oracles.
 Scope is five codec slots, two admission slots, retained semantic-format and final
 result-bound slots, named-marker transport and their discovery-only harness.
@@ -74,7 +75,8 @@ sentinel, await its actual normal completion, then reassert no rejected callback
 no port work and unchanged complete snapshot. FIFO makes earlier queued work
 observable while all captures/dependencies remain alive. This requires no fabricated
 completion, SQL-capable port or new service hook. Root/test author/full reviewer
-were notified. Await the actual authored correction and separate re-inspection.
+were notified. The initial checkpoint awaited actual correction and separate
+re-inspection; resolution is recorded below.
 
 ## Bounded positive checks
 
@@ -123,8 +125,66 @@ buildecc840f2ddedb8e6f6562d6186f57217e56d052fb1db73d5d34289e63f8eaecb;
 functions996ea888055101fb9d015be25cd16afc0c80a8ff592c05bf579e4472d6cc0089;
 discovery316d7762e0bf9d6ddfc95000bd74d090aa4aa8d89fb94e4d665e09f44dcf7622.
 
-C4 remains changes-requested; no full baseline approval or first-red release.
+At the initial8e69fc8 checkpoint, C4 remained changes-requested; no full baseline approval or first-red release.
 Actual corrected admission source plus final incoming slots/harness, different full
 review and COMPLETE final feature head's OWN selected foundation green remain
 prerequisites to root's FIRST genuine named-marker execution. Fixture/task
 implementation/provider/policy/delivery approval is not inferred from this review.
+
+## Final actual C4 and callback re-review — APPROVED within bounded scope
+
+Inspected the COMPLETE actual OTHER-author correction
+47618850cbb2bc8683bb53d78d265cf6a7aea08c→root117829e, CPP blob
+**9a3c300abb6323bb6f3558d0191a478cbc32484f**, against actual corrected01f3a5d.
+The author note available at this inspection remains95069cf0e91a027f9de259477e9d374bef760de4
+for the earlier checkpoint; the FINAL35-slot author note is explicitly PENDING.
+Root instructed this bounded verdict to pin the actual CPP rather than prospectively
+approve an incoming note, new access/hold-priority rows or further source revision.
+
+**C4 resolved in actual source.** admissionPreflightBeforeQueue and
+foreignAdmissionAndMissingCallbacks now call File::setup after their expected
+synchronous rejection. That existing helper enqueues OLD real work, begins one
+transaction, executes the no-write sentinel and commits; old run() waits for its
+actual committed/none/present normal completion. FIFO exposes earlier wrongly
+queued callback/port/storage work before the final checks. Captures, service, ports,
+writer and observer remain alive throughout. Both slots retain zero callback/port
+and full snapshot assertions AFTER this acknowledged barrier. No service setup,
+fake completion, SQL-capable port, reentrancy or extra runtime hook is introduced.
+This hardens observable queued work; it does not claim introspection of a completely
+unobservable private no-op unit or substitute for future implementation source audit.
+
+**Actual callback robustness correction is sound.** queuedAndReturnedBytesStayOwned
+now catches assertion/extraction exceptions into exception_ptr inside the response
+callback, sets done unconditionally, waits on owner and rethrows outside the writer's
+callback exception boundary. Thus failure is reported precisely rather than swallowed
+into a timeout. Any of the four exact missing-marker families still reaches scenario's
+named catch; no expected error handler accepts them. This correction changes neither
+the independent owned-buffer oracle nor actual transaction/publication truth.
+
+Actual C1–C3 fixes remain unchanged and valid. The nine scoped codec/admission/
+semantic/result groups and their marker transport therefore have no remaining
+confirmed blocker in9a3c300. The same source also adds two policy groups and a
+complete hold-outcome comparator; those additions are OUTSIDE this verdict, owned
+by the separate full reviewer. The pending SAH2 document proposal, new policy
+oracles, future MIN fixture and future access/hold-priority rows are NOT approved.
+
+Because source changed, independently replaced ONLY the temporary verification CPP
+with exact9a3c300, verified its git blob, rebuilt the same existing target and invoked
+ONLY `-functions`. Actual build3 steps/zero warnings; compiled35 preserves all prior33
+names and adds exactly unresolvedPolicyAndClockAreHonest/capturedActionUnavailableHolds.
+No data/init/feature/service/codec/view/stub/marker body was invoked. The review tree
+retains the earlier33-registration tracked harness, so this safe compile/discovery
+is NOT approval of a future final35 harness/CI configuration. Earlier33 CTest
+show-only equality remains historical evidence, not a claimed current35 equality.
+
+Actual `/tmp/acct004-codec-review-final-build.txt` SHA256
+5d986715afef86d3c93171d9c16cb48981951cdd73b91997026fa58d7068fecd;
+`/tmp/acct004-codec-review-final-functions.txt` SHA256
+3024f67458b756cc7e3aa2adfdcd0e72cee22fe4f209aadfdc94c7703cf69fc7.
+Project/diff checks pass. Only this review note is authored in the review tree.
+
+This APPROVES only the actual bounded test-code scope at9a3c300. Different complete
+test/oracle/harness review, current final author evidence, COMPLETE final feature
+head's OWN selected foundation green and root's separately released FIRST genuine
+same-clean named-marker run remain required before production. No full baseline,
+fixture self-review, runtime feature acceptance or implementation approval is inferred.
