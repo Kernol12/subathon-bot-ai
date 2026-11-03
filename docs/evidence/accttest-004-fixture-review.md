@@ -133,3 +133,37 @@ Project396/122/render/diff PASS. No old265 or red replay; no new service/view/
 codec method or marker call. OWN selected CI for this updated fixture remains
 required before affected golden use; feature-test/full-review/first-red and
 implementation approval remain separate, unperformed gates.
+
+## SAH2 MIN policy evidence — actual additive re-review
+
+**APPROVED — FIXTURE/FOUNDATION ONLY**: actuald585e697 and complete author
+7b800b7f. Current vectors6598ad48b12c4d4871a114be404e884cb7deffb1,
+environment26ed3153d0fe31effcc194b118db1bd46eeea811 and author note
+5cc7bfbae8560c272644c4f7f0fc3c148f2bb2c3; helper1909eaac remains exact.
+Reviewed the complete delta/note against accepted SAH2 contractbbd6cd8/d1324f6,
+old hold matrix and the existing valid fixture audit. No public/header/storage/
+schema change or test-source approval is included.
+
+Independent grammar/accounting checks confirm the new receipt-subject8/planPC
+case retains both actual negative requests and BOTH known policies, including
+unprocessed ordinal2. Captured target main, failed balance debt1, exact2^63 and
+CarryTimeDebt1 are distinct explicit fields. Complete SAH2 is422 bytes, Envelope
+B471, suffix24 wire/19 logical bytes/2 intermediate items. Four real copies are
+identical/nonrecursive. Cause1465/Detection2459I2/View2501I2/Outcome26I1/
+held Response31I1 agree independently; no embedded suffix items are charged as
+returned hold vectors. Every prior33 case object/oracle/source/arrangement value
+is EXACT. Actual old selected-plan/hold/full source closure, retained head and
+rollback checks establish no successful subset or phantom state.
+
+New scratch `/tmp/acct004-sah2-complete-fixture-review.py` derives from published
+grammar/formulas without repository algorithms or new feature calls. PASS,
+SHA2563ce19ad254f96ebccf6b6ef862dbfe6938d11dd9327e5680178d7151645f4cdd;
+output743a04dd17e76b662e0494123e4d5950ad9195caa70d80b59d39ce510eeb8a56.
+Prior scripts/hashes are preserved. Same focused old-only target/CTest commands:
+build3 steps/zero warnings; six slots/34 rows,41PASS/0FAIL/0SKIP/0blacklist988ms,
+raw21b51286c969489d1f6b877455ffcbea179f47ce5d225364c06677b7f08e07e0.
+The fixture-only LiteralBytes cursor checks DATA, not a service codec. No old full
+suite/red or new service/view/codec/marker was invoked. Own updated selected
+foundation CI is still required before affected feature-golden use; final test
+review/current-head green/first valid red remain separate gates. User steering is
+to finish the existing PR49 and stop; this approves no subsequent production task.
