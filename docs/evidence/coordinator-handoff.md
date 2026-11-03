@@ -47,15 +47,22 @@ APIverifiedc698ae5 parents efe+540/equaltree3fe687086b64f424c2d1ef169b185ea27678
 runs, native checks, original author-only setup corrections and provenance.
 
 Root final native build3stepsZEROwarnings/exact35compiled=35registered; different
-full reviewer own fresh4stepsZEROwarnings/exact35/static224. No new test/init/data/
-service/codec/view/body/marker has EVER run. [Final baseline CI](accttest-004-baseline-ci.md)
-records exact frozen artifacts and raw hashes. COMPLETE APPROVED feature-head OWN
-selected-green is NEXT; earlier MIN/35 checkpoints do not substitute for it.
-Only after that actual success ROOT invokes FIRST missing-feature red on SAME
-CLEAN head, preserving LastTest per-invocation counts/224 exact markers/70initcleanup/
-zero skips/fatal/setup errors. Auditor `/tmp/accttest004-audit-red.py` is prepared
-and syntax-checked only. Then actual independent red attribution, baseline completion,
-latest CI/rules/discussion/normal merge gates. STOP after PR49; no production.
+full reviewer own fresh4stepsZEROwarnings/exact35/static224. COMPLETEapprovedhead
+**4e4c6ebc279edf1453cd87150fc6fb7b6066a1ad** OWNselected41697865377 actuallyPASSED
+18:52:03–18:53:58Z/fresh126zero/41PASS0skip1115ms/exact35discovery/all11. Raw
+c2fda6dc40ae721f39c246775226c9532dc6a4a3589a3f9c230603914021be4f; APIverified
+2d4453e synthetic parents efe+4e4/equaltree5c352925a0ac07e92b4aac3a3cdb46869428f2d4.
+OnlyTHEN ROOT invoked FIRSTfeature red atSAMECLEAN4e4, once: exit8/35processes/
+224EXACTnamedmarkers(E49/D48/Service125/View2)/70initcleanupPASS/0skip/setup/fatal/
+timeout/blacklist. Originalper-invocationLastTestSHA
+ e05dafc8c71e1ed07ca38d93e95a33e48edc7d6e791bfc81fc0ad96b2f49996e,
+[committed raw](accttest-004-red-ctest.txt), [handoff](accttest-004-handoff.md),
+[complete-head CI](accttest-004-baseline-ci.md). Do NOT replay this completed red.
+Source/header/harness/fixtures remained unchanged. Nativefull stable265PASS21.47s/
+262Qt1101PASS0skip, separatefromintentionalred. Alloriginalraw/preflight/audit/CI/
+API/status files underignored local-evidence. Rootrecordingfactsnow; independent
+attribution ofACTUALred stillrequired beforeDONE, thencompletionmetadata latestCI/
+currentrules/discussions/normalmerge. STOP afterPR49; no production/newtask.
 
 ## Preserved work and roles
 

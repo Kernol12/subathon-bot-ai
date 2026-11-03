@@ -54,3 +54,17 @@ compiles/discovers its exact methods without executing feature bodies. Red outpu
 must show exact new markers after valid setup, with per-invocation counts and
 zero skips, crashes, timeouts or unrelated setup failures. Production, live
 providers, actual adapters and platform/release behavior remain unverified.
+
+
+## Actual complete approved-head selected gate and first-red order
+
+Head4e4c6ebc279edf1453cd87150fc6fb7b6066a1ad passed OWN selected41697865377
+18:52:03–18:53:58Z, fresh126/zero warnings/GNU13.3/Boost108300/verified official
+Qt6.12SQLite3.53.4/oldstable/exact6/41PASS0skip1115ms/exact35 compiled discovery,
+all11same-head SUCCESS. Rawc2fda6dc40ae721f39c246775226c9532dc6a4a3589a3f9c230603914021be4f.
+Actualsynthetic2d4453e parents efe+4e4/tree5c352925a0ac07e92b4aac3a3cdb46869428f2d4
+APIverifiedequalcandidate. Only AFTER this completed gate ROOT invoked FIRST
+same-CLEAN-head feature red: exit8/35processes/224exactnamedmarkers/70initcleanupPASS/
+0skip/setup/crash/timeout. [Handoff](accttest-004-handoff.md) and original
+[per-invocation raw](accttest-004-red-ctest.txt) retain actual proof. No prior run
+or component green is substituted; no tests/assertions/fixtures changed afterapproval.
