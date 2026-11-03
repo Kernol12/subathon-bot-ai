@@ -76,3 +76,17 @@ required gate before independent fixtures/tests. Their actual review, selected
 foundation green, compiled registration and first genuine same-clean intended
 marker red must precede production. All authority, policy, mixed/post-finish,
 continuation, provider/platform/live and full release obligations remain intact.
+
+## Completed own-head environment addendum
+
+Subsequently read the actual completed API run41673443963/status JSON and
+downloaded log for head8d742239616aec1b8e9be65e972a42b4fcf2ae7a,
+2026-11-03T16:21:58–16:24:36Z, conclusion SUCCESS. Exact log SHA256
+8cd6edea68ab01f2409d11c9e9621be1d66f4f9be18fb068ed13b260e96ac4e8.
+It compiles the new service archive in a fresh118-step/zero-warning build using
+GNU13.3, pinned Boost108300 and verified Qt6.12/SQLite3.53.4; required old hold
+foundation and unconditional35 acceptance pass, including exact compiled guard.
+The captured checkout API record identifies568fc520, parents efe1c7e+8d74223,
+whose tree df709b23f3a20be0a60407026b2335de585165bb equals the candidate tree.
+This completes that selected environment gate for the unchanged reviewed API;
+it is neither service behavior proof nor approval of future fixture/test bytes.
