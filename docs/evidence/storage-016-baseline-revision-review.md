@@ -119,3 +119,32 @@ Both body_cause/body_detection token-presence checks must respect the explicit
 matrix phase; later actual source review remains required. No public hold/test
 body or old valid baseline was replayed by the reviewer. Previously passed268-row
 acceptance remains evidence for its exact candidate, not this new row or future fix.
+
+## Actual retained-source mapping regression review
+
+**APPROVED** root-authored522faee, test
+`0e172a161b8bb06efe2a35c1bce20b905e4eb541`, revision note
+`36d91536cea053a06cbc146ce0440e0657a62a03`. Read the actual complete diff and
+API46c217–223: known source-store busy/sql/resource/result must retain matching
+HOLD reason after known rollback; other capability/protocol/unmapped/uncertain
+writer truth stays original. No second cleanup is permitted.
+
+The one additive retained-reference-result-bytes row sets ONLY selected cfg's
+opaque document to131072 (below retained262144), asserts changed1, and uses actual
+writer result bytes65536. The selected document itself exceeds that ceiling;
+there is no fixed statement-count assumption. Earlier narrow metadata is small.
+All existing exact Hold result_limit/Work completion result_limit/inside-catch
+release/whole durable snapshot/caller marker assertions remain. All old rows,
+fixtures and oracles remain;35 slots/270 scenarios are statically authored.
+
+Independent disposable native PUBLIC-port diagnostic with those exact document/
+budget values on actual13828/8d82 observed ORIGINAL WorkFailure(result_limit),
+known rolled_back completion/result_limit. Source inspection confirms old retained
+select_record calls session.execute directly, new retained wrapper catches only
+RetentionFailure, and outer guard passes WorkFailure unchanged; ordinary Access
+queries instead map known reasons. This validates the actual seam and wrong type,
+not a storage-fixture shape error. It was not the new authored Qt row or a full
+baseline replay. Root must record that reviewed row's actual red and precise
+retained-query attribution BEFORE releasing the bounded wrapper correction.
+The prior269-row green/official CI remain valid only for their exact candidate;
+final runtime/config/CI approval is still withheld pending actual corrected code.
