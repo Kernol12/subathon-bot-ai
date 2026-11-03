@@ -218,3 +218,22 @@ selectedenvironment/oldregressions → independentrealSQLfixtures/tests/fullrevi
 FIRSTsamecleanservice markerred. ACCT004 production PLANNED. No stubs called yet.
 Actual agent reassignment follows with followup_task; completed agents stay idle
 until explicitly resumed. MinimalAPI source does not exist at this checkpoint.
+
+## Current minimal API and concrete harness
+
+Actual author2b96ae14 importedb2b1946: header03a747a7/sourceebbea238,
+headernote fe816735 importedc0359cb/blob a863a1d9. All5entries unconditional
+namedNotImplemented throws, inertborrowedconstructor/finiteownedtypes/readonly
+view/typedQVariant matchingworkpair. NO feature/codec/view/service call.
+Root harness5df5977 owns root/core/serverCMake/presets/workflow, exactpins in
+[API CI gate](accttest-004-header-ci.md). Profile21 application-service-debug
+inheritsoldhold; existingcorelibs without GTestflag/newdep; selectedworkflowONLY
+49presetreplacement, all oldguards/mandatoryhold35/pins/permissions unchanged.
+Root fresh118buildZEROwarnings, OLD264registered/no servicecase, allOLD264PASS20.47s,
+261Qt1060PASS0skip. Actual different header/source/config review ACTIVE; reader
+reports shapes+singlethrow5+exactworkflow replacement satisfactory, archivebuild
+pending then writtenverdict. Author COMPLETE fe816/clean. Codec reviewer COMPLETE
+7b501/clean, not yet a fixture writer. Root publishing COMPLETE minimalAPI candidate
+for OWNselectedofficialenvironment; prior docs-only CI isnotthat proof. Both
+actual API approval and ownofficialgreen precede new independentfixtures/tests.
+No service baseline/red/production; ACCT004 remainsPLANNED. Rootnativeprocessdone.
