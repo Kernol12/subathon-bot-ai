@@ -966,7 +966,7 @@ class ApplicationServiceTests final : public QObject {
     }
     void historicalCompleteCommandAndDisclosure_data() {
         QTest::addColumn<int>("row");
-        for (int n = 0; n != 14; ++n)
+        for (int n = 0; n != 17; ++n)
             QTest::newRow(QByteArray::number(n).constData()) << n;
     }
     void historicalCompleteCommandAndDisclosure() {
@@ -974,7 +974,7 @@ class ApplicationServiceTests final : public QObject {
         scenario([&] {
             File f;
             f.arrange("history");
-            const auto literal = historical(f.data, "A");
+            const auto literal = historical(f.data, row == 16 ? "C" : "A");
             auto c = command(literal["command"]);
             if (row == 2)
                 c.receipt_id = {9};
@@ -1000,6 +1000,13 @@ class ApplicationServiceTests final : public QObject {
                 c.choices[0].format_ref = "different";
             if (row == 13)
                 c.principal.kind = ApplicationPrincipalKind::automation;
+            if (row == 14)
+                c.contribution_id = core::ContributionId{42};
+            if (row == 15)
+                c.principal.installation_ref = "different-installation";
+            if (row == 16)
+                c.purpose = OriginalApplicationPurpose::captured_original;
+
             const auto before = f.snapshot();
             Ports p(f.data, "add10");
             p.script.expected_command = c;
