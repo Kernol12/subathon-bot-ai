@@ -62,3 +62,15 @@ continuation semantics and full release remain their explicit mandatory gates.
 The author is writing only the concrete API document and own note; the different
 reviewer awaits an actual revision. Minimal API/stubs and later fixtures/tests/
 their independent review/selected foundation CI/FIRST intended red still follow.
+
+Typed outcome details: bundle stage supplies existing full data only for historical
+already_present/subject_claimed/source_claimed; staged may need typed lookup for
+full payload. Other healthy conflict/stale outcomes have none. Early original
+claim Match grants no disclosure/durable authority. Hold mutation results carry
+historical produced versions, not current active certificates; current gate uses
+complete active(subject). Known storage rollback cannot become normal Held success;
+original uncertainty/capability/protocol remains distinct. Publication checks actual
+transaction/error/value independently; committed+work_exception has durable rows
+but no payload. Completion runs after capability revocation/release and contains
+publisher exceptions. Concrete document still needs owned typed QVariant carriage
+and checked extraction plus body/completion responsibility.

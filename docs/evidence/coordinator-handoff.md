@@ -104,3 +104,14 @@ All holdtasks/reviews complete, SAME agents now explicitly reassigned above; no 
 Current main done is boundedcomponent proof only; all seven integrations/threeFX,
 bothrenderers/locales/themes/platforms/packaging/security/recovery/fullrelease remain
 mandatory/incomplete. Continue actual coordination; a merged PR is a checkpoint.
+
+Latest concrete preparation is durable in [API prep](accttest-004-api-prep.md).
+Third investigator COMPLETE, submitted actual writer/completion/fault-seam and
+typed-outcome constraints with no edits/runs; AS15 after-ACK-COMMIT body-tail
+exception needs a bounded trusted body callable or separately reviewed seam, not
+ack-loss UNKNOWN. Author/reviewer notified. Reviewer prep COMPLETE and IDLE, no
+contract verdict; root must call followup_task on an actual authored revision.
+Author is drafting only two assigned MD paths, no committed document received yet.
+No C++/test/harness/service body/marker invocation. A quoting error interrupted one
+metadata-update script;82e8f63 saved the prep document only. This follow-up records
+the actual state/roles; no failed edit is claimed as completed.
