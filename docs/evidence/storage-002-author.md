@@ -93,3 +93,13 @@ first-red to held helper824's extra Conditions byte. No raw GDB logfile was
 retained; tool output records the exact fields/stack. No source/fixture/log injection
 or baseline preparation rerun occurred. Root controls subsequent correction159
 release and the separate strengthened metadata/input-quota regression gates.
+
+Final bounded preallocation guard, agreed by different reviewer before authoring:
+state balance actualCOUNT must equal declared count before materialization/cap;
+operation effect/component/job/transition/reversal actualCOUNT must equal declared
+result counters before full child-vector allocation. Narrow source metadata keeps
+its64/65 traversal and no historical materialization quotas. Existing postwalk
+structural comparisons/cumulative writer budgets remain; no reset or failure mask.
+Build10 ZERO warnings; original32=31PASS/only knownsticky baselineFAIL2.19s.
+Source is now frozen for integrator's reviewed correction/regression integration
+and final actual different full-source verdict; no additional author changes pending.

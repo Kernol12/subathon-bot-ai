@@ -991,6 +991,11 @@ class Access {
               s.timer.phase != CountdownPhase::Main || s.timer.main_remaining_ms != 0)))
             fail(Reason::invalid_stored_data);
         config(s.configuration_ref);
+        const auto actual_balances = execute(
+            {"SELECT count(*) FROM main.subathon_app_balances WHERE token=?", {bytes(token)}});
+        if (actual_balances.size() != 1 || actual_balances.front().size() != 1 ||
+            actual_balances.front().front().toLongLong() != count)
+            fail(Reason::invalid_stored_data);
         if (!metadata && count > limits_.balances_per_state)
             fail(Reason::result_limit);
         qint64 seen = 0;
@@ -1027,10 +1032,7 @@ class Access {
             if (rows_.size() <= 64)
                 break;
         }
-        auto actual_balances = execute(
-            {"SELECT count(*) FROM main.subathon_app_balances WHERE token=?", {bytes(token)}});
-        if (seen != count || actual_balances.size() != 1 ||
-            actual_balances.front().front().toLongLong() != seen)
+        if (seen != count)
             fail(Reason::invalid_stored_data);
         return s;
     }
@@ -1340,6 +1342,19 @@ class Access {
         const auto &k = v.intent.operation;
         const bool full = !selected;
         const auto &reqs = f.source.selected.captured.requested_effects;
+        // Verify immutable counters against the entire selected scope BEFORE
+        // returned-vector allocation; a corrupt understated count is not a cap.
+        const std::array<QString, 5> child_tables{"subathon_app_effects", "subathon_app_components",
+                                                  "subathon_app_jobs", "subathon_app_transitions",
+                                                  "subathon_app_reversals"};
+        for (size_t n = 0; n < child_tables.size(); ++n) {
+            const auto actual = execute(
+                {"SELECT count(*) FROM main." + child_tables[n] + " WHERE " + operation_where(),
+                 operation_values(k)});
+            if (actual.size() != 1 || actual.front().size() != 1 ||
+                actual.front().front().toLongLong() != f.counts[n])
+                fail(Reason::invalid_stored_data);
+        }
         if (full &&
             (f.counts[0] > limits_.effects_per_bundle || f.counts[2] > limits_.jobs_per_bundle ||
              f.counts[3] > limits_.transitions_per_bundle ||
