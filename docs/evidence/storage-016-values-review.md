@@ -1,5 +1,9 @@
 # STORAGE-016 — bounded private-value source review
 
+Current verdict: **APPROVED final helper13828cc3**, as recorded in the resolved
+addendum below and [full source/config review](storage-016-code-review.md).
+The early NOT APPROVED verdict and its findings remain historical evidence.
+
 2026-11-03, bundle_reviewer. **NOT APPROVED: two cross-stage priority defects OPEN.**
 Actual helper commit1cf31dfe, blob `a18a0bd7705f8043daac75acd365471cc59e49c5`
 (868 lines), [author evidence](storage-016-values-author.md)3011508/blob
@@ -62,3 +66,23 @@ final config promotion remain unreviewed until concrete candidates are supplied.
 No C++/test/fixture/shared-file edits by the reviewer; valid first red598 and old
 reviews/verification copies remain preserved. Approval requires the actual reviewed
 regression/correction artifacts and a new helper pin, not this early candidate.
+
+## Resolved final-artifact addendum
+
+Reviewed actual d883bdc/1b8af36/18cc890 corrections and final helper
+`13828cc3c72548791dc4299b7fd4c813c36b59f3`; actual final author note blob
+`744d0dd95754db57dc4c7d65e8855458685e37dc` was read. Both early findings are
+resolved by request-wide body, matrix/Exact and ordering passes across ALL owned
+replacements. Conditional Captured first/request token presence stays ONLY in
+matrix_cause/matrix_detection as API46c explicitly requires. Its intermediate
+ec78 regression was separately reviewed, observed red at f67ae739, then corrected;
+no new within-stage total order is invented and no matrix condition is weakened.
+
+The entire checked B/I/equality/input-wrapper/manifest suffix remains BYTE-EXACT
+against early1cf/a18a, independently compared. Thus the independent35 frozen B/I
+and all6 canonical payload/SHA diagnostics above remain applicable to those walks.
+Options/keys/Exact-bound primitives remain intact; stored shape wrappers still
+exclude submitted aggregate/per-vector materialization caps. Actual SQL/domain/
+count-before-allocation and exception handling are reviewed separately in the
+full source verdict. Final root270/native and exact-source official35 pass include
+all independently authored priority regressions. No helper blocker remains.
