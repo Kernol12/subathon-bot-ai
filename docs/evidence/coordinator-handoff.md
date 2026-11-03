@@ -136,3 +136,16 @@ send_message alone does not trigger an idle turn.
 Current mainrules26170263 formalGHapproval0/threadresolutiontrue/no requiredstatus
 rule; coordinator explicitly checks latestall11. No owneraccess needed, liveprovider
 effects or unsupported platform/release claim.
+
+## Actual minimal API candidate compiled (no invocation)
+
+APIac0610f importedb6b6d11: DOC421acf29012f31345cc41cbee239bcf95000ad62,
+headerfe50fb10e6f5a7198df27358666734ad02fb47d1, CPP5b10c0e0b4e7057af4042ae510af851efcd24efa.
+Author77cddef imported0f0e8f1/MD5217ec35. Sixmethods/factory immediately throw
+unique marker; constructoronlystores actualrevocableticket/limits. No SQL/validators/
+catalogdata/behavior/globalinitializer, no newholdcall ever. Rootfresh102build
+ZEROwarnings/exact228OLD discovery/formatPASS; authorold228PASS8.00s0Qt skips.
+ActualAPI/fullformula/configreviewACTIVE, ownMDawaited; authorCOMPLETE,
+4sharedverificationcopiespreserveduncommittedinAPItree. Root nowfreezes4actual
+configs5d76/b55b/053b/88f8 plusmetadata beforeownold228run+publicationCI. No
+fixtures/tests/red yet. [API compiler evidence](storagetest-016-api-ci.md).
