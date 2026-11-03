@@ -128,6 +128,18 @@ void check_observation(const ApplicationHoldObservation &a, const ApplicationHol
             "Every typed known/unknown hold observation member");
     original_claim_fixture::same_envelope(a.annotation, b.annotation);
 }
+void check_hold_outcome(const ApplicationHoldMutationOutcome &a,
+                        const ApplicationHoldDetection &b) {
+    require(a.mutation_ref == b.request.mutation_ref &&
+                a.kind == ApplicationHoldMutationKind::detection && a.produced_versions.size() == 1,
+            "Exact fresh hold response mutation/kind/one version");
+    const auto &v = a.produced_versions[0];
+    require(v.locator.hold_ref == b.cause.hold_ref &&
+                v.locator.version_ref == b.request.proposed_version_ref && v.position == 1 &&
+                !v.parent_version_ref && v.state == ApplicationHoldState::active &&
+                v.producer_mutation_ref == b.request.mutation_ref && !v.replacement,
+            "Every produced response field matches fresh current blocker, not historical DATA");
+}
 void check_creation(const ApplicationHoldView &a, const ApplicationHoldDetection &b) {
     const auto &x = a.cause, &y = b.cause;
     require(x.hold_ref == y.hold_ref && x.source.subject.id == y.source.subject.id &&
@@ -590,7 +602,10 @@ class ApplicationServiceTests final : public QObject {
             bool callback = false;
             input_failure([&] { (void)service.enqueue(c, [&](auto) { callback = true; }); },
                           expected);
-            require(!callback && p.script.calls.empty(), "Pure admission never queues/calls ports");
+            bool barrier = false;
+            f.setup([&](const auto &) { barrier = true; }); // OLD acknowledged FIFO sentinel.
+            require(barrier && !callback && p.script.calls.empty(),
+                    "Pure rejection left no queued callback/port work before real FIFO barrier");
             unchanged(f, before);
         });
     }
@@ -647,7 +662,11 @@ class ApplicationServiceTests final : public QObject {
                 }
                 require(caught, "Exact make_work rejection");
             }
-            require(!callback && p.script.calls.empty(), "No rejected callback or port work");
+            bool barrier = false;
+            f.setup(
+                [&](const auto &) { barrier = true; }); // Includes wrongly pending work, if any.
+            require(barrier && !callback && p.script.calls.empty(),
+                    "Rejected foreign/missing callback left no work before actual FIFO barrier");
             unchanged(f, before);
         });
     }
@@ -1095,6 +1114,8 @@ class ApplicationServiceTests final : public QObject {
             disposition(r->service, D::held_numeric);
             const auto &out = std::get<ApplicationHeldPayload>(r->service.response->payload);
             const auto expected_ref = name == "clock_overflow" ? "hClock" : "hNew";
+            check_hold_outcome(out.outcome, f.data.holds().detection(
+                                                name == "clock_overflow" ? "dClock" : "dNew"));
             require(out.hold_ref == expected_ref &&
                         out.outcome.kind == ApplicationHoldMutationKind::detection &&
                         out.outcome.produced_versions.size() == 1,
@@ -1747,11 +1768,16 @@ class ApplicationServiceTests final : public QObject {
                 c.choices[0].document =
                     QByteArray::fromRawData(backing.constData(), backing.size());
                 bool done = false;
+                std::exception_ptr callback_error;
                 require(service.enqueue(c,
                                         [&](auto r) {
-                                            disposition(r, D::applied);
-                                            retained = std::get<RecordedApplicationBundle>(
-                                                r.response->payload);
+                                            try {
+                                                disposition(r, D::applied);
+                                                retained = std::get<RecordedApplicationBundle>(
+                                                    r.response->payload);
+                                            } catch (...) {
+                                                callback_error = std::current_exception();
+                                            }
                                             done = true;
                                         })
                                 .error == StorageError::none,
@@ -1762,6 +1788,8 @@ class ApplicationServiceTests final : public QObject {
                 c.preview_state_token = "mutated";
                 require(QTest::qWaitFor([&] { return done; }, 10000),
                         "Snapshot input survives caller mutation");
+                if (callback_error)
+                    std::rethrow_exception(callback_error);
             }
             require(retained.has_value(),
                     "Owned retained value survives service/ports/writer/database scope");
@@ -1799,6 +1827,117 @@ class ApplicationServiceTests final : public QObject {
                         f.observer->rows("SELECT count(*) FROM subathon_app_operations")[0][0]
                                 .toInt() == 1,
                     "Fresh instance returns original, without effect/recovery/delivery replay");
+        });
+    }
+    void unresolvedPolicyAndClockAreHonest_data() {
+        case_rows({"policy_unavailable", "clock_unavailable"});
+    }
+    void unresolvedPolicyAndClockAreHonest() {
+        QFETCH(QString, name);
+        scenario([&] {
+            File f(name);
+            const auto c = f.data.case_data(name);
+            const auto expected = f.data.holds().detection(text(c["expected_detection"]).c_str());
+            const auto initial = f.data.head(name);
+            Ports p(f.data, name);
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports);
+            const auto r = prepared_run(service, f.writer, f.data.command(name));
+            disposition(r->service, D::held_policy);
+            const auto &out = std::get<ApplicationHeldPayload>(r->service.response->payload);
+            require(out.hold_ref == expected.cause.hold_ref &&
+                        out.outcome.mutation_ref == expected.request.mutation_ref &&
+                        out.outcome.kind == ApplicationHoldMutationKind::detection &&
+                        out.outcome.produced_versions.size() == 1 &&
+                        out.outcome.produced_versions[0].locator.version_ref ==
+                            expected.request.proposed_version_ref,
+                    "Fresh current durable policy hold, no guessed numeric or historical result");
+            const auto actual = f.hold(out.hold_ref);
+            check_creation(actual, expected);
+            check_hold_outcome(out.outcome, expected);
+            require(actual.cause.missing_policy_reason == text(c["expected_missing_reason"]) &&
+                        !actual.cause.failure && !actual.cause.timer &&
+                        !actual.cause.first_observation.observed_utc_ms &&
+                        !actual.cause.first_observation.elapsed_ms &&
+                        actual.cause.first_observation.permission_revision_ref == "grant",
+                    "Unknown command clock/times stay absent, known permission retained");
+            require(actual.cause.first_observation.policy_revision_ref.has_value() ==
+                        (name == "clock_unavailable"),
+                    "Unknown policy remains absent, known bound policy stays present");
+            const std::vector<std::string> expected_calls =
+                name == "policy_unavailable"
+                    ? std::vector<std::string>{"access", "policy", "reference:2", "reference:3",
+                                               "reference:4"}
+                    : std::vector<std::string>{"access",      "policy",      "clock",
+                                               "reference:2", "reference:3", "reference:4"};
+            require(
+                p.script.calls == expected_calls && !p.script.received_proposal,
+                "Unavailable meaning does not invent clock/arithmetic/action or success tokens");
+            f.setup([&](const auto &session) {
+                check_state(*SqliteApplicationBundleStore(session).read_state(), initial);
+            });
+            require(
+                f.observer->rows("SELECT count(*) FROM subathon_app_operations")[0][0].toInt() ==
+                        0 &&
+                    f.observer->rows("SELECT count(*) FROM subathon_app_jobs")[0][0].toInt() == 0 &&
+                    f.observer
+                            ->rows("SELECT application FROM subathon_contributions WHERE "
+                                   "contribution_id=X'0000000000000000'")[0][0]
+                            .toInt() == 0,
+                "Only hold/history committed, not a clock/application/contribution award");
+        });
+    }
+    void capturedActionUnavailableHolds() {
+        scenario([&] {
+            File f("actions_unavailable");
+            const auto c = f.data.case_data("actions_unavailable");
+            const auto expected = f.data.holds().detection(text(c["expected_detection"]).c_str());
+            Ports p(f.data, "actions_unavailable");
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports);
+            const auto r = prepared_run(service, f.writer, f.data.command("actions_unavailable"));
+            disposition(r->service, D::held_policy);
+            const auto &out = std::get<ApplicationHeldPayload>(r->service.response->payload);
+            check_creation(f.hold(out.hold_ref), expected);
+            check_hold_outcome(out.outcome, expected);
+            require(out.hold_ref == expected.cause.hold_ref &&
+                        out.outcome.mutation_ref == expected.request.mutation_ref &&
+                        out.outcome.kind == ApplicationHoldMutationKind::detection &&
+                        out.outcome.produced_versions.size() == 1 &&
+                        out.outcome.produced_versions[0].locator.version_ref ==
+                            expected.request.proposed_version_ref &&
+                        p.script.received_proposal,
+                    "Actual captured action unavailable after COMPLETE fitting numeric proposal");
+            check_proposal(*p.script.received_proposal, proposal(c));
+            const auto h = f.hold(out.hold_ref);
+            require(h.cause.missing_policy_reason == text(c["expected_missing_reason"]) &&
+                        h.cause.first_observation.observed_utc_ms == 1000 &&
+                        h.cause.first_observation.elapsed_ms == 0 &&
+                        !h.cause.first_observation.actor_ref &&
+                        !h.cause.first_observation.decision_ref &&
+                        f.data.command("actions_unavailable").actor_ref ==
+                            std::optional<std::string>{""} &&
+                        f.data.command("actions_unavailable").decision_ref ==
+                            std::optional<std::string>{""},
+                    "Lossless command empty refs differ from absent typed nonempty hold keys; "
+                    "times honest");
+            require(p.script.calls == std::vector<std::string>{"access", "policy", "clock",
+                                                               "actions", "reference:2",
+                                                               "reference:3", "reference:4"},
+                    "No success tokens or award when required action meaning is unavailable");
+            f.setup([&](const auto &session) {
+                check_state(*SqliteApplicationBundleStore(session).read_state(),
+                            f.data.head("actions_unavailable"));
+            });
+            require(
+                f.observer->rows("SELECT count(*) FROM subathon_app_operations")[0][0].toInt() ==
+                        0 &&
+                    f.observer->rows("SELECT count(*) FROM subathon_app_jobs")[0][0].toInt() == 0 &&
+                    f.observer
+                            ->rows("SELECT application FROM subathon_contributions WHERE "
+                                   "contribution_id=X'0000000000000000'")[0][0]
+                            .toInt() == 0,
+                "Fitting numeric proposal is never a partial application");
         });
     }
 };
