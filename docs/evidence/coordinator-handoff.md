@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-016 concrete hold contract
+# Coordinator checkpoint — STORAGETEST-016 concrete document approved, physical proposal next
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md). Owner requested full
 autonomous coordination with subagents/focused PRs; no routine approval needed.
@@ -59,22 +59,24 @@ integrated; newquery017 also available. Service004 waits integratedhold16 and it
 own concrete API/tests/review/red, never aggregates old228 passes as its baseline.
 
 FIRSTphase ONLY concrete hold DOCUMENT and own author evidence, actual different
-review before any schema/API/stub/fixture/test. Actual DOCUMENT candidate2ad07f7 imported33279ee: contractb1f0a092053f628283016454106720e988735f05
-(366lines) and authorMDccdbf472(107lines),16literalexamples. No other holdartifact
-exists. DifferentactualFULLDOCreviewACTIVE; no approval yet.
+review before any schema/API/stub/fixture/test. Actual corrected DOCUMENT0adfdec imported1c8ef5c: contract
+**701c710f83b0361a075c0d0bca7cf6ec07fb351e**413lines, authorc14f6567147lines,
+16literalexamples. Different actual [DOCUMENTapprovalc0ed4b6](storagetest-016-contract-review.md)
+importedc3c5568 after all5findings fixed. No other holdartifact exists; whole
+baseline stillINPROGRESS, no API/schema/test/red/production approval.
 Fresh isolated writer trees/branches from actualaad:
 
 - `/root/bundle_validation`: explicitly assigned concrete contract author.
   `local-evidence/worktrees/storagetest016-contract-author`,
   `task/STORAGETEST-016-contract-author`. Own ONLY
   `docs/contracts/sqlite-application-holds-v1.md` and
-  `docs/evidence/storagetest-016-contract-author.md`. COMPLETE clean2ad07f7. Actual366lineproposal+own107lineMD only;
+  `docs/evidence/storagetest-016-contract-author.md`. COMPLETE clean0adfdec. Actual413lineproposal+own147lineMD only;
   source/schema/API/stub/fixtures/tests untouched.
 - `/root/bundle_reviewer`: independent actual document/API/test reviewer.
   `local-evidence/worktrees/storagetest016-review`,
-  `task/STORAGETEST-016-review`. Actual FULL proposal review ACTIVE onb1f0a092; own ONLY
+  `task/STORAGETEST-016-review`. Actual FULL proposal review COMPLETEc0ed4b6 on701c710f; own ONLY
   `docs/evidence/storagetest-016-contract-review.md` at this phase.
-  No verdict yet; actual document review, no prospective approval.
+  Approved actual document only; physical/API/newtest/red remains future.
 - `/root/bundle_implementer`: read-only scoped counterexample/requirement audit COMPLETE; no new hard
   requirement conflict found, author received concrete examples. No writing assignment. Earlier017 sourceauthor tree cleana9d184d.
 - Root owns progress/HTML/map/schemaorder/build/pins/workflows and integration.
@@ -98,7 +100,8 @@ gate; concrete doc must pin lineage/active-set/version invariants and literal
 examples before new physicalstep6/API. Preserveacceptedprefix1–5/full66 and all
 priorfixtures/assertions; no schema/port finalized by this claim.
 
-Actual proposal now under differentFULLDOCreview. Next actualDOCapproval→minimaladditivephysical/
+Actual concrete DOC approval complete. Next physical DOCUMENT proposal and
+differentactualreview→minimaladditivephysical/
 API/namedstub/rootminimalharness review→independent frozenfixtures/requiredown
 selectedgreen→actualnewtests/fullreview/compile/exactdiscovery/ownselectedgreen→
 FIRSTnewholdstubred. Production016 waits its complete baseline. Keep task PRs
@@ -131,3 +134,17 @@ Allmatching inactive/active head/history metadata is audited beforeactivefilter;
 unselected inactive old document bodies stay outside that projection. Source-kind
 mutation identity and same-unit link/protocol clarity are actual review points,
 not approved future behavior. No hold code/schema/API/tests/red/native yet.
+
+## Explicit next assignment after actual concrete approval
+
+`/root/bundle_implementer` will author ONLY
+`docs/contracts/sqlite-application-holds-schema-v1.md` and
+`docs/evidence/storagetest-016-physical-author.md` in new
+`local-evidence/worktrees/storagetest016-physical-author`, branch
+`task/STORAGETEST-016-physical-author`, createdfromcurrentmain then ffapproved
+rootdocument revision. Literal additive step6 layout/constraints/catalog identity/
+fullinventory and exact source/crosspath/metadata walks must preserve all accepted
+prefix1–5/66 and frozen manifests. No DDL execution/C++/stub/API/fixture/test yet.
+Root owns eventual actual manifest/schemaorder/build/pins; different actual physical
+review precedes further artifacts. Reviewermayprep read-only, no prospectiveapproval.
+Concreteauthorcomplete, availableforlaterexplicitAPIassignment only.
