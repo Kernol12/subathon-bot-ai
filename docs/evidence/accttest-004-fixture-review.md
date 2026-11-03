@@ -100,3 +100,36 @@ parents efe1c7e+8dfcf55, has treeae9e17a401845b68574f1d5fde20c560ffdd85ac equal
 to the candidate. This completes the selected environment gate for the unchanged
 reviewed fixture/harness. It does not run or approve new service feature methods,
 feature assertions, intended red, implementation or future artifact revisions.
+
+## Three unavailable-policy goldens — actual additive re-review
+
+**APPROVED — FIXTURE/FOUNDATION ONLY**: actual3cc76666 and final author
+cb7d3b13. Current vectors7611f15d77bd85d02ea01c1b67983be267768f51,
+helper1909eaacfdb9c84fdebe1df394e8f31acf6777d7,
+environment1f3131f23c75606fca586293a5f2749770ac7aef and author note
+49a85cd3cca33e6e2c9dc77c6f47fc66a73a15c2. Harness69a21f6/8c3a8f3,
+contract862c419 and public header/stubs03a747a7/ebbea238 are unchanged.
+
+Inspected the entire actual helper/environment delta, new literal DATA and author
+addendum. PolicyNone/ClockNone, PolicySome/ClockNone and action unavailability
+with both known have exact nonrecursive SAH copies, no numeric Failure/Timer,
+complete captured source/plan/known head, absent creation version and exact reason.
+Permission stays known; unknown policy/time stays absent. Present-empty command
+actor/decision remains in SAC/SAH while typed hold refs are absent. Fake ports
+return the intended Unavailable alternatives, never empty successful policy/jobs
+or fabricated clock values; the action case owns only a token-free proposal.
+
+Independent published-grammar/B-I/source diagnostic recalculates SAH213/302/362,
+Envelope262/351/411, Detection1208/1486/1711 I1 and held Response81/76/86 I1.
+It confirms all prior30 case objects, every old oracle and source/arrangement value
+EXACT, and independently checks raw source/FK closure. Script
+`/tmp/acct004-policy-fixture-review.py` SHA256
+036b2ddcc9804edfa13aa54a36adf9294b9a918ae9c2ac8755f0b285d61026c2;
+passed output6eadcc3330eed91491a2d34a67a7a25548615ff45c9394179d1adaa618f02810.
+Same target build/CTest commands as above: final build3 steps/zero warnings;
+six slots/33 rows,40PASS/0FAIL/0SKIP/0blacklist985ms. Native raw SHA256
+8288644d1810827d7093272b1e5bfe81134ac337f53ae4146f9cc5fdf45c41ea.
+Project396/122/render/diff PASS. No old265 or red replay; no new service/view/
+codec method or marker call. OWN selected CI for this updated fixture remains
+required before affected golden use; feature-test/full-review/first-red and
+implementation approval remain separate, unperformed gates.
