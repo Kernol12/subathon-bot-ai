@@ -1,7 +1,9 @@
 # STORAGE-016 implementation author evidence
 
 Author: bundle_implementer,2026-11-03. All six hold functions are implemented;
-actual author acceptance is **35/35 slots,268 scenarios and full264 PASS**.
+prior author candidate dc74fef passed **35/35 slots,268 scenarios and full264**.
+Latest retained-query correction ef1ca070 is library-compiled with zero warnings;
+combined latest-helper/latest-regression acceptance is with root, not claimed here.
 Different full source/allocation review, independent native validation, ordinary
 selected CI and latest-head integration gates are still PENDING. This author
 result is not source approval, task completion or full application/release proof.
@@ -16,7 +18,7 @@ remain preserved separately; no assertion, frozen fixture or product scope is we
 
 ## Exact candidate and preservation
 
-Combined author candidate dc74fef (runtime0fe329c→21b95a5; pure helper1cf31df→d883bdc→1b8af36),
+Prior combined author candidate dc74fef (runtime0fe329c→21b95a5; pure helper1cf31df→d883bdc→1b8af36),
 with root-authored, independently approved H1/R3 test revision imported unchanged:
 
 | Artifact | Git blob |
@@ -106,6 +108,41 @@ caught=false before the helper deliberately threw; it did NOT prove changed byte
 from a conjunctive failure message. Root preserves red log9dc953c9 and combined
 raw231d325a. Only AFTER this gate were helperd883/1b8's full stage separation and
 runtime21b's scalar-lineage fix released/authored/imported.
+
+### Retained-query exception seam
+
+Different full source review found that the retained-context reader can propagate
+known query WorkFailure after the writer has already established whole-unit
+rollback. The hold wrapper caught RetentionFailure only, so those four known query
+reasons escaped the required HoldStorageFailure boundary. Root separately authored
+the public regression, obtained independent review ce7c61a and observed its intended
+failure on clean707cb3ac0872715e9cdedd67b5190a105016b485/runtime8d82/test0e172a16,
+15:12:04.841429–15:12:04.889799Z: one failure, two init/cleanup passes, no skips.
+Tracked raw storage-016-retained-regression-red.txt SHA256 is
+ce70bd025d997d36e9d1469394039a3254517398ee5118b2ccacc4a903c20b96.
+
+Root's supplemental read-only GDB evidence observed result_limit, rolled_back and
+first_error=result_limit at writer.cpp404, through retained select_record/find,
+HoldAccess::retained/source_references/full_cause/find(hOverflow), then test2243.
+Its ignored diagnostic SHA256 is
+29d614adf0eb12508625840317304b79e0ea5335875fa7115a818ab98560a696.
+These runtime observations were supplied by root, not replayed by this author.
+
+Only after that gate and explicit release, ef1ca07061e0da3cb23616fc1003ee40054bc607
+adds the retained seam's WorkFailure catch and reuses the existing four-known-reason
+mapper. Latest runtime blob is44376762d972cd22a23ff0e635827c7c27d42094. Busy, SQL,
+resource and result failures reach the hold-aware boundary without another cleanup;
+other/unknown original WorkFailure remains original. No API, helper, test, fixture,
+schema, configuration or policy change accompanies this correction.
+
+Actual command `cmake --build --preset sqlite-hold-debug --target
+subathon_sqlite_application_holds --parallel 2` passed both compile/link steps with
+zero warnings/errors. The ignored raw log is
+local-evidence/storage016/storage016-retained-build.txt, SHA256
+8adfac53b0a01ba43ddde5009e1146739f8aa90694581643d2331c7d69d2e3dd.
+This local tree preserves
+helper ec78/tests82980; it did not import root's later helper13828/test0e172a16 or
+repeat the broad suite. Root owns final combined validation and selected CI.
 
 ## Actual commands and observations
 
