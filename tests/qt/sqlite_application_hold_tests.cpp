@@ -2023,23 +2023,27 @@ class SqliteApplicationHoldTests final : public QObject {
     }
     void mutationInputItemsCountEveryNestedReplacementBeforeBodies_data() {
         QTest::addColumn<int>("which");
-        QTest::addColumn<bool>("under");
+        QTest::addColumn<int>("mode");
         for (int i = 0; i < 3; ++i)
-            for (bool under : {false, true})
+            for (int mode = 0; mode < (i == 0 ? 2 : 3); ++mode)
                 QTest::newRow(qPrintable(QString(i == 0   ? "detection-2"
                                                  : i == 1 ? "recorded-batch-3"
                                                           : "replacement-batch-5") +
-                                         (under ? "-one-over" : "-exact-fit")))
-                    << i << under;
+                                         (mode == 0   ? "-exact-input-fit"
+                                          : mode == 1 ? "-input-one-over"
+                                                      : "-two-produced-result-items-under-one")))
+                    << i << mode;
     }
     void mutationInputItemsCountEveryNestedReplacementBeforeBodies() {
         QFETCH(int, which);
-        QFETCH(bool, under);
+        QFETCH(int, mode);
         scenario([&] {
             const Data d;
             Database db(d);
             SqliteHoldLimits l;
-            l.input_items = (which == 0 ? 2 : which == 1 ? 3 : 5) - int(under);
+            l.input_items = (which == 0 ? 2 : which == 1 ? 3 : 5) - int(mode == 1);
+            if (which > 0)
+                l.result_items = mode == 2 ? 1 : 2;
             auto b = which == 1 ? d.resolution("rReplace").request : close_zero();
             if (which == 2) {
                 b.mutation_ref = "rNested";
@@ -2048,6 +2052,16 @@ class SqliteApplicationHoldTests final : public QObject {
                 r.cause.supersedes_hold_ref = "hOverflow";
                 b.entries[0].replacement = r;
             }
+            if (mode == 2) {
+                l.result_items = 1;
+                known(
+                    refusal(
+                        db,
+                        [&](auto s) { (void)SqliteApplicationHoldStore(s, l).stage_resolution(b); },
+                        SR::result_limit),
+                    SR::result_limit);
+                return;
+            }
             committed(read(db, [&](auto s) {
                 marker(s);
                 SqliteApplicationHoldStore store(s, l);
@@ -2055,7 +2069,7 @@ class SqliteApplicationHoldTests final : public QObject {
                     return which == 0 ? store.record_detection(d.detection("dOverflow"))
                                       : store.stage_resolution(b);
                 };
-                if (under)
+                if (mode == 1)
                     input_failure([&] { (void)call(); }, IE::collection_limit);
                 else if (which == 0)
                     same(call(), mutation(MD::already_recorded, "dOverflow",
