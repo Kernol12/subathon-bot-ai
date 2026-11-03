@@ -1,0 +1,65 @@
+# ACCTTEST-004 independent fixture foundation gate
+
+2026-11-03, root integrator, separate from fixture author bundle_validation and
+full reviewer bundle_reviewer. Only existing storage primitives are exercised.
+
+| Actual final artifact | Git blob |
+| --- | --- |
+| Fixture JSON |0ae4957c65879cb3d5056f39b3d215f45a381e00 |
+| Owned DATA/helper/fakes |069bf7b91ce79f1821a44f67747e8d3354219dbd |
+| Six-slot old-only environment |5a36a407b9423920346d73d86817430a7068b6cc |
+| Author note |7d4dafac3d24ce43f9332e45ead6ea314dea2342 |
+| Qt CMake |69a21f689cc06374daa05a81c1494e36f7ab9054 |
+| Selected workflow |8c3a8f3b6d4d1e4ecc30dd147c2e837cc346f292 |
+
+Actual [full fixture/harness approval](accttest-004-fixture-review.md)15f3149e,
+imported90c45c3, accepts these artifacts and current contract862c419/author78f36dd.
+Header03a747/sourceebbea remain unchanged immediate stubs. No new service, codec,
+view, factory or marker was called by author, root or reviewer.
+
+Root configured/built the actual target with application-service-debug. The target
+links ONLY old hold/bundle/storage libraries and QtTest; it cannot link the new
+service archive. Eight independent fixture paths, exact compiled6-name/equality
+guard and enabled/no-failure-inversion checks are mandatory in ordinary selected
+CI, followed by unconditional old-only environment execution. Every old command,
+guard, hold35 acceptance, dependency/action pin, permission and check name remains.
+
+Actual root native results:
+
+- Initial complete29-row candidate: incremental24-step build0warnings; exact6
+  compiled functions/265 CTest registrations. Environment36QtPASS0skip0.82s.
+  Full old+foundation265PASS21.55s/262Qtprocesses1096PASS0FAIL/skip/blacklist.
+- One independently derived AS19 success case adds100→90 elapsed-before→+10→100,
+  freshbefore/after and correct token-free proposal. Every prior29case object and
+  every other JSON value is exactly preserved. Final30-row candidate: incremental
+ 3-step build0warnings; six-slot environment37QtPASS0skip807ms/CTest0.81s.
+  Old264/header/source/harness unchanged; no unnecessary old265 replay.
+- Different reviewer independently parsed150 complete canonical frames, all
+  command/head/intermediate/record/response/hold B-I and arithmetic values;
+  raw32source+30branch+3arrangement SQLite full89/FK0/integrity. Own final
+  foundation37PASS0skip844ms/3stepbuild0warnings. Those are reviewer executions,
+  not root repetitions or future service acceptance.
+
+Root raw SHA256 under ignored local-evidence:
+
+| File | SHA256 |
+| --- | --- |
+| accttest004-fixture-configure.txt |1b348dcda9bc1dcedd24039b6a95de6fed7d25576d0087249159bb1739e6402f |
+| accttest004-fixture-build.txt |a3c7723f47c81be914ee9df9fe5e4e7557cf936ee5f304bf4287d456a232e308 |
+| accttest004-fixture-foundation.txt |d094e8c68ef8e2bd432c4ce3d38aaa84484449abd3ca30a980d3572e0324b2b0 |
+| accttest004-fixture-functions.txt |840a9a7e51ef8ec110a6e22235141916d8b5e8b852920fdbf4044d71862ded65 |
+| accttest004-fixture-discovery.json |1f5b65a6fbe18abc4c506d264073b93d0823f3cdb4d04bd4ee1d05a3eabdf4c4 |
+| accttest004-fixture-old265.txt |26dd7c2ffa651d7041e8de1be9d9b732bf4dc1e5e130c2e57bd0e580e59069a2 |
+| accttest004-fixture-as19-build.txt |0f6a60c63ad78294e72d91071cc8ac4c75c2ac04a2104c86c59f235c6b502191 |
+| accttest004-fixture-as19-foundation.txt |0df47714ba5baea5ba7b58e5e6ce2d59ddca54389fbb9349fe81c29d035072e4 |
+
+The earlier author-only setup failures and precise SQL-NULL/rollback-category
+corrections remain documented in [author evidence](accttest-004-fixture-author.md).
+They are not a new feature red. Representation compaction preserves prior semantic
+facts; additions have independent arithmetic/specification reasons and full review.
+
+The COMPLETE approved fixture candidate's OWN selected Qt environment must pass
+before feature-test authoring. That run is still pending at this checkpoint.
+No service acceptance, first named red, implementation or release capability is
+claimed. Future test author/review/complete-head selected guard/FIRST same-clean
+red and ACCT004 production remain separate required gates.

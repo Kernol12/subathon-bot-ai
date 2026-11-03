@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T17:14:15Z",
+  "updated_at": "2026-11-03T17:30:54Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1694,13 +1694,14 @@
         "Completed differentreviewer officialAPIhead audit3e62e3be importedf02054f updates headerreview7ee952d1, actualSQL41673443963/raw8cd6edea/APIequalcheckout/118zero/newarchive/old35 confirmed. Fixture NEWtree created1f46455 and bundle_validation explicitlyresumed; root authoringownership recordedbeforeedits. Fullfixture reviewer preparation COMPLETE/idle (5dirty verificationconfigs retained), MUSTfollowup_task whenactualfixtureartifactsready. Interfaceauthor bundle_implementer explicitlyresumed READONLY AS-CS coverage/data-needs mapping, no files/tests/native calls; fullfeaturetestauthoring waits actualfixtureapproval+ownselectedfoundationgreen. Root durablecheckpoint rewritten to actual currentroles/gates; no ownerdecision/access.",
         "Actual fixtureprecision/readonlycoverage findings prompted DOC-only clarification BEFORE exactgoldens: holdannotationfieldformats/deterministicexplanation copies and honest proofpartition. Root initially misread HoldObservation UTC asmandatory; actualhpp114/logical86 provesOPTIONAL, independentreviewer corrected, rootretractedbeforeedits—no knownClockrestriction/newtimeport/fabricated0. Author proposal independentlyendorsed, actualaba965732→0328aa0 contract862c419395f4e9daf34f8ae8790a06abbec6f410/note78f36dd7a3f0d0ad70cefb250f7af2a6b45c791c: ALL4newhold envelopes SAME SAH1/nonrecursiveleaf, successSAA1, source/portcopy explanations+emptycalc/holdprose+fixedclock-observation-v1; preservecommandemptydata buttypedholdrefs NONEMPTYonly. AS20/CS10/AS16/CS08 retained with composedevidence: oldstore STALEEXPECTED/currentmismatch15/head (notactualmid-sessionrace), oldcorepausedtrace, serviceobservablepreread/order/no-write/unpausedpaths plus FUTUREactualsourceaudit; no newmutablephasehook/no fakeportsSQL/no claimedprivate/raceruntimecoverage. Actualfull+boundeddiffreviewACTIVE beforeexactproducedgoldens; rawfixturefoundationcontinues. Header03a747/sourceebbea/headernotea863/rootAPIharness BYTEEXACTunchanged, validAPIcompiler/environmentproof retained. No service/codec/view/stub call.",
         "Actual clarification gates BOTHapproved BEFORE exactserviceoutputgoldens: full2cad85660ad0f1cf962a54ebb8f57f7839bfdd02→e2a323f/review5fc8cd1b, bounded84bd39d144cadb4c01109325f255aac3018f736c→5c28e95/reviewec4154c4 acceptCURRENT862c4193/78f36dd7. Header03a747/sourceebbea/headernotea863/ALLharness unchanged; validAPIcompiledproof retained/no repeatedbaseline. Root explicitly RELEASED exactgoldens toindependentfixtureauthor; approvedaba965MDimportpermitted asprereqonly, own4fixturefilescommittedseparately. ActualuntrackedJSONcheckpoint32literalSQLsources/24freshbranches/4grammaranchors; planned6OLD-onlyfoundationQt slots (codec/ownership literals, branchsources, historicalclaims, independentholds/history, scriptedportDATA, actualOLDwritercompletion). Count/namesnotyetcompiled/authoredreviewed. No newservice/codec/view/marker call, no featuretestsource. Awaitactualcompletefixture/helper/environment/note→separatereview→ownselectedmandatoryfoundationgreen.",
-        "ACTUAL complete fixture3file checkpoints aacc467→e2bdc9a then81fbfe56→72f7c82: JSONc12b23dd4867bc15b68619d74b6c669ba094a059/helperc88c64e528270fdce271e1ed38f257a3a3172d2d/env611fe8b932a4eb00c0a8e747e142f027af5ea106; author41aae2db→414df4d/MDe9cabaa6. Parsedsemanticcomparison vs earlyaacc preserves original28facts+B-I/source32/4anchors/3arrangementSQL EXACT, representationcompaction26k→12k+specified29thclockoverflow/CS17/failingordinal/B-I/faultDATA additions. Authorold-onlynative6func/29rows/36PASS0skip808ms/zero warns; initial29setupassertfailures honestlyretained and spec-based environmentNULL/rollbackcategory corrected, notfixtures tuned forgreen. Root harnessd65b971 QtCMake69a21f68/workflow8c3a8f3b addsold-onlyenvtarget(NOnewservicearchive)+8macros/requiredcompiled6guard+unconditionalfoundation, alloldprefixunchanged. Rootbuild24zero/exact6/discovery265/foundation36QtPASS0skip0.82/fullOLD+foundation265PASS21.55/262Qt1096PASS0FAIL/skip, raw26dd7c2ffa651d7041e8de1be9d9b732bf4dc1e5e130c2e57bd0e580e59069a2. ActualFULL independentfixture/data/helper/env/author/harness review nowACTIVE; no futurefeatureapproval/marker call. Owncompleteapprovedfixtureselectedfoundationgreen stillmustprecede featuretestauthoring."
+        "ACTUAL complete fixture3file checkpoints aacc467→e2bdc9a then81fbfe56→72f7c82: JSONc12b23dd4867bc15b68619d74b6c669ba094a059/helperc88c64e528270fdce271e1ed38f257a3a3172d2d/env611fe8b932a4eb00c0a8e747e142f027af5ea106; author41aae2db→414df4d/MDe9cabaa6. Parsedsemanticcomparison vs earlyaacc preserves original28facts+B-I/source32/4anchors/3arrangementSQL EXACT, representationcompaction26k→12k+specified29thclockoverflow/CS17/failingordinal/B-I/faultDATA additions. Authorold-onlynative6func/29rows/36PASS0skip808ms/zero warns; initial29setupassertfailures honestlyretained and spec-based environmentNULL/rollbackcategory corrected, notfixtures tuned forgreen. Root harnessd65b971 QtCMake69a21f68/workflow8c3a8f3b addsold-onlyenvtarget(NOnewservicearchive)+8macros/requiredcompiled6guard+unconditionalfoundation, alloldprefixunchanged. Rootbuild24zero/exact6/discovery265/foundation36QtPASS0skip0.82/fullOLD+foundation265PASS21.55/262Qt1096PASS0FAIL/skip, raw26dd7c2ffa651d7041e8de1be9d9b732bf4dc1e5e130c2e57bd0e580e59069a2. ActualFULL independentfixture/data/helper/env/author/harness review nowACTIVE; no futurefeatureapproval/marker call. Owncompleteapprovedfixtureselectedfoundationgreen stillmustprecede featuretestauthoring.",
+        "AS19 actualindependentaddition0c1a675→23c81d0 and note05f3ddd→7cf9f40: FINALJSON0ae4957c/helper069bf7b9/env5a36a407/author7d4dafac. Allprior29objects+EVERYotherJSONvalueexact, oneelapsed_success100→90→+10→100, literalbeforetimer/freshb-c/preservedotherstate. Independent B-I cmd106/proposal201I7/record2129I11/response2130I11/SAS133149149/SAR470/SAA337. Rootupdated3build0warn/foundation6slots30rows37QtPASS0skip807ms0.81s, raw0df47714ba5baea5ba7b58e5e6ce2d59ddca54389fbb9349fe81c29d035072e4; no needlessold265replay. ActualFULLfixture/harness approval15f3149e1b84fdb4ef8baa768c14ae2ae539cff7 imported90c45c3/reviewf2ab656f acceptsFINAL3files+author+Qt69a/workflow8c3; independent150canonicalframes/23record-responseB-I/all30values/holds/arithmetic/raw32source+30branches+3arrangementsfull89FK0integrity/semanticpreservation/own37PASS0skip844ms/3build0warnings. No confirmedblocker, no newservicecalls. Onlynowpublish COMPLETEapprovedfixturecandidate for OWNmandatoryselectedfoundationgreen; tests stillnotauthorized."
       ],
       "verification": {
         "logical_contract": "passed",
         "concrete_contract": "passed",
         "api_review": "passed",
-        "fixture_review": "not_run",
+        "fixture_review": "passed",
         "test_review": "not_run",
         "baseline": "not_run",
         "native_build": "not_run",
@@ -1713,8 +1714,10 @@
         "api_native_build": "passed",
         "api_existing_regressions": "passed",
         "api_official_qt": "passed",
-        "fixture_authoring": "partial",
-        "output_clarification": "passed"
+        "fixture_authoring": "passed",
+        "output_clarification": "passed",
+        "fixture_host_diagnostic": "passed",
+        "fixture_official_qt": "not_run"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
@@ -1734,7 +1737,9 @@
         "tests/fixtures/application_service_vectors.json",
         "tests/qt/support/application_service_fixture.hpp",
         "tests/qt/application_service_environment.cpp",
-        "docs/evidence/accttest-004-fixture-author.md"
+        "docs/evidence/accttest-004-fixture-author.md",
+        "docs/evidence/accttest-004-fixture-review.md",
+        "docs/evidence/accttest-004-fixture-ci.md"
       ],
       "review": null
     },
