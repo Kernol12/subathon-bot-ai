@@ -184,3 +184,51 @@ This APPROVES only the actual final DOCUMENT's bounded codec/accounting/arithmet
 scope. It does not approve a future header/layout/stub/harness, source allocator,
 independent fixture/test or intended-red baseline, service implementation, authority
 adapter or production policy. Main review/root retain all other actual gates.
+
+## Actual fixture-golden clarification — bounded DOCUMENT approval
+
+Inspected the complete actual `aba965732eb38bfa81aad0d02fcb6a7d60d44d58`
+delta, imported unchanged as0ad12d1. Approved bounded document blob is now
+**862c419395f4e9daf34f8ae8790a06abbec6f410**, author-note blob
+**78f36dd7a3f0d0ad70cefb250f7af2a6b45c791c**. The earlier approval and
+changes-requested history above remain preserved. This addendum approves only the
+actual clarification's codec/ownership/copy-consistency scope, not any fixture.
+
+The field table resolves the actual ambiguity: successful bundle annotations use
+SAC1/SAS1/SAR1/SAA1 success0; all four applicable newly created numeric-hold
+annotations are identical complete SAH1 envelopes. Policy holds have three such
+copies and no fabricated failure. The embedded Failure is a finite leaf without
+FailureEvidence.annotation, so these copies do not create recursion. Each real
+owning copy remains separately charged by the existing hold B formula; no vector
+or optional-engagement item is invented.
+
+Source request explanations and policy/action port explanations are copied exactly.
+SAA1 calculation and SAH1 explanation DATA are non-null empty, while advance text
+is empty for exact head reuse or the exact20 ASCII bytes `clock-observation-v1`.
+This supplies deterministic golden values without adding generated numeric prose.
+Present-empty command actor/decision values remain lossless in SAC1/SAH1 and bundle
+audit DATA, while the existing nonempty typed hold-key domain projects those values
+to absence. Unknown Policy/Clock and optional UTC/elapsed remain honestly absent;
+no timestamp or replacement identity is invented. Cross-field equality requirements
+are preserved by these explicit projections rather than accidental normalization.
+
+Independently reran stdlib-only manual grammar/arithmetic derivation:
+`python3 /tmp/acct004-codec-independent-final.py` PASS; its new output file
+`/tmp/acct004-clarification-anchors.txt` SHA256 remains
+6a91ef93be4043e8174225574b58e9e26902d75576525be7df50a81d22e45b28.
+All original literal anchors, lengths and CS01–03/17/18 arithmetic are unchanged.
+An additional independent stdlib framing calculation constructed a49-byte numeric
+Failure leaf and213-byte SAH1 using the documented C0/Policy/Clock grammar anchors:
+format49+document213 gives one Envelope B262 and four copies B1048. A separate
+unknown-Policy/Clock/missing-policy example is97 wire bytes with no invented times.
+These are grammar/accounting illustrations, not healthy source/hold fixtures or
+new required literal acceptance vectors. Present-empty wire `0100000000` remains
+distinct from absent `00`; typed-key projection does not rewrite that wire input.
+
+The new verification partition changes no wire grammar, B/I formula or arithmetic.
+It expressly separates future public runtime observations, old component proof and
+actual source audit; it adds no write-capable fake or observed private/race claim.
+Complete service-semantic approval belongs to the separate full reviewer.
+Actual `git diff HEAD^ HEAD --check` and `python3 tools/check_project.py` PASS
+(396 tasks/122 decisions). No service/header/stub/factory/native/fixture/test or
+marker was invoked; no proposal/source/configuration bytes were edited.
