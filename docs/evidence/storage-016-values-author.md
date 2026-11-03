@@ -5,9 +5,10 @@ from planned validator to implementation helper follows root claim4622646 and
 role-refinement `b2b59343303c7ba92ae3ae5dd62332430e5628de`. Separate root/reviewer
 validation and full source/allocation review remain required. No task completion,
 runtime acceptance, ordinary CI promotion or merge is claimed here.
-**Known independent review finding OPEN:** early a18a violates cross-stage pure
-priority; its correction is HELD for root's additive regression/review/reached-red
-gate. Passing author checks below do not establish that missing combination.
+The independent cross-stage priority finding in early a18a was held through root's
+actual additive regression/review/reached-red gate, then corrected at explicit
+release. Final corrected source still needs actual different review; author checks
+are not approval or a public runtime/full-suite result.
 
 New isolated branch `task/STORAGE-016-values`, worktree
 `local-evidence/worktrees/storage016-values`, actual main
@@ -16,7 +17,10 @@ Prior test-author and unused validation trees are preserved. Own ONLY
 [private header](../../server/src/sqlite_application_hold_values.hpp) and this note.
 Header commit `1cf31dfe19350da9f6d70f942fc525b5af424f46`, blob
 `a18a0bd7705f8043daac75acd365471cc59e49c5` (868 lines), sent to runtime author
-for integration before these author-only checks. No shared/other-author files copied
+for integration before initial author checks. Released correction commits
+`d883bdcabf00d07c35bd1271135a0bce9f48dff4` and
+`1b8af3652720b90814141c9a6317edf453fe9e6b` give final blob
+`ec78b69702ce0e1da3f78b9367dc10170c284bfc`. No shared/other-author files copied
 or changed. Runtime author owns actual SQL/session/reference/rollback implementation.
 
 ## Authority and agreed interface
@@ -33,7 +37,7 @@ CI41640390883 before production assignment; original invalid261+4 is preserved.
 This role does not replay either red or change any reviewed assertion/fixture.
 
 Runtime author agreed `subathon::server::hold_detail` interface and required target
-semantics (the early implementation has the priority defect recorded below):
+semantics; the early priority defect and actual released correction are recorded below:
 
 - `validate_options`, `validate_find`, `validate_active`, `validate_history`,
   `validate_detection`, `validate_resolution`: complete pure preflight; ALL options,
@@ -87,9 +91,30 @@ input with null audit and oversized Exact therefore reaches exact_component_limi
 instead of earlier invalid_detection. Resolution similarly interleaves ordering
 with required bodies of later entries/replacements. API46c explicitly puts required
 scalar/envelope/whole-group shape before matrix/Exact and then ordering; this is
-not a proposed total order between unrelated same-stage defects. Source remains
-byte-exact1cf31df/a18a for root's actual focused regression and red gate. No source
-correction or frozen test edit has been made; no full helper approval is claimed.
+not a proposed total order between unrelated same-stage defects. Source was held
+byte-exact1cf31df/a18a through root's actual focused regression/red gate; original
+frozen tests were not edited by this helper author. No full helper approval is claimed.
+
+Root independently authored/reviewed additive source `82980fdba7d538e90c66608afd4e2fe45f229cff`
+(1a32ed8/70c430f, separate approval1650658). At SAME CLEAN68dc779 with unchanged
+runtime0fe97c83b74+a18a, root ran ONLY3 new rows14:20:25.413–25.514Z. Both priority
+public rows genuinely failed exact-category assertions (reviewer's direct native
+probe corroborates actual11/9 instead of required8), without HOLD-MISSING. The third
+lineage row is runtime author's separate fix. Root's original265 valid baseline was
+not replayed. Preserved combined raw `docs/evidence/storage-016-regression-red.txt`
+SHA256231d325ac11f7ce201ff3b17146968a1d39dd5d5135714b060e5287f2da1bcfc
+was inspected unchanged. Root explicitly released this bounded correction afterward.
+
+Final correction uses complete request-wide `body_*` → `matrix_*` → `order_*` passes.
+ALL causes, observations, audits, decisions, known enums and required groups/members,
+including later replacements and conditional captured/failed-capture members, are
+checked before ANY branch-matrix/Exact work. All matrix/Exact work finishes before
+version/occurrence/entry/expected-set/replacement ordering/local links. Matrix ordinal
+membership finds the actual supplied member instead of assuming the as-yet-unchecked
+sequence is an array index. Existing categories, logical constraints and shape_*
+interfaces remain. Options/keys/Exact-size prefix and ENTIRE accounting/equality/
+input-wrapper/manifest suffix are byte-exact unchanged against1cf. Stored shape still
+has no input aggregate/per-vector caps; runtime owns count-before-allocation.
 
 Host Linux/GNU16.2.1 20260810, Qt6.12.0, Boost109200, C++20; distinct from selected
 official GNU13.3/Boost108300. Temporary untracked harness links existing OLD bundle
@@ -134,6 +159,28 @@ Actual SQL class/size/canonical ordering, complete64/65 metadata, count-before-a
 same-session closure/capabilities/cumulative budgets/known rollback versus unknown,
 new35/full264 acceptance and separate code review are still integrator/runtime gates.
 
+After the released correction, configured native author builds pass0 warnings.
+The same35 frozen B/I literals, manifest payloads,71 detections/3 batches remain
+PASS. A separate temporary author executable checks the EXACT two reviewed new
+priority payloads through the now-implemented private validators: invalid_detection8
+in both cases. Additional bounded probes pass for later observation/known enum/
+required group/captured required scalar/decision before earlier Exact, matrix before
+set order, Exact before occurrence order, and the normal noncontiguous category.
+These are author-only direct helper checks, NOT public Store/feature test executions
+or a claim that the third lineage regression/full268 now passes. No reviewed test
+file was modified or imported; root test commits were inspected read-only.
+
+Actually executed for correction checks:
+
+```sh
+cmake --preset sqlite-hold-debug -B /tmp/storage016-values-author-build -DCMAKE_PROJECT_INCLUDE=/tmp/storage016-values-priority-author-defer.cmake
+cmake --build /tmp/storage016-values-author-build --target storage016_values_priority_author_check -j2
+/tmp/storage016-values-author-build/storage016_values_priority_author_check
+clang-format --dry-run --Werror server/src/sqlite_application_hold_values.hpp
+python3 tools/check_project.py
+git diff --check
+```
+
 Local `/tmp/` artifacts (not committed), SHA256:
 
 | Artifact | SHA256 |
@@ -145,3 +192,11 @@ Local `/tmp/` artifacts (not committed), SHA256:
 | storage016-values-author-configure.txt |c6c5b6daa1c4858eca36b3b56187d391cb0281a71fe3227196cb64b529469484 |
 | storage016-values-author-build.txt |58694af03699b783ab0d76a4f48bb5e83cc0761dcc733256bd39048d59fe596e |
 | storage016-values-author-run.txt |67346f1ab0e72e6d93f6e4e9da886dc80a180e662c37c8f63510198e4d99334f |
+| storage016-values-priority-build.txt |112bcd68f8e60725bb1192b47747ff4ee1872d835dc6b4990a3263b1d37d03bb |
+| storage016-values-priority-existing-checks.txt |67346f1ab0e72e6d93f6e4e9da886dc80a180e662c37c8f63510198e4d99334f |
+| storage016-values-priority-author.cpp |b2deb3793a18be4cc74790df7eb0bfe7a75152b63ac90daf6b15254ac40151a1 |
+| storage016-values-priority-author.cmake |11888167e5f494946ccc7f9726b1836ad2b2883ea3a56baec8fa10121cf8e61c |
+| storage016-values-priority-author-defer.cmake |4961ab71684e7d362399d7aec69ae9fc3fa575c6a6eb8d08204c05260d10803d |
+| storage016-values-priority-configure.txt |5c00cb4d37528e06718593cd3832d85b82be320a74885acd4889de21aa0cdea1 |
+| storage016-values-priority-author-build.txt |599f643c0d5e238de7ab28497da289ac5a8560ef756df09503b74a0e5b039173 |
+| storage016-values-priority-author-run.txt |013660e31823531bc07f4b27c3694b63f59407585630a071247b9026acf8bf2b |
