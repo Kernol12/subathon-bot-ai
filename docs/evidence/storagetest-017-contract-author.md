@@ -30,7 +30,7 @@ opaque old choices or compute effects.
 - Complete returned RecordedBundle quotas unchanged; new match enum adds exactly
   ONE logical owned byte and ZERO vector items. Absence0. Checked wrapper total
   gets result_limit/actual rollback, never truncation or quota reset.
--14 independent OC examples include two fully specified zero-request ORIGINAL
+- 14 independent OC examples include two fully specified zero-request ORIGINAL
   records in different operation scopes with CID0/MAX and Receipt7/MAX, independent
   confirmation/source predicates, full body closure and exact owned limits. The
   older full twenty-item fixture remains an independent separate foundation.
@@ -60,3 +60,19 @@ review/compile/discovery/the NEW query's intended missing behavior. Old209 and o
 baseline red remain distinct; STORAGE-017 implementation is not supplied here.
 All service/current-policy/hold/recovery/provider/UI/platform/full-release gates
 remain required and no live/supporter data is involved.
+
+## Actual different document review corrections
+
+Reviewer bundle_reviewer inspected actualdcae and independently reproduced the
+161/162-byte and20-item arithmetic. It requested three narrow clarifications:
+selected structural validation is no semantic/current-policy/global database
+certificate; ORIGINAL is storedkind0 regardless of signed correction/effect sign;
+and future MAX fixtures must freeze coherent exhausted receipt/contribution
+allocator BLOB8MAX plus existing complete catalog metadata, without claiming the
+query audits them. The contract now pins these points explicitly. No schema, API
+shape, limit, old equality or fixture/test/SQL artifact changes.
+
+`python3 tools/check_project.py` PASS396/122 and `git diff --check` PASS on the
+revised two-Markdown candidate. No native/SQL checks run. Actual reviewer must
+inspect this exact correction before document approval; later API/test/red gates
+remain separate.

@@ -52,6 +52,9 @@ expected current contribution, state token, effect, job or computed bundle in th
 selector. Existing `lookup(OperationKey)` remains the exact-key operation query.
 There is no reversal-identity selector or reversal claim match in this bounded
 ORIGINAL-only extension; existing stage/reversal APIs retain their own behavior.
+ORIGINAL means the stored operation_kind0, regardless of money/effect sign or
+arithmetic role. An existing valid signed original correction remains selectable;
+there is no new positivity, payment or time-addition-only filter.
 
 Construction/copy/destruction of the existing facade stays inert. The query borrows
 its actual active revocable session; it does not BEGIN, adopt another transaction,
@@ -120,7 +123,9 @@ the service's later current-input path separately handles subject_unavailable.
 
 Subject priority applies even if source fallback would select another healthy
 operation, or if a lower-priority unselected record is corrupt. Only the chosen
-record is fully certified. On absence there is no global malformed-row scan.
+record's inherited full selected structural closure is validated. This is not a
+semantic/current-policy or global-database certificate. On absence there is no
+global malformed-row scan.
 Queries still validate every actually selected key's SQL class, length, full ID
 range/role and match-to-record identity; SQL predicate coercion is not a substitute.
 
@@ -229,9 +234,14 @@ instant/actors/money/payment/activity references absent, arrivalUTC0, connection
 support observation uses the same receipt, support kind, evidence not_applicable,
 these exact support conditions, no verified activity and its actual CID. Both
 current contribution rows retain those source fields and applicationapplied;
-current state head may be c. New fixtures must preserve real required allocator/
-catalog rows from the independent old foundation, without invoking allocators or
-claiming MAX-plan/history coverage.
+current state head may be c. New fixtures must independently freeze COHERENT
+existing allocator/catalog metadata: receipt and contribution allocator singleton1
+both have last_allocated BLOB8 UINT64_MAX (exhausted), rather than stale NULL/earlier
+counters copied from a smaller-ID foundation. The existing migration catalog must
+retain the complete coherent prefix1–5 metadata/payload identities. No allocator
+is invoked to invent these expected literals. This reader does not audit or certify
+allocator/catalog consistency or claim MAX-plan/history coverage; these are honest
+whole-fixture setup obligations for the later independent author.
 
 Unknown provider facts remain absent; these are explicit storage-only synthetic
 meanings, not financial confirmation, current permission or production action
