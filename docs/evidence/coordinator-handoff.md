@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-016 acceptance green; independent review active
+# Coordinator checkpoint — STORAGE-016 retained-query regression gate active
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Full
 product is incomplete. No owner decision/access currently needed. Do not stop at
@@ -137,3 +137,20 @@ Then refresh main and continue service004 from integrated016+017 and its OWN rev
 contract/tests/red. No owner decision/access needed. Full seven integrations/three
 FX/both renderers/locales/themes/platforms/packaging/security/recovery/live/release
 scope remains mandatory and incomplete. PR completion is not product completion.
+
+## Latest source-review finding overrides earlier pending-next-action text
+
+Actual full reviewer found retained-source `find` query Work failures escape as
+original SqliteWorkFailure, though API46c217–224 requires known busy/sql/resource/
+result to matching Hold reason AFTER already-known rollback. Runtime author also
+confirmed actual old/source seam read-only. No source approval; HOLD correction.
+Root concrete test522faee, blob0e172a16, note36d91536 adds ONE270th row in existing
+cumulative-budget slot: healthy cfg document131072 (<retained262144), writer
+resultbytes65536; old exacttype/knownrollback/release/caught/snapshot assertions
+remain unchanged. Reviewer now inspects actual diff before public intended red.
+Build only running/completed (inspect actual session26000/log); NO new row run yet.
+Runtime author resumed to read-only seam analysis, no edits. Root draft handoff
+now records this gate. Prior7a3 official35/all11 success is269-row evidence only.
+Next: actual independent test review → focused public red/runtime stack attribution
+on unchanged8d82 → bounded retainedseam mapping fix → source approval +actual270
+native and OWN promoted officialCI. Preserve existing results, no baseline replay.

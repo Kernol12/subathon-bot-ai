@@ -47,3 +47,11 @@ This is synthetic Linux SQLite component proof. Current policy/permission/action
 clock producers, full application orchestration, providers/FX, live/platform/UI/
 packaging/recovery and full release are incomplete. DB-01/NUM-02/NUM-04 stay partial;
 all seven integrations and three exchange-rate providers remain required.
+
+## Additional retained-query mapping gate
+
+Final source audit subsequently identified a known writer failure mapping gap
+inside retained configuration/context lookup. A new independent public regression
+522faee/test0e172a16 adds one270th scenario and is awaiting its actual review/red
+before any source fix. The35-slot CI above proves the269-row candidate; it is not
+acceptance of this new row or future source. PR remains draft, no final approval.
