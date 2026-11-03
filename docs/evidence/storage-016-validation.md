@@ -30,7 +30,7 @@ ctest --preset sqlite-hold-debug --verbose
 Configure succeeded; incremental build completed29 steps, ZERO warnings. Full264
 CTest passed in19.73s, including all35 hold slots/268 scenarios and every unchanged
 old case. All261 Qt process summaries total1058 PASS/0FAIL/0skip/0blacklist.
-Native environment is local Arch/GNU16.1/Boost1.92/Qt6.12/SQLite3.54; this does not
+Native environment is local Arch/GNU16.2.1/Boost1.92/Qt6.12/SQLite3.54; this does not
 replace the selected official Ubuntu/GNU13.3/Boost1.83/Qt6.12 CI gate.
 
 Ignored raw evidence and SHA256:
