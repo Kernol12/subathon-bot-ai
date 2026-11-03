@@ -56,3 +56,22 @@ but the new reader remains an immediate named stub, not implemented behavior.
 Publish this exact source/configuration and observe its OWN selected officialQt
 compilation/oldstable CI before independentfixture/test stage. InitialclaimCI is
 not that future API-source proof. Newfeaturebaseline remains unfinished.
+
+
+## Actual API-source selected official verification
+
+[SQL41593838583](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41593838583)
+SUCCESS at completeapprovedAPIhead689599bd6c040677058da894a1259ee9742bad2b,
+2026-11-03T07:03:58Z–07:05:26Z. Fresh92buildZEROwarnings/GNU13.3/pinnedBoost1.83
+macro108300/verifiedQt6.12 archives/actualSQLite3.53.4, selected newprofile19;
+old164 acceptance/mandatory oldfixture diagnostics/old35 bundle casesPASS, all11
+PR checksSUCCESS. No newreader/test/fixture existed or was invoked at that head.
+Raw local-evidence/storagetest017-api-official-ci.txt SHA256
+610034e5945c95f4e1663b863484411fee6f2ceae0dda9547cdaa451814cf978.
+
+ONLY THEN independentfixtureauthor assigned fresh branch/tree frommain21c plus
+approvedAPI prerequisites. NewJSON/helper/oldprimitiveenvironment are being authored;
+actualfixture/harnessreview and its own selectedofficial NEWgreen remain required
+before newreader testauthoring/review/discovery/firstintendedred. Earlier pending
+paragraphs record their checkpoints; APIverification is now complete, not query
+feature acceptance or complete baseline. Source still immediate namedstub.

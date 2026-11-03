@@ -147,3 +147,16 @@ Actual independent API/config2fd02c31 now imported: fresh92/0warnings/old209PASS
 APIcandidate forOWNselectedofficialCI; fixtures/tests/newreaderred stillNOTauthored.
 Newreviewtree preserves3uncommitted rootconfigcopies used forverification, no
 unfinishedAPI/test/source edits. Priorreviewsetupcopies remainuntouched elsewhere.
+
+## Latest actual API-source gate / fixture assignment
+
+Latest observed main21c, PR43/44 integrated; PR45 APIhead689 all11SUCCESS and actual selectedofficial41593838583 PASS.
+Independentfixtureauthor /root/bundle_validation now RUNNING in local-evidence/worktrees/storagetest017-fixtures on task/STORAGETEST-017-fixtures (createdfrommain21c, ffapproved689).
+Own four newfixture paths only; A/Bhealthyminimaloriginals, C Receipt8 receipt-tagged signedoriginal, old20 separate. No candidate yet, no newreadercall/test/red.
+APIauthor andAPIreviewer COMPLETE; reviewernew17tree retains3uncommittedrootconfigverificationcopies, not source/testwork. Rootsharedownership unchanged.
+Next integrate actualfixturecandidate, rootseparategreenharness onlyoldprimitives; actualdifferentfixture review+ownnewselectedgreen BEFORE featureauthor.
+
+RawAPIofficialSHA610034e5945c95f4e1663b863484411fee6f2ceae0dda9547cdaa451814cf978
+with fresh92/0warnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/newpreset19/old164+
+greens/old35. Every oldpendingAPI paragraph above is historical; thisactualgate
+is COMPLETE. Newfixture/feature/test/red notclaimed yet.
