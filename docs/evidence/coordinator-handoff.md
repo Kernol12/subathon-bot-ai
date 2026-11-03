@@ -1,261 +1,143 @@
-# Coordinator checkpoint — STORAGE-016 merged; service baseline resumed
+# Coordinator checkpoint — ACCTTEST-004 independent fixtures
 
-Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Full
-product is incomplete. No owner decision/access currently needed. Do not stop at
-this PR; implementation016 and service004 follow their own gates.
+Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Product
+incomplete. No owner decision or access needed. Do not stop at a completed PR or
+repeat completed preparation/red. Inspect actual branches, agents and CI on resume.
 
-## Main and preserved integrated work
+## Actual integrated main
 
-Prior main **017d40f6233e3416b4a785924052a9ab9bbeb83f**, normal PR47
-merge13:20:43Z from exactfinalb5a782fe after all11 latest successful, SQL41642632696,
-readyCLEAN/MERGEABLE/0threads/currentrules26170263formal0/rootclean/pinsunchanged.
-Main tree1ffff440 equalsb5. No bypass/force/delete. Postmain017d ALL10workflows
-observedcompletedSUCCESS, includingSQL41643509589. Earlieraad all10 also successful.
-Completed task merges:
+Main **efe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089**, tree
+45216582d5b715ae63b220d5df1aca2c17f417b4, equals exact final PR48 head
+5fa01364fa2636c6b68de4281816057c5030604f. PR48 normally MERGED15:31:10Z after
+all11 latest successful incl SQL41664119920, ready/CLEAN/MERGEABLE/current
+rules26170263 formal0/thread0/rootclean/14 reviewed artifacts unchanged. No
+bypass/force/delete. Postmain efe ALL10 workflows actually observedSUCCESS,
+including SQL41664725048; ignored storage016-post-main-runs.json records them.
 
-- [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), STORAGE-002:
- 34ed520→8c7f71f,05:49:50Z. [Handoff](storage-002-handoff.md).
-- [PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44), ACCTCONTRACT-001:
- dd5e6f1→21c0871,06:23:15Z. [Handoff](acctcontract-001-handoff.md),
- [ADR0003](../decisions/0003-application-service-prerequisites.md).
-- [PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45), STORAGETEST-017:
- 48b36a0→a40b42f,08:35:37Z. [Handoff](storagetest-017-handoff.md).
- Original first-red90f3c739 preserved; do not replay it as a new first red.
-- [PR46](https://github.com/Kernol12/subathon-bot-ai/pull/46), STORAGE-017:
- 8120c231→aad1ad1,08:57:48Z, all11 final/all10 postmain successful.
- [Handoff](storage-017-handoff.md), [source review](storage-017-code-review.md),
- [validation](storage-017-validation.md), [CI](storage-017-ci.md).
- Runtime834336d3/test0e4f4f00/fixturebea1273c/helper67d4 remain unchanged.
- The intermediate missing canonical acceptance metadata was corrected using
- already-passing evidence and fresh checks before merge; no tests/validator weakened.
+Recent completed task PRs:
 
-## Actual main and newly resumed task
+- [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43) STORAGE002 →8c7f71f,
+  [handoff](storage-002-handoff.md).
+- [PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44) ACCTCONTRACT001 →21c0871,
+  logical6d0cd67f/ADR0003e971a47e, [handoff](acctcontract-001-handoff.md).
+- [PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45) STORAGETEST017 →a40b42f.
+- [PR46](https://github.com/Kernol12/subathon-bot-ai/pull/46) STORAGE017 →aad1ad1,
+  [handoff](storage-017-handoff.md).
+- [PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47) STORAGETEST016 →017d40f,
+  [baseline](storagetest-016-handoff.md). First VALID reviewed265-marker red598
+  after own selected41640390883 preserved; initial261+4 setup failures invalid
+  and retained. Do NOT replay the completed first red.
+- [PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) STORAGE016 →efe1c7e,
+  [handoff](storage-016-handoff.md), [source approval](storage-016-code-review.md),
+  [validation](storage-016-validation.md), [CI](storage-016-ci.md).
+  Final270 rows/full264/1060QtPASS0skip0warnings; own corrected official41662457471
+  plus finalhead all11 passed. Two genuine history inputs and five additive
+  reached-red regressions separately reviewed; all old fixtures/assertions fixed.
 
-Normal [PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) MERGED15:31:10Z,
-exactfinal5fa01364fa2636c6b68de4281816057c5030604f→main
-**efe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089**. All11 latestSUCCESS inclSQL41664119920,
-readyCLEAN/MERGEABLE/currentrules26170263formal0/threads0/rootclean/14reviewedblobs
-unchanged, no bypass/force/delete. Refreshedmain tree45216582d5b715ae63b220d5df1aca2c17f417b4
-equals5fa. Postmain efe ALL10workflows actually observedcompletedSUCCESS, includingSQL41664725048;
-ignored record local-evidence/storage016-post-main-runs.json.
-[Hold handoff](storage-016-handoff.md), [approval8c8ad3a](storage-016-code-review.md),
-[final270 validation](storage-016-validation.md), [CI](storage-016-ci.md),
-[genuine test revisions/red](storage-016-baseline-revision.md). Original265markerred598
-and invalid261+4 attempt preserved; five additive reached-red regressions and two
-reviewed history inputs, all old oracles/fixtures fixed. Source44376762/helper13828/
-test0e172a16,35slots270scenarios/full264PASS19.94/1060QtPASS0skip0warnings;
-OWNcorrectedSQL41662457471 at297 selectedGNU13.3/Boost108300/Qt6.12SQLite3.53.4/
-new3guard5PASS0skip174ms/exact35/UNCONDITIONAL35PASS26.61s/all11SUCCESS. Source and
-finalmetadata gates actually passed; no incomplete hold task or prospective review.
+## Active primary task and current artifacts
 
-Root NEW branch `task/ACCTTEST-004-service-baseline` created from fresh integratedefe
-BEFORE any task edit; taskclaimedinstate. ACCTTEST004 in_progress; ACCT004 production
-planned. All dependent storage prerequisites integrated; no blocker/ownerdecision.
-Already reviewed logical6d0cd67f487dae92a17d41eb07dda5b407c78a56/ADR0003e971a47e
-remain valid; do not repeat logical preparation or call old264 component passes
-service acceptance/red. No concrete serviceAPI/codec/tests/stub/red exists yet.
+Root branch `task/ACCTTEST-004-service-baseline`, created from refreshed efe BEFORE
+claim5236d88. [Draft PR49](https://github.com/Kernol12/subathon-bot-ai/pull/49), last
+published complete API head **8d742239616aec1b8e9be65e972a42b4fcf2ae7a**; root now
+publishes review/gate/fixture-ownership metadata. Inspect actual HEAD/remote before
+acting. ACCTTEST004 in_progress; ACCT004 production PLANNED. No service feature
+suite, FIRST service red or implemented service behavior exists.
 
-## New assignments and boundaries
+Approved concrete DOCUMENT:
 
-- Author `/root/bundle_implementer`: NEWisolated branch/worktree
-  `task/ACCTTEST-004-service-api-author`,
-  `local-evidence/worktrees/accttest004-service-api-author` fromefe+rootclaim.
-  ONLY docs/contracts/application-service-api-v1.md and
-  docs/evidence/accttest-004-api-author.md. Any optional separatecodec doc must be
-  announced to root. Concrete document only until actual separate approval.
-- Reviewer `/root/bundle_reviewer`: NEWisolated
-  `task/ACCTTEST-004-service-api-review`,
-  `local-evidence/worktrees/accttest004-service-api-review` fromefe+claim.
-  Own ONLY actual API/codec reviewMD; await authoredrevision, no prospective verdict.
-- `/root/bundle_validation`: COMPLETE holdpureauthor7257a06; now explicitly resumed
-  for bounded READONLY writer completion/faultseam investigation, no edits/branch/
-  tests/reviewclaim. Available for later independent fixtures after concrete/API gates.
-- Root owns sharedstate/HTML/maps/schemaorder/rootbuild/presets/workflows/integration;
-  no otherwriter changes those. Later API/fixtures/test ownership assigned explicitly.
+- docs/contracts/application-service-api-v1.md **8fa0c76ad90ad046712463dfc95206e2a99b4e40**;
+  document author note **608acc129c48f8ee5ed97fd09db1ade541511c56**.
+- Full actual approval b098c7ef imported99d3ef6,
+  [review](accttest-004-api-review.md)615b64db.
+- Separate bounded codec/accounting/arithmetic approval7b501fd3 imported950db76,
+  [review](accttest-004-codec-review.md)c9133b0e. Original changes-requested f8fc91e
+  retained. Actual fixes6160/ee056 cover historical hold retry/no false current
+  blocker, all prepared-pair lifetime, per-method codec budgets/decode errors,
+  running per-occurrence60→60, finite token-free proposal/jobs→refs→codecs order,
+  echoed ref binding, local-view versus actual writer errors and missing callback.
+  All literals/CS arithmetic independently checked. DOCUMENT approval only.
 
-Concrete refinement: complete canonical commandbytes/absence-vs-empty/literalexamples/
-unsupportedhealthyoldformat; explicit typed currentaccess+disclosure/policy/segmented
-clock/action/freshstate+hold/detection/versionissuance; versionedresult/state/audit/job
-meanings/bounds; oneactualBEGIN/COMMIT+normalcompletionresultbridge. Currentports
-supply typedboundmeaning, never authority/cap guesses from opaqueenvelopes. Early
-claims+ALLactiveholds before newproposal; all15contributionfields+actualplanhead;
-clock/hardend before finaladmission; CORE005 actual_main_added into CORE002 onORIGINAL
-advancedtimer (no doubleadd). No fabricatedactualhead on staleplan/no implicitcounter
-creation/no unpersistedbeforetoken. Missing producer policy honestnotready/owningtask;
-no silent shrink of mixed/finished/failedcapture/refund/review/continuation scope.
-Read-only nextprep `local-evidence/accttest004-next-prep.md` retained; no testsfromit.
+Approved MINIMAL interface/stubs:
 
-## Next concrete action and continuity
+- header **03a747a70ab7decd49227396466ff12a32c31864**;
+  source **ebbea2388b7f4fb6474940b53cc14b95853969cb**.
+- Header author fe816735 importedc0359cb,
+  [note](accttest-004-header-author.md)a863a1d9. Five entry definitions immediately
+  throw named markers (four families); ctor inert; finite owned DTO/ports/private
+  weak read-view/matching real Work+Completion/Response metatype. NO validators,
+  codecs, byte helpers, policy/numeric/queue/SQL/commit/cleanup/publication logic.
+- Different actual header/stub/build approvalbeb928cf importeda5af686, plus completed
+  official API audit3e62e3be importedf02054f;
+  [review](accttest-004-header-review.md)7ee952d1. Independent fresh34-step archive
+  build0warnings/exact264OLD discovery/no new entry call. Five dirty verification
+  config copies intentionally remain in its isolated tree.
+- Root harness5df5977: rootCMake166cb1f8/core1f40148a/serverf07cd0d0/
+  presetsaeeca7a7/workflowe507c083. Profile21 `application-service-debug` inherits
+  hold profile; existing numeric libraries without unrelated GTest flags/newdep.
+  Selected job ONLY49 preset-reference substitutions, all old commands/guards/
+  requiredhold35/pins/checkname/permissions preserved. No service test registered.
 
-Actual newtrees already created fromefe+claim5236d88; author+reviewer explicitly
-resumed with followup_task, both currently working. Author using ONLY two assigned
-MDpaths/no extra codecfile. Reviewer read-only prep+actualportseams, awaiting actual
-doc revision for verdict; third agent bounded read-only completion investigation.
-Root shared state/checkpoint publication active; no native process. Read actual
-roles/processes on resume, never assume agents running. Author concrete document → actual different review → minimal API/
-immediate unique stubs/build harness → actual APIreview → independent realSQLfixtures/
-tests/fulltestreview → owncompletecandidate selectedfoundationgreen → FIRSTsameclean
-intendedservice markerred. NO production implementation before its own valid baseline.
-Focused draft taskPR after concrete reviewablework; normal merge only afterallgates.
+## Actual API environment gate completed BEFORE fixtures
 
-Old storage/logical branches/worktrees/dirtyverificationcopies/validreviews preserved;
-now122registered106existing16absent after two fresh trees, do not reset/prune/discard.
-All holdtasks/reviews complete, SAME agents now explicitly reassigned above; no native command running. No live/platformchecks.
-Current main done is boundedcomponent proof only; all seven integrations/threeFX,
-bothrenderers/locales/themes/platforms/packaging/security/recovery/fullrelease remain
-mandatory/incomplete. Continue actual coordination; a merged PR is a checkpoint.
+[API CI evidence](accttest-004-header-ci.md): root fresh118-build ZEROwarnings,
+OLD264 registrations/no service case, OLD264PASS20.47s/261Qt1060PASS0skip. No new
+service/codec/view/stub/factory/marker called, not service acceptance or red.
 
-Latest concrete preparation is durable in [API prep](accttest-004-api-prep.md).
-Third investigator COMPLETE, submitted actual writer/completion/fault-seam and
-typed-outcome constraints with no edits/runs; AS15 after-ACK-COMMIT body-tail
-exception needs a bounded trusted body callable or separately reviewed seam, not
-ack-loss UNKNOWN. Author/reviewer notified. Reviewer prep COMPLETE and IDLE, no
-contract verdict; root must call followup_task on an actual authored revision.
-Author is drafting only two assigned MD paths, no committed document received yet.
-No C++/test/harness/service body/marker invocation. A quoting error interrupted one
-metadata-update script;82e8f63 saved the prep document only. This follow-up records
-the actual state/roles; no failed edit is claimed as completed.
+OWN complete APIhead8d74223 [SQL41673443963](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41673443963)
+SUCCESS16:21:58–16:24:36Z/fresh1180warnings/GNU13.3/Boost108300/officialQt6.12/
+SQLite3.53.4/new interface explicitly compiled+archived/old stable suites/
+hold3guard5PASS0skip179ms/exact35/hold35PASS26.73s/all11SUCCESS. Raw
+local-evidence/accttest004-api-official-ci.txt SHA
+8cd6edea68ab01f2409d11c9e9621be1d66f4f9be18fb068ed13b260e96ac4e8.
+APIverified synthetic568fc520 parents efe+8d742, tree df709b23 equals candidate.
+Different reviewer independently inspected completed raw/run/checkout. Prior
+DOC-only CI was not substituted. API review+ownenvironment gates both PASSED.
 
-## Latest actual concrete candidate and review assignments
+## Actual agents and owned paths
 
-Author actual DOCUMENT commitd421471b927636cd159794adea223d5b5d49b3c2 importedba6ae75,
-contract blob6ee28717e8aa78896180c1ac0cc22e31adf3bf2a/641lines. Author note follows.
-Prepared real Work+MATCHING completion pair used by enqueue resolves AS15 body-tail
-seam; owned exact QVariant extraction/read-only revocable references/canonical
-command+record codecs/bounds/15CSexamples are authored proposals, not approvedcode.
+Root claim1f46455 recorded fixture release BEFORE new tree/edits. All earlier
+worktrees/branches/dirty copies/valid reviews preserved; now124 registered,
+108existing/16absent. Never reset/prune/discard. Agent states below last observed;
+inspect actual tools on resume, completed agents require followup_task.
 
-Main reviewer bundle_reviewer explicitly RESUMED full actual DOCUMENT review in
-assigned newtree; no verdict yet. Thirdagent bundle_validation explicitly reassigned
-from completed read-onlyprep to bounded independent actual codec/arithmetic DOCUMENT
-audit. NEW tree local-evidence/worktrees/accttest004-codec-review, branch
-task/ACCTTEST-004-codec-review atab9ca61 (=efe+523claim+d421doc), own ONLY
-docs/evidence/accttest-004-codec-review.md. Root created clean before any edits.
-They audit literalbytes/absence-empty/B-I/quotas/decodeorder/CS01–03 arithmetic;
-mainreviewer retains full semantic/ports/callorder review. Source/fixtures/tests/
-futureimplementation not prospectively approved. Oldtrees/commits preserved; now
-123registered107existing16absent. Root publishing first concrete draft taskPR.
-Next: authornote+actualfullreview+boundedcodec audit/corrections, then minimalAPI/
-stubs only after DOCUMENT gates pass. No new serviceC++/test/marker/codecbody run.
+- `/root/bundle_validation` ACTIVE independent FIXTURE author in NEW
+  `local-evidence/worktrees/accttest004-service-fixtures`,
+  `task/ACCTTEST-004-service-fixtures` from1f46455. Own ONLY
+  tests/fixtures/application_service_vectors.json,
+  tests/qt/support/application_service_fixture.hpp,
+  tests/qt/application_service_environment.cpp,
+  docs/evidence/accttest-004-fixture-author.md. Independent synthetic coherent real
+  OLD SQL primitives, literal bytes/owned DTO/B-I and explicit fake-port DATA.
+  No new encode/decode/read-view/make_work/enqueue/marker, including setup/init;
+  no feature test source. Old fixtures/schema/approved API/doc remain frozen.
+- `/root/bundle_reviewer` fixture PREP COMPLETE/IDLE after header-CI addendum;
+  must explicitly resume on ACTUAL fixture artifacts. Same
+  `local-evidence/worktrees/accttest004-service-api-review`,
+  `task/ACCTTEST-004-service-api-review`; five root/core/server/preset/workflow
+  verification copies dirty, preserve. Own NEW accttest-004-fixture-review.md
+  when candidate exists; no prospective verdict or source/data edit.
+- `/root/bundle_implementer` ACTIVE bounded READONLY AS01–21/CS01–18 coverage and
+  fixture data-needs preparation. Its APIauthor tree remains clean atfe816735:
+  local-evidence/worktrees/accttest004-service-api-author,
+  task/ACCTTEST-004-service-api-author. No test file/branch/native/new-method call;
+  feature test authoring still blocked until reviewed fixtures+ownfoundationgreen.
+- Root owns ALL shared CMake/presets/workflows/state/HTML/maps/schema order and
+  integration. No native process remains running after old264 result. Old source
+  and logical trees and historical reviews remain untouched.
 
-## Current published task and active agents
+## Next concrete action
 
-Focused [draft PR49](https://github.com/Kernol12/subathon-bot-ai/pull/49) opened
-at57ffa79. Author notebd9b354751e314222b71779f04884ad5e4b775f0 integratede7e6e1c,
-blob91636d764b8cc6dd02766060b7e2136166f60505; contract remains6ee28717. Author
-bundle_implementer COMPLETE/idle, clean atbd9b354, available for actual corrections.
-Full semantic/ports reviewer bundle_reviewer and bounded codec/arithmetic reviewer
-bundle_validation ACTIVE on ACTUAL doc+note; no verdict yet. Resume completed author
-with followup_task for actual findings, never assume it still runs. Root publishes
-current metadata/author note to PR49. No source/header/stub/fixture/service test/
-codec behavior/marker call, productionACCT004 remains planned. Old CI verifies
-existing components only. Next: handle actual document findings/reviews, then
-explicitly authorize minimal API/stubs/harness ONLY after those gates pass.
-All older source/contract/review worktrees, dirty copies and valid reviews retained.
-No native process or owner access/decision needed.
+Wait actual fixture JSON/helper/environment/note; integrate concrete compatible
+revision. Author sends compiled Qt slot names/count so root wires OLD-primitive-only
+mandatory foundation target and compiled/discovery equality guard. Actual different
+fixture review then OWNcompletecandidate selected foundation green BEFORE any
+feature test source. Then assign independent feature tests, actual full test review,
+zero-warning compile/exact registered slots/OWNselectedgreen, and FIRSTsameCLEAN
+intended named service red with exact per-invocation counts/LastTest. No compilation,
+missing dependency, skipped test or old264 pass is that red. ProductionACCT004 waits.
 
-## Active concrete findings and correction batch
-
-Actual6ee review found hold retry classification gap: ONLY newrecorded→held;
-already_recorded may carry a resolved historical hold, so typedstage_conflict/no-held
-plus complete detection disposition table/example needed. Explicit outstanding
-UNsubmitted preparedpair lifetime also requested. Bounded codec audit independently
-confirms ALL stated literalbytes/counts/CSarithmetic, but found C1 method-boundary
-accounting/error priority ambiguity (encodeCommand25→Envelope98 vs decode98→25,
-opaque envelopes do not own decodedvectors) and C2 multi-occurrence currenttimer
-clarity (Main58/two+10/cap60 must60→60; no fixed initialsnapshot reuse).
-Root explicitly RESUMED completed author with followup_task for ONLY ownedtwoMD
-correction batch/revisednote. Full and bounded reviewers still working actual6ee;
-no final verdict/approval. No serviceCPP/stubs/fixtures/tests/marker run. Root
-read-only futurebuild prep local-evidence/accttest004-build-prep.md confirms existing
-core targets can be reused without enabling unrelated GTest flags or a newdep;
-shared CMake changes wait actualdocument approval. Root PR49 remainsdraft.
-
-Additional full-review findings R3/R4 are in the SAME active DOC correction batch:
-finite echoed issued-reference binding, finite token-free action calculation
-proposal, jobs→issue refs→complete token-bearing codecs/bundle order; and exact
-read-view expiry/foreign/pure-invalid-key errors versus real writer capability/query
-errors. Do not call narrower view expiry underlying stale_session or assume pure
-Retention invalid-key already rolled back. Author explicitly notified, owns sole
-proposal/note edits; no new source/test/harness authorization. Actual6ee full and
-bounded reviews ongoing; root local metadata captures these findings before the
-corrected actual document arrives.
-
-## Current corrected candidate for final document review
-
-Original bounded changes-requested f8fc91e imported65b1f29, reviewMD00fc6348,
-original6ee/916 and all independentlychecked literal/arithmetic anchors retained.
-Actual batch6160e352 imported073c51e resolved reported R1–R4+C1/C2; final tiny
-ee056945 importedde73386 pins localviewfailure→port_contract3/invalid_output1
-with activeowner cleanup and missingCompletion enqueueAdmission invalid_work versus
-make_workPreparationFailure invalid_work (no admission/unit/callback).
-CURRENT contract **8fa0c76ad90ad046712463dfc95206e2a99b4e40**, author note
-**608acc129c48f8ee5ed97fd09db1ade541511c56**. Author COMPLETE/idle/cleanee056.
-Full reviewer actualfinaldiff says all findings resolved, final writtenapproval
-awaits boundedreviewer's completed actual C1/C2 audit. Both reviewers ACTIVE on
-8fa/608; neither has committed final approval. Root currentpublishes revised
-candidate to draftPR49. NO header/stub/fixture/test/codec/service/native call.
-Only after ACTUAL written document approvals integrate may root assign minimal
-API/immediate unique stubs/buildharness, then separate actual API review/ownselected
-environment before independent fixtures/tests/review/FIRST service markerred.
-
-## Actual document gates COMPLETE; minimal interface phase released
-
-Full DOCUMENT approvalb098c7ef imported99d3ef6 (MD615b64db) and separate bounded
-codec/accounting/arithmetic approval7b501fd3 imported950db76 (MDc9133b0e) BOTH
-accept exact8fa0c76/608acc1. Originalchangesrequests and actualfixes retained;
-CS17 and CS18 independently checked. No future code/fixture/test is approved.
-Root state now explicitly releases MINIMAL API/header/stub stage only: same sole
-author owns NEWserver/include/subathon/server/application_service.hpp,
-server/src/application_service.cpp, NEWdocs/evidence/accttest-004-header-author.md.
-Freeze approvedcontract/authornote, no amendments without explicit actualreview.
-Complete owned types/trivial erroraccessors/virtualports/inertconstructors and
-IMMEDIATE stable named NotImplemented stubs for ALL codec/service/view methods.
-NO behavioral helper, validator, byteaccounting, encoder/decoder, policy evaluation,
-queue/transaction/SQL/commit/publication implementation before OWN reviewed tests/red.
-Rootalone owns sharedCMake/coretargetconditions/presets/workflows/state/schema.
-Next create actual interfaces → separate actual header/stub/buildreview → own
-selectedenvironment/oldregressions → independentrealSQLfixtures/tests/fullreview/
-FIRSTsamecleanservice markerred. ACCT004 production PLANNED. No stubs called yet.
-Actual agent reassignment follows with followup_task; completed agents stay idle
-until explicitly resumed. MinimalAPI source does not exist at this checkpoint.
-
-## Current minimal API and concrete harness
-
-Actual author2b96ae14 importedb2b1946: header03a747a7/sourceebbea238,
-headernote fe816735 importedc0359cb/blob a863a1d9. All5entries unconditional
-namedNotImplemented throws, inertborrowedconstructor/finiteownedtypes/readonly
-view/typedQVariant matchingworkpair. NO feature/codec/view/service call.
-Root harness5df5977 owns root/core/serverCMake/presets/workflow, exactpins in
-[API CI gate](accttest-004-header-ci.md). Profile21 application-service-debug
-inheritsoldhold; existingcorelibs without GTestflag/newdep; selectedworkflowONLY
-49presetreplacement, all oldguards/mandatoryhold35/pins/permissions unchanged.
-Root fresh118buildZEROwarnings, OLD264registered/no servicecase, allOLD264PASS20.47s,
-261Qt1060PASS0skip. Actual different header/source/config review ACTIVE; reader
-reports shapes+singlethrow5+exactworkflow replacement satisfactory, archivebuild
-pending then writtenverdict. Author COMPLETE fe816/clean. Codec reviewer COMPLETE
-7b501/clean, not yet a fixture writer. Root publishing COMPLETE minimalAPI candidate
-for OWNselectedofficialenvironment; prior docs-only CI isnotthat proof. Both
-actual API approval and ownofficialgreen precede new independentfixtures/tests.
-No service baseline/red/production; ACCT004 remainsPLANNED. Rootnativeprocessdone.
-
-## Actual API gates COMPLETE; independent fixture phase released
-
-API/stub/config approvalbeb928cf importeda5af686, reviewbb59a3e2, exactsource/header/
-root5config/authorpins. Independent archive34build0warnings/264OLDdiscovery/no calls.
-OWN APIhead8d742239616aec1b8e9be65e972a42b4fcf2ae7a selectedSQL41673443963 SUCCESS
-16:21:58–16:24:36Z/fresh1180warn/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/explicitnew
-interfacecompile+archive/oldstable/hold3guard5PASS0skip179ms/exact35/hold35PASS26.73/
-all11SUCCESS. Raw8cd6edea, APIverifiedsynthetic568fc520/equal8d742tree df709b23.
-[API CI](accttest-004-header-ci.md) records actual proof, no serviceentry invoked.
-Only NOW root releases independentFIXTURES phase. Newwriter bundle_validation in
-NEWtask/ACCTTEST-004-service-fixtures atlocal-evidence/worktrees/accttest004-service-fixtures
-fromrootapprovedAPI+claim. Own ONLY newtests/fixtures/application_service_vectors.json,
-tests/qt/support/application_service_fixture.hpp, tests/qt/application_service_environment.cpp,
-docs/evidence/accttest-004-fixture-author.md. Root alone owns foundationCMake/preset/
-workflow/state/schema; frozenheader03a747/sourceebbea/contract8fa/author608 unchanged.
-Actual fixture review+ownmandatory selectedfoundationgreen precede featuretestsource.
-NO service/codec/view/stub/marker/factory call even in fixture setup; oldrealSQL
-primitives+independentmanual/literalbytes/ownedDTOs/fakeport data only. Sourceauthor
-fe816 COMPLETE, headerreviewer beb928 COMPLETE (5configverificationcopiesdirty),
-codec reviewer7b501 COMPLETE before explicit reassignment. New tree/agentfollowup
-creation follows; inspect actual agents on resume. No servicebaseline/red/prod.
+No owner decision/access currently needed. All seven integrations/three FX,
+real authority/policy/clock/action adapters, both renderers/locales/themes,
+financial/refund/review/continuation workflows, security/recovery/backup/platform/
+packaging/live/full release remain mandatory/incomplete. Do not silently shrink
+scope or claim unknown provider behavior. A merged PR is a coordination checkpoint.
