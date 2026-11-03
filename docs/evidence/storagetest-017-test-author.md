@@ -16,7 +16,7 @@ queries, never newreader/oldlookup/stage-produced expected records.
 
 ## Focused cases and independent oracles
 
-18 public Qt slots; four parameterized groups produce33 scenario rows overall.
+18 public Qt slots; four parameterized groups produce34 scenario rows overall.
 The data functions are setup only, not extra product registration claims:
 
 | Public slot | Scope / oracle |
@@ -91,3 +91,21 @@ foundation-green/discovery may root invoke the FIRST intentional new-stub red.
 Current source is authored/syntax-checked only, NOT reviewed/red/passing feature.
 Production STORAGE-017 remains prohibited until that independent baseline gate;
 all service/authority/hold/provider/recovery/platform/release work remains required.
+
+## Actual full-review additive corrections
+
+Different reviewer inspected actual246667 CPP/root harness and requested two
+focused additions. The byte-boundary group keeps BOTH original subject rows and
+adds B SOURCE fallback: actual absent CID42 with ReceiptMAX selects stored
+CIDMAX/B, explicit discriminator source, body160+enum1=161 fits/160 refuses. This
+charges the new enum on both subject and source branches; no existing assertion
+or literal boundary changes. The first selector's complete initial database
+snapshot comparison now executes immediately after initial result matching,
+BEFORE its later lower-priority B corruption branch/return. That branch retains
+all its original selected-A and post-corruption no-write assertions.
+
+Public18 slot names unchanged; data scenarios now34 (6+8+3+3 plus14 plain).
+Changes remain only owned CPP and this note. No fixture/header/helper/source/schema
+changes, no test body/new entrypoint invocation. Static project/diff checks pass;
+root must compile/discover actual revised source and reviewer inspect it before
+full approval, same-head official foundation-green and first newreader red.

@@ -412,6 +412,7 @@ class SqliteOriginalClaimTests final : public QObject {
                           ? SqliteOriginalClaimKind::subject
                           : SqliteOriginalClaimKind::source,
                       row["expected_record"].toString().front().toLatin1());
+            require(db.saved() == before, "Pure read did not change any stored bytes");
             if (index == 0) {
                 (void)db.observer->rows("DELETE FROM subathon_app_audit WHERE "
                                         "operation_scope=X'62657461' AND operation_ref=X'42'");
@@ -422,7 +423,6 @@ class SqliteOriginalClaimTests final : public QObject {
                         "Lower-priority corrupt B is outside selected A closure");
                 return;
             }
-            require(db.saved() == before, "Pure read did not change any stored bytes");
         });
     }
     void originalFilterExcludesFinancialReversalRows() {
@@ -688,18 +688,25 @@ class SqliteOriginalClaimTests final : public QObject {
         QTest::addColumn<int>("tag");
         QTest::addColumn<int>("body_bytes");
         QTest::addColumn<int>("match_bytes");
-        QTest::newRow("A-161-plus-1") << int('A') << 161 << 162;
-        QTest::newRow("B-160-plus-1") << int('B') << 160 << 161;
+        QTest::addColumn<bool>("source_match");
+        QTest::newRow("A-161-plus-1") << int('A') << 161 << 162 << false;
+        QTest::newRow("B-160-plus-1") << int('B') << 160 << 161 << false;
+        QTest::newRow("B-source-160-plus-1") << int('B') << 160 << 161 << true;
     }
     void bodyPlusOneDiscriminatorHasExactOwnedBoundary() {
         QFETCH(int, tag);
         QFETCH(int, body_bytes);
         QFETCH(int, match_bytes);
+        QFETCH(bool, source_match);
         scenario([&] {
             const Data data;
             Database db(data);
             const char expected_tag = char(tag);
-            const auto selector = expected_tag == 'A' ? subject() : subject(maximum_id);
+            const auto selector = source_match          ? subject(42, maximum_id)
+                                  : expected_tag == 'A' ? subject()
+                                                        : subject(maximum_id);
+            const auto expected_kind =
+                source_match ? SqliteOriginalClaimKind::source : SqliteOriginalClaimKind::subject;
             const auto out = capture(*db.writer, [&](auto context) -> QVariant {
                 const auto s = context.begin();
                 SqliteBundleLimits old_bounds;
@@ -711,7 +718,7 @@ class SqliteOriginalClaimTests final : public QObject {
                 SqliteBundleLimits new_bounds;
                 new_bounds.owned_bytes = match_bytes;
                 match(SqliteApplicationBundleStore(s, new_bounds).lookup_original_claim(selector),
-                      SqliteOriginalClaimKind::subject, expected_tag);
+                      expected_kind, expected_tag);
                 s.commit();
                 return 1;
             });
