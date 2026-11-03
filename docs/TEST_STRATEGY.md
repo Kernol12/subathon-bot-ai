@@ -340,3 +340,27 @@ real-SQL oracles, compile and observe its own intended missing behavior before
 implementation. Existing173/other child passes or logical examples cannot be
 aggregated into that red/feature claim. Documentation/link/progress/tooling checks
 and unchanged stable CI cover this document-only task; all release gates remain.
+
+
+## Application-bundle SQLite implementation
+
+STORAGE-002 preserves the STORAGETEST-002 baseline and its original32 stub-red.
+One terminal-ticket completion assertion has a specification-based
+[correction](evidence/storage-002-terminal-baseline-correction.md) and different
+[review](evidence/storage-002-terminal-baseline-review.md); all physical rollback,
+capability and payload assertions remain. Three additive slots have separate test
+reviews and genuine reached red before their corrections: exact returned1105/1104
+bytes, input-only versus returned quota and hidden transition/progress metadata.
+One metadata slot includes3 data rows; its statekind1 row already passed before
+correction. [Regression evidence](evidence/storage-002-metadata-regression.md)
+distinguishes these facts from the historical missing-feature red.
+
+Configure/build sqlite-bundle-debug, then `ctest --preset sqlite-bundle-debug
+-L '^sqlite-bundle$'` runs35 passing cases; full preset209 passes on root and a
+different reviewer with0warnings/Qt skips. [Source/config review](evidence/storage-002-code-review.md)
+pins exact artifacts; [CI evidence](evidence/storage-002-ci.md) records the actual
+promoted automatic workflow separately. All old174 registrations/diagnostics and
+frozen fixtures remain. Unconditional35 CI preserves exact compiled-registration
+guards and selected dependency pins. This remains synthetic real-SQL component
+acceptance, not application authority/policy, provider/FX, delivery/recovery,
+UI/platform or release proof. [Handoff](evidence/storage-002-handoff.md).

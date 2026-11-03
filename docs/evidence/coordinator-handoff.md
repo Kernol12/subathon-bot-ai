@@ -1,104 +1,84 @@
-# Coordinator checkpoint — final PR42 gates, then STOP
+# Coordinator — STORAGE-002 reviewed candidate ready for official CI
 
-Latest owner: **“Cleanly finish the open PRs and then stop.”** Finish only existing
-[PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42), merge after every gate,
-reconcile actual outcomes, then STOP. No next task or STORAGE-002 implementation.
-No owner decision/access needed. Full product remains incomplete.
+Owner explicitly resumed the standing loop on2026-11-03. Current objective:
+finish focused [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), then claim
+ACCTTEST-004 from integrated main. No owner decision/access needed. Full product,
+all seven integrations/threeFX and operational/platform scope remain incomplete.
 
-## Current outcome and remaining actions
+## Reconciled repository and active task
 
-STORAGETEST-002 is DONE as **test_baseline only**, authored/reviewed/compiled and
-observed intended red. Production STORAGE-002 remains planned; source7functions
-are immediate named stubs. DB-01 remains partial. Root branch is
-`task/STORAGETEST-002-application-bundle`. Main local/remote remains100171b47709ab6d4323fa1ca0d627cad6c24719.
-Only PR42 is open/DRAFT. Published approved source head90faea02ce0bdbff204d5eda4b9ea41b2e74d5c8
-has all11 checks SUCCESS. Completion metadata/raw evidence has final separate approvala32ac35a (roota8d6654).
-Latest-publication CI and actual GitHub merge gates remain before normal merge.
+Fetched/observed main995e0fa683e58115094d8a4212c336191cff7241, actual PR42 MERGED,
+all11 final checks and all10 main workflowsSUCCESS, no earlier openPR. Preserved
+prior stop checkpoint branch8e52bfc and all98 prior registered trees/refs
+(82existing clean+16absent/prunable). Added3 isolated trees, none deleted/pruned.
+No previous agents were assumed alive; fresh agents explicitly assigned.
 
-[Handoff](storagetest-002-handoff.md), [actual reviews](storagetest-002-review.md),
-[CI/build/evidence](storagetest-002-ci.md), [test author](storagetest-002-test-author.md),
-[fixture author](storagetest-002-fixture-author.md), [API author](storagetest-002-api-author.md),
-[original first red](storagetest-002-red-ctest.txt).
+Root owns task/STORAGE-002-application-bundle at root and sharedstate/HTML/map/
+build/presets/workflow/schema order. STORAGE-002 is DONE acceptance/code review, but PR43 UNMERGED.
+[Task handoff](storage-002-handoff.md), [CI](storage-002-ci.md),
+[actual full source/config review](storage-002-code-review.md).
 
-## Exact accepted source and reviews
+Agents are now COMPLETE, no native build/test/debugger remains:
+
+- /root/bundle_implementer: task/STORAGE-002-implementation, clean2673893,
+  local-evidence/worktrees/storage002-implementation. Source integrated as6a6a200.
+- /root/bundle_validation: task/STORAGE-002-boundary-regressions, clean068249e,
+  local-evidence/worktrees/storage002-validation; prior validation branch159 held
+  then integrated only after reviewed reachedred. Purehelper/testauthor work done.
+- /root/bundle_reviewer: task/STORAGE-002-code-review,5b71576a,
+  local-evidence/worktrees/storage002-review. ONLY3 uncommitted files are preserved
+  exact rootec60 configuration copies used for independent fresh verification:
+  workflow, presets, tests/qt/CMakeLists. No unfinished source/test/review edits.
+
+## Exact gates already completed — do not repeat preparation
+
+Original STORAGETEST-002 fullreview917/finala32, CPP4b60/header8e24/physicalf13/
+JSONe8b/helperb0 and FIRST32 stubred90fa/rawSHA1e677e remain preserved in
+[baseline](storagetest-002-handoff.md). Actual root source final clean6a6a200:
 
 | Artifact | Git blob |
 | --- | --- |
-| Concrete logical contract |80f8ee65869a27c6b1b7b6d3819a0065777958b7 |
-| Physical contract |f13fca6d11e57410a31a7d307a8b12eaa21a68f9 |
-| Header |8e24f0624673bf88f86405651f9aabee1026a226 |
-| Seven-stub source |83e9a0a745bad413066ad75cf9eb82fd210b2186 |
-| Independent JSON |e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d |
-| Old-writer-only helper |b0a5c72f152f193370d6c39af526fba61d332fdb |
-| Feature CPP |4b60fcaa06dec8136f0b81e7ac6d01374df94a48 |
-| Test author note |caac20224fbd364149d907e175a3ca21830d8a61 |
-| Qt CMake |91035af6f5ab00916770c1ba508db01997354ffe |
-| SQL workflow |453f1a2df00f11442330f2649d9c4ded41d7841e |
+| runtime |a9056be460d6f0536d66341d09e70f177a6638e3 |
+| internal values helper |b0ca921cb27068ecc33228d136b82506fcb6e0a3 |
+| tests |8bf359827feb544651ecf2f218a518f70c8de938 |
+| Qt CMake |0e0d039c781a8106c99ef6bd6a5d831edbe8eb87 |
+| presets |b9aabac860fecced1a29a290e875a56c4a4fafd1 |
+| workflow |783dda747bcf3a766fdb4c7892c5680fc51fece1 |
 
-Actual full TEST/harness review917092155253912b6dad18d281fd5fddd852872d imported306f134,
-reviewMD782c73237577499f381001aef12433e2a8ef5b3b, approves exact4b60/caac/91035/453f
-at clean60a. Six preliminary+four full findings resolved in actual source. Root final
-3-step6.99s and reviewer fresh targeted28-step builds0warnings;32compiled/32enabled/
-global206, old174 definitions exact. Independently derived838/112/20-9-10 weights.
-Prior document4d/APIef/fixture5cf/category42f approvals preserve exact valid subsets.
-No producer/API/physical/fixture or baseline assertion changes after first red.
+Root warning-free3-step build,35PASS2.33s/full209PASS7.07s. Different actual
+source/config approval5b71576a has fresh20-step0warnings/35PASS2.27s/full209PASS7.06s,
+all206Qt totals0fail/skip/blacklist, exact35compiled/enabled. HostSQLite3.54.
+Original32 retained with one [separately approved terminal oracle correction](storage-002-terminal-baseline-review.md).
+Automatic-review rejected a premature correction commit, so actual separate review
+preceded corrected commit945e; no owner override. Three additive slots have actual
+separate test approvals and reachedred before fixes:
+[byte1105](storage-002-regression-review.md), [quota/metadata](storage-002-metadata-regression.md).
+Statekind1 data row already passed; transition0/progress0 and quota were actual red.
+All frozen fixtures/public ports/prior schemas remain unchanged. No semantic
+application/authority/delivery/recovery/provider/platform proof is inferred.
 
-## Actual official gate and original FIRST32 red
+## Publication / next concrete action
 
-Required selected official [41542900598](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41542900598)
-SUCCESS at SAME complete approved CLEAN90fa, UTC23:07:25–23:08:45 Nov2. Actual fresh92
-build0warnings/GNU13.3/pinnedBoost1.83macro108300/checkedQt6.12/SQLite3.53.4/old164+
-oldgreens/Qtprobe/NEWfive guard+7PASS0FAIL0SKIP639ms/exact32guard/all11SUCCESS.
-Official raw log local-evidence/storagetest002-feature-official-ci.txt SHA256
-b1bfe24345e344e3845be7c5461e7d80a2c8f397b93f0cfad896b0e96f80facc.
+PR43 remains DRAFT; initial publishedclaima139 received all11 inherited checksPASS.
+Complete reviewed source published6133afe. Actual selected official
+[41585131851](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41585131851)
+SUCCESS05:38:58–05:40:55Z: fresh92/0warnings/GNU13.3/pinnedBoost1.83/
+verifiedQt6.12SQLite3.53.4/old164+mandatorygreens/exact35guard/UNCONDITIONAL35PASS
+5.26s/all11SUCCESS. Root preserved rawlog SHA c59682ee7f9b0a61767653dd0ee7ba1dc86a135d4322c98120de151dbd81303e.
+TaskDONE but PR43UNMERGED. Root completing metadata and separate attribution review;
+latest completion-headCI must pass, then actual ready/threads/reviews/effective
+rules/mergeability/exacthead normal merge. No future CI approval is inferred.
+Observed source6133 CLEAN/MERGEABLE/zero threads/GHreviews0, effective26170263
+requiresPR/resolvedthreads/no force/deletion/GitHubapprovals0; written independent
+review/all-latestCI gates remain. No owner decision/access currently needed.
 
-ONLY THEN FIRST real `ctest --preset sqlite-bundle-debug -L '^sqlite-bundle$'` at
-SAME CLEAN90fa/tree1ed459e3c61f059feed658fc3417db4db185c99e, UTC start
-2026-11-02T23:10:27.403781+00:00/end23:10:28.125807+00:00; exit8/CTest0.71s/wall0.722037.
-All32 fail EXACT named NotImplemented message; all32init+32cleanup PASS,0skip/
-blacklist/warnings/crash/setup failure. Raw committed copy SHA256
-1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f. Original LastTest/
-meta/raw preserved under local-evidence. DO NOT repeat first red or original older
-baselines. Initial AutoMoc/fixture-trigger setup failures were never called red.
+Then refresh main and immediately claim ACCTTEST-004. Read-only next-slice prep is
+complete, NO dependent edits/claim: begin bounded ORIGINAL application-orchestrator
+logical contract, actual independent review before API/tests. Explicit typed current
+policy/clock/authority ports are needed; storage envelopes certify none of them.
+Keep refunds ACCT006, batch/review ACCT005, milestones/delivery/recovery/wire as
+separate required gates. Do not invent capability from an opaque state document.
 
-## Roles and preservation
-
-Actual root reinspection: all98 registered=82 existing+16 absent/prunable refs
-preserved, all existing worktrees clean; no prune/reset/discard.
-- plan_fixture_author COMPLETE, clean0a655f93, storage002-feature-author branch/tree;
-  earlier fixture5b preserved. No further source edits assigned.
-- contribution_reviewer COMPLETE full test approval91709215 and final attribution
-  approvala32ac35a; clean storage002-final-review branch/tree, original full review
- 917 and earlier5cf/42f trees preserved. No active reviewer or body rerun.
-- contribution_implementer COMPLETE clean1662219 in storage002-contract-author;
-  no production assignment. Old debt/Qt names do not establish running agents.
-Root owns shared metadata/build/CI/schema order/pins and integration. No root native
-watch is running. Inspect actual processes/worktrees/agent state on interruption.
-
-## Next concrete actions and stopping point
-
-1. Actual final completion/attribution approvala32ac35a imported a8d6654 accepts1ff
-   metadata/raw and exact chronology/hash/status. No body/native check rerun.
-   Source4b60/harness91035/453f and all earlier valid approvals are unchanged.
-2. Publish final reviewed metadata; observe all applicable latest-head CI, current
-   discussions/rules/required GitHub approvals/mergeability. Normal exact-head merge
-   only; no bypass. Rules26170263 last observed GHapprovals0/no required-status rule,
-   written all11 gates still mandatory; recheck actual before merge.
-3. Refresh main/reconcile actual merge and postmerge checks, preserve support work,
-   stop task agents, STOP. Do not select dependency-ready STORAGE-002.
-
-All seven integrations/three FX, full authority/application/state/jobs/delivery/wire/
-refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/security/
-backup/update/live/OBS remain required/incomplete. Synthetic disposable work only;
-no credentials/supporter/chat/payment/deployment side effects.
-
-## Final publication handoff
-
-Actual final reviewa32ac35a1395de9fae455512bab24b6d3e1c94bb imported a8d6654,
-reviewMD6be0d3d76adc4aaf77c05916d6a0a468aebb8a14, confirms exact1ff scope and original
-red. Root reinspection98/82/16 finds ALL existing trees clean; prior production
-implementations/old plan baseline are byte-identical to main. No new task started.
-Only latest FINAL publication checks/current rules/discussions/normal exact-head
-merge and postmerge reconciliation remain. Publish this final metadata once;
-observe latest11, ready/merge normally, refresh main/postmain checks, write actual
-stop checkpoint and STOP. Source and review agents are COMPLETE, not running.
+Actual [final attribution876cd975](storage-002-final-review.md) approves completed
+officialsourceCI/metadata. Root publishing this final completion revision, then
+observing its own latestCI/readiness/rules/threads/mergeability before merge.

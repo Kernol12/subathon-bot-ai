@@ -2137,6 +2137,59 @@ class SqliteApplicationBundleTests final : public QObject {
             known(r, SR::result_limit);
         });
     }
+    void supportAnchorConditionsUseExactReturnedByteBoundary() {
+        scenario([&] {
+            // Frozen DTO bytes:1 subject+14 PlanKey+8 head+588 capture+112 state+
+            // 382 contribution/anchor=1105. Anchor Conditions owns32 bytes; its
+            // observation already owns the evidence enum, so no extra byte exists.
+            constexpr qsizetype expected_owned_bytes = 1105;
+            SqliteWriter w;
+            open(w, *f_);
+            const auto before = f_->snapshot();
+            SqliteBundleLimits limits;
+            limits.owned_bytes = expected_owned_bytes;
+            ApplicationBundleInputResult output;
+            auto r = run(w, [&](auto context) -> QVariant {
+                auto s = context.begin();
+                SqliteApplicationBundleStore store(s, limits);
+                output = store.read_inputs({"plan-P", 1}, ApplicationSubjectKind::contribution);
+                s.commit();
+                return 1;
+            });
+            ok(r);
+            require(output.disposition == SqliteBundleInputDisposition::ready && output.inputs &&
+                        output.inputs->current_contribution &&
+                        output.inputs->current_contribution->support_anchor.observation
+                            .support_conditions,
+                    "1105 exact logical owned bytes must return the complete support anchor");
+            const auto &input = *output.inputs;
+            const auto expected_capture = l_->capture("plan-P");
+            require(
+                input.subject_kind == ApplicationSubjectKind::contribution &&
+                    same(input.plan, {"plan-P", 1}) && input.actual_plan_head == 1 &&
+                    input.selected_plan == expected_capture &&
+                    same(input.current_state, l_->state("start")) &&
+                    input.current_contribution->contribution.state ==
+                        *l_->prepared().intent.expected_contribution_state &&
+                    input.current_contribution->support_anchor.observation.evidence ==
+                        PaymentEvidence::unknown &&
+                    *input.current_contribution->support_anchor.observation.support_conditions ==
+                        expected_capture.captured.contribution_state.conditions,
+                "actual support Conditions and separate observation evidence remain complete");
+            require(f_->snapshot() == before, "fitting read made no database writes");
+            limits.owned_bytes = expected_owned_bytes - 1;
+            bool caught = false;
+            r = refusal(
+                w, *f_,
+                [](auto &store) {
+                    (void)store.read_inputs({"plan-P", 1}, ApplicationSubjectKind::contribution);
+                },
+                SR::result_limit, caught, limits);
+            known(r, SR::result_limit);
+            require(caught && f_->snapshot() == before,
+                    "1104 refuses the whole returned payload with actual caller-unit rollback");
+        });
+    }
     void invalidInputPriorityPreservesHealthyUnit() {
         scenario([&] {
             const auto good = l_->prepared();
@@ -3261,7 +3314,7 @@ class SqliteApplicationBundleTests final : public QObject {
                 work_failure([&] { (void)store.read_state(); }, WorkError::session_closed);
                 return 1;
             });
-            clean_rollback(r);
+            clean_rollback(r, WorkError::session_closed);
             require(saved.has_value(), "copied inert ticket retained for expiry test");
             work_failure([&] { (void)saved->read_state(); }, WorkError::stale_session);
         });
@@ -3328,6 +3381,149 @@ class SqliteApplicationBundleTests final : public QObject {
                         SqlRows({{"blob", QString::fromLatin1(blob(opaque).toHex().toUpper()),
                                   "blob", qint64(0)}}),
                     "actual binary classes preserve BOM/NUL/FF without UTF8 normalization");
+        });
+    }
+    void lookupUsesReturnedQuotaIndependentlyOfInputItems() {
+        scenario([&] {
+            // Frozen literals install a complete existing operation; this call supplies no bundle.
+            f_->seed({"original_prepare", "original_finish"});
+            const auto before = f_->snapshot();
+            SqliteWriter writer;
+            open(writer, *f_);
+            SqliteBundleLimits limits;
+            limits.input_items = 1;
+            limits.result_items = 20;
+            std::optional<RecordedApplicationBundle> selected;
+            ok(lookup(writer, key(), selected, limits));
+            require(selected.has_value(), "input-only item quota cannot reject an existing read");
+            matches(*selected, l_->prepared(), l_->state("start"));
+            size_t components = 0;
+            for (const auto &effect : selected->effects)
+                components += effect.components.size();
+            const auto items = selected->persisted_head.balances.size() +
+                               selected->advanced_before.balances.size() +
+                               selected->after.balances.size() + selected->effects.size() +
+                               components + selected->jobs.size() + selected->transitions.size() +
+                               selected->reversals.size();
+            require(items == 20 && selected->persisted_head.balances.size() == 2 &&
+                        selected->advanced_before.balances.size() == 2 &&
+                        selected->after.balances.size() == 2 && selected->effects.size() == 4 &&
+                        components == 8 && selected->jobs.size() == 2 &&
+                        selected->transitions.empty() && selected->reversals.empty(),
+                    "independent literal returned20=2+2+2+4+8+2+0+0, bounded by result_items");
+            require(f_->snapshot() == before, "complete historical read never stages or mutates");
+        });
+    }
+    void metadataRejectsRowsOutsidePositiveKeysets_data() {
+        QTest::addColumn<int>("scope");
+        QTest::newRow("state-balance-kind-one") << 0;
+        QTest::newRow("lookup-transition-ordinal-zero") << 1;
+        QTest::newRow("basis-progress-position-zero") << 2;
+    }
+    void metadataRejectsRowsOutsidePositiveKeysets() {
+        QFETCH(int, scope);
+        scenario([&] {
+            if (scope != 0)
+                f_->seed(scope == 1
+                             ? QStringList{"original_prepare", "original_finish"}
+                             : QStringList{"original_prepare", "original_finish", "reversal_one",
+                                           "reversal_two", "score_reversal"});
+            require(f_->exec("PRAGMA ignore_check_constraints=ON"),
+                    "fixture observer alone permits explicit malformed stored rows");
+            if (scope == 0) {
+                require(f_->exec("INSERT INTO subathon_app_balances"
+                                 "(token,balance_kind,target_ref,units) VALUES(?,1,?,0)",
+                                 {blob("start"), blob("outside-keyset")}),
+                        "add hidden kind1 without removing either valid balance");
+                require(f_->rows("SELECT balance_count,(SELECT count(*) FROM "
+                                 "subathon_app_balances WHERE token=s.token),(SELECT count(*) "
+                                 "FROM subathon_app_balances WHERE token=s.token AND balance_kind "
+                                 "IN (2,3)),(SELECT count(*) FROM subathon_app_balances WHERE "
+                                 "token=s.token AND balance_kind=1) FROM subathon_app_states s "
+                                 "WHERE token=?",
+                                 {blob("start")}) ==
+                            SqlRows({{qint64(2), qint64(3), qint64(2), qint64(1)}}),
+                        "actual3 includes malformed kind1 while declared2/healthy2 stay unchanged");
+            } else if (scope == 1) {
+                require(f_->exec("INSERT INTO subathon_app_transitions"
+                                 "(operation_scope,operation_ref,ordinal,transition) "
+                                 "VALUES(?,?,0,0)",
+                                 {blob("scope"), blob("original")}),
+                        "add hidden ordinal0 without changing any healthy transition");
+                require(
+                    f_->rows("SELECT transition_count,(SELECT count(*) FROM "
+                             "subathon_app_transitions t WHERE t.operation_scope=r.operation_scope "
+                             "AND t.operation_ref=r.operation_ref),(SELECT count(*) FROM "
+                             "subathon_app_transitions t WHERE t.operation_scope=r.operation_scope "
+                             "AND t.operation_ref=r.operation_ref AND ordinal>0) FROM "
+                             "subathon_app_results r WHERE operation_scope=? AND operation_ref=?",
+                             {blob("scope"), blob("original")}) ==
+                        SqlRows({{qint64(0), qint64(1), qint64(0)}}),
+                    "actual1 includes ordinal0 while declared0/healthy0 stay unchanged");
+            } else {
+                require(scope == 2, "known synthetic corruption scope");
+                require(
+                    f_->exec(
+                        "INSERT INTO subathon_app_reversals(operation_scope,operation_ref,"
+                        "request_ordinal,original_scope,original_operation,"
+                        "original_request_ordinal,original_component_kind,basis_position,"
+                        "fraction_numerator,fraction_denominator,entitlement_numerator,"
+                        "entitlement_denominator,residual_numerator,residual_denominator,"
+                        "previous_cumulative,cumulative,requested_increment,full_refund) "
+                        "SELECT "
+                        "operation_scope,?,request_ordinal,original_scope,original_operation,"
+                        "original_request_ordinal,original_component_kind,0,fraction_numerator,"
+                        "fraction_denominator,entitlement_numerator,entitlement_denominator,"
+                        "residual_numerator,residual_denominator,previous_cumulative,cumulative,"
+                        "requested_increment,full_refund FROM subathon_app_reversals WHERE "
+                        "operation_scope=? AND operation_ref=? AND request_ordinal=1 AND "
+                        "original_request_ordinal=1 AND original_component_kind=0",
+                        {blob("score-refund"), blob("scope"), blob("refund1")}),
+                    "extra position0 uses an existing distinct current request and actual basis");
+                require(
+                    f_->rows("SELECT count(*),sum(CASE WHEN basis_position>0 THEN 1 ELSE 0 END),"
+                             "min(basis_position),max(basis_position) FROM "
+                             "subathon_app_reversals WHERE original_scope=? AND "
+                             "original_operation=? AND original_request_ordinal=1 AND "
+                             "original_component_kind=0",
+                             {blob("scope"), blob("original")}) ==
+                            SqlRows({{qint64(3), qint64(2), qint64(0), qint64(2)}}) &&
+                        f_->rows("SELECT basis_position,cumulative,last_operation,"
+                                 "last_request_ordinal FROM subathon_app_reversal_heads WHERE "
+                                 "original_scope=? AND original_operation=? AND "
+                                 "original_request_ordinal=1 AND original_component_kind=0",
+                                 {blob("scope"), blob("original")}) ==
+                            SqlRows({{qint64(2), qint64(100), blob("refund2"), qint64(1)}}),
+                    "actual3 includes position0; valid1/2 and terminal head2 remain unchanged");
+            }
+            require(
+                f_->exec("PRAGMA ignore_check_constraints=OFF") &&
+                    f_->scalar("PRAGMA ignore_check_constraints").toLongLong() == 0 &&
+                    f_->rows("PRAGMA foreign_key_check").isEmpty(),
+                "raw corruption is present with CHECK enforcement restored and all real FKs valid");
+            const auto corrupted = f_->snapshot();
+            SqliteWriter writer;
+            open(writer, *f_);
+            bool caught = false;
+            const auto failure = refusal(
+                writer, *f_,
+                [&](auto &store) {
+                    if (scope == 0)
+                        (void)store.read_state();
+                    else if (scope == 1)
+                        (void)store.lookup(key());
+                    else
+                        (void)store.read_reversal_basis(main_basis());
+                },
+                SR::invalid_stored_data, caught);
+            known(failure, SR::invalid_stored_data);
+            require(
+                caught && f_->snapshot() == corrupted &&
+                    f_->scalar("SELECT count(*) FROM subathon_retained_configurations WHERE "
+                               "reference=X'7072696F722D63616C6C6572'")
+                            .toLongLong() == 0,
+                "selected API rejects every actual row before inside-catch lock proof; "
+                "whole caller marker rolls back, malformed historical bytes are never repaired");
         });
     }
 };

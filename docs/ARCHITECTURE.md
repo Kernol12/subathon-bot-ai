@@ -194,3 +194,16 @@ Existing service owns policy. One controlled session owns real commit/RAII rollb
 and uncertainty; receipt prior commitment and semantic/provider authority remain
 upstream preconditions. No app bundle/effect/job, plan/rate history, permission,
 recovery/operational or platform/provider release capability follows.
+
+
+The [application-bundle SQLite store](contracts/sqlite-application-bundle-v1.md)
+now implements the caller-session atomic storage boundary: immutable three-state
+snapshots, actual effect components, contribution application-only patch, identity
+claims, queued job/result/audit envelopes and per-basis reversal history. Full and
+selected-source readers have distinct closure/materialization scopes; metadata
+uses checked64/65 pages without lifetime quotas. All returns remain provisional
+until real caller COMMIT/normal completion. [Handoff](evidence/storage-002-handoff.md)
+records35/full209 local component passes and separate source/config approval;
+promoted official CI/publication gates are recorded separately. This does not
+implement the authoritative application orchestrator or interpret permission,
+clock/cap policies, financial refund allocation, delivery or recovery documents.

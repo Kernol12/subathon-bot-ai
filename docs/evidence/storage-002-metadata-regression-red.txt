@@ -1,0 +1,77 @@
+UpdateCTestConfiguration  from :/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/DartConfiguration.tcl
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 38
+    Start 38: sqlite-bundle.lookupUsesReturnedQuotaIndependentlyOfInputItems
+
+38: Test command: /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug/tests/qt/server_sqlite_application_bundle_acceptance "lookupUsesReturnedQuotaIndependentlyOfInputItems"
+38: Working Directory: /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug/tests/qt
+38: Test timeout computed to be: 30
+38: ********* Start testing of SqliteApplicationBundleTests *********
+38: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+38: PASS   : SqliteApplicationBundleTests::initTestCase()
+38: FAIL!  : SqliteApplicationBundleTests::lookupUsesReturnedQuotaIndependentlyOfInputItems() required committed normal work: 
+38:    Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+38: PASS   : SqliteApplicationBundleTests::cleanupTestCase()
+38: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 23ms
+38: ********* Finished testing of SqliteApplicationBundleTests *********
+1/2 Test #38: sqlite-bundle.lookupUsesReturnedQuotaIndependentlyOfInputItems ...***Failed    0.03 sec
+********* Start testing of SqliteApplicationBundleTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteApplicationBundleTests::initTestCase()
+FAIL!  : SqliteApplicationBundleTests::lookupUsesReturnedQuotaIndependentlyOfInputItems() required committed normal work: 
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+PASS   : SqliteApplicationBundleTests::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 23ms
+********* Finished testing of SqliteApplicationBundleTests *********
+
+test 39
+    Start 39: sqlite-bundle.metadataRejectsRowsOutsidePositiveKeysets
+
+39: Test command: /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug/tests/qt/server_sqlite_application_bundle_acceptance "metadataRejectsRowsOutsidePositiveKeysets"
+39: Working Directory: /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/sqlite-bundle-debug/tests/qt
+39: Test timeout computed to be: 30
+39: ********* Start testing of SqliteApplicationBundleTests *********
+39: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+39: PASS   : SqliteApplicationBundleTests::initTestCase()
+39: PASS   : SqliteApplicationBundleTests::metadataRejectsRowsOutsidePositiveKeysets(state-balance-kind-one)
+39: FAIL!  : SqliteApplicationBundleTests::metadataRejectsRowsOutsidePositiveKeysets(lookup-transition-ordinal-zero) required established whole-unit rollback and typed bundle storage failure
+39:    Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+39: FAIL!  : SqliteApplicationBundleTests::metadataRejectsRowsOutsidePositiveKeysets(basis-progress-position-zero) required established whole-unit rollback and typed bundle storage failure
+39:    Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+39: PASS   : SqliteApplicationBundleTests::cleanupTestCase()
+39: Totals: 3 passed, 2 failed, 0 skipped, 0 blacklisted, 63ms
+39: ********* Finished testing of SqliteApplicationBundleTests *********
+2/2 Test #39: sqlite-bundle.metadataRejectsRowsOutsidePositiveKeysets ..........***Failed    0.07 sec
+********* Start testing of SqliteApplicationBundleTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteApplicationBundleTests::initTestCase()
+PASS   : SqliteApplicationBundleTests::metadataRejectsRowsOutsidePositiveKeysets(state-balance-kind-one)
+FAIL!  : SqliteApplicationBundleTests::metadataRejectsRowsOutsidePositiveKeysets(lookup-transition-ordinal-zero) required established whole-unit rollback and typed bundle storage failure
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+FAIL!  : SqliteApplicationBundleTests::metadataRejectsRowsOutsidePositiveKeysets(basis-progress-position-zero) required established whole-unit rollback and typed bundle storage failure
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_bundle_tests.cpp(188)]
+PASS   : SqliteApplicationBundleTests::cleanupTestCase()
+Totals: 3 passed, 2 failed, 0 skipped, 0 blacklisted, 63ms
+********* Finished testing of SqliteApplicationBundleTests *********
+
+
+0% tests passed, 2 tests failed out of 2
+
+Label Time Summary:
+acceptance       =   0.10 sec*proc (2 tests)
+qt               =   0.10 sec*proc (2 tests)
+server           =   0.10 sec*proc (2 tests)
+sqlite-bundle    =   0.10 sec*proc (2 tests)
+
+Total Test time (real) =   0.10 sec
+
+The following tests FAILED:
+	 38 - sqlite-bundle.lookupUsesReturnedQuotaIndependentlyOfInputItems (Failed) acceptance qt server sqlite-bundle
+	 39 - sqlite-bundle.metadataRejectsRowsOutsidePositiveKeysets (Failed) acceptance qt server sqlite-bundle
+Errors while running CTest
