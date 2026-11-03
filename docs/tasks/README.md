@@ -75,14 +75,14 @@ No existing verification result was upgraded by this planning change.
 | Epic | Work packages | Child records |
 | --- | --- | --- |
 | [EPIC-001 — Core test plan: exact arithmetic and full timer lifecycle](EPIC-001.md) | 8 | 16 |
-| [EPIC-002 — Contribution ledger, review, partial/full reversals and deduplication](EPIC-002.md) | 7 | 14 |
+| [EPIC-002 — Contribution ledger, review, partial/full reversals and deduplication](EPIC-002.md) | 8 | 15 |
 | [EPIC-003 — Rule builder, exclusions, generated events and simulator](EPIC-003.md) | 5 | 10 |
 | [EPIC-004 — Timed modifiers, stacking and arrival-time context](EPIC-004.md) | 6 | 12 |
 | [EPIC-005 — Sequential milestones and persisted action delivery](EPIC-005.md) | 8 | 16 |
 | [EPIC-006 — Invites, permissions, local/Twitch identities and chat roles](EPIC-006.md) | 7 | 14 |
 | [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 7 | 14 |
 | [EPIC-008 — Qt/Drogon API server, durable intake and live snapshots](EPIC-008.md) | 9 | 18 |
-| [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 17 | 32 |
+| [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 19 | 36 |
 | [EPIC-010 — Twitch API, EventSub and both chat identities](EPIC-010.md) | 6 | 11 |
 | [EPIC-011 — betterplace public integration and aggregate visibility](EPIC-011.md) | 4 | 7 |
 | [EPIC-012 — Patreon v2 payment evidence, webhooks and reconciliation](EPIC-012.md) | 4 | 7 |
@@ -102,9 +102,9 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
 
-Total: 188 work packages, 345 child records
-(157 test baselines plus their paired
-implementations and distinct feasibility/verification/documentation tasks).
+Total: 191 work packages, 350 child records
+(test baselines, their paired implementations, and distinct feasibility,
+verification and documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.
 Task counts are not completion percentages.
 
@@ -112,3 +112,8 @@ See [decision ownership](DECISION_OWNERS.md) for navigation from every specifica
 decision to planned children and/or existing foundation tasks. That index is planning
 coverage; tests/acceptance-map.json remains the test/evidence map and is not marked
 verified by this decomposition.
+
+The [application-service prerequisite split](../decisions/0003-application-service-prerequisites.md)
+adds a documentation-only logical contract plus separate durable-hold and early-
+claim baseline/store prerequisites
+before the original service baseline; no original release requirement is removed.

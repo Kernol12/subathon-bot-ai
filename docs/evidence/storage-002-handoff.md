@@ -67,3 +67,15 @@ used. Next dependent slice after integration: ACCTTEST-004; no dependent edits y
 [Independent final attribution review](storage-002-final-review.md)876cd975 verifies
 actual source6133 officialCI and completed-but-unmerged task metadata. Finalhead
 CI/normal merge remains an actual later observation, never prospective approval.
+
+
+## Actual integration
+
+PR43 normally MERGED2026-11-03T05:49:50Z at exact final34ed520ed3c32aeafa897650631f2898b7899159
+as main8c7f71f424126727f1a846edc01541d0f091529f. All11 latest checksSUCCESS,
+including final SQL41585878746, ready/CLEAN/MERGEABLE, zero unresolved threads,
+effective26170263 requiredGHapprovals0 and unchanged reviewed code rechecked.
+Normal merge with exact-head guard; no bypass/force/branch deletion. Localmain
+fast-forwarded clean; only then ACCTTEST-004 claimed on a new dedicated branch.
+Earlier UNMERGED paragraphs describe their actual checkpoints, now superseded by
+this observed merge. Postmain workflows are separate observations, not invented.
