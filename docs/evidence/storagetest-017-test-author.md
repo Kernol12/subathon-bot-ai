@@ -16,7 +16,7 @@ queries, never newreader/oldlookup/stage-produced expected records.
 
 ## Focused cases and independent oracles
 
-18 public Qt slots; four parameterized groups produce34 scenario rows overall.
+18 public Qt slots; four parameterized groups produce35 scenario rows overall.
 The data functions are setup only, not extra product registration claims:
 
 | Public slot | Scope / oracle |
@@ -26,7 +26,7 @@ The data functions are setup only, not extra product registration claims:
 | absentDoesNotAdmitCandidateOrAuditUnselectedNamespace | Absent9/42 with unrelated B audit/current head corrupt; no candidate/global/current read, healthy caller marker commits |
 | legacyAppliedWithoutBundleNamespaceRemainsAbsent | Current CID0 applied but A claim/operation namespace removed: absent, never fabricated prior bundle |
 | historicalMatchIgnoresCurrentDimensionsAndLaterHealthyPlanHead | Actual current head d/Main7, changed current contribution dimensions and healthy PA1/2; original selected A remains unchanged |
-| selectedClosureFailureRollsBackBeforeCatch | Eight actual fault variants: missing result despite healthy competing B; audit wrong SQL class; missing historical contribution; dangling selected claim; source fallback with missing own claim; old nonempty job missing/group gap/typed Receipt wrong class. Exact stored failure, no fallback/repair, real inside-catch BEGIN proof and complete raw typed rollback |
+| selectedClosureFailureRollsBackBeforeCatch | Nine actual fault variants: missing result despite healthy competing B; audit wrong SQL class; missing historical contribution; dangling selected claim; source fallback with missing own claim; old nonempty job missing/group gap/typed Receipt wrong class; selected PA head2 with only revision1. Exact stored failure, no fallback/repair, real inside-catch BEGIN proof and complete raw typed rollback |
 | pureInputPriorityPreservesHealthyCallerWork | Invalid options before role/zeroReceipt/CID-presence errors before ticket; caught pure error leaves staged marker active/committable |
 | fixedSelectorDoesNotAcquireAggregateInputQuota | Valid fixed selector with input_items1/owned_bytes1 reaches real stale ticket; active absent result with zero payload fits same bounds |
 | bodyPlusOneDiscriminatorHasExactOwnedBoundary | A body161+tag1=162 and B body160+tag1=161 fit, one-less refuses with actual rollback; old exact-key body limits remain independently checked |
@@ -109,3 +109,18 @@ Changes remain only owned CPP and this note. No fixture/header/helper/source/sch
 changes, no test body/new entrypoint invocation. Static project/diff checks pass;
 root must compile/discover actual revised source and reviewer inspect it before
 full approval, same-head official foundation-green and first newreader red.
+
+## Selected immutable plan-history review addition
+
+Different reviewer found OC10's corrupt selected immutable plan/history rejection
+was not yet asserted at the new boundary (healthy later PA1/2 remains covered).
+Added a NINTH selected-closure data row on minimal A: raw stored PA head_revision
+BLOB8(2), but only revision1 exists. Independent query pins actual SQLclassblob,
+head2/count1/min1/max1 before the new call. Existing refused(subjectA) then requires
+invalid_stored_data, inside-catch real whole-unit lock release and complete raw
+rollback with prior caller marker gone. No fake MAX history or new slot/schema/
+fixture data. Only old fault5..7 use nonempty fixture; the new row uses minimal A.
+All prior18 public names/assertions preserved; current scenario total35
+(6+9+3+3 parameterized plus14 plain). Only owned CPP/MD changed and no body ran.
+Static project/diff checks pass; actual revised compile/fullreview remains root's
+next gate before any invocation.

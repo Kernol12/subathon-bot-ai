@@ -525,14 +525,15 @@ class SqliteOriginalClaimTests final : public QObject {
     }
     void selectedClosureFailureRollsBackBeforeCatch_data() {
         QTest::addColumn<int>("fault");
-        const std::array<const char *, 8> names{"missing-result-subject-before-healthy-source",
+        const std::array<const char *, 9> names{"missing-result-subject-before-healthy-source",
                                                 "wrong-class-audit",
                                                 "missing-contribution-snapshot",
                                                 "dangling-selected-claim",
                                                 "source-fallback-missing-own-claim",
                                                 "missing-selected-job",
                                                 "selected-group-gap",
-                                                "selected-receipt-wrong-SQL-class"};
+                                                "selected-receipt-wrong-SQL-class",
+                                                "selected-plan-head-exceeds-history"};
         for (int i = 0; i < int(names.size()); ++i)
             QTest::newRow(names[size_t(i)]) << i;
     }
@@ -540,10 +541,10 @@ class SqliteOriginalClaimTests final : public QObject {
         QFETCH(int, fault);
         scenario([&] {
             const Data data;
-            Database db(data, fault >= 5);
+            Database db(data, fault >= 5 && fault <= 7);
             (void)db.observer->rows("PRAGMA foreign_keys=OFF");
             (void)db.observer->rows("PRAGMA ignore_check_constraints=ON");
-            const std::array<QString, 8> corruptions{
+            const std::array<QString, 9> corruptions{
                 "DELETE FROM subathon_app_results WHERE operation_scope=X'616C706861' AND "
                 "operation_ref=X'41'",
                 "UPDATE subathon_app_audit SET document='wrong-class' WHERE "
@@ -559,7 +560,9 @@ class SqliteOriginalClaimTests final : public QObject {
                 "UPDATE subathon_app_jobs SET group_ordinal=3 WHERE operation_scope=X'73636F7065' "
                 "AND operation_ref=X'6F726967696E616C' AND ordinal=2",
                 "UPDATE subathon_app_operations SET receipt_id='00000007' WHERE "
-                "operation_scope=X'73636F7065' AND operation_ref=X'6F726967696E616C'"};
+                "operation_scope=X'73636F7065' AND operation_ref=X'6F726967696E616C'",
+                "UPDATE subathon_plan_headers SET head_revision=X'0000000000000002' WHERE "
+                "plan_ref=X'5041'"};
             (void)db.observer->rows(corruptions[size_t(fault)]);
             (void)db.observer->rows("PRAGMA ignore_check_constraints=OFF");
             if (fault == 0)
@@ -602,11 +605,24 @@ class SqliteOriginalClaimTests final : public QObject {
                             "SELECT group_ordinal FROM subathon_app_jobs ORDER BY ordinal") ==
                             SqlRows{{qint64(1)}, {qint64(3)}},
                         "Actual ordered group gap");
-            else
+            else if (fault == 7)
                 require(db.observer->rows(
                             "SELECT typeof(receipt_id),receipt_id FROM subathon_app_operations") ==
                             SqlRows{{QString("text"), QString("00000007")}},
                         "Actual selected typed reference corruption");
+            else
+                require(db.observer->rows(
+                            "SELECT typeof(head_revision),hex(head_revision),"
+                            "(SELECT count(*) FROM subathon_plan_revisions WHERE plan_ref=X'5041'),"
+                            "(SELECT hex(min(revision)) FROM subathon_plan_revisions WHERE "
+                            "plan_ref=X'5041'),"
+                            "(SELECT hex(max(revision)) FROM subathon_plan_revisions WHERE "
+                            "plan_ref=X'5041') "
+                            "FROM subathon_plan_headers WHERE plan_ref=X'5041'") ==
+                            SqlRows{{QString("blob"), QString("0000000000000002"), qint64(1),
+                                     QString("0000000000000001"), QString("0000000000000001")}},
+                        "Selected PA actual header2/count1/min1/max1 is corrupt, not healthy later "
+                        "history");
             const auto before = db.saved();
             bool caught = false;
             const auto out = refused(db, subject(0, fault == 4 ? 7 : maximum_id),
