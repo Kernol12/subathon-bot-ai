@@ -93,3 +93,17 @@ Query implementation requires separate source/config review, green18/full228 and
 promoted ordinary selected CI; this review preapproves none of those future
 artifacts or outcomes. Hold/service/authority/provider/FX/recovery/UI/platform and
 full agreed release remain required. No live effects or owner action are needed.
+
+## Addendum — actual merge-rule clarification
+
+Also APPROVED after reading actualf67967919b5da56f623584c72d915b5a67d3e2cd's
+four added handoff lines and both recorded GitHub API responses. Effective main
+rules contain deletion/non_fast_forward/pull_request only; active repository
+ruleset26170263 pins required_approving_review_count0 and required review-thread
+resolutiontrue, with no required_status_checks rule. No bypass actors are present.
+The wording correctly distinguishes automatic workflow execution from server-side
+required-check enforcement and retains coordinator verification of all11 checks
+before merge. No source/test/harness or other metadata changed relative tof856.
+Raw effective-rules SHA256ad5fdb76472640fd2ed9d1fcddf5d30677f185b913c7646183c251b1f5d651bd;
+repository-ruleset SHA25697bbbadfe3cb243d70d49a49143af8abdc9f718ef43434575dffb1b1ea03385e.
+This addendum does not preapprove latest-head CI, resolved discussions or merge.
