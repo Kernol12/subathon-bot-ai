@@ -63,3 +63,33 @@ this document task. No future implementation/test/fixture approval is claimed.
 Different reviewer must review the actual candidate and resolve findings before
 logical approval; concrete signatures/stubs/harness and hold/query prerequisites
 follow only their own scoped assignments/reviews/red gates.
+
+## Actual different review corrections
+
+Reviewer bundle_reviewer inspected actual961 and requested three material changes,
+matching integrator concerns: timer RequireReview must not select global deferral;
+CORE-002 cannot advance Ready and post-finish time cannot masquerade as cap/unapplied
+credit; known hard end must be observed before final paused admission. The revised
+logical document removes the initial inferred global pending default, keeps mixed
+policy/continuation explicitly UNRESOLVED with no enabled path until its owning
+contract is reviewed, and distinguishes a complete approved bundle containing a
+timer hold from a partial failed transaction. Whole-input overflow still holds
+all effects; timer deficit retains its narrower actual0/full-unapplied meaning.
+
+Hold storage must preserve atomic composition for an explicitly reviewed timer-only
+hold beside other actual effects, without deciding that product policy. Resolution
+of that timer hold references exact remaining request and cannot reaward the other
+components; whole-input hold remains non-success/no original claim. Signed original
+correction policy remains CORE-008/ACCT-005, financial continuations ACCT-006.
+
+Protocol now explicitly excludes Ready from reducer calls; with known policy and
+valid segments it observes hard end BEFORE final paused/application admission.
+A refused application neither commits clock-only state nor publishes its private
+proposal as authoritative; independent clock command integration remains required.
+Post-finish mixed time/score representation/policy is an explicit required gate,
+without fabricated cap-limited or unapplied time. AS16/AS17 now reflect these exact
+boundaries. No owner requirement was changed, no actual product policy inferred.
+
+`python3 tools/check_project.py` and `git diff --check` pass on this two-Markdown
+candidate. Arithmetic literal amounts remain unchanged; no native tests rerun.
+Actual different reviewer must inspect the revised document before approval.

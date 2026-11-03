@@ -152,14 +152,27 @@ Within that unit, the required order is:
 4. For genuinely new work, read actual current state, selected complete plan/current
    head, actual typed source and current contribution/support anchor. Enforce plan
    and preview rules above and current independent eligibility/access constraints.
-   Resolve current bound policy and clock segments. Unsupported/unresolved required
-   modules return an explicit held/not-ready outcome, not a fabricated successful
-   application. A required durable review hold uses its reviewed hold port.
-5. Advance the clock first through the supplied valid segments using CORE-002;
-   preserve ordered transitions and hard-end precedence. Bind clock-only advanced
-   before to current head: preserve debt/counter keys+values/configuration/format.
-   Reuse head token only when every bound field is identical; otherwise issue a
-   fresh observation token and retain its explicit observation explanation.
+   Resolve current bound policy and clock segments. Missing policy meaning or
+   invalid/unavailable segmentation is explicitly not-ready; do not manufacture a
+   clock observation. When policy and segments ARE known, retain current blockers
+   for the admission check AFTER the observation below, so a paused-input hold does
+   not skip enabled hard-end precedence. A required durable review hold uses its
+   reviewed hold port, never a fabricated successful application.
+5. Classify lifecycle before calling the reducer: Ready is not a CORE-002 advance
+   input and requires its separate start/admission policy; it is not auto-started
+   or repaired here. For supported Active/Finished observations, advance through
+   the supplied valid segments using CORE-002 before ordinary credit;
+   preserve ordered transitions and hard-end precedence. Then resolve final new-
+   application admission against that observed lifecycle and the known independent
+   pause/recovery/eligibility blockers. A reached deadline is observed as Finished
+   even while paused; it cannot be rescued by this ordinary credit. A refusal has
+   no hidden clock-only write/publication: the independent authoritative clock
+   command owns durable expiry/finish integration. Do not report an uncommitted
+   proposal as new authoritative state. For an actually admitted new application,
+   bind its clock-only advanced-before to current head: preserve debt/counter
+   keys+values/configuration/format. Reuse head token only when every bound field
+   is identical; otherwise issue a fresh observation token and retain its explicit
+   observation explanation.
 6. Compute every effect and final state in memory using the rules below. Resolve
    required jobs/result/audit before writes. Any invalid numeric input, aggregate
    overflow or unresolved mixed policy produces NO application subset. A numeric
@@ -180,8 +193,11 @@ those retain actual whole-unit rollback and no normal payload. A domain refusal
 can finish by committing its read-only unit. A new durable hold commits only its
 specified non-success hold state and retained audit, never an application claim or
 success record. Prior intake remains durable in all known application rollbacks.
-An existing durable hold is not a completed successful operation, cannot consume
-the original award claim, and cannot authorize automatic repeated application.
+An existing WHOLE-INPUT durable hold is not a completed successful operation,
+cannot consume the original award claim, and cannot authorize automatic repeated
+application. A TIMER-ONLY hold committed beside an explicitly approved complete
+bundle instead retains that bundle's original claim and separately pending timer
+adjustment; it cannot authorize replay of its already-applied components.
 ACCT-005's later explicit authorized resolution must link that hold and preserve
 its history; concrete revision/continuation identity is a required hold-contract
 question before signatures or a durable-hold implementation.
@@ -205,8 +221,9 @@ implement them in existing bundle/contribution storage or declare them verified.
   award. Timer deficit retains the exact negative request, selected explicit policy,
   full unapplied amount and the timer occurrence/component selector. It does not
   rewrite payment/valuation/review/settlement or label unrelated requests overflow.
-  The one atomic operation remains pending until its required held adjustment has
-  an explicit disposition; this is not permission to commit a partial application.
+  Whether the complete operation records a held timer alongside other actual
+  effects or explicitly defers all effects requires the mixed policy below. The
+  timer-only numeric disposition does not select a global application status.
 - Records retain a stable hold identity, opaque current version, complete reason/
   scope/source/command/provenance, actual actor/policy/observation data where known,
   and immutable creation/resolution history. Exactly one active state for a scoped
@@ -220,10 +237,15 @@ implement them in existing bundle/contribution storage or declare them verified.
   check governs protected hold details. No new operation/plan revision/confirmation
   bypasses it. A malformed/dangling hold is a typed storage failure with actual
   rollback, not absence, automatic repair or permission to apply.
-- A fresh numeric/policy hold stages its non-success record/audit on the same active
-  unit and commits only that hold. It creates no application effect/job/claim,
-  no after-state/head advance and no applied status/success result. Earlier durable
-  intake/capture is retained. A failure staging/committing the hold follows the
+- A fresh WHOLE-INPUT overflow or unresolved-policy hold stages its non-success
+  record/audit on the same active unit and commits only that hold. It creates no
+  application effect/job/claim, after-state/head advance or applied/success result.
+  A TIMER-ONLY deficit hold has a different composition: under an explicitly
+  reviewed mixed policy it can commit beside one complete successful bundle which
+  retains that request's actual0/unapplied timer components and other actual effects.
+  The hold, original claim, complete result/audit and all required jobs then commit
+  together; this is a complete supplied outcome, not a partial failed transaction.
+  Earlier durable intake/capture is retained. A failure staging/committing the hold follows the
   same real rollback/unknown distinctions; do not report a durably held outcome
   unless THIS hold unit's actual COMMIT and normal completion establish it.
 - Resolution requires explicit CURRENT authorized review/correction capability,
@@ -234,7 +256,13 @@ implement them in existing bundle/contribution storage or declare them verified.
   where the intended calculation changes; never rewrite the held original request.
 - Resolve-and-apply is ONE controlled transaction: compare current hold version,
   recheck all current conditions, stage its immutable resolution and complete new
-  successful bundle together, then actual COMMIT/normal completion. No separate
+  successful bundle together, then actual COMMIT/normal completion. For a timer
+  hold retained beside an already processed original, the later explicitly
+  authorized correction must reference the exact held request/remaining amount;
+  it cannot replay the old original claim or its already-applied other components.
+  The immutable original result remains an honest record that its timer was held.
+  Concrete correction/continuation intent belongs CORE-008/ACCT-005 (financial
+  continuations belong ACCT-006); storage never grants that permission. No separate
   clear-hold commit leaves an automatic-apply gap. A new overflow during revalidation
   may retain/replace the active hold only under reviewed version/history rules;
   no success claim survives. Explicit reject/defer-only review outcomes and the
@@ -272,13 +300,17 @@ retained explicit deficit policy, use CORE-005 time reversal, retain Main/debt/
 unapplied components and policy/disposition, and run CORE-002's zero-elapsed
 observation at the same instant after Main exhaustion. Do not negate INT64_MIN.
 A deficit requiring review is a TIMER-ADJUSTMENT hold, not NUM-02 numerical
-overflow and not a fabricated review state for all other dimensions. The complete
-atomic operation remains pending while that required adjustment has no authorized
-disposition; no subset is applied merely because the other proposals fit. The
-record retains its specific request/component scope and all unapplied provenance.
-An explicitly reviewed mixed-effect application/continuation policy is required
-before enabling a different disposition. This preserves CORE-005's timer-only
-numeric meaning and the correction path without inventing financial refund policy.
+overflow and not a fabricated review state for all other dimensions. Preserve its
+specific request/component scope, actual0/full unapplied amount and provenance.
+No existing accepted contract selects the WHOLE operation's disposition from that
+numeric result. The current policy port must explicitly supply a reviewed mixed
+policy: commit one complete bundle recording held timer plus other actual effects
+AND its same-unit timer hold, or explicitly defer the whole input. There is NO
+implicit default between those choices. Without a reviewed applicable mixed policy,
+this path is unresolved/not-ready; it does not silently select global deferral or
+mark all other effects approved. CORE-008/ACCT-005 must concretize signed original
+correction/continuation policy; ACCT-006 owns its separate financial equivalent.
+The storage hold contract preserves both forms without selecting product policy.
 
 Score micro-points and whole counts use exact checked addition of the already
 resolved signed64 request to the actual matching target. The direct component
@@ -290,8 +322,14 @@ A later overflow holds the WHOLE input, including earlier fitting proposals.
 
 Advance-first may reach a hard end or natural finish before ordinary credit.
 Ordinary support then cannot reopen and does not accidentally repay debt/change
-Main. Required post-finish score/automation behavior is selected only by its own
-explicit current reviewed policy; unresolved policy holds that operation. The
+Main. A forbidden post-finish time request is not encoded as a cap-limited award:
+cap limitation reports actual capacity policy, not lifecycle denial. Nor is an
+unapplied-time component invented to discard ordinary post-finish time while
+awarding the score part. Mixed post-finish time/score application needs an explicit
+reviewed policy AND retained complete representation; absent those it is a required
+not-ready path. The current admission policy cannot conceal that gap. Required
+post-finish score/automation behavior is selected only by its own explicit current
+reviewed policy; unresolved policy holds that operation. The
 service is not a start/reopen, cap/deadline edit, schedule engine or recovery engine.
 A held/denied application does not secretly commit a clock-only partial application;
 periodic/independent clock advancement belongs its own authoritative command.
@@ -329,7 +367,7 @@ and millionths of points unless shown otherwise.
 | AS01 current capacity | Plan request+600000; preview Main3300000/cap3600000. Actual head Main3480000/debt0. RequireExactPreview→state conflict if token changed. RevalidateCurrentState→Main+120000/debt0/capped480000, after3600000; retain old preview and actual head separately |
 | AS02 current cap | Same actual Main3480000 but current cap3540000, while preview cap was3600000. Authorized current config/token binding→actual+60000/capped540000, never preview-derived+120000. A mismatching bound policy token/config is rejected, not guessed from document bytes |
 | AS03 debt first | Main55/debt2,request10,current cap60→debt-repaid2/Main+5/capped3, afterMain60/debt0. Preserve components+5/-2/+3 and request10 |
-| AS04 above cap | Main100/debt5,request8,cap60→Main100/debt0; Main0/debt-5/capped3. No shrink to60; no invalid call to the older narrow credit helper |
+| AS04 above cap | Main100/debt5,request8,cap60→Main100/debt0; Main delta0/debt delta-5/capped3. No shrink to60; no invalid call to the older narrow credit helper |
 | AS05 zero rescue | Active Grace90000 or confirmation wait Main0, debt5/request5/cap0→Main0/debt0, actualMain0; Grace/wait unchanged. Request7/no cap→debt0/Main2, Grace→Main or wait cleared, retained Grace preserved, pauses unchanged |
 | AS06 ordered occurrences | Main55/debt2/cap60, requests10 then4→first Main+5/debt-2/capped3, second Main0/debt0/capped4; two effects retain their own ordinal even if action refs equal. FinalMain60/debt0 |
 | AS07 mixed overflow | Main55/debt0/time request5 fits; scoreINT64_MAX plus score request1 overflows. NO time/score/effect/job/application claim/success result commits. Original receipt/capture remain; durable numeric review hold records the reason through its required hold adapter |
@@ -341,8 +379,8 @@ and millionths of points unless shown otherwise.
 | AS13 B08 known rollback | Prior receipt/capture acknowledged. Real fault after state/effects/application patch but before complete jobs/result/audit→whole caller unit rolls back; prior intake/not-applied retained, no after-state/claim/effect/job/success payload. A later explicitly permitted attempt rechecks everything and can apply once |
 | AS14 unknown commit | Physical whole bundle COMMIT with lost acknowledgement→actualunknown/no normal result/publication, fail-closed writer/no blind retry. Earlier recorded duplicate data cannot turn THIS attempt's unknown into success |
 | AS15 completion boundary | Confirmed COMMIT then body exception→accounting durable/no normal payload; later response failure AFTER normal committed completion→record stays durable and original normal result existed. Fresh service instance/reopened file retrieves it without new effect; recovery/outcome resolution itself remains separate |
-| AS16 deadline first | Active Grace or wait paused, enabled deadline1000, observationUTC1000→HardEndReached/Finished before ordinary positive credit. No automatic reopen, debt repayment or guessed post-finish action policy; unresolved required post-finish behavior held explicitly |
-| AS17 signed correction | Original authorized correction Main100/debt7/request-150, explicitStopAtZero→Main0/debt7/Main-100/unapplied-50, then existing zero-elapsed ending policy/trace. CarryTimeDebt→Main0/debt57. RequireReview→no automatic partial mixed-input application; require reviewed hold disposition |
+| AS16 deadline first | Active Grace or wait paused, enabled deadline1000, known valid observationUTC1000→in-memory HardEndReached/Finished BEFORE final paused/application admission. No automatic reopen/debt repayment/guessed post-finish action policy; refused application makes no hidden clock-only commit or authoritative publication. Required independent clock command persists actual finish; unresolved post-finish representation remains not-ready |
+| AS17 signed correction | Original authorized correction Main100/debt7/request-150, explicitStopAtZero→Main0/debt7/Main-100/unapplied-50, then existing zero-elapsed ending policy/trace. CarryTimeDebt→Main0/debt57. RequireReview→timer actual0/full-150 unapplied/RequiresReview; whole-input versus timer-only-with-other-effects disposition requires explicit reviewed mixed policy, with no invented default |
 | AS18 signed minimum | Original authorized Main1/debt0/requestINT64_MIN, CarryTimeDebt→Main0/debtINT64_MAX with Main-1/debt+INT64_MAX; Main0/debt0 same request overflows and holds whole input. No signed negation, financial-refund identity or original award recomputation |
 | AS19 token and configuration | Clock advance changes Main100→90 only: head a retained, fresh before b, fresh after c. Changing debt/counter/config/format during that advance is source mismatch/actual known rollback. Identical bound observation may reuse a as before; after is always unused, including actual0. A token collision never overwrites or loops |
 | AS20 independent freshness | State token a still current but current contribution conditions differ from the old capture→reassess ALL actual dimensions, never overwrite them from capture. A change to any checked one of15 fields between input read and stage→stale contribution, no award; actual plan head change→plan conflict. RevalidateCurrentState cannot silently choose a different requested plan revision or infer permission from matching a |
