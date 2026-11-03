@@ -16,13 +16,13 @@ remain preserved separately; no assertion, frozen fixture or product scope is we
 
 ## Exact candidate and preservation
 
-Combined author candidate4f21362 (runtime0fe329c→21b95a5; pure helper1cf31df→d883bdc),
+Combined author candidate dc74fef (runtime0fe329c→21b95a5; pure helper1cf31df→d883bdc→1b8af36),
 with root-authored, independently approved H1/R3 test revision imported unchanged:
 
 | Artifact | Git blob |
 | --- | --- |
 | sqlite_application_holds.cpp |8d82aa2268b39f19b8ed640c03383c99f640d6e3 |
-| private sqlite_application_hold_values.hpp |7064870836af7bb20fdd1c32178c8d7ca1953db8 |
+| private sqlite_application_hold_values.hpp |ec78b69702ce0e1da3f78b9367dc10170c284bfc |
 | private sqlite_application_bundle_access.hpp |7107d0ee88d4d51be8642b55b1bceadb1758489a |
 | existing public bundle.cpp bodies |24759a20a8c9e1de5f577bf36d16f829a171b03f |
 | revised independent feature tests |82980fdba7d538e90c66608afd4e2fe45f229cff |
@@ -104,7 +104,7 @@ On exact buggy0fe/a18 they each reached intended actual failure with init/cleanu
 PASS and no missing marker. Root's narrow-row GDB proved body returned normally,
 caught=false before the helper deliberately threw; it did NOT prove changed bytes
 from a conjunctive failure message. Root preserves red log9dc953c9 and combined
-raw231d325a. Only AFTER this gate were helperd883's full stage separation and
+raw231d325a. Only AFTER this gate were helperd883/1b8's full stage separation and
 runtime21b's scalar-lineage fix released/authored/imported.
 
 ## Actual commands and observations
@@ -116,10 +116,10 @@ System discovery works; no personal paths are committed.
  mixed signed/unsigned auto deduction; corrected separate declarations. A later
  local-shadow warning was renamed. Neither was an intended feature-red claim.
 - `cmake --build --preset sqlite-hold-debug --parallel 2`: final3 steps,
- **ZERO warnings/errors** at combined4f21362.
-- `ctest --preset sqlite-hold-debug -L '^sqlite-hold$'`: **35/35 PASS11.84s**,
+ **ZERO warnings/errors** at combined dc74fef.
+- `ctest --preset sqlite-hold-debug -L '^sqlite-hold$'`: **35/35 PASS11.88s**,
  ALL268 scenarios,zero skip/blacklist. These are actual post-stub assertions.
-- `ctest --preset sqlite-hold-debug`: **264/264 PASS20.02s**. All229 older
+- `ctest --preset sqlite-hold-debug`: **264/264 PASS19.94s**. All229 older
  registrations pass;261 Qt processes report1058 passes,0failed/skip/blacklist.
 - New narrow-lineage regression: init/case/cleanup3PASS66ms after released fix.
  Focused replacement/later-reoverflow, all selected-corruption and narrow projection
@@ -139,9 +139,9 @@ Ignored raw logs under local-evidence/storage016 retain earlier attempts separat
 
 | File | SHA256 |
 | --- | --- |
-| storage016-build8.txt |fc241a711dc587ee3e20078f5b8b785cccf0470417a632501daf207b781c9286 |
-| storage016-tests5.txt |4100bc87243e3e8e25fce5c5917146f45f7e0bd080e98b9112c6fad605074168 |
-| storage016-full2.txt |df15d12353c49f7bda46229fed0cc29b1cdd05aa7a5e303a2431de96883a9df2 |
+| storage016-build9.txt |fc241a711dc587ee3e20078f5b8b785cccf0470417a632501daf207b781c9286 |
+| storage016-tests6.txt |f5b31fec6ecd205eb5b24fe26c49aec5e03802b16b7835378051e5d27360cb9c |
+| storage016-full3.txt |ac0c043524815770a60dfb238048af8720f880fe179141437aa30f6c14ead0f6 |
 | storage016-lineage-fix.txt |f28fcfff1fef1ac8b77700e8772127b9cf187a8d17c3a05f878eef982243dbe6 |
 | storage016-lineage-crosschecks.txt |690c699795cd804c8e7a4413af5fc5aced733aca713b801f7acaa6d02ebe1674 |
 | storage016-history-gdb3.txt |859d21f3358a502043c2c58dc10845ecd2ce5468781119a4d60f12015c04bca6 |
