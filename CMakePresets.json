@@ -156,7 +156,7 @@
     },
     {
       "name": "sqlite-bundle-debug",
-      "displayName": "18 \u00b7 Application-bundle SQLite baseline",
+      "displayName": "18 \u00b7 Application-bundle SQLite acceptance",
       "inherits": "sqlite-plan-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_BUNDLE_TESTS": "ON"

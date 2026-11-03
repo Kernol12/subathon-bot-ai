@@ -103,3 +103,14 @@ Reviewer discovered/preparing source review requires checked count sums and
 preconstructed final changes-query before writes; main author fixing in own tree.
 No full source approval/taskdone/latest sourceofficialCI yet. Actual newtest review/
 red then93+followup source and35/full209 next; no owner access/decision needed.
+
+## New two-regression gate ready
+
+Actual independent test approvaled4486b importedeb4c30f before bodies; exact additive
+068 imported78e3150 (143 lines2slots+3data), frozen oldassertions retained except
+separately approved terminal correction. Root compile0warnings/discovery exact35/
+209, _data excluded, allenabled. Guard35+unconditionalCTest; preset display wording
+acceptance only. Next freeze clean head and FIRST targeted2 red against actual
+runtimef969/helper159 (bytefix unrelated);93+3e+final267 remain UNINTEGRATED root.
+Reviewer already reviewed source fixes in own tree; no finalapproval until root
+red/integration/final35/full209 and exact finalconfig review. No taskdone/CI claim.

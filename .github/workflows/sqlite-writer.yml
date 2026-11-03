@@ -315,8 +315,8 @@ jobs:
           import json, os, subprocess
           from pathlib import Path
           tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "bundle-tests.json").read_text())["tests"]
-          if len(tests) != 33:
-              raise SystemExit("Expected all 33 reviewed application-bundle cases")
+          if len(tests) != 35:
+              raise SystemExit("Expected all 35 reviewed application-bundle cases")
           executables = {test["command"][0] for test in tests}
           if len(executables) != 1:
               raise SystemExit("Expected one application-bundle Qt suite")
