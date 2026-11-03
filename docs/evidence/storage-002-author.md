@@ -55,3 +55,20 @@ separately reviewed additive regression's reached-red gate.
 
 All integrations/FX/current application policy/provider delivery/refund allocation,
 recovery/backup/UI/platform/release checks remain outside this component proof.
+
+## Author self-review before separate source verdict
+
+Added actual selected-scope cardinality cross-checks to all positive keyset walks
+(state balances, effect/job/transition rows, full component count and basis progress)
+so an extra corrupt nonpositive/orphan row cannot hide outside visited keys while
+declared counts omit it. Narrow source snapshots also require common configuration/
+format identity. Complete reads apply returned aggregate quotas; pure input_items/
+owned-input quotas do not become unrelated read quotas. Current-only plan resolution
+checks complete scalar history before returning stale, without decoding stale body
+payloads; historical fixed-record resolution still loads the older selected revision.
+
+Actual rebuild7 passes ZERO warnings; unchanged original32 now31PASS/1 unchanged
+sticky terminal-session oracleFAIL,2.13s. An intermediate author typo applied the
+current-only projection to historical fixed records and the65-history case failed;
+corrected that call to historical selection and reran after this real code change.
+No assertion/fixture/old component changes. Separate source verdict remains pending.

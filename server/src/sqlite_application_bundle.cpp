@@ -944,11 +944,13 @@ class Access {
         CapturedPlanRevision selected;
         std::uint64_t head;
     };
-    std::optional<Plan> plan(const ApplicationPlanKey &key_) {
+    std::optional<Plan> plan(const ApplicationPlanKey &key_, bool current_only = false) {
         auto h = header(key_.plan_ref);
         if (!h)
             return std::nullopt;
         audit(key_.plan_ref, *h);
+        if (current_only && h->head != key_.revision)
+            return Plan{{}, h->head};
         auto r = selected_scalar(key_.plan_ref, key_.revision, *h);
         if (!r)
             return std::nullopt;
@@ -1019,7 +1021,10 @@ class Access {
             if (rows_.size() <= 64)
                 break;
         }
-        if (seen != count)
+        auto actual_balances = execute(
+            {"SELECT count(*) FROM main.subathon_app_balances WHERE token=?", {bytes(token)}});
+        if (seen != count || actual_balances.size() != 1 ||
+            actual_balances.front().front().toLongLong() != seen)
             fail(Reason::invalid_stored_data);
         return s;
     }
@@ -1074,7 +1079,7 @@ class Access {
     }
     ApplicationBundleInputResult inputs(const ApplicationPlanKey &key_,
                                         ApplicationSubjectKind subject) {
-        auto p = plan(key_);
+        auto p = plan(key_, true);
         if (!p)
             return {};
         if (p->head != key_.revision)
@@ -1204,6 +1209,11 @@ class Access {
         // A narrow source projection validates all state target identities without
         // materializing unrelated historical balance amounts.
         if (metadata) {
+            if (v.persisted_head.configuration_ref != v.advanced_before.configuration_ref ||
+                v.after.configuration_ref != v.advanced_before.configuration_ref ||
+                v.persisted_head.envelope.format_ref != v.advanced_before.envelope.format_ref ||
+                v.after.envelope.format_ref != v.advanced_before.envelope.format_ref)
+                fail(Reason::invalid_stored_data);
             for (const auto &token : {v.persisted_head.token, v.after.token}) {
                 auto mismatch = execute(
                     {"SELECT count(*) FROM (SELECT balance_kind,target_ref FROM "
@@ -1246,6 +1256,10 @@ class Access {
             if (rows.size() <= 64)
                 break;
         }
+        auto actual = execute({"SELECT count(*) FROM main." + table + " WHERE " + operation_where(),
+                               operation_values(k)});
+        if (actual.size() != 1 || actual.front().front().toLongLong() != previous)
+            fail(Reason::invalid_stored_data);
         return previous;
     }
     ApplicationEffect effect(const SqlRow &r, const ApplicationPlanKey &p) {
@@ -1360,7 +1374,12 @@ class Access {
                 v.effects.push_back(std::move(e));
             }
         });
-        if (count != f.counts[0] || size_t(count) != reqs.size() || component_count != f.counts[1])
+        auto actual_components =
+            execute({"SELECT count(*) FROM main.subathon_app_components WHERE " + operation_where(),
+                     operation_values(k)});
+        if (count != f.counts[0] || size_t(count) != reqs.size() ||
+            component_count != f.counts[1] || actual_components.size() != 1 ||
+            actual_components.front().front().toLongLong() != component_count)
             fail(Reason::invalid_stored_data);
         const QStringList meta_jobs{"operation_scope", "operation_ref",          "ordinal",
                                     "job_ref",         "source_request_ordinal", "group_ref",
@@ -1503,6 +1522,12 @@ class Access {
             if (rows.size() <= 64)
                 break;
         }
+        auto actual_occurrences =
+            execute({"SELECT count(*) FROM main.subathon_app_reversals WHERE " + basis_where(),
+                     basis_values(o)});
+        if (actual_occurrences.size() != 1 ||
+            actual_occurrences.front().front().toLongLong() != position)
+            fail(Reason::invalid_stored_data);
         if (!h) {
             if (position)
                 fail(Reason::invalid_stored_data);
@@ -1661,7 +1686,10 @@ class Access {
                                           o.requested_increment, o.cumulative_fraction,
                                           o.exact_entitlement, o.rounding_residual, o.full_refund});
         try {
-            bundle_detail::validate_bundle(prepared, limits_);
+            auto stored_limits = limits_;
+            stored_limits.input_items = std::numeric_limits<qsizetype>::max() - 1;
+            stored_limits.owned_bytes = std::numeric_limits<qsizetype>::max();
+            bundle_detail::validate_bundle(prepared, stored_limits);
         } catch (const SqliteBundleInputFailure &e) {
             if (e.error() == SqliteBundleInputError::collection_limit ||
                 e.error() == SqliteBundleInputError::exact_component_limit ||
@@ -1770,7 +1798,7 @@ class Access {
                     ContributionApplication::applied)
                 return {SD::subject_unavailable, {}};
         }
-        auto p = plan(i.plan);
+        auto p = plan(i.plan, true);
         if (!p)
             fail(Reason::missing_plan);
         if (p->head != i.plan.revision)
