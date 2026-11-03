@@ -27,7 +27,7 @@ Fetched/local main **aad1ad11dd2f826d11d81897319671aa10017b8c**.
   SUCCESS inclSQL41606867976/readyCLEANMERGEABLE/0threads/currentrules26170263
   formalGHapprovals0/cleanroot/unchangedcriticalblobs. Normal exact-head merge,
   no bypass/force/delete. Mainffclean, merge tree equals final812.
-  PostmainCI NOT YETobserved at this writing.
+  Postmain all10SUCCESS observed, including SQL41607196319.
   [Handoff](storage-017-handoff.md), [source/config approval11012da](storage-017-code-review.md),
   [independent native validation](storage-017-validation.md), [CI](storage-017-ci.md).
 
@@ -51,7 +51,8 @@ DB01/NUM04 stillpartial; query is not authority/policy/service/release proof.
 
 ## Active task / first-phase gate / ownership
 
-STORAGETEST016 in_progress/test_baseline. STORAGE016 implementation planned.
+STORAGETEST016 in_progress/test_baseline; [draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47)
+published claima284e78. STORAGE016 implementation planned.
 Root dedicated `task/STORAGETEST-016-durable-holds` from actualaad BEFORE edits,
 [brief](../tasks/EPIC-009/STORAGE-016.md). Dependencies contract001+storage002 are
 integrated; newquery017 also available. Service004 waits integratedhold16 and its
@@ -65,14 +66,14 @@ Fresh isolated writer trees/branches from actualaad:
   `local-evidence/worktrees/storagetest016-contract-author`,
   `task/STORAGETEST-016-contract-author`. Own ONLY
   `docs/contracts/sqlite-application-holds-v1.md` and
-  `docs/evidence/storagetest-016-contract-author.md`. No candidate yet.
+  `docs/evidence/storagetest-016-contract-author.md`. Author drafting document; no actual candidate yet.
 - `/root/bundle_reviewer`: independent actual document/API/test reviewer.
   `local-evidence/worktrees/storagetest016-review`,
   `task/STORAGETEST-016-review`. First read-onlyprep; own ONLY
   `docs/evidence/storagetest-016-contract-review.md` at this phase.
-  No prospective approval.
-- `/root/bundle_implementer`: read-only scoped counterexample/requirement audit,
-  no current writing assignment. Earlier017 sourceauthor tree cleana9d184d.
+  Read-only prep complete; no prospective approval.
+- `/root/bundle_implementer`: read-only scoped counterexample/requirement audit COMPLETE; no new hard
+  requirement conflict found, author received concrete examples. No writing assignment. Earlier017 sourceauthor tree cleana9d184d.
 - Root owns progress/HTML/map/schemaorder/build/pins/workflows and integration.
 
 ## Scope to concretize and next actions
@@ -112,3 +113,8 @@ Inspect actual branches/worktrees/processes/agents/PRchecks on resumption.
 Effective mainrules26170263 has no required-status-check rule; formalGHapproval0/
 threadresolutiontrue, coordinator explicitly verifies all11. No credentials/live
 provider effects or unsupported platform/release evidence. No owner access needed.
+
+Latest actual inventory:112 worktree refs/96 existing/16 absent, only the four
+listed older verification trees dirty; root and new016 reviewer clean. No native/
+build/debugger process running. Author016 drafting document, reviewer waiting
+actual artifact; no new hold code/schema/API/fixture/test/red exists.
