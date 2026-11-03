@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T13:27:04Z",
+  "updated_at": "2026-11-03T13:32:42Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5454,7 +5454,8 @@
       "notes": [
         "Parent epic: EPIC-009. ADR0003 preserves durable numerical-review requirements through separate concrete contract/test/red and implementation gates; planning only, no API/schema/tests/red/implementation or capability verified. Root controls shared schema/migration order/build/presets/workflow/pins.",
         "Claimed task/STORAGE-016-durable-holds from actual integratedmain017d40f6233e3416b4a785924052a9ab9bbeb83f AFTER normalPR47merge13:20:43Z/all11finalCI. Reviewed baseline CPP0cce9545/author1a65/35slots265scenarios, currentcontracts logical701c710f/physical83e96362/API46c70297/headerfe50; fulladb+41/setup743/final8d3. OwnselectedC2CI41640390883 then SAMECLEAN598 revisedvalidred265exactmarkers/70initcleanupPASS/0setupskip. Originalinvalid261+4 attempt remainsretained; no redreplay. Scope ONLY6caller-session holdfactory/find/active/history/detection/resolution behaviors, exactstep6/full89/oldprefixes, finiteownedvalues/completeidentity+history/sourceclosure/input+resultbounds/count-beforeallocation/realrollbackvsunknown/revocablecapabilities/cumulativeSQL. No applicationorchestrator/authority/permission/producer/mixedpolicy/entitlement/provider/UI orrelease claim.",
-        "Fileownership: sourceauthor newholdruntimeCPP and optional newprivatehold/reader helperheaders, plus authorMD; existingprivatebundle_values.hpp/bundle.cpp may be factored ONLY for same-session strict reference decoding with byte-for-byte old behavior/API/equality/queryscope preserved, report concrete paths early. No publicheader/contract/fixture/test/rootbuild/schema/preset/workflow/progress edits bysourceauthor. Rootowns sharedfiles/CIpromotion afteractualsource35/full264PASS; reviewer and nativevalidator ownseparateevidence ONLY inisolatedbranches/worktrees. Acceptance: all35/265poststubassertions pass, full2640Qt skips/zero-warningbuild, frozenbaseline+oldacceptance/schema exact, actual source/allocation-order/unknown-guard review, independent nativevalidation and ownpromoted ordinary selectedQt new3mandatorygreen+UNCONDITIONAL35/all11latest before normalmerge. Genuine testdefects require written spec reason/separate review/newbaseline evidence, never weakened to pass."
+        "Fileownership: sourceauthor newholdruntimeCPP and optional newprivatehold/reader helperheaders, plus authorMD; existingprivatebundle_values.hpp/bundle.cpp may be factored ONLY for same-session strict reference decoding with byte-for-byte old behavior/API/equality/queryscope preserved, report concrete paths early. No publicheader/contract/fixture/test/rootbuild/schema/preset/workflow/progress edits bysourceauthor. Rootowns sharedfiles/CIpromotion afteractualsource35/full264PASS; reviewer and nativevalidator ownseparateevidence ONLY inisolatedbranches/worktrees. Acceptance: all35/265poststubassertions pass, full2640Qt skips/zero-warningbuild, frozenbaseline+oldacceptance/schema exact, actual source/allocation-order/unknown-guard review, independent nativevalidation and ownpromoted ordinary selectedQt new3mandatorygreen+UNCONDITIONAL35/all11latest before normalmerge. Genuine testdefects require written spec reason/separate review/newbaseline evidence, never weakened to pass.",
+        "Runtimeauthor concrete design requests bounded pure-header helper. Explicitly reassign bundle_validation from planned independentvalidator to PUREvaluesauthor; root and separate bundle_reviewer provide independent nativevalidation (neither writes production). NEW values tree/branch fromcurrentmain017d+rootclaim, preservingunusedvalidationtree. Runtimeauthor owns PRIVATE sqlite_application_bundle_access.hpp factoring existing Access/source/state/plan decoders with oldbody/query/accounting preserved, plus holdruntime. Helper owns ONLY PRIVATE server/src/sqlite_application_hold_values.hpp and docs/evidence/storage-016-values-author.md: pureoptions/key/count/shape/Exact/order+inputB/I, storedshape withoutINPUTaggregatecaps, completebytes/items/equality, exactpuremanifest. Shared helpernamespace hold_detail interface coordinateddirectly; reuse actualoldpurebundle-options validator namespace, no fakeadapter/getter or SQL/cleanup in helper. Reviewercannotprospectivelyapprove absentcode, bothauthorscannotselfcertifyindependentreview. No newdeps/publicAPI/test/fixture/rootfile changes."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -5479,7 +5480,7 @@
       ],
       "review": null,
       "status": "in_progress",
-      "owner": "coordinator /root; source implementer /root/bundle_implementer; independent source reviewer /root/bundle_reviewer; native validator /root/bundle_validation"
+      "owner": "coordinator/integrator and independent native validator /root; runtime author /root/bundle_implementer; pure-values author /root/bundle_validation; independent full source reviewer /root/bundle_reviewer"
     },
     {
       "id": "STORAGETEST-017",

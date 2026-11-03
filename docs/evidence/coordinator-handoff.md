@@ -140,8 +140,17 @@ config changes. Preserve normative701/83e/46c/headerfe50/test0cce/fixture63de+7c
 
 New reviewer tree `local-evidence/worktrees/storage016-review`, branch
 `task/STORAGE-016-review`, owns only source-review evidence AFTER actual candidate.
-New validator tree `local-evidence/worktrees/storage016-validation`, branch
-`task/STORAGE-016-validation`, owns native validation evidence AFTER actual source.
+Prepared validator tree `local-evidence/worktrees/storage016-validation`, branch
+`task/STORAGE-016-validation`, is preserved for ROOT independent native validation
+after actual source; its original agent assignment is superseded. Runtimeauthor
+requested bounded help, so `/root/bundle_validation` is explicitly reassigned to
+new PURE-values writer tree `local-evidence/worktrees/storage016-values`, branch
+`task/STORAGE-016-values`, from017d+rootclaim. Own ONLY private
+`server/src/sqlite_application_hold_values.hpp` and values-authorMD. hold_detail
+pure options/shape/equality/B/I/exactmanifest only, no SQL/ticket/cleanup. Runtime
+author owns new private bundle_access.hpp factoring olddecoders; coordinate exact
+oldpureoptions namespace directly. Root + separate reviewer are independent native
+validators, neither production author. Preserve all previous branches/copies.
 Root creates isolated trees/assignments next; do not assume agents running until
 actual followup calls. Root alone owns shared progress/HTML/maps/schemaorder/build/
 presets/workflow and later promotion (draft-red removal + mandatory35 execution).
