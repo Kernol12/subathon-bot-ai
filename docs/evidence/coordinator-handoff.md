@@ -136,3 +136,19 @@ futureimplementation not prospectively approved. Oldtrees/commits preserved; now
 123registered107existing16absent. Root publishing first concrete draft taskPR.
 Next: authornote+actualfullreview+boundedcodec audit/corrections, then minimalAPI/
 stubs only after DOCUMENT gates pass. No new serviceC++/test/marker/codecbody run.
+
+## Current published task and active agents
+
+Focused [draft PR49](https://github.com/Kernol12/subathon-bot-ai/pull/49) opened
+at57ffa79. Author notebd9b354751e314222b71779f04884ad5e4b775f0 integratede7e6e1c,
+blob91636d764b8cc6dd02766060b7e2136166f60505; contract remains6ee28717. Author
+bundle_implementer COMPLETE/idle, clean atbd9b354, available for actual corrections.
+Full semantic/ports reviewer bundle_reviewer and bounded codec/arithmetic reviewer
+bundle_validation ACTIVE on ACTUAL doc+note; no verdict yet. Resume completed author
+with followup_task for actual findings, never assume it still runs. Root publishes
+current metadata/author note to PR49. No source/header/stub/fixture/service test/
+codec behavior/marker call, productionACCT004 remains planned. Old CI verifies
+existing components only. Next: handle actual document findings/reviews, then
+explicitly authorize minimal API/stubs/harness ONLY after those gates pass.
+All older source/contract/review worktrees, dirty copies and valid reviews retained.
+No native process or owner access/decision needed.
