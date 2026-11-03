@@ -119,6 +119,79 @@ void check_proposal(const ApplicationCalculatedProposal &a,
                 "Every constant-pause segment");
 }
 
+void check_observation(const ApplicationHoldObservation &a, const ApplicationHoldObservation &b) {
+    require(a.persisted_state_token == b.persisted_state_token &&
+                a.policy_revision_ref == b.policy_revision_ref &&
+                a.permission_revision_ref == b.permission_revision_ref &&
+                a.actor_ref == b.actor_ref && a.decision_ref == b.decision_ref &&
+                a.observed_utc_ms == b.observed_utc_ms && a.elapsed_ms == b.elapsed_ms,
+            "Every typed known/unknown hold observation member");
+    original_claim_fixture::same_envelope(a.annotation, b.annotation);
+}
+void check_creation(const ApplicationHoldView &a, const ApplicationHoldDetection &b) {
+    const auto &x = a.cause, &y = b.cause;
+    require(x.hold_ref == y.hold_ref && x.source.subject.id == y.source.subject.id &&
+                x.source.receipt_id == y.source.receipt_id &&
+                x.source.event_ref == y.source.event_ref &&
+                x.source.parent_event_ref == y.source.parent_event_ref &&
+                x.source.root_event_ref == y.source.root_event_ref &&
+                x.source.configuration_ref == y.source.configuration_ref &&
+                x.source.arrival_context_ref == y.source.arrival_context_ref &&
+                x.command.operation.operation_scope == y.command.operation.operation_scope &&
+                x.command.operation.operation_ref == y.command.operation.operation_ref &&
+                x.kind == y.kind && x.plan_evidence.kind == y.plan_evidence.kind &&
+                x.plan_evidence.extent == y.plan_evidence.extent &&
+                x.plan_evidence.plan.has_value() == y.plan_evidence.plan.has_value() &&
+                !x.plan_evidence.stopped_for && !y.plan_evidence.stopped_for &&
+                !x.plan_evidence.failed_capture && !y.plan_evidence.failed_capture &&
+                x.plan_evidence.occurrences.size() == y.plan_evidence.occurrences.size() &&
+                x.failure.has_value() == y.failure.has_value() && !x.timer && !y.timer &&
+                x.missing_policy_reason == y.missing_policy_reason &&
+                x.supersedes_hold_ref == y.supersedes_hold_ref,
+            "Complete literal captured hold cause/source/identity/alternative groups");
+    if (y.plan_evidence.plan)
+        require(x.plan_evidence.plan->plan_ref == y.plan_evidence.plan->plan_ref &&
+                    x.plan_evidence.plan->revision == y.plan_evidence.plan->revision,
+                "Exact selected captured plan identity");
+    original_claim_fixture::same_envelope(x.command.intent, y.command.intent);
+    check_observation(x.first_observation, y.first_observation);
+    for (size_t n = 0; n < y.plan_evidence.occurrences.size(); ++n) {
+        const auto &u = x.plan_evidence.occurrences[n], &v = y.plan_evidence.occurrences[n];
+        require(u.ordinal == v.ordinal && u.action_ref == v.action_ref &&
+                    u.action_version_ref == v.action_version_ref && u.rule_ref == v.rule_ref &&
+                    u.target_ref == v.target_ref && u.unit == v.unit &&
+                    u.attempted_units == v.attempted_units &&
+                    u.finalized_units == v.finalized_units && u.explanation == v.explanation,
+                "Every captured occurrence field and optional-empty distinction");
+    }
+    if (y.failure) {
+        require(x.failure->stage == y.failure->stage &&
+                    x.failure->failing_ordinal == y.failure->failing_ordinal &&
+                    x.failure->failing_target_ref == y.failure->failing_target_ref &&
+                    x.failure->attempted_units == y.failure->attempted_units,
+                "Complete exact known numeric failure leaf");
+        original_claim_fixture::same_envelope(x.failure->annotation, y.failure->annotation);
+    }
+    require(a.first_detection.mutation_ref == b.request.mutation_ref &&
+                a.first_detection.expected_version_ref == b.request.expected_version_ref &&
+                a.first_detection.proposed_version_ref == b.request.proposed_version_ref &&
+                a.first_version.locator.hold_ref == y.hold_ref &&
+                a.first_version.locator.version_ref == b.request.proposed_version_ref &&
+                a.first_version.position == 1 && !a.first_version.parent_version_ref &&
+                a.first_version.state == ApplicationHoldState::active &&
+                a.first_version.producer_mutation_ref == b.request.mutation_ref &&
+                !a.first_version.replacement &&
+                a.current_version.locator.hold_ref == a.first_version.locator.hold_ref &&
+                a.current_version.locator.version_ref == a.first_version.locator.version_ref &&
+                a.current_version.position == 1 && !a.current_version.parent_version_ref &&
+                a.current_version.state == ApplicationHoldState::active &&
+                a.current_version.producer_mutation_ref == b.request.mutation_ref &&
+                !a.current_version.replacement && !a.current_event,
+            "Exact newly created first/current version and its producer");
+    check_observation(a.first_detection.observation, b.request.observation);
+    original_claim_fixture::same_envelope(a.first_detection.audit, b.request.audit);
+}
+
 // Optional hooks inspect/read finite inputs only; NONE writes SQL, owns a session
 // or mutates authoritative state. All default bindings come from frozen DATA.
 class Ports final : public ExecutionAccess,
@@ -263,19 +336,6 @@ std::shared_ptr<Attempt> prepared_run(OriginalApplicationService &service, Sqlit
                 result->raw.error == result->service.work_error,
             "Actual writer outcome/error survive service bridge");
     return result;
-}
-ApplicationServiceCompletion enqueued_run(OriginalApplicationService &service,
-                                          const OriginalApplicationCommand &command) {
-    const auto result = std::make_shared<Attempt>();
-    const auto admission = service.enqueue(command, [result](auto c) {
-        ++result->callbacks;
-        result->service = std::move(c);
-        result->done = true;
-    });
-    require(admission.error == StorageError::none, "Actual service queue admission");
-    require(QTest::qWaitFor([result] { return result->done; }, 10000), "Actual service completion");
-    require(result->callbacks == 1, "One admitted completion");
-    return result->service;
 }
 QJsonObject codec_row(const Data &data, const QString &name) {
     return name.startsWith("anchor:")
@@ -995,6 +1055,7 @@ class ApplicationServiceTests final : public QObject {
                 const auto h = f.data.holds();
                 for (size_t n = 0; n < 2; ++n) {
                     const auto e = h.view(n == 0 ? "h1" : "h2");
+                    check_creation(a.holds->holds[n], h.detection(n == 0 ? "d1" : "d2"));
                     original_claim_fixture::same_envelope(a.holds->holds[n].cause.command.intent,
                                                           e.cause.command.intent);
                     original_claim_fixture::same_envelope(
@@ -1062,6 +1123,7 @@ class ApplicationServiceTests final : public QObject {
             if (c.contains("expected_detection")) {
                 const auto expected =
                     f.data.holds().detection(text(c["expected_detection"]).c_str());
+                check_creation(h, expected);
                 original_claim_fixture::same_envelope(h.cause.first_observation.annotation,
                                                       expected.cause.first_observation.annotation);
                 original_claim_fixture::same_envelope(h.first_detection.observation.annotation,
