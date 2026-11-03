@@ -383,3 +383,24 @@ jobs:
           print("Discovered all 3 required hold fixture cases")
           PYTHON
           ctest --preset sqlite-hold-debug -R '^scaffold.sqlite_application_hold_environment$' --verbose
+      - name: Check complete intentional hold baseline registration (discovery only)
+        run: |
+          ctest --preset sqlite-hold-debug -L '^sqlite-hold$' --show-only
+          ctest --preset sqlite-hold-debug -L '^sqlite-hold$' --show-only=json-v1 > "$RUNNER_TEMP/hold-tests.json"
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "hold-tests.json").read_text())["tests"]
+          if len(tests) != 35:
+              raise SystemExit("Expected all 35 intentional hold baseline cases")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one hold Qt suite")
+          compiled = subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines()
+          registered = [test["command"][1] + "()" for test in tests]
+          if len(compiled) != 35 or set(registered) != set(compiled) or len(set(registered)) != 35:
+              raise SystemExit("CTest registration does not match compiled hold cases")
+          if any(prop["name"] in {"DISABLED", "WILL_FAIL"} and prop["value"] for test in tests for prop in test.get("properties", [])):
+              raise SystemExit("Hold baseline must remain enabled without failure inversion")
+          print("Discovered all 35 compiled hold baseline cases; intentional feature red runs separately")
+          PYTHON

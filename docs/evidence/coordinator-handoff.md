@@ -1,6 +1,6 @@
-# Coordinator checkpoint — durable-hold acceptance-test authoring
+# Coordinator checkpoint — durable-hold full test review
 
-Updated 2026-11-03 during STORAGETEST-016 acceptance-test authoring. Continue the
+Updated 2026-11-03 during STORAGETEST-016 full actual test review. Continue the
 [standing coordination loop](../COORDINATOR_PROMPT.md) under AGENTS. Full product
 scope remains incomplete; no owner decision or access is currently needed.
 
@@ -37,9 +37,12 @@ for that merge were observed successful, including SQL41607196319.
 
 Root branch `task/STORAGETEST-016-durable-holds` was created from actual main before
 claim/edit. [Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47)
-latest observed full-CI head **8474e57675d100539d5de4b9133ffc3a2e39ef35** has all
-eleven checks successful. A newer narrow category-clarification follow-up is being
-saved on the same task branch; runtime, fixtures and harness remain unchanged. The prior complete source-specific OWN NEW selected
+latest observed full-CI head **a399abb5d12b3fa4e4181f6a95e807c3d53ed346** has all
+eleven checks successful. New feature source0c9f304+b3659bd is integrated as
+828bbd0+553310a; focusedf0d7da7 integrated5dd44d0 corrects the late-head trigger.
+FinalCPP816441205e4a2ff5c2b69dee535818ad648b1e40/2353lines.
+Root feature harness QtCMakeea1e3cab/workflowb9529c18 is being frozen locally.
+35 new enabled draft-red cases compile/discover; no feature body has run. The prior complete source-specific OWN NEW selected
 foundation SQL41631527683 succeeded at a5e5998; its raw evidence is retained.
 The approved complete fixture/harness candidate **e31c5d4cda4b22b0b5f72944c14c18881d8deaff**
 is approved by separate e624614 (integrated a96367e). Source and harness remain
@@ -114,6 +117,16 @@ Agent roles on last actual inspection:
   candidate46c70297 adds18 lines clarifying isolated null audit/numeric failure/
   plan branch/nested Observation categories versus old421, preserving earlier keys
   and no new same-stage total order. Actual insertion APPROVED; no calls.
+  Now ACTIVE on actual full35-source/harness review, owns ONLY
+  `docs/evidence/storagetest-016-review.md`. Candidate source5eb83416 and root
+  QtCMakeea1e3cab/workflowb9529c18 are read in full; interim no blocker.
+  Raw setup/category audit and actual author92ab note inspection passed.
+  One genuine test correction is integrated5dd44d0: preserve late-head UPDATE
+  trigger and add BEFORE INSERT for NEW hOverflow so injection does not mandate a
+  SQL verb (contract requires heads last). All assertions remain. Correctedsource
+  actual reviewed; final authorMDfc167da2 imported d5e056e awaits writtenapproval.
+ 265 scenario rows
+  independently counted; source/header/fixture pins remain unchanged.
   Preserve four old root API configuration verification copies; new Qt CMake and
   workflow copies are verification inputs only. Old-primitives native green is
   allowed; new hold entrypoints/factory/marker and feature authoring are forbidden.
@@ -122,7 +135,9 @@ Agent roles on last actual inspection:
   `local-evidence/worktrees/storagetest016-feature-author`,
   `task/STORAGETEST-016-feature-author`, from current main plus approved foundation;
   owns ONLY `tests/qt/sqlite_application_hold_tests.cpp` and
-  `docs/evidence/storagetest-016-author.md`. No feature candidate yet. Existing
+  `docs/evidence/storagetest-016-author.md`. Source COMPLETE0c9f304+b3659bd;
+  final81644120/35slots compiled zero warnings. Corrected author noteaa17214
+  imported d5e056e/MDfc167da2. Author COMPLETE, clean tree; no feature execution. Existing
   `local-evidence/worktrees/storagetest016-api-author`,
   `task/STORAGETEST-016-api-author` retains four uncommitted verification config
   copies. New author may compile/discover ONLY; no hold factory/method/test body
@@ -133,15 +148,12 @@ Agent roles on last actual inspection:
 
 1. Full fixture approval e624614/d66f183 and OWN NEW selected official success
    SQL41631527683 at a5e5998 are complete; do not repeat these gates.
-2. Continue the explicitly assigned acceptance-test author in its fresh isolated
-   tree. Actual interim: sufficient source-only/timer fixtures found; explicit
-   finite DTO comparator and marker-aware writer capture in progress, then focused
-   data-driven identity/metadata/bounds/reference-corruption assertions. Author
-   flagged category precision; root18-line API clarification is now independently
-   approved35b1092, current prose46c70297. No fixture correction, feature invocation or
-   production behavior modification.
-3. Review full actual test
-   source and root harness before invoking any new feature entry. Compiler and
+2. Focused sourcef0d7da7 and final authoraa17214 are integrated, final81644120/
+   fc167da2; category46c approved35b. Freeze root harness/native-evidence metadata.
+   Root compilation/format/exact35 discovery/global264 PASS, zero warnings.
+   [Feature compiler evidence](storagetest-016-ci.md). No new feature execution.
+3. Actual full independent review of complete source/root harness is ACTIVE.
+   Resolve findings and integrate written approval before invoking any new feature entry. Compiler and
    exact discovery are not red. After feature registration, do NOT run the whole
    profile or new executable/test bodies before this gate; use compile, -functions
    and CTest --show-only only. The required foundation uses old primitives only.
@@ -159,8 +171,8 @@ storage002-review3 configs, storagetest017-review4, storage017-review5 and
 storage017-validation6. Current16 review retains5 config copies; API tree retains4.
 These are preserved verification copies, not unfinished source authorship.
 No prior agent/process is assumed running. Feature author is active; fixture author
-and reviewer are complete. Native root
-full229 has completed;
+is complete; reviewer is active on full test source/harness. Root final feature
+compile/discovery has completed; no feature execution. Native old229 completed;
 inspect actual processes and agents again on resumption. Use `followup_task` to
 restart a completed agent; `send_message` alone does not trigger a new turn.
 
