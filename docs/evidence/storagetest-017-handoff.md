@@ -67,9 +67,11 @@ the existing check name and does not itself establish server-side enforcement.
 
 ## Publication, preservation and next task
 
-This checkpoint is completed but UNMERGED. Final actual attribution review and
-latest-head CI/discussions/current rules/mergeability must pass before normal
-exact-head merge. No review preapproves a future changed revision.
+This checkpoint is completed but UNMERGED. Actual [final attribution approval](storagetest-017-final-review.md)
+a72992c plus eb5639a confirms exact CI/red chronology, completion metadata and
+actual rules clarification, with no test replay. Latest-head CI/discussions/current
+rules/mergeability must pass before normal exact-head merge. No review preapproves
+a future changed revision.
 All unfinished/old branches and configuration verification copies are preserved.
 Root owns shared state/build/presets/workflow/schema order; authors own isolated
 paths and separate reviewers commit only review evidence.

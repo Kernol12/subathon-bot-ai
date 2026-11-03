@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-017 first red recorded, final baseline gates
+# Coordinator checkpoint — STORAGETEST-017 baseline reviewed, publishing final merge candidate
 
 Owner resumed 2026-11-03 under [standing coordinator instructions](../COORDINATOR_PROMPT.md).
 Continue the loop; full specification remains incomplete. No owner decision or
@@ -96,9 +96,9 @@ FIRST feature invocation at SAME clean c24,08:24:35.551–08:24:36.110Z, actuale
 failure. [Original raw](storagetest-017-red-ctest.txt) SHA90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0,
 [CI](storagetest-017-ci.md), [handoff](storagetest-017-handoff.md). Do not repeat.
 
-1. `/root/bundle_reviewer` now explicitly assigned actual final rawCI/red/completion
-   attribution review; writing only storagetest-017-final-review.md after actual
-   root completion candidate. Full test reviewf5c6 remains valid and unchanged.
+1. Actual final [attribution reviewa72992c+eb5639a](storagetest-017-final-review.md)
+   APPROVED completion6757/f856/f679, exact original rawCI/red and current rules.
+   Full test reviewf5c6 remains valid; no source/test/harness changed or red replayed.
 2. Publish completion metadata, observe latest all11CI, recheck rules/reviews/zero
    threads/ready/CLEAN/MERGEABLE/cleanroot and unchanged reviewed blobs, normal
    exact-head PR45 merge only. No production query exists yet; source130 is stub.
