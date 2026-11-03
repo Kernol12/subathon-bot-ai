@@ -60,6 +60,10 @@ generated HTML distinguish DONE test_baseline from planned STORAGE017. DB-01
 and NUM-04 remain partial. Intentional red stays enabled/separate from passing
 CI, with no skipping/failure inversion/blanket continue-on-error. All old stable
 suites and mandatory new diagnostic run automatically under selected pinned Qt.
+Actual effective main ruleset26170263 requires zero formal GitHub approvals and
+resolved review threads; it has no required-status-check rule. All11 checks are
+therefore explicitly verified by the coordinator before merge. The new guard uses
+the existing check name and does not itself establish server-side enforcement.
 
 ## Publication, preservation and next task
 
