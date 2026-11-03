@@ -1,190 +1,141 @@
-# Coordinator checkpoint — STORAGETEST-016 minimal API authoring
+# Coordinator checkpoint — durable-hold fixture review
 
-Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Full
-product is incomplete; all seven integrations/three FX, UI/renderers/locales/themes,
-platforms/packaging/security/backup/live and release scope remain mandatory.
-No owner decision/access currently needed. Inspect actual state on resumption.
+Updated 2026-11-03 during STORAGETEST-016. Continue the
+[standing coordination loop](../COORDINATOR_PROMPT.md) under AGENTS. Full product
+scope remains incomplete; no owner decision or access is currently needed.
 
-## Actual integrated main and completed task PRs
+## Integrated work and actual remote state
 
-Fetched/local main **aad1ad11dd2f826d11d81897319671aa10017b8c**.
+Fetched main is **aad1ad11dd2f826d11d81897319671aa10017b8c**. All ten workflows
+for that merge were observed successful, including SQL41607196319.
 
-- [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), STORAGE002,
-  exact34ed→8c7f71f05:49:50Z; all11final/all10postmainSUCCESS.
-  [Handoff](storage-002-handoff.md), [review](storage-002-code-review.md), [CI](storage-002-ci.md).
-- [PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44), ACCTCONTRACT001
-  DOCUMENTONLY, dd5e→21c087106:23:15Z; all11final/all10postmainSUCCESS.
-  [Handoff](acctcontract-001-handoff.md), [ADR0003](../decisions/0003-application-service-prerequisites.md).
-- [PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45), STORAGETEST017
-  testbaseline,48b36a0→a40b42f08:35:37Z; all11final/all10postmainSUCCESS.
-  [Handoff](storagetest-017-handoff.md), [fullreviewf5c6](storagetest-017-review.md),
-  [finala729+eb563](storagetest-017-final-review.md). Original sameclean-c24
-  FIRST18/35marker red90f3c739 is preserved; never replay it as a new baseline.
-- [PR46](https://github.com/Kernol12/subathon-bot-ai/pull/46), STORAGE017,
-  exact8120c231b9bdb1b974d1335f9c56ea449f0f1cf6→aad1ad1 **08:57:48Z**.
-  All11latestSUCCESS inclSQL41606867976/readyCLEANMERGEABLE/0threads/current
-  rules26170263formalGHapprovals0/rootclean/criticalblobsunchanged before normal
-  exact-head merge. No bypass/force/delete. Mainffclean/treeequals812.
-  All10postmainaadSUCCESS observed inclSQL41607196319.
-  [Handoff](storage-017-handoff.md), [sourceapproval11012da](storage-017-code-review.md),
-  [validation](storage-017-validation.md), [CI](storage-017-ci.md).
+- [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), STORAGE-002:
+  merged34ed520 to8c7f71f at05:49:50Z.
+  [Handoff](storage-002-handoff.md), [review](storage-002-code-review.md),
+  [CI](storage-002-ci.md).
+- [PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44), ACCTCONTRACT-001:
+  document contract mergeddd5e6f1 to21c0871 at06:23:15Z.
+  [Handoff](acctcontract-001-handoff.md),
+  [prerequisites ADR](../decisions/0003-application-service-prerequisites.md).
+- [PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45), STORAGETEST-017:
+  baseline merged48b36a0 toa40b42f at08:35:37Z.
+  [Handoff](storagetest-017-handoff.md), [review](storagetest-017-review.md),
+  [final review](storagetest-017-final-review.md). Preserve the first clean c24
+  red log90f3c739; do not repeat it as an initial baseline.
+- [PR46](https://github.com/Kernol12/subathon-bot-ai/pull/46), STORAGE-017:
+  normal exact-head merge8120c231 toaad1ad1 at08:57:48Z after all eleven latest
+  checks and applicable reviews passed. [Handoff](storage-017-handoff.md),
+  [source/config approval](storage-017-code-review.md),
+  [independent validation](storage-017-validation.md), [CI](storage-017-ci.md).
+  Original18 and full228 pass; runtime834336d3, feature0e4f4f00, fixturebea1273c,
+  helper67d4fbd2 remain frozen. The previously published intermediate completion
+  metadata omitted canonical acceptance and failed render. It was corrected using
+  already passing evidence, regenerated and freshly checked before merge; no
+  validator, test or source was weakened.
 
-Source017 runtime834336d3/header8614(values/APIunchanged except1statuscomment)/
-helperb0ca, feature0e4f/18slots35scenarios, JSONbea127/helper67d4, oldschema66.
-Root/reviewer/validator18/full228PASS0warnings/Qt skips;225Qt715PASS. Ownsource
-official41605888462 at680SUCCESS/fresh100/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/
-new3fixture5PASS61ms/exact18/mandatory18PASS1.29/oldstable/all11. Initialf1
-completion omitted canonical acceptance; render correctly failed but rootmistakenly
-published before noticing. Corrected812 mapped ALREADY passing evidence, regenerated
-HTML and passed freshall11 before merge; no validator/assertion/source weakening.
-DB01/NUM04 remainpartial; hold16/service004 and full release remain incomplete.
+## Active task and completed gates
 
-## Active branch, PR and reviewed document gates
+Root branch `task/STORAGETEST-016-durable-holds` was created from actual main before
+claim/edit. [Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47)
+last published **4ada6245a687f5a9bb2c88d6f6ef02f22b0e4c85**, all eleven checks
+successful. Current local source head **fc581602ec041e056948d6578735db83a67446cd**
+contains the authored fixtures; root green harness/metadata updates remain local.
+STORAGETEST-016 is in progress; STORAGE-016 is planned. The
+[task brief](../tasks/EPIC-009/STORAGE-016.md) retains separate baseline and
+implementation PRs. `progress/state.json` is authoritative.
 
-Root `task/STORAGETEST-016-durable-holds` created from actualaad BEFORE edits/claim.
-[Draft PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47). Last published
-phase commit **e6b6900831b33d82b2d1de89493633a8d3cb221a**; current local
-prepared build changes are described below. STORAGETEST016 in_progress/test_baseline;
-STORAGE016 implementation planned. [Brief](../tasks/EPIC-009/STORAGE-016.md).
+Completed actual gates:
 
-- Concrete [contract701c710f](../contracts/sqlite-application-holds-v1.md),413lines,
-  authorc14f, actual [DOCreviewc0ed4b6](storagetest-016-contract-review.md)
-  rootc3c5568 after five findings corrected0ad/root1c8ef. Global typedsubject,
-  immutable cause/sharedrawmutationref/perholdversions/multiple independentholds,
-  completeactive gate/history/CAS resolution/replacement,16literalHexamples.
-  CapturedRevision versus FailedCapture handles conversion before a valid finalized
-  int64 plan, with required alternative source/provenance and explicit unknowns.
-  Service004 selected-plan protocol unchanged; producer/semanticcodec and mixed/
-  postfinish/continuation policy remain separate owning-task gates.
-- Physical [contract83e96362](../contracts/sqlite-application-holds-schema-v1.md),
- 495lines, author082659a9, actual [physicalDOCreview696d7f9](storagetest-016-physical-review.md)
-  root568b3cf after three findings fixedab0/root42b9. Step6ID
-  durable-application-holds-v1,12exactstatements/10newtables+11NULLautoindexes+
- 2queryindexes=23delta/full89. EVERYprefix1–5 payloadhex/hash/projection is exact.
-  FinalF89890/SHA**9f5b61d41dc644c417808d781cea73144a8d019ad95646373c30751e71596d0a**.
-  Old972/e094/F89806 andearlier89396 are superseded proposal drafts.
-  SQLNULLlinkguard, actualcounts before fullcollection allocation and H11kind0
-  oldprocessedBesidealias fixed/reviewed. ScratchSQLite3.54 FK/CHECK/catalog/
-  create-append-replace-resolve geometry only; NO port/native/fixture/red proof.
+- Logical contract701c710f, authorc14f6567; separate approvalc0ed4b6 after five
+  documented corrections. [Review](storagetest-016-contract-review.md).
+- Physical contract83e96362, author082659a9; separate approval696d7f9 after three
+  documented corrections. [Review](storagetest-016-physical-review.md).
+  Step6 `durable-application-holds-v1`:12 exact statements,10 new tables,
+  11 NULL autoindexes and2 query indexes; full89 objects. Frame89890 bytes,
+  SHA2569f5b61d41dc644c417808d781cea73144a8d019ad95646373c30751e71596d0a.
+  Every prior prefix1–5 remains exact.
+- Minimal API421acf29/headerfe50fb10/CPP5b10c0e0, author5217ec35;
+  actual separate API/config approvalcfe443a8.
+  [Review](storagetest-016-api-review.md), [compiler/CI](storagetest-016-api-ci.md).
+  Six functions immediately and unconditionally throw the unique marker; the
+  constructor only retains session/limits. No hold method/factory/marker was invoked.
+  Root/reviewer old228 pass; fresh102 compilation zero warnings.
+- Own API-source official SQL41623088230 succeeded at exact10258a11 on
+  10:54:07–10:55:25Z: GNU13.3/pinned Boost108300/verified Qt6.12/SQLite3.53.4,
+  actual new object/archive built, old stable suites/mandatory18/old three-case
+  diagnostics pass, all eleven checks successful. Raw df2370f9 retained. Only then
+  was independent fixture authoring assigned.
 
-## Actual roles and owned paths
+## Actual fixture candidate and current ownership
 
-Root owns shared state/HTML/map, schemaorder/build/pins/workflows/integration.
+Fixture commits6d8422bb and2508658 are integrated as1f5112a andfc58160.
+[Author evidence](storagetest-016-fixture-author.md),
+[root harness/native evidence](storagetest-016-fixture-ci.md).
 
-- `/root/bundle_validation` ACTIVE minimal API author in NEW
+- JSON63de09c58d07e1f9c95837cbc89ebd4e2c63b0c9.
+- Helper7ca946f2f5569fafd95d47f073cbc836ff38d737.
+- Environmenta17312fe5700a179fb03a262d0662aef8d0da3b9.
+- Author evidence216244ced14a81d14a9e7072d8e1ccf305c642d4.
+- Root Qt CMakeec36e1327d89dd91c30adaf2221e456845e7dca2 and
+  workflow559133e8bc81c613d107f986e8ac9271c5464c51.
+
+Root configure/new four-step compilation passes with zero warnings. New diagnostics
+compile exactly three slots and pass5 Qt cases including init/cleanup, zero skips,
+82ms. Global discovery229; full229/229 passes7.99s,226 Qt summaries720 passes,
+zero failures/skips/blacklists. Only raw SQL, existing repositories and DTO
+construction are exercised. This is not hold acceptance or red evidence.
+The pending arrangement uses genuinely unclaimed sources/no applied subset,
+known0 versus absent finalized evidence and65 contiguous history entries. A separate
+processed timer plus distinct correction has complete old closure. Synthetic
+format meanings and proposed links are data, not current policy authority.
+
+Agent roles on last actual inspection:
+
+- `/root/bundle_implementer`: fixture author COMPLETE at2508658, clean isolated
+  `local-evidence/worktrees/storagetest016-fixtures`,
+  `task/STORAGETEST-016-fixtures`. Owns only the four fixture/author paths above.
+- `/root/bundle_reviewer`: explicitly resumed ACTUAL full fixture/helper/harness
+  review on the exact artifacts above. Uses existing
+  `local-evidence/worktrees/storagetest016-review`,
+  `task/STORAGETEST-016-review`; owns only the new fixture-review evidence.
+  Preserve four old root API configuration verification copies; new Qt CMake and
+  workflow copies are verification inputs only. Old-primitives native green is
+  allowed; new hold entrypoints/factory/marker and feature authoring are forbidden.
+- `/root/bundle_validation`: minimal API author COMPLETE at77cddef. Existing
   `local-evidence/worktrees/storagetest016-api-author`,
-  `task/STORAGETEST-016-api-author`, fromjustverifiedcurrentmainaad, ffapprovede6.
-  Own ONLY `docs/contracts/sqlite-application-holds-api-v1.md`,
-  `server/include/subathon/server/sqlite_application_holds.hpp`,
-  `server/src/sqlite_application_holds.cpp`, `docs/evidence/storagetest-016-api-author.md`.
-  No actual candidate yet. Exact finite owned types/results/equality/errorpriority/
-  limits/byte+item formulas in DOC/header; EVERYnewstore/catalog entrypoint must
-  IMMEDIATELY UNCONDITIONALLY throw unique named marker. Constructor/copy inert.
-  No validation/query/SQL/manifest data/persistence/cleanup implementation now.
-- `/root/bundle_reviewer` API read-only prep COMPLETE, awaiting actual candidate,
-  no verdict. Reuses clean `local-evidence/worktrees/storagetest016-review`,
-  `task/STORAGETEST-016-review`; owns next ONLY
-  `docs/evidence/storagetest-016-api-review.md`. Prior actualc0/696 preserved.
-- `/root/bundle_implementer` physical author COMPLETE cleanab0, no currentwriting
-  assignment. Tree `local-evidence/worktrees/storagetest016-physical-author`,
-  `task/STORAGETEST-016-physical-author`. Preserve initialNULL-hole witness/raw
-  diagnostics. Future independentfixture work ONLY after explicitassignment following
-  actualAPI/configreview+OWNAPI selectedofficialstablegreen.
+  `task/STORAGETEST-016-api-author` retains four uncommitted verification config
+  copies. Acceptance-test author is UNASSIGNED until actual full fixture review
+  and this new foundation's own selected official Qt green pass.
+- Root owns state/HTML/maps, shared schema order/build/presets/workflow and merges.
 
-Read-only type/reader map COMPLETE: reuse ApplicationPlanKey/OperationKey/Envelope/
-State/Subject/IDs/Exact. Current-state/current-plan getters cannot validate arbitrary
-historical observations or selected-body+complete metadata-only planhistory. Future
-same-session private SQL/decoder factoring needed; no inventedgetter, dummybundle,
-owning legacyadoption or separate reader connection.
+## Next concrete actions and preservation
 
-## Prepared UNCOMMITTED shared build changes / next actions
+1. Resolve actual independent fixture-review findings without weakening old oracles.
+   Integrate written approval for the final exact files; freeze root harness.
+2. Publish the approved complete fixture candidate. Observe its OWN required new
+   three-slot diagnostic and selected Qt green, old stable suites and all latest
+   checks. API-source CI does not satisfy this gate.
+3. Only then assign feature tests to bundle_validation in a fresh isolated branch
+   from current main plus integrated approved foundation. Review full actual test
+   source and root harness before invoking any new feature entry. Compiler and
+   exact discovery are not red. Same approved candidate's official environment
+   must pass before the FIRST intended missing-feature run; preserve its exact
+   head, time, marker attribution, raw log and LastTest hash.
+4. Finish only the test-baseline task after those gates. Merge a focused PR only
+   with latest CI/current protection/discussions/independent reviews satisfied.
+   STORAGE-016 follows on integrated main, then service004 retains its own red.
 
-Root currently has FOUR prepared config files (no newAPI code present yet):
-`CMakeLists.txt`, `server/CMakeLists.txt`, `CMakePresets.json`,
-`.github/workflows/sqlite-writer.yml`. NewHOLDflag→ORIGINAL→BUNDLE; new static
-subathon_sqlite_application_holds from newCPP linksoldbundle+QtCore; preset20
-sqlite-hold-debug inherits19 with matchingbuild/test; workflow ONLYpreset/builddir
-token substitution, alloldsteps/pins/guards/counts/checkname untouched.
-`cmake --list-presets`20/project396/122/diffPASS. Configure/build20 NOTattempted
-until actualAPIheader/CPP exists. Do not publish incomplete configs ahead of source.
-Authors may copy these as uncommitted verification copies, never commit sharedfiles.
+Actual inventory:115 registered worktrees,99 existing,16 absent. All are preserved;
+no reset, prune, discard or deletion. Older dirty verification trees are
+storage002-review3 configs, storagetest017-review4, storage017-review5 and
+storage017-validation6. The two current16 review/API trees retain4 each.
+These are preserved verification copies, not unfinished source authorship.
+No prior agent/process is assumed running. Native root full229 has completed;
+inspect actual processes and agents again on resumption. Use `followup_task` to
+restart a completed agent; `send_message` alone does not trigger a new turn.
 
-1. Integrate actual minimalAPI/header/APIDOC/namedstub candidate; verify no new
-   behavior/SQL/global initializer and all old source/fixtures unchanged. Compile
-   target/newprofile20 and exact228OLD discovery; NOnewholdentrypoint invocation.
-2. Different actual full API/config/byteformula review, root/reviewer existing228
-   stable checks and candidate's OWN selectedofficialoldstable CI before independent
-   frozen newfoundation author. Existingdoc/017CI is not that future API proof.
-3. Independent raw literalstep6/foundation uses oldwriter only, actualfullreview+
-   OWNNEWselectedQtgreen before featuretestauthor. Then actualtestsource/fullreview/
-   compiler/exactdiscovery/sameapprovedheadownselectedgreen→FIRSTnamedholdstubred.
-   No missing dependency/compile/skip is red. Production16 waits integratedbaseline.
-4. Service004 waits integrated16 and its OWNreviewed API/tests/red; don'taggregate
-   228passes or prototypeSQL as hold/service acceptance. Keep focusedPR/latestCI/
-   independentreviews/currentrules/discussions/normalexactmerge gates.
-
-## Preservation and recovery
-
-All previousbranches/worktrees/reviews preserved; no reset/prune/discard. Old dirty
-verification trees: storage002-review3configs, storagetest017-review4configs,
-storage017-review5configs, storage017-validation6importedcopies. They are not
-unfinishedsource/test changes. New16review clean, physicalauthorclean. Last full
-inventory112refs/96existing/16absent BEFOREphysical/API trees were added; inspect
-actual inventory/processes/agents/PRstate on resumption. No oldsource/native process
-assumed running. Usefollowup_task to resume a completedauthor after findings;
-send_message alone does not trigger an idle turn.
-Current mainrules26170263 formalGHapproval0/threadresolutiontrue/no requiredstatus
-rule; coordinator explicitly checks latestall11. No owneraccess needed, liveprovider
-effects or unsupported platform/release claim.
-
-## Actual minimal API candidate compiled (no invocation)
-
-APIac0610f importedb6b6d11: DOC421acf29012f31345cc41cbee239bcf95000ad62,
-headerfe50fb10e6f5a7198df27358666734ad02fb47d1, CPP5b10c0e0b4e7057af4042ae510af851efcd24efa.
-Author77cddef imported0f0e8f1/MD5217ec35. Sixmethods/factory immediately throw
-unique marker; constructoronlystores actualrevocableticket/limits. No SQL/validators/
-catalogdata/behavior/globalinitializer, no newholdcall ever. Rootfresh102build
-ZEROwarnings/exact228OLD discovery/formatPASS; authorold228PASS8.00s0Qt skips.
-ActualAPI/fullformula/configreviewACTIVE, ownMDawaited; authorCOMPLETE,
-4sharedverificationcopiespreserveduncommittedinAPItree. Root nowfreezes4actual
-configs5d76/b55b/053b/88f8 plusmetadata beforeownold228run+publicationCI. No
-fixtures/tests/red yet. [API compiler evidence](storagetest-016-api-ci.md).
-
-Actual rootold228 at CLEAN8dbde1e PASS7.90s/exit0/225Qt715PASS0fail0skip;
-raw09be2439/LastTest16e765 preserved. No newholdbody/factory/marker invocation.
-API reviewer actualfullaudit/nativeold228PASS7.88/no blockers reported; WRITTEN
-approval notyetimported, ownAPIselectedofficialCI notyetobserved, fixturesunassigned.
-
-## Latest actual API gate before independent fixtures
-
-Actual [API/configapprovalcfe443a8](storagetest-016-api-review.md) imported8c665f2
-accepts exact421/fe50/5b10/5217/5d76/b55b/053b/88f8. Ownreviewerfresh102/0warn/
-old228PASS7.88/225Qt715PASS0skip/exactold228; rootold228PASS7.90 at8db. All
-B/I/formulas/richliteral math verified, SIXfunctions stillunconditional namedstubs.
-No holdentrypoint/factory/marker call. RootpublishingcompleteAPIcandidate for OWN
-selectedofficialoldstableCI now; fixtureauthor MUSTWAIT actualsuccess. All earlier
-awaitingreview paragraphs historical, APIapproval COMPLETE. Fourrootconfigs now
-COMMITTED8db, rootclean beforemetadata. APIauthorCOMPLETE77cddef with4shared
-verificationcopiespreserved, reviewerCOMPLETEcfe with4copiespreserved. Independent
-fixtureauthor NOTassigned yet. No holdschemaimplementation/fixture/test/red.
-
-## Latest actual API-source CI and independent fixture assignment
-
-OWN APIselectedofficial41623088230 SUCCESS exact10258a11a19c1b411534b3e33700787640ab1527
-10:54:07–10:55:25Z/fresh102/zero/newCPP+archive/GNU13.3/Boost108300/verifiedQt6.12/
-SQLite3.53.4/profile20/oldstable+18/requiredold3diagnostic5PASS0skip50ms/all11.
-Raw df2370f938f8cb8f41db12ee096d16f22ed78ff6443d78763ab40b24eb64c329.
-ONLYTHEN `/root/bundle_implementer` assigned independentfixtureauthor in NEW
-`local-evidence/worktrees/storagetest016-fixtures`, `task/STORAGETEST-016-fixtures`,
-fromcurrentmainaad ffapprovedAPI102. OwnONLY
-`tests/fixtures/sqlite_application_holds_vectors.json`,
-`tests/qt/support/sqlite_application_hold_fixture.hpp`,
-`tests/qt/sqlite_application_hold_environment.cpp`,
-`docs/evidence/storagetest-016-fixture-author.md`. No candidate yet.
-Useonlyoldprimitives/rawobserver, NEVERnewHoldStore/catalogfactory/marker.
-Prefix6/full89/9f5b and actualtypedsource/no fakeunknown, legitimateunclaimedwhole
-failure base plus separateprocessedtimer/correction/sourceClosure/data-only links,
-independentliteralDTO/boundaryoracles. RootgreenCMake/newNguard followsactualsource.
-Actualdifferentfixture/harnessreview and OWNNEWselectedQtgreen MUSTprecede any
-featuretestauthor. ReviewerAPIcompletecfe/authorAPIcomplete77cd, both4uncommitted
-rootconfigverificationcopiespreserved. No holdfeaturecall/body/red yet.
+Current effective rule26170263 previously required zero formal GitHub approvals
+and resolved threads; recheck actual rules before merge. Root manually requires
+all eleven latest checks. No force/admin/bypass. All seven integrations, three FX
+providers, both renderers, localization/themes, platforms, packaging, security,
+backup/recovery and live/release gates remain mandatory and incomplete.

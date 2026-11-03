@@ -367,3 +367,19 @@ jobs:
           PYTHON
       - name: Run reviewed original-claim acceptance
         run: ctest --preset sqlite-hold-debug -L '^sqlite-original-claim$'
+      - name: Required hold fixture diagnostics (old primitives only)
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-hold-debug/tests/qt/server_sqlite_application_hold_environment"
+          expected = {
+              "frozenCatalogAndConstraintFoundationIsIndependent()",
+              "pendingSourcesAndContiguousHistoryContainNoAppliedSubset()",
+              "processedTimerAndDistinctCorrectionHaveCompleteOldClosure()",
+          }
+          actual = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if len(actual) != 3 or set(actual) != expected:
+              raise SystemExit("Expected all 3 hold fixture diagnostic cases")
+          print("Discovered all 3 required hold fixture cases")
+          PYTHON
+          ctest --preset sqlite-hold-debug -R '^scaffold.sqlite_application_hold_environment$' --verbose
