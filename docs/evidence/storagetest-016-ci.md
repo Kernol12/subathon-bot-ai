@@ -1,7 +1,8 @@
 # STORAGETEST-016 feature compilation and first-red gates
 
 Current phase: complete feature source is authored, compiled and registered; actual
-independent full source/harness review is active. No hold method, factory or feature
+independent full source/harness review has approved the actual corrected candidate.
+No hold method, factory or feature
 test body has run. Compilation and discovery are not an intended red.
 
 The [reviewed fixture foundation](storagetest-016-fixture-review.md) and its
@@ -72,8 +73,15 @@ Raw files under ignored `local-evidence/`:
 | `storagetest016-feature-portable-discovery.json` | `0e3c7891520c766be4aa6eb19921addbbf05f73b192d520b7f428d79f3a2190d` |
 | `storagetest016-feature-all-discovery.json` | `002979bffae99c55006808b51d46f6eb7c2d9c4490e95be790a2fc9309e86a22` |
 
-Next gates: complete written different full test/harness review of corrected source
-and final author note; freeze/publish the complete approved candidate; observe
+Actual [full approval](storagetest-016-review.md) `adb0404`/`41aa858`, integrated
+`7ab0e0d`/`220dc21`, pins the complete clean candidate
+`25da01e188892fc36d76930ecbda05998d70e6df` and the exact four artifacts above.
+All35 slots/265 statically counted authored rows are reviewed; no body ran. The
+reviewer independently rebuilt the final source without warnings and checked
+exact35/global264 discovery. No blocker remains. Actual allocation order remains
+a future production source-review obligation, not an observed test property.
+
+Next gates: publish the complete approved candidate; observe
 its own selected official foundation green and exact35 compilation/discovery. Only
 then run the FIRST intended hold baseline and retain exact head/time/raw log/LastTest
 hash and named-marker attribution. Missing dependencies, compilation/setup failures,

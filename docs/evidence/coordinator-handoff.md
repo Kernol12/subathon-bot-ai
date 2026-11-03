@@ -1,6 +1,6 @@
-# Coordinator checkpoint — durable-hold full test review
+# Coordinator checkpoint — approved hold baseline awaiting own CI and first red
 
-Updated 2026-11-03 during STORAGETEST-016 full actual test review. Continue the
+Updated 2026-11-03 after STORAGETEST-016 full actual test approval. Continue the
 [standing coordination loop](../COORDINATOR_PROMPT.md) under AGENTS. Full product
 scope remains incomplete; no owner decision or access is currently needed.
 
@@ -41,7 +41,8 @@ latest observed full-CI head **a399abb5d12b3fa4e4181f6a95e807c3d53ed346** has al
 eleven checks successful. New feature source0c9f304+b3659bd is integrated as
 828bbd0+553310a; focusedf0d7da7 integrated5dd44d0 corrects the late-head trigger.
 FinalCPP816441205e4a2ff5c2b69dee535818ad648b1e40/2353lines.
-Root feature harness QtCMakeea1e3cab/workflowb9529c18 is being frozen locally.
+Root feature harness QtCMakeea1e3cab/workflowb9529c18 is frozen25da01e; actual
+fullapprovaladb0404+41aa858 imported7ab0e0d+220dc21. Metadata publication follows.
 35 new enabled draft-red cases compile/discover; no feature body has run. The prior complete source-specific OWN NEW selected
 foundation SQL41631527683 succeeded at a5e5998; its raw evidence is retained.
 The approved complete fixture/harness candidate **e31c5d4cda4b22b0b5f72944c14c18881d8deaff**
@@ -117,14 +118,15 @@ Agent roles on last actual inspection:
   candidate46c70297 adds18 lines clarifying isolated null audit/numeric failure/
   plan branch/nested Observation categories versus old421, preserving earlier keys
   and no new same-stage total order. Actual insertion APPROVED; no calls.
-  Now ACTIVE on actual full35-source/harness review, owns ONLY
+  Actual full35-source/harness review COMPLETE, approvaladb0404+41aa858
+  imported7ab0e0d+220dc21, pins complete25da01e. Owns ONLY
   `docs/evidence/storagetest-016-review.md`. Candidate source5eb83416 and root
   QtCMakeea1e3cab/workflowb9529c18 are read in full; interim no blocker.
   Raw setup/category audit and actual author92ab note inspection passed.
   One genuine test correction is integrated5dd44d0: preserve late-head UPDATE
   trigger and add BEFORE INSERT for NEW hOverflow so injection does not mandate a
   SQL verb (contract requires heads last). All assertions remain. Correctedsource
-  actual reviewed; final authorMDfc167da2 imported d5e056e awaits writtenapproval.
+  actual reviewed; final authorMDfc167da2 imported d5e056e is approved.
  265 scenario rows
   independently counted; source/header/fixture pins remain unchanged.
   Preserve four old root API configuration verification copies; new Qt CMake and
@@ -149,17 +151,23 @@ Agent roles on last actual inspection:
 1. Full fixture approval e624614/d66f183 and OWN NEW selected official success
    SQL41631527683 at a5e5998 are complete; do not repeat these gates.
 2. Focused sourcef0d7da7 and final authoraa17214 are integrated, final81644120/
-   fc167da2; category46c approved35b. Freeze root harness/native-evidence metadata.
+   fc167da2; category46c approved35b. Fullapprovaladb+41aa and all harness/native
+   evidence are integrated. Publish this COMPLETE approved candidate for OWN
+   selected official Qt CI/new3green+35compiled guard/oldstable/all11.
    Root compilation/format/exact35 discovery/global264 PASS, zero warnings.
    [Feature compiler evidence](storagetest-016-ci.md). No new feature execution.
-3. Actual full independent review of complete source/root harness is ACTIVE.
-   Resolve findings and integrate written approval before invoking any new feature entry. Compiler and
-   exact discovery are not red. After feature registration, do NOT run the whole
+3. Actual full review is APPROVED; FIRST new feature execution is still forbidden
+   until own selected CI succeeds. Compiler and exact discovery are not red. After feature registration, do NOT run the whole
    profile or new executable/test bodies before this gate; use compile, -functions
    and CTest --show-only only. The required foundation uses old primitives only.
-   Same approved candidate's official environment
-   must pass before the FIRST intended missing-feature run; preserve its exact
-   head, time, marker attribution, raw log and LastTest hash.
+   Once CI at complete headC succeeds, KEEP HEAD AND WORKTREE CLEAN at C. Do not
+   write tracked CI-result metadata before the FIRST red; retain raw CI under
+   ignored local-evidence. Run ONLY `ctest --preset sqlite-hold-debug -L
+   '^sqlite-hold$' --verbose`, retaining raw output/actual exit/start/end/LastTest.
+   Expected35 failed slots/265 scenario rows must EACH report the exact named
+   HOLD-MISSING marker, with0 HOLD-ASSERT/setup/skip failures. Preserve exact head
+   and log hashes; do not replay a completed valid first red. Then update tracked
+   CI/red evidence, progress and acceptance map, with separate final attribution.
 4. Finish only the test-baseline task after those gates. Merge a focused PR only
    with latest CI/current protection/discussions/independent reviews satisfied.
    STORAGE-016 follows on integrated main, then service004 retains its own red.
@@ -171,7 +179,7 @@ storage002-review3 configs, storagetest017-review4, storage017-review5 and
 storage017-validation6. Current16 review retains5 config copies; API tree retains4.
 These are preserved verification copies, not unfinished source authorship.
 No prior agent/process is assumed running. Feature author is active; fixture author
-is complete; reviewer is active on full test source/harness. Root final feature
+and reviewer are complete. Root final feature
 compile/discovery has completed; no feature execution. Native old229 completed;
 inspect actual processes and agents again on resumption. Use `followup_task` to
 restart a completed agent; `send_message` alone does not trigger a new turn.
