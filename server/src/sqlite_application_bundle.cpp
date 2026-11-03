@@ -937,8 +937,14 @@ class Access {
             fail(Reason::result_limit);
         }
     }
-    size_t plan_items(const CapturedPlanRevision &p) const {
-        return p.rules.size() + p.modifiers.size() + p.captured.requested_effects.size();
+    size_t add_result_items(size_t a, size_t b) {
+        if (b > std::numeric_limits<size_t>::max() - a)
+            fail(Reason::result_limit);
+        return a + b;
+    }
+    size_t plan_items(const CapturedPlanRevision &p) {
+        return add_result_items(add_result_items(p.rules.size(), p.modifiers.size()),
+                                p.captured.requested_effects.size());
     }
     struct Plan {
         CapturedPlanRevision selected;
@@ -1101,15 +1107,16 @@ class Access {
                 fail(Reason::invalid_stored_data);
             out.current_contribution = ApplicationContributionInput{std::move(*c), std::move(*o)};
         }
-        result_bytes(plan_items(out.selected_plan) + out.current_state.balances.size(),
-                     [&](auto &n) {
-                         n.add(1 + 8);
-                         bundle_detail::count_bytes(n, out.plan);
-                         bundle_detail::count_bytes(n, out.selected_plan);
-                         bundle_detail::count_bytes(n, out.current_state);
-                         if (out.current_contribution)
-                             bundle_detail::count_bytes(n, *out.current_contribution);
-                     });
+        result_bytes(
+            add_result_items(plan_items(out.selected_plan), out.current_state.balances.size()),
+            [&](auto &n) {
+                n.add(1 + 8);
+                bundle_detail::count_bytes(n, out.plan);
+                bundle_detail::count_bytes(n, out.selected_plan);
+                bundle_detail::count_bytes(n, out.current_state);
+                if (out.current_contribution)
+                    bundle_detail::count_bytes(n, *out.current_contribution);
+            });
         return {SqliteBundleInputDisposition::ready, std::move(out)};
     }
     struct Fixed {
@@ -1362,6 +1369,9 @@ class Access {
                 e = effect(*row, v.intent.plan);
             }
             e.components = components(k, e, v.advanced_before.token, take);
+            if (e.components.size() >
+                std::uintmax_t(std::numeric_limits<qint64>::max() - component_count))
+                fail(Reason::invalid_stored_data);
             component_count += qint64(e.components.size());
             if (take) {
                 const auto &q = reqs[size_t(pos - 1)];
@@ -1620,8 +1630,9 @@ class Access {
         out.effect = std::move(e);
         out.progress = progress(o, out.actual_credit_units);
         if (account)
-            result_bytes(plan_items(out.selected_plan) + out.effect.components.size() +
-                             size_t(bool(out.target)),
+            result_bytes(add_result_items(add_result_items(plan_items(out.selected_plan),
+                                                           out.effect.components.size()),
+                                          size_t(bool(out.target))),
                          [&](auto &n) {
                              bundle_detail::count_bytes(n, out.original);
                              n.add(1 + 8);
@@ -1699,11 +1710,14 @@ class Access {
         }
         if (!head_relation(v.persisted_head, v.advanced_before, v.advance_explanation))
             fail(Reason::invalid_stored_data);
-        size_t n = v.persisted_head.balances.size() + v.advanced_before.balances.size() +
-                   v.after.balances.size() + v.effects.size() + v.jobs.size() +
-                   v.transitions.size() + v.reversals.size();
+        size_t n = 0;
+        for (const auto count :
+             {v.persisted_head.balances.size(), v.advanced_before.balances.size(),
+              v.after.balances.size(), v.effects.size(), v.jobs.size(), v.transitions.size(),
+              v.reversals.size()})
+            n = add_result_items(n, count);
         for (const auto &e : v.effects)
-            n += e.components.size();
+            n = add_result_items(n, e.components.size());
         result_bytes(n, [&](auto &count) {
             bundle_detail::count_bytes(count, v.intent);
             bundle_detail::count_bytes(count, v.persisted_head);
@@ -2004,8 +2018,9 @@ class Access {
         }
         out.push_back({"UPDATE main.subathon_app_head SET token=? WHERE singleton=1 AND token=?",
                        {bytes(b.after.token), bytes(head->token)}});
+        const SqlStatement changed_query{"SELECT changes()", {}};
         write(std::move(out));
-        auto changed = execute({"SELECT changes()", {}});
+        auto changed = execute(changed_query);
         if (changed.size() != 1 || changed.front().size() != 1 ||
             changed.front().front().toLongLong() != 1)
             fail(Reason::invalid_stored_data);

@@ -72,3 +72,24 @@ sticky terminal-session oracleFAIL,2.13s. An intermediate author typo applied th
 current-only projection to historical fixed records and the65-history case failed;
 corrected that call to historical selection and reran after this real code change.
 No assertion/fixture/old component changes. Separate source verdict remains pending.
+
+## Source reviewer follow-up
+
+Different reviewer requested checked returned-vector sums and signed64 metadata
+component counters, plus preconstruction of the final `SELECT changes()` statement
+before own writes. These explicit arithmetic/preallocation corrections preserve
+all existing tests and are included in this source revision. Actual build9 passes
+ZERO warnings; original32=31PASS/only known terminal-session baselineFAIL,2.16s.
+Full preset at clean93f75ef had205/206PASS7.02s with that same single known assertion.
+
+At root's request, the author also inspected the independently added returned-byte
+regression on clean root e6bc06d, using GDB fallback because no CLion router is
+available. At exact test2159 (after the1105-byte public read), observed
+limits.owned_bytes1105, storage=result_limit, work=work_exception,
+transaction=rolled_back, absent value, empty problem. The stack identifies the
+supportAnchorConditionsUseExactReturnedByteBoundary lambda→scenario→case→Qt
+metacall. This attributes the preserved separately-reviewed regression's actual
+first-red to held helper824's extra Conditions byte. No raw GDB logfile was
+retained; tool output records the exact fields/stack. No source/fixture/log injection
+or baseline preparation rerun occurred. Root controls subsequent correction159
+release and the separate strengthened metadata/input-quota regression gates.
