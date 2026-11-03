@@ -1,10 +1,14 @@
 # STORAGETEST-016 — independent hold acceptance authorship
 
-Status: **authored, compiled, discovery only**. No new hold factory/method, feature
-test body, init or cleanup body has been invoked. Actual different full source and
-root harness review, the complete candidate's own selected-environment foundation
-green and FIRST genuine marker-red remain coordinator gates. This note is not
-self-review, an observed red, implementation approval or passing feature evidence.
+Status: **first coordinator execution INVALID; setup corrections authored and
+validated using old primitives only**. The author has never executed a new hold
+factory/method or feature/init/cleanup body. Actual full review and selected
+CI41637913237 preceded root's first execution at the same clean af310e7:261 named
+markers were reached, but FOUR setup errors invalidate the complete baseline.
+That evidence and valid unchanged reviews are preserved. The corrected candidate
+requires actual correction review, its own selected CI and coordinator-recorded
+revised valid baseline before production. No implementation approval or feature
+pass is claimed here.
 
 ## Scope and fixed inputs
 
@@ -21,8 +25,10 @@ note. Source commits `0c9f304cdf403279205a7981ea72e152a56d4ea4` then
 `5eb83416eedf0c1096490da3e61550be6391bdc0`. The second commit adds distinct
 produced-version result item fit/overage rows to an existing slot. No production,
 header, fixture, helper, schema, shared build/CI/progress or old test changes.
-Review correction `f0d7da7aeb11234657e704a8ba41a7db5e41478c` now gives final
-test blob `816441205e4a2ff5c2b69dee535818ad648b1e40`; details below.
+Review correction `f0d7da7aeb11234657e704a8ba41a7db5e41478c` gave candidate
+test blob `816441205e4a2ff5c2b69dee535818ad648b1e40`. Actual setup corrections
+`da588312228515c0943735d33e61a02dd514a47b` now give final test blob
+`0cce9545c3a3851b25df9131e6e35e97366aacee`; both correction records are below.
 
 Requirements: specificationv0.45 §§3.3–3.5,4,5; NUM-02/03/04, DB-01;
 [brief](../tasks/EPIC-009/STORAGE-016.md), concrete H01–H16 blob
@@ -104,7 +110,7 @@ inputs are larger cannot be exercised by pretending that tiny shared cap admits
 the input. Those frozen formula oracles are preserved; no unreachable successful
 runtime boundary is claimed. Mutation result item2/1 remains independently reachable.
 
-Remaining isolated category proposals (subject to full review): null command
+Isolated category oracles subsequently accepted by actual full review: null command
 document/unknown cause/timer scalar group/missing policy reason→invalid_cause;
 unknown occurrence unit/noncontiguous occurrences→invalid_plan_evidence;
 failed known failing amount fabricated0→invalid_failure; empty resolution entries
@@ -117,8 +123,9 @@ invent an order among unrelated defects within one preflight stage.
 
 Local compile/discovery environment: GNU C++16.2.1 20260810, CMake4.4.5,
 QtCore/Sql/Test6.12.0, Boost109200, Linux. This differs from the pinned selected
-official GNU13.3/Boost108300 environment. No new native SQL runtime was probed or
-feature body run here. Standalone Python SQL diagnostics use SQLite3.54.0 and are
+official GNU13.3/Boost108300 environment. Initial compile/discovery did not probe
+SQL or run feature bodies; the later authorized OLD-primitives native diagnostic
+is recorded below. Standalone Python SQL diagnostics use SQLite3.54.0 and are
 NOT native behavior/acceptance evidence.
 
 Temporary UNTRACKED harness `/tmp/hold016-feature.cmake` adds only target
@@ -206,6 +213,89 @@ Correction artifact SHA256:
 | hold016-feature-insert-trigger-discovery.json |148a6c7646594924d39076abab66a64fd9030127bf773b9e3b15f457c67180b8 |
 | hold016-insert-trigger-raw.py |03d92a70574f3147815660cd80b4340abb22d4fae20800c783ffb37449d111cb |
 | hold016-insert-trigger-raw.txt |c94ae0e102e3f4fe365ba99a423a8fb8543d04380a48cc343fff7f5c65147613 |
+
+## Invalid first execution and actual setup-only correction
+
+Root's FIRST execution followed actual full source/harness review and own selected
+CI41637913237 on SAME CLEAN af310e7. Author independently inspected its preserved
+per-invocation `local-evidence/storagetest016-FIRST-red-LastTest.log`:35 Qt summaries,
+70 init/cleanup passes,265 scenario failures,0 skips; EXACTLY261 HOLD-MISSING and
+FOUR HOLD-ASSERT before the hold entry. The timer kind1 distinct/MIN/NULL rows all
+failed their observer SELECT; wrong-retained-context failed its raw context insert.
+This is NOT a valid full feature baseline or implementation gate. The261 genuine
+reached markers remain evidence; the4 setup failures do not become intended red.
+CTest verbose/outputOnFailure repeats stdout, so522 duplicated marker lines are
+not522 distinct executions.
+
+Original ignored artifacts remain untouched in root local-evidence:
+
+| First attempt artifact | SHA256 |
+| --- | --- |
+| storagetest016-FIRST-red-ctest.txt |4c2dd57f6f6480f3c6bd21bf957e737daedd5de281a81180d61af49ea7907be0 |
+| storagetest016-FIRST-red-LastTest.log |6d4398039fafa4bdf0823d058a3667f5685e440b785245cdc809e7909dfa19fa |
+
+Two genuine test setup defects were corrected in `da58831`, using the ACTUAL frozen
+schema rather than changing fixtures or expectations:
+
+- `effect_count` belongs to `subathon_app_results`, not `subathon_app_operations`.
+  BOTH original before/after four-field queries now select qualified operation
+  identity/receipt fields plus `r.effect_count` from an explicit operations/results
+  JOIN USING(operation_scope,operation_ref), ordered by qualified operation ref.
+  The count, four-field comparison and original unchanged-record assertion remain.
+- Retained-context columns are reference,document,configuration_ref. The unnamed
+  old values incorrectly made configuration_ref an empty forbidden known FK. The
+  corrected explicit named-column insert stores other/empty/other after creating
+  actual configother: a valid non-null empty document and valid nonempty references.
+  It now represents the intended incoming source mismatch, not a setup constraint
+  error. The required source_mismatch/actual whole rollback assertion remains.
+
+No provider/product requirement, old oracle, fixture/helper/header/production/shared
+configuration, `_data` table or slot count changes. Compile/discovery ONLY for the
+feature executable:0 warnings/errors, same35 slots, temporary show-only264=229+35.
+The existing265 scenario table structure is unchanged. The author did not rerun a
+feature test or call any hold method/factory; revised-baseline execution is root-owned
+AFTER actual corrected-source review and the new complete candidate's selected CI.
+
+Authorized native setup diagnostic is separate from the feature executable:
+
+```sh
+python3 /tmp/hold016-setup-native-generate.py
+cmake --preset sqlite-hold-debug -B /tmp/hold016-setup-native-build -DCMAKE_PROJECT_INCLUDE=/tmp/hold016-setup-native-defer.cmake
+cmake --build /tmp/hold016-setup-native-build --target hold016_setup_diagnostic -j2
+/tmp/hold016-setup-native-build/hold016_setup_diagnostic
+cmake --build /tmp/hold016-feature-build --target hold016_feature -j2
+/tmp/hold016-feature-build/hold016_feature -functions
+ctest --test-dir /tmp/hold016-feature-build --show-only=json-v1
+```
+
+The temporary generator extracts BOTH exact corrected observer-query variants and
+BOTH exact retained setup inserts from the actual source, including adjacent C++
+string concatenation. The standalone diagnostic links ONLY the implemented OLD
+bundle library/QtTest, uses approved raw fixture/old writer/observer primitives and
+has no new Store/factory or feature-body call. Its fresh26-step build passes with
+0 warnings. Actual Qt6.12.0 QSQLITE reports SQLite3.54.0. Both exact timer queries
+return the independent literal four-field/two-row values (correction receipt8/count1,
+original receipt7/count2) for the setup shared by all three kind1 cases. Exact
+context inserts succeed, typeof/hex/length prove BLOB other/empty/other, the source
+receipt still has cfg/ctx and therefore genuinely disagrees, and full FK checks
+are empty. PASS. This OLD-primitives diagnostic is setup validation, NOT new hold
+behavior/red, selected official CI, permission or product evidence.
+
+Additional `clang-format --dry-run --Werror`, `git diff --check` and project check
+pass. Correction artifacts in `/tmp/`:
+
+| Artifact | SHA256 |
+| --- | --- |
+| hold016-setup-native-generate.py |610229888b3b0d17cc238fe6eb78ad1590980c5f72d718b42c1c0bd656166ee7 |
+| hold016-setup-native.cpp |2379a090b1a474c90cd57592b17a26d286170a43c03c03ca6b50e69bc20d8bb0 |
+| hold016-setup-native.cmake |6d6d03398f4f6fe3158fb09e9d4a0303e0093e63bd8e367fe849c6749d0f5be0 |
+| hold016-setup-native-defer.cmake |553d316f84965a790028708e2378abe98b2f1c7670161663008ac4f6be6af64e |
+| hold016-setup-native-configure.txt |8c6778b8fc9441501921dacb338e447559f45565737c51e06521c507df9e642a |
+| hold016-setup-native-build.txt |6a7ae40063a3936b627c7568370abad794d01f0fcd38998697a1f1d96a5dbb95 |
+| hold016-setup-native-run.txt |a755bee5c7e8c7c1a1d76c37140373f4ef9ed90936d2e4ad014661f3f7cb9c6f |
+| hold016-feature-setup-correction-build.txt |b014418d4081f4d8973c7f7a9f3e387c17d81a9650507738a311d4ce5f0216f0 |
+| hold016-feature-setup-correction-functions.txt |94056a922e885d2c658367be53890097a6d8ca043fa83d2252bc4ce5fcaf965f |
+| hold016-feature-setup-correction-discovery.json |148a6c7646594924d39076abab66a64fd9030127bf773b9e3b15f457c67180b8 |
 
 No live/provider, producer/evaluator/capture, permission, timer mixed/continuation/
 postfinish/entitlement, UI/platform, power-loss or owning-service whole-attempt
