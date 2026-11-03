@@ -14,7 +14,7 @@ prior stop checkpoint branch8e52bfc and all98 prior registered trees/refs
 No previous agents were assumed alive; fresh agents explicitly assigned.
 
 Root owns task/STORAGE-002-application-bundle at root and sharedstate/HTML/map/
-build/presets/workflow/schema order. STORAGE-002 is IN_REVIEW; baseline DONE only.
+build/presets/workflow/schema order. STORAGE-002 is DONE acceptance/code review, but PR43 UNMERGED.
 [Task handoff](storage-002-handoff.md), [CI](storage-002-ci.md),
 [actual full source/config review](storage-002-code-review.md).
 
@@ -60,13 +60,17 @@ application/authority/delivery/recovery/provider/platform proof is inferred.
 ## Publication / next concrete action
 
 PR43 remains DRAFT; initial publishedclaima139 received all11 inherited checksPASS.
-Root is now committing/publishing the complete reviewed source+35 unconditional CI
-and honest evidence/progress. Official selected UbuntuQt6.12/Boost1.83/SQLite3.53.4
-acceptance on THIS candidate is not yet observed. Do not infer it from claimCI.
-Run/check changed workflow, append actual results, complete task records, recheck
-latesthead CI/threads/reviews/effective rules/mergeability and normal exacthead
-merge. Current effective26170263 requires PR/resolvedthreads/no force/deletion,
-GitHub approvals0; written all-latest-CI/independent-review gates still apply.
+Complete reviewed source published6133afe. Actual selected official
+[41585131851](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41585131851)
+SUCCESS05:38:58–05:40:55Z: fresh92/0warnings/GNU13.3/pinnedBoost1.83/
+verifiedQt6.12SQLite3.53.4/old164+mandatorygreens/exact35guard/UNCONDITIONAL35PASS
+5.26s/all11SUCCESS. Root preserved rawlog SHA c59682ee7f9b0a61767653dd0ee7ba1dc86a135d4322c98120de151dbd81303e.
+TaskDONE but PR43UNMERGED. Root completing metadata and separate attribution review;
+latest completion-headCI must pass, then actual ready/threads/reviews/effective
+rules/mergeability/exacthead normal merge. No future CI approval is inferred.
+Observed source6133 CLEAN/MERGEABLE/zero threads/GHreviews0, effective26170263
+requiresPR/resolvedthreads/no force/deletion/GitHubapprovals0; written independent
+review/all-latestCI gates remain. No owner decision/access currently needed.
 
 Then refresh main and immediately claim ACCTTEST-004. Read-only next-slice prep is
 complete, NO dependent edits/claim: begin bounded ORIGINAL application-orchestrator
@@ -74,3 +78,7 @@ logical contract, actual independent review before API/tests. Explicit typed cur
 policy/clock/authority ports are needed; storage envelopes certify none of them.
 Keep refunds ACCT006, batch/review ACCT005, milestones/delivery/recovery/wire as
 separate required gates. Do not invent capability from an opaque state document.
+
+Actual [final attribution876cd975](storage-002-final-review.md) approves completed
+officialsourceCI/metadata. Root publishing this final completion revision, then
+observing its own latestCI/readiness/rules/threads/mergeability before merge.

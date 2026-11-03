@@ -48,16 +48,22 @@ Host GCC16.2.1/Boost1.92/Qt6.12.0/SQLite3.54.0; raw commands/hashes in
 
 ## Publication and remaining gates
 
-Local source/config review and acceptance are complete. Ordinary SQL workflow now
-runs35 UNCONDITIONALLY after the preserved exact35 compiled guard/mandatory fixture
-and old acceptance suites; pins/check name/permissions unchanged. No manual input,
-skip, inversion or blanket continue-on-error. Selected official UbuntuQt6.12/
-Boost1.83/SQLite3.53.4 CI on the actual published candidate is PENDING; existing
-claima139/all11PASS establishes only inherited checks. Latest-head required CI,
-reviews/discussions/effective rules/mergeability must pass before normal merge.
+Local source/config review and acceptance are complete. Actual automatic
+[SQL41585131851](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41585131851)
+at published6133afe SUCCESS: fresh92/0warnings/GNU13.3/pinnedBoost1.83/
+verifiedQt6.12SQLite3.53.4/old164/mandatorygreens/exact35guard/UNCONDITIONAL35PASS
+5.26s, all11PR checksSUCCESS. Pins/check name/permissions unchanged. No manual
+input/skip/inversion. Task is DONE but PR43 is UNMERGED at this checkpoint;
+completion-metadata head must receive its own latestCI. Actual readiness,
+reviews/discussions/effective rules/mergeability must be rechecked before normal
+exact-head merge. No independent review is extrapolated over changed behavior.
 
 This is real synthetic disposable-file component acceptance, not the application
 orchestrator, semantic rules/caps/permissions, provider/FX/refund allocation,
 delivery/recovery/backup/UI/renderers/platform or complete release verification.
 All seven integrations/three FX remain mandatory. No live effects or credentials
 used. Next dependent slice after integration: ACCTTEST-004; no dependent edits yet.
+
+[Independent final attribution review](storage-002-final-review.md)876cd975 verifies
+actual source6133 officialCI and completed-but-unmerged task metadata. Finalhead
+CI/normal merge remains an actual later observation, never prospective approval.
