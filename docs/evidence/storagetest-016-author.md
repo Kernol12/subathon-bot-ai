@@ -17,10 +17,12 @@ input-category clarification; no authored test file was overwritten.
 
 Own ONLY [test source](../../tests/qt/sqlite_application_hold_tests.cpp) and this
 note. Source commits `0c9f304cdf403279205a7981ea72e152a56d4ea4` then
-`b3659bd93b72f9ac18478c6a1b067c8e5b8e37a8`; final test blob
+`b3659bd93b72f9ac18478c6a1b067c8e5b8e37a8`; that candidate test blob was
 `5eb83416eedf0c1096490da3e61550be6391bdc0`. The second commit adds distinct
 produced-version result item fit/overage rows to an existing slot. No production,
 header, fixture, helper, schema, shared build/CI/progress or old test changes.
+Review correction `f0d7da7aeb11234657e704a8ba41a7db5e41478c` now gives final
+test blob `816441205e4a2ff5c2b69dee535818ad648b1e40`; details below.
 
 Requirements: specificationv0.45 §§3.3–3.5,4,5; NUM-02/03/04, DB-01;
 [brief](../tasks/EPIC-009/STORAGE-016.md), concrete H01–H16 blob
@@ -78,7 +80,7 @@ are authored; they have not been executed or represented as a passing baseline.
 | selectedCountsAndFieldOveragesAreDistinctFromCorruption | Actual active/occurrence/selected expected-set/field/document/Exact overage→result_limit; understated count→corruption before reserve; both SQL classes before both sizes before Exact grammar |
 | mutationInputItemsCountEveryNestedReplacementBeforeBodies | Input2/3/5 and one-under; historical/new replacement outcomes result_items2 fit and1→actual whole rollback, no fictional full request charge to small result |
 | fixedQueryInputsHaveTheirOwnOwnedBytePreflight | find7/active9/history23 bytes and one-under; fixed query input counts0; missing result/tail presence not confused with resource refusal |
-| lateSqlFailureRollsBackResolutionReplacementAndEarlierCallerStaging | Raw late head-update trigger aborts after preparation/staging; real sql_failure, earlier marker/close/replacement/head all rolled back inside catch |
+| lateSqlFailureRollsBackResolutionReplacementAndEarlierCallerStaging | Raw late head UPDATE/INSERT triggers abort after preparation/staging; real sql_failure, earlier marker/close/replacement/head all rolled back inside catch |
 | callerAndAllBorrowedPortsShareActualCumulativeWriterBudgets | Caller exhausts actual statement/binding/result-row/result-byte allowances before new method; corresponding resource/result reason and original sticky writer completion, no reset/second cleanup |
 | foreignConstructionAndRevokedTicketsKeepCapabilityTruthAndPurePriority | Inert construction on foreign thread, wrong_thread and pure invalid subject, valid owner use, expired/default ticket stale_session and pure key before stale |
 | closedSessionMisuseStaysSynchronousAndSticky | Caller rollback, pure cursor first, valid call session_closed, original sticky completion/no payload |
@@ -167,6 +169,43 @@ SHA256 local artifacts (not committed):
 | hold016-feature-raw.txt |5355b7555ace298173bcd19032f84ef8484ed085dff7919b9742ab89df74dd6b |
 | hold016-feature.cmake |82aed891cabb16b5e99d2e39a0ba1a855235cff742227bb07850957b7f4d9ba5 |
 | hold016-feature-defer.cmake |f4b4cb16baa82158639956eb464eb1044d065a14dd10ab4916e1130fe05d9eb9 |
+
+## Actual review correction before baseline establishment
+
+Independent full test-source review found a genuine portability defect: the late
+head-transition fault was injected only by BEFORE UPDATE. Concrete701 requires
+heads LAST; physical83e requires the actual atomic transition and exact stored
+result, without prescribing UPDATE instead of INSERT/REPLACE/UPSERT. The test
+therefore must not depend on one conforming SQL spelling. At the coordinator's
+explicit request, source commit `f0d7da7` adds ONLY a complementary BEFORE INSERT
+trigger restricted to `NEW.hold_ref=hOverflow`. The original BEFORE UPDATE trigger
+and ALL prior assertions remain byte-for-byte unchanged; no test slot is added.
+This preserves the same required late sql_failure and whole-unit rollback oracle.
+It does not weaken acceptance or alter production/fixture/API/schema requirements.
+
+Actual correction checks: rebuild target `hold016_feature` with the same temporary
+harness; run ONLY `-functions`; CTest `--show-only=json-v1`; clang-format dry run
+and `git diff --check`. PASS0 warnings/errors, exactly the same35 compiled slots,
+show-only264=229+35. No new factory/method, feature/init/cleanup body or feature
+CTest execution occurred. Different review must inspect this corrected source;
+no full-review verdict or first-red result is claimed here.
+
+`python3 /tmp/hold016-insert-trigger-raw.py` independently executes the two actual
+source trigger strings on a complete literal pending fixture using stdlib SQLite
+3.54.0. UPDATE, INSERT, INSERT OR REPLACE and UPSERT each raise the exact synthetic
+late-head error for hOverflow; the hPause head remains permitted and FK closure
+remains healthy. Diagnostic rollback is explicit raw cleanup, not evidence of
+the future hold-port rollback. The diagnostic invokes no native feature body.
+
+Correction artifact SHA256:
+
+| `/tmp/` artifact | SHA256 |
+| --- | --- |
+| hold016-feature-insert-trigger-build.txt |b014418d4081f4d8973c7f7a9f3e387c17d81a9650507738a311d4ce5f0216f0 |
+| hold016-feature-insert-trigger-functions.txt |94056a922e885d2c658367be53890097a6d8ca043fa83d2252bc4ce5fcaf965f |
+| hold016-feature-insert-trigger-discovery.json |148a6c7646594924d39076abab66a64fd9030127bf773b9e3b15f457c67180b8 |
+| hold016-insert-trigger-raw.py |03d92a70574f3147815660cd80b4340abb22d4fae20800c783ffb37449d111cb |
+| hold016-insert-trigger-raw.txt |c94ae0e102e3f4fe365ba99a423a8fb8543d04380a48cc343fff7f5c65147613 |
 
 No live/provider, producer/evaluator/capture, permission, timer mixed/continuation/
 postfinish/entitlement, UI/platform, power-loss or owning-service whole-attempt
