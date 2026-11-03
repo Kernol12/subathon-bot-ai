@@ -370,8 +370,9 @@ UI/platform or release proof. [Handoff](evidence/storage-002-handoff.md).
 
 STORAGETEST-017 supplies18 enabled Qt cases/35 scenarios with separate concrete
 contract/API/fixture/full-test review. [Full review](evidence/storagetest-017-review.md)
-pins final CPP0e4f4f00 and exact harness. The old-primitive new foundation is
-mandatory green; feature bodies remain intentionally red and separate from CI.
+pins final CPP0e4f4f00 and exact harness. At the baseline stage the old-primitive new foundation was mandatory green;
+feature bodies remained intentionally red and separate from passing CI. Current
+implementation promotion is recorded below.
 Configure/build sqlite-original-claim-debug, discover exact18 with label
 `^sqlite-original-claim$`; full registration228=prior210+new18.
 
@@ -383,3 +384,17 @@ missing-query marker, with36init/cleanupPASS and no skip/crash/setup failure.
 [CI chronology](evidence/storagetest-017-ci.md), [handoff](evidence/storagetest-017-handoff.md).
 This completes only the baseline. STORAGE017 query implementation, durablehold016
 and service004 retain separate gates; DB-01/NUM-04 and full release remain partial.
+
+
+## Typed early ORIGINAL claim implementation
+
+STORAGE017 preserves all18 reviewed cases/35 scenarios and original red. Actual
+[source/config review11012da](evidence/storage-017-code-review.md) accepts runtime834
+and mandatory ordinary acceptance promotion. Root/reviewer/independentvalidator
+new18/full228 PASS with zero warnings/Qt skips, exact18 registrations and unchanged
+prior data/schema/assertions. [CI](evidence/storage-017-ci.md) records actual promoted
+official41605888462 at680: fresh100/pinnedBoost/Qt6.12SQLite3.53.4/requirednew3green/
+compiled18/UNCONDITIONAL18PASS1.29/oldstable/all11. The same profile now has228
+passing cases, with the new draft label removed. [Handoff](evidence/storage-017-handoff.md).
+These synthetic real-SQL component checks do not establish durablehold016, service
+policy/authority, providers/FX/recovery/UI/platform or complete release acceptance.

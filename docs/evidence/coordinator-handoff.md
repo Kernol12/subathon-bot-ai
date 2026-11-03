@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-017 source integrated, independent review active
+# Coordinator checkpoint — STORAGE-017 component complete, final PR46 merge gates
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md). Full product remains
 incomplete; all seven integrations/threeFX, both renderers/platform/UI/operational
@@ -45,7 +45,7 @@ until implementation passes. Preserve original red; DO NOT REPLAY as a new basel
 
 ## Active implementation / ownership
 
-STORAGE017 in_review; [draft PR46](https://github.com/Kernol12/subathon-bot-ai/pull/46). Root `task/STORAGE-017-original-claims` created from
+STORAGE017 DONE component only, UNMERGED; [draft PR46](https://github.com/Kernol12/subathon-bot-ai/pull/46). Root `task/STORAGE-017-original-claims` created from
 actual refresheda40 BEFORE edits/claim. [Brief](../tasks/EPIC-009/STORAGE-017.md).
 Only implement approved const query; no schema/header/old equality/fixture/test
 weakening. Options→source pure preflight, global taggedsubject first then ORIGINAL
@@ -62,11 +62,12 @@ Fresh isolated worktrees/branches from integrateda40:
   tree; runtime834336d3/author492add53 imported34f7dd5/7de22a6.
 - `/root/bundle_reviewer` independent source/config reviewer.
   `local-evidence/worktrees/storage017-review`, `task/STORAGE-017-review`.
-  Own ONLY `docs/evidence/storage-017-code-review.md`; actual source/harness full review ACTIVE on834+five rootfiles, no verdict yet.
+  Own ONLY `docs/evidence/storage-017-code-review.md`; actual source/harness review COMPLETE11012da, imported634d45e.
+  Own18/full228PASS0skip/fresh1000warnings and actualofficialCI inspected.
 - `/root/bundle_validation` independent native validator.
   `local-evidence/worktrees/storage017-validation`, `task/STORAGE-017-validation`.
-  Own ONLY `docs/evidence/storage-017-validation.md`; actual source834 native validation ACTIVE; exact five rootfiles supplied, no
-  verdict yet. No original red replay.
+  Own ONLY `docs/evidence/storage-017-validation.md`; actual source834 native validation COMPLETEbcffc51/93b7001/9455421,
+  imported4c1d/c5b/554. New18/full228PASS0skip/100+26zero warnings. No red replay.
 - Root owns state/HTML/map/build/presets/workflow/schema order and actual merge.
 
 Source author read-only preparation recommends one existing Access+guarded path,
@@ -78,30 +79,34 @@ initialnew18PASS0.81s, promoted candidate26buildsteps/0warnings/full228PASS7.88s
 fixtures/helper unchanged. Header8614 removes ONLY obsolete1stubstatuscomment;
 rootCMakea713/preset0acd descriptions, QtCMake687a removes newdraft/comment,
 workflowc5d1 promotes mandatoryordinary18 after oldstable/new3green/exactguard.
-Different actual source/config review and validation pending; ownselectedCIpending.
+Different source/config review11012da and independent validation COMPLETE.
+Actual ownpromoted official41605888462 at680 SUCCESS08:47:22–08:48:51Z/fresh100/
+zero/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/new3guard5PASS61ms/exact18/
+UNCONDITIONAL18PASS1.29s/oldstable/all11. [Handoff](storage-017-handoff.md).
 
 ## Next concrete actions / preservation
 
-1. Actual source834 integrated and native acceptance PASS. Obtain actual separate
-   source/config review and independent validation, resolve findings on examined revisions. No assertions/fixtures changed to get green. Genuine test
-   defect needs written specification reason and separate review first.
-2. Root promotes new suite to unconditional ordinaryCI only after it passes:
-   preserve selected pins/check names/oldguards/new3green and exact18 guard.
-   Remove feature draft label/comment appropriately; source/config actual
-   independent review and native validation on exact candidate required.
-3. Record exact artifacts/commands/environment; publish focused draft taskPR.
-   Own promoted selected officialCI/new18+oldstable+all11/latestmerge gates then
-   normalexactmerge. Continue ready task loop after integration.
-4. Hold016 remains separately dependency-ready baseline, not optional; service004
-   waits BOTH integrated ports and its own reviewed baseline/red. Read-only016prep
-   identifies globalgating/detectionvsheld identity/multipleholds/versiontransition/
-   continuation questions for actual concretecontract review, no implicitpolicy.
+1. Final completion metadata now ready; preserve actual source834/header861/
+   fiveconfigpins and baseline0e4/raw90f. Publish final candidate; observe ITS OWN
+   latestall11CI, actualready/CLEAN/MERGEABLE/zero unresolvedthreads/currentrules/
+   cleanroot and normalexacthead PR46merge only. No futureheadCI preapproval.
+2. Refresh main after integration; record postmainCI separately. Claim next ready
+   STORAGETEST016 from actualmain before edits, concrete hold contract first then
+   differentactualdocreview before schema/API/frozenfixtures/tests/red.
+3. Hold016 remains separately required; service004 waits BOTH integrated ports
+   and its own reviewed baseline/red. Read-only016prep identifies globalgating/
+   detectionvsheldidentity/multipleholds/versiontransitions/continuation questions;
+   no implicit unresolvedpolicy enablement.
 
 Previous branches/worktrees and valid reviews preserved. Earlier storage002-review
 retains3 root-config verificationcopies; storagetest017-review retains4. No unfinished
 old source/test work, no prune/reset/discard. Latest preclaim inventory107refs/
-91existing/16absent; three new trees added here. Root shared promotion/CI/state/checkpoint updates are being frozen for publication;
-independent reviewer/validator may be running native work. Inspect actual processes
+91existing/16absent; three new trees added here. Root completion CI/state/map/checkpoint/handoff updates are being frozen for
+publication. Source/reviewer/validator agents COMPLETE; native work finished. Inspect actual processes
 and worktrees on resumption. All prior dirty verification copies preserved.
 Current ruleset has no required-status-check rule; coordinator explicitly verifies
 all11 checks. No future source/query/service/platform/live evidence claimed.
+
+Preserve five uncommitted shared verification copies in new storage017-review
+and six imported verification copies in storage017-validation, plus earlier dirty
+review trees. No unfinished source or test edits; no reset/prune/discard.

@@ -5,8 +5,11 @@ Current candidate: actual source d675eb9, root34f7dd5, runtime blob
 [Author evidence](storage-017-author.md)a9d184d records own100-step zero-warning
 build/new18PASS0.82/full228PASS7.97/zero skips. Integrated prerequisite
 [baseline](storagetest-017-handoff.md) and original FIRST named-stub red remain
-unchanged. Source review and independent native validation are active; no final
-source/config verdict or selected official implementation CI is claimed yet.
+unchanged. Current acceptance is complete: actual source/config review11012da and independent
+native validation approve these exact artifacts, and source-own promoted official
+CI41605888462 passed. Latest completion-head CI/normal merge remain pending.
+The native/promotion setup sections below record their historical checkpoints;
+the final section gives the actual review/official outcomes.
 
 ## Actual implementation and preserved contract
 
@@ -66,3 +69,31 @@ explicitly checks latestall11 and discussion/rules/mergeability before normal me
 DB-01/NUM-04 remain partial. This is synthetic SQLite component acceptance only,
 not hold/service/current authority/policy/provider/FX/recovery/UI/platform/release
 verification. All seven integrations/threeFX remain mandatory, no live effects.
+
+
+## Actual independent acceptance and promoted official CI
+
+[Source/config approval11012da](storage-017-code-review.md), imported634d45e,
+accepts exact runtime834/header861/rootCMakea713/preset0acd/QtCMake687/workflowc5d.
+Reviewer independently compared the extracted byte walk, strict selected identity/
+full closure and actual rollback/unknown paths beyond test outcomes. Fresh100-step
+build zero warnings, new18PASS0.82s, full228PASS7.85s/225Qt715PASS0fail0skip.
+[Independent validation](storage-017-validation.md)bcffc51/93b7001/9455421 confirms
+same exact source/config: new18PASS0.79s, full228PASS7.97s/715Qt0fail0skip, fresh100
+and promoted26-step builds zero warnings. No source/test/fixture assertion changed.
+
+Actual promoted [SQL41605888462](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41605888462)
+SUCCESS at **680209e67a8c4931eb5c703be3a16d7449a8dccd**,
+2026-11-03T08:47:22Z–08:48:51Z. Fresh100 steps, ZERO warnings, GNU13.3, selected
+pinned Boost1.83 macro108300, verified official Qt6.12 archives, actual SQLite3.53.4.
+All old stable suites including35 bundle PASS; mandatory new three-slot fixture
+guard+5QtPASS0fail0skip61ms, exact18compiled guard, **UNCONDITIONAL18PASS1.29s**.
+All11 same-head PR checks COMPLETED/SUCCESS. No manual switch or failure suppression.
+
+Raw local-evidence/storage017-source-official-ci.txt SHA256
+9fa9ed917b4c489cdbcc87be6b3c0c29ffe768ba18828f5d16fe6e7819ae3f1e.
+Completed result and final rollup were also inspected by the separate reviewer;
+the earlier in-progress run-list snapshot is not cited as final success.
+STORAGE017 is DONE as a synthetic SQLite component. The final metadata head
+requires actual latest CI/discussion/rules/readiness/normal merge checks. These
+source-head outcomes do not preapprove a future revision or broader release.
