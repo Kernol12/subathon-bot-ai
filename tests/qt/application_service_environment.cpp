@@ -220,7 +220,7 @@ class ApplicationServiceEnvironment final : public QObject {
                         "efbbbf00ff41",
                 "CID0 and raw BOM/NUL/FF are not normalized");
             const auto cases = data.frozen["cases"].toObject();
-            require(cases.size() == 30, "Bounded independently authored scenario inventory");
+            require(cases.size() == 33, "Bounded independently authored scenario inventory");
             for (auto it = cases.begin(); it != cases.end(); ++it) {
                 const auto c = it.value().toObject(), o = c["oracles"].toObject();
                 require(command_bytes(command(c["command"])) ==
@@ -594,7 +594,10 @@ class ApplicationServiceEnvironment final : public QObject {
                 catalog(observer, data);
             }
             for (const auto &[case_name, detection] :
-                 {std::pair{"score_overflow", "dNew"}, std::pair{"clock_overflow", "dClock"}}) {
+                 {std::pair{"score_overflow", "dNew"}, std::pair{"clock_overflow", "dClock"},
+                  std::pair{"policy_unavailable", "dPolicyMissing"},
+                  std::pair{"clock_unavailable", "dClockMissing"},
+                  std::pair{"actions_unavailable", "dActionsMissing"}}) {
                 QTemporaryDir directory;
                 require(directory.isValid(), "Disposable literal hold-proposal diagnostic");
                 const auto path = directory.filePath("fresh-hold.sqlite");
@@ -615,6 +618,54 @@ class ApplicationServiceEnvironment final : public QObject {
                     const auto view = store.find(d.cause.hold_ref);
                     require(view.has_value(), "Old reader owns provisional literal hold closure");
                     check_hold(*view, expected.view(d.cause.hold_ref.c_str()));
+                    if (d.cause.kind == ApplicationHoldCauseKind::unresolved_policy) {
+                        const auto c = data.case_data(case_name);
+                        const auto &o = d.cause.first_observation;
+                        require(!d.cause.failure && !d.cause.timer &&
+                                    d.cause.missing_policy_reason ==
+                                        optional_text(c["expected_missing_reason"]) &&
+                                    !d.request.expected_version_ref && !o.actor_ref &&
+                                    !o.decision_ref &&
+                                    o.permission_revision_ref ==
+                                        std::optional<std::string>{"grant"} &&
+                                    o.persisted_state_token == std::optional<std::string>{"a"},
+                                "Policy hold retains known source/head/access and no fabricated "
+                                "failure/keys");
+                        original_claim_fixture::same_envelope(o.annotation,
+                                                              d.request.observation.annotation);
+                        original_claim_fixture::same_envelope(o.annotation, d.request.audit);
+                        require((c["policy"].isNull() ? !o.policy_revision_ref
+                                                      : o.policy_revision_ref ==
+                                                            std::optional<std::string>{"policy"}) &&
+                                    (c["clock"].isNull()
+                                         ? !o.observed_utc_ms && !o.elapsed_ms
+                                         : o.observed_utc_ms == std::optional<std::int64_t>{1000} &&
+                                               o.elapsed_ms == std::optional<std::int64_t>{0}),
+                                "Policy/clock presence projects exact known revision/times without "
+                                "fallback");
+                        if (QString(case_name) == "actions_unavailable") {
+                            const auto cmd = data.command(case_name);
+                            require(cmd.actor_ref && cmd.actor_ref->empty() && cmd.decision_ref &&
+                                        cmd.decision_ref->empty() &&
+                                        o.annotation.document.mid(
+                                            8, d.cause.command.intent.document.size()) ==
+                                            d.cause.command.intent.document,
+                                    "Complete SAC/SAH retains present-empty DATA while typed "
+                                    "identity keys are absent");
+                        }
+                        const auto counts = session.execute(
+                            {"SELECT (SELECT COUNT(*) FROM subathon_app_operations),"
+                             "(SELECT COUNT(*) FROM subathon_app_effects),"
+                             "(SELECT COUNT(*) FROM subathon_app_jobs),"
+                             "(SELECT COUNT(*) FROM subathon_app_claims),"
+                             "(SELECT COUNT(*) FROM subathon_app_results),"
+                             "(SELECT COUNT(*) FROM subathon_app_states)",
+                             {}});
+                        require(counts == SqlRows{{qint64(0), qint64(0), qint64(0), qint64(0),
+                                                   qint64(0), qint64(1)}},
+                                "Actual hold-only unit creates no successful application subset or "
+                                "fresh state");
+                    }
                     checked = true;
                     session.rollback();
                     return 1;
@@ -673,6 +724,66 @@ class ApplicationServiceEnvironment final : public QObject {
             require(std::holds_alternative<ApplicationUnavailable>(
                         ports.issue(ApplicationReferencePurpose::advanced_state, wrong)),
                     "Fake does not echo an unbound caller request into a trusted result");
+            for (const auto *name :
+                 {"policy_unavailable", "clock_unavailable", "actions_unavailable"}) {
+                ScriptedPorts scripted(data, name);
+                const auto candidate = data.case_data(name);
+                const auto candidate_command = data.command(name);
+                ApplicationBundleInputs input;
+                input.subject_kind = candidate_command.subject_kind;
+                input.plan = candidate_command.plan;
+                input.actual_plan_head = 1;
+                input.current_state = data.head(name);
+                const auto allowed = scripted.check(inert_view, candidate_command);
+                const auto resolved_policy =
+                    scripted.resolve(inert_view, candidate_command, input, allowed);
+                if (QString(name) == "policy_unavailable") {
+                    require(std::get<ApplicationUnavailable>(resolved_policy).reason_ref ==
+                                text(candidate["expected_missing_reason"]),
+                            "Fake explicitly returns unavailable current policy, not an empty "
+                            "bound policy");
+                } else {
+                    const auto &bound = std::get<BoundApplicationPolicy>(resolved_policy);
+                    const auto resolved_clock =
+                        scripted.observe(inert_view, candidate_command, input, bound);
+                    if (QString(name) == "clock_unavailable") {
+                        require(std::get<ApplicationUnavailable>(resolved_clock).reason_ref ==
+                                    text(candidate["expected_missing_reason"]),
+                                "Fake explicitly returns unavailable clock segmentation with known "
+                                "policy");
+                    } else {
+                        const auto &known_clock =
+                            std::get<ApplicationClockObservation>(resolved_clock);
+                        const auto candidate_proposal = proposal(candidate);
+                        const auto action = scripted.prepare(inert_view, candidate_command, input,
+                                                             bound, candidate_proposal);
+                        require(known_clock.observed_utc_ms == 1000 &&
+                                    std::get<ApplicationUnavailable>(action).reason_ref ==
+                                        text(candidate["expected_missing_reason"]) &&
+                                    scripted.received_proposal &&
+                                    scripted.received_proposal->clock_advanced_timer
+                                            .main_remaining_ms == 58 &&
+                                    scripted.received_proposal->timer_after.main_remaining_ms == 60,
+                                "Fake action unavailability retains actual known "
+                                "candidate_proposal DATA, "
+                                "never a job/result");
+                    }
+                }
+                std::vector<std::string> path;
+                for (const auto &v : candidate["expected_port_path"].toArray())
+                    path.push_back(text(v));
+                require(scripted.calls == path && !candidate.contains("expected_record") &&
+                            !candidate.contains("actions") && scripted.issued.size() == 3,
+                        "Only intended unavailable DATA path is visited; no success bundle or job "
+                        "is scripted");
+                for (const auto &ref : scripted.issued)
+                    require(static_cast<int>(ref.binding.purpose) >= 2 &&
+                                !ref.binding.request_ordinal &&
+                                std::holds_alternative<IssuedApplicationReference>(
+                                    scripted.issue(ref.binding.purpose, ref.binding)),
+                            "Policy hold issues only fresh hold/detection/version DATA without a "
+                            "fictitious ordinal");
+            }
         });
     }
     void actualOldWriterCompletionDistinguishesCommitRollbackAndTailFailure() {

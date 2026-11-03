@@ -175,10 +175,13 @@ inline PreparedApplicationActions actions(const QJsonValue &value) {
 inline ApplicationCalculatedProposal proposal(const QJsonObject &c) {
     const auto a = c["arithmetic"].toObject();
     require(a["kind"] == "success", "Literal complete successful numeric proposal");
-    require(c.contains("expected_record"),
-            "Literal complete bundle supplies the clock-before snapshot");
+    require(c.contains("expected_record") || c.contains("expected_clock_before_timer"),
+            "Literal complete proposal supplies the clock-before timer");
     ApplicationCalculatedProposal r;
-    r.clock_advanced_timer = timer(c["expected_record"].toObject()["before"].toObject()["timer"]);
+    r.clock_advanced_timer =
+        c.contains("expected_record")
+            ? timer(c["expected_record"].toObject()["before"].toObject()["timer"])
+            : timer(c["expected_clock_before_timer"]);
     r.timer_after = timer(a["timer_after"]);
     r.debt_after = integer(a["debt_after"]);
     r.balances_after = balances(a["balances_after"]);
@@ -370,10 +373,34 @@ struct Data {
         return state(case_data(name)["head"]);
     }
     BoundApplicationPolicy policy(const QString &name) const {
-        return application_service_fixture::policy(case_data(name)["policy"]);
+        const auto p = case_data(name)["policy"];
+        require(!p.isNull(), "Known frozen policy DATA required");
+        return application_service_fixture::policy(p);
     }
     ApplicationClockObservation clock(const QString &name) const {
-        return application_service_fixture::clock(case_data(name)["clock"]);
+        const auto c = case_data(name)["clock"];
+        require(!c.isNull(), "Known frozen clock DATA required");
+        return application_service_fixture::clock(c);
+    }
+    PolicyResolution policy_resolution(const QString &name) const {
+        const auto unavailable = case_data(name)["scripted_unavailable"].toObject();
+        return unavailable.contains("policy")
+                   ? PolicyResolution{ApplicationUnavailable{text(unavailable["policy"])}}
+                   : PolicyResolution{policy(name)};
+    }
+    ClockResolution clock_resolution(const QString &name) const {
+        const auto unavailable = case_data(name)["scripted_unavailable"].toObject();
+        return unavailable.contains("clock")
+                   ? ClockResolution{ApplicationUnavailable{text(unavailable["clock"])}}
+                   : ClockResolution{clock(name)};
+    }
+    ActionResolution action_resolution(const QString &name) const {
+        const auto c = case_data(name);
+        const auto unavailable = c["scripted_unavailable"].toObject();
+        return unavailable.contains("actions")
+                   ? ActionResolution{ApplicationUnavailable{text(unavailable["actions"])}}
+                   : ActionResolution{c.contains("actions") ? actions(c["actions"])
+                                                            : PreparedApplicationActions{}};
     }
     void populate_arrangement(const SqliteWorkSession &s, const QString &name) const {
         const auto a = frozen["arrangements"].toObject()[name].toObject();
@@ -453,11 +480,10 @@ class ScriptedPorts final : public ExecutionAccess,
     std::optional<ApplicationCalculatedProposal> received_proposal;
 
     ScriptedPorts(const Data &data, const QString &name)
-        : expected_command(data.command(name)), bound_policy(data.policy(name)),
-          observed_clock(data.clock(name)) {
+        : expected_command(data.command(name)), bound_policy(data.policy_resolution(name)),
+          observed_clock(data.clock_resolution(name)),
+          prepared_actions(data.action_resolution(name)) {
         const auto c = data.case_data(name);
-        if (c.contains("actions"))
-            prepared_actions = actions(c["actions"]);
         reference_script(c["fake_references"].toArray(), text(c["head"].toObject()["token"]));
     }
     void reference_script(const QJsonArray &references, const std::string &persisted_head) {

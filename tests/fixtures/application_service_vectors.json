@@ -10956,6 +10956,516 @@
         ],
         "explanation": "synthetic actions"
       }
+    },
+    "policy_unavailable": {
+      "command": {
+        "operation": ["policy-fixture","policy_unavailable"],
+        "subject": 0,
+        "receipt": "7",
+        "cid": "0",
+        "plan": ["PA","1"],
+        "principal": {
+          "kind": 0,
+          "installation": "fixture-installation",
+          "principal": "fixture-user"
+        },
+        "purpose": 0,
+        "preview_mode": 0,
+        "preview": "a",
+        "actor": null,
+        "decision": null,
+        "reason": null,
+        "choices": [
+          {"format":"synthetic.choice.v1","document_hex":"efbbbf00ff41"}
+        ]
+      },
+      "command_envelope": {"format":"subathon.internal.application-command.v1","document_hex":"534143310000000e706f6c6963792d6669787475726500000012706f6c6963795f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"},
+      "head": {
+        "token": "a",
+        "configuration": "cfg",
+        "timer": {
+          "lifecycle": 1,
+          "phase": 0,
+          "main": "58",
+          "grace": "90",
+          "wait": false
+        },
+        "debt": "0",
+        "balances": [
+          {
+            "kind": 2,
+            "target": "score",
+            "units": "0"
+          },
+          {
+            "kind": 3,
+            "target": "count",
+            "units": "0"
+          }
+        ],
+        "observation": {
+          "lineage": "lineage",
+          "observation": "retained",
+          "configuration": "cfg",
+          "policy": "previous-policy",
+          "head": "a",
+          "utc": "1000",
+          "segments": []
+        },
+        "policy": "previous-policy",
+        "basis": null,
+        "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c6963790100000000000000003a000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+      },
+      "requests": [
+        {
+          "action": "time",
+          "version": "v1",
+          "rule": "rule",
+          "target": "main",
+          "unit": 0,
+          "exact": ["10","1"],
+          "final": "10",
+          "explanation": "captured literal request",
+          "reversal": "none",
+          "requires_historical": false
+        }
+      ],
+      "policy": null,
+      "clock": null,
+      "setup": [
+        {"sql":"INSERT INTO main.subathon_plan_rules(plan_ref,revision,ordinal,rule_ref,version_ref,selected,explanation) VALUES (?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"727631"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"73796e7468657469632073656c65637465642072756c65"}]},
+        {"sql":"INSERT INTO main.subathon_plan_requests(plan_ref,revision,ordinal,action_ref,action_version_ref,rule_ref,target_ref,unit,requires_historical_valuation,exact_numerator,exact_denominator,requested_units,calculation_explanation,reversal_behavior_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"74696d65"},{"type":"blob","hex":"7631"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"6d61696e"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"blob","hex":"3130"},{"type":"blob","hex":"31"},{"type":"integer","decimal":"10"},{"type":"blob","hex":"6361707475726564206c69746572616c2072657175657374"},{"type":"blob","hex":"6e6f6e65"}]},
+        {"sql":"INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"blob","hex":"7375626174686f6e2e696e7465726e616c2e6170706c69636174696f6e2d73746174652e7631"},{"type":"blob","hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c6963790100000000000000003a000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"},{"type":"blob","hex":"636667"},{"type":"integer","decimal":"1"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"58"},{"type":"integer","decimal":"90"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"2"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"2"},{"type":"blob","hex":"73636f7265"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"3"},{"type":"blob","hex":"636f756e74"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_head(singleton,token) VALUES (?,?)","bindings":[{"type":"integer","decimal":"1"},{"type":"blob","hex":"61"}]}
+      ],
+      "arithmetic": {
+        "kind": "not_calculated"
+      },
+      "oracles": {
+        "command_bytes": 120,
+        "command_items": 1,
+        "encoded_document_bytes": 165,
+        "encoded_envelope_bytes": 205,
+        "head_bytes": 230,
+        "head_items": 2,
+        "hold_detection_B": 1208,
+        "hold_detection_I": 1,
+        "held_response_B": 81,
+        "held_response_I": 1
+      },
+      "fake_access": {
+        "kind": "allowed",
+        "permission": "grant",
+        "disclose_application": true,
+        "disclose_holds": true
+      },
+      "fake_references": [
+        {
+          "purpose": 2,
+          "reference": "hPolicyMissing",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 3,
+          "reference": "dPolicyMissing",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 4,
+          "reference": "vPolicyMissing",
+          "request_ordinal": null
+        }
+      ],
+      "scripted_unavailable": {
+        "policy": "required-current-policy",
+        "clock": "clock-not-requested",
+        "actions": "actions-not-requested"
+      },
+      "expected_detection": "dPolicyMissing",
+      "expected_missing_reason": "required-current-policy",
+      "expected_port_path": ["access","policy"]
+    },
+    "clock_unavailable": {
+      "command": {
+        "operation": ["policy-fixture","clock_unavailable"],
+        "subject": 0,
+        "receipt": "7",
+        "cid": "0",
+        "plan": ["PA","1"],
+        "principal": {
+          "kind": 0,
+          "installation": "fixture-installation",
+          "principal": "fixture-user"
+        },
+        "purpose": 0,
+        "preview_mode": 0,
+        "preview": "a",
+        "actor": null,
+        "decision": null,
+        "reason": null,
+        "choices": [
+          {"format":"synthetic.choice.v1","document_hex":"efbbbf00ff41"}
+        ]
+      },
+      "command_envelope": {"format":"subathon.internal.application-command.v1","document_hex":"534143310000000e706f6c6963792d6669787475726500000011636c6f636b5f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"},
+      "head": {
+        "token": "a",
+        "configuration": "cfg",
+        "timer": {
+          "lifecycle": 1,
+          "phase": 0,
+          "main": "58",
+          "grace": "90",
+          "wait": false
+        },
+        "debt": "0",
+        "balances": [
+          {
+            "kind": 2,
+            "target": "score",
+            "units": "0"
+          },
+          {
+            "kind": 3,
+            "target": "count",
+            "units": "0"
+          }
+        ],
+        "observation": {
+          "lineage": "lineage",
+          "observation": "retained",
+          "configuration": "cfg",
+          "policy": "previous-policy",
+          "head": "a",
+          "utc": "1000",
+          "segments": []
+        },
+        "policy": "previous-policy",
+        "basis": null,
+        "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c6963790100000000000000003a000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+      },
+      "requests": [
+        {
+          "action": "time",
+          "version": "v1",
+          "rule": "rule",
+          "target": "main",
+          "unit": 0,
+          "exact": ["10","1"],
+          "final": "10",
+          "explanation": "captured literal request",
+          "reversal": "none",
+          "requires_historical": false
+        }
+      ],
+      "policy": {
+        "operation": ["policy-fixture","clock_unavailable"],
+        "subject": 0,
+        "receipt": "7",
+        "cid": "0",
+        "plan": ["PA","1"],
+        "head": "a",
+        "configuration": "cfg",
+        "permission": "grant",
+        "policy": "policy",
+        "cap": "60",
+        "timer_config": {
+          "end": 1,
+          "grace_duration": "90",
+          "reuse": 1,
+          "hard_end": null
+        },
+        "paused": false,
+        "recovery": false,
+        "pause_recovery": "pause0",
+        "explanation": "synthetic current policy",
+        "admission": 0,
+        "admission_reason": null,
+        "corrections": []
+      },
+      "clock": null,
+      "setup": [
+        {"sql":"INSERT INTO main.subathon_plan_rules(plan_ref,revision,ordinal,rule_ref,version_ref,selected,explanation) VALUES (?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"727631"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"73796e7468657469632073656c65637465642072756c65"}]},
+        {"sql":"INSERT INTO main.subathon_plan_requests(plan_ref,revision,ordinal,action_ref,action_version_ref,rule_ref,target_ref,unit,requires_historical_valuation,exact_numerator,exact_denominator,requested_units,calculation_explanation,reversal_behavior_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"74696d65"},{"type":"blob","hex":"7631"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"6d61696e"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"blob","hex":"3130"},{"type":"blob","hex":"31"},{"type":"integer","decimal":"10"},{"type":"blob","hex":"6361707475726564206c69746572616c2072657175657374"},{"type":"blob","hex":"6e6f6e65"}]},
+        {"sql":"INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"blob","hex":"7375626174686f6e2e696e7465726e616c2e6170706c69636174696f6e2d73746174652e7631"},{"type":"blob","hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c6963790100000000000000003a000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"},{"type":"blob","hex":"636667"},{"type":"integer","decimal":"1"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"58"},{"type":"integer","decimal":"90"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"2"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"2"},{"type":"blob","hex":"73636f7265"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"3"},{"type":"blob","hex":"636f756e74"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_head(singleton,token) VALUES (?,?)","bindings":[{"type":"integer","decimal":"1"},{"type":"blob","hex":"61"}]}
+      ],
+      "arithmetic": {
+        "kind": "not_calculated"
+      },
+      "oracles": {
+        "command_bytes": 119,
+        "command_items": 1,
+        "encoded_document_bytes": 164,
+        "encoded_envelope_bytes": 204,
+        "head_bytes": 230,
+        "head_items": 2,
+        "hold_detection_B": 1486,
+        "hold_detection_I": 1,
+        "held_response_B": 76,
+        "held_response_I": 1
+      },
+      "fake_access": {
+        "kind": "allowed",
+        "permission": "grant",
+        "disclose_application": true,
+        "disclose_holds": true
+      },
+      "fake_references": [
+        {
+          "purpose": 2,
+          "reference": "hClockMissing",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 3,
+          "reference": "dClockMissing",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 4,
+          "reference": "vClockMissing",
+          "request_ordinal": null
+        }
+      ],
+      "scripted_unavailable": {
+        "clock": "required-clock-segmentation",
+        "actions": "actions-not-requested"
+      },
+      "expected_detection": "dClockMissing",
+      "expected_missing_reason": "required-clock-segmentation",
+      "expected_port_path": ["access","policy","clock"]
+    },
+    "actions_unavailable": {
+      "command": {
+        "operation": ["policy-fixture","actions_unavailable"],
+        "subject": 0,
+        "receipt": "7",
+        "cid": "0",
+        "plan": ["PA","1"],
+        "principal": {
+          "kind": 0,
+          "installation": "fixture-installation",
+          "principal": "fixture-user"
+        },
+        "purpose": 0,
+        "preview_mode": 0,
+        "preview": "a",
+        "actor": "",
+        "decision": "",
+        "reason": null,
+        "choices": [
+          {"format":"synthetic.choice.v1","document_hex":"efbbbf00ff41"}
+        ]
+      },
+      "command_envelope": {"format":"subathon.internal.application-command.v1","document_hex":"534143310000000e706f6c6963792d6669787475726500000013616374696f6e735f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d7573657200000100000001610100000000010000000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"},
+      "head": {
+        "token": "a",
+        "configuration": "cfg",
+        "timer": {
+          "lifecycle": 1,
+          "phase": 0,
+          "main": "58",
+          "grace": "90",
+          "wait": false
+        },
+        "debt": "0",
+        "balances": [
+          {
+            "kind": 2,
+            "target": "score",
+            "units": "0"
+          },
+          {
+            "kind": 3,
+            "target": "count",
+            "units": "0"
+          }
+        ],
+        "observation": {
+          "lineage": "lineage",
+          "observation": "retained",
+          "configuration": "cfg",
+          "policy": "previous-policy",
+          "head": "a",
+          "utc": "1000",
+          "segments": []
+        },
+        "policy": "previous-policy",
+        "basis": null,
+        "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c6963790100000000000000003a000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+      },
+      "requests": [
+        {
+          "action": "time",
+          "version": "v1",
+          "rule": "rule",
+          "target": "main",
+          "unit": 0,
+          "exact": ["10","1"],
+          "final": "10",
+          "explanation": "captured literal request",
+          "reversal": "none",
+          "requires_historical": false
+        }
+      ],
+      "policy": {
+        "operation": ["policy-fixture","actions_unavailable"],
+        "subject": 0,
+        "receipt": "7",
+        "cid": "0",
+        "plan": ["PA","1"],
+        "head": "a",
+        "configuration": "cfg",
+        "permission": "grant",
+        "policy": "policy",
+        "cap": "60",
+        "timer_config": {
+          "end": 1,
+          "grace_duration": "90",
+          "reuse": 1,
+          "hard_end": null
+        },
+        "paused": false,
+        "recovery": false,
+        "pause_recovery": "pause0",
+        "explanation": "synthetic current policy",
+        "admission": 0,
+        "admission_reason": null,
+        "corrections": []
+      },
+      "clock": {
+        "lineage": "lineage",
+        "observation": "observation",
+        "configuration": "cfg",
+        "policy": "policy",
+        "head": "a",
+        "utc": "1000",
+        "segments": [
+          {
+            "elapsed": "0",
+            "utc": "1000",
+            "paused": false
+          }
+        ]
+      },
+      "setup": [
+        {"sql":"INSERT INTO main.subathon_plan_rules(plan_ref,revision,ordinal,rule_ref,version_ref,selected,explanation) VALUES (?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"727631"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"73796e7468657469632073656c65637465642072756c65"}]},
+        {"sql":"INSERT INTO main.subathon_plan_requests(plan_ref,revision,ordinal,action_ref,action_version_ref,rule_ref,target_ref,unit,requires_historical_valuation,exact_numerator,exact_denominator,requested_units,calculation_explanation,reversal_behavior_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"74696d65"},{"type":"blob","hex":"7631"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"6d61696e"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"blob","hex":"3130"},{"type":"blob","hex":"31"},{"type":"integer","decimal":"10"},{"type":"blob","hex":"6361707475726564206c69746572616c2072657175657374"},{"type":"blob","hex":"6e6f6e65"}]},
+        {"sql":"INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"blob","hex":"7375626174686f6e2e696e7465726e616c2e6170706c69636174696f6e2d73746174652e7631"},{"type":"blob","hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c6963790100000000000000003a000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"},{"type":"blob","hex":"636667"},{"type":"integer","decimal":"1"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"58"},{"type":"integer","decimal":"90"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"2"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"2"},{"type":"blob","hex":"73636f7265"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"3"},{"type":"blob","hex":"636f756e74"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_head(singleton,token) VALUES (?,?)","bindings":[{"type":"integer","decimal":"1"},{"type":"blob","hex":"61"}]}
+      ],
+      "arithmetic": {
+        "kind": "success",
+        "timer_after": {
+          "lifecycle": 1,
+          "phase": 0,
+          "main": "60",
+          "grace": "90",
+          "wait": false
+        },
+        "debt_after": "0",
+        "balances_after": [
+          {
+            "kind": 2,
+            "target": "score",
+            "units": "0"
+          },
+          {
+            "kind": 3,
+            "target": "count",
+            "units": "0"
+          }
+        ],
+        "effects": [
+          {
+            "ordinal": "1",
+            "role": 1,
+            "unit": 0,
+            "exact": ["10","1"],
+            "final": "10",
+            "residual": ["0","1"],
+            "cap": "60",
+            "deficit_policy": null,
+            "deficit_disposition": null,
+            "components": [
+              {
+                "kind": 0,
+                "units": "2",
+                "target": null
+              },
+              {
+                "kind": 1,
+                "units": "0",
+                "target": null
+              },
+              {
+                "kind": 5,
+                "units": "8",
+                "target": null
+              }
+            ],
+            "explanation": "captured literal request"
+          }
+        ],
+        "transitions": []
+      },
+      "oracles": {
+        "command_bytes": 121,
+        "command_items": 1,
+        "encoded_document_bytes": 174,
+        "encoded_envelope_bytes": 214,
+        "head_bytes": 230,
+        "head_items": 2,
+        "hold_detection_B": 1711,
+        "hold_detection_I": 1,
+        "held_response_B": 86,
+        "held_response_I": 1,
+        "proposal_B": 209,
+        "proposal_I": 7
+      },
+      "fake_access": {
+        "kind": "allowed",
+        "permission": "grant",
+        "disclose_application": true,
+        "disclose_holds": true
+      },
+      "fake_references": [
+        {
+          "purpose": 2,
+          "reference": "hActionsMissing",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 3,
+          "reference": "dActionsMissing",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 4,
+          "reference": "vActionsMissing",
+          "request_ordinal": null
+        }
+      ],
+      "expected_clock_before_timer": {
+        "lifecycle": 1,
+        "phase": 0,
+        "main": "58",
+        "grace": "90",
+        "wait": false
+      },
+      "scripted_unavailable": {
+        "actions": "required-action-policy"
+      },
+      "expected_detection": "dActionsMissing",
+      "expected_missing_reason": "required-action-policy",
+      "expected_port_path": ["access","policy","clock","actions"]
     }
   },
   "pending": [],
@@ -12087,6 +12597,168 @@
         "timer": null,
         "missing_policy": null,
         "supersedes": null
+      },
+      "hPolicyMissing": {
+        "hold": "hPolicyMissing",
+        "source": {
+          "subject": {
+            "kind": 0,
+            "id": "0"
+          },
+          "receipt": "7",
+          "event": "event-A",
+          "parent": null,
+          "root": "event-A",
+          "configuration": "cfg",
+          "context": "ctx"
+        },
+        "command": {
+          "operation": ["policy-fixture","policy_unavailable"],
+          "intent": {"format":"subathon.internal.application-command.v1","document_hex":"534143310000000e706f6c6963792d6669787475726500000012706f6c6963795f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"}
+        },
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000a5534143310000000e706f6c6963792d6669787475726500000012706f6c6963795f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161000000010000001772657175697265642d63757272656e742d706f6c69637900000000"},
+          "policy": null,
+          "permission": "grant",
+          "actor": null,
+          "decision": null,
+          "utc": null,
+          "elapsed": null
+        },
+        "plan": {
+          "kind": 0,
+          "key": ["PA","1"],
+          "extent": 0,
+          "stopped": null,
+          "failed": null,
+          "occurrences": [
+            {
+              "ordinal": "1",
+              "action": "time",
+              "action_version": "v1",
+              "rule": "rule",
+              "target": "main",
+              "unit": 0,
+              "exact": ["10","1"],
+              "final": "10",
+              "explanation": "captured literal request"
+            }
+          ]
+        },
+        "kind": 2,
+        "failure": null,
+        "timer": null,
+        "missing_policy": "required-current-policy",
+        "supersedes": null
+      },
+      "hClockMissing": {
+        "hold": "hClockMissing",
+        "source": {
+          "subject": {
+            "kind": 0,
+            "id": "0"
+          },
+          "receipt": "7",
+          "event": "event-A",
+          "parent": null,
+          "root": "event-A",
+          "configuration": "cfg",
+          "context": "ctx"
+        },
+        "command": {
+          "operation": ["policy-fixture","clock_unavailable"],
+          "intent": {"format":"subathon.internal.application-command.v1","document_hex":"534143310000000e706f6c6963792d6669787475726500000011636c6f636b5f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"}
+        },
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000a4534143310000000e706f6c6963792d6669787475726500000011636c6f636b5f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e7401000000000000003c01000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c6963790000010000001b72657175697265642d636c6f636b2d7365676d656e746174696f6e00000000"},
+          "policy": "policy",
+          "permission": "grant",
+          "actor": null,
+          "decision": null,
+          "utc": null,
+          "elapsed": null
+        },
+        "plan": {
+          "kind": 0,
+          "key": ["PA","1"],
+          "extent": 0,
+          "stopped": null,
+          "failed": null,
+          "occurrences": [
+            {
+              "ordinal": "1",
+              "action": "time",
+              "action_version": "v1",
+              "rule": "rule",
+              "target": "main",
+              "unit": 0,
+              "exact": ["10","1"],
+              "final": "10",
+              "explanation": "captured literal request"
+            }
+          ]
+        },
+        "kind": 2,
+        "failure": null,
+        "timer": null,
+        "missing_policy": "required-clock-segmentation",
+        "supersedes": null
+      },
+      "hActionsMissing": {
+        "hold": "hActionsMissing",
+        "source": {
+          "subject": {
+            "kind": 0,
+            "id": "0"
+          },
+          "receipt": "7",
+          "event": "event-A",
+          "parent": null,
+          "root": "event-A",
+          "configuration": "cfg",
+          "context": "ctx"
+        },
+        "command": {
+          "operation": ["policy-fixture","actions_unavailable"],
+          "intent": {"format":"subathon.internal.application-command.v1","document_hex":"534143310000000e706f6c6963792d6669787475726500000013616374696f6e735f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d7573657200000100000001610100000000010000000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"}
+        },
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000ae534143310000000e706f6c6963792d6669787475726500000013616374696f6e735f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d7573657200000100000001610100000000010000000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e7401000000000000003c01000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e80000010000001672657175697265642d616374696f6e2d706f6c69637900000000"},
+          "policy": "policy",
+          "permission": "grant",
+          "actor": null,
+          "decision": null,
+          "utc": "1000",
+          "elapsed": "0"
+        },
+        "plan": {
+          "kind": 0,
+          "key": ["PA","1"],
+          "extent": 0,
+          "stopped": null,
+          "failed": null,
+          "occurrences": [
+            {
+              "ordinal": "1",
+              "action": "time",
+              "action_version": "v1",
+              "rule": "rule",
+              "target": "main",
+              "unit": 0,
+              "exact": ["10","1"],
+              "final": "10",
+              "explanation": "captured literal request"
+            }
+          ]
+        },
+        "kind": 2,
+        "failure": null,
+        "timer": null,
+        "missing_policy": "required-action-policy",
+        "supersedes": null
       }
     },
     "detections": {
@@ -12174,6 +12846,57 @@
           "elapsed": "10"
         },
         "audit": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"534148310000009653414331000000037376630000000e636c6f636b5f6f766572666c6f7700000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e740001000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003f200000001000000000000000a00000000000003f2000101010000000000000002010000000573636f726501000000133932323333373230333638353437373538303800000001310000000000"}
+      },
+      "dPolicyMissing": {
+        "cause_id": "hPolicyMissing",
+        "mutation": "dPolicyMissing",
+        "expected": null,
+        "proposed": "vPolicyMissing",
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000a5534143310000000e706f6c6963792d6669787475726500000012706f6c6963795f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161000000010000001772657175697265642d63757272656e742d706f6c69637900000000"},
+          "policy": null,
+          "permission": "grant",
+          "actor": null,
+          "decision": null,
+          "utc": null,
+          "elapsed": null
+        },
+        "audit": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000a5534143310000000e706f6c6963792d6669787475726500000012706f6c6963795f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161000000010000001772657175697265642d63757272656e742d706f6c69637900000000"}
+      },
+      "dClockMissing": {
+        "cause_id": "hClockMissing",
+        "mutation": "dClockMissing",
+        "expected": null,
+        "proposed": "vClockMissing",
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000a4534143310000000e706f6c6963792d6669787475726500000011636c6f636b5f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e7401000000000000003c01000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c6963790000010000001b72657175697265642d636c6f636b2d7365676d656e746174696f6e00000000"},
+          "policy": "policy",
+          "permission": "grant",
+          "actor": null,
+          "decision": null,
+          "utc": null,
+          "elapsed": null
+        },
+        "audit": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000a4534143310000000e706f6c6963792d6669787475726500000011636c6f636b5f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e7401000000000000003c01000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c6963790000010000001b72657175697265642d636c6f636b2d7365676d656e746174696f6e00000000"}
+      },
+      "dActionsMissing": {
+        "cause_id": "hActionsMissing",
+        "mutation": "dActionsMissing",
+        "expected": null,
+        "proposed": "vActionsMissing",
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000ae534143310000000e706f6c6963792d6669787475726500000013616374696f6e735f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d7573657200000100000001610100000000010000000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e7401000000000000003c01000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e80000010000001672657175697265642d616374696f6e2d706f6c69637900000000"},
+          "policy": "policy",
+          "permission": "grant",
+          "actor": null,
+          "decision": null,
+          "utc": "1000",
+          "elapsed": "0"
+        },
+        "audit": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000ae534143310000000e706f6c6963792d6669787475726500000013616374696f6e735f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d7573657200000100000001610100000000010000000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e7401000000000000003c01000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e80000010000001672657175697265642d616374696f6e2d706f6c69637900000000"}
       }
     },
     "versions": {
@@ -12220,6 +12943,33 @@
         "parent": null,
         "state": 0,
         "producer": "dClock",
+        "replacement": null
+      },
+      "dPolicyMissing": {
+        "hold": "hPolicyMissing",
+        "version": "vPolicyMissing",
+        "position": "1",
+        "parent": null,
+        "state": 0,
+        "producer": "dPolicyMissing",
+        "replacement": null
+      },
+      "dClockMissing": {
+        "hold": "hClockMissing",
+        "version": "vClockMissing",
+        "position": "1",
+        "parent": null,
+        "state": 0,
+        "producer": "dClockMissing",
+        "replacement": null
+      },
+      "dActionsMissing": {
+        "hold": "hActionsMissing",
+        "version": "vActionsMissing",
+        "position": "1",
+        "parent": null,
+        "state": 0,
+        "producer": "dActionsMissing",
         "replacement": null
       }
     },
@@ -12341,6 +13091,75 @@
           "replacement": null
         },
         "current_event": null
+      },
+      "hPolicyMissing": {
+        "cause_id": "hPolicyMissing",
+        "first_detection": "dPolicyMissing",
+        "first_version": {
+          "hold": "hPolicyMissing",
+          "version": "vPolicyMissing",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dPolicyMissing",
+          "replacement": null
+        },
+        "current_version": {
+          "hold": "hPolicyMissing",
+          "version": "vPolicyMissing",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dPolicyMissing",
+          "replacement": null
+        },
+        "current_event": null
+      },
+      "hClockMissing": {
+        "cause_id": "hClockMissing",
+        "first_detection": "dClockMissing",
+        "first_version": {
+          "hold": "hClockMissing",
+          "version": "vClockMissing",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dClockMissing",
+          "replacement": null
+        },
+        "current_version": {
+          "hold": "hClockMissing",
+          "version": "vClockMissing",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dClockMissing",
+          "replacement": null
+        },
+        "current_event": null
+      },
+      "hActionsMissing": {
+        "cause_id": "hActionsMissing",
+        "first_detection": "dActionsMissing",
+        "first_version": {
+          "hold": "hActionsMissing",
+          "version": "vActionsMissing",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dActionsMissing",
+          "replacement": null
+        },
+        "current_version": {
+          "hold": "hActionsMissing",
+          "version": "vActionsMissing",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dActionsMissing",
+          "replacement": null
+        },
+        "current_event": null
       }
     },
     "resolutions": {
@@ -12431,6 +13250,48 @@
       "active_holds": {
         "B": 3307,
         "I": 6
+      },
+      "hPolicyMissing": {
+        "cause_B": 650,
+        "detection_B": 1208,
+        "detection_I": 1,
+        "view_B": 1310,
+        "view_I": 1,
+        "historical_outcome_B": 66,
+        "historical_outcome_I": 1,
+        "held_response_B": 81,
+        "held_response_I": 1,
+        "SAH_wire_bytes": 213,
+        "SAH_envelope_B": 262,
+        "applicable_annotation_copies": 3
+      },
+      "hClockMissing": {
+        "cause_B": 746,
+        "detection_B": 1486,
+        "detection_I": 1,
+        "view_B": 1582,
+        "view_I": 1,
+        "historical_outcome_B": 62,
+        "historical_outcome_I": 1,
+        "held_response_B": 76,
+        "held_response_I": 1,
+        "SAH_wire_bytes": 302,
+        "SAH_envelope_B": 351,
+        "applicable_annotation_copies": 3
+      },
+      "hActionsMissing": {
+        "cause_B": 831,
+        "detection_B": 1711,
+        "detection_I": 1,
+        "view_B": 1819,
+        "view_I": 1,
+        "historical_outcome_B": 70,
+        "historical_outcome_I": 1,
+        "held_response_B": 86,
+        "held_response_I": 1,
+        "SAH_wire_bytes": 362,
+        "SAH_envelope_B": 411,
+        "applicable_annotation_copies": 3
       }
     }
   },
