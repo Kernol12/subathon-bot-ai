@@ -166,143 +166,80 @@ inline void shape_exact(const core::Exact &v, const SqliteHoldLimits &l) {
         denominator.size() > size_t(l.references.component_bytes))
         invalid(Input::exact_component_limit);
 }
-inline void shape_observation(const ApplicationHoldObservation &v, const SqliteHoldLimits &l) {
-    key_observation(v, l);
+// These internal passes are request-wide: no matrix/Exact work starts until
+// every required body is checked, and no ordering starts until all matrices fit.
+inline void body_observation(const ApplicationHoldObservation &v, const SqliteHoldLimits &l) {
     if (!envelope_body(v.annotation, l) || (v.elapsed_ms && *v.elapsed_ms < 0))
         invalid(Input::invalid_observation);
 }
-// Stored-body checks deliberately have no input aggregate or collection quota.
-// Runtime proves actual selected counts before allocating, then applies result limits.
-inline void shape_cause(const ApplicationHoldCause &v, const SqliteHoldLimits &l) {
-    key_cause(v, l);
+inline void body_cause(const ApplicationHoldCause &v, const SqliteHoldLimits &l) {
     if (!enum_in(v.kind, 2) || !envelope_body(v.command.intent, l) ||
         !optional_data(v.source.event_ref, l.references.reference_bytes) ||
         !optional_data(v.source.parent_event_ref, l.references.reference_bytes) ||
         !optional_data(v.source.root_event_ref, l.references.reference_bytes) ||
         !optional_data(v.missing_policy_reason, l.references.value_bytes))
         invalid(Input::invalid_cause);
-    shape_observation(v.first_observation, l);
+    body_observation(v.first_observation, l);
     const auto &p = v.plan_evidence;
     if (!enum_in(p.kind, 1) || !enum_in(p.extent, 2) ||
-        (p.stopped_for && !enum_in(*p.stopped_for, 1)))
+        (p.stopped_for && !enum_in(*p.stopped_for, 1)) ||
+        (p.failed_capture && !envelope_body(*p.failed_capture, l)))
         invalid(Input::invalid_plan_evidence);
-    const bool captured = p.kind == ApplicationHoldPlanKind::captured_revision;
-    if (captured) {
-        if (!p.plan || p.extent != ApplicationHoldExtent::captured_complete || p.stopped_for ||
-            p.failed_capture || !v.first_observation.persisted_state_token)
-            invalid(Input::invalid_plan_evidence);
-    } else {
-        if (p.extent == ApplicationHoldExtent::captured_complete || !p.stopped_for ||
-            !p.failed_capture || !envelope_body(*p.failed_capture, l) ||
-            v.kind == ApplicationHoldCauseKind::timer_deficit ||
-            (v.kind == ApplicationHoldCauseKind::numeric_overflow &&
-             *p.stopped_for != ApplicationHoldStoppedFor::numeric_conversion) ||
-            (v.kind == ApplicationHoldCauseKind::unresolved_policy &&
-             *p.stopped_for != ApplicationHoldStoppedFor::unresolved_capture_policy))
-            invalid(Input::invalid_plan_evidence);
-    }
-    for (size_t n = 0; n < p.occurrences.size(); ++n) {
-        const auto &o = p.occurrences[n];
-        if (n >= size_t(std::numeric_limits<std::int64_t>::max()) ||
-            o.ordinal != std::int64_t(n + 1) || (o.unit && !enum_in(*o.unit, 2)) ||
+    for (const auto &o : p.occurrences)
+        if (o.ordinal <= 0 || (o.unit && !enum_in(*o.unit, 2)) ||
             !optional_data(o.action_ref, l.references.reference_bytes) ||
             !optional_data(o.action_version_ref, l.references.reference_bytes) ||
             !optional_data(o.rule_ref, l.references.reference_bytes) ||
             !optional_data(o.target_ref, l.references.reference_bytes) ||
-            !optional_data(o.explanation, l.references.value_bytes) ||
-            (captured && (!o.unit || !o.attempted_units || !o.finalized_units)))
+            !optional_data(o.explanation, l.references.value_bytes))
             invalid(Input::invalid_plan_evidence);
-    }
-    if (v.kind == ApplicationHoldCauseKind::numeric_overflow) {
-        if (!v.failure)
-            invalid(Input::invalid_failure);
-        if (v.timer || v.missing_policy_reason)
-            invalid(Input::invalid_cause);
+    if (v.kind == ApplicationHoldCauseKind::numeric_overflow && !v.failure)
+        invalid(Input::invalid_failure);
+    if (v.kind != ApplicationHoldCauseKind::numeric_overflow && v.failure)
+        invalid(Input::invalid_failure);
+    if ((v.kind == ApplicationHoldCauseKind::timer_deficit) != bool(v.timer) ||
+        (v.kind == ApplicationHoldCauseKind::unresolved_policy) != bool(v.missing_policy_reason))
+        invalid(Input::invalid_cause);
+    if (v.failure) {
         const auto &f = *v.failure;
         if (!enum_in(f.stage, 1) || !envelope_body(f.annotation, l) ||
             !optional_data(f.failing_target_ref, l.references.reference_bytes) ||
-            f.stage != (captured ? ApplicationHoldFailureStage::aggregate_after_finalization
-                                 : ApplicationHoldFailureStage::final_conversion))
+            (f.failing_ordinal && *f.failing_ordinal <= 0))
             invalid(Input::invalid_failure);
-        if (f.failing_ordinal) {
-            if (*f.failing_ordinal <= 0 || std::uint64_t(*f.failing_ordinal) > p.occurrences.size())
-                invalid(Input::invalid_failure);
-            const auto &o = p.occurrences[size_t(*f.failing_ordinal - 1)];
-            if ((!captured && o.finalized_units) ||
-                (f.failing_target_ref && o.target_ref && *f.failing_target_ref != *o.target_ref))
-                invalid(Input::invalid_failure);
-        }
-    } else {
-        if (v.failure)
-            invalid(Input::invalid_failure);
-        if (v.kind == ApplicationHoldCauseKind::unresolved_policy) {
-            if (v.timer || !v.missing_policy_reason)
-                invalid(Input::invalid_cause);
-        } else {
-            if (!v.timer || v.missing_policy_reason)
-                invalid(Input::invalid_cause);
-            const auto &t = *v.timer;
-            if (t.request_ordinal <= 0 || std::uint64_t(t.request_ordinal) > p.occurrences.size() ||
-                t.component_kind != ApplicationComponentKind::unapplied_time ||
-                t.request_units >= 0 || t.unapplied_units != t.request_units ||
-                t.deficit_policy != core::RefundDeficitPolicy::RequireReview ||
-                t.deficit_disposition != core::TimeReversalDisposition::RequiresReview ||
-                !t.composition || !enum_in(*t.composition, 1) ||
-                !envelope_body(t.composition_decision, l))
-                invalid(Input::invalid_cause);
-            const auto &o = p.occurrences[size_t(t.request_ordinal - 1)];
-            if (o.unit != core::RequestedUnit::milliseconds ||
-                o.finalized_units != t.request_units ||
-                bool(t.associated) !=
-                    (*t.composition == ApplicationHoldComposition::beside_complete_application) ||
-                (t.associated && t.associated->request_ordinal != t.request_ordinal))
-                invalid(Input::invalid_cause);
-        }
     }
-    for (const auto &o : p.occurrences)
-        if (o.attempted_units)
-            shape_exact(*o.attempted_units, l);
-    if (v.failure && v.failure->attempted_units)
-        shape_exact(*v.failure->attempted_units, l);
+    if (v.timer) {
+        const auto &t = *v.timer;
+        if (t.request_ordinal <= 0 ||
+            t.component_kind != ApplicationComponentKind::unapplied_time || t.request_units >= 0 ||
+            t.unapplied_units != t.request_units ||
+            t.deficit_policy != core::RefundDeficitPolicy::RequireReview ||
+            t.deficit_disposition != core::TimeReversalDisposition::RequiresReview ||
+            !t.composition || !enum_in(*t.composition, 1) ||
+            !envelope_body(t.composition_decision, l) ||
+            bool(t.associated) !=
+                (*t.composition == ApplicationHoldComposition::beside_complete_application) ||
+            (t.associated && t.associated->request_ordinal <= 0))
+            invalid(Input::invalid_cause);
+    }
 }
-inline void shape_detection_data(const ApplicationHoldDetectionData &v, const SqliteHoldLimits &l) {
-    key_detection_data(v, l);
-    shape_observation(v.observation, l);
+inline void body_detection_data(const ApplicationHoldDetectionData &v, const SqliteHoldLimits &l) {
+    body_observation(v.observation, l);
     if (!envelope_body(v.audit, l))
         invalid(Input::invalid_detection);
 }
-inline void shape_detection(const ApplicationHoldDetection &v, const SqliteHoldLimits &l) {
-    key_detection(v, l);
-    shape_cause(v.cause, l);
-    shape_detection_data(v.request, l);
-    if (v.cause.plan_evidence.kind == ApplicationHoldPlanKind::captured_revision &&
-        !v.request.observation.persisted_state_token)
-        invalid(Input::invalid_plan_evidence);
+inline void body_detection(const ApplicationHoldDetection &v, const SqliteHoldLimits &l) {
+    body_cause(v.cause, l);
+    body_detection_data(v.request, l);
 }
-inline void shape_resolution(const ApplicationHoldResolutionBatch &v, const SqliteHoldLimits &l) {
-    key_resolution(v, l);
+inline void body_resolution(const ApplicationHoldResolutionBatch &v, const SqliteHoldLimits &l) {
     if (v.entries.empty() || !bounded(v.reason, l.references.value_bytes) ||
         !envelope_body(v.options, l))
         invalid(Input::invalid_resolution);
-    for (size_t n = 0; n < v.expected_active.size(); ++n)
-        if (n && !raw_less(v.expected_active[n - 1].hold_ref, v.expected_active[n].hold_ref))
+    for (const auto &e : v.entries) {
+        if (!envelope_body(e.decision, l))
             invalid(Input::invalid_resolution);
-    std::set<std::string_view, RawLess> replacement_holds, replacement_mutations;
-    for (size_t n = 0; n < v.entries.size(); ++n) {
-        const auto &e = v.entries[n];
-        if ((n && !raw_less(v.entries[n - 1].hold_ref, e.hold_ref)) ||
-            !envelope_body(e.decision, l))
-            invalid(Input::invalid_resolution);
-        if (e.replacement) {
-            const auto &r = *e.replacement;
-            shape_detection(r, l);
-            if (r.request.expected_version_ref || r.cause.source.subject.id != v.subject.id ||
-                r.cause.hold_ref == e.hold_ref || r.cause.supersedes_hold_ref != e.hold_ref ||
-                r.request.mutation_ref == v.mutation_ref ||
-                !replacement_holds.insert(r.cause.hold_ref).second ||
-                !replacement_mutations.insert(r.request.mutation_ref).second)
-                invalid(Input::invalid_resolution);
-        }
+        if (e.replacement)
+            body_detection(*e.replacement, l);
     }
     if (v.application) {
         const auto &a = *v.application;
@@ -313,10 +250,126 @@ inline void shape_resolution(const ApplicationHoldResolutionBatch &v, const Sqli
              (a.held_origin->request_ordinal <= 0 ||
               a.held_origin->component_kind != ApplicationComponentKind::unapplied_time)))
             invalid(Input::invalid_resolution);
-        for (const auto &e : v.entries)
-            if (e.replacement)
-                invalid(Input::invalid_resolution);
     }
+}
+inline void matrix_cause(const ApplicationHoldCause &v, const SqliteHoldLimits &l) {
+    const auto &p = v.plan_evidence;
+    const bool captured = p.kind == ApplicationHoldPlanKind::captured_revision;
+    if (captured) {
+        if (!p.plan || p.extent != ApplicationHoldExtent::captured_complete || p.stopped_for ||
+            p.failed_capture || !v.first_observation.persisted_state_token)
+            invalid(Input::invalid_plan_evidence);
+        for (const auto &o : p.occurrences)
+            if (!o.unit || !o.attempted_units || !o.finalized_units)
+                invalid(Input::invalid_plan_evidence);
+    } else {
+        if (p.extent == ApplicationHoldExtent::captured_complete || !p.stopped_for ||
+            !p.failed_capture || v.kind == ApplicationHoldCauseKind::timer_deficit ||
+            (v.kind == ApplicationHoldCauseKind::numeric_overflow &&
+             *p.stopped_for != ApplicationHoldStoppedFor::numeric_conversion) ||
+            (v.kind == ApplicationHoldCauseKind::unresolved_policy &&
+             *p.stopped_for != ApplicationHoldStoppedFor::unresolved_capture_policy))
+            invalid(Input::invalid_plan_evidence);
+    }
+    if (v.failure) {
+        const auto &f = *v.failure;
+        if (f.stage != (captured ? ApplicationHoldFailureStage::aggregate_after_finalization
+                                 : ApplicationHoldFailureStage::final_conversion))
+            invalid(Input::invalid_failure);
+        if (f.failing_ordinal) {
+            // Membership uses the supplied ordinal; its full sequence order is
+            // validated later, rather than assumed to be an array index here.
+            const auto it =
+                std::find_if(p.occurrences.begin(), p.occurrences.end(),
+                             [&](const auto &o) { return o.ordinal == *f.failing_ordinal; });
+            if (it == p.occurrences.end() || (!captured && it->finalized_units) ||
+                (f.failing_target_ref && it->target_ref &&
+                 *f.failing_target_ref != *it->target_ref))
+                invalid(Input::invalid_failure);
+        }
+    }
+    if (v.timer) {
+        const auto &t = *v.timer;
+        const auto it = std::find_if(p.occurrences.begin(), p.occurrences.end(),
+                                     [&](const auto &o) { return o.ordinal == t.request_ordinal; });
+        if (it == p.occurrences.end() || it->unit != core::RequestedUnit::milliseconds ||
+            it->finalized_units != t.request_units ||
+            (t.associated && t.associated->request_ordinal != t.request_ordinal))
+            invalid(Input::invalid_cause);
+    }
+    for (const auto &o : p.occurrences)
+        if (o.attempted_units)
+            shape_exact(*o.attempted_units, l);
+    if (v.failure && v.failure->attempted_units)
+        shape_exact(*v.failure->attempted_units, l);
+}
+inline void matrix_detection(const ApplicationHoldDetection &v, const SqliteHoldLimits &l) {
+    matrix_cause(v.cause, l);
+    if (v.cause.plan_evidence.kind == ApplicationHoldPlanKind::captured_revision &&
+        !v.request.observation.persisted_state_token)
+        invalid(Input::invalid_plan_evidence);
+}
+inline void matrix_resolution(const ApplicationHoldResolutionBatch &v, const SqliteHoldLimits &l) {
+    for (const auto &e : v.entries)
+        if (e.replacement)
+            matrix_detection(*e.replacement, l);
+}
+inline void order_cause(const ApplicationHoldCause &v) {
+    const auto &occurrences = v.plan_evidence.occurrences;
+    for (size_t n = 0; n < occurrences.size(); ++n)
+        if (n >= size_t(std::numeric_limits<std::int64_t>::max()) ||
+            occurrences[n].ordinal != std::int64_t(n + 1))
+            invalid(Input::invalid_plan_evidence);
+}
+inline void order_detection(const ApplicationHoldDetection &v) { order_cause(v.cause); }
+inline void order_resolution(const ApplicationHoldResolutionBatch &v) {
+    for (size_t n = 0; n < v.expected_active.size(); ++n)
+        if (n && !raw_less(v.expected_active[n - 1].hold_ref, v.expected_active[n].hold_ref))
+            invalid(Input::invalid_resolution);
+    std::set<std::string_view, RawLess> replacement_holds, replacement_mutations;
+    for (size_t n = 0; n < v.entries.size(); ++n) {
+        const auto &e = v.entries[n];
+        if (n && !raw_less(v.entries[n - 1].hold_ref, e.hold_ref))
+            invalid(Input::invalid_resolution);
+        if (e.replacement) {
+            const auto &r = *e.replacement;
+            order_detection(r);
+            if (r.request.expected_version_ref || r.cause.source.subject.id != v.subject.id ||
+                r.cause.hold_ref == e.hold_ref || r.cause.supersedes_hold_ref != e.hold_ref ||
+                r.request.mutation_ref == v.mutation_ref ||
+                !replacement_holds.insert(r.cause.hold_ref).second ||
+                !replacement_mutations.insert(r.request.mutation_ref).second || v.application)
+                invalid(Input::invalid_resolution);
+        }
+    }
+}
+// Stored-body wrappers deliberately have no input aggregate or collection quota.
+// Runtime proves actual selected counts before allocating, then applies result limits.
+inline void shape_observation(const ApplicationHoldObservation &v, const SqliteHoldLimits &l) {
+    key_observation(v, l);
+    body_observation(v, l);
+}
+inline void shape_cause(const ApplicationHoldCause &v, const SqliteHoldLimits &l) {
+    key_cause(v, l);
+    body_cause(v, l);
+    matrix_cause(v, l);
+    order_cause(v);
+}
+inline void shape_detection_data(const ApplicationHoldDetectionData &v, const SqliteHoldLimits &l) {
+    key_detection_data(v, l);
+    body_detection_data(v, l);
+}
+inline void shape_detection(const ApplicationHoldDetection &v, const SqliteHoldLimits &l) {
+    key_detection(v, l);
+    body_detection(v, l);
+    matrix_detection(v, l);
+    order_detection(v);
+}
+inline void shape_resolution(const ApplicationHoldResolutionBatch &v, const SqliteHoldLimits &l) {
+    key_resolution(v, l);
+    body_resolution(v, l);
+    matrix_resolution(v, l);
+    order_resolution(v);
 }
 
 // A checked sum is shared only as arithmetic, never as a fictional aggregate
