@@ -328,3 +328,19 @@ jobs:
           PYTHON
       - name: Run reviewed application-bundle acceptance
         run: ctest --preset sqlite-original-claim-debug -L '^sqlite-bundle$'
+      - name: Check and run required original-claim fixture diagnostics
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          executable = "build/sqlite-original-claim-debug/tests/qt/server_sqlite_original_claim_environment"
+          expected = {
+              "minimalFixtureHasCoherentCatalogAndCompetingClaims()",
+              "oldLookupValidatesCompleteMinimalRecordsAndLiteralByteBounds()",
+              "oldNonemptyFixtureRetainsTwentyItemFoundation()",
+          }
+          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if set(compiled) != expected or len(compiled) != len(expected):
+              raise SystemExit("Required original-claim fixture cases do not match compiled slots")
+          print("Discovered all 3 required original-claim fixture cases")
+          PYTHON
+          ctest --preset sqlite-original-claim-debug -R '^scaffold.sqlite_original_claim_environment$' --verbose

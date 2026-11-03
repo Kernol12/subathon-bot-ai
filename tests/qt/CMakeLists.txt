@@ -1,4 +1,20 @@
 set(CMAKE_AUTOMOC ON)
+if(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS)
+    add_executable(server_sqlite_original_claim_environment sqlite_original_claim_environment.cpp)
+    target_link_libraries(server_sqlite_original_claim_environment PRIVATE subathon_sqlite_application_bundle Qt6::Test)
+    target_compile_definitions(server_sqlite_original_claim_environment PRIVATE
+        SUBATHON_ORIGINAL_CLAIM_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_original_claims_vectors.json"
+        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
+        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
+    subathon_target_options(server_sqlite_original_claim_environment)
+    add_test(NAME scaffold.sqlite_original_claim_environment COMMAND server_sqlite_original_claim_environment)
+    set_tests_properties(scaffold.sqlite_original_claim_environment PROPERTIES
+        LABELS "scaffold;qt;original-claim-environment" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
     add_executable(server_sqlite_application_bundle_environment sqlite_application_bundle_environment.cpp)
     target_link_libraries(server_sqlite_application_bundle_environment PRIVATE subathon_sqlite_writer Qt6::Test)

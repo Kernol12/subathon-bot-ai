@@ -75,3 +75,28 @@ actualfixture/harnessreview and its own selectedofficial NEWgreen remain require
 before newreader testauthoring/review/discovery/firstintendedred. Earlier pending
 paragraphs record their checkpoints; APIverification is now complete, not query
 feature acceptance or complete baseline. Source still immediate namedstub.
+
+
+## Actual independent fixture foundation candidate (review pending)
+
+Independent608e63c→roota29d603 adds only newJSONbea1273c/helper67d4fbd2/
+environment7dad8108/authorMDd1a4. It freezes A/B and signed receipt-subject C,
+45literalstatements/9rawqueries/full66/catalog/exhaustedMAX allocators; no new
+claim-reader invocation or feature test. [Fixture author](storagetest-017-fixture-author.md)
+records raw independent diagnostics and standalone5PASS0skip.
+
+Root actualnew QtCMake548f/WFb7bb adds one OLD-primitive environment target and
+unconditional exact3 compiled-slot guard/run after unchanged old35/oldguards/pins.
+Build20actualstepsZEROwarnings. `ctest --preset sqlite-original-claim-debug -R
+'^scaffold.sqlite_original_claim_environment$' --verbose` PASS5Qt0FAIL0SKIP37ms,
+CTest0.04s; exact3compiledslots/global210 registrations=old209+onegreen executable.
+No newreader tests exist. Source/header still130e/cf721 immediate namedstub.
+Raw local-evidence/storagetest017-fixture-{build,green}.txt hashes
+5d94ac1539d47537aa8cc131b27a34d4d7da9ed4b43527fe38486a69c5e051b4 and
+d08ca6ceb2e5f2d0cdd88cb98309f1b0d1132247aeb723866844e4b374e2bbe7.
+
+Different actual fixture/helper/harness review is pending before publication of
+its OWN selected officialNEWgreen. Old209 was not replayed again: its source/
+fixture/registration definitions remain byte-identical after removing only the
+newgreen block, prior root/reviewer/APIofficial stability retained. No full210
+execution or newfeature/red pass is claimed by adding one registered executable.

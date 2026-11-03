@@ -160,3 +160,15 @@ RawAPIofficialSHA610034e5945c95f4e1663b863484411fee6f2ceae0dda9547cdaa451814cf97
 with fresh92/0warnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/newpreset19/old164+
 greens/old35. Every oldpendingAPI paragraph above is historical; thisactualgate
 is COMPLETE. Newfixture/feature/test/red notclaimed yet.
+
+
+## Actual fixture candidate frozen for independent review
+
+Independent608e63c importeda29d603: fournewownedfiles JSONbea1273c/support67d4/
+environment7dad/authorMDd1a4. Raw45statements/9queries A/B/C/full66/FK0/catalog/
+trueexhaustedMAX/body161+tag162/old20foundation; CReceipt8 is signednon-support,
+NOTa confirmation. RootQtCMake548f/WFb7bb adds only3-slotoldprimitivegreen target/
+mandatoryrun afterunchangedold35; actualbuild20/0warnings/green5PASS0skip37ms,
+registered210=old209+newgreen, NOnewqueryfeaturetest/body/red. Source130e staysstub.
+Differentfixture/harnessreviewactive; actualownNEWselectedofficialgreen notyet
+observed. Featureauthor mustWAITbothbeforewritingnewreader tests. No implementation.
