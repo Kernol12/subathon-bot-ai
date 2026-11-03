@@ -141,3 +141,25 @@ real authority/policy/clock/action adapters, both renderers/locales/themes,
 financial/refund/review/continuation workflows, security/recovery/backup/platform/
 packaging/live/full release remain mandatory/incomplete. Do not silently shrink
 scope or claim unknown provider behavior. A merged PR is a coordination checkpoint.
+
+## Current fixture precision clarification — actual review pending
+
+Rawfixture JSON/source/state/codec-input foundation is being authored; exact new
+service-produced goldens pause for clarification. Actual DOC-only authoraba965732
+imported0328aa0: CURRENT proposed contract862c419395f4e9daf34f8ae8790a06abbec6f410,
+note78f36dd7a3f0d0ad70cefb250f7af2a6b45c791c. Successfieldtable/all4newholdSAH1/
+nonrecursiveFailureleaf, deterministic source+portexplanationcopy/emptycalc+hold
+prose/fixedclock-observation-v1, lossless emptycommand DATA projected only to
+NONEMPTY typedholdrefs. Observation UTC OPTIONAL; root's contrary premise was
+wrong, checked/retractedbeforeedits. No timeport/knownClocknarrowing/fabricated0.
+Proofpartition preserves AS20/CS10+AS16/CS08: oldstore proves staleEXPECTED/current
+15/head mismatch, NOT actualmid-sessionrace; oldcore proves pausedtrace; service
+public tests preread/currentdata/clockorder/no writes/unpausedhardend +FUTUREactual
+sourceaudit. No mutablephasehook/fakeportsSQL/claimedunobservedprivatebranch proof.
+
+Mainreviewer explicitly RESUMED actual862c/78f re-review; fixtureauthor also checks
+bounded actualdiff in its PRESERVEDcodec-review tree/addendum beforegoldensfreeze,
+while authoring only unaffected rawfixturedata in NEWfixturetree. Sole docauthor
+COMPLETE/cleanaba965; header03a747/sourceebbea/headernotea863/ALLrootAPIharness
+BYTEEXACTunchanged. ExistingAPIapproval/compilerproof remains valid; no new code
+or featurecall. Wait actual full+bounded clarificationapproval before exactoutputs.
