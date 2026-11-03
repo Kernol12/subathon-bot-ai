@@ -179,3 +179,21 @@ Retention invalid-key already rolled back. Author explicitly notified, owns sole
 proposal/note edits; no new source/test/harness authorization. Actual6ee full and
 bounded reviews ongoing; root local metadata captures these findings before the
 corrected actual document arrives.
+
+## Current corrected candidate for final document review
+
+Original bounded changes-requested f8fc91e imported65b1f29, reviewMD00fc6348,
+original6ee/916 and all independentlychecked literal/arithmetic anchors retained.
+Actual batch6160e352 imported073c51e resolved reported R1–R4+C1/C2; final tiny
+ee056945 importedde73386 pins localviewfailure→port_contract3/invalid_output1
+with activeowner cleanup and missingCompletion enqueueAdmission invalid_work versus
+make_workPreparationFailure invalid_work (no admission/unit/callback).
+CURRENT contract **8fa0c76ad90ad046712463dfc95206e2a99b4e40**, author note
+**608acc129c48f8ee5ed97fd09db1ade541511c56**. Author COMPLETE/idle/cleanee056.
+Full reviewer actualfinaldiff says all findings resolved, final writtenapproval
+awaits boundedreviewer's completed actual C1/C2 audit. Both reviewers ACTIVE on
+8fa/608; neither has committed final approval. Root currentpublishes revised
+candidate to draftPR49. NO header/stub/fixture/test/codec/service/native call.
+Only after ACTUAL written document approvals integrate may root assign minimal
+API/immediate unique stubs/buildharness, then separate actual API review/ownselected
+environment before independent fixtures/tests/review/FIRST service markerred.
