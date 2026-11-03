@@ -102,3 +102,44 @@ stubs/harness actual review, independent literal real-SQL fixture/test authoring
 full separate test review, selected foundation green/registration check and FIRST
 same-clean intended missing-service/codec red. ACCT-004 production remains gated.
 No live provider/network/user-state effects or permission request occurred.
+
+## Actual first review corrections
+
+Actual reviewer of candidate6ee found a material historical-detection mapping gap.
+Root explicitly authorized this DOCUMENT correction. A new held result now requires
+record_detection.recorded ONLY and the exact new creation outcome. Already_recorded
+is a typed stage_conflict, because an old historical active version may now belong
+to a resolved hold. Every disposition0–9 is mapped; impossible detection outputs
+fail the unit rather than inventing a hold. Independent CS16 records h/d/v1 then
+resolution v2: today's active set is empty; exact old detection retry returns old
+v1 DATA but cannot justify held. No application effects/claims or ref regeneration.
+
+The same correction explicitly extends host lifetime obligations to ALL outstanding
+prepared work pairs, including unsubmitted pairs. Draining admitted work is
+insufficient while an unsubmitted callable still references service/ports/writer.
+No safe use-after-destruction guarantee or dependency ownership was invented.
+Only these two owned MD files changed. Different actual review of revised bytes
+is still required; no prior approval is carried forward.
+
+The bounded codec/numeric reviewer independently reproduced all literal counts and
+arithmetic, then identified two concrete precision gaps, released by root for this
+same document-only correction. Per-method accounting now pins encode Command25 to
+Envelope98 and decode Envelope98 to Command25, including distinct input/output
+failure priority, actual decoded result items and opaque-record non-items.
+Independent intermediate ceilings bound port/proposal/semantic temporary ownership
+without changing old record quotas or pretending embedded vectors are returned.
+Decoder scan/materialization/error stages and context mappings are explicit.
+Per-occurrence CORE002 credit now explicitly consumes the CURRENT running timer,
+including prior effects, before installing THIS numeric Main_after. CS18 freezes
+58→60→60 for two requests+10 under cap60; it never resets the second timer to58.
+No codec/service implementation or test invocation accompanies these corrections.
+
+The full reviewer additionally required concrete echoed ReferenceResolution binding,
+finite token-free ApplicationCalculatedProposal members and an implementable order:
+calculate→prepare jobs→issue refs→complete token-dependent codecs/bundle. The revised
+text supplies those exact fields; it never demands complete SAR1 before tokens exist.
+Read-view invalid-key pure rejection, callback-local expiry/foreign error and actual
+underlying WorkFailure are now distinct. Pure/local failures require the service's
+one active cleanup when propagated; already-rolled-back retained/query/store errors
+are mapped without another rollback. Actual unknown still dominates. Prepared-pair
+lifetime and all preceding revised mappings remain subject to different review.

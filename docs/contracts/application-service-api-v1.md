@@ -79,11 +79,18 @@ body exception. No new SQL/fault instrumentation or fake completion is needed.
 The matching completion owns per-attempt error bookkeeping, never a substitute
 normal payload. Reusing/cross-pairing body/completion is prohibited host protocol.
 
-The constructor is inert; references are owned by the authoritative queue host and
-outlive admitted work. No facade escapes a session. The host keeps service and ports
-alive through completion, closes admission before destruction and drains its queue;
-this is not a transport or a new thread/event loop. enqueue is owner-thread-only.
-Foreign calls return wrong_thread without storage or port calls. Invalid command,
+The constructor is inert; the authoritative queue host owns the dependencies.
+Service, writer, ports and required host state outlive EVERY outstanding prepared
+pair, including a pair never submitted, until it is destroyed or submitted and its
+matching completion has finished. Closing admission/draining admitted work alone
+does not discharge an unsubmitted pair's lifetime. The host destroys such pairs
+before destroying their referenced dependencies; no safe invocation after service
+destruction is promised. No facade escapes a session. This is not a transport or
+a new thread/event loop. enqueue/make_work are owner-thread-only.
+A foreign enqueue returns admission StorageError::wrong_thread; foreign make_work
+throws ApplicationServicePreparationFailure(StorageError::wrong_thread), since its
+return type is the pair, not admission. Both reject before storage/port/input-copy
+work; codec functions themselves have no thread affinity. Invalid command,
 limits or missing callback is a synchronous typed admission/input failure, before
 enqueue_work; no callback/unit is promised for rejected admission. Accepted admission
 copies all strings, vectors and QByteArray bytes, including fromRawData sources.
@@ -190,6 +197,14 @@ reference_bytes=min(service.reference_bytes,bundles.reference_bytes) and
 document_bytes=min(storage_document_bytes,bundles.value_bytes); it preserves
 actual capability, cumulative budgets and known/unknown failure truth.
 The view is revoked at callback return; retaining/copying it cannot extend access.
+A default/expired view throws ApplicationReferenceViewFailure(expired_callback0);
+a live view used from a foreign thread throws the same class with wrong_thread1,
+before touching Qt SQL/session state. This is the NARROWER callback capability,
+not invented WorkError::stale_session. Each call first validates its RetainedKey
+using the selected read limits: invalid kind/ref throws existing RetentionFailure
+invalid_kind/invalid_reference before view/thread checks, with no SQL/cleanup.
+Valid view then delegates find; real underlying WorkFailure capability/protocol/
+terminal/unknown remains original. No result/capability extends callback lifetime.
 Inputs/selected capture/current state are supplied as owned DATA; no additional
 current-source/state read or mutable repository capability is exposed.
 Actual future authority adapters needing other persistence reads require a focused
@@ -248,11 +263,24 @@ Clock lineage is an explicit retained-observation identifier, not a process-loca
 tick or portable downtime checkpoint. Restart/recovery meaning remains separately
 reviewed; unavailable lineage/segmentation is not-ready.
 
-Reference binding owns command operation/source/PlanKey, persisted head token,
-purpose and optional request ordinal when meaningful. Call only after admission and
+ApplicationReferenceBinding owns ApplicationOperationKey operation,
+ApplicationOriginalClaimSelector source, ApplicationPlanKey plan, string
+persisted_head_token, ApplicationReferencePurpose purpose and optional<int64>
+request_ordinal. The selector's role/receipt/CID exactly echo the admitted command;
+the head/plan are the checked inputs. State-token purposes have no request ordinal;
+hold purposes copy a known failing ordinal when one exists, otherwise absent.
+ReferenceResolution is either issued{ApplicationReferenceBinding binding,
+string reference} or unavailable{string reason_ref}; the alternative tag is explicit,
+and reason/ref are nonempty bounded references. The issued binding must equal EVERY
+requested binding field including purpose and optional presence, not just its hash.
+This specifies what is verified; there is no unverifiable bare-ref success DTO.
+Call only after admission and
 the complete proposal requires that reference; hold detection uses hold/detection/
 hold_version, successful application uses advanced_state only if needed and after_state
-always. Verify returned keys/purpose and all within-attempt required distinctions.
+always. Verify the complete returned binding/ref before use: before and after state tokens
+must differ; a hold creation's hold/detection/version refs must be pairwise distinct.
+Invalid binding/ref is a local port-contract failure; an actual stored collision
+follows the store's explicit healthy conflict mapping.
 The store enforces actual namespace non-reuse; collisions map explicitly below.
 No regenerate loop, fake sequential StateRevision or issuer claim of durability.
 Production uniqueness/exhaustion semantics require a real reviewed issuer; a
@@ -310,8 +338,12 @@ Use actual SqliteApplicationBundleStore and SqliteApplicationHoldStore on THIS s
    only further planning. Preserve every current dimension and immutable support.
    Unavailable lifecycle/mixed/action policy yields the explicit gate below.
    No staging/action preparation/reference issuance precedes this complete calculation.
-8. On full success prepare jobs and supported codecs, issue required fresh tokens,
-   stage ONE PreparedApplicationBundle. intent.choices is the encoded original
+8. On full success pass the finite token-free ApplicationCalculatedProposal below
+   to actions, validate all required job intents/groups and explanations, then issue
+   required fresh state refs ONCE. Only AFTER tokens exist encode SAS1 snapshots,
+   SAR1 result and SAA1 audit, validate the whole owning bundle and stage ONE
+   PreparedApplicationBundle. Command canonical bytes can be prepared earlier;
+   no complete SAR1 or fake placeholder token is required before issuance. intent.choices is the encoded original
    command; intent.expected_state_token is the ACTUAL persisted head; expected
    contribution is the COMPLETE current state, not captured support conditions.
    No hidden before/head commit. stage dispositions map as in sectionF.
@@ -347,10 +379,13 @@ promote current evidence without rewriting support. Stage separately rechecks
 plan and all current fields.
 
 For each positive/zero milliseconds request call CORE-005 plan_time_addition on
-the CURRENT ordered proposal Main/debt and current cap. Pass ONLY main_added_ms to
-CORE-002 apply_applicable_time_credit using the ORIGINAL clock-advanced TimerState
-for that occurrence, BEFORE installing any numeric Main_after. Store debt_after
-separately and require returned timer.Main equals numeric balance_after.Main.
+the CURRENT running proposal Main/debt and current cap. Pass ONLY main_added_ms to
+CORE-002 apply_applicable_time_credit using that CURRENT running TimerState BEFORE
+THIS occurrence, including every preceding occurrence's actual timer changes, but
+BEFORE installing THIS occurrence's numeric Main_after. The first occurrence starts
+from the clock-advanced timer; later ones do not reset to that initial snapshot.
+Store debt_after separately and require returned timer.Main equals numeric
+balance_after.Main.
 This prevents double addition; debt repayment/request/capped amounts never rescue
 Grace/wait. Actual0 preserves Grace/wait and independent pauses. Above-cap Main is
 retained while debt can still repay; do not call CORE-001's narrow cap helper.
@@ -507,7 +542,7 @@ ApplicationServiceResponse owns disposition plus ONLY the indicated payload:
 | operation_conflict4, denied5, disclose_denied6, missing_plan7, plan_conflict8, state_conflict9 | no historical/current protected payload |
 | ineligible10 | ordered unique ContributionBlocker values only, from actual current assessment, subject to execution access; no historical record |
 | active_hold11 | optional complete ApplicationHoldActiveSet; absent when disclosure denied; never a truncated set |
-| held_numeric12, held_policy13 | ApplicationHoldMutationOutcome with actual historical produced version(s), plus hold ref; no application record |
+| held_numeric12, held_policy13 | exact fresh recorded detection outcome and hold ref as below; no application record |
 | not_ready14 | bounded explicit reason ref only, no success/hold claim |
 | stale_contribution15, stale_state16, state_token_conflict17, subject_unavailable18 | no protected payload |
 | stage_conflict19 | variant<SqliteBundleStageDisposition,SqliteHoldMutationDisposition> actual typed tag, no existing data |
@@ -523,11 +558,34 @@ Any reversal-only disposition is a service/source contract failure, not an origi
 success. Healthy remaining storage/hold identity conflicts map19, retaining exact
 typed tag. Never auto-retry, clear a hold, allocate another key or discard the refusal.
 
+For a NEW whole-input hold, the earlier complete active(subject) result was
+empty; the issuer supplied creation hold/detection/version refs and the request
+has expected_version absent. Map record_detection's ACTUAL result explicitly:
+
+| SqliteHoldMutationDisposition | Service handling |
+| --- | --- |
+| recorded0 | ONLY normal held_numeric/held_policy path; require present outcome with exact issued mutation_ref, kind detection0, exactly one produced version whose hold/version match the creation, position1, no parent, active state, producer equal issued detection, and no replacement. A contradictory outcome is port/storage contract failure with known whole rollback, never held |
+| already_recorded1 | stage_conflict19 with typed already_recorded tag; discard its historical outcome. No held claim, no new hold, no success claim and no regenerated ref |
+| mutation_conflict2, hold_conflict3, stale_version5, version_conflict6, closed_hold8 | stage_conflict19 with the exact typed tag, no hold outcome; require absent outcome as the storage contract specifies |
+| stale_active_set4, missing_hold7, replacement_conflict9 | impossible for record_detection; source/port contract failure with known whole rollback, never a normal hold/conflict fabrication |
+
+For already_recorded the existing store legitimately returns its full HISTORICAL
+produced versions; even an active first-produced version does not prove today's
+hold is active. Therefore it is never enough for a new held response. Fresh
+recorded0, its exact creation result and this unit's actual commit/normal completion
+together establish the newly recorded blocker. Identity refusal performs no own
+writes; its read-only commit reports only the explicit conflict. No path stages
+application effects/jobs/claims while handling these hold outputs.
+
 ApplicationServiceInputError values are invalid_options0, invalid_key1,
 invalid_source2, collection_limit3, invalid_body4, invalid_conditional_group5,
-owned_byte_limit6. Failure source is bundle0, hold1, retained2, port_contract3,
+owned_byte_limit6, result_limit7. The latter is a PURE public codec output-limit
+failure (bytes or items), not a post-SQL failure. Failure source is bundle0, hold1, retained2, port_contract3,
 retained_semantics4 or bridge5. For the first three it retains the exact existing
-typed storage/retention reason; for port/semantics/bridge its reason is invalid_binding0,
+typed reason as variant<SqliteBundleStorageReason,SqliteHoldStorageReason,
+RetentionError,WorkError>; a known direct retained-query WorkFailure uses its actual
+WorkError rather than a fictional RetentionError. For port/semantics/bridge its
+reason is invalid_binding0,
 invalid_output1, invalid_known_document2, contradictory_document3, result_limit4
 or invalid_completion_payload5. WorkError/TransactionOutcome remain separate.
 No unbounded exception text or protected document leaks through failure metadata.
@@ -548,8 +606,19 @@ response failure and cannot
 change accounting/completion history. Admission failure is separate.
 
 Service-local malformed port/known-v1 semantic contradiction must establish real
-whole-unit rollback before failure. Known store failures already did so: map their
-exact source/reason without a second rollback. Original SqliteWorkFailure capability/
+whole-unit rollback before failure. Known Bundle/HoldStorageFailure already did so: map their
+exact source/reason without a second rollback. Retained find errors need their
+ACTUAL distinction: invalid_stored_data/result_limit RetentionFailure and real
+query busy/sql/resource/result WorkFailure already established rollback; map the
+matching retained reason without another cleanup. Pure retained key/kind/options
+rejection, local view expiry/wrong-thread, bad returned port binding/output and
+known-document contradiction have NOT established rollback. If they escape the
+callback, the service guard performs ONE active session.cleanup before reporting
+the local failure. If that cleanup becomes uncertain, preserve actual unknown
+above the local reason. A callback-local expired view is not a stale writer ticket.
+A real original WorkFailure from an invalid/terminal session is not rewritten as
+a local view error and does not trigger a second speculative cleanup.
+Original SqliteWorkFailure capability/
 protocol/stale/terminal/unknown remains original; writer-established known query
 busy/sql/resource/result retain their actual known rollback/reason. If active service
 cleanup fails, actual unknown outranks the local failure. Never turn unknown into
@@ -559,7 +628,8 @@ not a synthetic boolean pretending COMMIT failed.
 Proposed ApplicationServiceLimits owns SqliteBundleLimits bundles{}, SqliteHoldLimits
 holds{}, reference_bytes4096, choice_bytes262144, command_bytes262144,
 storage_document_bytes262144, choices_per_command1024, clock_segments1024,
-input_owned_bytes1048576, result_owned_bytes4194304, result_items65536.
+input_owned_bytes1048576, result_owned_bytes4194304, result_items65536,
+intermediate_owned_bytes4194304, intermediate_items65536.
 All positive; checked representability leaves n+1 below qsizetype/qint64/size_t and
 each relevant vector max_size. Validate ALL nested options including dormant holds/
 bundle profiles first. Profiles independently cap their stores; no lifetime history
@@ -569,27 +639,62 @@ components obey its component_bytes. A valid command can still exceed a selected
 store's application aggregate input budget: that is an explicit configured-bound
 failure, never silent truncation or product input-count policy.
 
-Pure input order: options → all required keys/source IDs/enums/presence → ALL counts
-→ ALL bodies/documents → conditional purpose/preview groups → aggregate owned bytes.
-No ticket, cleanup, queue mutation, port or feature call precedes successful preflight.
-For encoding/decoding, command_bytes and all checked framing additions precede
-allocation; encoded lengths must fit U32 independently of positive ceilings.
-Unknown input format is unsupported after valid envelope/options/bounds, not a
-fallback parser. Pure rejection preserves any caller unit elsewhere.
+Pure typed command preflight: options → all required keys/source IDs/enums/
+presence → ALL counts → ALL bodies/documents → conditional purpose/preview groups
+→ aggregate input owned bytes → checked encoded command length. This applies to
+enqueue/make_work and public encode, before any ticket/cleanup/queue/port call.
+Encoded length must fit U32 and command_bytes independently of owned-byte ceilings.
+No input truncation or count inference from an opaque document.
 
-Logical service owned-byte accounting is separate from wire/framing length:
-string/document actual bytes; uint64/int64 8; enum/bool1; optional NONE0/present value
-only; vectors sum actual elements; no pointer/capacity/padding/framing charge.
-Command bytes are the sum of ALL owned members in sectionA, counting each copy;
-its choices additionally count both format and document. Completion response bytes
-are disposition1 plus actual payload members; records/hold DTOs use their existing
-published accounting unchanged, plus new owned wrapper members. Fixed disposition/
-payload presence has no phantom vector item. Items are actual vector elements,
-recursively, counting each owning copy: choices, blockers, segments, returned record
-and hold containers by their respective published rules. Response not_ready adds
-reason bytes; held adds hold-ref bytes AND its actual outcome; inactive absent
-payloads add0. Checked overflow maps input owned_byte_limit before enqueue or known
-result_limit/whole rollback after SQL, before allocating/returning the oversized copy.
+The following are INDEPENDENT per-value ceilings, not a cumulative allocation
+counter. All actual owning copies within each measured value count; no deduction
+because the same bytes occur elsewhere. Store profiles and actual writer budgets
+continue to apply independently:
+
+| Boundary | Actual input measure | Actual output measure / failure context |
+| --- | --- | --- |
+| public encode_original_application_command | complete Command logical B≤input_owned_bytes; choices count≤choices_per_command and field limits | returned Envelope B=(format bytes+encoded document bytes)≤result_owned_bytes; its items=0≤result_items; output overage throws pure result_limit7 BEFORE allocation; framed document also≤command_bytes |
+| public decode_original_application_command | input Envelope logical B≤input_owned_bytes; items0; format/ref/non-null document and command_bytes bounds | returned decoded Command B≤result_owned_bytes and its actual choices count≤result_items, also choices_per_command; pure result_limit7 BEFORE materialization |
+| enqueue / make_work admission | complete Command B≤input_owned_bytes, typed preflight above and command_bytes; owned admission snapshot only | admission/prepared callable wrappers are not domain response vectors; no fictitious result item. Subsequent internal values use the intermediate row |
+| trusted port outputs / service numeric proposal / internal encoded or decoded semantic DTO | each complete returned/constructed intermediate value's ACTUAL B/I≤intermediate_owned_bytes/intermediate_items and its relevant per-vector/field bounds | after BEGIN, overage is known service result_limit with real whole rollback, never a normal hold or pure caller-input exception. Actual port input is a const reference to owned checked DATA, not an extra copied value |
+| final ApplicationServiceResponse only | existing store result limits already bound each source record/view, independently | response disposition1 plus ACTUAL returned payload B≤result_owned_bytes; actual returned vector elements≤result_items, before growing the oversized output; known result_limit/whole rollback |
+| fixed ApplicationServiceCompletion / admission status | actual writer metadata | fixed transaction/error/failure wrapper is outside domain response B/I budgets; no hidden vector or protected success data |
+
+Internal parsing/encoding reuses the specified grammar but NOT the public codec's
+caller-input aggregate policy: an existing retained Envelope is not a new incoming
+Command. It is bounded by the selected store's value_bytes, storage_document_bytes
+and intermediate bounds; semantic decoded temporaries count against intermediate
+B/I. A returned RecordedBundle keeps its existing published B/I EXACTLY. Choices/
+segments/effects merely embedded in an opaque document do not add phantom vector
+items to that returned record; its actual document bytes still count. If a decoded
+temporary is also an actually owned field of a new DTO, its real copy counts there.
+
+ApplicationCalculatedProposal is the port-visible owned intermediate:
+clock_advanced_timer, timer_after (core::TimerState each), debt_after(int64),
+balances_after(vector<ApplicationBalance>), effects(vector<ApplicationEffect>),
+transitions(vector<TimerTransition>) and ApplicationClockObservation observation.
+It has NO speculative state token. Its B/I includes each actual member/copy;
+actions receive it and checked inputs by const reference, cannot mutate it.
+Access/policy/clock/action/reference outputs likewise count each owned field;
+the scalar tags/bools count1, scalar int64/uint64 count8, strings/documents actual
+bytes, optional NONE0/present only its value. Vectors count their actual elements
+recursively by the existing published DTO rules. Overflow of any checked B/I
+addition is the corresponding input owned_byte_limit, pure output result_limit,
+or post-BEGIN known result_limit according to this table, never wraparound.
+
+Decoder order is options → input envelope required-format/non-null/body field
+bounds → input aggregate B → unsupported outer format → bounded framing scan →
+typed command preflight stages → output B/I projection → materialization.
+The scan uses byte views only, checks every length/count before advancing, and
+rejects truncation/trailing bytes before any vector/string allocation. A structurally
+unreadable frame gives invalid_body; an unreachable later count is not invented.
+For a fully framed document, ALL count limits precede body/conditional validation,
+and typed key/source/presence stages retain their earlier priority. Unknown enum/
+tag/noncanonical known representation cannot be accepted by a fallback parser.
+Internal retained decode maps malformed known semantics to retained_semantics failure,
+unsupported healthy outer format to not_ready, and bound/overflow to known result_limit.
+Encode first validates input, then computes checked exact framed/output B/I before
+allocating. Pure rejection preserves any caller unit elsewhere.
 
 For C0 logical command bytes: scope1+op1+subject1+receipt8+planref1+revision8+
 principal-kind1+installation1+principal1+purpose1+previewmode1=25, zero items.
@@ -623,6 +728,9 @@ boundaries for later independently frozen fixtures.
 | CS13 | Signed requestINT64_MIN/Main1/debt0/CarryTimeDebt→Main0/debtMAX. Same request/Main0/debt0 overflows→whole-input numeric hold. RequireReview remains timer-specific and cannot enable unresolved mixed/global policy |
 | CS14 | Unknown healthy command/state/result outer format→not_ready, no fabricated corrupt record or current reinterpretation. Malformed known magic/trailing bytes/contradictory typed copy→known semantic rollback |
 | CS15 | One issuer collision is explicit conflict; issuer called once for that purpose, no regeneration. Held/refused/duplicate work issues no success tokens. All retained response buffers survive service/session/writer destruction |
+| CS16 | Hold h/detection d first produced active version v1, then was resolved at v2; today's complete active(subject) is empty. Issuer accidentally repeats h/d/v1 and the SAME immutable old cause/detection, so record_detection returns already_recorded with historical active v1. Service returns stage_conflict(hold::already_recorded), NOT held_numeric/held_policy; no current blocker is claimed or created, no token/ref retry, no application effects/claim |
+| CS17 | Public encode C0: inputCommand B25→outputEnvelope B98 (format40+document58). input_owned_bytes25/result_owned_bytes97 gives PURE result_limit7. Public decode the same Envelope with those limits gives input owned_byte_limit6 FIRST (98>25). With sufficient bytes and two empty x choices, choices_per_command2/result_items1: decode fails output result_limit (2 actual choice items); encode's opaque Envelope still has0 result items. Returned opaque record documents never add these temporary choice items |
+| CS18 | Main58/debt0, requests+10 then+10, cap60: first actualMain2/capped8→running60, second actualMain0/capped10→running60. CORE002's second input is60, not initial58 and not60 plus a duplicate credit |
 
 Next: different actual DOCUMENT review; then minimal header/unique stubs and build
 harness review, with no executable behavior; independently authored literal codecs/
