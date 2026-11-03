@@ -5,6 +5,9 @@ complete [author evidence](storagetest-016-author.md), and root harness below.
 Read ALL2353 source lines, every helper/data table and all35 slots against
 concrete701c710f/physical83e96362/API46c70297; independently counted265 authored
 scenario rows. That row count is static analysis, not native execution evidence.
+Actual complete root candidate `25da01e188892fc36d76930ecbda05998d70e6df`
+was checked through its Git objects: all four pins below and API46c70297 agree.
+This pins the reviewed artifacts, not a future CI outcome or metadata verdict.
 
 | Actual reviewed artifact | Git blob |
 | --- | --- |
@@ -44,8 +47,9 @@ Full review conclusions, with the author table providing the exact35-slot mappin
   All five pure entries are tested after the caller's ONE statement is spent.
   Actual vector/n+1/output bounds, nested replacements, input-versus-result limits,
   complete repeated B/I ownership and reachable one-under boundaries agree with
-  the independently frozen35 byte/item oracles. Counts precede materialization;
-  wrong SQL class versus size versus grammar has distinct intended outcomes.
+  the independently frozen35 byte/item oracles. Understated counts require
+  corruption rather than overage; actual allocation order still needs source
+  review. Wrong SQL class versus size versus grammar has distinct intended outcomes.
 - Capture preserves the unique marker through writer callbacks/worker catches;
   unrelated failures become HOLD-ASSERT, never missing-feature evidence. Known
   storage errors require actual rollback INSIDE catch and an unchanged full typed
@@ -88,6 +92,7 @@ Ignored reviewer artifacts under local-evidence/storagetest016-review:
 | feature-global-discovery.json |5e9954b99393435c3602d6d60c486460c229d79b7fc69a22f9e45e9488001b4e |
 | feature-raw-setup-review.py |d92d5fcd827d1f31fad34aa7e15c8e2f012718b197d793ad9b8f79eb9d3e42ae |
 | feature-raw-setup-review.json |85ca92922ee0d03d7edc3c19b45f618e21c38a48b6746cb4e9db62b9fcc92ae7 |
+| feature-trigger-review.json |270b27041d26ff2ff5537697238cdb66b993fa27b77fccd79be4f5ceadaaea87 |
 
 Only this review is reviewer-authored tracked content; root configuration/API
 verification copies remain preserved uncommitted. Complete-approved-head OWN
