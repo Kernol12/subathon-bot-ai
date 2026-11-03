@@ -143,3 +143,15 @@ underlying WorkFailure are now distinct. Pure/local failures require the service
 one active cleanup when propagated; already-rolled-back retained/query/store errors
 are mapped without another rollback. Actual unknown still dominates. Prepared-pair
 lifetime and all preceding revised mappings remain subject to different review.
+
+## Final narrow error-surface pins
+
+After actual6160/3e49 inspection resolved the material findings, root released
+two remaining documentation pins. Escaped callback-local view expired_callback/
+wrong_thread maps exactly to outer port_contract3/invalid_output1 after ONE active
+cleanup; the direct local exception tag remains distinct, no stale_session or other
+writer error is fabricated, and actual cleanup unknown dominates. Missing Completion
+on the owner thread returns enqueue Admission{invalid_work}, while make_work throws
+PreparationFailure(invalid_work); both occur before actual enqueue/unit/callback.
+No additional within-stage total ordering or new runtime behavior is claimed.
+Different actual review of these final bytes remains required.

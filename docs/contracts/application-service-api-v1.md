@@ -90,9 +90,14 @@ a new thread/event loop. enqueue/make_work are owner-thread-only.
 A foreign enqueue returns admission StorageError::wrong_thread; foreign make_work
 throws ApplicationServicePreparationFailure(StorageError::wrong_thread), since its
 return type is the pair, not admission. Both reject before storage/port/input-copy
-work; codec functions themselves have no thread affinity. Invalid command,
-limits or missing callback is a synchronous typed admission/input failure, before
-enqueue_work; no callback/unit is promised for rejected admission. Accepted admission
+work; codec functions themselves have no thread affinity. Invalid command or
+limits throws ApplicationServiceInputFailure synchronously, before enqueue_work.
+For an owner-thread call with missing Completion, enqueue returns
+ApplicationServiceAdmission{StorageError::invalid_work}; make_work throws
+ApplicationServicePreparationFailure(StorageError::invalid_work). Neither calls
+enqueue_work, creates a unit or invokes a callback. These pins do not impose an
+extra total order among simultaneous failures within the same preflight stage.
+No callback/unit is promised for rejected admission. Accepted admission
 copies all strings, vectors and QByteArray bytes, including fromRawData sources.
 It never retains a caller pointer, stack reference or mutable shared input buffer.
 
@@ -107,8 +112,9 @@ The host supplies real WorkResult rather than constructing a synthetic success.
 Copied wrapper values deep-own all nested bytes; their lifetime is independent
 of SQL/session/service destruction. No public generic QVariant becomes authority.
 
-ApplicationServiceAdmission contains StorageError from the actual enqueue_work
-admission, none exactly when accepted. It does not mean applied or committed.
+ApplicationServiceAdmission contains the actual enqueue_work StorageError or
+the explicitly specified local wrong_thread/invalid_work rejection; none exactly
+when the actual queue accepts the work. It does not mean applied or committed.
 Pure codec invalid input throws ApplicationServiceInputFailure; unknown format
 throws ApplicationServiceUnsupportedFormat containing only the bounded format ref.
 The service's only later minimal missing-feature marker will be uniquely named
@@ -616,6 +622,12 @@ known-document contradiction have NOT established rollback. If they escape the
 callback, the service guard performs ONE active session.cleanup before reporting
 the local failure. If that cleanup becomes uncertain, preserve actual unknown
 above the local reason. A callback-local expired view is not a stale writer ticket.
+Specifically, escaped ApplicationReferenceViewFailure expired_callback0 OR
+wrong_thread1 maps to ApplicationServiceFailure source port_contract3, reason
+invalid_output1, AFTER that one active cleanup. The direct read-view call still
+throws its actual local tag; the outer mapping neither manufactures
+WorkError::stale_session nor rewrites the writer's actual WorkError. Cleanup
+uncertainty dominates this remembered local reason as above.
 A real original WorkFailure from an invalid/terminal session is not rewritten as
 a local view error and does not trigger a second speculative cleanup.
 Original SqliteWorkFailure capability/
