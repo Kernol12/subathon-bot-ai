@@ -175,8 +175,10 @@ inline PreparedApplicationActions actions(const QJsonValue &value) {
 inline ApplicationCalculatedProposal proposal(const QJsonObject &c) {
     const auto a = c["arithmetic"].toObject();
     require(a["kind"] == "success", "Literal complete successful numeric proposal");
+    require(c.contains("expected_record"),
+            "Literal complete bundle supplies the clock-before snapshot");
     ApplicationCalculatedProposal r;
-    r.clock_advanced_timer = timer(c["head"].toObject()["timer"]);
+    r.clock_advanced_timer = timer(c["expected_record"].toObject()["before"].toObject()["timer"]);
     r.timer_after = timer(a["timer_after"]);
     r.debt_after = integer(a["debt_after"]);
     r.balances_after = balances(a["balances_after"]);

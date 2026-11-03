@@ -220,7 +220,7 @@ class ApplicationServiceEnvironment final : public QObject {
                         "efbbbf00ff41",
                 "CID0 and raw BOM/NUL/FF are not normalized");
             const auto cases = data.frozen["cases"].toObject();
-            require(cases.size() == 29, "Bounded independently authored scenario inventory");
+            require(cases.size() == 30, "Bounded independently authored scenario inventory");
             for (auto it = cases.begin(); it != cases.end(); ++it) {
                 const auto c = it.value().toObject(), o = c["oracles"].toObject();
                 require(command_bytes(command(c["command"])) ==
@@ -257,6 +257,35 @@ class ApplicationServiceEnvironment final : public QObject {
                         timer(clock_failure["clock_advanced_timer"]).main_remaining_ms == 90 &&
                         clock(clock_failure["clock"]).segments[0].elapsed_ms == 10,
                     "CS04 known clock-only proposal100→90 remains distinct from retained head");
+            const auto elapsed_case = data.case_data("elapsed_success");
+            const auto elapsed = record(elapsed_case["expected_record"]);
+            const auto elapsed_proposal = proposal(elapsed_case);
+            require(elapsed.persisted_head.timer.main_remaining_ms == 100 &&
+                        elapsed.advanced_before.timer.main_remaining_ms == 90 &&
+                        elapsed.after.timer.main_remaining_ms == 100 &&
+                        elapsed_proposal.clock_advanced_timer.main_remaining_ms == 90 &&
+                        elapsed_proposal.timer_after.main_remaining_ms == 100 &&
+                        elapsed_proposal.observation.segments[0].elapsed_ms == 10 &&
+                        elapsed.persisted_head.token == "a" &&
+                        elapsed.advanced_before.token == "b" && elapsed.after.token == "c" &&
+                        elapsed.advanced_before.time_debt_ms ==
+                            elapsed.persisted_head.time_debt_ms &&
+                        elapsed.advanced_before.configuration_ref ==
+                            elapsed.persisted_head.configuration_ref &&
+                        elapsed.advanced_before.envelope.format_ref ==
+                            elapsed.persisted_head.envelope.format_ref &&
+                        elapsed.advanced_before.balances.size() ==
+                            elapsed.persisted_head.balances.size(),
+                    "AS19 literal100→90 clock-before→100, distinct fresh snapshots and unchanged "
+                    "debt/config/format");
+            for (size_t n = 0; n < elapsed.persisted_head.balances.size(); ++n)
+                require(elapsed.advanced_before.balances[n].kind ==
+                                elapsed.persisted_head.balances[n].kind &&
+                            elapsed.advanced_before.balances[n].target_ref ==
+                                elapsed.persisted_head.balances[n].target_ref &&
+                            elapsed.advanced_before.balances[n].units ==
+                                elapsed.persisted_head.balances[n].units,
+                        "AS19 clock-only before snapshot preserves every counter key/value");
         });
     }
     void rawSourceStateAndPlanBranchesHaveCompleteOldClosure_data() {

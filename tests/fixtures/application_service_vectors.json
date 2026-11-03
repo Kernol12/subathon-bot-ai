@@ -10498,6 +10498,464 @@
         "wait": false
       },
       "expected_detection": "dClock"
+    },
+    "elapsed_success": {
+      "command": {
+        "operation": ["svc","elapsed_success"],
+        "subject": 0,
+        "receipt": "7",
+        "cid": "0",
+        "plan": ["PA","1"],
+        "principal": {
+          "kind": 0,
+          "installation": "fixture-installation",
+          "principal": "fixture-user"
+        },
+        "purpose": 0,
+        "preview_mode": 0,
+        "preview": "a",
+        "actor": null,
+        "decision": null,
+        "reason": null,
+        "choices": [
+          {"format":"synthetic.choice.v1","document_hex":"efbbbf00ff41"}
+        ]
+      },
+      "command_envelope": {"format":"subathon.internal.application-command.v1","document_hex":"53414331000000037376630000000f656c61707365645f7375636365737300000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"},
+      "head": {
+        "token": "a",
+        "configuration": "cfg",
+        "timer": {
+          "lifecycle": 1,
+          "phase": 0,
+          "main": "100",
+          "grace": "90",
+          "wait": false
+        },
+        "debt": "0",
+        "balances": [
+          {
+            "kind": 2,
+            "target": "score",
+            "units": "0"
+          },
+          {
+            "kind": 3,
+            "target": "count",
+            "units": "0"
+          }
+        ],
+        "observation": {
+          "lineage": "lineage",
+          "observation": "retained",
+          "configuration": "cfg",
+          "policy": "previous-policy",
+          "head": "a",
+          "utc": "1000",
+          "segments": []
+        },
+        "policy": "previous-policy",
+        "basis": null,
+        "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c69637901000000000000000064000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+      },
+      "requests": [
+        {
+          "action": "time",
+          "version": "v1",
+          "rule": "rule",
+          "target": "main",
+          "unit": 0,
+          "exact": ["10","1"],
+          "final": "10",
+          "explanation": "captured literal request",
+          "reversal": "none",
+          "requires_historical": false
+        }
+      ],
+      "policy": {
+        "operation": ["svc","elapsed_success"],
+        "subject": 0,
+        "receipt": "7",
+        "cid": "0",
+        "plan": ["PA","1"],
+        "head": "a",
+        "configuration": "cfg",
+        "permission": "grant",
+        "policy": "policy",
+        "cap": null,
+        "timer_config": {
+          "end": 1,
+          "grace_duration": "90",
+          "reuse": 1,
+          "hard_end": null
+        },
+        "paused": false,
+        "recovery": false,
+        "pause_recovery": "pause0",
+        "explanation": "synthetic current policy",
+        "admission": 0,
+        "admission_reason": null,
+        "corrections": []
+      },
+      "clock": {
+        "lineage": "lineage",
+        "observation": "observation",
+        "configuration": "cfg",
+        "policy": "policy",
+        "head": "a",
+        "utc": "1010",
+        "segments": [
+          {
+            "elapsed": "10",
+            "utc": "1010",
+            "paused": false
+          }
+        ]
+      },
+      "setup": [
+        {"sql":"INSERT INTO main.subathon_plan_rules(plan_ref,revision,ordinal,rule_ref,version_ref,selected,explanation) VALUES (?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"727631"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"73796e7468657469632073656c65637465642072756c65"}]},
+        {"sql":"INSERT INTO main.subathon_plan_requests(plan_ref,revision,ordinal,action_ref,action_version_ref,rule_ref,target_ref,unit,requires_historical_valuation,exact_numerator,exact_denominator,requested_units,calculation_explanation,reversal_behavior_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5041"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"74696d65"},{"type":"blob","hex":"7631"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"6d61696e"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"blob","hex":"3130"},{"type":"blob","hex":"31"},{"type":"integer","decimal":"10"},{"type":"blob","hex":"6361707475726564206c69746572616c2072657175657374"},{"type":"blob","hex":"6e6f6e65"}]},
+        {"sql":"INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"blob","hex":"7375626174686f6e2e696e7465726e616c2e6170706c69636174696f6e2d73746174652e7631"},{"type":"blob","hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c69637901000000000000000064000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"},{"type":"blob","hex":"636667"},{"type":"integer","decimal":"1"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"100"},{"type":"integer","decimal":"90"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"2"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"2"},{"type":"blob","hex":"73636f7265"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"3"},{"type":"blob","hex":"636f756e74"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_head(singleton,token) VALUES (?,?)","bindings":[{"type":"integer","decimal":"1"},{"type":"blob","hex":"61"}]}
+      ],
+      "arithmetic": {
+        "kind": "success",
+        "timer_after": {
+          "lifecycle": 1,
+          "phase": 0,
+          "main": "100",
+          "grace": "90",
+          "wait": false
+        },
+        "debt_after": "0",
+        "balances_after": [
+          {
+            "kind": 2,
+            "target": "score",
+            "units": "0"
+          },
+          {
+            "kind": 3,
+            "target": "count",
+            "units": "0"
+          }
+        ],
+        "effects": [
+          {
+            "ordinal": "1",
+            "role": 1,
+            "unit": 0,
+            "exact": ["10","1"],
+            "final": "10",
+            "residual": ["0","1"],
+            "cap": null,
+            "deficit_policy": null,
+            "deficit_disposition": null,
+            "components": [
+              {
+                "kind": 0,
+                "units": "10",
+                "target": null
+              },
+              {
+                "kind": 1,
+                "units": "0",
+                "target": null
+              },
+              {
+                "kind": 5,
+                "units": "0",
+                "target": null
+              }
+            ],
+            "explanation": "captured literal request"
+          }
+        ],
+        "transitions": []
+      },
+      "oracles": {
+        "command_bytes": 106,
+        "command_items": 1,
+        "encoded_document_bytes": 151,
+        "encoded_envelope_bytes": 191,
+        "head_bytes": 230,
+        "head_items": 2,
+        "policy_resolution_B": 104,
+        "policy_resolution_I": 0,
+        "clock_resolution_B": 54,
+        "clock_resolution_I": 1,
+        "proposal_B": 201,
+        "proposal_I": 7,
+        "action_resolution_B": 182,
+        "action_resolution_I": 1
+      },
+      "fake_access": {
+        "kind": "allowed",
+        "permission": "grant",
+        "disclose_application": true,
+        "disclose_holds": true
+      },
+      "fake_references": [
+        {
+          "purpose": 0,
+          "reference": "b",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 1,
+          "reference": "c",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 2,
+          "reference": "hNew",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 3,
+          "reference": "dNew",
+          "request_ordinal": null
+        },
+        {
+          "purpose": 4,
+          "reference": "vNew",
+          "request_ordinal": null
+        }
+      ],
+      "clock_advanced_timer": {
+        "lifecycle": 1,
+        "phase": 0,
+        "main": "90",
+        "grace": "90",
+        "wait": false
+      },
+      "expected_record": {
+        "command": {
+          "operation": ["svc","elapsed_success"],
+          "subject": 0,
+          "receipt": "7",
+          "cid": "0",
+          "plan": ["PA","1"],
+          "principal": {
+            "kind": 0,
+            "installation": "fixture-installation",
+            "principal": "fixture-user"
+          },
+          "purpose": 0,
+          "preview_mode": 0,
+          "preview": "a",
+          "actor": null,
+          "decision": null,
+          "reason": null,
+          "choices": [
+            {"format":"synthetic.choice.v1","document_hex":"efbbbf00ff41"}
+          ]
+        },
+        "command_envelope": {"format":"subathon.internal.application-command.v1","document_hex":"53414331000000037376630000000f656c61707365645f7375636365737300000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"},
+        "head": {
+          "token": "a",
+          "configuration": "cfg",
+          "timer": {
+            "lifecycle": 1,
+            "phase": 0,
+            "main": "100",
+            "grace": "90",
+            "wait": false
+          },
+          "debt": "0",
+          "balances": [
+            {
+              "kind": 2,
+              "target": "score",
+              "units": "0"
+            },
+            {
+              "kind": 3,
+              "target": "count",
+              "units": "0"
+            }
+          ],
+          "observation": {
+            "lineage": "lineage",
+            "observation": "retained",
+            "configuration": "cfg",
+            "policy": "previous-policy",
+            "head": "a",
+            "utc": "1000",
+            "segments": []
+          },
+          "policy": "previous-policy",
+          "basis": null,
+          "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c69637901000000000000000064000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+        },
+        "before": {
+          "token": "b",
+          "configuration": "cfg",
+          "timer": {
+            "lifecycle": 1,
+            "phase": 0,
+            "main": "90",
+            "grace": "90",
+            "wait": false
+          },
+          "debt": "0",
+          "balances": [
+            {
+              "kind": 2,
+              "target": "score",
+              "units": "0"
+            },
+            {
+              "kind": 3,
+              "target": "count",
+              "units": "0"
+            }
+          ],
+          "observation": {
+            "lineage": "lineage",
+            "observation": "observation",
+            "configuration": "cfg",
+            "policy": "policy",
+            "head": "a",
+            "utc": "1010",
+            "segments": [
+              {
+                "elapsed": "10",
+                "utc": "1010",
+                "paused": false
+              }
+            ]
+          },
+          "policy": "policy",
+          "basis": "a",
+          "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"5341533100000003636667010000000161000000076c696e656167650000000b6f62736572766174696f6e00000000000003f200000001000000000000000a00000000000003f20000000006706f6c6963790100000000000000005a000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+        },
+        "after": {
+          "token": "c",
+          "configuration": "cfg",
+          "timer": {
+            "lifecycle": 1,
+            "phase": 0,
+            "main": "100",
+            "grace": "90",
+            "wait": false
+          },
+          "debt": "0",
+          "balances": [
+            {
+              "kind": 2,
+              "target": "score",
+              "units": "0"
+            },
+            {
+              "kind": 3,
+              "target": "count",
+              "units": "0"
+            }
+          ],
+          "observation": {
+            "lineage": "lineage",
+            "observation": "observation",
+            "configuration": "cfg",
+            "policy": "policy",
+            "head": "a",
+            "utc": "1010",
+            "segments": [
+              {
+                "elapsed": "10",
+                "utc": "1010",
+                "paused": false
+              }
+            ]
+          },
+          "policy": "policy",
+          "basis": "a",
+          "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"5341533100000003636667010000000161000000076c696e656167650000000b6f62736572766174696f6e00000000000003f200000001000000000000000a00000000000003f20000000006706f6c69637901000000000000000064000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+        },
+        "advance_explanation": "clock-observation-v1",
+        "expected_contribution": {
+          "payment_evidence": 2,
+          "monetary": 0,
+          "original_decimal": null,
+          "currency": null,
+          "resolution_ref": null,
+          "missing_rate": 0,
+          "review": 1,
+          "evidence_policy": 1,
+          "policy_ref": "p",
+          "decision_choice": null,
+          "decision_ref": null,
+          "decision_actor_ref": null,
+          "application": 0,
+          "reversal": 0,
+          "settlement": 1
+        },
+        "effects": [
+          {
+            "ordinal": "1",
+            "role": 1,
+            "unit": 0,
+            "exact": ["10","1"],
+            "final": "10",
+            "residual": ["0","1"],
+            "cap": null,
+            "deficit_policy": null,
+            "deficit_disposition": null,
+            "components": [
+              {
+                "kind": 0,
+                "units": "10",
+                "target": null
+              },
+              {
+                "kind": 1,
+                "units": "0",
+                "target": null
+              },
+              {
+                "kind": 5,
+                "units": "0",
+                "target": null
+              }
+            ],
+            "explanation": "captured literal request"
+          }
+        ],
+        "jobs": [
+          {
+            "ref": "job",
+            "source": "1",
+            "group": null,
+            "group_ordinal": null,
+            "envelope": {"format":"subathon.internal.application-job-synthetic.v1","document_hex":"53414a3100000000000000010000000474696d65000000027631000000046d61696e00000000000000000a0000000300000000000000000a0001000000000000000000050000000000000000000000001073796e7468657469632d616374696f6e00000006efbbbf00ff41"},
+            "payload_hex": "efbbbf00ff41"
+          }
+        ],
+        "transitions": [],
+        "result": {"format":"subathon.internal.application-result.v1","document_hex":"534152310000009753414331000000037376630000000f656c61707365645f7375636365737300000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161000000016200000001630000000001000000000000000101000000000231300000000131000000000000000a00000001300000000131000000000000186361707475726564206c69746572616c20726571756573740000000300000000000000000a00010000000000000000000500000000000000000000000001000000036a6f6201000000000000000100000000002e7375626174686f6e2e696e7465726e616c2e6170706c69636174696f6e2d6a6f622d73796e7468657469632e76310000006b53414a3100000000000000010000000474696d65000000027631000000046d61696e00000000000000000a0000000300000000000000000a0001000000000000000000050000000000000000000000001073796e7468657469632d616374696f6e00000006efbbbf00ff4100000000"},
+        "audit": {"format":"subathon.internal.application-audit.v1","document_hex":"534141310000009753414331000000037376630000000f656c61707365645f7375636365737300000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720000010000000161000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000363666700000006706f6c696379000000056772616e740001000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c696379000000076c696e656167650000000b6f62736572766174696f6e00000000000003f200000001000000000000000a00000000000003f2000000000000000250410000000000000001000000000000000000001173796e74686574696320616374696f6e73"},
+        "oracles": {
+          "record_bytes": 2129,
+          "record_items": 11,
+          "response_bytes": 2130,
+          "response_items": 11
+        }
+      },
+      "actions": {
+        "jobs": [
+          {
+            "ref": "job",
+            "source": "1",
+            "group": null,
+            "group_ordinal": null,
+            "envelope": {"format":"subathon.internal.application-job-synthetic.v1","document_hex":"53414a3100000000000000010000000474696d65000000027631000000046d61696e00000000000000000a0000000300000000000000000a0001000000000000000000050000000000000000000000001073796e7468657469632d616374696f6e00000006efbbbf00ff41"},
+            "payload_hex": "efbbbf00ff41"
+          }
+        ],
+        "explanation": "synthetic actions"
+      }
     }
   },
   "pending": [],
