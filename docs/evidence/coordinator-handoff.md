@@ -34,9 +34,8 @@ Completed task merges:
 Root branch `task/STORAGE-016-durable-holds`, from integrated main017d before
 claim/edits. [Draft PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) is
 published at4d8dba8 (claim/preparation only). Its old all11 successful checks do
-NOT verify the newer local implementation. Local source and evidence commits
-through b32ba1d plus root validation/promotion/regression metadata are not yet
-published. No eligible merge or implementation-done claim.
+NOT verify the newer local implementation. Local source commits through617ecdd plus root final validation/publication
+metadata are being published as the complete candidate. No eligible merge or implementation-done claim.
 
 Preserved reviewed baseline: logical701c710f/c0ed4b6, physical83e96362/696d7f9,
 API46c70297/category35b1092, frozen JSON63de09c5/helper7ca946f2/env a17312fe.
@@ -50,7 +49,7 @@ is invalid and retained. [Baseline handoff](storagetest-016-handoff.md),
 Actual integrated code:
 
 - Runtime8d82aa2268b39f19b8ed640c03383c99f640d6e3 (0fe +21b95a5).
-- Pure helper ec78b69702ce0e1da3f78b9367dc10170c284bfc (1b8af36).
+- Pure helper FINAL13828cc3c72548791dc4299b7fd4c813c36b59f3 (18cc890→617ecdd).
 - Private access7107d0ee/old bundle24759a20; author reconstructs entire former
   old834336d3 body/queries/accounting byte-exact; oldvaluesb0ca921c unchanged.
 - All six functions implemented; caller-session results provisional, no policy/
@@ -92,8 +91,11 @@ public-method regression, `required-audit-before-captured-token-matrix` (35slots
 Root actual public red at SAME CLEANf67ae73 on unchanged ec78,14:54:48.238859–.266877Z:
 exit1/2initcleanupPASS1FAIL0skip/category assertion, pureprobe6vs8.
 [Raw](storage-016-token-regression-red.txt) SHA95d80748 retained. ONLYTHEN released
-bounded bodytokencheck removal to pure author; matrix checks stay. Current268green
-retained, no old baseline replay.
+bounded bodytokencheck removal to pure author; matrix checks stay. Prior268green retained, no old baseline replay.
+Actual final correction18cc890→617ecdd changes only1insert5deletes; matrixchecks
+remain. Root final3stepbuild0warnings/CTestexit0/full264PASS19.97s,14:57Z,
+all35slots269scenarios/261Qtprocesses1059PASS0FAIL/skip/blacklist; exactraw
+SHA6777936f in validation note. Full source/config approval and ownCI stillpending.
 
 ## Roles, preserved work and next action
 
@@ -102,7 +104,7 @@ retained, no old baseline replay.
 - `/root/bundle_implementer` runtime author COMPLETE, clean
   `local-evidence/worktrees/storage016-source`, `task/STORAGE-016-source`, ea53fb2.
   Own runtimeCPP/privateAccess/factoredoldbundle/authorMD only.
-- `/root/bundle_validation` pure author REASSIGNED bounded token-phase correction,
+- `/root/bundle_validation` pure author bounded token-phase correction COMPLETE,
   `local-evidence/worktrees/storage016-values`, `task/STORAGE-016-values`,286efa8.
   Own only hold_values.hpp/values-authorMD. Actual reviewed focused public red reached and correction explicitly RELEASED;
   do not treat it as an independent validation role.
@@ -118,11 +120,11 @@ verification trees/storage002-review/storagetest017-review/storage017-review/
 storage017-validation/baseline016-review/APIauthor copies remain untouched.
 Inspect actual processes/agents/branches on resume; never reset/prune/discard.
 No native command still running after completed root264; source reviewer resumed
-with followup_task, runtime author read-only next-slice preparation; pure author correcting token phase. User debugger state untouched; actual
+with followup_task, runtime author read-only next-slice preparation; pure author final evidence/diagnostics. User debugger state untouched; actual
 read-only batch GDB used because IDE had no applicable Qt-test run configuration.
 
-Next: integrate released bounded token-phase correction → actual separate final
-source/config review and root269/full264 checks. Publish complete implementation candidate to draftPR48 and
+Next: actual separate final source/config review; root269/full264 nowPASS.
+Publish complete implementation candidate to draftPR48 and
 observe own promoted selectedQt (mandatory3fixture green +UNCONDITIONAL35), all11
 latest, current rules/discussions/readiness, normal exact-head merge. Mark done only
 when applicable acceptance/review/CI gates pass, record publication separately.

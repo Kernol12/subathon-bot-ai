@@ -57,3 +57,26 @@ All old workflow steps, dependency pins and public types/signatures remain fixed
 Full independent source/config review, the specific conditional token-presence
 phase audit, own promoted official CI and final merge gates remain pending.
 No provider, policy, application orchestrator, live/platform/release verification.
+
+## Final269-row candidate after captured-token correction
+
+Independent test review001896f and actual PUBLIC red on CLEANf67ae73 preceded
+helper correction18cc890, integrated617ecdd. Final helper Git blob
+13828cc3c72548791dc4299b7fd4c813c36b59f3 removes ONLY premature captured-token
+checks; existing matrix checks remain. Final test Git blob
+d740a1757699d73d84cfe7b0f88aecdadb4f3091 adds ONE focused row, no old assertion
+or fixture changes. All other code/config pins above remain exact.
+
+Root actual `cmake --build --preset sqlite-hold-debug --parallel 2` and
+`ctest --preset sqlite-hold-debug --verbose` completed14:56–14:57Z:3-step build
+ZERO warnings, actual CTestexit0/full264 PASS19.97s, all35hold slots/269scenarios
+PASS.261Qtprocess summaries sum1059PASS/0FAIL/0skip/0blacklist.
+
+- Final build raw `local-evidence/storage016-final-root-build.txt` SHA256
+  fc241a711dc587ee3e20078f5b8b785cccf0470417a632501daf207b781c9286.
+- Final full raw `local-evidence/storage016-final-root-full264.txt` SHA256
+  6777936f6ca1e833bd4377f5edd6cac70cdcf4547441d532c333239e9a0492df.
+
+This supersedes the earlier268-row result for final acceptance. Actual different
+full source/config review and own promoted official CI remain pending; task is
+not done or merged. No extra repeated original stub baseline.
