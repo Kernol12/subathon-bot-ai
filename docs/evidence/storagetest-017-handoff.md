@@ -84,3 +84,16 @@ ports and its OWN baseline/red. No service authorization/current policy, provide
 FX, refund allocation, delivery/recovery/backup, UI/renderers/platform or complete
 release capability follows. All seven integrations/threeFX remain mandatory.
 No live effects or owner action needed now.
+
+
+## Actual integration
+
+PR45 normally MERGED2026-11-03T08:35:37Z at exact final
+48b36a0d03c052d6611e877e8447e507c6a400a2 as main
+a40b42fc6d6e2a419f90f3abfd246c29dfd8173c. All11 latest checksSUCCESS,
+including final SQL41604081877, ready/CLEAN/MERGEABLE, zero unresolved threads,
+current required formal approvals0 and unchanged critical reviewed blobs rechecked.
+No bypass/force/branch deletion. Local main refreshed clean, tree equals final48,
+then the separate STORAGE017 implementation branch/isolated roles were claimed.
+Earlier UNMERGED text describes its historical checkpoint. Postmain CI is a
+separate observation and remains pending at this writing.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T08:32:40Z",
+  "updated_at": "2026-11-03T08:37:22Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5400,7 +5400,8 @@
         "Actual feature author d0312a8→a526f9b CPP246667ba232580ccd3653d12dc941513cb1fd2f9, authorMD590313c→7b227a1/d95bf855. Eighteen public slots/33 literal scenario rows authored ONLY after own fixture selectedCI success. Root harness QtCMakec35ccf28/WF7fec9ade adds18 enabled cases and compiled-discovery-only guard; prior210 and required3-slot fixture green unchanged. Root configure/build4steps ZEROwarnings, -functions/exact18/total228 metadata verified; NO new feature body or new reader invoked. Different actual full source/harness review now assigned; no verdict, red or production implementation yet. SAME completeapprovedhead own selectedNEW3green+compiled18/oldstableCI must precede FIRST namedstubred.",
         "Full actual independent test/harness approval f5c6dc1 (root478a1f8) accepts final CPP0e4f4f006d2a0e161857e38255cac487f7de83a9, author6fdfb5fb, unchanged QtCMakec35ccf28/WF7fec9ade and approved API/fixtures. Three concrete findings corrected additively in649/ce732: initial selector snapshot, B SOURCE160+1 bound and broken selected PA history. All18 slots/35 scenarios examined. Reviewer own four-step build zero warnings, exact18 compiled/CTest and global228; root final three-step build zero warnings/exact18. NO feature body/new reader invoked. Freeze/publish complete reviewed head for its OWN selected official new fixture green, compiled18 guard and stable CI before first actual named-stub red. No production behavior implemented.",
         "Complete approved CLEANc24fb6eb4d7c4bb666b1dba3ff077a54014dd865 received OWN selected official41602589680 SUCCESS 08:20:48–08:22:39Z: fresh100 steps/ZEROwarnings/GNU13.3/pinnedBoost108300/Qt6.12SQLite3.53.4/requirednew3guard+5PASS0skip88ms/exact18compiledguard/oldstable incl35/all11SUCCESS. ONLY THEN FIRST feature invocation at SAME clean c24, 08:24:35.551068–08:24:36.110621Z, ctest exit8/0.55sec/all18FAILED; all35 Qt scenario rows EXACT named new-reader marker,36init+cleanupPASS/0skip/crash/setupfailure. RawSHA90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0 preserved; do not repeat first red. Test baseline DONE ONLY; source130 immediate stub/STORAGE017 planned. Final evidence attribution/latest-head CI/merge gates pending, no production/other release approval.",
-        "Actual independent final attribution approval a72992c plus eb5639a rule-clarification addendum validates completion6757+f856+f679, official-before-first-red chronology and exact raw/LastTest hashes/all35 markers/36initcleanup/0skip. Clarified historical CI checkpoints and unexecuted downstream assertions; only test baseline17 done, prod17/16/service planned, DB01NUM04 partial. Critical headercf721/source130/test0e4/QtCMakec35/WF7fec unchanged. Effective26170263 has formal GHapproval count0/threadresolutiontrue/no required-status-check rule; coordinator must explicitly recheck latestall11. Final metadata publication CI/normal exact merge pending."
+        "Actual independent final attribution approval a72992c plus eb5639a rule-clarification addendum validates completion6757+f856+f679, official-before-first-red chronology and exact raw/LastTest hashes/all35 markers/36initcleanup/0skip. Clarified historical CI checkpoints and unexecuted downstream assertions; only test baseline17 done, prod17/16/service planned, DB01NUM04 partial. Critical headercf721/source130/test0e4/QtCMakec35/WF7fec unchanged. Effective26170263 has formal GHapproval count0/threadresolutiontrue/no required-status-check rule; coordinator must explicitly recheck latestall11. Final metadata publication CI/normal exact merge pending.",
+        "NormalPR45 merged at2026-11-03T08:35:37Z exactfinal48b36a0d03c052d6611e877e8447e507c6a400a2→maina40b42fc6d6e2a419f90f3abfd246c29dfd8173c. All11latest checksSUCCESS inclSQL41604081877/readyCLEANMERGEABLE/0threads/currentrules26170263formalapproval0/cleanroot/unchangedcriticalblobs before normalexacthead merge. Main refreshed clean and tree equals final48; only then separate production017 claimed. PostmainCI pending observation, not inferred."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -5456,8 +5457,8 @@
       ],
       "summary": "Read complete existing operation/subject/source claims before new proposal computation, preserving full closure/provisional/rollback/unknown semantics.",
       "module": "Operations",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; source author /root/bundle_implementer; independent reviewer /root/bundle_reviewer; validation /root/bundle_validation",
       "spec_refs": [
         "§3",
         "§5",
@@ -5466,10 +5467,25 @@
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
       "notes": [
-        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged."
+        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged.",
+        "Claimed task/STORAGE-017-original-claims from fetched actual main a40b42fc6d6e2a419f90f3abfd246c29dfd8173c AFTER normalPR45merge08:35:37Z. Integrated baseline fullreviewf5c6/finala729+eb563, first clean c24 red35 exact markers/18cases/0skip after ownselectedCI41602589680, originalraw90f3 preserved; no red replay. Scope ONLY reviewed const original-claim query per contractbad19/APIcf721: pureoptions/source priority, globaltaggedsubject first then ORIGINAL receiptsource, complete selectedoldlookup closure, exact wrapper+1, ownedprovisionaldata, actualknownrollback/originalunknown/capability and samecumulativewriterbudget. No schema/header/oldstage-equality/fixtures/tests weakening/dependency change. Dedicated source/review/validation trees/branches from integrateda40. Root owns sharedstate/HTML/map/CMake/CI promotion after new18/full228 green; author only runtimeCPP+ownMD; differentreviewer ownreviewMD; validator ownvalidationMD with isolatednativechecks afteractualsource. Acceptance: preserve baselineCPP0e4 andalloldtests/fixtures, zero-warning compile/exact18+228, passingnew18/full228, separate actualsource/config review and promoted ordinary selectedQtCI/new3green+mandatory18/latestall11 before normalmerge. Hold016/service004 remain separate; no release/provider/policy capability inferred."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "baseline": "observed_red",
+        "implementation": "not_run",
+        "native_build": "not_run",
+        "product_acceptance": "not_run",
+        "code_review": "not_run",
+        "official_qt": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/sqlite-original-claims-v1.md",
+        "docs/evidence/storagetest-017-handoff.md",
+        "docs/evidence/storagetest-017-review.md",
+        "docs/evidence/storagetest-017-final-review.md",
+        "docs/evidence/storagetest-017-red-ctest.txt"
+      ],
       "review": null
     },
     {
