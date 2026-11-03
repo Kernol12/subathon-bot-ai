@@ -68,3 +68,14 @@ These are existing component checks, not new service/hold/query acceptance. Task
 DONE as contract only; PR44 UNMERGED here. Completion-metadata head must pass its own
 latestCI, readiness/current rules/reviews/threads/mergeability before normal merge.
 No future-head approval is inferred from the document verdict or old passes.
+
+
+## Actual integration
+
+PR44 normally MERGED2026-11-03T06:23:15Z from exactfinaldd5e6f1713ceb589430def628be310e8945d16c2
+as main21c087154638ffcdc03663696b568a4bf454462d. All11 latestchecksSUCCESS incl
+SQL41589293437, ready/CLEAN/MERGEABLE/zero unresolvedthreads/requiredGHapprovals0/
+effective26170263/approveddocunchanged/no productiondiff checked before normal
+exacthead merge. No bypass/force/delete. Localmain fast-forwarded actual21c;
+only then nextSTORAGETEST017 branch/claim. Earlier UNMERGED record is historical.
+Postmain21c workflows remain a separate observation until actually checked.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T06:18:50.839133+00:00",
+  "updated_at": "2026-11-03T06:31:35.339083+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1626,7 +1626,8 @@
       "notes": [
         "Parent epic: EPIC-002. Explicitly split after actual contract-stage finding; ADR0003 preserves original service scope and adds durable-hold prerequisites, no cycle or test-gate waiver. Dedicated task/ACCTTEST-004-application-service branch/PR44 from actualmain8c7 existed BEFORE logical-document edits and initially claimed only that stage; historical branchname retained, now focused executable ACCTCONTRACT001. Root owns sharedmetadata/config/schemaorder; author owns only application-service-v1.md+ownMD on fresh8c7author tree; different reviewer actualdocumentreview required. No service code/test/red authored.",
         "Separate query-only STORAGE017 logicalobligation identified: typedearlyapplicationclaimread with full selectedclosure before newnumericproposal; no rawSQL/dummystage or oldIntent-equality change. Independent baseline017 thenimplementation017 joinhold016 before originalservicebaseline. No newcode/test/DDL or approval claimed by planning.",
-        "Actual different DOCUMENT/decomposition approval925deab1 accepts final412line6d0/author8f87/ADR303/briefb762+377+385 at e0; independent7Fraction+AS06+signedbounds/static396/122PASS. No ownerdecisionneeded now, unknownmixedpolicyrequiresowninggatebeforefutureenablement. Actuale0 all11CI SUCCESS/SQL41588383068 is unchangedstablecomponentprotection only. DONEdocumenttask but PR44UNMERGED; finalcompletionhead ownlatestCI/reviews/threads/rules/normalmerge pending. Originalservice baseline/production remainplannedbehind016+017."
+        "Actual different DOCUMENT/decomposition approval925deab1 accepts final412line6d0/author8f87/ADR303/briefb762+377+385 at e0; independent7Fraction+AS06+signedbounds/static396/122PASS. No ownerdecisionneeded now, unknownmixedpolicyrequiresowninggatebeforefutureenablement. Actuale0 all11CI SUCCESS/SQL41588383068 is unchangedstablecomponentprotection only. DONEdocumenttask but PR44UNMERGED; finalcompletionhead ownlatestCI/reviews/threads/rules/normalmerge pending. Originalservice baseline/production remainplannedbehind016+017.",
+        "PR44 normally MERGED2026-11-03T06:23:15Z exactfinaldd5e6f1713ceb589430def628be310e8945d16c2 asmain21c087154638ffcdc03663696b568a4bf454462d. All11 latestSUCCESS inclSQL41589293437/ready/CLEAN/MERGEABLE/zero unresolvedthreads/effective26170263requiredGHapprovals0/approveddoc6dunchanged/no productiondiff rechecked; normal exacthead --merge, no bypass/force/delete. LocalmainFFactual21c before nexttaskbranch/claim. Documentonlyacceptance integrated, 016/017/serviceAPI/red/implementation stillfuture."
       ],
       "verification": {
         "documentation": "passed",
@@ -5379,8 +5380,8 @@
       ],
       "summary": "Review additive borrowed-session claim read, independent real-SQL tests and actual intended red; no aggregate old-lookup/stage proof.",
       "module": "Operations",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; contract/API author /root/bundle_implementer; independent reviewer /root/bundle_reviewer",
       "spec_refs": [
         "§3",
         "§5",
@@ -5389,7 +5390,8 @@
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
       "notes": [
-        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged."
+        "Parent epic: EPIC-009. Actual logical-service preparation found earlytypedclaimprojection gap; ADR0003 preserves claims-before-revaluation and wholeinputoverflow semantics through separate own baseline/red/implementation. Planning only, no API/tests/red/implementation or new capability verified. Existing stage equality/schema/fixtures/ports remain unchanged.",
+        "Claimed task/STORAGETEST-017-early-claims from fetched actualmain21c AFTER normalPR44merge, before anynewreaderartifact. Freshauthor/review worktrees from21c: storagetest017-contract-author/task-STORAGETEST017-contract-author andstoragetest017-review/task-STORAGETEST017-review. FIRSTstage ONLY concretequerycontract+ownauthorMD, differentactualreview beforeminimaladditivetypes/constentrypoint/immediatenamedstub; rootownsbuild/presets/workflow and actualAPI/configreviewbeforeindependentfixtures/tests. Proposed smallestquery ORIGINAL subject/source selector(knownrole,positiveReceiptId,optionalCIDincl0) returns optionaltypedmatch{subject/source,ownedfullrecord}; subjectfirstGLOBALdatabase thenkind0receipt source, no scopefilter/currentstate/plan/OperationKey/dummystage/commandcodec inference. Options→sourcepurepreflight, absent no global/candidatesourceaudit, selectedfullclosure/actualknownrollback/originalWorkFailureunknown/currentbudgets/transaction-visible owneddata. Existingstageequality and allold35/209/schema/fixtures remain. ConcreteAPI/fixtureoracles notfinalized by thisclaim or read-onlyprep. Afterreview/compiler/exactdiscovery/requiredoldprimitivegreen/ownselectedofficialCI, FIRSTnewnamedstubred; no oldbaseline rerun/aggregateproof. STORAGE017production waits completeownbaseline. 016durableholds remainsrequiredplanned separatetask, notsilentlyreduced."
       ],
       "verification": {},
       "evidence": [],
@@ -12501,6 +12503,11 @@
       "date": "2026-11-03T06:18:50.839133+00:00",
       "task": "ACCTCONTRACT-001",
       "note": "Actual925 independentlogicaldocument+planningapproval;21literalAS/7independentexactaudits,396acyclicgraph, no implicitglobaltimerpolicy. CompleteDOCtaskonly; API/schema/test/red/implementations016/017/servicefuture. PR44 latestcompletion/normalmerge gates next."
+    },
+    {
+      "date": "2026-11-03T06:31:35.339083+00:00",
+      "task": "STORAGETEST-017",
+      "note": "NormallymergedPR44 exactdd5 asmain21c afterall11latestgates; fetched/localmainFFbeforefreshdedicatedclaim. Begin concrete earlyoriginalclaims querycontract only; actualdifferentreview beforeAPI/stubs/build/independentfixtures/tests/red. No newreader artifacts or behavior yet."
     }
   ]
 }
