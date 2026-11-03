@@ -165,3 +165,20 @@ full test/harness review is active; this complete candidate’s own selected-Qt
 green and first missing-feature red are not yet claimed. Raw output remains in
 `local-evidence/storagetest017-feature-{configure,build,functions}.txt` and
 `storagetest017-{feature,all}-discovery.json`. Compilation is not a red baseline.
+
+
+## Final full-test review before any new body
+
+Actual [full review f5c6dc1](storagetest-017-review.md), imported root478a1f8,
+accepts final CPP **0e4f4f006d2a0e161857e38255cac487f7de83a9** and author
+6fdfb5fba6afe9fba4e388908fde15a9a1b876bf: 18 public slots, **35 scenarios**.
+Actual corrections649b2c1/ce732e0 preserve prior assertions and add source-bound
+and corrupt selected-plan history coverage plus the missing initial snapshot.
+Harnessc35ccf28/7fec9ade, APIcf721/130 and independent fixtures are unchanged.
+
+Reviewer final four-step build and root final three-step build both PASS with
+zero warnings. Compiled18 equals enabled CTest18, global228, no inversion.
+No feature body/new reader has been invoked. The complete reviewed candidate
+is now frozen for ITS OWN selected official required new foundation-green and
+compiled18 guard/old stable suites before the first new named-stub red. Earlier
+API or fixture heads do not establish this future complete-candidate CI outcome.

@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGETEST-017 full test review
+# Coordinator checkpoint — STORAGETEST-017 approved tests, before first red
 
 Owner resumed 2026-11-03 under [standing coordinator instructions](../COORDINATOR_PROMPT.md).
 Continue the loop; full specification remains incomplete. No owner decision or
@@ -24,7 +24,7 @@ Last observed main: **21c087154638ffcdc03663696b568a4bf454462d**.
 
 ## Active task and exact completed gates
 
-STORAGETEST-017 in_progress, STORAGE-017 production planned. Dedicated root
+STORAGETEST-017 in_review, STORAGE-017 production planned. Dedicated root
 branch `task/STORAGETEST-017-early-claims`, from integrated21c before edits.
 [Draft PR45](https://github.com/Kernol12/subathon-bot-ai/pull/45), last published
 headad69fecf9110c7dbdefa64d8374cdd83c0f13398; newer local test/metadata commits
@@ -45,8 +45,10 @@ await complete review. Brief: [STORAGE017](../tasks/EPIC-009/STORAGE-017.md).
   zero warnings, GNU13.3/Boost1.83/Qt6.12/SQLite3.53.4, three compiled slots and
   5 Qt PASS/0fail/0skip; all11 checks. [All compiler/CI evidence](storagetest-017-ci.md).
 - ONLY THEN feature author d0312a8 (roota526f9b), CPP
-  **246667ba232580ccd3653d12dc941513cb1fd2f9**, 18 slots/33 scenario rows;
-  [author MD](storagetest-017-test-author.md)590313c (root7b227a1), d95bf855.
+  **0e4f4f006d2a0e161857e38255cac487f7de83a9**, 18 slots/35 scenario rows;
+  [author MD](storagetest-017-test-author.md), final6fdfb5fb after actual649/ce732
+  review corrections. [Full actual reviewf5c6dc1](storagetest-017-review.md),
+  root478a1f8, approves exact final CPP/harness after all three findings resolved.
   Root actual harness QtCMakec35ccf28/workflow7fec9ade adds18 enabled registrations
   and compiled-only guard, preserves prior210/required new three-slot green.
   Configure/four-step build zero warnings; compiled-functions/metadata18 exact,
@@ -63,12 +65,12 @@ and provisional owned results. No schema/stage equality/old assertion changes.
 
 Root owns shared state/HTML/map/build/presets/workflow/schema order.
 
-- `/root/bundle_implementer`: feature author, completing/available for corrections.
+- `/root/bundle_implementer`: feature author complete, available for concrete corrections.
   `local-evidence/worktrees/storagetest017-feature-author`,
-  `task/STORAGETEST-017-feature-author`, clean590313c. Owned new feature CPP and
+  `task/STORAGETEST-017-feature-author`, cleance732e0. Owned new feature CPP and
   authorMD only. No new-body execution authorized yet.
-- `/root/bundle_reviewer`: explicitly assigned actual FULL CPP/33 scenarios and
-  actual root harness review; active, no verdict yet. Own only
+- `/root/bundle_reviewer`: explicitly assigned actual FULL CPP/35 scenarios and
+  root harness review COMPLETE, approvedf5c6dc1. No body run. Own only
   `docs/evidence/storagetest-017-review.md`. Tree
   `local-evidence/worktrees/storagetest017-review`, branch
   `task/STORAGETEST-017-review`. Preserve root configuration verification copies
@@ -86,8 +88,8 @@ verification copies. No old source/test assignment remains running.
 
 ## Next concrete actions and remaining gates
 
-1. Obtain actual independent full-test/harness verdict; correct genuine defects
-   only with specification reason and separate actual review. No body before it.
+1. Full independent test/harness review COMPLETE f5c6dc1. Preserve actual approved
+   CPP0e4f4f00; no new reader body has run.
 2. Freeze/publish complete approved test head; observe ITS OWN selected official
    required new three-slot diagnostic, compiled18 guard, old stable suites/all11.
 3. ONLY THEN first `ctest --preset sqlite-original-claim-debug -L '^sqlite-original-claim$'`
@@ -101,3 +103,10 @@ verification copies. No old source/test assignment remains running.
 No source implementation or first red exists yet. API/fixture/source CI from
 prior revisions is not proof for future test or implementation heads. No live
 provider/platform/release verification claimed. No owner question currently pending.
+
+Actual latest inventory:107 worktree refs,91 existing/16 absent. Only storage002-review
+and storagetest017-review have preserved root-config verification copies; root and
+author trees clean. No native/SQL/build process left. Fixture author’s read-only016
+preparation confirms dependency-ready separate baseline; global subject gating,
+detection/hold identities, multiple active holds, version transitions and continuation
+linkage require concrete contract review. No implicit unresolved policy enablement.
