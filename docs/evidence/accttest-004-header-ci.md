@@ -58,3 +58,29 @@ Actual separate header/stub/config review and the complete API candidate's OWN
 official selected environment remain pending. Both must pass before independent
 fixture/test authoring. Future fixtures/compiled service cases/first reviewed red
 and ACCT004 implementation remain their own gates, with all release scope intact.
+
+## Actual API approval and own selected environment
+
+[Different header/stub/build approval](accttest-004-header-review.md)beb928cf
+(importeda5af686) accepts exact interface/source/config/author pins, with its own
+fresh34-step archive/dependency build0warnings/exact264 OLD discovery/no invocation.
+Five verification config copies remain preserved in that isolated reviewer tree.
+
+Complete API candidate **8d742239616aec1b8e9be65e972a42b4fcf2ae7a** passed OWN
+[selected Qt41673443963](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41673443963)
+16:21:58–16:24:36Z: fresh118/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedQt6.12/
+SQLite3.53.4. The log explicitly compiles and archives the new interface target,
+while running only old stable suites; requiredhold3guard5PASS0skip179ms/exact35/
+UNCONDITIONALhold35PASS26.73s/all11sameheadSUCCESS. No service test or marker ran.
+
+Raw local-evidence/accttest004-api-official-ci.txt SHA256
+8cd6edea68ab01f2409d11c9e9621be1d66f4f9be18fb068ed13b260e96ac4e8. Actual synthetic
+checkout568fc520d6af4956f21cc1848ba6c4df961b256e parents efe+8d742; APIverified
+tree df709b23f3a20be0a60407026b2335de585165bb equals8d742tree. Exact run/checkout
+records are accttest004-api-ci-run.json and accttest004-api-ci-checkout.json under
+ignored local-evidence. Earlier docs-only green is not substituted for this proof.
+
+Minimal API review and own environment gates are satisfied; root may now assign
+independent synthetic fixtures. Their actual separate review/mandatory own selected
+foundation green precede independent feature tests/full review/first service red.
+No production service/codec/validation/queue/transaction behavior is implemented.

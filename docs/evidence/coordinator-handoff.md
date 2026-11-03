@@ -237,3 +237,25 @@ pending then writtenverdict. Author COMPLETE fe816/clean. Codec reviewer COMPLET
 for OWNselectedofficialenvironment; prior docs-only CI isnotthat proof. Both
 actual API approval and ownofficialgreen precede new independentfixtures/tests.
 No service baseline/red/production; ACCT004 remainsPLANNED. Rootnativeprocessdone.
+
+## Actual API gates COMPLETE; independent fixture phase released
+
+API/stub/config approvalbeb928cf importeda5af686, reviewbb59a3e2, exactsource/header/
+root5config/authorpins. Independent archive34build0warnings/264OLDdiscovery/no calls.
+OWN APIhead8d742239616aec1b8e9be65e972a42b4fcf2ae7a selectedSQL41673443963 SUCCESS
+16:21:58–16:24:36Z/fresh1180warn/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/explicitnew
+interfacecompile+archive/oldstable/hold3guard5PASS0skip179ms/exact35/hold35PASS26.73/
+all11SUCCESS. Raw8cd6edea, APIverifiedsynthetic568fc520/equal8d742tree df709b23.
+[API CI](accttest-004-header-ci.md) records actual proof, no serviceentry invoked.
+Only NOW root releases independentFIXTURES phase. Newwriter bundle_validation in
+NEWtask/ACCTTEST-004-service-fixtures atlocal-evidence/worktrees/accttest004-service-fixtures
+fromrootapprovedAPI+claim. Own ONLY newtests/fixtures/application_service_vectors.json,
+tests/qt/support/application_service_fixture.hpp, tests/qt/application_service_environment.cpp,
+docs/evidence/accttest-004-fixture-author.md. Root alone owns foundationCMake/preset/
+workflow/state/schema; frozenheader03a747/sourceebbea/contract8fa/author608 unchanged.
+Actual fixture review+ownmandatory selectedfoundationgreen precede featuretestsource.
+NO service/codec/view/stub/marker/factory call even in fixture setup; oldrealSQL
+primitives+independentmanual/literalbytes/ownedDTOs/fakeport data only. Sourceauthor
+fe816 COMPLETE, headerreviewer beb928 COMPLETE (5configverificationcopiesdirty),
+codec reviewer7b501 COMPLETE before explicit reassignment. New tree/agentfollowup
+creation follows; inspect actual agents on resume. No servicebaseline/red/prod.

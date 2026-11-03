@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T16:21:49Z",
+  "updated_at": "2026-11-03T16:26:33Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1688,12 +1688,14 @@
         "Full actual6ee reviewer added R3/R4 to SAME DOC-only correction batch: finite echoed reference-issuer binding and finite token-free Actions calculation proposal, jobs→issue refs→complete SAR/state/result/bundle codecs (cannot build token-bearing records before refs); narrower read-view expiry/foreign/invalid-key failure semantics distinct from real Work capability truth and pure Retention invalid-key versus already-aborted query failures, correct owner cleanup/no blanket rollback assumption. Root sent exact findings to sole author; full and bounded reviewers continue actual6ee, no final approval. No header/source/tests or new requirement reduction.",
         "Actual boundedchanges-requested f8fc91e integrated65b1f29 (original6ee+916), all literal/arithmetic anchors independentlypass but C1/C2 required. Actualcorrection6160e352 integrated073c51e→doc3e497030/note1318dc51 resolves R1–R4+C1/C2; finaltiny ee056945 integratedde73386→CURRENTdoc8fa0c76ad90ad046712463dfc95206e2a99b4e40/note608acc129c48f8ee5ed97fd09db1ade541511c56. EscapedlocalviewFailure mapsport_contract3/invalid_output1 after actualactivecleanup, no fakeWorkError; missingCompletion enqueueAdmission invalid_work/make_workPreparationFailure invalid_work, no unit/callback. Fullreviewer actualfinaldiff reports all findingsresolved, finalwrittenverdict awaits bounded C1/C2 completedcurrentrevisionaudit. Author COMPLETE/idle; bothreviewers ACTIVE on8fa/608. No API/header/stub/fixture/test/servicefeature/native/red invocation; no stage advanced before actual writtenapprovals.",
         "ACTUAL final DOCUMENT gates satisfied: full approvalb098c7efec862e39919d202db1aea058471655a0 imported99d3ef6/review615b64db and separate bounded approval7b501fd38cb2316f130b4d61a564b9261b788c2e imported950db76/reviewc9133b0e accept EXACTcontract8fa0c76/author608acc1. Earlierchangesrequests/actualcorrections retained; independentlychecked CS17 pureencode result7/decodeinput6, opaqueI0 vs decodedI2, CS18 running60→60 and alloldliterals/arithmetic pass. DOCUMENT ONLY, no future source/fixture approval. Root explicitly releases next MINIMALAPI stage ONLY: same author owns NEW server/include/subathon/server/application_service.hpp +server/src/application_service.cpp +NEWdocs/evidence/accttest-004-header-author.md; frozen approveddocs/authornote untouched. Complete C++ownedtypes/trivialexceptions/virtualports/inertconstructors plus IMMEDIATE stable named unimplemented stubs for EVERY service/codec/view entrypoint, NO validation/codec/accounting/policy/queue/SQL/commit behavior. Root owns all sharedCMake/presets/workflow/progress/schema, including corelib buildcondition reuse. Differentactualheader/stub/buildreview+ownselectedenvironment precede independentfixtures/tests/fullreview/FIRSTservice red. ProductionACCT004 stillplanned.",
-        "Actual minimalAPI checkpoint2b96ae14→b2b1946 header03a747a7/sourceebbea238, authorfe816735→c0359cb/MDa863a1d9. FiniteownedDTO/ports/readview/matchingWorkpair/ResponseQMetaType; inertborrowedctor; ALL5entrydefs immediateunconditional namedthrows (4markerfamilies), NO behavior or invocation. Root harness5df5977 newprofile21 application-service-debug inheritsoldhold; reusesexisting exact/debt/timer libraries withoutGTestflags/newdeps, newstaticservice target. Workflow49preset-tokenreplacementONLY, oldguards/tests/pins/permissions/checknamepreserved. Root fresh118stepconfigure/buildZEROwarnings/exactOLD264registrations/no servicecase/allOLD264PASS20.47s/261Qt1060PASS0skip. Actualseparateheader/source/configreviewrunning, no confirmedfinding; reviewerarchivecompilepending. OWNcompleteAPIheadselectedofficialCI stillrequired BEFORE independentfixtures/tests. Nativeoldgreen isnotserviceacceptance/red; no newmarker called."
+        "Actual minimalAPI checkpoint2b96ae14→b2b1946 header03a747a7/sourceebbea238, authorfe816735→c0359cb/MDa863a1d9. FiniteownedDTO/ports/readview/matchingWorkpair/ResponseQMetaType; inertborrowedctor; ALL5entrydefs immediateunconditional namedthrows (4markerfamilies), NO behavior or invocation. Root harness5df5977 newprofile21 application-service-debug inheritsoldhold; reusesexisting exact/debt/timer libraries withoutGTestflags/newdeps, newstaticservice target. Workflow49preset-tokenreplacementONLY, oldguards/tests/pins/permissions/checknamepreserved. Root fresh118stepconfigure/buildZEROwarnings/exactOLD264registrations/no servicecase/allOLD264PASS20.47s/261Qt1060PASS0skip. Actualseparateheader/source/configreviewrunning, no confirmedfinding; reviewerarchivecompilepending. OWNcompleteAPIheadselectedofficialCI stillrequired BEFORE independentfixtures/tests. Nativeoldgreen isnotserviceacceptance/red; no newmarker called.",
+        "Actual independent MINIMALAPI/STUB/BUILD approvalbeb928cf6968edeed770db41f8ec4108bb0bff54 importeda5af686/reviewbb59a3e2 accepts exactheader03a747/sourceebbea/authora863/root5configs; differentfresh34steparchivebuild0warnings/exact264OLDdiscovery/no newcalls. OWNcompleteAPIhead8d742239616aec1b8e9be65e972a42b4fcf2ae7a selectedSQL41673443963 SUCCESS16:21:58–16:24:36Z/fresh1180warnings/GNU13.3/Boost108300/officialQt6.12SQLite3.53.4/explicitnewinterfacecompile+archive/oldstable/hold3guard5PASS0skip179ms/exact35/hold35PASS26.73/all11SUCCESS. Raw8cd6edea68ab01f2409d11c9e9621be1d66f4f9be18fb068ed13b260e96ac4e8. Synthetic568fc520 parents efe+8d742/APIverifiedtree df709b23f3a20be0a60407026b2335de585165bb equals8d742. Onlynowrelease independentfixtures phase; no newcodec/service/view/stub/factory/marker everinvoked.",
+        "Fixtureownership released AFTER actualAPIreview+ownselectedgreen: NEW isolated task/ACCTTEST-004-service-fixtures atlocal-evidence/worktrees/accttest004-service-fixtures, author /root/bundle_validation owns ONLY tests/fixtures/application_service_vectors.json, tests/qt/support/application_service_fixture.hpp, tests/qt/application_service_environment.cpp and docs/evidence/accttest-004-fixture-author.md. Synthetic coherent realSQL OLDprimitive setup/literal independent service bytes/DTO/B-I/AS-CS oracles/explicitfakeport data, NO newservice/codec/view/marker call or featuretest source. Root owns foundationCMake/preset/workflow guards/state/schema. Fullreviewer /root/bundle_reviewer later owns separatefixture-reviewMD only. Frozen8fa/608/header03a747/sourceebbea/rootAPIconfigs remainunchanged; actualfixtureapproval+ownmandatoryselectedfoundationgreen precede featuretestauthoring. ACCT004 productionplanned."
       ],
       "verification": {
         "logical_contract": "passed",
         "concrete_contract": "passed",
-        "api_review": "partial",
+        "api_review": "passed",
         "fixture_review": "not_run",
         "test_review": "not_run",
         "baseline": "not_run",
@@ -1706,7 +1708,8 @@
         "minimal_api": "passed",
         "api_native_build": "passed",
         "api_existing_regressions": "passed",
-        "api_official_qt": "not_run"
+        "api_official_qt": "passed",
+        "fixture_authoring": "not_run"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
@@ -1721,7 +1724,8 @@
         "docs/evidence/accttest-004-api-review.md",
         "docs/evidence/accttest-004-header-author.md",
         "docs/evidence/accttest-004-header-ci.md",
-        "server/include/subathon/server/application_service.hpp"
+        "server/include/subathon/server/application_service.hpp",
+        "docs/evidence/accttest-004-header-review.md"
       ],
       "review": null
     },
