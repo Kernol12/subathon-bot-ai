@@ -1,4 +1,22 @@
 set(CMAKE_AUTOMOC ON)
+if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
+    add_executable(server_application_service_environment application_service_environment.cpp)
+    # The independent foundation cannot link or invoke the new service stubs.
+    target_link_libraries(server_application_service_environment PRIVATE subathon_sqlite_application_holds Qt6::Test)
+    target_compile_definitions(server_application_service_environment PRIVATE
+        SUBATHON_SERVICE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/application_service_vectors.json"
+        SUBATHON_HOLD_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_holds_vectors.json"
+        SUBATHON_ORIGINAL_CLAIM_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_original_claims_vectors.json"
+        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
+        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
+    subathon_target_options(server_application_service_environment)
+    add_test(NAME scaffold.application_service_environment COMMAND server_application_service_environment)
+    set_tests_properties(scaffold.application_service_environment PROPERTIES
+        LABELS "scaffold;qt;server;service-environment" TIMEOUT 30)
+endif()
 if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
     add_executable(server_sqlite_application_hold_environment sqlite_application_hold_environment.cpp)
     target_link_libraries(server_sqlite_application_hold_environment PRIVATE subathon_sqlite_application_bundle Qt6::Test)
