@@ -14,7 +14,9 @@ Only tests/qt/application_service_tests.cpp and this evidence are authored here.
 ## Frozen authorities and current checkpoint
 
 Logical6d0cd67f487dae92a17d41eb07dda5b407c78a56 (AS01–21), concrete
-862c419395f4e9daf34f8ae8790a06abbec6f410 (CS01–18), document note78f36dd7;
+862c419395f4e9daf34f8ae8790a06abbec6f410 (CS01–18), document note78f36dd7,
+plus root's independently approved SAH2 clarification document
+bbd6cd834b8a959ccff16d63a638e0b77d9c6e4c (read from actual Git blob);
 header03a747a70ab7decd49227396466ff12a32c31864 and immediate source
 ebbea2388b7f4fb6474940b53cc14b95853969cb remain unchanged.
 
@@ -31,30 +33,46 @@ Root then released the separately authored three-policy extension after actual
 reviewc80 and OWN complete8e68895 selected41689892871 SUCCESS18:02:00–18:04:45Z,
 fresh126/zero warnings/exact6/40QtPASS0skip1905ms/all11. Root record0f849c1 preceded
 affected feature authoring. Exact3cc76666/cb7d3b13 prerequisite copies imported here
-as72b420f/b4a9535 without editing their four owned files. Current fixture pins:
+as72b420f/b4a9535 without editing their four owned files. Policy extension pins:
 JSON7611f15d77bd85d02ea01c1b67983be267768f51,
 helper1909eaacfdb9c84fdebe1df394e8f31acf6777d7,
 environment1f3131f23c75606fca586293a5f2749770ac7aef.
-No fixture/helper/environment/source/header/schema is authored or modified here.
+
+Final MIN prerequisite release1351632 followed actual full fixture approvald19→143
+and OWN complete540887ba selected41695399236 SUCCESS18:36:17–18:38:34Z:
+fresh126/zero warnings/exact6/41QtPASS1548ms/exact35 compile-discovery ONLY/all11.
+Root raw SHA25656950379f2c133584a738201cb43927f1140e795a704d3748fefe38b36d83e6c;
+root verified equal candidate tree3fe68708. Only AFTER that release, exact
+d585e69798c55e12490daf1532a06dc112a44e10 and
+7b800b7fcfd421f6c8869ede793c1931bb0d7fb9 prerequisite copies were imported here
+as cdb028f/6e375e0. Final fixture pins:
+JSON6598ad48b12c4d4871a114be404e884cb7deffb1,
+helper1909eaacfdb9c84fdebe1df394e8f31acf6777d7,
+environment26ed3153d0fe31effcc194b118db1bd46eeea811.
+These observed CI results were supplied by root, not run as service tests by me.
+No fixture/helper/environment/source/header/schema is authored or edited here.
 
 Early sourceee7e6a3 was frozen before root compile/discovery wiring. Actual independent
 prebaseline corrections followed in d723bdd/c8492c7. Complete35 checkpoint4761885
-then added the released policy groups. Current sourcec25cd73d33db6094dc4dd881921df93f7880aaba,
-CPP blob06bc2a040301447e5ddf8f6afcd29af431da71cc, has **35 feature slots /
-218 authored scenarios** after released additive priority counterexamples.
-The separate MIN policy-provenance clarification/golden gate is explicitly pending;
-no final full test/harness review or intended red is claimed.
+then added the released policy groups; c25cd73 added released priority counterexamples.
+Final bounded sourcebdb38b3 added the independently gated MIN case, and
+cfc40e5ad1cec10c238f745996e40a852c38f16c adds the three released identity contrasts.
+Final CPP blob36f669edd1b42cdcd78c36145ac61b8b6124c454 has **35 feature slots /
+224 authored scenarios**. The MIN prerequisite gate is complete; actual final FULL
+test/harness review, complete-head own selected green and intended red remain
+root's separate gates, not claimed here. User scope is finish PR49 then STOP;
+no next task or ACCT-004 production work is authorized.
 
 ## Actual slot inventory and requirement mapping
 
 Qt _data methods are NOT feature slots; helpers File::arrange/modify are not slots.
-Counts below reflect the actual approved33 case objects, four command anchors and
+Counts below reflect the actual approved34 case objects, four command anchors and
 18 complete successful record goldens, without invoking a data/feature function.
 
 | Actual feature slot | Rows | Independent requirement |
 | --- | ---: | --- |
-| commandEncodingMatchesFrozenFrames |37| complete SAC1 exact frames/every owned command field; CS14/17 |
-| commandDecodingMatchesFrozenMembers |37| lossless fields/optional/raw bytes/uint64 domain; AS11 |
+| commandEncodingMatchesFrozenFrames |38| complete SAC1 exact frames/every owned command field; CS14/17 |
+| commandDecodingMatchesFrozenMembers |38| lossless fields/optional/raw bytes/uint64 domain; AS11 |
 | codecBoundsUseActualOwnedDTOs |8| actual input/output B/I,25→98 and opaque-vector distinction; CS17 |
 | codecMalformedAndPurePriority |12| options→source/count/body/group, unsupported versus malformed framing |
 | codecOwnsBinaryBuffers |1| input/output fromRawData/BOM/NUL/FF ownership |
@@ -65,10 +83,10 @@ Counts below reflect the actual approved33 case objects, four command anchors an
 | currentEligibilityKeepsIndependentConditions |1| independent evidence/rate/review/settlement; AS09 |
 | currentDimensionsAreCopiedAtExecution |15| all15 current fields independently read before execution, immutable support separate; AS20/CS10 |
 | accessBeforeProtectedLookup |4| deny/unknown before deliberately malformed protected historical lookup; AS10/CS05 |
-| historicalCompleteCommandAndDisclosure |14| exact old outcome, current disclosure, valid single-field complete-intent changes; AS10–11/CS05 |
+| historicalCompleteCommandAndDisclosure |17| exact old outcome, current disclosure, valid single-field complete-intent changes; AS10–11/CS05 |
 | globalClaimsBeforeCurrentWork |4| genuine confirmation9/CID0, subject priority over MAX receipt, absent-CID source fallback, signed ORIGINAL receipt claim; AS11/CS06 |
 | allActiveHoldsGateNewKeys |3| complete h1/h2 set versus protected details; AS21/CS07 |
-| numericOverflowCommitsOnlyDurableHold |4| whole-input score/count/MIN/clock-advanced overflow; AS07/18/CS04/13 |
+| numericOverflowCommitsOnlyDurableHold |5| whole-input score/count/MIN/clock-advanced overflow; AS07/18/CS04/13 |
 | closedDetectionRetryCannotClaimHeld |1| actual resolved hRetry exact old detection retry is conflict; CS16 |
 | lifecyclePauseAndDeadlineDoNotCredit |7| Ready/Finished/paused/hardend/missing target/mixed policy; AS16/17/21,CS08/10/13 |
 | portBindingsAndIntermediateBounds |5| invalid current echoes/segments and actual bounded port value |
@@ -98,7 +116,8 @@ three snapshots, job grouping/envelope, audit and current contribution are compa
 Clock elapsed_success specifically freezes100→90→100; repeated requests60→60 never
 reuse58 or double-credit. Synthetic SAJ1 is explicitly non-deliverable.
 
-New score/clock holds compare ALL four independently frozen SAH1 copies and complete
+New score/clock holds compare ALL four independently frozen SAH1 copies and new
+MIN policy hold compares ALL four independently frozen SAH2 copies, with complete
 typed source/plan/first+current versions/observations/failure/empty-presence groups.
 Count/MIN boundaries compare independently frozen request/evidence/attempt and
 whole atomic absence; full score/clock bytes supply representative complete SAH proof.
@@ -174,11 +193,11 @@ remain forbidden and were NOT run. No intended red/native feature acceptance cla
   Qt data methods. Root independently compiles/discovers actual registrations.
 - git diff --check — PASS. Only owned CPP/note changes; old frozen files untouched.
 
-Pending: separately reviewed MIN policy-provenance refinement and its own fixture
-gate, final actual complete native discovery/harness pins, different FULL test/
-oracle/harness review, COMPLETE-head own selected-green and FIRST same-clean intended
-named-marker red. No bodies run before those gates; no source/fixture weakening,
-provider capability or production ACCT-004 completion is claimed.
+Pending: root's actual complete native discovery/harness pins, different FULL
+test/oracle/harness review, COMPLETE-head own selected-green and FIRST same-clean
+intended named-marker red. No bodies run before those gates; no source/fixture
+weakening, provider capability or production ACCT-004 completion is claimed.
+Finish the existing PR49 baseline only, then stop as instructed.
 
 ## Actual independent ownership-oracle correction
 
@@ -238,7 +257,7 @@ The last singular audit table string was statically corrected after compilation;
 root's actual latest native compile/discovery remains its own gate. These are
 prebaseline oracle fixes, not observed service failure.
 
-## Open MIN policy provenance gate
+## MIN policy provenance: identified gap and gated resolution
 
 Full actual review identified two namespaces: original min_overflow.arithmetic.target
 debt is the FAILED BALANCE diagnostic, while typed failing_target_ref must select
@@ -246,11 +265,50 @@ the captured occurrence target main. Current MIN tests do NOT assert debt as tha
 typed hold selector. No fixture value is silently reinterpreted as a captured target.
 
 Root/full reviewer adjudicated a genuine retained per-ordinal policy gap:
-SAH1's Policy subset omitted the known correction list. Root is authoring a
-separately reviewed additive SAH2/v2 proposal, preserving all old bytes/header/
-schema, with ordered correction policies and explicit failed-balance data.
-A NEW independent min_policy_overflow/hMin/dMin/vMin golden and its actual review/
-OWN selected foundation gate are FUTURE prerequisites to that extra scenario.
-No contract/fixture is rewritten here; prose/arithmetic inference cannot substitute
-for actual CarryTimeDebt provenance. This is an open baseline gate, not new codec
-implementation or prospective approval.
+SAH1's Policy subset omitted the known correction list. Root separately authored/
+obtained actual review of additive SAH2/v2 (final document bbd6), preserving all old
+bytes/header/schema, ordered correction policies and explicit failed-balance data.
+The independent min_policy_overflow/hMin/dMin/vMin golden subsequently obtained
+actual full review and its OWN selected foundation gate above before test use.
+No contract/fixture is rewritten here; prose/arithmetic inference is not substituted
+for actual CarryTimeDebt provenance. This closes the prerequisite gap, not the
+remaining final feature-review/green/red gates or any production implementation.
+
+
+## Final bounded PR49 delta
+
+Existing numeric group now includes min_policy_overflow. It requires fresh
+hMin/dMin/vMin, both negative captured occurrences INT64_MIN and -1, and full
+current policy entries (1,CarryTimeDebt1),(2,StopAtZero0), INCLUDING the unprocessed
+second entry after failure at ordinal1. Every one of the four actual SAH2 envelopes
+is compared with the independently frozen expected Detection via check_creation,
+and explicitly has the literal suffix
+000000020000000000000001010000000000000002000101
+(two entries plus Some(debt1)). Captured target is main; attempted debt is exact
+9223372036854775808. No new encoder computes expected bytes.
+
+All existing numeric rows now additionally require failing_target_ref equal the
+known CAPTURED failing occurrence's target, including the original MIN/count cases;
+the arithmetic diagnostic debt is never treated as a captured target.
+All previous assertions and original fixture objects are preserved.
+
+Three final legal same-key contrasts preserve the prior14 historical rows:
+A's CID0→42 alone; A's principal.installation_ref alone; C's purpose signed original
+correction→captured original alone while retaining its decision/reason. Each requires
+operation_conflict/no payload after disclosure and before any current revaluation.
+They add no slot/golden/provider behavior.
+
+Actual final compile-only command:
+python3 /tmp/accttest004-feature-syntax/compile_only.py
+(moc plus GNU16.2.1 C++20 -c, -Wall -Wextra -Wshadow -Wpedantic, existing Qt6.12
+Core/Test/Sql includes and all literal fixture path macros) PASS with ZERO diagnostics
+at final cfc40e5. No executable, init/data/test body, service/codec/view method or
+marker ran. Static source/JSON inventory confirms35 slots,34+4=38 codec rows EACH,
+five numeric overflow rows,17 historical rows and total224 scenarios. Old18 full
+successful record rows remain. check_project/render/diff results below are tooling,
+not service acceptance.
+
+Full separate final test/oracle/harness review, root's OWN COMPLETE feature-head
+selected green and ROOT FIRST same-clean intended red remain mandatory. This branch
+makes no runtime pass, baseline done, production approval or PR merge claim.
+No next work or implementation will be started after the existing PR49 is finished.
