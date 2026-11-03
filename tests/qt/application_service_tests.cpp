@@ -922,19 +922,33 @@ class ApplicationServiceTests final : public QObject {
         });
     }
     void accessBeforeProtectedLookup_data() {
-        QTest::addColumn<bool>("unknown");
-        QTest::newRow("denied") << false;
-        QTest::newRow("unknown") << true;
+        QTest::addColumn<int>("row");
+        QTest::newRow("denied-known-SAR1-malformed") << 0;
+        QTest::newRow("unknown-known-SAR1-malformed") << 1;
+        QTest::newRow("denied-selected-audit-missing") << 2;
+        QTest::newRow("unknown-selected-audit-missing") << 3;
     }
     void accessBeforeProtectedLookup() {
-        QFETCH(bool, unknown);
+        QFETCH(int, row);
+        const bool unknown = row % 2 != 0;
         scenario([&] {
             File f;
             f.arrange("history");
-            // A selected known malformed historical result would fail if looked up before access.
-            f.setup([&](const auto &s) {
-                f.data.apply_fault(s, "known_historical_result_trailing_byte");
-            });
+            if (row < 2) {
+                f.setup([&](const auto &session) {
+                    f.data.apply_fault(session, "known_historical_result_trailing_byte");
+                });
+            } else {
+                f.setup([&](const auto &session) {
+                    (void)session.execute({"DELETE FROM subathon_app_audit WHERE "
+                                           "operation_scope=? AND operation_ref=?",
+                                           {blob("history-alpha"), blob("A")}});
+                    require(session.execute({"SELECT changes()", {}})[0][0].toLongLong() == 1,
+                            "Exactly the selected A audit was deleted");
+                });
+                require(f.observer->rows("PRAGMA foreign_key_check").empty(),
+                        "Feasible FK-safe selected structural corruption; others untouched");
+            }
             const auto c = command(historical(f.data, "A")["command"]);
             const auto before = f.snapshot();
             Ports p(f.data, "add10");
@@ -1051,21 +1065,27 @@ class ApplicationServiceTests final : public QObject {
         });
     }
     void allActiveHoldsGateNewKeys_data() {
-        QTest::addColumn<bool>("visible");
-        QTest::newRow("disclosed") << true;
-        QTest::newRow("protected") << false;
+        QTest::addColumn<int>("row");
+        QTest::newRow("disclosed") << 0;
+        QTest::newRow("protected") << 1;
+        QTest::newRow("active-before-missing-new-plan") << 2;
     }
     void allActiveHoldsGateNewKeys() {
-        QFETCH(bool, visible);
+        QFETCH(int, row);
+        const bool visible = row != 1;
         scenario([&] {
             File f;
             f.arrange("active_holds");
+            auto command_value = f.data.command("add10");
+            if (row == 2)
+                command_value.plan = {"new-missing-plan", 1};
             const auto before = f.snapshot();
             Ports p(f.data, "add10");
+            p.script.expected_command = command_value;
             p.script.holds_visible = visible;
             auto ports = p.ports();
             OriginalApplicationService service(f.writer, ports);
-            const auto r = prepared_run(service, f.writer, f.data.command("add10"));
+            const auto r = prepared_run(service, f.writer, command_value);
             disposition(r->service, D::active_hold);
             const auto &a = std::get<ApplicationActiveHoldPayload>(r->service.response->payload);
             require(a.holds.has_value() == visible,
