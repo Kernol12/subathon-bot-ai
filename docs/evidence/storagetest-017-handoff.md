@@ -49,7 +49,9 @@ ONLY THEN FIRST `ctest --preset sqlite-original-claim-debug -L
 '^sqlite-original-claim$'` at SAME clean c24,08:24:35.551–08:24:36.110Z,
 actualexit8/0.55s. All18 CTest fail; all35 scenario rows fail from exact unique
 named missing-query marker. All36 init/cleanup PASS;0skip/blacklist/crash/setup
-failure. [Raw record](storagetest-017-red-ctest.txt) SHA90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0.
+failure. These markers prove setup reached the first new calls; downstream
+assertions after the immediate stub remain unexecuted and require implementation
+acceptance. [Raw record](storagetest-017-red-ctest.txt) SHA90f3c739a735c13ca4eddecf0055ce7322cf1247e6dd52bc030e0956b1ee19b0.
 [CI detail](storagetest-017-ci.md) records raw official/LastTest hashes and commands.
 No old red was repeated; never rerun this initial red to replace its evidence.
 

@@ -1,9 +1,16 @@
-# STORAGETEST-017 — compiler, old stability and future baseline evidence
+# STORAGETEST-017 — compilation, selected CI and first red
 
-Scope: additive original-claim reader baseline. Latest phase: authored feature tests
-compile and register; actual full review and this complete head’s selected CI precede
-the first feature body. No reader implementation or observed red yet. Historical
-API and fixture gates below remain valid for their exact revisions.
+Current outcome: the complete reviewed clean c24 baseline passed its own selected
+official CI41602589680, then the FIRST same-head feature run produced35 exact
+missing-reader markers across18 cases. Only the test baseline is complete; source130
+remains an immediate stub. Final attribution review and completion-head CI/normal
+merge remain pending. The final section records the exact chronology and hashes.
+
+The API, fixture, compilation and full-test-review sections below are **historical
+checkpoints at their stated revisions**. Their statements that new tests/red were
+not yet authored or executed describe those earlier stages; they do not describe
+the current outcome. All raw evidence and original first-red attribution are kept.
+
 [Actual concrete document approval](storagetest-017-contract-review.md)39a50970
 preceded header/stub authoring. [API author](storagetest-017-api-author.md)bd3a830
 adds only headercf721/source130,3types/enum/oneconstmethod and unique immediate
@@ -209,7 +216,9 @@ CTest0.55s. **All18 CTest cases failed; all35 Qt scenario rows report exactly**
 `SQLite original-claim lookup is intentionally unimplemented; review tests first`.
 All36 init/cleanup results PASS; zero skipped/blacklisted/crashes/setup failures.
 The explicit marker survives the queued/foreign-thread paths and does not become
-a false unknown-success case. This is the genuine missing-query baseline, not a
+a false unknown-success case. The35 markers prove setup reached each scenario’s
+first new-reader call; assertions after that immediate stub remain unexecuted.
+Their later success requires the separate implementation task and its own checks. This is the genuine missing-query baseline, not a
 compiler, dependency or fixture failure. No completed old red was repeated.
 
 [Unmodified raw first-red record](storagetest-017-red-ctest.txt), SHA256
