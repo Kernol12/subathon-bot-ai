@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T07:33:24.926728+00:00",
+  "updated_at": "2026-11-03T07:47:10.990228+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5395,7 +5395,8 @@
         "ActualdifferentconcreteDOCapproval39a50970→bb27 acceptsbad19/author0239 beforeAPIphase. Actual minimalAPIbd3→d290 headercf721/source130=new3types+constmethod+uniqueimmediatenamedthrow only; removingnewblocksrestores8e24/a905. RootminimalconfigCMake4a404/preset323e/WF4015 onlynewflag/preset19/profiletoken substitution, no newbody/pins/guard changes. Actual configure/fresh92stepbuildPASS0warnings/exact209OLDregistrations; no newreader/test/fixture/red invoked. Freezeconfigbeforeold209run; actualdifferentAPIreview andOWNSOURCEselectedCI pendingbeforeindependentfixtures/tests. Wholebaseline remainsINPROGRESS, STORAGE017PLANNED.",
         "ActualindependentAPI/configapproval2fd02c31 acceptsheadercf721/source130/CMake4a404/presets323e/WF4015: ownfresh92build0warnings/old209PASS7.03s/206Qt0skip/exact209enabledold35. RootcleanCF7old209PASS7.05s. Scopednewblocksrestore8e24/a905, workflowtokenreversalold783 andpresetremovaloldb9 exact. No newentrypoint/test/fixture/red invoked. Publish OWNAPIhead selectedofficialCI now; fixtureauthorassignment stillwaitsits actualsuccess. STORAGETEST017notdone/production017planned.",
         "ActualOWNAPIselectedofficialSQL41593838583 SUCCESS exact689599bd6c040677058da894a1259ee9742bad2b 07:03:58–07:05:26Z: fresh92/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedQt6.12SQLite3.53.4/profile19/old164+greens/old35/all11SUCCESS. RawSHA610034e5945c95f4e1663b863484411fee6f2ceae0dda9547cdaa451814cf978. ONLYTHEN independentfixtureauthor explicitlyassignednewstoragetest017-fixtures tree branchfromfetchedmain21c+ffapproved689, ownnewJSON/helper/environment/authorMD only. Freeze independentA/Bminimalbody161+1 andreceipt-taggedsigned ORIGINALC (Receipt8NOTclaimedconfirmation), coherentMAXallocator/catalog; old20 separate. Newreader NEVERinvoked, oldsourceHEADERstubunchanged. Actualdifferentfixture/harnessreview/ownnewgreen requiredbeforefeaturetestauthoring. No fixturecandidate/verdict/newtest/redyet.",
-        "Actualindependentfixture/helper/harnessapproval6cfb2c73 acceptsJSONbea127/helper67d4/env7dad/author d1a4/QtCMake548f/WFb7bb: own45steps9queries66schema5hashes/FK0/integrity/coherentMAXalloc+single-rev1/manualA161B160+enum1/signedC-3; own4build0warnings/green5PASS0skip39ms/210reg exact3slots. Scopeonlyoldprimitives, newreaderneverreferenced/invoked; old209notreplayedandnotnewfeatureproof. RootpublishOWNSOURCEselectedNEWgreen now, featureauthorstillwaitsactualsuccess; no newquerytest/red/production17 yet."
+        "Actualindependentfixture/helper/harnessapproval6cfb2c73 acceptsJSONbea127/helper67d4/env7dad/author d1a4/QtCMake548f/WFb7bb: own45steps9queries66schema5hashes/FK0/integrity/coherentMAXalloc+single-rev1/manualA161B160+enum1/signedC-3; own4build0warnings/green5PASS0skip39ms/210reg exact3slots. Scopeonlyoldprimitives, newreaderneverreferenced/invoked; old209notreplayedandnotnewfeatureproof. RootpublishOWNSOURCEselectedNEWgreen now, featureauthorstillwaitsactualsuccess; no newquerytest/red/production17 yet.",
+        "ActualOWNNEWfixtureselectedofficialSQL41597109078 SUCCESS exactad69fecf9110c7dbdefa64d8374cdd83c0f13398 07:33:32–07:34:53Z: fresh96/ZEROwarnings/GNU13.3/pinnedBoost108300/verifiedQt6.12SQLite3.53.4/oldstable/requiredNEW3guard+5PASS0FAIL0SKIP49ms/all11. RawSHAdb8c362c0acce9f6fdf84436d8e0ee3fd3cb078e38f467872bacbdf03ef8ccab. ONLYTHEN explicitlyassigned mainfeatureauthorNEWstoragetest017-feature-author branchfromfetchedmain21c+ffapprovedad69; ownsONLYnewfeatureCPP+ownMD. NO newbody/UUTinvocation beforeactualdifferentFULLtestreview; compile/discoveryonly. Rootnewharnessguardafteractualsource; SAMEcompleteapprovedheadownselectedNEWgreen/discovery/oldCIbeforeFIRSTnewreaderstubred. Actualtestsource/verdict notyetready; STORAGE017production stillplanned."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -5405,7 +5406,8 @@
         "observed_red": "not_run",
         "api_official_qt": "passed",
         "fixture_review": "passed",
-        "fixture_host_diagnostic": "passed"
+        "fixture_host_diagnostic": "passed",
+        "fixture_official_qt": "passed"
       },
       "evidence": [
         "docs/contracts/sqlite-original-claims-v1.md",

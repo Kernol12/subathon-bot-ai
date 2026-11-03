@@ -113,3 +113,22 @@ reference/invocation, no old209 replay, no future featuretest/firstred approval.
 Root is now publishing the actual reviewed newfoundation and must observe ITS OWN
 selected official NEW3 green before feature-test authoring. EarlierAPIhead689 does
 not validate this later fixture/harness. Implementation017 remainsplanned.
+
+
+## Actual OWN selected official NEW-fixture diagnostic
+
+[SQL41597109078](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41597109078)
+SUCCESS at completeapprovedfixtureheadad69fecf9110c7dbdefa64d8374cdd83c0f13398,
+2026-11-03T07:33:32Z–07:34:53Z. Fresh96buildZEROwarnings/GNU13.3/Boostmacro108300/
+verifiedQt6.12SQLite3.53.4/profile19/oldstable/NEWexact3compiledguard and actual
+5PASS0FAIL0SKIP49ms, all11PRchecksSUCCESS. Rawlocal-evidence/
+storagetest017-fixture-official-ci.txt SHA256
+db8c362c0acce9f6fdf84436d8e0ee3fd3cb078e38f467872bacbdf03ef8ccab.
+Only OLD primitives executed; newreader has never run. Earlier fixture-review/CI
+pending paragraphs are historical checkpoints, now completed as described here.
+
+ONLY THEN feature-test author assigned fresh main21c branch plus approvedad69
+prerequisites. NewCPP/ownMD only, no fixture/source/shared edits. No testbody/new
+entrypoint invocation until actual full different review, compilation/discovery
+and required own selected green on the complete approved test/harness head.
+FIRST named-stub red remains unperformed; no production or passing query claim.
