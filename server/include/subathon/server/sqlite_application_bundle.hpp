@@ -92,6 +92,14 @@ class SqliteApplicationBundleNotImplemented final : public std::logic_error {
               "SQLite application bundle is intentionally unimplemented; review tests first") {}
 };
 
+// Explicit missing-feature marker for the additive original-claim reader only.
+class SqliteOriginalClaimNotImplemented final : public std::logic_error {
+  public:
+    SqliteOriginalClaimNotImplemented()
+        : std::logic_error(
+              "SQLite original-claim lookup is intentionally unimplemented; review tests first") {}
+};
+
 // Owned values; caller supplies owned immutable buffers through the synchronous
 // call, including QByteArray data rather than borrowed raw Qt storage. No DTO is
 // an authority/durability capability or a provider/semantic namespace proof.
@@ -315,6 +323,19 @@ struct ApplicationBundleStageResult {
     std::optional<RecordedApplicationBundle> existing;
 };
 
+// Additive reader revision1: docs/contracts/sqlite-original-claims-v1.md.
+// A fixed scalar predicate, not source classification, authorization or durability.
+struct ApplicationOriginalClaimSelector {
+    ApplicationSubjectKind subject_kind{ApplicationSubjectKind::contribution};
+    core::ReceiptId receipt_id{0};
+    std::optional<core::ContributionId> contribution_id;
+};
+enum class SqliteOriginalClaimKind { subject = 0, source = 1 };
+struct ApplicationOriginalClaimMatch {
+    SqliteOriginalClaimKind kind{SqliteOriginalClaimKind::subject};
+    RecordedApplicationBundle existing;
+};
+
 // Pure exact prefix1–4 + proposed step5/full66 description, no update authority.
 [[nodiscard]] MigrationManifest application_bundle_repository_manifest();
 
@@ -346,6 +367,16 @@ class SqliteApplicationBundleStore final {
     // equal today's head/current contribution and are not freshly revalued.
     [[nodiscard]] std::optional<RecordedApplicationBundle>
     lookup(const ApplicationOperationKey &operation) const;
+    // Contract: options then role/positive receipt/exact CID presence before SQL.
+    // Fixed selector has no input_items/aggregate input owned_bytes quota. Global
+    // tagged subject wins before ORIGINAL receipt source; absence admits nothing.
+    // A match owns FULL selected lookup closure plus one enum byte, zero extra
+    // vector items. All values remain provisional, never authority/durability.
+    // Healthy reads do no writes/cleanup; known failures require actual whole-unit
+    // rollback, while capability/protocol/unknown retain original WorkFailure.
+    // This additive entrypoint remains a named stub pending its own reviewed red.
+    [[nodiscard]] std::optional<ApplicationOriginalClaimMatch>
+    lookup_original_claim(const ApplicationOriginalClaimSelector &selector) const;
     // Options then original operation key, positive request position and credited
     // kind0/2/3 precede SQL. Uses EXACT reviewed selected-source closure plus per-
     // basis64/65 progress audit, never full RecordedBundle/global payload loading.

@@ -2082,6 +2082,10 @@ SqliteApplicationBundleStore::lookup(const ApplicationOperationKey &k) const {
     Access a(session_, limits_);
     return a.guarded([&] { return a.lookup(k); });
 }
+std::optional<ApplicationOriginalClaimMatch> SqliteApplicationBundleStore::lookup_original_claim(
+    const ApplicationOriginalClaimSelector &) const {
+    throw SqliteOriginalClaimNotImplemented();
+}
 ApplicationReversalBasisResult
 SqliteApplicationBundleStore::read_reversal_basis(const ApplicationOriginalComponent &o) const {
     bundle_detail::validate_options(limits_);
