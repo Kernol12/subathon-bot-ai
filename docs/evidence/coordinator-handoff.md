@@ -264,3 +264,33 @@ Actual35 CPP476→117829e compiled/discoveredexact35/ZEROwarnings locally, no bo
 Actualadditiveprecedence c25cd73→0921762 CPP06bc2a040301447e5ddf8f6afcd29af431da71cc
 has35/218 static scenarios (twoextra real selected-auditcorruption/accessrows,
 oneactiveholdbeforemissingPlanKey), allpriorrows preserved; actualreview/notefollow.
+
+
+## Latest exact agent handoff
+
+Root current35 source06bc2a040301447e5ddf8f6afcd29af431da71cc (c25→0921762),
+authornotedb8b6fefdaf447339c77a6a1a82acff8abf902b9 (3d68823→f62ed18),35slots/
+218staticrows. Rootlatestprioritybuild3stepsZEROwarnings/compiled35=registered35,
+all enabled/draft-red/noinversion; no newtest/init/data/body/stub/marker run.
+Bounded actual9aapproval eba547→d7a6193/currentMD5d6416b6 checksC4barriers and
+callbackerrortransport, preserves prior3findings/resolutions and excludesfuture
+rows/newpolicygroups/SAH2/fullbaseline. Fullreviewer ACTIVEactual35/note/harness.
+
+Testauthor bundle_implementer COMPLETE/clean3d68823 infeaturetesttree; resumewith
+followup_task ONLYafterapprovedMINfixtureOWNselectedgreen foraffectedgoldentest or
+actualnewreviewfinding. Fixtureauthor bundle_validation ACTIVE explicitlyREASSIGNED
+NEWtree local-evidence/worktrees/accttest004-min-policy-fixture,
+branch task/ACCTTEST-004-min-policy-fixture at623f47d, ownsONLY4fixturepaths.
+NewONEmin_policy_overflow/freshhMin-dMin-vMin/fullSAH2+4copies/B-I/oldclosure;
+ALLprior33caseobjects/oracles/source/catalog/arrangement muststayEXACT. Oldfixture
+cb7 and boundedreviewtree eba remainpreserved/clean. Fullreviewer separatelyreviews
+ACTUALdata/note/helper/env beforeOWNupdatedselected41?rows gate (countnotyetknown).
+OnlythenaffectedMINtestauthoring; fullfinaltestapproval+OWNcompletefeatureheadgreen
+stillprecedeFIRSTsamecleanred. CurrentAPI bbd6 approved9ef, header03a/sourceebbe
+remainimmediatestubs. No production/refund/provider/platformcapabilityclaimed.
+
+Root clean aftercommits; lastpublished remote8e68895/all11SUCCESS; laterreview/source/
+SAH2metadata commitslocaluntilnextfocusedpublish. PR49descriptionupdatedactualphase.
+FreshnewMINtree makes127registered111existing16absent; alloldmissing/dirtycopies
+preserved. Nativesessions32098/60175 completed, no runningnativecommand. Checkactual
+agents/worktrees/CI onresume ratherthanassumethisstillcurrent. Noowneraccessneeded.
