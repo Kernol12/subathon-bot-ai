@@ -1118,7 +1118,8 @@ class ApplicationServiceTests final : public QObject {
         });
     }
     void numericOverflowCommitsOnlyDurableHold_data() {
-        case_rows({"score_overflow", "count_overflow", "min_overflow", "clock_overflow"});
+        case_rows({"score_overflow", "count_overflow", "min_overflow", "clock_overflow",
+                   "min_policy_overflow"});
     }
     void numericOverflowCommitsOnlyDurableHold() {
         QFETCH(QString, name);
@@ -1133,9 +1134,14 @@ class ApplicationServiceTests final : public QObject {
             const auto r = prepared_run(service, f.writer, f.data.command(name));
             disposition(r->service, D::held_numeric);
             const auto &out = std::get<ApplicationHeldPayload>(r->service.response->payload);
-            const auto expected_ref = name == "clock_overflow" ? "hClock" : "hNew";
-            check_hold_outcome(out.outcome, f.data.holds().detection(
-                                                name == "clock_overflow" ? "dClock" : "dNew"));
+            const bool min_policy = name == "min_policy_overflow";
+            const auto expected_ref = min_policy                 ? "hMin"
+                                      : name == "clock_overflow" ? "hClock"
+                                                                 : "hNew";
+            check_hold_outcome(out.outcome,
+                               f.data.holds().detection(min_policy                 ? "dMin"
+                                                        : name == "clock_overflow" ? "dClock"
+                                                                                   : "dNew"));
             require(out.hold_ref == expected_ref &&
                         out.outcome.kind == ApplicationHoldMutationKind::detection &&
                         out.outcome.produced_versions.size() == 1,
@@ -1153,6 +1159,13 @@ class ApplicationServiceTests final : public QObject {
             original_claim_fixture::same_envelope(h.cause.command.intent,
                                                   envelope(c["command_envelope"]));
             const auto source_requests = requests(c["requests"]);
+            const auto failing_ordinal = integer(a["ordinal"]);
+            require(failing_ordinal > 0 && size_t(failing_ordinal) <= source_requests.size(),
+                    "Known failing occurrence exists in the complete frozen capture");
+            require(h.cause.failure->failing_target_ref ==
+                        source_requests[size_t(failing_ordinal - 1)].target_ref,
+                    "Typed failure selects the captured target; arithmetic debt is a different "
+                    "dimension");
             require(h.cause.plan_evidence.occurrences.size() == source_requests.size(),
                     "No fitting-prefix truncation");
             for (size_t n = 0; n < source_requests.size(); ++n) {
@@ -1165,6 +1178,40 @@ class ApplicationServiceTests final : public QObject {
                         o.action_version_ref == q.action_version_ref && o.rule_ref == q.rule_ref &&
                         o.target_ref == q.target_ref && o.explanation == q.calculation_explanation,
                     "Every original complete request/provenance/empty-presence retained");
+            }
+            if (min_policy) {
+                const auto policy_value = f.data.policy(name);
+                require(source_requests.size() == 2 &&
+                            source_requests[0].requested_units ==
+                                std::numeric_limits<std::int64_t>::min() &&
+                            source_requests[1].requested_units == -1 &&
+                            policy_value.correction_policies.size() == 2 &&
+                            policy_value.correction_policies[0].request_ordinal == 1 &&
+                            policy_value.correction_policies[0].deficit_policy ==
+                                core::RefundDeficitPolicy::CarryTimeDebt &&
+                            policy_value.correction_policies[1].request_ordinal == 2 &&
+                            policy_value.correction_policies[1].deficit_policy ==
+                                core::RefundDeficitPolicy::StopAtZero &&
+                            h.cause.failure->failing_target_ref == "main" &&
+                            a["failed_balance"].toInt() == 1 &&
+                            out.outcome.mutation_ref == "dMin" &&
+                            out.outcome.produced_versions[0].locator.version_ref == "vMin",
+                        "Both captured negative occurrences/selected policies survive failure at "
+                        "ordinal1");
+                // Independent literal: V[(1,Carry1),(2,Stop0)], Some(debt1).
+                const auto suffix =
+                    QByteArray::fromHex("000000020000000000000001010000000000000002000101");
+                require(suffix ==
+                            QByteArray::fromHex(
+                                c["hold_suffix"].toObject()["wire_hex"].toString().toLatin1()),
+                        "Frozen full policy-vector suffix, including the unprocessed second entry");
+                for (const auto *e : {&h.cause.first_observation.annotation,
+                                      &h.first_detection.observation.annotation,
+                                      &h.cause.failure->annotation, &h.first_detection.audit})
+                    require(e->format_ref == "subathon.internal.application-hold-observation.v2" &&
+                                e->document.startsWith("SAH2") && e->document.endsWith(suffix),
+                            "Every owned SAH2 copy retains complete selected policies and failed "
+                            "debt tag");
             }
             if (c.contains("expected_detection")) {
                 const auto expected =
