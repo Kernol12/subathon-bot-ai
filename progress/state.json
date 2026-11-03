@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T10:53:50Z",
+  "updated_at": "2026-11-03T11:05:15Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5343,7 +5343,8 @@
         "RootminimalconfigPREPARED UNCOMMITTED only: newHOLDflag→ORIGINAL→BUNDLE, newstaticlibrarysubathon_sqlite_application_holds linksoldbundle+QtCore, preset20sqlite-hold-debug inherits19/matchingbuildtest, workflowONLYpreset/builddir-token substitutions(oldsteps/pins/counts/checknameunchanged). cmakelistpresets20/static396/122/diffPASS. No configure/build20 attempted pendingactualnewAPIheader/CPP. AuthoractivefreshAPItreee6, reviewerread-onlyprepcomplete/awaitactualsource. Composedreferenceprofile+hold-specificownedcounts is APIproposalnotapprovedyet. Allold228/API/DDLtestsnotreplayed; no newholdbody/catalogfunction invoked. Withholdpreparedconfigpublication untilcompleteAPIcandidate compiles/reviewed/ownselectedoldstableCI.",
         "ActualminimalAPIac0610f→rootb6b6d11 APIDOC421acf29/headerfe50fb10/CPP5b10c0e0 (324/331/30lines), authorMD77cddef→0f0e8f1/5217ec35. Sixnewfunctions immediateunconditionalSqliteApplicationHoldNotImplemented; constructoronlystoresrevocableticket+limits, noSQL/DDL/catalogdata/validation/equalityalgorithm/sourceLookup/cleanup/globalinitializer. Finiteview/qualifieddetection/history/outcomeownership and exactbytes/items/normalpresence/physicalgroups declared; referencesBundleLimitsforinternaloldbodies separateholdreturnedquota. Rootactualprofile20configure/fresh102stepbuildZEROwarnings/exact228OLD registrations (no holdfeaturecase/body), clangformatcheckPASS. Actualroot4configs5d76/b55b/053b/88f8 freeze nowbeforeold228run; authorownold228PASS8.00s/225Qt715PASS0skip notsubstitutedforroot/reviewer/officialCI. DifferentactualAPI/config/fullformulareviewACTIVE, noverdict; no newholdentrypoint/catalogfactory invoked, fixtures stillunassignedpendingreview+OWNAPIselectedstableCI.",
         "At CLEANfrozen8dbde1e92a0b7587dbcd705de263d8f0d091f1c7 rootctest--presetsqlite-hold-debug--verbose old228PASS7.90s/actualexit0, all225Qt summaries715PASS0fail0skip0blacklist. Newholdentrypoints/factory/marker neverinvoked, no holdfeaturecasesregistered. RawSHA09be243963578afbbfcbca7c7a755eda522d3d6dd80a60f924bc40b8128a944a; LastTest16e765a8395c9e2cfabdd6b55a84ccc377c5a457afb7d8b6c3a61462f3c88af4 preserved. ActualdifferentAPI/configreview completeaudit/no blocker reported butwrittenapprovalpending; do notassignindependentfixturebeforeactualapproval+OWNAPIselectedCI.",
-        "ActualdifferentminimalAPI/configapprovalcfe443a8→root8c665f2 accepts421acf29/fe50fb10/5b10c0e0/author5217 plusroot5d76/serverb55b/preset053b/WF88f8 at8db. ALLfiniteownedB/I formulas/normalpresence/historicalvsCurrent/3modegroups/inputpriority/optionsrefs andsource6immediatestubs independentlyreviewed; richliteralB/I math34eaPASS, no UUTcalls. Reviewerfresh102/ZEROwarnings/old228PASS7.88/225Qt715PASS0skip/exactold228/nocasehold. Reversingworkflowprofiletokenrestoresc5dBYTEEXACT, oldpresetobjectsunchanged; currentnewAPIconstructorinert/no validators/SQL/catalogdata. RootpublishcompleteAPIcandidateOWNselectedofficialoldstable CI now; fixtureauthorUNASSIGNED untilactualsuccess. No holdfeaturebody/marker/factory/red invoked ornewcapabilityverified."
+        "ActualdifferentminimalAPI/configapprovalcfe443a8→root8c665f2 accepts421acf29/fe50fb10/5b10c0e0/author5217 plusroot5d76/serverb55b/preset053b/WF88f8 at8db. ALLfiniteownedB/I formulas/normalpresence/historicalvsCurrent/3modegroups/inputpriority/optionsrefs andsource6immediatestubs independentlyreviewed; richliteralB/I math34eaPASS, no UUTcalls. Reviewerfresh102/ZEROwarnings/old228PASS7.88/225Qt715PASS0skip/exactold228/nocasehold. Reversingworkflowprofiletokenrestoresc5dBYTEEXACT, oldpresetobjectsunchanged; currentnewAPIconstructorinert/no validators/SQL/catalogdata. RootpublishcompleteAPIcandidateOWNselectedofficialoldstable CI now; fixtureauthorUNASSIGNED untilactualsuccess. No holdfeaturebody/marker/factory/red invoked ornewcapabilityverified.",
+        "ActualOWNminimalAPIselectedofficial41623088230 SUCCESS exactpublished10258a11a19c1b411534b3e33700787640ab1527 10:54:07–10:55:25Z: fresh102/ZEROwarnings/newCPP+archivecompiled/GNU13.3/selectedBoost108300/verifiedofficialQt6.12SQLite3.53.4/profile20/alloldstable inclmandatory18/requiredold3fixture5PASS0skip50ms/all11SUCCESS. RawSHAdf2370f938f8cb8f41db12ee096d16f22ed78ff6443d78763ab40b24eb64c329. ONLYTHEN nextindependentfixtureauthorbundle_implementer explicitlyassignedfreshstoragetest016-fixtures branchfromcurrentmainaad ffapproved102; ownnewfixtureJSON/support/OLD-primitivegreenCPP/authorMDonly. NevercallnewHolder/factory/marker. Independentlyfreezeactualprefix6/89/F89890/9f5b/sqlconstraints/sourceonlyunclaimedfailedcapture+captured/multiheadhistory/timerprocessed+distinctcorrectionlink cases, actualoldsourceclosure and literalownedDTO/byteitemoracles notUUTgenerated. Differentactualfixture/helper/harnessreview+OWNNEWselectedQtgreen beforefeaturetestauthor. No sourceHoldingbehavior/schemafactory/test/red supported; allnew6functions stillimmediatestubs."
       ],
       "verification": {
         "concrete_contract": "passed",
@@ -5362,7 +5363,9 @@
         "minimal_api": "passed",
         "api_native_build": "passed",
         "api_existing_regressions": "passed",
-        "api_official_qt": "not_run"
+        "api_official_qt": "passed",
+        "fixture_host_diagnostic": "not_run",
+        "fixture_official_qt": "not_run"
       },
       "evidence": [
         "docs/contracts/application-service-v1.md",
@@ -5386,7 +5389,7 @@
         "evidence": "docs/evidence/storagetest-016-contract-review.md"
       },
       "status": "in_progress",
-      "owner": "coordinator /root; minimal API author /root/bundle_validation; independent reviewer /root/bundle_reviewer; physical author /root/bundle_implementer complete"
+      "owner": "coordinator /root; independent fixture author /root/bundle_implementer; independent reviewer /root/bundle_reviewer; API author /root/bundle_validation complete"
     },
     {
       "id": "STORAGE-016",

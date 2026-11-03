@@ -167,3 +167,24 @@ awaitingreview paragraphs historical, APIapproval COMPLETE. Fourrootconfigs now
 COMMITTED8db, rootclean beforemetadata. APIauthorCOMPLETE77cddef with4shared
 verificationcopiespreserved, reviewerCOMPLETEcfe with4copiespreserved. Independent
 fixtureauthor NOTassigned yet. No holdschemaimplementation/fixture/test/red.
+
+## Latest actual API-source CI and independent fixture assignment
+
+OWN APIselectedofficial41623088230 SUCCESS exact10258a11a19c1b411534b3e33700787640ab1527
+10:54:07–10:55:25Z/fresh102/zero/newCPP+archive/GNU13.3/Boost108300/verifiedQt6.12/
+SQLite3.53.4/profile20/oldstable+18/requiredold3diagnostic5PASS0skip50ms/all11.
+Raw df2370f938f8cb8f41db12ee096d16f22ed78ff6443d78763ab40b24eb64c329.
+ONLYTHEN `/root/bundle_implementer` assigned independentfixtureauthor in NEW
+`local-evidence/worktrees/storagetest016-fixtures`, `task/STORAGETEST-016-fixtures`,
+fromcurrentmainaad ffapprovedAPI102. OwnONLY
+`tests/fixtures/sqlite_application_holds_vectors.json`,
+`tests/qt/support/sqlite_application_hold_fixture.hpp`,
+`tests/qt/sqlite_application_hold_environment.cpp`,
+`docs/evidence/storagetest-016-fixture-author.md`. No candidate yet.
+Useonlyoldprimitives/rawobserver, NEVERnewHoldStore/catalogfactory/marker.
+Prefix6/full89/9f5b and actualtypedsource/no fakeunknown, legitimateunclaimedwhole
+failure base plus separateprocessedtimer/correction/sourceClosure/data-only links,
+independentliteralDTO/boundaryoracles. RootgreenCMake/newNguard followsactualsource.
+Actualdifferentfixture/harnessreview and OWNNEWselectedQtgreen MUSTprecede any
+featuretestauthor. ReviewerAPIcompletecfe/authorAPIcomplete77cd, both4uncommitted
+rootconfigverificationcopiespreserved. No holdfeaturecall/body/red yet.

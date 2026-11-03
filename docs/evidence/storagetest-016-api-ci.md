@@ -1,8 +1,8 @@
 # STORAGETEST-016 — minimal API compilation and stable-suite gate
 
 Current phase: minimal interface/stubs authored and independently approved. Root
-and reviewer old228 stability passed; own API-source selected official CI is the
-next gate. No hold method/factory/marker has been invoked. Historical compilation
+and reviewer old228 stability passed; own API-source selected official CI now
+passed at exact10258a1. Independent new foundation authoring is the next gate. No hold method/factory/marker has been invoked. Historical compilation
 checkpoints below retain their original evidence; final review outcome follows.
 
 Actual minimal interface/stubs only. Concrete701c/[reviewc0](storagetest-016-contract-review.md)
@@ -88,3 +88,25 @@ Root now publishes this complete approved source/config for its OWN selected
 official compilation/oldstable CI. Only its ACTUAL success permits independent
 new frozen foundation authoring; earlier doc/017/initialclaim CI is not that proof.
 No feature tests, held behavior, intended red or production capability yet.
+
+
+## Actual own API-source selected official gate
+
+[SQL41623088230](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41623088230)
+SUCCESS at complete approved API/config head
+**10258a11a19c1b411534b3e33700787640ab1527**,
+2026-11-03T10:54:07Z–10:55:25Z. Fresh102 steps/ZEROwarnings, actual new
+`sqlite_application_holds.cpp.o` and static archive built; GNU13.3, selected pinned
+Boost1.83 macro108300, verified officialQt6.12 archives/actualSQLite3.53.4/profile20.
+All old stable suites including unconditional18 original-claim cases pass; required
+three-slot original-claim diagnostic5PASS0fail0skip50ms. All11 same-head checks
+COMPLETED/SUCCESS. There is no new hold test, method/factory call or step6
+production manifest behavior in that workflow.
+
+Raw local-evidence/storagetest016-api-official-ci.txt SHA256
+df2370f938f8cb8f41db12ee096d16f22ed78ff6443d78763ab40b24eb64c329.
+Only AFTER this actual source-specific success plus actualAPI/configapprovalcfe
+is independent literal prefix6/source/foundation authoring assigned. Actual new
+fixture/helper/full review/required OWNNEW selectedQt green still precede any
+feature-test author; their full review/compiler/discovery/same-head environment/
+FIRSTnamedstub red remain future. No old228/DOC/scratch SQL is that baseline.
