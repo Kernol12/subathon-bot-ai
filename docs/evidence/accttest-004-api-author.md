@@ -155,3 +155,46 @@ on the owner thread returns enqueue Admission{invalid_work}, while make_work thr
 PreparationFailure(invalid_work); both occur before actual enqueue/unit/callback.
 No additional within-stage total ordering or new runtime behavior is claimed.
 Different actual review of these final bytes remains required.
+
+## Fixture-golden semantic clarification after actual minimal API gates
+
+Fixture author found a real exact-golden ambiguity in the approved document:
+SAA1 versus SAH1 for hold fields and unspecified service-owned explanatory strings.
+Root/full reviewer agreed the proposed bounded DOCUMENT clarification before edits.
+The actual minimal header03a747a70ab7decd49227396466ff12a32c31864 and immediate-stub
+sourceebbea2388b7f4fb6474940b53cc14b95853969cb remain untouched; header-author
+evidencea863a1d9fd2088cb40f8df5e76499ee87086c98b is unchanged.
+
+The new field table assigns successful choices/state/result/audit exactly to
+SAC1/SAS1/SAR1/SAA1 success0. All four applicable new whole-input hold envelope
+fields use byte-identical complete SAH1 copies; its Failure leaf explicitly excludes
+FailureEvidence.annotation, avoiding recursion while charging every actual owning
+copy. SAA1 numeric/policy alternatives remain recognized historical DATA.
+Effect and captured occurrence explanations copy selected request text; calculation
+and hold prose is exactly empty; action/policy explanations are port copies;
+advance explanation is empty for head reuse or exact ASCII clock-observation-v1.
+
+Root initially raised a mandatory-UTC concern, then explicitly corrected it after
+actual header/contract/helper inspection: existing HoldObservation times are
+OPTIONAL. This clarification preserves unresolved-policy holds with unknown clock/
+UTC/elapsed, actual known permission refs and no fabricated0/previous-observation
+time. It adds no time port or known-clock enablement restriction.
+Command present-empty actor/decision remains lossless in SAC1/SAH1; typed observation
+key refs project only actual nonempty values, matching existing hold preflight
+without changing/narrowing the command or storage API. Bundle audit DATA keeps its
+original optional presence/empty values.
+
+The verification partition preserves AS20/CS10 and AS16/CS08. Existing bundle
+staleStateContributionPlanAndTokenRebindRefuse at
+tests/qt/sqlite_application_bundle_tests.cpp1658 individually checks all15 current
+cells and plan-head stale expected-versus-current mismatches. It does NOT establish
+a within-session mutation race. Existing reducer tests at
+tests/acceptance/timer_lifecycle_tests.cpp191/307/320/331 prove paused hard-end semantics.
+Future public service tests cover pre-read reassessment/copy/current-plan binding,
+clock-port-before-refusal/no writes and visible unpaused deadline prevention.
+Future DIFFERENT actual source review must trace complete current copies/direct
+bundle stage/stale-disposition mapping and reducer-before-final-admission in
+server/src/application_service.cpp. Private paused trace/mid-body mutations are
+unexecuted service runtime claims; no write-capable fake, phase hook, fabricated
+commit or waiver is added. These are proof obligations, not prospective approval.
+Separate full+bounded actual document re-review precedes exact fixture goldens.

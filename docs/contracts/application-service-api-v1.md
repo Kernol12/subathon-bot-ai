@@ -472,21 +472,71 @@ different from the recorded persisted head; absent preview is false. The respons
 existing/new disposition is not stored here and never rewrites historical SAR1.
 
 SAA1 command/source/plan/actor/decision/reason copies agree with typed audit/command;
-policy/config/clock agree with successful snapshot observation/provenance, and
-numeric/success outcomes have exactly the applicable failure/missing-reason groups.
-A successful audit has neither Failure nor missing reason; numeric has Failure only;
-unresolved_policy has missing reason only. Its policy values are retained explanations,
-not reusable grants. Hold audit/first+attempt annotations use this same SAA1 with
-actual known bound policy/clock; if those values are unavailable, use the separate
-hold observation grammar immediately below rather than inventing known values.
+policy/config/clock agree with successful snapshot observation/provenance.
+A success outcome has neither Failure nor missing reason; numeric has Failure only;
+unresolved_policy has missing reason only. These grammar alternatives remain
+recognized historical DATA. This service produces SAA1 success0 for a successful
+application audit; its new whole-input holds use SAH1 in EVERY field below,
+including when policy and clock are known. Policy values are retained explanations,
+not reusable grants.
 
 subathon.internal.application-hold-observation.v1 uses magic SAH1 then
 B(encoded SAC1), B(actual persisted head), O(Policy), O(Clock), O(Failure),
-O(B(missing_policy_reason)), B(explanation). Every present duplicate agrees with
-typed cause/observation/failure. Missing Policy/Clock stays absent; captured source/
-plan/head remain actual known references. Detection.audit is SAH1 for non-success
-holds, and its typed policy/permission/actor/decision/times copy ONLY known fields.
-A failed arithmetic proposal is DATA inside annotation, not a retained snapshot.
+O(B(missing_policy_reason)), B(explanation). Failure here is EXACTLY the leaf
+stage/ordinal/target/Exact tuple above, EXCLUDING FailureEvidence.annotation.
+It never embeds another SAH1 or itself. Every present duplicate agrees with typed
+cause/observation/failure; missing Policy/Clock remains absent.
+
+| New service-produced field | Exact outer format / copy |
+| --- | --- |
+| PreparedBundle.intent.choices; HoldCause.command.intent | subathon.internal.application-command.v1 / SAC1, complete original command |
+| PreparedBundle.advanced_before.envelope; after.envelope | subathon.internal.application-state.v1 / SAS1; head reuse retains exact old envelope |
+| PreparedBundle.result | subathon.internal.application-result.v1 / SAR1 |
+| PreparedBundle.audit.envelope | subathon.internal.application-audit.v1 / SAA1 success0 |
+| HoldCause.first_observation.annotation | subathon.internal.application-hold-observation.v1 / SAH1 |
+| Detection.request.observation.annotation | SAME SAH1 envelope as this creation's first observation |
+| HoldCause.failure.annotation, present only for numeric overflow | SAME complete SAH1 envelope, whose Failure leaf excludes this annotation |
+| Detection.request.audit | SAME complete SAH1 envelope |
+
+For one fresh whole-input hold creation, those four applicable SAH1 fields are
+byte-identical owned copies, EACH charged in actual hold B/I accounting. Policy
+holds have no FailureEvidence; no numeric/failure fiction is added. Both first and
+attempt typed observations copy the actual retained head. A failed arithmetic
+proposal stays DATA in SAH1, not a retained snapshot.
+
+Known fields are projected honestly: permission revision comes from allowed access,
+policy revision from a supported bound policy, actor/decision from actual command
+optionals, and UTC/elapsed from a supported clock observation (checked segment sum).
+Policy unavailable means SAH1 Policy/Clock absent, policy revision/UTC/elapsed absent;
+known access permission can still be retained in the typed observation.
+Policy known but segmentation unavailable means Policy present, Clock/UTC/elapsed
+absent. Unresolved-policy holds remain supported with those honest absences.
+No new clock precondition, time source, previous-snapshot UTC or invented0 is added.
+
+HoldObservation optional identity/key refs project ONLY actual NONEMPTY values.
+In particular command actor_ref/decision_ref may be present-empty; preserve their
+exact presence/bytes in SAC1 (and therefore SAH1's embedded command), but project
+them as ABSENT typed HoldObservation refs because the existing hold key domain
+forbids empty refs. Do not substitute principal identity, normalize the original
+command, or narrow its accepted shape. This projection concerns key-domain refs,
+not optional DATA such as source event strings. Bundle audit DATA retains command
+optionals unchanged, including present-empty values permitted by its existing port.
+
+Deterministic service-owned strings are source copies or exact empty/fixed bytes:
+
+| Field | Exact producer rule |
+| --- | --- |
+| ApplicationEffect.application_explanation | selected RequestedEffect.calculation_explanation verbatim |
+| captured HoldPlanEvidence occurrence.explanation | same selected request string, PRESENT even when empty |
+| SAA1.calculation_explanation; SAH1.explanation | non-null empty bytes; structured outcome/provenance carries the actual evidence |
+| SAA1.action_explanation | PreparedApplicationActions.explanation verbatim |
+| SAA1 Policy.explanation | BoundApplicationPolicy.explanation verbatim |
+| ApplicationAudit actor_ref/decision_ref/reason | original command optionals verbatim, not guessed identities |
+| PreparedBundle.advance_explanation | empty bytes iff advanced-before reuses the head; otherwise exact ASCII clock-observation-v1 |
+
+Actual observation evidence lives in SAS1/SAH1. No timestamp interpolation, prose
+template, locale-dependent wording or unstated calculation explanation is generated.
+These copy rules change no grammar, authoritative field or provider capability.
 
 SAJ1 is strictly synthetic and non-deliverable. It must match its referenced captured
 occurrence and actual calculated components; job's source ordinal is required and
@@ -743,6 +793,35 @@ boundaries for later independently frozen fixtures.
 | CS16 | Hold h/detection d first produced active version v1, then was resolved at v2; today's complete active(subject) is empty. Issuer accidentally repeats h/d/v1 and the SAME immutable old cause/detection, so record_detection returns already_recorded with historical active v1. Service returns stage_conflict(hold::already_recorded), NOT held_numeric/held_policy; no current blocker is claimed or created, no token/ref retry, no application effects/claim |
 | CS17 | Public encode C0: inputCommand B25→outputEnvelope B98 (format40+document58). input_owned_bytes25/result_owned_bytes97 gives PURE result_limit7. Public decode the same Envelope with those limits gives input owned_byte_limit6 FIRST (98>25). With sufficient bytes and two empty x choices, choices_per_command2/result_items1: decode fails output result_limit (2 actual choice items); encode's opaque Envelope still has0 result items. Returned opaque record documents never add these temporary choice items |
 | CS18 | Main58/debt0, requests+10 then+10, cap60: first actualMain2/capped8→running60, second actualMain0/capped10→running60. CORE002's second input is60, not initial58 and not60 plus a duplicate credit |
+
+### Verification partition for private sequencing requirements
+
+AS20/CS10 and AS16/CS08 remain requirements. They are not relaxed because the
+current service public boundary deliberately exposes neither mutation authority
+between read and stage nor discarded private paused-clock proposals.
+
+Service runtime tests must exercise pre-read changes to all15 actual current
+contribution fields/current plan, exact current expected-state copying, clock-port
+invocation before paused refusal/no hidden writes, and visible unpaused hard end
+preventing ordinary credit. Existing real bundle test
+staleStateContributionPlanAndTokenRebindRefuse in
+tests/qt/sqlite_application_bundle_tests.cpp proves all15 stale EXPECTED-versus-CURRENT
+mismatches and plan-head refusal with unchanged snapshot token. It does NOT create
+or prove an actual within-session race. Existing tests in
+tests/acceptance/timer_lifecycle_tests.cpp independently prove reducer paused hard-end
+precedence, including HardEndObservationPreventsCreditFromResumingPausedConfirmationWait,
+ExactHardEndFinishesBeforeCountdownProjection, HardEndFinishesPausedGraceWithoutPostponement
+and HardEndFinishesConfirmationWaitWithoutConfirmation.
+
+A different ACTUAL implementation source audit must trace complete current
+ContributionState/actual plan binding into direct bundle stage, every defensive stale
+disposition mapping, and advance_timer calls before final paused admission in
+server/src/application_service.cpp. At this document/stub stage that audit is FUTURE.
+Service-private paused transition trace and mid-body freshness mutation are explicitly
+UNEXECUTED as service runtime observations. Component runtime proof, public service
+runtime proof and actual source review are separate evidence, never interchangeable
+claims of one executed test. No fake port SQL/write/reentrancy, fabricated commit,
+new phase hook, testability seam or requirement waiver is introduced.
 
 Next: different actual DOCUMENT review; then minimal header/unique stubs and build
 harness review, with no executable behavior; independently authored literal codecs/
