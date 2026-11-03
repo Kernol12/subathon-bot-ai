@@ -29,155 +29,101 @@ Completed task merges:
  The intermediate missing canonical acceptance metadata was corrected using
  already-passing evidence and fresh checks before merge; no tests/validator weakened.
 
-## Active branch and actual incomplete execution
+## Actual active STORAGE-016 implementation
 
-Preserved baseline branch `task/STORAGETEST-016-durable-holds`.
-[Merged PR47](https://github.com/Kernol12/subathon-bot-ai/pull/47), last published
-**598a96e89bd836e50e45b45b15a26b4b1e2f34ef**, all11 checks successful. The earlier complete
-source-specific SQL41637913237 succeeded12:42:01–12:44:17Z: fresh110/zero warnings/
-GNU13.3/Boost108300/Qt6.12/SQLite3.53.4/new3 diagnostic5PASS0skip186ms/exact35
-compiled/old stable. Raw SHA256c565c760b6935299e68d13d074f363a6495ca08e429d12c0e019a78645f3367c.
+Root branch `task/STORAGE-016-durable-holds`, from integrated main017d before
+claim/edits. [Draft PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) is
+published at4d8dba8 (claim/preparation only). Its old all11 successful checks do
+NOT verify the newer local implementation. Local source and evidence commits
+through b32ba1d plus root validation/promotion/regression metadata are not yet
+published. No eligible merge or implementation-done claim.
 
-FIRST execution at SAME CLEAN af310e7,12:45:01.970–12:45:07.795Z, actual CTestexit8,
-was NOT a valid complete intended red. Authoritative LastTest:35 summaries,
-70 init/cleanup PASS,265 scenario FAIL,0skip;261 unique HOLD-MISSING plus FOUR
-HOLD-ASSERT setup errors. Verbose/outputOnFailure repeats stdout, so the initial
-recorder522 markers/70 summaries double-counted output and correctly rejected the
-run. [Preserved interpretation/logs](storagetest-016-initial-attempt.md): raw
-4c2dd57f6f6480f3c6bd21bf957e737daedd5de281a81180d61af49ea7907be0, LastTest
-6d4398039fafa4bdf0823d058a3667f5685e440b785245cdc809e7909dfa19fa.
-Do not claim complete observed_red or start production based on that attempt.
+Preserved reviewed baseline: logical701c710f/c0ed4b6, physical83e96362/696d7f9,
+API46c70297/category35b1092, frozen JSON63de09c5/helper7ca946f2/env a17312fe.
+Original test0cce9545/35slots265rows approved adb0404+41aa858/setup743b87fe;
+first VALID revised missing-feature red at SAME CLEAN598a96e AFTER its own
+SQL41640390883:35failed slots/265unique markers/70initcleanupPASS/0setup/skip.
+Separate actual final attribution8d3a9bc. Initial261markers+4setup-errors attempt
+is invalid and retained. [Baseline handoff](storagetest-016-handoff.md),
+[final attribution](storagetest-016-final-review.md); never replay completed red.
 
-Two genuine setup defects affected3 timer kind1 rows and1 wrong-context row:
-nonexistent operations.effect_count (actual column on results), and swapped
-retained-context document/config positional values. Tests now join the actual
-operation/results key and use named context columns; all assertions/counts remain.
-Old261 reached markers and all valid prior reviews are preserved.
+Actual integrated code:
 
-## Current corrected candidate and completed reviews
+- Runtime8d82aa2268b39f19b8ed640c03383c99f640d6e3 (0fe +21b95a5).
+- Pure helper ec78b69702ce0e1da3f78b9367dc10170c284bfc (1b8af36).
+- Private access7107d0ee/old bundle24759a20; author reconstructs entire former
+  old834336d3 body/queries/accounting byte-exact; oldvaluesb0ca921c unchanged.
+- All six functions implemented; caller-session results provisional, no policy/
+  authority/application orchestrator/provider/release capability follows.
 
-Current corrected source da588312→root45b3de6:
-**0cce9545c3a3851b25df9131e6e35e97366aacee**. Final author3aa286→roote567141:
-**1a65cc9e6f61a7c6a69f012a1b596c4165f89537**.
-Actual separate correction approval743b87fe→root7607f8b accepts these Git objects,
-native OLD-library Qt6.12/SQLite3.54 exact-query diagnostic, genuine source mismatch
-and FK0; no feature replay. [Correction review](storagetest-016-setup-correction-review.md).
-Root corrected compile3steps/zero warnings/exact35 registered/discovery only.
-[Current CI evidence](storagetest-016-ci.md), [author](storagetest-016-author.md).
-Current state: STORAGETEST-016 DONE/baseline observed_red after actual final
-independent attribution8d3a9bc→root020f67c. STORAGE-016 remains planned and waits
-normal baseline merge. [Handoff](storagetest-016-handoff.md),
-[final attribution](storagetest-016-final-review.md). Six entrypoints still stubs.
+[Runtime author](storage-016-author.md), finalea53fb2/MD1a8fcf89, records exact
+35slots268scenarios PASS11.88s/full264PASS19.94s/0warnings/skips, with ec78.
+[Pure author](storage-016-values-author.md), final286efa8/MD179f0f06, records all
+frozen B/I/exact12DDL/full89/F89890/SHA9f5b comparisons and priority diagnostics.
+Both authors complete; actual separate full source/allocation/config review active.
+Early [values review](storage-016-values-review.md) is NOT APPROVED; final source
+review must resolve actual findings, not carry a prospective approval.
 
-Actual NEW corrected-head SQL41640390883 FOR598 succeeded12:59:45–13:01:46Z:
-fresh110/0warnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/new3green5PASS0skip188ms/
-exact35compiled/oldstable/all11, raw42f3066c. Usualsynthetic02ad181 tree148090bd
-equals598 tree (APIverified), not literalcheckout claim. ONLYTHEN at SAME CLEAN598
-revisednative13:02:29.325–13:02:35.196Z/exit8:35slotsfail/265UNIQUEexactmarkers/
-70initcleanupPASS/0HOLD-ASSERT/setup/skip/blacklist. Trackedraw59a4d6d3/Lastb6892801
-retained; no validred replay. Initialaf310invalidattempt remains preserved.
-New completionmetadata/map/HTML are being finalized locally; latestHEAD CI and
-currentrules/threads/readiness/normalmerge remain required, no production yet.
+## Revised test gate and independent validation
 
-Preserved prerequisite approvals (do not repeat):
+Root authored genuine history request correction (two after0→1, unchanged frozen
+position2-only oracle338B6I), plus3 additive regressions. Separate approval1650658,
+test82980fdb/35slots268rows. Actual reached-red on unchanged buggy CLEAN68dc779,
+14:20:25.413–.514Z:3 processes EACHexit1/2initcleanupPASS1FAIL/0skip/missingmarker.
+Different attributionb83c500; read-only GDB proves narrow find returned normally,
+not mutated bytes. ONLYTHEN released staged validation + ancestry closure fixes.
+[Revision/review/raw](storage-016-baseline-revision.md),
+[actual review](storage-016-baseline-revision-review.md),
+[red output](storage-016-regression-red.txt). All old fixtures/assertions preserved.
 
-- Logical701c710f/c0ed4b6; physical83e96362/696d7f9. Step6 twelve statements/full89/
- F89890/SHA9f5b61d41dc644c417808d781cea73144a8d019ad95646373c30751e71596d0a,
- every old prefix exact. [Logical](storagetest-016-contract-review.md),
- [physical](storagetest-016-physical-review.md).
-- API originally421acf29/cfe443a8; current prose46c70297 adds ONLY18 category
- clarification lines, separately approved35b1092. Headerfe50fb10/CPP5b10c0e0 unchanged.
- [API](storagetest-016-api-review.md), [categories](storagetest-016-error-category-review.md).
- Own API-source SQL41623088230 at10258a11 passed BEFORE independent fixtures.
-- Frozen JSON63de09c5/helper7ca946f2/environmenta17312fe, approvede624614+d66f183.
- Own foundation SQL41631527683 ata5e5998 passed BEFORE test authoring.
- [Fixture review](storagetest-016-fixture-review.md), [CI](storagetest-016-fixture-ci.md).
-- Full test approvaladb0404+41aa858 pins complete25da01e and old81644120/fc167da2;
- remains valid for unchanged tests, with separately approved actual SQL revision
- above. [Full review](storagetest-016-review.md). Earlier genuine UPDATE-only trigger
- defect fixed with4 additive INSERT-trigger lines, all assertions preserved.
-- Shared Qt CMake**ea1e3cabc0de800d05ee8c8aa8b08f116c233cd4**, workflow
- **b9529c189b33399bd895ca7fdfcee8dd57c1330a** unchanged through setup correction.
- 35 enabled draft-red cases, global264=unchanged229+35; no WILL_FAIL/disabled/hiding.
- Workflow runs old stable suites and required new3 foundation, then discovery-only35.
+Root independently configured/built29steps0warnings/full264PASS19.73s at14:47Z:
+261Qtprocesses1058PASS/0FAIL/skip/blacklist. [Validation](storage-016-validation.md)
+pins exact code and raw hashes. Local Arch/Qt6.12/Boost1.92 is not official selected
+Ubuntu/GNU13.3/Boost1.83 CI. Root five concrete shared edits remove ONLY new35
+hold draft-red label, update descriptions/header obsolete comment, and append
+UNCONDITIONAL35 execution after required new3fixture diagnostics and exact compiled
+registration. Oldsteps/pins preserved; final actual config review still required.
 
-## Roles and preservation
+Actual full reviewer identified an additional explicit phase conflict in ec78:
+Captured first-token presence is a MATRIX requirement (API46c198–200/35b1092),
+but body_cause checks it BEFORE required attempt audit. Root now adds ONE focused
+public-method regression, `required-audit-before-captured-token-matrix` (35slots,
+268→269rows). Independent review then reached-red on unchanged ec78 required BEFORE
+any source correction; current268green retained, no old baseline replay.
 
-- Root owns shared state/HTML/maps/schema order/build/presets/workflow/integration.
- Local completion metadata/red evidence/map/HTML are being committed before final
- PR publication. Initial AND revised logs are retained; no further baseline replay.
-- `/root/bundle_validation`: feature/source correction author COMPLETE, clean
- `local-evidence/worktrees/storagetest016-feature-author`,
- `task/STORAGETEST-016-feature-author`, latest3aa286. Owns ONLY testCPP/authorMD.
- No feature body was run by author; native setup diagnostic uses old library only.
- Prior API tree/four config copies remain preserved.
-- `/root/bundle_reviewer`: correction743b87fe and final actual attribution8d3a9bc
- COMPLETE, no replay. Existing
- `local-evidence/worktrees/storagetest016-review`, `task/STORAGETEST-016-review`;
- six verification copies dirty (root/server CMake,presets,workflow,Qt CMake,API doc).
- All independent review commits preserved; no baseline replay by reviewer.
-- `/root/bundle_implementer`: fixture author COMPLETE2508658, clean
- `local-evidence/worktrees/storagetest016-fixtures`, `task/STORAGETEST-016-fixtures`.
+## Roles, preserved work and next action
 
-Last inventory116 registered worktrees/100 existing/16 absent, all preserved.
-Older dirty verification trees storage002-review3, storagetest017-review4,
-storage017-review5, storage017-validation6 remain untouched. No reset/prune/discard.
-Native root corrected build/discovery completed; inspect actual processes/agents
-on resume, never assume running. Use followup_task for completed agents.
+- Root owns shared state/HTML/maps/schema order/build/presets/workflow/integration
+  and new regression tests; independent native validator, no runtime authorship.
+- `/root/bundle_implementer` runtime author COMPLETE, clean
+  `local-evidence/worktrees/storage016-source`, `task/STORAGE-016-source`, ea53fb2.
+  Own runtimeCPP/privateAccess/factoredoldbundle/authorMD only.
+- `/root/bundle_validation` pure author COMPLETE, clean
+  `local-evidence/worktrees/storage016-values`, `task/STORAGE-016-values`,286efa8.
+  Own only hold_values.hpp/values-authorMD. Explicitly HOLD next correction for
+  reviewed actual focused red; do not treat it as independent validation role.
+- `/root/bundle_reviewer` actual FULL source/config review ACTIVE,
+  `local-evidence/worktrees/storage016-review`, `task/STORAGE-016-review`.
+  Own only review evidence; no source/config/rootmetadata edits.
+- Reserved root native validation tree `local-evidence/worktrees/storage016-validation`,
+  `task/STORAGE-016-validation`, old-library preparation only; actual root264 result
+  above supplies independent runtime validation. Do not replay unnecessarily.
 
-## Active STORAGE-016 implementation assignment
+Last inventory120 registered/104existing/16absent, all preserved. Old dirty
+verification trees/storage002-review/storagetest017-review/storage017-review/
+storage017-validation/baseline016-review/APIauthor copies remain untouched.
+Inspect actual processes/agents/branches on resume; never reset/prune/discard.
+No native command still running after completed root264; source reviewer resumed
+with followup_task, both authors complete. User debugger state untouched; actual
+read-only batch GDB used because IDE had no applicable Qt-test run configuration.
 
-Root `task/STORAGE-016-durable-holds` was created from refreshed017d BEFORE claim
-or edits. Implementation scope/acceptance/ownership is now recorded in state.json.
-[Draft PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) opened atb2b5934.
-No implementation candidate integrated yet; root still has six immediate stubs.
-
-New source tree `local-evidence/worktrees/storage016-source`, branch
-`task/STORAGE-016-source`, from currentmain017d plus rootclaim; implementer
-`/root/bundle_implementer` owns `server/src/sqlite_application_holds.cpp`, optional
-private hold/reader helperheaders, authorMD. Existing private bundle.cpp/bundle_values
-may be factored ONLY for strict same-session selected reference reuse with EXACT
-old behavior; report concrete paths early. No public API/contract/test/fixture/root
-config changes. Preserve normative701/83e/46c/headerfe50/test0cce/fixture63de+7ca+a173.
-
-New reviewer tree `local-evidence/worktrees/storage016-review`, branch
-`task/STORAGE-016-review`, owns only source-review evidence AFTER actual candidate.
-Prepared validator tree `local-evidence/worktrees/storage016-validation`, branch
-`task/STORAGE-016-validation`, is preserved for ROOT independent native validation
-after actual source; its original agent assignment is superseded. Runtimeauthor
-requested bounded help, so `/root/bundle_validation` is explicitly reassigned to
-new PURE-values writer tree `local-evidence/worktrees/storage016-values`, branch
-`task/STORAGE-016-values`, from017d+rootclaim. Own ONLY private
-`server/src/sqlite_application_hold_values.hpp` and values-authorMD. hold_detail
-pure options/shape/equality/B/I/exactmanifest only, no SQL/ticket/cleanup. Runtime
-author owns new private bundle_access.hpp factoring olddecoders; coordinate exact
-oldpureoptions namespace directly. Root + separate reviewer are independent native
-validators, neither production author. Preserve all previous branches/copies.
-All four tasktrees are created; actual followup calls started BOTHauthors plus
-independentreviewerread-onlyprep, all agents observedrunning. Root reservedvalidation
-configuredprofile20/built ONLY oldlibraries+existingholdstublib26steps0warnings;
-no newfeature/baseline/body replay. This is environmentprep, not sourceacceptance.
-Root alone owns shared progress/HTML/maps/schemaorder/build/
-presets/workflow and later promotion (draft-red removal + mandatory35 execution).
-
-## Next concrete actions
-
-1. Claim4622646/roleb2b5934/draftPR48/isolatedtrees/actualassignments are complete.
- Continue runtime and pure-header authors. Actual reviewer prep d59d197→7728512
- [mapped reuse/cautions](storage-016-review-prep.md), sent to both authors, no verdict.
-2. Postmain017d all10SUCCESS observed; do not repeat completed baseline/red tasks. Source
- author implements exact six functions/step6 + strict selected references, runs
- new35/full264 actual acceptance. Native runtime investigations use applicable
- debugger-first skill when control-flow/value evidence is needed. No baseline
- weakening; genuine test defects require separate written reason/review.
-3. Integrate actual source; separate full source/allocation-order/rollback/unknown
- review and independent native validation. Root promotes ordinary CI ONLY after
- actual green, preserving oldsteps/pins and mandatory new3diagnostic. Own promoted
- selectedQt job must execute35 unconditionally, plus latestall11/rules/threads/
- normal exact-head merge gates before implementation done/merge.
-4. Continue dependent service004 only from integrated requiredports and its OWN
- reviewed tests/red. No authority/policy/provider/platform capability inferred.
-
-No owner decision/access currently needed. All seven integrations/three FX, both
-renderers/locales/themes/platforms/packaging/security/recovery/live/release gates
-remain mandatory/incomplete. A component baseline is not the full product.
+Next: independent review of focused row → actual narrow red ec78 → release ONLY
+bounded token-phase correction → actual separate final source/config review and
+root affected checks. Publish complete implementation candidate to draftPR48 and
+observe own promoted selectedQt (mandatory3fixture green +UNCONDITIONAL35), all11
+latest, current rules/discussions/readiness, normal exact-head merge. Mark done only
+when applicable acceptance/review/CI gates pass, record publication separately.
+Then refresh main and continue service004 from integrated016+017 and its OWN reviewed
+contract/tests/red. No owner decision/access needed. Full seven integrations/three
+FX/both renderers/locales/themes/platforms/packaging/security/recovery/live/release
+scope remains mandatory and incomplete. PR completion is not product completion.

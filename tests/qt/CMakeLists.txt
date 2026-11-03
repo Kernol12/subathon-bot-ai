@@ -26,7 +26,7 @@ if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
     subathon_target_options(server_sqlite_application_hold_acceptance)
-    # Intentional missing-hold baseline stays separate from required old-primitive diagnostics.
+    # Reviewed hold cases retain separate processes and the independent fixture foundation.
     foreach(case IN ITEMS
         manifestPreservesFivePrefixesAndExactFrozenStepSix
         explicitMigrationPreservesEachSupportedPrefix
@@ -66,7 +66,7 @@ if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
     )
         add_test(NAME sqlite-hold.${case} COMMAND server_sqlite_application_hold_acceptance ${case})
         set_tests_properties(sqlite-hold.${case} PROPERTIES
-            LABELS "sqlite-hold;acceptance;qt;server;draft-red" TIMEOUT 30)
+            LABELS "sqlite-hold;acceptance;qt;server" TIMEOUT 30)
     endforeach()
 endif()
 

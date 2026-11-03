@@ -1610,7 +1610,7 @@ class SqliteApplicationHoldTests final : public QObject {
     void pureInputShapeCountsMatrixExactAndOrderingPreserveCallerStaging_data() {
         QTest::addColumn<int>("which");
         QTest::addColumn<int>("error");
-        const std::array<std::pair<const char *, IE>, 36> rows{
+        const std::array<std::pair<const char *, IE>, 37> rows{
             {{"empty-hold-key", IE::invalid_key},
              {"zero-receipt-subject", IE::invalid_subject},
              {"zero-source-receipt", IE::invalid_subject},
@@ -1646,7 +1646,8 @@ class SqliteApplicationHoldTests final : public QObject {
              {"keys-before-counts", IE::invalid_key},
              {"input-items-before-owned-bytes", IE::collection_limit},
              {"required-audit-before-Exact", IE::invalid_detection},
-             {"replacement-audit-before-set-order", IE::invalid_detection}}};
+             {"replacement-audit-before-set-order", IE::invalid_detection},
+             {"required-audit-before-captured-token-matrix", IE::invalid_detection}}};
         for (int i = 0; i < int(rows.size()); ++i)
             QTest::newRow(rows[size_t(i)].first) << i << int(rows[size_t(i)].second);
     }
@@ -1766,6 +1767,10 @@ class SqliteApplicationHoldTests final : public QObject {
                 b = d.resolution("rReplace").request;
                 std::swap(b.expected_active[0], b.expected_active[1]);
                 b.entries[0].replacement->request.audit.document = {};
+            }
+            if (which == 36) {
+                x.request.audit.document = {};
+                x.cause.first_observation.persisted_state_token.reset();
             }
             committed(read(db, [&](auto s) {
                 marker(s);

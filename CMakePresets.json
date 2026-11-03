@@ -172,7 +172,7 @@
     },
     {
       "name": "sqlite-hold-debug",
-      "displayName": "20 \u00b7 Durable application-hold SQLite baseline",
+      "displayName": "20 \u00b7 Durable application-hold SQLite acceptance",
       "inherits": "sqlite-original-claim-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_HOLD_TESTS": "ON"

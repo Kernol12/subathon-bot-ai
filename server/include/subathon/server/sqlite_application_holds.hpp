@@ -306,7 +306,7 @@ struct ApplicationHoldMutationResult {
     std::optional<ApplicationHoldMutationOutcome> outcome;
 };
 
-// Future pure exact prefix1–5 plus approved step6/full89 factory; currently immediate stub.
+// Pure exact prefix1–5 plus approved step6/full89 factory.
 [[nodiscard]] MigrationManifest application_hold_repository_manifest();
 
 // Borrowed, inert facade. No construction-thread authority, ownership transfer,

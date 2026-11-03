@@ -77,3 +77,60 @@ Actual reviewer direct-native a18 diagnostic already observed incorrect errors11
 of these newly authored public-method regressions. Actual review of this revision
 and reached-red on unchanged buggy implementation are still pending. Both affected
 production authors are explicitly HOLDING corrections until that gate is recorded.
+
+
+## Actual reviewed regression red before source correction
+
+Actual separate test revision approval1650658 pins test82980fdb/revision notef79a3326.
+Root integrated UNCHANGED buggy runtime0fe (97c83b74) and helper1cf (a18a0bd7),
+then compiled five steps/ZEROwarnings with35 discovered slots. At CLEAN root
+68dc779,2026-11-03T14:20:25.413–14:20:25.514Z, ONLY the three new data rows
+were run as `executable function:data-tag`. EACH actual exit1,2 init/cleanup
+PASS/1 scenarioFAIL/0skip/blacklist;0HOLD-MISSING. No original full baseline replay.
+[Exact combined per-process output](storage-016-regression-red.txt) is retained.
+
+The priority failures are exact input-category assertions, agreeing with the
+independent native helper observations of11/9 instead of8. The narrow lineage
+failure reports the refusal helper's combined assertion. Root read-only GDB at
+actual test319 proves its body returned normally and `caught=false` before the
+required-storage-failure throw. That distinguishes absent expected exception from
+an unproven durable-byte mutation; do NOT call the generic assertion text evidence
+that bytes changed. The stack identifies the selected corruption regression.
+GDB log `local-evidence/storage016-lineage-regression-gdb.txt` SHA256
+9dc953c9cbf4d1412c990a66757ac89cbc7b80a6a429984668e2a0206b5bea04.
+IDE exposes only scaffold run configurations and no Qt-test runPoint, so this was
+read-only batch GDB on the synthetic binary; no user breakpoint/session changed.
+
+Actual isolated output SHA256:
+
+- audit/Exact53c581b46ef186892d1e2d8cc37b3916e71fb11a443302f7d4c17c14faacd43d;
+- replacement/order3a43ab29304e374697a89b505498b678f8602564d6464194da0c1c19529a4927;
+- narrow ancestry030ee26e13e5e960241e74db7a91cfa9ae2b8b2fe781e6a7d66cb8ce40aadd69.
+
+The independently reviewed additive tests have now reached genuine behavior red.
+Root releases the two bounded source fixes: staged pure validation and complete
+scalar ancestor/reciprocal metadata closure. Preserve tests82980fdb and all old
+oracles; source/code review and passing35/full264 acceptance remain future gates.
+Corrected history inputs will be verified against already-correct semantics; no
+artificial missing-feature run or passing product claim is made here.
+
+## Follow-up captured-token phase regression
+
+Final helper ec78b697/1b8af36 added conditional presence checks to the required
+body pass. Actual independent source review found that first CapturedRevision
+state-token absence is checked there BEFORE the required request.audit document.
+API46c lines198–200 and actual category review35b1092 explicitly retain known
+state-token presence as a cause/plan MATRIX requirement. Required envelope shape
+precedes that matrix stage. This is an existing ordered pair, not an invented
+ordering between unrelated failures within one stage.
+
+One additive row, `required-audit-before-captured-token-matrix`, starts from the
+valid frozen dOverflow input, resets ONLY its first-observation state token and
+makes its attempt audit null. All keys/counts stay valid. The public-method oracle
+is invalid_detection8, and the existing test proves earlier caller staging can
+still commit. Current ec78 rejects invalid_plan_evidence before that envelope.
+No old row/oracle/assertion or fixture changes;35 slots/268→269 scenarios.
+
+Independent review and an actual reached-red on unchanged ec78 are required
+before releasing this next helper correction. Full264 green on the previous
+268-row candidate remains valid evidence for that candidate, not this new row.
