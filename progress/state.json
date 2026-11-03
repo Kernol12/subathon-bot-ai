@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T10:38:47Z",
+  "updated_at": "2026-11-03T10:53:50Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5341,11 +5341,13 @@
         "ActualphysicalDOCUMENT8b363ed→root9d72242, blob972e67a6ab37de927e41582d197783581cf0393c464lines, authorMD50b7a63→3569a89/f905a1bc112lines. Twelve literalstep6 statements/10newtables+11NULLautoindexes+2queryindexes=23delta/full89; F89806/SHAe09430872e5102cddc84270110ac95886cb54277960e45c0613fa71168652fcd, EACHprefix1–5 literalpayloadhex/hash/projections7/13/20/30/66 unchanged. ActualscratchstdlibSQLite3.54proposaldiagnostic matchesraw89/FK0/integrityok, no Qt/feature/native/API calls orproductionmanifest/schemaartifact. Pinsfiniteevent/historicalclosure, sourceactualeventvsoriginalsupport/currentdimensions, sameglobalRawMutationRef, headlast/completeparentcounts, no recursiveHoldView expansion/cachedactivefilter. IndependentactualFULLphysicalDOCUMENTreviewACTIVE on972+f905, noverdict; no API/stub/fixture/test/red/implementation phaseadvance. EarlierdraftF89396 superseded—notnewclaim.",
         "ActualdifferentphysicalDOCUMENTapproval696d7f9→root568b3cf accepts finalab0ab1e→42b9f70 DOC83e96362dd8dd9af0e6ab2ac0fea91269774571c495lines/author082659a9. All3actualfindings fixed: Statement1 SQLNULLloophole(+42SQLbytesappears2xframing), explicitactualcounts/domain/ordinal-vsdeclarationbeforefullallocation, H11kind0processedBesidealiasblockedcompositionmatrix. Everyprefix1–5 payloadhex+SHA independentexact; final12/full89/F89890/SHA9f5b61d41dc644c417808d781cea73144a8d019ad95646373c30751e71596d0a. IndependentrawscratchSQLite3.54 invalidNULLlinkCHECKreject andcreate/append/replacement/resolution/immediateFK/headlastviability/FK0/integrityPASS; proposaldiagnosticONLY, notQt/feature/fixture/red. NextexplicitminimalAPIauthorbundle_validation freshmain+approvedroot branch ownsAPIcompanion/header/CPPIMMEDIATENAMEDSTUB+authorMDonly; no SQL/validation/query/mutation/manifestimplementation. Rootminimalbuild/preset20/CI before actualAPI/configreview+ownsourceold228selectedCI; thenindependentfixtures/tests/review/green/compiler/discovery/FIRSTholdred. Wholebaseline remainsinprogress/STORAGE16planned.",
         "RootminimalconfigPREPARED UNCOMMITTED only: newHOLDflag→ORIGINAL→BUNDLE, newstaticlibrarysubathon_sqlite_application_holds linksoldbundle+QtCore, preset20sqlite-hold-debug inherits19/matchingbuildtest, workflowONLYpreset/builddir-token substitutions(oldsteps/pins/counts/checknameunchanged). cmakelistpresets20/static396/122/diffPASS. No configure/build20 attempted pendingactualnewAPIheader/CPP. AuthoractivefreshAPItreee6, reviewerread-onlyprepcomplete/awaitactualsource. Composedreferenceprofile+hold-specificownedcounts is APIproposalnotapprovedyet. Allold228/API/DDLtestsnotreplayed; no newholdbody/catalogfunction invoked. Withholdpreparedconfigpublication untilcompleteAPIcandidate compiles/reviewed/ownselectedoldstableCI.",
-        "ActualminimalAPIac0610f→rootb6b6d11 APIDOC421acf29/headerfe50fb10/CPP5b10c0e0 (324/331/30lines), authorMD77cddef→0f0e8f1/5217ec35. Sixnewfunctions immediateunconditionalSqliteApplicationHoldNotImplemented; constructoronlystoresrevocableticket+limits, noSQL/DDL/catalogdata/validation/equalityalgorithm/sourceLookup/cleanup/globalinitializer. Finiteview/qualifieddetection/history/outcomeownership and exactbytes/items/normalpresence/physicalgroups declared; referencesBundleLimitsforinternaloldbodies separateholdreturnedquota. Rootactualprofile20configure/fresh102stepbuildZEROwarnings/exact228OLD registrations (no holdfeaturecase/body), clangformatcheckPASS. Actualroot4configs5d76/b55b/053b/88f8 freeze nowbeforeold228run; authorownold228PASS8.00s/225Qt715PASS0skip notsubstitutedforroot/reviewer/officialCI. DifferentactualAPI/config/fullformulareviewACTIVE, noverdict; no newholdentrypoint/catalogfactory invoked, fixtures stillunassignedpendingreview+OWNAPIselectedstableCI."
+        "ActualminimalAPIac0610f→rootb6b6d11 APIDOC421acf29/headerfe50fb10/CPP5b10c0e0 (324/331/30lines), authorMD77cddef→0f0e8f1/5217ec35. Sixnewfunctions immediateunconditionalSqliteApplicationHoldNotImplemented; constructoronlystoresrevocableticket+limits, noSQL/DDL/catalogdata/validation/equalityalgorithm/sourceLookup/cleanup/globalinitializer. Finiteview/qualifieddetection/history/outcomeownership and exactbytes/items/normalpresence/physicalgroups declared; referencesBundleLimitsforinternaloldbodies separateholdreturnedquota. Rootactualprofile20configure/fresh102stepbuildZEROwarnings/exact228OLD registrations (no holdfeaturecase/body), clangformatcheckPASS. Actualroot4configs5d76/b55b/053b/88f8 freeze nowbeforeold228run; authorownold228PASS8.00s/225Qt715PASS0skip notsubstitutedforroot/reviewer/officialCI. DifferentactualAPI/config/fullformulareviewACTIVE, noverdict; no newholdentrypoint/catalogfactory invoked, fixtures stillunassignedpendingreview+OWNAPIselectedstableCI.",
+        "At CLEANfrozen8dbde1e92a0b7587dbcd705de263d8f0d091f1c7 rootctest--presetsqlite-hold-debug--verbose old228PASS7.90s/actualexit0, all225Qt summaries715PASS0fail0skip0blacklist. Newholdentrypoints/factory/marker neverinvoked, no holdfeaturecasesregistered. RawSHA09be243963578afbbfcbca7c7a755eda522d3d6dd80a60f924bc40b8128a944a; LastTest16e765a8395c9e2cfabdd6b55a84ccc377c5a457afb7d8b6c3a61462f3c88af4 preserved. ActualdifferentAPI/configreview completeaudit/no blocker reported butwrittenapprovalpending; do notassignindependentfixturebeforeactualapproval+OWNAPIselectedCI.",
+        "ActualdifferentminimalAPI/configapprovalcfe443a8→root8c665f2 accepts421acf29/fe50fb10/5b10c0e0/author5217 plusroot5d76/serverb55b/preset053b/WF88f8 at8db. ALLfiniteownedB/I formulas/normalpresence/historicalvsCurrent/3modegroups/inputpriority/optionsrefs andsource6immediatestubs independentlyreviewed; richliteralB/I math34eaPASS, no UUTcalls. Reviewerfresh102/ZEROwarnings/old228PASS7.88/225Qt715PASS0skip/exactold228/nocasehold. Reversingworkflowprofiletokenrestoresc5dBYTEEXACT, oldpresetobjectsunchanged; currentnewAPIconstructorinert/no validators/SQL/catalogdata. RootpublishcompleteAPIcandidateOWNselectedofficialoldstable CI now; fixtureauthorUNASSIGNED untilactualsuccess. No holdfeaturebody/marker/factory/red invoked ornewcapabilityverified."
       ],
       "verification": {
         "concrete_contract": "passed",
-        "api_review": "not_run",
+        "api_review": "passed",
         "fixture_review": "not_run",
         "test_review": "not_run",
         "baseline": "not_run",
@@ -5359,7 +5361,7 @@
         "physical_review": "passed",
         "minimal_api": "passed",
         "api_native_build": "passed",
-        "api_existing_regressions": "not_run",
+        "api_existing_regressions": "passed",
         "api_official_qt": "not_run"
       },
       "evidence": [
@@ -5373,7 +5375,8 @@
         "docs/evidence/storagetest-016-physical-review.md",
         "docs/contracts/sqlite-application-holds-api-v1.md",
         "docs/evidence/storagetest-016-api-author.md",
-        "docs/evidence/storagetest-016-api-ci.md"
+        "docs/evidence/storagetest-016-api-ci.md",
+        "docs/evidence/storagetest-016-api-review.md"
       ],
       "review": {
         "author": "/root/bundle_validation (concrete document)",

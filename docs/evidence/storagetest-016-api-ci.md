@@ -1,6 +1,11 @@
 # STORAGETEST-016 — minimal API compilation and stable-suite gate
 
-Current phase: actual minimal interface/stubs only. Concrete701c/[reviewc0](storagetest-016-contract-review.md)
+Current phase: minimal interface/stubs authored and independently approved. Root
+and reviewer old228 stability passed; own API-source selected official CI is the
+next gate. No hold method/factory/marker has been invoked. Historical compilation
+checkpoints below retain their original evidence; final review outcome follows.
+
+Actual minimal interface/stubs only. Concrete701c/[reviewc0](storagetest-016-contract-review.md)
 and physical83e/[review696](storagetest-016-physical-review.md) precede this phase.
 [API author](storagetest-016-api-author.md)ac0610f supplies APIDOC421acf29,
 headerfe50fb10 and CPP5b10c0e0: finite owned values, six IMMEDIATE UNCONDITIONAL
@@ -46,3 +51,40 @@ then precedes feature tests/full separate review/build/discovery/same-approved-h
 selected environment/FIRST intended hold-stub red. Production STORAGE016 waits
 its completed baseline and later separate source review/acceptance/promoted CI.
 Service004 and all policy/producer/provider/platform/full release gates remain.
+
+
+## Actual root existing-suite run at clean minimal candidate
+
+At CLEAN **8dbde1e92a0b7587dbcd705de263d8f0d091f1c7**, root ran
+`ctest --preset sqlite-hold-debug --verbose`: old228/228PASS7.90s, actualexit0.
+All225 Qt summaries total715PASS/0FAIL0SKIP0blacklisted. No new hold test is
+registered; no new entrypoint/factory/marker has been invoked. This protects ONLY
+existing behavior while compiling the minimal interface; it is not hold acceptance.
+Raw local-evidence/storagetest016-api-old228.txt SHA256
+09be243963578afbbfcbca7c7a755eda522d3d6dd80a60f924bc40b8128a944a;
+original LastTest retained separately SHA256
+16e765a8395c9e2cfabdd6b55a84ccc377c5a457afb7d8b6c3a61462f3c88af4.
+Actual independent API/config written approval and own selected API-source CI are
+still pending gates before independent foundation/fixtures. Earlier future-tense
+root-run paragraphs describe their historical checkpoint, now superseded here.
+
+
+## Actual independent API/config approval
+
+[Approvalcfe443a8](storagetest-016-api-review.md), imported8c665f2, accepts
+APIDOC421/headerfe50/CPP5b10/author5217/rootCMake5d76/serverb55b/presets053b/
+workflow88f8 at clean8db. Full finite ownership, normal result presence, historical
+versus current shapes, composed/dormant option rules, pure input priority, physical
+mappings and EVERY nested/repeated owned byte/item formula were examined. Separate
+rich literal sums use no producer/helper under test. Reviewer fresh102 zero-warning
+build, old228PASS7.88s/225Qt715PASS0fail0skip and exact old228 discovery.
+
+Workflow token reversal reproduces oldc5d BYTE-EXACT; every old preset object,
+source/helper/fixture/assertion/schema is unchanged. SIX new feature bodies remain
+IMMEDIATE UNCONDITIONAL marker throws and constructor is inert. No new API/factory
+body was invoked by root, author or reviewer.
+
+Root now publishes this complete approved source/config for its OWN selected
+official compilation/oldstable CI. Only its ACTUAL success permits independent
+new frozen foundation authoring; earlier doc/017/initialclaim CI is not that proof.
+No feature tests, held behavior, intended red or production capability yet.

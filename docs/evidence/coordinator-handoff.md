@@ -149,3 +149,21 @@ ActualAPI/fullformula/configreviewACTIVE, ownMDawaited; authorCOMPLETE,
 4sharedverificationcopiespreserveduncommittedinAPItree. Root nowfreezes4actual
 configs5d76/b55b/053b/88f8 plusmetadata beforeownold228run+publicationCI. No
 fixtures/tests/red yet. [API compiler evidence](storagetest-016-api-ci.md).
+
+Actual rootold228 at CLEAN8dbde1e PASS7.90s/exit0/225Qt715PASS0fail0skip;
+raw09be2439/LastTest16e765 preserved. No newholdbody/factory/marker invocation.
+API reviewer actualfullaudit/nativeold228PASS7.88/no blockers reported; WRITTEN
+approval notyetimported, ownAPIselectedofficialCI notyetobserved, fixturesunassigned.
+
+## Latest actual API gate before independent fixtures
+
+Actual [API/configapprovalcfe443a8](storagetest-016-api-review.md) imported8c665f2
+accepts exact421/fe50/5b10/5217/5d76/b55b/053b/88f8. Ownreviewerfresh102/0warn/
+old228PASS7.88/225Qt715PASS0skip/exactold228; rootold228PASS7.90 at8db. All
+B/I/formulas/richliteral math verified, SIXfunctions stillunconditional namedstubs.
+No holdentrypoint/factory/marker call. RootpublishingcompleteAPIcandidate for OWN
+selectedofficialoldstableCI now; fixtureauthor MUSTWAIT actualsuccess. All earlier
+awaitingreview paragraphs historical, APIapproval COMPLETE. Fourrootconfigs now
+COMMITTED8db, rootclean beforemetadata. APIauthorCOMPLETE77cddef with4shared
+verificationcopiespreserved, reviewerCOMPLETEcfe with4copiespreserved. Independent
+fixtureauthor NOTassigned yet. No holdschemaimplementation/fixture/test/red.
