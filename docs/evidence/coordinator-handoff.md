@@ -1,104 +1,49 @@
-# Coordinator checkpoint — final PR42 gates, then STOP
+# Coordinator resumed — STORAGE-002 implementation
 
-Latest owner: **“Cleanly finish the open PRs and then stop.”** Finish only existing
-[PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42), merge after every gate,
-reconcile actual outcomes, then STOP. No next task or STORAGE-002 implementation.
-No owner decision/access needed. Full product remains incomplete.
+Owner explicitly resumed the standing coordination loop on 2026-11-03; this
+supersedes the previous stop instruction. Objective: implement the bounded
+application-bundle SQLite store, then continue dependency-ready product slices.
 
-## Current outcome and remaining actions
+## Reconciled evidence
 
-STORAGETEST-002 is DONE as **test_baseline only**, authored/reviewed/compiled and
-observed intended red. Production STORAGE-002 remains planned; source7functions
-are immediate named stubs. DB-01 remains partial. Root branch is
-`task/STORAGETEST-002-application-bundle`. Main local/remote remains100171b47709ab6d4323fa1ca0d627cad6c24719.
-Only PR42 is open/DRAFT. Published approved source head90faea02ce0bdbff204d5eda4b9ea41b2e74d5c8
-has all11 checks SUCCESS. Completion metadata/raw evidence has final separate approvala32ac35a (roota8d6654).
-Latest-publication CI and actual GitHub merge gates remain before normal merge.
+Fetched actual main `995e0fa683e58115094d8a4212c336191cff7241`. GitHub confirms
+[PR42](https://github.com/Kernol12/subathon-bot-ai/pull/42) MERGED at exact
+`2ccd767a6874151f7760b619a56f48033d57b9d0`, all11 checks SUCCESS. No open PR.
+Effective rules26170263 require PR/zero GitHub approvals/resolved threads/no force
+or deletion; independent repository review gates still apply. Initial sandbox
+network/auth report was not an access blocker: elevated authorized fetch/API work.
+All82 existing worktrees were clean;16 absent/prunable refs preserved. No prior
+subagents exist in this session; no native build/test/watch was found. The prior
+stop metadata remains preserved on checkpoint/PR42-stopped (`8e52bfc`).
 
-[Handoff](storagetest-002-handoff.md), [actual reviews](storagetest-002-review.md),
-[CI/build/evidence](storagetest-002-ci.md), [test author](storagetest-002-test-author.md),
-[fixture author](storagetest-002-fixture-author.md), [API author](storagetest-002-api-author.md),
-[original first red](storagetest-002-red-ctest.txt).
+## Active task and ownership
 
-## Exact accepted source and reviews
+- STORAGE-002: root coordinator on task/STORAGE-002-application-bundle, root tree.
+- Implementation explicitly reassigned to a fresh bounded subagent on
+  task/STORAGE-002-implementation, local-evidence/worktrees/storage002-implementation.
+  Owns bundle source and own author evidence only; not old ports/tests/schema/pins.
+- Different code review assigned on task/STORAGE-002-code-review,
+  local-evidence/worktrees/storage002-review. Preparation only until actual source
+  revision exists; no prospective approval.
+- Root owns progress/HTML/map/build/presets/workflow/schema order and integration.
 
-| Artifact | Git blob |
-| --- | --- |
-| Concrete logical contract |80f8ee65869a27c6b1b7b6d3819a0065777958b7 |
-| Physical contract |f13fca6d11e57410a31a7d307a8b12eaa21a68f9 |
-| Header |8e24f0624673bf88f86405651f9aabee1026a226 |
-| Seven-stub source |83e9a0a745bad413066ad75cf9eb82fd210b2186 |
-| Independent JSON |e8b6c77ef103c0d1f9803ea7eda73aebb0b76d5d |
-| Old-writer-only helper |b0a5c72f152f193370d6c39af526fba61d332fdb |
-| Feature CPP |4b60fcaa06dec8136f0b81e7ac6d01374df94a48 |
-| Test author note |caac20224fbd364149d907e175a3ca21830d8a61 |
-| Qt CMake |91035af6f5ab00916770c1ba508db01997354ffe |
-| SQL workflow |453f1a2df00f11442330f2649d9c4ded41d7841e |
+Scope/acceptance: concrete revision1 logical80f8/physicalf13/API8e24; unchanged
+reviewed32 bundle cases/full206, actual known rollback and truthful unknown,
+selected source/history/current-state/reversal closure. No semantic application,
+provider, delivery or recovery capability inferred. Full release remains partial.
 
-Actual full TEST/harness review917092155253912b6dad18d281fd5fddd852872d imported306f134,
-reviewMD782c73237577499f381001aef12433e2a8ef5b3b, approves exact4b60/caac/91035/453f
-at clean60a. Six preliminary+four full findings resolved in actual source. Root final
-3-step6.99s and reviewer fresh targeted28-step builds0warnings;32compiled/32enabled/
-global206, old174 definitions exact. Independently derived838/112/20-9-10 weights.
-Prior document4d/APIef/fixture5cf/category42f approvals preserve exact valid subsets.
-No producer/API/physical/fixture or baseline assertion changes after first red.
+## Preserved gates and next action
 
-## Actual official gate and original FIRST32 red
+[Baseline handoff](storagetest-002-handoff.md), [review](storagetest-002-review.md),
+[CI/red evidence](storagetest-002-ci.md), [raw first red](storagetest-002-red-ctest.txt).
+Full review9170921/final attributiona32ac35; feature CPP4b60fcaa, JSONe8b6c77e,
+helperb0a5c72f, header8e24f062, physicalf13fca6d preserved. Original first-red
+90fa/SHA2561e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f
+is complete: do not repeat baseline preparation. Production may now implement.
 
-Required selected official [41542900598](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41542900598)
-SUCCESS at SAME complete approved CLEAN90fa, UTC23:07:25–23:08:45 Nov2. Actual fresh92
-build0warnings/GNU13.3/pinnedBoost1.83macro108300/checkedQt6.12/SQLite3.53.4/old164+
-oldgreens/Qtprobe/NEWfive guard+7PASS0FAIL0SKIP639ms/exact32guard/all11SUCCESS.
-Official raw log local-evidence/storagetest002-feature-official-ci.txt SHA256
-b1bfe24345e344e3845be7c5461e7d80a2c8f397b93f0cfad896b0e96f80facc.
-
-ONLY THEN FIRST real `ctest --preset sqlite-bundle-debug -L '^sqlite-bundle$'` at
-SAME CLEAN90fa/tree1ed459e3c61f059feed658fc3417db4db185c99e, UTC start
-2026-11-02T23:10:27.403781+00:00/end23:10:28.125807+00:00; exit8/CTest0.71s/wall0.722037.
-All32 fail EXACT named NotImplemented message; all32init+32cleanup PASS,0skip/
-blacklist/warnings/crash/setup failure. Raw committed copy SHA256
-1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f. Original LastTest/
-meta/raw preserved under local-evidence. DO NOT repeat first red or original older
-baselines. Initial AutoMoc/fixture-trigger setup failures were never called red.
-
-## Roles and preservation
-
-Actual root reinspection: all98 registered=82 existing+16 absent/prunable refs
-preserved, all existing worktrees clean; no prune/reset/discard.
-- plan_fixture_author COMPLETE, clean0a655f93, storage002-feature-author branch/tree;
-  earlier fixture5b preserved. No further source edits assigned.
-- contribution_reviewer COMPLETE full test approval91709215 and final attribution
-  approvala32ac35a; clean storage002-final-review branch/tree, original full review
- 917 and earlier5cf/42f trees preserved. No active reviewer or body rerun.
-- contribution_implementer COMPLETE clean1662219 in storage002-contract-author;
-  no production assignment. Old debt/Qt names do not establish running agents.
-Root owns shared metadata/build/CI/schema order/pins and integration. No root native
-watch is running. Inspect actual processes/worktrees/agent state on interruption.
-
-## Next concrete actions and stopping point
-
-1. Actual final completion/attribution approvala32ac35a imported a8d6654 accepts1ff
-   metadata/raw and exact chronology/hash/status. No body/native check rerun.
-   Source4b60/harness91035/453f and all earlier valid approvals are unchanged.
-2. Publish final reviewed metadata; observe all applicable latest-head CI, current
-   discussions/rules/required GitHub approvals/mergeability. Normal exact-head merge
-   only; no bypass. Rules26170263 last observed GHapprovals0/no required-status rule,
-   written all11 gates still mandatory; recheck actual before merge.
-3. Refresh main/reconcile actual merge and postmerge checks, preserve support work,
-   stop task agents, STOP. Do not select dependency-ready STORAGE-002.
-
-All seven integrations/three FX, full authority/application/state/jobs/delivery/wire/
-refund allocation/recovery, renderers/UI/locales/themes/platforms/packaging/security/
-backup/update/live/OBS remain required/incomplete. Synthetic disposable work only;
-no credentials/supporter/chat/payment/deployment side effects.
-
-## Final publication handoff
-
-Actual final reviewa32ac35a1395de9fae455512bab24b6d3e1c94bb imported a8d6654,
-reviewMD6be0d3d76adc4aaf77c05916d6a0a468aebb8a14, confirms exact1ff scope and original
-red. Root reinspection98/82/16 finds ALL existing trees clean; prior production
-implementations/old plan baseline are byte-identical to main. No new task started.
-Only latest FINAL publication checks/current rules/discussions/normal exact-head
-merge and postmerge reconciliation remain. Publish this final metadata once;
-observe latest11, ready/merge normally, refresh main/postmain checks, write actual
-stop checkpoint and STOP. Source and review agents are COMPLETE, not running.
+No new source/acceptance/CI/code-review pass is claimed yet. Next: author source,
+run relevant local checks, obtain actual different review, promote32 to ordinary
+unconditional CI, publish focused draft PR and observe latest-head checks. Recheck
+all applicable gates before merge. No owner decision/access currently needed.
+All seven integrations/threeFX and remaining UI/platform/operational release gates
+remain mandatory; synthetic disposable data only.
