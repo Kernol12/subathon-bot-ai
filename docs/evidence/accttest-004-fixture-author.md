@@ -1,7 +1,8 @@
 # ACCTTEST-004 — independent service fixture author
 
-Actual fixture candidate **3cc76666f6535ad23a04923727e266b581b43b9a**, with the
-policy-hold additions recorded below, following AS190c1a675b9eeee1f08e51a5f81ff43d40bebac6f6,
+Actual fixture candidate **d585e69798c55e12490daf1532a06dc112a44e10**, with the
+additive MIN/SAH2 evidence recorded below, following policy-hold3cc76666f6535ad23a04923727e266b581b43b9a,
+AS190c1a675b9eeee1f08e51a5f81ff43d40bebac6f6,
 complete81fbfe56c8b28da8f0122e8afd8c1e605a7ec8d6 and
 early two-file checkpointaacc467201e1d397562327c3d40ee85b9fa6620f. Author
 bundle_validation,2026-11-03. This is synthetic foundation DATA and an OLD-storage
@@ -12,15 +13,15 @@ after actual minimal API review/own selected SQL41673443963. That release preced
 these edits. Only the following four paths are authored:
 
 - [Literal vectors](../../tests/fixtures/application_service_vectors.json), blob
-  7611f15d77bd85d02ea01c1b67983be267768f51.
+  6598ad48b12c4d4871a114be404e884cb7deffb1.
 - [DATA/parser/scripted-port helper](../../tests/qt/support/application_service_fixture.hpp),
   blob1909eaacfdb9c84fdebe1df394e8f31acf6777d7.
 - [Old-only environment](../../tests/qt/application_service_environment.cpp), blob
-  1f3131f23c75606fca586293a5f2749770ac7aef.
+  26ed3153d0fe31effcc194b118db1bd46eeea811.
 - This author evidence. Root owns all shared build/configuration/workflow/state files.
 
 Approved clarificationaba9657 was imported unchanged as prerequisite3eb4983,
-separate from owned fixture commits. Exact accepted contract is
+separate from owned fixture commits. The prior SAH1 fixture authority is
 862c419395f4e9daf34f8ae8790a06abbec6f410; actual author note
 78f36dd7a3f0d0ad70cefb250f7af2a6b45c791c. Root explicitly released exact goldens
 only after separate full2cad856 and bounded84bd39d reviews. Public header
@@ -303,3 +304,118 @@ service/view/codec/stub/marker call or feature-test body was linked or invoked.
 Different actual review and OWN selected foundation green MUST precede use of
 these new goldens by the feature author. Earlier evidence and approval gates are
 preserved; this author check does not grant that approval or establish service red.
+
+## Independent additive MIN/SAH2 fixture after actual document approval
+
+Root created NEW clean `task/ACCTTEST-004-min-policy-fixture` at623f47d in a fresh
+worktree and explicitly released this authorship before edits. The earlier fixture
+and bounded test-review trees remain preserved. Authority for ONLY the new case is
+actual accepted contractbbd6cd834b8a959ccff16d63a638e0b77d9c6e4c and clarification
+noted1324f6ff45177d358e464b4007a1e293a2d8f1f, after separate actual review
+bb20→9efb586. Existing33 case objects and their original862c authority/pins remain
+unchanged. No test, header, service source, schema or shared configuration is edited.
+
+ONE new case `min_policy_overflow` has fresh operation svc/min_policy_overflow and
+hold/detection/version hMin/dMin/vMin. Its receipt subject is actual non-support8,
+without a CID, selected planPC/revision1, retained heada/Main0/debt0. Capture has two
+individually representable negative millisecond requests: ordinal1 exact/finalMIN,
+then ordinal2 exact/final−1. Explicit full bound policies are ordinal1 CarryTimeDebt1,
+ordinal2 StopAtZero0. The second raw capture INSERT is literal and the OLD selected
+plan reader proves both positions/full child closure; no request count is fabricated.
+Earlier source/capture retention commits separately as before.
+
+Independent integer mathematics: demand2^63 at Main0 with Carry exceeds signed64
+debtMAX2^63−1. Whole-input failure is at ordinal1, with exact attempted debt2^63.
+The second occurrence is unprocessed but its known policy MUST remain retained.
+FailureEvidence and its duplicated leaf copy captured target `main`; explicit suffix
+failed_balance is debt1. Neither target nor policy is inferred from the number/prose.
+There is no successful bundle, prefix effect/job/claim/result, fresh state token or
+contribution patch. Hold issuer DATA contains only hMin/dMin/vMin, each with known
+failing ordinal1, never success-state refs.
+
+A one-entry NEW draft had been authored uncommitted when root relayed the full
+reviewer's meaningful two-entry refinement. Before changing it, status was reported;
+the draft was preserved at `/tmp/acct004-min-policy-one-entry-draft.json`. No commit,
+review or native execution used that draft. The only frozen candidate is the refined
+two-entry case. No approved old value was revised or tuned to obtain native green.
+Structural JSON subset comparison against623f47d proves every prior33 case object,
+EVERY old oracle, source32/catalog/arrangement/fault/snapshot value and old hold DTO
+EXACT. The existing custom literal formatting also reproduces the original file
+before the new objects are appended; there is no old data/format rewrite.
+
+Manual framing: SAC1 document196; Policy78; Clock55; finite Failure leaf48. SAH2 is
+4+(4+196)+5+(1+78)+(1+55)+(1+48)+1+4+24=**422 wire bytes**. The suffix is exactly
+`000000020000000000000001010000000000000002000101`: count2, (ordinal1,Carry1),
+(ordinal2,Stop0), Some(debt1). All FOUR applicable annotation envelopes are identical,
+nonrecursive complete SAH2/v2 copies. Format49+document422 gives Envelope B471;
+four actual owners charge1884. No suffix byte is added to any existing SAH1 data.
+
+Independent owned formulas give:
+
+| Actual value | B | I |
+| --- | ---: | ---: |
+| Command |143 |1 |
+| Cause (4+37+258+515+146+1+504) |1465 |2 |
+| DetectionData (4+4+515+471) |994 |0 |
+| Detection |2459 |2 |
+| View, including both actual first/current Version copies |2501 |2 |
+| Historical MutationOutcome |26 |1 |
+| MutationResult |27 |1 |
+| Final held Response (1+26+4) |31 |1 |
+| Parsed suffix ONLY, an intermediate vector+optional enum |19 |2 |
+
+The suffix's two parsed items belong to intermediate accounting, not phantom
+returned-hold items. The two actually owned captured occurrences DO count in Cause/
+Detection/View. Non-null annotation DATA, genuine unknown actor and known decision/
+policy/permission/UTC1000/elapsed0 retain their exact typed projection. Complete
+SAH2 document SHA256 isb89c1e8a8d7705b0fa932322ca2d169bd88642658a933135349116774e6b145c.
+
+Helper1909eaac is UNCHANGED: no new feature helper/type/API is needed. The environment
+adds a fixture-only bounded LiteralBytes cursor to independently check EVERY SAH2
+group/length/field, full two-entry suffix, explicit debt discriminator, exhaustion
+of bytes and typed/copy consistency. It never invokes a service codec or generates
+an expected value through production. Old record_detection/find reads full hMin
+closure and fresh outcome; in-unit OLD SQL proves0 operation/effect/job/claim/result
+rows and only the original state. Actual rollback restores the complete observer
+snapshot. Those are fixture/old-port checks, not service semantic or durableHeld proof.
+
+Actual commands in the new tree:
+
+```sh
+python3 /tmp/acct004-min-policy-author.py
+cmake --preset application-service-debug -B /tmp/acct004-min-foundation-build
+cmake --build /tmp/acct004-min-foundation-build --target server_application_service_environment -j 2
+/tmp/acct004-min-foundation-build/tests/qt/server_application_service_environment -functions
+/tmp/acct004-min-foundation-build/tests/qt/server_application_service_environment literalFramesAndOwnedDataRemainIndependent rawSourceStateAndPlanBranchesHaveCompleteOldClosure:min_policy_overflow independentHoldsAndResolvedRetryRetainLiteralHistory -o /tmp/acct004-min-focused.txt,txt
+/tmp/acct004-min-foundation-build/tests/qt/server_application_service_environment -o /tmp/acct004-min-full.txt,txt
+ctest --test-dir /tmp/acct004-min-foundation-build -R '^scaffold.application_service_environment$' --show-only=json-v1
+python3 tools/check_project.py
+git diff --check
+```
+
+Local GNU16.2.1/Qt6.12/systemBoost1.92; fresh build30 steps/zero warnings.
+Actual final linker command contains old writer/bundle/hold archives and EXCLUDES
+the new service archive. Exact six compiled foundation slots remain. Focused result
+**5PASS/0FAIL/0SKIP,208ms**; full environment **41PASS/0FAIL/0SKIP,937ms** with34 data
+rows. Existing single foundation CTest registration is discovered only; no old full
+suite or new feature/data/init/service/codec/view/stub/marker body was run. Old
+foundation init/cleanup and old primitive bodies are included in those totals.
+Project check396/122, diff check and additions-only preservation/static scans pass.
+
+Raw `/tmp/acct004-min-{configure,build,functions,focused,full,discovery,link}.txt`
+(discovery is `.json`) SHA256s: configureef16cdf3c7f3da0dd2167c01c3e4a205b74e4b6ec69d2e8b51cbd464b0b645e2;
+build4550a70ecd530eb9f391e7a9fc9bd7fdfc6ea038b57e0769c1cba9d3ac2c67bc;
+functions840a9a7e51ef8ec110a6e22235141916d8b5e8b852920fdbf4044d71862ded65;
+focused5ef3442cc4d83b10f4fb9868ccbe387c23e214b4a58c68e171ff14f417c2b723;
+fulleb6e37ece74d767ecb3f9a4c18d5c4fe79e4139593a787a200b1eeddcd16262b;
+discovery1df80830eb569e44d5f692a8eb3edf0e17860f5824fc32d3eaf94908a74fdc15;
+link8e73a2b3194c7607d3c41658c41ed0fa3d25ad1325a62381010bee406bb82d40.
+Author stdlib script SHA256f5410bb61ccd66e9770545eb6bd738c4ac52ae5dc6b65f956aa0886a4f0337b5.
+The preserved uncommitted one-entry draft SHA256 is
+bfe5530e002ef6cd4c860847107eee7cc33a760a2c0f9489601c7fc87e47d720.
+
+Public header03a747/sourceebbea remain unchanged. Separate ACTUAL new-data/helper/
+environment review and OWN updated selected foundation CI are REQUIRED before the
+feature author consumes this golden. Complete test review/current-head green and
+FIRST same-clean named-marker red remain later gates; production ACCT-004, policy,
+provider/permission and delivery behavior are not approved or implemented here.
