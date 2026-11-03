@@ -1,0 +1,2992 @@
+{
+  "format": "sqlite-original-claims-v1-independent-vectors",
+  "provenance": "Hand-authored concrete reviewed sqlite-original-claims-v1 data/selector/byte oracles with unchanged frozen prefix1-5 schema references. No new reader, production manifest/codec/allocator or observed rows generate expected values. Signed ORIGINAL C is synthetic storage correction, no financial/refund/current-policy authority. Candidate receipt8 belongs C and is NOT a claimed linked confirmation for A.",
+  "prefixes": [
+    {
+      "fixture": "retained_context_vectors.json",
+      "version": 1,
+      "sha256_hex": "0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e"
+    },
+    {
+      "fixture": "sqlite_receipts_vectors.json",
+      "version": 2,
+      "sha256_hex": "24614f68e9c41a29751ea9ef6ba08fcf655b1cdb0e0c097cb1601bb1581553a2"
+    },
+    {
+      "fixture": "sqlite_contributions_vectors.json",
+      "version": 3,
+      "sha256_hex": "b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d"
+    },
+    {
+      "fixture": "sqlite_application_plans_vectors.json",
+      "version": 4,
+      "sha256_hex": "bbb8140119b29f54f419479851d4fdf42b6a928f5451e4de756389d2bc359c50"
+    },
+    {
+      "fixture": "sqlite_application_bundle_vectors.json",
+      "version": 5,
+      "sha256_hex": "c9ba98fa4fe2a42cc6ed9776baa011fc2b93cf879e7374b53e9a6128f7d7afbb"
+    }
+  ],
+  "setup": [
+    {
+      "sql": "INSERT INTO main.subathon_retained_configurations(reference,document) VALUES (?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_retained_contexts(reference,configuration_ref,document) VALUES (?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "637478"
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE main.subathon_receipt_allocator SET last_allocated=? WHERE singleton=1",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE main.subathon_contribution_allocator SET last_allocated=? WHERE singleton=1",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_receipts(receipt_id,provider,source_account,identifier_namespace,opaque_id,event_type,schema_version,source_timestamp_utc_ms,actor_id,actor_display_name,money_original_decimal,money_currency,payment_namespace,payment_opaque_id,activity_namespace,activity_opaque_id,server_timestamp_utc_ms,connection_ref,configuration_ref,modifier_context_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "0000000000000007"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e746865746963"
+        },
+        {
+          "type": "blob",
+          "hex": "696e7374616c6c6174696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e74"
+        },
+        {
+          "type": "blob",
+          "hex": "726563656970742d41"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e7468657469632e737570706f7274"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "636f6e6e656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": "637478"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_receipt_attempts(receipt_id,ordinal,event_type,schema_version,source_timestamp_utc_ms,actor_id,actor_display_name,money_original_decimal,money_currency,payment_namespace,payment_opaque_id,activity_namespace,activity_opaque_id,server_timestamp_utc_ms,connection_ref,configuration_ref,modifier_context_ref,disposition) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "0000000000000007"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e7468657469632e737570706f7274"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "636f6e6e656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": "637478"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_contributions(contribution_id,original_receipt_id,activity_provider,activity_source_account,activity_namespace,activity_id,payment_evidence,monetary,original_decimal,currency,resolution_ref,missing_rate,review,evidence_policy,policy_ref,decision_choice,decision_ref,decision_actor_ref,application,reversal,settlement) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "0000000000000000"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000007"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_contribution_observations(receipt_id,contribution_id,kind,evidence,activity_provider,activity_source_account,activity_namespace,activity_id,verification_ref,support_monetary,support_original_decimal,support_currency,support_resolution_ref,support_missing_rate,support_review,support_evidence_policy,support_policy_ref,support_decision_choice,support_decision_ref,support_decision_actor_ref,support_application,support_reversal,support_settlement) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "0000000000000007"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000000"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_headers(plan_ref,event_ref,parent_event_ref,root_event_ref,receipt_id,contribution_id,head_revision) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5041"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e742d41"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e742d41"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000007"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000000"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_revisions(plan_ref,revision,parent_revision,payment_evidence,monetary,original_decimal,currency,resolution_ref,missing_rate,review,evidence_policy,policy_ref,decision_choice,decision_ref,decision_actor_ref,application,reversal,settlement,valuation_state,historical_resolution_ref,historical_original_decimal,historical_currency,comparison_currency,effective_rate_decimal,fetched_rate_decimal,snapshot_ref,rate_source_ref,rate_timestamp_utc_ms,fetch_timestamp_utc_ms,manual_decision_ref,override_authority,override_actor_ref,override_reason,override_decision_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5041"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_receipts(receipt_id,provider,source_account,identifier_namespace,opaque_id,event_type,schema_version,source_timestamp_utc_ms,actor_id,actor_display_name,money_original_decimal,money_currency,payment_namespace,payment_opaque_id,activity_namespace,activity_opaque_id,server_timestamp_utc_ms,connection_ref,configuration_ref,modifier_context_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e746865746963"
+        },
+        {
+          "type": "blob",
+          "hex": "696e7374616c6c6174696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e74"
+        },
+        {
+          "type": "blob",
+          "hex": "726563656970742d42"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e7468657469632e737570706f7274"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "636f6e6e656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": "637478"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_receipt_attempts(receipt_id,ordinal,event_type,schema_version,source_timestamp_utc_ms,actor_id,actor_display_name,money_original_decimal,money_currency,payment_namespace,payment_opaque_id,activity_namespace,activity_opaque_id,server_timestamp_utc_ms,connection_ref,configuration_ref,modifier_context_ref,disposition) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e7468657469632e737570706f7274"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "636f6e6e656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": "637478"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_contributions(contribution_id,original_receipt_id,activity_provider,activity_source_account,activity_namespace,activity_id,payment_evidence,monetary,original_decimal,currency,resolution_ref,missing_rate,review,evidence_policy,policy_ref,decision_choice,decision_ref,decision_actor_ref,application,reversal,settlement) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_contribution_observations(receipt_id,contribution_id,kind,evidence,activity_provider,activity_source_account,activity_namespace,activity_id,verification_ref,support_monetary,support_original_decimal,support_currency,support_resolution_ref,support_missing_rate,support_review,support_evidence_policy,support_policy_ref,support_decision_choice,support_decision_ref,support_decision_actor_ref,support_application,support_reversal,support_settlement) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_headers(plan_ref,event_ref,parent_event_ref,root_event_ref,receipt_id,contribution_id,head_revision) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5042"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e742d42"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e742d42"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_revisions(plan_ref,revision,parent_revision,payment_evidence,monetary,original_decimal,currency,resolution_ref,missing_rate,review,evidence_policy,policy_ref,decision_choice,decision_ref,decision_actor_ref,application,reversal,settlement,valuation_state,historical_resolution_ref,historical_original_decimal,historical_currency,comparison_currency,effective_rate_decimal,fetched_rate_decimal,snapshot_ref,rate_source_ref,rate_timestamp_utc_ms,fetch_timestamp_utc_ms,manual_decision_ref,override_authority,override_actor_ref,override_reason,override_decision_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5042"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_receipts(receipt_id,provider,source_account,identifier_namespace,opaque_id,event_type,schema_version,source_timestamp_utc_ms,actor_id,actor_display_name,money_original_decimal,money_currency,payment_namespace,payment_opaque_id,activity_namespace,activity_opaque_id,server_timestamp_utc_ms,connection_ref,configuration_ref,modifier_context_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "0000000000000008"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e746865746963"
+        },
+        {
+          "type": "blob",
+          "hex": "696e7374616c6c6174696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e74"
+        },
+        {
+          "type": "blob",
+          "hex": "726563656970742d43"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e7468657469632e636f7272656374696f6e"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "636f6e6e656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": "637478"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_receipt_attempts(receipt_id,ordinal,event_type,schema_version,source_timestamp_utc_ms,actor_id,actor_display_name,money_original_decimal,money_currency,payment_namespace,payment_opaque_id,activity_namespace,activity_opaque_id,server_timestamp_utc_ms,connection_ref,configuration_ref,modifier_context_ref,disposition) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "0000000000000008"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e7468657469632e636f7272656374696f6e"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "636f6e6e656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "blob",
+          "hex": "637478"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_headers(plan_ref,event_ref,parent_event_ref,root_event_ref,receipt_id,contribution_id,head_revision) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5043"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e742d43"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "6576656e742d43"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000008"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_revisions(plan_ref,revision,parent_revision,payment_evidence,monetary,original_decimal,currency,resolution_ref,missing_rate,review,evidence_policy,policy_ref,decision_choice,decision_ref,decision_actor_ref,application,reversal,settlement,valuation_state,historical_resolution_ref,historical_original_decimal,historical_currency,comparison_currency,effective_rate_decimal,fetched_rate_decimal,snapshot_ref,rate_source_ref,rate_timestamp_utc_ms,fetch_timestamp_utc_ms,manual_decision_ref,override_authority,override_actor_ref,override_reason,override_decision_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5043"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_rules(plan_ref,revision,ordinal,rule_ref,version_ref,selected,explanation) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5043"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "72756c652d43"
+        },
+        {
+          "type": "blob",
+          "hex": "7631"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_plan_requests(plan_ref,revision,ordinal,action_ref,action_version_ref,rule_ref,target_ref,unit,requires_historical_valuation,exact_numerator,exact_denominator,requested_units,calculation_explanation,reversal_behavior_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "5043"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "636f7272656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "7631"
+        },
+        {
+          "type": "blob",
+          "hex": "72756c652d43"
+        },
+        {
+          "type": "blob",
+          "hex": "6d61696e"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "2d33"
+        },
+        {
+          "type": "blob",
+          "hex": "31"
+        },
+        {
+          "type": "integer",
+          "decimal": "-3"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e74686574696320636f7272656374696f6e"
+        },
+        {
+          "type": "blob",
+          "hex": "6e6f6e65"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "61"
+        },
+        {
+          "type": "blob",
+          "hex": "73"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "10"
+        },
+        {
+          "type": "integer",
+          "decimal": "120000"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "62"
+        },
+        {
+          "type": "blob",
+          "hex": "73"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "10"
+        },
+        {
+          "type": "integer",
+          "decimal": "120000"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "blob",
+          "hex": "73"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "10"
+        },
+        {
+          "type": "integer",
+          "decimal": "120000"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "64"
+        },
+        {
+          "type": "blob",
+          "hex": "73"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "blob",
+          "hex": "636667"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "7"
+        },
+        {
+          "type": "integer",
+          "decimal": "120000"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_operations(operation_scope,operation_ref,operation_kind,subject_kind,receipt_id,contribution_id,plan_ref,plan_revision,head_token,before_token,after_token,advance_explanation,choices_format_ref,choices_document,reversal_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "616c706861"
+        },
+        {
+          "type": "blob",
+          "hex": "41"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000007"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000000"
+        },
+        {
+          "type": "blob",
+          "hex": "5041"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "blob",
+          "hex": "61"
+        },
+        {
+          "type": "blob",
+          "hex": "61"
+        },
+        {
+          "type": "blob",
+          "hex": "62"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_contributions(operation_scope,operation_ref,contribution_id,payment_evidence,monetary,original_decimal,currency,resolution_ref,missing_rate,review,evidence_policy,policy_ref,decision_choice,decision_ref,decision_actor_ref,application,reversal,settlement,application_after) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "616c706861"
+        },
+        {
+          "type": "blob",
+          "hex": "41"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000000"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_claims(subject_kind,subject_id,operation_scope,operation_ref) VALUES (?,?,?,?)",
+      "bindings": [
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000000"
+        },
+        {
+          "type": "blob",
+          "hex": "616c706861"
+        },
+        {
+          "type": "blob",
+          "hex": "41"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_results(operation_scope,operation_ref,format_ref,document,effect_count,component_count,job_count,transition_count,reversal_count) VALUES (?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "616c706861"
+        },
+        {
+          "type": "blob",
+          "hex": "41"
+        },
+        {
+          "type": "blob",
+          "hex": "72"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_audit(operation_scope,operation_ref,actor_ref,decision_ref,reason,format_ref,document) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "616c706861"
+        },
+        {
+          "type": "blob",
+          "hex": "41"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "75"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_operations(operation_scope,operation_ref,operation_kind,subject_kind,receipt_id,contribution_id,plan_ref,plan_revision,head_token,before_token,after_token,advance_explanation,choices_format_ref,choices_document,reversal_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "62657461"
+        },
+        {
+          "type": "blob",
+          "hex": "42"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "5042"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "blob",
+          "hex": "62"
+        },
+        {
+          "type": "blob",
+          "hex": "62"
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_contributions(operation_scope,operation_ref,contribution_id,payment_evidence,monetary,original_decimal,currency,resolution_ref,missing_rate,review,evidence_policy,policy_ref,decision_choice,decision_ref,decision_actor_ref,application,reversal,settlement,application_after) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "62657461"
+        },
+        {
+          "type": "blob",
+          "hex": "42"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "70"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_claims(subject_kind,subject_id,operation_scope,operation_ref) VALUES (?,?,?,?)",
+      "bindings": [
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "ffffffffffffffff"
+        },
+        {
+          "type": "blob",
+          "hex": "62657461"
+        },
+        {
+          "type": "blob",
+          "hex": "42"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_results(operation_scope,operation_ref,format_ref,document,effect_count,component_count,job_count,transition_count,reversal_count) VALUES (?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "62657461"
+        },
+        {
+          "type": "blob",
+          "hex": "42"
+        },
+        {
+          "type": "blob",
+          "hex": "72"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_audit(operation_scope,operation_ref,actor_ref,decision_ref,reason,format_ref,document) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "62657461"
+        },
+        {
+          "type": "blob",
+          "hex": "42"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "75"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_operations(operation_scope,operation_ref,operation_kind,subject_kind,receipt_id,contribution_id,plan_ref,plan_revision,head_token,before_token,after_token,advance_explanation,choices_format_ref,choices_document,reversal_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000008"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "5043"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "blob",
+          "hex": "64"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_claims(subject_kind,subject_id,operation_scope,operation_ref) VALUES (?,?,?,?)",
+      "bindings": [
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000008"
+        },
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_effects(operation_scope,operation_ref,request_ordinal,plan_ref,plan_revision,arithmetic_role,unit,exact_numerator,exact_denominator,requested_units,residual_numerator,residual_denominator,maximum_main_ms,deficit_policy,deficit_disposition,application_explanation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "5043"
+        },
+        {
+          "type": "blob",
+          "hex": "0000000000000001"
+        },
+        {
+          "type": "integer",
+          "decimal": "2"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "2d33"
+        },
+        {
+          "type": "blob",
+          "hex": "31"
+        },
+        {
+          "type": "integer",
+          "decimal": "-3"
+        },
+        {
+          "type": "blob",
+          "hex": "30"
+        },
+        {
+          "type": "blob",
+          "hex": "31"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "73796e74686574696320636f7272656374696f6e"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_components(operation_scope,operation_ref,request_ordinal,component_kind,units,before_token,target_ref) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "-3"
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_components(operation_scope,operation_ref,request_ordinal,component_kind,units,before_token,target_ref) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_components(operation_scope,operation_ref,request_ordinal,component_kind,units,before_token,target_ref) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "4"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "blob",
+          "hex": "63"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_results(operation_scope,operation_ref,format_ref,document,effect_count,component_count,job_count,transition_count,reversal_count) VALUES (?,?,?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        },
+        {
+          "type": "blob",
+          "hex": "72"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        },
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "integer",
+          "decimal": "3"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        },
+        {
+          "type": "integer",
+          "decimal": "0"
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_audit(operation_scope,operation_ref,actor_ref,decision_ref,reason,format_ref,document) VALUES (?,?,?,?,?,?,?)",
+      "bindings": [
+        {
+          "type": "blob",
+          "hex": "67616d6d61"
+        },
+        {
+          "type": "blob",
+          "hex": "43"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "blob",
+          "hex": "75"
+        },
+        {
+          "type": "blob",
+          "hex": ""
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO main.subathon_app_head(singleton,token) VALUES (?,?)",
+      "bindings": [
+        {
+          "type": "integer",
+          "decimal": "1"
+        },
+        {
+          "type": "blob",
+          "hex": "64"
+        }
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "name": "tagged-global-claims",
+      "sql": "SELECT subject_kind,hex(subject_id),operation_scope,operation_ref FROM subathon_app_claims ORDER BY operation_scope,operation_ref",
+      "expected": [
+        [
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "text",
+            "value": "0000000000000000"
+          },
+          {
+            "type": "blob",
+            "hex": "616c706861"
+          },
+          {
+            "type": "blob",
+            "hex": "41"
+          }
+        ],
+        [
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "text",
+            "value": "FFFFFFFFFFFFFFFF"
+          },
+          {
+            "type": "blob",
+            "hex": "62657461"
+          },
+          {
+            "type": "blob",
+            "hex": "42"
+          }
+        ],
+        [
+          {
+            "type": "integer",
+            "decimal": "1"
+          },
+          {
+            "type": "text",
+            "value": "0000000000000008"
+          },
+          {
+            "type": "blob",
+            "hex": "67616d6d61"
+          },
+          {
+            "type": "blob",
+            "hex": "43"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "original-source-records",
+      "sql": "SELECT operation_scope,operation_ref,operation_kind,subject_kind,hex(receipt_id),CASE WHEN contribution_id IS NULL THEN NULL ELSE hex(contribution_id) END,head_token,before_token,after_token FROM subathon_app_operations ORDER BY operation_scope,operation_ref",
+      "expected": [
+        [
+          {
+            "type": "blob",
+            "hex": "616c706861"
+          },
+          {
+            "type": "blob",
+            "hex": "41"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "text",
+            "value": "0000000000000007"
+          },
+          {
+            "type": "text",
+            "value": "0000000000000000"
+          },
+          {
+            "type": "blob",
+            "hex": "61"
+          },
+          {
+            "type": "blob",
+            "hex": "61"
+          },
+          {
+            "type": "blob",
+            "hex": "62"
+          }
+        ],
+        [
+          {
+            "type": "blob",
+            "hex": "62657461"
+          },
+          {
+            "type": "blob",
+            "hex": "42"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "text",
+            "value": "FFFFFFFFFFFFFFFF"
+          },
+          {
+            "type": "text",
+            "value": "FFFFFFFFFFFFFFFF"
+          },
+          {
+            "type": "blob",
+            "hex": "62"
+          },
+          {
+            "type": "blob",
+            "hex": "62"
+          },
+          {
+            "type": "blob",
+            "hex": "63"
+          }
+        ],
+        [
+          {
+            "type": "blob",
+            "hex": "67616d6d61"
+          },
+          {
+            "type": "blob",
+            "hex": "43"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "1"
+          },
+          {
+            "type": "text",
+            "value": "0000000000000008"
+          },
+          {
+            "type": "null"
+          },
+          {
+            "type": "blob",
+            "hex": "63"
+          },
+          {
+            "type": "blob",
+            "hex": "63"
+          },
+          {
+            "type": "blob",
+            "hex": "64"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "allocators-actual-MAX-exhausted",
+      "sql": "SELECT 'contribution',typeof(last_allocated),hex(last_allocated) FROM subathon_contribution_allocator WHERE singleton=1 UNION ALL SELECT 'receipt',typeof(last_allocated),hex(last_allocated) FROM subathon_receipt_allocator WHERE singleton=1",
+      "expected": [
+        [
+          {
+            "type": "text",
+            "value": "contribution"
+          },
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "text",
+            "value": "FFFFFFFFFFFFFFFF"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "receipt"
+          },
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "text",
+            "value": "FFFFFFFFFFFFFFFF"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "receipt-classes-unknown-absence",
+      "sql": "SELECT typeof(receipt_id),hex(receipt_id),typeof(actor_id),typeof(money_original_decimal),typeof(source_timestamp_utc_ms),typeof(payment_namespace),typeof(activity_namespace),schema_version,server_timestamp_utc_ms FROM subathon_receipts ORDER BY receipt_id",
+      "expected": [
+        [
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "text",
+            "value": "0000000000000007"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "integer",
+            "decimal": "1"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "text",
+            "value": "0000000000000008"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "integer",
+            "decimal": "1"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "text",
+            "value": "FFFFFFFFFFFFFFFF"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "text",
+            "value": "null"
+          },
+          {
+            "type": "integer",
+            "decimal": "1"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "states-empty-document-is-BLOB",
+      "sql": "SELECT token,typeof(document),length(document),main_remaining_ms,balance_count FROM subathon_app_states ORDER BY token",
+      "expected": [
+        [
+          {
+            "type": "blob",
+            "hex": "61"
+          },
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "10"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ],
+        [
+          {
+            "type": "blob",
+            "hex": "62"
+          },
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "10"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ],
+        [
+          {
+            "type": "blob",
+            "hex": "63"
+          },
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "10"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ],
+        [
+          {
+            "type": "blob",
+            "hex": "64"
+          },
+          {
+            "type": "text",
+            "value": "blob"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "7"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "one-head-and-coherent-source-counts",
+      "sql": "SELECT (SELECT token FROM subathon_app_head),(SELECT count(*) FROM subathon_receipts),(SELECT count(*) FROM subathon_receipt_attempts),(SELECT count(*) FROM subathon_contributions),(SELECT count(*) FROM subathon_contribution_observations),(SELECT count(*) FROM subathon_plan_headers),(SELECT count(*) FROM subathon_plan_revisions),(SELECT count(*) FROM subathon_plan_requests),(SELECT count(*) FROM subathon_app_operations),(SELECT count(*) FROM subathon_app_claims)",
+      "expected": [
+        [
+          {
+            "type": "blob",
+            "hex": "64"
+          },
+          {
+            "type": "integer",
+            "decimal": "3"
+          },
+          {
+            "type": "integer",
+            "decimal": "3"
+          },
+          {
+            "type": "integer",
+            "decimal": "2"
+          },
+          {
+            "type": "integer",
+            "decimal": "2"
+          },
+          {
+            "type": "integer",
+            "decimal": "3"
+          },
+          {
+            "type": "integer",
+            "decimal": "3"
+          },
+          {
+            "type": "integer",
+            "decimal": "1"
+          },
+          {
+            "type": "integer",
+            "decimal": "3"
+          },
+          {
+            "type": "integer",
+            "decimal": "3"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "original-signed-correction",
+      "sql": "SELECT o.operation_kind,e.requested_units,e.arithmetic_role,e.deficit_policy,e.deficit_disposition,r.reversal_count FROM subathon_app_operations o JOIN subathon_app_effects e USING(operation_scope,operation_ref) JOIN subathon_app_results r USING(operation_scope,operation_ref) WHERE o.operation_scope=X'67616D6D61' AND o.operation_ref=X'43'",
+      "expected": [
+        [
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "-3"
+          },
+          {
+            "type": "integer",
+            "decimal": "2"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          },
+          {
+            "type": "integer",
+            "decimal": "0"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "no-claimed-orphan-head-or-body",
+      "sql": "PRAGMA foreign_key_check",
+      "expected": []
+    },
+    {
+      "name": "integrity",
+      "sql": "PRAGMA integrity_check",
+      "expected": [
+        [
+          {
+            "type": "text",
+            "value": "ok"
+          }
+        ]
+      ]
+    }
+  ],
+  "selectors": [
+    {
+      "subject_kind": 0,
+      "receipt_decimal": "18446744073709551615",
+      "cid_decimal": "0",
+      "expected_kind": "subject",
+      "expected_record": "A"
+    },
+    {
+      "subject_kind": 1,
+      "receipt_decimal": "18446744073709551615",
+      "cid_decimal": null,
+      "expected_kind": "source",
+      "expected_record": "B"
+    },
+    {
+      "subject_kind": 0,
+      "receipt_decimal": "8",
+      "cid_decimal": "0",
+      "expected_kind": "subject",
+      "expected_record": "A"
+    },
+    {
+      "subject_kind": 0,
+      "receipt_decimal": "9",
+      "cid_decimal": "42",
+      "expected_kind": null,
+      "expected_record": null
+    },
+    {
+      "subject_kind": 1,
+      "receipt_decimal": "8",
+      "cid_decimal": null,
+      "expected_kind": "subject",
+      "expected_record": "C"
+    },
+    {
+      "subject_kind": 0,
+      "receipt_decimal": "8",
+      "cid_decimal": "42",
+      "expected_kind": "source",
+      "expected_record": "C"
+    }
+  ],
+  "logical_byte_oracles": {
+    "A": {
+      "intent": 45,
+      "snapshots": [
+        32,
+        32,
+        32
+      ],
+      "historical_contribution": 18,
+      "result": 1,
+      "audit": 1,
+      "body": 161,
+      "matched_wrapper": 162,
+      "returned_vector_items": 0
+    },
+    "B": {
+      "intent": 44,
+      "snapshots": [
+        32,
+        32,
+        32
+      ],
+      "historical_contribution": 18,
+      "result": 1,
+      "audit": 1,
+      "body": 160,
+      "matched_wrapper": 161,
+      "returned_vector_items": 0
+    }
+  },
+  "old_nonempty_foundation": {
+    "fixture": "sqlite_application_bundle_vectors.json",
+    "scenarios": [
+      "original_prepare",
+      "original_finish"
+    ],
+    "operation_scope": "scope",
+    "operation_ref": "original",
+    "returned_vector_items": 20,
+    "source_receipt_decimal": "7",
+    "subject_cid_decimal": "0",
+    "remaining_boundary": "Original raw-MAX fixture rows remain intentionally incomplete; reuse does not relabel them a healthy application or allocator history."
+  }
+}
