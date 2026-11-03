@@ -344,7 +344,7 @@ jobs:
           print("Discovered all 3 required original-claim fixture cases")
           PYTHON
           ctest --preset sqlite-original-claim-debug -R '^scaffold.sqlite_original_claim_environment$' --verbose
-      - name: Check complete original-claim baseline registration (behavior remains intentionally red)
+      - name: Check complete original-claim acceptance registration
         run: |
           ctest --preset sqlite-original-claim-debug -L '^sqlite-original-claim$' --show-only
           ctest --preset sqlite-original-claim-debug -L '^sqlite-original-claim$' --show-only=json-v1 > "$RUNNER_TEMP/original-claim-tests.json"
@@ -353,7 +353,7 @@ jobs:
           from pathlib import Path
           tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "original-claim-tests.json").read_text())["tests"]
           if len(tests) != 18:
-              raise SystemExit("Expected all 18 original-claim baseline cases")
+              raise SystemExit("Expected all 18 original-claim acceptance cases")
           executables = {test["command"][0] for test in tests}
           if len(executables) != 1:
               raise SystemExit("Expected one original-claim Qt suite")
@@ -362,6 +362,8 @@ jobs:
           if not expected or set(registered) != expected or len(registered) != len(expected):
               raise SystemExit("CTest registration does not match compiled original-claim cases")
           if any(prop["name"] in {"DISABLED", "WILL_FAIL"} and prop["value"] for test in tests for prop in test.get("properties", [])):
-              raise SystemExit("Original-claim baseline must remain enabled without failure inversion")
-          print(f"Discovered all {len(tests)} compiled original-claim cases; intentional red behavior not run")
+              raise SystemExit("Original-claim acceptance must remain enabled without failure inversion")
+          print(f"Discovered all {len(tests)} compiled original-claim cases")
           PYTHON
+      - name: Run reviewed original-claim acceptance
+        run: ctest --preset sqlite-original-claim-debug -L '^sqlite-original-claim$'
