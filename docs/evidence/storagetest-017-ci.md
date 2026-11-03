@@ -1,7 +1,9 @@
 # STORAGETEST-017 — compiler, old stability and future baseline evidence
 
-Scope: additive original-claim reader baseline. Current phase: minimal API only,
-not reader implementation, fixture/test authoring, observed red or feature acceptance.
+Scope: additive original-claim reader baseline. Latest phase: authored feature tests
+compile and register; actual full review and this complete head’s selected CI precede
+the first feature body. No reader implementation or observed red yet. Historical
+API and fixture gates below remain valid for their exact revisions.
 [Actual concrete document approval](storagetest-017-contract-review.md)39a50970
 preceded header/stub authoring. [API author](storagetest-017-api-author.md)bd3a830
 adds only headercf721/source130,3types/enum/oneconstmethod and unique immediate
@@ -132,3 +134,34 @@ prerequisites. NewCPP/ownMD only, no fixture/source/shared edits. No testbody/ne
 entrypoint invocation until actual full different review, compilation/discovery
 and required own selected green on the complete approved test/harness head.
 FIRST named-stub red remains unperformed; no production or passing query claim.
+
+
+## Actual feature compilation and metadata only
+
+Author d0312a8 (root a526f9b) supplies
+`tests/qt/sqlite_original_claim_tests.cpp` blob
+246667ba232580ccd3653d12dc941513cb1fd2f9: 18 public Qt slots,
+33 data/scenario rows. [Author evidence](storagetest-017-test-author.md)590313c
+(root7b227a1) records independent expected values and cross-queue marker handling.
+Root Qt CMake c35ccf28cf378a0634491fec4e9dc7fef7561e42 and workflow
+7fec9ade311c9928d019ad465b19d686e7f861b0 add only the explicit 18 registrations
+and a compiled/discovery guard. Required old suites and the three-slot new fixture
+green remain unconditional; the intentional feature baseline is not run in CI.
+
+Actual commands (host GNU16.2.1/Qt6.12, synthetic disposable fixtures):
+
+```sh
+cmake --preset sqlite-original-claim-debug
+cmake --build --preset sqlite-original-claim-debug --target server_sqlite_original_claim_acceptance --parallel 2
+build/sqlite-original-claim-debug/tests/qt/server_sqlite_original_claim_acceptance -functions
+ctest --preset sqlite-original-claim-debug -L '^sqlite-original-claim$' --show-only=json-v1
+ctest --preset sqlite-original-claim-debug --show-only=json-v1
+```
+
+Configure/build PASS (four incremental steps, zero warnings), exact 18 compiled
+slots equal all 18 enabled CTest cases, no failure inversion; total228 equals
+prior210 plus new18. No feature body/new reader has been invoked. The actual
+full test/harness review is active; this complete candidate’s own selected-Qt
+green and first missing-feature red are not yet claimed. Raw output remains in
+`local-evidence/storagetest017-feature-{configure,build,functions}.txt` and
+`storagetest017-{feature,all}-discovery.json`. Compilation is not a red baseline.
