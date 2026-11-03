@@ -33,15 +33,15 @@ inline std::vector<ApplicationBalance> balances(const QJsonValue &value) {
     std::vector<ApplicationBalance> result;
     for (const auto &v : value.toArray()) {
         const auto o = v.toObject();
-        result.push_back({static_cast<ApplicationBalanceKind>(o["kind"].toInt()),
-                          text(o["target"]), integer(o["units"])});
+        result.push_back({static_cast<ApplicationBalanceKind>(o["kind"].toInt()), text(o["target"]),
+                          integer(o["units"])});
     }
     return result;
 }
 inline ApplicationStateSnapshot state(const QJsonValue &value) {
     const auto o = value.toObject();
-    return {text(o["token"]), envelope(o["envelope"]), text(o["configuration"]),
-            timer(o["timer"]), integer(o["debt"]), balances(o["balances"])};
+    return {text(o["token"]),  envelope(o["envelope"]), text(o["configuration"]),
+            timer(o["timer"]), integer(o["debt"]),      balances(o["balances"])};
 }
 inline OriginalApplicationCommand command(const QJsonValue &value) {
     const auto o = value.toObject(), p = o["principal"].toObject();
@@ -121,8 +121,8 @@ inline std::vector<core::RequestedEffect> requests(const QJsonValue &value) {
     std::vector<core::RequestedEffect> result;
     for (const auto &entry : value.toArray()) {
         const auto r = entry.toObject();
-        result.push_back({text(r["action"]), text(r["version"]), text(r["rule"]),
-                          text(r["target"]), static_cast<core::RequestedUnit>(r["unit"].toInt()),
+        result.push_back({text(r["action"]), text(r["version"]), text(r["rule"]), text(r["target"]),
+                          static_cast<core::RequestedUnit>(r["unit"].toInt()),
                           r["requires_historical"].toBool(), exact(r["exact"]), integer(r["final"]),
                           text(r["explanation"]), text(r["reversal"])});
     }
@@ -194,7 +194,8 @@ inline core::ContributionState contribution(const QJsonValue &value) {
     auto &s = c.conditions;
     s.valuation.monetary = o["monetary"].toInt() != 0;
     if (!o["original_decimal"].isNull())
-        s.valuation.original_money = core::ReceiptMoney{text(o["original_decimal"]), text(o["currency"])};
+        s.valuation.original_money =
+            core::ReceiptMoney{text(o["original_decimal"]), text(o["currency"])};
     s.valuation.resolution_ref = optional_text(o["resolution_ref"]);
     s.valuation.missing_rate = o["missing_rate"].toInt() != 0;
     s.review = static_cast<core::ContributionReview>(o["review"].toInt());
@@ -222,9 +223,9 @@ inline RecordedApplicationBundle record(const QJsonValue &value) {
     r.intent.expected_state_token = r.persisted_head.token;
     if (!o["expected_contribution"].isNull()) {
         r.intent.expected_contribution_state = contribution(o["expected_contribution"]);
-        r.contribution = ApplicationContributionSnapshot{
-            *c.contribution_id, *r.intent.expected_contribution_state,
-            core::ContributionApplication::applied};
+        r.contribution = ApplicationContributionSnapshot{*c.contribution_id,
+                                                         *r.intent.expected_contribution_state,
+                                                         core::ContributionApplication::applied};
     }
     r.intent.choices = envelope(o["command_envelope"]);
     r.advanced_before = state(o["before"]);
@@ -242,17 +243,20 @@ inline RecordedApplicationBundle record(const QJsonValue &value) {
 }
 inline PreparedApplicationBundle prepared(const QJsonValue &value) {
     const auto r = record(value);
-    return {r.intent, r.advanced_before, r.after, r.advance_explanation,
-            r.effects, r.jobs, r.transitions, {}, r.result, r.audit};
+    return {r.intent,      r.advanced_before,
+            r.after,       r.advance_explanation,
+            r.effects,     r.jobs,
+            r.transitions, {},
+            r.result,      r.audit};
 }
 
 // Explicit field comparison for scripted input DATA. No codec/equality from the UUT.
 inline bool same_command(const OriginalApplicationCommand &a, const OriginalApplicationCommand &b) {
     if (a.operation.operation_scope != b.operation.operation_scope ||
-        a.operation.operation_ref != b.operation.operation_ref || a.subject_kind != b.subject_kind ||
-        a.receipt_id != b.receipt_id || a.contribution_id != b.contribution_id ||
-        a.plan.plan_ref != b.plan.plan_ref || a.plan.revision != b.plan.revision ||
-        a.principal.kind != b.principal.kind ||
+        a.operation.operation_ref != b.operation.operation_ref ||
+        a.subject_kind != b.subject_kind || a.receipt_id != b.receipt_id ||
+        a.contribution_id != b.contribution_id || a.plan.plan_ref != b.plan.plan_ref ||
+        a.plan.revision != b.plan.revision || a.principal.kind != b.principal.kind ||
         a.principal.installation_ref != b.principal.installation_ref ||
         a.principal.principal_ref != b.principal.principal_ref || a.purpose != b.purpose ||
         a.preview_mode != b.preview_mode || a.preview_state_token != b.preview_state_token ||
@@ -288,11 +292,13 @@ inline void check_state(const ApplicationStateSnapshot &a, const ApplicationStat
 inline void check_effect(const ApplicationEffect &a, const ApplicationEffect &b) {
     require(a.request_ordinal == b.request_ordinal && a.arithmetic_role == b.arithmetic_role &&
                 a.unit == b.unit && a.exact_requested_units == b.exact_requested_units &&
-                a.requested_units == b.requested_units && a.rounding_residual == b.rounding_residual &&
+                a.requested_units == b.requested_units &&
+                a.rounding_residual == b.rounding_residual &&
                 a.maximum_main_ms == b.maximum_main_ms && a.deficit_policy == b.deficit_policy &&
                 a.deficit_disposition == b.deficit_disposition &&
                 a.application_explanation == b.application_explanation &&
-                a.components.size() == b.components.size(), "Complete literal effect");
+                a.components.size() == b.components.size(),
+            "Complete literal effect");
     for (size_t n = 0; n < b.components.size(); ++n)
         require(a.components[n].kind == b.components[n].kind &&
                     a.components[n].units == b.components[n].units &&
@@ -305,9 +311,11 @@ inline void check_record(const RecordedApplicationBundle &a, const RecordedAppli
                 x.operation.operation_ref == y.operation.operation_ref && x.kind == y.kind &&
                 x.subject_kind == y.subject_kind && x.receipt_id == y.receipt_id &&
                 x.contribution_id == y.contribution_id && x.plan.plan_ref == y.plan.plan_ref &&
-                x.plan.revision == y.plan.revision && x.expected_state_token == y.expected_state_token &&
+                x.plan.revision == y.plan.revision &&
+                x.expected_state_token == y.expected_state_token &&
                 x.expected_contribution_state == y.expected_contribution_state &&
-                x.reversal_ref == y.reversal_ref, "Complete historical literal intent");
+                x.reversal_ref == y.reversal_ref,
+            "Complete historical literal intent");
     original_claim_fixture::same_envelope(x.choices, y.choices);
     check_state(a.persisted_head, b.persisted_head);
     check_state(a.advanced_before, b.advanced_before);
@@ -333,8 +341,9 @@ inline void check_record(const RecordedApplicationBundle &a, const RecordedAppli
     }
     original_claim_fixture::same_envelope(a.result, b.result);
     original_claim_fixture::same_envelope(a.audit.envelope, b.audit.envelope);
-    require(a.audit.actor_ref == b.audit.actor_ref && a.audit.decision_ref == b.audit.decision_ref &&
-                a.audit.reason == b.audit.reason, "Complete optional audit DATA");
+    require(a.audit.actor_ref == b.audit.actor_ref &&
+                a.audit.decision_ref == b.audit.decision_ref && a.audit.reason == b.audit.reason,
+            "Complete optional audit DATA");
 }
 
 struct Data {
@@ -374,6 +383,17 @@ struct Data {
         d.frozen = frozen["hold_vectors"].toObject();
         return d;
     }
+    void apply_fault(const SqliteWorkSession &s, const QString &name) const {
+        const auto f = frozen["fault_data"].toObject()[name].toObject();
+        require(!f.isEmpty(), "Known literal before-call fault DATA");
+        execute(s, f["setup"].toArray());
+    }
+    std::vector<SqlRows> snapshot(Observer &observer) const {
+        std::vector<SqlRows> result;
+        for (const auto &q : frozen["snapshot_queries"].toArray())
+            result.push_back(observer.rows(q.toObject()["sql"].toString()));
+        return result;
+    }
 };
 
 // Unlike success-only run(), this retains actual negative/unknown completion DATA.
@@ -383,10 +403,11 @@ template <class Body> SqliteWorkResult capture(SqliteWriter &writer, Body body) 
         SqliteWorkResult result;
     };
     const auto captured = std::make_shared<Capture>();
-    require(writer.enqueue_work(std::move(body), [captured](auto r) {
-                captured->result = std::move(r);
-                captured->done = true;
-            }) == StorageError::none,
+    require(writer.enqueue_work(std::move(body),
+                                [captured](auto r) {
+                                    captured->result = std::move(r);
+                                    captured->done = true;
+                                }) == StorageError::none,
             "Old writer admits explicit fixture work");
     require(QTest::qWaitFor([captured] { return captured->done; }, 10000),
             "Actual old-writer completion");
@@ -435,13 +456,23 @@ class ScriptedPorts final : public ExecutionAccess,
         const auto c = data.case_data(name);
         if (c.contains("actions"))
             prepared_actions = actions(c["actions"]);
-        for (const auto &entry : c["fake_references"].toArray()) {
+        reference_script(c["fake_references"].toArray(), text(c["head"].toObject()["token"]));
+    }
+    void reference_script(const QJsonArray &references, const std::string &persisted_head) {
+        issued.clear();
+        for (const auto &entry : references) {
             const auto r = entry.toObject();
             const auto purpose = static_cast<ApplicationReferencePurpose>(r["purpose"].toInt());
             ApplicationReferenceBinding binding{expected_command.operation,
-                                                selector(c["command"].toObject()),
-                                                expected_command.plan, text(c["head"].toObject()["token"]),
-                                                purpose, std::nullopt};
+                                                {expected_command.subject_kind,
+                                                 expected_command.receipt_id,
+                                                 expected_command.contribution_id},
+                                                expected_command.plan,
+                                                persisted_head,
+                                                purpose,
+                                                std::nullopt};
+            if (!r["request_ordinal"].isNull())
+                binding.request_ordinal = integer(r["request_ordinal"]);
             issued.push_back({std::move(binding), text(r["reference"])});
         }
     }
@@ -464,20 +495,23 @@ class ScriptedPorts final : public ExecutionAccess,
         calls.push_back("disclose_holds");
         return holds_visible;
     }
-    PolicyResolution resolve(const ApplicationReferenceReadView &, const OriginalApplicationCommand &c,
-                             const ApplicationBundleInputs &, const AccessDecision &) override {
+    PolicyResolution resolve(const ApplicationReferenceReadView &,
+                             const OriginalApplicationCommand &c, const ApplicationBundleInputs &,
+                             const AccessDecision &) override {
         expect(c);
         calls.push_back("policy");
         return bound_policy;
     }
-    ClockResolution observe(const ApplicationReferenceReadView &, const OriginalApplicationCommand &c,
-                            const ApplicationBundleInputs &, const BoundApplicationPolicy &) override {
+    ClockResolution observe(const ApplicationReferenceReadView &,
+                            const OriginalApplicationCommand &c, const ApplicationBundleInputs &,
+                            const BoundApplicationPolicy &) override {
         expect(c);
         calls.push_back("clock");
         return observed_clock;
     }
-    ActionResolution prepare(const ApplicationReferenceReadView &, const OriginalApplicationCommand &c,
-                             const ApplicationBundleInputs &, const BoundApplicationPolicy &,
+    ActionResolution prepare(const ApplicationReferenceReadView &,
+                             const OriginalApplicationCommand &c, const ApplicationBundleInputs &,
+                             const BoundApplicationPolicy &,
                              const ApplicationCalculatedProposal &p) override {
         expect(c);
         calls.push_back("actions");
@@ -489,12 +523,14 @@ class ScriptedPorts final : public ExecutionAccess,
         calls.push_back("reference:" + std::to_string(static_cast<int>(p)));
         for (const auto &r : issued) {
             const auto &b = r.binding;
-            if (b.purpose == p && b.operation.operation_scope == binding.operation.operation_scope &&
+            if (b.purpose == p &&
+                b.operation.operation_scope == binding.operation.operation_scope &&
                 b.operation.operation_ref == binding.operation.operation_ref &&
                 b.source.subject_kind == binding.source.subject_kind &&
                 b.source.receipt_id == binding.source.receipt_id &&
                 b.source.contribution_id == binding.source.contribution_id &&
-                b.plan.plan_ref == binding.plan.plan_ref && b.plan.revision == binding.plan.revision &&
+                b.plan.plan_ref == binding.plan.plan_ref &&
+                b.plan.revision == binding.plan.revision &&
                 b.persisted_head_token == binding.persisted_head_token &&
                 b.request_ordinal == binding.request_ordinal && binding.purpose == p)
                 return r;
@@ -505,7 +541,8 @@ class ScriptedPorts final : public ExecutionAccess,
 
   private:
     void expect(const OriginalApplicationCommand &c) const {
-        require(same_command(c, expected_command), "Script receives independent complete command DATA");
+        require(same_command(c, expected_command),
+                "Script receives independent complete command DATA");
     }
 };
 } // namespace application_service_fixture
