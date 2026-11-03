@@ -488,10 +488,11 @@ class HoldAccess : public Access {
                                             const ApplicationHoldSubject &s) {
         if (!h)
             return {};
-        auto a = anchor(*h);
-        if (!a || !hold_detail::same(a->subject, s))
+        auto m = metadata_core(*h);
+        if (!m || !hold_detail::same(m->anchor.subject, s) || m->current.state != HS::resolved)
             fail(HR::invalid_stored_data);
-        return a->supersedes;
+        reciprocal(*h, *m);
+        return m->anchor.supersedes;
     }
     void lineage(const std::string &h, const ApplicationHoldSubject &s) {
         std::optional<std::string> slow = h, fast = h;
@@ -559,11 +560,12 @@ class HoldAccess : public Access {
         HV first, current;
         qint64 count;
     };
-    std::optional<Metadata> metadata(const std::string &h) {
+    // Complete scalar certificate, deliberately without following supersedes.
+    // Ancestor walking composes this primitive without recursion through views.
+    std::optional<Metadata> metadata_core(const std::string &h) {
         auto a = anchor(h);
         if (!a)
             return {};
-        lineage(h, a->subject);
         auto head = required("subathon_hold_heads", hold_heads_columns, "hold_ref=?", {bytes(h)});
         if (ref(head, 0) != h)
             fail(HR::invalid_stored_data);
@@ -607,6 +609,42 @@ class HoldAccess : public Access {
             first->producer_mutation_ref != a->first)
             fail(HR::invalid_stored_data);
         return Metadata{std::move(*a), std::move(*first), std::move(*previous), seen};
+    }
+    void reciprocal(const std::string &h, const Metadata &m) {
+        const QStringList cols{"mutation_ref",         "hold_ref",
+                               "expected_version_ref", "proposed_version_ref",
+                               "replacement_hold_ref", "replacement_detection_ref"};
+        auto row =
+            one("subathon_hold_resolution_entries", cols, "replacement_hold_ref=?", {bytes(h)});
+        // A standalone later reoverflow legitimately has no producing replacement
+        // entry. Its supplied predecessor still receives the full scalar audit.
+        if (!row)
+            return;
+        const auto &r = *row;
+        if (ref(r, 4) != h || ref(r, 5) != m.anchor.first ||
+            m.anchor.supersedes != std::optional{ref(r, 1)})
+            fail(HR::invalid_stored_data);
+        auto old = metadata_core(ref(r, 1));
+        if (!old || !hold_detail::same(old->anchor.subject, m.anchor.subject) ||
+            old->current.state != HS::resolved || old->current.locator.version_ref != ref(r, 3) ||
+            old->current.parent_version_ref != std::optional{ref(r, 2)} ||
+            old->current.producer_mutation_ref != ref(r, 0) || !old->current.replacement ||
+            old->current.replacement->hold_ref != h ||
+            old->current.replacement->detection_ref != m.anchor.first)
+            fail(HR::invalid_stored_data);
+        auto producer = mutation_meta(ref(r, 0));
+        if (!producer || producer->kind != HM::resolution ||
+            !hold_detail::same(producer->subject, m.anchor.subject))
+            fail(HR::invalid_stored_data);
+    }
+    std::optional<Metadata> metadata(const std::string &h) {
+        auto m = metadata_core(h);
+        if (!m)
+            return {};
+        reciprocal(h, *m);
+        if (m->anchor.supersedes)
+            lineage(*m->anchor.supersedes, m->anchor.subject);
+        return m;
     }
     [[noreturn]] void reference_failure(bool incoming, bool missing = false) {
         fail(incoming ? (missing ? HR::missing_reference : HR::source_mismatch)
