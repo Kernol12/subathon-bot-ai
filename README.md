@@ -4,6 +4,48 @@ A CLion-ready C++20/CMake foundation for the agreed self-hosted C++/Qt6 project.
 This archive is a development starting point, **not a working subathon bot**.
 The full product baseline is [specification v0.45](docs/specification.md).
 
+[![License: GPL-3.0-or-later](https://badgen.net/static/license/GPL-3.0-or-later/blue)](LICENSE.md)
+[![Scaffold checks (infrastructure only)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/scaffold.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/scaffold.yml)
+
+<details>
+<summary>Product acceptance CI on main</summary>
+
+[![Time-credit acceptance and regression](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/acceptance.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/acceptance.yml)
+[![Exact numeric acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/exact-numeric.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/exact-numeric.yml)
+[![Timer lifecycle acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/timer-lifecycle.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/timer-lifecycle.yml)
+[![Pause policy acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/pause-policy.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/pause-policy.yml)
+[![Time debt acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/time-debt.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/time-debt.yml)
+[![Receipt intake simulation acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/receipt-intake.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/receipt-intake.yml)
+[![Contribution evidence simulation acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/contribution-evidence.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/contribution-evidence.yml)
+[![Captured application-plan acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/application-plan.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/application-plan.yml)
+[![Qt SQL SQLite writer acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/sqlite-writer.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/sqlite-writer.yml)
+
+These checks cover bounded components and simulations, not full product or live-provider readiness.
+
+</details>
+
+## Repository statistics
+
+[![Total repository lines](https://img.shields.io/endpoint?url=https%3A%2F%2Ftokei.kojix2.net%2Fbadge%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flines&label=Total+lines)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![C++ source lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27C%2B%2B%27%5D.code&label=C%2B%2B+source+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![C++ headers lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27C%2B%2B+Header%27%5D.code&label=C%2B%2B+headers+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![Python lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27Python%27%5D.code&label=Python+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![JavaScript lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27JavaScript%27%5D.code&label=JavaScript+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![CMake lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27CMake%27%5D.code&label=CMake+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![Markdown text lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27Markdown%27%5D.comments&label=Markdown+text+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![HTML lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27HTML%27%5D.code&label=HTML+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+[![JSON lines](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKernol12%2Fsubathon-bot-ai%2Flanguages&query=%24.data.languages%5B%27JSON%27%5D.code&label=JSON+lines&color=blue)](https://tokei.kojix2.net/github/Kernol12/subathon-bot-ai)
+
+Counts come from the hosted [Tokei API](https://github.com/kojix2/tokei-api)
+for the default branch (`main`) and may be cached. Language badges count code
+lines excluding comments and blanks; Markdown counts nonblank documentation
+lines. C++ sources and headers are shown separately. The overall count includes
+comments, blanks and other recognized text, including generated files such as
+`PROGRESS.html`. The hosted counter does not currently report YAML workflow files;
+QML, TypeScript and CSS badges can be added when those source files exist.
+These are size statistics, not product completion. See
+[development progress](#progress-updates) for task status and verification evidence.
+
 ## Start here
 
 1. Extract the complete folder and open its root `CMakeLists.txt` in CLion.
