@@ -68,6 +68,86 @@ size_t command_bytes(const OriginalApplicationCommand &c) {
         total += e.format_ref.size() + size_t(e.document.size());
     return total;
 }
+// Read only this independently frozen byte vector. This is no service codec or
+// feature-test helper; each published field/group is checked before the suffix.
+class LiteralBytes final {
+  public:
+    explicit LiteralBytes(const QByteArray &bytes) : bytes_(bytes) {}
+    QByteArray take(qsizetype count) {
+        require(count >= 0 && count <= bytes_.size() - position_, "Bounded frozen byte field");
+        const auto value = bytes_.mid(position_, count);
+        position_ += count;
+        return value;
+    }
+    std::uint64_t word(int count) {
+        require(count == 1 || count == 4 || count == 8, "Explicit literal integer width");
+        std::uint64_t value = 0;
+        for (const auto byte : take(count))
+            value = (value << 8) | static_cast<unsigned char>(byte);
+        return value;
+    }
+    QByteArray field() {
+        const auto count = word(4);
+        require(count <= std::uint64_t(bytes_.size() - position_), "Frozen B length before read");
+        return take(qsizetype(count));
+    }
+    bool at_end() const { return position_ == bytes_.size(); }
+
+  private:
+    const QByteArray &bytes_;
+    qsizetype position_{0};
+};
+void check_min_sah2(const Data &data) {
+    const auto c = data.case_data("min_policy_overflow");
+    const auto d = data.holds().detection("dMin");
+    const auto &annotation = d.cause.first_observation.annotation;
+    require(annotation.format_ref == "subathon.internal.application-hold-observation.v2" &&
+                annotation.document.size() == 422 && !annotation.document.isNull() &&
+                QCryptographicHash::hash(annotation.document, QCryptographicHash::Sha256).toHex() ==
+                    "b89c1e8a8d7705b0fa932322ca2d169bd88642658a933135349116774e6b145c",
+            "Independently frozen complete SAH2 envelope and digest");
+    LiteralBytes bytes(annotation.document);
+    require(bytes.take(4) == "SAH2" && bytes.field() == d.cause.command.intent.document &&
+                bytes.field() == "a",
+            "Complete original SAC1 and actual retained head");
+    require(bytes.word(1) == 1 && bytes.field() == "cfg" && bytes.field() == "policy" &&
+                bytes.field() == "grant" && bytes.word(1) == 0 && bytes.word(1) == 1 &&
+                bytes.word(8) == 90 && bytes.word(1) == 1 && bytes.word(1) == 0 &&
+                bytes.word(1) == 0 && bytes.word(1) == 0 && bytes.field() == "pause0" &&
+                bytes.field() == "synthetic current policy",
+            "Every known Policy group/field");
+    require(bytes.word(1) == 1 && bytes.field() == "lineage" && bytes.field() == "observation" &&
+                bytes.word(8) == 1000 && bytes.word(4) == 1 && bytes.word(8) == 0 &&
+                bytes.word(8) == 1000 && bytes.word(1) == 0,
+            "Every known Clock segment/field");
+    require(bytes.word(1) == 1 && bytes.word(1) == 1 && bytes.word(1) == 1 && bytes.word(8) == 1 &&
+                bytes.word(1) == 1 && bytes.field() == "main" && bytes.word(1) == 1 &&
+                bytes.field() == "9223372036854775808" && bytes.field() == "1" &&
+                bytes.word(1) == 0 && bytes.field().isEmpty(),
+            "Finite Failure leaf: captured target main, known debt attempt, no nested annotation");
+    require(bytes.word(4) == 2 && bytes.word(8) == 1 && bytes.word(1) == 1 && bytes.word(8) == 2 &&
+                bytes.word(1) == 0 && bytes.word(1) == 1 && bytes.word(1) == 1 && bytes.at_end() &&
+                annotation.document.right(24).toHex() ==
+                    "000000020000000000000001010000000000000002000101",
+            "Full ordered correction vector includes unprocessed ordinal2, explicit failed balance "
+            "debt1");
+    const auto p = data.policy("min_policy_overflow");
+    require(p.correction_policies.size() == 2 && p.correction_policies[0].request_ordinal == 1 &&
+                p.correction_policies[0].deficit_policy ==
+                    core::RefundDeficitPolicy::CarryTimeDebt &&
+                p.correction_policies[1].request_ordinal == 2 &&
+                p.correction_policies[1].deficit_policy == core::RefundDeficitPolicy::StopAtZero &&
+                d.cause.plan_evidence.occurrences.size() == 2 && d.cause.failure &&
+                d.cause.failure->failing_ordinal == 1 &&
+                d.cause.failure->failing_target_ref == "main" &&
+                d.cause.failure->attempted_units == core::Exact("9223372036854775808") &&
+                d.cause.plan_evidence.occurrences[1].finalized_units == -1 &&
+                c["arithmetic"].toObject()["failed_balance"].toInt() == 1,
+            "Captured target, full known policy list and failed arithmetic balance stay distinct");
+    original_claim_fixture::same_envelope(annotation, d.request.observation.annotation);
+    original_claim_fixture::same_envelope(annotation, d.cause.failure->annotation);
+    original_claim_fixture::same_envelope(annotation, d.request.audit);
+}
 void check_observation(const ApplicationHoldObservation &a, const ApplicationHoldObservation &b) {
     require(a.persisted_state_token == b.persisted_state_token &&
                 a.policy_revision_ref == b.policy_revision_ref &&
@@ -220,7 +300,7 @@ class ApplicationServiceEnvironment final : public QObject {
                         "efbbbf00ff41",
                 "CID0 and raw BOM/NUL/FF are not normalized");
             const auto cases = data.frozen["cases"].toObject();
-            require(cases.size() == 33, "Bounded independently authored scenario inventory");
+            require(cases.size() == 34, "Bounded independently authored scenario inventory");
             for (auto it = cases.begin(); it != cases.end(); ++it) {
                 const auto c = it.value().toObject(), o = c["oracles"].toObject();
                 require(command_bytes(command(c["command"])) ==
@@ -286,6 +366,7 @@ class ApplicationServiceEnvironment final : public QObject {
                             elapsed.advanced_before.balances[n].units ==
                                 elapsed.persisted_head.balances[n].units,
                         "AS19 clock-only before snapshot preserves every counter key/value");
+            check_min_sah2(data);
         });
     }
     void rawSourceStateAndPlanBranchesHaveCompleteOldClosure_data() {
@@ -597,7 +678,8 @@ class ApplicationServiceEnvironment final : public QObject {
                  {std::pair{"score_overflow", "dNew"}, std::pair{"clock_overflow", "dClock"},
                   std::pair{"policy_unavailable", "dPolicyMissing"},
                   std::pair{"clock_unavailable", "dClockMissing"},
-                  std::pair{"actions_unavailable", "dActionsMissing"}}) {
+                  std::pair{"actions_unavailable", "dActionsMissing"},
+                  std::pair{"min_policy_overflow", "dMin"}}) {
                 QTemporaryDir directory;
                 require(directory.isValid(), "Disposable literal hold-proposal diagnostic");
                 const auto path = directory.filePath("fresh-hold.sqlite");
@@ -614,10 +696,39 @@ class ApplicationServiceEnvironment final : public QObject {
                     const auto staged = store.record_detection(d);
                     require(staged.disposition == SqliteHoldMutationDisposition::recorded &&
                                 staged.outcome,
-                            "Old hold store accepts independently frozen complete SAH1 creation");
+                            "Old hold store accepts independently frozen complete hold annotation "
+                            "creation");
                     const auto view = store.find(d.cause.hold_ref);
                     require(view.has_value(), "Old reader owns provisional literal hold closure");
                     check_hold(*view, expected.view(d.cause.hold_ref.c_str()));
+                    if (QString(case_name) == "min_policy_overflow") {
+                        require(
+                            staged.outcome->mutation_ref == "dMin" &&
+                                staged.outcome->kind == ApplicationHoldMutationKind::detection &&
+                                staged.outcome->produced_versions.size() == 1 &&
+                                staged.outcome->produced_versions[0].locator.hold_ref == "hMin" &&
+                                staged.outcome->produced_versions[0].locator.version_ref ==
+                                    "vMin" &&
+                                staged.outcome->produced_versions[0].position == 1 &&
+                                staged.outcome->produced_versions[0].state ==
+                                    ApplicationHoldState::active,
+                            "Actual old mutation outcome owns only the fresh MIN hold version");
+                        const auto head = SqliteApplicationBundleStore(session).read_state();
+                        require(head.has_value(), "Actual retained MIN head is present");
+                        check_state(*head, data.head(case_name));
+                        const auto counts = session.execute(
+                            {"SELECT (SELECT COUNT(*) FROM subathon_app_operations),"
+                             "(SELECT COUNT(*) FROM subathon_app_effects),"
+                             "(SELECT COUNT(*) FROM subathon_app_jobs),"
+                             "(SELECT COUNT(*) FROM subathon_app_claims),"
+                             "(SELECT COUNT(*) FROM subathon_app_results),"
+                             "(SELECT COUNT(*) FROM subathon_app_states)",
+                             {}});
+                        require(counts == SqlRows{{qint64(0), qint64(0), qint64(0), qint64(0),
+                                                   qint64(0), qint64(1)}},
+                                "MIN whole-input hold creates no application subset, success "
+                                "result or fresh state");
+                    }
                     if (d.cause.kind == ApplicationHoldCauseKind::unresolved_policy) {
                         const auto c = data.case_data(case_name);
                         const auto &o = d.cause.first_observation;

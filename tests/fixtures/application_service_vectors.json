@@ -11466,6 +11466,213 @@
       "expected_detection": "dActionsMissing",
       "expected_missing_reason": "required-action-policy",
       "expected_port_path": ["access","policy","clock","actions"]
+    },
+    "min_policy_overflow": {
+      "command": {
+        "operation": ["svc","min_policy_overflow"],
+        "subject": 1,
+        "receipt": "8",
+        "cid": null,
+        "plan": ["PC","1"],
+        "principal": {
+          "kind": 0,
+          "installation": "fixture-installation",
+          "principal": "fixture-user"
+        },
+        "purpose": 1,
+        "preview_mode": 0,
+        "preview": "a",
+        "actor": null,
+        "decision": "fixture-decision",
+        "reason": "synthetic signed original",
+        "choices": [
+          {"format":"synthetic.choice.v1","document_hex":"efbbbf00ff41"}
+        ]
+      },
+      "command_envelope": {"format":"subathon.internal.application-command.v1","document_hex":"5341433100000003737663000000136d696e5f706f6c6963795f6f766572666c6f770100000000000000080000000002504300000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720100010000000161000100000010666978747572652d6465636973696f6e010000001973796e746865746963207369676e6564206f726967696e616c000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"},
+      "head": {
+        "token": "a",
+        "configuration": "cfg",
+        "timer": {
+          "lifecycle": 1,
+          "phase": 0,
+          "main": "0",
+          "grace": "90",
+          "wait": false
+        },
+        "debt": "0",
+        "balances": [
+          {
+            "kind": 2,
+            "target": "score",
+            "units": "0"
+          },
+          {
+            "kind": 3,
+            "target": "count",
+            "units": "0"
+          }
+        ],
+        "observation": {
+          "lineage": "lineage",
+          "observation": "retained",
+          "configuration": "cfg",
+          "policy": "previous-policy",
+          "head": "a",
+          "utc": "1000",
+          "segments": []
+        },
+        "policy": "previous-policy",
+        "basis": null,
+        "envelope": {"format":"subathon.internal.application-state.v1","document_hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c69637901000000000000000000000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"}
+      },
+      "requests": [
+        {
+          "action": "time",
+          "version": "v1",
+          "rule": "rule",
+          "target": "main",
+          "unit": 0,
+          "exact": ["-9223372036854775808","1"],
+          "final": "-9223372036854775808",
+          "explanation": "captured literal request",
+          "reversal": "none",
+          "requires_historical": false
+        },
+        {
+          "action": "time",
+          "version": "v1",
+          "rule": "rule",
+          "target": "main",
+          "unit": 0,
+          "exact": ["-1","1"],
+          "final": "-1",
+          "explanation": "captured literal request",
+          "reversal": "none",
+          "requires_historical": false
+        }
+      ],
+      "policy": {
+        "operation": ["svc","min_policy_overflow"],
+        "subject": 1,
+        "receipt": "8",
+        "cid": null,
+        "plan": ["PC","1"],
+        "head": "a",
+        "configuration": "cfg",
+        "permission": "grant",
+        "policy": "policy",
+        "cap": null,
+        "timer_config": {
+          "end": 1,
+          "grace_duration": "90",
+          "reuse": 1,
+          "hard_end": null
+        },
+        "paused": false,
+        "recovery": false,
+        "pause_recovery": "pause0",
+        "explanation": "synthetic current policy",
+        "admission": 0,
+        "admission_reason": null,
+        "corrections": [
+          {
+            "ordinal": "1",
+            "policy": 1
+          },
+          {
+            "ordinal": "2",
+            "policy": 0
+          }
+        ]
+      },
+      "clock": {
+        "lineage": "lineage",
+        "observation": "observation",
+        "configuration": "cfg",
+        "policy": "policy",
+        "head": "a",
+        "utc": "1000",
+        "segments": [
+          {
+            "elapsed": "0",
+            "utc": "1000",
+            "paused": false
+          }
+        ]
+      },
+      "setup": [
+        {"sql":"INSERT INTO main.subathon_plan_rules(plan_ref,revision,ordinal,rule_ref,version_ref,selected,explanation) VALUES (?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5043"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"727631"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"73796e7468657469632073656c65637465642072756c65"}]},
+        {"sql":"INSERT INTO main.subathon_plan_requests(plan_ref,revision,ordinal,action_ref,action_version_ref,rule_ref,target_ref,unit,requires_historical_valuation,exact_numerator,exact_denominator,requested_units,calculation_explanation,reversal_behavior_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5043"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"1"},{"type":"blob","hex":"74696d65"},{"type":"blob","hex":"7631"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"6d61696e"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"blob","hex":"2d39323233333732303336383534373735383038"},{"type":"blob","hex":"31"},{"type":"integer","decimal":"-9223372036854775808"},{"type":"blob","hex":"6361707475726564206c69746572616c2072657175657374"},{"type":"blob","hex":"6e6f6e65"}]},
+        {"sql":"INSERT INTO main.subathon_plan_requests(plan_ref,revision,ordinal,action_ref,action_version_ref,rule_ref,target_ref,unit,requires_historical_valuation,exact_numerator,exact_denominator,requested_units,calculation_explanation,reversal_behavior_ref) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"5043"},{"type":"blob","hex":"0000000000000001"},{"type":"integer","decimal":"2"},{"type":"blob","hex":"74696d65"},{"type":"blob","hex":"7631"},{"type":"blob","hex":"72756c65"},{"type":"blob","hex":"6d61696e"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"blob","hex":"2d31"},{"type":"blob","hex":"31"},{"type":"integer","decimal":"-1"},{"type":"blob","hex":"6361707475726564206c69746572616c2072657175657374"},{"type":"blob","hex":"6e6f6e65"}]},
+        {"sql":"INSERT INTO main.subathon_app_states(token,format_ref,document,configuration_ref,lifecycle,phase,main_remaining_ms,grace_remaining_ms,awaiting_confirmation,time_debt_ms,balance_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"blob","hex":"7375626174686f6e2e696e7465726e616c2e6170706c69636174696f6e2d73746174652e7631"},{"type":"blob","hex":"534153310000000363666700000000076c696e656167650000000872657461696e656400000000000003e8000000000000000f70726576696f75732d706f6c69637901000000000000000000000000000000005a00000000000000000000000002020000000573636f726500000000000000000300000005636f756e740000000000000000"},{"type":"blob","hex":"636667"},{"type":"integer","decimal":"1"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"90"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"0"},{"type":"integer","decimal":"2"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"2"},{"type":"blob","hex":"73636f7265"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_balances(token,balance_kind,target_ref,units) VALUES (?,?,?,?)","bindings":[{"type":"blob","hex":"61"},{"type":"integer","decimal":"3"},{"type":"blob","hex":"636f756e74"},{"type":"integer","decimal":"0"}]},
+        {"sql":"INSERT INTO main.subathon_app_head(singleton,token) VALUES (?,?)","bindings":[{"type":"integer","decimal":"1"},{"type":"blob","hex":"61"}]}
+      ],
+      "arithmetic": {
+        "kind": "overflow",
+        "ordinal": "1",
+        "target": "main",
+        "failed_balance": 1,
+        "attempt": "9223372036854775808"
+      },
+      "oracles": {
+        "command_bytes": 143,
+        "command_items": 1,
+        "encoded_document_bytes": 196,
+        "encoded_envelope_bytes": 236,
+        "head_bytes": 230,
+        "head_items": 2,
+        "hold_detection_B": 2459,
+        "hold_detection_I": 2,
+        "held_response_B": 31,
+        "held_response_I": 1
+      },
+      "fake_access": {
+        "kind": "allowed",
+        "permission": "grant",
+        "disclose_application": true,
+        "disclose_holds": true
+      },
+      "fake_references": [
+        {
+          "purpose": 2,
+          "reference": "hMin",
+          "request_ordinal": "1"
+        },
+        {
+          "purpose": 3,
+          "reference": "dMin",
+          "request_ordinal": "1"
+        },
+        {
+          "purpose": 4,
+          "reference": "vMin",
+          "request_ordinal": "1"
+        }
+      ],
+      "authority": {
+        "contract": "bbd6cd834b8a959ccff16d63a638e0b77d9c6e4c",
+        "clarification": "d1324f6ff45177d358e464b4007a1e293a2d8f1f",
+        "release": "623f47d"
+      },
+      "hold_suffix": {
+        "correction_policies": [
+          {
+            "ordinal": "1",
+            "policy": 1
+          },
+          {
+            "ordinal": "2",
+            "policy": 0
+          }
+        ],
+        "failed_balance": 1,
+        "wire_hex": "000000020000000000000001010000000000000002000101"
+      },
+      "expected_detection": "dMin",
+      "expected_port_path": ["access","policy","clock","reference:2","reference:3","reference:4"]
     }
   },
   "pending": [],
@@ -12759,6 +12966,77 @@
         "timer": null,
         "missing_policy": "required-action-policy",
         "supersedes": null
+      },
+      "hMin": {
+        "hold": "hMin",
+        "source": {
+          "subject": {
+            "kind": 1,
+            "id": "8"
+          },
+          "receipt": "8",
+          "event": "event-C",
+          "parent": null,
+          "root": "event-C",
+          "configuration": "cfg",
+          "context": "ctx"
+        },
+        "command": {
+          "operation": ["svc","min_policy_overflow"],
+          "intent": {"format":"subathon.internal.application-command.v1","document_hex":"5341433100000003737663000000136d696e5f706f6c6963795f6f766572666c6f770100000000000000080000000002504300000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720100010000000161000100000010666978747572652d6465636973696f6e010000001973796e746865746963207369676e6564206f726967696e616c000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff41"}
+        },
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v2","document_hex":"53414832000000c45341433100000003737663000000136d696e5f706f6c6963795f6f766572666c6f770100000000000000080000000002504300000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720100010000000161000100000010666978747572652d6465636973696f6e010000001973796e746865746963207369676e6564206f726967696e616c000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e740001000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e800010101000000000000000101000000046d61696e01000000133932323333373230333638353437373538303800000001310000000000000000020000000000000001010000000000000002000101"},
+          "policy": "policy",
+          "permission": "grant",
+          "actor": null,
+          "decision": "fixture-decision",
+          "utc": "1000",
+          "elapsed": "0"
+        },
+        "plan": {
+          "kind": 0,
+          "key": ["PC","1"],
+          "extent": 0,
+          "stopped": null,
+          "failed": null,
+          "occurrences": [
+            {
+              "ordinal": "1",
+              "action": "time",
+              "action_version": "v1",
+              "rule": "rule",
+              "target": "main",
+              "unit": 0,
+              "exact": ["-9223372036854775808","1"],
+              "final": "-9223372036854775808",
+              "explanation": "captured literal request"
+            },
+            {
+              "ordinal": "2",
+              "action": "time",
+              "action_version": "v1",
+              "rule": "rule",
+              "target": "main",
+              "unit": 0,
+              "exact": ["-1","1"],
+              "final": "-1",
+              "explanation": "captured literal request"
+            }
+          ]
+        },
+        "kind": 0,
+        "failure": {
+          "stage": 1,
+          "ordinal": "1",
+          "target": "main",
+          "exact": ["9223372036854775808","1"],
+          "annotation": {"format":"subathon.internal.application-hold-observation.v2","document_hex":"53414832000000c45341433100000003737663000000136d696e5f706f6c6963795f6f766572666c6f770100000000000000080000000002504300000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720100010000000161000100000010666978747572652d6465636973696f6e010000001973796e746865746963207369676e6564206f726967696e616c000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e740001000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e800010101000000000000000101000000046d61696e01000000133932323333373230333638353437373538303800000001310000000000000000020000000000000001010000000000000002000101"}
+        },
+        "timer": null,
+        "missing_policy": null,
+        "supersedes": null
       }
     },
     "detections": {
@@ -12897,6 +13175,23 @@
           "elapsed": "0"
         },
         "audit": {"format":"subathon.internal.application-hold-observation.v1","document_hex":"53414831000000ae534143310000000e706f6c6963792d6669787475726500000013616374696f6e735f756e617661696c61626c6500000000000000000701000000000000000000000002504100000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d7573657200000100000001610100000000010000000000000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e7401000000000000003c01000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e80000010000001672657175697265642d616374696f6e2d706f6c69637900000000"}
+      },
+      "dMin": {
+        "cause_id": "hMin",
+        "mutation": "dMin",
+        "expected": null,
+        "proposed": "vMin",
+        "observation": {
+          "token": "a",
+          "annotation": {"format":"subathon.internal.application-hold-observation.v2","document_hex":"53414832000000c45341433100000003737663000000136d696e5f706f6c6963795f6f766572666c6f770100000000000000080000000002504300000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720100010000000161000100000010666978747572652d6465636973696f6e010000001973796e746865746963207369676e6564206f726967696e616c000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e740001000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e800010101000000000000000101000000046d61696e01000000133932323333373230333638353437373538303800000001310000000000000000020000000000000001010000000000000002000101"},
+          "policy": "policy",
+          "permission": "grant",
+          "actor": null,
+          "decision": "fixture-decision",
+          "utc": "1000",
+          "elapsed": "0"
+        },
+        "audit": {"format":"subathon.internal.application-hold-observation.v2","document_hex":"53414832000000c45341433100000003737663000000136d696e5f706f6c6963795f6f766572666c6f770100000000000000080000000002504300000000000000010000000014666978747572652d696e7374616c6c6174696f6e0000000c666978747572652d757365720100010000000161000100000010666978747572652d6465636973696f6e010000001973796e746865746963207369676e6564206f726967696e616c000000010000001373796e7468657469632e63686f6963652e763100000006efbbbf00ff410000000161010000000363666700000006706f6c696379000000056772616e740001000000000000005a01000000000000067061757365300000001873796e7468657469632063757272656e7420706f6c69637901000000076c696e656167650000000b6f62736572766174696f6e00000000000003e800000001000000000000000000000000000003e800010101000000000000000101000000046d61696e01000000133932323333373230333638353437373538303800000001310000000000000000020000000000000001010000000000000002000101"}
       }
     },
     "versions": {
@@ -12970,6 +13265,15 @@
         "parent": null,
         "state": 0,
         "producer": "dActionsMissing",
+        "replacement": null
+      },
+      "dMin": {
+        "hold": "hMin",
+        "version": "vMin",
+        "position": "1",
+        "parent": null,
+        "state": 0,
+        "producer": "dMin",
         "replacement": null
       }
     },
@@ -13160,6 +13464,29 @@
           "replacement": null
         },
         "current_event": null
+      },
+      "hMin": {
+        "cause_id": "hMin",
+        "first_detection": "dMin",
+        "first_version": {
+          "hold": "hMin",
+          "version": "vMin",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dMin",
+          "replacement": null
+        },
+        "current_version": {
+          "hold": "hMin",
+          "version": "vMin",
+          "position": "1",
+          "parent": null,
+          "state": 0,
+          "producer": "dMin",
+          "replacement": null
+        },
+        "current_event": null
       }
     },
     "resolutions": {
@@ -13292,6 +13619,26 @@
         "SAH_wire_bytes": 362,
         "SAH_envelope_B": 411,
         "applicable_annotation_copies": 3
+      },
+      "hMin": {
+        "cause_B": 1465,
+        "detection_B": 2459,
+        "detection_I": 2,
+        "view_B": 2501,
+        "view_I": 2,
+        "historical_outcome_B": 26,
+        "historical_outcome_I": 1,
+        "mutation_result_B": 27,
+        "mutation_result_I": 1,
+        "held_response_B": 31,
+        "held_response_I": 1,
+        "SAH_wire_bytes": 422,
+        "SAH_envelope_B": 471,
+        "applicable_annotation_copies": 4,
+        "suffix_wire_bytes": 24,
+        "suffix_intermediate_B": 19,
+        "suffix_intermediate_I": 2,
+        "document_sha256": "b89c1e8a8d7705b0fa932322ca2d169bd88642658a933135349116774e6b145c"
       }
     }
   },
