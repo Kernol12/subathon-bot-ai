@@ -2137,6 +2137,59 @@ class SqliteApplicationBundleTests final : public QObject {
             known(r, SR::result_limit);
         });
     }
+    void supportAnchorConditionsUseExactReturnedByteBoundary() {
+        scenario([&] {
+            // Frozen DTO bytes:1 subject+14 PlanKey+8 head+588 capture+112 state+
+            // 382 contribution/anchor=1105. Anchor Conditions owns32 bytes; its
+            // observation already owns the evidence enum, so no extra byte exists.
+            constexpr qsizetype expected_owned_bytes = 1105;
+            SqliteWriter w;
+            open(w, *f_);
+            const auto before = f_->snapshot();
+            SqliteBundleLimits limits;
+            limits.owned_bytes = expected_owned_bytes;
+            ApplicationBundleInputResult output;
+            auto r = run(w, [&](auto context) -> QVariant {
+                auto s = context.begin();
+                SqliteApplicationBundleStore store(s, limits);
+                output = store.read_inputs({"plan-P", 1}, ApplicationSubjectKind::contribution);
+                s.commit();
+                return 1;
+            });
+            ok(r);
+            require(output.disposition == SqliteBundleInputDisposition::ready && output.inputs &&
+                        output.inputs->current_contribution &&
+                        output.inputs->current_contribution->support_anchor.observation
+                            .support_conditions,
+                    "1105 exact logical owned bytes must return the complete support anchor");
+            const auto &input = *output.inputs;
+            const auto expected_capture = l_->capture("plan-P");
+            require(
+                input.subject_kind == ApplicationSubjectKind::contribution &&
+                    same(input.plan, {"plan-P", 1}) && input.actual_plan_head == 1 &&
+                    input.selected_plan == expected_capture &&
+                    same(input.current_state, l_->state("start")) &&
+                    input.current_contribution->contribution.state ==
+                        *l_->prepared().intent.expected_contribution_state &&
+                    input.current_contribution->support_anchor.observation.evidence ==
+                        PaymentEvidence::unknown &&
+                    *input.current_contribution->support_anchor.observation.support_conditions ==
+                        expected_capture.captured.contribution_state.conditions,
+                "actual support Conditions and separate observation evidence remain complete");
+            require(f_->snapshot() == before, "fitting read made no database writes");
+            limits.owned_bytes = expected_owned_bytes - 1;
+            bool caught = false;
+            r = refusal(
+                w, *f_,
+                [](auto &store) {
+                    (void)store.read_inputs({"plan-P", 1}, ApplicationSubjectKind::contribution);
+                },
+                SR::result_limit, caught, limits);
+            known(r, SR::result_limit);
+            require(caught && f_->snapshot() == before,
+                    "1104 refuses the whole returned payload with actual caller-unit rollback");
+        });
+    }
     void invalidInputPriorityPreservesHealthyUnit() {
         scenario([&] {
             const auto good = l_->prepared();
