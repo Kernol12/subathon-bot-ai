@@ -660,6 +660,9 @@ class HoldAccess : public Access {
             throw SqliteHoldStorageFailure(e.error() == RetentionError::result_limit
                                                ? HR::result_limit
                                                : HR::invalid_stored_data);
+        } catch (const SqliteWorkFailure &e) {
+            // Known query failures already rolled back; preserve all other work truth.
+            map_work_failure(e);
         }
     }
     void known_state(const std::optional<std::string> &token, bool incoming) {
