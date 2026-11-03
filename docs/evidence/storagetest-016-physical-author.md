@@ -7,7 +7,7 @@ fast-forwarded to approved root77c6def21adab177bb7f4157207149f5b0fb61e6 before e
 Root owns migration order/shared metadata/build/config/publication. Own exactly
 the new physical-contract Markdown and this note; no production schema/API is added.
 
-Actual candidate commit `8b363ed0904662fdb9320e1e5879e89d7a8fdbbf`, document
+Initial actual candidate commit `8b363ed0904662fdb9320e1e5879e89d7a8fdbbf`, document
 blob `972e67a6ab37de927e41582d197783581cf0393c`,464 lines; SHA256
 `82de5cc6aadd142c1aa6356893a5c44aae90967f30c6e95ebfaaac789e5c7eaf`.
 Authority is full approved concrete701c710f/reviewc0/authorc14f, service6d0cd67f,
@@ -90,18 +90,19 @@ not hold behavior acceptance or independent reviewer approval.
 - Independent stdlib F framing/hashlib reproduces EACH unchanged prefix1–5's
  literal payload bytes, full payload_hex and SHA256, with sizes2000/10535/18126/
  29015/62465 and projections7/13/20/30/66. No production factory/codec generates
- the expectation. Step6 framing is **89806 bytes**, SHA256
- `e09430872e5102cddc84270110ac95886cb54277960e45c0613fa71168652fcd`.
+ the expectation. Current corrected step6 framing is **89890 bytes**, SHA256
+ `9f5b61d41dc644c417808d781cea73144a8d019ad95646373c30751e71596d0a`.
 - `python3 tools/check_project.py`: PASS396 task records/122 decisions, links,
  presets/current HTML. `python3 tools/progress.py render --check`: current.
  `git diff --check`: PASS. Only the two assigned Markdown paths change.
 
 Ignored `local-evidence/storagetest016-physical/` retains the proposal script and
-report. SHA256 script334128295b6db67a14115f531ee6bd686e11e4883763224d56e5b72860ae97fc;
-report44196b9f8eea7f18f6894fbf73a1009739f6b3afb4cd3b6c631d7b9e8f24010d.
-The report independently pins statement lengths4654,8804,1248,1284,795,1280,1665,
+report. Corrected SHA256 script48cf978690b59426efbb2fc4eea6b267233a8f4c171498444a97d40ac83a9ffe;
+report2597760f05e551be22380d03ba5733ee9ba517adf424a487a36e603e36b294b6.
+The report independently pins statement lengths4696,8804,1248,1284,795,1280,1665,
 468,504,1559,96,97 and columns22,45,10,11,6,10,8,3,3,8. Its numbers refer to this
-actual final physical candidate; earlier89396-byte scratch status is superseded.
+actual corrected physical candidate; earlier89396-byte draft and initial89806-byte
+review candidate are superseded, not current payloads.
 
 Different actual full physical-document review is NEXT. Minimal API/result-owned
 byte formulas and schema artifacts, named stubs, independent frozen foundation,
@@ -110,3 +111,44 @@ red are later separately assigned gates. STORAGE-016 production is not authorize
 by this document diagnostic; service004 keeps its own prerequisite/baseline/red.
 No owner policy decision or scope waiver is requested. All integrations/FX,
 authority/recovery/financial/UI/platform/backup/live/release obligations remain.
+
+## Actual independent-review corrections
+
+Reviewer found a reproducible Statement1 SQL three-valued-logic hole: absent
+application_link_kind with a complete held-origin group could evaluate CHECK as
+NULL and pass despite its intended absent-link shape. The non-NULL alternatives
+now explicitly require application_link_kind IS NOT NULL. Actual-kind shared raw
+mutation uniqueness, all valid absent/whole/timer alternatives and all23 objects
+remain; only42 bytes are added to Statement1, and its table SQL contributes that
+same42-byte change to the framed projection. Thus payload grows84 bytes to89890.
+Reviewer initial raw evidence and old89806/e094 framing remain historical. Initial
+script/report bytes are archived with -initial names and their original recorded
+SHA33412829/44196b9f; a byte reconstruction was checked against those exact hashes
+after the current diagnostic files were refreshed.
+
+Corrected fullDDL/catalog/FK/integrity/projection diagnostic passes again. A raw
+stdlib SQL predicate diagnostic checks eight declared guard cases: absent/whole/
+timer and optional known remaining fit; absent-with-held, absent-with-remaining,
+whole-with-held and timer-without-held evaluate exactly0, not SQLNULL. This scalar
+diagnostic is not full hold data/API/Qt acceptance. Raw null-guard-diagnostic.json
+SHA256182914237f0c2df316cbdcd8cf594bd2f2a1b4b256667553bb726861bb543e2d.
+
+The other reviewed correction explicitly requires ACTUAL unfiltered typed COUNT/
+domain/ordinal/key proof against every declaration BEFORE allocation/reserve/full
+materialization of occurrences, resolution expected/entry/replacement collections
+and active views. All subject metadata/history is walked before active counting/
+full loading; understated counts are invalid_stored_data and cannot bypass caps.
+Metadata still has no lifetime materialization quota. No API/source/schema artifact,
+fixture/test assertion or product policy changed; actual revised review remains
+pending.
+
+A third actual review finding identified an H11 composition bypass: kind0 same-
+subject/source/plan could otherwise point at the already-processed Beside timer's
+old original and avoid kind1's distinct-correction guard. Revised crosspaths pin
+kind0 to whole-input numeric/unresolved and explicit DeferWholeInput timer causes;
+ANY closed Beside timer forbids kind0. Application-linked Beside resolution requires
+kind1 and the exact held origin/distinct key/source, while no-app decisions remain
+DATA under owning policy. A Defer timer's complete-original kind0 path remains;
+no distinct-correction or partial/full continuation policy is inferred from a
+shape-valid kind1 declaration. This adds explicit runtime linkage validation, no
+DDL/payload change or new product execution policy.
