@@ -93,3 +93,29 @@ c8d5057797d119707cd228bd81ce909064bdd34afae608cd80cdc2c87cfcb8f0.
 No reviewer replay or source/test change. The observed regression gate supports
 the two bounded fixes; actual changed helper/runtime/factoring/promotion and
 passing full acceptance still require review. No prospective implementation approval.
+
+## Actual Captured-token phase regression review
+
+**APPROVED** actual root-authored0c1815d test blob
+`d740a1757699d73d84cfe7b0f88aecdadb4f3091`, revision-note blob
+`3d6ac2f4a55cba13ee6019f0818923b766d33e43`. Read the complete actual source/note
+diff and API46c lines198–200/category review35b1092. That accepted clause explicitly
+keeps conditional Captured known-token presence in the plan-evidence MATRIX,
+after required envelope shape. This is not a new within-stage tie-break.
+
+The single added row36 starts from frozen valid dOverflow, resets ONLY the cause's
+first-observation token and nulls request.audit.document. Optional absence passes
+the key tier; all other keys/counts/default bounds are valid. The expected
+invalid_detection8 is the earlier required-envelope error. Existing dispatch uses
+record_detection; input_failure, actual caller marker and acknowledged commit
+assertions are unchanged. No prior row/oracle/fixture is weakened;35 slots remain,
+37 pure-shape rows and269 total scenarios are now statically authored.
+
+Direct native pure scratch probe against ACTUAL ec78b697 independently observed
+invalid_plan_evidence6 instead of8. This is diagnostic evidence, not execution of
+the newly reviewed public row. Root must compile/discover and observe that row's
+actual reached red on unchanged ec78 BEFORE releasing the conditional-token fix.
+Both body_cause/body_detection token-presence checks must respect the explicit
+matrix phase; later actual source review remains required. No public hold/test
+body or old valid baseline was replayed by the reviewer. Previously passed268-row
+acceptance remains evidence for its exact candidate, not this new row or future fix.
