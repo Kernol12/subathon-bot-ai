@@ -1,6 +1,8 @@
 # ACCTTEST-004 final feature baseline environment
 
-2026-11-03, root integrator. Test baseline only; production ACCT004 remains planned.
+2026-11-03, root integrator. **Reviewed observed-red baseline complete** after
+actual independent attributioncc9909ad. Production ACCT004 remains planned;
+assertions beyond the immediate stubs await its separate implementation acceptance.
 Owner requests completion of PR49 followed by STOP, with no next task.
 
 | Frozen complete artifact | Git blob |
@@ -46,9 +48,9 @@ COMPLETE final feature candidate's own selected-green.
 Actual full independent final source/note/harness approvalfa63ccda accepts all
 frozen artifacts above. Reviewer own fresh4-step build/zero warnings/exact35
 compiled-registered/source slots/static224 and complete MIN-CI audit pass.
-The complete approved candidate's OWN selected CI is pending. Only after it passes
-may ROOT invoke
-FIRST named missing-feature red on the SAME CLEAN head. The enabled intentional
+That pre-red source checkpoint has now completed its OWN selected CI and FIRST
+same-clean-head red, recorded below and independently attributedcc9909ad. No gate
+is pending for that historical first invocation. The enabled intentional
 red suite is separate from mandatory passing component/foundation checks; CI
 compiles/discovers its exact methods without executing feature bodies. Red output
 must show exact new markers after valid setup, with per-invocation counts and

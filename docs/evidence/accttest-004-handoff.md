@@ -87,8 +87,13 @@ fixture author bundle_validation, full reviewer bundle_reviewer, shared harness/
 integration root. Historical prebaseline findings were corrected and reviewed
 before first red; no observed red was replayed or weakened.
 
-Actual independent attribution of THIS first-red evidence remains pending, followed
-by completion-metadata latest CI, current rules/discussion checks and normal merge.
+Actual independent attributioncc9909ad629b52e0ec455c7762de9a1fbd6d5dd5,
+imported9ca4036, APPROVES this first-red gate after independently checking actual
+raw/CI/API/preflight/source identity and temporal order. No replay. ACCTTEST004
+is DONE as a reviewed observed-red baseline. Assertions beyond each immediate
+stub remain unexecuted until separate production implementation acceptance.
+Completion-metadata latest CI, current rules/discussion checks and normal merge
+remain the separate closing gates at this commit.
 After eligible PR49 merge, STOP; ACCT004 stays planned. All actual adapters,
 provider/FX/financial/refund/review/UI/platform/security/recovery/packaging/live
 release work remains required. These synthetic component/baseline checks supply

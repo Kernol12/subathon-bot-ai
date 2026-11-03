@@ -12,7 +12,7 @@ Main efe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089, normal PR48 merge15:31:10Z;
 all10 post-main workflows observed successful. Earlier PR43–47 also merged;
 [STORAGE016 handoff](storage-016-handoff.md) retains their relevant prerequisites.
 Root task branch `task/ACCTTEST-004-service-baseline`, draftPR49. ACCTTEST004
-in_review; productionACCT004 PLANNED. Inspect actual HEAD/remote/CI on resume.
+DONE as a reviewed observed-red baseline; productionACCT004 PLANNED. Inspect actual HEAD/remote/CI on resume.
 
 ## Complete final authored and independently reviewed baseline
 
@@ -60,9 +60,10 @@ timeout/blacklist. Originalper-invocationLastTestSHA
 [complete-head CI](accttest-004-baseline-ci.md). Do NOT replay this completed red.
 Source/header/harness/fixtures remained unchanged. Nativefull stable265PASS21.47s/
 262Qt1101PASS0skip, separatefromintentionalred. Alloriginalraw/preflight/audit/CI/
-API/status files underignored local-evidence. Rootrecordingfactsnow; independent
-attribution ofACTUALred stillrequired beforeDONE, thencompletionmetadata latestCI/
-currentrules/discussions/normalmerge. STOP afterPR49; no production/newtask.
+API/status files underignored local-evidence. Actualindependentattributioncc9909ad→9ca4036 APPROVEDthisexactfirstred/raw/source/
+CIorder without replay; ACCTTEST004baselineDONE. Assertionsbeyondimmediatestubs
+remainunexecuted. Completionmetadata latestCI/currentrules/discussions/normalmerge
+aretheONLYremainingclosinggates. STOP afterPR49; no production/newtask.
 
 ## Preserved work and roles
 
@@ -71,8 +72,8 @@ Testauthor bundle_implementer COMPLETE/clean7bb3e42 in
 `task/ACCTTEST-004-feature-tests`, owns only testCPP/note. Fixtureauthor
 bundle_validation COMPLETE/clean7b800 in NEW `accttest004-min-policy-fixture` tree,
 branch `task/ACCTTEST-004-min-policy-fixture`, four fixture paths only. Fullreviewer
-bundle_reviewer final source reviewfa63 complete; resume with followup_task for
-actual CI/red-attribution review only. Its six original dirty verification configs
+bundle_reviewer final sourcefa63 and actualredattributioncc9909 complete; no more
+agent work is assigned. All agents should remain stopped after handoff. Its six original dirty verification configs
 were backed up before adopting final harness. All original author/reviewer/fixture
 and earlier storage trees/valid evidence remain preserved. Last inventory127
 registered111existing16absent. Never reset/prune/discard them. Root shared build,
