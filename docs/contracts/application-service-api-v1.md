@@ -540,7 +540,7 @@ For one fresh whole-input hold creation, those four applicable annotation fields
 byte-identical owned copies, EACH charged in actual hold B/I accounting. Policy
 holds have no FailureEvidence; no numeric/failure fiction is added. Both first and
 attempt typed observations copy the actual retained head. A failed arithmetic
-proposal stays DATA in SAH1, not a retained snapshot.
+proposal stays DATA in the selected SAH1/SAH2, not a retained snapshot.
 
 Known fields are projected honestly: permission revision comes from allowed access,
 policy revision from a supported bound policy, actor/decision from actual command
@@ -553,7 +553,7 @@ No new clock precondition, time source, previous-snapshot UTC or invented0 is ad
 
 HoldObservation optional identity/key refs project ONLY actual NONEMPTY values.
 In particular command actor_ref/decision_ref may be present-empty; preserve their
-exact presence/bytes in SAC1 (and therefore SAH1's embedded command), but project
+exact presence/bytes in SAC1 (and therefore the selected hold annotation's embedded command), but project
 them as ABSENT typed HoldObservation refs because the existing hold key domain
 forbids empty refs. Do not substitute principal identity, normalize the original
 command, or narrow its accepted shape. This projection concerns key-domain refs,
@@ -572,7 +572,7 @@ Deterministic service-owned strings are source copies or exact empty/fixed bytes
 | ApplicationAudit actor_ref/decision_ref/reason | original command optionals verbatim, not guessed identities |
 | PreparedBundle.advance_explanation | empty bytes iff advanced-before reuses the head; otherwise exact ASCII clock-observation-v1 |
 
-Actual observation evidence lives in SAS1/SAH1. No timestamp interpolation, prose
+Actual observation evidence lives in SAS1/SAH1/SAH2. No timestamp interpolation, prose
 template, locale-dependent wording or unstated calculation explanation is generated.
 These copy rules change no grammar, authoritative field or provider capability.
 
