@@ -1,6 +1,7 @@
 # ADR-0003 — Separate application semantics and durable review holds
 
-Date/status: 2026-11-03; proposed for independent contract/planning review.
+Date/status: 2026-11-03; accepted after actual independent contract/planning review
+925deab1 (document/dependency sequence only, not API or implementation approval).
 Authority: specificationv0.45 §§3.3–3.5,4,5; NUM-02/03/04, DB-01.
 
 ## Actual gap

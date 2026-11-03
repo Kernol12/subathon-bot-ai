@@ -1,109 +1,90 @@
-# Coordinator — PR43 integrated; ACCTCONTRACT-001 logical contract
+# Coordinator — PR43 integrated; PR44 reviewed contract ready for completion checks
 
-Owner resumed the standing loop2026-11-03. Full product is incomplete; all seven
-integrations/threeFX and UI/operational/platform release scope remain mandatory.
-No owner decision/access currently needed. Root continues the standing loop.
+Owner explicitly resumed2026-11-03. Full product remains incomplete; all seven
+integrations/threeFX and UI/operational/platform release scope stay mandatory.
+No owner decision/access currently needed. Continue the standing loop after gates.
 
-## Last completed task and actual main
+## Actual main and completed implementation
 
-[PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43) normally MERGED exactfinal
-34ed520ed3c32aeafa897650631f2898b7899159 at2026-11-03T05:49:50Z as main
-8c7f71f424126727f1a846edc01541d0f091529f. All11 latestSUCCESS including final
-SQL41585878746/ready/CLEAN/MERGEABLE/zero unresolvedthreads/effective26170263
-requiredGHapprovals0/cleanroot/unchanged reviewed source verified before normal
-exacthead merge. No bypass/force/deletion. Localmain fast-forwarded toactual8c7.
-[STORAGE-002 handoff](storage-002-handoff.md), [source review](storage-002-code-review.md),
+Actual fetched/localmain8c7f71f424126727f1a846edc01541d0f091529f is normal PR43 merge
+at2026-11-03T05:49:50Z from exactfinal34ed520. All11 latestfinalCI including
+SQL41585878746/ready/CLEAN/MERGEABLE/zero threads/requiredGHapprovals0/rules26170263/
+cleanroot/unchangedreviewedsource verified before exacthead normalmerge. All10
+postmain8c7 workflows subsequentlySUCCESS, including SQL41586180251.
+[STORAGE-002 handoff](storage-002-handoff.md), [actual source approval](storage-002-code-review.md),
 [final attribution](storage-002-final-review.md), [CI](storage-002-ci.md).
-Root35/full209 and different reviewer35/full209PASS0warnings/Qt skips; actual
-selected official source6133 run41585131851 has verifiedQt6.12SQLite3.53.4/
-Boost1.83/UNCONDITIONAL35PASS, and final34ed ownlatestchecks alsoPASS.
-All10 postmain8c7 workflows now observedSUCCESS, including SQL41586180251.
+35/full209 root+differentreviewerPASS, selectedofficial35unconditionalCI PASS.
+Original32 red90fa retained; one independently corrected terminaloracle and3
+separately reviewed/reached-red regressions documented (statekind1alreadygreen).
+All prior fixtures/header/schema/ports/reviews preserved, no releaseclaim implied.
 
-Original STORAGETEST-002 reviewed32 red90fa remains preserved, never repeated.
-One independently corrected terminal oracle and3 independently reviewed/reached-red
-regressions are documented; statekind1 alreadypassed, never claimedred. Frozen
-fixtures/header/physical contract/prior schema/ports remain unchanged. No semantic
-application authority, provider, delivery or recovery capability is inferred.
+## Current focused contract task / publication
 
-## Active task and exact ownership
+ACCTCONTRACT-001 is DONE/DOCUMENT ONLY, PR44 still UNMERGED at this checkpoint.
+Historical branch task/ACCTTEST-004-application-service retained from actual8c7;
+initialclaim81b authorized the same logical-document stage before edits. Actual
+missing durablehold/earlyclaim primitives led to explicit reviewed decomposition,
+not a silently narrowed service baseline. [ADR0003](../decisions/0003-application-service-prerequisites.md).
 
-ACCTCONTRACT-001 is IN_PROGRESS/document-only contract, actual investigation found
-missing durable numerical-review holds. [ADR0003](../decisions/0003-application-service-prerequisites.md)
-records explicit split; separate reviewed logicalcontract → STORAGETEST016 actual
-contract/API/fixture/tests/red → STORAGE016 holdimplementation → original
-ACCTTEST004 realservicebaseline → ACCT004 serviceimplementation. No dependency
-cycle, test-gate waiver or release shrink. ACCTTEST004 returnedPLANNED with explicit
-new prerequisites; no serviceAPI/fixtures/tests/red/production was authored.
+[PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44) now delivers ONLY the
+[412-line logical contract](../contracts/application-service-v1.md)6d0cd67f and21AS
+literal examples, independent7Fraction/integer/ordered/signed-bound audits.
+[Author](accttest-004-contract-author.md), [actual full review925deab1](accttest-004-contract-review.md),
+[task handoff](acctcontract-001-handoff.md). Review accepts doc6d0/author8f87/ADR303/
+taskb762/holdbrief377/claimbrief385 at roote0affbd; no API/DDL/fixture/test/red/
+implementation is approved. Three genuine docfindings corrected before approval:
+no inferred globalmixedtimerRequireReview default; no Ready reducer/fakepostfinish
+components; knownhardend observed before finalpausedadmission with no privateclock
+publication. Unknown mixedpolicy remains an explicit owning-task gate, no choice
+needed to complete the bounded document. Future enablement may require one.
 
-[Draft PR44](https://github.com/Kernol12/subathon-bot-ai/pull/44) retains historical
-branchname task/ACCTTEST-004-application-service from actual8c7, created BEFORE
-logicaldoc stage. Its focused executable outcome is now ACCTCONTRACT001; initial
-claim81b authorized only that same logical stage. Newcontract/hold task briefs and
-rootclaimedgraph are actualworkingartifacts; planningawaits differentreview.
-Originalbaseline/impl remainmandatory. Rootcontrolssharedmetadata/config/schemaorder.
+Published complete candidatee0affbd all11CISUCCESS, including unchangedstable
+SQL41588383068. Old component checks are NOT new service/hold/query acceptance.
+Root completion metadata/handoff/map are now being frozen; latestcompletionhead
+must receive its OWNCI and actualready/threads/reviews/rules/mergeability before
+normal exacthead merge. Current review approval is not futureCI approval.
+Root owns sharedstate/HTML/map/build/presets/workflow/schemaorder/pins.
 
-Fresh isolated trees/branches from8c7, old trees preserved:
+## Exact next executable sequence
 
-- /root/bundle_implementer explicitly reassigned contract author on
-  task/ACCTTEST-004-contract-author,
-  local-evidence/worktrees/accttest004-contract-author. Own ONLY
-  docs/contracts/application-service-v1.md and own author evidence Markdown.
-- /root/bundle_reviewer explicitly reassigned independent contract reviewer on
-  task/ACCTTEST-004-contract-review,
-  local-evidence/worktrees/accttest004-contract-review. Preparation then actual
-  candidate review; own reviewMD only, no prospective approval.
-- Root owns progress/HTML/map/sharedschemas/migrations/build/presets/workflow/pins.
-  No third author assigned until the relevant contract/API/fixture gates are ready.
+1. Finish PR44 completion/checks and normal merge, refreshactualmain.
+2. Claim either/both independent STORAGETEST-016 and STORAGETEST-017 from that
+   integratedmain on fresh dedicated branches/worktrees. Each starts concrete
+   contract/API/limits review, immediate namedstub/minimalbuild/APIreview,
+   independent fixture/test author/review/compiler/discovery/own intendedred.
+3. Their separate STORAGE016/017 production tasks then require acceptance,
+   different code review and automaticselectedCI before integration.
+4. Original ACCTTEST004→ACCT004 waits integrated016+017 and retains its OWN
+   service baseline/red. It is PLANNED, not finished by old209 or document approval.
 
-Scope to refine openly: ORIGINAL application orchestration composes nonowning
-bundle repository, exact debt/cap/lifecycle helpers, explicit typed currentpolicy/
-clock/access ports, all15contribution dimensions/planhead, complete intent duplicate/
-claim ordering, actual one Qt writer unit/COMMIT/normal completion and honest
-knownrollback/unknown/publication. Opaque storage documents prove no permission,
-configuration/cap interpretation or clock segmentation. Keep batch/review ACCT005,
-financial refund allocation ACCT006, milestones/delivery/recovery/wire/provider
-as separate mandatory gates; never silently shrink intended release scope.
+396tasks/122decisions,191packages350children graph is acyclic; root/reviewer
+links/presets/currentHTML/diffPASS, tooling19PASS0.265s after decomposition.
+STORAGE016 means policy-neutral durableholds/history/active taggedsubject gates/
+authorized atomic resolution; STORAGE017 means early ORIGINALsubject-before-source
+fullclaim projection without dummyproposal/rawSQL/oldIntent-equality changes.
+Mixeddeficit/globalstatus/continuation and mixedpostfinish representation are
+explicitly mapped in CORE008/ACCT005/ACCT006 briefs; no invented default/feature.
 
-Next: author logical contract/literalexamples and obtain different actualdocument
-and decomposition review. This PR ends at reviewed DOCUMENTcontract, not newAPI/
-fixtures/tests/red. After integration claim STORAGETEST016 with its own concrete
-review/red gates. Later ACCTTEST004 retains its own servicebaseline. Production
-ACCT004 waits. No newlogicalcandidateapproval/schema/API/test/red claimed yet.
+## Agents/worktrees and preservation
 
-## Preservation / commands
+All agents COMPLETE at last actual handoff; no native/test/SQL/debugger process:
 
-No old native/test/debugger command remains; oldtask agents were COMPLETE before
-reassignment. Prior author267/helper068 trees clean. Old source-review tree5b71576
-retains exactly3 uncommitted rootconfiguration copies used for verification
-(workflow/presets/QtCMake), not unfinished source/test work; preserve them.
-Prior98registered trees/refs plus task43new3/newtask2 preserved; no prune/reset.
-Root task43 mergegate JSON local-evidence/storage002-final-merge-gate.json.
-Latest source/CI artifact pins and raw hashes are in linked task evidence.
+- /root/bundle_implementer, new accttest004-contract-author tree,
+  task/ACCTTEST-004-contract-author clean c6052e8. Doccandidate integrated root4f515b9.
+  Also completed read-only17prep: smallest originalclaimselector role/Receipt/CID,
+  optional typedmatch(subject/source)+fullrecord; globalDBsubject then originalsource,
+  no OperationKey/plan/currentstate/computedbundle input; fullclosure and original
+  rollback/capability/unknown budgets reused. No nexttask API/edits claimed.
+- /root/bundle_reviewer, new accttest004-contract-review tree,
+  task/ACCTTEST-004-contract-review clean925deab1, actual DOCapproval imported68465e7.
+- /root/bundle_validation completed read-only16prep only; old storage002-validation
+  tree task/STORAGE-002-boundary-regressions068 remains preserved. Proposed storage
+  questions: repeateddetection/causeidentity, independentactiveholds, version/history/
+  resolution and no clear-then-apply gap. None are a finalized API/schema/policy.
+- OLD storage002-review tree5b71576 still contains exactly3 uncommitted rootconfig
+  verification copies(workflow/presets/QtCmake), not unfinished source/test work.
+  Prior98registered refs/trees plus newtask43three/task44two preserved; no prune/reset.
 
-Actual planningcheck394tasks/122decisions/local links/acyclicdependencies/currentHTML/
-tooling19PASS0.265s/diffPASS. PR44 initialclaim81b CI is inherited-only, not new
-service/hold proof. Author/reviewer explicitly reassigned documenttask only.
-
-
-## Actual logical candidate and further prerequisite precision
-
-Author9614dd4 importedafe2762, then actual review requestedchanges on inferred
-whole-operation timerRequireReview default and Ready/Finished/deadline ordering.
-Author17c0b22→c861ad8 andc6052e8→4f515b9 now supply final412-line DOCUMENT contract
-with21AS literal examples+independent7integer/Fraction audit. No serviceAPI/schema/
-fixtures/tests/red/production changed. Complete actual differentdocument/decomposition
-review is active; there is NO final approval yet. Initialcandidatefindings are not
-newfeaturetestfailures or intendedred.
-
-STORAGETEST017→STORAGE017 added separately for typed EARLY applicationclaimprojection
-(currentstage requiresalreadycomputedproposal). No rawSQL/dummybundle/oldIntent-
-equality change. Hold016 andquery017 independently follow the reviewedlogicaldoc;
-servicebaseline waits bothintegrated implementations. Actual396tasks/122decisions/
-191workpackages350childrecords graph passeslinks/acyclic/currentHTML. Existing
-CORE008/ACCT005/ACCT006 notes/briefs track unresolved mixeddeficit/continuation and
-postfinish representations explicitly; no newglobalpolicy selected. Old209 passes
-remain component evidence only. Rootplanningchanges await finalsameactualreview.
-
-Next: freeze actualfinaldoc+planning, obtain separateapproval, publish focused DOC
-PR44 under ACCTCONTRACT001 title, observe latestunchangedstableCI, normalmerge only
-after allgates. Then claim new016/017 baseline task(s) from integratedcurrentmain.
+No dependent edits/claims before PR44 integration. No real credentials/supporter
+or provider/chat/payment/deployment effects. Preserve valid old reviews/red evidence
+and inspect actual GitHub/process/branch state again if interrupted.

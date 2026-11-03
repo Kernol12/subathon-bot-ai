@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T06:02:44.179148+00:00",
+  "updated_at": "2026-11-03T06:18:50.839133+00:00",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1606,7 +1606,7 @@
       "title": "Define application-service and durable-hold logical contract",
       "module": "Accounting",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "coordinator /root; author /root/bundle_implementer; independent reviewer /root/bundle_reviewer",
       "depends_on": [
         "ACCT-003",
@@ -1622,14 +1622,34 @@
         "DB-01"
       ],
       "brief": "docs/tasks/ACCTCONTRACT-001.md",
-      "summary": "Documentation-only original application-service/current policy/commit and durable-hold semantics; no API/test/red or implementation. Explicit prerequisite for the separate hold repository and service baselines.",
+      "summary": "Independently reviewed documentation-only original service/hold/claim boundaries and21literal examples; explicit016+017 prerequisites. No API/schema/tests/red/implementation delivered; PR44 completion/merge gates pending.",
       "notes": [
         "Parent epic: EPIC-002. Explicitly split after actual contract-stage finding; ADR0003 preserves original service scope and adds durable-hold prerequisites, no cycle or test-gate waiver. Dedicated task/ACCTTEST-004-application-service branch/PR44 from actualmain8c7 existed BEFORE logical-document edits and initially claimed only that stage; historical branchname retained, now focused executable ACCTCONTRACT001. Root owns sharedmetadata/config/schemaorder; author owns only application-service-v1.md+ownMD on fresh8c7author tree; different reviewer actualdocumentreview required. No service code/test/red authored.",
-        "Separate query-only STORAGE017 logicalobligation identified: typedearlyapplicationclaimread with full selectedclosure before newnumericproposal; no rawSQL/dummystage or oldIntent-equality change. Independent baseline017 thenimplementation017 joinhold016 before originalservicebaseline. No newcode/test/DDL or approval claimed by planning."
+        "Separate query-only STORAGE017 logicalobligation identified: typedearlyapplicationclaimread with full selectedclosure before newnumericproposal; no rawSQL/dummystage or oldIntent-equality change. Independent baseline017 thenimplementation017 joinhold016 before originalservicebaseline. No newcode/test/DDL or approval claimed by planning.",
+        "Actual different DOCUMENT/decomposition approval925deab1 accepts final412line6d0/author8f87/ADR303/briefb762+377+385 at e0; independent7Fraction+AS06+signedbounds/static396/122PASS. No ownerdecisionneeded now, unknownmixedpolicyrequiresowninggatebeforefutureenablement. Actuale0 all11CI SUCCESS/SQL41588383068 is unchangedstablecomponentprotection only. DONEdocumenttask but PR44UNMERGED; finalcompletionhead ownlatestCI/reviews/threads/rules/normalmerge pending. Originalservice baseline/production remainplannedbehind016+017."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "documentation": "passed",
+        "analytical_examples": "passed",
+        "independent_review": "passed",
+        "github_ci": "passed",
+        "native_feature": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/application-service-v1.md",
+        "docs/decisions/0003-application-service-prerequisites.md",
+        "docs/evidence/accttest-004-contract-author.md",
+        "docs/evidence/accttest-004-contract-review.md",
+        "docs/evidence/acctcontract-001-handoff.md"
+      ],
+      "review": {
+        "author": "/root/bundle_implementer (logical document/examples); /root (planning/dependency ownership)",
+        "reviewer": "/root/bundle_reviewer",
+        "outcome": "approved",
+        "baseline": "Actual925deab1 approval finaldoc6d0/author8f87/ADR303/taskb762/holdbrief377/claimbrief385 atroot e0affbd. Full412lines/21AS, independent7Fraction partitions+AS06+signedMIN/MAX,396acyclicgraph/followupbriefs reviewed. All3material findings resolved17+c605; no inferredglobaltimerpolicy/Readyadvance/fakepostfinishcomponent/privateclockpublication. Actuale0 all11CI SUCCESS inclunchangedstableSQL41588383068; no newnative/API/testred/feature proof. Completionhead ownCI/normalmerge stillpending.",
+        "evidence": "docs/evidence/accttest-004-contract-review.md"
+      }
     },
     {
       "id": "ACCTTEST-004",
@@ -12476,6 +12496,11 @@
       "date": "2026-11-03T06:00:00.602322+00:00",
       "task": "ACCTCONTRACT-001",
       "note": "Actual missing durablehold port found; explicit logicalcontract+STORAGETEST016/STORAGE016 prerequisite split, originalservice baselineplanned. PR44 narrowed to documentationtask, no requirement/testgate removed. Author/reviewer reassigned same alreadyisolated8c7trees; no serviceproduction/API/test authored."
+    },
+    {
+      "date": "2026-11-03T06:18:50.839133+00:00",
+      "task": "ACCTCONTRACT-001",
+      "note": "Actual925 independentlogicaldocument+planningapproval;21literalAS/7independentexactaudits,396acyclicgraph, no implicitglobaltimerpolicy. CompleteDOCtaskonly; API/schema/test/red/implementations016/017/servicefuture. PR44 latestcompletion/normalmerge gates next."
     }
   ]
 }

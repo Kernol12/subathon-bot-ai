@@ -103,8 +103,8 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
 
 Total: 191 work packages, 350 child records
-(157 test baselines plus their paired
-implementations and distinct feasibility/verification/documentation tasks).
+(test baselines, their paired implementations, and distinct feasibility,
+verification and documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.
 Task counts are not completion percentages.
 
@@ -114,5 +114,6 @@ coverage; tests/acceptance-map.json remains the test/evidence map and is not mar
 verified by this decomposition.
 
 The [application-service prerequisite split](../decisions/0003-application-service-prerequisites.md)
-adds a documentation-only logical contract and separate durable-hold baseline/store
+adds a documentation-only logical contract plus separate durable-hold and early-
+claim baseline/store prerequisites
 before the original service baseline; no original release requirement is removed.
