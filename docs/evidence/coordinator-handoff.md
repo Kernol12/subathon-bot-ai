@@ -9,8 +9,9 @@ this PR; implementation016 and service004 follow their own gates.
 Current refreshed main **017d40f6233e3416b4a785924052a9ab9bbeb83f**, normal PR47
 merge13:20:43Z from exactfinalb5a782fe after all11 latest successful, SQL41642632696,
 readyCLEAN/MERGEABLE/0threads/currentrules26170263formal0/rootclean/pinsunchanged.
-Main tree1ffff440 equalsb5. No bypass/force/delete. Postmain017d CI is pending
-separate observation. Earlieraad all10 were successful. Completed task merges:
+Main tree1ffff440 equalsb5. No bypass/force/delete. Postmain017d ALL10workflows
+observedcompletedSUCCESS, includingSQL41643509589. Earlieraad all10 also successful.
+Completed task merges:
 
 - [PR43](https://github.com/Kernol12/subathon-bot-ai/pull/43), STORAGE-002:
  34ed520→8c7f71f,05:49:50Z. [Handoff](storage-002-handoff.md).
@@ -128,7 +129,8 @@ on resume, never assume running. Use followup_task for completed agents.
 
 Root `task/STORAGE-016-durable-holds` was created from refreshed017d BEFORE claim
 or edits. Implementation scope/acceptance/ownership is now recorded in state.json.
-No implementation candidate yet; six source functions still immediate stubs.
+[Draft PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) opened atb2b5934.
+No implementation candidate integrated yet; root still has six immediate stubs.
 
 New source tree `local-evidence/worktrees/storage016-source`, branch
 `task/STORAGE-016-source`, from currentmain017d plus rootclaim; implementer
@@ -151,16 +153,19 @@ pure options/shape/equality/B/I/exactmanifest only, no SQL/ticket/cleanup. Runti
 author owns new private bundle_access.hpp factoring olddecoders; coordinate exact
 oldpureoptions namespace directly. Root + separate reviewer are independent native
 validators, neither production author. Preserve all previous branches/copies.
-Root creates isolated trees/assignments next; do not assume agents running until
-actual followup calls. Root alone owns shared progress/HTML/maps/schemaorder/build/
+All four tasktrees are created; actual followup calls started BOTHauthors plus
+independentreviewerread-onlyprep, all agents observedrunning. Root reservedvalidation
+configuredprofile20/built ONLY oldlibraries+existingholdstublib26steps0warnings;
+no newfeature/baseline/body replay. This is environmentprep, not sourceacceptance.
+Root alone owns shared progress/HTML/maps/schemaorder/build/
 presets/workflow and later promotion (draft-red removal + mandatory35 execution).
 
 ## Next concrete actions
 
-1. Complete rootclaim commit/project/render checks, create the three isolated
- branches/worktrees from017d plus claim, explicitly assign bounded source author.
- Reviewer may do read-only prep but never prospectively approve absent source.
-2. Observe postmain017d CI without repeating completed baseline/red tasks. Source
+1. Claim4622646/roleb2b5934/draftPR48/isolatedtrees/actualassignments are complete.
+ Continue runtime and pure-header authors. Actual reviewer prep d59d197→7728512
+ [mapped reuse/cautions](storage-016-review-prep.md), sent to both authors, no verdict.
+2. Postmain017d all10SUCCESS observed; do not repeat completed baseline/red tasks. Source
  author implements exact six functions/step6 + strict selected references, runs
  new35/full264 actual acceptance. Native runtime investigations use applicable
  debugger-first skill when control-flow/value evidence is needed. No baseline
