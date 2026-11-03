@@ -166,8 +166,8 @@ SAH213/302/362; detectionB1208/1486/1711I1; responseB81/76/86I1.
 Root focused old-only foundation40PASS/0FAIL/0skip955ms/CTest0.96s/3build0warnings,
 rawSHA f126e98fc93a171b57bae75f43a90f94ea64bdcf8878ccfac5bed803f4451ee6.
 Different reviewer actual full narrow source/note/oracle approvalc80e7c4e→root4823abc
-plus own40PASS985ms/3buildzero; current fixture-review addendum records exact facts. OWNupdatedselectedCI still REQUIRED;
-affected new goldens/test slots not released yet. Prior30 reviews remain valid.
+plus own40PASS985ms/3buildzero; current fixture-review addendum records exact facts. OWNupdatedselectedCI nowPASSED41689892871 at8e68895; see next paragraph.
+Affected new goldens/test slots NOWreleased. Prior30 reviews remain valid.
 
 Root early feature harness: testsQtCMake d7470c37fcd26523556337eb38dc5110cda3fb97;
 workflow af0f961e7d86edcee73d339fcec95fdd5a138a3d. New real archive-linked executable,
@@ -184,8 +184,17 @@ Refined native3-step compile/link ZEROwarnings; actual33 compiled slots equal
 
 ## Next concrete actions and non-negotiable first-red gate
 
-Actual policy-fixture review is imported4823abc. Publish own updated selected foundation and
-inspect complete run/checkouts/log. Only then release affected policy-hold test cases.
+Actual policy-fixture review imported4823abc and OWNcomplete8e68895 selected
+41689892871 SUCCESS18:02:00–18:04:45Z/fresh126zero/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/
+oldstable/exact6guard/40PASS0skip1905ms/exact33compiled-discoveryONLY/all11SUCCESS.
+Rawd22bb8ea24793ceb5da0bfb7dcd90e5d97ff4002a707700b1667290878881fff; actual
+3452b692synthetic parents efe+8e/treeea932c3bd9fa0b287d6ecb2a5ec1f3056dec77bc
+APIverifiedequalcandidate. NOWrelease2affected policy-hold testgroups.
+Actual authornotec98→6a8bdef/blob941815da records early33/206/specmatrix.
+Fullreviewer ACTIVEactualsource; separate bounded codecTESTreviewer bundle_validation
+ACTIVE NEW clean task/ACCTTEST-004-test-codec-review tree at8e68895 owns ONLY
+docs/evidence/accttest-004-test-codec-review.md. Concrete prebaseline COW rawbuffer
+check and exactlimit/semantic reason precision findings sent to author; fixes follow.
 Complete authored testCPP/note; update root exactN guard/registrations as needed.
 Reviewer independently reads ACTUALsource/oracles/helpers/harness/authornote and
 links fullspec AS01–21/CS01–18. Preserveproofpartition: service tests pre-read15/
@@ -209,8 +218,9 @@ integrated reviewed/red baseline and its OWN separate source/acceptance review.
 Actual resume inspection: root clean before new root harness edits; remotePR49 draft/
 CLEAN/MERGEABLE/no formalreviews/all11SUCCESS at a265767. Main freshly fetched equals
 efe1c7e; PR48 merge verified directly. Worktrees125registered109existing16absent,
-all preserved. Two agents active (test author, fixture reviewer); fixtureauthor
-complete cleancb7. Six dirty verification configs in reviewer tree and older dirty
+all preserved. Three agents active (test author, fulltest reviewer and bounded codecTESTreviewer).
+Fixtureauthor original tree complete cleancb7. New codecTESTreview tree makes126registered/
+110existing/16absent before further changes. Six dirty verification configs in reviewer tree and older dirty
 review/validation trees preserved in ignored resume-status JSON. Native session44370
 completed40PASS; feature compile/discovery96650 completed33, one helperwarning.
 No running build/test/debug/GitHub command remains. No new service/view/codec/stub/

@@ -108,3 +108,23 @@ service/view/codec/marker was called. This candidate's OWN updated selected CI i
 pending; affected policy-hold goldens remain closed until that gate passes.
 Early feature source is compiled/static-discovered only and has no acceptance
 or red claim; later full test review and complete-head own gate remain required.
+
+## Additive policy fixture OWN-head gate completed
+
+Actual COMPLETE policy-fixture candidate **8e68895c0b07275c94ff8fe35c5d9c866b840300**
+passed OWN [selected41689892871](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41689892871),
+18:02:00–18:04:45Z: fresh126 steps/zero warnings/GNU13.3/pinned Boost108300/
+verified officialQt6.12/SQLite3.53.4. All old stable suites pass. Required exact6
+foundation guard executes current33 rows:40QtPASS/0FAIL/0SKIP/0blacklist1905ms.
+The appended exact33 compiled feature registration guard passes without invoking
+any new test/init/body/service/view/codec/marker. All11 same-head PR checks SUCCESS.
+
+Raw local-evidence/accttest004-policy-official-ci.txt SHA256
+**d22bb8ea24793ceb5da0bfb7dcd90e5d97ff4002a707700b1667290878881fff**;
+run/check/checkout JSON are retained. Actual synthetic checkout
+3452b69265a2f1f7e6feaf655a3d72049cb51ade has parents efe1c7e+8e68895 and tree
+**ea932c3bd9fa0b287d6ecb2a5ec1f3056dec77bc**, API-verified equal to the candidate.
+An initial abbreviated commit API lookup returned404; full observed SHA succeeded.
+This completes only the updated fixture gate; root may NOW release affected
+policy-hold test authoring. Complete final feature source review/current-head gate
+and FIRST clean named missing-feature red remain required, with production planned.
