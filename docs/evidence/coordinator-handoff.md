@@ -1,4 +1,4 @@
-# Coordinator checkpoint — STORAGE-016 final270 acceptance and review
+# Coordinator checkpoint — STORAGE-016 merged; service baseline resumed
 
 Continue [standing coordination](../COORDINATOR_PROMPT.md) under AGENTS. Full
 product is incomplete. No owner decision/access currently needed. Do not stop at
@@ -6,7 +6,7 @@ this PR; implementation016 and service004 follow their own gates.
 
 ## Main and preserved integrated work
 
-Current refreshed main **017d40f6233e3416b4a785924052a9ab9bbeb83f**, normal PR47
+Prior main **017d40f6233e3416b4a785924052a9ab9bbeb83f**, normal PR47
 merge13:20:43Z from exactfinalb5a782fe after all11 latest successful, SQL41642632696,
 readyCLEAN/MERGEABLE/0threads/currentrules26170263formal0/rootclean/pinsunchanged.
 Main tree1ffff440 equalsb5. No bypass/force/delete. Postmain017d ALL10workflows
@@ -29,103 +29,73 @@ Completed task merges:
  The intermediate missing canonical acceptance metadata was corrected using
  already-passing evidence and fresh checks before merge; no tests/validator weakened.
 
-## Actual active STORAGE-016 implementation
+## Actual main and newly resumed task
 
-Root branch `task/STORAGE-016-durable-holds` from integrated017d BEFORE claim/edits.
-[Draft PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) published7a3dcfc:
-its OWN selectedSQL41658920776 SUCCESS14:57:58–15:00:42Z/fresh110/ZEROwarnings/
-GNU13.3/Boost108300/officialQt6.12SQLite3.53.4/new3guard5PASS0skip181ms/exact35/
-UNCONDITIONAL35PASS26.41s/oldstable/all11SUCCESS. That is PRIOR269-row source proof.
-Final corrected runtime/source/evidence now published297ca74f60f31e12b571a7a2e6603a9daf059149;
-OWN UPDATED270-row SQL41662457471 SUCCESS15:18:10–15:20:45Z/fresh110/0warnings/
-new3guard5PASS0skip174ms/exact35/UNCONDITIONAL35PASS26.61s/alloldstable/all11SUCCESS.
-Raw119ebf40 and APIverifiedsynthetic9bc7b438/equal297tree d23d29d7 in CI note. [CI](storage-016-ci.md), [handoff](storage-016-handoff.md).
-Task DONE as bounded component after actual full approval8c8ad3a (import40ccc74),
-UNMERGED; latestcompletionCI/rules/discussions/readiness/normalmerge remain.
+Normal [PR48](https://github.com/Kernol12/subathon-bot-ai/pull/48) MERGED15:31:10Z,
+exactfinal5fa01364fa2636c6b68de4281816057c5030604f→main
+**efe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089**. All11 latestSUCCESS inclSQL41664119920,
+readyCLEAN/MERGEABLE/currentrules26170263formal0/threads0/rootclean/14reviewedblobs
+unchanged, no bypass/force/delete. Refreshedmain tree45216582d5b715ae63b220d5df1aca2c17f417b4
+equals5fa. PostmainCI separatelypending; inspect actual runs, do not assume success.
+[Hold handoff](storage-016-handoff.md), [approval8c8ad3a](storage-016-code-review.md),
+[final270 validation](storage-016-validation.md), [CI](storage-016-ci.md),
+[genuine test revisions/red](storage-016-baseline-revision.md). Original265markerred598
+and invalid261+4 attempt preserved; five additive reached-red regressions and two
+reviewed history inputs, all old oracles/fixtures fixed. Source44376762/helper13828/
+test0e172a16,35slots270scenarios/full264PASS19.94/1060QtPASS0skip0warnings;
+OWNcorrectedSQL41662457471 at297 selectedGNU13.3/Boost108300/Qt6.12SQLite3.53.4/
+new3guard5PASS0skip174ms/exact35/UNCONDITIONAL35PASS26.61s/all11SUCCESS. Source and
+finalmetadata gates actually passed; no incomplete hold task or prospective review.
 
-Final code pins:
+Root NEW branch `task/ACCTTEST-004-service-baseline` created from fresh integratedefe
+BEFORE any task edit; taskclaimedinstate. ACCTTEST004 in_progress; ACCT004 production
+planned. All dependent storage prerequisites integrated; no blocker/ownerdecision.
+Already reviewed logical6d0cd67f487dae92a17d41eb07dda5b407c78a56/ADR0003e971a47e
+remain valid; do not repeat logical preparation or call old264 component passes
+service acceptance/red. No concrete serviceAPI/codec/tests/stub/red exists yet.
 
-- Runtime44376762d972cd22a23ff0e635827c7c27d42094 (ef1ca070→8f5afbb).
-- Pure helper13828cc3c72548791dc4299b7fd4c813c36b59f3 (18cc890→617ecdd).
-- Private access7107d0ee/old bundle24759a20; reversefactoring reconstructs old834
-  byte-exact; oldvaluesb0ca921c unchanged.
-- Public headerb9043716 ONLY removes obsolete factory-stub comment. Tests0e172a16,
-  35slots/270scenarios; frozen JSON63de09c5/helper7ca946f2/enva17312fe unchanged.
-- Logical701c710f/physical83e96362/API46c70297; exactstep6/full89/F89890/SHA9f5b;
-  oldprefix1–5 exact. [Baseline](storagetest-016-handoff.md) finalred598 reviewed
-  8d3a9bc; do NOT repeat completed265-marker firstred. Initial261+4invalidattempt
-  retained, no weakening or hiddenfailure.
-- Root promotion5 artifacts: Qt54cd5a1f/workflow14ff57de/rootCMakec30fa709/
-  presets62acfe57/headerb904. Unconditional35 after mandatory new3 diagnostics;
-  exactcompiledguard/oldsteps/pins/checkname/permissions unchanged.
+## New assignments and boundaries
 
-## Actual reviewed corrections and verification
+- Author `/root/bundle_implementer`: NEWisolated branch/worktree
+  `task/ACCTTEST-004-service-api-author`,
+  `local-evidence/worktrees/accttest004-service-api-author` fromefe+rootclaim.
+  ONLY docs/contracts/application-service-api-v1.md and
+  docs/evidence/accttest-004-api-author.md. Any optional separatecodec doc must be
+  announced to root. Concrete document only until actual separate approval.
+- Reviewer `/root/bundle_reviewer`: NEWisolated
+  `task/ACCTTEST-004-service-api-review`,
+  `local-evidence/worktrees/accttest004-service-api-review` fromefe+claim.
+  Own ONLY actual API/codec reviewMD; await authoredrevision, no prospective verdict.
+- `/root/bundle_validation`: COMPLETE holdpureauthor7257a06; available for later
+  independent fixtures/tests after concrete/API gates. Not active servicewriter.
+- Root owns sharedstate/HTML/maps/schemaorder/rootbuild/presets/workflows/integration;
+  no otherwriter changes those. Later API/fixtures/test ownership assigned explicitly.
 
-[Baseline revisions](storage-016-baseline-revision.md),
-[actual different reviews](storage-016-baseline-revision-review.md) preserve every
-old assertion/oracle/fixture. Root authored two genuine history cursor0→1 fixes
-matching frozen position2-only338B6I oracle, plus FIVE additive rows (265→270).
+Concrete refinement: complete canonical commandbytes/absence-vs-empty/literalexamples/
+unsupportedhealthyoldformat; explicit typed currentaccess+disclosure/policy/segmented
+clock/action/freshstate+hold/detection/versionissuance; versionedresult/state/audit/job
+meanings/bounds; oneactualBEGIN/COMMIT+normalcompletionresultbridge. Currentports
+supply typedboundmeaning, never authority/cap guesses from opaqueenvelopes. Early
+claims+ALLactiveholds before newproposal; all15contributionfields+actualplanhead;
+clock/hardend before finaladmission; CORE005 actual_main_added into CORE002 onORIGINAL
+advancedtimer (no doubleadd). No fabricatedactualhead on staleplan/no implicitcounter
+creation/no unpersistedbeforetoken. Missing producer policy honestnotready/owningtask;
+no silent shrink of mixed/finished/failedcapture/refund/review/continuation scope.
+Read-only nextprep `local-evidence/accttest004-next-prep.md` retained; no testsfromit.
 
-- Three priority/lineage rows approved1650658 reached actualred CLEAN68dc779.
-  Separate attributionb83c500; GDB proves narrow find returned normally, not
-  changedbytes. ONLYTHEN source corrections.
-- Token MATRIX row approved001896f reached PUBLICred SAME CLEANf67ae73
-  14:54:48.238859–.266877Z/exit1/2initcleanupPASS1FAIL0skip; raw95d80748.
-  Only then boundedbodytokenremoval; existing matrices unchanged.
-- Retained query mapping row approvedce7c61a reached PUBLICred SAME CLEAN707cb3a
-  15:12:04.841429–.889799Z/exit1/2initcleanupPASS1FAIL0skip; rawce70bd02.
-  GDB proves error/stickyresult_limit +phase_rolled_back and exact retained
-  select_record92→Holdretained657→source_references→find(hOverflow)→test2243.
-  Log local-evidence/storage016-retained-regression-gdb.txt SHA29d614ad.
-  Only then sourceef1ca070 adds3line catch/oldknown4mapper, NO second cleanup;
-  capability/protocol/unknown/default remain original writertruth.
+## Next concrete action and continuity
 
-[Root independent validation](storage-016-validation.md): final3stepbuild0warnings,
-actualCTestexit0/full264PASS19.94s at15:15–15:16Z, all35slots270scenarios,
-261Qtprocesses1060PASS0FAIL/skip/blacklist. Raw6f9a43da09675092c945c9cffbc1d053babd71c7dffe0c198c93e40dee335e6c.
-LocalArch/GNU16.2.1/Boost1.92/Qt6.12/SQLite3.54 is not updatedofficialCI.
-[Runtime author](storage-016-author.md) ce194761/99343a8c and
-[pure author](storage-016-values-author.md)7257a06/744d0dd9 complete. Early
-[values review](storage-016-values-review.md) NOTAPPROVED is historical with resolved
-addendum. Final [source/config approval](storage-016-code-review.md)8c8ad3a accepts
-CURRENT44376762/13828/test0e172/root5configs/author993+744; different actual code/
-allocation/oldfactoring/rollback audits and final270/native/officialAPIchecks pass.
-No current authority/application orchestrator/provider/release claim.
+Create actual newtrees fromcurrentefe+rootclaim, then explicitly resume agents with
+followup_task (completed agents do not run from send_message). Read actual processes/
+roles on resume. Author concrete document → actual different review → minimal API/
+immediate unique stubs/build harness → actual APIreview → independent realSQLfixtures/
+tests/fulltestreview → owncompletecandidate selectedfoundationgreen → FIRSTsameclean
+intendedservice markerred. NO production implementation before its own valid baseline.
+Focused draft taskPR after concrete reviewablework; normal merge only afterallgates.
 
-## Roles and preservation
-
-- Root integrator/native validator owns state/HTML/maps/schemaorder/build/preset/
-  workflow/publication; owns additive tests, writes no runtimeproduction.
-- Runtime author `/root/bundle_implementer` COMPLETE, clean
-  local-evidence/worktrees/storage016-source/task/STORAGE-016-source atce194761.
-  Own runtime/privateAccess/oldbundle/authorMD. Read-only next-service prep saved
-  in local-evidence/accttest004-next-prep.md; no dependent edits beforeintegration.
-- Pure author `/root/bundle_validation` COMPLETE, clean
-  local-evidence/worktrees/storage016-values/task/STORAGE-016-values at7257a06;
-  owns ONLY holdvalues/authorMD, not independent validation.
-- Actual full reviewer `/root/bundle_reviewer` COMPLETE,
-  local-evidence/worktrees/storage016-review/task/STORAGE-016-review;
-  owns reviewMD only. Final actual approval8c8ad3a
-  imported40ccc74, including retainedseamfix/tokenstaging/currentcompletedCI.
-- Reserved root native validation tree local-evidence/worktrees/storage016-validation
-  remains old-library prep; actual root runs above provide independent validation.
-
-Last120registered/104existing/16absent worktrees preserved. Old dirty verification
-copies/branches remain untouched; never reset/prune/discard. No root native command
-running afterfinal264; inspect actual tools/processes on resume. Native GDB read-only
-fallback justified by no applicable IDE Qt-test configuration; approved ptrace after
-sandbox failure, no user session/breakpoint/state changed. No owner decision/access.
-
-## Next action
-
-Corrected270-row candidate297ca74 ownofficialCI/all11 PASS; actual finalsource
-approval8c8ad3a integrated40ccc74. Map/handoff/status/HTML completion nowpublished,
-then observe latestmetadataCI,
-current rules/discussions/readiness/clean exactartifacts and normal exact-head merge.
-Never substitute prior269CI or oldbaseline approval for these finalgates.
-After merge refreshmain, reclaim ACCTTEST004 and author concrete service API/complete
-command codec under logical6d0cd67f/ADR0003, actualdifferent review BEFORE minimal
-API/stubs/independent realSQLfixtures/tests/review/OWNservice markerred. No aggregate
-old264 service proof. All seven integrations/threeFX/renderers/locales/themes/
-platforms/packaging/security/recovery/live/fullrelease remain mandatory/incomplete.
-PR completion is a checkpoint; continue execution without routine owner approval.
+Old storage/logical branches/worktrees/dirtyverificationcopies/validreviews preserved;
+last120registered104existing16absent before newtrees, do not reset/prune/discard.
+All holdauthors/reviewer complete; no native command running. No live/platformchecks.
+Current main done is boundedcomponent proof only; all seven integrations/threeFX,
+bothrenderers/locales/themes/platforms/packaging/security/recovery/fullrelease remain
+mandatory/incomplete. Continue actual coordination; a merged PR is a checkpoint.

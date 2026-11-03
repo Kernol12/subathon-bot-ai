@@ -106,3 +106,15 @@ Raw119ebf40/APIverifiedcheckouttree d23d29d7 in CI note. Earlier269-row official
 success remains preserved as historical evidence, not substituted for this run.
 No code/config changes follow final actual approval8c8ad3a; latest completion-head
 CI/rules/discussions/readiness and normal exact-head merge remain to be observed.
+
+## Actual integration
+
+PR48 normally MERGED2026-11-03T15:31:10Z, exactfinal
+5fa01364fa2636c6b68de4281816057c5030604f→main
+efe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089 after all11 latest checksSUCCESS,
+including finalSQL41664119920; readyCLEAN/MERGEABLE/currentrules26170263formal0/
+threads0/rootclean/14 reviewed artifacts unchanged. No bypass/force/branchdeletion.
+Refreshedmain tree45216582d5b715ae63b220d5df1aca2c17f417b4 equalsfinal5fa.
+Component integrated; earlier UNMERGED text is the historical completion checkpoint.
+DependentACCTTEST004 is now claimed in a new branch from integratedefe.
+Postmain workflows remain a separate observation, no firstred replay.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03T15:27:21Z",
+  "updated_at": "2026-11-03T15:32:50Z",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1657,8 +1657,8 @@
       "title": "Review and demonstrate red: Atomic effect application and operation idempotency",
       "module": "Accounting",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned; logical stage explicitly split to ACCTCONTRACT-001",
+      "status": "in_progress",
+      "owner": "coordinator/integrator /root; concrete API/codec document author /root/bundle_implementer; actual independent reviewer /root/bundle_reviewer; later independent fixtures/tests roles assigned after concrete/API gates",
       "depends_on": [
         "ACCT-003",
         "STORAGE-002",
@@ -1677,10 +1677,28 @@
         "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed dedicated task/ACCTTEST-004-application-service from fetched actualmain8c7f71f AFTER normal PR43merge; no dependent edits beforeintegration. Firststage ONLY bounded application-service logical contract/examples and own Markdown evidence, separate actual review BEFORE C++API/stubs/minimalharness, then separate APIreview/independent realSQL fixtures/tests/review/actualintendedred. All prior reviewed/red gates preserved, old209 passes are NOT new service acceptance/red. Contract connects ORIGINAL application orchestration over existing nonowning SQLbundle, exactCORE005/002 numeric/lifecycle, all15currentcontribution dimensions/planhead, explicit typed currentpolicy/clock/authority ports, duplicate/claim/currentaccess ordering, actualcallerCOMMIT+normalcompletion versus knownrollback/unknown/publication. Cap/config/clock/permission must not be fabricated from opaqueenvelopes. Existing neighboring ACCT005 batch/review, ACCT006 financialrefundallocation, milestones/API/jobs/recovery/provider gates remain mandatory; identify requirementconflicts explicitly. Authorisolated task/ACCTTEST-004-contract-author atlocal-evidence/worktrees/accttest004-contract-author owns ONLYdocs/contracts/application-service-v1.md +ownauthornote; reviewer task/ACCTTEST-004-contract-review atlocal-evidence/worktrees/accttest004-contract-review ownsreviewMD only and waitsactualcandidate. Root owns sharedstate/HTML/map/rootbuild/presets/workflow/schemas/migrationorder. ACCT004 production remainsplanned until this REAL reviewed service baseline+red.",
         "Actual logical-stage investigation found missing nonowning durable application holds needed for NUM04. Explicit ADR0003 split: original task planned behind new independently reviewed documentcontract ACCTCONTRACT001 and real STORAGETEST016→STORAGE016. Initial PR44/branch was logicaldocs-only and now delivers only ACCTCONTRACT001; no new serviceAPI/test/red/implementation exists, no old pass aggregated. Full originalservice requirement retained after integratedprereqs; all release scope preserved.",
-        "Actual second integrationgap: existingbundle stage purepreflight requirescomputedproposal before subject/sourceclaim checks; service needs typed earlyclaimprojection to return historicalclaim before todayrevaluation without rawSQL/dummyproposal. Separate STORAGETEST017→STORAGE017 prerequisite added; hold016 staysfocused, oldstageIntent equality/schema/assertions remain. These are planningrecords, not authoredAPI/tests/red/implementation."
+        "Actual second integrationgap: existingbundle stage purepreflight requirescomputedproposal before subject/sourceclaim checks; service needs typed earlyclaimprojection to return historicalclaim before todayrevaluation without rawSQL/dummyproposal. Separate STORAGETEST017→STORAGE017 prerequisite added; hold016 staysfocused, oldstageIntent equality/schema/assertions remain. These are planningrecords, not authoredAPI/tests/red/implementation.",
+        "RESUMED on dedicated task/ACCTTEST-004-service-baseline from freshlyintegrated mainefe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089 AFTER normalPR48/15:31:10Z/all11finalgates; STORAGE016+017 nowactuallyintegrated. Original logical6d0cd67f487dae92a17d41eb07dda5b407c78a56/ADR e971a47e64b7cabffa19e325cee698378a2d0a8a alreadyreviewed, do not repeat logicaltask. First resumptionstage ONLY concrete document docs/contracts/application-service-api-v1.md +ownauthornote; complete lossless boundedcommand codec/literalbyteexamples, explicittypedaccess/policy/segmentedclock/action/freshstate+holdidentityports, exactresult/storageformatsbytes/unsupportedoldformat handling and oneactualwriterCOMMIT+normalcompletion bridge. Differentactualdocumentreview BEFORE minimalheader/namedstubs/harness; then APIreview/independent realSQLfixtures+tests/fulltestreview/ownselectedfoundationgreen/FIRSTsamecleanmarkerred. ProductionACCT004 remainsplanned, no codecinproductionbeforeitsreviewedtests/red.",
+        "Fileownership: author NEWisolated task/ACCTTEST-004-service-api-author atlocal-evidence/worktrees/accttest004-service-api-author owns ONLY concreteAPI/codec document and docs/evidence/accttest-004-api-author.md; optional separatecodec doc mustbeannouncedbeforeauthoring. Reviewer NEWtask/ACCTTEST-004-service-api-review atlocal-evidence/worktrees/accttest004-service-api-review owns ONLYactualreviewMD, waitsactualcandidate/no prospectiveapproval. Rootalone ownsprogress/HTML/maps/rootbuild/presets/workflows/sharedschemas/migrations/integration. Preserve all old logicalauthor/reviewer/storage trees/copies/validreviews. Acceptance document fixes logical callordering/currentdisclosure/earlyclaims/allactiveholds/all15dimensions/actualplanhead/typedcurrentbindings/clockhardend beforeadmission/wholeexactproposal/onebundle-orhold unit/commitnormalpublication; literalnumericcomposition CORE005actualmain_added→CORE002 on ORIGINALadvancedtimer avoidsdoubleadd; no authority/cap from opaqueenvelope, no inventedstaleplanheadpayload/counterinitialization/token. Honest unsupported/notready provider/producer paths remainexplicitowningtaskgates, no release scope shrink."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "logical_contract": "passed",
+        "concrete_contract": "not_run",
+        "api_review": "not_run",
+        "fixture_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "native_build": "not_run",
+        "official_qt": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/application-service-v1.md",
+        "docs/decisions/0003-application-service-prerequisites.md",
+        "docs/evidence/acctcontract-001-handoff.md",
+        "docs/evidence/storage-016-handoff.md",
+        "docs/evidence/storage-017-handoff.md"
+      ],
       "review": null
     },
     {
@@ -5468,7 +5486,8 @@
         "Actual finalsourceaudit finds retained-reference query seam misses known Work busy/sql/resource/result→Hold mapping; Retention find forwards Work, outerguard forwardsall, unlike old Access.resolve. Correction explicitly HOLD for reviewed additive publicregression/red. Root522faee/test0e172a16 adds ONE270th row inexistingbudgetslot: healthy selectedcfg131072bytes < defaultretained262144, actualwriter resultbytes65536, exactHoldresult_limit/Workresult_limit/whole-unitrollback/release/caught assertions. No old assertion/fixture/sourcechanged. Independent concrete review active, newrow notrun; prior269 native/officialpasses preserved for exactcandidate. Final270/sourcefix/sourceapproval/officialCI/latestmetadata gates remain.",
         "Actual separate retainedregression reviewce7c61a→707cb3a, ONLY new publicrow red at SAME CLEAN707cb3a 15:12:04.841429-.889799Z/exit1/2initcleanupPASS1FAIL0skip, rawce70bd02. Read-onlyGDB proves writer result_limit/stickyresult_limit/phase_rolled_back and exactretained select_record92→Holdretained657→find(hOverflow) stack, log29d614ad. ONLYTHEN released boundedfixef1ca070→8f5afbb runtime44376762, exactly3insertedlines catchingWork atretained/reusingoldknown4mapper/no cleanup/defaultoriginal. AuthorMDce194761/99343a8c integratedf8c6241 records0warning2steplibcompile. Root final270/full264actualexit0PASS19.94s/261Qt1060PASS0FAIL/skip/blacklist/ZEROwarnings, raw6f9a43da09675092c945c9cffbc1d053babd71c7dffe0c198c93e40dee335e6c. Finaldifferentfullsource/configreview and OWNupdatedofficialCI stillpending; old7a3CIproves269candidate only.",
         "Corrected COMPLETEfinalcandidate297ca74f60f31e12b571a7a2e6603a9daf059149 runtime44376762/helper13828/test0e172a16 OWNupdated officialSQL41662457471 SUCCESS15:18:10–15:20:45Z: fresh110/ZEROwarnings/GNU13.3/Boost108300/Qt6.12SQLite3.53.4/new3guard5PASS0skip174ms/exact35/UNCONDITIONAL35PASS26.61s/oldstable/all11SUCCESS. Raw119ebf406015bdab26b1fbd321ceaeb71f8e03497831dd00a272dd8ef6d23f3d; synthetic9bc7b4380352f32632251cf022e6ebf6d9024f51 parents017d+297, APIverifiedtree d23d29d76bf3eea47e16d03f5ed348ded4b2355d equals297. Actual fullsourceauditor reports no remaining confirmed blocker after3linefix; finalwrittenverdict pending completedcurrentCIinspection. Task remainsin_review untilactualapproval, finalcompletionmetadata/latestCI/normalmerge separate.",
-        "Actual different FINAL full source/allocation/config APPROVAL8c8ad3a912971373161541a0f395d5ef5b26824d imported40ccc74, accepts current44376762/13828/0e172 +exactroot5/authorpins and allclosure/preallocation/finitechain/rollback/unknown/oldfactoring/nullablectx/purestaging/accounting/manifest. Different reviewer independently parsed finalnative270/full264, completed corrected OWNofficial41662457471/APIequalcheckout and independentlyqueried ALL11current297SUCCESS. No remainingcodeblocker; STORAGE016 DONE as bounded syntheticSQLcomponent, UNMERGED untilcompletionmetadata latestCI/currentrules/discussions/readiness/normalexactmerge. DB01/NUM02/NUM04 remainpartial; fullrelease scopes unchanged."
+        "Actual different FINAL full source/allocation/config APPROVAL8c8ad3a912971373161541a0f395d5ef5b26824d imported40ccc74, accepts current44376762/13828/0e172 +exactroot5/authorpins and allclosure/preallocation/finitechain/rollback/unknown/oldfactoring/nullablectx/purestaging/accounting/manifest. Different reviewer independently parsed finalnative270/full264, completed corrected OWNofficial41662457471/APIequalcheckout and independentlyqueried ALL11current297SUCCESS. No remainingcodeblocker; STORAGE016 DONE as bounded syntheticSQLcomponent, UNMERGED untilcompletionmetadata latestCI/currentrules/discussions/readiness/normalexactmerge. DB01/NUM02/NUM04 remainpartial; fullrelease scopes unchanged.",
+        "NormalPR48 MERGED2026-11-03T15:31:10Z exactfinal5fa01364fa2636c6b68de4281816057c5030604f→mainefe1c7e87ae2a7e8a92c3f5e7ede88e68e72b089 after ALL11latestCOMPLETED SUCCESS inclSQL41664119920, readyCLEAN/MERGEABLE/currentrules26170263formal0/threads0/rootclean/14reviewedartifactsexact. No bypass/force/delete. Localmain refreshedff, tree45216582d5b715ae63b220d5df1aca2c17f417b4 equals5fa. PostmainCI separatelypending. Only now reclaimdependentACCTTEST004 innewdedicatedbranchfromintegratedefe."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -5483,7 +5502,7 @@
         "regression_review": "passed",
         "regression_baseline": "observed_red",
         "github_ci": "passed",
-        "completion_ci": "not_run"
+        "completion_ci": "passed"
       },
       "evidence": [
         "docs/contracts/sqlite-application-holds-v1.md",
