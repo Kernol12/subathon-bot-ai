@@ -124,3 +124,48 @@ suite/red was replayed. All six existing configuration copies were backed up bef
 adopting final75aa/a4ae for verification; shared copies remain uncommitted. Reviewer
 authored only this evidence. Finish PR49's actual remaining gates and stop per owner;
 no production ACCT-004 task or subsequent work is authorized.
+
+## Completed same-head CI and first-red attribution
+
+**APPROVED: actual reviewed test-baseline gate.** Independently audited root's
+completed records at6d3c5628594a62922b7afafad427c19764fd7a58 without executing
+any test, service, codec, view or marker again. Source approvalfa63ccda, imported
+ab22932, precedes complete candidate4e4c6ebc279edf1453cd87150fc6fb7b6066a1ad.
+Its CPP36f669ed/author205f0cfa/Qt75aab5f1/workflowa4ae72c6 and immediate stub
+ebbea238 remain the exact artifacts reviewed above. Preflight and after-run
+records show that same head clean; its later6d3c562 changes only evidence and
+progress metadata.
+
+Actual selected41697865377 completed SUCCESS18:52:03–18:53:58Z before the sole
+red invocation: fresh126/zero warnings, GNU13.3/Boost108300/officialQt6.12/
+SQLite3.53.4, required6-slot foundation41PASS0skip1115ms, exact35 feature
+discovery and all11 same-head checks SUCCESS. Independently read log SHA256
+c2fda6dc40ae721f39c246775226c9532dc6a4a3589a3f9c230603914021be4f and actual
+run/check/checkout JSON. Synthetic2d4453e790ffa15e60618052deac9e303a3726d0
+has main+candidate parents and tree5c352925a0ac07e92b4aac3a3cdb46869428f2d4,
+equal to the candidate tree.
+
+The subsequent actual CTest command shown in the handoff exited8/2.86s.
+Canonical per-invocation LastTest, copied byte-identically to
+`docs/evidence/accttest-004-red-ctest.txt`, SHA256
+e05dafc8c71e1ed07ca38d93e95a33e48edc7d6e791bfc81fc0ad96b2f49996e,
+contains exactly35 invocations and224 unique function/data-tag failures:
+encode49, decode48, service125, view2. Each has the exact expected named marker
+at its first new entrypoint. All70 init/cleanup passes are present; zero skips,
+blacklists, setup failures, unrelated failures, crashes or timeouts. Recounted
+canonical invocations rather than duplicated CTest stdout.
+
+Independent read-only audit command `python3 /tmp/acct004-independent-red-attribution.py`
+PASS; script SHA256a32b91281570311f52f231f79fedbf09efcc7b145dfe0cc441bb3569350ebebf,
+ignored output `local-evidence/accttest004-independent-red-attribution.txt`
+SHA256c2bed555c20de532735bf192572cb03addd1e7e1b3e77f1da63304774e3ccb52.
+It cross-checks reviewed functions, unique tags/markers, summaries, exit code,
+artifact blobs, clean preflight, API tree/check outcomes and CI-before-red order.
+
+This proves valid setup and first missing-feature reach for every scenario.
+Assertions after the immediate stub remain unexecuted until separate production
+implementation acceptance. ACCTTEST-004 may complete as a reviewed observed-red
+baseline; ACCT-004 remains unimplemented. Latest completion-head CI, current
+rules/discussions and normal PR49 merge are still the coordinator's separate
+gates, followed by STOP as requested. This approves neither future code nor a
+future CI head or merge.
