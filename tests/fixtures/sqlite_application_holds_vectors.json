@@ -5004,5 +5004,18 @@
       "next": null,
       "has_more": false
     }
+  },
+  "synthetic_data_meanings": {
+    "authority": "All formats are synthetic retained DATA only. They do not prove execution/disclosure grants, current production policy, actual producer evaluation, current COMMIT or permitted correction/reject/defer/continuation. No provider or delivery meaning.",
+    "binary_documents": "efbbbf6100ff is exactly BOM + a + NUL + FF. It is intentionally opaque storage payload, never interpreted as JSON/text or empty.",
+    "mixed": "In hTimer only: explicit synthetic recording declaration BesideCompleteApplication; ordinal1 requested-150/RequireReview is wholly unapplied with Main/debt0 while ordinal2 score+2 is actually credited. This supplies declared fixture meaning only; no actual production mixed policy is enabled.",
+    "c": "Synthetic complete original command-intent bytes, opaque equality data; hTimer command key exactly timer/original. No production canonical command codec is supplied.",
+    "o": "Synthetic observation annotation; actual known token references retain full stored state, UTC0/elapsed0 are genuinely supplied zeros. Absent pre-capture token is unknown.",
+    "fc": "Explicit pre-finalization failure/provenance annotation; hFail retains known finalized0 then failedMAX+1 without a finalized amount, known_prefix means remaining sequence unknown; hNew prior PB is context only, not the failed proposal.",
+    "f": "Numeric failure annotation with actual declared final-conversion or aggregate stage, known ordinal/target/Exact. No arithmetic/semantic producer proof from bytes.",
+    "u": "Owned synthetic non-success hold audit or actual complete bundle audit; typed relation/fields determine role, not a permission flag.",
+    "options": "rReplace records closing hOld and atomically creating hNew, no associated application; future rTimer proposal is typed DATA only.",
+    "decision": "Present-empty decision document remains distinct from absence, and grants no policy.",
+    "correction": "Receipt8/PC request-3 is a distinct complete original correction with Main-3. hTimer full-150 remaining is retained origin DATA; no assertion that this -3 completes or authorizes the whole held adjustment. Proposed resolution is not stored as a completed policy outcome."
   }
 }
