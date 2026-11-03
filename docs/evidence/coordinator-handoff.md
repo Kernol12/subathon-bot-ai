@@ -181,3 +181,31 @@ explicit followup_task required onactualcompletecandidate. API/docauthor COMPLET
 afteraba, no more currentcode edits; boundedreviewer and fixtureauthor sameagent
 in separatepreservedtrees, authoringfixtures now. Root waits actual files for
 mandatoryfoundationwiring. Featuretestsource/firstred/production remain blocked.
+
+## Actual complete fixture candidate and full review ACTIVE
+
+Earlyaacc467 imported e2bdc9a, final81fbfe56 imported72f7c82, author41aae2db
+imported414df4d. JSONc12b23dd4867bc15b68619d74b6c669ba094a059,
+helperc88c64e528270fdce271e1ed38f257a3a3172d2d,
+env611fe8b932a4eb00c0a8e747e142f027af5ea106, authorMDe9cabaa6.
+SixcompiledQtfunctions/29source rows/36QtPASS0skip808ms inauthorOLD-onlynative.
+Original28facts/B-I/source32/4anchors/3arrangementSQL semanticallyEXACT vs earlyaacc;
+JSONcompact26k→12k plus specifiedindependentadditions. Initial29author-onlysetup
+assertfailures retained, correctedSQLNULLobservation/rollbackcategory percontracts,
+notdata tuningforgreen. No servicearchive linked or newcodec/view/service invoked.
+
+Root harnessd65b971 owns QtCMake69a21f689cc06374daa05a81c1494e36f7ab9054 and
+workflow8c3a8f3b6d4d1e4ecc30dd147c2e837cc346f292. OLDhold/bundle+QtTestenvtarget
+only, eightmacros, requiredcompiled-six equality/enabledguard plusunconditional
+foundation appended afteralloldtests. Header03a747/sourceebbea unchanged.
+Rootnative: build24steps0warnings/exact6functions/265registered/no servicefeature;
+env36QtPASS0skip0.82s; fullOLD+foundation265PASS21.55s/262Qt1096PASS0skip.
+Raw local-evidence/accttest004-fixture-old265.txt SHA
+26dd7c2ffa651d7041e8de1be9d9b732bf4dc1e5e130c2e57bd0e580e59069a2.
+
+Fullreviewer explicitly RESUMED with followup_task on actual3files+authornote+root
+harness, ACTIVE. Own NEW accttest-004-fixture-review.md only. Fixtureauthor
+COMPLETE/clean41aae2db; source/docauthor COMPLETE/cleanaba965. Root awaits actual
+fullverdict/corrections then OWNcompleteapprovedfixturehead selectedmandatorygreen
+BEFORE featuretestsource. No newservice test or FIRSTred yet; no marker/factorycall.
+Currentartifactreview evidence/notes precede publication of the fullfixturehead.
