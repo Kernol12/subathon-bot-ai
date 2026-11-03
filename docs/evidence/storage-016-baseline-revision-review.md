@@ -63,3 +63,33 @@ fixes. Corrected history cases should pass already contract-correct behavior;
 do not manufacture a red for them. Full final runtime/helper/factoring/allocation/
 config review,35/full264 acceptance (now268 Qt scenarios) and ordinary selected CI
 remain implementation gates. No source or future result is approved here.
+
+## Actual regression-red attribution addendum
+
+Independently inspected the completed raw output/JSON record, actual Git objects,
+root build log and read-only GDB log; **the three reviewed regressions reached
+their intended behavior failures BEFORE source correction**. Recorded clean head
+68dc77916e738085c78b0ec398d673d52b341466 pins unchanged test82980fdb,
+runtime97c83b746fe1507670b03bf5430c45231facf551 and helpera18a0bd7, after
+independent test approval1650658. Actual three function:data invocations at
+14:20:25.413–14:20:25.514Z each exit1,2 init/cleanup PASS/1FAIL/0skip/blacklist,
+0HOLD-MISSING. No original full baseline was replayed.
+
+Both priority rows fail exact input-category assertions, consistent with the
+independent actual11/9-versus-required8 diagnostic. The narrow row's generic
+refusal conjunction alone is ambiguous: GDB at actual test319 proves body returned
+normally and caught=false before the deliberate missing-storage-failure throw.
+This establishes absent refusal, NOT changed durable bytes. The concrete stack
+and selected data tag identify the intended narrow-ancestry regression.
+
+Combined tracked-output SHA256231d325ac11f7ce201ff3b17146968a1d39dd5d5135714b060e5287f2da1bcfc;
+individual53c581b46ef186892d1e2d8cc37b3916e71fb11a443302f7d4c17c14faacd43d,
+3a43ab29304e374697a89b505498b678f8602564d6464194da0c1c19529a4927,
+030ee26e13e5e960241e74db7a91cfa9ae2b8b2fe781e6a7d66cb8ce40aadd69;
+GDB9dc953c9cbf4d1412c990a66757ac89cbc7b80a6a429984668e2a0206b5bea04.
+The corresponding regression-red-record.json SHA256 is
+c8d5057797d119707cd228bd81ce909064bdd34afae608cd80cdc2c87cfcb8f0.
+
+No reviewer replay or source/test change. The observed regression gate supports
+the two bounded fixes; actual changed helper/runtime/factoring/promotion and
+passing full acceptance still require review. No prospective implementation approval.
