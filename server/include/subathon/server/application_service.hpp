@@ -151,6 +151,7 @@ class ApplicationReferenceReadView final {
 
   private:
     std::weak_ptr<detail::ApplicationReferenceReadState> state_;
+    RetainedLimits limits_{}; // Data survives revocation; no SQL capability is retained.
     friend class OriginalApplicationService;
 };
 

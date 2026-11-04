@@ -49,3 +49,48 @@ This author does not self-certify separate code review. Full integration/regress
 actual selected officialQt CI, independent allocation/codec/source review and merge
 are separate gates. Providers, authority/policy/clock/action producers, financial/
 refund/review continuation, recovery/UI/platform/packaging/live release remain open.
+
+## Corrected candidate and additional reached regressions
+
+The first complete candidate722e11b passed the full300 native profile24.66s after
+an88-step full build, zero warnings. Independent review then found real gaps beyond
+the original baseline. Coordinator separately authored/reviewed eight additive
+slots/nine scenarios, and preserved their actual reached behavior failures before
+releasing these corrections; [regression evidence](acct-004-regressions.md).
+No original assertion, fixture or historical first-red was modified.
+
+The corrected source now caches only private selected read-limit DATA in the view
+(the session authority still expires), scans complete SAS1/SAR1/SAA1/SAJ1 grammar
+using byte views before semantic allocations, measures aggregate decoded SAS1
+ownership including actual clock segments and balances, checks retained clock sum/
+finalUTC, verifies advanced-before policy/config consistency, validates historical
+synthetic jobs against immutable selected plan requests and actual components, and
+maps supported unresolved policy to an honest durable hold with its exact reason.
+Every negative unit requires explicit correction purpose; timer deficit policy
+remains milliseconds-only. The separately authored private decoder3ef4755 supplies
+internal retained-bound versus malformed classification without changing the public
+codec. Final response source payloads are measured before vector/variant copies;
+encoded envelopes include their format bytes and not-ready reason strings are
+projected before allocation.
+
+Historical job validation uses the existing private same-session Access::plan
+selected-revision reader after disclosure, with its unchanged bundle typed failure
+mapping and result bounds. It reads only the immutable recorded revision, never
+selects/revalues a new current plan or invokes policy, clock, arithmetic, actions or
+issuer for historical work. This seam was explicitly released by the coordinator
+and remains subject to actual different source review.
+
+Actual commands on the corrected source/header plus privatecodec3ef4755 and the
+root additive regression source fromdb621cf (importedfb9db4f):
+
+```sh
+cmake --preset application-service-debug
+cmake --build --preset application-service-debug --target server_application_service_acceptance --parallel 2
+ctest --preset application-service-debug -L '^application-service$' --output-on-failure
+```
+
+Configure/5 compile-link steps PASS, zero warnings. ALL43 slots/233 scenarios PASS
+3.72s (original35/224 plus additive8/9), zero Qt skips/failures. Original author-tree
+labels remain draft-red from its copied harness; coordinator owns final promoted
+acceptance properties/ordinary CI. Full308 and actual independent review/current
+CI are subsequent gates, not implied by this targeted result.

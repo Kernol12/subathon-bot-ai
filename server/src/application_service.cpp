@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "sqlite_application_bundle_values.hpp"
+#include "application_service_command_internal.hpp"
+#include "sqlite_application_bundle_access.hpp"
 #include "sqlite_application_hold_values.hpp"
 #include <QThread>
 #include <algorithm>
@@ -60,8 +61,10 @@ ApplicationHoldSubject subject(const OriginalApplicationCommand &c) {
                              : ApplicationHoldSubject{c.receipt_id};
 }
 ApplicationServiceResponse response(D d) { return {d, std::monostate{}}; }
-ApplicationServiceResponse unavailable(std::string reason) {
-    return {D::not_ready, ApplicationNotReadyPayload{std::move(reason)}};
+ApplicationServiceResponse unavailable(std::string_view reason,
+                                       const ApplicationServiceLimits &limits) {
+    bound(sum(1, reason.size()), 0, limits, true);
+    return {D::not_ready, ApplicationNotReadyPayload{std::string(reason)}};
 }
 ApplicationServiceLimits internal_limits(const ApplicationServiceLimits &l) {
     auto x = l;
@@ -73,7 +76,7 @@ ApplicationServiceLimits internal_limits(const ApplicationServiceLimits &l) {
 OriginalApplicationCommand retained_command(const ApplicationEnvelope &e,
                                             const ApplicationServiceLimits &l) {
     try {
-        return decode_original_application_command(e, internal_limits(l));
+        return service_detail::decode_retained_command(e, l);
     } catch (const ApplicationServiceInputFailure &x) {
         if (x.error() == ApplicationServiceInputError::result_limit ||
             x.error() == ApplicationServiceInputError::owned_byte_limit ||
@@ -141,6 +144,15 @@ template <class F> QByteArray document(const ApplicationServiceLimits &l, F f) {
     Bytes output(limit);
     f(output);
     return output.take();
+}
+template <class F>
+ApplicationEnvelope encoded(const char *format, const ApplicationServiceLimits &limits, F write) {
+    const auto format_bytes = std::char_traits<char>::length(format);
+    check(format_bytes < size_t(limits.intermediate_owned_bytes), R::result_limit);
+    auto remaining = limits;
+    remaining.intermediate_owned_bytes -= qsizetype(format_bytes);
+    auto bytes = document(remaining, write);
+    return {format, std::move(bytes)};
 }
 void put_timer(Bytes &w, const core::TimerState &t) {
     w.u8(unsigned(t.lifecycle));
@@ -219,57 +231,57 @@ ApplicationEnvelope encode_state(const ApplicationStateSnapshot &s, const std::s
                                  const ApplicationClockObservation &c,
                                  const BoundApplicationPolicy &p,
                                  const ApplicationServiceLimits &l) {
-    return {state_format, document(l, [&](Bytes &w) {
-                w.raw("SAS1");
-                w.b(s.configuration_ref);
-                w.u8(1);
-                w.b(basis);
-                put_clock(w, c);
-                w.b(p.policy_revision_ref);
-                put_timer(w, s.timer);
-                w.i64(s.time_debt_ms);
-                put_balances(w, s.balances);
-            })};
+    return encoded(state_format, l, [&](Bytes &w) {
+        w.raw("SAS1");
+        w.b(s.configuration_ref);
+        w.u8(1);
+        w.b(basis);
+        put_clock(w, c);
+        w.b(p.policy_revision_ref);
+        put_timer(w, s.timer);
+        w.i64(s.time_debt_ms);
+        put_balances(w, s.balances);
+    });
 }
 ApplicationEnvelope encode_result(
     const ApplicationEnvelope &cmd, const std::string &head, const ApplicationStateSnapshot &before,
     const ApplicationStateSnapshot &after, const OriginalApplicationCommand &c,
     const std::vector<ApplicationEffect> &effects, const std::vector<ApplicationJobIntent> &jobs,
     const std::vector<core::TimerTransition> &transitions, const ApplicationServiceLimits &l) {
-    return {result_format, document(l, [&](Bytes &w) {
-                w.raw("SAR1");
-                w.b(cmd.document);
-                w.b(head);
-                w.b(before.token);
-                w.b(after.token);
-                w.u8(c.preview_mode == ApplicationPreviewMode::revalidate_current &&
-                     c.preview_state_token && *c.preview_state_token != head);
-                w.vec(effects, [&](const auto &e) { put_effect(w, e); });
-                w.vec(jobs, [&](const auto &j) { put_job(w, j); });
-                put_transitions(w, transitions);
-            })};
+    return encoded(result_format, l, [&](Bytes &w) {
+        w.raw("SAR1");
+        w.b(cmd.document);
+        w.b(head);
+        w.b(before.token);
+        w.b(after.token);
+        w.u8(c.preview_mode == ApplicationPreviewMode::revalidate_current &&
+             c.preview_state_token && *c.preview_state_token != head);
+        w.vec(effects, [&](const auto &e) { put_effect(w, e); });
+        w.vec(jobs, [&](const auto &j) { put_job(w, j); });
+        put_transitions(w, transitions);
+    });
 }
 ApplicationEnvelope encode_audit(const ApplicationEnvelope &cmd,
                                  const OriginalApplicationCommand &c,
                                  const BoundApplicationPolicy &p,
                                  const ApplicationClockObservation &clock,
                                  const std::string &actions, const ApplicationServiceLimits &l) {
-    return {audit_format, document(l, [&](Bytes &w) {
-                w.raw("SAA1");
-                w.b(cmd.document);
-                put_policy(w, p);
-                put_clock(w, clock);
-                w.opt(c.actor_ref, [&](const auto &x) { w.b(x); });
-                w.opt(c.decision_ref, [&](const auto &x) { w.b(x); });
-                w.opt(c.reason, [&](const auto &x) { w.b(x); });
-                w.b(c.plan.plan_ref);
-                w.u64(c.plan.revision);
-                w.u8(0);
-                w.u8(0);
-                w.u8(0);
-                w.b(std::string_view{});
-                w.b(actions);
-            })};
+    return encoded(audit_format, l, [&](Bytes &w) {
+        w.raw("SAA1");
+        w.b(cmd.document);
+        put_policy(w, p);
+        put_clock(w, clock);
+        w.opt(c.actor_ref, [&](const auto &x) { w.b(x); });
+        w.opt(c.decision_ref, [&](const auto &x) { w.b(x); });
+        w.opt(c.reason, [&](const auto &x) { w.b(x); });
+        w.b(c.plan.plan_ref);
+        w.u64(c.plan.revision);
+        w.u8(0);
+        w.u8(0);
+        w.u8(0);
+        w.b(std::string_view{});
+        w.b(actions);
+    });
 }
 // Parsers own no byte buffers and reject framing/limits before materializing fields.
 class Read {
@@ -283,6 +295,7 @@ class Read {
         check(bytes_.size() <= size_t(l.storage_document_bytes) &&
                   bytes_.size() <= size_t(l.bundles.value_bytes),
               R::result_limit);
+        bound(sum(e.format_ref.size(), bytes_.size()), 0, l);
         check(take(4) == magic, R::invalid_known_document, S::retained_semantics);
     }
     std::string_view take(size_t n) {
@@ -310,7 +323,12 @@ class Read {
         check(x <= ceiling, R::result_limit);
         return x;
     }
-    std::string_view b(size_t ceiling) { return take(count(ceiling)); }
+    std::string_view b(size_t ceiling) {
+        auto size = count(std::numeric_limits<std::uint32_t>::max());
+        auto value = take(size);
+        check(size <= ceiling, R::result_limit);
+        return value;
+    }
     std::string str(size_t ceiling) { return std::string(b(ceiling)); }
     std::string reference(bool required = true) {
         auto x = str(size_t(l_.reference_bytes));
@@ -330,6 +348,207 @@ class Read {
     size_t pos_{0};
     const ApplicationServiceLimits &l_;
 };
+// Scan a complete document using byte views before any owning semantic field or
+// vector is allocated. Budgets describe each actual decoded value, not raw framing.
+struct Projection {
+    const ApplicationServiceLimits &limits;
+    size_t bytes{0};
+    size_t items{0};
+    void add(size_t b, size_t i = 0) {
+        bytes = sum(bytes, b);
+        items = sum(items, i);
+        bound(bytes, items, limits);
+    }
+};
+std::string_view scan_ref(Read &r, bool required = true) {
+    auto v = r.b(size_t(r.limits().reference_bytes));
+    check(!required || !v.empty(), R::invalid_known_document, S::retained_semantics);
+    return v;
+}
+void scan_optional_string(Read &r, Projection &p, size_t ceiling, bool required = false) {
+    if (r.u8(1)) {
+        auto v = r.b(ceiling);
+        check(!required || !v.empty(), R::invalid_known_document, S::retained_semantics);
+        p.add(v.size());
+    }
+}
+void scan_exact(Read &r) {
+    for (int part = 0; part != 2; ++part) {
+        auto v = r.b(size_t(r.limits().bundles.component_bytes));
+        check(!v.empty(), R::invalid_known_document, S::retained_semantics);
+        const auto digits = part == 0 && v.front() == '-' ? v.substr(1) : v;
+        check(!digits.empty() && !(digits.size() > 1 && digits.front() == '0') &&
+                  std::all_of(digits.begin(), digits.end(),
+                              [](char c) { return c >= '0' && c <= '9'; }) &&
+                  v != "-0" && (part == 0 || v != "0"),
+              R::invalid_known_document, S::retained_semantics);
+    }
+}
+void scan_clock(Read &r, Projection &p) {
+    p.add(scan_ref(r).size());
+    p.add(scan_ref(r).size());
+    const auto observed = r.i64();
+    p.add(8);
+    auto n = r.count(size_t(r.limits().clock_segments));
+    p.add(0, n);
+    std::int64_t elapsed = 0;
+    std::int64_t final_utc = observed;
+    for (size_t k = 0; k != n; ++k) {
+        auto step = r.i64();
+        final_utc = r.i64();
+        (void)r.u8(1);
+        check(step >= 0 && step <= std::numeric_limits<std::int64_t>::max() - elapsed,
+              R::invalid_known_document, S::retained_semantics);
+        elapsed += step;
+        p.add(17);
+    }
+    check(n == 0 || final_utc == observed, R::invalid_known_document, S::retained_semantics);
+}
+void scan_policy(Read &r) {
+    Projection p{r.limits()};
+    for (int k = 0; k != 3; ++k)
+        p.add(scan_ref(r).size());
+    // The parsed BoundApplicationPolicy owns its declared default selector,
+    // plan and admission scalar members as well as the encoded policy fields.
+    p.add(30);
+    if (r.u8(1)) {
+        check(r.i64() >= 0, R::invalid_known_document, S::retained_semantics);
+        p.add(8);
+    }
+    (void)r.u8(2);
+    check(r.i64() >= 0, R::invalid_known_document, S::retained_semantics);
+    (void)r.u8(1);
+    if (r.u8(1)) {
+        (void)r.i64();
+        p.add(8);
+    }
+    (void)r.u8(1);
+    (void)r.u8(1);
+    p.add(scan_ref(r).size());
+    p.add(r.b(size_t(r.limits().storage_document_bytes)).size());
+}
+void scan_component(Read &r) {
+    auto kind = r.u8(5);
+    (void)r.i64();
+    bool target = r.u8(1) != 0;
+    check(target == (kind == 2 || kind == 3), R::invalid_known_document, S::retained_semantics);
+    if (target)
+        (void)scan_ref(r);
+}
+void scan_effect(Read &r) {
+    (void)r.i64();
+    (void)r.u8(2);
+    (void)r.u8(2);
+    scan_exact(r);
+    (void)r.i64();
+    scan_exact(r);
+    if (r.u8(1))
+        (void)r.i64();
+    if (r.u8(1))
+        (void)r.u8(2);
+    if (r.u8(1))
+        (void)r.u8(1);
+    (void)r.b(size_t(r.limits().storage_document_bytes));
+    auto n = r.count(3); // Existing direct/time roles own one or three components.
+    for (size_t i = 0; i != n; ++i)
+        scan_component(r);
+}
+void scan_job_value(Read &r) {
+    (void)scan_ref(r);
+    if (r.u8(1))
+        (void)r.i64();
+    if (r.u8(1))
+        (void)scan_ref(r);
+    if (r.u8(1))
+        (void)r.i64();
+    (void)scan_ref(r);
+    (void)r.b(size_t(r.limits().storage_document_bytes));
+}
+void scan_state(const ApplicationStateSnapshot &s, const ApplicationServiceLimits &l) {
+    Read r(s.envelope, state_format, "SAS1", l);
+    Projection p{l};
+    auto config = scan_ref(r);
+    p.add(config.size());
+    scan_optional_string(r, p, size_t(l.reference_bytes), true);
+    scan_clock(r, p);
+    auto policy = scan_ref(r);
+    p.add(policy.size());
+    (void)r.u8(2);
+    (void)r.u8(1);
+    check(r.i64() >= 0 && r.i64() >= 0, R::invalid_known_document, S::retained_semantics);
+    (void)r.u8(1);
+    check(r.i64() >= 0, R::invalid_known_document, S::retained_semantics);
+    p.add(27);
+    auto n = r.count(size_t(l.bundles.balances_per_state));
+    p.add(0, n);
+    for (size_t i = 0; i != n; ++i) {
+        check(r.u8(3) >= 2, R::invalid_known_document, S::retained_semantics);
+        p.add(sum(scan_ref(r).size(), 9));
+        (void)r.i64();
+    }
+    r.end();
+    // Actual returned observation owns these explicit echoed strings too.
+    p.add(sum(sum(config.size(), policy.size()), s.token.size()));
+}
+void scan_result(const ApplicationEnvelope &e, const ApplicationServiceLimits &l) {
+    Read r(e, result_format, "SAR1", l);
+    (void)r.b(size_t(l.command_bytes));
+    for (int i = 0; i != 3; ++i)
+        (void)scan_ref(r);
+    (void)r.u8(1);
+    auto n = r.count(size_t(l.bundles.effects_per_bundle));
+    for (size_t i = 0; i != n; ++i)
+        scan_effect(r);
+    n = r.count(size_t(l.bundles.jobs_per_bundle));
+    for (size_t i = 0; i != n; ++i)
+        scan_job_value(r);
+    n = r.count(size_t(l.bundles.transitions_per_bundle));
+    for (size_t i = 0; i != n; ++i)
+        (void)r.u8(5);
+    r.end();
+}
+void scan_audit(const ApplicationEnvelope &e, const ApplicationServiceLimits &l) {
+    Read r(e, audit_format, "SAA1", l);
+    (void)r.b(size_t(l.command_bytes));
+    scan_policy(r);
+    Projection clock{l};
+    scan_clock(r, clock);
+    Projection refs{l};
+    scan_optional_string(r, refs, size_t(l.reference_bytes));
+    scan_optional_string(r, refs, size_t(l.reference_bytes));
+    scan_optional_string(r, refs, size_t(l.storage_document_bytes));
+    (void)scan_ref(r);
+    (void)r.u64();
+    (void)r.u8(2);
+    if (r.u8(1)) {
+        (void)r.u8(1);
+        if (r.u8(1))
+            (void)r.i64();
+        if (r.u8(1))
+            (void)scan_ref(r);
+        if (r.u8(1))
+            scan_exact(r);
+    }
+    scan_optional_string(r, refs, size_t(l.reference_bytes), true);
+    (void)r.b(size_t(l.storage_document_bytes));
+    (void)r.b(size_t(l.storage_document_bytes));
+    r.end();
+}
+void scan_synthetic_job(const ApplicationEnvelope &e, const ApplicationServiceLimits &l) {
+    Read r(e, job_format, "SAJ1", l);
+    (void)r.i64();
+    for (int i = 0; i != 3; ++i)
+        (void)scan_ref(r);
+    (void)r.u8(2);
+    (void)r.i64();
+    auto n = r.count(3);
+    for (size_t i = 0; i != n; ++i)
+        scan_component(r);
+    (void)scan_ref(r);
+    (void)r.b(size_t(l.storage_document_bytes));
+    r.end();
+}
+
 core::TimerState read_timer(Read &r) {
     core::TimerState t;
     t.lifecycle = core::TimerLifecycle(r.u8(2));
@@ -376,11 +595,16 @@ BoundApplicationPolicy read_policy(Read &r) {
     return p;
 }
 struct StateMeaning {
+    std::string configuration;
+    core::TimerState timer;
+    std::int64_t debt{0};
+    std::vector<ApplicationBalance> balances;
     std::optional<std::string> basis;
     ApplicationClockObservation clock;
     std::string policy;
 };
 StateMeaning check_state(const ApplicationStateSnapshot &s, const ApplicationServiceLimits &l) {
+    scan_state(s, l);
     Read r(s.envelope, state_format, "SAS1", l);
     auto config = r.reference();
     StateMeaning m;
@@ -403,6 +627,10 @@ StateMeaning check_state(const ApplicationStateSnapshot &s, const ApplicationSer
               std::equal(balances.begin(), balances.end(), s.balances.begin(),
                          bundle_detail::same_balance),
           R::contradictory_document, S::retained_semantics);
+    m.configuration = config;
+    m.timer = t;
+    m.debt = debt;
+    m.balances = std::move(balances);
     m.clock.configuration_ref = config;
     m.clock.policy_revision_ref = m.policy;
     m.clock.checked_head_token = s.token;
@@ -481,7 +709,7 @@ class ApplicationReferenceReadState {
 std::optional<RetainedDocument>
 ApplicationReferenceReadView::find_retained(const RetainedKey &key) const {
     auto state = state_.lock();
-    auto limits = state ? state->limits : RetainedLimits{};
+    const auto limits = limits_;
     if (key.kind != RetainedKind::configuration && key.kind != RetainedKind::arrival_context)
         throw RetentionFailure(RetentionError::invalid_kind);
     if (key.reference.empty() || key.reference.size() > size_t(limits.reference_bytes))
@@ -564,8 +792,51 @@ void skip_job(Read &r) {
     (void)r.reference();
     (void)r.b(size_t(r.limits().storage_document_bytes));
 }
+void check_job_meaning(const ApplicationJobIntent &j, const std::vector<ApplicationEffect> &effects,
+                       const core::CapturedPlanRevision &capture,
+                       const ApplicationServiceLimits &l) {
+    check(j.source_request_ordinal && *j.source_request_ordinal > 0 &&
+              size_t(*j.source_request_ordinal) <= capture.captured.requested_effects.size() &&
+              size_t(*j.source_request_ordinal) <= effects.size(),
+          R::contradictory_document, S::retained_semantics);
+    scan_synthetic_job(j.envelope, l);
+    Read read(j.envelope, job_format, "SAJ1", l);
+    const auto ordinal = read.i64();
+    const auto action = read.reference();
+    const auto version = read.reference();
+    const auto target = read.reference();
+    const auto unit = read.u8(2);
+    const auto requested = read.i64();
+    const auto count = read.count(3);
+    for (size_t n = 0; n != count; ++n)
+        skip_component(read);
+    const auto synthetic = read.reference();
+    const auto payload = read.str(size_t(l.storage_document_bytes));
+    read.end();
+    const auto index = size_t(*j.source_request_ordinal - 1);
+    const auto &r = capture.captured.requested_effects[index];
+    check(ordinal == *j.source_request_ordinal && action == r.action_ref &&
+              version == r.action_version_ref && target == r.target_ref &&
+              unit == unsigned(r.unit) && requested == r.requested_units,
+          R::contradictory_document, S::retained_semantics);
+    auto expected = document(l, [&](Bytes &w) {
+        w.raw("SAJ1");
+        w.i64(ordinal);
+        w.b(r.action_ref);
+        w.b(r.action_version_ref);
+        w.b(r.target_ref);
+        w.u8(unsigned(r.unit));
+        w.i64(r.requested_units);
+        w.vec(effects[index].components, [&](const auto &c) { put_component(w, c); });
+        w.b(synthetic);
+        w.b(payload);
+    });
+    check(expected == j.envelope.document, R::contradictory_document, S::retained_semantics);
+}
+
 OriginalApplicationCommand check_record(const RecordedApplicationBundle &v,
-                                        const ApplicationServiceLimits &l) {
+                                        const ApplicationServiceLimits &l,
+                                        const core::CapturedPlanRevision &capture) {
     auto c = retained_command(v.intent.choices, l);
     check(bundle_detail::same_key(c.operation, v.intent.operation) &&
               same_plan(c.plan, v.intent.plan) && c.subject_kind == v.intent.subject_kind &&
@@ -573,9 +844,12 @@ OriginalApplicationCommand check_record(const RecordedApplicationBundle &v,
               c.contribution_id == v.intent.contribution_id &&
               v.intent.kind == ApplicationOperationKind::original && !v.intent.reversal_ref,
           R::contradictory_document, S::retained_semantics);
+    for (const auto &job : v.jobs)
+        check_job_meaning(job, v.effects, capture, l);
     auto head = check_state(v.persisted_head, l);
     auto before = check_state(v.advanced_before, l);
     auto after = check_state(v.after, l);
+    scan_result(v.result, l);
     Read result(v.result, result_format, "SAR1", l);
     (void)result.b(size_t(l.command_bytes));
     (void)result.reference();
@@ -596,6 +870,7 @@ OriginalApplicationCommand check_record(const RecordedApplicationBundle &v,
                                   v.after, c, v.effects, v.jobs, v.transitions, l);
     check(bundle_detail::same_envelope(expected, v.result), R::contradictory_document,
           S::retained_semantics);
+    scan_audit(v.audit.envelope, l);
     Read audit(v.audit.envelope, audit_format, "SAA1", l);
     auto command = audit.b(size_t(l.command_bytes));
     auto p = read_policy(audit);
@@ -623,7 +898,8 @@ OriginalApplicationCommand check_record(const RecordedApplicationBundle &v,
               v.audit.actor_ref == c.actor_ref && v.audit.decision_ref == c.decision_ref &&
               v.audit.reason == c.reason && same_plan(plan, c.plan) && outcome == 0 && !failure &&
               !missing && calculation.empty() && p.configuration_ref == v.after.configuration_ref &&
-              p.policy_revision_ref == after.policy,
+              p.policy_revision_ref == after.policy && p.policy_revision_ref == before.policy &&
+              p.configuration_ref == v.advanced_before.configuration_ref,
           R::contradictory_document, S::retained_semantics);
     auto clock_doc = [&](const ApplicationClockObservation &x) {
         return document(l, [&](Bytes &w) { put_clock(w, x); });
@@ -673,6 +949,8 @@ void check_policy(const BoundApplicationPolicy &p, const OriginalApplicationComm
     }
     for (const auto &r : i.selected_plan.captured.requested_effects) {
         ++index;
+        if (r.requested_units < 0)
+            check(c.purpose == OriginalApplicationPurpose::signed_original_correction);
         if (r.unit == core::RequestedUnit::milliseconds && r.requested_units < 0)
             check(c.purpose == OriginalApplicationPurpose::signed_original_correction &&
                   std::any_of(
@@ -818,7 +1096,7 @@ std::optional<ApplicationServiceResponse> requests(ApplicationCalculatedProposal
                         {out.timer_after.main_remaining_ms, out.debt_after},
                         {"original", "captured", r.requested_units}, policy->deficit_policy);
                     if (n.disposition == core::TimeReversalDisposition::RequiresReview)
-                        return unavailable("required_mixed_timer_policy");
+                        return unavailable("required_mixed_timer_policy", l);
                     e.deficit_disposition = n.disposition;
                     out.timer_after.main_remaining_ms = n.balance_after.main_remaining_ms;
                     out.debt_after = n.balance_after.time_debt_ms;
@@ -844,7 +1122,7 @@ std::optional<ApplicationServiceResponse> requests(ApplicationCalculatedProposal
                 out.balances_after.begin(), out.balances_after.end(),
                 [&](const auto &v) { return v.kind == kind && v.target_ref == r.target_ref; });
             if (b == out.balances_after.end())
-                return unavailable("required_counter_definition");
+                return unavailable("required_counter_definition", l);
             auto attempt = Exact(b->units) + Exact(r.requested_units);
             try {
                 b->units = signed_value(attempt);
@@ -902,13 +1180,26 @@ class Execute {
     ApplicationServiceResponse historical(const RecordedApplicationBundle &record, D d) {
         if (!call([&](const auto &v) { return ports_.access.disclose_application(v, c_, record); }))
             return response(D::disclose_denied);
-        auto old = check_record(record, l_);
+        // Reread only the immutable selected revision. This same-session helper
+        // preserves the bundle's existing typed failure/rollback mapping and never
+        // resolves current policy, eligibility, state or a replacement plan head.
+        Access access(session_, l_.bundles);
+        auto capture = access.guarded([&] {
+            auto selected = access.plan(record.intent.plan);
+            if (!selected)
+                access.fail(SqliteBundleStorageReason::missing_plan);
+            access.result_size(access.plan_items(selected->selected),
+                               bundle_detail::logical_bytes(selected->selected));
+            return std::move(selected->selected);
+        });
+        auto old = check_record(record, l_, capture);
         if (d == D::existing_operation) {
             auto limits = internal_limits(l_);
             auto bytes = encode_original_application_command(old, limits);
             if (!bundle_detail::same_envelope(bytes, cmd_))
                 return response(D::operation_conflict);
         }
+        bound(sum(1, record_bytes(record)), record_items(record), l_, true);
         return {d, record};
     }
     std::optional<std::string> issue(ApplicationReferencePurpose purpose,
@@ -948,37 +1239,37 @@ class Execute {
         auto ordinal = failure ? failure->evidence.failing_ordinal : std::optional<std::int64_t>{};
         auto h = issue(ApplicationReferencePurpose::hold, i, ordinal);
         if (!h)
-            return unavailable("required_application_reference");
+            return unavailable("required_application_reference", l_);
         auto d = issue(ApplicationReferencePurpose::detection, i, ordinal);
         if (!d)
-            return unavailable("required_application_reference");
+            return unavailable("required_application_reference", l_);
         auto v = issue(ApplicationReferencePurpose::hold_version, i, ordinal);
         if (!v)
-            return unavailable("required_application_reference");
+            return unavailable("required_application_reference", l_);
         check(*h != *d && *h != *v && *d != *v);
         bool v2 = policy && !policy->correction_policies.empty();
-        auto annotation = ApplicationEnvelope{
-            v2 ? "subathon.internal.application-hold-observation.v2"
-               : "subathon.internal.application-hold-observation.v1",
-            document(l_, [&](Bytes &w) {
-                w.raw(v2 ? "SAH2" : "SAH1");
-                w.b(cmd_.document);
-                w.b(i.current_state.token);
-                w.opt(policy, [&](const auto &p) { put_policy(w, p); });
-                w.opt(clock, [&](const auto &x) { put_clock(w, x); });
-                w.opt(failure, [&](const auto &x) { put_failure(w, x.evidence); });
-                w.opt(missing, [&](const auto &x) { w.b(x); });
-                w.b(std::string_view{});
-                if (v2) {
-                    w.vec(policy->correction_policies, [&](const auto &x) {
-                        w.i64(x.request_ordinal);
-                        w.u8(unsigned(x.deficit_policy));
+        auto annotation =
+            encoded(v2 ? "subathon.internal.application-hold-observation.v2"
+                       : "subathon.internal.application-hold-observation.v1",
+                    l_, [&](Bytes &w) {
+                        w.raw(v2 ? "SAH2" : "SAH1");
+                        w.b(cmd_.document);
+                        w.b(i.current_state.token);
+                        w.opt(policy, [&](const auto &p) { put_policy(w, p); });
+                        w.opt(clock, [&](const auto &x) { put_clock(w, x); });
+                        w.opt(failure, [&](const auto &x) { put_failure(w, x.evidence); });
+                        w.opt(missing, [&](const auto &x) { w.b(x); });
+                        w.b(std::string_view{});
+                        if (v2) {
+                            w.vec(policy->correction_policies, [&](const auto &x) {
+                                w.i64(x.request_ordinal);
+                                w.u8(unsigned(x.deficit_policy));
+                            });
+                            w.u8(failure ? 1 : 0);
+                            if (failure)
+                                w.u8(failure->balance);
+                        }
                     });
-                    w.u8(failure ? 1 : 0);
-                    if (failure)
-                        w.u8(failure->balance);
-                }
-            })};
         ApplicationHoldDetection detection;
         auto &cause = detection.cause;
         cause.hold_ref = *h;
@@ -1038,6 +1329,7 @@ class Execute {
                   version.position == 1 && !version.parent_version_ref &&
                   version.state == ApplicationHoldState::active &&
                   version.producer_mutation_ref == *d && !version.replacement);
+            bound(sum(1, sum(h->size(), hold_detail::bytes(o))), hold_detail::items(o), l_, true);
             return {failure ? D::held_numeric : D::held_policy, ApplicationHeldPayload{o, *h}};
         }
         check(result.disposition != H::stale_active_set && result.disposition != H::missing_hold &&
@@ -1063,6 +1355,8 @@ class Execute {
         if (!active.holds.empty()) {
             bool disclose =
                 call([&](const auto &v) { return ports_.access.disclose_holds(v, c_, active); });
+            bound(disclose ? sum(1, hold_detail::bytes(active)) : 1,
+                  disclose ? hold_detail::items(active) : 0, l_, true);
             return {D::active_hold,
                     ApplicationActiveHoldPayload{disclose ? std::optional{active} : std::nullopt}};
         }
@@ -1105,15 +1399,20 @@ class Execute {
         if (i.current_contribution) {
             auto eligibility =
                 core::assess_contribution_eligibility(i.current_contribution->contribution.state);
-            if (!eligibility.blockers.empty())
+            if (!eligibility.blockers.empty()) {
+                bound(sum(1, eligibility.blockers.size()), eligibility.blockers.size(), l_, true);
                 return {D::ineligible,
                         std::vector<core::ContributionBlocker>(eligibility.blockers.begin(),
                                                                eligibility.blockers.end())};
+            }
         }
         if (!proposal || proposal->clock_advanced_timer.lifecycle != core::TimerLifecycle::Active ||
-            policy.paused || policy.recovery_pending ||
-            policy.admission.disposition != ApplicationPolicyAdmission::allow_active)
-            return unavailable("required_application_lifecycle_policy");
+            policy.paused || policy.recovery_pending)
+            return unavailable("required_application_lifecycle_policy", l_);
+        if (policy.admission.disposition == ApplicationPolicyAdmission::unresolved_with_reason)
+            return hold(i, *allowed, policy, clock, std::nullopt, policy.admission.reason_ref);
+        if (policy.admission.disposition != ApplicationPolicyAdmission::allow_active)
+            return unavailable(*policy.admission.reason_ref, l_);
         try {
             if (auto refusal = requests(*proposal, i, policy, l_))
                 return *refusal;
@@ -1144,14 +1443,14 @@ class Execute {
         if (!reuse) {
             auto token = issue(ApplicationReferencePurpose::advanced_state, i, std::nullopt);
             if (!token)
-                return unavailable("required_application_reference");
+                return unavailable("required_application_reference", l_);
             before.token = *token;
             before.envelope = std::move(candidate);
         }
         ApplicationStateSnapshot after = before;
         auto token = issue(ApplicationReferencePurpose::after_state, i, std::nullopt);
         if (!token)
-            return unavailable("required_application_reference");
+            return unavailable("required_application_reference", l_);
         after.token = *token;
         after.timer = proposal->timer_after;
         after.time_debt_ms = proposal->debt_after;
@@ -1190,7 +1489,8 @@ class Execute {
         case B::staged: {
             auto record = bundles_.lookup(c_.operation);
             check(record.has_value());
-            (void)check_record(*record, l_);
+            (void)check_record(*record, l_, i.selected_plan);
+            bound(sum(1, record_bytes(*record)), record_items(*record), l_, true);
             return {D::applied, std::move(*record)};
         }
         case B::already_present:
@@ -1237,37 +1537,13 @@ class Execute {
                       i.selected_plan.captured.requested_effects.size());
             check(*j.source_request_ordinal >= previous);
             previous = *j.source_request_ordinal;
-            const auto &r = i.selected_plan.captured.requested_effects[size_t(previous - 1)];
-            Read read(j.envelope, job_format, "SAJ1", l_);
-            auto ordinal = read.i64();
-            auto action = read.reference();
-            auto version = read.reference();
-            auto target = read.reference();
-            auto unit = read.u8(2);
-            auto requested = read.i64();
-            auto count = read.count(size_t(l_.intermediate_items));
-            for (size_t n = 0; n < count; ++n)
-                skip_component(read);
-            auto synthetic = read.reference();
-            auto payload = read.str(size_t(l_.storage_document_bytes));
-            read.end();
-            check(ordinal == previous && action == r.action_ref &&
-                  version == r.action_version_ref && target == r.target_ref &&
-                  unit == unsigned(r.unit) && requested == r.requested_units);
-            auto expected = document(l_, [&](Bytes &w) {
-                w.raw("SAJ1");
-                w.i64(previous);
-                w.b(r.action_ref);
-                w.b(r.action_version_ref);
-                w.b(r.target_ref);
-                w.u8(unsigned(r.unit));
-                w.i64(r.requested_units);
-                w.vec(p.effects[size_t(previous - 1)].components,
-                      [&](const auto &c) { put_component(w, c); });
-                w.b(synthetic);
-                w.b(payload);
-            });
-            check(expected == j.envelope.document);
+            try {
+                check_job_meaning(j, p.effects, i.selected_plan, l_);
+            } catch (const LocalFailure &failure) {
+                if (failure.reason == R::result_limit)
+                    throw;
+                fail(R::invalid_output);
+            }
         }
     }
     SqliteWorkSession session_;
@@ -1337,6 +1613,7 @@ OriginalApplicationService::make_work(const OriginalApplicationCommand &command,
     auto factory = [](std::shared_ptr<detail::ApplicationReferenceReadState> state) {
         ApplicationReferenceReadView view;
         view.state_ = state;
+        view.limits_ = state->limits;
         return view;
     };
     auto body = [this, c = std::move(owned), encoded = std::move(encoded), attempt,
@@ -1348,7 +1625,7 @@ OriginalApplicationService::make_work(const OriginalApplicationCommand &command,
             try {
                 r = execute.run();
             } catch (const ApplicationServiceUnsupportedFormat &) {
-                r = unavailable("unsupported_retained_format");
+                r = unavailable("unsupported_retained_format", limits_);
             }
             final_bounds(r, limits_);
             session.commit();
