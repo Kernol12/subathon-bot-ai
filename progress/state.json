@@ -601,8 +601,8 @@
       "title": "Common wire primitives and compatibility",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
-      "owner": "coordinator /root; codec_author (common contract document)",
+      "status": "done",
+      "owner": "coordinator /root; codec_author (document author); service_reviewer (independent review)",
       "depends_on": [
         "CONTRACT-002",
         "CONTRACTPLAN-001"
@@ -620,13 +620,27 @@
       "notes": [
         "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
         "Claimed task/CONTRACT-005-wire-primitives from refreshed main dd6a141 after actual PR57 merge. FIRST DOCUMENT ONLY: versioned common exact-value/reference/unknown/version/capability/envelope primitives and independent valid/invalid examples, consistent with reviewed domain contracts. codec_author owns ONLY NEW docs/contracts/wire-primitives-v1.md and docs/evidence/contract-005-author.md in isolated task/CONTRACT-005-document-author. No schema, C++/TS, stub, client, fixture/test, code generation, network provider or authority behavior. Generic decoding proposals cannot silently reject valid domain values; keep field-specific owning limits explicit. Root owns state/HTML/checkpoint/shared schemas/imports/build/CI/pins/maps. Actual different document review precedes any next stage; API01/02/03/NUM04/§2/§10 remain scope. Parallel password claim is separate and source-free.",
-        "Concurrent common actual1404de5/import378da1b contract11eeb5f4/author7cebb719 is with service_reviewer for actualindependent27-example document review. No schema/code/client feature; fullC003gateplanned. This password branch reconcilesclaim only."
+        "Actual common-wire first document1404de5/import378da1b, contract11eeb5f4/author7cebb719, independently APPROVEDf01bd28. All323 lines/27WP examples reviewed against actual domain/storage/application bounds. Independent23 arithmetic/size/order facts pass, nonsecret error565<=1024, no global256ref/512parser/4096bit cap. This completes005 bounded document acceptance only; no schema/parser/encoder/client/native/provider behavior exists. ExistingCIcoversconsistency/unchangedcomponents; finalexactheadCI/rules/threads/normalmerge are separatepublicationgates. Fullparent003/006–008/schema/consumer/testfirst/platform/provider scope remains.",
+        "ActualPR58 normalmerge0096323 fromf73/all12head/all11postmain checks passed. Common document integrated here before password minimal-source stage; exactpassword logical/API blobs unchanged."
       ],
       "verification": {
-        "document_review": "not_run"
+        "document_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "passed"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "docs/contracts/wire-primitives-v1.md",
+        "docs/evidence/contract-005-author.md",
+        "docs/evidence/contract-005-review.md",
+        "docs/evidence/contract-005-handoff.md"
+      ],
+      "review": {
+        "author": "codec_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contract-005-review.md",
+        "revision": "378da1b contract11eeb5f4/author7cebb719"
+      }
     },
     {
       "id": "CONTRACT-006",
@@ -709,7 +723,8 @@
       "brief": "docs/tasks/CONTRACT-008.md",
       "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
       "notes": [
-        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
+        "Current scene PLAN002 actual84a80bd docs/state independently approveda2897c88; locala390112/publishedtaskref nowcontains406nodes/1497edges preservingall1473priorclaimedges/319baseline gates. FinalfocusedPR/CI/normalmerge pending beforechild009 claim. Thisbranchreconcilescoordination only; actualnewplanningrecords stayontheirbranch untilintegration."
       ],
       "verification": {},
       "evidence": [],
@@ -2853,7 +2868,7 @@
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Separate focused PR56 owns actual logical/API document work; root branch task/MILESTONETEST-001-progression-baseline at3fc99ce. Logical document approved; API actual58b8e129 now under separate review. This planning branch only reconciles its active claim, without copying absent evidence or changing any behavior gate.",
         "Concurrent focused PR56: logical/API and minimal header9a167813/TU4e3291f0/harnessd8b3d6a independently approved through a2f5d358/import6d1fa3e. Root4f8f3e1 released only literal tests and independent Boost/std foundation authoring; service_author active in milestone author tree. Remote d8b3d6a has all12 old component checks green, but no selected new milestone CI/foundation/feature body/red has run. Preserve exact source/contracts/reviews and integrate this new main before final tests/harness review. This branch reconciles claim only; no absent milestone evidence copied.",
-        "Concurrent PR56 local275057b is fully53-test/harness reviewed208d0580/importac9234a, native approvedlocal25-fact foundation passed once atclean7d7e621/raw9a83525e. No milestone acceptance test/function/marker body, currentselected1.83CI or FIRSTred. Remote00d8c57/all12oldchecks. Current gh scopes stilllackworkflow, SSHabsent/GPGidentities0; blocked only thatcurrentCI publication gate. This branch reconcilesstatus without copying absent milestone evidence."
+        "Concurrent focusedPR56 local275057b nowfull53-test/harness reviewed208d0580/importac9234a. ApprovedFIRSTlocal25-factfoundation passed once clean7d7e621/raw9a83525e. No milestone acceptance test/function/marker body/currentselected1.83CI/FIRSTred. Remote00d8c57/all12oldchecks; workflowaccessstillabsent afterrecheck. This branch reconcilesblockedclaimonly, no absent milestone evidence copied."
       ],
       "verification": {},
       "evidence": [],
@@ -3667,7 +3682,7 @@
       "module": "Identity",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (concrete API document); service_reviewer (logical author)",
+      "owner": "coordinator /root; service_author (minimal typed password stub); service_reviewer (API review)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3682,22 +3697,27 @@
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
         "Claimed dedicated task/SESSIONTEST-001-password-baseline from refreshed integrated main dd6a141 after actual PR57; prerequisite CONTRACTPLAN001 done. FIRST DOCUMENT ONLY: bounded libsodium Argon2id password hashing/stored parameters/verification and upgrade proposal, independent literal success/failure examples, secret handling and honest reference-hardware benchmark procedure. service_reviewer owns ONLY NEW docs/contracts/password-hashing-v1.md and docs/evidence/sessiontest-001-contract-author.md in isolated task/SESSIONTEST-001-contract-author. Consult official primary libsodium docs and actual installed1.0.22 headers, distinguish observed API from proposed supported pin; no production/hash/marker/test/fixture/stub/schema/migration or secret invocation. No library hash cost/platform claim without actual reviewed evidence. Root owns shared state/HTML/build/CI/pins/schemas. Actual different logical/API/source/test reviews and greenfoundation/FIRSTred precede SESSION001 production.",
         "Actual logical authorf730a176/importd74fc81 (contractbc9ccbf6/note4d26e84e) independently approved98f0494/importfebe5c2, review6226c59d. Official primary1.0.22 sources/H0fixture and13stdlib facts checked; no nativecrypto/init/hash/verify/RNG. Release ONLY NEW docs/contracts/password-hashing-api-v1.md and docs/evidence/sessiontest-001-api-author.md to service_author in separate APIauthor tree. Exact minimal C++ boundary/errors/budgets/lifetimes/directrawfixture reach/immediatefuturemarker proposal only; no actualheader/stub/source/test/foundation/schema/crypto/build. Keep logicalscope/secret/cost/currentlogin/revision/CAS/benchmark obligations intact, selectedpin/defaults stillproposed notactualplatformproof. Root ownssharedstate/pins/harness/CI. Actual differentAPI review before nextstage.",
-        "Actual sourceartifact authentication complete: official1.0.22 archive2008529bytes/SHA256adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349 matches release metadata. Installedgpgv2.4.9 at12:41:07Z returned0/GOODSIG/VALIDSIG against exactofficialRSAkey inisolatedscratchkeyring; primary54A2B8892CC3D6A597B92B6C210627AABA709FE1/signing0C7983A8FD9A104C623172CB62F25B592B6F76DA. Rootre-readrawresult/rehashedallbytes; no globalkeyring/install/extract/build/libraryexecution. Thisresolvesartifactprovenance only, notSDK/runtime/ABI/pinning/cost/feature/nativefoundation gates. PasswordAPIauthorcontinues; current main009 needsintegration before executable review."
+        "Actual sourceartifact authentication complete: official1.0.22 archive2008529bytes/SHA256adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349 matches release metadata. Installedgpgv2.4.9 at12:41:07Z returned0/GOODSIG/VALIDSIG against exactofficialRSAkey inisolatedscratchkeyring; primary54A2B8892CC3D6A597B92B6C210627AABA709FE1/signing0C7983A8FD9A104C623172CB62F25B592B6F76DA. Rootre-readrawresult/rehashedallbytes; no globalkeyring/install/extract/build/libraryexecution. Thisresolvesartifactprovenance only, notSDK/runtime/ABI/pinning/cost/feature/nativefoundation gates. PasswordAPIauthorcontinues; current main009 needsintegration before executable review.",
+        "Actual API fca99279/import775f084 (7ad1e8d3/author2b9ec1e3) independently APPROVED18e1a109/import503a7d3, note8107778d. Frozenlogical docs unchanged;28stdlib facts pass, no nativepasswordcalls. Integrate main0096323 then release ONLY server/include/subathon/server/password_hashing.hpp, server/src/password_hashing.cpp and stub-author note inisolatednewwriter. ExactAPI declarations/inert wrappers/getters/errors; THREE featuredefinitions entirebodies immediate PasswordHashingNotImplemented throw, no sourceport/validation/init/guardedmemory/crypto beforethrow. Rootownsharness/SDKpin/CI/state. Actualminimal source/harness review beforetests/foundation/native; no production released."
       ],
       "verification": {
         "document_review": "passed",
         "test_baseline": "not_run",
         "implementation": "not_run",
-        "api_document_review": "not_run",
+        "api_document_review": "passed",
         "source_authentication": "passed",
-        "selected_sdk": "not_run"
+        "selected_sdk": "not_run",
+        "minimal_source_review": "not_run"
       },
       "evidence": [
         "docs/contracts/password-hashing-v1.md",
         "docs/evidence/sessiontest-001-contract-author.md",
         "docs/evidence/sessiontest-001-contract-review.md",
         "docs/evidence/sessiontest-001-dependency-preparation.md",
-        "docs/evidence/sessiontest-001-source-authentication.json"
+        "docs/evidence/sessiontest-001-source-authentication.json",
+        "docs/contracts/password-hashing-api-v1.md",
+        "docs/evidence/sessiontest-001-api-author.md",
+        "docs/evidence/sessiontest-001-api-review.md"
       ],
       "review": null
     },
@@ -13290,6 +13310,11 @@
       "date": "2026-11-04",
       "task": "SESSIONTEST-001",
       "note": "Claimed password logical DOCUMENT stage; primary docs/header investigation and literal contract examples before code or hash execution."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-005",
+      "note": "Common primitive document independently approved;27 literal examples/domain widths checked. Contract-only acceptance complete, finalCI/publication gates pending; no codec/schema/client capability."
     }
   ]
 }
