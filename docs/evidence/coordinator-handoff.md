@@ -96,3 +96,11 @@ LATEST ratefullreviewdcf5 confirmsR1fixedat24f9/imported27 tests64fd60b2/note60d
 publicationofcurrentselectedCI; no newratebody/marker hasrun. Native14foundation
 GREEN only1.92known; selected1.83currentCI stillmustgreen BEFORE FIRSTrate red.
 Milestone4362/rootaf7 logicaldoc nowauthored/codec_authorRUNNINGactualdocumentreview.
+
+ACCESS BLOCK recorded: RATESTEST001 statusblocked only for required currentCI
+publication. No usableSSHagent, ghrepo tokenlacksworkflow. API objectpublish stops
+with404onnewworkflowtree7ff; PR54remote512 remainsunchanged, fullsource/approvals
+local03a preserved (nextmetadata commit). Do notworkaroundworkflowpermission or
+runFIRSTredusingoldinterfaceCI. OwnerASYNCrequestpendingrestoreSSH/refreshworkflow.
+ContinueunaffectedMILEAPI andread-onlyCONTRACT003preparation; source/testreviews
+complete andmustnotberepeated. Requiredscope officialdocs verified.

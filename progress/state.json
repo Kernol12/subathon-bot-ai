@@ -7769,7 +7769,7 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "coordinator /root; codec_author (literal tests); service_reviewer (actual test/fixture/harness review)",
       "depends_on": [
         "CONTRACT-002",
@@ -7793,7 +7793,8 @@
         "Actual minimalstub f75d7cc/import3d01e9a +sharedharnessf5afb60 receives independentapproval6150962. Header3a06ff18/TU4cf1c1ed exact19fieldlists/3enums/13limits/4immediatebodies; independent14step0warnings/old36PASS. No ratefeature/marker called. Root now releases independent-literal fixture/test authorship tocodec_author in NEWtask/RATESTEST-001-test-author (futureproductionauthor separate); owns ONLY tests/fixtures/rate_snapshots_vectors.hpp, tests/acceptance/rate_snapshot_tests.cpp, tests/acceptance/rate_snapshot_environment.cpp and own test-authornote. DeriveRS01-17/error/resource/ownership oracles fromspec/model/API, notnewSUT. RootownsallCMake/CI/state/pins. Actualtestreview then selectedBoost-onlyfoundationgreen and FIRSTordinarymissingmarkerred precedeproduction. No parsing/money/query implementation permitted yet.",
         "Actual b0517b7/import03124ab literalvectors8936f4fa/tests21b819b9/foundation28a829aa/authorbc64f0b4 plus harness7ff7d2d now compile/discover53unique/90total/0warnings; ONLYinertgtest_list executed, no test/feature/foundation/markerbody. Initial test-scopeBoostimportconfigureissuefixed(no redclaim). Freshmain3217 integrated without losinglocale done/newMILESTONETEST001active ornew009bridge/EPIC017deps. Root now assigns actual53fixture/test/Boost-onlyfoundation+CIharnessreview toservice_reviewer in NEWratestest001-test-review, own ONLY ratestest-001-test-review.md. Actualreview, selectedfoundationGREEN/CIthenFIRSTordinarymodelmarkerred required; stillno production.",
         "Actual narrowBoostfoundationapproval4e9c615/import7124003 precedes FIRSTfoundationrun:14independentfactsPASS/1CTest0.00s/rootBoost1.92/raw419c41ee, no modelmarker. Complete53test/harnessreview6d4a8db requests one additiveR1 mixedASCII/highbit unsigned-byte ordering oracle beforeFIRSTred. Old0x80/0xff case cannotdistinguishsignedordering; codec_author releasedONLYacceptance+authornote,53names/fixtures/foundation/headerstubs frozen. No other substantiveoracleissue; no newfeature/testbody everrun. Actualrevisedreview/selectedBoost1.83CI beforeordinaryFIRSTred remain.",
-        "ActualcorrectedR124f9b3a/imported27c82 tests64fd60b2/author60d84fb2 receive finalindependentfull53reviewdcf5dcaa. MixedASCII O/0x80/0xff source+constraint ordering nowpinned, alloldassertions/53names/vectors8936/foundation28a/header3a/TU4cf1 preserved. Rootnative14factBoostfoundationGREEN afternarrow4eapproval alreadyobserved; currentselectedBoost1.83CI with53build/discovery/newfoundation pendingpublication beforeFIRSTmodelred. No ratebody/marker hasrun, no productioncapability."
+        "ActualcorrectedR124f9b3a/imported27c82 tests64fd60b2/author60d84fb2 receive finalindependentfull53reviewdcf5dcaa. MixedASCII O/0x80/0xff source+constraint ordering nowpinned, alloldassertions/53names/vectors8936/foundation28a/header3a/TU4cf1 preserved. Rootnative14factBoostfoundationGREEN afternarrow4eapproval alreadyobserved; currentselectedBoost1.83CI with53build/discovery/newfoundation pendingpublication beforeFIRSTmodelred. No ratebody/marker hasrun, no productioncapability.",
+        "ConcreteACCESSBLOCK: SSH_AUTH_SOCKabsent/no usableGPGSSHidentities; GitHTTPSauthenticatedbutrepeated500. ExactGitDataAPIpublishLOCmetadataworked, but new.github/workflows/rate-snapshots.yml updateCreateTree404 at7ff whileexistingghOAuthscopesreporeadorggistadminpublickey lackrequiredworkflow. Officialscope requirementverified; do not bypasspermission viaalternatefile/refroutes. OwnerASYNCaskedrestoreSSH orghauthrefresh-sworkflow, pendingrealcredentialchange. RemotePR54still512; local03aab6d(fullapprovedtests/currentmain/metadata) preserved pluspartialunreferenced031 exactAPIobjectreceipt. Do notFIRSTredbeforecurrentselectedCI. ContinueMILEAPI/CONTRACT003readonlyprep independently. Onactualaccessrestorationverifyauth/head, resumein_progress/publication/sourceCIthenfirstred; no stale approvalsreplayed."
       ],
       "verification": {
         "document_review": "passed",
@@ -7806,7 +7807,7 @@
         "test_review": "passed",
         "selected_foundation": "passed",
         "interface_ci": "passed",
-        "selected_foundation_ci": "not_run"
+        "selected_foundation_ci": "blocked"
       },
       "evidence": [
         "docs/contracts/rate-snapshots-v1.md",
@@ -7821,7 +7822,13 @@
         "docs/evidence/ratestest-001-test-review.md",
         "docs/evidence/ratestest-001-ci.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/codec_author (literal fixtures/tests)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "Actualed27c82/tests64fd60b2/author60d84fb2/full53 reviewed dcf5dcaa, oldassertions/names/vectors8936/foundation28a/header3a/TU4cf1 preserved. NativeBoost14facts green after narrow4e. FIRSTmodelred notrun; currentselectedCI publicationblockedbyworkflowcredentials.",
+        "evidence": "docs/evidence/ratestest-001-test-review.md"
+      }
     },
     {
       "id": "RATES-001",
