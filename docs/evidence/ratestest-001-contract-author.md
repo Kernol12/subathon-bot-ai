@@ -51,3 +51,31 @@ feature behavior, provider capability or implementation acceptance.
 - python3 tools/progress.py render --check — PASS current snapshot.
 - git diff --check — PASS; staged new-document whitespace check accompanies commit.
 No executable numeric/provider/feature test or implementation was invoked.
+
+
+## Actual review clarification: selected source inclusion
+
+Independent reviewer codec_author inspected the actual imported candidate f4f321a
+(from author af2f9a9) and found RS10 ambiguous: §3 requires every source observation
+included inside an EffectiveSnapshot to have an active fetched constraint. Under
+RS09's consistent two-pin table, O1's only rates 1.2000/0.6000 disagree with 1.25/0.625,
+so no O1 edge can remain active. The coordinator released this bounded document
+correction; RS10 now explicitly retains O1 OUTSIDE that effective snapshot, while
+the snapshot owns P1/P2 manual provenance without fabricated fetched edges.
+Original source values and the selected-only inclusion invariant are unchanged.
+This fulfills specification §9's separate fetched provenance and persistent pins;
+it neither discards original data nor changes editing/conflict policy.
+
+The same reviewer also requested routine precision in RS15. Its 256-member limit now
+explicitly applies to effective component members across the table, exactly as
+its resource row already states. Other keys in unselected fetched quotes still
+obey the separate quote/owned-value limits. No numeric ceiling was changed.
+
+There is no code/API/schema/storage/fixture/test change or feature execution.
+Actual independent full document re-review remains required; no self-approval or
+further stage is claimed. Old observation/pin algebra and the RATES-009 exact
+bridge gate remain intact. Only these two owned Markdown files are changed.
+
+Revised-document checks: python3 tools/check_project.py PASS (396 tasks,122
+decisions, local links/presets/HTML); python3 tools/progress.py render --check
+PASS; git diff --check PASS. No feature/provider/numeric test command ran.
