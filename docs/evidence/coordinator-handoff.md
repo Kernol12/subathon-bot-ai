@@ -108,3 +108,5 @@ roles are running. Reuse followup_task for idleagents. Exact taskref publisher
 verifies SHA objects/nonforcedrefs, never main/history/scopes; inspect actual state
 after ambiguous errors. Full7integrations/3FX/bothrenderers/locales/themes/platforms/
 licenses/packaging/live scope remains. No live chat/payment sideeffects authorized.
+
+Local password CI preparation now exists in password integrator only: exact authenticated archive/static disposable Ubuntu SDK recipe, compile-only generator, mandatory green native foundation and old infrastructure. YAML/bash syntax checked, no workflow execution or publication. This new workflow is outside native3bb5d0b approval and requires actual different review of its final test/harness revision; missing workflow scope still blocks remote gate. Rate current-main merge is c37c87b8997d165a07aae37159ffef5d5f3378ba with408-task union; milestone current-main merge6466554d21c47402417aab5b052ba3b2d4ac759d. Frozen sources/tests unchanged and old foundations not replayed.
