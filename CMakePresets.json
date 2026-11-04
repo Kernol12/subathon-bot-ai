@@ -193,6 +193,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS": "ON"
       }
+    },
+    {
+      "name": "milestone-progression-debug",
+      "displayName": "24 \u00b7 Milestone progression baseline interfaces and tests",
+      "inherits": "exact-numeric-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -283,6 +291,10 @@
     {
       "name": "translation-catalog-debug",
       "configurePreset": "translation-catalog-debug"
+    },
+    {
+      "name": "milestone-progression-debug",
+      "configurePreset": "milestone-progression-debug"
     }
   ],
   "testPresets": [
@@ -499,6 +511,16 @@
     {
       "name": "translation-catalog-debug",
       "configurePreset": "translation-catalog-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "milestone-progression-debug",
+      "configurePreset": "milestone-progression-debug",
       "output": {
         "outputOnFailure": true
       },
