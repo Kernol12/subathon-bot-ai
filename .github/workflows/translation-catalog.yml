@@ -1,0 +1,68 @@
+name: Translation catalog baseline interfaces
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  translation-catalog-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install archive and selected Qt runtime dependencies
+        run: |
+          echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g libgssapi-krb5-2 libbrotli1
+      - name: Fetch and verify the selected official Qt 6.12.0 toolchain
+        working-directory: ${{ runner.temp }}
+        run: |
+          base=https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qtbase-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qtbase.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346icu-linux-Rhel8.6-x86_64.7z" --output icu.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qttools-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qttools.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qtdeclarative-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qtdeclarative.7z
+          echo '943023b929d0c08eafe7341700b5ed7601284410b7afd6093f950be291d1d7cd  qtbase.7z' | sha256sum --check --strict
+          echo '1fdbcd67b1760f3a3f031c64637a9f19992aed2f35aa615e12a468f8c655d4da  icu.7z' | sha256sum --check --strict
+          echo '5d6f90961df3a1e5a57fac69bbbe6983860bad11c419a49736b84914588b4334  qttools.7z' | sha256sum --check --strict
+          echo '0c719e17ea9fbd37aa615595149dca2578985656433f27bf2846cffe4b687d3e  qtdeclarative.7z' | sha256sum --check --strict
+          mkdir -p "$QT_PREFIX/lib"
+          bsdtar -xf qtbase.7z -C "$QT_PREFIX"
+          bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
+          bsdtar -xf qttools.7z -C "$QT_PREFIX"
+          bsdtar -xf qtdeclarative.7z -C "$QT_PREFIX"
+      - name: Verify existing Linguist tool version and selected runtime closure
+        run: |
+          python3 - <<'PYTHON'
+          import os, subprocess
+          from pathlib import Path
+          prefix = Path(os.environ["QT_PREFIX"]).resolve()
+          executable = prefix / "bin/lrelease"
+          result = subprocess.run([str(executable), "-version"], check=True, capture_output=True, text=True)
+          if result.stdout.strip() != "lrelease version 6.12.0":
+              raise SystemExit("Selected lrelease is not Qt 6.12.0")
+          print(result.stdout.strip())
+          libraries = subprocess.check_output(["ldd", str(executable)], text=True)
+          if "not found" in libraries:
+              raise SystemExit("Selected lrelease has unresolved runtime libraries")
+          selected = [line for line in libraries.splitlines() if "libQt6" in line or "libicu" in line]
+          if not selected:
+              raise SystemExit("No selected Qt/ICU runtime found")
+          for line in selected:
+              location = line.split("=>", 1)[1].split(" (", 1)[0].strip()
+              if not Path(location).resolve().is_relative_to(prefix):
+                  raise SystemExit("Linguist tool borrowed host Qt/ICU")
+              print(line.strip())
+          PYTHON
+      - name: Configure catalog interfaces and existing Qt environment probe
+        run: cmake --preset translation-catalog-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+      - name: Build syntax and inert imports without invoking generator functions
+        run: cmake --build --preset translation-catalog-debug
+      - name: Run existing infrastructure and Qt environment checks only
+        run: ctest --preset translation-catalog-debug --verbose

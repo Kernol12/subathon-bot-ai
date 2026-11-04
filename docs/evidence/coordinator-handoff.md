@@ -178,3 +178,17 @@ fixtures/tests remain unauthorized until actual minimal code/build-harness revie
 Root alone owns the new profile, syntax/inert-import harness and selected Qt CI.
 Build/discovery must never invoke a feature entrypoint. Actual reviewer must receive
 the authored code/config before approval; no prospective/source/test/red gate claim.
+
+
+## Minimal source and actual selected build ready for review
+
+Actual inert stub ef4974c/importa9e60e5 is integrated. All five entrypoints remain
+immediate named-marker raises, and no feature/main/marker invocation occurred.
+Root added profile22 translation-catalog-debug, a syntax/inert-import-only target
+and a checksummed official Qt6.12.0 CI lane. Actual configure with
+-DCMAKE_PREFIX_PATH=/tmp/subathon-locale-qttools-6.12.0/prefix, build and verbose
+CTest passed four existing infrastructure checks (including19 tooling methods and
+the selected Qt event-loop probe). This is NOT a translation feature baseline.
+New workflow execution has not yet been observed. The separate reviewer receives
+the actual source/CMake/preset/workflow revision before fixtures/tests are released.
+The author/reviewer/probe agents are completed/idle until explicit followup tasks.
