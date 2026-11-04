@@ -88,4 +88,4 @@ jobs:
           print(f"Discovered {len(expected)} enabled milestone cases; their first red is a separate gate")
           PYTHON
       - name: Run reviewed independent foundation and existing checks
-        run: ctest --preset milestone-progression-debug -LE intentional-red --verbose
+        run: ctest --preset milestone-progression-debug -LE intentional-red --no-tests=error --verbose

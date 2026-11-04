@@ -101,8 +101,10 @@ if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
     add_executable(core_milestone_progression_acceptance acceptance/milestone_progression_tests.cpp)
     target_link_libraries(core_milestone_progression_acceptance PRIVATE subathon_milestone_progression GTest::gtest_main)
     subathon_target_options(core_milestone_progression_acceptance)
-    gtest_discover_tests(core_milestone_progression_acceptance NO_PRETTY_VALUES PROPERTIES
-        LABELS "milestone-progression;acceptance;intentional-red;core" TIMEOUT 30)
+    gtest_discover_tests(core_milestone_progression_acceptance NO_PRETTY_VALUES
+        TEST_LIST subathon_milestone_progression_cases PROPERTIES TIMEOUT 30)
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/MilestoneProgressionLabels.cmake")
 
     # This independent arithmetic foundation has no project headers or libraries.
     find_package(Boost 1.83 CONFIG REQUIRED)
