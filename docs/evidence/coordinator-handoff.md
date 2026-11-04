@@ -123,3 +123,44 @@ exactnonforcedtaskrefpublisher; no main/history/scopes bypass. Rootnextintegrate
 actualpasswordreviewfindings/routesboundedcorrection andtracks011authoring plusD1;
 observepost-main11workflows. All7integrations/3FX/bothrenderers/locales/themes/platforms/
 licenses/packaging/live scope remains. No livechat/payment/provider sideeffects.
+
+
+## Latest actual handoffs after the primary merge
+
+All11post-maincheckruns at8fc9edcf nowobservedSUCCESS. PR61merge/reviews remainvalid.
+PermissionPARTIAL6bc3d51f/importc88bcf5 (doc5dfc6a1e/note66edd21f) preserved andmergedwith
+8fcmain inowningbranchd7040673828fa07d3a761574a2d8d060646fdeab; all406ids/1497edges,
+27EPexamples/18stdlibfacts. ACTUAL [draftPR62](https://github.com/Kernol12/subathon-bot-ai/pull/62)
+atEXACTd704067 isOPEN/DRAFT, all12oldcomponentcheckrunsSUCCESS. D1stillUNANSWERED/
+UNSELECTED, noindependentfullcontractreview/API/test/red/implementation. GreenCI
+doesnotresolvepolicyorallowmerge. Rootopen-decisionrecord preserved inowningtree.
+
+ActualPWfullreview173d90a53d74e5e29a647084cc0675cb861957f6 importedcbdb1332c4d4b04bab7122f11155948a8c0dcf9d,
+reviewnote56ad3b1c. COMPLETEaudit/CHANGESREQUIREDR1callerboundedSDKoracles andR2actual
+passwordallocationlifetime/lock/free/unlock/addressreuse. Otherfrozenauditpassed:
+37+old4discovery/build13steps/old3infra0.65s/workflowguard/syntax/docs; no feature/
+marker/nativeSDK/foundation/generator/injectionexecution. Originalservice_author
+ACTUALLYreassigned correction inNEWsessiontest001-test-correction/
+task/SESSIONTEST-001-test-correction atcbdb133. Ownsonlyfeaturetests/privatecontrols/
+wrappers/authornote; all37names/literals/unaffectedassertions/fixtures/nativeprograms/
+contracts/prod/header/CMake/CI frozen. Samecodec_author actualre-review required.
+
+Passwordintegrator current25506e021937d51beb5d2f5e3d83b8fe303ee873 incorporatesverified8fc
+via1ceaddbffb68661296bd03e5ba65e55acc58739c, all8fullsource+harnessblobsunchanged from2c.
+NewROOTsequencingproposal `sessiontest-001-local-red-sequencing.md`25506e isUNDER
+ACTUALdifferentcodec_author review inNEWsessiontest001-environment-review/
+task/SESSIONTEST-001-environment-review samehead; ownsONLYnewenvironment-reviewnote.
+Question: exactsource-authenticated/runtime-proven selected1.0.22 hostSDK plusactual
+correctedfulltestapproval maypermitFIRSTLOCALred BEFOREremoteUbuntuCI, while ALL
+remoteCI/publication/merge/productionprerequisitegates remainOPENandmandatory. Earlier
+CI-beforeFIRSTredorderwasagent-added; thisexplicitproposal isNOTADOPTEDyet. No owner
+permission isneededforvalidwithin-scopevalidationsequence, but actualrequirement/
+environment/testreview mustsupportit. DO NOTexecuteFIRSTred fromthisproposal alone;
+R1/R2actualapproval stillmissing. NO assertion/fixture/CI/scopes bypass or fakeproof.
+No analogouschange forBoost1.92vsselected1.83 rate/milestone isreleased.
+
+service_reviewer ACTUALLYauthors011logicalasset/font/package doc incontract011-author
+at1cacc34, only2MD. Otherformerrolesfinished, noassumedbackground continuation.
+Publisher53309/PRcreate87563 bothfinishedexit0, PR62actualURLverified. No rootchild
+running. Workflowaccessstillabsentatlastactualcheck; existingowneraccessrequestand
+CORE0083olderquestions remainpending, no repeatedask/default/settledpolicyreopening.
