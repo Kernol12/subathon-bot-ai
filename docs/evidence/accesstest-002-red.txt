@@ -1,0 +1,1818 @@
+Test project /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/build/effective-permissions-debug
+      Start  1: effective-permissions.EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants
+ 1/30 Test  #1: effective-permissions.EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP01 zero needs authority
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP02 inclusive role limit
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP03/04 requested amount cannot borrow B or actual cap
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP05 B has its own witness
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP10 same source never unions grants
+
+[  FAILED  ] EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants
+
+ 1 FAILED TEST
+
+      Start  2: effective-permissions.EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity
+ 2/30 Test  #2: effective-permissions.EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: D1-A selected scope fails quantity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: D1-B other resource uses role
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP07 individual allow
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP29 one over cannot fall back
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP28 individual defeats role denial
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP08 individual denial
+
+[  FAILED  ] EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity
+
+ 1 FAILED TEST
+
+      Start  3: effective-permissions.EffectivePermissions.RoleDenialAndOtherOperations
+ 3/30 Test  #3: effective-permissions.EffectivePermissions.RoleDenialAndOtherOperations ............................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.RoleDenialAndOtherOperations
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.RoleDenialAndOtherOperations
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP06/34 role deny inclusive
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP33 constrained role deny fails
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP09 other-operation individual cannot suppress O
+
+[  FAILED  ] EffectivePermissions.RoleDenialAndOtherOperations (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.RoleDenialAndOtherOperations
+
+ 1 FAILED TEST
+
+      Start  4: effective-permissions.EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes
+ 4/30 Test  #4: effective-permissions.EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP30 full conditional denial
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP31 denial condition fails but scope stays
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP32 other resource role
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP39 disjoint allow
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP39 disjoint deny
+
+[  FAILED  ] EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes
+
+ 1 FAILED TEST
+
+      Start  5: effective-permissions.EffectivePermissions.CompleteMultipleQuantityWitness
+ 5/30 Test  #5: effective-permissions.EffectivePermissions.CompleteMultipleQuantityWitness .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.CompleteMultipleQuantityWitness
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.CompleteMultipleQuantityWitness
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP11 no time/count fragment union
+
+[  FAILED  ] EffectivePermissions.CompleteMultipleQuantityWitness (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.CompleteMultipleQuantityWitness
+
+ 1 FAILED TEST
+
+      Start  6: effective-permissions.EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority
+ 6/30 Test  #6: effective-permissions.EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP35 complete larger alternative
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP36 broad individual alternative remains
+
+[  FAILED  ] EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority
+
+ 1 FAILED TEST
+
+      Start  7: effective-permissions.EffectivePermissions.OpposingIndividualScopesAreInvalid
+ 7/30 Test  #7: effective-permissions.EffectivePermissions.OpposingIndividualScopesAreInvalid ......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.OpposingIndividualScopesAreInvalid
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.OpposingIndividualScopesAreInvalid
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:320: EP37 Any versus A
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:328: EP38 disjoint quantities and off-request still contradict
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:320: EP37 Any versus A
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:335: opposing scopes on irrelevant operation still invalid
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:328: EP38 disjoint quantities and off-request still contradict
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:320: EP37 Any versus A
+
+[  FAILED  ] EffectivePermissions.OpposingIndividualScopesAreInvalid (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.OpposingIndividualScopesAreInvalid
+
+ 1 FAILED TEST
+
+      Start  8: effective-permissions.EffectivePermissions.AtomicResourceScopesNeverUnion
+ 8/30 Test  #8: effective-permissions.EffectivePermissions.AtomicResourceScopesNeverUnion ..........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.AtomicResourceScopesNeverUnion
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.AtomicResourceScopesNeverUnion
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP40 fragments cannot select individual tier
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP41 one whole individual scope selects before amount
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP42 one explicit set conjunction is a whole scope
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP43 role scopes cannot union either
+
+[  FAILED  ] EffectivePermissions.AtomicResourceScopesNeverUnion (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.AtomicResourceScopesNeverUnion
+
+ 1 FAILED TEST
+
+      Start  9: effective-permissions.EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit
+ 9/30 Test  #9: effective-permissions.EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit .............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP44 global does not omit a required binding
+
+[  FAILED  ] EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit
+
+ 1 FAILED TEST
+
+      Start 10: effective-permissions.EffectivePermissions.ExactFractionsAndIntegerDomains
+10/30 Test #10: effective-permissions.EffectivePermissions.ExactFractionsAndIntegerDomains .........................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.ExactFractionsAndIntegerDomains
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.ExactFractionsAndIntegerDomains
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP12 no permission rounding
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: signed exact fraction
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: zero inclusive interval
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.ExactFractionsAndIntegerDomains (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.ExactFractionsAndIntegerDomains
+
+ 1 FAILED TEST
+
+      Start 11: effective-permissions.EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow
+11/30 Test #11: effective-permissions.EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP13 minimum fits its exact magnitude
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP13 bound one smaller
+
+[  FAILED  ] EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow
+
+ 1 FAILED TEST
+
+      Start 12: effective-permissions.EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds
+12/30 Test #12: effective-permissions.EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP14 2^64 is not narrowed
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP27 literal 5001-byte integer
+
+[  FAILED  ] EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds
+
+ 1 FAILED TEST
+
+      Start 13: effective-permissions.EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities
+13/30 Test #13: effective-permissions.EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities .................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP15 narrow owner access
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP15 recovery classification
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP18 editable denials cannot erase protection
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP16 ordinary owner operation still needs grants
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP17 role labels confer nothing
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP21 transfer removes old protection
+
+[  FAILED  ] EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities
+
+ 1 FAILED TEST
+
+      Start 14: effective-permissions.EffectivePermissions.HelperResetCannotTargetCurrentOwner
+14/30 Test #14: effective-permissions.EffectivePermissions.HelperResetCannotTargetCurrentOwner .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.HelperResetCannotTargetCurrentOwner
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.HelperResetCannotTargetCurrentOwner
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP19 admin cannot reset owner through helper route
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: owner must use dedicated recovery too
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: other target uses normal complete grant
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:533: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.HelperResetCannotTargetCurrentOwner (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.HelperResetCannotTargetCurrentOwner
+
+ 1 FAILED TEST
+
+      Start 15: effective-permissions.EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission
+15/30 Test #15: effective-permissions.EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP20 preview only describes P1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP20 revocation in P2
+
+[  FAILED  ] EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission
+
+ 1 FAILED TEST
+
+      Start 16: effective-permissions.EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows
+16/30 Test #16: effective-permissions.EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows .....***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:629: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:621: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:629: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:621: 1
+
+[  FAILED  ] EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows
+
+ 1 FAILED TEST
+
+      Start 17: effective-permissions.EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression
+17/30 Test #17: effective-permissions.EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression ...***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:663: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:693: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression
+
+ 1 FAILED TEST
+
+      Start 18: effective-permissions.EffectivePermissions.FailedSlotListsAreCompleteAndSorted
+18/30 Test #18: effective-permissions.EffectivePermissions.FailedSlotListsAreCompleteAndSorted .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.FailedSlotListsAreCompleteAndSorted
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.FailedSlotListsAreCompleteAndSorted
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:750: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.FailedSlotListsAreCompleteAndSorted (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.FailedSlotListsAreCompleteAndSorted
+
+ 1 FAILED TEST
+
+      Start 19: effective-permissions.EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder
+19/30 Test #19: effective-permissions.EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder .....................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:797: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:761: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:797: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:761: 1
+
+[  FAILED  ] EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder
+
+ 1 FAILED TEST
+
+      Start 20: effective-permissions.EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes
+20/30 Test #20: effective-permissions.EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:817: Failure
+Failed
+Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:820: Failure
+Value of: retained.has_value()
+  Actual: false
+Expected: true
+
+[  FAILED  ] EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes
+
+ 1 FAILED TEST
+
+      Start 21: effective-permissions.EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess
+21/30 Test #21: effective-permissions.EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess ............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: catalog unavailable
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: owner unavailable
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: ordinary policy unavailable
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: catalog unknown with payload
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: owner absent with account
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: owner present missing account
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: owner unknown with account
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: policy unknown with entries
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: policy unknown with membership
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty present owner identity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty actor
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty snapshot
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty complete catalog revision
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess
+
+ 1 FAILED TEST
+
+      Start 22: effective-permissions.EffectivePermissions.CatalogAndOperationShapesAreStrict
+22/30 Test #22: effective-permissions.EffectivePermissions.CatalogAndOperationShapesAreStrict ......................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.CatalogAndOperationShapesAreStrict
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.CatalogAndOperationShapesAreStrict
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate operation
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate resource slot
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate quantity slot
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty catalog slot identity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty catalog unit
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: no admitted quantity mode
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown quantity mode bit
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown classification
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown number kind
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: ordinary cannot declare helper target
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: helper must declare target
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: helper target must be resource slot
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: irrelevant operation metadata still validated
+
+[  FAILED  ] EffectivePermissions.CatalogAndOperationShapesAreStrict (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.CatalogAndOperationShapesAreStrict
+
+ 1 FAILED TEST
+
+      Start 23: effective-permissions.EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains
+23/30 Test #23: effective-permissions.EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown operation
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: missing resource
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate resource
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: extra resource
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: missing quantity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate quantity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: extra quantity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: wrong unit is not converted
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty resource
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: below request domain
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: above request domain
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: inverted declared domain
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: integer definition endpoints integral
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: declared minimum is inclusive
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: declared maximum is inclusive
+
+[  FAILED  ] EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains
+
+ 1 FAILED TEST
+
+      Start 24: effective-permissions.EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict
+24/30 Test #24: effective-permissions.EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict ...................***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: missing allow grant
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: deny cannot have grant
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: individual cannot claim role
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: role must have identity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: role must be assigned
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate membership
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate grant even identical
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate deny even identical
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: source cannot change effect
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: source cannot change role
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown operation entry
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: missing complete resource
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: missing complete quantity
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate constraint slot
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty allow-set
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: duplicate allowed member
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: Any resource has no allowed payload
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown origin
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown effect
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown resource tag
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: unknown quantity tag
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: mode outside declared mask
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: policy unit not inferred
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: Any quantity has no endpoint payload
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: AtMost requires upper
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: AtMost forbids lower
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: interval requires both endpoints
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: interval cannot invert
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: magnitude bound nonnegative
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:157: empty present grant
+
+[  FAILED  ] EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict
+
+ 1 FAILED TEST
+
+      Start 25: effective-permissions.EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired
+25/30 Test #25: effective-permissions.EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired ..............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 3
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 4
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 5
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 6
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 7
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 8
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 9
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 10
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 11
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 12
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 13
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1111: 14
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired
+
+ 1 FAILED TEST
+
+      Start 26: effective-permissions.EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder
+26/30 Test #26: effective-permissions.EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1164: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1164: 1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder
+
+ 1 FAILED TEST
+
+      Start 27: effective-permissions.EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes
+27/30 Test #27: effective-permissions.EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes ...............***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: EP23 exact reference ceiling
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: larger explicit reference profile
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: exact canonical component ceiling
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: larger exact component profile
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: minus counts as one of two bytes
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: denominator exact two bytes
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes
+
+ 1 FAILED TEST
+
+      Start 28: effective-permissions.EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData
+28/30 Test #28: effective-permissions.EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData .........***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: literal global B11/I1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: literal allow B18/I2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: other definition and source B21/I3
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: nested slots/set/optional endpoint B93/I9
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData
+
+ 1 FAILED TEST
+
+      Start 29: effective-permissions.EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys
+29/30 Test #29: effective-permissions.EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys ......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: denial result B9/I0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: permit result B26/I1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: two complete source rows B35/I2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: virtual source and witness B26/I1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: owning nested request B51/I3
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:130: Failure
+Failed
+Expected a decision, got exception: Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:121: quantity failure key B53/I4
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys
+
+ 1 FAILED TEST
+
+      Start 30: effective-permissions.EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork
+30/30 Test #30: effective-permissions.EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork ......***Failed    0.00 sec
+Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EffectivePermissions
+[ RUN      ] EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 3
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 3
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 4
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 4
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 5
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:1359: 5
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/accesstest002-integrator/tests/acceptance/effective_permissions_tests.cpp:144: Failure
+Failed
+Wrong exception (including the unimplemented marker): Effective permission behavior is intentionally unimplemented; review tests first
+
+[  FAILED  ] EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork (0 ms)
+[----------] 1 test from EffectivePermissions (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork
+
+ 1 FAILED TEST
+
+
+0% tests passed, 30 tests failed out of 30
+
+Label Time Summary:
+acceptance               =   0.04 sec*proc (30 tests)
+core                     =   0.04 sec*proc (30 tests)
+effective-permissions    =   0.04 sec*proc (30 tests)
+intentional-red          =   0.04 sec*proc (30 tests)
+
+Total Test time (real) =   0.04 sec
+
+The following tests FAILED:
+	  1 - effective-permissions.EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants (Failed) acceptance core effective-permissions intentional-red
+	  2 - effective-permissions.EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity (Failed) acceptance core effective-permissions intentional-red
+	  3 - effective-permissions.EffectivePermissions.RoleDenialAndOtherOperations (Failed) acceptance core effective-permissions intentional-red
+	  4 - effective-permissions.EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes (Failed) acceptance core effective-permissions intentional-red
+	  5 - effective-permissions.EffectivePermissions.CompleteMultipleQuantityWitness (Failed) acceptance core effective-permissions intentional-red
+	  6 - effective-permissions.EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority (Failed) acceptance core effective-permissions intentional-red
+	  7 - effective-permissions.EffectivePermissions.OpposingIndividualScopesAreInvalid (Failed) acceptance core effective-permissions intentional-red
+	  8 - effective-permissions.EffectivePermissions.AtomicResourceScopesNeverUnion (Failed) acceptance core effective-permissions intentional-red
+	  9 - effective-permissions.EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit (Failed) acceptance core effective-permissions intentional-red
+	 10 - effective-permissions.EffectivePermissions.ExactFractionsAndIntegerDomains (Failed) acceptance core effective-permissions intentional-red
+	 11 - effective-permissions.EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow (Failed) acceptance core effective-permissions intentional-red
+	 12 - effective-permissions.EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds (Failed) acceptance core effective-permissions intentional-red
+	 13 - effective-permissions.EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities (Failed) acceptance core effective-permissions intentional-red
+	 14 - effective-permissions.EffectivePermissions.HelperResetCannotTargetCurrentOwner (Failed) acceptance core effective-permissions intentional-red
+	 15 - effective-permissions.EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission (Failed) acceptance core effective-permissions intentional-red
+	 16 - effective-permissions.EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows (Failed) acceptance core effective-permissions intentional-red
+	 17 - effective-permissions.EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression (Failed) acceptance core effective-permissions intentional-red
+	 18 - effective-permissions.EffectivePermissions.FailedSlotListsAreCompleteAndSorted (Failed) acceptance core effective-permissions intentional-red
+	 19 - effective-permissions.EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder (Failed) acceptance core effective-permissions intentional-red
+	 20 - effective-permissions.EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes (Failed) acceptance core effective-permissions intentional-red
+	 21 - effective-permissions.EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess (Failed) acceptance core effective-permissions intentional-red
+	 22 - effective-permissions.EffectivePermissions.CatalogAndOperationShapesAreStrict (Failed) acceptance core effective-permissions intentional-red
+	 23 - effective-permissions.EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains (Failed) acceptance core effective-permissions intentional-red
+	 24 - effective-permissions.EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict (Failed) acceptance core effective-permissions intentional-red
+	 25 - effective-permissions.EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired (Failed) acceptance core effective-permissions intentional-red
+	 26 - effective-permissions.EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder (Failed) acceptance core effective-permissions intentional-red
+	 27 - effective-permissions.EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes (Failed) acceptance core effective-permissions intentional-red
+	 28 - effective-permissions.EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData (Failed) acceptance core effective-permissions intentional-red
+	 29 - effective-permissions.EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys (Failed) acceptance core effective-permissions intentional-red
+	 30 - effective-permissions.EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork (Failed) acceptance core effective-permissions intentional-red
+Errors while running CTest

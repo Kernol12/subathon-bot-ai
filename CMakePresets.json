@@ -201,6 +201,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_PASSWORD_HASHING_TESTS": "ON"
       }
+    },
+    {
+      "name": "effective-permissions-debug",
+      "displayName": "26 \u00b7 Effective permissions baseline",
+      "inherits": "exact-numeric-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -295,6 +303,10 @@
     {
       "name": "password-hashing-debug",
       "configurePreset": "password-hashing-debug"
+    },
+    {
+      "name": "effective-permissions-debug",
+      "configurePreset": "effective-permissions-debug"
     }
   ],
   "testPresets": [
@@ -521,6 +533,16 @@
     {
       "name": "password-hashing-debug",
       "configurePreset": "password-hashing-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "effective-permissions-debug",
+      "configurePreset": "effective-permissions-debug",
       "output": {
         "outputOnFailure": true
       },
