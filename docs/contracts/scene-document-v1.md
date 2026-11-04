@@ -65,7 +65,23 @@ with list order. Reordering an explicit list expresses a layer change; sorting
 NodeIds or labels would change the document's meaning.
 
 Each node owns an explicit family/variant, label, frame/transform, editing-lock
-state, compatible StyleId, visibility choice and ordered animation references.
+state, compatible StyleId, binding-attachment choice, visibility choice and ordered
+animation references. Its binding attachment is explicitly NoBindingAttachment or
+an ElementBindingsRef owned by 010. This common slot is available to all seven
+families, including image, intrinsic shape and group; visibility/animation references
+cannot stand in for it. NoBindingAttachment means no definition attached at this
+slot, not omission or an unknown value, and does not erase family-specific content
+BindingRefs below.
+
+010's permitted binding destinations and value types, relationship to family content
+BindingRefs, resolution/override precedence, conflicting-use rules and unavailable-
+value behavior are all UNFINALIZED. This slot promises neither that every property
+is dynamic nor that a binding may override a static frame/style value. No arbitrary
+property bag, raw server field path, script or accounting-to-geometry coercion is
+introduced. An unresolved ElementBindingsRef remains a precise contract dependency,
+not a complete or publishable binding; NoBindingAttachment cannot make other
+unresolved content references valid.
+
 Visibility is explicitly static-visible, static-hidden or a ConditionRef owned by
 010; omission is not hidden/visible/unknown. Empty animation references means no
 authored animation, not an unknown clock. Static hiding affects presentation only:
@@ -160,6 +176,11 @@ finite intermediate budgets. None is established by these style values alone.
 | Recent support | RecentSupportBindingRef and PresentationLayoutRef from 010; selection, source privacy, hidden amounts and authorized projection remain authoritative |
 | Announcement area | AnnouncementBindingRef and PresentationLayoutRef from 010; event/milestone presentation follows the server's current sequence, not a second award queue |
 
+Every row additionally has the common binding-attachment choice from §2. Image and
+both shape/group variants are not restricted to static data merely because their
+intrinsic content references differ. Their actual admissible destinations still
+require 010's reviewed typed registry, with no new dynamic-property claim here.
+
 Scene-level typed MediaAttachmentRefs preserve the audio/other package attachment
 seam; 011 owns the asset/profile and 010 any timing/trigger reference. They do not
 create an eighth family, autoplay rule, new audio default or implicit network fetch.
@@ -172,8 +193,8 @@ pending references; it cannot treat an unresolved family as an empty successful 
 A typed external reference identifies the owning contract/version, reference kind,
 resource and immutable definition/version identity. Kinds include Timer/Text/
 Progress/RecentSupport/AnnouncementBindingRef, ConditionRef, AnimationRef,
-FormattingRef, PresentationLayoutRef (010), and VisualAsset/Font/MediaAttachment/
-PackageRef (011).
+ElementBindingsRef, FormattingRef, PresentationLayoutRef (010), and VisualAsset/
+Font/MediaAttachment/PackageRef (011).
 Equal resource bytes in different kinds do not allow substitution. No raw field
 path into server JSON, script, URL, local designer path or credential can replace
 one of these references. Definitions, field layouts and closure rules supplied by
@@ -190,8 +211,10 @@ may retain a precise unresolved reference as an editing issue; publication eligi
 cannot use universal unknown, a placeholder registry or an empty family as success.
 
 The document records its exact model version, unique required CapabilityIdentifiers
-and explicit intended outputs (native, browser or both). Labels use common identifier
-grammar; domain identities keep their separate byte type. Required features must
+and explicit intended outputs (native, browser or both). Required feature/capability
+identifiers use common identifier grammar; authored scene/node labels remain common
+Unicode Text under §1/SD14, without an ASCII identifier restriction or normalization.
+Domain identities keep their separate byte type. Required features must
 cover actual nodes/styles/references, not just a caller's shorter claimed list.
 Feature-to-definition imports remain 010/011/012 work. A required unknown version,
 node/style property or capability refuses compatible publication/consumption rather
@@ -302,8 +325,13 @@ geometry/number spelling and version/feature label, including repeated uses; sha
 equal bytes earns no discount. Common fixed grammar bounds still apply to feature
 labels and color channels. An external reference's 010/011 identity uses its owning
 profile, with its actual bytes also charged to this aggregate: never impose the
-new scene-identity maximum on a pre-existing domain ID by convenience. Collection
-limits and aggregate bytes apply together, using checked counts before copies or
+new scene-identity maximum on a pre-existing domain ID by convenience. Reference
+counts include each ElementBindingsRef attachment use, even when multiple nodes
+share its identity; its actual reference-component bytes are charged at each use.
+NoBindingAttachment adds no external-reference occurrence or referenced payload;
+012 must still budget its concrete representation/tag/framing. No unfinalized 010
+definition body is materialized or assumed to cost zero through this reference.
+Collection limits and aggregate bytes apply together, using checked counts before copies or
 numeric construction. A resource refusal is explicit, not truncation, fitting-prefix
 acceptance, omission, guessed zero or a rewritten identity.
 
@@ -325,12 +353,19 @@ byte 41; decimal quotes denote common FiniteDecimal values. Each example states
 its validation scope. A complete
 structural example still proves no full 010/011/schema/renderer compatibility.
 
+All nodes in SD01–26, including SD15's family rows, explicitly use
+NoBindingAttachment at the common slot. Their stated family-specific content
+references remain unchanged; 010 still owns their relationship. This is an example
+condition, not an implicit missing-field or product default. SD27 has explicit
+nonempty attachments instead.
+
 S is this explicit structural base: model `subathon.scene-document.v1`, scene b"S",
 revision b"r1", empty Text label, intended outputs native and browser,
 canvas ("200","100"), aspect-fit, alignment ("0.5","0.5"), canvas clipping true;
 roots [b"A"], one rectangle shape A with label "panel", frame ("0","0","100","40"),
 pivot ("0","0"), scale ("1","1"), rotation "0", unlocked, static-visible, no
-animations. Its local style b"paint" has opacity "1", clip-to-frame false, solid
+animations and explicit NoBindingAttachment. Its local style b"paint" has opacity
+"1", clip-to-frame false, solid
 RGBA (0,0,0,255), no stroke and corner radius "0". No external dependencies or
 media attachments. Required features are [example.rectangle.v1]; both hypothetical
 example profiles understand this synthetic feature and model version. This is not
@@ -389,6 +424,7 @@ its FontRef remains a pending 011 requirement. No profile/clock/font is invented
 | SD24 | Root at depth 1 and chain ending at depth 64, versus an additional child at depth 65 | First fits proposed depth limit; second explicit structural resource refusal, no truncation of the subtree |
 | SD25 | 4096 nodes vs 4097; identity 65536 vs 65537 raw bytes; aggregate 16777216 vs 16777217 | At-boundary values fit those proposed individual limits when all other invariants/limits fit; one-over refuses. No permission or performance inference follows |
 | SD26 | Theme contains valid graph but substitutes a designer-local font path, renderer QML/JS/HTML program/object, or an account-credential field for typed scene data | Not a complete valid scene dependency; typed package/font closure and no-script/no-credential boundary are mandatory. Literal Text resembling markup remains literal Text, as SD14 states |
+| SD27 | PARTIAL variation of S: root group G owns shape A, with GroupBase from SD15; G and A each use ElementBindingsRef (010, b"appearance", b"binding-r1") | Two attachment-reference occurrences, charging the 20 known resource/definition bytes twice (40), plus actual kind/version bytes. Shape/group destinations, value types, static-value precedence and unavailable behavior remain UNFINALIZED 010; no property is made dynamic or publication-ready by this unresolved shared reference |
 
 ## 10. Completion and later evidence
 

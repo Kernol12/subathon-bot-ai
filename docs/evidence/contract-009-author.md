@@ -1,7 +1,8 @@
 # CONTRACT-009 scene document author handoff
 
-Date: 2026-11-04. Author: `/root/codec_author`. Status: logical document authored;
-different actual review is required. No schema, API, executable fixture, test,
+Date: 2026-11-04. Author: `/root/codec_author`. Status: revised after actual
+changes-required review; the same different reviewer must assess the correction.
+No schema, API, executable fixture, test,
 decoder, renderer or product behavior is supplied or approved by this note.
 
 ## Assignment, source and ownership
@@ -31,7 +32,7 @@ new scene-model document; a different reviewer must assess the actual candidate.
 
 Owns only NEW [scene-document-v1.md](../contracts/scene-document-v1.md) and this
 note. Root owns all shared state/HTML/navigation, schema/import/build/CI/pin and PR
-work. The proposed contract is 412 lines, Git blob
+work. First submission `6a88c79` was 412 lines, Git blob
 `5eb1c845f46b615b5e0a343e5c1283539c5bbecc`. No prior contract, assertion, fixture,
 task brief or dependency edge was changed.
 
@@ -86,9 +87,9 @@ desktop-only editor, independent renderers/reference scenes, performance and act
 OBS/platform/deployment/package gates stay in scope. No owner product decision is
 requested or silently resolved; these model/profile choices need actual review.
 
-## Independent examples and actual checks
+## First-submission examples and actual checks
 
-There are 26 top-level SD examples plus seven literal family rows under SD15.
+The first submission has 26 top-level SD examples plus seven literal family rows under SD15.
 SD01/02 fix a shape-only and an empty structural example. SD03–06 pin order,
 duplicate placement/definitions, dangling/orphan nodes and cycles. SD07–11 cover
 fit/crop/stretch, noncommuting/nested transforms and geometry ranges/grammar.
@@ -128,3 +129,68 @@ actual document review comes next, before another bounded authoring stage. No
 schema/parser/validator/API/stub/fixture/test/codegen, renderer/native/provider or
 media/font/performance execution occurred. No push, PR creation or main merge was
 performed. Root integrates review/status/evidence and owns publication.
+
+## Actual R1/R2 review correction
+
+Read the actual changes-required findings via:
+
+```sh
+git show 866befcb382399e6ec710ebe20f1663b985fd3f4:docs/evidence/contract-009-review.md
+```
+
+Reviewer: `/root/service_reviewer`, still different from this document author.
+Review blob `1b3fc34ae271f343be318f3adbed8e24c13fa872`; root imported that review as
+`e0112218928789acc873e0723739438e283c47c3`. Its original verdict is retained:
+CHANGES REQUIRED, not approval of the first submission or this future correction.
+
+R1 identified a real representation omission: §11 gives every element data
+bindings, while the original common node structure exposed only visibility and
+animation seams and the family content references did not cover shape/group/image
+attachment. The revised common node explicitly chooses NoBindingAttachment or
+010 ElementBindingsRef across all seven families, including both shape/group
+variants and image. Existing family-specific content references remain intact.
+Permitted destinations/types, their relationship to content references, resolution/
+override/conflict precedence and unavailable-value rules remain UNFINALIZED 010.
+This adds no dynamic-property promise, arbitrary property bag, server path, script,
+accounting coercion or placeholder success. Empty attachment is explicit; it cannot
+make another unresolved reference valid or authorize publication.
+
+Each attachment reference occurrence counts against the existing reference limit;
+its actual component bytes are charged every time, even when shared. The empty
+choice has no referenced payload, while its eventual representation/framing and
+any actual definition body still require 010/012 bounds. SD27 is an independently
+written PARTIAL shape/group case: both nodes attach the same named pending
+definition. Their known resource/definition bytes are 10+10 per use, so two uses
+charge 40 before actual kind/version bytes. No destination or binding effect is
+invented. S and SD01–26 explicitly keep NoBindingAttachment as an example condition,
+not a missing-field or product default. All original SD and family table rows are
+byte-identical; SD27 is the sole appended table row.
+
+R2 identified ambiguity in "Labels use common identifier grammar". The revision
+limits that sentence to required feature/capability identifiers, expressly keeping
+authored scene/node labels as common Unicode Text. Empty/combining/precomposed/
+markup-looking literal Text, no normalization and SD14 remain unchanged. No new
+label restriction or product default was added.
+
+| Scene document revision | Git blob |
+| --- | --- |
+| Original reviewed first submission, 412 lines | `5eb1c845f46b615b5e0a343e5c1283539c5bbecc` |
+| Corrected candidate, 448 lines | `9a3507331376a2beed47b93eac7079b45f0f2c94` |
+
+The prior author note blob was `cf0cfc95b9aa683a624d6def5cdc8ec2524368b8`;
+this additive history records the actual findings and correction, not a revised
+claim that the original candidate passed. Current coverage is 27 SD rows and seven
+family rows. A read-only stdlib check compared every original table row with the
+first submission and verified SD27's 40-byte known payload charge, plus unchanged
+common005/specification blobs; all passed. No project feature was imported/called.
+The existing 14 geometry/byte/Unicode/graph facts are unchanged; they were not
+replayed as a new feature result.
+
+After the source correction, the same project/render/whitespace commands above
+passed: 406 tasks/122 decisions, local links/presets/current HTML and clean diff.
+Only the two assigned Markdown files change. No schema/API/stub/parser/validator/
+fixture/test/codegen, renderer/native/provider or shared configuration was authored
+or executed. Existing document/component CI still applies; actual revised-artifact
+review by the same different reviewer is required before root completes this stage.
+All 010/011/012, 008/003 and original release gates remain. No password review was
+started; that is a separate future assignment.
