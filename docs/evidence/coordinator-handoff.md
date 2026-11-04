@@ -114,3 +114,22 @@ within active session; no assumption of background continuation. All7integration
 No livechat/payment sideeffects authorized. Root owns sharedstate/HTML/maps/schema/
 build/CI/pins; exact taskref publisher verifies objects/nonforcedrefs, nevermain/
 history/scopes. Inspect actual mutation state afterambiguous errors.
+
+
+## Actual scene approval; focused PR publication next
+
+OriginalR1/R2review866befcb/import e011221 preserved. Bounded originalauthorcorrection
+e7274463/import0ace3ae (doc9a350733/note8f9f619b) ACTUALLY APPROVED7f782640/import50915bd,
+review8ea2e1bd.27SD+7familyrows; everyoriginalrow unchanged; no schema/code/runtime.
+[Handoff](contract-009-handoff.md).009documentstatusdone, selectedCIstillnotrun;
+root finalhead existingCI/currentrules/threads/normalmerge before integration.
+Rootnextpublishes cleanexact taskbranch andopens focusedPR; no newworkflow needed,
+so ordinary exactGitdata publication remainsauthorized despite separateworkflowaccess.
+
+Actual password fullcandidate2c0c9ab705022c3778e0d97591c4376e39452c68 is under different
+codec_author review in sessiontest001-full-review, onlynewtest-reviewnote; no body/
+marker/SDKrerun. service_author moved to NEW ACCESSTEST002 FIRSTlogicaldocument,
+claimd3a664a00e4de787707f66b9cd689ec8b89d619f fromfreshmainb2, accesstest002-integrator/
+author worktrees, ownsONLYeffective-permissions-v1.md+contract-authornote. No API/
+tests/code/auth/runtime. service_reviewer actualscene re-reviewended, availablefor
+nextboundedreview. No root build/native/CTest/publisher child currentlyactive.
