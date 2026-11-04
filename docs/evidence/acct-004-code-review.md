@@ -176,3 +176,26 @@ a later synthetic job mismatch that would otherwise happen to produce the same
 generic invalid_output reason. Known rollback leaves all arranged rows unchanged.
 Prior35 and seven additive methods remain unchanged; no new body invoked before
 this actual source approval. Full corrected-source verdict remains pending.
+
+## Retained-command decoder correction review
+
+**APPROVED bounded source correction217acc7** (author3ef4755), command TU
+05091e2552a8b2baaac410524a583386bb20bb1c, private header
+7d9171cd45bd2b05edc5ec48c927beee74be976e. Independently inspected every diff
+line and complete shared framing/validation/materialization paths. Public codec
+preflight categories remain unchanged. Internal healthy selected field/count bounds
+now use result_limit; actual malformed keys/roles/tags/conditional groups retain
+structural categories. Complete retained envelope uses selected storage/value and
+intermediate limits, decoded Command uses its own intermediate B/I, both checked
+before any owned materialization. No public caller aggregate or public result
+budget substitutes for these independent values. No widened allocating public
+decode precedes the internal projection. The actual service call-site replacement
+and complete regression execution remain pending in this bounded candidate.
+
+Independent actual CMake target recompiled the codec/test objects and linked
+successfully. The same exact five public codec CTest slots listed above passed
+5/5 in0.71s,97scenarios+10initcleanup=107PASS/0FAIL/0skip. The local Ninja cache
+reported premature-log-end recovery twice during CMake regeneration; compilation
+itself produced no source warnings/errors. No retained-command regression or other
+uncorrected service regression body was replayed. Full corrected service review,
+all43/full308 acceptance and selected CI remain required.
