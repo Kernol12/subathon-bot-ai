@@ -83,3 +83,13 @@ PR/resolvedthreads/0GHrequiredapprovals/no bypass; writtenworkflowstillrequiresA
 latestCI/independentreviews. Normalexactheadmerge only. SelectedQt prefix remains
 /tmp/subathon-locale-qttools-6.12.0/prefix (ICUunderlib); localGNU16.2/Python3.14,
 CI GNU13.3/Python3.12; actualPython3.10runtime/Windows/platform remainunverified.
+
+LATEST milestone: actual4362/rootaf7 logical0115a5cc/67593a9e nowapproved8338981
+(documentONLY). RootreleasesONLYnewmilestone-progression-api-v1.md +APIauthornote
+toservice_author afterthisclaim; actualAPIreview beforeminimalsource. No code/tests.
+Operationalaccess: SSHagentmissing; gh tokenrepo lacksworkflow(requiredfornewrateCI).
+APIrecoverypublishedordinaryLOCcommits/exacthashes, butnewrateworkflowtreerequest
+404blockspublicationat7ff; remotePR54still512. AskedownerASYNConlyneededaccess:
+restoreSSH or gh authrefresh -hgithub.com -sworkflow. Do notassumeoptionchoice
+restorescredentials; verifybeforepublishing. No scope/protectionbypass. Continue
+independentlocalwork; currentrate53reviewapproved, selectedcurrentCI/firstredpending.

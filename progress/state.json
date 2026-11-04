@@ -2668,7 +2668,7 @@
       "module": "Automation",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (progression contract); codec_author (independent document review pending actual artifact)",
+      "owner": "coordinator /root; service_author (API document); codec_author (independent document review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -2681,14 +2681,19 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MILESTONE-001.",
       "notes": [
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed dedicated task/MILESTONETEST-001-progression-baseline from freshlyintegrated main3217c212 after LOCALE001/PR55 normalmerge. Readyprereqs CONTRACT002/CORE001done. FIRST DOCUMENT ONLY: pureexactscore/ascendingtarget sequentialachievement/immutablecompletedprefix/deficit/nextremaining/progress projection; orderedmulti-crossing and800belowcompleted1000deficit200/next2000remaining1200. service_author owns ONLY docs/contracts/milestone-progression-v1.md and docs/evidence/milestonetest-001-contract-author.md in separate task/MILESTONETEST-001-contract-author. Root owns state/HTML/maps/sharedschemas/build/CI/pins/checkpoint. Independentreview actualdocumentbeforeAPI/stubs/tests. No arbitrary positivity/score/origin restriction or hiddenrounding; explicitly propose signedlimits/firsttarget/progresssemantics andrecordtrueconflicts; do not shrinkagreedmanual/reset/edit/queue/policy scope, adjacenttasksretainthose. No C++code/header/schema/fixture/tests/action/statewrites/providerexecution atthis stage. MILESTONE001productionplanned."
+        "Claimed dedicated task/MILESTONETEST-001-progression-baseline from freshlyintegrated main3217c212 after LOCALE001/PR55 normalmerge. Readyprereqs CONTRACT002/CORE001done. FIRST DOCUMENT ONLY: pureexactscore/ascendingtarget sequentialachievement/immutablecompletedprefix/deficit/nextremaining/progress projection; orderedmulti-crossing and800belowcompleted1000deficit200/next2000remaining1200. service_author owns ONLY docs/contracts/milestone-progression-v1.md and docs/evidence/milestonetest-001-contract-author.md in separate task/MILESTONETEST-001-contract-author. Root owns state/HTML/maps/sharedschemas/build/CI/pins/checkpoint. Independentreview actualdocumentbeforeAPI/stubs/tests. No arbitrary positivity/score/origin restriction or hiddenrounding; explicitly propose signedlimits/firsttarget/progresssemantics andrecordtrueconflicts; do not shrinkagreedmanual/reset/edit/queue/policy scope, adjacenttasksretainthose. No C++code/header/schema/fixture/tests/action/statewrites/providerexecution atthis stage. MILESTONE001productionplanned.",
+        "Actual logical4362fe29/importaf7e2be (contract0115a5cc/author67593a9e) receives independentdocumentapproval8338981. MP01-22/23independentarithmeticfacts checked; no ownerquestion. Fullsignedtargets/postscore, U64distances, immutablecapturedprefix/currentprojection/absentfirstinterval explicit. Release ONLYconcreteAPI DOCUMENT toservice_author: NEW docs/contracts/milestone-progression-api-v1.md and docs/evidence/milestonetest-001-api-author.md. No actualheader/source/stub/schema/storage/fixture/test/action/scorebehavior untilactualAPIreview/sourcegate/reviewedtests/firstred. Rootownsallsharedintegration; model/adjacentgates remainfrozen."
       ],
       "verification": {
-        "document_review": "not_run",
+        "document_review": "passed",
         "test_baseline": "not_run",
         "implementation": "not_run"
       },
-      "evidence": [],
+      "evidence": [
+        "docs/contracts/milestone-progression-v1.md",
+        "docs/evidence/milestonetest-001-contract-author.md",
+        "docs/evidence/milestonetest-001-contract-review.md"
+      ],
       "review": null
     },
     {
