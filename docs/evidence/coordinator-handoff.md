@@ -130,3 +130,53 @@ successfulcheck counts11/13/12/1 respectively. PR59 onlyold scaffold41828240775,
 NOT missing component/native CI success. Remoteheads unchanged. Workflowaccess
 stillabsent; no repeated failing publicationattempt. No root native/build/CTest/
 publisher child runs now. Preserve all olderdirtytrees/absentregistrations.
+
+
+## Latest actual continuation checkpoint (supersedes older active-role entries)
+
+Main STILLb2b14bb5cc6d509f45784c55d5dbed7e55f7556b. Scene actual correctedlogical
+approval7f782640/import50915bd; doc9a350733/note8f9f619b/review8ea2e1bd. Clean scene
+branch365570b30f58a5a19a61c4ea36eccec3381dc2c4 EXACTLYpublished via verifiedGitobjects/
+nonforced taskref. ACTUAL [PR61](https://github.com/Kernol12/subathon-bot-ai/pull/61)
+isOPEN/ready/MERGEABLE, notyetmerged. All12checkruns observed:11SUCCESS; sqlite-writer-build
+IN_PROGRESS (workflow41855725424 started2026-11-04T15:14:52Z). Latesthead haszero GH
+reviews/threads. Currentactive ruleset26170263 requiresPR/threadresolution/0GH
+approvals/no bypass; allapplicable actualchecks+independentreview mustpass. Recheck
+head/checks/rules/discussions immediatelybefore normalmerge; no assumedcompletion.
+All406ids/all1497edges exactlysameasmain. Rootcorrected a metadataauditexpectation:
+records009acceptance+PLAN002/PWcoordination updates areintentional, no edgeslost.
+Handoffrecords initialfailed audit andfix; approvedsource/examples/reviewunchanged.
+
+Password CLEAN2c0c9ab705022c3778e0d97591c4376e39452c68 in sessiontest001-integrator;
+full37case author8e6d1dd/import82d624d, actualcompile/discovery41only. codec_author
+ACTUALLYrunning differentfulltest/wrapper/CMake/CI review in sessiontest001-full-review,
+ownsONLY NEW sessiontest-001-test-review.md. Found2concrete issues, notyetcommitted:
+caller realSDKoracle canrun afterhelperfatalassert returns; totalguardallocations==1
+isnotactualpasswordlifetime proof andoverconstrains conforming scratchallocations.
+Awaitbatchedactualreview, then originalauthorboundedcorrection andSAMErevieweractual
+rereview. No feature/testbody/marker/nativeSDK/foundation/generator reruns. RootFIRST
+nativefoundation+inputgeneration c064/095 actualpassed andpreserved. No production.
+OldPR59remotef94f5ae hasONLYscaffold41828240775 (1check), notmissingcomponentCIpass.
+Workflowauthstillabsent atlatestactualcheck, sameKernol12scopes. Existingowneraccess
+requestpending, no failedrepublish/bypass/reask.
+
+Permission FIRSTlogical taskACCESSTEST002 isclaimedfromfreshmainb2 in
+accesstest002-integrator/task/ACCESSTEST-002-effective-permissions, latestb6dfa33daa93e35faa71bf1aa95f35e9ddd3b7f3;
+authorworktreeaccesstest002-author/task/ACCESSTEST-002-contract-author atclaimd3a664a.
+service_author ACTUALLYrunning, ownsONLY NEW effective-permissions-v1.md and
+accesstest-002-contract-author.md. AuthorfoundgenuineD1: individualA5 vsroleA10
+resource-scopeoverride /wholeoperationoverride /completerequestmatchingfallback.
+Rootissued asyncownerdecision3choices (resource-scope recommended), NO answer.
+Prefill/elapsedtime isnotanswer. `docs/evidence/accesstest-002-open-decisions.md`
+in owningintegratorrecords it; no default. Authorcontinuesunambiguous docwork;
+dependentsemantics/API/tests cannotfreeze. All3olderCORE008questions remainseparate.
+
+service_reviewer actualscene re-reviewfinished andisnowACTUALLY reassigned READ-ONLY
+primarysourceinventory forfuture011media/font/package work inexistingreviewtree.
+No repoedits/newcontractauthoring/schema/code/media/fontparse/runtime; publicQt6.12/
+browser/Noto/OFL sources only, unsupported remainsunknown. Rootmustfirst observe009
+actualmerge thenfresh011claim beforeauthoring. No liveprovider/chat/payment actions.
+RootPRcreate session3254/publisher24828 BOTHcompletedexit0; no rootchildrunning.
+Primarymilestonebranchstillf9d8364beforethischeckpoint, ratelocalc37c87b; bothmainb2
+integrated, frozenreviews/foundationsvalid, workflowaccess/currentCI/FIRSTred pending.
+Allolder8dirtytrees/16absentregistrations remainpreserved; inspectactual onresume.
