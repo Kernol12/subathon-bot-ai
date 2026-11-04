@@ -133,3 +133,14 @@ claimd3a664a00e4de787707f66b9cd689ec8b89d619f fromfreshmainb2, accesstest002-int
 author worktrees, ownsONLYeffective-permissions-v1.md+contract-authornote. No API/
 tests/code/auth/runtime. service_reviewer actualscene re-reviewended, availablefor
 nextboundedreview. No root build/native/CTest/publisher child currentlyactive.
+
+
+Final graph audit correction: all406taskids/all1497edges EXACTLY matchmainb2.
+Taskrecordchanges are009acceptance plusverified coordinationmetadata onPLAN002
+(normalPR60/finalchecks/postmainsuccess) andSESSIONTEST001 (actualcurrentreviewrole/
+phase). Initial check incorrectly expected only009record; its failure was a root
+metadata-audit expectation error, not productred or dependency loss. Handoffcorrected,
+actualchangedfields inspected and explicit3recordset validated before publication.
+No source/example/reviewbaseline changed. ce33257 was committed before catchingthe
+failed assertion duea missing shellfailfast; this followup records thecorrection.
+Future mutation scripts use set-e and inspect exitcodes before committing.

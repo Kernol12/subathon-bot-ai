@@ -44,7 +44,9 @@ python3 tools/progress.py render --check
 git diff --check
 ```
 
-406taskrecords/122decisions/allparentedge sets preserved; only009taskmetadata changes.
+406taskrecords/122decisions/all1497parentedges preserved. Besides009acceptance,
+sharedstate retains verified coordination metadata for integratedPLAN002 and active
+password task; no other task behavior/dependency changes.
 No CMake/preset/CI/dependency/tool/schema/code/assertion change. Existing project/
 link/progress and unchanged component CI covers this documenttask; no new executable
 workflow is warranted. Actual finalhead results must be observed before normalmerge.
