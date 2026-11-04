@@ -244,3 +244,80 @@ production and different source review, complete allocation/secret cleanup, real
 account/current-login/conditional-save/admission integration, hardware cost and
 platform/package/license gates remain. Root owns state/HTML/build/CI/pins and
 publication. No push, PR or main merge was performed by this reviewer.
+
+## Actual corrected candidate re-review — approved
+
+2026-11-04, same different reviewer `/root/codec_author`. The entire original
+`173d90a` review above remains unchanged historical evidence. Reviewed author
+`f1b70a2c43af82795fb0da72eb620b6d5ecc4af6`, applied here as
+`e720dd3207281c1cb6d9cee2c5ed5cd8eab4d2c3`. All four corrected blobs match root's
+actual integration `6f039616a7900ca177f7860196fc85646dfbe707` exactly:
+
+| Corrected artifact | Actual reviewed Git blob |
+| --- | --- |
+| Feature tests | `1d0d37753cd54cad189bdf9d08481838cac9880e` |
+| Private observer header | `7e87bbe9c328a8791244902c7e9446ceef000996` |
+| Private observer source | `4e1f049a2dcd0ff018dc3c728daad39f0773a82f` |
+| Author evidence | `b6789645069ede7fdf97c255c6b5cc6e700fdff7` |
+
+**APPROVED for this actual corrected full test/private observer/harness/CI-source
+candidate. R1 and R2 are closed.** No remaining blocker was found. This is test
+review, not executed behavior, selected CI, FIRST red attribution or production
+approval. The valid unaffected full audit and native reviews above are preserved.
+
+R1: `bounded_record` is SDK-free, resets its invocation's caller flag false and
+sets it true only after the same six original assertions succeed. Each of the six
+callers checks its own flag before every real oracle using that exact immutable
+record. The creation row's correct/different-password oracles both follow this
+guard. Failed rows remain failures and continue independently; no accumulated
+HasFatalFailure status substitutes for current-output validation.
+
+R2: real successful guarded allocations receive nonzero monotonic lifetime IDs;
+slot/counter exhaustion records overflow without certifying a lifetime. The first
+native password is bound to its pointer AND lifetime. Free retires the entry, so
+address/slot reuse cannot revive it. Snapshot computes current original-allocation
+liveness and checked lock state at each source gate, without a total-allocation
+restriction. Successful real overlapping nonempty munlock clears lock state and
+latches interruption; relocking cannot erase that interruption. Later native uses
+check original lifetime and protection too. Range subtraction avoids end-address
+overflow. The 16-slot constinit TLS, real delegation/error-only failures and all
+whole-buffer cleanup assertions remain; no successful protection/crypto fake or
+new global SDK call was added. These are source conclusions, not executed wrapper
+transition tests or whole-OS memory guarantees.
+
+Independent lexical comparison preserved all 162 ASSERT/EXPECT invocations and
+their arguments, every test string literal and all 37 ordered method names. The
+fixture, two native programs, logical/API/production files, CMake/preset/import/
+workflow and original review bytes are unchanged. The source diff is limited to
+the three assigned test/observer files and author history. SDK receipt artifacts
+still match their recorded sizes/hashes. No input/oracle was regenerated.
+
+Actual permitted checks on this corrected source:
+
+```sh
+clang-format --dry-run --Werror tests/acceptance/password_hashing_tests.cpp tests/support/password_hashing_failures.hpp tests/support/password_hashing_failures.cpp
+cmake --preset password-hashing-debug -DSUBATHON_SODIUM_ROOT=/tmp/subathon-sodium-1.0.22-sdk/prefix
+cmake --build --preset password-hashing-debug
+ctest --preset password-hashing-debug --show-only=json-v1
+ctest --preset password-hashing-debug -R '^(scaffold.contract_boundary|scaffold.python_tools|scaffold.project_consistency)$' --no-tests=error --output-on-failure
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+All passed: three rebuild/link steps/zero warnings, exact 37 enabled uninverted
+feature names plus old four (41 total), unchanged labels/timeouts, no generator
+CTest, old three infrastructure cases PASS/0.67s/zero failures or skips, and
+406 tasks/122 decisions/current HTML. Read-only preservation/discovery artifacts
+are in `/tmp/subathon-sessiontest001-correction-review.ydiif6tb`. No new feature/
+marker, SDK API, foundation, generator or wrapper injection body was executed.
+
+Root actually adopted the independently approved conditional local sequencing in
+`e83c704`, after environment review `d0a3819b` / import `fb3a5e2`. That supersedes
+ONLY the historical remote-CI-before-FIRST-LOCAL-red sentence above. The author's
+earlier not-yet-adopted statement describes its prior snapshot. Root may next
+integrate this approval and apply the adopted clean-head/matching-SDK/discovery
+conditions for the explicit local FIRST red, then obtain actual separate marker
+attribution. No red result exists from this review. Remote CI/access/publication/
+merge, production prerequisites and all account/secret/allocation/benchmark/
+platform gates remain OPEN and mandatory; this note completes none of them.
