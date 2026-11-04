@@ -3681,18 +3681,23 @@
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
         "Claimed dedicated task/SESSIONTEST-001-password-baseline from refreshed integrated main dd6a141 after actual PR57; prerequisite CONTRACTPLAN001 done. FIRST DOCUMENT ONLY: bounded libsodium Argon2id password hashing/stored parameters/verification and upgrade proposal, independent literal success/failure examples, secret handling and honest reference-hardware benchmark procedure. service_reviewer owns ONLY NEW docs/contracts/password-hashing-v1.md and docs/evidence/sessiontest-001-contract-author.md in isolated task/SESSIONTEST-001-contract-author. Consult official primary libsodium docs and actual installed1.0.22 headers, distinguish observed API from proposed supported pin; no production/hash/marker/test/fixture/stub/schema/migration or secret invocation. No library hash cost/platform claim without actual reviewed evidence. Root owns shared state/HTML/build/CI/pins/schemas. Actual different logical/API/source/test reviews and greenfoundation/FIRSTred precede SESSION001 production.",
-        "Actual logical authorf730a176/importd74fc81 (contractbc9ccbf6/note4d26e84e) independently approved98f0494/importfebe5c2, review6226c59d. Official primary1.0.22 sources/H0fixture and13stdlib facts checked; no nativecrypto/init/hash/verify/RNG. Release ONLY NEW docs/contracts/password-hashing-api-v1.md and docs/evidence/sessiontest-001-api-author.md to service_author in separate APIauthor tree. Exact minimal C++ boundary/errors/budgets/lifetimes/directrawfixture reach/immediatefuturemarker proposal only; no actualheader/stub/source/test/foundation/schema/crypto/build. Keep logicalscope/secret/cost/currentlogin/revision/CAS/benchmark obligations intact, selectedpin/defaults stillproposed notactualplatformproof. Root ownssharedstate/pins/harness/CI. Actual differentAPI review before nextstage."
+        "Actual logical authorf730a176/importd74fc81 (contractbc9ccbf6/note4d26e84e) independently approved98f0494/importfebe5c2, review6226c59d. Official primary1.0.22 sources/H0fixture and13stdlib facts checked; no nativecrypto/init/hash/verify/RNG. Release ONLY NEW docs/contracts/password-hashing-api-v1.md and docs/evidence/sessiontest-001-api-author.md to service_author in separate APIauthor tree. Exact minimal C++ boundary/errors/budgets/lifetimes/directrawfixture reach/immediatefuturemarker proposal only; no actualheader/stub/source/test/foundation/schema/crypto/build. Keep logicalscope/secret/cost/currentlogin/revision/CAS/benchmark obligations intact, selectedpin/defaults stillproposed notactualplatformproof. Root ownssharedstate/pins/harness/CI. Actual differentAPI review before nextstage.",
+        "Actual sourceartifact authentication complete: official1.0.22 archive2008529bytes/SHA256adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349 matches release metadata. Installedgpgv2.4.9 at12:41:07Z returned0/GOODSIG/VALIDSIG against exactofficialRSAkey inisolatedscratchkeyring; primary54A2B8892CC3D6A597B92B6C210627AABA709FE1/signing0C7983A8FD9A104C623172CB62F25B592B6F76DA. Rootre-readrawresult/rehashedallbytes; no globalkeyring/install/extract/build/libraryexecution. Thisresolvesartifactprovenance only, notSDK/runtime/ABI/pinning/cost/feature/nativefoundation gates. PasswordAPIauthorcontinues; current main009 needsintegration before executable review."
       ],
       "verification": {
         "document_review": "passed",
         "test_baseline": "not_run",
         "implementation": "not_run",
-        "api_document_review": "not_run"
+        "api_document_review": "not_run",
+        "source_authentication": "passed",
+        "selected_sdk": "not_run"
       },
       "evidence": [
         "docs/contracts/password-hashing-v1.md",
         "docs/evidence/sessiontest-001-contract-author.md",
-        "docs/evidence/sessiontest-001-contract-review.md"
+        "docs/evidence/sessiontest-001-contract-review.md",
+        "docs/evidence/sessiontest-001-dependency-preparation.md",
+        "docs/evidence/sessiontest-001-source-authentication.json"
       ],
       "review": null
     },
