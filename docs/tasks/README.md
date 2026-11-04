@@ -123,3 +123,8 @@ The [reviewed wire-contract prerequisite split](../decisions/0004-wire-contract-
 separates common representations, HTTP, persistent WebSocket and scene contracts.
 CONTRACT-003 retains their complete integration gate; helper sequencing changes do
 not finalize a schema or certify any client, provider or renderer.
+
+The [scene-contract prerequisite proposal](../decisions/0005-scene-contract-prerequisites.md)
+retains CONTRACT-008 as the full integration gate while separating the scene model,
+reviewed owning-domain bindings/timelines, assets/packages and complete schemas.
+No schema/renderer/provider/platform capability follows from these planning records.

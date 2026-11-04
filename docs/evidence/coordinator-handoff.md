@@ -90,3 +90,15 @@ This current tree is CONTRACTPLAN002. Root is committing its initial claim befor
 creating/assigning the isolated author branch. No publisher/native/build/CTest
 child is active; actual passwordAPI author is running, other agents completed their
 preparations. Eight olddirtytrees/missingregistrations remain untouched.
+
+
+Actual scene planning author85be9bb8/import2c76307 is integrated. Root maps the exact
+ADR0005 table into406tasks/1497edges, preserving all1473prior edges/319baseline edges;
+onlyold008list appends5gates. New009–012 planned,002in_review. See
+[actual integration evidence](contractplan-002-state-integration.md). Source/docs and
+mapped state now require independentcodec_author review in a new reviewtree. No
+child claim or scene schema permitted before actual planning review/CI/normalmerge.
+All11 post-main0096323 workflows were subsequently observedSUCCESS. Password branch
+f94 is published; focused draftPR59 now exists. Actual libsodium source signature
+PASS via installedgpgv2.4.9/isolatedofficialkey; root records durabledependency
+provenance separately, not a runtime/platform/pin approval. No publisherchildactive.

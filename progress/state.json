@@ -601,8 +601,8 @@
       "title": "Split declarative scene contract prerequisites",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
-      "owner": "coordinator /root; service_reviewer (scene planning document author)",
+      "status": "in_review",
+      "owner": "coordinator /root (state/integration); service_reviewer (planning author); independent actual review next",
       "depends_on": [
         "CONTRACT-005",
         "CONTRACTPLAN-001"
@@ -626,13 +626,18 @@
       "brief": "docs/tasks/CONTRACTPLAN-002.md",
       "summary": "Documentation-only scene contract split preserving full parent, schema, renderer and release gates; no scene behavior finalized.",
       "notes": [
-        "Claimed task/CONTRACTPLAN-002-scene-prerequisites from freshlyfetched main0096323 after actual005/PR58 normalmerge/all12checks. RootownsJSON/HTML/claims/schemas/imports/build/CI/pins/maps; service_reviewer owns ONLY newADR0005, CONTRACT009–012 briefs, bounded childintegration sectionofCONTRACT008 and sceneplan authornote in isolated writer tree. Concreteowningdomain prerequisites/cycleavoidance and full§11requirement map beforeactualreview; no new default/codec/validator/supportpolicy claim. Independentreview actualauthoredplan/state beforecompletion; no production/source/fixture/assertion/schema edits."
+        "Claimed task/CONTRACTPLAN-002-scene-prerequisites from freshlyfetched main0096323 after actual005/PR58 normalmerge/all12checks. RootownsJSON/HTML/claims/schemas/imports/build/CI/pins/maps; service_reviewer owns ONLY newADR0005, CONTRACT009–012 briefs, bounded childintegration sectionofCONTRACT008 and sceneplan authornote in isolated writer tree. Concreteowningdomain prerequisites/cycleavoidance and full§11requirement map beforeactualreview; no new default/codec/validator/supportpolicy claim. Independentreview actualauthoredplan/state beforecompletion; no production/source/fixture/assertion/schema edits.",
+        "Actual plan author85be9bb8/import2c76307 changed7assignedMDfiles only, including byte-identical original008prefix+23lines. Root maps exactADR table into406tasks: parent008 adds5gates and4newchildren contribute19edges. All1473 oldedges/319 baseline-prerequisiteedges retained; onlyold008 dependencylist changes. No source/schema/test/validator/provider/native edits or execution. Actualdifferent docs ANDstate review required, no futureapproval."
       ],
       "verification": {
-        "planning_review": "not_run",
-        "consistency": "not_run"
+        "planning_review": "draft",
+        "consistency": "passed"
       },
-      "evidence": [],
+      "evidence": [
+        "docs/decisions/0005-scene-contract-prerequisites.md",
+        "docs/evidence/contractplan-002-author.md",
+        "docs/evidence/contractplan-002-state-integration.md"
+      ],
       "review": null
     },
     {
@@ -749,7 +754,12 @@
       "owner": "Unassigned",
       "depends_on": [
         "CONTRACT-005",
-        "CONTRACTPLAN-001"
+        "CONTRACTPLAN-001",
+        "CONTRACTPLAN-002",
+        "CONTRACT-009",
+        "CONTRACT-010",
+        "CONTRACT-011",
+        "CONTRACT-012"
       ],
       "spec_refs": [
         "API-01",
@@ -762,7 +772,142 @@
       "brief": "docs/tasks/CONTRACT-008.md",
       "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
       "notes": [
-        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
+        "Proposed ADR-0005 adds required009 scene model/010 bindings-timeline/011 assets-packages/012 complete schemas plus planning002 gates. Existing005/PLAN001, HTTP006→008, C003→008, allSCENE/RENDER and everyprior baseline/epic/release edge retained. No child→parent/downstream dependency. No scene capability or child completion claimed; actual independent integrated-state/doc review pending."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-009",
+      "title": "Protocol-neutral scene document model",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "API-01",
+        "API-03",
+        "UI-01",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "MEDIA-02"
+      ],
+      "brief": "docs/tasks/CONTRACT-009.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-010",
+      "title": "Typed scene bindings conditions and presentation timelines",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-009",
+        "CORE-002",
+        "CORE-003",
+        "CORE-005",
+        "ACCT-002",
+        "ACCESSTEST-002",
+        "MILESTONETEST-001",
+        "MILESTONETEST-004",
+        "MODIFIERTEST-001",
+        "MODIFIERTEST-002",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "§4",
+        "§6",
+        "§8",
+        "API-03",
+        "NUM-04",
+        "UI-04",
+        "MEDIA-02",
+        "VIEW-03"
+      ],
+      "brief": "docs/tasks/CONTRACT-010.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-011",
+      "title": "Scene assets fonts and portable package contracts",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-009",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "MEDIA-01",
+        "MEDIA-03",
+        "MEDIA-04",
+        "MEDIA-05",
+        "MEDIA-06"
+      ],
+      "brief": "docs/tasks/CONTRACT-011.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-012",
+      "title": "Complete versioned scene schema package",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-009",
+        "CONTRACT-010",
+        "CONTRACT-011",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "API-01",
+        "API-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "MEDIA-01",
+        "MEDIA-02",
+        "MEDIA-03",
+        "MEDIA-04",
+        "MEDIA-05",
+        "MEDIA-06"
+      ],
+      "brief": "docs/tasks/CONTRACT-012.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
       ],
       "verification": {},
       "evidence": [],
