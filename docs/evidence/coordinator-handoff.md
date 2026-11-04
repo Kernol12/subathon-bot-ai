@@ -90,3 +90,21 @@ All seven integrations/three FX providers, actual authority/policy/clock/action/
 reference adapters, financial/refund/review/continuation, security/recovery/backup,
 both renderers/locales/themes, packaging/platform/live/full release remain required
 and unfinished. A blocked task does not block independent ready work.
+
+
+## Actual localization document and environment update
+
+Author candidatea06b3a7/import8cb939e is present: translation-catalog-v1.md and
+its author handoff only. The separate reviewer requested THREE bounded document
+corrections: native parameter/selector metadata source, precise owned output/source
+alias rules, and canonical TS bytes. Author is addressing this batch; no document
+approval/API/feature-test gate is claimed. Reviewer evidence6e870dc awaits import.
+
+[Actual tool preflight](localetest-001-tool-preflight.md) records verified official
+QtTools/Base/ICU/Declarative archive hashes, real ELF dependencies and corrected
+scratch SDK lrelease6.12.0 loading entirely selected Qt/ICU libraries. Initial ICU
+placement error is explicitly preserved as environment failure, not a feature red.
+No catalog/QM/generator/translation lookup/reproducibility was executed. Native
+metadata/format ownership must be resolved before any later generator API/test work.
+All three agents are currently complete or waiting except the document author;
+resume the reviewer explicitly when an actual revised candidate is ready.
