@@ -83,3 +83,16 @@ required. No realchat/payment/provider operation authorized. Currentrules2617026
 PR/resolvedthreads/0GHapprovals/no bypass; writtenworkflowrequiresALLlatestCI/reviews.
 Normalexactheadmerge only. Qt6.12officialprefix/tmp/subathon-locale-qttools-6.12.0/prefix
 (ICUunderlib), rootGNU16.2/Python3.14/Boost1.92, selectedCI GNU13.3/Python3.12/Boost1.83.
+
+LATEST rate: narrowfoundationapproval4e9/import712 followed FIRSTBoost-only14fact
+runGREEN (raw419c41ee) on1.92; no modelbody. Full53review6d4 requests additiveR1
+ASCII+highbyte ordering source oracle,codec_author RUNNING acceptance+noteonlyfix.
+No feature/marker/testbodyrun. Revieweridleafterverdict; explicitfollowupactualrevision.
+RootGitHubpublicationrecovery willverifyexactGitobjects and nonforcedrefs, neverbypass
+workflowpermissions or branchprotection; Gittransports stillfailed, normalRESTworks.
+
+LATEST ratefullreviewdcf5 confirmsR1fixedat24f9/imported27 tests64fd60b2/note60d84fb2,
+53names/oldassertions/fixtures unchanged. Rootimports finalreviewnow and prepares
+publicationofcurrentselectedCI; no newratebody/marker hasrun. Native14foundation
+GREEN only1.92known; selected1.83currentCI stillmustgreen BEFORE FIRSTrate red.
+Milestone4362/rootaf7 logicaldoc nowauthored/codec_authorRUNNINGactualdocumentreview.
