@@ -132,3 +132,12 @@ body. Root compatibility correction3dc7108 moves exactfourlabels to CTest-time
 TEST_LIST include; local67/bothguards and oldhelper-source30 reproduction pass.
 Service_reviewer reviews actualcorrection now; no FIRSTred yet. Publishcorrected
 draft foractualCI; root willFIRSTred onlyafter actualfixapproval and selectedproof.
+
+
+FIRSTred COMPLETED once: clean8acc9b9cf88bb67762c2060ee5fb16a5345a273f,
+2026-11-04T18:24:09.993522Z, plainCTestexit8/30fail/0skip. Actual separate
+test1d8e9335+harness7d7f651+labelcorrectionebe17a9e approvals all precededrun.
+Red receipts/log/JUnit now retained; mechanical215markers+1 safe presencegate
+consequence, actual different attributionreviewnext. DO NOT replayFIRST.
+Corrected selectedCI41886146750 at4674822 passes exact30discovery+SDK21+old36.
+No ACCESS002 implementation; finish attribution/finalmetadata/currentCI/normalmerge.
