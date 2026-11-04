@@ -628,12 +628,14 @@
       "notes": [
         "Claimed task/CONTRACTPLAN-002-scene-prerequisites from freshlyfetched main0096323 after actual005/PR58 normalmerge/all12checks. RootownsJSON/HTML/claims/schemas/imports/build/CI/pins/maps; service_reviewer owns ONLY newADR0005, CONTRACT009–012 briefs, bounded childintegration sectionofCONTRACT008 and sceneplan authornote in isolated writer tree. Concreteowningdomain prerequisites/cycleavoidance and full§11requirement map beforeactualreview; no new default/codec/validator/supportpolicy claim. Independentreview actualauthoredplan/state beforecompletion; no production/source/fixture/assertion/schema edits.",
         "Actual plan author85be9bb8/import2c76307 changed7assignedMDfiles only, including byte-identical original008prefix+23lines. Root maps exactADR table into406tasks: parent008 adds5gates and4newchildren contribute19edges. All1473 oldedges/319 baseline-prerequisiteedges retained; onlyold008 dependencylist changes. No source/schema/test/validator/provider/native edits or execution. Actualdifferent docs ANDstate review required, no futureapproval.",
-        "Actual independent approvala2897c88, reviewde522f0b, accepts exact84a80bd docs ANDmappedstate. All1473claim-stateedges/319baseline gates and1471published-main edges preserved; exact24 additions/no cycles/full§11allocation checked. No blocker/ownerchoice. OnlyPLAN002locallydone, all009–012remainplanned; finalexactheadCI/rules/threads/normalmerge precedechildclaims. No schema/source/native/provider behavior or newpolicy approved."
+        "Actual independent approvala2897c88, reviewde522f0b, accepts exact84a80bd docs ANDmappedstate. All1473claim-stateedges/319baseline gates and1471published-main edges preserved; exact24 additions/no cycles/full§11allocation checked. No blocker/ownerchoice. OnlyPLAN002locallydone, all009–012remainplanned; finalexactheadCI/rules/threads/normalmerge precedechildclaims. No schema/source/native/provider behavior or newpolicy approved.",
+        "Normally mergedPR60 at2026-11-04T13:46:13Z, exacta390112/all12finalheadcheckrunsSUCCESS, actualreviewa289/thread0/rules0GHapprovals/no bypass. Mainb2b14bb5cc6d509f45784c55d5dbed7e55f7556b/headtree0a7b58f4 equal. Onlyplanningintegrated;009–012remainrequired. Post-mainworkflowspendingobservation.",
+        "Actualb2b14bb post-main all11workflowcheckruns completedSUCCESS; priorpending-observation note is historical. All12PR60finalheadchecks andnormalmerge remainvalid, no planning/source review repeated."
       ],
       "verification": {
         "planning_review": "passed",
         "consistency": "passed",
-        "selected_ci": "not_run"
+        "selected_ci": "passed"
       },
       "evidence": [
         "docs/decisions/0005-scene-contract-prerequisites.md",
@@ -796,8 +798,8 @@
       "title": "Protocol-neutral scene document model",
       "module": "Presentation",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; codec_author (document author); service_reviewer (actual independent review)",
       "depends_on": [
         "CONTRACT-005",
         "CONTRACTPLAN-002"
@@ -815,11 +817,29 @@
       "brief": "docs/tasks/CONTRACT-009.md",
       "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
       "notes": [
-        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state.",
+        "Claimed task/CONTRACT-009-scene-model from actualrefreshed mainb2b14bb afterPLAN002/PR60 normalmerge/all12checks. Dependencyready005/PLAN002done. FIRST DOCUMENT ONLY: NEW docs/contracts/scene-document-v1.md + docs/evidence/contract-009-author.md tocodec_author inisolated task/CONTRACT-009-document-author. Protocolneutralmodel/7families/geometry+ordering+groups/typed010-011refs/draft-live+publish-restore boundaries/compatibility/finiteprofile proposal+independentvalid-invalidlogicalexamples; preservefull§11scope anddo notinventdomain clocks/disclosure/progressorigin/newproductdefaults. No schema/API/stub/parser/validator/fixture/test/renderer/code/native/provider. Actualdifferentdocumentreview beforeanotherstage. Rootownssharedstate/HTML/schemas/imports/build/CI/pins/maps/PR. Parent008/C003completepackages/consumer/testfirst/platformgates remain.",
+        "Actual logical document author6a88c79c/import0857f31 supplies scene-document5eb1c845/authorcf0cfc95 only.26independent SD rows+7family rows,14stdlibgeometry/byte/Unicode/graph facts passed; no feature/schema/API/code/runtime. Different service_reviewer now reviews exact0857f31 in contract009-review and owns onlyNEWreviewnote. All7families/typed010-011UNFINALIZED boundaries/forest/geometry/publishrestore staleABA/finiteproposals/fullreleasegates checked next; no schema/decoder/renderer/test stage released. CIassessment docs-only uses existing finalhead checks, no new workflow needed. Parent008/003/012 andconsumer releasegates intact.",
+        "Actual revised logical document9a350733/author8f9f619b frome7274463/import0ace3ae independently APPROVED7f782640/import50915bd, review8ea2e1bd. Originalreview866befcb/import e011221 preserved R1/R2findings; boundedcorrection adds common all7ElementBindingsRef/explicitempty with010semanticsUNFINALIZED, additivepartialSD27/referencecharging, featuregrammarvsUnicodeTextlabels. Alloriginaltable rows byteidentical/sameorder, unchangedsections1/3/6/7/10 andvalid21fact audit preserved. No new schema/API/fixture/test/code/renderer/native behavior.009document acceptance complete; finalactualhead existingCI/rules/threads/publication/normalmerge remain integrationgates, selectedCIcurrentlynotrun.012/010/011/008/C003/consumer/fullscope gates remain. No newworkflow needed for2MD+evidence/state/HTML-onlytask."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "document_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/scene-document-v1.md",
+        "docs/evidence/contract-009-author.md",
+        "docs/evidence/contract-009-review.md",
+        "docs/evidence/contract-009-handoff.md"
+      ],
+      "review": {
+        "author": "codec_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contract-009-review.md",
+        "revision": "0ace3ae document9a350733/author8f9f619b; actual revised approval7f782640/import50915bd"
+      }
     },
     {
       "id": "CONTRACT-010",
@@ -3897,7 +3917,10 @@
         "Actual minimal source/harness64a924c independently APPROVED93d9a576, note206ca8d4. Headerec3c5cf8/CPPeaf56f41 std-only3singlethrows, exactAPI/privateborrow/ownedresults/inertsource;47independentcompiletraits+8stepbuild0PROJECTwarnings/old3infraPASS0.65s. SDKmetadata/auditunchanged, vendor3nativeprobes/SIGABRT134/core report/8Libtoolwarnings preserved; no SDKruntime/passwordproof. Release ONLY literalfixture/GTests/standalone real-SDK foundation/test-author note and PRIVATEtest-onlyerrorharness ifneeded; source/contracts frozen, no newbody/nativeAPIcall beforeactualdifferenttest/foundationreview. No successfulcrypto fakes or SUT-generatedoracles. RootownsCMake/CI/pins/JSON/HTML; currentselectedSDKCI/firstfeature red andproduction stilllatergates. SDKsourceauth/build isnotruntimeacceptance.",
         "Preliminary SDK-only programs fc62e637/importad9c27bd compile/link and discover only; foundation9f688e3d/generatorf705227e, no native execution. Root harness adds SDK-only foundation CTest and explicitly built generator with no CTest or automatic execution. Different actual native preparation review is next; root FIRST foundation green precedes exact PH12/13 synthetic INPUT generation. Preserve reviewed t6/32768 and t6/131072 examples; added published hashcat t3/65536 is additional coverage only. Full feature fixtures/tests/error harness/review/currentCI/FIRSTred remain incomplete; production remains3immediate throws.",
         "Actual narrow native programs/harness APPROVED9b92c671/importc0646b4;32 independent static facts plus compile/link/discovery no body. ROOT FIRST host SDK foundation then ran CLEANc0646b4 at14:42:52Z PASS1/1/0.21s/exit0, runtime1.0.22/ABI26/4/publishedvectors/guardedmemory/rawbytes. ONLY AFTER green ROOT FIRST SDK-only generator14:43:01Z exit0/two complete exact PH12t6/m32768 and PH13t6/m131072 INPUTS, rawSHAb351cf46. Publicsynthetic inputs only, independent expectedpolicy literals unchanged. RLIMIT_CORE0; no project/SUT/marker/login/store/featuretest executed. Releases finishing literalfixtures/GTests/privateerror-onlywrappers to service_author; differentfullreview/currentUbuntuCI/FIRSTred/production stilllater. New local selectedCI recipe parsed/bashsyntax only, actualworkflowreview/publication stillpending missingworkflowaccess. HostSDK proof isnot supportedhardwarecost/Ubuntu/platform acceptance.",
-        "Actual full test author8e6d1dd/import82d624d adds37TESTs, fixture025d4de9/test52f0e911/privateheader831a8bb0/wrappers2782be41/author43d1db9d. Exact PH12/13generated INPUTS retained, independentpolicy literals. Root fullCMake/CI links12GNUwraps ONLYfeaturebinary, no operatornewhook; foundation/generatorunwrapped unchanged. Configure+3compile/link steps0warnings/discovery41=37exactenabledintentionalred+old4; actualworkflowdiscoveryPython andYAML/bashsyntax passed, no feature/marker/SDKbody invoked. Freeze fullcandidate for different codec_author actualreview innewisolatedtree afterits scenecorrectionhandoff. SelectedUbuntuCI/publication/FIRSTfeature red remainUNPERFORMED pendingworkflowaccess; oldPR59onlyscaffold41828240775 atf94. No productionrelease or baselinedone claim."
+        "Actual full test author8e6d1dd/import82d624d adds37TESTs, fixture025d4de9/test52f0e911/privateheader831a8bb0/wrappers2782be41/author43d1db9d. Exact PH12/13generated INPUTS retained, independentpolicy literals. Root fullCMake/CI links12GNUwraps ONLYfeaturebinary, no operatornewhook; foundation/generatorunwrapped unchanged. Configure+3compile/link steps0warnings/discovery41=37exactenabledintentionalred+old4; actualworkflowdiscoveryPython andYAML/bashsyntax passed, no feature/marker/SDKbody invoked. Freeze fullcandidate for different codec_author actualreview innewisolatedtree afterits scenecorrectionhandoff. SelectedUbuntuCI/publication/FIRSTfeature red remainUNPERFORMED pendingworkflowaccess; oldPR59onlyscaffold41828240775 atf94. No productionrelease or baselinedone claim.",
+        "Concurrentpassword actuallogicalf730/importd74/contractbc9ccbf6 independently approved98f0494/importfebe5c2. Primaryf94f5ae releases ONLY concrete API document in separateAPIauthor tree; service_author active. No actualC++header/source/stub/test/foundation/nativecrypto orfutureapproval. This commoncontract branch reconcilesclaimonly.",
+        "Concurrentpassword source/harness64a924c independently approved93d9a576/import30bdd15; actualsourceheaderec3c5cf8/CPPeaf56f41 remain3immediate markerbodies. Primaryd9762d7 nowreleases onlytest/foundation/privateerrorharness authoring inisolatedtest-author tree. Literal6-operation PH12/13cases preserved; newinputfixturesmaybegenerated ONLYwithreviewedSDK-onlygenerator afterindependentnativefoundationgreen, neverusingSUT. No passwordnativefeature/foundation/marker call yet. SDKsourceauth+hostbuildmetadata notruntimeproof; current main406/requiredratebridge403recordsreconcilelater.",
+        "Cross-task actualupdate: root FIRST reviewedhostSDKfoundation atclean c0646b4 PASS1/1/0.21s then reviewedSDK-onlygenerator produced exact PH12/13 INPUTS, durable095081d inpasswordbranch. Full37testcandidate8e6d1dd/import82d624d +rootharness2c0c9ab nowwithdifferentcodec_author actualfullreview inisolatedsessiontest001-full-review. No projectfeature/marker/testbody executed; currentselectedUbuntuCI/FIRSTred/publication remainblockedworkflowaccess. ThisscenePR imports no passwordsource/tests/evidence; exactrefs andowningtree retainedincheckpoint, no passwordcapability certified."
       ],
       "verification": {
         "document_review": "passed",
@@ -13541,6 +13564,21 @@
       "date": "2026-11-04",
       "task": "CONTRACTPLAN-002",
       "note": "Actual independent scene-plan/DAG review approved. Four child contracts remain planned; final publication/CI/normal merge pending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-002",
+      "note": "SceneplanPR60 normally merged exactreviewedhead afterall12checks; refreshedmainb2b14bb."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-009",
+      "note": "Claimed FIRSTscene-modeldocument only fromintegratedplan; actualdifferentreview before schema orrenderer work."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-009",
+      "note": "Corrected protocol-neutral scene logical document independently approved;27SD+7familyexamples, originalrows preserved. Documentacceptance complete, finalCI/publication/normalmerge pending; no schema/renderer/product capability."
     }
   ]
 }
