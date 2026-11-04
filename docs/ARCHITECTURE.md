@@ -232,3 +232,14 @@ cases, separate source/allocation review and actual promoted selected-Qt CI. The
 trusted finite read-only ports still need real authority/policy/clock/action/reference
 producers. Financial refunds, explicit review/continuation, running API/server,
 recovery, delivery and release/platform/provider scope remain separate gates.
+
+
+The reviewed [translation catalog contract](contracts/translation-catalog-v1.md)
+and [build API](contracts/translation-catalog-api-v1.md) select one authoritative
+English/German JSON catalog and a standard-library Python build generator producing
+canonical TS/browser text plus real selected Qt6.12.0 QM. Native consumers require
+generated declaration metadata and direct raw QTranslator lookup before their
+later named formatter. No runtime formatter/preference implementation is supplied.
+[LOCALETEST-001](evidence/localetest-001-handoff.md) establishes independently
+reviewed43-method intentional red plus separate actual Qt-only foundation; the
+generator remains explicit missing behavior until LOCALE-001 passes that baseline.

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "license": "GPL-3.0-or-later",
+  "source_locale": "en",
+  "locales": ["en", "de"],
+  "messages": [
+    {
+      "id": "fixture.literal_plural",
+      "description": "Literal percents with an invisible integer selector.",
+      "parameters": {"name": "text", "count": "integer"},
+      "plural": "count",
+      "translations": {
+        "en": {"one": "{{x}} %n %1 %L1 %% {name}", "other": "{{x}} %n %1 %L1 %% {name}"},
+        "de": {"one": "{{x}} %n %1 %L1 %% {name}", "other": "{{x}} %n %1 %L1 %% {name}"}
+      }
+    },
+    {
+      "id": "fixture.selector_only",
+      "description": "Selector is declared even when absent from visible text.",
+      "parameters": {"name": "text", "count": "integer"},
+      "plural": "count",
+      "translations": {
+        "en": {"one": "One item for {name}", "other": "Items for {name}"},
+        "de": {"one": "Ein Eintrag für {name}", "other": "Einträge für {name}"}
+      }
+    },
+    {
+      "id": "fixture.scalars",
+      "description": "Exact XML scalars and line controls.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "A & B < C > D \"q\" 's'\r\n\tGrüße é 😀"},
+        "de": {"text": "A & B < C > D \"q\" 's'\r\n\tGrüße é 😀"}
+      }
+    },
+    {
+      "id": "fixture.reorder",
+      "description": "Named values reorder and repeat across languages.",
+      "parameters": {"second": "text", "first": "text"},
+      "plural": null,
+      "translations": {
+        "en": {"text": "{first} then {second}; {first}"},
+        "de": {"text": "{second}, danach {first}; {first}"}
+      }
+    },
+    {
+      "id": "fixture.literal",
+      "description": "Literal braces and Qt-looking percent sequences.",
+      "parameters": {"name": "text"},
+      "plural": null,
+      "translations": {
+        "en": {"text": "{{x}} %n %1 %L1 %% {name}"},
+        "de": {"text": "{{x}} %n %1 %L1 %% {name}"}
+      }
+    },
+    {
+      "id": "fixture.items",
+      "description": "Fixture count with reordered named values.",
+      "parameters": {"name": "text", "count": "integer"},
+      "plural": "count",
+      "translations": {
+        "en": {"one": "{count} item for {name}", "other": "{count} items for {name}"},
+        "de": {"one": "{name}: {count} Eintrag", "other": "{name}: {count} Einträge"}
+      }
+    },
+    {
+      "id": "fixture.greeting",
+      "description": "Fixture greeting; name is untrusted plain text.",
+      "parameters": {"name": "text"},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Hello, {name}!"},
+        "de": {"text": "Hallo, {name}!"}
+      }
+    }
+  ]
+}

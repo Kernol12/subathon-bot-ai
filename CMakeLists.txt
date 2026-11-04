@@ -15,6 +15,10 @@ option(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS "Build reviewed receipt intake simula
 option(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS "Build contribution evidence acceptance tests" OFF)
 option(SUBATHON_FETCH_GOOGLETEST "Explicitly allow fetching the pinned GoogleTest source" OFF)
 option(SUBATHON_BUILD_QT_PROBE "Build a Qt 6.12 Core/Test environment probe" OFF)
+option(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS "Build translation catalog baseline interfaces and diagnostics" OFF)
+if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
+    set(SUBATHON_BUILD_QT_PROBE ON)
+endif()
 option(SUBATHON_BUILD_SQLITE_WRITER_TESTS "Build Qt SQL SQLite writer acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_WORK_TESTS "Build reviewed writer transaction-work acceptance tests" OFF)
 option(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS "Build reviewed migration catalog acceptance tests" OFF)
@@ -53,6 +57,26 @@ endif()
 if(SUBATHON_BUILD_QT_PROBE)
     find_package(Qt6 6.12 REQUIRED COMPONENTS Core Test)
 endif()
+if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
+    find_package(Qt6 6.12 REQUIRED COMPONENTS Core Test LinguistTools)
+    if(NOT Qt6LinguistTools_VERSION VERSION_EQUAL "6.12.0")
+        message(FATAL_ERROR "Translation catalog baseline requires the selected Qt LinguistTools 6.12.0")
+    endif()
+    # Syntax and inert import only. Never invoke the unimplemented generator here.
+    add_custom_target(translation_catalog_interface_check ALL
+        COMMAND "${CMAKE_COMMAND}" -E env
+            "PYTHONPYCACHEPREFIX=${CMAKE_CURRENT_BINARY_DIR}/python-cache"
+            "${Python3_EXECUTABLE}" -m py_compile
+            "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            "${PROJECT_SOURCE_DIR}/tests/localization/test_translation_catalog.py"
+        COMMAND "${CMAKE_COMMAND}" -E env
+            "PYTHONPYCACHEPREFIX=${CMAKE_CURRENT_BINARY_DIR}/python-cache"
+            "${Python3_EXECUTABLE}" -c
+            "import runpy, sys; runpy.run_path(sys.argv[1], run_name='translation_catalog_interface')"
+            "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+        VERBATIM)
+endif()
+
 if(SUBATHON_BUILD_QT_PROBE OR SUBATHON_BUILD_SQLITE_WRITER_TESTS OR SUBATHON_BUILD_SQLITE_WORK_TESTS OR SUBATHON_BUILD_SQLITE_MIGRATION_TESTS OR SUBATHON_BUILD_SQLITE_RETAINED_TESTS OR SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
     if(NOT BUILD_TESTING)
         message(FATAL_ERROR "The Qt test lanes require BUILD_TESTING=ON")

@@ -185,6 +185,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_APPLICATION_SERVICE_TESTS": "ON"
       }
+    },
+    {
+      "name": "translation-catalog-debug",
+      "displayName": "22 \u00b7 Translation catalog baseline interfaces",
+      "inherits": "qt-probe-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -271,6 +279,10 @@
     {
       "name": "application-service-debug",
       "configurePreset": "application-service-debug"
+    },
+    {
+      "name": "translation-catalog-debug",
+      "configurePreset": "translation-catalog-debug"
     }
   ],
   "testPresets": [
@@ -477,6 +489,16 @@
     {
       "name": "application-service-debug",
       "configurePreset": "application-service-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "translation-catalog-debug",
+      "configurePreset": "translation-catalog-debug",
       "output": {
         "outputOnFailure": true
       },
