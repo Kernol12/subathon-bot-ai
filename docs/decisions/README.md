@@ -10,3 +10,7 @@ execution split and actual writer/repository transaction prerequisite.
 
 [ADR-0004](0004-wire-contract-prerequisites.md) records the reviewed wire-contract
 prerequisites and precise helper dependencies; actual review status is in the record.
+
+[ADR-0005](0005-scene-contract-prerequisites.md) proposes focused scene-model,
+binding/timeline, asset/package and complete-schema prerequisites; actual independent
+planning review remains required.
