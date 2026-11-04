@@ -556,8 +556,8 @@
       "title": "Split the product wire-contract prerequisites",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
-      "owner": "coordinator /root; service_reviewer (read-only decomposition preparation)",
+      "status": "in_review",
+      "owner": "coordinator /root (plan); codec_author (actual independent planning review)",
       "depends_on": [
         "CONTRACT-002"
       ],
