@@ -100,3 +100,9 @@ this reviewed SDK lane through normal SSH for actual Ubuntu CI observation.
 API update: author646a11e3/import5757a45, API blobdda2793c/author0680aa30.
 Actual separate codec_author API review active; no source/test stage released.
 Published07418ee succeeded through SSH, all13 checks queued at last observation.
+
+
+Actual API approval5c029d4/importb9e0520, reviewe007e35b. Minimal inert source
+author service_reviewer active in accesstest002-source-author fromc8cb5f2, owns
+new header/immediate marker stub/short note only. Root has uncommitted core
+CMake target and state/HTML/checkpoint edits. No tests released or marker run.
