@@ -193,6 +193,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS": "ON"
       }
+    },
+    {
+      "name": "password-hashing-debug",
+      "displayName": "25 \u00b7 Password hashing baseline interfaces and tests",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_PASSWORD_HASHING_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -283,6 +291,10 @@
     {
       "name": "translation-catalog-debug",
       "configurePreset": "translation-catalog-debug"
+    },
+    {
+      "name": "password-hashing-debug",
+      "configurePreset": "password-hashing-debug"
     }
   ],
   "testPresets": [
@@ -499,6 +511,16 @@
     {
       "name": "translation-catalog-debug",
       "configurePreset": "translation-catalog-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "password-hashing-debug",
+      "configurePreset": "password-hashing-debug",
       "output": {
         "outputOnFailure": true
       },

@@ -41,7 +41,7 @@ linking or password/library init/hash/verification/RNG/foundation ran.
 ## Environment, ownership and later evidence
 
 Host metadata shows Arch1.0.22-1, header1.0.22/ABI26/4 and libsodium.so.26.4.0.
-Metadata is not runtime identity. Ubuntu24.04's default libsodium-dev is1.0.18;
+Metadata is not runtime identity. [Ubuntu24.04's default libsodium-dev](https://packages.ubuntu.com/noble/libsodium-dev) is the1.0.18 line;
 it cannot stand in for this proposed exact dependency. Before native foundation,
 root must select/pin actual source/build inputs and explicit include/library paths,
 compile/link the intended SDK and independently review the actual standalone
