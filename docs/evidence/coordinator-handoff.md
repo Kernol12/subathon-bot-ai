@@ -1,8 +1,8 @@
-# Coordinator checkpoint — localization contract; timer decisions pending
+# Coordinator checkpoint — translation baseline in progress
 
-2026-11-04. Continue the standing coordinator loop. Full product remains incomplete.
-No access is currently needed. Three explicit CORE-008 product choices await owner
-answers; never infer answers from preselected options or elapsed time.
+Coordinator /root, 2026-11-04. Continue the standing loop under AGENTS.md and
+COORDINATOR_PROMPT.md. Full product remains incomplete. No access is currently
+needed. CORE-008 choices below remain unanswered; do not infer answers.
 
 ## Actual integrated main and previous publication
 
@@ -45,150 +45,95 @@ Keep PR52 draft; do not merge it as a completed baseline. Reuse the actual autho
 and reviewer only after explicit followup. Both document assignments completed;
 they are not running in the background.
 
-## New active task and ownership
+## Current task, actual revisions and next gate
 
-Root branch `task/LOCALETEST-001-catalog-baseline` starts from freshly fetched main
-0b631dc. LOCALETEST-001 is in progress; [brief](../tasks/EPIC-023/LOCALE-001.md),
-specification v0.45 §12/I18N-04. FIRST DOCUMENT stage only: authoritative JSON with
-stable IDs, English/German, named parameters/plurals and deterministic Qt .ts/.qm
-plus browser outputs. Actual .qm generation/validation remains required; TS/JSON
-alone cannot finish this task. No generator/source catalog/schema/API/stub/tests
-or production behavior before the actual contract and separate review.
+Root is clean at `1f666b0` on `task/LOCALETEST-001-catalog-baseline`, based on
+integrated main `0b631dc`. [Draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53)
+remains open. LOCALETEST-001 is in progress; LOCALE-001 production is planned.
+The [brief](../tasks/EPIC-023/LOCALE-001.md) covers specification v0.45 §12/I18N-04.
+Real deterministic .ts, .qm and browser outputs remain required. Runtime formatting,
+preferences, switching, layouts and packaging remain separate tasks.
 
-Intended isolated assignments (record actual startup next):
-- service_author: NEW task/LOCALETEST-001-contract-author and
-  local-evidence/worktrees/localetest001-contract-author; own ONLY
-  docs/contracts/translation-catalog-v1.md and
-  docs/evidence/localetest-001-contract-author.md.
-- service_reviewer: NEW task/LOCALETEST-001-contract-review and
-  local-evidence/worktrees/localetest001-contract-review; own ONLY
-  docs/evidence/localetest-001-contract-review.md, actual candidate before verdict.
-- codec_author: bounded READ-ONLY installed Qt Linguist/tool/version and primary
-  documentation investigation; no project generator/fixture/test edits or feature
-  invocation. Report actual capability/dependency gaps rather than inventing support.
-- Root: shared state/HTML/maps/schemas/build/CI/dependency pins/checkpoint/integration.
+Approved source [contract](../contracts/translation-catalog-v1.md) blob
+`5138329642d112423431d0314a6f9f9a78c7795d` received renewed independent approval
+`947eba4` after actual Qt rejected the original top-level-message mapping.
+The supported mapping uses one explicit empty context/name wrapper. Preserve
+[review history](localetest-001-contract-review.md) and the original real failure.
+The [API contract](../contracts/translation-catalog-api-v1.md) blob
+`acb90189c371ab4aa8979cbb2ac8d117b2e8ab0e` received approval `f7f4681` after timeout,
+file-read and source-opening bounds were resolved. See its
+[review](localetest-001-api-review.md).
 
-Next: commit this claim, create isolated author/review trees and explicitly assign
-agents. Verify actual selected tool availability and contract mapping, including
-escaping, Unicode and plural/parameter translation. Choose a bounded mapping with
-selected existing tools; justify any dependency. Then review the actual authored
-revision before any later executable stage. Baseline and LOCALE-001 remain unfinished.
+Actual minimal source `ef4974c`/import `a9e60e5` is integrated with its
+[author note](localetest-001-stub-author.md). Nine frozen data types and inert
+errors/enums exist. ALL five feature functions immediately raise the distinct
+TranslationCatalogNotImplemented marker. No entrypoint, main, script or marker
+has been invoked. No generator behavior, source catalog, schema, formal fixture,
+feature test or intended red exists yet.
 
-## Preservation and processes
+Root added profile22 `translation-catalog-debug`, a syntax/inert-import target and
+[CI](../../.github/workflows/translation-catalog.yml) with four verified official Qt
+archives. Actual selected-prefix configure/build and verbose CTest passed all four
+existing infrastructure tests, including19 tooling methods and the Qt event loop.
+Actual [CI41792990086](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41792990086)
+at `1f666b0` passed the same selected-tool version/closure, syntax/import and four
+checks on Ubuntu24.04/Python3.12.3. Raw ignored log:
+local-evidence/localetest001-ci/interfaces-41792990086.log,
+SHA256 `4d7fcd0bbc10295ccf4ddb4c7e3da8707f7433f7950e31891fa6cd48ea5e57fc`.
+This establishes infrastructure, not translation feature acceptance.
 
-All historical branches/worktrees/reviews remain preserved. Never reset/prune/delete
-old trees. Seven historical dirty verification trees remain untouched:
-accttest004-service-api-review, storage002-review, storage017-review,
-storage017-validation, storagetest016-api-author, storagetest016-review,
-storagetest017-review. ACCT-004 author at4612223 retains its authorized dirty server
-CMake copy and untracked actual review Markdown; other ACCT-004 task trees are clean.
-CORETEST-008 author5446a91 and reviewc33a4b1 trees are clean. No native command is
-running. Unrelated IDE processes were never terminated. Inspect actual live agents,
-processes, branch changes and GitHub state before resuming.
+Actual source/shared-config independent review is running with service_reviewer.
+Next: integrate its actual verdict/corrections. Only after approval release
+independent literal fixture/test authorship, then review those actual artifacts,
+run the selected real-Qt compiled foundation green and observe FIRST intended
+project marker red. No stub call during build/discovery. Missing dependency,
+compilation, setup or skip is never red. Keep intentional red execution separate
+from ordinary green CI until implementation. PR53 cannot merge as a completed
+baseline until reviewed tests and valid red evidence exist.
 
-All seven integrations/three FX providers, actual authority/policy/clock/action/
-reference adapters, financial/refund/review/continuation, security/recovery/backup,
-both renderers/locales/themes, packaging/platform/live/full release remain required
-and unfinished. A blocked task does not block independent ready work.
+## Active roles, worktrees and ownership
 
+All paths below are under local-evidence/worktrees/.
 
-## Actual localization document and environment update
+- service_author is completed/idle after stub `ef4974c`, at
+  localetest001-contract-author, branch task/LOCALETEST-001-contract-author.
+  Source and approved Markdown work are committed/clean. Explicitly followup to
+  restart; a queued message alone does not run an idle agent.
+- service_reviewer is RUNNING actual minimal source/config review at
+  localetest001-contract-review, branch task/LOCALETEST-001-contract-review.
+  Own ONLY new docs/evidence/localetest-001-stub-review.md. Earlier reviews remain
+  valid for their exact scopes; no prospective fixture/test approval.
+- codec_author is completed/idle after scratch existing-Qt probe. Its current
+  task tree belongs to earlier timer work and remains preserved. Future fixture
+  authorship needs an explicitly assigned fresh branch/tree after minimal review.
+- Root alone owns state/HTML/maps/shared schemas/CMake/presets/workflows/pins and
+  checkpoint/integration. Use separate writer branches and inspect dirty work.
 
-Author candidatea06b3a7/import8cb939e is present: translation-catalog-v1.md and
-its author handoff only. The separate reviewer requested THREE bounded document
-corrections: native parameter/selector metadata source, precise owned output/source
-alias rules, and canonical TS bytes. Author is addressing this batch; no document
-approval/API/feature-test gate is claimed. Reviewer evidence6e870dc awaits import.
+## Environment, preservation and release limits
 
-[Actual tool preflight](localetest-001-tool-preflight.md) records verified official
-QtTools/Base/ICU/Declarative archive hashes, real ELF dependencies and corrected
-scratch SDK lrelease6.12.0 loading entirely selected Qt/ICU libraries. Initial ICU
-placement error is explicitly preserved as environment failure, not a feature red.
-No catalog/QM/generator/translation lookup/reproducibility was executed. Native
-metadata/format ownership must be resolved before any later generator API/test work.
-All three agents are currently complete or waiting except the document author;
-resume the reviewer explicitly when an actual revised candidate is ready.
+Selected verified official tool prefix is
+/tmp/subathon-locale-qttools-6.12.0/prefix. Read
+[tool preflight](localetest-001-tool-preflight.md) for exact Base/ICU/Tools/Declarative
+archive pins; ICU must be under prefix/lib. Actual official lrelease requires
+Qml/Network/Core. Do not substitute host tools or assume a version string proves
+archive identity. [Scratch feasibility](localetest-001-qt-feasibility.md) proved56
+literal raw lookups and same-tool two-directory QM reproduction only. All raw
+original failure and success evidence is preserved in ignored
+local-evidence/localetest001-qt-feasibility. That probe is NOT the formal baseline.
 
+Historical branches/worktrees/reviews remain intact. Seven preexisting dirty
+verification trees remain untouched: accttest004-service-api-review, storage002-review,
+storage017-review, storage017-validation, storagetest016-api-author,
+storagetest016-review, storagetest017-review. Earlier acct004-service also retains
+its verification-only server/CMakeLists.txt and untracked review-note copy; preserve.
+There were111 existing worktree locations plus16 absent registrations at startup;
+never prune/reset/delete them. No root build/CTest child process remains running
+at this checkpoint. Unrelated IDE/user processes remain untouched.
 
-## Corrected contract reviewed; next bounded stages
-
-Actual corrected f1e5297/import9a30295, contract3a249a58/authorf002fc07, has separate
-approval534d4d0. Native declaration metadata, output inventory/source protection,
-and canonical TS bytes are resolved. This is DOCUMENT approval only. Root releases
-ONLY a concrete API document next: translation-catalog-api-v1.md plus its author
-note, same isolated author. The reviewer must examine that actual revision before
-minimal Python interfaces/CLI/stubs or project fixtures/tests are authored.
-A separate bounded /tmp-only existing-Qt capability probe may compile the approved
-literal TS and directly inspect real QM; no project generator, baseline tests,
-source catalog or production behavior is authorized by that investigation. Record
-it as third-party feasibility evidence, never independent feature acceptance or red.
-All later test-first gates and actual CI foundation remain required.
-
-
-## Actual Qt probe reopened one document gate
-
-[Scratch Qt feasibility](localetest-001-qt-feasibility.md) found official lrelease6.12
-rejects the approved top-level TS message structure. An explicit EMPTY context/name
-wrapper instead compiled en/de reproducibly in two fresh directories and passed
-56 direct raw lookup checks. This is existing-tool investigation, NOT project
-acceptance, formal baseline tests or missing-feature red. Raw original rejection
-and success are preserved under ignored local-evidence/localetest001-qt-feasibility.
-Separate reviewer ed21886 reopens narrow R4; author explicitly resumed/correcting
-ONLY contract serialization/indentation/completeTC01 and author note. Initial
-approvals remain historical; current document review is partial until the ACTUAL
-corrected revision receives renewed review. API documentation may advance pure
-shape, but no stub/generator/source catalog/schema/project fixture/test stage is
-released on the rejected mapping. No existing baseline assertion was weakened.
-All three CORE-008 owner questions remain unanswered; draftPR52 stays blocked.
-
-
-## Actual R4 correction approved
-
-Contract273c6e7/import2cde25f (blob51383296, authora203ad4b) now has renewed separate
-approval947eba4. ONE empty context/name wrapper and complete canonical TC01 are
-checked; all earlier review/rejection history remains. Source contract review is
-passed again, not the project baseline. Concrete API DOCUMENT remains the only
-next authorized author stage. Resume/finish that same author's actual API proposal,
-then explicitly followup the idle reviewer with its real revision. No generator,
-minimal stub, schema/source catalog, project fixture/test or intended red exists.
-
-
-## Actual concrete API document review
-
-Actual API895b500/importec662b1 is authored in translation-catalog-api-v1.md plus
-its author note. Separate reviewce77a9a requests three bounded corrections: a
-validated shorter direct timeout for cheap real failure tests, finite QM file
-size/chunked reads, and regular-source validation before a blocking open. The
-source catalog contract51383296 remains approved; it was not reopened by this
-API review. Author was explicitly resumed via followup_task for the two API Markdown
-files only. The reviewer is complete/idle; resume with the actual revised artifact.
-No Python generator/CLI/stub, source catalog/schema, formal fixture/test, new native
-harness or missing-feature red exists yet. DraftPR53 currently publishes the reviewed
-source-document stages and preserved proof; it must not merge as a completed baseline.
-
-
-## Actual concrete API approved; minimal interface released
-
-API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) now has separate approval
-f7f4681. Root releases ONLY tools/translation_catalog.py and its stub-author note:
-inert typed DATA/errors plus FIVE immediate named-marker functions and the exact
-script stderr/exit86 bridge. No parsing, validation, rendering, path/file/tool work,
-generation or help/version success may be implemented. Source catalog/schema/
-fixtures/tests remain unauthorized until actual minimal code/build-harness review.
-Root alone owns the new profile, syntax/inert-import harness and selected Qt CI.
-Build/discovery must never invoke a feature entrypoint. Actual reviewer must receive
-the authored code/config before approval; no prospective/source/test/red gate claim.
-
-
-## Minimal source and actual selected build ready for review
-
-Actual inert stub ef4974c/importa9e60e5 is integrated. All five entrypoints remain
-immediate named-marker raises, and no feature/main/marker invocation occurred.
-Root added profile22 translation-catalog-debug, a syntax/inert-import-only target
-and a checksummed official Qt6.12.0 CI lane. Actual configure with
--DCMAKE_PREFIX_PATH=/tmp/subathon-locale-qttools-6.12.0/prefix, build and verbose
-CTest passed four existing infrastructure checks (including19 tooling methods and
-the selected Qt event-loop probe). This is NOT a translation feature baseline.
-New workflow execution has not yet been observed. The separate reviewer receives
-the actual source/CMake/preset/workflow revision before fixtures/tests are released.
-The author/reviewer/probe agents are completed/idle until explicit followup tasks.
+Latest observed main ruleset26170263 requires PR/resolved threads, zero required
+GitHub approvals and no bypass actors; classic protection endpoint404. Recheck
+current rules/threads/latest-head actual checks before any normal merge. Written
+workflow still requires every applicable CI and independent review despite no
+required-check rule. All seven integrations, three FX providers, both renderers,
+platforms and release gates remain in scope; synthetic component evidence is not
+live/platform verification. Task progress JSON and generated HTML stay authoritative.

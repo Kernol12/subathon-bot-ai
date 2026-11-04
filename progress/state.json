@@ -1815,7 +1815,8 @@
         "Correctedc85/import5ced819 +privatecodec217acc7/root7e033e9 passes actualrootfull30824.84s/1420QtPASS0skip0warnings, author43PASS3.72s. Different reviewer approvesprivatecodec217acc7, fullsourceauditstillwithholdsapproval for remainingprojectionBEFOREowninggrowth inproposal/effects/transitions/hold. Source-onlyallocationorderingisnotmeasuredbytestoutcomes; same43assertions remain. Authorhardeningactive, no finaldone/CI/mergeclaim.",
         "Explicit extra authorownership approved BEFORE edit: tiny PRIVATE server/src/sqlite_application_bundle_values.hpp validate_jobs borrowedvector/effectcount overload, existing PreparedBundle wrapper delegates with body/order preserved. Removes source-only unnecessaryowningcopies in servicecheck_jobs; no publicAPI/schema/behavior or assertionschange. Differentfinalreview+all308 stillrequired.",
         "Finalpreallocation4612223 importedce28ff3: root14step0warnings/FULL308PASS24.84s/1420QtPASS0skip. Tinyprivateborrowedvalidator preservesbody/order; exact43compiled-enabledacceptance and workflowinlinePythonparse verified. Differentactualfinalsource/configreviewACTIVE, actualpromotedofficialCIpending; taskremainsin_review.",
-        "Boundedcomponent DONE after actualfinalsource/configapprovalc791e72/import2ab1037 +root/differentfull308PASS +actualpromotedofficial41781024558 at completea49 (freshGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/0warnings/required6guard41PASS0skip/exact43/UNCONDITIONAL43PASS8.01/all11SUCCESS), APIcheckedsynthetic52eeb570 parents112+a49/equaltreeea0864d1. ALLold35assertions/fixtures preserved; original224markerred neverreplayed. Eightnewslots9scenarios separatelyreviewed/reachedredbeforecorrections; allocationorderingactuallyaudited. Finalmetadata latestCI/currentrules/discussions/normalmerge remainPUBLICATIONgates; notassumedmerged. Allactualadapters/financial/refund/review/FX/provider/recovery/UI/platform/fullrelease remain required."
+        "Boundedcomponent DONE after actualfinalsource/configapprovalc791e72/import2ab1037 +root/differentfull308PASS +actualpromotedofficial41781024558 at completea49 (freshGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/0warnings/required6guard41PASS0skip/exact43/UNCONDITIONAL43PASS8.01/all11SUCCESS), APIcheckedsynthetic52eeb570 parents112+a49/equaltreeea0864d1. ALLold35assertions/fixtures preserved; original224markerred neverreplayed. Eightnewslots9scenarios separatelyreviewed/reachedredbeforecorrections; allocationorderingactuallyaudited. Finalmetadata latestCI/currentrules/discussions/normalmerge remainPUBLICATIONgates; notassumedmerged. Allactualadapters/financial/refund/review/FX/provider/recovery/UI/platform/fullrelease remain required.",
+        "Publication reconciled: normal exact-head PR51 merge0b631dcbea1ec7765b3a66e41d6059e81de2979d at2026-11-04T05:56:21Z from80cac620, all11 latest-head checks successful, clean equal merge/head trees. All10 post-main workflows subsequently passed. Raw merge receipt preserved under ignored local-evidence/acct004-merge-receipt.json. Do not repeat completed implementation/review/acceptance gates; full release limits remain explicit."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -10511,7 +10512,7 @@
       "module": "Localization",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (catalog contract); service_reviewer (independent contract review); codec_author (read-only Qt tool investigation)",
+      "owner": "coordinator /root; service_author (contract/API/stub); service_reviewer (independent review); codec_author (selected Qt feasibility)",
       "depends_on": [
         "BOOT-001"
       ],
@@ -10529,14 +10530,17 @@
         "Actual existing-tool scratch probe invalidated one approved serialization inference: official lrelease6.12 rejects top-level TSmessage (exit1). Explicit EMPTYcontext/name wrapper compiles en/de twice reproducibly;56 literal rawQTranslator checks pass. This is third-party feasibility, NOT project generator/feature test/red. Raw failure/success/code/QMs/manifest preserved under ignoredlocal-evidence/localetest001-qt-feasibility. Separate reviewer reopens narrow R4; author correcting sourcecontract+TC01 only, API doc may draft puretypes but cannot approve unsupportedTS/stubs/tests. No project generator/catalog/schema/stub/featuretests exist and no baselineassertionswerechanged.",
         "Actual R4 correction273c6e7/import2cde25f changes TS to ONE explicit empty context/name wrapper and fixes canonical indentation/completeTC01. Separate renewed approval947eba4 accepts contract51383296/authora203ad4b, preserving prior unsupported inference/rejection and all review history. Actual externalQt56-check feasibility is not project baseline/acceptance. Only concrete API DOCUMENT is active next; no generator/stub/catalog/schema/projecttests authored.",
         "Actual concrete API895b500/importec662b1 (doc7f1738b6/authorc247d91a) receives separate changes-required reviewce77a9a: cheap bounded direct timeout option, finite QM file size/chunked reads, and nonregular source rejection before blocking open. Author explicitly resumed throughfollowup_task for ONLY the2 API Markdown corrections; approvedsourcecontract51383296 staysfrozen. No Python/generator/stub/catalog/schema/projectfixture/test behavior exists.",
-        "Corrected API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) receives actual independent approvalf7f4681. Root now releases MINIMAL INTERFACE ONLY: author owns tools/translation_catalog.py plus docs/evidence/localetest-001-stub-author.md, reads tools/AGENTS.md, implements frozen inert enum/dataclass/error definitions and ALL5 immediate distinct unimplemented entrypoints/script86 marker; NO parse/validate/render/file/path/tool/generation/help/version behavior. Root owns CMake22profile/syntax-import harness/new selectedQtCI pins and workflow; no feature function calls at build/discovery. Actual separate minimalcode/config review precedes independent fixture/test stage."
+        "Corrected API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) receives actual independent approvalf7f4681. Root now releases MINIMAL INTERFACE ONLY: author owns tools/translation_catalog.py plus docs/evidence/localetest-001-stub-author.md, reads tools/AGENTS.md, implements frozen inert enum/dataclass/error definitions and ALL5 immediate distinct unimplemented entrypoints/script86 marker; NO parse/validate/render/file/path/tool/generation/help/version behavior. Root owns CMake22profile/syntax-import harness/new selectedQtCI pins and workflow; no feature function calls at build/discovery. Actual separate minimalcode/config review precedes independent fixture/test stage.",
+        "Actual minimal stub ef4974c/importa9e60e5 plus root shared build/CI1f666b0 is integrated. All five feature entries remain immediate markers and none has been invoked. Selected-prefix configure/build/four existing CTests pass; actual official CI41792990086 passes archive hashes/tool closure/inert imports/four infrastructure checks on Ubuntu24.04/Python3.12.3. Actual separate source/config review is active before fixture/test release. No formal tests, intended red or generator behavior exists yet; no baseline-completion claim."
       ],
       "verification": {
         "tool_environment": "partial",
         "document_review": "passed",
         "test_baseline": "not_run",
         "implementation": "not_run",
-        "api_review": "passed"
+        "api_review": "passed",
+        "interface_build": "passed",
+        "interface_ci": "passed"
       },
       "evidence": [
         "docs/contracts/translation-catalog-v1.md",
@@ -10546,7 +10550,8 @@
         "docs/evidence/localetest-001-qt-feasibility.md",
         "docs/contracts/translation-catalog-api-v1.md",
         "docs/evidence/localetest-001-api-author.md",
-        "docs/evidence/localetest-001-api-review.md"
+        "docs/evidence/localetest-001-api-review.md",
+        "docs/evidence/localetest-001-stub-author.md"
       ],
       "review": null
     },
