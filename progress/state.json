@@ -1242,8 +1242,8 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "coordinator /root; codec_author (document); service_reviewer (document review)",
       "depends_on": [
         "CORE-005"
       ],
@@ -1255,9 +1255,13 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before CORE-008.",
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
+        "Active work is preserved in unmerged draftPR52, branch task/CORETEST-008-timer-command-baseline head3e05b48. Actual document5446a91 and separate document reviewc33a4b1 are complete only for the partial stage; three owner questions OPEN-CAP/OPEN-READY/OPEN-DEADLINE remain unanswered. No API/test/red/production stage approved. This branch reconciles that existing claim to prevent duplicate assignment; detailed document/review evidence remains on PR52 rather than being copied into unrelated work. Resume only on actual answers, never preselected options."
       ],
-      "verification": {},
+      "verification": {
+        "document_stage": "partial",
+        "test_baseline": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -10506,8 +10510,8 @@
       "title": "Review and demonstrate red: Shared translation catalog schema and build generator",
       "module": "Localization",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (catalog contract); service_reviewer (independent contract review); codec_author (read-only Qt tool investigation)",
       "depends_on": [
         "BOOT-001"
       ],
@@ -10518,7 +10522,8 @@
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before LOCALE-001.",
       "notes": [
-        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed dedicated task/LOCALETEST-001-catalog-baseline from fetched integrated main0b631dc after ACCT004 merge; CORETEST008 owner-dependent stages remain parked in PR52. FIRST DOCUMENT stage only: shared authoritative JSON catalog with stable IDs, English/German, named parameters/plurals and deterministic selected Qt .ts/.qm plus browser outputs. Follow specificationv0.45§12/I18N04 and task brief; no existing selected implementation/format is assumed. service_author owns ONLY docs/contracts/translation-catalog-v1.md and docs/evidence/localetest-001-contract-author.md in separate task/LOCALETEST-001-contract-author. service_reviewer owns ONLY docs/evidence/localetest-001-contract-review.md in separate reviewtree and waits for actual candidate. codec_author has bounded READONLY installed Qt Linguist/tool/version and primary documentation investigation, no new generator/fixture/test/native feature execution. Root owns progress/HTML/maps/shared schemas/build/CI/dependency pins/checkpoint. No project generator, schema/source catalog, interface/stub/test authoring or production behavior before reviewed contract. Baseline remainsin_progress until actual contract/API/tests/reviews/intendedred; LOCALE001 implementation remainsplanned. Do not drop actual .qm generation/runtime validation from scope or treat TS/JSON-only outputs as full acceptance. No new dependencies unless justified; use selected tools where sufficient."
       ],
       "verification": {},
       "evidence": [],
@@ -12932,6 +12937,11 @@
       "date": "2026-11-04",
       "task": "ACCT-004",
       "note": "Reviewed implementation/43 real-SQL cases/full308 native and actual selectedQtCI pass. Original35 assertions/fixtures and baseline red preserved;8 meaningful regressions separately reviewed/reached-red. Component done; completion metadata/current-head merge gates remain."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "LOCALETEST-001",
+      "note": "Claimed independent translation catalog baseline. Document/tool investigation first; actual separate review before interfaces/tests/valid red. Timer draftPR52 is preserved and blocked only on three owner decisions."
     }
   ]
 }
