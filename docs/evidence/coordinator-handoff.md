@@ -113,3 +113,13 @@ different actual approval7ddc58b0/review29e07a50. Root source compile/list37
 passed without body execution. Release original service_author test authoring next
 on isolated tree; different actual tests/harness review precedes FIRST feature red.
 Published07418ee all13 checks SUCCESS; new revisions need fresh CI.
+
+
+Actual test author25001158/importd1d36ee:30 cases, CPPfc82d17e, inventoryd0c25108,
+authorba78ccde. Root full compile/list67 and exact30 CI guard passed atb519153.
+Codec_author independently reviews tests/oracles; service_reviewer reviews only
+root CMake/CI harness (not own earlier stub). No feature/marker has run. Publish
+this draft compile/list-only lane for fresh CI while reviews proceed; require both
+actual approvals before root FIRST red. Root inspector corrections changed no
+test/assertion/fixture: unnamed workflow step lookup; allow only CMake standard
+GoogleTest skip-message detector, disallow custom result rewriting.

@@ -3560,8 +3560,8 @@
       "title": "Review and demonstrate red: Effective permissions and complete-grant constraints",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "in_progress",
-      "owner": "coordinator /root; service_author (baseline tests); codec_author (minimal-source reviewer completed)",
+      "status": "in_review",
+      "owner": "coordinator /root; codec_author (tests review); service_reviewer (root harness review)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3586,11 +3586,12 @@
         "Actual different SDK source/harness approval15460f62/importc3a925f followed by root FIRST selected Boost1.83 native environment: exit0,1/1,21 primitive checks/0fail; exact retained output611ea8a5. Existing36 numeric/infrastructure also pass. This proves SDK/host arithmetic only, no permission behavior. API document still being authored; later gates unchanged.",
         "Actual concrete API author646a11e3/import5757a45: API blobdda2793c/author0680aa30, std-only raw facts and one evaluator, six limits, complete canonicality/shape/stage/error/B-I/output projection/source explanations. Logical/spec/owner inputs unchanged. Different codec_author API review now active on actual committed revision; no minimal source/test stage released yet. Foundation publication07418ee succeeded through SSH;13 GitHub checks queued at last observation, no current CI pass claimed.",
         "Actual API review5c029d4/importb9e0520 (notee007e35b) approves APIdda2793c/author0680aa30 without blocker. Release ONLY minimal inert exact API transcription to service_reviewer in accesstest002-source-author fromc8cb5f2. Evaluator body must immediately throw explicit marker; no validation, successful behavior or tests. Different source/harness review precedes test authoring; root owns source build target/shared state/CI.",
-        "Actual minimal source author78195bef/importb29274b, headeredd6ffc2/TU4cf7bcca/author04e5ed87; root targetf1eb3d6 compile/list37 passed. Different actual source/harness review7ddc58b0 (note29e07a50) approves exact API transcription/immediate markerthrow only. Release original service_author test authoring on isolated continuation tree. No feature or marker has run. Foundation published07418ee all13 checks SUCCESS, actual Ubuntu selected1.83 run41878733543 passed21 primitives and old36. New task revisions require fresh CI."
+        "Actual minimal source author78195bef/importb29274b, headeredd6ffc2/TU4cf7bcca/author04e5ed87; root targetf1eb3d6 compile/list37 passed. Different actual source/harness review7ddc58b0 (note29e07a50) approves exact API transcription/immediate markerthrow only. Release original service_author test authoring on isolated continuation tree. No feature or marker has run. Foundation published07418ee all13 checks SUCCESS, actual Ubuntu selected1.83 run41878733543 passed21 primitives and old36. New task revisions require fresh CI.",
+        "Actual test author25001158/importd1d36ee:30 named testsfc82d17e, inventoryd0c25108, authorba78ccde. All45EP+2D1 mapped; raw literal setup, complete explanation/lifetime/error/limit cases. Root harnessb519153 compile/list67 and exact30 inventoryguard passed; no feature or marker body run. Different actual testoracle review assignedcodec_author, rootCMake/CI harness review separately assignedservice_reviewer (not selfreview of own prior stub). CI permits only standard CMake GoogleTest skip-message detector, rejects custom result rewriting, and separates intentional feature red from mandatory green SDK+old36. Publishing draft compile/discovery candidate while reviews proceed; actual FIRST red still blocked on both approvals."
       ],
       "verification": {
         "document_review": "passed",
-        "test_baseline": "not_run",
+        "test_baseline": "draft",
         "implementation": "not_run",
         "consistency": "passed",
         "partial_document_review": "passed",
@@ -3614,7 +3615,10 @@
         "docs/evidence/accesstest-002-api-review.md",
         "docs/evidence/accesstest-002-source-author.md",
         "docs/evidence/accesstest-002-source-review.md",
-        "docs/evidence/accesstest-002-ci.md"
+        "docs/evidence/accesstest-002-ci.md",
+        "tests/acceptance/effective_permissions_tests.cpp",
+        "tests/fixtures/effective-permissions-v1.json",
+        "docs/evidence/accesstest-002-tests-author.md"
       ],
       "review": {
         "author": "service_author",
