@@ -1,119 +1,122 @@
-# ACCESSTEST-002 partial logical document author checkpoint
+# ACCESSTEST-002 logical document author handoff
 
-Author: service_author, 2026-11-04. Dedicated
-`task/ACCESSTEST-002-contract-author`, worktree
-`local-evidence/worktrees/accesstest002-author`, initially clean at claim
-`d3a664a00e4de787707f66b9cd689ec8b89d619f` from refreshed main `b2b14bb`.
-Owns only the new logical proposal and this note. This is a bounded PARTIAL author
-checkpoint, not a completed/reviewed logical contract, baseline or implementation.
+Author: `service_author`, 2026-11-04. Current isolated branch
+`task/ACCESSTEST-002-policy-author`, worktree
+`local-evidence/worktrees/accesstest002-policy-author`, inspected clean at
+`4429cbb869e5a820a675fc1d72d4110ff207b995` before editing. Owns only the
+[logical proposal](../contracts/effective-permissions-v1.md) and this note. This is
+an authored complete logical candidate awaiting different actual full review;
+it does not complete the test-baseline or production task.
 
-## Artifact, inputs and scope
+## Actual history and inputs
 
-[Effective-permissions proposal](../contracts/effective-permissions-v1.md), Git blob
-`5dfc6a1e6cff3877a4d2874a26d29d0e6f7f44ed`, preserves unambiguous requirements while
-D1 remains open. Read root/core/server instructions, architecture/workflow/
-test strategy, task claim/checkpoint, specification v0.45 §10/AUTH-03/AUTH-06,
-[ACCESS-002](../tasks/EPIC-006/ACCESS-002.md),
-[ACCESS-003](../tasks/EPIC-006/ACCESS-003.md), common values and application boundaries.
-Actual input blobs remain unchanged:
+The original author checkpoint `6bc3d51f`, imported as `c88bcf5`, deliberately left
+D1 unresolved. Its contract blob was `5dfc6a1e6cff3877a4d2874a26d29d0e6f7f44ed`;
+its author-note blob was `66edd21fa135309c1cafc113eec6c9c9e5b3538c`.
+Those historical artifacts remain in Git. The different partial review
+`b87e16b603a53289b1d31cdf827a60293185b29b`, imported as `f2b98d4`, approved only
+settled requirements. Its [note](accesstest-002-contract-review.md), blob
+`20919ad37abb4536327a3d711c69ec7cbaaaca04`, is unchanged. No earlier
+approval is extended to the completed candidate by this author.
 
-| Input | Git blob |
+The owner subsequently accepted the coordinator's resource-scoped recommendation
+after the explicit A/B explanation. The actual
+[owner record](accesstest-002-owner-decision.md), blob
+`34168d4e5f82a524e9459b13efe055ef6786af8c`, and updated specification
+resolve D1; no elapsed time, UI default or separate timer answer supplies that choice.
+The previous unresolved alternatives remain historical evidence, not current policy.
+
+| Input | Actual unchanged Git blob at this handoff base |
 | --- | --- |
-| [Specification](../specification.md) | `3e008efaef3181dd8b06a038f6309347ec31619d` |
+| [Specification](../specification.md), §10/AUTH-03/AUTH-06 | `9e7c41c8a0cbd1b284111143d215553333c2f6ab` |
+| [ACCESS-002 brief](../tasks/EPIC-006/ACCESS-002.md) | `af0eb841abe59e6389acda66ff5aba0de372ea22` |
 | [Common wire values](../contracts/wire-primitives-v1.md) | `11eeb5f422a174e042143df6b476ae1d717eeacf` |
 | [Event/state boundaries](../contracts/event-state-boundaries-v1.md) | `8b60da43f1362c46c54730e8ca029b858964ea59` |
-| [ACCESS-002 brief](../tasks/EPIC-006/ACCESS-002.md) | `af0eb841abe59e6389acda66ff5aba0de372ea22` |
 
-The partial proposal describes exact opaque actor/role/source/grant/operation
-identities, current owner separate from editable roles, declared operation resource/
-quantity dimensions and exact inclusive constraint matching. One complete grant
-must cover the complete request; no tuple union, cap-limited-actual shortcut,
-floating-point/rounding or role-label authority is introduced. Individual precedence,
-role deny over allow and default deny are preserved where applicability is
-unambiguous. A stable whole witness/source explanation is proposed, with current
-disclosure/queue/revision guards remaining server responsibilities.
+Read root/core/server instructions, workflow, relevant architecture/test-first and
+common/application boundaries, the complete original logical proposal and actual
+partial review, task brief, owner record and amended specification. Inspected the
+actual ACCESSTEST-002/ACCESS-002 state records; root retains their ownership.
 
-Protected ownership retains access-management/recovery separately from editable
-roles; it gives no general timer/layout/provider bypass. Owner transfer/fresh-auth,
-console/owner recovery and protection against helper-reset takeover retain their
-actual account/session workflows. The exact protected operation catalog is a required
-integration seam, not a client is_owner/protected flag or an invented implemented
-capability. ACCESS-003 owns delegation/editing/automation authority; application
-session authentication and chat category paths are not silently replaced here.
+## Current logical revision and rationale
 
-Proposed local defaults are 4096 decoded reference bytes, 16384 decimal component
-bytes, 4096 total input entries, 16MiB owned input and 32MiB/4096 owned explanation
-output. These are configurable finite evaluation profiles, not universal transport
-or storage caps. They preserve existing STORAGE-015/common value domains and do not
-borrow a 256-byte correlation, 512-byte decimal parser or 4096-bit finalizer bound.
-Derived comparison scratch is conservatively bounded from the selected component
-profile; concrete byte/item/arithmetic/preallocation rules still need API review.
-No dependency beyond existing std/selected Boost is proposed.
+The revised contract blob is `3d82bfa418bb14099ee130fca7a400adca66500b`. Named operation-declared resource slots
+each bind one opaque resource reference; complete grant scopes constrain every slot
+with Any or an explicit finite allowed set. Quantity slots remain separate exact
+values/units with explicit constraints. Global operations have a declared empty
+resource tuple, while a missing required binding is invalid. Several resource slots
+must fit one whole tuple; no fragments select a tier or manufacture a grant.
 
-## D1 is a real pending product decision
+An individual operation/resource match selects the individual tier before quantity
+limits. A failed limit denies within that tier and cannot use role fallback. Other
+resources retain role deny-over-allow/default-deny resolution. D1-A is now denial
+for A/+600000 with individual A/max300000; D1-B is role allowance for B/+600000.
+EP01–27 are preserved byte for byte, retaining their prior valid partial review.
 
-Specification §10 states individual explicit allow/deny first and one complete
-applicable constrained grant, but does not define what selects the individual tier
-when its resource/quantity constraints only partially match. No prior recorded owner
-clarification was found. Root has asked the owner asynchronously; no actual answer
-has arrived. This is a requirement choice, not routine implementation permission.
+The bounded representation choices make the accepted policy unambiguous without a
+specificity hierarchy. Same-effect individual alternatives may overlap and still
+need one complete fitting witness. Opposing individual allow/deny resource scopes
+are contradictory input even if their quantity intervals are disjoint or the
+current request lies elsewhere; validation rejects them instead of choosing a
+narrower entry or same-tier precedence. Disjoint opposing scopes remain valid.
+All supplied entries remain subject to validation, including losing/off-scope rows.
+The finite overlap check compares per-slot intersections, not an expanded Cartesian
+product; the later API must freeze checked work and validation/error priority.
 
-For an individual A/max5min plus role A/max10min, request A/+10min differs under:
+Deny entries use one complete resource/quantity tuple. A fully matching individual
+deny is explicit denial. A resource-selected deny whose quantity fails still gives
+no complete individual allow and no role fallback. A constrained role deny must
+fully match to defeat a complete role allow. This follows the selected individual
+tier boundary and existing role precedence without inventing positive authority
+outside a denial's condition. There is no new policy selection pending for D1.
 
-1. Resource scope selects individual override first: deny A/+10; role grants for
-   other resources remain usable.
-2. Individual policy replaces the whole operation: deny A/+10 and suppress role
-   grants for other resources of that operation too.
-3. Only a complete-request match selects individual policy: role A/+10 may allow.
+EP28–45 add focused inclusive/one-over boundaries, conditional individual/role deny,
+same-effect overlaps, conflicting/disjoint individual scopes, whole multi-resource
+scope selection/nonunion, global empty shape and malformed complete shapes. The
+multi-resource operations are expressly illustrative typed matching obligations,
+not a newly implemented batch/transfer feature. Source explanations distinguish
+resource selection from quantity failure and record suppressed roles/complete
+witnesses/decisive denials in stable unsigned-byte order.
 
-The document records all three, including the separate timer-B discriminator.
-No option is chosen by naming, conservatism, elapsed time, resource profile or a
-default implementation. The final scope-versus-other-constraint distinction and
-constrained individual-deny treatment must follow the actual answer. D1-A/B are
-explicitly pending cases with alternative consequences, not frozen test oracles.
-Root requested this partial checkpoint before reassigning unrelated work. Permission
-task completion/full review/API/tests/production remain blocked on the actual D1
-answer; the agreed full permission/delegation/owner release scope is unchanged.
+Protected-owner rights, no owner-all-operations bypass, helper-reset protection,
+opaque NUL/high-byte identities, exact long values, requested-versus-actual checks,
+finite local resource profiles, before-output ownership projection, revocation and
+current execution/revision boundaries remain. ACCESS-003 owns edits/delegation and
+automation; SESSION/account tasks own authentication/recovery/current account facts.
+No provider/category/client/preview/reference acquires authority. The existing
+external OWASP citation and its prior read remain unchanged; product-specific D1
+comes from the actual owner/specification record.
 
-## Independent examples and actual checks
+## Actual checks and limits
 
-EP01–27 are independently written unambiguous requirements/boundary examples:
-default deny/zero, individual versus roles, role deny precedence, A5+B10 nonunion,
-whole multi-quantity tuple, exact fractions/signed minima/large Exact, protected
-owner scope, role-label nonauthority, owner-target recovery protection, revocation/
-transfer after preview, unsigned opaque ordering, exact limits, unavailable/invalid
-input and complete explanation budgets. These are document examples, not fixtures,
-tests or observed behavior. The two pending D1 cases remain explicitly unresolved.
-
-Read the primary [OWASP authorization guidance](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
-for its distinction between authentication/authorization and default-deny/per-request
-checks. Product-specific precedence and the unresolved D1 policy derive from the
-repository specification, not an external framework's defaults. This read-only
-documentation check certifies no running security boundary or provider behavior.
-
-Actual author checks, Linux/Python 3.14.8:
+Environment: Linux, Python `3.14.8`. Documentation checks only:
 
 - `python3 tools/check_project.py`: PASS, 406 task records/122 decisions, local
-  links/presets/current HTML. No feature test or evaluator is invoked.
-- `python3 tools/progress.py render --check`: PASS; HTML/state are unedited.
-- Inline Python stdlib fractions/Path/re arithmetic and byte audit: 18 literal
-  facts PASS, 27 unique EP examples, balanced fenced blocks and local links PASS.
-  Facts include 5/10min =300000/600000ms, exact300000.5 comparison, signed64-min
-  magnitude, 2^64, unsigned byte sorting, NUL versus empty, 4096/4097 reference
-  lengths, a 5001-byte/16610-bit component and derived131072-bit work capacity.
-  No authorization algorithm, SUT helper or oracle generator was implemented/run.
-- Git status/exact input blob reads and `git diff --check`: PASS. Final sole-owned
-  two-path staged inventory/whitespace checks accompany the commit.
+  links/presets/current HTML. Its informational draft-test count is not test execution.
+- `python3 tools/progress.py render --check`: PASS; shared state/HTML unedited.
+- Inline `python3 - <<'PY'` stdlib Fraction/integer/byte/set/Path/re audit: PASS,
+  25 independent literal facts; 45 unique EP rows plus both fixed D1 rows; EP01–27
+  match the original bytes; seven contract local links, per-table column counts and
+  balanced fences. Literal checks include 5/10 minutes, exact 600001/2, signed-min
+  magnitude, 2^64, NUL and unsigned-byte ordering, 4096/4097-byte references,
+  5001-digit/16610-bit Exact, 108853-bit product within derived 131072-bit scratch,
+  inclusive intervals and the explicit A/B/C/D tuple/intersection facts. No
+  authorization evaluator or SUT-generated expected result was run. An initial
+  documentation checker incorrectly assumed every table had three columns; the
+  corrected check uses each table's own header width. No product/test assertion
+  or fixture was changed.
+- Read-only Git history/status/input-blob reads and `git diff --check`: PASS.
+  The final staged two-path inventory/whitespace check accompanies the commit.
 
-No API/header/stub/schema, parser/evaluator, fixture/test/feature code, compilation,
-native/crypto/auth/session/network-provider operation or product runtime was created
-or executed. Password source/tests under different review were not edited. No shared
-state/HTML/navigation/maps/build/CI/pin/schema or credential changed; no push/PR/main
-merge was performed. Source/render/link checks are documentation infrastructure only.
+No API/header/stub/schema, parser/evaluator, fixture/test, compiler/native/SDK/auth/
+crypto/session/provider operation or feature/runtime execution was authored or run.
+No shared spec/state/HTML/navigation/maps/build/CI/pin/schema/credential or other
+agent file changed. No push, PR update or main merge was performed by this author.
 
-After an actual D1 answer, update its dependent definitions/examples and obtain
-different actual logical review. Only separately released/reviewed API, inert source/
-harness, independent tests/environment and FIRST intended behavioral red can precede
-production ACCESS-002. Actual owner catalog/account/session loading, delegated edits,
-automation, current execution/CAS/disclosure and platform/transport verification
-retain their owning tasks. This author claims no self/future approval or completion.
+Different full logical review of the exact revision is next. Separate API, inert
+source/harness, independent test/foundation review, selected environment and FIRST
+intended behavioral red still precede production ACCESS-002. Actual protected
+operation mapping, coherent account/session loading, delegation/editing/automation,
+execution-time/CAS/audit/disclosure and transport/platform integration remain their
+required owning tasks. Root owns CI/PR62 publication and all shared coordination;
+this author claims no self-approval or future gate approval.

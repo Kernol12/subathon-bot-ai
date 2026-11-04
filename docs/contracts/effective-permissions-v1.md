@@ -1,17 +1,18 @@
 # Effective permissions and complete constrained grants — proposal v1
 
-ACCESSTEST-002 PARTIAL first logical document, claim `d3a664a0`, from actual main
-`b2b14bb`. Authority: specification v0.45 §10/AUTH-03/AUTH-06 and
+ACCESSTEST-002 completed logical proposal, resumed from the partial document
+`5dfc6a1e` at owner-decision revision `4429cbb8`. Authority: specification v0.45
+§10/AUTH-03/AUTH-06 and
 [ACCESS-002](../tasks/EPIC-006/ACCESS-002.md), with the
 [common value contract](wire-primitives-v1.md) and
 [application ownership boundary](event-state-boundaries-v1.md).
 This defines proposed values, invariants and independent examples, not an API,
 schema, evaluator, authentication adapter, permission editor or executable test.
 
-**One product decision is pending (§4).** This revision must not be frozen as a
-complete permission algorithm, used as an authorization fallback, or advanced to
-dependent API/tests/code while that individual-override applicability decision is
-unresolved. Its unambiguous requirements and examples remain reviewable now.
+The [recorded owner decision](../evidence/accesstest-002-owner-decision.md) resolves
+D1: complete resource scope selects individual overrides before quantity/other
+limits. This actual revision still requires a different full logical review before
+dependent API work. It supplies no runtime authorization or approval of later stages.
 
 ## 1. Authority and responsibility
 
@@ -99,7 +100,37 @@ Proposed matching vocabulary:
 - The later reviewed concrete representation must make every declared dimension's
   constraint explicit. Incomplete tuples, wrong units, inverted intervals and
   unsupported constraint forms are invalid input, never partially applied grants.
-  The exact individual resource-scope/other-constraint distinction depends on §4.
+  Resource scope selects the individual tier separately from quantity matching,
+  as defined below and in §4.
+
+The logical resource shape is a finite tuple of named slots declared by the
+operation. Each request binds exactly one nonempty opaque resource reference per
+slot; every grant declares Any or one nonempty allowed-reference set for each
+slot. Slot keys are opaque identities, not positional input order. Missing, extra
+or duplicate slots and duplicate members of an allowed set are invalid. A global
+operation explicitly declares zero resource slots; its complete empty tuple matches
+that operation, not an omitted binding for a resource-bearing operation. One atomic
+operation can declare several slots, including several of the same resource kind;
+they must all fit one grant. This is a finite logical representation choice, not a
+new batch, transfer or multi-timer product capability. An owning operation must
+explicitly define its complete obligations before using this model.
+
+Similarly, every declared quantity slot has one exact requested value, a declared
+unit/domain and one explicit constraint in each complete policy tuple. A quantity
+applies with the meaning given by that operation; it is not implicitly multiplied,
+split or summed across resource slots. Duplicate/extra/missing quantity slots are
+invalid. These quantity constraints are the nonresource limits in this vocabulary;
+there are no hidden predicates, cumulative budgets or arbitrary script conditions.
+An operation requiring additional limit types needs their reviewed typed contract,
+not an ignored condition or a change to the resource-first tier rule.
+
+An allow entry contains one or more complete grant alternatives. A deny entry has
+one complete resource/quantity tuple; disjoint denial alternatives are separate
+identified entries. A denial may use explicit Any for every quantity, as in an
+unconditional deny. Otherwise its full quantity constraints determine whether it
+is an explicit matching denial. Missing bounds never mean an unconditional deny.
+Both effects use the same resource and exact quantity vocabulary, while individual
+tier selection intentionally considers only operation plus resource scope (§4).
 
 Quantity values and bounds use exact reduced rationals with positive denominator,
 the common Rational meaning and finite component budgets. Integers are denominator
@@ -126,44 +157,70 @@ or decide delegation/automation/batch semantics. The owning operation must expli
 identify its permission obligations; separate legitimate operations do not combine
 their limits into a larger grant.
 
-## 4. Precedence and pending individual applicability decision
+## 4. Resource-first individual precedence
 
-The following precedence is fixed by §10, after applicability has been established:
+The [owner decision](../evidence/accesstest-002-owner-decision.md), now reflected in
+§10/AUTH-06, chooses resource-scoped individual overrides. The previous partial
+review remains valid for unchanged requirements; its pending D1 table is superseded
+by this section and the fixed D1-A/B outcomes in §8.
 
-1. An explicit individual decision takes precedence over roles.
-2. Otherwise, any applicable role denial defeats role allows, regardless of role
-   order, role count, preset label or relative breadth of another allow.
-3. Otherwise, a complete applicable role allow may permit the request.
-4. Otherwise deny. No role/override/complete witness means no implied permission.
+For each complete policy tuple, **resource match** means the operation key matches
+and every requested resource binding fits that tuple's corresponding Any/set
+constraint. Check the whole resource tuple without consulting quantity limits.
+Different grants cannot contribute different resource slots to this test. **Full
+match** additionally requires every quantity constraint of that same tuple to fit.
+No implicit specificity, priority by input order, smaller resource set, narrower
+interval, role label or larger limit is part of either match.
 
-No resource or numeric constraints are unioned at any tier. An unconditional
-individual allow and unconditional individual deny have unambiguous precedence
-over conflicting roles. If loaded individual facts provide contradictory effects
-for the same resolved individual decision, they are invalid policy input; this
-document does not invent an extra same-tier deny/allow ordering. ACCESS-003 must
-prevent/resolve invalid edited facts, not make input order an authority rule.
+For one ordinary operation, evaluate the coherent valid input as follows:
 
-**Pending D1: what selects the individual tier for constrained overrides?** The
-specification says individual explicit allow/deny first, while AUTH-06 says one
-complete applicable grant; it does not define when a partially matching individual
-entry suppresses role fallback. There is no recorded owner clarification yet.
-The coordinator has requested an actual owner decision. No option is selected by
-this document, perceived conservatism, default configuration or elapsed time.
+1. Collect individual tuples whose whole resource scope matches. If any exists,
+   select the individual tier, including when all their quantity limits fail.
+2. Valid selected individual tuples have one effect. For deny entries, a full
+   match yields explicit individual denial; without a full match, deny for individual
+   limits/no complete individual allow. For allow entries, any fully matching whole
+   grant permits with one stable witness; otherwise deny for individual limits/no
+   complete individual allow. Mixed opposing effects are invalid as described below,
+   not resolved by a new same-tier priority. None of these outcomes falls back to roles.
+3. If no individual whole resource scope matches, fully matching role deny entries
+   defeat role allows. Otherwise any fully matching role allow grant permits with
+   one whole stable witness. Otherwise default deny.
 
-Let individual allow I be timer A/max300000ms; role allow R be timer A/max600000ms:
+A constrained individual deny that resource-matches but fails its quantity limits
+still selects the individual tier: it is not a matching explicit denial, but there
+is no implicit allowance and no role fallback. The reason is individual limits/no
+complete allow. A constrained role deny that fails a quantity limit is not a full
+matching denial; a different complete role allow can still permit. Thus an explicit
+unconditional individual deny blocks its resource scope, while a conditional deny
+never manufactures a positive individual allowance outside its condition.
 
-| Alternative | Request A/+600000ms | Role grant B/+600000ms with the same individual I and request B/+600000ms |
-| --- | --- | --- |
-| 1. Resource matching selects individual override before magnitude/other limits | Deny: I selects A's individual tier, then its full limit fails | Role B may allow; I's resource scope does not select B |
-| 2. Any individual override replaces the whole operation's role policy | Deny: only I's complete tuples may authorize this operation | Deny: I has no complete B grant and role fallback is suppressed |
-| 3. A complete request match selects an individual decision; otherwise roles remain | R may allow; I is inapplicable to this complete request | Role B may allow |
+Same-effect individual tuples may overlap. For allow alternatives, one complete
+fitting grant suffices; a smaller/narrower alternative does not subtract authority
+from another.
+A broad individual allow plus a narrower individual deny would introduce an
+unagreed specificity rule. Instead reject contradictory supplied individual input:
+for the same operation, an allow grant's resource scope and a deny entry's resource
+scope must not overlap, irrespective of their quantity limits. Resource scopes
+overlap exactly when, in every declared resource slot, their allowed sets intersect
+or Any permits an intersection; the empty global tuple overlaps itself. This check
+uses the complete scopes, without materializing their Cartesian product. Opposing
+effects in disjoint resource scopes are valid. Any supplied conflicting pair is
+invalid even when the current request lies elsewhere or their quantity intervals
+are disjoint. ACCESS-003 must prevent/resolve such edited facts; this model neither
+chooses a winner nor silently drops an entry. Role allow/deny overlap is valid and
+uses the established complete-deny precedence above.
 
-These outcomes genuinely differ in effective authority. Merely calling the entry
-an override, grant or applicable does not resolve them. The final resource-scope
-versus magnitude/other-constraint types and constrained-individual deny matching
-must follow the actual chosen policy. Do not finalize those shapes or claim the
-table's dependent cases have one expected answer before the decision arrives.
-The independent examples below avoid this ambiguity unless marked D1 explicitly.
+All supplied shapes and bounds must be valid, including losing/off-scope entries.
+Do not hide invalid input behind an early permit/denial or treat a resource limit
+failure as an absent override. Exact duplicate/conflicting identities also remain
+invalid input. Only a fully validated, completely evaluated input yields a decision.
+The later API must freeze error priority and bounded validation work, without
+changing these outcomes.
+
+For example, individual A/max300000ms plus role any-timer/max600000ms denies
+A/+600000, allows A/+300000 through the individual grant, and allows B/+600000
+through the role. These are per-request quantities, not a cumulative allowance.
+There is no requirement conflict or remaining D1 policy choice in this revision.
 
 ## 5. Protected owner is separate from editable roles
 
@@ -203,21 +260,25 @@ creates no reset token, credential change, console command or fresh-auth proof.
 
 A successful logical evaluation owns a permit/deny decision, a stable reason and
 the exact evaluated actor/operation/snapshot identities. Reasons distinguish
-individual allow/deny, role deny/allow, no complete allow/default deny, protected
-owner capability and protected-owner workflow/target refusal. Resource/invalid/
+individual allow/explicit deny, individual limits/no complete individual allow,
+role deny/allow, no complete role allow/default deny, protected owner capability and protected-owner workflow/target refusal. Resource/invalid/
 unavailable evaluation failures are separate from a fully evaluated denial.
 No failed/partial evaluation returns a permit with an omitted explanation.
 
 Retain source rows identifying role binding/role entry or individual entry and
 complete grant reference, plus whether that source won, lost to precedence,
-matched completely, or failed a named constraint. No localized sentence or
-human-readable role label is an authority token. Where several grants fully fit,
+matched resource scope, matched completely, or failed a named constraint. The
+explanation distinguishes operation/resource mismatch from quantity failure, records
+which individual scopes selected the tier, and identifies role sources suppressed
+by that tier. It preserves all decisive individual/role denials, not only the stable
+first one. No localized sentence or human-readable role label is an authority token.
+Where several grants fully fit,
 retain their identities and choose one stable witness; never choose independent
 smallest constraint pieces. Proposed total source order is kind (protected owner,
 individual, role), source reference, grant reference, role reference. Optional
 references sort absent before present; byte fields use unsigned lexicographic
-order. The smallest fitting full tuple in the selected tier is the witness.
-Multiple decisive role denials remain visible in stable source order. Caller input
+order. The smallest fitting complete allow tuple in the selected tier is the permit
+witness. Multiple decisive denials remain visible in stable source order. Caller input
 order cannot change the decision, winning witness or explanation order.
 
 Explanations are private permission facts. UI disclosure, inspection of another
@@ -273,6 +334,8 @@ Existing std/selected Boost suffice; no new dependency is proposed.
 I denotes individual policy, R a genuinely assigned role, G a complete grant.
 Amounts are exact milliseconds unless stated. Every unqualified denial is an
 unconditional applicable deny for the whole selected operation/resource shape.
+Resource names in multi-slot examples are illustrative declared slot identities;
+they do not introduce a new supported operation.
 The examples neither generate expected results from an evaluator nor claim execution.
 
 | ID | Supplied facts / request | Required result or boundary |
@@ -304,15 +367,34 @@ The examples neither generate expected results from an evaluator nor claim execu
 | EP25 | Missing required resource binding, inverted interval, duplicate conflicting source facts or incomplete allow tuple | Invalid input; do not drop the failing constraint/denial or use first/last input row |
 | EP26 | A permit can be calculated but its complete required source explanation exceeds selected result budget | Resource failure before oversized output ownership; no partial permit/explanation |
 | EP27 | An explicitly declared Exact dimension has numerator 1 followed by 5000 zeros, denominator 1, and an equal complete bound | 5001 component bytes fit the default 16384; its 16610 magnitude bits are not rejected by a borrowed 4096-bit finalizer limit. No domain is silently widened to accept this value |
-| D1-A | I A/max300000, role A/max600000; request A/+600000 | Pending: alternatives 1/2 deny, 3 may allow; no single frozen oracle |
-| D1-B | Same I and a role B/max600000; request B/+600000 | Pending: alternatives 1/3 may allow, 2 denies; no single frozen oracle |
+| D1-A | I A/max300000, role A/max600000; request A/+600000 | Deny for individual limits/no complete individual allow; A scope selects I before quantity, with no role fallback |
+| D1-B | Same I and a role B/max600000; request B/+600000 | Role allow; I's complete resource scope does not match B |
+| EP28 | I A/max300000, role denies timer adjustment; request A/+300000 | Individual allow at the inclusive boundary; role denial loses to selected I |
+| EP29 | I A/max300000, role any timer/max600000; request A/+300001 | Individual-limit denial; the one-millisecond excess cannot use role fallback |
+| EP30 | I denies A only for quantity interval [0,300000]; role allows A/max600000; request A/+300000 | Explicit individual deny; complete denial tuple matches |
+| EP31 | Same entries as EP30; request A/+600000 | Individual-limit/no-complete-allow denial; I's A scope still selects the tier although its deny interval fails |
+| EP32 | Same individual deny as EP30; role allows B/max600000; request B/+600000 | Role allow; an individual denial on A does not suppress B |
+| EP33 | No I; R1 denies A only for [0,300000]; R2 allows A/max600000; request A/+600000 | Role allow; the constrained role denial does not fully match |
+| EP34 | Same roles as EP33; request A/+300000 | Role deny at the inclusive endpoint, despite the complete role allow |
+| EP35 | I/G1 A/max300000 and I/G2 A/max600000; request A/+600000 | Individual allow through G2; same-effect alternatives overlap without a narrower-grant priority rule |
+| EP36 | I/G1 Any/max600000 and I/G2 A/max300000; request A/+600000 | Individual allow through G1; the narrower resource alternative does not replace the broader complete allow |
+| EP37 | I allows Any/max600000 and I denies A; request A/+1 | Invalid contradictory individual input; do not invent narrow-deny specificity or same-tier deny precedence |
+| EP38 | I allows A/[0,300000] and I denies A/[300001,600000]; request B/+1 | Invalid contradictory individual input despite disjoint quantity intervals and current off-scope request; opposing resource scopes overlap |
+| EP39 | I allows A/max300000 and I denies B; roles allow both; requests A/+300000 and B/+1 separately | Valid disjoint individual scopes; first permits through I, second explicitly denies through I |
+| EP40 | Illustrative two-resource operation: I/G1 source A, destination B, max300000; I/G2 source C, destination D, max600000; role G3 source A, destination D, max600000; request source A, destination D, +600000 | Role G3 allows: neither individual resource tuple matches; combining I's source A and destination D must not select the individual tier |
+| EP41 | Same I/G1 and I/G2 as EP40; role allows source A, destination B, max600000; request source A, destination B, +600000 | Individual-limit denial via G1's whole scope; G2's larger quantity and the role cannot rescue it |
+| EP42 | One I grant has source set {A,C}, destination set {B,D}, max300000; role allows source A, destination D, max600000; request source A, destination D, +600000 | Individual-limit denial: this one explicitly complete resource conjunction covers the request; no cross-grant union is involved |
+| EP43 | No I; role G1 source A, destination B, max300000 and role G2 source C, destination D, max600000; request source A, destination D, +600000 | Default deny; distinct complete resource tuples cannot supply a combined role witness |
+| EP44 | An illustrative global operation declares no resource slots and an exact count quantity; I allows max5 and role allows max10; request has the declared empty resource tuple and count 10 | Individual-limit denial; a global tuple selects its I scope without inventing a resource or bypassing limits |
+| EP45 | Request omits one declared resource slot, repeats a slot, or supplies an extra resource/quantity slot; another tuple would otherwise deny | Invalid shape, rather than an ordinary denial or a partially matched tuple |
 
 ## 9. Required next gates
 
-Record the actual D1 answer and its consistent applicability/deny/shape examples,
-then obtain a different actual logical review. No current document-stage approval
-or test expectation is implied. A separately reviewed concrete core/server API,
-inert source/harness, independent fixtures/tests, selected environment foundation
+D1 is recorded and its dependent applicability/deny/shape examples are complete.
+Obtain a different actual full logical review of this revision, preserving the prior
+partial review for unchanged EP01–27 and boundaries. No current document-stage
+approval or executable test expectation is implied. A separately reviewed concrete
+core/server API, inert source/harness, independent fixtures/tests, selected environment foundation
 and FIRST intended behavioral red precede production ACCESS-002. Root owns those
 stage releases, shared state/HTML/maps/build/CI/schema and publication.
 
