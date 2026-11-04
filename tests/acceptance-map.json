@@ -997,9 +997,19 @@
     },
     {
       "id": "I18N-04",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/localization/test_translation_catalog.py",
+        "tests/qt/translation_catalog_probe.cpp"
+      ],
+      "evidence": [
+        "docs/contracts/translation-catalog-v1.md",
+        "docs/contracts/translation-catalog-api-v1.md",
+        "docs/evidence/localetest-001-stub-review.md",
+        "docs/evidence/localetest-001-test-author.md",
+        "docs/evidence/localetest-001-test-review.md"
+      ],
+      "scope": "Source/API/minimal source reviewed;43 independently authored Python methods and seven literal fixtures/four complete goldens build/discover. Actual full test/harness review pending after two additive foundation corrections; no foundation/project feature/main/marker execution or intended red yet. LOCALE001 generator and runtime/preferences/layout/package release gates remain unimplemented."
     },
     {
       "id": "VIEW-04",

@@ -7763,7 +7763,7 @@
       "module": "Currency",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (rate contract); service_reviewer (independent review pending actual artifact)",
+      "owner": "coordinator /root; service_author (rate contract); codec_author (independent document review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -7777,7 +7777,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-001.",
       "notes": [
         "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage."
+        "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage.",
+        "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge."
       ],
       "verification": {
         "document_review": "not_run",
@@ -10537,7 +10538,8 @@
         "Actual concrete API895b500/importec662b1 (doc7f1738b6/authorc247d91a) receives separate changes-required reviewce77a9a: cheap bounded direct timeout option, finite QM file size/chunked reads, and nonregular source rejection before blocking open. Author explicitly resumed throughfollowup_task for ONLY the2 API Markdown corrections; approvedsourcecontract51383296 staysfrozen. No Python/generator/stub/catalog/schema/projectfixture/test behavior exists.",
         "Corrected API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) receives actual independent approvalf7f4681. Root now releases MINIMAL INTERFACE ONLY: author owns tools/translation_catalog.py plus docs/evidence/localetest-001-stub-author.md, reads tools/AGENTS.md, implements frozen inert enum/dataclass/error definitions and ALL5 immediate distinct unimplemented entrypoints/script86 marker; NO parse/validate/render/file/path/tool/generation/help/version behavior. Root owns CMake22profile/syntax-import harness/new selectedQtCI pins and workflow; no feature function calls at build/discovery. Actual separate minimalcode/config review precedes independent fixture/test stage.",
         "Actual minimal stub ef4974c/importa9e60e5 plus root shared build/CI1f666b0 is integrated. All five feature entries remain immediate markers and none has been invoked. Selected-prefix configure/build/four existing CTests pass; actual official CI41792990086 passes archive hashes/tool closure/inert imports/four infrastructure checks on Ubuntu24.04/Python3.12.3. Actual separate source/config review is active before fixture/test release. No formal tests, intended red or generator behavior exists yet; no baseline-completion claim.",
-        "Actual minimal source/config1f666b0 receives independent approval732bb2d/import6589861 after separate selected-prefix11step build/four infrastructure passes and inert AST/import checks. Root explicitly releases independent fixture/test author codec_author in NEWtask/LOCALETEST-001-fixture-author from main+6589861. Own ONLY tests/fixtures/translation_catalog/, tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note. Root owns all shared harness/CI/state. Complete literal TS/browser goldens, Qt-only real compiler/raw lookup/repro foundation and meaningful Python API/CLI tests must receive actual review before any project feature/main/script/marker call. Production remains unimplemented and baseline incomplete."
+        "Actual minimal source/config1f666b0 receives independent approval732bb2d/import6589861 after separate selected-prefix11step build/four infrastructure passes and inert AST/import checks. Root explicitly releases independent fixture/test author codec_author in NEWtask/LOCALETEST-001-fixture-author from main+6589861. Own ONLY tests/fixtures/translation_catalog/, tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note. Root owns all shared harness/CI/state. Complete literal TS/browser goldens, Qt-only real compiler/raw lookup/repro foundation and meaningful Python API/CLI tests must receive actual review before any project feature/main/script/marker call. Production remains unimplemented and baseline incomplete.",
+        "Actual independent fulltest candidate bbdeefb/importe0ffc3b and sharedharness e1779a3 now compile/discover43unique Python methods/48CTest entries, no feature/main/script/marker or newQtprobe executed. Initial fixture/probe reviewaeb4091/import39711a2 requested additive plural raw-percent witnesses and actual fresh missing-English load; both corrected preservingall6oldobjects/forms with seventhfixture. Full actual source/test/harness review is running with service_reviewer; no prospective approval. OrdinaryCI discoveryguards43 and explicitly excludes onlyintentional-red execution until implementation; allmethods alwaysregistered. Selected realfoundation green and FIRSTprojectred remain pending."
       ],
       "verification": {
         "tool_environment": "partial",
@@ -10547,7 +10549,8 @@
         "api_review": "passed",
         "interface_build": "passed",
         "interface_ci": "passed",
-        "interface_review": "passed"
+        "interface_review": "passed",
+        "test_authorship": "draft"
       },
       "evidence": [
         "docs/contracts/translation-catalog-v1.md",
@@ -10559,7 +10562,9 @@
         "docs/evidence/localetest-001-api-author.md",
         "docs/evidence/localetest-001-api-review.md",
         "docs/evidence/localetest-001-stub-author.md",
-        "docs/evidence/localetest-001-stub-review.md"
+        "docs/evidence/localetest-001-stub-review.md",
+        "docs/evidence/localetest-001-test-author.md",
+        "docs/evidence/localetest-001-test-review.md"
       ],
       "review": null
     },

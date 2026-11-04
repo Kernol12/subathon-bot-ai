@@ -47,7 +47,7 @@ they are not running in the background.
 
 ## Current task, actual revisions and next gate
 
-Last published source/config head is `1f666b0`; local root is at `6589861` on `task/LOCALETEST-001-catalog-baseline`, based on
+Last published source/config head is `1f666b0`; local root source/harness is at `e1779a3` on `task/LOCALETEST-001-catalog-baseline`, based on
 integrated main `0b631dc`. [Draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53)
 remains open. LOCALETEST-001 is in progress; LOCALE-001 production is planned.
 The [brief](../tasks/EPIC-023/LOCALE-001.md) covers specification v0.45 §12/I18N-04.
@@ -68,8 +68,9 @@ Actual minimal source `ef4974c`/import `a9e60e5` is integrated with its
 [author note](localetest-001-stub-author.md). Nine frozen data types and inert
 errors/enums exist. ALL five feature functions immediately raise the distinct
 TranslationCatalogNotImplemented marker. No entrypoint, main, script or marker
-has been invoked. No generator behavior, source catalog, schema, formal fixture,
-feature test or intended red exists yet.
+has been invoked. No generator behavior or contributor source catalog exists. The first literal
+fixture/probe stage is integrated; Python feature tests are authored in isolation.
+No project feature/main/marker or foundation probe has been invoked.
 
 Root added profile22 `translation-catalog-debug`, a syntax/inert-import target and
 [CI](../../.github/workflows/translation-catalog.yml) with four verified official Qt
@@ -84,8 +85,11 @@ This establishes infrastructure, not translation feature acceptance.
 
 Actual source/shared-config review `732bb2d`/import `6589861` APPROVES the exact
 minimal source/config after an independent11-step build/four infrastructure passes.
-Independent literal fixture/test authorship is now explicitly assigned. Next:
-integrate and review those actual artifacts,
+Actual fixture/probe candidate a9e6eaa/import4744c63 and QtCMakef45a262 compiled
+successfully. Independent review aeb4091/import39711a2 requested two justified
+additions: plural raw percent checks and a fresh missing-English load. Both are
+being corrected without weakening the existing six messages. Python behavior
+tests are authored concurrently. Next: integrate and review their actual revision,
 run the selected real-Qt compiled foundation green and observe FIRST intended
 project marker red. No stub call during build/discovery. Missing dependency,
 compilation, setup or skip is never red. Keep intentional red execution separate
@@ -107,8 +111,9 @@ All paths below are under local-evidence/worktrees/.
   localetest001-fixture-author, branch task/LOCALETEST-001-fixture-author,
   created from main plus reviewed6589861. Own only NEW tests/fixtures/translation_catalog/,
   tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note.
-  Six literal messages/four complete goldens, real Qt foundation/reusable raw-QM
-  verifier and public API/CLI behavior tests are assigned. No project stub/marker
+  Complete literal goldens, a real Qt foundation/reusable raw-QM verifier and
+  public API/CLI behavior tests are assigned. Initial six messages are retained;
+  a separately requested seventh plural-percent fixture is additive. No project stub/marker
   execution before actual test review and selected green foundation. Earlier
   timer/scratch work remains preserved.
 - Root alone owns state/HTML/maps/shared schemas/CMake/presets/workflows/pins and
@@ -127,8 +132,16 @@ exact public contracts are required inputs. Exact fetched observations/effective
 snapshot/provenance, positive values, honest unknown metadata and immutable credited
 effects are in scope. Provider operations/cache/scheduler/UI/pin-solving workflows
 remain adjacent tasks. No API/code/stub/schema/storage/fixture/test/live stage is
-released. The actual authored document needs independent review next. No PR yet;
-create one focused draft when concrete artifacts exist. Root alone coordinates
+released. The actual authored document needs independent review next. Root also recorded
+required RATESTEST-009/RATES-009 and a brief on this branch (324589d/9664faf),
+so recurring exact rational rates cannot be rounded through the existing finite-
+decimal HistoricalValuation/STORAGE-015 representation. EPIC-017 requires the
+bridge. Its initial unregistered §3.5 progress reference was corrected to §3;
+398-task consistency now passes. No representation/code/schema changed. [Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) is open at
+headf1b26aa with actual documentaf2f9a9/importf4f321a. codec_author is reviewing
+the actual document; service_author is correcting a narrow RS10 ambiguity so an
+observation with no active fetched edge stays retained outside that effective
+snapshot. No owner choice needed; no next API/code/tests stage is released. Root alone coordinates
 state snapshots; preserve newer locale and timer claims during integration.
 
 ## Environment, preservation and release limits
@@ -159,3 +172,17 @@ workflow still requires every applicable CI and independent review despite no
 required-check rule. All seven integrations, three FX providers, both renderers,
 platforms and release gates remain in scope; synthetic component evidence is not
 live/platform verification. Task progress JSON and generated HTML stay authoritative.
+
+Local root has uncommitted CMakeLists/tests QtCMake/workflow changes for the actual
+Python case inventory and separate intentional-red discovery. Do not run configure
+before integrating the final inventory; do not push a workflow that runs the new
+foundation before actual fixture/probe review. All feature methods must remain
+registered; automatic CI explicitly excludes only intentional-red feature execution.
+
+Actual full locale candidatebbdeefb/importe0ffc3b+rootsharedharness e1779a3 now
+builds and statically discovers43unique methods/48CTest entries. The complete
+actual test/harness review is RUNNING withservice_reviewer; earlier noteaeb4091
+is changes-required history, not finalapproval. No newQtfoundation/projectfeature
+or marker has been called. Root CI validates AST/inventory/discovery exactly43,
+runs mandatoryQt-onlyfoundation+existingchecks with explicit -LE intentional-red.
+Only coordinator checkpoint/progress/map metadata are uncommitted at this handoff.
