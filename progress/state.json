@@ -3682,7 +3682,7 @@
       "module": "Identity",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (minimal typed password stub); service_reviewer (API review)",
+      "owner": "coordinator /root; service_author (password tests/foundation author); service_reviewer (minimal source/harness review)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3698,7 +3698,8 @@
         "Claimed dedicated task/SESSIONTEST-001-password-baseline from refreshed integrated main dd6a141 after actual PR57; prerequisite CONTRACTPLAN001 done. FIRST DOCUMENT ONLY: bounded libsodium Argon2id password hashing/stored parameters/verification and upgrade proposal, independent literal success/failure examples, secret handling and honest reference-hardware benchmark procedure. service_reviewer owns ONLY NEW docs/contracts/password-hashing-v1.md and docs/evidence/sessiontest-001-contract-author.md in isolated task/SESSIONTEST-001-contract-author. Consult official primary libsodium docs and actual installed1.0.22 headers, distinguish observed API from proposed supported pin; no production/hash/marker/test/fixture/stub/schema/migration or secret invocation. No library hash cost/platform claim without actual reviewed evidence. Root owns shared state/HTML/build/CI/pins/schemas. Actual different logical/API/source/test reviews and greenfoundation/FIRSTred precede SESSION001 production.",
         "Actual logical authorf730a176/importd74fc81 (contractbc9ccbf6/note4d26e84e) independently approved98f0494/importfebe5c2, review6226c59d. Official primary1.0.22 sources/H0fixture and13stdlib facts checked; no nativecrypto/init/hash/verify/RNG. Release ONLY NEW docs/contracts/password-hashing-api-v1.md and docs/evidence/sessiontest-001-api-author.md to service_author in separate APIauthor tree. Exact minimal C++ boundary/errors/budgets/lifetimes/directrawfixture reach/immediatefuturemarker proposal only; no actualheader/stub/source/test/foundation/schema/crypto/build. Keep logicalscope/secret/cost/currentlogin/revision/CAS/benchmark obligations intact, selectedpin/defaults stillproposed notactualplatformproof. Root ownssharedstate/pins/harness/CI. Actual differentAPI review before nextstage.",
         "Actual sourceartifact authentication complete: official1.0.22 archive2008529bytes/SHA256adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349 matches release metadata. Installedgpgv2.4.9 at12:41:07Z returned0/GOODSIG/VALIDSIG against exactofficialRSAkey inisolatedscratchkeyring; primary54A2B8892CC3D6A597B92B6C210627AABA709FE1/signing0C7983A8FD9A104C623172CB62F25B592B6F76DA. Rootre-readrawresult/rehashedallbytes; no globalkeyring/install/extract/build/libraryexecution. Thisresolvesartifactprovenance only, notSDK/runtime/ABI/pinning/cost/feature/nativefoundation gates. PasswordAPIauthorcontinues; current main009 needsintegration before executable review.",
-        "Actual API fca99279/import775f084 (7ad1e8d3/author2b9ec1e3) independently APPROVED18e1a109/import503a7d3, note8107778d. Frozenlogical docs unchanged;28stdlib facts pass, no nativepasswordcalls. Integrate main0096323 then release ONLY server/include/subathon/server/password_hashing.hpp, server/src/password_hashing.cpp and stub-author note inisolatednewwriter. ExactAPI declarations/inert wrappers/getters/errors; THREE featuredefinitions entirebodies immediate PasswordHashingNotImplemented throw, no sourceport/validation/init/guardedmemory/crypto beforethrow. Rootownsharness/SDKpin/CI/state. Actualminimal source/harness review beforetests/foundation/native; no production released."
+        "Actual API fca99279/import775f084 (7ad1e8d3/author2b9ec1e3) independently APPROVED18e1a109/import503a7d3, note8107778d. Frozenlogical docs unchanged;28stdlib facts pass, no nativepasswordcalls. Integrate main0096323 then release ONLY server/include/subathon/server/password_hashing.hpp, server/src/password_hashing.cpp and stub-author note inisolatednewwriter. ExactAPI declarations/inert wrappers/getters/errors; THREE featuredefinitions entirebodies immediate PasswordHashingNotImplemented throw, no sourceport/validation/init/guardedmemory/crypto beforethrow. Rootownsharness/SDKpin/CI/state. Actualminimal source/harness review beforetests/foundation/native; no production released.",
+        "Actual minimal source/harness64a924c independently APPROVED93d9a576, note206ca8d4. Headerec3c5cf8/CPPeaf56f41 std-only3singlethrows, exactAPI/privateborrow/ownedresults/inertsource;47independentcompiletraits+8stepbuild0PROJECTwarnings/old3infraPASS0.65s. SDKmetadata/auditunchanged, vendor3nativeprobes/SIGABRT134/core report/8Libtoolwarnings preserved; no SDKruntime/passwordproof. Release ONLY literalfixture/GTests/standalone real-SDK foundation/test-author note and PRIVATEtest-onlyerrorharness ifneeded; source/contracts frozen, no newbody/nativeAPIcall beforeactualdifferenttest/foundationreview. No successfulcrypto fakes or SUT-generatedoracles. RootownsCMake/CI/pins/JSON/HTML; currentselectedSDKCI/firstfeature red andproduction stilllatergates. SDKsourceauth/build isnotruntimeacceptance."
       ],
       "verification": {
         "document_review": "passed",
@@ -3707,7 +3708,9 @@
         "api_document_review": "passed",
         "source_authentication": "passed",
         "selected_sdk": "not_run",
-        "minimal_source_review": "not_run"
+        "minimal_source_review": "passed",
+        "tests": "not_run",
+        "sdk_build": "passed"
       },
       "evidence": [
         "docs/contracts/password-hashing-v1.md",
@@ -3717,7 +3720,11 @@
         "docs/evidence/sessiontest-001-source-authentication.json",
         "docs/contracts/password-hashing-api-v1.md",
         "docs/evidence/sessiontest-001-api-author.md",
-        "docs/evidence/sessiontest-001-api-review.md"
+        "docs/evidence/sessiontest-001-api-review.md",
+        "docs/evidence/sessiontest-001-stub-author.md",
+        "docs/evidence/sessiontest-001-sdk-build.json",
+        "docs/evidence/sessiontest-001-interface-harness.md",
+        "docs/evidence/sessiontest-001-minimal-review.md"
       ],
       "review": null
     },
