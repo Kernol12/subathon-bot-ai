@@ -164,3 +164,49 @@ at1cacc34, only2MD. Otherformerrolesfinished, noassumedbackground continuation.
 Publisher53309/PRcreate87563 bothfinishedexit0, PR62actualURLverified. No rootchild
 running. Workflowaccessstillabsentatlastactualcheck; existingowneraccessrequestand
 CORE0083olderquestions remainpending, no repeatedask/default/settledpolicyreopening.
+
+
+## USER PRIORITY CHANGE — finish PR62, then resolve blocked PRs together
+
+Latestuserinstruction: "Cleanly finish the PR62 and then let us go through the
+blocked prs to solve the blocks." This takespriority overstartingmoreunrelated
+coordinationtasks. Rootacknowledged, re-presentedPR62's genuinelyrequiredD1policy
+choice, andaskedcurrentagents tocheckpointboundedwork/no newunrelatedstages.
+D1NOANSWERyet: resource-scopedoverride(recommended)/wholeoperationoverride/
+completerequestmatchingfallback; preselect/elapsedtime isNOTanswer. PR62current
+publishedDRAFTd704067/all12oldcomponentchecksPASS stillblockedpartial. Do NOTmerge
+it orchoosepolicybyinferencefrom"finish". Completeitsactualcontract/API/tests/
+review/red/currentCI/taskgates; necessarysharedworkflowaccesswillalsoneedresolution.
+AfterPR62completion, walkblockedPRswithuser; do notresumeunboundednewtaskloop.
+
+Actualotherhandoffs preserved:
+- PWLOCALreview+redattribution COMPLETE: rootcurrent3c3035ca5cda65ca924b20caac0f7d9ae91f799b,
+  [draftPR59](https://github.com/Kernol12/subathon-bot-ai/pull/59)stillf94oldhead/1scaffold.
+  RootupdateditsBODYwithactualLOCALproof/blockedpublication, process54430finished0;
+  no source/workflowpush/merge. FIRST37redcleand560/exit8 at16:06:50Z VALIDindependent
+  c5b10c59/importf0539e7/note2331871e (158typedmarkers+51consequentialzeros=209failurelocations).
+  Rootrecordstests/test_baselineobserved_red/red_attributionpassed butTASKBLOCKED
+  remoteCI/access/baselineintegration; no production. No reruns/fakegreen.
+- Asset011reviewdeb0d066/import72a/note6691f066 requestsactualfinite media/fontR1 and
+  closedSVG R2. Rootintegrator07f52fed; originalservice_reviewer incontract011-correction
+  at72a currentlyuncommittedmedia additions. Onuserpriorityrootinstructedcommit clear
+  TWO-MD PARTIALcheckpoint (font/SVGstillunfinished/R1R2NOTresolved/no012release), thenSTOP.
+  No publication/newstages. Don'toverwriteuncommittedworkorassumecorrectioncomplete.
+- Boost1.83stage1signedNoblepackageactualSHA747b364a7d578babed9efa4c40446be4ba3470ac5b2c9951b0e3bde3d7bb47d6
+  10746098bytes, CanonicalarchivekeyF6ECB3762474EDA9D21B7022871920D1991BC93C, rootindependent
+  gpgv+signedhashchain PASS. Stage2isolatedprefix15659files151784860bytes/authentic
+  header108300+5CMakefiles/fullcopyrightcompendium; rootactualallhash/inventory/path
+  reviewPASS, receipts /tmp/subathon-boost-1.83-sdk/root-stage2-review.json.
+  Stage3service_author scratchCMake/compiler/preprocessorONLYprobe in/tmp/.../probe-source,
+  probe-build isactuallyrunning/finishinghandoff, NOprobe/Boostarithmetic/nativefoundation/
+  project/GTest/feature/markerbodyexecution. Userpriorityinstructedfinishboundedhandoff
+  thenSTOPfurtherSDKstages. NextreassignmentistheoriginalPR62author AFTERactualD1answer.
+  No automaticRATES/MILElocalsequencing/selected1.83runtimeproof fromstaticmetadata.
+- codec_author actualPWredattributionhandoffendedclean, noactivenewassignment.
+
+Mainstill8fc9edc/all11postmainSUCCESS. Rootprimary6387d68beforethischeckpoint,
+allolderdirtytrees/16absentregistrations preserved. No rootnative/build/publisher/
+CTestchildrunning; currentagenthandoffs mustbeinspectedbeforecontinuation. Existing
+workflowaccessrequest andCORE0083questions remainpending; do notreasksettledthings/
+mergeunfinishedbaselines. Thisquestion/statussteeringdidnotauthorizepolicydefaults
+orweakenanyspec/testfirst/CI/branchprotection gate.
