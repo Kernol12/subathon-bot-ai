@@ -34,18 +34,18 @@ child was running at inspection. The ordinary milestone API publisher is current
 `3fc99cee810d9ee5c91ad6313a01f62d5957ab05`; all 12 actual check-runs passed at that SHA.
 Root owns state/HTML/checkpoint and shared schemas/build/CI/pins.
 
-The [logical model](../contracts/milestone-progression-v1.md), blob
+The [logical model](https://github.com/Kernol12/subathon-bot-ai/blob/3fc99cee810d9ee5c91ad6313a01f62d5957ab05/docs/contracts/milestone-progression-v1.md), blob
 `0115a5cc3cdc4fb1ebb8c9739716a27cb3379933`, was authored `4362fe29`, imported
 `af7e2be`, and independently approved `8338981`/import `4724e10`. See
-[author](milestonetest-001-contract-author.md) and
-[review](milestonetest-001-contract-review.md). Full signed64 scores/targets,
+[author](https://github.com/Kernol12/subathon-bot-ai/blob/3fc99cee810d9ee5c91ad6313a01f62d5957ab05/docs/evidence/milestonetest-001-contract-author.md) and
+[review](https://github.com/Kernol12/subathon-bot-ai/blob/3fc99cee810d9ee5c91ad6313a01f62d5957ab05/docs/evidence/milestonetest-001-contract-review.md). Full signed64 scores/targets,
 U64 distances, immutable captured prefix, ordered new completions, current-definition
 projection, no repeats and absent first interval are explicit. MP01–22 and 23
 independent arithmetic facts were checked.
 
-Actual [API candidate](../contracts/milestone-progression-api-v1.md), blob
+Actual [API candidate](https://github.com/Kernol12/subathon-bot-ai/blob/3fc99cee810d9ee5c91ad6313a01f62d5957ab05/docs/contracts/milestone-progression-api-v1.md), blob
 `58b8e129815c0525176cc6c1b6830a7e6f0a9fdb`, was authored `c89776c5c07252339e1cd85f8c627c3ffaee7b24`
-and imported `9d8ba9e`. [API author evidence](milestonetest-001-api-author.md), blob
+and imported `9d8ba9e`. [API author evidence](https://github.com/Kernol12/subathon-bot-ai/blob/3fc99cee810d9ee5c91ad6313a01f62d5957ab05/docs/evidence/milestonetest-001-api-author.md), blob
 `9a9f3e5905565e3d51947e00abfcebf6ba5716d4`, records five literal byte sums.
 One raw-input advancement operation returns owned prefix/new range/projection.
 
