@@ -106,3 +106,10 @@ Actual API approval5c029d4/importb9e0520, reviewe007e35b. Minimal inert source
 author service_reviewer active in accesstest002-source-author fromc8cb5f2, owns
 new header/immediate marker stub/short note only. Root has uncommitted core
 CMake target and state/HTML/checkpoint edits. No tests released or marker run.
+
+
+Minimal source actual author78195bef/importb29274b (headeredd6ffc2/TU4cf7bcca),
+different actual approval7ddc58b0/review29e07a50. Root source compile/list37
+passed without body execution. Release original service_author test authoring next
+on isolated tree; different actual tests/harness review precedes FIRST feature red.
+Published07418ee all13 checks SUCCESS; new revisions need fresh CI.

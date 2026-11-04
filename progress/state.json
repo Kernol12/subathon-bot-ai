@@ -3561,7 +3561,7 @@
       "module": "Identity",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_reviewer (minimal inert source); codec_author (API reviewer completed)",
+      "owner": "coordinator /root; service_author (baseline tests); codec_author (minimal-source reviewer completed)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3585,7 +3585,8 @@
         "SDK-only source58b7f581/importa9e44a1 authored by service_reviewer; root harness dab476e104f0e6831eae099e8878b453b96bc13c configure/build/discovery passed using authenticated isolated Boost1.83. Exactly37 cases discovered, no native foundation or feature body run. Actual different source/harness review assigned to codec_author; original service_author continues API document only. No new owner choice or access blocker; normal SSH publication works.",
         "Actual different SDK source/harness approval15460f62/importc3a925f followed by root FIRST selected Boost1.83 native environment: exit0,1/1,21 primitive checks/0fail; exact retained output611ea8a5. Existing36 numeric/infrastructure also pass. This proves SDK/host arithmetic only, no permission behavior. API document still being authored; later gates unchanged.",
         "Actual concrete API author646a11e3/import5757a45: API blobdda2793c/author0680aa30, std-only raw facts and one evaluator, six limits, complete canonicality/shape/stage/error/B-I/output projection/source explanations. Logical/spec/owner inputs unchanged. Different codec_author API review now active on actual committed revision; no minimal source/test stage released yet. Foundation publication07418ee succeeded through SSH;13 GitHub checks queued at last observation, no current CI pass claimed.",
-        "Actual API review5c029d4/importb9e0520 (notee007e35b) approves APIdda2793c/author0680aa30 without blocker. Release ONLY minimal inert exact API transcription to service_reviewer in accesstest002-source-author fromc8cb5f2. Evaluator body must immediately throw explicit marker; no validation, successful behavior or tests. Different source/harness review precedes test authoring; root owns source build target/shared state/CI."
+        "Actual API review5c029d4/importb9e0520 (notee007e35b) approves APIdda2793c/author0680aa30 without blocker. Release ONLY minimal inert exact API transcription to service_reviewer in accesstest002-source-author fromc8cb5f2. Evaluator body must immediately throw explicit marker; no validation, successful behavior or tests. Different source/harness review precedes test authoring; root owns source build target/shared state/CI.",
+        "Actual minimal source author78195bef/importb29274b, headeredd6ffc2/TU4cf7bcca/author04e5ed87; root targetf1eb3d6 compile/list37 passed. Different actual source/harness review7ddc58b0 (note29e07a50) approves exact API transcription/immediate markerthrow only. Release original service_author test authoring on isolated continuation tree. No feature or marker has run. Foundation published07418ee all13 checks SUCCESS, actual Ubuntu selected1.83 run41878733543 passed21 primitives and old36. New task revisions require fresh CI."
       ],
       "verification": {
         "document_review": "passed",
@@ -3595,7 +3596,8 @@
         "partial_document_review": "passed",
         "owner_decision": "passed",
         "environment": "passed",
-        "api_review": "passed"
+        "api_review": "passed",
+        "source_review": "passed"
       },
       "evidence": [
         "docs/evidence/accesstest-002-open-decisions.md",
@@ -3609,7 +3611,10 @@
         "docs/evidence/accesstest-002-environment-first.md",
         "docs/contracts/effective-permissions-api-v1.md",
         "docs/evidence/accesstest-002-api-author.md",
-        "docs/evidence/accesstest-002-api-review.md"
+        "docs/evidence/accesstest-002-api-review.md",
+        "docs/evidence/accesstest-002-source-author.md",
+        "docs/evidence/accesstest-002-source-review.md",
+        "docs/evidence/accesstest-002-ci.md"
       ],
       "review": {
         "author": "service_author",
