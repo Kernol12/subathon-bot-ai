@@ -23,3 +23,13 @@ file ownership. Link test cases to the required behavior and independently deriv
 - Use the applicable template, record exact evidence and leave a durable handoff.
 
 Run relevant checks, update progress/state.json, regenerate PROGRESS.html and validate before handoff.
+
+## Required child contracts and integration audit
+
+[ADR-0004](../decisions/0004-wire-contract-prerequisites.md) records separate
+[common primitives](CONTRACT-005.md), [HTTP/OpenAPI](CONTRACT-006.md),
+[persistent WebSocket](CONTRACT-007.md) and [scene](CONTRACT-008.md) contract tasks.
+All four remain required; this parent audits their consistent versions, imports,
+capabilities, complete packages and independent examples. Common documentation alone
+cannot finish this contract. Read current state/evidence for actual review status.
+The split changes helper sequencing only; original API-01/02/03 and §11 scope stays.
