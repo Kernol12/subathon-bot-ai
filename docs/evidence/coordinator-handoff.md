@@ -160,3 +160,21 @@ Original21fact/otherportion audit preserved; no futureapproval/schema/feature.
 Primarycheckpointf9d8364 onmilestonebranch preserves previousclaims andoldwork.
 No root build/native/CTest/publisher child currentlyrunning; inspectactualagents/
 worktrees/processes/GitHub beforeassumingcontinuity. No routineownerapprovalneeded.
+
+
+Actual ownerdecision D1 pending for permissions: [open alternatives](accesstest-002-open-decisions.md).
+IndividualA5 vs roleA10: resource-scope override / wholeoperation override /complete-
+request fallback. Asyncownerquestion issued, noanswer. Author continues independent
+logicalwork but cannotfreeze dependentsemantics/API/tests. TimerCORE0083older
+questions remainseparate andunanswered. No new default/elapsedapproval.
+
+Scene focused [PR61](https://github.com/Kernol12/subathon-bot-ai/pull/61) creation
+command currentlyrunning (inspectactualnumber/statebeforeassuming61); exactpublished
+head365570b30f58a5a19a61c4ea36eccec3381dc2c4, SHAobjects/treeverified/nonforcednewtaskref.
+Corrected scene logicalapproval7f782640/import50915bd, no sourcechangedafterapproval.
+Finalgraphcheck correctedmetadataexpectation andpassed406ids/1497edges/exact3coordination
+records, all19tooling/currentHTML/project/whitespace. No finalCI/mergeyet.
+Password differentfullreview discovered bounded-oracle helper/caller control gap and
+overstrict totalguardallocations==1 predicate; findings notyetcommitted, no edits or
+featureexecution. Awaitbatchedactualreview then originalauthorcorrection+re-review.
+Root's GitHubPRcreate process session3254 mustbeinspected; no otherrootchildrunning.
