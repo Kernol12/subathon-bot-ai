@@ -2836,8 +2836,8 @@
       "title": "Review and demonstrate red: Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "test_baseline",
-      "status": "in_progress",
-      "owner": "coordinator /root; service_author (test/foundation author); service_reviewer (actual independent test review)",
+      "status": "blocked",
+      "owner": "coordinator /root; service_author (test author); service_reviewer (independent approved test review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -2857,7 +2857,8 @@
         "Actual minimal header9a167813/source4e3291f0 + root harnessd8b3d6a receives independent a2f5d358/import6d1fa3e approval. Evidence-only GTest correction53bdf04 inspected: installed1.18.0, minimum1.17. Fresh14-step warnings0/old36checks pass; no feature/marker run. Release ONLY new literal fixture, GTests, independent Boost/std-only foundation and author evidence to service_author; frozen source/contracts unchanged, no feature/foundation body execution until actual independent test/foundation review. Root owns later test CMake/CI; current selectedBoost1.83 CI and FIRST plain feature red remain gates, workflow access still pending. No production released.",
         "Actual test author9f74e77/import643de5c adds20 literal MP rows+33 focused cases (53 GTests), fixture409be19d/test01997384/foundation7f8c3f94/authora5408883. Root test CMake/workflow builds90 total and exact complete53-case discovery guard passes; no new body/foundation/marker run. Foundation25 literal facts compile with no project symbols. Actual different test/foundation/harness review next; selectedBoost1.83 CI publication remains credential-blocked. Earlier remote00d8c57/all12 and dd6a141/all11 post-main successes do not replace current new-suite evidence. Rate now3d444ee retains403tasks/009bridge/all12frozen source-harness blobs, no red.",
         "Actual full root candidatefa098e2 is assigned to service_reviewer in dedicated milestone test-review tree. First narrow independent25-fact foundation/harness review note must precede rootFIRSTnativefoundation; full53-test/harness/workflow review and currentselectedCIgreen precede FIRSTfeature red. No newbody run or futureapproval. Common document authorcodec remains active; password actualf730/importd74 is independently reviewed by service_author. Durable checkpoint reconciles exact current heads and pending access.",
-        "Narrow actual foundation/link/green-harness review de0a30f0 imported7d7e621 approves exact25-fact program7f8c3f94. FIRST native approved local foundation at clean7d7e621 passed1/1/25facts/exit0/0.00s, raw SHA2569a83525e34fb2ee0557715cdb97dbda45162babd3e87f291f82f60c371c14de8, saved ignored raw/JUnit/meta. No new feature/test/marker body. LocalBoost1.92 is not selected1.83 CI; full53-test review/currentselectedCI/FIRSTplainfeature red remain gates. Do not repeat the completed local foundation."
+        "Narrow actual foundation/link/green-harness review de0a30f0 imported7d7e621 approves exact25-fact program7f8c3f94. FIRST native approved local foundation at clean7d7e621 passed1/1/25facts/exit0/0.00s, raw SHA2569a83525e34fb2ee0557715cdb97dbda45162babd3e87f291f82f60c371c14de8, saved ignored raw/JUnit/meta. No new feature/test/marker body. LocalBoost1.92 is not selected1.83 CI; full53-test review/currentselectedCI/FIRSTplainfeature red remain gates. Do not repeat the completed local foundation.",
+        "Actual full53-test/fixture/harness/workflow review208d0580 importedac9234a APPROVES frozen candidatefa098e2 with no correction. All20MP+33 ordinary cases/literal byte-item-exact semantics/source reach/ownership/phase/labels preserved; independent18-step build0warnings/old36PASS0.69s. Approved local25-fact foundation already passed once; no milestone feature acceptance test/function/marker body has run. Task blocked only before currentselectedCI/first feature red because gh scopes stilllackworkflow and existingSSH agent identities0, rechecked afterfullapproval. Remote00/all12 old checks is not new-suite CI. Do not repeat completed reviews/foundation or defaultproductscope; baseline notdone and production planned."
       ],
       "verification": {
         "document_review": "passed",
@@ -2865,10 +2866,11 @@
         "implementation": "not_run",
         "api_document_review": "passed",
         "minimal_source_review": "passed",
-        "tests": "draft",
+        "tests": "not_run",
         "independent_foundation": "passed",
-        "test_review": "not_run",
-        "selected_ci": "blocked"
+        "test_review": "passed",
+        "selected_ci": "blocked",
+        "test_authoring": "passed"
       },
       "evidence": [
         "docs/contracts/milestone-progression-v1.md",
@@ -2882,9 +2884,16 @@
         "docs/evidence/milestonetest-001-minimal-review.md",
         "docs/evidence/milestonetest-001-test-author.md",
         "docs/evidence/milestonetest-001-ci.md",
-        "docs/evidence/milestonetest-001-foundation-review.md"
+        "docs/evidence/milestonetest-001-foundation-review.md",
+        "docs/evidence/milestonetest-001-test-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "service_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/milestonetest-001-test-review.md",
+        "revision": "fa098e2; exact53 authored tests and harness only, first red pending"
+      }
     },
     {
       "id": "MILESTONE-001",

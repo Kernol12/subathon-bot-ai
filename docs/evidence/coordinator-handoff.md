@@ -25,6 +25,8 @@ Primary workspace, branch `task/MILESTONETEST-001-progression-baseline`.
 [Draft PR56](https://github.com/Kernol12/subathon-bot-ai/pull/56) remote
 `00d8c57212cb10b988437721ed82607a1d8c1318`, all 12 old component checks passed.
 Local full candidate `fa098e2` includes new tests/workflow and is not published.
+Full review208d0580/importac9234a APPROVES it; current task is blocked on workflow
+access before selected CI/first feature red, not on unfinished test authoring.
 Those older checks do not establish new-suite acceptance or a selected foundation.
 
 [Logical contract](../contracts/milestone-progression-v1.md) blob `0115a5cc`, actual
@@ -49,10 +51,11 @@ clean7d7e621 at11:55:23Z; raw SHA9a83525e and ignored raw/JUnit/meta in
 local-evidence/milestonetest001-ci/foundation-first.*. No new feature/test/marker
 body has run. This localBoost1.92 pass is not current selected1.83 CI.
 
-service_reviewer is now independently reviewing ACTUAL full candidate in
+service_reviewer completed ACTUAL full candidate review in
 `local-evidence/worktrees/milestonetest001-test-review`, branch
 `task/MILESTONETEST-001-test-review`. Own only the new foundation-review note first,
-then full test-review note. Narrow foundation approval is committed and the FIRST local run completed as above.
+then full test-review note208d0580, now importedac9234a and approved without
+correction. Narrow approval and FIRST local run completed as above.
 Do not repeat this completed gate. Full test/harness/workflow review
 and actual current selected Boost1.83 CI/foundation green precede FIRST plain
 feature red, saved raw/JUnit/clean-head evidence and different failure attribution.
@@ -66,23 +69,25 @@ all shared build/CI/pins, schemas/imports, JSON/HTML/checkpoint and integration.
 
 - CONTRACT-005: integrator `local-evidence/worktrees/contract005-integrator`, branch
   `task/CONTRACT-005-wire-primitives`, claimc1e9859 from main dd6a141.
-  codec_author still authors ONLY new wire-primitives-v1.md and contract-005-author.md
+  codec_author completed wire-primitives-v1.md and contract-005-author.md
   in `local-evidence/worktrees/contract005-author`, branch
   `task/CONTRACT-005-document-author`. Document/examples only. Preserve existing
   domain widths: storage rational components can use 16384 decimal bytes and some
   application references4096 bytes; core parser/finalizer ceilings are not global
-  wire limits. Finite owning profiles precede implementation. Actual different
-  document review follows the concrete candidate; no schema/client/parser code.
+  wire limits. Finite owning profiles precede implementation. Actual candidate1404de5/import378da1b (contract11eeb5f4/note7cebb719) is now
+  independently reviewed by service_reviewer in contract005-review, branch
+  task/CONTRACT-005-independent-review. No schema/client/parser code.
 - SESSIONTEST-001: integrator `local-evidence/worktrees/sessiontest001-integrator`,
   branch `task/SESSIONTEST-001-password-baseline`, claima7b0d4f. Logical author
   service_reviewer completed f730a176/importd74fc81: password-hashing-v1.md blob
   bc9ccbf6 and author note4d26e84e. Official primary libsodium sources/header metadata
   support the proposal; selected1.0.22/defaultcosts remain proposed and unmeasured.
-  No init/hash/verification/RNG/native crypto call has run. service_author now
-  independently reviews the ACTUAL document in
+  No init/hash/verification/RNG/native crypto call has run. service_author independently APPROVED the ACTUAL document at98f0494 (import
+  febe5c2) in
   `local-evidence/worktrees/sessiontest001-review`, branch
   `task/SESSIONTEST-001-contract-review`, owning only a new contract review note.
-  Root must inspect actual review before API/source/stub/test stages.
+  Logical gate complete; root is releasing only concrete API DOCUMENT next. No
+  API/header/stub/test/native crypto or implementation approved.
 
 These isolated claims are reconciled here without copying their absent documents.
 Use followup_task for idle agents; do not assume completed authors still run.
@@ -130,8 +135,9 @@ only, never main/history/scopes. Inspect mutation state after truncated JSON/5xx
 PR57 and ordinary milestone publication recovered identical objects safely. Initial
 planning checkpoint failure1b6 was corrected69 and is not recorded as passing.
 
-Next: integrate actual full milestone test review, then restore/publish current
-selected CI before the FIRST feature red. The approved local foundation is complete. Review actual password/common documents
+Next: after actual restored access, publish approved milestone/rate workflows and
+observe current selected CI before FIRST feature red. Both test reviews and local
+foundations are complete. Continue concrete wire review/password API document meanwhile. Review actual password/common documents
 with different agents before releasing their next stages. Publish focused PRs when
 access permits, observe ALL latest checks/current rules/threads/required approvals
 and merge normally. No routine owner approval is required. All seven integrations,
