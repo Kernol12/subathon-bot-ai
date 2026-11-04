@@ -9,9 +9,21 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
+endif()
+
+if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
+    add_executable(core_timer_editorial_acceptance acceptance/timer_editorial_commands_tests.cpp)
+    target_link_libraries(core_timer_editorial_acceptance PRIVATE
+        subathon_timer_editorial_commands GTest::gtest_main)
+    subathon_target_options(core_timer_editorial_acceptance)
+    gtest_discover_tests(core_timer_editorial_acceptance TEST_PREFIX "timer-editorial."
+        TEST_LIST subathon_timer_editorial_cases PROPERTIES TIMEOUT 30)
+    # Apply complete list labels after native discovery in CTest, including older CMake.
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/TimerEditorialLabels.cmake")
 endif()
 
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
