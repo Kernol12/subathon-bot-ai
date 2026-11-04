@@ -130,3 +130,13 @@ for the complete logical contract and examples. Codec_author will independently
 review the actual revision, including root's specification/decision transcription.
 No API/stub/test/implementation stage is released yet. Finish PR62 first, then
 walk the other blocked PRs with the owner. SSH publication already works normally.
+
+
+Actual completed permission logical contract 064fecab/import1cd21c1
+(contract3d82bfa4/author43e16b0f) approved by the different reviewer0e8bffe9,
+reviewce5950a5. All original settled rows/review history preserved; D1 is resolved
+and the new deny/overlap/multi-resource examples reviewed. Next bounded stage is
+API DOCUMENT ONLY, not header/stub/tests/implementation. Root is creating the
+original author's isolated API tree. SDK-only environment source and root harness
+are independent preparation; no new native program has run. Root has pending
+uncommitted CMake/preset/CI foundation harness files; preserve them.
