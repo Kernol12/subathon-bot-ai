@@ -1,4 +1,4 @@
-name: Rate snapshot baseline interfaces
+name: Rate snapshot baseline foundation
 on:
   pull_request:
     branches: [main]
@@ -38,7 +38,39 @@ jobs:
           cmake --preset rate-snapshot-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
-      - name: Build inert rate interfaces and existing exact numeric suite
+      - name: Build rate baseline and independent Boost foundation
         run: cmake --build --preset rate-snapshot-debug
-      - name: Run existing exact numeric and infrastructure checks only
-        run: ctest --preset rate-snapshot-debug --verbose
+      - name: Verify all authored cases are discovered and intentionally red
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          from pathlib import Path
+          import re
+          import subprocess
+          source = Path("tests/acceptance/rate_snapshot_tests.cpp").read_text(encoding="utf-8")
+          definitions = re.findall(r"\bTEST\s*\(\s*(\w+)\s*,\s*(\w+)\s*\)", source)
+          expected = {suite + "." + case for suite, case in definitions}
+          if len(definitions) != 53 or len(expected) != 53:
+              raise SystemExit("The reviewed 53-method rate definition inventory changed")
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "rate-snapshot-debug", "--show-only=json-v1"], text=True))
+          found = set()
+          for item in discovery["tests"]:
+              props = {value["name"]: value["value"] for value in item["properties"]}
+              labels = set(props.get("LABELS", []))
+              if "rate-snapshot" not in labels:
+                  continue
+              if props.get("DISABLED", False) or props.get("WILL_FAIL", False):
+                  raise SystemExit("A reviewed rate method is disabled or failure-inverted")
+              if not {"rate-snapshot", "acceptance", "intentional-red", "core"}.issubset(labels):
+                  raise SystemExit("A reviewed rate method lost its required baseline labels")
+              found.add(item["name"])
+          if found != expected:
+              raise SystemExit("CTest did not discover every reviewed rate method")
+          print("Discovered 53 enabled intentional-red rate methods; no feature body invoked")
+          PYTHON
+      - name: Require the independent selected Boost foundation
+        run: ctest --preset rate-snapshot-debug -R '^scaffold.rate_snapshot_environment$' --verbose
+      - name: Run existing numeric and infrastructure checks
+        # New rate feature execution remains a separate explicit intended-red command.
+        run: ctest --preset rate-snapshot-debug -LE '^intentional-red$' -E '^scaffold.rate_snapshot_environment$' --verbose

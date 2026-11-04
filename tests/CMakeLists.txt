@@ -78,3 +78,20 @@ if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)
     subathon_target_options(core_application_plan_acceptance)
     gtest_discover_tests(core_application_plan_acceptance PROPERTIES LABELS "application-plan;acceptance;core")
 endif()
+
+if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
+    find_package(Boost 1.83 CONFIG REQUIRED)
+    # Independent selected Boost arithmetic only; never link the new rate target.
+    add_executable(rate_snapshot_environment acceptance/rate_snapshot_environment.cpp)
+    target_link_libraries(rate_snapshot_environment PRIVATE Boost::headers)
+    subathon_target_options(rate_snapshot_environment)
+    add_test(NAME scaffold.rate_snapshot_environment COMMAND rate_snapshot_environment)
+    set_tests_properties(scaffold.rate_snapshot_environment PROPERTIES
+        LABELS "scaffold;rate-snapshot-environment" TIMEOUT 30)
+
+    add_executable(core_rate_snapshot_acceptance acceptance/rate_snapshot_tests.cpp)
+    target_link_libraries(core_rate_snapshot_acceptance PRIVATE subathon_rate_snapshots GTest::gtest_main)
+    subathon_target_options(core_rate_snapshot_acceptance)
+    gtest_discover_tests(core_rate_snapshot_acceptance PROPERTIES
+        LABELS "rate-snapshot;acceptance;intentional-red;core" TIMEOUT 30)
+endif()
