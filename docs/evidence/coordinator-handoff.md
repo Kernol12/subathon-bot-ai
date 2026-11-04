@@ -13,8 +13,8 @@ before assigning work. Do not assume they keep running.
 headacf4e7bee09f2f8e20b73beeb4d255507a646f73. All13 latest PR checks SUCCESS;
 active ruleset/no bypass/no unresolved threads/GitHub required approvals0, actual
 different repository reviews satisfied. Merge/head treec9a4a9c282a1917a724e0263b91c27e25871fec8
-matches. Local main and origin/main fast-forwarded. Latest post-main inspection:
-11 completed, exact-numeric still installing pinned Boost; refresh actual outcome.
+matches. Local main and origin/main fast-forwarded. All12 post-main checks subsequently SUCCESS, retained in
+`/tmp/accesstest002-post-main-final.json`.
 The permission workflow already passed on main. Do not repeat completed PR62.
 
 [Permission handoff](accesstest-002-handoff.md) links all actual logical/API/source/
@@ -92,3 +92,12 @@ is external. Asset011 parkedc4ef1b91, partial5318475/doc6765932a with R1/R2deb0d
 fonts/closedSVG/examples incomplete; no012/runtime work released.
 All seven integrations/threeFX/renderers/locales/themes/platforms/packaging/licenses/
 live verification remain full release scope. No deployment/live chat/payment action.
+
+
+Latest active update: main merge e92f3cb committed cleanly with both modules and
+all406IDs/1497edges preserved. Root password TEST_LIST/CTest-time label correction
+and integration note are now actual candidate changes; password41/exact37CIguard
+and combinedmodule105(37PW/30permission) compile/list pass without any body replay.
+New actual different harness review next; then first selectedUbuntuPWCI/publication.
+No root command remains running. Check actual githead/status rather than earlier
+merge-in-progress prose. PR62 all12 postmainchecks nowconfirmed SUCCESS.

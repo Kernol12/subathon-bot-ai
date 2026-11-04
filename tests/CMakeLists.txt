@@ -43,7 +43,9 @@ if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
         target_link_options(server_password_hashing_acceptance PRIVATE "LINKER:--wrap=${sbt_password_wrap}")
     endforeach()
     gtest_discover_tests(server_password_hashing_acceptance DISCOVERY_MODE PRE_TEST
-        PROPERTIES LABELS "password-hashing;acceptance;intentional-red;server" TIMEOUT 60)
+        TEST_LIST subathon_password_cases PROPERTIES TIMEOUT 60)
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/PasswordHashingLabels.cmake")
 endif()
 
 if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
