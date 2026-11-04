@@ -20,6 +20,14 @@
       <extracomment>Literal braces and Qt-looking percent sequences.</extracomment>
       <translation>{{x}} %n %1 %L1 %% {name}</translation>
     </message>
+    <message id="fixture.literal_plural" numerus="yes">
+      <source>{{x}} %n %1 %L1 %% {name}</source>
+      <extracomment>Literal percents with an invisible integer selector.</extracomment>
+      <translation>
+        <numerusform>{{x}} %n %1 %L1 %% {name}</numerusform>
+        <numerusform>{{x}} %n %1 %L1 %% {name}</numerusform>
+      </translation>
+    </message>
     <message id="fixture.reorder">
       <source>{first} then {second}; {first}</source>
       <extracomment>Named values reorder and repeat across languages.</extracomment>

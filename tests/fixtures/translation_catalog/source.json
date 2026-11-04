@@ -5,6 +5,16 @@
   "locales": ["en", "de"],
   "messages": [
     {
+      "id": "fixture.literal_plural",
+      "description": "Literal percents with an invisible integer selector.",
+      "parameters": {"name": "text", "count": "integer"},
+      "plural": "count",
+      "translations": {
+        "en": {"one": "{{x}} %n %1 %L1 %% {name}", "other": "{{x}} %n %1 %L1 %% {name}"},
+        "de": {"one": "{{x}} %n %1 %L1 %% {name}", "other": "{{x}} %n %1 %L1 %% {name}"}
+      }
+    },
+    {
       "id": "fixture.selector_only",
       "description": "Selector is declared even when absent from visible text.",
       "parameters": {"name": "text", "count": "integer"},

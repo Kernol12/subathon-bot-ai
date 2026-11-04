@@ -32,6 +32,17 @@
         "text": "{{x}} %n %1 %L1 %% {name}"
       }
     },
+    "fixture.literal_plural": {
+      "parameters": {
+        "count": "integer",
+        "name": "text"
+      },
+      "plural": "count",
+      "forms": {
+        "one": "{{x}} %n %1 %L1 %% {name}",
+        "other": "{{x}} %n %1 %L1 %% {name}"
+      }
+    },
     "fixture.reorder": {
       "parameters": {
         "first": "text",

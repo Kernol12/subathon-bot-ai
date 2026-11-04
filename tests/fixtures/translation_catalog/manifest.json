@@ -1,15 +1,15 @@
 {
   "provenance": "Independently hand-authored complete literal source/goldens from approved document/API; no UUT output",
-  "messages": 6,
+  "messages": 7,
   "contracts": [
     "51383296",
     "acb90189"
   ],
   "sha256": {
-    "source.json": "9d5ab3cbb59e606360446119eb0728bccbbbb44998584956eec55597fe899d6d",
-    "goldens/qt/messages_en.ts": "10ba29b68257111a467ffa2d4021f2e225b1c69a9417cc5254ff1a999d23e08d",
-    "goldens/qt/messages_de.ts": "35e543dd69fb42962903428355dc295f9766478b3adbbffc187b3ccdc966187f",
-    "goldens/web/en.json": "04fbeaf3759bff68a53dc6aedd4d2328494ea067b039921ebf8c9272ab335178",
-    "goldens/web/de.json": "ac0e70c5273c6ba8bf7fb96e7dbaaa919e4e5d4a06e7e9ba039459e977358857"
+    "source.json": "f6523fb32cde64289f17efed861a2ff7781b9b7c26f4e5c97427f0ba104137c0",
+    "goldens/qt/messages_en.ts": "84936b09900058721bd25cc0344b1074a8030d96ae7de3a0e3001c5e23cc103a",
+    "goldens/qt/messages_de.ts": "1320c26206bd474528fce87c19ba3847fc30ab9611ff24df926dc58473efdb63",
+    "goldens/web/en.json": "e228402a95ed14082036db9ecccdb0d95f16df4459bc2310457729aff0d0e98b",
+    "goldens/web/de.json": "c558b53e78484aee2491f3c0ea31e30db98dbe296ee3d9bbf904a5f96acf83e6"
   }
 }

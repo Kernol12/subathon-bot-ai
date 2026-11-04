@@ -44,6 +44,10 @@ void verify(const QString &directory) {
     raw(de, "fixture.items", 0, u"{name}: {count} Einträge");
     raw(en, "fixture.literal", -1, u"{{x}} %n %1 %L1 %% {name}");
     raw(de, "fixture.literal", -1, u"{{x}} %n %1 %L1 %% {name}");
+    raw(en, "fixture.literal_plural", 1, u"{{x}} %n %1 %L1 %% {name}");
+    raw(en, "fixture.literal_plural", 2, u"{{x}} %n %1 %L1 %% {name}");
+    raw(de, "fixture.literal_plural", 1, u"{{x}} %n %1 %L1 %% {name}");
+    raw(de, "fixture.literal_plural", 2, u"{{x}} %n %1 %L1 %% {name}");
     raw(en, "fixture.reorder", -1, u"{first} then {second}; {first}");
     raw(de, "fixture.reorder", -1, u"{second}, danach {first}; {first}");
     raw(en, "fixture.scalars", -1, u"A & B < C > D \"q\" 's'\r\n\tGrüße e\u0301 \U0001F600");
@@ -63,8 +67,11 @@ void verify(const QString &directory) {
     if (selected.isNull())
         selected = en.translate("", "fixture.greeting", nullptr, -1);
     require(selected == literal(u"Hello, {name}!"), "explicit actual English base fallback");
-    require(absent.translate("", "fixture.greeting", nullptr, -1).isNull(),
-            "absent English base has no successful text");
+    QTranslator missing_base;
+    require(!missing_base.load(QDir(directory).filePath(QStringLiteral("absent_english.qm"))),
+            "a distinct missing English base cannot load");
+    require(missing_base.translate("", "fixture.greeting", nullptr, -1).isNull(),
+            "missing English base has no successful text");
 }
 QByteArray child(const QString &tool, const QStringList &arguments) {
     QProcess process;
