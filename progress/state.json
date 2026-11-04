@@ -7765,7 +7765,7 @@
       "module": "Currency",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; codec_author (minimal interfaces/stubs); service_reviewer (independent source/harness review pending actual artifact)",
+      "owner": "coordinator /root; codec_author (literal tests/fixtures); service_reviewer (independent source/test review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -7784,13 +7784,16 @@
         "Actual logical document af2f9a9/importf4f321a, contract36291ce3/author46acb47b, now authored. Independent codec_author assigned actual document review in ratestest001-contract-review; service_reviewer handles separate localization tests. Preserve original money/rate spellings and opaque currencies; exact potential constraints and unknown metadata are proposed, not implemented. No API/stub/schema/fixture/tests/red/provider execution exists. Different actual verdict before next stage; RATES001 remainsplanned.",
         "Corrected logical document ce1b926/import0c97691 (contract76d2d9b3/authorc5e87c18) receives actual independent approval7003473/import6a4a487. Initial RS10/RS15 changes-required history retained;17 independent Fraction facts checked. Release ONLY next concrete API DOCUMENT: service_author owns NEW docs/contracts/rate-snapshots-api-v1.md and docs/evidence/ratestest-001-api-author.md. Exact C++20/core-only owned input/value/error/validation/query signatures, resource preflight and immediate distinct future marker boundary; no actual header/stub/source/schema/tests/provider execution. Separate actual API review before any minimal source stage. Root owns all sharedintegration; baseline stillin_progress, productionplanned.",
         "Actual concrete API document15cd944/import5d5712b (API556840c2/authorfc1d1baf) authored, four entrypoints/privateimmutableoutputs/rawindependentlyvalidatedquery, canonicalboundedpositivecomponentstrings/completeB-Iwalk/outputprojection/arithmetic limits. Actual codec_author API document review assigned in ownrate reviewtree; logicalsource76d2d9b3/c5eunchanged. No actual C++header/stub/source/schema/fixture/tests/feature execution released. Separate actualAPIapproval before minimal source; no futurecode/test/redapproval.",
-        "Actual concreteAPI15cd944/import5d5712b receives independentdocumentapproval0b9a449/import6b9a217, API556840c2/note fc1d1baf. Freshmain07dc merged; state explicitly preserves completed locale baseline/activeLOCALE001 fromc1d565a and requirednew009bridge/EPIC017deps, notolder snapshots. Release MINIMAL SOURCE ONLY tocodec_author in NEWtask/RATESTEST-001-stub-author: core/include/subathon/core/rate_snapshot.hpp, core/src/rate_snapshot.cpp, docs/evidence/ratestest-001-stub-author.md. Exact inerttypedDTOs/privateimmutablewrappers/dataaccessors/errors and4immediate RateSnapshotNotImplemented functions, no validation/parsing/arithmetic/money/querybehavior. RootownsCMake/preset/CI/state/sharedschemas; actualsource/build review precedes independentfixtures/tests/foundation/firstred. No header/source executed asfeature atconfigure/build/discovery; no codecapability claim."
+        "Actual concreteAPI15cd944/import5d5712b receives independentdocumentapproval0b9a449/import6b9a217, API556840c2/note fc1d1baf. Freshmain07dc merged; state explicitly preserves completed locale baseline/activeLOCALE001 fromc1d565a and requirednew009bridge/EPIC017deps, notolder snapshots. Release MINIMAL SOURCE ONLY tocodec_author in NEWtask/RATESTEST-001-stub-author: core/include/subathon/core/rate_snapshot.hpp, core/src/rate_snapshot.cpp, docs/evidence/ratestest-001-stub-author.md. Exact inerttypedDTOs/privateimmutablewrappers/dataaccessors/errors and4immediate RateSnapshotNotImplemented functions, no validation/parsing/arithmetic/money/querybehavior. RootownsCMake/preset/CI/state/sharedschemas; actualsource/build review precedes independentfixtures/tests/foundation/firstred. No header/source executed asfeature atconfigure/build/discovery; no codecapability claim.",
+        "Actual minimalstub f75d7cc/import3d01e9a +sharedharnessf5afb60 receives independentapproval6150962. Header3a06ff18/TU4cf1c1ed exact19fieldlists/3enums/13limits/4immediatebodies; independent14step0warnings/old36PASS. No ratefeature/marker called. Root now releases independent-literal fixture/test authorship tocodec_author in NEWtask/RATESTEST-001-test-author (futureproductionauthor separate); owns ONLY tests/fixtures/rate_snapshots_vectors.hpp, tests/acceptance/rate_snapshot_tests.cpp, tests/acceptance/rate_snapshot_environment.cpp and own test-authornote. DeriveRS01-17/error/resource/ownership oracles fromspec/model/API, notnewSUT. RootownsallCMake/CI/state/pins. Actualtestreview then selectedBoost-onlyfoundationgreen and FIRSTordinarymissingmarkerred precedeproduction. No parsing/money/query implementation permitted yet."
       ],
       "verification": {
         "document_review": "passed",
         "test_baseline": "not_run",
         "implementation": "not_run",
-        "api_review": "passed"
+        "api_review": "passed",
+        "interface_build": "passed",
+        "interface_review": "passed"
       },
       "evidence": [
         "docs/contracts/rate-snapshots-v1.md",
@@ -7798,7 +7801,9 @@
         "docs/evidence/ratestest-001-contract-review.md",
         "docs/contracts/rate-snapshots-api-v1.md",
         "docs/evidence/ratestest-001-api-author.md",
-        "docs/evidence/ratestest-001-api-review.md"
+        "docs/evidence/ratestest-001-api-review.md",
+        "docs/evidence/ratestest-001-stub-author.md",
+        "docs/evidence/ratestest-001-stub-review.md"
       ],
       "review": null
     },

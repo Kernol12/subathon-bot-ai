@@ -66,3 +66,10 @@ approve API/tests/red/production. No accessdecision currentlyneeded elsewhere.
 Latestobservedruleset26170263 requires PR/resolvedthreads/no bypass/0GHapprovals;
 writtenworkflow still requires ALLlatestCI/reviews. No force/admin/weakening.
 All7integrations/3FX/bothrenderers/platform/package/license/live/fullscope remain.
+
+LATEST rate stage: f75d7cc/import3d01e9a minimalheader/TU +rootprofile23/CI
+f5afb60 is actuallyapproved6150962 after independent14step0warning/old36PASS.
+No newrateentrypoint/marker executed. codec_author nowreleased NEWliteraltests/
+fixture+Boost-onlyenvironment files in isolatedratestest001-test-author tree.
+Actualtestreview+selectedfoundation+FIRSTred stillpending; productionplanned.
+Root willpush this actualsource/config/claim andobserve new selectedBoostCI.
