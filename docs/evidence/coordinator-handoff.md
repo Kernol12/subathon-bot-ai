@@ -1,75 +1,85 @@
-# Coordinator checkpoint — catalog implementation and rate interfaces
+# Coordinator checkpoint — rate test review after two catalog merges
 
-Coordinator /root,2026-11-04. Continue AGENTS.md/COORDINATOR_PROMPT.md.
-Latestmain07dc53eaf6a13c4a4fe50b9fb1dcff430d05f326 normally merged catalogbaseline
-PR53 from133246d at08:46:12Z after all12 final checks/reviews/currentrules/threads.
-Trees equalc453ffd4. ACCT004/PR51 and LOCALETEST001/PR53 are complete; do not
-repeat their valid tests/red/reviews. Full product remains incomplete.
+/root,2026-11-04. Continue AGENTS.md/COORDINATOR_PROMPT.md; full product incomplete.
+No new owneraccess currentlyneeded. Three CORE-008 productchoices remain parked.
 
-## Current rate branch and exact stage
+## Integrated main and completed work
 
-[DraftPR54](https://github.com/Kernol12/subathon-bot-ai/pull/54),
-task/RATESTEST-001-snapshot-baseline in local-evidence/worktrees/ratestest001-integrator.
-Actual logical76d2d9b3/c5e approved7003473. Actual concreteAPI556840c2/fc1d1baf
-(candidate15cd944/import5d5712b) APPROVED0b9a449/import6b9a217. No actual C++
-header/stub/source/fixture/test/red or production exists yet. Minimal SOURCE is now
-released after this claim: codec_author owns ONLY core/include/subathon/core/rate_snapshot.hpp,
-core/src/rate_snapshot.cpp and docs/evidence/ratestest-001-stub-author.md in NEW
-ratestest001-stub-author/taskRATESTEST001-stub-author. Create isolated tree/assign
-next; inerttypes/privateownedwrappers/errors/accessors and4IMMEDIATE distinct marker
-functions only. Root owns CMake/preset/CI/dependency pins/state/HTML/sharedschemas.
-service_reviewer reviews ACTUAL source/harness before independentfixture/teststage.
-No prospective approval, parsing/arithmetic/validation/query/provider behavior.
+Main3217c21233bfbe1e4e2732c7c7819bdffe00ef1c normally merged LOCALE001/PR55 from
+4b008d28 at10:01:43Z after actualsamehead12CIchecks, sourceapprovalacaeb41 and43
+preservedacceptance+Qt100+infra/productartifact checks. Trees equal3b3dd794.
+[Generator handoff](locale-001-handoff.md), [code review](locale-001-code-review.md),
+[CI](locale-001-ci.md) retain exactsource/process/ownership/resourceaudit. Post-main
+workflows notyet observed. PR53baseline/PR51ACCT004 completedtoo; no replay needed.
+RuntimeUI/Python3.10runtime/Windows/package/fullrelease remain separate gates.
 
-Main07dc merge had expected state/HTML/checkpoint conflicts, resolved by root from
-actual snapshots: main+currentc1 locale done/activeimplementation, rateAPI evidence,
-new RATESTEST009/RATES009 and EPIC017 dependencies.398tasks/currentlinks/HTML must
-pass before commit. Do not discard newer statuses or copy stale JSON over main.
-Required exact-rational historical bridge009 addresses1.20→5/6 vs finite-decimal
-HistoricalValuation/STORAGE015; no approximation or supportedadapter claim. All3
-providers and integration/platform/release gates remain required.
+SSHagent disappeared and GitHTTPS authenticated butreturned500. Normal branch
+publication recovered through Git-data API: exactsameblobs/trees/commits bc47188/4b,
+then force:false FFrefupdate. Originalwork preserved. No main/protectionbypass.
+Initialmerge55 GraphQL502 inspectedasstillopen; ordinaryRESTmerge with expectedsha/
+merge_methodmerge succeeded. Inspect mutationresultafter5xx before retry. HTTPSread
+fetch with temporaryghcredentialhelper works. Recovery script/tmp/subathon-publish-git-objects.py
+is hardcoded tooldLOCALEbranch/twocommits; adapt/checkscope beforeanyreuse. Do not
+blindly run it fromanotherbranch. Local ignoredlocale001-ci holdsrecovery/rawreceipts.
 
-## Concurrent locale implementation
+## RATESTEST-001 actual test/harness candidate
 
-Root task/LOCALE-001-catalog-generator fromfreshmain07dc, claimc1d565a; service_author
-RUNNING in local-evidence/worktrees/locale001-generator-author,
-task/LOCALE-001-generator-author. Own ONLY tools/translation_catalog.py,
-NEWlocalization/messages.json and own locale-001-implementation.md. Root owns generated
-productartifacts/build/CI/pins/state/maps/checkpoint. Source513/APIacb and reviewed
-43tests6a7/probef033/7fixtures/inventory frozen. All145 oldassertions preserved.
-FIRSTclean976 red43fail/0setup/skip/109marker+14CLI is independentlyaccepted;
-selectedQt100assertions/actualCI/all12 successful before red. Implement generator
-only, then actual43acceptance, different source/process/ownership/allocation audit
-and promoted ordinaryCI. No sourcecandidate or futurecodeapproval yet.
+[DraftPR54](https://github.com/Kernol12/subathon-bot-ai/pull/54), integrator tree
+local-evidence/worktrees/ratestest001-integrator. Published512828c; local7ff7d2d
+plusfreshmain3217merge/completionmetadata beingprepared. Approved model76d2/API5568/
+header3a06/TU4cf1, minimalreview6150962. SelectedinterfaceCI41805994785 pinnedBoost1.83/
+old36checks/all13SUCCESS; no ratefunction ormarker everinvoked.
 
-A prose ambiguity was explicitly reconciled by separate reviewer from frozen
-contracts/tests: wrongformkeyset =>invalid_plural, exactkeys null/empty=>coverage,
-nonnullnonstring=>invalid_schema, missing/extralocale/nullentry=>coverage. Existing
-specificexamples/tests unchanged, no new ownerchoice or baselineedit.
+codec_author completed actual4-file b0517b7/import03124ab: vectors8936f4fa,
+53GTests21b819b9, Boost-only14factfoundation28a829aa, authornotebc64f0b4.
+Root7ff7d2d wires acceptance target core_rate_snapshot_acceptance and Boost-only
+rate_snapshot_environment (ownmain/NOprojectinclude/link). Actualconfigure/build/
+gtest_list/discoveryPASS53unique/90total,0warnings. No newtest/setup/foundation/
+feature/markerbody executed. InitialscopeBoost::headers import configurefailure
+fixedvia testlocalfind_package; nevercalledred. All4productionfunctions stillthrow
+RateSnapshotNotImplemented immediately. No production/009bridge claim.
 
-## Agents and preservation
+Rootfreshmain3217 merge reconciles state398: preserves mainlocale done, current
+MILESTONETEST001activeclaim, rateactualAPI/tests and newrequiredRATESTEST009/RATES009/
+EPIC017deps. Onlysharedstate/HTML/checkpoint conflicted; rootresolvedactualsnapshots,
+notoldwholeJSON. Build/preset automegedsource containscurrentordinarycatalogCI, no
+return tooldintentionalgeneratorlabels. New rateCI guards53completeenableduninverted
+methods/intentional-red labels; mandatoryindependentBoostfoundation thenold36 checks,
+separateFIRSTratefeatureexecution. Do notpublish/runnewfoundationbeforeactualreview.
 
-service_author RUNNING localeimplementation; oldrateAPI treeclean/completed.
-codec_author completed rateAPIreview, currentlyidle until explicit minimal-source
-followup; prior locale corrections/rate model reviews preserved. service_reviewer
-completed redattribution and readonlytaxonomy confirmation, idle; actualminimal
-rate source/harness and actuallocaleimplementation need differentreview later.
-Use followup_task to restart idleagents, not send_message. Allwritersisolated;
-root alone resolves sharedfiles. Historical dirtytrees/absentregistrations/valid
-reviews remain untouched; never reset/prune/delete. No rootbuild/CTest child running.
+NEXT: commitmerge, create NEWratestest001-test-review/taskRATESTEST001-test-review
+fromcurrentmain+candidate, explicitlyassign service_reviewer onlynew
+ docs/evidence/ratestest-001-test-review.md. Actualfullfixture/test/harnessreview,
+selectedBoostfoundationGREEN/currentCI thenFIRSTmarkerred, independentattribution
+before baselinedone. Preserve alloriginalassertions; real defectsneedwrittenreason/
+separatereview/revisedbaseline. No fakeexpectedresults/private testctors/providerfacts.
 
-CORETEST008 remains blocked in [draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52)
-head3e05b48: partialdoc5446/reviewc33a/16literalrows only. Three unanswered ownerchoices:
-capbelowMain retain/reject/auditedclamp; ReadyStartpastdeadline reject/finish;
-enablepastdeadline accept+finish/reject. Do not default/reask settledbehavior or
-approve API/tests/red/production. No accessdecision currentlyneeded elsewhere.
-Latestobservedruleset26170263 requires PR/resolvedthreads/no bypass/0GHapprovals;
-writtenworkflow still requires ALLlatestCI/reviews. No force/admin/weakening.
-All7integrations/3FX/bothrenderers/platform/package/license/live/fullscope remain.
+## Concurrent milestone document task
 
-LATEST rate stage: f75d7cc/import3d01e9a minimalheader/TU +rootprofile23/CI
-f5afb60 is actuallyapproved6150962 after independent14step0warning/old36PASS.
-No newrateentrypoint/marker executed. codec_author nowreleased NEWliteraltests/
-fixture+Boost-onlyenvironment files in isolatedratestest001-test-author tree.
-Actualtestreview+selectedfoundation+FIRSTred stillpending; productionplanned.
-Root willpush this actualsource/config/claim andobserve new selectedBoostCI.
+Root task/MILESTONETEST-001-progression-baseline frommain3217, claimf04e833.
+service_author RUNNING firstlogicaldocument in local-evidence/worktrees/
+milestonetest001-contract-author, branch task/MILESTONETEST-001-contract-author.
+Own ONLY milestone-progression-v1.md and milestonetest-001-contract-author.md.
+Pureorderedachievement/immutablecompletion/deficit/nextremaining/progress under
+spec§8/MILE01/NUM04; no API/code/stub/schema/test/runtimeactionwrites yet. Source
+actualscore authoritativecaller; manual/edit/reset/queue/policy tasks remain.
+codec_author can independentlyreview ACTUALdocument aftercandidate, notprospectively.
+
+## Roles and preservation
+
+codec_author completedratetests, cleanratestest001-test-author; service_reviewer
+completedlocaleapprovalacaeb41, idleuntilactualratereviewfollowup; service_author
+runsmilestonedoc. Rootowns sharedstate/HTML/maps/schema/build/CI/pins/generatedtext/
+checkpoint. Separatewriterbranches/worktrees; usefollowup_task foridleagents.
+Historicaldirtyverificationtrees/absentregistrations/validreviews untouched; never
+reset/prune/delete. No rootbuild/CTest childrunning; inspectactualonresume.
+
+CORETEST008 [draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52) remains
+blockedhead3e05b48/partialdoc5446/reviewc33a/16literals. UnansweredcapbelowMain
+retain/reject/auditedclamp; ReadyStartpastdeadline reject/finish; enable/movepastdeadline
+accept+finish/reject. No defaults/newAPI/tests/red/production or reasking settled
+policies. All7integrations/3FX/bothrenderers/platform/license/package/live/fullscope
+required. No realchat/payment/provider operation authorized. Currentrules26170263:
+PR/resolvedthreads/0GHapprovals/no bypass; writtenworkflowrequiresALLlatestCI/reviews.
+Normalexactheadmerge only. Qt6.12officialprefix/tmp/subathon-locale-qttools-6.12.0/prefix
+(ICUunderlib), rootGNU16.2/Python3.14/Boost1.92, selectedCI GNU13.3/Python3.12/Boost1.83.

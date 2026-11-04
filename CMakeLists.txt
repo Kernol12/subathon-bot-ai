@@ -19,7 +19,7 @@ option(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS "Build reviewed receipt intake simula
 option(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS "Build contribution evidence acceptance tests" OFF)
 option(SUBATHON_FETCH_GOOGLETEST "Explicitly allow fetching the pinned GoogleTest source" OFF)
 option(SUBATHON_BUILD_QT_PROBE "Build a Qt 6.12 Core/Test environment probe" OFF)
-option(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS "Build translation catalog baseline interfaces and diagnostics" OFF)
+option(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS "Build translation catalog generation and acceptance checks" OFF)
 if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
     set(SUBATHON_BUILD_QT_PROBE ON)
 endif()
@@ -66,7 +66,7 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
     if(NOT Qt6LinguistTools_VERSION VERSION_EQUAL "6.12.0")
         message(FATAL_ERROR "Translation catalog baseline requires the selected Qt LinguistTools 6.12.0")
     endif()
-    # Syntax and inert import only. Never invoke the unimplemented generator here.
+    # Keep syntax/import checks separate from artifact generation below.
     add_custom_target(translation_catalog_interface_check ALL
         COMMAND "${CMAKE_COMMAND}" -E env
             "PYTHONPYCACHEPREFIX=${CMAKE_CURRENT_BINARY_DIR}/python-cache"
@@ -78,6 +78,32 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
             "${Python3_EXECUTABLE}" -c
             "import runpy, sys; runpy.run_path(sys.argv[1], run_name='translation_catalog_interface')"
             "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+        VERBATIM)
+    set(sbt_catalog_source "${PROJECT_SOURCE_DIR}/localization/messages.json")
+    set(sbt_catalog_text "${PROJECT_SOURCE_DIR}/localization/generated")
+    set(sbt_catalog_build_text "${CMAKE_CURRENT_BINARY_DIR}/catalog-text")
+    set(sbt_catalog_binary "${CMAKE_CURRENT_BINARY_DIR}/localization")
+    set(sbt_catalog_tool "$<TARGET_FILE:Qt6::lrelease>")
+    # Build in disposable outputs, then compare the tracked text without overwriting it.
+    add_custom_target(translation_catalog_artifacts ALL
+        COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            generate --source "${sbt_catalog_source}" --text-output "${sbt_catalog_build_text}"
+            --binary-output "${sbt_catalog_binary}" --lrelease "${sbt_catalog_tool}"
+        COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            check --source "${sbt_catalog_source}" --text-output "${sbt_catalog_text}"
+            --binary-output "${sbt_catalog_binary}" --lrelease "${sbt_catalog_tool}"
+        BYPRODUCTS
+            "${sbt_catalog_binary}/messages_de.qm" "${sbt_catalog_binary}/messages_en.qm"
+            "${sbt_catalog_build_text}/qt/messages_de.ts" "${sbt_catalog_build_text}/qt/messages_en.ts"
+            "${sbt_catalog_build_text}/web/de.json" "${sbt_catalog_build_text}/web/en.json"
+        COMMENT "Generate real QM catalogs and verify tracked translation text"
+        VERBATIM)
+    # Explicit contributor action; never list source-tree files as cleanable byproducts.
+    add_custom_target(translation_catalog_update
+        COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            generate --source "${sbt_catalog_source}" --text-output "${sbt_catalog_text}"
+            --binary-output "${sbt_catalog_binary}" --lrelease "${sbt_catalog_tool}"
+        COMMENT "Regenerate tracked catalogs from localization/messages.json"
         VERBATIM)
 endif()
 
