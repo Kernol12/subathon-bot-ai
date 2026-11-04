@@ -137,3 +137,26 @@ its reason, rather than discarding that represented distinction in a generic
 lifecycle not-ready response. Ordinary paused/recovery/Ready/Finished and
 requires_other_command still do not authorize acceptance or automatic reopening.
 A separate actual focused regression must precede a correction to this mapping.
+
+## Two further bounded regressions approved before execution
+
+**APPROVED actual CPP8ab5dba0c7b3edf1b763abfc1cbde6650277fb12**, Qt f5f08ab1,
+CI0700f15e, exact42 enabled cases. Previous35 and five additive methods unchanged.
+
+- explicitUnresolvedPolicyRecordsKnownHold changes only supported policy admission
+  to unresolved_with_reason with required-action-policy. The existing independently
+  frozen dActionsMissing cause/annotation is still exact: admission disposition
+  is not serialized into Policy; actual source, command, supported Policy, Clock
+  and missing reason are identical. Required exact durable creation, no action
+  call, no speculative state reference and no partial application/head change
+  follow concreteD6/D10 and logical unresolved-policy hold requirements.
+- retainedCommandBoundIsNotMalformedData clears choices only on the NEW caller
+  command so pure choice_bytes1 admission succeeds. The old healthy retained SAC1
+  has a six-byte choice; its selected internal bound must produce known result_limit
+  after disclosure before complete retry comparison, never label valid history
+  malformed. This isolates internal classification while preserving all public
+  codec caller-input categories.
+
+No new test body was invoked before this independent source approval. Root may
+observe actual reached-red on the still-uncorrected candidate. Full source, fixed
+regression passes, complete acceptance and selected CI remain separate gates.
