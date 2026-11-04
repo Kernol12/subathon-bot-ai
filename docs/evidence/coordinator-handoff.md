@@ -10,7 +10,7 @@ Main `dd6a141107e4e950f3c6c3f6bd3a74b5ba1f7f09` normally merged
 [PR57](https://github.com/Kernol12/subathon-bot-ai/pull/57) at11:28:48Z from
 `886ba3b51b96970390b7586bce9ad95c1bee5e87`. All12 actual exact-head check-runs
 SUCCESS; threads0/reviews0 and active ruleset26170263 requires0 GH approvals/no
-bypass. Merge/head trees equal5262607e. Post-main workflows still need observation.
+bypass. Merge/head trees equal5262607e. All11 actual post-main workflows subsequently observed SUCCESS.
 [Planning handoff](contractplan-001-handoff.md), [review](contractplan-001-review.md)
 and [ADR-0004](../decisions/0004-wire-contract-prerequisites.md) preserve the complete
 parent/four-child gate, all10 epic lists/319 old baseline edges. Only planning done;
@@ -35,12 +35,14 @@ ACCT004 also completed; preserve their valid reviews/red/pass evidence. See
   actual review before API/source/tests/red/production.
 - MILESTONETEST-001 primary task/MILESTONETEST-001-progression-baseline in primary
   workspace. [Draft PR56](https://github.com/Kernol12/subathon-bot-ai/pull/56), last
-  published d8b3d6a/all12 old component checks SUCCESS; local4f8f3e1 plus current main integration. Model0115/API58b8
+  published d8b3d6a/all12 old component checks SUCCESS; local643de5c plus current test harness. Model0115/API58b8
   reviews8338981/b8932cd; header9a167813/TU4e3291f0/harnessd8b3d6a approved a2f5d358.
   Local/reviewer14-step builds0warnings/old36green. GTest evidence corrected53bdf04
-  to actual1.18.0 (minimum1.17). service_author now authors ONLY literal fixture,
+  to actual1.18.0 (minimum1.17). service_author completed actual literal fixture,
   GTests, standalone std/Boost foundation and author evidence in existing milestone
-  author tree. No feature/foundation body or marker has run; current selected CI,
+  author tree. Actual candidate9f74e77/import643de5c has53 GTests/25-fact standalone foundation;
+  root90-case compile/discovery and complete53-case inventory guard pass.
+  No feature/foundation body or marker has run; current selected CI,
   independent test/foundation review and FIRST plain red still required. No production.
   Current main dd6a141 is integrated here, preserving frozen source and all reviews.
   See [logical contract](../contracts/milestone-progression-v1.md),
@@ -56,7 +58,7 @@ followup_task for idle agents. Do not assume completed agents are still running.
 ## Rate workflow access and parked decisions
 
 [Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) task branch in
-local-evidence/worktrees/ratestest001-integrator: remote512828c, local79c8512.
+local-evidence/worktrees/ratestest001-integrator: remote512828c, local3d444ee after same-main integration.
 Actual53-test correction64fd60b2/foundation28a829aa/fixtures8936f4fa received final
 different reviewdcf5dca/import7d6b55f; all earlier assertions/names retained. Model76d2,
 API5568, header3a06/TU4cf1/minimalreview615 preserved. Independent14-fact Boost-only
@@ -72,8 +74,9 @@ still pending: restore SSH for CLion or complete
 a selected option is not access. Then resume rate, publish exact reviewed commits,
 observe current selected CI/new foundation, FIRST plain53 feature red/raw+JUnit,
 independent attribution, final latest CI/normal merge. No completed-gate replay.
-Required RATESTEST009/RATES009 exact valuation bridge/newEPIC017deps live in rate398-task
-branch; current main401 records. Preserve those and newer claims when integrating.
+Required RATESTEST009/RATES009 exact valuation bridge/newEPIC017deps remain in the
+rate branch, now403 records after integrating this main401 graph. All12 reviewed
+source/test/contract/harness blobs were compared unchanged at that merge. Preserve those and newer claims when integrating.
 
 CORETEST008 [draft PR52](https://github.com/Kernol12/subathon-bot-ai/pull/52) remains
 blocked3e05b48/partialdoc5446/reviewc33a,16 literals only. Three unanswered choices:
@@ -98,3 +101,15 @@ review all actual cases/foundation/CI before any body execution. Publish focused
 observe ALL latest checks, independent reviews, threads/current rules and normal
 merge. All seven integrations, three FX providers, both renderers/locales/themes/
 platform/license/package/live scope remain. No real chat/payment side effects.
+
+Root has uncommitted milestone test CMake and dedicated baseline workflow changes;
+actual53-case author candidate/foundation handoff is pending. No body invocation.
+Do not publish the new workflow before independent foundation/harness review and
+restored workflow access. Last ordinary PR56 publication is00d8c57. No publisher
+child is currently running; no root native build/CTest child is active.
+
+Milestone full candidate and actual test CMake/workflow are ready for different
+review. See [current CI evidence](milestonetest-001-ci.md) and
+[test author map](milestonetest-001-test-author.md). Root compile/list90/inventory53
+are successful; foundation25 remains unexecuted. New workflow is not published and
+requires actual restored access plus independent foundation review before execution.

@@ -1,0 +1,91 @@
+name: Milestone progression baseline
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  milestone-progression-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the pinned selected Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends libboost1.83-dev=1.83.0-2.1ubuntu3
+          dpkg-query -W libboost1.83-dev
+      - name: Verify the compiler's selected Boost header version
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          macros = subprocess.check_output(
+              ["c++", "-dM", "-E", "-x", "c++", "-include", "boost/version.hpp", "/dev/null"],
+              text=True,
+          )
+          expected = "#define BOOST_VERSION 108300"
+          if expected not in macros.splitlines():
+              raise SystemExit("Compiler did not select pinned Boost 1.83.0 headers")
+          print(expected)
+          PYTHON
+      - name: Configure with pinned Boost configs and explicit GoogleTest fetch
+        run: >-
+          cmake --preset milestone-progression-debug -DSUBATHON_FETCH_GOOGLETEST=ON
+          -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
+          -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+      - name: Build baseline cases without executing milestone bodies
+        run: cmake --build --preset milestone-progression-debug
+      - name: Require the complete enabled uninverted feature inventory and foundation
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import pathlib
+          import re
+          import subprocess
+
+          source = pathlib.Path("tests/acceptance/milestone_progression_tests.cpp").read_text()
+          pairs = re.findall(r"\bTEST\(\s*(\w+)\s*,\s*(\w+)\s*\)", source)
+          expected = {f"{suite}.{case}" for suite, case in pairs}
+          fixture = pathlib.Path("tests/fixtures/milestone_progression_vectors.hpp").read_text()
+          rows = re.findall(r'\bRow\{"(\w+)"', fixture)
+          parameterized = re.findall(r"\bTEST_P\(\s*(\w+)\s*,\s*(\w+)\s*\)", source)
+          if len(expected) != 33 or len(pairs) != 33 or len(rows) != 20 or len(set(rows)) != 20:
+              raise SystemExit("Feature inventory differs from the authored 33 cases/20 literal rows")
+          if parameterized != [("MilestoneVectors", "MatchesIndependentLiteral")]:
+              raise SystemExit("Parameterized feature boundary differs from the reviewed inventory")
+          expected.update(f"IndependentMP/MilestoneVectors.MatchesIndependentLiteral/{row}" for row in rows)
+          inventory = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "milestone-progression-debug", "--show-only=json-v1"],
+              text=True,
+          ))
+          feature = {}
+          foundation = []
+          required = {"milestone-progression", "acceptance", "intentional-red", "core"}
+          for test in inventory["tests"]:
+              properties = {item["name"]: item["value"] for item in test.get("properties", [])}
+              labels = set(properties.get("LABELS", []))
+              if "milestone-progression" in labels:
+                  if not required.issubset(labels):
+                      raise SystemExit("Feature labels are incomplete")
+                  if properties.get("DISABLED") or properties.get("WILL_FAIL"):
+                      raise SystemExit("Feature test is disabled or failure-inverted")
+                  if any(part.startswith("DISABLED_") for part in test["name"].split(".")):
+                      raise SystemExit("Feature name disables a case")
+                  feature[test["name"]] = test
+              if test["name"] == "scaffold.milestone_progression_environment":
+                  if not {"scaffold", "milestone-progression-environment"}.issubset(labels):
+                      raise SystemExit("Foundation labels are incomplete")
+                  if properties.get("DISABLED") or properties.get("WILL_FAIL") or "intentional-red" in labels:
+                      raise SystemExit("Foundation must execute normally in the green lane")
+                  foundation.append(test)
+          if set(feature) != expected or len(foundation) != 1:
+              raise SystemExit("CTest discovery differs from the complete source inventory/foundation")
+          print(f"Discovered {len(expected)} enabled milestone cases; their first red is a separate gate")
+          PYTHON
+      - name: Run reviewed independent foundation and existing checks
+        run: ctest --preset milestone-progression-debug -LE intentional-red --verbose
