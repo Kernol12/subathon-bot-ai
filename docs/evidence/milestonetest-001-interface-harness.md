@@ -18,7 +18,7 @@ Actual local checks against the authored harness and imported source:
 - Initial configure with guessed `-DSUBATHON_GOOGLETEST_SOURCE_DIR=/tmp/subathon-googletest`
   FAILED because that directory did not exist. This is a setup error, not any red.
 - `cmake --preset milestone-progression-debug -DSUBATHON_GOOGLETEST_SOURCE_DIR=`:
-  PASS using installed GoogleTest1.17, GNU16.2.1/C++20, Boost1.92, Python3.14.8,
+  PASS using installed GoogleTest1.18.0 (minimum required1.17), GNU16.2.1/C++20, Boost1.92, Python3.14.8,
   Ninja. No downloads or personal paths committed.
 - `cmake --build --preset milestone-progression-debug`: PASS, 14 steps, no warnings.
 - `ctest --preset milestone-progression-debug --show-only=json-v1`: PASS; saved
