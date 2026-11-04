@@ -1642,8 +1642,8 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "blocked",
-      "owner": "coordinator /root; codec_author (document); service_reviewer (document review)",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (PR52 complete logical correction); service_reviewer (actual review next)",
       "depends_on": [
         "CORE-005"
       ],
@@ -1657,12 +1657,14 @@
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
         "Active work is preserved in unmerged draftPR52, branch task/CORETEST-008-timer-command-baseline head3e05b48. Actual document5446a91 and separate document reviewc33a4b1 are complete only for the partial stage; three owner questions OPEN-CAP/OPEN-READY/OPEN-DEADLINE remain unanswered. No API/test/red/production stage approved. This branch reconciles that existing claim to prevent duplicate assignment; detailed document/review evidence remains on PR52 rather than being copied into unrelated work. Resume only on actual answers, never preselected options.",
-        "Owner answered all three timer policy questions on 2026-11-04: when lowering cap below Main, warn and require an explicit Keep / Reduce / Abort choice for that change; Keep saves cap and retains Main, Reduce saves cap and applies an audited reduction to it, Abort cancels. Reject first Start with a passed enabled deadline and remain Ready until corrected; accept an authorized active deadline edit to now/past and immediately finish. Recorded in docs/evidence/timer-editorial-owner-decisions.md. These owner questions are resolved; revised specification/contract/examples and separate review/API/tests/red/CI remain unfinished. Preserve prior partial review and prioritize PR62 first. No implementation or passing behavior is claimed."
+        "Owner answered all three timer policy questions on 2026-11-04: when lowering cap below Main, warn and require an explicit Keep / Reduce / Abort choice for that change; Keep saves cap and retains Main, Reduce saves cap and applies an audited reduction to it, Abort cancels. Reject first Start with a passed enabled deadline and remain Ready until corrected; accept an authorized active deadline edit to now/past and immediately finish. Recorded in docs/evidence/timer-editorial-owner-decisions.md. These owner questions are resolved; revised specification/contract/examples and separate review/API/tests/red/CI remain unfinished. Preserve prior partial review and prioritize PR62 first. No implementation or passing behavior is claimed.",
+        "Allthreeoriginalownerchoicesanswered in timer-editorial-owner-decisions.md; old unanswered blocker superseded. PR62normallymerged9345aff/all13PR+12postmainSUCCESS. ExistingPR52branch resumed in coretest008-integrator, currentmainmerged23caf56 with406IDs/1497edges/partial0ed9c693+657988a7review preserved; root5601a06 transcribesspec§4/§18/TIMER01 onlyonPR52branch. Actual service_author logicalcorrection active at coretest008-logical-correction from5601; actualdifferentfullreviewbeforeAPI/source/tests. Thisrecordcoordinatesexistingunmergedclaim only, imports no timerbehavior/spec/schema/source or futureapproval intoPWPR59. Preserve allReady/Active/Finished/debt/Grace/hardend/wait/reopen/mixedcontinuation releasegates; no repeatedownerquestion."
       ],
       "verification": {
         "document_stage": "partial",
         "test_baseline": "not_run",
-        "owner_decisions": "passed"
+        "owner_decisions": "passed",
+        "owner_decision": "passed"
       },
       "evidence": [
         "docs/evidence/timer-editorial-owner-decisions.md"
