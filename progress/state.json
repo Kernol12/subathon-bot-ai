@@ -597,6 +597,45 @@
       }
     },
     {
+      "id": "CONTRACTPLAN-002",
+      "title": "Split declarative scene contract prerequisites",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_reviewer (scene planning document author)",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "§11",
+        "API-01",
+        "API-03",
+        "UI-01",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "MEDIA-01",
+        "MEDIA-02",
+        "MEDIA-03",
+        "MEDIA-04",
+        "MEDIA-05",
+        "MEDIA-06",
+        "VIEW-04"
+      ],
+      "brief": "docs/tasks/CONTRACTPLAN-002.md",
+      "summary": "Documentation-only scene contract split preserving full parent, schema, renderer and release gates; no scene behavior finalized.",
+      "notes": [
+        "Claimed task/CONTRACTPLAN-002-scene-prerequisites from freshlyfetched main0096323 after actual005/PR58 normalmerge/all12checks. RootownsJSON/HTML/claims/schemas/imports/build/CI/pins/maps; service_reviewer owns ONLY newADR0005, CONTRACT009–012 briefs, bounded childintegration sectionofCONTRACT008 and sceneplan authornote in isolated writer tree. Concreteowningdomain prerequisites/cycleavoidance and full§11requirement map beforeactualreview; no new default/codec/validator/supportpolicy claim. Independentreview actualauthoredplan/state beforecompletion; no production/source/fixture/assertion/schema edits."
+      ],
+      "verification": {
+        "planning_review": "not_run",
+        "consistency": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
       "id": "CONTRACT-005",
       "title": "Common wire primitives and compatibility",
       "module": "Server/API",
@@ -620,12 +659,13 @@
       "notes": [
         "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
         "Claimed task/CONTRACT-005-wire-primitives from refreshed main dd6a141 after actual PR57 merge. FIRST DOCUMENT ONLY: versioned common exact-value/reference/unknown/version/capability/envelope primitives and independent valid/invalid examples, consistent with reviewed domain contracts. codec_author owns ONLY NEW docs/contracts/wire-primitives-v1.md and docs/evidence/contract-005-author.md in isolated task/CONTRACT-005-document-author. No schema, C++/TS, stub, client, fixture/test, code generation, network provider or authority behavior. Generic decoding proposals cannot silently reject valid domain values; keep field-specific owning limits explicit. Root owns state/HTML/checkpoint/shared schemas/imports/build/CI/pins/maps. Actual different document review precedes any next stage; API01/02/03/NUM04/§2/§10 remain scope. Parallel password claim is separate and source-free.",
-        "Actual common-wire first document1404de5/import378da1b, contract11eeb5f4/author7cebb719, independently APPROVEDf01bd28. All323 lines/27WP examples reviewed against actual domain/storage/application bounds. Independent23 arithmetic/size/order facts pass, nonsecret error565<=1024, no global256ref/512parser/4096bit cap. This completes005 bounded document acceptance only; no schema/parser/encoder/client/native/provider behavior exists. ExistingCIcoversconsistency/unchangedcomponents; finalexactheadCI/rules/threads/normalmerge are separatepublicationgates. Fullparent003/006–008/schema/consumer/testfirst/platform/provider scope remains."
+        "Actual common-wire first document1404de5/import378da1b, contract11eeb5f4/author7cebb719, independently APPROVEDf01bd28. All323 lines/27WP examples reviewed against actual domain/storage/application bounds. Independent23 arithmetic/size/order facts pass, nonsecret error565<=1024, no global256ref/512parser/4096bit cap. This completes005 bounded document acceptance only; no schema/parser/encoder/client/native/provider behavior exists. ExistingCIcoversconsistency/unchangedcomponents; finalexactheadCI/rules/threads/normalmerge are separatepublicationgates. Fullparent003/006–008/schema/consumer/testfirst/platform/provider scope remains.",
+        "Normally mergedPR58 at2026-11-04T12:28:38Z, exactheadf73ef10/all12 actualcheckrunsSUCCESS, currentrules/threads0/GHapprovalsrequired0 satisfied. Merge009632386564f3a00fb413580ac1cee3ef43cc11/headtree0b4014ec equal; no bypass. Document005 integrated; parent003/006–008/source/schema/features stillplanned. Post-main workflows pendingobservation."
       ],
       "verification": {
         "document_review": "passed",
         "consistency": "passed",
-        "selected_ci": "not_run"
+        "selected_ci": "passed"
       },
       "evidence": [
         "docs/contracts/wire-primitives-v1.md",
@@ -13298,6 +13338,11 @@
       "date": "2026-11-04",
       "task": "CONTRACT-005",
       "note": "Common primitive document independently approved;27 literal examples/domain widths checked. Contract-only acceptance complete, finalCI/publication gates pending; no codec/schema/client capability."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-002",
+      "note": "Claimed focused scene contract prerequisite refinement from integratedcommon005; actual planning artifacts and independentreview next."
     }
   ]
 }

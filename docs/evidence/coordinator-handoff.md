@@ -1,9 +1,9 @@
-# Coordinator checkpoint — common contract final publication
+# Coordinator checkpoint — scene prerequisite planning and password API
 
 Coordinator /root,2026-11-04. Continue AGENTS.md and
 [COORDINATOR_PROMPT](../COORDINATOR_PROMPT.md). Full product incomplete.
 
-Main dd6a141107e4e950f3c6c3f6bd3a74b5ba1f7f09 normally merged PR57 exact886ba3b
+Prior main dd6a141107e4e950f3c6c3f6bd3a74b5ba1f7f09 normally merged PR57 exact886ba3b
 at11:28:48Z after all12 checks/independentreview/zero threads/current rules; merge/
 head tree5262607e matches. All11 post-main workflows passed. PR55/53/51 also done.
 Do not replay their valid reviewed/red/pass evidence or infer full product support.
@@ -12,15 +12,16 @@ See [planning handoff](contractplan-001-handoff.md),
 
 ## Actual common contract
 
-This tree task/CONTRACT-005-wire-primitives in contract005-integrator, claimec1e9859
+Completed common tree task/CONTRACT-005-wire-primitives in contract005-integrator, claimc1e9859
 from integrated main. Author1404de5/import378da1b, contract11eeb5f4/author7cebb719.
 Actual independent reviewf01bd28 APPROVES all323lines/27WP examples;23 arithmetic/
 size/order facts passed, existing4096-byte refs/configurable16384DECIMAL-byte
 components preserved. [Handoff](contract-005-handoff.md),
 [review](contract-005-review.md), [contract](../contracts/wire-primitives-v1.md).
-Only005 document locally done. No schema/parser/encoder/client/provider capability.
-Full003/006–008/consumer/feature/release gates stay open. FinalexactheadCI/rules/
-threads/normalmerge pending; publish this focused document PR now. No new workflow
+005 document is now integrated in main009632386564f3a00fb413580ac1cee3ef43cc11
+via normalPR58 at12:28:38Z fromf73ef10/all12actualchecksPASS. Merge/headtree
+0b4014ec matches; threads0/rules0GHapprovals/no bypass. Post-mainworkflows pending. No schema/parser/encoder/client/provider capability.
+Full003/006–008/consumer/feature/release gates stay open. FinalexactheadCI/rules/threads/normalmerge completed forPR58. No new workflow
 needed, so the separate workflow-scope blocker does not prevent ordinary publication.
 
 ## Concurrent assignments and preserved work
@@ -49,8 +50,12 @@ needed, so the separate workflow-scope blocker does not prevent ordinary publica
   test/function/marker/red. Preserve403-task graph incl requiredRATESTEST009/RATES009
   exact valuation bridge/EPIC017deps versus main401. No production released.
 
-service_reviewer completed common review and now READONLY prepares scene008 scope/
-possible split after005 actual merge. No scene claim/files/schema/renderer approved.
+service_reviewer completed read-only scene prep. Root now claims CONTRACTPLAN002
+on task/CONTRACTPLAN-002-scene-prerequisites in contractplan002-integrator from
+main0096323. Own newADR0005/CONTRACT009–012 briefs/CONTRACT008 integration section/
+authornote only in separate sceneplan-author tree; rootownsJSON/HTML/navigation.
+No schema/renderer/feature released. Actual different planning review follows
+actual authored graph/briefs. Preserve all§11scope and unchanged consumer edges.
 All writers isolated; root owns shared JSON/HTML/checkpoint/schemas/imports/build/CI/
 pins/maps/PR integration. Restart idle agents with followup_task; inspect actual roles.
 
@@ -76,7 +81,12 @@ exact-object task publisher can retry after transient5xx/truncatedJSON, verifyin
 all objects and nonforcedrefs; never main/history/scopes. Inspect mutationstate first.
 Prior planning checkpoint linkfailure1b6 corrected69 is recorded as failedintermediate.
 
-Next: publish/review latest checks/normalmerge005; immediately refresh main and claim
-ready scene/consumer task from actual prep. Continue concrete passwordAPI/independent
+Next: author and independently review actual scene prerequisite plan, then normal
+focusedPR/CI/integration before claiming009. Continue concrete passwordAPI/independent
 review and selected-library preparation. All7integrations/3FX/bothrenderers/locales/
 themes/platform/license/package/live scope remains; no real chat/payment sideeffects.
+
+This current tree is CONTRACTPLAN002. Root is committing its initial claim before
+creating/assigning the isolated author branch. No publisher/native/build/CTest
+child is active; actual passwordAPI author is running, other agents completed their
+preparations. Eight olddirtytrees/missingregistrations remain untouched.
