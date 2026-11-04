@@ -116,3 +116,20 @@ completed; SDKconfigure/buildpreparation mayrun in/tmp onlywithno librarytests o
 password APIcalls; inspectactualprocesses. Currenttaskbranchhasnoglobalpublisher/
 build/CTestchild; primaryrootmilestone b462ac7 nowintegrates commonmain009 withall
 reviewed53source/fixture/foundation bytes unchanged andstillworkflowaccessblocked.
+
+
+Current rootclaim: CONTRACT009 in task/CONTRACT-009-scene-model /
+local-evidence/worktrees/contract009-integrator, based actualmainb2b14bb. PLAN002/
+PR60 normallymerged13:46:13Z, head a390112/all12PASS/independenta289/threads0/
+currentrules0GHapprovals/no bypass; head/mergetree0a7b58f4match. Post-mainchecks
+pending. RootclaimsONLYNEW scene-document-v1.md +contract-009-author.md logical
+stage tocodec_author innewcontract009-author/task/CONTRACT-009-document-author.
+No schema/renderer/nativefeature; differentactualmodelreview before nextstage.
+Passwordprimaryd9762d7(source/harness64a approved93d9/30bdd15) nowtest/foundation
+and PRIVATEerrorharness authoring byservice_author. ExactPH12/13 6-operationfixture
+examples mustremain; strongerhashcatfixtureadditional only. SDK-onlyfoundation and
+syntheticINPUTgenerator needactualdifferent review before rootfirstnativefoundation,
+then generator, then completefixture/testreview. No SUT-generatedexpectedhashes/
+setup orfake-successcrypto. No newpasswordfeature/nativefoundation/marker executed.
+CodedSDKhostbuildwarnings/probes recorded separately; currentruntime/CI/benchmarks
+notverified. CurrentPWHreviewercompleted, availableforactualnextartifacts.

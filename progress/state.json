@@ -628,12 +628,13 @@
       "notes": [
         "Claimed task/CONTRACTPLAN-002-scene-prerequisites from freshlyfetched main0096323 after actual005/PR58 normalmerge/all12checks. RootownsJSON/HTML/claims/schemas/imports/build/CI/pins/maps; service_reviewer owns ONLY newADR0005, CONTRACT009–012 briefs, bounded childintegration sectionofCONTRACT008 and sceneplan authornote in isolated writer tree. Concreteowningdomain prerequisites/cycleavoidance and full§11requirement map beforeactualreview; no new default/codec/validator/supportpolicy claim. Independentreview actualauthoredplan/state beforecompletion; no production/source/fixture/assertion/schema edits.",
         "Actual plan author85be9bb8/import2c76307 changed7assignedMDfiles only, including byte-identical original008prefix+23lines. Root maps exactADR table into406tasks: parent008 adds5gates and4newchildren contribute19edges. All1473 oldedges/319 baseline-prerequisiteedges retained; onlyold008 dependencylist changes. No source/schema/test/validator/provider/native edits or execution. Actualdifferent docs ANDstate review required, no futureapproval.",
-        "Actual independent approvala2897c88, reviewde522f0b, accepts exact84a80bd docs ANDmappedstate. All1473claim-stateedges/319baseline gates and1471published-main edges preserved; exact24 additions/no cycles/full§11allocation checked. No blocker/ownerchoice. OnlyPLAN002locallydone, all009–012remainplanned; finalexactheadCI/rules/threads/normalmerge precedechildclaims. No schema/source/native/provider behavior or newpolicy approved."
+        "Actual independent approvala2897c88, reviewde522f0b, accepts exact84a80bd docs ANDmappedstate. All1473claim-stateedges/319baseline gates and1471published-main edges preserved; exact24 additions/no cycles/full§11allocation checked. No blocker/ownerchoice. OnlyPLAN002locallydone, all009–012remainplanned; finalexactheadCI/rules/threads/normalmerge precedechildclaims. No schema/source/native/provider behavior or newpolicy approved.",
+        "Normally mergedPR60 at2026-11-04T13:46:13Z, exacta390112/all12finalheadcheckrunsSUCCESS, actualreviewa289/thread0/rules0GHapprovals/no bypass. Mainb2b14bb5cc6d509f45784c55d5dbed7e55f7556b/headtree0a7b58f4 equal. Onlyplanningintegrated;009–012remainrequired. Post-mainworkflowspendingobservation."
       ],
       "verification": {
         "planning_review": "passed",
         "consistency": "passed",
-        "selected_ci": "not_run"
+        "selected_ci": "passed"
       },
       "evidence": [
         "docs/decisions/0005-scene-contract-prerequisites.md",
@@ -794,8 +795,8 @@
       "title": "Protocol-neutral scene document model",
       "module": "Presentation",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; codec_author (scene model logical document)",
       "depends_on": [
         "CONTRACT-005",
         "CONTRACTPLAN-002"
@@ -813,9 +814,12 @@
       "brief": "docs/tasks/CONTRACT-009.md",
       "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
       "notes": [
-        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state.",
+        "Claimed task/CONTRACT-009-scene-model from actualrefreshed mainb2b14bb afterPLAN002/PR60 normalmerge/all12checks. Dependencyready005/PLAN002done. FIRST DOCUMENT ONLY: NEW docs/contracts/scene-document-v1.md + docs/evidence/contract-009-author.md tocodec_author inisolated task/CONTRACT-009-document-author. Protocolneutralmodel/7families/geometry+ordering+groups/typed010-011refs/draft-live+publish-restore boundaries/compatibility/finiteprofile proposal+independentvalid-invalidlogicalexamples; preservefull§11scope anddo notinventdomain clocks/disclosure/progressorigin/newproductdefaults. No schema/API/stub/parser/validator/fixture/test/renderer/code/native/provider. Actualdifferentdocumentreview beforeanotherstage. Rootownssharedstate/HTML/schemas/imports/build/CI/pins/maps/PR. Parent008/C003completepackages/consumer/testfirst/platformgates remain."
       ],
-      "verification": {},
+      "verification": {
+        "document_review": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -3875,7 +3879,7 @@
       "module": "Identity",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (concrete API document)",
+      "owner": "coordinator /root; service_author (password tests/foundation author)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3889,7 +3893,8 @@
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
         "Claimed dedicated task/SESSIONTEST-001-password-baseline from refreshed integrated main dd6a141 after actual PR57; prerequisite CONTRACTPLAN001 done. FIRST DOCUMENT ONLY: bounded libsodium Argon2id password hashing/stored parameters/verification and upgrade proposal, independent literal success/failure examples, secret handling and honest reference-hardware benchmark procedure. service_reviewer owns ONLY NEW docs/contracts/password-hashing-v1.md and docs/evidence/sessiontest-001-contract-author.md in isolated task/SESSIONTEST-001-contract-author. Consult official primary libsodium docs and actual installed1.0.22 headers, distinguish observed API from proposed supported pin; no production/hash/marker/test/fixture/stub/schema/migration or secret invocation. No library hash cost/platform claim without actual reviewed evidence. Root owns shared state/HTML/build/CI/pins/schemas. Actual different logical/API/source/test reviews and greenfoundation/FIRSTred precede SESSION001 production.",
-        "Concurrentpassword actuallogicalf730/importd74/contractbc9ccbf6 independently approved98f0494/importfebe5c2. Primaryf94f5ae releases ONLY concrete API document in separateAPIauthor tree; service_author active. No actualC++header/source/stub/test/foundation/nativecrypto orfutureapproval. This commoncontract branch reconcilesclaimonly."
+        "Concurrentpassword actuallogicalf730/importd74/contractbc9ccbf6 independently approved98f0494/importfebe5c2. Primaryf94f5ae releases ONLY concrete API document in separateAPIauthor tree; service_author active. No actualC++header/source/stub/test/foundation/nativecrypto orfutureapproval. This commoncontract branch reconcilesclaimonly.",
+        "Concurrentpassword source/harness64a924c independently approved93d9a576/import30bdd15; actualsourceheaderec3c5cf8/CPPeaf56f41 remain3immediate markerbodies. Primaryd9762d7 nowreleases onlytest/foundation/privateerrorharness authoring inisolatedtest-author tree. Literal6-operation PH12/13cases preserved; newinputfixturesmaybegenerated ONLYwithreviewedSDK-onlygenerator afterindependentnativefoundationgreen, neverusingSUT. No passwordnativefeature/foundation/marker call yet. SDKsourceauth+hostbuildmetadata notruntimeproof; current main406/requiredratebridge403recordsreconcilelater."
       ],
       "verification": {
         "document_review": "not_run",
@@ -13503,6 +13508,16 @@
       "date": "2026-11-04",
       "task": "CONTRACTPLAN-002",
       "note": "Actual independent scene-plan/DAG review approved. Four child contracts remain planned; final publication/CI/normal merge pending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-002",
+      "note": "SceneplanPR60 normally merged exactreviewedhead afterall12checks; refreshedmainb2b14bb."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-009",
+      "note": "Claimed FIRSTscene-modeldocument only fromintegratedplan; actualdifferentreview before schema orrenderer work."
     }
   ]
 }
