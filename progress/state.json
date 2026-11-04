@@ -1708,7 +1708,8 @@
         "docs/evidence/coretest-008-first-red.xml",
         "docs/evidence/coretest-008-first-red-review.md",
         "docs/evidence/coretest-008-ci.md",
-        "docs/evidence/coretest-008-handoff.md"
+        "docs/evidence/coretest-008-handoff.md",
+        "docs/evidence/coretest-008-final-integration.md"
       ],
       "review": {
         "author": "service_author",

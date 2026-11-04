@@ -42,3 +42,11 @@ atomicpersistence, firstStart/reopen/absoluteMain/debt prerequisites/mixedglobal
 allintegrations/FX/renderers/locales/themes/platforms/packaging/licensing/live remain.
 Onlysyntheticdata; nolivechat/payment/deploy. PR56normalmerge must be integrated
 beforefinalPR52 currentmainreview/publication so milestone proof/graph remain.
+
+## Actual final main integration
+
+The preceding pendingmain step is nowcomplete: normalPR56merged ea943b9e/head3b7d0d7
+after16finalchecks, treef9346edfidentical. PR52merge6ed86d8 retainsallmain408/1508
+records exceptcompletedCORETEST008; finalconfigure/build/exact101guard PASS with
+no featurebodyreplay. [Final integration](coretest-008-final-integration.md) records
+actualunion/frozenhashes. Differentactualfinalreview/freshlatestCI/normalmerge remain.
