@@ -12,7 +12,7 @@ translation-catalog-debug. To update tracked text after editing the source:
 cmake --build --preset translation-catalog-debug --target translation_catalog_update
 ```
 
-A normal build generates actual QM and temporary text under build/<preset>/,
+A normal build generates actual QM and temporary text under the selected preset's build directory,
 then compares the tracked generated text without overwriting it. Stale tracked
 outputs fail the build. Commit the source and all four generated text files together;
 QM stays in the build directory. The build obtains lrelease from Qt6::lrelease,

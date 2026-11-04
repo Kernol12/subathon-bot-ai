@@ -234,12 +234,14 @@ producers. Financial refunds, explicit review/continuation, running API/server,
 recovery, delivery and release/platform/provider scope remain separate gates.
 
 
-The reviewed [translation catalog contract](contracts/translation-catalog-v1.md)
-and [build API](contracts/translation-catalog-api-v1.md) select one authoritative
-English/German JSON catalog and a standard-library Python build generator producing
-canonical TS/browser text plus real selected Qt6.12.0 QM. Native consumers require
-generated declaration metadata and direct raw QTranslator lookup before their
-later named formatter. No runtime formatter/preference implementation is supplied.
-[LOCALETEST-001](evidence/localetest-001-handoff.md) establishes independently
-reviewed43-method intentional red plus separate actual Qt-only foundation; the
-generator remains explicit missing behavior until LOCALE-001 passes that baseline.
+The shared [translation catalog contract](contracts/translation-catalog-v1.md)
+and [build API](contracts/translation-catalog-api-v1.md) now have an implemented
+standard-library Python generator. One authoritative English/German JSON source
+produces canonical Qt TS/browser text and real selected Qt6.12.0 QM. Native
+consumers require generated declaration metadata and raw QTranslator lookup before
+their later named formatter. The build verifies tracked text without overwriting
+it; an explicit update target regenerates that text. Source files are not cleanable
+build byproducts. [LOCALE-001 evidence](evidence/locale-001-handoff.md) records43
+preserved passing cases, independent source/process/ownership audit and actual
+promoted selected CI. Runtime formatting, preferences, live switching, renderers,
+packaging and supported-platform release checks remain separate requirements.

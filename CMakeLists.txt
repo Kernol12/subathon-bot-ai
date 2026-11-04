@@ -15,7 +15,7 @@ option(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS "Build reviewed receipt intake simula
 option(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS "Build contribution evidence acceptance tests" OFF)
 option(SUBATHON_FETCH_GOOGLETEST "Explicitly allow fetching the pinned GoogleTest source" OFF)
 option(SUBATHON_BUILD_QT_PROBE "Build a Qt 6.12 Core/Test environment probe" OFF)
-option(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS "Build translation catalog baseline interfaces and diagnostics" OFF)
+option(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS "Build translation catalog generation and acceptance checks" OFF)
 if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
     set(SUBATHON_BUILD_QT_PROBE ON)
 endif()
@@ -62,7 +62,7 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
     if(NOT Qt6LinguistTools_VERSION VERSION_EQUAL "6.12.0")
         message(FATAL_ERROR "Translation catalog baseline requires the selected Qt LinguistTools 6.12.0")
     endif()
-    # Syntax and inert import only. Never invoke the unimplemented generator here.
+    # Keep syntax/import checks separate from artifact generation below.
     add_custom_target(translation_catalog_interface_check ALL
         COMMAND "${CMAKE_COMMAND}" -E env
             "PYTHONPYCACHEPREFIX=${CMAKE_CURRENT_BINARY_DIR}/python-cache"

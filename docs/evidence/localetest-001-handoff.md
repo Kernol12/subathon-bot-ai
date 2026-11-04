@@ -1,5 +1,10 @@
 # LOCALETEST-001 baseline handoff
 
+Current implementation-branch status: [LOCALE-001](locale-001-handoff.md) now passes
+this preserved baseline with different source review and selected ordinary CI.
+The stage history below records the original missing-feature boundary. Current
+feature labels are ordinary acceptance; historical red output is unchanged.
+
 Coordinator /root, 2026-11-04, task/LOCALETEST-001-catalog-baseline,
 [draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53).
 This records reviewed tests and FIRST intended missing-feature red, not generator
