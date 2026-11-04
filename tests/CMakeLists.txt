@@ -14,6 +14,16 @@ if(SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SU
     include(GoogleTest)
 endif()
 
+if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
+    # Primitive SDK proof is independent of the permission evaluator and GTest.
+    add_executable(effective_permissions_environment acceptance/effective_permissions_environment.cpp)
+    target_link_libraries(effective_permissions_environment PRIVATE Boost::headers)
+    subathon_target_options(effective_permissions_environment)
+    add_test(NAME scaffold.effective_permissions_environment COMMAND effective_permissions_environment)
+    set_tests_properties(scaffold.effective_permissions_environment PROPERTIES
+        LABELS "scaffold;effective-permissions-environment" TIMEOUT 10)
+endif()
+
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     add_executable(core_time_debt_acceptance acceptance/time_debt_tests.cpp)
     target_link_libraries(core_time_debt_acceptance PRIVATE subathon_time_debt subathon_timer_lifecycle GTest::gtest_main)
