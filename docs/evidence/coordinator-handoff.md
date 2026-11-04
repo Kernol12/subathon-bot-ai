@@ -47,7 +47,7 @@ they are not running in the background.
 
 ## Current task, actual revisions and next gate
 
-Root is clean at `1f666b0` on `task/LOCALETEST-001-catalog-baseline`, based on
+Last published source/config head is `1f666b0`; local root is at `6589861` on `task/LOCALETEST-001-catalog-baseline`, based on
 integrated main `0b631dc`. [Draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53)
 remains open. LOCALETEST-001 is in progress; LOCALE-001 production is planned.
 The [brief](../tasks/EPIC-023/LOCALE-001.md) covers specification v0.45 §12/I18N-04.
@@ -82,9 +82,10 @@ local-evidence/localetest001-ci/interfaces-41792990086.log,
 SHA256 `4d7fcd0bbc10295ccf4ddb4c7e3da8707f7433f7950e31891fa6cd48ea5e57fc`.
 This establishes infrastructure, not translation feature acceptance.
 
-Actual source/shared-config independent review is running with service_reviewer.
-Next: integrate its actual verdict/corrections. Only after approval release
-independent literal fixture/test authorship, then review those actual artifacts,
+Actual source/shared-config review `732bb2d`/import `6589861` APPROVES the exact
+minimal source/config after an independent11-step build/four infrastructure passes.
+Independent literal fixture/test authorship is now explicitly assigned. Next:
+integrate and review those actual artifacts,
 run the selected real-Qt compiled foundation green and observe FIRST intended
 project marker red. No stub call during build/discovery. Missing dependency,
 compilation, setup or skip is never red. Keep intentional red execution separate
@@ -99,13 +100,18 @@ All paths below are under local-evidence/worktrees/.
   localetest001-contract-author, branch task/LOCALETEST-001-contract-author.
   Source and approved Markdown work are committed/clean. Explicitly followup to
   restart; a queued message alone does not run an idle agent.
-- service_reviewer is RUNNING actual minimal source/config review at
+- service_reviewer is completed/idle after actual minimal approval `732bb2d` at
   localetest001-contract-review, branch task/LOCALETEST-001-contract-review.
-  Own ONLY new docs/evidence/localetest-001-stub-review.md. Earlier reviews remain
-  valid for their exact scopes; no prospective fixture/test approval.
-- codec_author is completed/idle after scratch existing-Qt probe. Its current
-  task tree belongs to earlier timer work and remains preserved. Future fixture
-  authorship needs an explicitly assigned fresh branch/tree after minimal review.
+  Its source/config note is committed. Explicitly followup with actual authored
+  tests/config before further review; no prospective fixture/test approval.
+- codec_author is RUNNING independent fixture/test authorship at
+  localetest001-fixture-author, branch task/LOCALETEST-001-fixture-author,
+  created from main plus reviewed6589861. Own only NEW tests/fixtures/translation_catalog/,
+  tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note.
+  Six literal messages/four complete goldens, real Qt foundation/reusable raw-QM
+  verifier and public API/CLI behavior tests are assigned. No project stub/marker
+  execution before actual test review and selected green foundation. Earlier
+  timer/scratch work remains preserved.
 - Root alone owns state/HTML/maps/shared schemas/CMake/presets/workflows/pins and
   checkpoint/integration. Use separate writer branches and inspect dirty work.
 

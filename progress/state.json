@@ -10512,7 +10512,7 @@
       "module": "Localization",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (contract/API/stub); service_reviewer (independent review); codec_author (selected Qt feasibility)",
+      "owner": "coordinator /root; service_author (contract/API/stub); codec_author (independent fixture/tests); service_reviewer (independent review)",
       "depends_on": [
         "BOOT-001"
       ],
@@ -10531,7 +10531,8 @@
         "Actual R4 correction273c6e7/import2cde25f changes TS to ONE explicit empty context/name wrapper and fixes canonical indentation/completeTC01. Separate renewed approval947eba4 accepts contract51383296/authora203ad4b, preserving prior unsupported inference/rejection and all review history. Actual externalQt56-check feasibility is not project baseline/acceptance. Only concrete API DOCUMENT is active next; no generator/stub/catalog/schema/projecttests authored.",
         "Actual concrete API895b500/importec662b1 (doc7f1738b6/authorc247d91a) receives separate changes-required reviewce77a9a: cheap bounded direct timeout option, finite QM file size/chunked reads, and nonregular source rejection before blocking open. Author explicitly resumed throughfollowup_task for ONLY the2 API Markdown corrections; approvedsourcecontract51383296 staysfrozen. No Python/generator/stub/catalog/schema/projectfixture/test behavior exists.",
         "Corrected API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) receives actual independent approvalf7f4681. Root now releases MINIMAL INTERFACE ONLY: author owns tools/translation_catalog.py plus docs/evidence/localetest-001-stub-author.md, reads tools/AGENTS.md, implements frozen inert enum/dataclass/error definitions and ALL5 immediate distinct unimplemented entrypoints/script86 marker; NO parse/validate/render/file/path/tool/generation/help/version behavior. Root owns CMake22profile/syntax-import harness/new selectedQtCI pins and workflow; no feature function calls at build/discovery. Actual separate minimalcode/config review precedes independent fixture/test stage.",
-        "Actual minimal stub ef4974c/importa9e60e5 plus root shared build/CI1f666b0 is integrated. All five feature entries remain immediate markers and none has been invoked. Selected-prefix configure/build/four existing CTests pass; actual official CI41792990086 passes archive hashes/tool closure/inert imports/four infrastructure checks on Ubuntu24.04/Python3.12.3. Actual separate source/config review is active before fixture/test release. No formal tests, intended red or generator behavior exists yet; no baseline-completion claim."
+        "Actual minimal stub ef4974c/importa9e60e5 plus root shared build/CI1f666b0 is integrated. All five feature entries remain immediate markers and none has been invoked. Selected-prefix configure/build/four existing CTests pass; actual official CI41792990086 passes archive hashes/tool closure/inert imports/four infrastructure checks on Ubuntu24.04/Python3.12.3. Actual separate source/config review is active before fixture/test release. No formal tests, intended red or generator behavior exists yet; no baseline-completion claim.",
+        "Actual minimal source/config1f666b0 receives independent approval732bb2d/import6589861 after separate selected-prefix11step build/four infrastructure passes and inert AST/import checks. Root explicitly releases independent fixture/test author codec_author in NEWtask/LOCALETEST-001-fixture-author from main+6589861. Own ONLY tests/fixtures/translation_catalog/, tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note. Root owns all shared harness/CI/state. Complete literal TS/browser goldens, Qt-only real compiler/raw lookup/repro foundation and meaningful Python API/CLI tests must receive actual review before any project feature/main/script/marker call. Production remains unimplemented and baseline incomplete."
       ],
       "verification": {
         "tool_environment": "partial",
@@ -10540,7 +10541,8 @@
         "implementation": "not_run",
         "api_review": "passed",
         "interface_build": "passed",
-        "interface_ci": "passed"
+        "interface_ci": "passed",
+        "interface_review": "passed"
       },
       "evidence": [
         "docs/contracts/translation-catalog-v1.md",
@@ -10551,7 +10553,8 @@
         "docs/contracts/translation-catalog-api-v1.md",
         "docs/evidence/localetest-001-api-author.md",
         "docs/evidence/localetest-001-api-review.md",
-        "docs/evidence/localetest-001-stub-author.md"
+        "docs/evidence/localetest-001-stub-author.md",
+        "docs/evidence/localetest-001-stub-review.md"
       ],
       "review": null
     },
