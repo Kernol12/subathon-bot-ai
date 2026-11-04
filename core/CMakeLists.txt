@@ -2,6 +2,12 @@ add_library(subathon_core STATIC src/time_credit.cpp)
 target_include_directories(subathon_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 subathon_target_options(subathon_core)
 
+if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
+    add_library(subathon_effective_permissions STATIC src/effective_permissions.cpp)
+    target_include_directories(subathon_effective_permissions PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    subathon_target_options(subathon_effective_permissions)
+endif()
+
 # Exact arithmetic has an explicit target and installed-header dependency.
 if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
     find_package(Boost 1.83 CONFIG REQUIRED)
@@ -53,4 +59,11 @@ if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR 
     target_include_directories(subathon_application_plan PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_application_plan PUBLIC Boost::headers)
     subathon_target_options(subathon_application_plan)
+endif()
+
+if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
+    add_library(subathon_rate_snapshots STATIC src/rate_snapshot.cpp)
+    target_include_directories(subathon_rate_snapshots PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_rate_snapshots PUBLIC subathon_exact_numeric)
+    subathon_target_options(subathon_rate_snapshots)
 endif()

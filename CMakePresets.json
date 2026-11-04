@@ -195,11 +195,35 @@
       }
     },
     {
+      "name": "rate-snapshot-debug",
+      "displayName": "23 \u00b7 Rate snapshot baseline interfaces",
+      "inherits": "exact-numeric-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_RATE_SNAPSHOT_TESTS": "ON"
+      }
+    },
+    {
       "name": "milestone-progression-debug",
       "displayName": "24 \u00b7 Milestone progression baseline interfaces and tests",
       "inherits": "exact-numeric-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS": "ON"
+      }
+    },
+    {
+      "name": "password-hashing-debug",
+      "displayName": "25 \u00b7 Password hashing baseline interfaces and tests",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_PASSWORD_HASHING_TESTS": "ON"
+      }
+    },
+    {
+      "name": "effective-permissions-debug",
+      "displayName": "26 \u00b7 Effective permissions baseline",
+      "inherits": "exact-numeric-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS": "ON"
       }
     }
   ],
@@ -293,8 +317,20 @@
       "configurePreset": "translation-catalog-debug"
     },
     {
+      "name": "rate-snapshot-debug",
+      "configurePreset": "rate-snapshot-debug"
+    },
+    {
       "name": "milestone-progression-debug",
       "configurePreset": "milestone-progression-debug"
+    },
+    {
+      "name": "password-hashing-debug",
+      "configurePreset": "password-hashing-debug"
+    },
+    {
+      "name": "effective-permissions-debug",
+      "configurePreset": "effective-permissions-debug"
     }
   ],
   "testPresets": [
@@ -519,8 +555,38 @@
       }
     },
     {
+      "name": "rate-snapshot-debug",
+      "configurePreset": "rate-snapshot-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
       "name": "milestone-progression-debug",
       "configurePreset": "milestone-progression-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "password-hashing-debug",
+      "configurePreset": "password-hashing-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "effective-permissions-debug",
+      "configurePreset": "effective-permissions-debug",
       "output": {
         "outputOnFailure": true
       },

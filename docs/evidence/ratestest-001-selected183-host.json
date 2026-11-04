@@ -1,0 +1,65 @@
+{
+  "scope": "FIRST selected Boost1.83 host rate foundation, not feature acceptance",
+  "compile": {
+    "name": "rate",
+    "tree": "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/ratestest001-integrator",
+    "source": "tests/acceptance/rate_snapshot_environment.cpp",
+    "review": "dcf5dcaaf8c33d76223278149b018d56efa5a50c",
+    "blob": "28a829aad3769f176db82b497120ba4ad05a0818",
+    "facts": 14,
+    "head": "c37c87b8997d165a07aae37159ffef5d5f3378ba",
+    "source_absolute": "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/ratestest001-integrator/tests/acceptance/rate_snapshot_environment.cpp",
+    "source_sha256": "d353f9e882436bd70da4a9bd137168e77277951766d4e2778390195daaea82fc",
+    "macros": {
+      "BOOST_VERSION": "108300",
+      "BOOST_LIB_VERSION": "\"1_83\"",
+      "__cplusplus": "202002L",
+      "__GNUC__": "16",
+      "__GNUC_MINOR__": "2",
+      "__GNUC_PATCHLEVEL__": "1"
+    },
+    "Boost_header_count": 521,
+    "Boost_headers_all_inside_authentic_prefix": true,
+    "all_used_Boost_header_hashes_match_manifest": true,
+    "object": "/tmp/subathon-rate-milestone-boost183-compile-eiahc2ua/rate.o",
+    "object_sha256": "450399e715a608d8be1be69e05e0dbcba747dc63f20fcee12c31abf3c332e179",
+    "depfile": "/tmp/subathon-rate-milestone-boost183-compile-eiahc2ua/rate.d",
+    "depfile_sha256": "edea8dc8069839114204859dd8c9817c8e1cbd733162c81bbf93051e4afc45ee",
+    "binary": "/tmp/subathon-rate-milestone-boost183-compile-eiahc2ua/rate-foundation-unrun",
+    "binary_sha256": "63086d9c2a0576399d552f840c8f2fce47874d50dcafa9a35962bf22863104d6",
+    "binary_executed": false,
+    "main_defined": true,
+    "project_or_GTest_symbols": false
+  },
+  "selection_review": {
+    "reviewer": "/root (different from compile operator codec_author)",
+    "utc": "2026-11-04T19:11:37.440654+00:00",
+    "verdict": "APPROVED actual selected1.83 compile/link selection for unchanged previously independently reviewed standalone foundations",
+    "sha256": "a5963b39619b04b1c51d7e08396f036106b9c53d674a6760e7e8e2035142335c"
+  },
+  "first_runtime": {
+    "name": "rate",
+    "started_utc": "2026-11-04T19:11:53.997709+00:00",
+    "finished_utc": "2026-11-04T19:11:54.000759+00:00",
+    "argv": [
+      "/tmp/subathon-rate-milestone-boost183-compile-eiahc2ua/rate-foundation-unrun"
+    ],
+    "exit_code": 0,
+    "stdout": "PASS rate snapshot Boost foundation: 14 facts, Boost 1_83\n",
+    "stderr": "",
+    "binary_sha256": "63086d9c2a0576399d552f840c8f2fce47874d50dcafa9a35962bf22863104d6",
+    "reviewed_source_blob": "28a829aad3769f176db82b497120ba4ad05a0818",
+    "facts": 14,
+    "stdout_sha256": "32d17f17b5f9829b97326adf9996724d4dc21276deeca23aac74c96fc66f47c8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "compile_receipt_sha256": "97723d344a652a88dce73523c65514ca339be6709489ff83b5b3a234b8cfa6cc",
+  "joint_runtime_receipt_sha256": "f070ca7f78127249a3a80655824a1e879f01d5bc03710470c93884ebe76dfeda",
+  "remaining": [
+    "Current main/harness/labels independent review",
+    "Selected UbuntuCI",
+    "FIRSTfeature53 red and independent attribution",
+    "Final metadata/latestchecks/normalmerge"
+  ],
+  "no_feature_or_marker_or_GTest_body_executed": true
+}

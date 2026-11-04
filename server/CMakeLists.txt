@@ -1,4 +1,11 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
+if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
+    add_library(subathon_password_hashing STATIC src/password_hashing.cpp)
+    target_include_directories(subathon_password_hashing PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_password_hashing PRIVATE Sodium::Sodium)
+    subathon_target_options(subathon_password_hashing)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_WRITER_TESTS OR SUBATHON_BUILD_SQLITE_WORK_TESTS OR SUBATHON_BUILD_SQLITE_MIGRATION_TESTS OR SUBATHON_BUILD_SQLITE_RETAINED_TESTS OR SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
     add_library(subathon_sqlite_writer STATIC src/sqlite_writer.cpp)
     target_include_directories(subathon_sqlite_writer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
