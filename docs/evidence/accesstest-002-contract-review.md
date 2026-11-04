@@ -99,3 +99,74 @@ HTML/build/CI/publication and all subsequent releases. D1, revised logical revie
 separate API/source/test reviews, selected environment, FIRST intended red and
 implementation/code/integration reviews remain pending; existing CI cannot replace
 them. This review neither completes ACCESSTEST-002 nor makes ACCESS-002 ready.
+
+## Actual completed logical revision — approved
+
+2026-11-04, same different reviewer `/root/codec_author`. The original partial
+review above remains an unchanged historical prefix, blob
+`20919ad37abb4536327a3d711c69ec7cbaaaca04`. Its unanswered-D1 statements describe
+that earlier candidate. Reviewed actual author
+`064fecab6c2eec1d6ed0917d6df07939fc84f6d8`, integrated as
+`1cd21c1139040664f130c6a7fbb03a0231dc2456`, from a clean dedicated review tree.
+
+| Revised artifact | Actual reviewed Git blob |
+| --- | --- |
+| Completed logical proposal | `3d82bfa418bb14099ee130fca7a400adca66500b` |
+| Author handoff | `43e16b0f2f620e14c2ee31bd3a33b84ce9e5f10f` |
+| [Actual owner decision](accesstest-002-owner-decision.md) | `34168d4e5f82a524e9459b13efe055ef6786af8c` |
+| Amended specification §10/AUTH-06 | `9e7c41c8a0cbd1b284111143d215553333c2f6ab` |
+
+**APPROVED for this actual completed logical document. D1 is resolved; no logical
+blocker or additional owner decision was found.** This is neither API/test/source
+approval nor completion of ACCESSTEST-002, ACCESS-002 or PR62's merge gates.
+
+Root's `4429cbb8` transcription matches the recorded explicit acceptance of the
+resource-scoped recommendation. It adds resource-first selection, no role fallback
+after failed individual limits, outside-scope role resolution and whole resource
+matching to §10, its boundary example and AUTH-06. It does not select another
+policy by implication or use the separate timer decisions as permission authority.
+
+Named operation-declared slots form complete resource and quantity tuples.
+Individual tier selection uses one entire resource tuple, including Any/set
+constraints, before any quantity comparison. Missing/extra/duplicate slots are
+invalid; an explicitly global empty tuple is distinct from omitted required
+bindings. Same-effect alternatives may overlap, but one complete tuple must fully
+fit to allow. No specificity or fragment-union rule is introduced. Outside all
+individual resource scopes, complete role deny/allow/default rules remain intact.
+
+A full conditional individual deny gives explicit denial; its failed quantity
+condition still supplies no positive allowance and cannot restore role fallback.
+A failed conditional role deny does not defeat a fully matching role allow.
+Opposing individual effects with overlapping complete resource scopes are invalid,
+even off-request or with disjoint quantity intervals; disjoint scopes remain valid.
+This rejects contradictory input rather than inventing same-tier deny precedence.
+Per-slot intersection defines overlap without constructing a Cartesian product;
+all supplied shapes and conflicting pairs remain validated before a decision.
+
+EP01–27 are byte-identical to the approved partial candidate. Fixed D1-A/B and
+EP28–45 consistently distinguish inclusive/one-over limits, conditional denials,
+same-effect alternatives, conflicting/disjoint scopes, multi-resource matching and
+global/incomplete shapes. In particular, EP40 cannot select an individual tier by
+combining A/B and C/D grants into A/D; EP42 explicitly places A/D within ONE
+set-valued complete grant. The selected tier then controls quantity failure.
+Source explanations record selecting scopes, quantity failures, suppressed roles,
+complete permit witnesses and every decisive denial in stable order.
+
+Exact-number, full-request-versus-actual-effect, opaque-identity, protected-owner,
+current-execution and complete budget/explanation boundaries remain preserved.
+No broad owner, client/session/provenance certificate, delegation or provider
+authority is added. The prior unaffected review remains applicable; exact concrete
+B/I/work/error-order/preallocation formulas still require separate API review.
+
+Actual checks: read-only Git artifact/history/diff checks and an independent inline
+Python stdlib audit passed 24 literal Fraction/integer/byte/set/tuple facts, all 45
+unique EP rows plus both fixed D1 rows, exact EP01–27 preservation and unchanged
+original review bytes. No evaluator, implementation-derived oracle, schema/API,
+source/test, compiler, SDK/auth/native or runtime execution was created or run.
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check` and
+`git diff --check` passed: 406 tasks/122 decisions, links/presets/current HTML and
+whitespace. Sole-path staged inventory/whitespace was checked before committing.
+Root retains state/HTML/build/CI/PR ownership. Separate API/source/harness/test/
+environment/FIRST-red/implementation reviews and applicable current CI/publication/
+normal merge gates remain required; this approval does not prospectively satisfy
+any of them or make the implementation task dependency-ready.
