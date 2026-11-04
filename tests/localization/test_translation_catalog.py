@@ -115,14 +115,93 @@ class CatalogValues(Assertions):
             result.messages = ()
 
     def test_four_complete_frozen_text_outputs(self):
-        actual = catalog.render_text((FIXTURES / "source.json").read_bytes())
-        self.assertIsInstance(actual, tuple)
-        self.assertEqual(tuple(a.relative_path for a in actual), TEXT_PATHS)
-        for artifact in actual:
-            self.assertIsInstance(artifact.data, bytes)
-            self.assertEqual(artifact.data, (FIXTURES / "goldens" / artifact.relative_path).read_bytes())
-            with self.assertRaises(dataclasses.FrozenInstanceError):
-                artifact.data = b"mutated"
+        with self.subTest(source="seven-frozen-messages"):
+            actual = catalog.render_text((FIXTURES / "source.json").read_bytes())
+            self.assertIsInstance(actual, tuple)
+            self.assertEqual(tuple(a.relative_path for a in actual), TEXT_PATHS)
+            for artifact in actual:
+                self.assertIsInstance(artifact.data, bytes)
+                self.assertEqual(artifact.data, (FIXTURES / "goldens" / artifact.relative_path).read_bytes())
+                with self.assertRaises(dataclasses.FrozenInstanceError):
+                    artifact.data = b"mutated"
+
+        with self.subTest(source="unicode-line-and-paragraph-separators"):
+            value = minimal()
+            value["messages"][0]["translations"] = {
+                "en": {"text": "A\u2028B\u2029C"}, "de": {"text": "A\u2028B\u2029C"},
+            }
+            # Complete literal outputs, independent of any renderer or escaping helper.
+            expected = {
+                "qt/messages_de.ts": (
+                    '<?xml version="1.0" encoding="utf-8"?>\n'
+                    '<TS version="2.1" language="de" sourcelanguage="en">\n'
+                    '  <context>\n'
+                    '    <name></name>\n'
+                    '    <message id="fixture.single">\n'
+                    '      <source>A\u2028B\u2029C</source>\n'
+                    '      <extracomment>Synthetic text.</extracomment>\n'
+                    '      <translation>A\u2028B\u2029C</translation>\n'
+                    '    </message>\n'
+                    '  </context>\n'
+                    '</TS>\n'
+                ).encode("utf-8"),
+                "qt/messages_en.ts": (
+                    '<?xml version="1.0" encoding="utf-8"?>\n'
+                    '<TS version="2.1" language="en" sourcelanguage="en">\n'
+                    '  <context>\n'
+                    '    <name></name>\n'
+                    '    <message id="fixture.single">\n'
+                    '      <source>A\u2028B\u2029C</source>\n'
+                    '      <extracomment>Synthetic text.</extracomment>\n'
+                    '      <translation>A\u2028B\u2029C</translation>\n'
+                    '    </message>\n'
+                    '  </context>\n'
+                    '</TS>\n'
+                ).encode("utf-8"),
+                "web/de.json": (
+                    b'{\n'
+                    b'  "schema_version": 1,\n'
+                    b'  "locale": "de",\n'
+                    b'  "fallback": "en",\n'
+                    b'  "messages": {\n'
+                    b'    "fixture.single": {\n'
+                    b'      "parameters": {},\n'
+                    b'      "plural": null,\n'
+                    b'      "forms": {\n'
+                    b'        "text": "A\\u2028B\\u2029C"\n'
+                    b'      }\n'
+                    b'    }\n'
+                    b'  }\n'
+                    b'}\n'
+                ),
+                "web/en.json": (
+                    b'{\n'
+                    b'  "schema_version": 1,\n'
+                    b'  "locale": "en",\n'
+                    b'  "fallback": "en",\n'
+                    b'  "messages": {\n'
+                    b'    "fixture.single": {\n'
+                    b'      "parameters": {},\n'
+                    b'      "plural": null,\n'
+                    b'      "forms": {\n'
+                    b'        "text": "A\\u2028B\\u2029C"\n'
+                    b'      }\n'
+                    b'    }\n'
+                    b'  }\n'
+                    b'}\n'
+                ),
+            }
+            actual = catalog.render_text(encoded(value))
+            self.assertEqual(tuple(a.relative_path for a in actual), TEXT_PATHS)
+            for artifact in actual:
+                with self.subTest(artifact=artifact.relative_path):
+                    self.assertEqual(artifact.data, expected[artifact.relative_path])
+                    if artifact.relative_path.startswith("web/"):
+                        self.assertNotIn(b"\xe2\x80\xa8", artifact.data)
+                        self.assertNotIn(b"\xe2\x80\xa9", artifact.data)
+                        decoded = json.loads(artifact.data)
+                        self.assertEqual(decoded["messages"]["fixture.single"]["forms"]["text"],
+                                         "A\u2028B\u2029C")
 
     def test_reordered_input_is_byte_identical(self):
         value = document()
@@ -252,18 +331,44 @@ class CatalogValues(Assertions):
                 self.failure("invalid_template", lambda: catalog.validate_catalog(encoded(value)))
 
     def test_validation_priority_and_sorted_error_identity(self):
-        value = minimal(); message = value["messages"][0]
-        message["id"] = "../invalid"; message["translations"] = {}
-        self.failure("invalid_schema", lambda: catalog.validate_catalog(encoded(value)))
-        value = minimal(); value["messages"][0]["parameters"] = {"bad": "wrong"}; value["messages"][0]["translations"] = {}
-        self.failure("invalid_schema", lambda: catalog.validate_catalog(encoded(value)))
-        value = minimal(); value["messages"][0]["translations"] = {"en": {"text": "{"}}
-        self.failure("coverage", lambda: catalog.validate_catalog(encoded(value)))
-        value = minimal(); a = value["messages"][0]; a["id"] = "z.last"; a["translations"]["de"]["text"] = "{"
-        b = copy.deepcopy(a); b["id"] = "a.first"; value["messages"].append(b)
-        error = self.failure("invalid_template", lambda: catalog.validate_catalog(encoded(value)))
-        self.assertEqual(error.message_id, "a.first")
-        self.assertEqual(error.locale, "de")
+        with self.subTest(source="schema-before-same-message-coverage"):
+            value = minimal(); message = value["messages"][0]
+            message["id"] = "../invalid"; message["translations"] = {}
+            self.failure("invalid_schema", lambda: catalog.validate_catalog(encoded(value)))
+        with self.subTest(source="parameters-before-same-message-coverage"):
+            value = minimal(); value["messages"][0]["parameters"] = {"bad": "wrong"}; value["messages"][0]["translations"] = {}
+            self.failure("invalid_schema", lambda: catalog.validate_catalog(encoded(value)))
+        with self.subTest(source="coverage-before-same-message-template"):
+            value = minimal(); value["messages"][0]["translations"] = {"en": {"text": "{"}}
+            self.failure("coverage", lambda: catalog.validate_catalog(encoded(value)))
+        with self.subTest(source="sorted-id-within-template-stage"):
+            value = minimal(); a = value["messages"][0]; a["id"] = "z.last"; a["translations"]["de"]["text"] = "{"
+            b = copy.deepcopy(a); b["id"] = "a.first"; value["messages"].append(b)
+            error = self.failure("invalid_template", lambda: catalog.validate_catalog(encoded(value)))
+            self.assertEqual(error.message_id, "a.first")
+            self.assertEqual(error.locale, "de")
+
+        # A stage covers ALL sorted IDs before validation advances to the next stage.
+        for earlier_defect in ("template", "coverage"):
+            with self.subTest(source="later-parameters-before-earlier-" + earlier_defect):
+                value = minimal(); earlier = value["messages"][0]; earlier["id"] = "a.first"
+                later = copy.deepcopy(earlier); later["id"] = "z.last"
+                later["parameters"] = {"bad": "wrong"}
+                if earlier_defect == "template":
+                    earlier["translations"]["de"]["text"] = "{"
+                else:
+                    del earlier["translations"]["de"]
+                value["messages"] = [later, earlier]
+                error = self.failure("invalid_schema", lambda: catalog.validate_catalog(encoded(value)))
+                self.assertEqual(error.message_id, "z.last")
+        with self.subTest(source="later-coverage-before-earlier-template"):
+            value = minimal(); earlier = value["messages"][0]; earlier["id"] = "a.first"
+            later = copy.deepcopy(earlier); later["id"] = "z.last"
+            earlier["translations"]["de"]["text"] = "{"
+            del later["translations"]["de"]
+            value["messages"] = [later, earlier]
+            error = self.failure("coverage", lambda: catalog.validate_catalog(encoded(value)))
+            self.assertEqual(error.message_id, "z.last")
 
 
 class FileFixture(Assertions):

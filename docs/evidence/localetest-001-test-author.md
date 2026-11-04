@@ -100,3 +100,72 @@ The completed original other-task acceptance/red evidence is neither repeated no
 substituted for this task. Independent full fixture/test/harness review and SAME
 selected-environment real foundation green must precede the coordinator's FIRST
 actual named-marker red. LOCALETEST-001 remains in_progress; LOCALE-001 remains planned.
+
+## Actual full review corrections T1/T2
+
+Independent reviewer service_reviewer inspected the complete `bbdeefb` candidate
+and recorded changes required in `e76a9a0`. Root explicitly released only this
+Python module and author note for correction, before any feature test execution.
+Source contract `51383296` sections 3/4/5 and API `acb90189` sections 2/3 already
+require the following behavior; these additions introduce no new product choice.
+
+T1: validation priority applies globally across ASCII-sorted message IDs within
+each stage. The previous same-message precedence and same-stage ID ordering cases
+could not reject an implementation that validated one whole message at a time.
+The existing priority method now adds three independent two-message inputs:
+
+- `a.first` malformed template, `z.last` invalid parameter type: invalid_schema
+  identifies `z.last`.
+- `a.first` missing German coverage, `z.last` invalid parameter type:
+  invalid_schema identifies `z.last`.
+- `a.first` malformed template, `z.last` missing German coverage: coverage
+  identifies `z.last`.
+
+Both IDs are valid and bounded; input order is deliberately later ID first. The
+old four priority input/assertion groups remain exact. Each old group and each
+new input has its own unittest subTest so an earlier natural marker error cannot
+prevent a later independently authored input from being reached. A marker still
+records an ordinary error, never a successful expected outcome.
+
+T2: the existing complete-output method now has a separate small source containing
+`A` + U+2028 + `B` + U+2029 + `C` in both languages. Four COMPLETE expected TS/browser
+outputs are literal constants, hand-authored independently of project code. Browser
+bytes require `\u2028`/`\u2029`, reject the raw UTF-8 separator bytes and decode to
+the exact original scalars. Complete Qt TS expectations retain both scalars raw in
+source and translation. The original frozen-source invocation and every original
+assertion remain, in their own subTest, so its marker cannot mask this new source.
+
+All 43 method names and the exact inventory remain unchanged: 17 values, 20 files,
+6 CLI. No fixture, frozen golden, manifest, native probe, source/API contract, stub
+or shared harness file is changed. The already approved seven-message Qt-only
+foundation remains untouched. Root separately reported its selected-tool foundation
+green with 100 assertions; this author did not replay it or promote that result to
+feature acceptance.
+
+Actual correction checks, all exit 0:
+
+- `python3 -m py_compile tests/localization/test_translation_catalog.py`.
+- Static AST comparison with `bbdeefb`: every previous assertion/failure-call node
+  remains unchanged and in source order; 43 unique definitions exactly match the
+  unchanged inventory. Inert import/loader discovery finds the same 43 methods;
+  no test method, setup, data provider or project feature is called.
+- Static extraction of only the four new literal expectation constants, with
+  standard-library JSON/XML parsing: valid syntax, exact decoded scalars, escaped
+  browser bytes and raw Qt separator bytes. No rendered/generated data is used.
+- `python3 tools/check_project.py`: PASS, 396 task records, 122 decisions and local
+  links/presets/current HTML in this isolated author branch. Root's newer shared
+  records remain root-owned and are not overwritten.
+- `python3 tools/progress.py render --check`: PASS.
+- `git diff --check`: PASS; final staging checks confirm only the two owned files.
+
+Corrected Python SHA256:
+`df6c9a958bdd3d1858f2fa9f2c73377c7efbc8e35b0db945e4f3fcf9128d548c`.
+Unchanged inventory SHA256:
+`407e79bdef751002e7da3f30eca73ca01bdd7fee786444d52034bf16f16d2b86`.
+Unchanged native probe SHA256:
+`cab50606267675d470f0fbfa74ee1004f9580996c533a5676168ce232380d5b7`.
+
+No feature/probe/generator/main/script/marker has been invoked by this author,
+including help/version. Actual revised full-test review remains required before
+the coordinator's first feature red. These are authored scenarios and static
+checks; no Python feature result or self-certified independent approval is claimed.
