@@ -104,3 +104,88 @@ actual separate test review and intended behavioral red remain required. No real
 server authority, provider, recovery/platform/UI/live/full-release verification is
 implied. All seven integrations, three FX providers and remaining release scope stay
 required.
+
+
+## Actual full logical continuation and specification review — 2026-11-04
+
+**APPROVED — exact completed logical documents and root specification transcription.**
+
+Reviewer `service_reviewer`, different from continuation author `service_author`
+and specification author/coordinator `/root`. Independently inspected actual author
+`c03b4506` as imported at `0e56f39124913fb9653633fd8cc8d77e335229f7`, on isolated
+`task/CORETEST-008-full-logical-review`. The entire earlier partial review above is
+preserved verbatim; its then-unanswered decisions describe that historical revision.
+They are resolved by the actual owner record reviewed here.
+
+| Actual reviewed artifact | Git blob |
+| --- | --- |
+| [Completed timer editorial contract](../contracts/timer-editorial-commands-v1.md) | f4a4c3ceea45a58bc8116f73169d7bac081e9919 |
+| [Continuation author evidence](coretest-008-contract-author.md) | 1dba6bb220eca905ffdcece3956153e905ea279e |
+| [Specification](../specification.md), root change 5601a06b | 81406806c02df0f015a8c71c40b149ae1ff0ed19 |
+| [Recorded owner answers](timer-editorial-owner-decisions.md) | b5df2afebbd826f13be65aae057d1a22029cf8b7 |
+
+Read the complete revised contract/completions/ED17–44, the actual specification
+delta and applicable §3.5/4/18/TIMER-01, existing lifecycle/debt/credit and state
+boundaries, and CORE-008/API-007/CORE-007 owning briefs. No remaining requirement
+conflict or new owner question was found.
+
+Root's §4/§18/TIMER-01 transcription faithfully retains all three answers: each
+below-Main cap attempt needs an explained, explicit Keep/Reduce/Abort choice;
+first Start rejects an enabled deadline <= the authoritative observation and stays
+Ready; an authorized Active deadline edit to now/past finishes immediately.
+No saved global choice, UI acknowledgement as authority, warning-induced countdown
+freeze or inferred grant is introduced.
+
+The completed model revalidates revision, whole-operation access and observed Main.
+Keep permits legitimate above-cap Main; subsequent additions repay debt before zero
+Main headroom, and countdown may later restore headroom. Reduce derives the actual
+current excess, preserves debt, and admits cap plus audited reduction together;
+it never applies a stale preview amount or adds time after Main falls below cap.
+Abort accepts neither editorial change and does not undo elapsed time or a reached
+hard end. Durable clock progression versus refused/aborted-command commit remains
+an explicit server transaction gate, without a hidden core write.
+
+Old-configuration observation precedes edits. The new reached deadline uses the
+existing zero-elapsed lifecycle reducer, including paused Main, Grace and waiting,
+ordered HardEndReached/Finished, retained pre-call fields and cleared wait. Main
+exhaustion retains Immediate/Confirmation/Fresh/Shared behavior, separate Grace and
+debt, independent pause reasons and exact transitions. Credit rescues only through
+actual Main addition. INT64_MIN, M-boundary reduction/overflow and full requested/
+actual/capped/unapplied provenance remain intact. Manual operations acquire no
+financial entitlement or original-effect identity through numeric helper reuse.
+
+Ready/Finished settings edits preserve lifecycle/history. Their ordinary signed
+deltas explicitly require API-007 first-start/absolute-Main or CORE-007 post-finish/
+reopen/correction work, rather than claiming an Active-only product release.
+Separate debt permission, post-finish inputs/actions, pending groups, review holds,
+mixed/global RequireReview policy and server CAS remain mandatory owning gates.
+No unknown policy is accepted as zero or decided by this document. Neither the
+existing legacy credit contract nor another reducer is silently broadened/copied.
+
+### Actual verification and approval limits
+
+Stdlib-only inspection verified all original 16 ED rows byte-identical, exactly 44
+unique sequential ED IDs, and the original author-note prefix unchanged. The
+original review prefix is 6223 bytes, SHA256
+`847f3bd1b4fbeb834abe27472a08e769db946e946982562e731f056faf0e87b3`.
+Independent Python integer/bound checks passed 36 facts covering signed partitions,
+INT64_MIN/M, current-versus-preview reductions, old hard-end field preservation,
+post-Keep debt/headroom sequences and finite projection `4*(4096+1)=16388<=32768`.
+These checks inspect literal document claims; they do not run a timer reducer or
+establish executable acceptance. ED28/29's first-Start gate is explicitly distinct
+from a complete Start operation.
+
+`progress/state.json` is byte-unchanged from root 5601a06b: 406 IDs / 1497 dependency
+edges. CORETEST-008 remains in_progress; CORE-008/API-007/CORE-007 remain planned.
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check` and
+`git diff --check` passed; project check reported 406 tasks / 122 decisions/current
+links/presets/HTML. Only this review note is edited.
+
+Approval permits the exact logical/specification revision to proceed to a concrete
+API review. It does not complete the baseline, approve future APIs, finite B/I/error
+priority, source/stubs, fixtures/tests, CI or implementation, nor authorize an
+unreviewed first red. Independent API/source/test reviews, valid environment,
+intended behavioral red and later production/integration/clock/CAS acceptance
+remain required. No schema, native/runtime, provider, UI/platform or merge outcome
+is certified. Full release scope and all seven integrations/three FX providers
+remain unchanged.
