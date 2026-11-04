@@ -88,3 +88,11 @@ preserved. Latest observed ruleset26170263 requires PR/resolved threads, no bypa
 written workflow still requires actual latest CI/reviews. Recheck current rules,
 threads/latest-head checks and approvals before any normal merge. No live side
 effects are authorized. All7 integrations/3FX providers/platform/release gates stay.
+
+LATEST rate stage: actual API15cd944/import5d5712b authored (doc556840c2/note
+fc1d1baf), logical76d2/c5eunchanged. codec_author RUNNING actual API document
+review in ratestest001-contract-review, owns ONLY new ratestest-001-api-review.md.
+service_author completed API and is idle; no actual C++header/stub/source/schema/
+fixture/test/feature stage released. Future actual API approval required first.
+LocalePR53/head133246d completes reviewed43method FIRSTredbaseline, waitingfinal
+publicationCI/normalmerge; preserve newer done/evidence state when merging main.

@@ -7778,17 +7778,21 @@
         "Claimed dedicated task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc, independently of active localization PR53. Dependency-ready CONTRACT002/CORE001 both done. FIRST DOCUMENT only: exact fetched observations/effective snapshot/provenance, original monetary precision and known/unknown source/fetch/publication fields; preserve section9 consistent inverse/cross/pins requirements and credited-effect immutability. Author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md in separate task/RATESTEST-001-contract-author. Root owns shared state/HTML/maps/schemas/build/CI/pins/checkpoint. No API/stub/schema/storage/fixture/test/implementation/provider operation before actual reviewed contract. Provider-specific live/limits/capabilities remain unverified; no unknown field fabrication. Resolve routine normalization/resource choices within scope; flag real product conflicts explicitly. Implementation RATES001 remainsplanned until reviewed tests/intendedred.",
         "Actual model prep identified HistoricalValuation.effective_rate_decimal/STORAGE015 finite-decimal gap for recurring inverse1.20→5/6. Required new RATESTEST009/RATES009 tracks versioned exact-rational valuation/capture/codec/durable bridge with separate review/red/migration gates. EPIC017 requires this bridge; puremodel completion is not evidence of a usable award adapter. No existing header/schema/assertion changed and no rounded fallback accepted.",
         "Actual logical document af2f9a9/importf4f321a, contract36291ce3/author46acb47b, now authored. Independent codec_author assigned actual document review in ratestest001-contract-review; service_reviewer handles separate localization tests. Preserve original money/rate spellings and opaque currencies; exact potential constraints and unknown metadata are proposed, not implemented. No API/stub/schema/fixture/tests/red/provider execution exists. Different actual verdict before next stage; RATES001 remainsplanned.",
-        "Corrected logical document ce1b926/import0c97691 (contract76d2d9b3/authorc5e87c18) receives actual independent approval7003473/import6a4a487. Initial RS10/RS15 changes-required history retained;17 independent Fraction facts checked. Release ONLY next concrete API DOCUMENT: service_author owns NEW docs/contracts/rate-snapshots-api-v1.md and docs/evidence/ratestest-001-api-author.md. Exact C++20/core-only owned input/value/error/validation/query signatures, resource preflight and immediate distinct future marker boundary; no actual header/stub/source/schema/tests/provider execution. Separate actual API review before any minimal source stage. Root owns all sharedintegration; baseline stillin_progress, productionplanned."
+        "Corrected logical document ce1b926/import0c97691 (contract76d2d9b3/authorc5e87c18) receives actual independent approval7003473/import6a4a487. Initial RS10/RS15 changes-required history retained;17 independent Fraction facts checked. Release ONLY next concrete API DOCUMENT: service_author owns NEW docs/contracts/rate-snapshots-api-v1.md and docs/evidence/ratestest-001-api-author.md. Exact C++20/core-only owned input/value/error/validation/query signatures, resource preflight and immediate distinct future marker boundary; no actual header/stub/source/schema/tests/provider execution. Separate actual API review before any minimal source stage. Root owns all sharedintegration; baseline stillin_progress, productionplanned.",
+        "Actual concrete API document15cd944/import5d5712b (API556840c2/authorfc1d1baf) authored, four entrypoints/privateimmutableoutputs/rawindependentlyvalidatedquery, canonicalboundedpositivecomponentstrings/completeB-Iwalk/outputprojection/arithmetic limits. Actual codec_author API document review assigned in ownrate reviewtree; logicalsource76d2d9b3/c5eunchanged. No actual C++header/stub/source/schema/fixture/tests/feature execution released. Separate actualAPIapproval before minimal source; no futurecode/test/redapproval."
       ],
       "verification": {
         "document_review": "passed",
         "test_baseline": "not_run",
-        "implementation": "not_run"
+        "implementation": "not_run",
+        "api_review": "not_run"
       },
       "evidence": [
         "docs/contracts/rate-snapshots-v1.md",
         "docs/evidence/ratestest-001-contract-author.md",
-        "docs/evidence/ratestest-001-contract-review.md"
+        "docs/evidence/ratestest-001-contract-review.md",
+        "docs/contracts/rate-snapshots-api-v1.md",
+        "docs/evidence/ratestest-001-api-author.md"
       ],
       "review": null
     },
@@ -10591,7 +10595,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before LOCALE-001.",
       "notes": [
         "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Existing active localization claim preserved in draftPR53/taskLOCALETEST001, actual root1efed9e. Source/API/minimal source/config reviews and interface CI complete; independent fixtures/tests currently authored. Detailed evidence remains on that focused branch, not copied here. Reconcile newer actual task status/evidence at integration; never overwrite with this snapshot. No baseline-completion or production claim."
+        "Existing active localization claim preserved in draftPR53/taskLOCALETEST001, actual root1efed9e. Source/API/minimal source/config reviews and interface CI complete; independent fixtures/tests currently authored. Detailed evidence remains on that focused branch, not copied here. Reconcile newer actual task status/evidence at integration; never overwrite with this snapshot. No baseline-completion or production claim.",
+        "Newer focusedPR53/head133246d now completes reviewed43methodbaseline and independentFIRSTredattribution (clean976/109marker+14CLI/0skip/setup), pendinglatestpublicationCI/normalmerge. This older branch cannot import unrelatedsource/evidence just to mirrorstatus; preserve activeclaim and reconcile actual main after53merges, never overwrite its done/evidence record with this snapshot."
       ],
       "verification": {},
       "evidence": [],
