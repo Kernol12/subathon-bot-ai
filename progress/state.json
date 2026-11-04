@@ -7762,8 +7762,8 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (rate contract); service_reviewer (independent review pending actual artifact)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -7776,9 +7776,14 @@
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-001.",
       "notes": [
-        "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage."
       ],
-      "verification": {},
+      "verification": {
+        "document_review": "not_run",
+        "test_baseline": "not_run",
+        "implementation": "not_run"
+      },
       "evidence": [],
       "review": null
     },

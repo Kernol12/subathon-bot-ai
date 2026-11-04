@@ -96,10 +96,9 @@ baseline until reviewed tests and valid red evidence exist.
 
 All paths below are under local-evidence/worktrees/.
 
-- service_author is completed/idle after stub `ef4974c`, at
-  localetest001-contract-author, branch task/LOCALETEST-001-contract-author.
-  Source and approved Markdown work are committed/clean. Explicitly followup to
-  restart; a queued message alone does not run an idle agent.
+- service_author completed locale stub `ef4974c`; its localetest001-contract-author
+  tree/branch remain clean and preserved. It is now RUNNING the independent rate
+  document assignment below. A queued message alone does not run an idle agent.
 - service_reviewer is completed/idle after actual minimal approval `732bb2d` at
   localetest001-contract-review, branch task/LOCALETEST-001-contract-review.
   Its source/config note is committed. Explicitly followup with actual authored
@@ -114,6 +113,23 @@ All paths below are under local-evidence/worktrees/.
   timer/scratch work remains preserved.
 - Root alone owns state/HTML/maps/shared schemas/CMake/presets/workflows/pins and
   checkpoint/integration. Use separate writer branches and inspect dirty work.
+
+## Concurrent exact rate-snapshot document task
+
+RATESTEST-001 is dependency-ready (CONTRACT-002/CORE-001 done) and claimed on
+`task/RATESTEST-001-snapshot-baseline` at `6338966` from freshly fetched main0b631dc.
+Root integrator: local-evidence/worktrees/ratestest001-integrator. Separate author:
+local-evidence/worktrees/ratestest001-contract-author, branch
+`task/RATESTEST-001-contract-author`. service_author owns ONLY new
+ docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md.
+The [brief](../tasks/EPIC-017/RATES-001.md), spec§3.5/9/15/NUM-04/FX-06 and existing
+exact public contracts are required inputs. Exact fetched observations/effective
+snapshot/provenance, positive values, honest unknown metadata and immutable credited
+effects are in scope. Provider operations/cache/scheduler/UI/pin-solving workflows
+remain adjacent tasks. No API/code/stub/schema/storage/fixture/test/live stage is
+released. The actual authored document needs independent review next. No PR yet;
+create one focused draft when concrete artifacts exist. Root alone coordinates
+state snapshots; preserve newer locale and timer claims during integration.
 
 ## Environment, preservation and release limits
 
