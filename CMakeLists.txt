@@ -68,6 +68,7 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
             "PYTHONPYCACHEPREFIX=${CMAKE_CURRENT_BINARY_DIR}/python-cache"
             "${Python3_EXECUTABLE}" -m py_compile
             "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            "${PROJECT_SOURCE_DIR}/tests/localization/test_translation_catalog.py"
         COMMAND "${CMAKE_COMMAND}" -E env
             "PYTHONPYCACHEPREFIX=${CMAKE_CURRENT_BINARY_DIR}/python-cache"
             "${Python3_EXECUTABLE}" -c
