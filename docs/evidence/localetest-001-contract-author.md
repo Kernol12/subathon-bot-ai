@@ -55,3 +55,43 @@ record actual results; they are documentation/link checks only.
 - python3 tools/progress.py render --check — PASS current snapshot.
 - git diff --check — PASS for the current tracked diff; staged new-file whitespace
   validation accompanies the author commit. No native/generator feature run.
+
+
+## Actual independent review corrections R1–R3
+
+Reviewer service_reviewer changes-required6e870dc (root importe3240eb) inspected
+actual a06b3a7. This document-only revision addresses that same bounded batch:
+
+- R1: native declaration metadata is the SAME generated web/en.json, packaged with
+  mandatory English QM and selected German QM. Descriptor IDs/parameter types/
+  plural selector are explicit inputs; selector-only TC14 now has exact English/
+  German literal forms and count1/2 observations. The native base pairs actual QM
+  raw lookups with metadata English forms; JSON strings never replace required QM.
+  Selected absent/malformed locale falls back to the verified English pair;
+  invalid/missing base is catalog_unavailable. Generator/package consistency still
+  checks actual German QM against generated de.json. No hand-maintained native map
+  or new application-logic edit per translation is introduced.
+- R2: exact case-sensitive direct-child owned output namespaces, six expected
+  filenames, extra-owned refusal, unrelated preservation, replacement behavior,
+  nonmutating check, canonical disjoint roots and source alias/hard-link/symlink
+  protection are now explicit. No recursive tree walk, filename from messageID,
+  silent obsolete deletion or imaginary two-directory transaction is promised.
+- R3: canonical TS indentation, root/message attribute order, child/form order,
+  structural newlines and no self-closing/extra tags are normative; actual multiline
+  text is never pretty-printed or indented. COMPLETE TC01 de TS literal plus exact
+  en delta makes independent full-byte goldens derivable.
+
+Read coordinator actual environment evidence f3f9f03 without editing it. The
+contract now records all4 official archive verification/runtime closure and actual
+selected lrelease-version exit0, retaining the initial ICU placement setup error
+as such. This establishes environment availability only; no project catalog, QM,
+lookup/reproducibility fixture or new native feature is authored/executed here.
+
+The original source grammar, Unicode/CR preservation, raw percent/directQTranslator,
+lossless signed64/witness selection and all release/task boundaries remain binding.
+Actual different reviewer recheck of this revision is pending; no self-approval,
+concrete API/test release or LOCALE001 implementation is claimed.
+
+Actual revised-document checks: python3 tools/check_project.py PASS396/122/local
+links/presets/HTML; python3 tools/progress.py render --check PASS; git diff --check
+PASS. No generator/native/QM/lookup/reproduction command ran.

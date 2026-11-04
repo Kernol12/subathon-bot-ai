@@ -171,6 +171,29 @@ our full source/schema/template/plural validation is mandatory. No unfinished fo
 failed process, missing tool, silent plural padding/removal, skip or failure inversion
 counts as generated .qm acceptance. Capture actual process exit and bounded diagnostics.
 
+Canonical TS serialization is byte-defined as follows. The XML declaration and
+root opening tag each occupy one line with no leading spaces. Root attributes
+are ordered version, language, sourcelanguage as above. Messages sort by ID, start
+with two ASCII spaces, and have attributes id then numerus (the latter only for
+plural). Child order is source, extracomment, translation, each indented four
+spaces. Ordinary source/description/translation uses its opening tag, escaped
+scalar text and closing tag together, then one structural LF. A plural translation
+opens on its own four-space line; its one/other numerusform children each start
+with six spaces, followed immediately by escaped text and closing tag plus LF;
+translation closes on a four-space line. A message closes on a two-space line;
+root closes without leading spaces, then the one final LF. There are no blank
+separator lines, XML comments, DOCTYPE, namespace declarations, self-closing tags
+or formatting attributes.
+
+These indentation/newline rules apply ONLY outside element text. In any source,
+extracomment, translation or numerusform, every LF/TAB and space from the actual
+text remains exactly its own scalar, with no inserted continuation indentation
+or line wrapping. The closing tag immediately follows the final escaped scalar,
+even when the text contains newlines. Thus source `A`+LF+` B` is serialized as
+`<source>A`+LF+` B</source>` after its structural opening indentation; adding four
+spaces after that LF would change the translation and is forbidden. The identical
+character-by-character escaping rule applies to all text nodes.
+
 The existing selected QtBase CI archive alone does not provide LinguistTools.
 A later coordinator-owned build/CI change must select/pin the actual Qt6.12.0 tools
 archive and dependencies/checksum and record them. The read-only investigation found
@@ -182,10 +205,16 @@ The coordinator subsequently downloaded that exact29144192-byte archive, verifie
 its SHA256, listed589 safe entries and inspected the extracted lrelease ELF. Its
 actual DT_NEEDED includes Qt6Qml, Qt6Network and Qt6Core. Matching pinned official
 Qtdeclarative runtime is therefore ALSO required; current qtbase+ICU alone is
-insufficient. This preflight is archive/ELF evidence, not successful extracted-tool
-execution, generatedQM or feature acceptance. The selected declarative archive,
-its runtime closure and actual tool execution still require recorded evidence. A host Arch lrelease hash is not
-an official CI pin. Qt source suggests sorted QM structures and no timestamp field;
+insufficient. Coordinator evidence f3f9f03 then verified the matching Base,
+ICU and Declarative archives, placed ICU under prefix/lib and ran the actual
+selected official lrelease -version: exit0,6.12.0. ldd found no missing libraries;
+all Qt6Qml/Network/Core and ICU73 libraries resolved within the verified prefix.
+The earlier incorrect ICU extraction location remains a documented setup failure,
+never feature red. This establishes selected-tool environment availability only:
+no project catalog, compiledQM, runtime translation or reproducibility was executed.
+The exact four archive hashes and future CI integration remain in coordinator-owned
+`docs/evidence/localetest-001-tool-preflight.md`; do not substitute a host binary.
+A host Arch lrelease hash is not an official CI pin. Qt source suggests sorted QM structures and no timestamp field;
 it promises no cross-version/cross-build byte identity. Require observed TWO fresh-
 directory binary reproductions with the SAME selected tool build/options, and
 record its exact version/artifact/environment. A different tool build/version needs
@@ -206,6 +235,35 @@ escape <,>,&,U+2028,U+2029 as lower-case \u003c/003e/0026/2028/2029. This keeps 
 safe to transport but never authorizes innerHTML or dynamic script construction.
 Actual decoded template scalar values equal the Qt selected raw strings.
 
+The SAME generated web/en.json is also the native declaration metadata, packaged
+alongside mandatory en/de .qm. This reuses one generated artifact, not a new source
+or hand-maintained C++ map. Native consumers load its ID -> parameters/plural/forms
+descriptors before accepting messages. The declared plural member identifies the
+selector even in TC14 when no translated text contains that name; declared types
+and names determine exact missing/extra/type validation and witness choice. Never
+infer declarations or selector names from QM or the appearance/order of placeholders.
+Qt QM does not preserve this metadata.
+
+Native metadata parsing uses the exact generated browser schema and validates its
+schema_version/locale/fallback and descriptor grammar. Metadata absence, malformed
+metadata or missing mandatory English QM is catalog_unavailable. Native raw text
+STILL comes from actual QM lookup, including English fallback: en.json forms are
+consistency oracles/data, never a substitute runtime translation path for missing
+QM. During the later native load/verification gate, every metadata ID must resolve
+in English QM at n=-1 or witnesses1/2 as declared, with raw scalar strings EXACTLY
+equal to en.json forms. A selected German QM is queried only using those declared
+IDs/form witnesses.
+An absent selected ID/form uses the verified English base. A selected QM that
+cannot load, or returns a form violating the shared declared placeholder grammar,
+is treated as unavailable and English is used; it never changes parameter types
+or chooses another integer argument. An invalid/missing BASE pair instead yields
+catalog_unavailable with no successful text. No native path substitutes the JSON
+form string for the required raw QM lookup.
+Generator/check and package checks compare all expected text/binary artifacts from
+one authoritative source, including de.json versus actual German QM raw forms.
+The later adapter/runtime/package tests must prove the metadata+QM pairing and
+selector-only case; generating JSON alone never completes Qt support.
+
 Contributors edit ONLY localization/messages.json. Generated .ts/browser JSON may
 be checked in for review; .qm belongs in build/package output. All four text files
 must compare byte-identically with fresh generation. Binary consistency is checked
@@ -220,15 +278,46 @@ python3 tools/translation_catalog.py generate --source <catalog> --text-output <
 python3 tools/translation_catalog.py check --source <catalog> --text-output <dir> --binary-output <dir> --lrelease <tool>
 ~~~
 
-Text output contains qt/messages_en.ts, qt/messages_de.ts, web/en.json, web/de.json;
-binary output contains messages_en.qm/messages_de.qm. validate is pure and never
-calls Qt. generate validates EVERYTHING, stages complete text plus real binaries,
-and publishes no output on validation/tool failure. Existing outputs/source remain
-unchanged on those failures. A publication I/O failure is an explicit failure;
-this is not an invented transaction spanning two directories. check generates in
-fresh temporary directories and compares all six expected owned outputs, reporting
-missing/extra owned files and byte differences without modifying the target. Never
-delete unrelated files or treat arbitrary output filenames as catalog message IDs.
+Text output contains EXACTLY these expected owned paths relative to its root:
+qt/messages_en.ts, qt/messages_de.ts, web/en.json, web/de.json. Binary output has
+messages_en.qm and messages_de.qm. The recognized OWNED NAMESPACE for inventory is
+case-sensitive direct regular-file children matching qt/messages_*.ts and web/*.json
+under the text root, and messages_*.qm under the binary root. No recursive walk
+occurs: descendants of other directories and nonmatching files are unrelated.
+For example qt/messages_fr.ts, web/fr.json and messages_old.qm are extra owned
+files; qt/notes.txt and a separate notes/ subtree are unrelated. Source IDs NEVER
+become paths. Packaging names the six expected artifacts explicitly, not a glob.
+
+Before generation/check, inventory only those fixed directories and recognized
+names. Unexpected owned files cause generated_mismatch BEFORE writing; the tool
+does not silently delete them or decide a catalog migration. generate may replace
+ONLY the six expected regular files after full source validation and successful
+real binary staging; it leaves unrelated files untouched. Missing expected files
+are created by generate. A successful rerun replaces stale expected bytes with
+fresh source-derived bytes; an obsolete extra owned file must be handled explicitly,
+not accepted by check or included in a package. check additionally treats missing
+expected files or any expected-byte difference as generated_mismatch. It stages
+freshly in temporary directories and never modifies target contents/inventory.
+
+The canonical resolved text/binary roots must be disjoint: neither equals nor is
+an ancestor of the other. The sole source must lie outside both output roots and
+must not alias any expected/recognized publication file, including resolved existing
+symbolic aliases or hard-link identity. Canonicalize the requested roots once;
+their managed qt/web child directories and every recognized output entry must be
+real directories/files, not symbolic links. Match recognized names BEFORE checking
+type; a matching non-regular entry is io_failure rather than ignored/unrelated.
+Such links are rejected rather than traversed for inventory/publication. Validate
+these conditions BEFORE invoking lrelease or publishing. A source/target alias or unsafe
+output layout is io_failure; it cannot overwrite the authoritative input on success.
+Concrete platform-specific filesystem race/exception handling is the next reviewed
+API stage; no arbitrary user-tree traversal or filesystem-wide transaction is implied.
+
+generate validates EVERYTHING, stages complete text plus real binaries and publishes
+no output on validation/tool failure. Existing outputs/source remain unchanged on
+those failures. A publication I/O failure is explicit; this is not an invented
+transaction spanning two directories. No mode removes unrelated or extra owned
+files as a side effect. Source/input validation and owned inventory/path checks
+precede tool invocation; check remains read-only even when it finds a mismatch.
 
 Bounded failure categories: invalid_encoding, invalid_json, duplicate_key,
 invalid_schema, duplicate_id, coverage, invalid_template, parameter_mismatch,
@@ -249,7 +338,9 @@ missing-feature marker are the NEXT reviewed interface stage, not authored here.
 
 ## 6. Lookup/English fallback obligations for later adapters
 
-For a known ID, native lookup uses direct
+Native adapter inputs are the generated web/en.json declaration metadata plus
+the generated mandatory English QM and optional selected German QM. The browser
+uses the generated en/de JSON descriptors/forms. For a known ID, native lookup uses direct
 `QTranslator::translate("", id_utf8, nullptr, witness)` on the selected supported
 locale catalog, then the generated mandatory English catalog when the selected
 catalog is absent or has no matching message. It must NOT use qtTrId,
@@ -299,6 +390,21 @@ TC01 is this complete smallest nonplural source:
 }
 ~~~
 
+The COMPLETE TC01 de TS bytes are the following UTF-8 text plus its shown final
+LF, with no extra blank line. The en file is identical except root language="en"
+and translation `Hello, {name}!`:
+
+~~~xml
+<?xml version="1.0" encoding="utf-8"?>
+<TS version="2.1" language="de" sourcelanguage="en">
+  <message id="fixture.greeting">
+    <source>Hello, {name}!</source>
+    <extracomment>Fixture greeting; name is untrusted plain text.</extracomment>
+    <translation>Hallo, {name}!</translation>
+  </message>
+</TS>
+~~~
+
 Its de TS has a top-level message id fixture.greeting, source `Hello, {name}!`,
 translation `Hallo, {name}!`; a real QTranslator lookup with empty context and n=-1
 must return exactly `Hallo, {name}!`. Its en lookup returns `Hello, {name}!`.
@@ -317,9 +423,9 @@ with no HTML execution, second substitution or percent replacement.
 | TC09 coverage failure | de absent/null → coverage; plural missing other/extra few or ordinary locale one/other → invalid_plural; no output |
 | TC10 input failure | duplicate ID/key even equal; unknown name `{missing}`; unmatched braces; absent declared nonselector; scalar-type mismatch/NaN; invalid UTF-8/BOM/surrogate/NUL → bounded validation failure/no output |
 | TC11 reproducibility | permute source messages/JSON object keys, retain logical values; fresh text outputs identical; SAME pinned lrelease in two fresh dirs produces identical en/de QM bytes |
-| TC12 consistency | edit only generated TS/browser or replace/truncate QM; check reports generated_mismatch, writes nothing, does not accept a stale generated artifact |
+| TC12 consistency | edit generated TS/browser or replace/truncate QM, remove expected file or add recognized qt/messages_fr.ts/web/fr.json/messages_old.qm; check reports generated_mismatch, writes nothing; unrelated qt/notes.txt remains preserved. generate rejects extra owned files and never overwrites a source alias |
 | TC13 fallback | absent/unsupported selected locale plus valid generated en QM yields English raw template; missing en QM yields catalog_unavailable, not fixture.greeting as a successful translation |
-| TC14 selector-only | integer count may choose forms without appearing visibly; nonselector declared names must still occur in every form |
+| TC14 selector-only | parameters count:integer/name:text, plural count; en one `One item for {name}` / other `Items for {name}`, de one `Ein Eintrag für {name}` / other `Einträge für {name}`. With name Ada, count "1" selects one/witness1 and count "2" selects other/witness2 although NO template contains {count}; native uses generated en.json declarations and actual QM, never guesses from placeholders. Nonselector names still occur in every form |
 
 Later independent fixtures must pin complete XML/JSON bytes, exact named parsing/
 validation outcomes and frozen Unicode/count values; no implementation generates
