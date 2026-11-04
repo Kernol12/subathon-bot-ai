@@ -43,14 +43,17 @@ record 20 literal parameter rows plus 33 ordinary GTests. Root harnessfa098e2
 compiles/discovers 90 total: 53 new, 33 old numeric, three infrastructure and one
 new foundation. Complete 53-case source/CTest inventory guard passes; all enabled,
 correctly labeled and uninverted. Foundation links only Boost headers, with no
-project include/symbols. Its 25 literal requirements compile but have NEVER RUN.
-No new feature/test/foundation/marker body has run.
+project include/symbols. Its 25 literal requirements were initially compile-only. Narrow reviewde0a30f0,
+import7d7e621, released FIRST local foundation:1/1 PASS/25 facts/exit0/0.00s on
+clean7d7e621 at11:55:23Z; raw SHA9a83525e and ignored raw/JUnit/meta in
+local-evidence/milestonetest001-ci/foundation-first.*. No new feature/test/marker
+body has run. This localBoost1.92 pass is not current selected1.83 CI.
 
 service_reviewer is now independently reviewing ACTUAL full candidate in
 `local-evidence/worktrees/milestonetest001-test-review`, branch
 `task/MILESTONETEST-001-test-review`. Own only the new foundation-review note first,
-then full test-review note. Narrow foundation approval must be committed/reported
-before root's FIRST native foundation execution. Full test/harness/workflow review
+then full test-review note. Narrow foundation approval is committed and the FIRST local run completed as above.
+Do not repeat this completed gate. Full test/harness/workflow review
 and actual current selected Boost1.83 CI/foundation green precede FIRST plain
 feature red, saved raw/JUnit/clean-head evidence and different failure attribution.
 Do not publish an unreviewed foundation for CI execution. Production remains planned.
@@ -127,8 +130,8 @@ only, never main/history/scopes. Inspect mutation state after truncated JSON/5xx
 PR57 and ordinary milestone publication recovered identical objects safely. Initial
 planning checkpoint failure1b6 was corrected69 and is not recorded as passing.
 
-Next: receive narrow milestone foundation approval, execute only the approved local
-foundation once, continue full test review. Review actual password/common documents
+Next: integrate actual full milestone test review, then restore/publish current
+selected CI before the FIRST feature red. The approved local foundation is complete. Review actual password/common documents
 with different agents before releasing their next stages. Publish focused PRs when
 access permits, observe ALL latest checks/current rules/threads/required approvals
 and merge normally. No routine owner approval is required. All seven integrations,
