@@ -37,13 +37,14 @@ The owner accepted the recommendation: allow an authorized deadline change to
 the current observation or an earlier instant, and immediately finish the event.
 Existing hard-end observation precedence and explicit reopening rules remain.
 
-## Remaining work and separate permission question
+## Remaining work and coordination
 
 All three PR52 product questions now have owner answers. Incorporate them into
 the specification and affected timer contract/examples, obtain actual separate
 review, then complete the API/test-first/CI gates. PR52 remains unfinished and is
-scheduled after PR62 under the owner's current priority.
+resumed after PR62's normal merge on 2026-11-04. This logical/specification update
+still needs actual different review before the API/test-first stages.
 
-PR62's individual-permission applicability question is separate. The owner asked
-for more context and has not selected a policy. Its three alternatives remain
-unselected; accepting the timer recommendations does not resolve that question.
+The owner separately accepted PR62's resource-scoped permission recommendation.
+[That decision](accesstest-002-owner-decision.md) is resolved and its baseline is
+merged. No further owner answer is needed for any of these four choices.

@@ -3964,8 +3964,8 @@
       "title": "Review and demonstrate red: Password hashing and parameter upgrades",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "in_review",
-      "owner": "coordinator /root; resumed publication/main integration; separate harness review next",
+      "status": "done",
+      "owner": "service_author (tests); codec_author (independent review/red); /root (integration)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3993,7 +3993,8 @@
         "ActualR1/R2correctedtestsource f1b70a2/import6f03961 independently APPROVED093b528e/importd560cbd, reviewd4f7213b;162assertions/literals/37names preserved. ROOT FIRST LOCAL plainfeatureselection CLEANd560cbda at16:06:50Z actualCTestexit8/37fail/0disabled/0skip/0.063s, all37RUNentries+namedPasswordHashingNotImplemented marker. SDK/source/reviews unchanged, no fakegreen. DIFFERENTactualcausalattribution PENDING. Initialmechanicalchecker expectedwrongfailed-status/pre-final-draftphrase, preservedoriginalrawreceipt; correctedinspectionall37markers, no rerun/assertion/sourceedit. Conditionalorderingadoptione83afteractuald0review appliesonlyexactpasswordhostlane; remoteCI/access/merge/allproductionprereqs remainOPEN. No baselinedone/productionrelease claim.",
         "ACTUALdifferentredattributionc5b10c59/importf0539e7, note2331871e VALIDintendedLOCALred oncleand560:37executed/fail/0skip/0disabled;158specifictypedmarkerfailures+51consequentialzero source/native counters accountforall209failures, no unrelated/setup/dependency/timeouts. Raw/source8blobs/binary/SDKhashesmatch; norerun. Localreviewedtestauthoring+observedred gatecomplete, taskBLOCKEDonlyonlegitimateworkflowpublication/currentselectedUbuntuCI/baselineintegrationgates. Actualnewworkflow/source remainsunpublished; remotePR59stillf94/old1scaffold. No taskdone/SESSION001dependencyready/implementation/platformbenchmarkclaim. Preserveall162assertions/literals/37names andreviewedboundary/proof. AllremoteCI/rules/discussions/mergegates andallproductionprereqs retained.",
         "Resumed after normalPR62 merge9345aff fromfinalacf4e7b/all13latestchecksSUCCESS/identicaltreec9a4a9c2. SSHpublicationworks; obsoleteaccessblockcleared. Actualread-onlyPR59preflight confirmslocal3c3035ca clean/remotef94f5ae ancestor/no ownerdecision. Mergecurrentmain preservingbothpermission/passwordflags/targets/presets andall406IDs/1497edges, unchangedPWtests/header/stubs/nativeproof/FIRSTred andallactualreviews. Preserveadditional historicalCONTRACT005 postchecks andCONTRACT008 planningnote, no status/dependencychanges toother tasks. Onlynewsharedbuildintegration/labelcompatibility/currentselectedUbuntuCI/finalnormalmerge gates remain; no hostnativefoundation/inputgeneration/FIRSTred replay. PostPR62 mainchecks were11complete plus numericapt inprogress atlast observation; no product or live work starts.",
-        "Currentmain integratione92f3cb compiled/listed41 withoutbodyreplay. Root label-onlycompatibilityuses explicitTEST_LIST/CTest-time PasswordHashingLabels, all37names/fourlabels/60s/privatewrappers/SDKfoundationisolation unchanged. ActualunchangedPWCIguard passes37; combinedexplicitSodium1.0.22+Boost1.83 permission/password/numeric compile/list105 passes(37PW/30permissions), scratchkiwelb8a. All12postPR62 mainchecksSUCCESS nowobserved. Newactualdifferentrootintegration/harnessreview next, selectedPWUbuntuCI stillnotrun; no ownerinput or oldFIRST/native/inputgenerator replay."
+        "Currentmain integratione92f3cb compiled/listed41 withoutbodyreplay. Root label-onlycompatibilityuses explicitTEST_LIST/CTest-time PasswordHashingLabels, all37names/fourlabels/60s/privatewrappers/SDKfoundationisolation unchanged. ActualunchangedPWCIguard passes37; combinedexplicitSodium1.0.22+Boost1.83 permission/password/numeric compile/list105 passes(37PW/30permissions), scratchkiwelb8a. All12postPR62 mainchecksSUCCESS nowobserved. Newactualdifferentrootintegration/harnessreview next, selectedPWUbuntuCI stillnotrun; no ownerinput or oldFIRST/native/inputgenerator replay.",
+        "Baseline COMPLETE and published: actualcurrent-main/label integration9f6cd82 approved524cde88/importa34f728 (noteae49983d), preservingall37names/162assertions/fixtures/source/privateobserver/native/FIRSTred proof. FIRSTactualselectedUbuntuCI41891170698 at9f6 passes fixedauthenticated1.0.22source/staticSDK/exact37enabled discovery/realnativefoundation1of1/old3; all14PRchecksSUCCESS. ValidoriginalFIRSTd56037red+differentc5b10c59 attribution untouched/no replay. Done means baseline only; SESSION001stillplanned/unimplemented. Finalactualmetadatareview/freshfinalHEADchecks/currentnormalrules/discussions/mergepending. PR62merged9345/all13PR+12postmainpass; PR52full logicalcorrectionactive5601branchwithresolvedownerchoices, notanotherquestion. No owneraccessactionneeded."
       ],
       "verification": {
         "document_review": "passed",
@@ -4007,10 +4008,13 @@
         "sdk_build": "passed",
         "host_sdk_foundation": "passed",
         "fixture_input_preparation": "passed",
-        "selected_ci": "not_run",
+        "selected_ci": "passed",
         "local_environment_review": "passed",
         "full_test_review": "passed",
-        "red_attribution": "passed"
+        "red_attribution": "passed",
+        "baseline": "observed_red",
+        "integration_review": "passed",
+        "consistency": "passed"
       },
       "evidence": [
         "docs/contracts/password-hashing-v1.md",
@@ -4040,14 +4044,16 @@
         "docs/evidence/sessiontest-001-red-results.json",
         "docs/evidence/sessiontest-001-red-attribution.md",
         "docs/evidence/sessiontest-001-handoff.md",
-        "docs/evidence/sessiontest-001-main-integration.md"
+        "docs/evidence/sessiontest-001-main-integration.md",
+        "docs/evidence/sessiontest-001-main-integration-review.md",
+        "docs/evidence/sessiontest-001-ci.md"
       ],
       "review": {
         "author": "service_author",
         "reviewer": "codec_author",
-        "outcome": "approved_local_red_pending_ci_integration",
-        "evidence": "docs/evidence/sessiontest-001-red-attribution.md",
-        "revision": "d560cbda firstred; actualfullapproval093b528e/importd560 and attributionc5b10c59/importf0539e7"
+        "outcome": "approved",
+        "evidence": "docs/evidence/sessiontest-001-test-review.md",
+        "revision": "Actual correctedfulltestapproval093b528e/importd560 source1d0d3775/fixture025d4de9; FIRSTd560red independentlyattributedc5b10c59/importf053. Newmain/labelharness9f6 actuallyapproved524cde88/importa34f728."
       }
     },
     {

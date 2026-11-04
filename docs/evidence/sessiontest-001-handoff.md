@@ -1,64 +1,77 @@
-# SESSIONTEST-001 local baseline handoff — remote integration blocked
+# SESSIONTEST-001 reviewed password baseline handoff
 
-Coordinator /root,2026-11-04. task/SESSIONTEST-001-password-baseline,
-sessiontest001-integrator. [DraftPR59](https://github.com/Kernol12/subathon-bot-ai/pull/59)
-remoteheadf94f5ae83dfb244c1c2eaa492ab8e82a790171e9 stillhasONLYoldscaffold41828240775.
-Latest local source/workflow/evidence areunpublished because legitimateworkflow
-access ismissing. Localtestreview+validintendedred arecomplete; taskstatusBLOCKED,
-notdone/dependency-ready. No passwordimplementation/serverlogin/store isreleased.
+Root coordinator,2026-11-04. [PR59](https://github.com/Kernol12/subathon-bot-ai/pull/59),
+branch `task/SESSIONTEST-001-password-baseline`, worktree `sessiontest001-integrator`.
+The independently reviewed local baseline and genuine FIRSTred are now published,
+integrated with main9345aff, and selected Ubuntu CI passes. The obsolete SSH/
+workflow-scope blocker is resolved. No owner decision or access action is needed.
+Final metadata review, fresh final-head checks and normal merge remain.
+
+## Preserved actual source/test gates
 
 [Logical/API/minimal-source](sessiontest-001-interface-harness.md) approvals remain.
-Frozen productionheader ec3c5cf8/CPPeaf56f41:threeentireimmediate markerthrows.
-Actualreviewed [fixtures/tests/privateobservers/harness](sessiontest-001-test-harness.md)
-areactualauthor8e6d1dd/import82d624d correctedf1b70a2/import6f03961. R1/R2findings173d90a5
-preserved, correctedfullcandidate ACTUALLYAPPROVED093b528e/importd560cbd,
-[review](sessiontest-001-test-review.md)d4f7213b. All162assertions/literals/37orderednames
-preserved; fixture025d4de9/test1d0d3775/privateheader7e87bbe9/observer4e1f049a,
-CMake9b10f68c/workflowcb61b3ec. RealSDKdefaults/error-onlywrappers remainprivate;
-no operatornew/prodcryptoprovider seam. Rootactualcompile/list41only andold3infra
-separatechecks passed, notfeatureacceptance.
+Production header ec3c5cf8/CPP eaf56f41 still contain three immediate marker throws;
+SESSION-001 is unimplemented. Full test/fixture/private observer/harness actual
+review093b528e/importd560 approves corrected source1d0d3775, fixture025d4de9,
+privateheader7e87bbe9 and observer4e1f049a. All162 assertions/literals/37 names remain.
+Original R1/R2 findings and their additive actual corrections remain in
+[test review](sessiontest-001-test-review.md); no native fake or test-only production
+crypto provider was introduced. Raw setup reaches explicit missing behavior.
 
-Sourceauthenticatedlibsodium1.0.22/staticSDK anddifferentnativesourceapproval9b92
-precededFIRSTrealhostfoundationclean c0646b4 at14:42:52Z PASS1/1/0.21s/exit0 and
-ONLYAFTERgreen FIRSTexactPH12/13 INPUTgeneration14:43:01Z/exit0. No reruns.
-[Receipts](sessiontest-001-native-results.md) andpublicsyntheticinputs preserved.
-Expectedpolicyjoins remainindependentliterals, notSUT-generated outputs.
+Authenticated libsodium1.0.22 static SDK and different native-source approval9b92
+preceded FIRST host foundation clean c0646b4 at14:42:52Z, PASS1/1/exit0. Only after
+that pass, FIRST PH12/13 public synthetic input preparation ran14:43:01Z/exit0.
+[Native receipts](sessiontest-001-native-results.md) preserve actual hashes/output
+and proof limits. Policy/upgrade expected outcomes are independent literals.
+Neither program was replayed during main integration/publication.
 
-Root's agent-addedremoteCI-before-FIRSTLOCALred ordering wasexplicitlyreviewed and
-supersededONLYforthisexactruntime-provenhostlane: proposal25506e, actualdifferent
-reviewd0a3819b/importfb3a5e2, adopte83c704. Alluserenvironment/testreview/validred/
-remoteCI-before-integration/merge/allproductionprereqs remain. Thisdoesnottransferto
-Boost1.92vsselected1.83 orweaken anytest/assertion/permission/CIgate.
+The separately reviewed [local-red sequencing](sessiontest-001-local-red-sequencing.md)
+25506e/d0a3819b/adopte83 allowed that runtime-proven host lane's FIRSTlocal red
+before remote CI; remote publication/integration/merge/production gates remained.
+It grants no exception for mismatched dependencies or any other lane.
 
-ActualFIRSTLOCALfeaturecommand CLEANd560cbda44cb180bab8d12fc79d3da5fefded6ba,
-16:06:50Z:
+FIRSTlocal feature run at CLEANd560cbda44cb180bab8d12fc79d3da5fefded6ba,
+2026-11-04T16:06:50.483521Z:
 
 ```sh
-ctest --preset password-hashing-debug -L '^password-hashing$' --verbose --output-junit local-evidence/sessiontest001-red/first-red.xml
+ctest --preset password-hashing-debug -L '^password-hashing$' --verbose \
+  --output-junit local-evidence/sessiontest001-red/first-red.xml
 ```
 
-ACTUALexit8/FAILED/37cases/37failures/0disabled/0skipped. Processwall0.062666s,
-CTestreported0.05s. [Result](sessiontest-001-red-results.md)/[JSON](sessiontest-001-red-results.json).
-DIFFERENTactual [attribution](sessiontest-001-red-attribution.md)c5b10c59/importf0539e7,
-blob2331871e, confirms158specifictypedmarker+51consequentialzerocounters accountforall209
-failurelocations; no unrelated/setup/dependency/skip/crash/timeouts. Rawstdout/JUnit/
-source/binary/SDK hashesmatch; no expectedresult wasregenerated. The initialmechanical
-inspector's obsoletephrase/status assumptions arepreserved/correctedseparately,
-without rerun or candidate/log/assertionchange. Productacceptance remainsFAILED.
+Actual exit8/37executed/37failed/0disabled/0skipped. Exact
+[receipt](sessiontest-001-red-results.json) and [results](sessiontest-001-red-results.md)
+retained. Different actual [attribution](sessiontest-001-red-attribution.md)c5b10c59/
+importf053 validates all209 failure locations:158 typed markers plus51 consequences.
+No unrelated/setup/dependency/fixture/skip/crash/timeout failure counted. DO NOT
+replay FIRSTred or regenerate fixture inputs. This is an observed-red baseline,
+not passing product acceptance.
 
-RemoteCI/publication next:
+## Actual current integration and CI
 
-1. Verifylegitimateworkflowaccessrestoration: existingownerrequestrestoreSSHforCLion
-   or `gh auth refresh -h github.com -s workflow` stillpending. Norepeatedask/bypass.
-2. Publishcleanfastforwardtaskbranch withactualcurrentworkflow/tests/evidence. Never
-   force/main/history/scope bypass. Remoteoldchecks donotcoverthesefiles.
-3. ObserveactualcurrentselectedUbuntu1.0.22build/runtimefoundation+strict37discovery/
-   oldinfrastructure workflow plusallapplicableexistingchecks. This greenworkflow
-   compilesintentionalredtests butNEVERruns/skip-inverts them or inputgenerator.
-4. Recheckactualreviews/discussions/rules/latesthead/currentchecks before normalmerge.
-   Onlythen completebaselineintegration/dependencygate. DonotreplayvalidFIRSTred,
-   nativefoundation/reviews without actualchanged applicability.
+Root mergee92f3cb integrates main9345aff preserving both password/permission
+options, targets, presets and all406 taskIDs/1497edges, plus valid historical notes.
+Root9f6cd82 moves the same four password labels to CTest-time TEST_LIST/include.
+[Integration evidence](sessiontest-001-main-integration.md) records password41 and
+combined105(37PW/30permission) configure/build/list-only checks. No reviewed source/
+oracle changes or native/feature/SDKfoundation/generator rerun. Actual different
+[review524cde88](sessiontest-001-main-integration-review.md) approves this root wiring.
 
-Allproduction/codereview/acceptance/allocationexception+wholecleanup/account/current
-acceptedlogin/atomicconditionalstore/admission/supportedhardware100samplebenchmark/
-platform/packaging/licensing gates remain. No liveprovider/chat/payment effects.
+[First selected CI](sessiontest-001-ci.md),
+[run41891170698](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41891170698)
+at9f6cd8294e47544aa1b1612782e8482123b01d67, passes authenticated fixed source/static
+SDK build, exact37 enabled discovery, independent real selected runtime1/1 andold3.
+All14 PR checks passed at that head. Feature bodies and input generation remain
+explicit operations outside green CI. Later final metadata requires fresh CI.
+
+Baseline done means reviewed tests/intended red and observed selected integration;
+SESSION-001 remains planned until this baseline actually merges. Production source/
+code review/passing acceptance, allocator exceptions and complete secret cleanup,
+current accepted-login/account/atomic conditional-store/admission, supported-hardware
+100sample cost benchmark, platforms/packages/licenses/live release gates remain.
+No credentials/supporter data/live provider/chat/payment behavior is exercised.
+
+PR62 already normally merged9345aff fromacf4e7b/all13PR+12postmainSUCCESS. Other
+owner decisions are resolved. PR52's actual logical correction is active on its own
+branch; PR54/56 selected1.83 runtime/CI/FIRSTred gates remain preserved. Complete
+PR59 normal integration, then continue the remaining focused PRs without routine
+owner approval. Root owns shared files/state/HTML/checkpoint/PR operations.

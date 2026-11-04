@@ -1,103 +1,107 @@
-# Coordinator handoff — PR59 resumed after PR62 merge
+# Coordinator handoff — PR59 final baseline integration
 
-Root, 2026-11-04. Active worktree `local-evidence/worktrees/sessiontest001-integrator`,
-branch `task/SESSIONTEST-001-password-baseline`. Root is integrating current main
-into preserved PR59, resolving shared files before commit. No owner decision or
-access action is needed. Other preflight agents are read-only; inspect actual status
-before assigning work. Do not assume they keep running.
+Root coordinator,2026-11-04. Current worktree
+`local-evidence/worktrees/sessiontest001-integrator`, branch
+`task/SESSIONTEST-001-password-baseline`. Complete actual final metadata review,
+fresh final-head checks and normal PR59 merge. No owner decision or access is needed.
+PR52 full logical correction is active independently; PR54/56 are preserved next.
 
-## PR62 completed
+## PR62 cleanly completed
 
 [PR62](https://github.com/Kernol12/subathon-bot-ai/pull/62) normally merged
 2026-11-04T18:38:33Z, merge9345aff49a5cee8a1e0fa8f8251ad4fb01c853d9 from exact
-headacf4e7bee09f2f8e20b73beeb4d255507a646f73. All13 latest PR checks SUCCESS;
-active ruleset/no bypass/no unresolved threads/GitHub required approvals0, actual
-different repository reviews satisfied. Merge/head treec9a4a9c282a1917a724e0263b91c27e25871fec8
-matches. Local main and origin/main fast-forwarded. All12 post-main checks subsequently SUCCESS, retained in
-`/tmp/accesstest002-post-main-final.json`.
-The permission workflow already passed on main. Do not repeat completed PR62.
+headacf4e7bee09f2f8e20b73beeb4d255507a646f73. All13 final-head PR checks and12
+post-main checks SUCCESS. Merge/head treec9a4a9c282a1917a724e0263b91c27e25871fec8
+matches, active ruleset/no bypass/no unresolved discussions/requiredGHapprovals0,
+all different repository reviews satisfied. Local main/origin/main9345aff.
+[Handoff](accesstest-002-handoff.md) retains reviewed30cases and FIRSTclean8acc
+exit8/30failed/0skip, actual3f40238f attribution215markers+1safeguard/all216locations.
+ACCESS-002 remains unimplemented. PR61/60/58/57/55/53/51 also done; do not repeat.
 
-[Permission handoff](accesstest-002-handoff.md) links all actual logical/API/source/
-test/harness/fix/final approvals and FIRST red. Baseline done only: sourcefc82d17e,
-inventoryd0c25108, unchanged headeredd6ffc2/immediate stub4cf7bcca. FIRST clean8acc9b9
-at18:24:09.993522Z exit8/30fail/0skip; actual independent3f40238f validates215markers
-plus1 safe presence consequence/all216locations. No ACCESS-002 production released.
-PR61/60/58/57/55/53/51 also complete; preserve valid evidence.
+## PR59 actual baseline and selected CI completed
 
-## Active PR59
+[PR59](https://github.com/Kernol12/subathon-bot-ai/pull/59) draft published9f6cd8294e47544aa1b1612782e8482123b01d67,
+all14 applicable checks SUCCESS. First selected password
+[run41891170698](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41891170698)
+passed fixed authenticated1.0.22 source/staticSDK, exact37 enabled discovery,
+independent real runtime/vector/guarded-memory foundation1/1 andold3. No password
+feature or input-generator body ran in CI. Old f94f5ae/lone scaffold is superseded;
+normal SSH works and token workflow scope is unnecessary.
 
-[PR59](https://github.com/Kernol12/subathon-bot-ai/pull/59), remote f94f5ae, draft,
-only old scaffold check41828240775. Local parent3c3035ca5cda65ca924b20caac0f7d9ae91f799b
-contains completed local reviewed password baseline/red but unpublished workflows.
-SSH now works normally; token workflow scope is unnecessary. Original reviews and
-native proof remain valid. Current main merge predicted and exposed conflicts in
-CMakeLists, presets, testsCMake, generatedHTML and checkpoint. Root retains BOTH
-permission/password options/targets/presets and regenerates HTML from merged state.
-All406 IDs/1497 dependency edges preserved; only SESSIONTEST001 task differs beyond
-two retained historical CONTRACT005/008 notes. No reviewed source/assertion/fixture
-or SDK changes. Working merge must finish before pushing; no reset/rebase/force.
+Root mergee92f3cb integrates main9345aff with BOTH module options/targets/presets,
+406IDs/1497edges and extra historical CONTRACT005/008 notes preserved. Root9f6
+uses CTest-time TEST_LIST labels, all37 names/four labels/60s/private wrappers and
+SDK isolation unchanged. Actual different root integration review524cde88/importa34f728,
+reviewae49983d, approves these exact artifacts. Password41 and combined105
+(37password/30permission) compile/list passed, with no native/feature replay.
+Commands: `/tmp/subathon-pw-permission-integration-kiwelb8a/commands.json`;
+selected log `/tmp/sessiontest001-ci-9f6cd82.log`.
 
-Password facts:37 tests1d0d3775/fixture025d4de9/privateheader7e87bbe9/observer4e1f049a,
-full actual approval093b528e/importd560, header ec3c5cf8/CPP eaf56f41 remain three
-immediate marker stubs. Authenticated libsodium1.0.22 host SDK prefix
-`/tmp/subathon-sodium-1.0.22-sdk/prefix` and receipts remain. FIRST SDKfoundation at
-c0646b4 14:42:52Z and public synthetic PH12/13 input generation14:43:01Z passed;
-DO NOT replay either. FIRST clean d560 at16:06:50Z exit8/37fail/0skip; actual different
-attributionc5b10c59/importf053 validates all209 failures (158markers+51consequences).
-DO NOT replay FIRST red. Read [old handoff](sessiontest-001-handoff.md) as historical;
-its access blocker is stale and root must update publication/gates clearly.
+[Current handoff](sessiontest-001-handoff.md) and [CI](sessiontest-001-ci.md) link
+all actual prior reviews. PW source1d0d3775/fixture025d4de9/privateheader7e87bbe9/
+observer4e1f049a and productionheader ec3c5cf8/CPP eaf56f41 are unchanged. Actual
+full approval093b528e/importd560, FIRSTclean d560 at16:06:50Z exit8/37fail/0skip,
+separate c5b10c59/importf053 attributionall209locations(158markers+51consequences)
+remain valid. FIRST real SDKfoundation c064 at14:42:52Z and ONLYTHEN publicsynthetic
+PH12/13 preparation14:43:01Z passed. DO NOT replay FIRST/native/generator or any
+valid source/test review. Actual source/parameter policies remain independently
+expected literals. Three product entrypoints remain immediate markers.
 
-Next concrete steps: finish merge with actual source preservation checks; apply
-same separately reviewed CTest-time TEST_LIST label assignment used by PR62 because
-the old semicolon LABELS discovery pattern is incompatible with selected CI.
-Review actual changed integration/harness; compile/list only locally, no feature or
-native foundation/input-generator rerun. Publish fast-forward via SSH; observe FIRST
-actual selected Ubuntu1.0.22 SDK build/runtime foundation +exact37discovery +old3
-and all current checks. Final metadata/current rules/reviews/discussions/normalmerge
-remain. SESSION-001 production/current login/account/atomicstore/admission/memory/
-whole-cleanup/100samplehardware benchmark/platform/package/live gates remain.
+SESSIONTEST-001 is done as a reviewed observed-red baseline, AUTH-11 partial,
+SESSION-001 planned/unimplemented. New final metadata/checkpoint/map/HTML changes
+are local and need actual separate review before fresh final-head CI/normal merge.
+Inspect exact HEAD/status; do not assume published9f6 contains later review notes.
+No current accepted-login/account/atomic-store/admission/complete secret-lifetime/
+allocator-exception/100samplehardware benchmark/platform/package/live capability.
 
-## Other open PRs and owner choices
+## Active PR52 author and resolved decisions
 
-No genuine new owner question identified by actual preflights. D1 permission
-resource-first override resolved and merged. PR52 choices in
-[timer decisions](timer-editorial-owner-decisions.md): per-attempt Keep/Reduce/Abort
-warning for cap below Main, reject first Start with enableddeadline<=now and stay
-Ready, accept authorized active deadlineedit<=now and finish immediately. Do not
-ask again. Timer decision note has an obsolete D1-not-selected paragraph; correct
-it when PR52 resumes, alongside actual specification §4/TIMER01/contract examples.
+No unresolved owner question exists for the four original choices.
+[Permission D1](accesstest-002-owner-decision.md) accepted resource-scoped selection
+before quantity, no role fallback within scope; PR62 merged. [Timer answers](timer-editorial-owner-decisions.md)
+require per-attempt Keep/Reduce/Abort warning when lowering cap below Main;
+Keep saves lower cap retaining Main, Reduce explicit audited Main-to-cap reduction,
+Abort cancels both. Reject Ready firstStart when enableddeadline<=observation and
+remainReady; accept authorized active deadlineedit<=observation and finish
+immediately, old-configuration observation precedence preserved. Do not ask again.
+The stale D1-not-selected paragraph has been corrected as shared bookkeeping.
 
-- PR52 remote3e05b48,11 old checks pass; actual partial contract0ed9c693/review657988a7,
-  clean original author5446a911/reviewer c33a4b18 trees; no integrator worktree yet.
-  Incorporate known answers into full logical examples and independently review,
-  then API/inert source/tests/review/FIRSTred. No executable baseline exists yet.
-- PR54 localratec37c87b/remote512828c;53 reviewed tests64fd60b2/fixture8936 and SDK
-  foundation28a approveddcf5. Old host1.92 foundation passed. Selected1.83 lane
-  compile/runtime/harness/currentCI/FIRSTred remain. Preserve408-node graph and
-  RATESTEST009/RATES009 exact-valuation bridge. Read-only audit service_reviewer.
-- PR56 primarylocal8721770/remote00d8c57;53 reviewed testsfa098e2 approved208 and
-  old1.92 foundation25facts passed. Selected1.83 runtime/harness/currentCI/FIRSTred
-  remain. Common authentic selected1.83 prefix now exists and PR62 SDK/Ubuntu proof
-  is complete; no need to reconstruct/authenticate it. Preserve task evidence.
+Original focusedPR52 head3e05b48 is now attached to
+`local-evidence/worktrees/coretest008-integrator`. Root merged currentmain23caf56,
+kept406IDs/1497edges and originalpartialcontract0ed9c693/review657988a7. Root5601a06
+transcribed accepted choices into spec§4/§18/TIMER01. Branch
+`task/CORETEST-008-logical-correction`, worktree `coretest008-logical-correction`,
+from5601a06 is assigned service_author: ONLY complete logical doc+own continuation
+note, preserve16originalED/settledbounds and independent partialreview. Root owns
+shared spec/state/HTML/build/CI. Actual different service_reviewer full logical and
+root-spec review before API, inert source, tests, FIRSTred or code. No later stage
+released. No global default, Active-only scope shrink, new policy question or copied
+existing reducer. Inspect actual agent status; assignment does not mean background
+execution survives a stopped session.
 
-## Preservation
+## PR54/56 preserved gates
 
-Primary workspace remains milestone branch8721770 with old checkpoint; current
-root work is in the password integrator. Eight historical dirty trees/16 absent
-registrations remain untouched (acct004-service, accttest004-service-api-review,
+Read-only audit found no owner decision/access blocker. PR54 localc37c87b/remote512828c,
+53tests64fd60b2/fixture8936 reviewed dcf5dcaa,14-fact foundation28a; preserve408nodes
+and extra RATESTEST009/RATES009 exact-valuation bridge. PR56 primarylocal8721770/
+remote00d8c57,53testsfa098e2 reviewed208d0580,25-fact foundation. Both only oldhost1.92
+foundation proof; common authenticated1.83 prefix `/tmp/subathon-boost-1.83-sdk/prefix`
+now exists and PR62 SDK/Ubuntu proof complete. Their own selected1.83 foundation
+14/25 facts, main integration/CTest-time labels/changed-harness review/currentCI/
+FIRSTplain53red/independent attribution/finalnormalmerge remain. Do not substitute
+PR62's21 facts or replay old completed gates. Root to assign bounded actual work
+when ready; current author/reviewer handoffs are stopped/read-only, not live agents.
+
+## Preservation and continuity
+
+Primary workspace remains milestone8721770 and contains an old checkpoint; root
+active files are in password integrator. Eight old dirty trees and16 absent
+registrations remain untouched: acct004-service, accttest004-service-api-review,
 storage002-review, storage017-review, storage017-validation, storagetest016-api-author,
-storagetest016-review, storagetest017-review). Do not reset/prune/delete. PR62 review
-branches are clean/completed. No root native/CTest command is running; post-main CI
-is external. Asset011 parkedc4ef1b91, partial5318475/doc6765932a with R1/R2deb0d066,
-fonts/closedSVG/examples incomplete; no012/runtime work released.
-All seven integrations/threeFX/renderers/locales/themes/platforms/packaging/licenses/
-live verification remain full release scope. No deployment/live chat/payment action.
-
-
-Latest active update: main merge e92f3cb committed cleanly with both modules and
-all406IDs/1497edges preserved. Root password TEST_LIST/CTest-time label correction
-and integration note are now actual candidate changes; password41/exact37CIguard
-and combinedmodule105(37PW/30permission) compile/list pass without any body replay.
-New actual different harness review next; then first selectedUbuntuPWCI/publication.
-No root command remains running. Check actual githead/status rather than earlier
-merge-in-progress prose. PR62 all12 postmainchecks nowconfirmed SUCCESS.
+storagetest016-review, storagetest017-review. Never reset/prune/delete. New task/review
+trees are separate. No root command remains running. Inspect actual processes/agent
+status and unfinished local changes before acting; do not re-assume prior roles.
+Asset011 parkedc4ef1b91 partial5318475/doc6765932a/openR1R2deb0d066, fonts/closedSVG/
+examples incomplete; no012/runtime. All seven integrations/threeFX/renderers/locales/
+themes/platforms/packages/licenses/live verification remain full release scope.
+No deployment/live provider/chat/payment actions are authorized.
