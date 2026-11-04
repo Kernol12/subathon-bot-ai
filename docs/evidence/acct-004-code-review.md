@@ -63,3 +63,59 @@ whole-input numeric/hold evidence; current reference binding/non-retry collision
 intermediate/final allocation checks before growth. Review actual root build/CI
 promotion preserving old guards and pins, then independently execute full acceptance.
 No approval is made for source or configuration not actually received.
+
+## First full service candidate: changes required
+
+Actual root candidate95fa152, service source from author722e11b/root e4089bd,
+was independently integrated and audited. All35 unchanged service slots PASS3.43s
+on this reviewer native build, but those passes do not establish the missing
+requirements below. Full implementation approval is withheld.
+
+1. Callback view copies lose their selected key limits after the weak state
+   expires, so pure key validation incorrectly uses defaults. ContractC requires
+   selected limits before callback expiry/thread checks. Preserve limit DATA
+   independently from revocable authority; never extend callback access.
+2. SAS1 clock/balance decoding allocates separate bounded vectors without the
+   complete combined intermediate B/I check before materialization. A clock
+   segment and two balances are three real decoded items, not separate quotas.
+3. Historical advanced-before SAS1 policy revision is not checked against the
+   success SAA1/after-state policy, accepting contradictory known meanings.
+4. Retained Clock parser checks each elapsed nonnegative but omits checked total
+   and nonempty finalUTC equality with observedUTC. Known malformed SAS1/SAA1
+   semantics must fail before current resolvers replace evidence.
+5. Final response budget checks occur after owning payload copies in historical,
+   active-hold, held and ineligible paths. ContractF requires projecting complete
+   actual output B/I before growing oversized output. Source audit must verify
+   ordering in addition to the existing exact-bound runtime refusal tests.
+
+Promoted root configuration95fa152 is inspected: exact35 registration continues
+matching compiled slots, rejects disabled/inverted/draft rows, and unconditionally
+executes application-service acceptance after all old guards. No old command,
+selected dependency pin or check name is weakened. Header edits are comment-only;
+preset/CTest labels accurately promote implementation acceptance. Future additive
+registration counts/source changes require their actual separate audit.
+
+## Additive regression test review before first defect red
+
+**APPROVED: actual four additive methods only**, root uncommitted CPP blob
+6b198e3a72566432d7ca8a2ad523c195872bc8f0, Qt registration959535e,
+CI0ca6947 (four additions, exact39). Reviewed actual source independently before
+any new test body was invoked; root message records release for reached-red.
+No prior method/assertion/fixture was changed.
+
+- referenceViewRetainsSelectedKeyLimit: min store reference1 survives callback
+  expiry as DATA; cfg fails invalid_reference before expiry, legal c remains
+  expired. Denied access proves zero protected storage dependency.
+- retainedStateBudgetPrecedesPolicy: independent supported SAS1 has one clock
+  segment plus two balances, combined3 exceeds intermediate_items2 before policy.
+- historicalBeforePolicyMatchesAudit: a same-length literal policy byte mutation
+  in only historical advanced-before must give contradictory_document after actual
+  disclosure, before current policy/actions; no actual typed snapshot is altered.
+- retainedClockFinalUtcMatchesObservation: literal observed1001 differs from final
+  segment1000 and must give invalid_known_document before the resolver.
+
+Each test asserts actual known rollback/absence of response and byte-identical
+remaining database state. The mutation preconditions require exactly one affected
+row or independent byte anchor, preventing a vacuous unrelated fixture failure.
+These tests do not claim allocation ordering is measured; that remains source
+audit. Approval precedes root's future actual reached-red, not an invented result.
