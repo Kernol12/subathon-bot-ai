@@ -449,3 +449,25 @@ six-method old-primitive fixture guard. [CI](evidence/acct-004-ci.md),
 [handoff](evidence/acct-004-handoff.md) pin actual revisions and limits.
 These are synthetic real-SQL component checks: actual ports/financial/review/
 recovery/provider/UI/platform/live/full release acceptance remains incomplete.
+
+
+## Shared translation catalog baseline
+
+LOCALETEST-001 has43 independently reviewed Python methods, seven literal messages,
+four complete TS/browser goldens and a separate Qt-only foundation/verifier.
+[Handoff](evidence/localetest-001-handoff.md), [review](evidence/localetest-001-test-review.md)
+and [red attribution](evidence/localetest-001-red-review.md) distinguish reviewed
+authorship, actual existing-Qt success and FIRST intended project failure.
+
+Configure/build translation-catalog-debug with the verified Qt6.12.0 tool prefix
+from the preflight. CTest -LE intentional-red runs five ordinary checks, including
+the mandatory real compiler/load/two-directory reproduction foundation. CI always
+discovers all43 enabled/uninverted feature methods; -L '^translation-catalog$' runs
+those intentionally failing project cases. The first clean976 execution returned8
+with43fail/0setup/disabled/skip,109directmarkererrors and14CLIassertions. No failure
+is reversed into green. This is a completed baseline, not passing generator behavior.
+
+LOCALE-001 must preserve all assertions, produce actual6artifacts/QM semantics, pass
+all43 and source/allocation/process/publication audit, obtain separate code review
+and promote ordinaryCI feature execution. Formatting/preferences/live switching/
+German layouts/packaging/platform and full release remain separate required gates.

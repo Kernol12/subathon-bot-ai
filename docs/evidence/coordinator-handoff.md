@@ -1,206 +1,122 @@
-# Coordinator checkpoint — translation baseline in progress
+# Coordinator checkpoint — catalog baseline complete, final publication pending
 
-Coordinator /root, 2026-11-04. Continue the standing loop under AGENTS.md and
-COORDINATOR_PROMPT.md. Full product remains incomplete. No access is currently
-needed. CORE-008 choices below remain unanswered; do not infer answers.
+Coordinator /root, 2026-11-04. Continue AGENTS.md and COORDINATOR_PROMPT.md.
+Full product remains incomplete. No new access or routine approval is needed.
+Three earlier CORE-008 product questions remain unanswered; do not default them.
 
-## Actual integrated main and previous publication
+## Integrated main and preserved completed work
 
-Main **0b631dcbea1ec7765b3a66e41d6059e81de2979d** is the verified normal PR51
-merge, observed at2026-11-04T05:56:21Z. Final head80cac620 had all eleven checks
-successful, including selected run41781864667. Current rules/threads were checked;
-GitHub reported CLEAN/mergeable, zero unresolved threads, no required approvals or
-bypass actors. Used normal exact-head merge, no force/bypass/branch deletion.
-Main was refreshed clean and its merge tree equals the reviewed head tree. All ten
-post-main workflows subsequently passed. Raw API/check/log/trees remain in ignored
-local-evidence/acct004-merge-receipt.json. Do not repeat completed ACCT-004 gates.
+Latest fetched main0b631dcbea1ec7765b3a66e41d6059e81de2979d is the normal PR51
+ACCT-004 merge from80cac620 at2026-11-04T05:56:21Z. All11 latest-source checks and
+10 post-main workflows passed; main/head trees matched. [Handoff](acct-004-handoff.md),
+[review](acct-004-code-review.md), [CI](acct-004-ci.md) preserve43slots233scenarios/
+full308 acceptance and independent source/allocation approval. Do not repeat
+completed gates or treat component evidence as actual adapters/platform/full release.
+Raw ignored merge receipt: local-evidence/acct004-merge-receipt.json.
 
-[ACCT-004 handoff](acct-004-handoff.md), [source review](acct-004-code-review.md),
-[CI](acct-004-ci.md) and [regressions](acct-004-regressions.md) preserve actual
-43 slots/233 scenarios/full308 native passes on root and a different reviewer,
-1,420 Qt passes/zero skips or warnings, actual source/allocation approvalc791e72,
-and unconditional selected official Qt acceptance. Original assertions/fixtures/
-valid stub-red are unchanged. This is component acceptance, not full release proof.
+## LOCALETEST-001 — complete baseline, unmerged
 
-## Parked timer task — preserve valid work
+Root branch task/LOCALETEST-001-catalog-baseline; root source at2ef381a before this
+completion-metadata commit. [Draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53)
+last published ad0dd23. LOCALETEST-001 is DONE as a test baseline; LOCALE-001 remains
+planned until normally merged/integrated prerequisites. Read
+[handoff](localetest-001-handoff.md), [test review](localetest-001-test-review.md),
+[red review](localetest-001-red-review.md), [foundation](localetest-001-foundation.md)
+and [brief](../tasks/EPIC-023/LOCALE-001.md).
 
-CORETEST-008 is blocked for affected next stages in open
-[draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52), branch
-`task/CORETEST-008-timer-command-baseline`, head3e05b48. Actual proposed document
-5446a91/import8754e43, blob0ed9c693, and independent document reviewc33a4b1/import
-4f9a6c1 approve only the partial document stage/16 literal examples. No API,
-feature-test, red baseline or production approval follows. All files/reviews remain
-on that branch; this new task branch carries the active blocked claim without
-copying unrelated document changes. Root must reconcile both progress records
-carefully when integrating later, preserving claims and evidence.
+Actual approved source contract51383296/APIacb90189/minimal stub23089e6b remain
+unchanged. Real Qt rejected the old top-level-message inference; supported mapping
+uses one empty context/name. Initial rejection and renewed review are preserved.
+Seven independent source messages/four complete TS/browser goldens, Qt-only raw-QM
+probe and43 Python methods are reviewed. All145 old assertion/failure AST nodes and
+six original message objects/forms remain; later additions test plural percents,
+fresh missing-English load, global validation priority and U2028/U2029 bytes.
+Final actual full source/test/harness approvaleee87e1/import9765647 pins tests6a7da928,
+probe f033074d, inventory3c5b8830, QtCMake9ff75621 and CI d90ce3cc.
 
-Three unanswered async product questions:
-1. Cap below current Main: retain Main, reject the edit, or explicit audited clamp?
-2. First Start from Ready with a passed deadline: reject/keep Ready, or finish?
-3. Enable/move a deadline to now/past: accept and finish, or reject?
+Selected official Qt6.12.0 foundation passed100 assertions and two-fresh-directory
+QM comparisons. Actual final-source CI41799087660 atad0dd23 passed four verified
+archive pins/runtime closure, build/inert imports, exact43enabled/uninverted
+method discovery and five ordinary checks. All12 PR checks atad0 passed BEFORE
+first red. Raw ignored log corrected-tests-41799087660.log SHA d503efe39c9e385d897fdeeabf96b39509041dd6c94363955350c906267f52e1.
 
-No answer has arrived. Do not reask settled debt-first addition, above-cap ADDITION
-retention, hard-end precedence, actual-zero Grace/wait or reopening conditions.
-Keep PR52 draft; do not merge it as a completed baseline. Reuse the actual author
-and reviewer only after explicit followup. Both document assignments completed;
-they are not running in the background.
+FIRST project invocation was plain CTest feature label on CLEAN9765647 after final
+review import; no source changed. Exit8,43/43fail/0disabled/skips/setuperrors/2.47s.
+Independent saved-evidence attributiona66e66a/import2ef381a accepts37direct methods/
+109markererror records (validate78/render3/generate24/check4) and6CLI methods/
+14assertion failures against sole script exit86. Five CLI helpers suppress stderr;
+those are inferred from86 plus the exact frozen guard, not falsely printed markers.
+Three added global-priority rows and separator source individually reached markers.
+Raw [CTest output](localetest-001-red-ctest.txt) SHA0f238e5982a9a2f98675bf9922043158d2f67afabccdd51340d1e65f183f5d9e
+is committed. Ignored first-red JUnit/metadata/per-method JSON remain preserved.
+No replay, assertion weakening, skip, WILL_FAIL, inversion or fake successful tool.
 
-## Current task, actual revisions and next gate
+Next concrete actions: publish completion metadata; observe ALL latest-head CI;
+recheck rules, threads, reviews and mergeability; mark PR ready and normally merge
+exact head only when gates pass. Then refresh main, reconcile records and claim
+LOCALE-001 on its own fresh branch. Ordinary baseline CI explicitly excludes only
+intentional-red feature execution while building/discovering all43 and running
+real Qt foundation. Implementation must pass all43, receive independent code/source
+allocation/process/publication audit and promote actual feature execution into CI.
+No generator behavior, named formatter/preferences/switching/layout/package/platform
+or full release acceptance exists yet. Actual .qm generation is still mandatory.
 
-Last published source/config head is `1f666b0`; local root source/harness is at `e1779a3` on `task/LOCALETEST-001-catalog-baseline`, based on
-integrated main `0b631dc`. [Draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53)
-remains open. LOCALETEST-001 is in progress; LOCALE-001 production is planned.
-The [brief](../tasks/EPIC-023/LOCALE-001.md) covers specification v0.45 §12/I18N-04.
-Real deterministic .ts, .qm and browser outputs remain required. Runtime formatting,
-preferences, switching, layouts and packaging remain separate tasks.
+## Concurrent RATESTEST-001 — approved model, API document being authored
 
-Approved source [contract](../contracts/translation-catalog-v1.md) blob
-`5138329642d112423431d0314a6f9f9a78c7795d` received renewed independent approval
-`947eba4` after actual Qt rejected the original top-level-message mapping.
-The supported mapping uses one explicit empty context/name wrapper. Preserve
-[review history](localetest-001-contract-review.md) and the original real failure.
-The [API contract](../contracts/translation-catalog-api-v1.md) blob
-`acb90189c371ab4aa8979cbb2ac8d117b2e8ab0e` received approval `f7f4681` after timeout,
-file-read and source-opening bounds were resolved. See its
-[review](localetest-001-api-review.md).
+[Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54), branch
+task/RATESTEST-001-snapshot-baseline, published head4853a42, root integrator tree
+local-evidence/worktrees/ratestest001-integrator. Logical documentce1b926/import0c97691
+(contract76d2d9b3/authorc5e87c18) approved7003473/import6a4a487 after RS10/RS15
+clarifications;17 independent arithmetic facts checked. Only concrete API DOCUMENT
+stage is active. No actual header/stub/schema/storage/test/red/implementation exists.
 
-Actual minimal source `ef4974c`/import `a9e60e5` is integrated with its
-[author note](localetest-001-stub-author.md). Nine frozen data types and inert
-errors/enums exist. ALL five feature functions immediately raise the distinct
-TranslationCatalogNotImplemented marker. No entrypoint, main, script or marker
-has been invoked. No generator behavior or contributor source catalog exists. The first literal
-fixture/probe stage is integrated; Python feature tests are authored in isolation.
-No project feature/main/marker or foundation probe has been invoked.
+Source/fetch/publication unknowns stay unknown; observations remain separate from
+selected effective constraints, exact positives/inverses/cross-rates and pins. The
+finite-decimal HistoricalValuation/STORAGE-015 gap for1.20→5/6 is now required
+RATESTEST-009/RATES-009 work under EPIC-017 on PR54. Its state has398tasks; this
+focused locale branch has396 and only reconciles the active claim. Merge snapshots
+carefully, preserving newer statuses/evidence and required bridge tasks. No rounded
+fallback or unsupported provider capability is allowed; all3FX providers remain.
 
-Root added profile22 `translation-catalog-debug`, a syntax/inert-import target and
-[CI](../../.github/workflows/translation-catalog.yml) with four verified official Qt
-archives. Actual selected-prefix configure/build and verbose CTest passed all four
-existing infrastructure tests, including19 tooling methods and the Qt event loop.
-Actual [CI41792990086](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41792990086)
-at `1f666b0` passed the same selected-tool version/closure, syntax/import and four
-checks on Ubuntu24.04/Python3.12.3. Raw ignored log:
-local-evidence/localetest001-ci/interfaces-41792990086.log,
-SHA256 `4d7fcd0bbc10295ccf4ddb4c7e3da8707f7433f7950e31891fa6cd48ea5e57fc`.
-This establishes infrastructure, not translation feature acceptance.
+## Agents and ownership — inspect on resume
 
-Actual source/shared-config review `732bb2d`/import `6589861` APPROVES the exact
-minimal source/config after an independent11-step build/four infrastructure passes.
-Actual fixture/probe candidate a9e6eaa/import4744c63 and QtCMakef45a262 compiled
-successfully. Independent review aeb4091/import39711a2 requested two justified
-additions: plural raw percent checks and a fresh missing-English load. Both are
-being corrected without weakening the existing six messages. Python behavior
-tests are authored concurrently. Next: integrate and review their actual revision,
-run the selected real-Qt compiled foundation green and observe FIRST intended
-project marker red. No stub call during build/discovery. Missing dependency,
-compilation, setup or skip is never red. Keep intentional red execution separate
-from ordinary green CI until implementation. PR53 cannot merge as a completed
-baseline until reviewed tests and valid red evidence exist.
+All tree paths below are under local-evidence/worktrees/.
 
-## Active roles, worktrees and ownership
+- service_author RUNNING rate API DOCUMENT only in ratestest001-contract-author,
+  task/RATESTEST-001-contract-author. Own ONLY new rate-snapshots-api-v1.md and
+  ratestest-001-api-author.md. Source model remains frozen. Old clean
+  localetest001-contract-author/ACCT trees are preserved. No code release yet.
+- codec_author completed locale correctionsbbff4e0 and rate model review7003473;
+  currently idle. Preserve localetest001-fixture-author and ratestest001-contract-review.
+  Explicit followup with actual rate API candidate for independent document review.
+- service_reviewer completed full locale revieweee87e1 and red attributiona66e66a;
+  currently idle in localetest001-contract-review. Future implementation needs actual
+  different source review; no future-code approval. Explicit followup_task restarts
+  idle agents; send_message alone does not.
+- Root exclusively owns state/HTML/maps/shared schemas/CMake/presets/workflows/pins,
+  checkpoint and integration. Never overwrite another writer or reset old trees.
 
-All paths below are under local-evidence/worktrees/.
+## Blocked timer and preservation
 
-- service_author completed locale stub `ef4974c`; its localetest001-contract-author
-  tree/branch remain clean and preserved. It is now RUNNING the independent rate
-  document assignment below. A queued message alone does not run an idle agent.
-- service_reviewer is completed/idle after actual minimal approval `732bb2d` at
-  localetest001-contract-review, branch task/LOCALETEST-001-contract-review.
-  Its source/config note is committed. Explicitly followup with actual authored
-  tests/config before further review; no prospective fixture/test approval.
-- codec_author is RUNNING independent fixture/test authorship at
-  localetest001-fixture-author, branch task/LOCALETEST-001-fixture-author,
-  created from main plus reviewed6589861. Own only NEW tests/fixtures/translation_catalog/,
-  tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note.
-  Complete literal goldens, a real Qt foundation/reusable raw-QM verifier and
-  public API/CLI behavior tests are assigned. Initial six messages are retained;
-  a separately requested seventh plural-percent fixture is additive. No project stub/marker
-  execution before actual test review and selected green foundation. Earlier
-  timer/scratch work remains preserved.
-- Root alone owns state/HTML/maps/shared schemas/CMake/presets/workflows/pins and
-  checkpoint/integration. Use separate writer branches and inspect dirty work.
+[Draft PR52](https://github.com/Kernol12/subathon-bot-ai/pull/52), head3e05b48,
+preserves CORETEST-008 partial document5446a91/reviewc33a4b1/16literal examples.
+Blocked choices: cap lowered below current Main (retain/reject/audited clamp), first
+Ready Start with passed deadline (reject or finish), enable/move deadline to now/past
+(accept+finish or reject). No answers arrived. No API/test/red/production stage is
+approved. Do not reask settled debt-first addition/above-cap addition retention/
+hard-end/Grace/wait/reopen questions. Preserve this claim during every state merge.
 
-## Concurrent exact rate-snapshot document task
+Historical branches/worktrees/valid reviews remain untouched, including seven old
+dirty verification trees and acct004-service verification-only CMake/untracked note.
+Do not reset/prune/delete absent registrations or old trees. No root build/CTest
+child is running. Unrelated IDE/user processes remain untouched. Inspect actual
+processes/agents/dirty state/GitHub on every resume. Selected verified tool prefix
+/tmp/subathon-locale-qttools-6.12.0/prefix; ICU belongs under prefix/lib; do not
+substitute host Qt. Raw scratch Qt failure/success remains ignored and is not
+substituted for the formal baseline.
 
-RATESTEST-001 is dependency-ready (CONTRACT-002/CORE-001 done) and claimed on
-`task/RATESTEST-001-snapshot-baseline` at `6338966` from freshly fetched main0b631dc.
-Root integrator: local-evidence/worktrees/ratestest001-integrator. Separate author:
-local-evidence/worktrees/ratestest001-contract-author, branch
-`task/RATESTEST-001-contract-author`. service_author owns ONLY new
- docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md.
-The [brief](../tasks/EPIC-017/RATES-001.md), spec§3.5/9/15/NUM-04/FX-06 and existing
-exact public contracts are required inputs. Exact fetched observations/effective
-snapshot/provenance, positive values, honest unknown metadata and immutable credited
-effects are in scope. Provider operations/cache/scheduler/UI/pin-solving workflows
-remain adjacent tasks. No API/code/stub/schema/storage/fixture/test/live stage is
-released. The actual authored document needs independent review next. Root also recorded
-required RATESTEST-009/RATES-009 and a brief on this branch (324589d/9664faf),
-so recurring exact rational rates cannot be rounded through the existing finite-
-decimal HistoricalValuation/STORAGE-015 representation. EPIC-017 requires the
-bridge. Its initial unregistered §3.5 progress reference was corrected to §3;
-398-task consistency now passes. No representation/code/schema changed. [Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) is open at
-headf1b26aa with actual documentaf2f9a9/importf4f321a. codec_author is reviewing
-the actual document; service_author is correcting a narrow RS10 ambiguity so an
-observation with no active fetched edge stays retained outside that effective
-snapshot. No owner choice needed; no next API/code/tests stage is released. Root alone coordinates
-state snapshots; preserve newer locale and timer claims during integration.
-
-## Environment, preservation and release limits
-
-Selected verified official tool prefix is
-/tmp/subathon-locale-qttools-6.12.0/prefix. Read
-[tool preflight](localetest-001-tool-preflight.md) for exact Base/ICU/Tools/Declarative
-archive pins; ICU must be under prefix/lib. Actual official lrelease requires
-Qml/Network/Core. Do not substitute host tools or assume a version string proves
-archive identity. [Scratch feasibility](localetest-001-qt-feasibility.md) proved56
-literal raw lookups and same-tool two-directory QM reproduction only. All raw
-original failure and success evidence is preserved in ignored
-local-evidence/localetest001-qt-feasibility. That probe is NOT the formal baseline.
-
-Historical branches/worktrees/reviews remain intact. Seven preexisting dirty
-verification trees remain untouched: accttest004-service-api-review, storage002-review,
-storage017-review, storage017-validation, storagetest016-api-author,
-storagetest016-review, storagetest017-review. Earlier acct004-service also retains
-its verification-only server/CMakeLists.txt and untracked review-note copy; preserve.
-There were111 existing worktree locations plus16 absent registrations at startup;
-never prune/reset/delete them. No root build/CTest child process remains running
-at this checkpoint. Unrelated IDE/user processes remain untouched.
-
-Latest observed main ruleset26170263 requires PR/resolved threads, zero required
-GitHub approvals and no bypass actors; classic protection endpoint404. Recheck
-current rules/threads/latest-head actual checks before any normal merge. Written
-workflow still requires every applicable CI and independent review despite no
-required-check rule. All seven integrations, three FX providers, both renderers,
-platforms and release gates remain in scope; synthetic component evidence is not
-live/platform verification. Task progress JSON and generated HTML stay authoritative.
-
-Local root has uncommitted CMakeLists/tests QtCMake/workflow changes for the actual
-Python case inventory and separate intentional-red discovery. Do not run configure
-before integrating the final inventory; do not push a workflow that runs the new
-foundation before actual fixture/probe review. All feature methods must remain
-registered; automatic CI explicitly excludes only intentional-red feature execution.
-
-Actual full locale candidatebbdeefb/importe0ffc3b+rootsharedharness e1779a3 now
-builds and statically discovers43unique methods/48CTest entries. The complete
-actual test/harness review is RUNNING withservice_reviewer; earlier noteaeb4091
-is changes-required history, not finalapproval. No newQtfoundation/projectfeature
-or marker has been called. Root CI validates AST/inventory/discovery exactly43,
-runs mandatoryQt-onlyfoundation+existingchecks with explicit -LE intentional-red.
-Only coordinator checkpoint/progress/map metadata are uncommitted at this handoff.
-
-Actual narrow fixture/probe review2968/importacfb4af passed, then root selected
-foundation ran FIRST and passed100 total assertions/1CTest0.02s. Read
-[foundation evidence](localetest-001-foundation.md) for exact rawlog/QM hashes.
-CIguard6fdd985 is separately acknowledged; root may publish non-intentional-redCI.
-Full43Pythonreview continues; no projectfeature/main/marker or firstred has run.
-Rate correctedmodel is approved7003473/import6a4a487; head4853a42 publishes it
-onPR54. service_author RUNNING concrete rate API DOCUMENT only; codec_author is
-completed/idle after modelreview, ready for explicit followup on actualAPI.
-
-LATEST actual locale stage: cafe4ad published; selected compiledfoundationCI
-41797849656 SUCCESS,5ordinaryCTest/100Qtassertions/exact43enableduninverted
-discovery. Full reviewe76a9a0/import48e1294 is CHANGES REQUIRED for T1global
-validationpriority/T2U2028-U2029 oracles only. codec_author RUNNING those two-file
-Python+authornote corrections in localetest001-fixture-author; old43names/assertions/
-7fixtures/probe preserved. service_reviewer is completed/idle after this verdict;
-explicitly followup with ACTUAL revisedartifact for finalapproval. No projectfeature/
-main/marker or FIRSTred hasrun. Rate API DOCUMENT authorship is RUNNING independently.
+Latest observed ruleset26170263 requires PR/resolved threads, zero required GitHub
+approvals/no bypass actors; classic protection404 and no required-check rule.
+Written workflow still requires ALL applicable latest CI and independent reviews.
+Recheck before normal merge; no force/admin/protection weakening. All7integrations,
+3FXproviders/both renderers/platforms/license/package/live/fullrelease gates remain.

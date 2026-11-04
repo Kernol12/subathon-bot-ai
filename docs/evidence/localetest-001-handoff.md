@@ -3,8 +3,9 @@
 Coordinator /root, 2026-11-04, task/LOCALETEST-001-catalog-baseline,
 [draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53).
 This records reviewed tests and FIRST intended missing-feature red, not generator
-implementation or a passing translation product suite. Independent red attribution
-and final publication gates are pending at this record's authoring revision.
+implementation or a passing translation product suite. [Independent red attribution](localetest-001-red-review.md) a66e66a/import2ef381a
+accepts the saved evidence. Baseline work is complete; final latest-head CI and
+normal publication/merge gates remain pending.
 
 ## Contract, source and independent review
 
@@ -65,7 +66,7 @@ unimplemented JSON/exit86 tuple; five methods report86 versus their expected nor
 exit. Those five helpers do not print captured stderr before failing, so do not
 claim each raw record prints the marker name. The frozen __main__ guard has only
 one exit86 path, catching the distinct marker from immediate main. Source/probe/
-fixture hashes and complete failure traces establish that attribution, subject to
+fixture hashes and complete failure traces establish that attribution, confirmed by
 the separate actual red review. No error was reversed into a passing test.
 
 Three added cross-message priority sources and the separator source each reached
@@ -87,9 +88,9 @@ Exact blobs at first execution:
 
 ## Next work and retained scope
 
-Obtain the actual independent red-attribution verdict, update progress/map/checkpoint,
-then complete latest-head CI/rules/discussion/approval checks and normally merge the
-focused baseline PR. LOCALE-001 remains planned until integrated prerequisites;
+Independent red-attribution verdict a66e66a/import2ef381a is accepted without replay.
+Progress/map/checkpoint record baseline completion. Complete latest-head CI/rules/
+discussion/approval checks and normally merge the focused baseline PR. LOCALE-001 remains planned until integrated prerequisites;
 implement only its reviewed generator scope with preserved assertions, separate
 code review and real full acceptance/automatic CI. No WILL_FAIL, skip, blanket
 continue-on-error, canned QM or fake successful compiler is allowed.

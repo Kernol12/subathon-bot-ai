@@ -1003,13 +1003,14 @@
         "tests/qt/translation_catalog_probe.cpp"
       ],
       "evidence": [
-        "docs/contracts/translation-catalog-v1.md",
-        "docs/contracts/translation-catalog-api-v1.md",
-        "docs/evidence/localetest-001-stub-review.md",
         "docs/evidence/localetest-001-test-author.md",
-        "docs/evidence/localetest-001-test-review.md"
+        "docs/evidence/localetest-001-test-review.md",
+        "docs/evidence/localetest-001-foundation.md",
+        "docs/evidence/localetest-001-handoff.md",
+        "docs/evidence/localetest-001-red-ctest.txt",
+        "docs/evidence/localetest-001-red-review.md"
       ],
-      "scope": "Source/API/minimal source reviewed;43 independently authored Python methods and seven literal fixtures/four complete goldens build/discover. Actual full test/harness review pending after two additive foundation corrections; no foundation/project feature/main/marker execution or intended red yet. LOCALE001 generator and runtime/preferences/layout/package release gates remain unimplemented."
+      "scope": "Reviewed generator baseline only:43intentional-red methods,7independent fixtures/4complete goldens, selected realQt foundation100assertions and actual ordinaryCI/discovery passed beforeFIRST clean976 red. Independent109directmarker+14CLIsentinel attribution accepted; no generator/runtime preference/formatting/layout/platform feature acceptance yet."
     },
     {
       "id": "VIEW-04",
@@ -1356,6 +1357,32 @@
         "baseline": "Actualsource/configc791e72/import2ab1037 atce28ff3: runtimef20187a7/privatevalues162373ed/command05091e25/privateheader7d9171cd/public84f09f21/test7329b24f/Qt8e9d85ee/CIc63ee177. Original baseline/red preserved,8 additive slots separately reviewed/reached behavior red before fixes.",
         "evidence": "docs/evidence/acct-004-code-review.md"
       }
+    },
+    {
+      "scenario": "Deterministic shared English/German translation catalog and compiled Qt mapping",
+      "status": "observed_red",
+      "tests": [
+        "tests/localization/test_translation_catalog.py",
+        "tests/qt/translation_catalog_probe.cpp"
+      ],
+      "contract": "docs/contracts/translation-catalog-api-v1.md",
+      "evidence": [
+        "docs/evidence/localetest-001-test-author.md",
+        "docs/evidence/localetest-001-test-review.md",
+        "docs/evidence/localetest-001-foundation.md",
+        "docs/evidence/localetest-001-handoff.md",
+        "docs/evidence/localetest-001-red-ctest.txt",
+        "docs/evidence/localetest-001-red-review.md"
+      ],
+      "review": {
+        "author": "/root/codec_author (fixtures/tests); /root/service_author (contract/API/stubs); /root (shared harness)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "eee87e1 accepts tests6a7da928/43unique methods; a66e66a attributesFIRSTclean976 red43fail/0skip/setup/109directerrors+14CLIassertions/raw0f238e59.",
+        "evidence": "docs/evidence/localetest-001-test-review.md"
+      },
+      "verification_level": "reviewed intended missing-feature baseline with actual selected Qt foundation",
+      "scope": "All43 feature methods remain enabled and intentionally fail on explicit stubs. Seven literal messages/four complete goldens and separate actual Qt-only compilation/load/reproduction are independent oracles, not generator success. LOCALE001 still planned; implementation must pass all43, receive separate source review and promote feature execution into ordinaryCI. Runtime/preferences/layout/package/platform and fullrelease remain required."
     }
   ]
 }
