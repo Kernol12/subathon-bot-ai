@@ -20,6 +20,14 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_SERVICE_TEST
     subathon_target_options(subathon_exact_numeric)
 endif()
 
+# Explicit boundary for pure milestone progression proposals.
+if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
+    add_library(subathon_milestone_progression STATIC src/milestone_progression.cpp)
+    target_include_directories(subathon_milestone_progression PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_milestone_progression PUBLIC subathon_exact_numeric)
+    subathon_target_options(subathon_milestone_progression)
+endif()
+
 # Explicit target for deterministic timer lifecycle proposals.
 if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
     add_library(subathon_timer_lifecycle STATIC src/timer_lifecycle.cpp)
