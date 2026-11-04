@@ -95,3 +95,39 @@ concrete API/test release or LOCALE001 implementation is claimed.
 Actual revised-document checks: python3 tools/check_project.py PASS396/122/local
 links/presets/HTML; python3 tools/progress.py render --check PASS; git diff --check
 PASS. No generator/native/QM/lookup/reproduction command ran.
+
+
+## R4 actual selected-tool contradiction and bounded document correction
+
+After actual R1–R3 approval534d4d0 (root7b8252f) of contract blob3a249a58,
+coordinator-authorized scratch third-party feasibility contradicted its top-level
+message serialization. Investigator codec_author's actual selected official
+Qt6.12 lrelease exited1: Unexpected tag message at line3. This was an existing-
+tool feasibility failure, NOT project stub-red, generator acceptance or a revision
+of baseline assertions (no project fixture/test exists yet). The prior XSD-based
+serialization approval is reopened and preserved in history.
+
+The SAME investigator then proved an explicit EMPTY context/name wrapper with
+actual selected QtTools/Core: six finished literal entries per language, four QM
+compilations across two fresh directories,56 exact raw lookup checks PASS, both
+per-language binary comparisons PASS. Read the preserved initial rejection and
+complete successful probe logs/evidence.json under ignored disposable
+/tmp/subathon-locale-tool-probe-ihwtzipp; no scratch file was edited or promoted
+by this author. Example checks covered literalpercent/braces, CR/LF/TAB/Unicode,
+ordinary/plural/witness/selector-only and explicit English QM fallback. These are
+bounded Qt feasibility observations only; generator/schema/CLI/named formatter/UI/
+package/platform verification and project baseline remain future gates.
+
+The coordinator explicitly reauthorized ONLY these same two Markdown files for
+this supported mapping correction, after proof. Revised canonical TS has ONE
+<context>, explicit <name></name>, every ID message inside that empty context;
+message/child/form indentation becomes4/6/8 spaces and COMPLETE TC01 TS is updated.
+No nonempty context or idbased flag is introduced; all source/metadata/plural/
+percent/ownership mappings remain intact. The actual Qt TS-reader primary source
+is now cited alongside the permissive schema and QM writer.
+
+Different reviewer service_reviewer requested R4 and must examine this ACTUAL
+corrected serialization before any API/stub/test approval. The separately assigned
+API document may develop pure interfaces, but cannot freeze the rejected TS bytes.
+No generator, source catalog, schema, API Python file, fixture/test or project
+native feature is authored/invoked by this correction.

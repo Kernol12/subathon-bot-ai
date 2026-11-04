@@ -137,9 +137,13 @@ messages_de.ts. They are deterministic UTF-8 WITHOUT BOM, LF line endings, one
 final LF, XML declaration `<?xml version="1.0" encoding="utf-8"?>`, root
 `<TS version="2.1" language="en|de" sourcelanguage="en">`.
 
-Emit messages DIRECTLY under TS with id attribute and NO nonempty context. Qt6.12
-selects ID-based QM keys from nonempty id plus empty context; its historical
--idbased command-line flag is now a deprecated no-op and is NOT passed. A nonplural
+Emit EXACTLY ONE context child under TS, beginning with an explicit EMPTY
+`<name></name>`, and put ALL ID messages inside that context. No message is a direct
+TS child and no nonempty context name is allowed. Actual selected Qt6.12 lrelease
+rejects top-level message even though the published TS schema permits it; the
+actual reader is authoritative for this selected mapping. Its QM writer selects
+ID-based keys from nonempty id plus empty context. The historical -idbased flag
+is a deprecated no-op and is NOT passed. A nonplural
 message has `<message id="...">`; plural has `<message id="..." numerus="yes">`.
 For either locale, source is the English text form or English other form. Put the
 message description in `<extracomment>`. Translation has no unfinished/obsolete/
@@ -173,25 +177,27 @@ counts as generated .qm acceptance. Capture actual process exit and bounded diag
 
 Canonical TS serialization is byte-defined as follows. The XML declaration and
 root opening tag each occupy one line with no leading spaces. Root attributes
-are ordered version, language, sourcelanguage as above. Messages sort by ID, start
-with two ASCII spaces, and have attributes id then numerus (the latter only for
-plural). Child order is source, extracomment, translation, each indented four
-spaces. Ordinary source/description/translation uses its opening tag, escaped
-scalar text and closing tag together, then one structural LF. A plural translation
-opens on its own four-space line; its one/other numerusform children each start
-with six spaces, followed immediately by escaped text and closing tag plus LF;
-translation closes on a four-space line. A message closes on a two-space line;
-root closes without leading spaces, then the one final LF. There are no blank
-separator lines, XML comments, DOCTYPE, namespace declarations, self-closing tags
-or formatting attributes.
+are ordered version, language, sourcelanguage as above. The ONE context opens
+on a two-space line. Its FIRST child is exactly four spaces then
+`<name></name>` plus LF; no whitespace is part of that empty name. Messages sort
+by ID, start with four ASCII spaces, and have attributes id then numerus (the
+latter only for plural). Child order is source, extracomment, translation, each
+indented six spaces. Ordinary source/description/translation uses its opening tag,
+escaped scalar text and closing tag together, then one structural LF. A plural
+translation opens on its own six-space line; one/other numerusform children each
+start with eight spaces, followed immediately by escaped text and closing tag plus
+LF; translation closes on a six-space line. A message closes on a four-space line;
+context closes on a two-space line; root closes without leading spaces, then one
+final LF. There are no blank separator lines, XML comments, DOCTYPE, namespace
+declarations, self-closing tags or formatting attributes.
 
 These indentation/newline rules apply ONLY outside element text. In any source,
 extracomment, translation or numerusform, every LF/TAB and space from the actual
 text remains exactly its own scalar, with no inserted continuation indentation
 or line wrapping. The closing tag immediately follows the final escaped scalar,
 even when the text contains newlines. Thus source `A`+LF+` B` is serialized as
-`<source>A`+LF+` B</source>` after its structural opening indentation; adding four
-spaces after that LF would change the translation and is forbidden. The identical
+`<source>A`+LF+` B</source>` after its structural opening indentation; adding
+structural indentation after that LF would change the translation and is forbidden. The identical
 character-by-character escaping rule applies to all text nodes.
 
 The existing selected QtBase CI archive alone does not provide LinguistTools.
@@ -211,7 +217,7 @@ selected official lrelease -version: exit0,6.12.0. ldd found no missing librarie
 all Qt6Qml/Network/Core and ICU73 libraries resolved within the verified prefix.
 The earlier incorrect ICU extraction location remains a documented setup failure,
 never feature red. This establishes selected-tool environment availability only:
-no project catalog, compiledQM, runtime translation or reproducibility was executed.
+no project catalog/generator, formal baseline or product acceptance was executed.
 The exact four archive hashes and future CI integration remain in coordinator-owned
 `docs/evidence/localetest-001-tool-preflight.md`; do not substitute a host binary.
 A host Arch lrelease hash is not an official CI pin. Qt source suggests sorted QM structures and no timestamp field;
@@ -219,6 +225,23 @@ it promises no cross-version/cross-build byte identity. Require observed TWO fre
 directory binary reproductions with the SAME selected tool build/options, and
 record its exact version/artifact/environment. A different tool build/version needs
 an explicit pin/evidence update. No reproducibility or runtime result is claimed here.
+
+A subsequent, separately authorized third-party feasibility probe disproved the
+previous XSD-derived top-level serialization at approved blob3a249a58: the actual
+official lrelease exited1 with Unexpected tag message at line3. That failure is
+preserved; it is neither a project stub-red nor a defect in existing project tests
+(none exist yet). The corrected explicit-empty-context scratch source then compiled
+six finished entries for en/de in two fresh directories. A tiny actual Qt Core
+reader passed56 literal raw lookup checks, including raw percent/braces, exact
+CR/LF/TAB/combining/emoji, witness forms, selector-only forms and explicit English
+fallback. Both same-tool per-language QM byte comparisons passed. These are actual
+existing-library feasibility observations, not project generator/schema/CLI,
+formatter/preference/runtime-product or formal acceptance evidence. The old approval
+of top-level serialization is reopened; this actual supported revision requires
+separate document re-review before API/stub/test release. Scratch source/logs/hashes
+remain in `/tmp/subathon-locale-tool-probe-ihwtzipp`; the coordinator owns the durable
+feasibility record. Do not promote that scratch probe into a project oracle/test
+without separate authorship/review and the required baseline sequence.
 
 ## 5. Browser output and contributor consistency
 
@@ -397,15 +420,18 @@ and translation `Hello, {name}!`:
 ~~~xml
 <?xml version="1.0" encoding="utf-8"?>
 <TS version="2.1" language="de" sourcelanguage="en">
-  <message id="fixture.greeting">
-    <source>Hello, {name}!</source>
-    <extracomment>Fixture greeting; name is untrusted plain text.</extracomment>
-    <translation>Hallo, {name}!</translation>
-  </message>
+  <context>
+    <name></name>
+    <message id="fixture.greeting">
+      <source>Hello, {name}!</source>
+      <extracomment>Fixture greeting; name is untrusted plain text.</extracomment>
+      <translation>Hallo, {name}!</translation>
+    </message>
+  </context>
 </TS>
 ~~~
 
-Its de TS has a top-level message id fixture.greeting, source `Hello, {name}!`,
+Its de TS has one message id fixture.greeting inside the explicit empty context, source `Hello, {name}!`,
 translation `Hallo, {name}!`; a real QTranslator lookup with empty context and n=-1
 must return exactly `Hallo, {name}!`. Its en lookup returns `Hello, {name}!`.
 Downstream args name=`<Ada>&{count}%1` render de `Hallo, <Ada>&{count}%1!` ONCE,
@@ -448,14 +474,19 @@ or TS/JSON-only checks cannot establish baseline red or finish the feature.
 - [Qt6.12 lrelease](https://doc.qt.io/qt-6.12/linguist-lrelease.html) and
   [actual6.12 lrelease source](https://github.com/qt/qttools/blob/v6.12.0/src/linguist/lrelease/main.cpp): selected options and deprecated no-op idbased.
 - [Qt TS grammar](https://doc.qt.io/qt-6/linguist-ts-file-format.html) and
-  [6.12 QM writer](https://github.com/qt/qttools/blob/v6.12.0/src/linguist/shared/qm.cpp): top-level ID messages/empty context and binary writer structure.
+  [actual6.12 TS reader](https://github.com/qt/qttools/blob/v6.12.0/src/linguist/shared/ts.cpp) and
+  [QM writer](https://github.com/qt/qttools/blob/v6.12.0/src/linguist/shared/qm.cpp):
+  the selected reader requires messages inside a context; an explicit empty context
+  preserves ID-based keys. Schema permissiveness alone did not establish capability.
 - [6.12 QTranslator source](https://github.com/qt/qtbase/blob/v6.12.0/src/corelib/kernel/qtranslator.cpp),
   [QCoreApplication source](https://github.com/qt/qtbase/blob/v6.12.0/src/corelib/kernel/qcoreapplication.cpp): direct selected text versus later `%n` replacement.
 - [6.12 plural tables](https://github.com/qt/qttools/blob/v6.12.0/src/linguist/shared/numerus.cpp): actual en/de two-form rule; our signed category witness mapping is explicit above.
 - [QString::arg](https://doc.qt.io/qt-6.12/qstring.html#arg): positional arguments/locale substitutions are not named-template semantics.
 - [XML1.0 characters/normalization](https://www.w3.org/TR/xml/): valid characters and CR preservation.
 
-A separate read-only investigator observed installed Qt6.12.0 lrelease/lupdate and
-CMake LinguistTools imported targets and inspected primary sources. That is tool
-availability/source evidence, not a generated catalog/QM/runtime/reproducibility
-pass. The document's future tests and new CI tooling pins remain unperformed.
+A separate investigator observed tools/primary source, then performed the authorized
+scratch existing-Qt feasibility probe above. Only that bounded third-party behavior
+has actual raw lookup/reproduction evidence. No project-generated catalog, source
+schema/CLI, project feature test/red or product adapter has run. Project tests,
+independent fixture review, own selected foundation and new CI integration remain
+unperformed. Actual behavior corrected the earlier source/XSD inference.
