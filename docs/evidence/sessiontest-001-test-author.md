@@ -1,4 +1,12 @@
-# SESSIONTEST-001 preliminary native foundation and input-preparation author evidence
+# SESSIONTEST-001 password test author evidence
+
+The first sections preserve preliminary commit
+`fc62e6375828a36d98b4e63703367e83326e1088`; the final section records the subsequent
+feature-test candidate after root's reviewed native foundation/input preparation.
+Historical UNRUN/pending statements below describe that preliminary revision,
+not a claim that root's later recorded native work did not happen.
+
+## Preliminary SDK-only candidate fc62e637
 
 Author: service_author, 2026-11-04. Dedicated `task/SESSIONTEST-001-test-author`,
 worktree `local-evidence/worktrees/sessiontest001-test-author`, initially clean
@@ -144,3 +152,159 @@ and cleanup assertions require independent review; none is present in this commi
 Actual store/login/CAS integration, admitted work/cleanup, supported-server benchmark,
 platform packaging and release security remain required owning gates. SESSION-001
 remains unimplemented and SESSIONTEST-001 incomplete. No push/PR/main merge occurred.
+
+## Full feature-test candidate after root's native gates
+
+Root separately integrated native candidates and harness, obtained different
+approval `9b92c671` / import `c0646b406b5df0d66699433d99e6808466131d88`, then observed
+FIRST selected foundation PASS 1/1 (0.21s) at 2026-11-04T14:42:52Z. Root next
+executed the SDK-only generator at 14:43:01Z, exit 0, and retained both fully
+self-verified INPUT records. These are root observations, not this author's
+executions. Root's durable native/fixture receipt is commit
+`095081d4913cd27b53200715ce471a1a1566dded`. Exact raw input artifact:
+`local-evidence/worktrees/sessiontest001-integrator/local-evidence/sessiontest001-native/generator-first.stdout`,
+SHA256 `b351cf464de2c5d55932126e4dd079472736358a48bf4d14747f9619afa5b9cc`.
+This author read it, checked that checksum, and copied both literal records/passwords
+byte-for-byte. It is input preparation only: expected PH12 target6/65536 and PH13
+no replacement still come from the independently reviewed logical contract.
+
+Final feature artifacts, all new except this updated author note:
+
+| Artifact | Git blob |
+| --- | --- |
+| [Literal public input vectors](../../tests/fixtures/password_hashing_vectors.hpp) | `025d4de904c4c07a08cc192fc6cf94318bd5c0c8` |
+| [Feature tests](../../tests/acceptance/password_hashing_tests.cpp) | `52f0e911cc0dbd17b7f6e847ac778c449598c8b7` |
+| [Private error controls](../../tests/support/password_hashing_failures.hpp) | `831a8bb0a4536e52c677a00a70caed5841236394` |
+| [Private GNU wrappers](../../tests/support/password_hashing_failures.cpp) | `2782be4171cddafd048efdab130a896a3616adb4` |
+
+Both approved native-program blobs and all four frozen logical/API/header/source
+blobs in the preliminary table remain unchanged. No baseline assertion/fixture was
+weakened, skipped or replaced; these feature tests are newly authored and awaiting
+their first different actual review. Parent/root retains CMake/flags/CI/pin/state/
+HTML/receipt ownership. No such shared file is changed in this author tree.
+
+### Literal map and actual discovery inventory
+
+There are 37 unique ordinary TEST declarations, independently matched to LIST ONLY
+discovery. This is a declaration/discovery count, not passing tests, 37 executed
+behaviors or a fabricated assertion/scenario total. Table loops retain caller-row
+SCOPED_TRACE and nonfatal expectations; helpers explicitly fail on the distinct
+missing marker or wrong exception category instead of treating any throw as success.
+
+| Suite | Tests | Logical coverage |
+| --- | --- | --- |
+| PasswordCreation | 2 | PH01/03/04/05/11: empty/NUL/composed/decomposed/space/1024 byte input, selected real verification of returned records; exact desired endpoints via error-only native refusal |
+| PasswordPreflight | 4 | PH05/11/18: all three direct raw entrypoints, invalid options before oversized input/source work, zero admission, actual stored memory ceilings before native initialization |
+| PasswordVerification | 4 | PH01/02/03/05: published raw H0, one-NUL distinction, nonterminated borrowed record view, 1024-byte admission at verify and upgrade |
+| PasswordRecordPreflight | 4 | PH06–10: complete field/decimal/canonical Base64, unused bits, p0 versus positive unsupported p, unsupported before supported-cost failure, huge digits without expensive verification, exact127/128 record ceiling, supported stored endpoints with explicitly unsuccessful native injection |
+| PasswordSource | 4 | State/optional/attempt consistency and fixed priority; 256/257 byte fields, source membership, missing/unavailable, source bad_alloc/diagnostic privacy and actual retained record preflight |
+| PasswordUpgrade | 16 | PH01/12–16/18: raw H0 accepted-source proposal; no unverified/denied/stale upgrade; actual port identity/full source/attempt, both gate phases, joined admission/costs, exact PH12/13, both dimensions of non-downgrade, owned lifetime, full CAS-source binding and later reset preservation |
+| PasswordSecretFailures | 3 | PH15/17: initialization, guarded allocation, explicit lock, native creation and invalid-output failures; fixed safe text and bounded cleanup/no native work after refusal |
+
+All setup is raw literal data plus a simulated read-only authoritative account/login
+port. No earlier project hash, verify, factory or certificate is called to make an
+entrypoint reachable. The private proof is created only inside future implemented
+upgrade, never by fixtures. The fake port tracks actual simulated current credential,
+accepted login source and actual attempt separately; it cannot manufacture crypto
+success and returns stale/denied from those states. Tests check private proof source
+identity, exact full retained credential and attempt, native verification before
+the first gate, fresh hash before the second, same live protected buffer, and no
+replacement after either gate refuses. They do not claim an implemented real account
+service, permission decision, SQLite conditional save or persistence proof.
+
+Returned verifier checks use only the real selected SDK AFTER that test's SUT call
+returns successfully, with observations/injections suspended. Output ceiling/exact
+bounded cost prefix/NUL/framing/salt/digest lengths are asserted before invoking that
+oracle, preventing a malformed SUT output from requesting arbitrary native cost.
+No project verification helper supplies its own creation oracle, random output is
+not an expected literal, and fresh salt inequality is not asserted as certainty.
+Published H0/H1 and generated PH12/13 are setup INPUTS, not expected SUT hash bytes.
+Editing H0 costs is used only to exercise structural admission with an explicitly
+unsuccessful native error; it is never claimed a valid success fixture.
+
+### Private error-only seam and observation bounds
+
+The Linux-only linker seam defaults to the real selected SDK. Its thread-local
+state is constinit, fixed-size and contains only scalar counters, bounded allocation
+slots and borrowed views of public synthetic test inputs. No SDK call or dynamic
+SDK/SUT setup occurs globally, during GTest registration or listing. Scope controls
+are instantiated only inside TestBody; no test framework/global SetUp calls a
+feature. Nested native dispatch/guard calls bypass observation, so SDK internals
+are not counted as separate module-owned password copies or extra operations.
+
+Failures return only −1/null. The two output-corruption modes run only AFTER an
+actual real native hash succeeded and produce an invalid version or unterminated
+output for rejection. They never synthesize a valid verifier, success/readiness/
+locking, fixed salt, successful password comparison or alternate crypto provider.
+The raw observer reads password bytes only for an exactly tracked sufficiently
+large guarded allocation. Record comparison stops at the first differing byte/NUL
+and checks the terminator only after matching the bounded expected prefix; it does
+not memcmp an expected long size beyond a shorter valid native string. Root's
+pre-freeze feedback prompted that source hardening; no expected behavior changed.
+
+Observations cover live/locked input, exact raw bytes/record terminator, input copy
+before explicit lock, same protected pointer, and complete tracked bytes being
+zero before free. They never inspect freed memory, retain password copies in
+diagnostics, claim to wipe caller/stack/register/native Argon buffers, or count
+allocator/native internal ownership as application DTO ownership. A scope exposes
+outstanding/wrong cleanup as failure; it does not quietly free leaks to pass.
+
+Exact required wrap symbols (feature target only, NEVER foundation/generator):
+
+```text
+sodium_init sodium_malloc sodium_allocarray sodium_mlock sodium_memzero
+sodium_munlock sodium_free crypto_pwhash_str crypto_pwhash_str_alg
+crypto_pwhash_argon2id_str crypto_pwhash_str_verify crypto_pwhash_argon2id_str_verify
+```
+
+There is deliberately NO operator-new interposition. A valid implementation can
+preallocate its complete replacement before native hashing, so arming a next-new
+failure after hash success would require an implementation-specific allocation order
+or capture unrelated diagnostics. Root agreed to omit that optional nondeterministic
+seam. Guard allocation/native hash failures and port bad_alloc are covered; runtime
+injection of an ordinary postaccepted replacement-materialization bad_alloc is an
+explicit remaining test limit. Independent production source audit must still verify
+all documented allocation-failure mappings and old-record preservation; the limit
+does not remove that behavior requirement or justify fabricated measured coverage.
+
+### Final author checks, compile/link and LIST ONLY
+
+The final two feature translation units compile in syntax-only mode with the same
+C++20 warning set as below. Actual object builds and manual link use a private
+temporary directory, frozen stub source and exact selected SDK archive; no shared
+build/profile file is edited. Installed GTest metadata is 1.18.0. Commands:
+
+```sh
+feature_audit=/tmp/subathon-sessiontest001-feature-author.zTpNW1
+sdk_prefix=/tmp/subathon-sodium-1.0.22-sdk/prefix
+c++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wsign-conversion -Werror -Iserver/include -I"$sdk_prefix/include" -DGTEST_HAS_PTHREAD=1 -c tests/acceptance/password_hashing_tests.cpp -o "$feature_audit/password_hashing_tests.o"
+c++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wsign-conversion -Werror -Iserver/include -I"$sdk_prefix/include" -c tests/support/password_hashing_failures.cpp -o "$feature_audit/password_hashing_failures.o"
+c++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wsign-conversion -Werror -Iserver/include -I"$sdk_prefix/include" -c server/src/password_hashing.cpp -o "$feature_audit/password_hashing.o"
+c++ "$feature_audit/password_hashing_tests.o" "$feature_audit/password_hashing_failures.o" "$feature_audit/password_hashing.o" "$sdk_prefix/lib/libsodium.a" -lgtest_main -lgtest -pthread -Wl,--wrap=sodium_init -Wl,--wrap=sodium_malloc -Wl,--wrap=sodium_allocarray -Wl,--wrap=sodium_mlock -Wl,--wrap=sodium_memzero -Wl,--wrap=sodium_munlock -Wl,--wrap=sodium_free -Wl,--wrap=crypto_pwhash_str -Wl,--wrap=crypto_pwhash_str_alg -Wl,--wrap=crypto_pwhash_argon2id_str -Wl,--wrap=crypto_pwhash_str_verify -Wl,--wrap=crypto_pwhash_argon2id_str_verify -o "$feature_audit/password_hashing_tests"
+"$feature_audit/password_hashing_tests" --gtest_list_tests > "$feature_audit/gtest-list.txt"
+```
+
+Object/link checks passed with zero final warnings. Static source/nm inspection
+before listing found only inert GTest registration, no global SDK/SUT constructor
+or feature setup. Listing returned all 37 names, no TestBody or marker. Binary
+SHA256 `b87029aa281cc3fdc6c0ae55f2921038d26d2cf133340f8e84decc100b0b1b7e`;
+listing SHA256 `e870eab75ca0518a4bf1e039d54ac90e45083b381ca84e40478647ef5bc56f4d`.
+An initial compile caught three GTest-macro dangling-else warnings; explicit braces
+fixed those unreviewed source statements, followed by clean final builds. An initial
+inventory audit compared source order to GTest's grouped-suite listing order; changed
+only that audit to compare unique name sets/counts, then all 37 matched. Neither is
+a project behavioral failure/red or a change to expected fixtures/assertions.
+
+Formatting verification, project consistency/current HTML, frozen exact blob checks,
+generated-input checksum/literal equality and staged owned-path whitespace checks
+passed. No feature/test body, module marker, sodium init/hash/verify/RNG/memory API,
+foundation/generator, real login or provider operation ran in this author stage.
+The only executed feature binary mode was GTest LIST ONLY. Native successful input
+preparation above is explicitly attributed to root's reviewed separate programs.
+
+Different actual full fixture/test/wrapper/harness/CI review is now required. Root
+owns actual CMake/CI integration, current selected CI foundation green and FIRST
+plain intended feature-marker red; no future approval or red result is supplied by
+this note. Production implementation/source audit, all allocation handling and actual
+account/store/admission/conditional-save/platform/benchmark gates remain required.
+This full candidate does not finish SESSIONTEST-001 or implement SESSION-001.
