@@ -165,3 +165,16 @@ files only. The reviewer is complete/idle; resume with the actual revised artifa
 No Python generator/CLI/stub, source catalog/schema, formal fixture/test, new native
 harness or missing-feature red exists yet. DraftPR53 currently publishes the reviewed
 source-document stages and preserved proof; it must not merge as a completed baseline.
+
+
+## Actual concrete API approved; minimal interface released
+
+API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) now has separate approval
+f7f4681. Root releases ONLY tools/translation_catalog.py and its stub-author note:
+inert typed DATA/errors plus FIVE immediate named-marker functions and the exact
+script stderr/exit86 bridge. No parsing, validation, rendering, path/file/tool work,
+generation or help/version success may be implemented. Source catalog/schema/
+fixtures/tests remain unauthorized until actual minimal code/build-harness review.
+Root alone owns the new profile, syntax/inert-import harness and selected Qt CI.
+Build/discovery must never invoke a feature entrypoint. Actual reviewer must receive
+the authored code/config before approval; no prospective/source/test/red gate claim.
