@@ -3114,7 +3114,8 @@
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Separate focused PR56 owns actual logical/API document work; root branch task/MILESTONETEST-001-progression-baseline at3fc99ce. Logical document approved; API actual58b8e129 now under separate review. This planning branch only reconciles its active claim, without copying absent evidence or changing any behavior gate.",
         "Concurrent focused PR56: logical/API and minimal header9a167813/TU4e3291f0/harnessd8b3d6a independently approved through a2f5d358/import6d1fa3e. Root4f8f3e1 released only literal tests and independent Boost/std foundation authoring; service_author active in milestone author tree. Remote d8b3d6a has all12 old component checks green, but no selected new milestone CI/foundation/feature body/red has run. Preserve exact source/contracts/reviews and integrate this new main before final tests/harness review. This branch reconciles claim only; no absent milestone evidence copied.",
-        "Concurrent focusedPR56 local275057b nowfull53-test/harness reviewed208d0580/importac9234a. ApprovedFIRSTlocal25-factfoundation passed once clean7d7e621/raw9a83525e. No milestone acceptance test/function/marker body/currentselected1.83CI/FIRSTred. Remote00d8c57/all12oldchecks; workflowaccessstillabsent afterrecheck. This branch reconcilesblockedclaimonly, no absent milestone evidence copied."
+        "Concurrent focusedPR56 local275057b nowfull53-test/harness reviewed208d0580/importac9234a. ApprovedFIRSTlocal25-factfoundation passed once clean7d7e621/raw9a83525e. No milestone acceptance test/function/marker body/currentselected1.83CI/FIRSTred. Remote00d8c57/all12oldchecks; workflowaccessstillabsent afterrecheck. This branch reconcilesblockedclaimonly, no absent milestone evidence copied.",
+        "Concurrent milestone primary root00d8c57 integrates same main and preserves API/source/harness approvals. service_author now authors only literal tests/foundation; no feature body or marker/red invoked. This branch reconciles claim without copying absent milestone evidence. DraftPR56 last confirmedremote d8b3d6a/all12oldchecks; ordinary publication to00 in progress, inspect actual remote before assuming success."
       ],
       "verification": {},
       "evidence": [],
@@ -8330,6 +8331,8 @@
         "RATES-007",
         "RATESTEST-008",
         "RATES-008",
+        "RATESTEST-009",
+        "RATES-009",
         "RATES-090"
       ],
       "spec_refs": [
@@ -8351,8 +8354,8 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "blocked",
-      "owner": "coordinator /root; service_author (completed rate API author); codec_author (approved API review)",
+      "status": "done",
+      "owner": "codec_author (tests); service_reviewer (independent full review/red); /root (integration)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -8366,19 +8369,69 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-001.",
       "notes": [
         "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage.",
-        "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge.",
-        "Newer actual rateAPI15cd944/import5d5712b doc556840c2/note fc1d1baf receives independent document-only approval0b9a449 on focusedPR54. Source/modelunchanged; no actual C++stub/header/test/red yet. Root ratebranch will integrate newmain07dc and release onlyminimaltypedstubsource after recordingapproval; no futurecode/test gate implied. Do not overwrite requirednew009bridge tasks living onPR54 whenreconcilingstate.",
-        "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere.",
-        "Separate focused PR54 is locally reviewed through53 tests/foundation, but current CI publication waits actual restored SSH or workflow scope. Remote512828c unchanged; local79c8512 preserved. This branch reconciles the active blocker only; exact source/evidence/required009 bridge tasks remain on its separate branch. No first rate feature red has run."
+        "Claimed dedicated task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc, independently of active localization PR53. Dependency-ready CONTRACT002/CORE001 both done. FIRST DOCUMENT only: exact fetched observations/effective snapshot/provenance, original monetary precision and known/unknown source/fetch/publication fields; preserve section9 consistent inverse/cross/pins requirements and credited-effect immutability. Author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md in separate task/RATESTEST-001-contract-author. Root owns shared state/HTML/maps/schemas/build/CI/pins/checkpoint. No API/stub/schema/storage/fixture/test/implementation/provider operation before actual reviewed contract. Provider-specific live/limits/capabilities remain unverified; no unknown field fabrication. Resolve routine normalization/resource choices within scope; flag real product conflicts explicitly. Implementation RATES001 remainsplanned until reviewed tests/intendedred.",
+        "Actual model prep identified HistoricalValuation.effective_rate_decimal/STORAGE015 finite-decimal gap for recurring inverse1.20→5/6. Required new RATESTEST009/RATES009 tracks versioned exact-rational valuation/capture/codec/durable bridge with separate review/red/migration gates. EPIC017 requires this bridge; puremodel completion is not evidence of a usable award adapter. No existing header/schema/assertion changed and no rounded fallback accepted.",
+        "Actual logical document af2f9a9/importf4f321a, contract36291ce3/author46acb47b, now authored. Independent codec_author assigned actual document review in ratestest001-contract-review; service_reviewer handles separate localization tests. Preserve original money/rate spellings and opaque currencies; exact potential constraints and unknown metadata are proposed, not implemented. No API/stub/schema/fixture/tests/red/provider execution exists. Different actual verdict before next stage; RATES001 remainsplanned.",
+        "Corrected logical document ce1b926/import0c97691 (contract76d2d9b3/authorc5e87c18) receives actual independent approval7003473/import6a4a487. Initial RS10/RS15 changes-required history retained;17 independent Fraction facts checked. Release ONLY next concrete API DOCUMENT: service_author owns NEW docs/contracts/rate-snapshots-api-v1.md and docs/evidence/ratestest-001-api-author.md. Exact C++20/core-only owned input/value/error/validation/query signatures, resource preflight and immediate distinct future marker boundary; no actual header/stub/source/schema/tests/provider execution. Separate actual API review before any minimal source stage. Root owns all sharedintegration; baseline stillin_progress, productionplanned.",
+        "Actual concrete API document15cd944/import5d5712b (API556840c2/authorfc1d1baf) authored, four entrypoints/privateimmutableoutputs/rawindependentlyvalidatedquery, canonicalboundedpositivecomponentstrings/completeB-Iwalk/outputprojection/arithmetic limits. Actual codec_author API document review assigned in ownrate reviewtree; logicalsource76d2d9b3/c5eunchanged. No actual C++header/stub/source/schema/fixture/tests/feature execution released. Separate actualAPIapproval before minimal source; no futurecode/test/redapproval.",
+        "Actual concreteAPI15cd944/import5d5712b receives independentdocumentapproval0b9a449/import6b9a217, API556840c2/note fc1d1baf. Freshmain07dc merged; state explicitly preserves completed locale baseline/activeLOCALE001 fromc1d565a and requirednew009bridge/EPIC017deps, notolder snapshots. Release MINIMAL SOURCE ONLY tocodec_author in NEWtask/RATESTEST-001-stub-author: core/include/subathon/core/rate_snapshot.hpp, core/src/rate_snapshot.cpp, docs/evidence/ratestest-001-stub-author.md. Exact inerttypedDTOs/privateimmutablewrappers/dataaccessors/errors and4immediate RateSnapshotNotImplemented functions, no validation/parsing/arithmetic/money/querybehavior. RootownsCMake/preset/CI/state/sharedschemas; actualsource/build review precedes independentfixtures/tests/foundation/firstred. No header/source executed asfeature atconfigure/build/discovery; no codecapability claim.",
+        "Actual minimalstub f75d7cc/import3d01e9a +sharedharnessf5afb60 receives independentapproval6150962. Header3a06ff18/TU4cf1c1ed exact19fieldlists/3enums/13limits/4immediatebodies; independent14step0warnings/old36PASS. No ratefeature/marker called. Root now releases independent-literal fixture/test authorship tocodec_author in NEWtask/RATESTEST-001-test-author (futureproductionauthor separate); owns ONLY tests/fixtures/rate_snapshots_vectors.hpp, tests/acceptance/rate_snapshot_tests.cpp, tests/acceptance/rate_snapshot_environment.cpp and own test-authornote. DeriveRS01-17/error/resource/ownership oracles fromspec/model/API, notnewSUT. RootownsallCMake/CI/state/pins. Actualtestreview then selectedBoost-onlyfoundationgreen and FIRSTordinarymissingmarkerred precedeproduction. No parsing/money/query implementation permitted yet.",
+        "Actual b0517b7/import03124ab literalvectors8936f4fa/tests21b819b9/foundation28a829aa/authorbc64f0b4 plus harness7ff7d2d now compile/discover53unique/90total/0warnings; ONLYinertgtest_list executed, no test/feature/foundation/markerbody. Initial test-scopeBoostimportconfigureissuefixed(no redclaim). Freshmain3217 integrated without losinglocale done/newMILESTONETEST001active ornew009bridge/EPIC017deps. Root now assigns actual53fixture/test/Boost-onlyfoundation+CIharnessreview toservice_reviewer in NEWratestest001-test-review, own ONLY ratestest-001-test-review.md. Actualreview, selectedfoundationGREEN/CIthenFIRSTordinarymodelmarkerred required; stillno production.",
+        "Actual narrowBoostfoundationapproval4e9c615/import7124003 precedes FIRSTfoundationrun:14independentfactsPASS/1CTest0.00s/rootBoost1.92/raw419c41ee, no modelmarker. Complete53test/harnessreview6d4a8db requests one additiveR1 mixedASCII/highbit unsigned-byte ordering oracle beforeFIRSTred. Old0x80/0xff case cannotdistinguishsignedordering; codec_author releasedONLYacceptance+authornote,53names/fixtures/foundation/headerstubs frozen. No other substantiveoracleissue; no newfeature/testbody everrun. Actualrevisedreview/selectedBoost1.83CI beforeordinaryFIRSTred remain.",
+        "ActualcorrectedR124f9b3a/imported27c82 tests64fd60b2/author60d84fb2 receive finalindependentfull53reviewdcf5dcaa. MixedASCII O/0x80/0xff source+constraint ordering nowpinned, alloldassertions/53names/vectors8936/foundation28a/header3a/TU4cf1 preserved. Rootnative14factBoostfoundationGREEN afternarrow4eapproval alreadyobserved; currentselectedBoost1.83CI with53build/discovery/newfoundation pendingpublication beforeFIRSTmodelred. No ratebody/marker hasrun, no productioncapability.",
+        "ConcreteACCESSBLOCK: SSH_AUTH_SOCKabsent/no usableGPGSSHidentities; GitHTTPSauthenticatedbutrepeated500. ExactGitDataAPIpublishLOCmetadataworked, but new.github/workflows/rate-snapshots.yml updateCreateTree404 at7ff whileexistingghOAuthscopesreporeadorggistadminpublickey lackrequiredworkflow. Officialscope requirementverified; do not bypasspermission viaalternatefile/refroutes. OwnerASYNCaskedrestoreSSH orghauthrefresh-sworkflow, pendingrealcredentialchange. RemotePR54still512; local03aab6d(fullapprovedtests/currentmain/metadata) preserved pluspartialunreferenced031 exactAPIobjectreceipt. Do notFIRSTredbeforecurrentselectedCI. ContinueMILEAPI/CONTRACT003readonlyprep independently. Onactualaccessrestorationverifyauth/head, resumein_progress/publication/sourceCIthenfirstred; no stale approvalsreplayed.",
+        "Integrated fresh main dd6a141/PR57 planning without changing reviewed source/tests/contracts/harness. All53 tests64fd60b2, fixture8936f4fa, independent foundation28a829aa and source/API/model remain exact; valid reviews preserved. Reconciled active common005/password001/milestone-test claims, required009 exactvaluation bridge/EPIC017 deps retained (403tasks). Still blocked on actual workflow credentials, remote512 unchanged; no selected current CI or first feature red. No native rerun warranted for documentation-only main integration.",
+        "ResumedafterPR62merge9345/all13PR+12postmainSUCCESS andPR59normalmergefc28558/from595/all14PR+13postmainSUCCESS. WorkingSSHrestored; no ownerdecisionneeded. FIRSTselectedBoost1.83 SDK-only14facthostfoundation actuallypassed2026-11-04T19:11:54Z afterunchangedsource28a829aa prioractualreviewdcf5 andnewcompileoperatorcodec/differentrootselectionreviewa5963b39; actual521headers authenticprefix/GNU16.2/macro108300, noprojectorGTestsymbols. Receiptjointf070ca7f in/tmp/subathon-rate-milestone-boost183-compile-eiahc2ua, neither53featuretests nornewrateentrypoints/markers ran. Preserveold1.92proof as history, doNOTreplayselectedhostFIRST. Currentmainmergepreservesall406currentIDs/1497edges plusrequiredRATESTEST009/RATES009+EPIC017edges for408/1508; retainMILESTONEhistoricalnote. Exact53reviewedtests/fixtures/independentoracles/stubs unchanged. NewCTest-time labelcompatibility/actualchangedharnessreview/selectedUbuntuCI/FIRSTplain53red/attribution/finalnormalmerge stillremain.",
+        "Actual selected Ubuntu41897596827 atbf5986d passes exact53enabled discovery/realBoost1.83 foundation14/1of1/old36; changedrootmain/labels/foundationguard approved7ae17c55/import050e566. FIRSTplain rate feature run actually occurred onclean050e566, nativeJUnit2026-11-04T20:39:46CET shows53executed/53failed/0disabled/0skipped. Pythontextcollector thenfailedonintentional0xff trace; wrapperexit1 and DIRECTCTESTEXITNOTRETAINED, no inventedexit8. NativeJUnit/LastTest/53failedinventory recoveredbeforeanyfurtherCTest, rawhashes/preserved364markers+364failurelocations; readableprojectionbackslashreplace/rawbytesseparate. No replay or oracle/source/testchange. Actualdifferentattributionpending beforebaselinedone. UnrelatedSQLitejob publicMSapt403 beforebuild wasretriedonlyonce/attempt2PASS; finalfreshHEADallchecks/normalmerge stillrequired.",
+        "Baseline COMPLETE: actual independent d6c06b42/import481cadf validates native FIRSTclean050e566 53executed/53failed/0disabled/0skip andall364specificmarkerfailurelocations(91positive/273wrongexception),141callsites, money61/observation94/snapshot155/query54. DirectCTestexitUNKNOWNbecauseUTF8collectorfailedonintentional0xff afterchildcollection; wrapperexit1 isseparate andNOTcountedasred, rawJUnit/LastTest/inventory/hashprojection preserved, no replayneeded. No source/oracle/assertion changed or laterlambdaassertionclaimedrun. SelectedUbuntu41897596827 atbf598 realBoost1.83/53enabled/SDK14/old36pass; all15currentchecksSUCCESSafteroneunrelatedapt403failedjob-onlyretry. Finalactualmetadatareview/freshfinalheadchecks/normalmergepending; done means53reviewed observedred only, RATES001/009 stillplanned. Keep408IDs1508edges andeverybridge/priorreview/source/nativeproof. Owner/accessneeded:none."
       ],
       "verification": {
-        "document_review": "not_run",
-        "test_baseline": "not_run",
-        "implementation": "not_run"
+        "document_review": "passed",
+        "test_baseline": "observed_red",
+        "implementation": "not_run",
+        "api_review": "passed",
+        "interface_build": "passed",
+        "interface_review": "passed",
+        "test_authorship": "passed",
+        "test_review": "passed",
+        "selected_foundation": "passed",
+        "interface_ci": "passed",
+        "selected_foundation_ci": "passed",
+        "selected_host_foundation": "passed",
+        "baseline": "observed_red",
+        "current_harness_review": "passed",
+        "red_attribution": "passed",
+        "consistency": "passed",
+        "current_ci": "passed"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "docs/contracts/rate-snapshots-v1.md",
+        "docs/evidence/ratestest-001-contract-author.md",
+        "docs/evidence/ratestest-001-contract-review.md",
+        "docs/contracts/rate-snapshots-api-v1.md",
+        "docs/evidence/ratestest-001-api-author.md",
+        "docs/evidence/ratestest-001-api-review.md",
+        "docs/evidence/ratestest-001-stub-author.md",
+        "docs/evidence/ratestest-001-stub-review.md",
+        "docs/evidence/ratestest-001-test-author.md",
+        "docs/evidence/ratestest-001-test-review.md",
+        "docs/evidence/ratestest-001-ci.md",
+        "docs/evidence/ratestest-001-selected183-host.md",
+        "docs/evidence/ratestest-001-selected183-host.json",
+        "docs/evidence/ratestest-001-main-integration.md",
+        "docs/evidence/ratestest-001-main-integration-review.md",
+        "docs/evidence/ratestest-001-first-red.md",
+        "docs/evidence/ratestest-001-first-red.json",
+        "docs/evidence/ratestest-001-first-red-review.md",
+        "docs/evidence/ratestest-001-handoff.md"
+      ],
+      "review": {
+        "author": "codec_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/ratestest-001-test-review.md",
+        "revision": "Actualed27c82 test64fd60b2/fixture8936f4fa fullapprovaldcf5dcaa. FIRSTnative050e566 attributedd6c06b42/import481cadf withCTestexitunknown explicit; rootbf598configapproved7ae17c55/import050e566."
+      }
     },
     {
       "id": "RATES-001",
@@ -12644,6 +12697,63 @@
       "evidence": [
         "docs/evidence/ci-maintenance.md"
       ],
+      "review": null
+    },
+    {
+      "id": "RATESTEST-009",
+      "title": "Review and demonstrate red: Exact rate snapshots in retained historical valuations",
+      "module": "Currency",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "RATES-001",
+        "ACCT-003",
+        "STORAGE-015",
+        "ACCT-004"
+      ],
+      "spec_refs": [
+        "§3",
+        "§9",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-017/RATES-009.md",
+      "summary": "Preserve exact recurring effective rates and original observations through retained valuations, codecs and durable plan history.",
+      "notes": [
+        "Required planning task discovered from finite-decimal historical valuation versus recurring exact inverse gap during RATESTEST-001. No tests/review/red/implementation/verification yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "RATES-009",
+      "title": "Exact rate snapshots in retained historical valuations",
+      "module": "Currency",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "RATES-001",
+        "ACCT-003",
+        "STORAGE-015",
+        "ACCT-004",
+        "RATESTEST-009"
+      ],
+      "spec_refs": [
+        "§3",
+        "§9",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-017/RATES-009.md",
+      "summary": "Preserve exact recurring effective rates and original observations through retained valuations, codecs and durable plan history.",
+      "notes": [
+        "Required planning task discovered from finite-decimal historical valuation versus recurring exact inverse gap during RATESTEST-001. No tests/review/red/implementation/verification yet."
+      ],
+      "verification": {},
+      "evidence": [],
       "review": null
     }
   ],

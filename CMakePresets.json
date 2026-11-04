@@ -195,6 +195,14 @@
       }
     },
     {
+      "name": "rate-snapshot-debug",
+      "displayName": "23 \u00b7 Rate snapshot baseline interfaces",
+      "inherits": "exact-numeric-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_RATE_SNAPSHOT_TESTS": "ON"
+      }
+    },
+    {
       "name": "password-hashing-debug",
       "displayName": "25 \u00b7 Password hashing baseline interfaces and tests",
       "inherits": "base",
@@ -308,6 +316,10 @@
     {
       "name": "translation-catalog-debug",
       "configurePreset": "translation-catalog-debug"
+    },
+    {
+      "name": "rate-snapshot-debug",
+      "configurePreset": "rate-snapshot-debug"
     },
     {
       "name": "password-hashing-debug",
@@ -536,6 +548,16 @@
     {
       "name": "translation-catalog-debug",
       "configurePreset": "translation-catalog-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "rate-snapshot-debug",
+      "configurePreset": "rate-snapshot-debug",
       "output": {
         "outputOnFailure": true
       },
