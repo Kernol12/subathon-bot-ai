@@ -1,86 +1,96 @@
-# Coordinator checkpoint — ACCT-004 publication gates
+# Coordinator checkpoint — CORETEST-008 document stage
 
-2026-11-04; new owner instruction resumed standing coordination. Previous finish-
-PR49-and-stop instruction was fulfilled; its historical ignored receipt remains.
-Full product remains incomplete. No access is needed. Three genuine CORE-008
-product choices are pending owner answers via the async questions below; they do
-not block ACCT-004 publication. Do not treat preselected options as answers.
+2026-11-04. The new owner instruction resumed standing coordination. The earlier
+instruction to finish PR49 and stop was fulfilled; its historical receipt remains
+preserved. The full product is incomplete. No access is needed. Three genuine
+CORE-008 product choices await owner answers; no defaults have been selected.
 
-## Actual repository / PR / task
+## Verified integration
 
-Last observed main1124532458e883001578587c4c826f8b2d400d51 (PR50); all10 main
-workflows SUCCESS. PR49 baseline merged8634eb5. Root branch
-`task/ACCT-004-application-service`, focused
-[draftPR51](https://github.com/Kernol12/subathon-bot-ai/pull/51), publisheda49ec06.
-Inspect actualHEAD/remote/checks/rules/discussions before acting.
+[PR51](https://github.com/Kernol12/subathon-bot-ai/pull/51), ACCT-004, merged normally
+at **2026-11-04T05:56:21Z**, commit **0b631dcbea1ec7765b3a66e41d6059e81de2979d**.
+Its final head, 80cac620de9f3a640f6a12fb75b0219dc31d5b0b, had all eleven checks
+successful, including selected Qt run 41781864667. There were no unresolved review
+threads. The active ruleset required a PR, with zero GitHub approvals and no bypass
+actors; GitHub reported CLEAN/mergeable. The normal merge used the exact head match,
+without force, bypass or branch deletion. Local main was refreshed and clean; its
+merge tree equals the reviewed head tree. The actual API result, checks, log hash
+and trees are preserved in ignored `local-evidence/acct004-merge-receipt.json`.
+Ten post-main workflows were observed pending; finish checking their actual results.
 
-**ACCT-004 DONE as bounded reviewed component; NOT yet assumed merged.**
-[Handoff](acct-004-handoff.md), [source/config review](acct-004-code-review.md),
-[actualCI](acct-004-ci.md), [regressions](acct-004-regressions.md).
-Original [ACCTTEST004](accttest-004-handoff.md)35slots224scenarios/alloriginal
-assertions/fixtures/originalsamecleanheadstubred preserved, neverreplayed.
-EightADDSlots9scenarios separatelyreviewed BEFORE actualbehaviorred and correction;
-raw5+2+1slot2rows preserve16initcleanupPASS/0skip/setupissues. Additivefileswere
-uncommittedatred; exactreviewedblobs are pinned, no fabricatedclean-headclaim.
+[Implementation handoff](acct-004-handoff.md), [source review](acct-004-code-review.md),
+[CI evidence](acct-004-ci.md) and [regressions](acct-004-regressions.md) retain the
+completed component gates: 43 slots/233 scenarios, full native profile 308 passing
+on root and a different reviewer, 1,420 Qt passes with zero failures/skips/warnings.
+Final source/configuration approval is c791e72, imported as 2ab1037. Selected official
+Qt run 41781024558 at a49ec06 passed the mandatory six-method foundation (41 Qt
+passes), exact registration and all 43 service cases unconditionally; all eleven
+checks passed. The final evidence-only head passed again before merge. Every
+original test assertion/fixture and the original valid stub-red remain preserved.
+Actual policy/authority/clock/action producers and broader release scope are not
+established by these synthetic real-SQL component checks.
 
-Actualfinalsource4612223/importce28ff3 andretainedcodec3ef4755/import217acc7:
-sourcef20187a7, privatevalues162373ed, command05091e25/privateheader7d9171cd,
-public84f09f21/test7329b24f/Qt8e9d85ee/CIc63ee177/serverCMake d2e81da/preset90eabe45.
-Finalactualdifferentapprovalc791e72/import2ab1037 (reviewblob84383193) accepts
-completebefore-allocationprojections/borrowedjobvalidator/capabilities/semantics.
-Rootfull308PASS24.84s/1420QtPASS0skip/14step0warnings; differentfull308PASS24.65s/
-1420QtPASS0skip. Finalrootraw0617477e0409658462d4074f8ef18b128bd5bc74ac6fa5c80980fb81f51b6330.
-No provider/policy/action producer or fullrelease claim.
+## Active task and ownership
 
-ACTUALpromotedofficial41781024558 atcompletea49ec06 SUCCESS05:43:51–05:46:54Z:
-GNU13.3/pinnedBoost1.83/officialQt6.12SQLite3.53.4/zero sourcewarnings/oldstable/
-mandatorynew6fixture41PASS0skip2074ms/exact43/unconditional43PASS8.01s/all11checks
-SUCCESS. Raw548a80475e63b86dbe449a8f30e32d39315894cbd1a43282314b8c77e67b5f11.
-APIverifiedactualsynthetic52eeb570 parents112+a49 andequaltreeea0864d12a9b941a75189ac38f543d3c30cb74a4.
-Completionmetadata commit/latestCI/currentPRgates remain separate closingwork.
+The root branch is `task/CORETEST-008-timer-command-baseline`, created from integrated
+main 0b631dc. CORETEST-008 is in progress; [brief](../tasks/EPIC-001/CORE-008.md),
+specification v0.45 §4/TIMER-01. The FIRST stage is DOCUMENT ONLY: a simple pure
+manual/editorial timer command/proposal/revision model and independent literal
+examples, reusing existing numeric/lifecycle contracts. Do not duplicate arithmetic
+or infer actual server permissions/persistence. No header, stub, executable test,
+red run or production implementation before separate document review.
 
-## Agents, worktrees and preservation
+New assignments, pending actual agent startup:
 
-Allthree actualagents nowCOMPLETE, no pendingassignment or nativecommand:
+- Reuse codec_author as contract author in NEW branch `task/CORETEST-008-contract-author`,
+  worktree `local-evidence/worktrees/coretest008-contract-author`. Own only
+  `docs/contracts/timer-editorial-commands-v1.md` and
+  `docs/evidence/coretest-008-contract-author.md`.
+- Reuse service_reviewer as independent contract reviewer in NEW branch
+  `task/CORETEST-008-contract-review`, worktree
+  `local-evidence/worktrees/coretest008-contract-review`. Own only
+  `docs/evidence/coretest-008-contract-review.md`; inspect the actual authored
+  revision before a verdict.
+- Root owns shared state/HTML/maps/build/CI/checkpoint and integration. The previous
+  service author is complete and unassigned. Preserve all prior work and reviews.
 
-- service_author task/ACCT-004-service at local-evidence/worktrees/acct004-service;
-  actualfinal4612223 imported. Ownsource/privateviewfield/tinyprivatevaluesoverload/
-  authorMD only. VerificationserverCMake+actualrootreviewMD copies remain dirty/
-  untrackedasdocumented; don'tdiscard/commitasnewreview.
-- codec_author actual746/retained3ef complete, OTHERauthorservice-codec findings
-  preservedfb0d7fe. Originalacct004-codec, acct004-service-codec-review and
-  acct004-retained-codec trees/branches preserved. ReadonlyCORE008prep complete,
-  no nexttaskclaim/edit yet; reusewithfollowup onlyafternewassignment.
-- service_reviewer task/ACCT-004-review at local-evidence/worktrees/acct004-review;
-  actualfinalc791e72 imported, ownreviewMD only; no approvaloffuturecode/CI/merge.
-- Root owns sharedbuild/CI/state/HTML/maps/checkpoint+additiveassertions/integration.
+## Owner questions and next actions
 
-Atstartup111existing/16absentregisteredtrees, allpreserved. Sevenhistoricaldirty
-verificationtrees untouched: accttest004-service-api-review, storage002-review,
-storage017-review, storage017-validation, storagetest016-api-author,
-storagetest016-review, storagetest017-review. Newtasktrees areadditional; inspect
-actualinventoryonresume. No oldagentassumedrunning; unrelatedIDEprocesses never
-terminated. No resets/prunes/deletions.
+Async questions have been sent; NO answers have arrived:
 
-## Exact next action
+1. Lowering the cap below current Main: retain Main, reject the edit, or clamp with
+   an explicit audited adjustment?
+2. First Start from Ready with a passed deadline: reject and remain Ready, or finish?
+3. Enabling/moving a deadline to now/past: accept and finish the running timer, or reject?
 
-Commit completionmetadata and anyactualreviewevidence, pushPR51, observe ALLlatest
-checks. Recheck active ruleset26170263 and currentreviewthreads: PR/resolvedthreads
-required, zeroGitHubapprovals, no required-checkrule, nobypassactors, noforce/delete.
-Written latestCI+independentreview gates remain mandatory. Readyandnormalmerge
-onlyafterallapplicablegates; exactmatchhead/noadmin/nobranchdelete. Thenfetchmain,
-verifyactualmerge/mainchecks, reconcile on nextnormal taskbranch (no endless
-bookkeepingPR), and continue dependency-ready work.
+These are explicit open CONTRACT-001/CORE-008/API-007 follow-ups, not routine
+permission requests. Do not reask settled hard-end precedence, debt-first addition,
+above-cap ADDITION retention, actual-zero Grace/wait behavior or reopening rules.
+The document can advance settled structure while marking exact open anchors;
+affected executable oracles MUST await answers. Neither elapsed time nor an option
+preselection supplies an answer. Preserve the entire CORE-008 scope; its baseline
+and production implementation are not done. Other independent ready tasks exist.
 
-CORETEST-008 is ready after existingCORE005, but three productchoices are genuinely
-unsettled in existingCONTRACT001/CORE008/API007followups. Asyncownerquestions pending:
-(1) loweringcapbelowcurrentMain: retain/reject/auditedclamp;
-(2) firstStartwithpasseddeadline: rejectandstayReady orfinish;
-(3) enabling/movingdeadline tonow/past: acceptandfinish orreject.
-Do not reasksettledhard-end/debt-first/Grace/wait/reopenrules. A DOCUMENT-stage
-contract can advance settledparts while explicitopenoracles awaitanswers; other
-independent readytasks remainavailable. Do not defaultunknownproductsemantics.
+Next: commit the claim, create isolated worktrees and explicitly resume the two
+agents for document authoring/review. Review the actual candidate and its literal
+examples. Use a focused draft PR. Later API/test stages require actual review and
+settled applicable semantics. Observe and record PR51 post-main checks separately.
 
-Allsevenintegrations/threeFX, actualauthority/policy/clock/action/referenceadapters,
-financial/refund/review/continuation, security/recovery/backup, bothrenderers/
-locales/themes, packaging/platform/live/fullrelease remainrequired and incomplete.
+## Preserved work and processes
+
+Main was clean before this claim. Startup inventory was 111 existing/16 absent
+registered worktrees; additional ACCT-004 worktrees remain preserved. Seven old
+verification trees are dirty and untouched: accttest004-service-api-review,
+storage002-review, storage017-review, storage017-validation, storagetest016-api-author,
+storagetest016-review and storagetest017-review. Never reset, prune or delete them.
+
+The ACCT-004 author tree at 4612223 deliberately retains a dirty server CMake
+verification copy and an untracked actual review Markdown copy. The four other new
+ACCT-004 trees are clean at 746d5c2/c791e72/fb0d7fe/3ef4755. All prior agent
+assignments completed; no native command remains running. Unrelated IDE processes
+were not terminated. Inspect actual agents/processes/GitHub state on resumption.
+
+All seven integrations, three FX providers, actual adapters, financial/refund/
+review/continuation flows, security/recovery/backup, both renderers/locales/themes,
+packaging/platform/live verification and the full release remain required and
+unfinished. Green component CI and task labels do not establish product completion.

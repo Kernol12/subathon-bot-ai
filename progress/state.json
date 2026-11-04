@@ -1242,8 +1242,8 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; timer_contract_author (reused codec_author); independent timer_contract_reviewer (reused service_reviewer)",
       "depends_on": [
         "CORE-005"
       ],
@@ -1255,7 +1255,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before CORE-008.",
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
+        "Claimed task/CORETEST-008-timer-command-baseline from integrated main 0b631dc after the verified normal PR51 merge. First stage is DOCUMENT ONLY: propose a simple pure timer command/proposal/revision contract and independent literal examples from specification v0.45 §4/TIMER-01 and existing CORE-005/CORE-002 contracts. No C++ API, stub, test or implementation before separate document review. Author owns only docs/contracts/timer-editorial-commands-v1.md and docs/evidence/coretest-008-contract-author.md in isolated task/CORETEST-008-contract-author. Independent reviewer owns only docs/evidence/coretest-008-contract-review.md in a separate worktree and must inspect the actual candidate. Root owns shared state/HTML/maps/build/CI/checkpoint. Three explicit product questions were sent to the owner: lowering the cap below current Main; Ready/start with a passed deadline; enabling or moving a deadline to now/past. No answers received; preselected options and elapsed time are not answers. Mark these exact semantic gates and do not choose defaults or omit their acceptance. Preserve settled hard-end/debt/Grace/wait/reopen rules and explicit nonfinancial correction policies. The baseline remains in progress until its document/API/tests/reviews/valid red are complete; CORE-008 production remains planned."
       ],
       "verification": {},
       "evidence": [],
@@ -1811,7 +1812,8 @@
         "Correctedc85/import5ced819 +privatecodec217acc7/root7e033e9 passes actualrootfull30824.84s/1420QtPASS0skip0warnings, author43PASS3.72s. Different reviewer approvesprivatecodec217acc7, fullsourceauditstillwithholdsapproval for remainingprojectionBEFOREowninggrowth inproposal/effects/transitions/hold. Source-onlyallocationorderingisnotmeasuredbytestoutcomes; same43assertions remain. Authorhardeningactive, no finaldone/CI/mergeclaim.",
         "Explicit extra authorownership approved BEFORE edit: tiny PRIVATE server/src/sqlite_application_bundle_values.hpp validate_jobs borrowedvector/effectcount overload, existing PreparedBundle wrapper delegates with body/order preserved. Removes source-only unnecessaryowningcopies in servicecheck_jobs; no publicAPI/schema/behavior or assertionschange. Differentfinalreview+all308 stillrequired.",
         "Finalpreallocation4612223 importedce28ff3: root14step0warnings/FULL308PASS24.84s/1420QtPASS0skip. Tinyprivateborrowedvalidator preservesbody/order; exact43compiled-enabledacceptance and workflowinlinePythonparse verified. Differentactualfinalsource/configreviewACTIVE, actualpromotedofficialCIpending; taskremainsin_review.",
-        "Boundedcomponent DONE after actualfinalsource/configapprovalc791e72/import2ab1037 +root/differentfull308PASS +actualpromotedofficial41781024558 at completea49 (freshGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/0warnings/required6guard41PASS0skip/exact43/UNCONDITIONAL43PASS8.01/all11SUCCESS), APIcheckedsynthetic52eeb570 parents112+a49/equaltreeea0864d1. ALLold35assertions/fixtures preserved; original224markerred neverreplayed. Eightnewslots9scenarios separatelyreviewed/reachedredbeforecorrections; allocationorderingactuallyaudited. Finalmetadata latestCI/currentrules/discussions/normalmerge remainPUBLICATIONgates; notassumedmerged. Allactualadapters/financial/refund/review/FX/provider/recovery/UI/platform/fullrelease remain required."
+        "Boundedcomponent DONE after actualfinalsource/configapprovalc791e72/import2ab1037 +root/differentfull308PASS +actualpromotedofficial41781024558 at completea49 (freshGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/0warnings/required6guard41PASS0skip/exact43/UNCONDITIONAL43PASS8.01/all11SUCCESS), APIcheckedsynthetic52eeb570 parents112+a49/equaltreeea0864d1. ALLold35assertions/fixtures preserved; original224markerred neverreplayed. Eightnewslots9scenarios separatelyreviewed/reachedredbeforecorrections; allocationorderingactuallyaudited. Finalmetadata latestCI/currentrules/discussions/normalmerge remainPUBLICATIONgates; notassumedmerged. Allactualadapters/financial/refund/review/FX/provider/recovery/UI/platform/fullrelease remain required.",
+        "Publication VERIFIED: exactcompletionhead80cac620 all11SUCCESS, selected41781864667SUCCESS, currentrules/threads0 and CLEAN mergeable; normal --match-head-commit merge PR51 confirmed2026-11-04T05:56:21Z as0b631dcbea1ec7765b3a66e41d6059e81de2979d. Rootmain refreshedclean; merge tree equals80. Postmain10 workflows inspected pending separately; no bypass/force/branchdelete."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -1824,7 +1826,7 @@
         "regression_baseline": "observed_red",
         "native_build": "passed",
         "github_ci": "passed",
-        "completion_ci": "not_run"
+        "completion_ci": "passed"
       },
       "evidence": [
         "docs/evidence/acct-004-codec-author.md",
@@ -12932,6 +12934,11 @@
       "date": "2026-11-04",
       "task": "ACCT-004",
       "note": "Reviewed implementation/43 real-SQL cases/full308 native and actual selectedQtCI pass. Original35 assertions/fixtures and baseline red preserved;8 meaningful regressions separately reviewed/reached-red. Component done; completion metadata/current-head merge gates remain."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CORETEST-008",
+      "note": "Claimed the timer-command baseline from freshly integrated main 0b631dc. Document-only contract/examples first, followed by independent review. Three explicit owner product questions remain pending; no API, tests, red baseline or implementation claimed."
     }
   ]
 }
