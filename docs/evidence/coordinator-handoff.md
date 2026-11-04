@@ -18,7 +18,7 @@ not establish runtime UI, Windows, packaging, providers or full-release acceptan
 
 Root is on `task/MILESTONETEST-001-progression-baseline`, actual API imported at
 `9d8ba9ec5bebcf512648be274a6a78dc87372b28`. Open drafts PR52/PR54/PR56 remain at
-`3e05b48`/`512828c`/`564e00a`. Existing checks passed at those heads; future local
+`3e05b48`/`512828c`/`d8b3d6a`. Existing checks passed at those heads; future local
 revisions do not inherit those results. Inspection preserved dirty files in eight
 older trees: acct004-service, accttest004-service-api-review, storage002-review,
 storage017-review, storage017-validation, storagetest016-api-author,
@@ -29,7 +29,8 @@ child was running at inspection. Root checkpoint metadata is being committed nex
 ## Milestone baseline and actual API review
 
 [Draft PR56](https://github.com/Kernol12/subathon-bot-ai/pull/56) last published
-`564e00a87f6a8f52c88ce6003efcb2d1b2a29b5b`; its 12 component checks passed.
+`d8b3d6ae0eddbc27452509cf1f48b82170deaf44`; its existing component checks need current inspection.
+Earlier `3fc99ce` has all12 actual check-runs successful. No selected milestone CI yet.
 Root owns state/HTML/checkpoint and shared schemas/build/CI/pins.
 
 The [logical model](../contracts/milestone-progression-v1.md), blob
@@ -47,20 +48,32 @@ and imported `9d8ba9e`. [API author evidence](milestonetest-001-api-author.md), 
 `9a9f3e5905565e3d51947e00abfcebf6ba5716d4`, records five literal byte sums.
 One raw-input advancement operation returns owned prefix/new range/projection.
 
-Actual API review `b8932cd`/import `21ba96d`, note blob `99a3dfc0`, APPROVES
-that exact document. Sixteen independent arithmetic/field/count facts passed;
-prior logical review is unchanged. service_author is explicitly resumed for minimal
-typed source in its existing milestone author tree, owning ONLY
-`core/include/subathon/core/milestone_progression.hpp`,
-`core/src/milestone_progression.cpp` and a new stub-author evidence note.
-One immediate distinct NotImplemented throw; inert declarations/accessor/exception
-constructors only. No feature validation, tests, fixtures or calls authorized.
-Root retains harness/build/CI ownership. Next: actual minimal source and harness
-review, then test authoring and separate review/green foundation/first red.
+Actual API review `b8932cd`/import `21ba96d`, note `99a3dfc0`, APPROVES that
+document. Minimal source author `2e36bc8`/import `d481d08`: header `9a167813`, TU
+`4e3291f0`, note `5ddb9991`. Root harness `d8b3d6a` adds default-off option, explicit
+library and preset24. One immediate distinct throw is the entire feature body.
+[Minimal source/harness review](milestonetest-001-minimal-review.md) `a2f5d358`/import
+`6d1fa3e` APPROVES exact source/config. Both root and reviewer build14steps without
+warnings; old33 numeric +3infra pass. Evidence correction `53bdf04` records actual
+installed GTest1.18.0 (minimum1.17). Initial wrong source-dir configure is a setup
+failure, not red. No milestone body or marker has run. See
+[harness evidence](milestonetest-001-interface-harness.md).
 
-Root also created `task/CONTRACTPLAN-001-wire-prerequisites` from refreshed main
-in `local-evidence/worktrees/contractplan001-integrator`; claim `a9decd7` owns only
-a documentation/dependency decomposition. Plan authoring/review remain pending.
+service_author is resumed for test/foundation authoring in the existing milestone
+author tree, owning ONLY new fixture/test/foundation/author-note files. Frozen source
+and contracts remain unchanged. Root owns test CMake and future CI. Actual different
+test/foundation review, selected green foundation/current selected CI and FIRST plain
+feature red remain gates. No production algorithm is released.
+
+Root also owns `task/CONTRACTPLAN-001-wire-prerequisites` in
+`local-evidence/worktrees/contractplan001-integrator`: claim `a9decd7`, actual plan
+`76c7b6e`, checkpoint correction `69ccc21`. codec_author independently reviews actual
+ADR/briefs/DAG in `local-evidence/worktrees/contractplan001-review`; no blocker found,
+final note pending. Exactly24 narrowed consumer edges +6 explicit WS consumers +
+full parent/four children; all10 epic parent lists/all unrelated edges retained.
+401-record graph passes; planning-only, no product schema/source/test changed.
+Ordinary API publication encountered repeated truncated JSON before ref creation;
+inspect actual remote/ref/receipt and retry exact objects after final metadata.
 
 ## Rate baseline: locally reviewed, publication access blocked
 

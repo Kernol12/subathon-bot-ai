@@ -2668,7 +2668,7 @@
       "module": "Automation",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (minimal typed stub); codec_author (independent API review)",
+      "owner": "coordinator /root; service_author (test/foundation author); service_reviewer (independent minimal source/harness review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -2684,14 +2684,16 @@
         "Claimed dedicated task/MILESTONETEST-001-progression-baseline from freshlyintegrated main3217c212 after LOCALE001/PR55 normalmerge. Readyprereqs CONTRACT002/CORE001done. FIRST DOCUMENT ONLY: pureexactscore/ascendingtarget sequentialachievement/immutablecompletedprefix/deficit/nextremaining/progress projection; orderedmulti-crossing and800belowcompleted1000deficit200/next2000remaining1200. service_author owns ONLY docs/contracts/milestone-progression-v1.md and docs/evidence/milestonetest-001-contract-author.md in separate task/MILESTONETEST-001-contract-author. Root owns state/HTML/maps/sharedschemas/build/CI/pins/checkpoint. Independentreview actualdocumentbeforeAPI/stubs/tests. No arbitrary positivity/score/origin restriction or hiddenrounding; explicitly propose signedlimits/firsttarget/progresssemantics andrecordtrueconflicts; do not shrinkagreedmanual/reset/edit/queue/policy scope, adjacenttasksretainthose. No C++code/header/schema/fixture/tests/action/statewrites/providerexecution atthis stage. MILESTONE001productionplanned.",
         "Actual logical4362fe29/importaf7e2be (contract0115a5cc/author67593a9e) receives independentdocumentapproval8338981. MP01-22/23independentarithmeticfacts checked; no ownerquestion. Fullsignedtargets/postscore, U64distances, immutablecapturedprefix/currentprojection/absentfirstinterval explicit. Release ONLYconcreteAPI DOCUMENT toservice_author: NEW docs/contracts/milestone-progression-api-v1.md and docs/evidence/milestonetest-001-api-author.md. No actualheader/source/stub/schema/storage/fixture/test/action/scorebehavior untilactualAPIreview/sourcegate/reviewedtests/firstred. Rootownsallsharedintegration; model/adjacentgates remainfrozen.",
         "Actual API candidate c89776c/import 9d8ba9e, contract blob 58b8e129 and author note 9a9f3e59, is now with codec_author for actual independent document review. One raw-input operation owns prefix/new-range/projection, full signed64/U64 arithmetic and explicit complete-result budgets. Five literal byte sums checked; consistency and current HTML passed. No actual header/source/stub/fixture/test/red or production stage released. Rate workflow access remains blocked; preserve all valid reviews and unfinished work. Root inspected actual agents, worktrees, processes and GitHub heads on resume.",
-        "Actual API document58b8e129 and author note9a9f3e59 approved by different codec_author in b8932cd/import21ba96d, API review blob99a3dfc0. Sixteen independent stdlib byte/item/U64/exact-fraction facts pass; prior logical approval unchanged. Release ONLY minimal core header/source plus source-author note to service_author. One immediate distinct NotImplemented throw is the only feature body; inert aggregates/private-owned wrapper/const accessor/error constructors only. No semantic helper/validation, fixture, tests, CMake/CI or feature invocation. Root retains shared harness ownership; actual minimal source/harness reviews precede feature tests/red."
+        "Actual API document58b8e129 and author note9a9f3e59 approved by different codec_author in b8932cd/import21ba96d, API review blob99a3dfc0. Sixteen independent stdlib byte/item/U64/exact-fraction facts pass; prior logical approval unchanged. Release ONLY minimal core header/source plus source-author note to service_author. One immediate distinct NotImplemented throw is the only feature body; inert aggregates/private-owned wrapper/const accessor/error constructors only. No semantic helper/validation, fixture, tests, CMake/CI or feature invocation. Root retains shared harness ownership; actual minimal source/harness reviews precede feature tests/red.",
+        "Actual minimal header9a167813/source4e3291f0 + root harnessd8b3d6a receives independent a2f5d358/import6d1fa3e approval. Evidence-only GTest correction53bdf04 inspected: installed1.18.0, minimum1.17. Fresh14-step warnings0/old36checks pass; no feature/marker run. Release ONLY new literal fixture, GTests, independent Boost/std-only foundation and author evidence to service_author; frozen source/contracts unchanged, no feature/foundation body execution until actual independent test/foundation review. Root owns later test CMake/CI; current selectedBoost1.83 CI and FIRST plain feature red remain gates, workflow access still pending. No production released."
       ],
       "verification": {
         "document_review": "passed",
         "test_baseline": "not_run",
         "implementation": "not_run",
         "api_document_review": "passed",
-        "minimal_source_review": "not_run"
+        "minimal_source_review": "passed",
+        "tests": "not_run"
       },
       "evidence": [
         "docs/contracts/milestone-progression-v1.md",
@@ -2699,7 +2701,10 @@
         "docs/evidence/milestonetest-001-contract-review.md",
         "docs/contracts/milestone-progression-api-v1.md",
         "docs/evidence/milestonetest-001-api-author.md",
-        "docs/evidence/milestonetest-001-api-review.md"
+        "docs/evidence/milestonetest-001-api-review.md",
+        "docs/evidence/milestonetest-001-stub-author.md",
+        "docs/evidence/milestonetest-001-interface-harness.md",
+        "docs/evidence/milestonetest-001-minimal-review.md"
       ],
       "review": null
     },
