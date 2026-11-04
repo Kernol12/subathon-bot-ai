@@ -556,8 +556,8 @@
       "title": "Split the product wire-contract prerequisites",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_review",
-      "owner": "coordinator /root (plan); codec_author (actual independent planning review)",
+      "status": "done",
+      "owner": "coordinator /root (plan); codec_author (independent planning review)",
       "depends_on": [
         "CONTRACT-002"
       ],
@@ -573,17 +573,27 @@
       "summary": "Documentation-only decomposition of common, HTTP, WS and scene contracts with reviewed consumer dependencies; no wire behavior finalized.",
       "notes": [
         "Claimed on task/CONTRACTPLAN-001-wire-prerequisites from freshly fetched main3217c212. Root owns state/HTML, parent/child briefs, planning ADR and evidence; service_reviewer supplies read-only dependency preparation. Actual independent review follows authored plan. Preserve the entire CONTRACT-003 release gate, all original consumer behavior and existing test-first/platform/provider gates. No schema, implementation or executable tests in scope.",
-        "Authored proposed ADR-0004 and four bounded child briefs; exact24 non-epic replacements plus6 explicit persistent-WS edges. Preserve all10 epic parent edges and every unrelated prerequisite. API-03 is a registered specification decision at line968; no requirement conflict or owner decision. Actual independent planning review pending. No schemas/source/tests/workflow changed."
+        "Authored proposed ADR-0004 and four bounded child briefs; exact24 non-epic replacements plus6 explicit persistent-WS edges. Preserve all10 epic parent edges and every unrelated prerequisite. API-03 is a registered specification decision at line968; no requirement conflict or owner decision. Actual independent planning review pending. No schemas/source/tests/workflow changed.",
+        "Planning locally complete after actual independent approval1de03476 (note0224ebf8), imported into this focused branch. Reviewer verified all24 replacements/sixWS additions/tenepic lists/319 old baseline edges and401-node acyclic graph, all unrelated dependencies and prior review/evidence preserved. Source plan76c7b6e plus corrected metadata69ccc21 approved; failed intermediate1b6 links are recorded as failed, not passed. Child contracts remain planned/unverified. Final exact-head CI/rules/threads/normal merge remain publication gates; not yet integrated."
       ],
       "verification": {
-        "planning_review": "not_run",
-        "consistency": "passed"
+        "planning_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "not_run"
       },
       "evidence": [
         "docs/decisions/0004-wire-contract-prerequisites.md",
-        "docs/evidence/contractplan-001-author.md"
+        "docs/evidence/contractplan-001-author.md",
+        "docs/evidence/contractplan-001-review.md",
+        "docs/evidence/contractplan-001-handoff.md"
       ],
-      "review": null
+      "review": {
+        "author": "coordinator /root",
+        "reviewer": "codec_author",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contractplan-001-review.md",
+        "revision": "76c7b6e plus69ccc21 metadata correction"
+      }
     },
     {
       "id": "CONTRACT-005",
@@ -13237,6 +13247,11 @@
       "date": "2026-11-04",
       "task": "CONTRACTPLAN-001",
       "note": "Claimed documentation-only wire-contract prerequisite split from current main. Actual plan review pending; no product wire schema or implementation finalized."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-001",
+      "note": "Actual independent planning review approved the scoped wire-contract prerequisite split. Child contracts remain planned; final CI/publication/merge gates pending."
     }
   ]
 }

@@ -119,7 +119,7 @@ claim baseline/store prerequisites
 before the original service baseline; no original release requirement is removed.
 
 
-The [wire-contract prerequisite proposal](../decisions/0004-wire-contract-prerequisites.md)
+The [reviewed wire-contract prerequisite split](../decisions/0004-wire-contract-prerequisites.md)
 separates common representations, HTTP, persistent WebSocket and scene contracts.
 CONTRACT-003 retains their complete integration gate; helper sequencing changes do
 not finalize a schema or certify any client, provider or renderer.

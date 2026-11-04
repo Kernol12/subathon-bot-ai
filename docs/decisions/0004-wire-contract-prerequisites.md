@@ -1,6 +1,8 @@
 # ADR-0004 — Separate common, HTTP, WebSocket and scene contracts
 
-Date: 2026-11-04. Status: proposed; actual independent planning review pending.
+Date: 2026-11-04. Status: accepted after actual independent planning review
+`1de03476` of `76c7b6e` plus corrected checkpoint `69ccc21`; planning only, not
+child-contract or feature approval.
 Authority: specification v0.45 API-01/02/03, NUM-04, §§2/10/11 and CONTRACT-002.
 Task: [CONTRACTPLAN-001](../tasks/CONTRACTPLAN-001.md).
 

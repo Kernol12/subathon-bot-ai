@@ -20,13 +20,13 @@ Root has two isolated integrator branches. This tree is
 `task/CONTRACTPLAN-001-wire-prerequisites` at planning candidate `76c7b6e`. The
 milestone integrator remains `task/MILESTONETEST-001-progression-baseline` in the
 primary tree, concrete interface/harness at `d8b3d6a`. Open drafts PR52/PR54/PR56 remain at
-`3e05b48`/`512828c`/`3fc99ce` (milestone publication to `d8b3d6a` in progress). Existing checks passed at those heads; future local
+`3e05b48`/`512828c`/`3fc99ce` (milestone publication to `d8b3d6a` now confirmed). Existing checks passed at those heads; future local
 revisions do not inherit those results. Inspection preserved dirty files in eight
 older trees: acct004-service, accttest004-service-api-review, storage002-review,
 storage017-review, storage017-validation, storagetest016-api-author,
 storagetest016-review and storagetest017-review. Missing historical registrations
 remain untouched. Never reset, prune or delete them. No Git/build/CTest/publisher
-child was running at inspection. The ordinary milestone API publisher is currently being polled; inspect it on resume.
+child was running at inspection. The ordinary milestone API publication completed. No publisher child is running.
 
 ## Milestone baseline and actual API review
 
@@ -57,11 +57,14 @@ distinct throw is the entire feature body; neither feature nor marker was invoke
 Root harness `d8b3d6a` adds only option/target/preset24, no new workflow/test. Local
 14-step build is warning-free; 33 old numeric plus three infrastructure checks pass.
 Initial guessed GoogleTest source directory failed configure, then corrected to
-installed GTest1.17; this is not red. See milestone interface-harness evidence on PR56.
-service_reviewer now independently reviews ACTUAL source/harness in
-`local-evidence/worktrees/milestonetest001-minimal-review`, branch
-`task/MILESTONETEST-001-minimal-review`. Author idle. No feature tests or red released.
-Dedicated selected CI, independent foundation and future test review remain required.
+installed GTest1.18.0 (minimum1.17); this is not red. See milestone interface-harness evidence on PR56.
+Actual source/harness approval `a2f5d358`/root import `6d1fa3e` includes evidence
+correction `53bdf04`. Reviewer tree is clean/idle. service_author now authors only
+new milestone literal fixture, GTests, standalone Boost/std foundation and evidence
+in the existing author tree after root release `4f8f3e1`. No feature or foundation
+body may run before actual test/foundation review; current selected CI/first red and
+future production remain separate gates. Root PR56 remote `d8b3d6a` has all12 actual
+component check-runs successful, but no selected new milestone workflow yet.
 
 ## Wire-contract prerequisite planning
 
@@ -73,13 +76,18 @@ Four planned children are common005, HTTP006, WS007 and scene008; all wait for a
 planning review. Exact 24 non-epic coarse edges are narrowed; six explicit WS edges
 are added; all ten epic parent gates and every unrelated dependency are preserved.
 Root authored the artifacts; service_reviewer supplied read-only recommendations.
-codec_author now reviews ACTUAL plan in
-`local-evidence/worktrees/contractplan001-review`, branch
-`task/CONTRACTPLAN-001-independent-review`, owning only a new review note. No schemas,
-source, fixture/assertion or workflow changed. 401-record graph/link/HTML checks pass;
-no contract or product behavior is completed. Next: resolve actual findings, mark only
-planning task done after approval, publish focused draft/CI, normal merge, then claim
-common005 or newly ready internal baseline from integrated main.
+codec_author completed ACTUAL independent review `1de03476`, note blob
+`0224ebf8`, approving the exact plan and corrected metadata. All24 substitutions,
+sixWS consumers, tenepic parent lists and319 old baseline edges checked; no cycle or
+scope reduction. [Review](contractplan-001-review.md) and
+[handoff](contractplan-001-handoff.md). Only CONTRACTPLAN-001 is locally done; child
+contracts remain planned. Final planning publication/CI/rules/threads/merge pending.
+Prior API publisher stopped on repeated truncated JSON before ref creation; remote
+absence was rechecked (404). Retry exact objects after final metadata; this ordinary
+document branch needs no workflow permission. Initial link-check failure at1b6 was
+corrected69 and is not recorded as passing. Next after normal merge: refresh main,
+claim common005 document and/or a newly ready internal baseline, preserve all other
+active branch claims and rate009 bridge records when integrating.
 
 ## Rate baseline: locally reviewed, publication access blocked
 
