@@ -1,9 +1,10 @@
 # LOCALETEST-001 independent fixture/probe/test review
 
-**Current partial verdict: APPROVED corrected Qt-only fixtures/probe/foundation.**
-The full43 Python feature methods require the focused T1/T2 additions below;
-the actual strengthened discovery CI guard6fdd985 is accepted.
-No project feature/main/script/marker execution is released by this partial verdict.
+**Current verdict: APPROVED actual complete test source and harness at ad0dd23.**
+The corrected 43 Python methods resolve T1/T2; the accepted seven-message fixtures,
+Qt-only probe and strengthened CI guard remain unchanged. This is test/harness
+approval before the first project red, not a recorded failing baseline or approval
+of future production code. Earlier partial verdicts and correction history follow.
 
 Reviewer service_reviewer, different from author codec_author and shared harness
 integrator root,2026-11-04. This note begins with the intermediate fixture/Qt-only
@@ -176,3 +177,91 @@ top-level class, exact43 inventory/discovery, no disabled/WILL_FAIL and all thre
 required labels. Existing CMake properties satisfy it. Ordinary CI still executes
 only the approved Qt-only foundation/non-intentional-red checks. This guard approval
 does not release the43 project test bodies while T1/T2 remain unresolved.
+
+## Corrected complete test source and harness: approved
+
+Independent reviewer service_reviewer approves actual author
+bbff4e0e3cbab4616cd4f7edad972e4b3c46dbb7, imported as ad0dd23, against source
+contract5138329642d112423431d0314a6f9f9a78c7795d and concrete API
+acb90189c371ab4aa8979cbb2ac8d117b2e8ab0e. The reviewed fixture/probe blobs in the
+earlier narrow approval remain exact. Additional exact reviewed blobs are:
+
+| Artifact | Git blob |
+| --- | --- |
+| Python test module | 6a7da9282e52ca0656284eca19732280d9d6c098 |
+| Test author note | 7f794b7453ddffa5fd376397eafd6619e21dd99d |
+| Case inventory | 3c5b8830c57f7ae248a094d0a288148b49a1e506 |
+| Qt registration | 9ff756219213f1f5f1b31f4368e8273fe225a0ed |
+| Translation CI workflow | d90ce3cc4f69aeb8e1c0dd6f88aa6419a3f95191 |
+| Root CMake | 96e646c8d89cbd870c4c210952fa174a3d3466c3 |
+| Presets | 2d4a00ec0f6f973df9479c8ab399b934b8208180 |
+| Unimplemented Python module | 23089e6bd58c6118835ced754580002002360212 |
+
+T1 is resolved by three actual two-message cases. Invalid parameter declarations
+on z.last precede either malformed text or absent German coverage on a.first;
+missing German coverage on z.last precedes malformed text on a.first. Each checks
+the specific error category and z.last identity. The reversed input order and
+earlier lexical ID make a per-message validation loop observably wrong. The old
+same-message priority and within-stage ID-order assertions remain. Separate
+subTest blocks let each input reach the immediate marker independently; that
+exception remains an ordinary ERROR rather than a successful expected failure.
+
+T2 is resolved by one independent source containing A/U+2028/B/U+2029/C in both
+languages and four complete literal expected artifacts. Browser expectations use
+lowercase escaped sequences, explicitly reject raw separator bytes and decode to
+the original scalars. Both complete TS expectations retain those scalars raw in
+source and translation, with the approved empty-context serialization. Expected
+bytes are literal constants; no project renderer or escaping helper produces them.
+The original frozen-source render invocation and assertions retain their own
+subTest. No frozen message, golden, manifest or native assertion changes here.
+
+Independent review checks on this actual candidate:
+
+- Read the complete correction diff and author handoff. A stdlib AST comparison
+  against bbdeefb verifies all 145 previous assertion/failure-call nodes remain
+  identical and in source order. Syntax parses with the Python3.10 grammar.
+- Static raw method enumeration finds exactly 43 unique qualified definitions,
+  exactly matching the unchanged inventory. Inert runpy import and unittest loader
+  discovery find 17 value, 20 filesystem and 6 CLI methods. No setup or test method
+  runs, and the imported module is this worktree's reviewed immediate stub.
+- Independently extract only the four literal T2 expectation constants using
+  ast.literal_eval/string encoding. Stdlib JSON/XML parsing verifies their exact
+  decoded scalars, escaped browser bytes, raw TS scalars and complete artifact
+  names. An initial review script compared unqualified method names with the
+  qualified inventory and failed its own assertion; qualifying that comparison
+  fixes the review script without any test/source change. The corrected audit
+  passes in full.
+- python3 tools/check_project.py passes: 396 task records, 122 decisions, links,
+  presets and current HTML. python3 tools/progress.py render --check and
+  git diff --check pass. These are infrastructure checks, not feature acceptance.
+
+The complete earlier review covers the remaining methods and their independent
+oracles: exact owned DTO/text bytes, categories and global priorities, input/resource
+bounds, filesystem/source/compiler aliases and ownership, read-only check behavior,
+real Qt generation/reproducibility, bounded timeout/output and zero-exit bad-output
+metadata, and exact CLI records/exits. Successful compilation authority always
+comes from the selected real Qt tool. Negative child scripts only exercise actual
+failure paths; no injected successful compiler, skip, failure inversion or marker
+catch can satisfy these tests. The exact CI guard checks raw and unique counts,
+inventory/discovery equality, enabled tests, absent WILL_FAIL and all three labels.
+Ordinary CI excludes intentional-red feature bodies explicitly.
+
+The coordinator ran the previously approved Qt-only foundation after its separate
+approval: 100 assertions and two fresh QM byte comparisons, as recorded in
+[foundation evidence](localetest-001-foundation.md). That completed gate was not
+replayed by this review. The coordinator separately reports ordinary CI41799087660
+on ad0dd23 successful with the same enabled 43-case discovery and five ordinary
+checks; its reported raw SHA256 is
+d503efe39c9e385d897fdeeabf96b39509041dd6c94363955350c906267f52e1.
+That is coordinator-observed infrastructure evidence, not a Python feature result
+independently observed by this reviewer.
+
+No project feature, main, script or missing marker has been invoked by this reviewer
+before this verdict. With the coordinator's actual selected-environment foundation
+and current CI gates satisfied, the actual reviewed 43 methods may now receive their
+FIRST ordinary stub run. Preserve raw failures, reached method/subcase attribution
+and exact candidate hashes; missing dependencies, compilation errors, skips or
+inverted failures cannot establish red. LOCALETEST-001 cannot be marked complete
+until that evidence and applicable checks are recorded. Generator implementation,
+allocation/streaming/publication source review, later runtime named formatting,
+preferences, UI and platform/release verification remain separate work.
