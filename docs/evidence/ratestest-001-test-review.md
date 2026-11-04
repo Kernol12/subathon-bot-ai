@@ -1,9 +1,10 @@
 # RATESTEST-001 independent fixture, test and harness review
 
-**Current verdict: CHANGES REQUIRED for the full53 feature methods: R1 below.**
-The actual Boost-only foundation and its narrow harness remain approved. No
-feature body or marker execution is released before the actual corrected test
-review and selected foundation green.
+**Current verdict: APPROVED complete actual53-method test/fixture/harness candidate
+ed27c82, including corrected R1.** The Boost-only foundation approval remains
+valid. This approves authored tests, not an observed red or future implementation.
+Current selected CI/foundation and the coordinator's explicit first-red execution
+remain separate gates. Earlier partial verdict and correction history follow.
 
 Reviewer service_reviewer, different from author codec_author and shared integrator
 root, 2026-11-04. Owns only this note in task/RATESTEST-001-test-review. Actual
@@ -152,3 +153,71 @@ The actual full fixture/test candidate is not approved until R1 is resolved. No
 feature test body, setup, foundation or marker has been executed by this reviewer.
 Build/discovery success and the narrow foundation approval do not finish
 RATESTEST-001 or authorize RATES-001 implementation.
+
+## Corrected complete candidate: approved
+
+Actual author24f9b3a1eca6c77d017e815b4b30df8c2a6a5c69, root import
+ed27c827e1e096496c69a68f782784eb6c913995, was merged cleanly into this review
+branch while preserving earlier review history. Exact corrected artifacts:
+
+| Artifact | Git blob |
+| --- | --- |
+| Acceptance source | 64fd60b27359db8ba7b3d17f77f8e349ae7e30f9 |
+| Author evidence | 60d84fb2d47561d0c5b36e1997808f1952c2dd0a |
+| Unchanged vectors | 8936f4fae9bd17d5e592256e0c395871bcea4849 |
+| Unchanged foundation | 28a829aad3769f176db82b497120ba4ad05a0818 |
+| Unchanged test CMake | 8cc2bbc17ccd09a36e4ee55e0701c19fd171319b |
+| Unchanged CI workflow | c336395d6235e5ae4900398cd8069f0c4737d252 |
+| Root CMake | 994baf6f44272b0b68d15cffc2f7a880dd3bcbc5 |
+| Core CMake | d87b834e72c3131aba34ab43718b8e79df65c795 |
+| Presets | 4dcf7a0a1422cbb8aed4b1b40d4356e0fe7b13a7 |
+
+R1 is resolved. The added independent accepts block constructs raw sources in
+0xff/O/0x80 order. All three identities are distinct, nonempty opaque single-byte
+references. Each source contains the valid A-to-B decimal1 and has one actual
+ordinal1 fetched constraint. The canonical component A=1/B=1 is connected and
+every selected source edge agrees exactly. No unused source, duplicate identity,
+unresolved reference or other invalid setup can cause a misleading red. Defaults
+comfortably fit this small complete input. Fixed output assertions require sources
+AND fetched constraints in O/0x80/0xff order. This differs from signed-char order
+0x80/0xff/O and needs no generated expected values.
+
+The entire original high-bit/typed-namespace scenario remains exact. The new block
+is after its separate nonfatal accepts invocation, so an initial marker there
+cannot abort the additive scenario. No feature is invoked outside test bodies.
+Independent source-line diff comparison against b0517b7 finds only one25-line
+insertion, with every previous line preserved. The53 TEST-name list is identical
+and unique. Git comparisons confirm unchanged fixtures, foundation, contracts,
+header3a06ff18, four immediate stub bodies4cf1c1ed and shared harness from the
+reviewed candidate5905f6e.
+
+Actual recheck commands:
+
+```sh
+cmake --build --preset rate-snapshot-debug
+ctest --preset rate-snapshot-debug --show-only=json-v1
+clang-format --dry-run --Werror tests/acceptance/rate_snapshot_tests.cpp
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+Build passes two compile/link steps with zero warnings. The actual inline CI
+inventory/discovery guard passes all53 enabled/uninverted intentional-red methods;
+discovery executes no method/setup/data provider. Formatting and project398-record/
+122-decision links/presets/current-HTML, render and whitespace checks pass. Static
+independent byte-order arithmetic confirms both the required unsigned sequence and
+the different signed sequence. No foundation, test body, feature or exception
+marker runs during this reviewer check.
+
+The complete actual fixture/test/harness gate is now approved. The coordinator
+reports that the previously reviewed14-fact foundation ran green after its narrow
+approval; this reviewer has not replayed it. The old interface-only CI run is not
+evidence that the new foundation/current53-case registration ran in selected CI.
+Root must publish the actual corrected revision, obtain its applicable current
+selected CI/foundation green and integrate this final review before FIRST ordinary
+rate-feature red. Preserve raw failures, per-row reachability and all four-entrypoint
+attribution; wrong marker failures are required evidence, not passing expectations.
+Compilation/dependency failures, skips or failure inversion cannot establish red.
+Production implementation, allocation/arithmetic source audit, the RATES-009 bridge,
+provider/platform/UI/update/durable work remain explicitly unapproved.
