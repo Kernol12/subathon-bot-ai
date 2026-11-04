@@ -612,3 +612,16 @@ if(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS)
             LABELS "sqlite-contribution;acceptance;qt;server" TIMEOUT 30)
     endforeach()
 endif()
+
+if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
+    add_executable(translation_catalog_probe translation_catalog_probe.cpp)
+    target_link_libraries(translation_catalog_probe PRIVATE Qt6::Core)
+    subathon_target_options(translation_catalog_probe)
+    # Existing Qt only: compile literal fixtures, load raw forms, compare two fresh builds.
+    add_test(NAME scaffold.translation_catalog_environment
+        COMMAND translation_catalog_probe foundation
+            "${PROJECT_SOURCE_DIR}/tests/fixtures/translation_catalog"
+            "$<TARGET_FILE:Qt6::lrelease>")
+    set_tests_properties(scaffold.translation_catalog_environment PROPERTIES
+        LABELS "scaffold;qt;translation-catalog-environment" TIMEOUT 120)
+endif()
