@@ -1,49 +1,57 @@
-# Coordinator checkpoint — finish PR56 and PR52
+# Coordinator checkpoint — final PR52 gates
 
-Root,2026-11-04. Last actual mainfe727c8d5775cfeeffe78e51bad146a7a67dec79.
-408 tasks/1508 edges including required RATESTEST-009/RATES-009; preserve this graph.
-All owner decisions resolved; no access/decision pending. SSH publication works.
+Root,2026-11-04. Last actual main ea943b9e043eb569422be608e89a4f493f604095.
+408 taskIDs/1508 dependencyedges; requiredRATESTEST-009/RATES-009 bridge retained.
+No owner question/access action. All choices resolved; SSHpublication works.
 
-PR62 normally merged9345aff4, PR59 normally mergedfc28558a, PR54 normally merged
-fe727c8d. Exact respective head/merge trees matched, all final PR checks passed;
-all14 PR54 post-main checks now SUCCESS. See corresponding access/session/rate
-handoffs. Rate FIRST native53 failures are valid recovered evidence, but direct
-CTest exit UNKNOWN because UTF8 collector failed after collection. Do not replay.
+## Completed original PRs
 
-## PR56 baseline complete; final gates active
+PR62 normalmerge9345aff4 at18:38:33Z; PR59 fc28558a at19:13:27Z; PR54 fe727c8d
+at20:16:17Z; PR56 ea943b9e at20:55:26Z. All final applicablechecks passed before
+eachnormalmerge and mergedtrees matched reviewedheads. PR56 final3b7d0d79 had
+all16SUCCESS; merge/headtreef9346edf79e51bd926856ba1d5dc45ce01a03638. Postmain15
+checks newlypending; observeactualstate. Current rootcontinuation integrates that
+actualmain into PR52; originalprimary8721770 checkout preserved unchanged.
 
-Isolated local-evidence/worktrees/milestonetest001-integrator / branch
- task/MILESTONETEST-001-main-integration; ordinary publication to existing PR56
- task/MILESTONETEST-001-progression-baseline (remotea15 lastobserved). Mainfe727
-integratede90; labels/configa15 approved75e62c2/importc2bcb08. Fulltestreview208
-and all frozenartifacts unchanged. ActualselectedUbuntu41907483021 ata15 passed
-53guard/25facts+old36; alla15 checks16SUCCESS. FIRSTclean c2bcb08820:36:28Z:
-directCTest8/53fail0skip; savednativebytes/code/JUnit beforedecode. Differentactual
-attributione030a0e7/import897c001 validates110primarymarkers/nootherfailures.
-[Baseline handoff](milestonetest-001-handoff.md) links evidence. Taskdoneobservedred,
-productionplanned; MILE01/NUM04partial. Next differentactualfinalmetadatareview,
-freshfinalheadCI/rules/reviews/discussions/normalmerge; thenintegratenewmainPR52.
-Do not replay either selectedhost25FIRST19:11:54Z or featureFIRST53.
+[Milestone handoff](milestonetest-001-handoff.md) links fulltest208d0580/config75e/
+FIRSTclean c2bcb08820:36:28Z/direct8/53fail0skip/110primarymarkers/differentactual
+attributione030a0e7/finalmetadata1b6c0d29. SelectedUbuntu41907483021 ata15:53guard/
+25facts+old36green. FIRSTselectedhost25 already passed19:11:54Z. Do notreplay.
+MILESTONETEST-001doneobservedred, MILESTONE-001planned; NUM04/MILE01partial.
+Rate directFIRSTCTestexitUNKNOWN afterUTF8collectorerror; recovered native53/
+364primarymarkers independentlyapproved. Do notinventexit8 orreplay settledred.
+Access/password/ratehandoffs retain their completed source/tests/review/nativeproof.
 
 ## Active PR52 CORETEST-008
 
-local-evidence/worktrees/coretest008-integrator is732f73e2, branch
- task/CORETEST-008-timer-command-baseline. Logical/API/minimal-source reviews through
-5f52125 valid; full owner choices in spec81406806. Test author78a7936b CPP3b0c8041,
-inventory1a4fb38d; actual independent test approvalbd7f5e3e by service_reviewer.
-Tests/review imported9162597/d6370af, mainfe727 mergedb1cf46f preserving408graph.
-Actual harnessauthor96c22392 imported4021d74; currentconfigure/build/list101 and
-strict27guard pass. Authorold74allpass/native0; no editorialbody. Published732f73e
-to existingdraftPR52; codec_author now reviewsactualrootmain/harness only in
-separatetree. service_author available for finalmetadata review; service_reviewer
-completed milestone attribution. Get actualharnessreview/currentCI27guard+old74,
-FIRSTplain27red/nativebytes/directcode/JUnit,
-separate attribution/final gates/merge. Tests safely catch ownership primary marker
-then assert retained value; attribute secondary guard separately. No CORE-008/UI
-implementation released. Timer API remains on the separate PR52 branch.
+Rootlocal-evidence/worktrees/coretest008-integrator /branch
+ task/CORETEST-008-timer-command-baseline. Existingdraftremote732f73e lastpublished;
+latestlocal6f9d94a nowintegrates actualmain ea943b9e beforefinalpublication.
+All logical/API/spec/minimalsource/testapprovals valid. Tests3b0c8041/JSON1a4fb38d/
+header92281931/stub651c68b3/logicalf4a4c3ce/APIa2ac5a2c/spec81406806 unchanged.
+OwnerKeepReduceAbort/per-attempt/nofrozenclock;ReadydeadlinecheckrejectandActive
+reacheddeadlineaccept-immediatefinishchoices allretained. No UI behavior implemented.
 
-Historical dirty worktrees and absent references remain preserved; do not reset or
-prune. Original primary checkout remains clean8721770. No running root native
-process at this checkpoint. Inspect actual agent/process/GitHub state on resume.
-All seven providers/three FX/both renderers/platform/locales/themes/packaging/
-licensing/live release gates remain; no live chat/payment/deploy authorized here.
+Actual27testapprovalbd7f5e3e; actualcurrentmain/harness166c3a7a imported2dce71d.
+SelectedUbuntu41908880067 at732strict27JSON/source44ED/101enabledguard/commonpinned
+GTestfetch andonlyold74green1.68s; all16published732checksSUCCESS. FIRSTplain27
+onclean2dce71d19320:46:32.706042Z/directCTest8/27fail0skipdisabled. Rawbytes/code/
+JUnit savedBEFOREdecode. Actualdifferentattribution54f75d2e/importe0f6281 validates
+165primarymarkers (88proposalhelper/76wrongerror/1ownership) +1expectedretained-value
+ASSERTconsequence; all27sourcemultiplicities/repeatedED28-31 labels/noothers.
+[Timer handoff](coretest-008-handoff.md) links exactproof. Baseline taskdoneobservedred,
+CORE-008planned/not_run; TIMER01partialold39passingproofpreservedappend-only.
+
+Next: exactcombinedcurrentmain/config/state/map/HTML review by differentagent,
+currentconfigure/build/discovery101 andnewCIallapplicablechecks; publishordinary
+SSH(existingPR52), actualrules/reviews/discussions/latestHEAD audit/normalmerge.
+Do not repeat FIRSTfeature/oldfoundations or settlefor docs-onlybaseline. No root
+nativeprocessrunning; inspect actualagents/heads/processes onresume. codec_author
+andservice_author priorreviewscomplete/available; service_reviewer actual27native
+attributioncomplete/available. Rootowns allsharedprogress/build/CI/checkpoint.
+
+AfterlastoriginalPR52merge refreshmainandselect dependency-ready implementations,
+prefer nextworkingproduct slice; no production starts ahead of this originalPRpriority.
+Historicaldirtyworktrees/absentrefs/parkedasset011c4ef1b91 retainedwithoutreset/prune.
+Allsevenintegrations/threeFX/bothrenderers/locales/themes/platforms/packaging/
+licensing/live release scope remains. No livechat/payment/deploy sideeffects.

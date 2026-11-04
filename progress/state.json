@@ -1642,8 +1642,8 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_progress",
-      "owner": "coordinator /root; service_author (PR52 complete logical correction); service_reviewer (actual review next)",
+      "status": "done",
+      "owner": "coordinator /root; different fulltest/harness/FIRST attribution approved",
       "depends_on": [
         "CORE-005"
       ],
@@ -1658,18 +1658,66 @@
         "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
         "Active work is preserved in unmerged draftPR52, branch task/CORETEST-008-timer-command-baseline head3e05b48. Actual document5446a91 and separate document reviewc33a4b1 are complete only for the partial stage; three owner questions OPEN-CAP/OPEN-READY/OPEN-DEADLINE remain unanswered. No API/test/red/production stage approved. This branch reconciles that existing claim to prevent duplicate assignment; detailed document/review evidence remains on PR52 rather than being copied into unrelated work. Resume only on actual answers, never preselected options.",
         "Owner answered all three timer policy questions on 2026-11-04: when lowering cap below Main, warn and require an explicit Keep / Reduce / Abort choice for that change; Keep saves cap and retains Main, Reduce saves cap and applies an audited reduction to it, Abort cancels. Reject first Start with a passed enabled deadline and remain Ready until corrected; accept an authorized active deadline edit to now/past and immediately finish. Recorded in docs/evidence/timer-editorial-owner-decisions.md. These owner questions are resolved; revised specification/contract/examples and separate review/API/tests/red/CI remain unfinished. Preserve prior partial review and prioritize PR62 first. No implementation or passing behavior is claimed.",
-        "Allthreeoriginalownerchoicesanswered in timer-editorial-owner-decisions.md; old unanswered blocker superseded. PR62normallymerged9345aff/all13PR+12postmainSUCCESS. ExistingPR52branch resumed in coretest008-integrator, currentmainmerged23caf56 with406IDs/1497edges/partial0ed9c693+657988a7review preserved; root5601a06 transcribesspec§4/§18/TIMER01 onlyonPR52branch. Actual service_author logicalcorrection active at coretest008-logical-correction from5601; actualdifferentfullreviewbeforeAPI/source/tests. Thisrecordcoordinatesexistingunmergedclaim only, imports no timerbehavior/spec/schema/source or futureapproval intoPWPR59. Preserve allReady/Active/Finished/debt/Grace/hardend/wait/reopen/mixedcontinuation releasegates; no repeatedownerquestion."
+        "Claimed task/CORETEST-008-timer-command-baseline from integrated main 0b631dc after the verified normal PR51 merge. First stage is DOCUMENT ONLY: propose a simple pure timer command/proposal/revision contract and independent literal examples from specification v0.45 §4/TIMER-01 and existing CORE-005/CORE-002 contracts. No C++ API, stub, test or implementation before separate document review. Author owns only docs/contracts/timer-editorial-commands-v1.md and docs/evidence/coretest-008-contract-author.md in isolated task/CORETEST-008-contract-author. Independent reviewer owns only docs/evidence/coretest-008-contract-review.md in a separate worktree and must inspect the actual candidate. Root owns shared state/HTML/maps/build/CI/checkpoint. Three explicit product questions were sent to the owner: lowering the cap below current Main; Ready/start with a passed deadline; enabling or moving a deadline to now/past. No answers received; preselected options and elapsed time are not answers. Mark these exact semantic gates and do not choose defaults or omit their acceptance. Preserve settled hard-end/debt/Grace/wait/reopen rules and explicit nonfinancial correction policies. The baseline remains in progress until its document/API/tests/reviews/valid red are complete; CORE-008 production remains planned.",
+        "Document candidate5446a91/import8754e43 (contract0ed9c693, authorb38bc1ad) received actual independent bounded document approvalc33a4b1:16 literal examples reviewed, no fabricated full command oracles for partial numeric/old-deadline rows. No API/test/red/production stage approved. Blocked for affected next stages by three unanswered explicit owner choices OPEN-CAP/OPEN-READY/OPEN-DEADLINE already asked via async tool. DraftPR52 preserves this actual reviewed work; do not merge as completed baseline or choose defaults. Continue an independent ready task while awaiting answers.",
+        "Resume original focusedPR52 after actual owner answers and PR62 normalmerge9345aff/all13PR+12postmainSUCCESS. Preserve partialdoc0ed9c693/original16ED and review657988a7; three ownerchoices are now resolved, no newquestion: per-attempt Keep/Reduce/Abort warning(cap lowerretainMain/explicit auditedMainreduction/cancelboth), rejectfirstStart withenableddeadline<=now remainReady, authorizedactive deadlineedit<=now acceptfinishimmediately. OriginalPR52branchmergedcurrentmain preserving406IDs/1497edges/allnewcontractplanning gates; onlyCORETEST008 task metadata changes. Root owns sharedspec/state/build/CI/checkpoint; service_author next owns only full logicalcontract+ownnote, actualdifferent service_reviewer fullreview beforeAPI/stub/tests/code. Preserve settledcurrentMain/debt/Grace/absolutehardend/wait/reopen/clock-CAS/nonfinancialcorrection/mixedglobalcontinuation boundaries; no Active-only shortcut or copiedtimerdebtalgorithm. PR59 integration/harnessreview/currentselectedCI proceedsindependently on its ownbranch with all37reviewedtests/redpreserved.",
+        "Actualfullcorrectedlogical authorc03b4506/import0e56f39 contractf4a4c3ce/author1dba6bb2 androot5601spec81406806/ownerb5df2afe independentlyAPPROVEDb6277a7b/review99298e93 byservice_reviewer. All16originalED/6223bytepartialreviewprefix preserved;44ED/36independentfacts/fullReadyActiveFinishedcapdeadline/debtGracehardend/CAS/aboveCapKeep outcomeschecked. No substantiveblock/newownerquestion. ReleaseONLYconcreteAPI doc+authornote toservice_author; noheader/source/tests/codeuntilactualAPIreview. RootnewmainPR59normalmergefc28558 from595/all14PRSUCCESS/identicaltreeed9588; taskbranchmustintegrateitsmetadata/buildfilesbeforepublishing, sourcecontractunchanged. Rate/MileFIRSTselected1.83hostfoundations14/25passinscratchafterindependentselectionreview; nofeaturebodiesorredsrun.",
+        "Allthreeoriginalownerchoicesanswered in timer-editorial-owner-decisions.md; old unanswered blocker superseded. PR62normallymerged9345aff/all13PR+12postmainSUCCESS. ExistingPR52branch resumed in coretest008-integrator, currentmainmerged23caf56 with406IDs/1497edges/partial0ed9c693+657988a7review preserved; root5601a06 transcribesspec§4/§18/TIMER01 onlyonPR52branch. Actual service_author logicalcorrection active at coretest008-logical-correction from5601; actualdifferentfullreviewbeforeAPI/source/tests. Thisrecordcoordinatesexistingunmergedclaim only, imports no timerbehavior/spec/schema/source or futureapproval intoPWPR59. Preserve allReady/Active/Finished/debt/Grace/hardend/wait/reopen/mixedcontinuation releasegates; no repeatedownerquestion.",
+        "Actual concrete API author4637698b/import85020d2 a2ac5a2c/author203d307a independently approvedaf076bec/import4281bc5, review5debe113. One rawfour-wayvariantentry, fixed4transitionbatches/fourprofilelimits/directall44ED setup andexactB/count/error/observationlifetime rules checked. Mergecurrentmainfc285 (PR59normallymerged/all14PR+13postmainPASS) preserves all406IDs1497edges andcurrentPW/permissionbaselines. ReleaseONLY exactminimalheader/source/inertgetters/fixederrors/immediatefeaturemarker toservice_author; actualdifferentminimal-source/harnessreviewbeforetests. No Core002/005functioncalls/validation/numeric/clockprocessing or successfulproposal beforethrow. Rootownsnewtarget/harness/CI/state; no freshownerdecision or implementation.",
+        "Actual minimal source author09afec23/import384fb3a header92281931/CPP651c68b3/author d31b7205 approved1648acf1 bycodec_author, review12d13bcf. Rootstdlib-onlytarget/preset27 at9538c15 compiles existingCore002005 dependencies, sourcefeature onlyimmediatemarker. Followingactualreview ROOTold74existingchecks32debt+39timer+3infraallPASS; noeditorialfeaturetestexists/body/markerexecuted. Releaseactualtestauthoringservice_author onisolatedcontinuation; rawall44ED/APIprofiles/errorpriority/lifetime/provenance/currentobservations/choicecases, actualdifferenttest+harnessreview+FIRSTplainredbeforeproduction. No newSDK dependency/foundation or repeatedoldnativeproof needed.",
+        "Actual27testgroups78a7936/import9162597 (CPP3b0c8041/inventory1a4fb38d) independentlyapprovedbd7f5e3e/importd6370af. All44ED/API1-6 and22literalinteger/Bfactschecked; rawinputs/noSUToracle/completefields/ownership/safegates valid. Currentmainfe727 mergedb1cf46f preserving408IDs1508edges/Rate009bridge; onlyCORE008recorddiffers. service_author nowauthorsonlynewCI/label/testharness in separatebranch. No editorialbody/marker/red hasrun. Actualdifferentintegratedharnessreview/currentCI/exact27discovery+old74green/FIRSTnative27red+attribution/finalgates remain. Ownershipprimarycaughtmarker thenretained-valueASSERT consequence mustbecountedseparately.",
+        "Rootimports actualharness96c22392 as4021d74 aftercurrentmainmerge. NewtargetTEST_PREFIXtimer-editorial./CTesttimefourlabels30s/strict27source+JSON44ED/all101guard, pinnedUbuntu24/GTestfetch/noSDK. Actualauthorold74runexit0/74names/0editorial, collectorobsolete-summaryassertionafterchild recoveredwithoutreplay. Rootcurrentmainconfigure/build/discoveryguard101 pass; differentactualrootintegration/harnessreviewandselectedcurrentCIremainbeforeFIRST27featurebody.",
+        "Actualcurrentmain/harness166c3a7a/import2dce71d approves732candidate; selectedUbuntu41908880067 passes exact27sourceJSON44ED/101guard/commonpinnedGTestfetch/old74green1.68s, alla16checksSUCCESS. FIRSTnativeplain27 onclean2dce71d at20:46:32.706042Z directCTest8/27fail0skipdisabled. Rawbytes/code/JUnit savedBEFOREdecode. Differentactualattribution54f75d2e/importe0f6281 validates166failureevents:165primarymarkers (88proposalhelper/76wrongerrorhelper/1ownership) +1ownershipretained-valueASSERTconsequence; all27sourcemultiplicities/repeatedED28-31labels/noothers. No rerun/unexecutedassertionclaim. CORETEST008completebaselineobservedred; CORE008implementationplanned/not_run. OwnerKeepReduceAbort/Readydeadline/Activeimmediatefinish choices preserved. Finalactualcurrentmain/metadatareview/latestCI/normalPR52merge remain; noownerdecision/accesspending.",
+        "ActualPR56normalmergedea943b9e at20:55:26Z afterall16finalchecks/head3b7d0d7; mergedtreef9346edf equalsreviewedhead. CurrentPR52integratesactualea943 mainpreserving408IDs1508edges/allotherrecords/MILEdone/Rate009bridge; onlyCORETEST008recorddiffers. RootCMakeunionkeepsbothMilestoneandTimer flags; preset24milestone/27editorial andallpreviousrates/password/permissions remain. Frozeneditorialsource/tests/contracts/specunchanged, existingFIRST27evidence notrerun. Actualdifferentcombinedmain/metadatareview/latestCI/normalmerge remains."
       ],
       "verification": {
-        "document_stage": "partial",
-        "test_baseline": "not_run",
-        "owner_decisions": "passed",
-        "owner_decision": "passed"
+        "document_stage": "passed",
+        "document_review": "passed",
+        "partial_document_review": "passed",
+        "owner_decision": "passed",
+        "test_baseline": "observed_red",
+        "implementation": "not_run",
+        "api_review": "passed",
+        "source_review": "passed",
+        "dependency_acceptance": "passed",
+        "test_authoring": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "tests": "observed_red",
+        "current_harness_review": "passed",
+        "selected_ci": "passed",
+        "red_attribution": "passed"
       },
       "evidence": [
-        "docs/evidence/timer-editorial-owner-decisions.md"
+        "docs/contracts/timer-editorial-commands-v1.md",
+        "docs/evidence/coretest-008-contract-author.md",
+        "docs/evidence/coretest-008-contract-review.md",
+        "docs/evidence/timer-editorial-owner-decisions.md",
+        "docs/contracts/timer-editorial-commands-api-v1.md",
+        "docs/evidence/coretest-008-api-author.md",
+        "docs/evidence/coretest-008-api-review.md",
+        "docs/evidence/coretest-008-source-author.md",
+        "docs/evidence/coretest-008-source-review.md",
+        "docs/evidence/coretest-008-tests-author.md",
+        "docs/evidence/coretest-008-tests-review.md",
+        "docs/evidence/coretest-008-harness-author.md",
+        "docs/evidence/coretest-008-current-integration.md",
+        "docs/evidence/coretest-008-current-harness-review.md",
+        "docs/evidence/coretest-008-first-red.md",
+        "docs/evidence/coretest-008-first-red.json",
+        "docs/evidence/coretest-008-first-red.xml",
+        "docs/evidence/coretest-008-first-red-review.md",
+        "docs/evidence/coretest-008-ci.md",
+        "docs/evidence/coretest-008-handoff.md",
+        "docs/evidence/coretest-008-final-integration.md"
       ],
-      "review": null
+      "review": {
+        "author": "service_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/coretest-008-tests-review.md",
+        "revision": "78a7936 tests3b0/JSON1a4 approvedbd7f5e3e; actual732 harness166c3a7; FIRSTclean2dce71d native27red attributed54f75d2e"
+      }
     },
     {
       "id": "CORE-008",
@@ -13854,6 +13902,11 @@
       "date": "2026-11-04",
       "task": "MILESTONETEST-001",
       "note": "Complete separatelyreviewed53-case baseline with FIRSTnative directCTest8/53fail0skip/110primarymarkers; currentselectedUbuntu1.83 foundation25+old36green. Implementationunstarted; finalmetadata/latestCI/normalPR56merge gates remain."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CORETEST-008",
+      "note": "Complete independentlyreviewed27-group/44ED editorial baseline with FIRSTnative directCTest8/27fail0skip/165primarymarkers+1safeconsequence. CurrentCIold74green. Finalcurrentmain/metadata/latestCI/normalPR52merge remains; CORE008unimplemented."
     }
   ]
 }

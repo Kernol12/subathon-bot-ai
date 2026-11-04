@@ -156,6 +156,7 @@ Modifier factors may be zero or positive, including fractional factors such as Ã
 **Agreed**
 
 - Configurable remaining-time cap, hard end date, and scheduled pauses, each optional.
+- Each attempt to lower the cap below current Main requires a warning and an explicit Keep, Reduce or Abort choice. Keep saves the lower cap and retains Main, limiting future additions; Reduce saves the cap and explicitly reduces Main to that cap with an audited time reduction; Abort cancels both changes. Explain these consequences for that attempt rather than silently applying a global choice. [Owner clarification](evidence/timer-editorial-owner-decisions.md).
 - Manual/editorial time adjustments governed by permissions.
 - Configurable treatment of server downtime and streamer/client disconnection.
 - Main/grace server-downtime policies support counting elapsed downtime, freezing during downtime (default), or requiring authorized review of the gap. An enabled hard end remains authoritative; timed modifiers retain their separately selected clock behavior.
@@ -167,6 +168,7 @@ Modifier factors may be zero or positive, including fractional factors such as Ã
 - End modes: immediate finish; separate grace period; wait for authorized confirmation.
 - Default end mode: separate two-minute grace period, then automatic finish.
 - An enabled hard end date finishes the subathon even during pause or grace. Authorized users may change/disable the deadline beforehand; countdown pause does not postpone it.
+- Reject the first Start and remain Ready when the enabled hard end is at or before the current authoritative observation; change or disable that deadline before starting. An authorized edit of an active event's deadline to that observation or an earlier instant is accepted and finishes the event immediately. Preserve existing old-configuration observation precedence and explicit reopening rules. [Owner clarification](evidence/timer-editorial-owner-decisions.md).
 - Repeated-grace behavior is streamer-selectable: fresh full grace on each new main-timer expiration (default), or one shared grace budget whose unused duration is reused across expirations. Shared budget is consumed while grace actually counts down, not while the main timer runs or grace is paused.
 - Configure stream-offline and designated-client disconnect delays independently; both default to 30 seconds. A pending delay does not itself pause a running countdown. Once the condition persists through the delay, add its pause reason. Clear that reason automatically when the signal recovers, while retaining all other active reasons.
 - Accepted support yielding positive remaining time during grace returns to the main countdown, subject to debt/caps/policies.
@@ -653,6 +655,9 @@ Connector feasibility prototypes should happen early where protocol/payment capa
 | Manual pause and disconnect overlap | Clearing disconnect alone does not resume |
 | Zero reached in default mode | Separate 120-second grace; accepted positive available time rescues; expiry finishes |
 | Hard end reached during pause or grace | Subathon finishes; pause/grace does not postpone the enabled deadline |
+| Main 100 minutes, cap 120, proposed cap 60 | Warn for this attempt: Keep saves cap 60/Main 100; Reduce saves cap 60/Main 60 with an explicit audited reduction; Abort retains cap 120/Main 100 |
+| First Start with an enabled deadline at or before the authoritative observation | Reject Start and remain Ready until the deadline is changed or disabled |
+| Authorized active deadline edit to the current observation or an earlier instant | Accept the edit and finish immediately, preserving old-configuration observation precedence |
 | Positive accepted time arrives while waiting for finish confirmation | Resume the active main countdown automatically and clear the wait, preserving independent pauses/grace budget; zero actual credit does not resume and an observed hard end still wins |
 | Main timer expires again after rescue | Fresh full grace by default, or only unused shared budget when that mode is selected |
 | Brief configured disconnect | No new pause before the configured delay; persistent disconnect adds its reason and recovery clears only that reason |
@@ -877,7 +882,7 @@ References support the documentation findings above; architectural proposals are
 | AUTH-04 | 29 October 2026 | Revocable single-use invitations are copied manually, expire after 48 hours by default with configurable expiry, and carry inviter-authorized initial roles |
 | AUTH-05 | 29 October 2026 | Owner-configurable normal/remembered session defaults are 24 hours/30 days; support session inspection/revocation and fresh authentication for sensitive account changes |
 | CHAT-01 | 29 October 2026 | Support bot and broadcaster senders, including explicit broadcaster selection for particular messages while a bot is configured |
-| TIMER-01 | 29 October 2026 | Enabled hard end takes precedence over countdown pause and grace |
+| TIMER-01 | 4 November 2026 | Enabled hard end takes precedence over pause/grace; reject first Start with an already-reached enabled deadline; accept authorized active deadline edits to now/past and finish; cap below Main requires per-attempt Keep/Reduce/Abort warning and choice |
 | TIMER-02 | 29 October 2026 | Support fresh grace for each expiration (default) and an optional shared remaining grace budget |
 | TIMER-03 | 29 October 2026 | Separate configurable offline/client-disconnect delays default to 30 seconds; recovery automatically clears only the recovered reason |
 | TIMER-04 | 29 October 2026 | Support elapsed, freeze (default), and review downtime handling for main/grace countdowns; hard end and modifier clock policies remain authoritative |

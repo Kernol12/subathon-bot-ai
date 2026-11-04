@@ -61,6 +61,13 @@ if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR 
     subathon_target_options(subathon_application_plan)
 endif()
 
+if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
+    add_library(subathon_timer_editorial_commands STATIC src/timer_editorial_commands.cpp)
+    target_include_directories(subathon_timer_editorial_commands PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_timer_editorial_commands PUBLIC subathon_timer_lifecycle subathon_time_debt)
+    subathon_target_options(subathon_timer_editorial_commands)
+endif()
+
 if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     add_library(subathon_rate_snapshots STATIC src/rate_snapshot.cpp)
     target_include_directories(subathon_rate_snapshots PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
