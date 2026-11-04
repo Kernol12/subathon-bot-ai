@@ -2,8 +2,9 @@
 
 Coordinator root,2026-11-04, task/ACCT-004-application-service,
 [draft PR51](https://github.com/Kernol12/subathon-bot-ai/pull/51).
-Current checkpoint: implementation in review. Final actual-source review and
-selected CI/publication gates remain; this document does not claim completion.
+Current checkpoint: bounded implementation acceptance and separate source review
+are complete. Latest completion-head CI/current PR gates and normal merge remain
+publication gates; no merge is claimed before GitHub confirms it.
 
 ## Behavior and boundaries
 
@@ -74,7 +75,9 @@ are ordinary acceptance, not failure-inverted or skipped. These native outcomes
 are a prior checkpoint. Final allocation-order hardening4612223/importce28ff3
 also passes rootfull30824.84s/1420QtPASS0skip/zero warnings (14-step rebuild).
 Raw final full log SHA2560617477e0409658462d4074f8ef18b128bd5bc74ac6fa5c80980fb81f51b6330.
-Different final-source/config re-review remains pending.
+Different final-source/config re-review APPROVED c791e72/import2ab1037 at exact
+ce28ff3, independent full308PASS24.65s/1420QtPASS0skip. All actual allocation
+ordering/formula findings are resolved in source; [review](acct-004-code-review.md).
 Raw logs and exact hashes are preserved in ignored local-evidence and checkpoint.
 Author isolated fullsuite306/308 had only two missing-review-MD tooling failures;
 that context gap is explicit in author evidence, not a product failure or approval.
@@ -86,14 +89,14 @@ Boost1.83, old suites and mandatory six-slot independent foundation. It verifies
 all43 enabled compiled service functions/registrations, requires acceptance rather
 than draft-red labels and then executes all43 unconditionally. No manual flag,
 failure inversion, blanket continue-on-error, credential side effect or hidden
-assertion change. Actual changed-workflow result has not yet been observed at this
-checkpoint; final CI evidence must record that run separately from native results.
+assertion change. Actual changed-workflow [41781024558](acct-004-ci.md) passed at completea49ec06:
+GNU13.3/Boost1.83/officialQt6.12/SQLite3.53.4, requiredfoundation41PASS0skip,
+exact43 discovery and unconditional43PASS8.01s, all11same-headchecksSUCCESS.
 Active GitHub ruleset requires PR/resolved discussions, zero approving reviews and
 no bypass; it has no required-check rule. Written latest-head CI and independent
 review gates still apply even without enforced check names.
 
-Next: finish source-only preallocation audit, independently approve exact corrected
-source/config, run final native profile, observe selected/pinned ordinary CI and
-all latest PR checks, reconcile state/evidence and eligible normal merge. All seven
+Next: observe latest completion-head CI, current rules/discussions and eligible
+normal merge, then refresh main and select the next dependency-ready slice. All seven
 integrations/three FX, operational/security/backup/recovery, English/German/themes,
 both renderers, supported platforms, packaging and live release scope remain required.

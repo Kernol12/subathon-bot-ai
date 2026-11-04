@@ -429,3 +429,23 @@ all old stable suites/all11checks. [Native validation](evidence/storage-016-vali
 and [handoff](evidence/storage-016-handoff.md) distinguish final source/publication
 gates. No application orchestrator, real authority/policy/clock/action producer,
 provider/FX/financial entitlement/recovery/UI/platform or full release proof.
+
+
+## Original application-service acceptance
+
+ACCT-004 preserves ACCTTEST-004's original35 methods/224 scenarios and frozen
+fixtures; its historical same-clean-head stub-red remains in the
+[baseline handoff](evidence/accttest-004-handoff.md). Eight separately reviewed
+additive slots/nine scenarios reached actual behavior failures before corrections;
+[regression evidence](evidence/acct-004-regressions.md). Source audit separately
+checks preallocation bounds and capabilities; runtime outcomes do not measure them.
+
+Configure/build application-service-debug, then CTest label `^application-service$`
+runs43 enabled acceptance cases/233 scenarios. Full preset308 passes on root and a
+different reviewer with zero warnings/Qt skips. Ordinary selected officialQt CI
+executes all43 unconditionally after exact compiled registration and mandatory
+six-method old-primitive fixture guard. [CI](evidence/acct-004-ci.md),
+[review](evidence/acct-004-code-review.md) and
+[handoff](evidence/acct-004-handoff.md) pin actual revisions and limits.
+These are synthetic real-SQL component checks: actual ports/financial/review/
+recovery/provider/UI/platform/live/full release acceptance remains incomplete.

@@ -1,118 +1,86 @@
-# Coordinator checkpoint — ACCT-004 correction integration
+# Coordinator checkpoint — ACCT-004 publication gates
 
-New owner instruction2026-11-04 resumed standing coordination. Previous stop after
-PR49 was fulfilled; its ignored stop receipt remains preserved. Product incomplete.
-No owner access/decision currently needed.
+2026-11-04; new owner instruction resumed standing coordination. Previous finish-
+PR49-and-stop instruction was fulfilled; its historical ignored receipt remains.
+Full product remains incomplete. No access is needed. Three genuine CORE-008
+product choices are pending owner answers via the async questions below; they do
+not block ACCT-004 publication. Do not treat preselected options as answers.
 
-## Repository and publication
+## Actual repository / PR / task
 
-Observed fetched cleanmain1124532458e883001578587c4c826f8b2d400d51 (PR50), all10
-mainworkflows SUCCESS. PR49 baseline merged8634eb5 at2026-11-03T19:10:05Z.
-Focused draft [PR51](https://github.com/Kernol12/subathon-bot-ai/pull/51) published
-head56eb13f is claimonly; localintegration progressed through95fa152, then
-ba2e90f independentreviews. Inspect actualHEAD/status/PR beforeacting.
-Active ruleset26170263: PR/resolvedthreads required, zeroGitHubapprovals,
-noCI-check rule, nobypassactors; deletion/nonfastforward forbidden. Written
-latestCI+separatereview gates remain mandatory.
+Last observed main1124532458e883001578587c4c826f8b2d400d51 (PR50); all10 main
+workflows SUCCESS. PR49 baseline merged8634eb5. Root branch
+`task/ACCT-004-application-service`, focused
+[draftPR51](https://github.com/Kernol12/subathon-bot-ai/pull/51), publisheda49ec06.
+Inspect actualHEAD/remote/checks/rules/discussions before acting.
 
-## Active task and exact gates
+**ACCT-004 DONE as bounded reviewed component; NOT yet assumed merged.**
+[Handoff](acct-004-handoff.md), [source/config review](acct-004-code-review.md),
+[actualCI](acct-004-ci.md), [regressions](acct-004-regressions.md).
+Original [ACCTTEST004](accttest-004-handoff.md)35slots224scenarios/alloriginal
+assertions/fixtures/originalsamecleanheadstubred preserved, neverreplayed.
+EightADDSlots9scenarios separatelyreviewed BEFORE actualbehaviorred and correction;
+raw5+2+1slot2rows preserve16initcleanupPASS/0skip/setupissues. Additivefileswere
+uncommittedatred; exactreviewedblobs are pinned, no fabricatedclean-headclaim.
 
-ACCT-004 in_progress. [Task](../tasks/EPIC-002/ACCT-004.md),
-[logical](../contracts/application-service-v1.md),
-[concrete API](../contracts/application-service-api-v1.md).
-[Original baseline](accttest-004-handoff.md) and
-[source/red review](accttest-004-test-review.md) preserve exact35slots224scenarios,
-alloriginalassertions/fixtures and original same-clean-head intendedstubred. Do not
-replay that completedgate.
+Actualfinalsource4612223/importce28ff3 andretainedcodec3ef4755/import217acc7:
+sourcef20187a7, privatevalues162373ed, command05091e25/privateheader7d9171cd,
+public84f09f21/test7329b24f/Qt8e9d85ee/CIc63ee177/serverCMake d2e81da/preset90eabe45.
+Finalactualdifferentapprovalc791e72/import2ab1037 (reviewblob84383193) accepts
+completebefore-allocationprojections/borrowedjobvalidator/capabilities/semantics.
+Rootfull308PASS24.84s/1420QtPASS0skip/14step0warnings; differentfull308PASS24.65s/
+1420QtPASS0skip. Finalrootraw0617477e0409658462d4074f8ef18b128bd5bc74ac6fa5c80980fb81f51b6330.
+No provider/policy/action producer or fullrelease claim.
 
-Commandcodec746d5c2/import9eeb140/source7f0c0e56+linkb3e4a90 has actual different
-boundedapproval0889816/importa03399a: root5PASS0.74s/differentfreshbuild5PASS0.86s,
-97scenarios107QtPASS0skip. Fullservice initial722e11b/importe4089bd/sourcec25beb6d
-and promotion95fa152 compile/pass original35/full300 on author/root/differentreviewer:
-rootfull30024.50s, authorfull30024.66s. This is NOT finalapproval; actualsourceaudit
-found concrete gaps. [Fullreview](acct-004-code-review.md),
-[bounded otherservicecodec review](acct-004-service-codec-review.md).
+ACTUALpromotedofficial41781024558 atcompletea49ec06 SUCCESS05:43:51–05:46:54Z:
+GNU13.3/pinnedBoost1.83/officialQt6.12SQLite3.53.4/zero sourcewarnings/oldstable/
+mandatorynew6fixture41PASS0skip2074ms/exact43/unconditional43PASS8.01s/all11checks
+SUCCESS. Raw548a80475e63b86dbe449a8f30e32d39315894cbd1a43282314b8c77e67b5f11.
+APIverifiedactualsynthetic52eeb570 parents112+a49 andequaltreeea0864d12a9b941a75189ac38f543d3c30cb74a4.
+Completionmetadata commit/latestCI/currentPRgates remain separate closingwork.
 
-Root authored8ADDITIVEslots/9scenarios; ALL35originalmethods/assertions/fixtures
-unchanged. Eachactualrevision independentlyapproved beforefirstbodyexecution.
-Root actual5+2+1slot(two rows) reachedbehaviorred on UNCHANGEDc25source with
-16initcleanupPASS/0skip/setupissues. [Regression chronology/limits](acct-004-regressions.md)
-links rawrecords, reviewedblobs and exactcommands; additivefileswereuncommitted
-atred, no newclean-headclaim. Originalbaselineproof remainsuntouched.
-Finalsuite43slots/233scenarios/full308; actualfinalpass/review/CI pending.
+## Agents, worktrees and preservation
 
-## Actual isolated assignments and ownership
+Allthree actualagents nowCOMPLETE, no pendingassignment or nativecommand:
 
-- root coordinator branch task/ACCT-004-application-service in root checkout;
-  owns integration/sharedbuild/CI/maps/progress/HTML/checkpoint and additive tests.
-- service_author ACTIVE, local-evidence/worktrees/acct004-service,
-  task/ACCT-004-service. Owns service.cpp+serviceauthornote; additionallyauthorized
-  ONLYprivatecached RetainedLimits field in serviceheader/factoryassignment after
-  independentlyreviewed reachedred. Correctionsprepared, waiting rootregressioncommit
-  for actual43/full308 execution. Its server/CMakeLists verificationcopy is dirty
-  deliberately; don'tcommit ordiscard it. No futurecodeapprovalclaimed.
-- codec_author completedcanonicalcodec; then bounded OTHERauthor servicecodecreview
-  fb0d7fe changesrequested preserved. NEWimplementationcorrection in
-  local-evidence/worktrees/acct004-retained-codec,
-  task/ACCT-004-retained-codec, actual3ef4755 complete. Owns commandTU+
-  NEWprivateapplication_service_command_internal.hpp+ownretainedcodecMD ONLY.
-  Private service_detail::decode_retained_command shares borrowedscan with proper
-  internal bounds/classification; sourceauthoradopted it. Needsactualdifferentreview.
-- service_reviewer idle afteractual8newslotpre-executionapprovals; must explicitly
-  followup for correctedACTUALsource/config and fullcheck. Owns reviewMD only in
-  local-evidence/worktrees/acct004-review, task/ACCT-004-review. Priorvalidreviews
-  preserved; pendingreviewcommits9cd958b/a7565ae await rootimport.
-- Originalcodecauthor/servicecodecreviewer trees and all historicalwork untouched.
+- service_author task/ACCT-004-service at local-evidence/worktrees/acct004-service;
+  actualfinal4612223 imported. Ownsource/privateviewfield/tinyprivatevaluesoverload/
+  authorMD only. VerificationserverCMake+actualrootreviewMD copies remain dirty/
+  untrackedasdocumented; don'tdiscard/commitasnewreview.
+- codec_author actual746/retained3ef complete, OTHERauthorservice-codec findings
+  preservedfb0d7fe. Originalacct004-codec, acct004-service-codec-review and
+  acct004-retained-codec trees/branches preserved. ReadonlyCORE008prep complete,
+  no nexttaskclaim/edit yet; reusewithfollowup onlyafternewassignment.
+- service_reviewer task/ACCT-004-review at local-evidence/worktrees/acct004-review;
+  actualfinalc791e72 imported, ownreviewMD only; no approvaloffuturecode/CI/merge.
+- Root owns sharedbuild/CI/state/HTML/maps/checkpoint+additiveassertions/integration.
 
-## Next concrete action
+Atstartup111existing/16absentregisteredtrees, allpreserved. Sevenhistoricaldirty
+verificationtrees untouched: accttest004-service-api-review, storage002-review,
+storage017-review, storage017-validation, storagetest016-api-author,
+storagetest016-review, storagetest017-review. Newtasktrees areadditional; inspect
+actualinventoryonresume. No oldagentassumedrunning; unrelatedIDEprocesses never
+terminated. No resets/prunes/deletions.
 
-Commit/preserve root additiveassertions/raw/reviews/state; send thatrevision to
-serviceauthor for finalnative43/full308. Integrate3ef4755 and correctedservice/header
-commits, resolveONLYknownsource/headercomment overlaps preservingactualauthoredcode.
-Run rootfull308, actualdifferentcode/configreview inclprivateAccess::plan oldrevision
-and preallocation/sourceaudit; resolvefindings withoutweakeningtests. PushfocusedPR51
-and observe actualofficialQt/pinnedBoostCI43unconditional+oldguards/pins/all11checks.
-Recordactualtaskstatus/evidence, eligibleordinarymerge, refreshmain and continue
-nextdependency-readytask undernewownerstandinginstruction. No assumedapproval.
+## Exact next action
 
-## Preservation and release limits
+Commit completionmetadata and anyactualreviewevidence, pushPR51, observe ALLlatest
+checks. Recheck active ruleset26170263 and currentreviewthreads: PR/resolvedthreads
+required, zeroGitHubapprovals, no required-checkrule, nobypassactors, noforce/delete.
+Written latestCI+independentreview gates remain mandatory. Readyandnormalmerge
+onlyafterallapplicablegates; exactmatchhead/noadmin/nobranchdelete. Thenfetchmain,
+verifyactualmerge/mainchecks, reconcile on nextnormal taskbranch (no endless
+bookkeepingPR), and continue dependency-ready work.
 
-At startup111existing/16absentregisteredtrees; sevenhistoricaldirtyverificationtrees
-untouched: accttest004-service-api-review, storage002-review, storage017-review,
-storage017-validation, storagetest016-api-author, storagetest016-review,
-storagetest017-review. No staleagent assumedrunning. OtherIDEagentprocesses unrelated;
-neverterminate them. Inspect currentagents/processes/buildsessions onresume.
-Allsevenintegrations/threeFX, actualauthority/policy/clock/actions, financial/refund/
-review/continuation, security/recovery/backup, bothrenderers/locales/themes,
-packaging/platform/live/fullrelease remainrequired and incomplete.
+CORETEST-008 is ready after existingCORE005, but three productchoices are genuinely
+unsettled in existingCONTRACT001/CORE008/API007followups. Asyncownerquestions pending:
+(1) loweringcapbelowcurrentMain: retain/reject/auditedclamp;
+(2) firstStartwithpasseddeadline: rejectandstayReady orfinish;
+(3) enabling/movingdeadline tonow/past: acceptandfinish orreject.
+Do not reasksettledhard-end/debt-first/Grace/wait/reopenrules. A DOCUMENT-stage
+contract can advance settledparts while explicitopenoracles awaitanswers; other
+independent readytasks remainavailable. Do not defaultunknownproductsemantics.
 
-## Later corrected-candidate update (inspect actual HEAD on resume)
-
-Root imported actualcorrectedc85aa5d as5ced819 and privatecodec3ef4755 as217acc7;
-boundeddecoderapprovalfa3e799 imported7e033e9. Root exactcandidate full308PASS
-24.84s/1420QtPASS0skip/0warnings, raw ignored corrected-full-ctest SHA256
-957d136ef38dcd7eb0899ea5430a506465ddfe44d548ce22b62ba15a74053ff4.
-Task now in_review, notdone. Serviceauthor43/233 passes; authorfull308 had306pass
-and2missing-review-MD tooling failures only, preservedhonestly; actualroot hasall
-reviewdocsandall308pass. Author was authorized exactuncommittedrootreviewMDcopy
-for failedinfrastructure-onlyrerun, no fabricatedapproval.
-
-Differentfullreviewer stillwithholdsapproval: actualcopies/growth in calculate,
-requests/components/effects/negative-transitions and fullhold detection need complete
-B/I projection BEFOREallocation, beyondthenowpassing8regressions. No extra smoke
-or allocation-instrumentationclaim. Serviceauthor implementing boundedsource-only
-hardening; all43assertions/fixturesmustremain. Nextimportthatactualsource, re-review
-allocationordering and run relevantfinalchecks, THEN publishpromoted43CIcandidate.
-RootpublishedPR51stillclaim56eb13f until nextpush; no newofficialCI observed.
-
-## Final hardening ready for publication/review
-
-Actual4612223 importedce28ff3: service.cpp+tinyprivateborrowedjobvalidator+authorMD.
-Root rebuilt14steps/zero warnings; FULL308PASS24.84s/1420QtPASS0skip. Finalrawhash
-0617477e0409658462d4074f8ef18b128bd5bc74ac6fa5c80980fb81f51b6330.
-Exact43compiled/43registered enabledacceptance/non-draft/noinversion,21workflow
-inlinePythonblocksparse. [Implementation handoff](acct-004-handoff.md) nowauthored.
-Primaryreviewer explicitlyresumed on ACTUALce28ff3 to auditcompletebeforeallocation
-projection, tinyprivatevalidatorrefactor and allsource/config; finalverdictpending.
-Nextpushpromotedcandidate toPR51 and observeactualselectedofficial43CI/all11checks
-while differentreviewcompletes. No finalreview/CI/mergeclaimed yet.
+Allsevenintegrations/threeFX, actualauthority/policy/clock/action/referenceadapters,
+financial/refund/review/continuation, security/recovery/backup, bothrenderers/
+locales/themes, packaging/platform/live/fullrelease remainrequired and incomplete.
