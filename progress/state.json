@@ -1242,8 +1242,8 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "coordinator /root; codec_author (completed partial document); service_reviewer (completed partial review)",
       "depends_on": [
         "CORE-005"
       ],
@@ -1255,7 +1255,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before CORE-008.",
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
+        "Preserve blocked active claim in draftPR52/head3e05b48: partial document5446a91 and separate reviewc33a4b1 valid, three unanswered cap-below-Main/Ready-past-deadline/enable-past-deadline product choices block later stages. No API/test/red/implementation gate. Do not infer or repeat owner questions."
       ],
       "verification": {},
       "evidence": [],
@@ -7757,8 +7758,8 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (rate model contract); service_reviewer (independent review pending actual artifact)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -7771,9 +7772,14 @@
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-001.",
       "notes": [
-        "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed dedicated task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc, independently of active localization PR53. Dependency-ready CONTRACT002/CORE001 both done. FIRST DOCUMENT only: exact fetched observations/effective snapshot/provenance, original monetary precision and known/unknown source/fetch/publication fields; preserve section9 consistent inverse/cross/pins requirements and credited-effect immutability. Author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md in separate task/RATESTEST-001-contract-author. Root owns shared state/HTML/maps/schemas/build/CI/pins/checkpoint. No API/stub/schema/storage/fixture/test/implementation/provider operation before actual reviewed contract. Provider-specific live/limits/capabilities remain unverified; no unknown field fabrication. Resolve routine normalization/resource choices within scope; flag real product conflicts explicitly. Implementation RATES001 remainsplanned until reviewed tests/intendedred."
       ],
-      "verification": {},
+      "verification": {
+        "document_review": "not_run",
+        "test_baseline": "not_run",
+        "implementation": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -10506,8 +10512,8 @@
       "title": "Review and demonstrate red: Shared translation catalog schema and build generator",
       "module": "Localization",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; codec_author (independent tests); service_reviewer (review)",
       "depends_on": [
         "BOOT-001"
       ],
@@ -10518,7 +10524,8 @@
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before LOCALE-001.",
       "notes": [
-        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Existing active localization claim preserved in draftPR53/taskLOCALETEST001, actual root1efed9e. Source/API/minimal source/config reviews and interface CI complete; independent fixtures/tests currently authored. Detailed evidence remains on that focused branch, not copied here. Reconcile newer actual task status/evidence at integration; never overwrite with this snapshot. No baseline-completion or production claim."
       ],
       "verification": {},
       "evidence": [],
