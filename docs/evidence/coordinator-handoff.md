@@ -236,3 +236,34 @@ Root PR62 publication session81825 completed exit0. PR62 body update session6695
 must be polled if not already closed. No build/native/CTest child is active. Source
 worktree contents and older dirty/prunable registrations remain untouched. This
 checkpoint does not claim background execution after the turn stops.
+
+
+### Owner response: timer decisions resolved; permission context requested
+
+The owner has now answered the three PR52 questions. The explicit record is
+published on PR62 at `eb5d3323bf1f799f8ba2bb18092dbe7f550c393e`:
+`docs/evidence/timer-editorial-owner-decisions.md` in accesstest002-integrator.
+When a cap is lowered below Main, warn and offer Keep / Reduce / Abort for that
+change. Keep saves the cap and retains Main; Reduce saves it and performs an
+explicit audited reduction to the cap; Abort cancels. Reject first Start with an
+enabled passed deadline and stay Ready until corrected. Accept an authorized
+active deadline change to now/past and immediately finish. Do not re-ask these
+product questions; specification/contract/example revision and review remain.
+PR52's body is being updated to distinguish resolved decisions from unfinished work.
+
+For PR62's D1 the owner asked for more context, not a policy selection. Root gave
+the Moderator/Alice A/B comparison: resource scope denies A/10 and allows B/10;
+whole-operation scope denies both; complete-request fallback allows both through
+the role. A new choice prompt remains pending. Do not infer acceptance from the
+owner accepting the separate timer recommendations. PR62 remains first priority.
+
+Normal SSH publication now actually succeeded for PR62 (d4bde2f -> eb5d332), so the
+old authentication blocker is resolved for ordinary task pushes. No new workflow
+push or selected CI result follows from that check. Token workflow scope remains
+absent but SSH is the legitimate working route. Do not request access changes
+again unless an actual action demonstrates a remaining access problem.
+
+Root PR52/62 body update session77471 should be polled if still open. No new agent
+assignments or native/test/feature execution occurred. All stopped handoffs and
+older dirty worktrees remain preserved. Current PR62 evidence and state were
+validated with project consistency, progress render/check and whitespace checks.
