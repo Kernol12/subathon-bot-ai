@@ -1,7 +1,8 @@
 # LOCALETEST-001 independent fixture/probe/test review
 
 **Current partial verdict: APPROVED corrected Qt-only fixtures/probe/foundation.**
-The full43 Python feature methods and their complete CI guard remain under review.
+The full43 Python feature methods require the focused T1/T2 additions below;
+the actual strengthened discovery CI guard6fdd985 is accepted.
 No project feature/main/script/marker execution is released by this partial verdict.
 
 Reviewer service_reviewer, different from author codec_author and shared harness
@@ -129,3 +130,49 @@ Coordinator may now run ONLY the Qt-only foundation and existing non-intentional
 red checks/ordinary CI. This releases no execution of the43 project feature methods,
 main/script or missing marker. Complete actual Python-test/harness review and its
 own selected feature-head foundation green remain required before FIRST project red.
+
+## Actual complete Python candidate: two focused additions required
+
+Read ALL43 actual methods at test blobbfec72a1ce62b82bf044c0f13a5e0423f598fd97,
+inventory3c5b8830c57f7ae248a094d0a288148b49a1e506, authorbbdeefb/root e1779a3.
+The17 value,20 file and6 CLI methods cover independent literal owned DTO/text
+outputs, typed validation/resource boundaries, real compilation/raw-QM/reproduction,
+read-only checking, aliases/inventory/source/layout changes, actual process failures,
+truthful zero-exit bad-output metadata and exact CLI records/exits. Error-only helper
+executables never provide a substitute successful compiler; unaffected phases exec
+the real supplied Qt tool. Expected goldens/raw strings are independent; hashing
+actual files checks truthful digest summaries, not a SUT-produced semantic oracle.
+
+The distinct immediate marker cannot satisfy CatalogFailure catches or normal CLI
+exit assertions. No skips/failure inversion exists. Imports/discovery do not execute
+methods/setup/data providers. Runtime formatter/count display/preferences, allocation
+order, unexpected internal failure and publication partial-I/O source review remain
+explicit separate proof obligations, not falsely executed cases.
+
+**CHANGES REQUIRED before final full-test approval**, from source51383296
+sections3/4/5 and APIacb90189 sections2/3:
+
+- **T1:** validation-stage precedence is GLOBAL across messages, with IDs sorted
+  WITHIN each stage. Existing one-message priority and same-stage ID sorting cannot
+  detect processing one entire earlier-ID message before a later higher-priority
+  error. Add earlier-ID malformed-template/missing-coverage versus later invalid
+  parameter cases, and earlier malformed-template versus later missing coverage.
+  The higher-priority later message must win. Preserve current priority assertions.
+- **T2:** browser serialization must escape U+2028/U+2029 while retaining exact
+  decoded scalars and canonical raw Qt text. Neither scalar occurs in the seven
+  frozen examples. Add one independent valid small render input with literal
+  separator/paragraph scalars and explicit escaped browser bytes/no raw bytes,
+  decoded scalar equality and raw Qt scalar checks. Preserve all seven fixtures
+  and four complete goldens unchanged.
+
+Coordinator agreed/released only additive assertions in the existing methods plus
+owned author evidence. Method count remains43. No new feature implementation,
+fixture weakening or retrospective baseline change is involved; no project test/
+feature/main/marker has run. Actual revised tests require separate re-review.
+
+The actual shared CI guard6fdd985, workflowd90ce3c, independently resolves the
+registration coverage gap: raw43 AST definitions and43 unique names across every
+top-level class, exact43 inventory/discovery, no disabled/WILL_FAIL and all three
+required labels. Existing CMake properties satisfy it. Ordinary CI still executes
+only the approved Qt-only foundation/non-intentional-red checks. This guard approval
+does not release the43 project test bodies while T1/T2 remain unresolved.
