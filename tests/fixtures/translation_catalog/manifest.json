@@ -1,0 +1,15 @@
+{
+  "provenance": "Independently hand-authored complete literal source/goldens from approved document/API; no UUT output",
+  "messages": 7,
+  "contracts": [
+    "51383296",
+    "acb90189"
+  ],
+  "sha256": {
+    "source.json": "f6523fb32cde64289f17efed861a2ff7781b9b7c26f4e5c97427f0ba104137c0",
+    "goldens/qt/messages_en.ts": "84936b09900058721bd25cc0344b1074a8030d96ae7de3a0e3001c5e23cc103a",
+    "goldens/qt/messages_de.ts": "1320c26206bd474528fce87c19ba3847fc30ab9611ff24df926dc58473efdb63",
+    "goldens/web/en.json": "e228402a95ed14082036db9ecccdb0d95f16df4459bc2310457729aff0d0e98b",
+    "goldens/web/de.json": "c558b53e78484aee2491f3c0ea31e30db98dbe296ee3d9bbf904a5f96acf83e6"
+  }
+}

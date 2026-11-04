@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "locale": "de",
+  "fallback": "en",
+  "messages": {
+    "fixture.greeting": {
+      "parameters": {
+        "name": "text"
+      },
+      "plural": null,
+      "forms": {
+        "text": "Hallo, {name}!"
+      }
+    },
+    "fixture.items": {
+      "parameters": {
+        "count": "integer",
+        "name": "text"
+      },
+      "plural": "count",
+      "forms": {
+        "one": "{name}: {count} Eintrag",
+        "other": "{name}: {count} Einträge"
+      }
+    },
+    "fixture.literal": {
+      "parameters": {
+        "name": "text"
+      },
+      "plural": null,
+      "forms": {
+        "text": "{{x}} %n %1 %L1 %% {name}"
+      }
+    },
+    "fixture.literal_plural": {
+      "parameters": {
+        "count": "integer",
+        "name": "text"
+      },
+      "plural": "count",
+      "forms": {
+        "one": "{{x}} %n %1 %L1 %% {name}",
+        "other": "{{x}} %n %1 %L1 %% {name}"
+      }
+    },
+    "fixture.reorder": {
+      "parameters": {
+        "first": "text",
+        "second": "text"
+      },
+      "plural": null,
+      "forms": {
+        "text": "{second}, danach {first}; {first}"
+      }
+    },
+    "fixture.scalars": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "A \u0026 B \u003c C \u003e D \"q\" 's'\r\n\tGrüße é 😀"
+      }
+    },
+    "fixture.selector_only": {
+      "parameters": {
+        "count": "integer",
+        "name": "text"
+      },
+      "plural": "count",
+      "forms": {
+        "one": "Ein Eintrag für {name}",
+        "other": "Einträge für {name}"
+      }
+    }
+  }
+}
