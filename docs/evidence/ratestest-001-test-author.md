@@ -145,3 +145,53 @@ is implemented or verified here. Required RATESTEST-009/RATES-009 must preserve 
 recurring rational through historical valuation/commands/codecs/SQL before a usable
 award adapter exists. All three providers and platform/release work remain required.
 RATESTEST-001 remains in progress; RATES-001 remains unimplemented.
+
+## Actual independent review correction R1: mixed-byte ordering
+
+Independent service_reviewer recorded the complete candidate review in `6d4a8db`.
+Its blocking R1 finding is valid: the old identity-ordering case compares only
+0x80 with 0xff. Both signed-char (-128 before -1) and unsigned-byte (128 before
+255) comparison give that same order. The old assertions therefore cannot enforce
+API section 2's explicit unsigned-byte ordering requirement, also required by the
+approved logical raw-key model. This is an oracle coverage defect, not a new
+product policy or an implementation-driven fixture adjustment.
+
+Root released an additive correction in the existing method only. Every previous
+high-byte and typed-namespace assertion remains unchanged. The new independent
+input has observation IDs 0xff, ASCII `O`, and 0x80 in that source order. Each owns
+the same consistent A→B rate 1 and has a real active fetched constraint; all source
+IDs are distinct and the existing A/B component is connected. Default bounds fit
+without weakening input validity or inventing an ID encoding restriction.
+
+The literal expected source AND fetched-constraint order is `O`, 0x80, 0xff.
+These fixed assertions detect a signed-char comparator; no project result computes
+an expected sequence. The new input has its own nonfatal accepts block after the
+old block, so the earlier unexpected marker cannot prevent this scenario from
+being reached under ordinary GoogleTest failure handling. No marker is caught as
+success. The exact 53 case names and every old source line/assertion are preserved.
+
+Only acceptance source and this note change. Fixture blob
+`8936f4fae9bd17d5e592256e0c395871bcea4849` and foundation blob
+`28a829aad3769f176db82b497120ba4ad05a0818` remain unchanged, as do the header,
+four immediate stubs and approved contracts. Root separately reported the narrowly
+reviewed Boost foundation green with 14 facts after approval `4e9c615`; this author
+did not replay it, and that result supplies no model capability or feature approval.
+
+Correction checks, all exit 0:
+
+- The same strict C++20 acceptance compile/link command above: zero warnings.
+- `--gtest_list_tests` only: exactly 53 names, matching static definitions and
+  the original candidate. No test body/setup/feature or exception marker runs.
+- Static comparison with `b0517b7`: there are no deleted or modified old source
+  lines, and the old/new case-name lists are identical and unique.
+- clang-format dry-run, project/link/progress consistency and staged whitespace/
+  ownership checks accompany this correction's commit.
+
+Corrected acceptance Git blob:
+`64fd60b27359db8ba7b3d17f77f8e349ae7e30f9`.
+Corrected acceptance SHA256:
+`88638401670905088f2b9cb0daaedee78327d40b5642abe932d92785491d2528`.
+
+Actual revised full-test review is mandatory before the first feature red. No
+foundation, one of the 53 test bodies, new feature or marker body has been invoked
+by this author, and no self-certified review or passing feature is claimed.

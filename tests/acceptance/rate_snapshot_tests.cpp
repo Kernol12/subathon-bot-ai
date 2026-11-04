@@ -524,6 +524,31 @@ TEST(RateSnapshotAcceptance, IdentityOrderingUsesUnsignedBytesAndTypedNamespaces
                   std::string("\xff", 1));
         EXPECT_EQ(result.data().overrides.at(0).override_ref, std::string("\xff", 1));
     });
+
+    // ASCII must precede high-bit bytes; the old high-bit-only pair cannot detect signed char.
+    auto mixed = vectors::short_snapshot();
+    auto high = vectors::short_observation();
+    high.context.observation_ref = std::string("\xff", 1);
+    auto middle = vectors::short_observation();
+    middle.context.observation_ref = std::string("\x80", 1);
+    mixed.sources = {high, vectors::short_observation(), middle};
+    mixed.constraints = {FetchedRateConstraint{std::string("\xff", 1), 1},
+                         FetchedRateConstraint{"O", 1},
+                         FetchedRateConstraint{std::string("\x80", 1), 1}};
+    accepts([&] {
+        const auto result = make_effective_rate_snapshot(mixed);
+        EXPECT_EQ(result.data().sources.at(0).data().context.observation_ref, "O");
+        EXPECT_EQ(result.data().sources.at(1).data().context.observation_ref,
+                  std::string("\x80", 1));
+        EXPECT_EQ(result.data().sources.at(2).data().context.observation_ref,
+                  std::string("\xff", 1));
+        EXPECT_EQ(std::get<FetchedRateConstraint>(result.data().constraints.at(0)).observation_ref,
+                  "O");
+        EXPECT_EQ(std::get<FetchedRateConstraint>(result.data().constraints.at(1)).observation_ref,
+                  std::string("\x80", 1));
+        EXPECT_EQ(std::get<FetchedRateConstraint>(result.data().constraints.at(2)).observation_ref,
+                  std::string("\xff", 1));
+    });
 }
 
 TEST(RateSnapshotAcceptance, RetainsUnselectedRoundedQuotesAndConsistentRedundantCycles) {
