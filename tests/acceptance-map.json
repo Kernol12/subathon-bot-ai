@@ -52,9 +52,18 @@
     },
     {
       "id": "AUTH-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/effective_permissions_tests.cpp",
+        "tests/fixtures/effective-permissions-v1.json"
+      ],
+      "evidence": [
+        "docs/evidence/accesstest-002-handoff.md",
+        "docs/evidence/accesstest-002-tests-review.md",
+        "docs/evidence/accesstest-002-red.md",
+        "docs/evidence/accesstest-002-red-review.md"
+      ],
+      "scope": "ACCESSTEST-002 supplies30 independently reviewed pure permission baseline cases covering resource-first individual precedence, one whole grant, protected-owner boundaries and complete explanations. FIRST clean8acc9b9 actual exit8/30failed/0skip; separate attribution3f40238f validates215 markers and1 safe guard consequence. Evaluator remains an immediate unimplemented stub. ACCESS-002 production behavior, current session/owner/catalog facts, server execution/transaction and disclosure/delegation/recovery/editor integration remain unimplemented; no passing product acceptance or live/platform capability."
     },
     {
       "id": "AUTH-04",
@@ -463,9 +472,18 @@
     },
     {
       "id": "AUTH-06",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/effective_permissions_tests.cpp",
+        "tests/fixtures/effective-permissions-v1.json"
+      ],
+      "evidence": [
+        "docs/evidence/accesstest-002-handoff.md",
+        "docs/evidence/accesstest-002-tests-review.md",
+        "docs/evidence/accesstest-002-red.md",
+        "docs/evidence/accesstest-002-red-review.md"
+      ],
+      "scope": "ACCESSTEST-002 supplies30 independently reviewed pure permission baseline cases covering resource-first individual precedence, one whole grant, protected-owner boundaries and complete explanations. FIRST clean8acc9b9 actual exit8/30failed/0skip; separate attribution3f40238f validates215 markers and1 safe guard consequence. Evaluator remains an immediate unimplemented stub. ACCESS-002 production behavior, current session/owner/catalog facts, server execution/transaction and disclosure/delegation/recovery/editor integration remain unimplemented; no passing product acceptance or live/platform capability."
     },
     {
       "id": "AUTH-07",
@@ -829,9 +847,18 @@
     },
     {
       "id": "AUTH-11",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/password_hashing_tests.cpp",
+        "tests/fixtures/password_hashing_vectors.hpp"
+      ],
+      "evidence": [
+        "docs/evidence/sessiontest-001-handoff.md",
+        "docs/evidence/sessiontest-001-test-review.md",
+        "docs/evidence/sessiontest-001-red-attribution.md",
+        "docs/evidence/sessiontest-001-ci.md"
+      ],
+      "scope": "SESSIONTEST-001 supplies37 independently reviewed password policy/admission/hash/verification/upgrade baseline cases with real private SDK error/cleanup observations and literal synthetic fixtures. FIRSTclean d560 exit8/37failed/0skip, differentc5b10c59 validates158typedmarkers+51consequences. ActualUbuntuCI41891170698 at9f6 passes selected1.0.22source/staticSDK/runtimefoundation/exact37discovery/old3. Three production functions remain immediate unimplemented stubs. No passing password product acceptance, current accepted-login/account/atomic-store/admission integration, complete secret-lifetime proof, supported-hardware100sample cost benchmark or platform/release capability."
     },
     {
       "id": "AUTH-12",

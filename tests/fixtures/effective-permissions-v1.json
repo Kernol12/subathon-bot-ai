@@ -1,0 +1,350 @@
+{
+  "cases": [
+    {
+      "name": "EffectivePermissions.DefaultDenialZeroAndWholeRoleGrants",
+      "logical_examples": [
+        "EP01",
+        "EP02",
+        "EP03",
+        "EP04",
+        "EP05",
+        "EP10"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.IndividualTierUsesResourcesBeforeQuantity",
+      "logical_examples": [
+        "EP07",
+        "EP08",
+        "EP28",
+        "EP29",
+        "D1-A",
+        "D1-B"
+      ],
+      "api_sections": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.RoleDenialAndOtherOperations",
+      "logical_examples": [
+        "EP06",
+        "EP09",
+        "EP33",
+        "EP34"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.ConditionalIndividualDenyAndDisjointScopes",
+      "logical_examples": [
+        "EP30",
+        "EP31",
+        "EP32",
+        "EP39"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.CompleteMultipleQuantityWitness",
+      "logical_examples": [
+        "EP11"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.SameEffectAlternativesHaveNoSpecificityPriority",
+      "logical_examples": [
+        "EP35",
+        "EP36"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.OpposingIndividualScopesAreInvalid",
+      "logical_examples": [
+        "EP37",
+        "EP38"
+      ],
+      "api_sections": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.AtomicResourceScopesNeverUnion",
+      "logical_examples": [
+        "EP04",
+        "EP10",
+        "EP40",
+        "EP41",
+        "EP42",
+        "EP43"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.GlobalEmptyTupleStillSelectsIndividualLimit",
+      "logical_examples": [
+        "EP44"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.ExactFractionsAndIntegerDomains",
+      "logical_examples": [
+        "EP12"
+      ],
+      "api_sections": [
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.SignedMinimumMagnitudeDoesNotOverflow",
+      "logical_examples": [
+        "EP13"
+      ],
+      "api_sections": [
+        "2",
+        "5"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.LargeExactValuesDoNotBorrowFinalizerBounds",
+      "logical_examples": [
+        "EP14",
+        "EP27"
+      ],
+      "api_sections": [
+        "2",
+        "5"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.ProtectedOwnerHasOnlyNarrowCapabilities",
+      "logical_examples": [
+        "EP15",
+        "EP16",
+        "EP17",
+        "EP18",
+        "EP21"
+      ],
+      "api_sections": [
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.HelperResetCannotTargetCurrentOwner",
+      "logical_examples": [
+        "EP19"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.CurrentSnapshotDoesNotReuseEarlierPermission",
+      "logical_examples": [
+        "EP20"
+      ],
+      "api_sections": [
+        "4",
+        "7"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.CompleteSourceExplanationsKeepLosingAndDecisiveRows",
+      "logical_examples": [
+        "EP06",
+        "EP09",
+        "EP22"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.IndividualSelectionAndProtectedRowsExplainSuppression",
+      "logical_examples": [
+        "EP18",
+        "D1-A"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.FailedSlotListsAreCompleteAndSorted",
+      "logical_examples": [
+        "EP11",
+        "EP25",
+        "EP45"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.OpaqueBytesAndFullGrantWitnessOrder",
+      "logical_examples": [
+        "EP22",
+        "EP23"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.ReturnedDecisionOwnsAllInputLifetimes",
+      "logical_examples": [
+        "EP20",
+        "EP22"
+      ],
+      "api_sections": [
+        "1",
+        "4"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.UnknownFactsAreNotKnownEmptyOrPartialSuccess",
+      "logical_examples": [
+        "EP24"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.CatalogAndOperationShapesAreStrict",
+      "logical_examples": [
+        "EP24",
+        "EP25"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.RequestsRequireCompleteShapesAndDeclaredDomains",
+      "logical_examples": [
+        "EP25",
+        "EP45"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.PolicyIdentitiesAndTupleTagsAreStrict",
+      "logical_examples": [
+        "EP25"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.RationalInputsAreCanonicalAndNeverRepaired",
+      "logical_examples": [
+        "EP24",
+        "EP25"
+      ],
+      "api_sections": [
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.StagePriorityIsGlobalAndIndependentOfInputOrder",
+      "logical_examples": [
+        "EP24",
+        "EP25",
+        "EP37",
+        "EP38"
+      ],
+      "api_sections": [
+        "3"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.ReferenceAndComponentLimitsUseActualBytes",
+      "logical_examples": [
+        "EP23",
+        "EP27"
+      ],
+      "api_sections": [
+        "2",
+        "5"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.WholeInputBudgetsIncludeIrrelevantAndNestedData",
+      "logical_examples": [
+        "EP23",
+        "EP24",
+        "EP26"
+      ],
+      "api_sections": [
+        "3",
+        "5",
+        "6"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.WholeResultBudgetsNeverTruncateSourcesOrFailedKeys",
+      "logical_examples": [
+        "EP26"
+      ],
+      "api_sections": [
+        "4",
+        "5",
+        "6"
+      ]
+    },
+    {
+      "name": "EffectivePermissions.InvalidLimitsAndDerivedOverflowPrecedeAllInputWork",
+      "logical_examples": [
+        "EP23",
+        "EP26"
+      ],
+      "api_sections": [
+        "3",
+        "5"
+      ]
+    }
+  ]
+}
