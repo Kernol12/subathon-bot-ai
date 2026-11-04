@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "locale": "en",
+  "fallback": "en",
+  "messages": {
+    "fixture.greeting": {
+      "parameters": {
+        "name": "text"
+      },
+      "plural": null,
+      "forms": {
+        "text": "Hello, {name}!"
+      }
+    },
+    "fixture.items": {
+      "parameters": {
+        "count": "integer",
+        "name": "text"
+      },
+      "plural": "count",
+      "forms": {
+        "one": "{count} item for {name}",
+        "other": "{count} items for {name}"
+      }
+    },
+    "fixture.literal": {
+      "parameters": {
+        "name": "text"
+      },
+      "plural": null,
+      "forms": {
+        "text": "{{x}} %n %1 %L1 %% {name}"
+      }
+    },
+    "fixture.reorder": {
+      "parameters": {
+        "first": "text",
+        "second": "text"
+      },
+      "plural": null,
+      "forms": {
+        "text": "{first} then {second}; {first}"
+      }
+    },
+    "fixture.scalars": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "A \u0026 B \u003c C \u003e D \"q\" 's'\r\n\tGrüße é 😀"
+      }
+    },
+    "fixture.selector_only": {
+      "parameters": {
+        "count": "integer",
+        "name": "text"
+      },
+      "plural": "count",
+      "forms": {
+        "one": "One item for {name}",
+        "other": "Items for {name}"
+      }
+    }
+  }
+}
