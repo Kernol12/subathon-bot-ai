@@ -64,3 +64,50 @@ Changed paths:
 No task completion, independent approval, PR publication/merge or full product
 verification is claimed. Coordinator integrates this candidate and updates shared
 state/checkpoint/PR as appropriate after actual review and owner decisions.
+
+## Actual resolved logical continuation — service_author
+
+2026-11-04. Original author evidence above is preserved byte for byte (historical
+blob `b38bc1ad0b40accd99fec85683acde59bc0a4e05`). Continuation on isolated
+`task/CORETEST-008-logical-correction`, initially clean at release
+`5601a06ba85613eeca7ee46a070621b2fb73a2ce`. Only the existing logical document and
+this appended evidence change. The prior partial review
+`657988a7de829e23d570a977ab223e9768ee8038` remains unchanged; it does not approve
+this completed candidate prospectively.
+
+Contract old blob `0ed9c69322beac2d5cce1ebba88b4a23891d7ad3` becomes
+`f4a4c3ceea45a58bc8116f73169d7bac081e9919`. Read root/core instructions, complete
+original proposal/review, CORE-008/API-007/CORE-007 briefs and the existing CORE-002/
+CORE-005 contracts/header conventions. Actual owner record is
+`b5df2afebbd826f13be65aae057d1a22029cf8b7`; root's updated specification §4/§18/
+TIMER-01 is `81406806c02df0f015a8c71c40b149ae1ff0ed19`. Both are unedited here.
+All three timer choices and the separate permission D1 are actually resolved.
+
+The continuation defines the per-attempt Keep/Reduce/Abort warning and atomic
+cap/reduction outcomes, passed-deadline Ready Start refusal, active deadline edit
+acceptance/immediate finish and old-configuration observation priority. It preserves
+all 16 original ED rows exactly, adds full state/config bindings for partial rows
+and ED17–44 for choices, lifecycle/clock/revision boundaries and post-Keep sequences.
+ED42–44 explicitly retain valid above-cap Main, CORE-005 debt-first/zero-headroom
+behavior and new capacity after countdown, without broadening the older credit API.
+
+Ready/Active/Finished cap/deadline settings are covered without implicit Start/Reopen;
+Active-only ordinary-delta admission is a local projection prerequisite/not_ready,
+not a new product ban. API-007 first-start/absolute-Main, CORE-007 post-finish/reopen/
+correction, separate debt permission and mixed/global review/continuation/server
+clock-CAS contracts remain mandatory owning work. No reducer is copied, new product
+default selected, history rewritten, authority invented or financial entitlement
+manufactured. Countdown need not freeze while a warning is displayed; exact actual
+reduction/current rights are revalidated and retained rather than replaying a
+preview amount. No additional owner question was identified.
+
+Actual Linux/Python 3.14.8 checks: `python3 tools/check_project.py` PASS (406 tasks,
+122 decisions, links/presets/HTML); `python3 tools/progress.py render --check` PASS;
+inline stdlib audit PASS (21 independent integer/bound facts, 44 unique ED IDs,
+16 byte-identical original rows, ten local links, table widths/fences); staged
+inventory/whitespace checks PASS. Original note prefix and frozen input blobs were
+verified. No compiler/native/reducer/feature/test/marker/provider/runtime body was
+run; no API/header/stub/fixture/schema or shared spec/state/build/CI/pin changed.
+No push/merge. Different actual full logical review plus root-specification review
+is next, followed by separate API/inert-source/test/foundation/FIRST-red stages.
+CORETEST-008 baseline and CORE-008 production are not completed by this author.
