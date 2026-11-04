@@ -23,9 +23,10 @@ ctest --preset timer-editorial-debug -L '^timer-editorial$' --no-tests=error --o
 returncode/bytehashes. Wrapper saves bytes/code/JUnitreceipt BEFORE decoding with
 backslashreplace; wrappercompletion does not alter nativecode8. Core dumps disabled.
 
-Different actual per-group/source-row attribution is pending. Distinguish caught
-primary markers from the ownership retained-value safety assertion consequence;
-reused variant trace labels require source-loop multiplicities. Later statements
+Different actual [attribution](coretest-008-first-red-review.md)54f75d2e/importe0f6281
+approves166 events:165primarymarkers (88proposalhelper/76wrongerror/1ownership)
+and1ownershipretained-valueASSERTconsequence. All27source-loop multiplicities and
+reused ED28/29×2,ED30×2,ED31×4 labels checked; no unrelated failure. Later statements
 after a throwing call are not claimed observed. Frozen CPP3b0c8041/JSON1a4fb38d/
 header92281931/TU651c68b3/logicalf4a4c3ce/APIa2ac5a2c/spec81406806 unchanged.
 This missing-behavior baseline does not establish timer/UIwarning/hostauthority/

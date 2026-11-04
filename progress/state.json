@@ -1642,8 +1642,8 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_progress",
-      "owner": "coordinator /root; service_author (baseline tests); codec_author (minimal-source approved)",
+      "status": "done",
+      "owner": "coordinator /root; different fulltest/harness/FIRST attribution approved",
       "depends_on": [
         "CORE-005"
       ],
@@ -1666,20 +1666,26 @@
         "Actual concrete API author4637698b/import85020d2 a2ac5a2c/author203d307a independently approvedaf076bec/import4281bc5, review5debe113. One rawfour-wayvariantentry, fixed4transitionbatches/fourprofilelimits/directall44ED setup andexactB/count/error/observationlifetime rules checked. Mergecurrentmainfc285 (PR59normallymerged/all14PR+13postmainPASS) preserves all406IDs1497edges andcurrentPW/permissionbaselines. ReleaseONLY exactminimalheader/source/inertgetters/fixederrors/immediatefeaturemarker toservice_author; actualdifferentminimal-source/harnessreviewbeforetests. No Core002/005functioncalls/validation/numeric/clockprocessing or successfulproposal beforethrow. Rootownsnewtarget/harness/CI/state; no freshownerdecision or implementation.",
         "Actual minimal source author09afec23/import384fb3a header92281931/CPP651c68b3/author d31b7205 approved1648acf1 bycodec_author, review12d13bcf. Rootstdlib-onlytarget/preset27 at9538c15 compiles existingCore002005 dependencies, sourcefeature onlyimmediatemarker. Followingactualreview ROOTold74existingchecks32debt+39timer+3infraallPASS; noeditorialfeaturetestexists/body/markerexecuted. Releaseactualtestauthoringservice_author onisolatedcontinuation; rawall44ED/APIprofiles/errorpriority/lifetime/provenance/currentobservations/choicecases, actualdifferenttest+harnessreview+FIRSTplainredbeforeproduction. No newSDK dependency/foundation or repeatedoldnativeproof needed.",
         "Actual27testgroups78a7936/import9162597 (CPP3b0c8041/inventory1a4fb38d) independentlyapprovedbd7f5e3e/importd6370af. All44ED/API1-6 and22literalinteger/Bfactschecked; rawinputs/noSUToracle/completefields/ownership/safegates valid. Currentmainfe727 mergedb1cf46f preserving408IDs1508edges/Rate009bridge; onlyCORE008recorddiffers. service_author nowauthorsonlynewCI/label/testharness in separatebranch. No editorialbody/marker/red hasrun. Actualdifferentintegratedharnessreview/currentCI/exact27discovery+old74green/FIRSTnative27red+attribution/finalgates remain. Ownershipprimarycaughtmarker thenretained-valueASSERT consequence mustbecountedseparately.",
-        "Rootimports actualharness96c22392 as4021d74 aftercurrentmainmerge. NewtargetTEST_PREFIXtimer-editorial./CTesttimefourlabels30s/strict27source+JSON44ED/all101guard, pinnedUbuntu24/GTestfetch/noSDK. Actualauthorold74runexit0/74names/0editorial, collectorobsolete-summaryassertionafterchild recoveredwithoutreplay. Rootcurrentmainconfigure/build/discoveryguard101 pass; differentactualrootintegration/harnessreviewandselectedcurrentCIremainbeforeFIRST27featurebody."
+        "Rootimports actualharness96c22392 as4021d74 aftercurrentmainmerge. NewtargetTEST_PREFIXtimer-editorial./CTesttimefourlabels30s/strict27source+JSON44ED/all101guard, pinnedUbuntu24/GTestfetch/noSDK. Actualauthorold74runexit0/74names/0editorial, collectorobsolete-summaryassertionafterchild recoveredwithoutreplay. Rootcurrentmainconfigure/build/discoveryguard101 pass; differentactualrootintegration/harnessreviewandselectedcurrentCIremainbeforeFIRST27featurebody.",
+        "Actualcurrentmain/harness166c3a7a/import2dce71d approves732candidate; selectedUbuntu41908880067 passes exact27sourceJSON44ED/101guard/commonpinnedGTestfetch/old74green1.68s, alla16checksSUCCESS. FIRSTnativeplain27 onclean2dce71d at20:46:32.706042Z directCTest8/27fail0skipdisabled. Rawbytes/code/JUnit savedBEFOREdecode. Differentactualattribution54f75d2e/importe0f6281 validates166failureevents:165primarymarkers (88proposalhelper/76wrongerrorhelper/1ownership) +1ownershipretained-valueASSERTconsequence; all27sourcemultiplicities/repeatedED28-31labels/noothers. No rerun/unexecutedassertionclaim. CORETEST008completebaselineobservedred; CORE008implementationplanned/not_run. OwnerKeepReduceAbort/Readydeadline/Activeimmediatefinish choices preserved. Finalactualcurrentmain/metadatareview/latestCI/normalPR52merge remain; noownerdecision/accesspending."
       ],
       "verification": {
         "document_stage": "passed",
         "document_review": "passed",
         "partial_document_review": "passed",
         "owner_decision": "passed",
-        "test_baseline": "not_run",
+        "test_baseline": "observed_red",
         "implementation": "not_run",
         "api_review": "passed",
         "source_review": "passed",
         "dependency_acceptance": "passed",
         "test_authoring": "passed",
-        "test_review": "passed"
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "tests": "observed_red",
+        "current_harness_review": "passed",
+        "selected_ci": "passed",
+        "red_attribution": "passed"
       },
       "evidence": [
         "docs/contracts/timer-editorial-commands-v1.md",
@@ -1694,14 +1700,21 @@
         "docs/evidence/coretest-008-tests-author.md",
         "docs/evidence/coretest-008-tests-review.md",
         "docs/evidence/coretest-008-harness-author.md",
-        "docs/evidence/coretest-008-current-integration.md"
+        "docs/evidence/coretest-008-current-integration.md",
+        "docs/evidence/coretest-008-current-harness-review.md",
+        "docs/evidence/coretest-008-first-red.md",
+        "docs/evidence/coretest-008-first-red.json",
+        "docs/evidence/coretest-008-first-red.xml",
+        "docs/evidence/coretest-008-first-red-review.md",
+        "docs/evidence/coretest-008-ci.md",
+        "docs/evidence/coretest-008-handoff.md"
       ],
       "review": {
         "author": "service_author",
         "reviewer": "service_reviewer",
         "outcome": "approved",
         "evidence": "docs/evidence/coretest-008-tests-review.md",
-        "revision": "78a7936b exact27 tests CPP3b0c8041/inventory1a4fb38d approvedbd7f5e3e; actual root harness/FIRST red remain"
+        "revision": "78a7936 tests3b0/JSON1a4 approvedbd7f5e3e; actual732 harness166c3a7; FIRSTcleand2ce71d native27red attributed54f75d2e"
       }
     },
     {
@@ -13825,6 +13838,11 @@
       "date": "2026-11-04",
       "task": "ACCESSTEST-002",
       "note": "Claimed FIRST logical DOCUMENT stage from refreshedmainb2 while actual password fulltest/scene corrected-doc reviews continue; no production/API/tests released."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CORETEST-008",
+      "note": "Complete independentlyreviewed27-group/44ED editorial baseline with FIRSTnative directCTest8/27fail0skip/165primarymarkers+1safeconsequence. CurrentCIold74green. Finalcurrentmain/metadata/latestCI/normalPR52merge remains; CORE008unimplemented."
     }
   ]
 }
