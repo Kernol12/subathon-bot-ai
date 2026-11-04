@@ -1667,7 +1667,8 @@
         "Actual minimal source author09afec23/import384fb3a header92281931/CPP651c68b3/author d31b7205 approved1648acf1 bycodec_author, review12d13bcf. Rootstdlib-onlytarget/preset27 at9538c15 compiles existingCore002005 dependencies, sourcefeature onlyimmediatemarker. Followingactualreview ROOTold74existingchecks32debt+39timer+3infraallPASS; noeditorialfeaturetestexists/body/markerexecuted. Releaseactualtestauthoringservice_author onisolatedcontinuation; rawall44ED/APIprofiles/errorpriority/lifetime/provenance/currentobservations/choicecases, actualdifferenttest+harnessreview+FIRSTplainredbeforeproduction. No newSDK dependency/foundation or repeatedoldnativeproof needed.",
         "Actual27testgroups78a7936/import9162597 (CPP3b0c8041/inventory1a4fb38d) independentlyapprovedbd7f5e3e/importd6370af. All44ED/API1-6 and22literalinteger/Bfactschecked; rawinputs/noSUToracle/completefields/ownership/safegates valid. Currentmainfe727 mergedb1cf46f preserving408IDs1508edges/Rate009bridge; onlyCORE008recorddiffers. service_author nowauthorsonlynewCI/label/testharness in separatebranch. No editorialbody/marker/red hasrun. Actualdifferentintegratedharnessreview/currentCI/exact27discovery+old74green/FIRSTnative27red+attribution/finalgates remain. Ownershipprimarycaughtmarker thenretained-valueASSERT consequence mustbecountedseparately.",
         "Rootimports actualharness96c22392 as4021d74 aftercurrentmainmerge. NewtargetTEST_PREFIXtimer-editorial./CTesttimefourlabels30s/strict27source+JSON44ED/all101guard, pinnedUbuntu24/GTestfetch/noSDK. Actualauthorold74runexit0/74names/0editorial, collectorobsolete-summaryassertionafterchild recoveredwithoutreplay. Rootcurrentmainconfigure/build/discoveryguard101 pass; differentactualrootintegration/harnessreviewandselectedcurrentCIremainbeforeFIRST27featurebody.",
-        "Actualcurrentmain/harness166c3a7a/import2dce71d approves732candidate; selectedUbuntu41908880067 passes exact27sourceJSON44ED/101guard/commonpinnedGTestfetch/old74green1.68s, alla16checksSUCCESS. FIRSTnativeplain27 onclean2dce71d at20:46:32.706042Z directCTest8/27fail0skipdisabled. Rawbytes/code/JUnit savedBEFOREdecode. Differentactualattribution54f75d2e/importe0f6281 validates166failureevents:165primarymarkers (88proposalhelper/76wrongerrorhelper/1ownership) +1ownershipretained-valueASSERTconsequence; all27sourcemultiplicities/repeatedED28-31labels/noothers. No rerun/unexecutedassertionclaim. CORETEST008completebaselineobservedred; CORE008implementationplanned/not_run. OwnerKeepReduceAbort/Readydeadline/Activeimmediatefinish choices preserved. Finalactualcurrentmain/metadatareview/latestCI/normalPR52merge remain; noownerdecision/accesspending."
+        "Actualcurrentmain/harness166c3a7a/import2dce71d approves732candidate; selectedUbuntu41908880067 passes exact27sourceJSON44ED/101guard/commonpinnedGTestfetch/old74green1.68s, alla16checksSUCCESS. FIRSTnativeplain27 onclean2dce71d at20:46:32.706042Z directCTest8/27fail0skipdisabled. Rawbytes/code/JUnit savedBEFOREdecode. Differentactualattribution54f75d2e/importe0f6281 validates166failureevents:165primarymarkers (88proposalhelper/76wrongerrorhelper/1ownership) +1ownershipretained-valueASSERTconsequence; all27sourcemultiplicities/repeatedED28-31labels/noothers. No rerun/unexecutedassertionclaim. CORETEST008completebaselineobservedred; CORE008implementationplanned/not_run. OwnerKeepReduceAbort/Readydeadline/Activeimmediatefinish choices preserved. Finalactualcurrentmain/metadatareview/latestCI/normalPR52merge remain; noownerdecision/accesspending.",
+        "ActualPR56normalmergedea943b9e at20:55:26Z afterall16finalchecks/head3b7d0d7; mergedtreef9346edf equalsreviewedhead. CurrentPR52integratesactualea943 mainpreserving408IDs1508edges/allotherrecords/MILEdone/Rate009bridge; onlyCORETEST008recorddiffers. RootCMakeunionkeepsbothMilestoneandTimer flags; preset24milestone/27editorial andallpreviousrates/password/permissions remain. Frozeneditorialsource/tests/contracts/specunchanged, existingFIRST27evidence notrerun. Actualdifferentcombinedmain/metadatareview/latestCI/normalmerge remains."
       ],
       "verification": {
         "document_stage": "passed",
@@ -1714,7 +1715,7 @@
         "reviewer": "service_reviewer",
         "outcome": "approved",
         "evidence": "docs/evidence/coretest-008-tests-review.md",
-        "revision": "78a7936 tests3b0/JSON1a4 approvedbd7f5e3e; actual732 harness166c3a7; FIRSTcleand2ce71d native27red attributed54f75d2e"
+        "revision": "78a7936 tests3b0/JSON1a4 approvedbd7f5e3e; actual732 harness166c3a7; FIRSTclean2dce71d native27red attributed54f75d2e"
       }
     },
     {
@@ -3119,8 +3120,8 @@
       "title": "Review and demonstrate red: Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "test_baseline",
-      "status": "blocked",
-      "owner": "coordinator /root; service_author (test/foundation author)",
+      "status": "done",
+      "owner": "coordinator /root; actual full test/harness and FIRST attribution independently approved",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -3133,14 +3134,71 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MILESTONE-001.",
       "notes": [
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed dedicated task/MILESTONETEST-001-progression-baseline from freshlyintegrated main3217c212 after LOCALE001/PR55 normalmerge. Readyprereqs CONTRACT002/CORE001done. FIRST DOCUMENT ONLY: pureexactscore/ascendingtarget sequentialachievement/immutablecompletedprefix/deficit/nextremaining/progress projection; orderedmulti-crossing and800belowcompleted1000deficit200/next2000remaining1200. service_author owns ONLY docs/contracts/milestone-progression-v1.md and docs/evidence/milestonetest-001-contract-author.md in separate task/MILESTONETEST-001-contract-author. Root owns state/HTML/maps/sharedschemas/build/CI/pins/checkpoint. Independentreview actualdocumentbeforeAPI/stubs/tests. No arbitrary positivity/score/origin restriction or hiddenrounding; explicitly propose signedlimits/firsttarget/progresssemantics andrecordtrueconflicts; do not shrinkagreedmanual/reset/edit/queue/policy scope, adjacenttasksretainthose. No C++code/header/schema/fixture/tests/action/statewrites/providerexecution atthis stage. MILESTONE001productionplanned.",
+        "Actual logical4362fe29/importaf7e2be (contract0115a5cc/author67593a9e) receives independentdocumentapproval8338981. MP01-22/23independentarithmeticfacts checked; no ownerquestion. Fullsignedtargets/postscore, U64distances, immutablecapturedprefix/currentprojection/absentfirstinterval explicit. Release ONLYconcreteAPI DOCUMENT toservice_author: NEW docs/contracts/milestone-progression-api-v1.md and docs/evidence/milestonetest-001-api-author.md. No actualheader/source/stub/schema/storage/fixture/test/action/scorebehavior untilactualAPIreview/sourcegate/reviewedtests/firstred. Rootownsallsharedintegration; model/adjacentgates remainfrozen.",
+        "Actual API candidate c89776c/import 9d8ba9e, contract blob 58b8e129 and author note 9a9f3e59, is now with codec_author for actual independent document review. One raw-input operation owns prefix/new-range/projection, full signed64/U64 arithmetic and explicit complete-result budgets. Five literal byte sums checked; consistency and current HTML passed. No actual header/source/stub/fixture/test/red or production stage released. Rate workflow access remains blocked; preserve all valid reviews and unfinished work. Root inspected actual agents, worktrees, processes and GitHub heads on resume.",
+        "Actual API document58b8e129 and author note9a9f3e59 approved by different codec_author in b8932cd/import21ba96d, API review blob99a3dfc0. Sixteen independent stdlib byte/item/U64/exact-fraction facts pass; prior logical approval unchanged. Release ONLY minimal core header/source plus source-author note to service_author. One immediate distinct NotImplemented throw is the only feature body; inert aggregates/private-owned wrapper/const accessor/error constructors only. No semantic helper/validation, fixture, tests, CMake/CI or feature invocation. Root retains shared harness ownership; actual minimal source/harness reviews precede feature tests/red.",
+        "Actual minimal header9a167813/source4e3291f0 + root harnessd8b3d6a receives independent a2f5d358/import6d1fa3e approval. Evidence-only GTest correction53bdf04 inspected: installed1.18.0, minimum1.17. Fresh14-step warnings0/old36checks pass; no feature/marker run. Release ONLY new literal fixture, GTests, independent Boost/std-only foundation and author evidence to service_author; frozen source/contracts unchanged, no feature/foundation body execution until actual independent test/foundation review. Root owns later test CMake/CI; current selectedBoost1.83 CI and FIRST plain feature red remain gates, workflow access still pending. No production released.",
+        "Actual test author9f74e77/import643de5c adds20 literal MP rows+33 focused cases (53 GTests), fixture409be19d/test01997384/foundation7f8c3f94/authora5408883. Root test CMake/workflow builds90 total and exact complete53-case discovery guard passes; no new body/foundation/marker run. Foundation25 literal facts compile with no project symbols. Actual different test/foundation/harness review next; selectedBoost1.83 CI publication remains credential-blocked. Earlier remote00d8c57/all12 and dd6a141/all11 post-main successes do not replace current new-suite evidence. Rate now3d444ee retains403tasks/009bridge/all12frozen source-harness blobs, no red.",
+        "Actual full root candidatefa098e2 is assigned to service_reviewer in dedicated milestone test-review tree. First narrow independent25-fact foundation/harness review note must precede rootFIRSTnativefoundation; full53-test/harness/workflow review and currentselectedCIgreen precede FIRSTfeature red. No newbody run or futureapproval. Common document authorcodec remains active; password actualf730/importd74 is independently reviewed by service_author. Durable checkpoint reconciles exact current heads and pending access.",
+        "Narrow actual foundation/link/green-harness review de0a30f0 imported7d7e621 approves exact25-fact program7f8c3f94. FIRST native approved local foundation at clean7d7e621 passed1/1/25facts/exit0/0.00s, raw SHA2569a83525e34fb2ee0557715cdb97dbda45162babd3e87f291f82f60c371c14de8, saved ignored raw/JUnit/meta. No new feature/test/marker body. LocalBoost1.92 is not selected1.83 CI; full53-test review/currentselectedCI/FIRSTplainfeature red remain gates. Do not repeat the completed local foundation.",
+        "Actual full53-test/fixture/harness/workflow review208d0580 importedac9234a APPROVES frozen candidatefa098e2 with no correction. All20MP+33 ordinary cases/literal byte-item-exact semantics/source reach/ownership/phase/labels preserved; independent18-step build0warnings/old36PASS0.69s. Approved local25-fact foundation already passed once; no milestone feature acceptance test/function/marker body has run. Task blocked only before currentselectedCI/first feature red because gh scopes stilllackworkflow and existingSSH agent identities0, rechecked afterfullapproval. Remote00/all12 old checks is not new-suite CI. Do not repeat completed reviews/foundation or defaultproductscope; baseline notdone and production planned.",
         "Separate focused PR56 owns actual logical/API document work; root branch task/MILESTONETEST-001-progression-baseline at3fc99ce. Logical document approved; API actual58b8e129 now under separate review. This planning branch only reconciles its active claim, without copying absent evidence or changing any behavior gate.",
         "Concurrent focused PR56: logical/API and minimal header9a167813/TU4e3291f0/harnessd8b3d6a independently approved through a2f5d358/import6d1fa3e. Root4f8f3e1 released only literal tests and independent Boost/std foundation authoring; service_author active in milestone author tree. Remote d8b3d6a has all12 old component checks green, but no selected new milestone CI/foundation/feature body/red has run. Preserve exact source/contracts/reviews and integrate this new main before final tests/harness review. This branch reconciles claim only; no absent milestone evidence copied.",
         "Concurrent focusedPR56 local275057b nowfull53-test/harness reviewed208d0580/importac9234a. ApprovedFIRSTlocal25-factfoundation passed once clean7d7e621/raw9a83525e. No milestone acceptance test/function/marker body/currentselected1.83CI/FIRSTred. Remote00d8c57/all12oldchecks; workflowaccessstillabsent afterrecheck. This branch reconcilesblockedclaimonly, no absent milestone evidence copied.",
-        "Concurrent milestone primary root00d8c57 integrates same main and preserves API/source/harness approvals. service_author now authors only literal tests/foundation; no feature body or marker/red invoked. This branch reconciles claim without copying absent milestone evidence. DraftPR56 last confirmedremote d8b3d6a/all12oldchecks; ordinary publication to00 in progress, inspect actual remote before assuming success."
+        "Concurrent milestone primary root00d8c57 integrates same main and preserves API/source/harness approvals. service_author now authors only literal tests/foundation; no feature body or marker/red invoked. This branch reconciles claim without copying absent milestone evidence. DraftPR56 last confirmedremote d8b3d6a/all12oldchecks; ordinary publication to00 in progress, inspect actual remote before assuming success.",
+        "Resumed in isolated task/MILESTONETEST-001-main-integration from primary8721770, preserving original primary checkout unchanged. Currentmainfe727c8 includes normally merged PR62/59/54; PR54all15finalchecks passed andtree1ac4ccfdmatches, postmain14pendingobservation. Mergepreserves408IDs1508edges includingrequiredRATESTEST009/RATES009 bridge andallcurrentbaselinestatuses; onlythis milestone claim advances. Existing53tests/fa098/finalreview208d0580/frozenfixtures/header/stub untouched. FIRSTselectedBoost1.83host25factfoundation passed19:11:54Z followingpriorindependentsource7f8c3f94 review208 androotselectiona596 ofcodeccompile521authentichearders/macros108300. Nativejointreceiptf070 preserved, oldhost1.92proof historical; doNOTreplayFIRSTselectedhost or53featuretests. Actualnewmain/labels/harnessreview/currentselectedUbuntuCI/FIRSTplain53red/attribution/finalnormalmerge remain. No ownerdecision or access needed; SSHworking.",
+        "Current isolated e90d9f9 main/label integration configures/builds with authenticselectedBoost1.83. Exactworkflowguard53+foundation/total90 names passes; old36PASS0.74s/exit0. Fourfrozen test/fixture/header/TU blobs unchanged. CTest-timecomplete labels preserveNO_PRETTY_VALUES and strict existingCIguard; PR54postmain14SUCCESS. Actualdifferent harnessreview/currentselectedUbuntuCI/FIRSTplain53feature red stillrequired. No foundationorfeaturebody replay.",
+        "Currentmain/labels/configindependentreview75e62c2/importc2bcb08 approvesactuala15 integration; frozen53artifactsunchanged. SelectedUbuntu41907483021 ata15PASS pinnedBoost1.83/exact53discovery/25facts+old36=37green0.98s. FIRSTnativeplain53 oncleanc2bcb088 at20:36:28.318352Z savedrawbytes/stderr/directCTest8/JUnit53fail0skip/receiptBEFOREdecode; no collectorloss or replay. DifferentactualattributionandfinalmetadatalatestCI/normalmergegates remain. No productimplementation capability.",
+        "ActualFIRSTattributione030a0e7/import897c001 approvesnative53/0skip/directCTest8/all110primarymarkerfailures:12uncaught+62wrongexceptionhelper+36EXPECT_NO_THROW (20MP+16boundary), no consequence/unrelatedfailures. RawstdoutASCII despitehighbyteinput; wordingclarifiedwithoutbytechange/rerun. Baselinecompleteobservedred, MILESTONE001productionplanned/not_run; MILE01/NUM04partialappend-onlybaselineevidence. Finalactualmetadatareview/freshlatestheadCI/actualrules-discussions/normalPR56merge remain; noownerdecision/accesspending."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "document_review": "passed",
+        "test_baseline": "observed_red",
+        "implementation": "not_run",
+        "api_document_review": "passed",
+        "minimal_source_review": "passed",
+        "tests": "observed_red",
+        "independent_foundation": "passed",
+        "test_review": "passed",
+        "selected_ci": "passed",
+        "test_authoring": "passed",
+        "selected_host_foundation": "passed",
+        "current_harness_review": "passed",
+        "baseline": "observed_red",
+        "red_attribution": "passed"
+      },
+      "evidence": [
+        "docs/contracts/milestone-progression-v1.md",
+        "docs/evidence/milestonetest-001-contract-author.md",
+        "docs/evidence/milestonetest-001-contract-review.md",
+        "docs/contracts/milestone-progression-api-v1.md",
+        "docs/evidence/milestonetest-001-api-author.md",
+        "docs/evidence/milestonetest-001-api-review.md",
+        "docs/evidence/milestonetest-001-stub-author.md",
+        "docs/evidence/milestonetest-001-interface-harness.md",
+        "docs/evidence/milestonetest-001-minimal-review.md",
+        "docs/evidence/milestonetest-001-test-author.md",
+        "docs/evidence/milestonetest-001-ci.md",
+        "docs/evidence/milestonetest-001-foundation-review.md",
+        "docs/evidence/milestonetest-001-test-review.md",
+        "docs/evidence/milestonetest-001-selected183-host.md",
+        "docs/evidence/milestonetest-001-selected183-host.json",
+        "docs/evidence/milestonetest-001-current-harness.md",
+        "docs/evidence/milestonetest-001-current-harness-review.md",
+        "docs/evidence/milestonetest-001-first-red.md",
+        "docs/evidence/milestonetest-001-first-red.json",
+        "docs/evidence/milestonetest-001-first-red.xml",
+        "docs/evidence/milestonetest-001-first-red-review.md",
+        "docs/evidence/milestonetest-001-handoff.md"
+      ],
+      "review": {
+        "author": "service_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/milestonetest-001-test-review.md",
+        "revision": "fa098e2 full53 tests208d0580; currenta15 config75e62c2; cleanc2bcb08 FIRST53red separatelyattributede030a0e7"
+      }
     },
     {
       "id": "MILESTONE-001",
@@ -13838,6 +13896,11 @@
       "date": "2026-11-04",
       "task": "ACCESSTEST-002",
       "note": "Claimed FIRST logical DOCUMENT stage from refreshedmainb2 while actual password fulltest/scene corrected-doc reviews continue; no production/API/tests released."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "MILESTONETEST-001",
+      "note": "Complete separatelyreviewed53-case baseline with FIRSTnative directCTest8/53fail0skip/110primarymarkers; currentselectedUbuntu1.83 foundation25+old36green. Implementationunstarted; finalmetadata/latestCI/normalPR56merge gates remain."
     },
     {
       "date": "2026-11-04",

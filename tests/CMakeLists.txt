@@ -109,6 +109,25 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
     gtest_discover_tests(core_exact_numeric_regression PROPERTIES LABELS "exact-numeric;regression;core")
 endif()
 
+if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
+    add_executable(core_milestone_progression_acceptance acceptance/milestone_progression_tests.cpp)
+    target_link_libraries(core_milestone_progression_acceptance PRIVATE subathon_milestone_progression GTest::gtest_main)
+    subathon_target_options(core_milestone_progression_acceptance)
+    gtest_discover_tests(core_milestone_progression_acceptance NO_PRETTY_VALUES
+        TEST_LIST subathon_milestone_progression_cases PROPERTIES TIMEOUT 30)
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/MilestoneProgressionLabels.cmake")
+
+    # This independent arithmetic foundation has no project headers or libraries.
+    find_package(Boost 1.83 CONFIG REQUIRED)
+    add_executable(milestone_progression_environment acceptance/milestone_progression_environment.cpp)
+    target_link_libraries(milestone_progression_environment PRIVATE Boost::headers)
+    subathon_target_options(milestone_progression_environment)
+    add_test(NAME scaffold.milestone_progression_environment COMMAND milestone_progression_environment)
+    set_tests_properties(scaffold.milestone_progression_environment PROPERTIES
+        LABELS "scaffold;milestone-progression-environment" TIMEOUT 15)
+endif()
+
 if(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS)
     add_executable(server_receipt_intake_acceptance acceptance/receipt_intake_tests.cpp)
     target_link_libraries(server_receipt_intake_acceptance PRIVATE subathon_receipt_intake GTest::gtest_main)

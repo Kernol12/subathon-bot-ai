@@ -203,6 +203,14 @@
       }
     },
     {
+      "name": "milestone-progression-debug",
+      "displayName": "24 \u00b7 Milestone progression baseline interfaces and tests",
+      "inherits": "exact-numeric-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS": "ON"
+      }
+    },
+    {
       "name": "password-hashing-debug",
       "displayName": "25 \u00b7 Password hashing baseline interfaces and tests",
       "inherits": "base",
@@ -320,6 +328,10 @@
     {
       "name": "rate-snapshot-debug",
       "configurePreset": "rate-snapshot-debug"
+    },
+    {
+      "name": "milestone-progression-debug",
+      "configurePreset": "milestone-progression-debug"
     },
     {
       "name": "password-hashing-debug",
@@ -558,6 +570,16 @@
     {
       "name": "rate-snapshot-debug",
       "configurePreset": "rate-snapshot-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "milestone-progression-debug",
+      "configurePreset": "milestone-progression-debug",
       "output": {
         "outputOnFailure": true
       },
