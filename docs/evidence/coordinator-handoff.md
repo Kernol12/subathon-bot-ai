@@ -110,3 +110,18 @@ after ambiguous errors. Full7integrations/3FX/bothrenderers/locales/themes/platf
 licenses/packaging/live scope remains. No live chat/payment sideeffects authorized.
 
 Local password CI preparation now exists in password integrator only: exact authenticated archive/static disposable Ubuntu SDK recipe, compile-only generator, mandatory green native foundation and old infrastructure. YAML/bash syntax checked, no workflow execution or publication. This new workflow is outside native3bb5d0b approval and requires actual different review of its final test/harness revision; missing workflow scope still blocks remote gate. Rate current-main merge is c37c87b8997d165a07aae37159ffef5d5f3378ba with408-task union; milestone current-main merge6466554d21c47402417aab5b052ba3b2d4ac759d. Frozen sources/tests unchanged and old foundations not replayed.
+
+
+## Actual native gate completed14:43Z
+
+Different9b92c671 approval importedc0646b4. ROOT FIRST native foundation ran CLEAN
+c0646b4 at14:42:52Z PASS1/1/0.21s/exit0. THEN FIRST generator14:43:01Z exit0/two exact
+PH12/13 t6 INPUTS. [Actual results](sessiontest-001-native-results.md),
+[receipt](sessiontest-001-native-results.json), [inputs](sessiontest-001-fixture-inputs.json).
+No project/SUT/marker/featuretest/login/store executed. Don't repeat those FIRST
+runs. SDK runtime hostfoundation nowpassed; UbuntuCI/costbenchmark/platform are not.
+service_author actually received exactrawsuccessful inputs and is finishing only
+fullfixtures/GTests/privateerror-onlywrappers, no execution. Different full review
+then selectedCI/FIRSTred still required. service_reviewer narrow assignment ended;
+its role can be explicitly reassigned to actual completed scene009 document next.
+Native approval does not cover new workflow4835695 or future featuretests/wrappers.
