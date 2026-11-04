@@ -160,3 +160,19 @@ CI0700f15e, exact42 enabled cases. Previous35 and five additive methods unchange
 No new test body was invoked before this independent source approval. Root may
 observe actual reached-red on the still-uncorrected candidate. Full source, fixed
 regression passes, complete acceptance and selected CI remain separate gates.
+
+## Negative counter purpose regression
+
+**APPROVED before execution**, actual CPP7329b24fe97c02ee98307cf20ed8d947c90364cb,
+Qt8e9d85ee/CIc63ee177, exact43 cases. Added only
+negativeCounterRequiresCorrectionPurpose (two data rows: score/count). One old
+plan row is changed to exact-1/1, finalized-1 and matching counter target, and an
+actual typed old-store read verifies a valid complete signed input before service.
+The incoming ordinary captured_original purpose is explicitly asserted. ContractA
+requires the correction purpose for negative requests; exact signed counter support
+does not create an implicit correction grant. No timer deficit policy is invented
+for counters. Expected access/policy-only ordering isolates this missing gate from
+a later synthetic job mismatch that would otherwise happen to produce the same
+generic invalid_output reason. Known rollback leaves all arranged rows unchanged.
+Prior35 and seven additive methods remain unchanged; no new body invoked before
+this actual source approval. Full corrected-source verdict remains pending.
