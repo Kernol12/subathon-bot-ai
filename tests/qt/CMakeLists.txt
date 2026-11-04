@@ -638,6 +638,6 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
                 "${Python3_EXECUTABLE}" -m unittest "${case}" -v)
         set_tests_properties(translation-catalog.${case} PROPERTIES
             WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/tests/localization"
-            LABELS "translation-catalog;acceptance;intentional-red" TIMEOUT 60)
+            LABELS "translation-catalog;acceptance" TIMEOUT 60)
     endforeach()
 endif()

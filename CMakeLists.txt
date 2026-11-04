@@ -75,6 +75,32 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
             "import runpy, sys; runpy.run_path(sys.argv[1], run_name='translation_catalog_interface')"
             "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
         VERBATIM)
+    set(sbt_catalog_source "${PROJECT_SOURCE_DIR}/localization/messages.json")
+    set(sbt_catalog_text "${PROJECT_SOURCE_DIR}/localization/generated")
+    set(sbt_catalog_build_text "${CMAKE_CURRENT_BINARY_DIR}/catalog-text")
+    set(sbt_catalog_binary "${CMAKE_CURRENT_BINARY_DIR}/localization")
+    set(sbt_catalog_tool "$<TARGET_FILE:Qt6::lrelease>")
+    # Build in disposable outputs, then compare the tracked text without overwriting it.
+    add_custom_target(translation_catalog_artifacts ALL
+        COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            generate --source "${sbt_catalog_source}" --text-output "${sbt_catalog_build_text}"
+            --binary-output "${sbt_catalog_binary}" --lrelease "${sbt_catalog_tool}"
+        COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            check --source "${sbt_catalog_source}" --text-output "${sbt_catalog_text}"
+            --binary-output "${sbt_catalog_binary}" --lrelease "${sbt_catalog_tool}"
+        BYPRODUCTS
+            "${sbt_catalog_binary}/messages_de.qm" "${sbt_catalog_binary}/messages_en.qm"
+            "${sbt_catalog_build_text}/qt/messages_de.ts" "${sbt_catalog_build_text}/qt/messages_en.ts"
+            "${sbt_catalog_build_text}/web/de.json" "${sbt_catalog_build_text}/web/en.json"
+        COMMENT "Generate real QM catalogs and verify tracked translation text"
+        VERBATIM)
+    # Explicit contributor action; never list source-tree files as cleanable byproducts.
+    add_custom_target(translation_catalog_update
+        COMMAND "${Python3_EXECUTABLE}" -B "${PROJECT_SOURCE_DIR}/tools/translation_catalog.py"
+            generate --source "${sbt_catalog_source}" --text-output "${sbt_catalog_text}"
+            --binary-output "${sbt_catalog_binary}" --lrelease "${sbt_catalog_tool}"
+        COMMENT "Regenerate tracked catalogs from localization/messages.json"
+        VERBATIM)
 endif()
 
 if(SUBATHON_BUILD_QT_PROBE OR SUBATHON_BUILD_SQLITE_WRITER_TESTS OR SUBATHON_BUILD_SQLITE_WORK_TESTS OR SUBATHON_BUILD_SQLITE_MIGRATION_TESTS OR SUBATHON_BUILD_SQLITE_RETAINED_TESTS OR SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
