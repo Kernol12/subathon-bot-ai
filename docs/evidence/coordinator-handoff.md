@@ -53,3 +53,31 @@ ordinary selectedQt CI after passing behavior. No candidate/pass/approval claime
 All seven integrations/three FX, actual authority/policy/clock/actions, financial/
 refund/review, recovery/security, both renderers/locales/themes, packaging/platform/
 live release gates remain required and incomplete.
+
+## Current bounded implementation checkpoint
+
+Draft [PR51](https://github.com/Kernol12/subathon-bot-ai/pull/51), published head
+56eb13f (claim/coordination only); local integration HEADb3e4a90. Codec authored
+746d5c2, imported9eeb140; new source linked separately atb3e4a90.
+[Codec author evidence](acct-004-codec-author.md) records owned source/checks.
+Root actual configured target compiles and ONLY first5codecslots PASS0.74s:
+97scenarios/107QtPASS including separate initcleanup/0skip. Original service
+baseline is not replayed. Different reviewer is auditing this exact bounded
+candidate; no independent approval yet.
+
+Initial root environment build70steps/0warnings, Qt6.12/GNU16.2.1/Boost1.92;
+old stable265 CTest PASS21.53s/262Qt1101PASS0skip. Raw ignored
+local-evidence/acct004-initial-stable-ctest.txt SHA256
+90e136edfe25f4213c679d40bdf0985ebeae8ae0872ec2ca3e627995833ff06d.
+Project396/122/tooling19/render PASS. These old passes are not service acceptance.
+
+Service author remains active in its assigned isolated tree, now drafting actual
+orchestration/annotation implementation. Codec author complete/available. Reviewer
+active on bounded codec; full service audit waits actual candidate. Root has four
+UNCOMMITTED future promotion files (.github/workflows/sqlite-writer.yml,
+CMakePresets.json, tests/qt/CMakeLists.txt and comment-only public service header).
+They must accompany the actual completed source and be independently reviewed;
+ordinary CI must not be claimed passing on the unpublished/pending promotion.
+Current generated root build uses promoted labels, so root ran only explicitly
+selected codec functions and no full service/stub body. Published CI still uses
+committed draft baseline labels until final promotion integration.
