@@ -19,7 +19,10 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
     target_link_libraries(core_effective_permissions_acceptance PRIVATE subathon_effective_permissions GTest::gtest_main)
     subathon_target_options(core_effective_permissions_acceptance)
     gtest_discover_tests(core_effective_permissions_acceptance TEST_PREFIX "effective-permissions."
-        PROPERTIES LABELS "effective-permissions;acceptance;core;intentional-red" TIMEOUT 10)
+        TEST_LIST subathon_permission_cases PROPERTIES TIMEOUT 10)
+    # Apply the list at CTest time; older GoogleTest helpers flatten list properties.
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/EffectivePermissionLabels.cmake")
 
     # Primitive SDK proof is independent of the permission evaluator and GTest.
     add_executable(effective_permissions_environment acceptance/effective_permissions_environment.cpp)
