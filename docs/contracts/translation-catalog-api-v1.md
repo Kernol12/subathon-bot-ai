@@ -66,6 +66,7 @@ class BuildRequest:
     text_output: str
     binary_output: str
     lrelease: str
+    tool_timeout_ms: int = 120000  # Inclusive domain1..120000; bool is invalid.
 
 @dataclass(frozen=True, slots=True)
 class BuildResult:
@@ -120,15 +121,19 @@ input, schema, parameters, coverage, template, paths, inventory, version, en, de
 publication, comparison, or None. tool_exit is the actual subprocess return code
 when a process exited, including a negative signal code; never a guessed success.
 tool_reason is one of exit, timeout, output_limit, missing_output, malformed_version,
-version_mismatch, or None. The sanitized exception text is exactly
+version_mismatch, invalid_output, output_file_limit, or None. The sanitized exception
+text is exactly
 `Translation catalog failure: <code>`; it contains no source body, path, child
 output or traceback. This fixed metadata keeps the serialized error below768 bytes.
 Do not turn unknown exceptions/assertion failures into fake catalog validation.
 
 Pure/direct functions raise CatalogFailure for the specified expected failures.
-They never print. A malformed public BuildRequest/nonpath field is io_failure,
-stage paths, before file/tool work. main maps expected failures to the CLI record
-below. Unexpected internal exceptions propagate in direct APIs and produce the
+They never print. A non-BuildRequest or invalid tool_timeout_ms (bool/nonint or
+outside1..120000) is invalid_schema, stage input, BEFORE path checks or other work.
+A valid request with a nonpath field is io_failure, stage paths, before file/tool
+work. Frozen dataclass construction is inert; these checks belong to the eventual
+file-method entry, not a constructor or initial unimplemented stub. main maps
+expected failures to the CLI record below. Unexpected internal exceptions propagate in direct APIs and produce the
 fixed CLI internal_error category/exit70, without a false normal BuildResult.
 
 Validation priority after a valid bytes argument:
@@ -190,17 +195,24 @@ returned. Its strings do not replace actual QM native lookup.
 
 ## 4. File/tool operation order and ownership
 
-Both generate_catalog and check_catalog perform this sequence. BuildRequest fields
-must be immutable str paths; reject bytes/nonstring/empty/NUL/unpaired-surrogate
-paths as io_failure before file/tool work. Path strings are retained as immutable
-owned data; no callback/path conversion can change the request during execution.
+Both generate_catalog and check_catalog perform this sequence. First validate the
+request/timeout domain above. BuildRequest path fields must be immutable str paths;
+reject bytes/nonstring/empty/NUL/unpaired-surrogate paths as io_failure before
+file/tool work. Path strings are retained as immutable owned data; no callback/path conversion can change the request during execution.
 The host serializes source/output edits for a build/check; this is a local build
 tool, not a file service or a concurrent-write capability.
 
-1. Open source READ-ONLY and read at most4MiB+1 bytes; overage is resource_limit,
-   open/read/type errors are io_failure. Validate the complete source before any
-   Qt tool or publication. Symlinked source may resolve to a real ordinary file;
-   the tool never opens it for writing. Record its identity/content snapshot.
+1. Resolve/stat the source FIRST and require an ordinary regular file BEFORE any
+   potentially blocking open. A symlink resolving to a regular file is permitted;
+   missing/dangling/looping links, directories, FIFOs, sockets and devices are
+   io_failure, stage input, with no open/read attempt on the rejected file type.
+   Open the verified source READ-ONLY, then fstat and require regular type plus
+   the same resolved file identity BEFORE reading. Read at most4MiB+1 bytes;
+   overage is resource_limit, open/read/identity/type errors are io_failure.
+   Validate the complete source before any Qt tool or publication. The source
+   is never opened for writing. Record its resolved identity/content snapshot.
+   The existing serialized local-host boundary remains; this does not promise
+   isolation from a hostile actor replacing files between filesystem operations.
 2. Canonicalize/validate root disjointness, source exclusion/aliases and the exact
    direct-child owned inventory in the catalog contract. Match names before file
    type; reject recognized symlink/nonregular output entries and symlinked managed
@@ -210,8 +222,7 @@ tool, not a file service or a concurrent-write capability.
    without creating them, complete private staging and report mismatch at step8.
    The lrelease executable must also lie outside both output roots and must not
    alias a publication target; never replace the compiler used by this operation.
-   Do not recurse
-   into unrelated trees or derive paths from IDs. No output directory/file is
+   Do not recurse into unrelated trees or derive paths from IDs. No output directory/file is
    created merely to validate a failing source, path or tool setup.
 3. Produce the four pure text artifacts privately; create isolated temporary stage
    directories and write canonical TS/browser bytes there. Staging is not target
@@ -227,15 +238,22 @@ tool, not a file service or a concurrent-write capability.
    then corresponding de argv. Never invoke a shell, PATH-selected alias, -idbased,
    -fail-on-invalid, lupdate, network or a provider. Use fresh isolated stage paths.
    Both child processes must exit0 and create their requested REGULAR NONEMPTY
-   QM outputs; absent/nonregular/empty output is tool_failed/missing_output. Never
-   copy a preexisting QM to simulate success. Actual generated-QM semantics still
-   require the independent real Qt Core probe/acceptance below.
+   QM outputs. After each process, lstat its exact requested staged output BEFORE
+   opening/digesting/copying it. Missing/empty is tool_failed/missing_output;
+   symlink or another nonregular type is tool_failed/invalid_output; size greater
+   than64MiB is tool_failed/output_file_limit. Each of these retains stage en/de
+   and the ACTUAL compiler tool_exit, including0 when the process exited0 but its
+   output fails acceptance. Never invent a nonzero exit or truncate the artifact.
+   Never copy a preexisting QM to simulate success. Actual generated-QM semantics
+   still require the independent real Qt Core probe/acceptance below.
 6. Recheck source identity/content and publication root/entry safety before target
    work; a changed source/layout is io_failure. Source bytes are never rewritten.
-   Construct immutable digest summaries from the ACTUAL staged artifact bytes.
+   Construct immutable digest summaries from the ACTUAL staged artifact bytes,
+   observing the per-file and bounded-stream rules below.
 7. generate ONLY: after all prior success, create needed target directories and
    publish the six expected files. Use newly staged per-file temporary files and
    os.replace-style replacement, not in-place truncation of an existing hard link.
+   Copy/read staged files only through the checked bounded streams below.
    Publish text paths in tuple order above, then binary messages_de.qm/en.qm.
    Unrelated and extra-owned entries are never removed. Source aliases are refused.
    I/O failure can leave a mixture of old/new expected outputs: return io_failure,
@@ -246,8 +264,11 @@ tool, not a file service or a concurrent-write capability.
    supplied by this build utility.
 8. check ONLY: do not create/replace/remove target files or directories. Compare
    exact owned inventory and all six expected existing bytes with the newly staged
-   bytes. Compare sizes then bounded chunks byte-for-byte; hashes alone are not
-   the consistency oracle. Missing/extra/different gives generated_mismatch.
+   bytes. Check target type/size BEFORE any content open/read. A target whose
+   size differs from the expected staged size (including any oversized target)
+   is generated_mismatch without reading that target body. Compare equal-sized
+   regular files in bounded chunks byte-for-byte; hashes alone are not the
+   consistency oracle. Missing/extra/different gives generated_mismatch.
    Return BuildResult only after ALL comparisons pass. No mtime-based shortcut,
    stale cached QM, partial success or text-only success is allowed.
 
@@ -256,8 +277,33 @@ exceptions. Actual source/target contents/inventory are preserved on input/path/
 tool failure; a publication I/O failure is separately honest as above. check may
 read filesystem metadata/data but never mutates target contents/inventory.
 
-Tool execution has a120-second MONOTONIC deadline PER process and65536 bytes
-COMBINED stdout+stderr capture maximum. Drain both pipes without deadlock into
+Artifact engineering constants are64MiB (67108864 bytes) PER staged QM and64MiB
+PER returned text artifact; four text artifacts and two binaries are the complete
+finite inventory. Pure render_text checks escaped UTF-8 output lengths against its
+text ceiling BEFORE materializing an oversized result; overage is resource_limit,
+stage template. These are local engineering output limits, independent of signed
+count precision; they do not claim a measured Qt output-size maximum. No byte is
+silently truncated. A QM acceptance ceiling does not assert that a child
+could not write a larger staged file before exit; that output is rejected before
+content reads or publication as specified at step5.
+
+Digest/compare/copy reads use chunks of at most65536 bytes, never read_bytes() on a
+staged QM or existing target. Before opening a staged QM require its lstat type and
+0<size<=64MiB; after open verify identity/type/size by fstat. Count streamed bytes
+with checked additions, stop at the accepted size/ceiling plus at most one-byte EOF
+check, and require exact expected size at EOF; no oversized/short/growing artifact
+becomes a partial successful digest. A changed/nonregular staged QM is
+tool_failed/invalid_output with its actual prior compiler exit/stage; an OS read
+failure is io_failure. Recheck identity/type/size for each later read/copy as needed.
+Existing target mismatch is generated_mismatch, stage comparison, without fabricated
+tool exit metadata. These rules bound reads even when a stale target is enormous.
+
+Tool execution uses request.tool_timeout_ms as a MONOTONIC deadline PER process,
+inclusive1..120000 milliseconds, default120000. CLI construction always keeps this
+default: no new timeout flag/environment override exists. The validated lower direct
+API setting is an ordinary bounded build option, not an injected clock/process
+capability. It permits a cheap real timeout failure test without waiting minutes.
+The COMBINED stdout+stderr capture maximum remains65536 bytes. Drain both pipes without deadlock into
 bounded buffers. On deadline/output cap, terminate/kill and reap only this invoked
 child, report tool_failed with timeout/output_limit and actual exit when available;
 no buffer growth beyond the cap or passing truncated-success result. Child output
@@ -265,13 +311,21 @@ is never forwarded into normal CLI stdout/stderr or exposed as translation text.
 Only the fixed safe diagnostic metadata is public. The selected actual Qt tool
 can have its raw preflight logs recorded separately by the coordinator; this API
 does not accept an injected fake successful compiler/reader as production authority.
+Focused process-failure tests may use a real disposable error-only executable: a
+sleeping child with a short valid direct deadline, or a child creating a sparse
+oversized staged output and exiting0. Those prove timeout/output rejection plus
+truthful metadata, never successful QM compilation/semantic acceptance. No fake
+clock, fabricated subprocess completion or alternative successful compiler is a
+public API. The valid foundation/success cases still use the pinned actual Qt tools.
 
 ## 5. CLI records and exit mapping
 
 The three command lines are exactly the catalog contract's validate/generate/check
 forms. Flags may be reordered; repeated/unknown flags, missing flag values, unknown
 commands or flags inappropriate for validate are CLI usage errors BEFORE reads.
-No implicit default source/output/tool location, stdin catalog, environment language
+BuildRequest.tool_timeout_ms always uses120000 for CLI generate/check; it is not a
+CLI flag and is never read from environment. No implicit default source/output/tool
+location, stdin catalog, environment language
 selection, print-body mode or silent overwrite mode is proposed. Sole-argument --help and --version are read-only CLI metadata operations, not
 generator execution. They are not combinable with a command or other flags.
 

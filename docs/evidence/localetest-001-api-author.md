@@ -42,3 +42,39 @@ author. Exact commands/results accompany this candidate commit.
 - python3 tools/progress.py render --check — PASS current snapshot.
 - git diff --check — PASS; staged new-file check is required by the author commit.
 No generator, new API/stub source, tests or native feature was invoked.
+
+
+## Actual API document review correction A1–A3
+
+Different reviewer service_reviewer changes-requiredce77a9a inspected initial
+895b500 API blob7f1738b6/authorc247d91a. The coordinator explicitly resumed this
+SAME two-Markdown-file stage and released this bounded correction batch:
+
+- A1: BuildRequest adds inert integer tool_timeout_ms, inclusive1..120000,
+  default120000. Eventual generate/check reject bool/nonint/out-of-range values as
+  invalid_schema/input before path/file/tool work. CLI remains unchanged and
+  always selects the default. Real error-only sleeping children can exercise
+  bounded timeout cheaply; no fake clock or successful compiler capability exists.
+- A2: staged QM and returned text have explicit per-file64MiB ceilings. Check
+  lstat/fstat type/identity/size before reads; digest/compare/copy in <=65536-byte
+  chunks, exact counted EOF, no unbounded read_bytes or partial digest. Staged QM
+  overage is tool_failed/output_file_limit with actual language stage and actual
+  tool_exit (including0), never a fabricated process failure. Existing enormous
+  target mismatch rejects on size without reading its body. Error-only sparse
+  output helpers do not establish successful Qt semantics.
+- A3: resolve/stat ordinary-source type BEFORE potentially blocking open, permit
+  symlinks resolving to regular files, reject FIFO/device/socket/directory/invalid
+  source as io_failure without opening that type, and verify opened fstat identity/
+  regular type before reading. Later source identity/content recheck remains;
+  no hostile concurrent filesystem isolation is claimed.
+
+The approved source catalog contract51383296 and source-contract authora203ad4b
+remain byte-identical. Earlier independent changes-requested review history is
+retained; a different actual recheck of this revised API is pending. No Python,
+generator, catalog, schema, stub, fixture/test, project Qt feature or production
+behavior was authored/invoked. Root retains all shared build/CI/progress ownership.
+
+Revised API-document checks: python3 tools/check_project.py PASS396/122/local links/
+presets/HTML; python3 tools/progress.py render --check PASS; git diff --check PASS.
+Frozen source/author hashes were rechecked unchanged; staged diff validation follows.
+No generator/stub/fixture/test/native feature invocation occurred.
