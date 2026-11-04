@@ -8329,8 +8329,8 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "in_progress",
-      "owner": "coordinator /root; selected1.83 host proof passed; current-main/harness integration",
+      "status": "in_review",
+      "owner": "coordinator /root; independent recovered-red attribution next",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -8356,11 +8356,12 @@
         "ActualcorrectedR124f9b3a/imported27c82 tests64fd60b2/author60d84fb2 receive finalindependentfull53reviewdcf5dcaa. MixedASCII O/0x80/0xff source+constraint ordering nowpinned, alloldassertions/53names/vectors8936/foundation28a/header3a/TU4cf1 preserved. Rootnative14factBoostfoundationGREEN afternarrow4eapproval alreadyobserved; currentselectedBoost1.83CI with53build/discovery/newfoundation pendingpublication beforeFIRSTmodelred. No ratebody/marker hasrun, no productioncapability.",
         "ConcreteACCESSBLOCK: SSH_AUTH_SOCKabsent/no usableGPGSSHidentities; GitHTTPSauthenticatedbutrepeated500. ExactGitDataAPIpublishLOCmetadataworked, but new.github/workflows/rate-snapshots.yml updateCreateTree404 at7ff whileexistingghOAuthscopesreporeadorggistadminpublickey lackrequiredworkflow. Officialscope requirementverified; do not bypasspermission viaalternatefile/refroutes. OwnerASYNCaskedrestoreSSH orghauthrefresh-sworkflow, pendingrealcredentialchange. RemotePR54still512; local03aab6d(fullapprovedtests/currentmain/metadata) preserved pluspartialunreferenced031 exactAPIobjectreceipt. Do notFIRSTredbeforecurrentselectedCI. ContinueMILEAPI/CONTRACT003readonlyprep independently. Onactualaccessrestorationverifyauth/head, resumein_progress/publication/sourceCIthenfirstred; no stale approvalsreplayed.",
         "Integrated fresh main dd6a141/PR57 planning without changing reviewed source/tests/contracts/harness. All53 tests64fd60b2, fixture8936f4fa, independent foundation28a829aa and source/API/model remain exact; valid reviews preserved. Reconciled active common005/password001/milestone-test claims, required009 exactvaluation bridge/EPIC017 deps retained (403tasks). Still blocked on actual workflow credentials, remote512 unchanged; no selected current CI or first feature red. No native rerun warranted for documentation-only main integration.",
-        "ResumedafterPR62merge9345/all13PR+12postmainSUCCESS andPR59normalmergefc28558/from595/all14PR+13postmainSUCCESS. WorkingSSHrestored; no ownerdecisionneeded. FIRSTselectedBoost1.83 SDK-only14facthostfoundation actuallypassed2026-11-04T19:11:54Z afterunchangedsource28a829aa prioractualreviewdcf5 andnewcompileoperatorcodec/differentrootselectionreviewa5963b39; actual521headers authenticprefix/GNU16.2/macro108300, noprojectorGTestsymbols. Receiptjointf070ca7f in/tmp/subathon-rate-milestone-boost183-compile-eiahc2ua, neither53featuretests nornewrateentrypoints/markers ran. Preserveold1.92proof as history, doNOTreplayselectedhostFIRST. Currentmainmergepreservesall406currentIDs/1497edges plusrequiredRATESTEST009/RATES009+EPIC017edges for408/1508; retainMILESTONEhistoricalnote. Exact53reviewedtests/fixtures/independentoracles/stubs unchanged. NewCTest-time labelcompatibility/actualchangedharnessreview/selectedUbuntuCI/FIRSTplain53red/attribution/finalnormalmerge stillremain."
+        "ResumedafterPR62merge9345/all13PR+12postmainSUCCESS andPR59normalmergefc28558/from595/all14PR+13postmainSUCCESS. WorkingSSHrestored; no ownerdecisionneeded. FIRSTselectedBoost1.83 SDK-only14facthostfoundation actuallypassed2026-11-04T19:11:54Z afterunchangedsource28a829aa prioractualreviewdcf5 andnewcompileoperatorcodec/differentrootselectionreviewa5963b39; actual521headers authenticprefix/GNU16.2/macro108300, noprojectorGTestsymbols. Receiptjointf070ca7f in/tmp/subathon-rate-milestone-boost183-compile-eiahc2ua, neither53featuretests nornewrateentrypoints/markers ran. Preserveold1.92proof as history, doNOTreplayselectedhostFIRST. Currentmainmergepreservesall406currentIDs/1497edges plusrequiredRATESTEST009/RATES009+EPIC017edges for408/1508; retainMILESTONEhistoricalnote. Exact53reviewedtests/fixtures/independentoracles/stubs unchanged. NewCTest-time labelcompatibility/actualchangedharnessreview/selectedUbuntuCI/FIRSTplain53red/attribution/finalnormalmerge stillremain.",
+        "Actual selected Ubuntu41897596827 atbf5986d passes exact53enabled discovery/realBoost1.83 foundation14/1of1/old36; changedrootmain/labels/foundationguard approved7ae17c55/import050e566. FIRSTplain rate feature run actually occurred onclean050e566, nativeJUnit2026-11-04T20:39:46CET shows53executed/53failed/0disabled/0skipped. Pythontextcollector thenfailedonintentional0xff trace; wrapperexit1 and DIRECTCTESTEXITNOTRETAINED, no inventedexit8. NativeJUnit/LastTest/53failedinventory recoveredbeforeanyfurtherCTest, rawhashes/preserved364markers+364failurelocations; readableprojectionbackslashreplace/rawbytesseparate. No replay or oracle/source/testchange. Actualdifferentattributionpending beforebaselinedone. UnrelatedSQLitejob publicMSapt403 beforebuild wasretriedonlyonce/attempt2PASS; finalfreshHEADallchecks/normalmerge stillrequired."
       ],
       "verification": {
         "document_review": "passed",
-        "test_baseline": "not_run",
+        "test_baseline": "observed_red",
         "implementation": "not_run",
         "api_review": "passed",
         "interface_build": "passed",
@@ -8369,8 +8370,11 @@
         "test_review": "passed",
         "selected_foundation": "passed",
         "interface_ci": "passed",
-        "selected_foundation_ci": "not_run",
-        "selected_host_foundation": "passed"
+        "selected_foundation_ci": "passed",
+        "selected_host_foundation": "passed",
+        "baseline": "observed_red",
+        "current_harness_review": "passed",
+        "red_attribution": "not_run"
       },
       "evidence": [
         "docs/contracts/rate-snapshots-v1.md",
@@ -8385,7 +8389,11 @@
         "docs/evidence/ratestest-001-test-review.md",
         "docs/evidence/ratestest-001-ci.md",
         "docs/evidence/ratestest-001-selected183-host.md",
-        "docs/evidence/ratestest-001-selected183-host.json"
+        "docs/evidence/ratestest-001-selected183-host.json",
+        "docs/evidence/ratestest-001-main-integration.md",
+        "docs/evidence/ratestest-001-main-integration-review.md",
+        "docs/evidence/ratestest-001-first-red.md",
+        "docs/evidence/ratestest-001-first-red.json"
       ],
       "review": {
         "author": "/root/codec_author (literal fixtures/tests)",

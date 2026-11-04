@@ -125,3 +125,17 @@ DoNOTreplayselectedFIRSTs; neithernewfeature suite/markerhasrun. Old1.92proof
 isnotselected1.83proof; actualnewselectedhostsuccessnowrecordsproperdistinction.
 PR54main/harness/labelsreview/currentselectedCI/FIRSTplain53red/attribution/merge
 stillrequired; noRATES001production. No root native/build processcurrentlyrunning.
+
+
+Latest Rate gate update: actual newrootconfig approval7ae17c55/import050e566,
+selectedUbuntu41897596827 atbf598 passes53enabled/SDK14/old36. FIRST53feature
+run COMPLETED ONCE atclean050e566/nativeJUnit20:39:46CET:53failed/0skip.
+CollectorUTF8decodefailedafterchildoutputonintentional0xff; DIRECTCTESTEXIT
+NOTRETAINED (wrapperexit1), doNOTclaimexit8 orcountcollectorerrorasred. Native
+JUnit/LastTest/53failedinventory recoveredbyteexactly beforeanotherCTest:364
+markers/364failurelocations, actualdifferentattributionnext. No test/oracle/source
+change or rerun. Receipt30bc9d7b in/tmp/subathon-ratestest001-first-red andtracked
+first-red.*. DO NOT replayFIRST. SQLite41897597107 aptMS403beforebuild passed
+normalfailedjob-onlyretryattempt2, no trust/testweakening. Finalcurrentallchecks
+remainrequired. PR52actualAPIa2ac5a2c approvedaf076bec/review5debe113, rootnext
+releases minimalinertsource; no timerimplementation or tests/run yet.

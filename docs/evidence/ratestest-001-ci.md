@@ -1,54 +1,22 @@
-# RATESTEST-001 environment and CI stage evidence
+# RATESTEST-001 current selected Ubuntu observations
 
-Coordinator /root,2026-11-04. This is a test baseline in progress, not rate-model
-implementation or passing feature acceptance. No new rate function/marker/body has
-run. [API](../contracts/rate-snapshots-api-v1.md), [minimal source review](ratestest-001-stub-review.md)
-and [test review](ratestest-001-test-review.md) preserve actual reviewed revisions.
+Root inspected [run41897596827](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41897596827)
+at publishedbf5986d5ae418fb2c921b147b18927aa3f3ae996. Actual selected Boost1.83
+configure/macros,53 enabled intentional-red discovery, mandatory independent
+`PASS rate snapshot Boost foundation: 14 facts, Boost 1_83` (1/1) andold36 passed.
+Full selected log: `/tmp/ratestest001-selected-ci-bf598.log`. The old512828c workflow
+covered only earlier interfaces; it is not this full baseline observation.
 
-## Completed interface environment
+One unrelated SQLite run41897597107 failed before any build/test because the public
+Microsoft apt index returned HTTP403. Actual log retained at
+`/tmp/ratestest001-sqlite-failure-bf598.log`. Root retried only that failed job once,
+using the unchanged signed apt workflow. Attempt2 passed; no source/signature/test/
+branch-protection bypass was used. Fresh final-head all applicable checks remain
+a normal merge gate, regardless of this older immutable-head result.
 
-Actual [interfaceCI41805994785](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41805994785)
-at512828c completed SUCCESS: selected pinned Boost1.83/compiler-header version,
-GTest dependency/build, all33 existing exact-numeric plus3 infrastructure CTests.
-All13 PR checks at that head succeeded. It contains no new rate semantic execution
-and is NOT a substitute for the current53-case selected baseline environment.
-Ignored raw interfaces-41805994785.log SHA256
-aa4ae1254da448d7abdbf2ff1a0bb05c690e03d0bcf864f7ea582b2e5c109c19.
-
-Root configure/build on GNU16.2.1/Boost1.92/GTest1.18 compiled the authored53 tests
-and independent foundation; gtest_list/CTest90 discovery were inert. An initial
-CMake imported-target directory-scope error was fixed with test-local find_package.
-That configure failure was never counted as behavioral red.
-
-## Approved Boost-only foundation
-
-Actual narrow review4e9c615/import7124003 approved foundation28a829aa and root
-harness8cc2bbc1/CIc336395d BEFORE the first foundation run. The executable includes
-only Boost/standard headers and links only Boost::headers, with no project symbols.
-
-```sh
-ctest --preset rate-snapshot-debug -R '^scaffold.rate_snapshot_environment$' --verbose
-```
-
-Actual1/1PASS0.00s,14 literal arithmetic facts, Boost1_92. Root ignored log
-local-evidence/ratestest001-ci/foundation-5905f6e.log SHA256
-419c41ee27022b8b859f96b70c871499a8e83a8cf6b85b3fbf51f904e4fb14ad.
-No model factory/query/marker is invoked by this diagnostic. Code review also
-verified nm has no subathon symbols. This is selected-library capability only.
-
-## Current full tests and remaining execution gate
-
-Authored53 methods/vectors8936, corrected tests64fd60b2/author60d84fb2 and unchanged
-foundation28a are actuallyapproveddcf5dcaa after the mixed ASCII/high-byte oracle
-addition. Every earlier assertion/53names remains. Root compiles/discovers all53;
-none is disabled/inverted, and all carry an explicit intentional-red label.
-CI keeps the mandatory independent foundation and old36 checks ordinary, builds/
-discovers all53, and runs the new feature body only through the separate reviewed
-FIRSTred command after current selected CI is observed GREEN. No skip, inversion,
-blanket continue-on-error or fake successful model is allowed.
-
-Current selected1.83 foundation/build/discovery CI and FIRSTmodelred remain pending
-publication/observation. Gittransport failures are being recovered through exact-hash
-Git-data APIs and non-forced task-ref updates; no protection/history change. Do not
-claim either future result. RATES001 and required009historical valuation bridge
-remain unimplemented; provider/runtime/platform/fullrelease gates remain required.
+Current integration/label/foundation guard was actually approved7ae17c55 by a
+reviewer different from root. Prior full test reviewdcf5 remains scoped to unchanged
+53 methods/fixtures. The selected host14 facts and Ubuntu proof establish SDK
+capability; the first feature run remains independently attributable intentional
+red, not passing rate/provider/valuation behavior. No input source is promoted to
+verified live capability and the required RATES-009 bridge remains planned.
