@@ -1,5 +1,11 @@
 # ACCT-004 independent implementation review
 
+**Final verdict: APPROVED actual corrected source/configuration ce28ff3.**
+The final section pins the accepted artifacts and independent full308 evidence.
+Earlier changes-required and bounded-stage findings remain as review history.
+Selected official CI, current-head merge gates and full release verification are
+separate; no prospective result is approved.
+
 Reviewer: service_reviewer, different from service_author and codec_author,
 2026-11-04, isolated task/ACCT-004-review.
 
@@ -199,3 +205,115 @@ reported premature-log-end recovery twice during CMake regeneration; compilation
 itself produced no source warnings/errors. No retained-command regression or other
 uncorrected service regression body was replayed. Full corrected service review,
 all43/full308 acceptance and selected CI remain required.
+
+## Final actual corrected source and configuration: approved
+
+Independent reviewer service_reviewer, 2026-11-04. **APPROVED** actual corrected
+rootce28ff3 (author4612223), retaining previously reviewed codec correction217acc7
+and all eight separately reviewed/reached-red regression slots. No runtime source,
+public method, test oracle or configuration blocker remains for these exact blobs:
+
+| Artifact | Accepted Git blob |
+| --- | --- |
+| application_service.cpp | f20187a7880ca53fcd5060d8ba3bc970484b9ec2 |
+| private sqlite_application_bundle_values.hpp | 162373edddadee8583c83abbcbb421a0fae9990e |
+| application_service_command.cpp | 05091e2552a8b2baaac410524a583386bb20bb1c |
+| private application_service_command_internal.hpp | 7d9171cd45bd2b05edc5ec48c927beee74be976e |
+| public application_service.hpp | 84f09f21ae354faede0bca255ab61714922feb45 |
+| server CMake | d2e81da7ef4b25ede5c80fa8df47c23c3c3b403c |
+| feature tests | 7329b24fe97c02ee98307cf20ed8d947c90364cb |
+| Qt registration | 8e9d85eee4724b9663e3d11af430f2e57fe1f3a1 |
+| selected workflow | c63ee1772ea3c5a46123256077e8c8935b0c8f44 |
+| presets | 90eabe4503eaf70dfb20174b0733c6137bf2d8a1 |
+
+Read the actual complete service and successive correction diffs, including the
+final459-line service hardening and tiny private overload. Checked these source
+requirements separately from runtime observations:
+
+- Selected read-limit DATA survives view expiry; weak shared authority plus atomic
+  revocation limits each view to its own callback. Key validation precedes expiry
+  and thread checks. Live foreign calls cannot touch Qt SQL/session state.
+- Current execution authorization precedes protected lookups. Historical disclosure
+  precedes semantic validation and immutable selected-capture reading. That read
+  uses existing guarded same-session Access::plan for the recorded revision, never
+  revalues against current policy/head. Full canonical command envelope equality
+  after known-semantic decoding retains every logical member without re-encoding.
+- SAS1/SAR1/SAA1/SAJ1 byte-view scans validate known grammar before owning parsing.
+  Combined SAS1 ownership includes clock segments, balances and actual echoed
+  reference copies. Clock sums and finalUTC are checked. Both before/after policy
+  and configuration agree with successful audit; synthetic jobs match immutable
+  selected requests and actual occurrence components, not merely repeated SAR1 bytes.
+- Complete current ContributionState is copied directly to expected_contribution,
+  preserving all15 fields/optionals independently of state token. Actual plan head
+  is checked on input and by direct bundle stage. Every original stage refusal maps
+  explicitly; reversal-only outcomes cannot become original success. Ready is
+  excluded before timer reduction; paused Active still observes hard end before
+  final refusal. Only current running timer and actual main_added feed each positive
+  occurrence. Signed minimum uses Exact arithmetic; all negative units require
+  correction purpose, with deficit policy restricted to milliseconds.
+- Numeric failure preserves whole-input SAH1/SAH2 evidence, full correction list and
+  actual failed balance while keeping captured target separate. No fitting prefix
+  is staged. Explicit unresolved policy retains its reason in a durable hold.
+  Historical already_recorded detection never certifies a fresh active hold.
+- Complete initial proposal is measured before copying clock/balances. Pending
+  effect byte formula matches published field walk: fixed18, actual Exact/residual/
+  explanation, three9-byte time components or one9+target counter component,
+  optional cap8 or deficit tags2. Complete proposal plus pending effect/transition
+  items is checked before construction/append. Refusal paths do not manufacture
+  hypothetical provenance/components.
+- Hold sizing runs without materialization; exact detection projection follows
+  published source/command/plan/observation/failure fields and all occurrence data.
+  Three policy or four numeric annotation copies are charged independently before
+  cause/observation/occurrence construction. Encoded format bytes, before/after
+  snapshots, complete PreparedBundle and final protected response each receive
+  their own checked projection before owning growth. The private borrowed job
+  validator removes duplicate shell copies; its original wrapper delegates with
+  unchanged validation body/order. No existing store rule or oracle is weakened.
+- Actual one-BEGIN session owns every normal commit. Healthy denials/duplicates
+  commit read-only units; known local failures perform actual cleanup, established
+  store/query rollbacks are not repeated, and unknown transaction truth dominates
+  remembered reasons. Only committed/none/present EXACT-metatype normal WorkResult
+  can provide the response. Tail exception, wrong QVariant or publication failure
+  cannot fabricate or undo accounting.
+
+Allocation ordering is established by actual source audit; no runtime test is
+claimed to instrument allocations or create a private timer/current-state race.
+Component reducer/storage runtime evidence and the source traces above retain
+their distinct proof roles.
+
+Independent final native checks in the isolated reviewer worktree:
+
+```sh
+cmake --build --preset application-service-debug --parallel 2
+ctest --preset application-service-debug --verbose
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+Build91 actual steps PASS, zero compiler warnings/errors. Ninja reported recovery
+of a prematurely ended local cache log before the successful build; no source/test
+change was made to mask it. Full CTest308/308 PASS24.65s;305Qt processes total
+1420PASS/0FAIL/0skip/0blacklist, including43 feature slots/233 scenarios and their
+86init-cleanup passes. Native GNU16.2.1/Qt6.12.0/Boost1.92/Python3.14.8. Final
+verbose full SHA2561232be399c589a8d47c0d4a0c4b5ff803255818f0fde79a27e97bdbbda520a4a;
+build SHA256541c7b2aa9afcc1be8be94137c3b0dab41deefc69a560767342c22ca0757ed09.
+Project396/122/link/preset/currentHTML/render/diff checks PASS. Compiled/registered
+feature count remains exactly43; all enabled acceptance, no draft/failure inversion.
+
+Independent byte comparison strips only the one additive block and reproduces the
+entire original35-method test CPP byte-identically. Actual committed raw additive
+red audit confirms5+2+2 genuine behavior failures across8 processes,16initcleanup
+PASS, zero setup/skip/missing markers. Review messages and exact earlier blob pins
+above preceded each first invocation. The additive files were uncommitted at those
+runs; no clean-head claim is made. No historical red was replayed. Canonical raw
+SHA256s: first5 7787aa63e444c8fecc3a59b61659538536b43758f0b23fa6eb38bf8d7e7ccaf6;
+next2 0848edeb34de33a17bae5fe2dbdfbb21d2433e9e7ec5b2f9c1d254d3dd5ceaa7;
+last2 250bd59fb931da405d02ddebe80b04722dca7d2e1a17ed1dbb6c7539a0ecf238.
+
+Actual selected officialQt run41781024558 at publisheda49ec06 was still active when
+this source verdict was written. Coordinator must observe its actual outcome and
+latest-revision CI/review/discussion/rules gates before normal merge. Source/config
+approval applies only to the pinned artifacts, not future changes or unknown CI.
+No real authority/policy/clock/reference/action/provider adapter, financial refunds/
+review continuation, recovery/UI/platform/packaging/live/full-release proof follows.
