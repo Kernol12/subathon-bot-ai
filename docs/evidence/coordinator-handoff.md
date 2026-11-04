@@ -123,3 +123,12 @@ this draft compile/list-only lane for fresh CI while reviews proceed; require bo
 actual approvals before root FIRST red. Root inspector corrections changed no
 test/assertion/fixture: unnamed workflow step lookup; allow only CMake standard
 GoogleTest skip-message detector, disallow custom result rewriting.
+
+
+Tests actual approved1d8e9335/import6805011, review68029788; unchanged30source
+fc82d17e/inventoryd0c25108. Local harness actualapproved7d7f651/importddb6fac.
+SelectedCI6b9 run41884253112 compiled then strict guard rejected labels, no feature
+body. Root compatibility correction3dc7108 moves exactfourlabels to CTest-time
+TEST_LIST include; local67/bothguards and oldhelper-source30 reproduction pass.
+Service_reviewer reviews actualcorrection now; no FIRSTred yet. Publishcorrected
+draft foractualCI; root willFIRSTred onlyafter actualfixapproval and selectedproof.

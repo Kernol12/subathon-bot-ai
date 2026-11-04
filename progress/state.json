@@ -3561,7 +3561,7 @@
       "module": "Identity",
       "kind": "test_baseline",
       "status": "in_review",
-      "owner": "coordinator /root; codec_author (tests review); service_reviewer (root harness review)",
+      "owner": "coordinator /root; service_reviewer (label compatibility review); codec_author (tests approved)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3587,7 +3587,8 @@
         "Actual concrete API author646a11e3/import5757a45: API blobdda2793c/author0680aa30, std-only raw facts and one evaluator, six limits, complete canonicality/shape/stage/error/B-I/output projection/source explanations. Logical/spec/owner inputs unchanged. Different codec_author API review now active on actual committed revision; no minimal source/test stage released yet. Foundation publication07418ee succeeded through SSH;13 GitHub checks queued at last observation, no current CI pass claimed.",
         "Actual API review5c029d4/importb9e0520 (notee007e35b) approves APIdda2793c/author0680aa30 without blocker. Release ONLY minimal inert exact API transcription to service_reviewer in accesstest002-source-author fromc8cb5f2. Evaluator body must immediately throw explicit marker; no validation, successful behavior or tests. Different source/harness review precedes test authoring; root owns source build target/shared state/CI.",
         "Actual minimal source author78195bef/importb29274b, headeredd6ffc2/TU4cf7bcca/author04e5ed87; root targetf1eb3d6 compile/list37 passed. Different actual source/harness review7ddc58b0 (note29e07a50) approves exact API transcription/immediate markerthrow only. Release original service_author test authoring on isolated continuation tree. No feature or marker has run. Foundation published07418ee all13 checks SUCCESS, actual Ubuntu selected1.83 run41878733543 passed21 primitives and old36. New task revisions require fresh CI.",
-        "Actual test author25001158/importd1d36ee:30 named testsfc82d17e, inventoryd0c25108, authorba78ccde. All45EP+2D1 mapped; raw literal setup, complete explanation/lifetime/error/limit cases. Root harnessb519153 compile/list67 and exact30 inventoryguard passed; no feature or marker body run. Different actual testoracle review assignedcodec_author, rootCMake/CI harness review separately assignedservice_reviewer (not selfreview of own prior stub). CI permits only standard CMake GoogleTest skip-message detector, rejects custom result rewriting, and separates intentional feature red from mandatory green SDK+old36. Publishing draft compile/discovery candidate while reviews proceed; actual FIRST red still blocked on both approvals."
+        "Actual test author25001158/importd1d36ee:30 named testsfc82d17e, inventoryd0c25108, authorba78ccde. All45EP+2D1 mapped; raw literal setup, complete explanation/lifetime/error/limit cases. Root harnessb519153 compile/list67 and exact30 inventoryguard passed; no feature or marker body run. Different actual testoracle review assignedcodec_author, rootCMake/CI harness review separately assignedservice_reviewer (not selfreview of own prior stub). CI permits only standard CMake GoogleTest skip-message detector, rejects custom result rewriting, and separates intentional feature red from mandatory green SDK+old36. Publishing draft compile/discovery candidate while reviews proceed; actual FIRST red still blocked on both approvals.",
+        "Actual full30 test approval1d8e9335/import6805011 (note68029788); unchangedsourcefc82d17e/inventoryd0c25108, all45EP+2D1 independentoracles checked. Actual localharnessapproval7d7f651/importddb6fac (noteba601329) passed full67 list/guards. SelectedCI6b9 run41884253112 compiled but strict guard rejected suite labels; not behavioralred, no featurebody. Root correction3dc7108 assigns samefourlabels atCTesttime after TEST_LIST, preserving all tests/strict guards; host67 and authenticupstream3.28helper list-only30 reproducecorrectmetadata. Exactrunnerlabelshape/versionnotdumped; old/newhelper mechanism is inference. Actualdifferentcorrectionreviewservice_reviewer active; FIRSTred notyetreleased."
       ],
       "verification": {
         "document_review": "passed",
@@ -3598,7 +3599,10 @@
         "owner_decision": "passed",
         "environment": "passed",
         "api_review": "passed",
-        "source_review": "passed"
+        "source_review": "passed",
+        "tests_review": "passed",
+        "harness_review": "partial",
+        "ci": "partial"
       },
       "evidence": [
         "docs/evidence/accesstest-002-open-decisions.md",
@@ -3618,7 +3622,10 @@
         "docs/evidence/accesstest-002-ci.md",
         "tests/acceptance/effective_permissions_tests.cpp",
         "tests/fixtures/effective-permissions-v1.json",
-        "docs/evidence/accesstest-002-tests-author.md"
+        "docs/evidence/accesstest-002-tests-author.md",
+        "docs/evidence/accesstest-002-tests-review.md",
+        "docs/evidence/accesstest-002-tests-harness-review.md",
+        "docs/evidence/accesstest-002-labels-correction.md"
       ],
       "review": {
         "author": "service_author",
