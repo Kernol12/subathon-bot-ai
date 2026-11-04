@@ -1,180 +1,139 @@
-# Coordinator checkpoint — password native preparation and scene document
+# Coordinator checkpoint — scene integrated; password corrections and asset contract
 
-Coordinator /root, 2026-11-04. Follow AGENTS.md and
-[coordinator instructions](../COORDINATOR_PROMPT.md). Full product incomplete.
+Coordinator /root,2026-11-04. Continue AGENTS.md and
+[standing coordination](../COORDINATOR_PROMPT.md). Full product incomplete.
+Inspect actual agents/processes/worktrees/GitHub before assuming continuity.
 
-## Integrated main and completed gates
+## Main and completed tasks
 
-Last observed main b2b14bb5cc6d509f45784c55d5dbed7e55f7556b normally merged
-[PR60](https://github.com/Kernol12/subathon-bot-ai/pull/60) at13:46:13Z, exact head
-a3901123c982cdc2bad80cbccd6ca35436ec3221/tree0a7b58f4cff9628e37cdf87a3fa36b5091403520.
-All12 final head check-runs and all11 post-main check-runs completed SUCCESS.
-Actual independent approval a2897c88/importddff63f, zero threads, current ruleset
-26170263/zero required GH approvals/no bypass, exact-head normal merge.
-[Scene prerequisite handoff](contractplan-002-handoff.md) retains full009–012/008 gates.
+Last observed main8fc9edcf7ac58e61bfd5ed09850e44c97984f77a, normal
+[PR61](https://github.com/Kernol12/subathon-bot-ai/pull/61) merge2026-11-04T15:22:52Z
+fromEXACThead365570b30f58a5a19a61c4ea36eccec3381dc2c4. ALL12finalcheckrunsSUCCESS;
+actualcorrectedlogicalapproval7f782640/import50915bd, zero threads, currentruleset
+26170263/PR+discussionresolution/0GHapprovals/no bypass/CLEAN before expected-headmerge.
+Merge/headtree81817e814424af0b4eddd2daca05bc8f8ba6d917 verifiedequal; localmain/originmain
+refreshed. Post-main11workflowresults pending.009logicaldocument integrated only.
+[Scenehandoff](contract-009-handoff.md), [review](contract-009-review.md),
+[model](../contracts/scene-document-v1.md) blob9a350733; author8f9f619b/review8ea2e1bd.
+OriginalR1/R2review+boundedcorrection history preserved; originalrows unchanged,
+27SD+7familyexamples. No complete008/C003/schema/renderer/editor/codec/platform proof.
 
-Earlier PR58 common005 merged009632386564f3a00fb413580ac1cee3ef43cc11 at12:28:38Z,
-headf73ef10/tree0b4014ec/all12 final/all11post-main; actualf01bd28/import07c8366.
-PR57 planning mergeddd6a141 at11:28:48Z/exact886ba3b/all12final/all11post-main.
-PR55/53/51 are also complete. Preserve valid evidence; do not repeat completed gates.
-[Common](contract-005-handoff.md), [planning](contractplan-001-handoff.md),
-[locale](locale-001-handoff.md), [accounting](acct-004-handoff.md).
+PR60 mergedb2b14bb at13:46:13Z/exacta390112/tree0a7b58f4/all12final+11postmain.
+PR58 merged0096323 at12:28:38Z/exactf73ef10/tree0b4014ec/all12final+11postmain.
+PR57 mergeddd6a141 at11:28:48Z/exact886ba3b/tree5262607e/all12final+11postmain.
+PR55/53/51 also done. Preserve actualreviews/red/pass; no replay.
+[Plan002](contractplan-002-handoff.md), [common005](contract-005-handoff.md),
+[plan001](contractplan-001-handoff.md), [locale](locale-001-handoff.md), [ACCT004](acct-004-handoff.md).
 
-## Password task: actual native preparation review pending
+## Actually active agents/tasks
 
-Password branch task/SESSIONTEST-001-password-baseline in sessiontest001-integrator;
-[draftPR59](https://github.com/Kernol12/subathon-bot-ai/pull/59) remote stillf94f5ae.
-Logicalf730/importd74 (blobbc9ccbf6) approved98/importfebe5c2, note6226c59d.
-API fca99279/import775f084 (blob7ad1e8d3) approved18e1a109/import503a7d3,
-note (`sessiontest-001-api-review.md` in password worktree)8107778d. Source d34f2d/importc7d4c45 and
-root harness64a924c approved93d9a576/import30bdd15,
-note (`sessiontest-001-minimal-review.md` in password worktree)206ca8d4. Exact std-only headerec3c5cf8/
-CPPeaf56f41 retain THREE immediate marker throws; no production released.
-Independent47compiletraits/build8/old3infraPASS; not native/password acceptance.
+- service_reviewer: NEW011logicaldocument author, contract011-author/task/CONTRACT-011-document-author
+  atclaim1cacc34dff13afd9350ef76d1227ec781e3e4a8e, freshmain8fc. Integrator
+  contract011-integrator/task/CONTRACT-011-asset-font-packages sameclaim. OwnsONLY NEW
+  docs/contracts/scene-assets-packages-v1.md +docs/evidence/contract-011-author.md.
+  Allassets/fonts/packages/media/SVG/NotoOFL/fallback/configurablebudgets/finiteexecution
+  profileproposals+independentexamples. Sourceprep READONLY completed, no downloads/
+  parse/runtime. QtBase isnotMultimedia; Chrome notOBSCEF; QtSvgflags notappwhitelist;
+  Noto sourcecandidate notvalidatedbinary. No schema/API/code/tool/dependency/assets/
+  validator/renderer/nativefeature released. Different actualdocreview before012/nextstage.
+- codec_author: DIFFERENTpassword fulltest/wrapper/CMake/CI review, sessiontest001-full-review/
+  task/SESSIONTEST-001-full-review at2c0c9ab705022c3778e0d97591c4376e39452c68. OwnsONLY NEW
+  docs/evidence/sessiontest-001-test-review.md. Actualfull37caseauthor8e6d1dd/import82d624d;
+  rootcompiled/discovered41only. Found2concreteissues, batchedreviewnotyetcommitted:
+  helperfatalassert returns beforecallerSDKoracle; totalguardallocations==1 overrestricts
+  conforming scratch anddoesnotproveactualpasswordidentity/lifetime. Awaitactualfinding
+  commit then originalauthorboundedcorrection+SAMEdifferentrevieweractualrereview.
+  No featurebody/marker/nativeSDK/foundation/generator reruns. No productionreleased.
+- service_author: FIRSTpermissionlogicaldoc, accesstest002-author/task/ACCESSTEST-002-contract-author
+  atd3a664a00e4de787707f66b9cd689ec8b89d619f. Integratoraccesstest002-integrator/
+  task/ACCESSTEST-002-effective-permissions latestb6dfa33daa93e35faa71bf1aa95f35e9ddd3b7f3,
+  fromfreshb2 (notyet8fc). OwnsONLY NEW effective-permissions-v1.md +accesstest-002-contract-author.md.
+  GenuineownerD1questionpending; authorcontinuesunambiguousdocwork, dependentsemantics
+  cannotfreeze. No API/stub/tests/code/auth/network/runtime. Mayneedexplicitreassignment
+  tooriginalpasswordtestcorrection onceactualfindingsready; preservepartialdocwork.
 
-Preliminary author fc62e637/importad9c27bd adds SDK-only foundation9f688e3d,
-generatorf705227e, author evidence (`sessiontest-001-test-author.md` in password worktree)46b531f5.
-Root native harness (`sessiontest-001-native-harness.md` in password worktree)3bb5d0b compiles/links/lists
-only. Foundation has one CTest/SDK-only link; generator EXCLUDE_FROM_ALL/no CTest/
-no automatic execution. Neither ran. service_reviewer is ACTUALLY reassigned narrow
-review in sessiontest001-native-review/task/SESSIONTEST-001-native-review at3bb5d0b,
-owns only NEW native-review note. Root FIRST foundation with raw/JUnit/cleanhead
-must wait for that actual approval; only after green may FIRST generator run.
-Exact generated PH12/13 synthetic INPUTS permit full fixtures/tests to finish;
-t6/m32768 andt6/m131072 logical examples must remain. Published hashcat t3/m65536
-is additional coverage only. service_author is ACTUALLY reassigned source-only
-remaining feature tests/private error harness in sessiontest001-test-author;
-no native/SUT/marker invocation, no frozen candidate changes. Full different test
-review/current selected CI/FIRST intended red precede production. No fixture oracle
-from project SUT; no successful crypto/readiness/protection fake. Root owns shared
-build/link/CI/pins/state/schema/HTML/checkpoint. Current mainb2 is now integrated
-without changing frozen source;406 task records/all parent edges preserved.
+## Password gates and actual native proof
 
-Official source authentication (`sessiontest-001-dependency-preparation.md` in password worktree) and
-receipt (`sessiontest-001-source-authentication.json` in password worktree): archive2008529bytes,
-SHA256adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349;
-actual isolated gpgv2.4.9 at12:41:07Z exit0/GOODSIG/VALIDSIG from official RSAkey.
-No global keyring/install. Host SDK build (`sessiontest-001-sdk-build.json` in password worktree) under
-/tmp/subathon-sodium-1.0.22-sdk: source/header/.pc1.0.22/ABI26/4; staticarchive836744
-bytes/SHA959cdbe83cd0c80264e080efdd1e861b20b57ded2a85bd9a924297b8a10f1935;
-all678vendorfiles unchanged. Configure/make/install0. THREE native compilerprobes,
-SIGABRT134/core report/cannot-catchwarning,8Libtoolwarnings preserved. External
-systemd retention not inspected; future child core limits required. No makecheck/
-SDK init/version/hash/verify/RNG/memory API ran yet. Host metadata/compile is not
-runtime/native foundation/Ubuntu CI/benchmark/platform/packaging acceptance.
+sessiontest001-integrator/task/SESSIONTEST-001-password-baseline CLEAN2c0c9ab;
+[draftPR59](https://github.com/Kernol12/subathon-bot-ai/pull/59) remotef94f5ae83dfb244c1c2eaa492ab8e82a790171e9.
+OldheadONLYscaffold41828240775/1check, notmissingcomponentCIpass. Frozenlogicalbc9ccbf6/
+API7ad1e8d3/headerec3c5cf8/CPPeaf56f41: THREE entireimmediatemarkerthrows. Actuallogical/
+API/minimal approvals preserved98/febe,18e1/503,93d9/30bdd. Fullcandidateblobs/12private
+GNUwraps/nooperatornewhook/CI in owningbranch `sessiontest-001-test-harness.md`;
+standalonefoundation/generator links unchanged/unwrapped, noautomaticgeneration.
 
-## Other actual assignments and blocked baselines
+Nativeprograms9f688e3d/f705227e +root3bb5d0b independentlyAPPROVED9b92c671/importc0646b4.
+ROOT FIRST foundation CLEANc0646b4 at14:42:52Z PASS1/1/0.21s/exit0/runtime1.0.22 ABI26/4/
+publishedvectors/guardedmemory/rawbytes. ONLYAFTERgreen FIRST generator14:43:01Z exit0/
+0.434s/two exactPH12t6/m32768,PH13t6/m131072 INPUTS, rawSHAb351cf464de2c5d55932126e4dd079472736358a48bf4d14747f9619afa5b9cc.
+Receipts/inputs committed095081d in owningpasswordtree docs/evidence/sessiontest-001-native-results.md,
+.json andfixture-inputs.json. No expectedpolicygeneration/SUToracle. RLIMIT_CORE0;
+externalcrashhandler notinspected. Don'treplay FIRSTruns. Host SDK proof isnotUbuntu
+CI/supportedhardwarecost/benchmark/account/currentlogin/store/wholecleanup/platform/package proof.
 
-- Scene009: contract009-integrator/task/CONTRACT-009-scene-model from currentmainb2,
-  claim24752c0; codec_author ACTUALLY RUNNING in contract009-author. Owns ONLY NEW
-  docs/contracts/scene-document-v1.md and contract-009-author note. Protocol-neutral
-  logical model/all7families/geometry/revisions/publication/restore/compatibility/
-  typed010/011 seams/finite proposed profiles/independentexamples. No schema/API/
-  validator/test/renderer/native feature execution. Different actual doc review next.
-- Milestone: primaryworkspace task/MILESTONETEST-001-progression-baseline, local
-  b462ac78d99c76145df55793b4ed7870ca6b02cd includesmain009 but notb2; [draftPR56](https://github.com/Kernol12/subathon-bot-ai/pull/56)
-  remote00d8c57/all12oldchecks. Actual53source/harnessfa098e2 approved208d0580/importac9234a;
-  source/API/model frozen.25-factfoundation alreadyPASS clean7d7e621/raw9a83525e,
-  1/1/exit0/0.00s. SelectedBoost1.83CURRENTCI/first53feature red UNPERFORMED.
-- Rate: ratestest001-integrator/task/RATESTEST-001-snapshot-baseline, local3d444ee
-  includesdd6main only; [draftPR54](https://github.com/Kernol12/subathon-bot-ai/pull/54)
-  remote512828c.53correctedtests64fd60b2/fixture8936/foundation28a approveddcf5/import7d6b55f.
-  Local14-factfoundation alreadyPASS/raw419c41ee. Old interfaceCI41805994785 at512/
-  Boost1.83/old36/all13 is not current53-case CI. No featurebody/marker/red. Preserve
-  extra RATESTEST009/RATES009 exactvaluationbridge/EPIC017 edges when combining
-  403-rate with406-main records (union408), no rounded legacy5/6 fallback.
+Authenticatedarchive2008529bytes/SHAadbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349,
+actual isolatedofficialGPG GOOD/VALIDSIG12:41:07Z/exit0. SDKstaticarchive836744bytes/
+SHA959cdbe83cd0c80264e080efdd1e861b20b57ded2a85bd9a924297b8a10f1935/all678vendorfilesunchanged;
+configure/make/install0,3nativecompilerprobes/SIGABRT134/core report/8Libtoolwarnings
+acknowledged, no makecheck/globalinstall. /tmpaudit andignoredrawlogs/JUnit retained.
+Full actualtestreview/corrections/currentselectedUbuntuCI/FIRSTfeature red/attribution
+precedeproduction. Workflowaccessblocksremote gate; none areassumedcomplete.
 
-## Access, owner decisions and preservation
+## Blocked baselines and actual owner questions
 
-Rechecked actual gh auth: Kernol12/repo/read:org/gist/admin:public_key; workflow
-scope absent. SSH_AUTH_SOCK was absent and GPGSSH identities0; earlier SSHpush denied,
-HTTPSGitpush500/newworkflowCreateTree404. Already-pending owner request: restore
-SSHforCLion or complete `gh auth refresh -h github.com -s workflow`. No answer
-observed; do not reask or treat an option as restored access. Verify actual auth
-before resuming. Ordinary exact-object taskref publisher works; no permission bypass.
-After access: publish reviewed new rate/milestone workflows, observe currentselected
-CI/foundation, FIRST plain feature red/raw+JUnit/cleanhead, different attribution,
-final CI/rules/threads then normalmerge. Do not repeat completed reviews/foundations.
+Workflowscope STILLabsent atlatestghauthcheck (Kernol12/repo/read:org/gist/admin:public_key).
+SSH_AUTH_SOCK absent/GPGSSHidentities0 atlastSSHcheck; earlierSSHpushdenied/HTTPSGitpush500/
+newworkflowCreateTree404. ALREADYaskedownerrestoreSSHforCLion orfinish
+`gh auth refresh -h github.com -s workflow`; NOanswer/restoration observed. No repeat
+question orpermissionbypass. Verifyactualauthbeforepublishing newworkflows. Ordinary
+exactGitobject taskrefpublication workedforPR61; no newworkflow inthatdocumentbranch.
 
-CORE008 [draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52) head3e05b48
-remains blocked by3 unanswered product choices: lowercapbelowMain retain/reject/
-auditedclamp; firstReadyStartpastdeadline reject/finish; enable/movedeadline now/past
-accept+finish/reject. Partial16exampledoc5446/reviewc33a only; no API/tests/red/defaults.
+D1permissionquestion ALREADYsent async, NOanswer: roleA10 vsindividualA5 chooses
+resource-scopeoverride (recommended, A10deny/otherrole resourcesremain), wholeoperation
+individualoverride, orcomplete-requestmatchingfallback (roleA10mayallow). Owning
+`accesstest-002-open-decisions.md` records alternatives/specbasis. Preselectedoption/
+elapsedtime isnotanswer. Existingwholegrant/nonunion/denydefaultrequirements stay.
 
-Actual167registeredworktrees/16absent; same8olderdirtytrees preserved. Never reset/
-prune/delete them. Last root process check: no publisher/native/build/CTest child.
-Read actual agents/processes/worktrees/GitHub on continuation; do not assume old
-roles are running. Reuse followup_task for idleagents. Exact taskref publisher
-verifies SHA objects/nonforcedrefs, never main/history/scopes; inspect actual state
-after ambiguous errors. Full7integrations/3FX/bothrenderers/locales/themes/platforms/
-licenses/packaging/live scope remains. No live chat/payment sideeffects authorized.
+CORE008 [draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52) head3e05b48 remains
+blocked3olderownerchoices: capbelowMain retain/reject/auditedclamp; ReadyStartpastdeadline
+reject/finish; enable/movedeadline now/past accept+finish/reject. Partial16exampledoc5446/
+reviewc33a only, noAPI/tests/red/defaults. Settledtimerpolicies not reopened.
 
-Local password CI preparation now exists in password integrator only: exact authenticated archive/static disposable Ubuntu SDK recipe, compile-only generator, mandatory green native foundation and old infrastructure. YAML/bash syntax checked, no workflow execution or publication. This new workflow is outside native3bb5d0b approval and requires actual different review of its final test/harness revision; missing workflow scope still blocks remote gate. Rate current-main merge is c37c87b8997d165a07aae37159ffef5d5f3378ba with408-task union; milestone current-main merge6466554d21c47402417aab5b052ba3b2d4ac759d. Frozen sources/tests unchanged and old foundations not replayed.
+Milestone primary task/MILESTONETEST-001-progression-baseline premergea42b1bb now
+integrates8fcmain inthiscommit; exacttaskrecord/frozen53tests/source unchanged.
+[DraftPR56](https://github.com/Kernol12/subathon-bot-ai/pull/56) remote00d8c57/all12oldchecks;
+actual53source/harnessfa098e2 approved208d0580/importac9234a,25factfoundationPASSonce
+clean7d7e621/raw9a83525e. CurrentselectedBoost1.83CI/FIRST53feature red unperformed.
+Rate ratestest001-integrator/task/RATESTEST-001-snapshot-baseline localc37c87b includesb2,
+NOTyet8fc;408taskunion/mandatoryRATESTEST009/RATES009+EPIC017exactvaluationbridge preserved.
+[DraftPR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) remote512828c/all13oldchecks;
+53correctedtests64fd60b2/foundation28a/fixture8936 approveddcf5/import7d6b55f;14factfoundation
+PASSonce/raw419c41ee. OldinterfaceCI41805994785 at512/Boost1.83/old36 isnotcurrent53CI.
+No featurebody/marker/red/production. Neverroundedinverse5/6 fallback. Afteraccess,
+publishreviewedcurrentworkflows/currentCI/foundation, FIRSTplainred/raw+JUnit/cleanhead,
+differentattribution/finalCI/rules/threads/normalmerge. Don'trepeatcompletedreviews/foundations.
 
+## Preservation and next action
 
-## Actual native gate completed14:43Z
-
-Different9b92c671 approval importedc0646b4. ROOT FIRST native foundation ran CLEAN
-c0646b4 at14:42:52Z PASS1/1/0.21s/exit0. THEN FIRST generator14:43:01Z exit0/two exact
-PH12/13 t6 INPUTS. Actual results (`sessiontest-001-native-results.md` in password worktree),
-receipt (`sessiontest-001-native-results.json` in password worktree), inputs (`sessiontest-001-fixture-inputs.json` in password worktree).
-No project/SUT/marker/featuretest/login/store executed. Don't repeat those FIRST
-runs. SDK runtime hostfoundation nowpassed; UbuntuCI/costbenchmark/platform are not.
-service_author actually received exactrawsuccessful inputs and is finishing only
-fullfixtures/GTests/privateerror-onlywrappers, no execution. Different full review
-then selectedCI/FIRSTred still required. service_reviewer narrow assignment ended;
-its role can be explicitly reassigned to actual completed scene009 document next.
-Native approval does not cover new workflow4835695 or future featuretests/wrappers.
+Older8dirtytrees/16absentregistrations preserved; neverreset/prune/delete. Newauthor/
+reviewtrees added; inspectactualcount/processes/agentstatus. No rootpublisher/native/
+build/CTestchild currentlyrunning. Nativegenerator/foundation andPR61publisher24828/
+PRcreate3254 finishedexit0. Rootownsallsharedstate/HTML/maps/schema/build/CI/pins and
+exactnonforcedtaskrefpublisher; no main/history/scopes bypass. Rootnextintegrates
+actualpasswordreviewfindings/routesboundedcorrection andtracks011authoring plusD1;
+observepost-main11workflows. All7integrations/3FX/bothrenderers/locales/themes/platforms/
+licenses/packaging/live scope remains. No livechat/payment/provider sideeffects.
 
 
-Full candidate author8e6d1dd/import82d624d nowcommitted, root CMake/CI integrated:
-37exactenabledintentionalred tests/private12GNUwraps onlyfeaturebinary; nativeprograms
-unchanged/unwrapped. Configure/build3steps0warnings/discover41only; no body/marker/newSDK
-execution. Root is freezing actualcandidate for codec_author differentfulltest/harness/
-CI review innewisolatedtree. Fullharness (`sessiontest-001-test-harness.md` in password worktree). Selected
-UbuntuCI/publication/FIRSTred stillmissing; PR59actualoldheadonly1scaffoldcheck, not
-missing componentCI pass. Scene correctione7274463/import0ace3ae doc9a350733/author8f9f619b
-is nowwith SAMEdifferent service_reviewer inexistingreviewtree199f33c; nofutureapproval.
-
-
-## Actual permission contract claim and review assignments
-
-This tree accesstest002-integrator/task/ACCESSTEST-002-effective-permissions created
-fromfresh origin/mainb2b14bb. DependencyPLAN001done;406-task graph unchanged. Root
-claims FIRST permission logical document only, service_author newisolatedauthor
-owns onlyNEW effective-permissions-v1.md +accesstest-002-contract-author.md. Read
-§10/AUTH03-06/brief/common005. Pureprecedence/completegrant/nonunion/protectedowner/
-sourceexplanation/currentexecution boundaries +independentexamples/finiteproposals;
-no API/stub/fixture/test/schema/code/auth/crypto/runtime. Different actualreview
-before nextstage; testsreview/FIRSTred beforeproduction. ACCESS003delegationedits,
-SESSIONauth/store/chatpermissions/platform/live remain owningseparategates.
-
-Password fullcandidate is CLEAN2c0c9ab705022c3778e0d97591c4376e39452c68. codec_author
-ACTUALLY reassigned different fulltest/wrapper/CMake/CI review in sessiontest001-full-review
-samehead. OnlyNEWsessiontest-001-test-review.md; compile/list/static/oldinfra only,
-no feature/marker/nativeSDK/foundation/generator reruns.37cases compiled/discovered,
-not featureexecuted. Workflowaccess/currentselectedUbuntuCI/FIRSTred stillblocked.
-Scene correctione7274463/import0ace3ae doc9a350733/note8f9f619b is ACTUALLY with
-service_reviewer inexistingcontract009-review at199f33c, narrowR1/R2 actualre-review.
-Original21fact/otherportion audit preserved; no futureapproval/schema/feature.
-Primarycheckpointf9d8364 onmilestonebranch preserves previousclaims andoldwork.
-No root build/native/CTest/publisher child currentlyrunning; inspectactualagents/
-worktrees/processes/GitHub beforeassumingcontinuity. No routineownerapprovalneeded.
-
-
-Actual ownerdecision D1 pending for permissions: [open alternatives](accesstest-002-open-decisions.md).
-IndividualA5 vs roleA10: resource-scope override / wholeoperation override /complete-
-request fallback. Asyncownerquestion issued, noanswer. Author continues independent
-logicalwork but cannotfreeze dependentsemantics/API/tests. TimerCORE0083older
-questions remainseparate andunanswered. No new default/elapsedapproval.
-
-Scene focused [PR61](https://github.com/Kernol12/subathon-bot-ai/pull/61) creation
-command currentlyrunning (inspectactualnumber/statebeforeassuming61); exactpublished
-head365570b30f58a5a19a61c4ea36eccec3381dc2c4, SHAobjects/treeverified/nonforcednewtaskref.
-Corrected scene logicalapproval7f782640/import50915bd, no sourcechangedafterapproval.
-Finalgraphcheck correctedmetadataexpectation andpassed406ids/1497edges/exact3coordination
-records, all19tooling/currentHTML/project/whitespace. No finalCI/mergeyet.
-Password differentfullreview discovered bounded-oracle helper/caller control gap and
-overstrict totalguardallocations==1 predicate; findings notyetcommitted, no edits or
-featureexecution. Awaitbatchedactualreview then originalauthorcorrection+re-review.
-Root's GitHubPRcreate process session3254 mustbeinspected; no otherrootchildrunning.
+Permissionactualhandoff: originalauthor6bc3d51f/importc88bcf5 supplies PARTIAL
+[contract](../contracts/effective-permissions-v1.md)5dfc6a1e and
+[authornote](accesstest-002-contract-author.md)66edd21f.27EProws/18numericbytefacts/
+projectrenderwhitespace passed, no source/API/tests/crypto/auth/runtime. D1still
+UNSELECTED anddependentD1A/Bnotfrozenoracles. TaskrecordBLOCKEDonownerdecision;
+logicalreviewstillnotrun/fullcontractnotdone. Thisowningpermissiontreeintegrates
+freshverified8fcmain, all406ids/1497edges preserved. RootnowpublishesfocusedDRAFT
+permissionPR fordurablepartialwork/decisioncontext, nevermergeuntilD1resolvedand
+fullactualdocument/testfirst/taskgatescomplete. No guessedpolicy/default.
+service_authorhandofffinishedclean andisavailable forPWboundedcorrectionafteractual
+committedreviewfindings. codec_authorPWreview andservice_reviewer011author continue.
+All11post-main8fc checksSUCCESSobserved; no rootnative/build/CTest/publisherchildnow.
