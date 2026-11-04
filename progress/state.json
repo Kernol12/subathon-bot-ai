@@ -677,7 +677,8 @@
         "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
         "Claimed task/CONTRACT-005-wire-primitives from refreshed main dd6a141 after actual PR57 merge. FIRST DOCUMENT ONLY: versioned common exact-value/reference/unknown/version/capability/envelope primitives and independent valid/invalid examples, consistent with reviewed domain contracts. codec_author owns ONLY NEW docs/contracts/wire-primitives-v1.md and docs/evidence/contract-005-author.md in isolated task/CONTRACT-005-document-author. No schema, C++/TS, stub, client, fixture/test, code generation, network provider or authority behavior. Generic decoding proposals cannot silently reject valid domain values; keep field-specific owning limits explicit. Root owns state/HTML/checkpoint/shared schemas/imports/build/CI/pins/maps. Actual different document review precedes any next stage; API01/02/03/NUM04/§2/§10 remain scope. Parallel password claim is separate and source-free.",
         "Actual common-wire first document1404de5/import378da1b, contract11eeb5f4/author7cebb719, independently APPROVEDf01bd28. All323 lines/27WP examples reviewed against actual domain/storage/application bounds. Independent23 arithmetic/size/order facts pass, nonsecret error565<=1024, no global256ref/512parser/4096bit cap. This completes005 bounded document acceptance only; no schema/parser/encoder/client/native/provider behavior exists. ExistingCIcoversconsistency/unchangedcomponents; finalexactheadCI/rules/threads/normalmerge are separatepublicationgates. Fullparent003/006–008/schema/consumer/testfirst/platform/provider scope remains.",
-        "Normally mergedPR58 at2026-11-04T12:28:38Z, exactheadf73ef10/all12 actualcheckrunsSUCCESS, currentrules/threads0/GHapprovalsrequired0 satisfied. Merge009632386564f3a00fb413580ac1cee3ef43cc11/headtree0b4014ec equal; no bypass. Document005 integrated; parent003/006–008/source/schema/features stillplanned. Post-main workflows pendingobservation."
+        "Normally mergedPR58 at2026-11-04T12:28:38Z, exactheadf73ef10/all12 actualcheckrunsSUCCESS, currentrules/threads0/GHapprovalsrequired0 satisfied. Merge009632386564f3a00fb413580ac1cee3ef43cc11/headtree0b4014ec equal; no bypass. Document005 integrated; parent003/006–008/source/schema/features stillplanned. Post-main workflows pendingobservation.",
+        "ActualPR58 normalmerge0096323 fromf73/all12head/all11postmain checks passed. Common document integrated here before password minimal-source stage; exactpassword logical/API blobs unchanged."
       ],
       "verification": {
         "document_review": "passed",
@@ -785,7 +786,8 @@
       "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
       "notes": [
         "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
-        "Proposed ADR-0005 adds required009 scene model/010 bindings-timeline/011 assets-packages/012 complete schemas plus planning002 gates. Existing005/PLAN001, HTTP006→008, C003→008, allSCENE/RENDER and everyprior baseline/epic/release edge retained. No child→parent/downstream dependency. No scene capability or child completion claimed; actual independent integrated-state/doc review pending."
+        "Proposed ADR-0005 adds required009 scene model/010 bindings-timeline/011 assets-packages/012 complete schemas plus planning002 gates. Existing005/PLAN001, HTTP006→008, C003→008, allSCENE/RENDER and everyprior baseline/epic/release edge retained. No child→parent/downstream dependency. No scene capability or child completion claimed; actual independent integrated-state/doc review pending.",
+        "Current scene PLAN002 actual84a80bd docs/state independently approveda2897c88; locala390112/publishedtaskref nowcontains406nodes/1497edges preservingall1473priorclaimedges/319baseline gates. FinalfocusedPR/CI/normalmerge pending beforechild009 claim. Thisbranchreconcilescoordination only; actualnewplanningrecords stayontheirbranch untilintegration."
       ],
       "verification": {},
       "evidence": [],
@@ -1641,7 +1643,7 @@
       "module": "Core",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (concrete API document); service_reviewer (full logical approved)",
+      "owner": "coordinator /root; service_author (minimal inert source); service_reviewer (API approved)",
       "depends_on": [
         "CORE-005"
       ],
@@ -1659,7 +1661,9 @@
         "Claimed task/CORETEST-008-timer-command-baseline from integrated main 0b631dc after the verified normal PR51 merge. First stage is DOCUMENT ONLY: propose a simple pure timer command/proposal/revision contract and independent literal examples from specification v0.45 §4/TIMER-01 and existing CORE-005/CORE-002 contracts. No C++ API, stub, test or implementation before separate document review. Author owns only docs/contracts/timer-editorial-commands-v1.md and docs/evidence/coretest-008-contract-author.md in isolated task/CORETEST-008-contract-author. Independent reviewer owns only docs/evidence/coretest-008-contract-review.md in a separate worktree and must inspect the actual candidate. Root owns shared state/HTML/maps/build/CI/checkpoint. Three explicit product questions were sent to the owner: lowering the cap below current Main; Ready/start with a passed deadline; enabling or moving a deadline to now/past. No answers received; preselected options and elapsed time are not answers. Mark these exact semantic gates and do not choose defaults or omit their acceptance. Preserve settled hard-end/debt/Grace/wait/reopen rules and explicit nonfinancial correction policies. The baseline remains in progress until its document/API/tests/reviews/valid red are complete; CORE-008 production remains planned.",
         "Document candidate5446a91/import8754e43 (contract0ed9c693, authorb38bc1ad) received actual independent bounded document approvalc33a4b1:16 literal examples reviewed, no fabricated full command oracles for partial numeric/old-deadline rows. No API/test/red/production stage approved. Blocked for affected next stages by three unanswered explicit owner choices OPEN-CAP/OPEN-READY/OPEN-DEADLINE already asked via async tool. DraftPR52 preserves this actual reviewed work; do not merge as completed baseline or choose defaults. Continue an independent ready task while awaiting answers.",
         "Resume original focusedPR52 after actual owner answers and PR62 normalmerge9345aff/all13PR+12postmainSUCCESS. Preserve partialdoc0ed9c693/original16ED and review657988a7; three ownerchoices are now resolved, no newquestion: per-attempt Keep/Reduce/Abort warning(cap lowerretainMain/explicit auditedMainreduction/cancelboth), rejectfirstStart withenableddeadline<=now remainReady, authorizedactive deadlineedit<=now acceptfinishimmediately. OriginalPR52branchmergedcurrentmain preserving406IDs/1497edges/allnewcontractplanning gates; onlyCORETEST008 task metadata changes. Root owns sharedspec/state/build/CI/checkpoint; service_author next owns only full logicalcontract+ownnote, actualdifferent service_reviewer fullreview beforeAPI/stub/tests/code. Preserve settledcurrentMain/debt/Grace/absolutehardend/wait/reopen/clock-CAS/nonfinancialcorrection/mixedglobalcontinuation boundaries; no Active-only shortcut or copiedtimerdebtalgorithm. PR59 integration/harnessreview/currentselectedCI proceedsindependently on its ownbranch with all37reviewedtests/redpreserved.",
-        "Actualfullcorrectedlogical authorc03b4506/import0e56f39 contractf4a4c3ce/author1dba6bb2 androot5601spec81406806/ownerb5df2afe independentlyAPPROVEDb6277a7b/review99298e93 byservice_reviewer. All16originalED/6223bytepartialreviewprefix preserved;44ED/36independentfacts/fullReadyActiveFinishedcapdeadline/debtGracehardend/CAS/aboveCapKeep outcomeschecked. No substantiveblock/newownerquestion. ReleaseONLYconcreteAPI doc+authornote toservice_author; noheader/source/tests/codeuntilactualAPIreview. RootnewmainPR59normalmergefc28558 from595/all14PRSUCCESS/identicaltreeed9588; taskbranchmustintegrateitsmetadata/buildfilesbeforepublishing, sourcecontractunchanged. Rate/MileFIRSTselected1.83hostfoundations14/25passinscratchafterindependentselectionreview; nofeaturebodiesorredsrun."
+        "Actualfullcorrectedlogical authorc03b4506/import0e56f39 contractf4a4c3ce/author1dba6bb2 androot5601spec81406806/ownerb5df2afe independentlyAPPROVEDb6277a7b/review99298e93 byservice_reviewer. All16originalED/6223bytepartialreviewprefix preserved;44ED/36independentfacts/fullReadyActiveFinishedcapdeadline/debtGracehardend/CAS/aboveCapKeep outcomeschecked. No substantiveblock/newownerquestion. ReleaseONLYconcreteAPI doc+authornote toservice_author; noheader/source/tests/codeuntilactualAPIreview. RootnewmainPR59normalmergefc28558 from595/all14PRSUCCESS/identicaltreeed9588; taskbranchmustintegrateitsmetadata/buildfilesbeforepublishing, sourcecontractunchanged. Rate/MileFIRSTselected1.83hostfoundations14/25passinscratchafterindependentselectionreview; nofeaturebodiesorredsrun.",
+        "Allthreeoriginalownerchoicesanswered in timer-editorial-owner-decisions.md; old unanswered blocker superseded. PR62normallymerged9345aff/all13PR+12postmainSUCCESS. ExistingPR52branch resumed in coretest008-integrator, currentmainmerged23caf56 with406IDs/1497edges/partial0ed9c693+657988a7review preserved; root5601a06 transcribesspec§4/§18/TIMER01 onlyonPR52branch. Actual service_author logicalcorrection active at coretest008-logical-correction from5601; actualdifferentfullreviewbeforeAPI/source/tests. Thisrecordcoordinatesexistingunmergedclaim only, imports no timerbehavior/spec/schema/source or futureapproval intoPWPR59. Preserve allReady/Active/Finished/debt/Grace/hardend/wait/reopen/mixedcontinuation releasegates; no repeatedownerquestion.",
+        "Actual concrete API author4637698b/import85020d2 a2ac5a2c/author203d307a independently approvedaf076bec/import4281bc5, review5debe113. One rawfour-wayvariantentry, fixed4transitionbatches/fourprofilelimits/directall44ED setup andexactB/count/error/observationlifetime rules checked. Mergecurrentmainfc285 (PR59normallymerged/all14PR+13postmainPASS) preserves all406IDs1497edges andcurrentPW/permissionbaselines. ReleaseONLY exactminimalheader/source/inertgetters/fixederrors/immediatefeaturemarker toservice_author; actualdifferentminimal-source/harnessreviewbeforetests. No Core002/005functioncalls/validation/numeric/clockprocessing or successfulproposal beforethrow. Rootownsnewtarget/harness/CI/state; no freshownerdecision or implementation."
       ],
       "verification": {
         "document_stage": "passed",
@@ -1667,13 +1671,18 @@
         "partial_document_review": "passed",
         "owner_decision": "passed",
         "test_baseline": "not_run",
-        "implementation": "not_run"
+        "implementation": "not_run",
+        "api_review": "passed",
+        "source_review": "not_run"
       },
       "evidence": [
         "docs/contracts/timer-editorial-commands-v1.md",
         "docs/evidence/coretest-008-contract-author.md",
         "docs/evidence/coretest-008-contract-review.md",
-        "docs/evidence/timer-editorial-owner-decisions.md"
+        "docs/evidence/timer-editorial-owner-decisions.md",
+        "docs/contracts/timer-editorial-commands-api-v1.md",
+        "docs/evidence/coretest-008-api-author.md",
+        "docs/evidence/coretest-008-api-review.md"
       ],
       "review": {
         "author": "service_author (continuation; original codec_author preserved)",
@@ -3978,8 +3987,8 @@
       "title": "Review and demonstrate red: Password hashing and parameter upgrades",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "in_progress",
-      "owner": "coordinator /root; service_author (feature test author); codec_author (actual full test/harness review)",
+      "status": "done",
+      "owner": "service_author (tests); codec_author (independent review/red); /root (integration)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3993,17 +4002,82 @@
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
         "Claimed dedicated task/SESSIONTEST-001-password-baseline from refreshed integrated main dd6a141 after actual PR57; prerequisite CONTRACTPLAN001 done. FIRST DOCUMENT ONLY: bounded libsodium Argon2id password hashing/stored parameters/verification and upgrade proposal, independent literal success/failure examples, secret handling and honest reference-hardware benchmark procedure. service_reviewer owns ONLY NEW docs/contracts/password-hashing-v1.md and docs/evidence/sessiontest-001-contract-author.md in isolated task/SESSIONTEST-001-contract-author. Consult official primary libsodium docs and actual installed1.0.22 headers, distinguish observed API from proposed supported pin; no production/hash/marker/test/fixture/stub/schema/migration or secret invocation. No library hash cost/platform claim without actual reviewed evidence. Root owns shared state/HTML/build/CI/pins/schemas. Actual different logical/API/source/test reviews and greenfoundation/FIRSTred precede SESSION001 production.",
+        "Actual logical authorf730a176/importd74fc81 (contractbc9ccbf6/note4d26e84e) independently approved98f0494/importfebe5c2, review6226c59d. Official primary1.0.22 sources/H0fixture and13stdlib facts checked; no nativecrypto/init/hash/verify/RNG. Release ONLY NEW docs/contracts/password-hashing-api-v1.md and docs/evidence/sessiontest-001-api-author.md to service_author in separate APIauthor tree. Exact minimal C++ boundary/errors/budgets/lifetimes/directrawfixture reach/immediatefuturemarker proposal only; no actualheader/stub/source/test/foundation/schema/crypto/build. Keep logicalscope/secret/cost/currentlogin/revision/CAS/benchmark obligations intact, selectedpin/defaults stillproposed notactualplatformproof. Root ownssharedstate/pins/harness/CI. Actual differentAPI review before nextstage.",
+        "Actual sourceartifact authentication complete: official1.0.22 archive2008529bytes/SHA256adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349 matches release metadata. Installedgpgv2.4.9 at12:41:07Z returned0/GOODSIG/VALIDSIG against exactofficialRSAkey inisolatedscratchkeyring; primary54A2B8892CC3D6A597B92B6C210627AABA709FE1/signing0C7983A8FD9A104C623172CB62F25B592B6F76DA. Rootre-readrawresult/rehashedallbytes; no globalkeyring/install/extract/build/libraryexecution. Thisresolvesartifactprovenance only, notSDK/runtime/ABI/pinning/cost/feature/nativefoundation gates. PasswordAPIauthorcontinues; current main009 needsintegration before executable review.",
+        "Actual API fca99279/import775f084 (7ad1e8d3/author2b9ec1e3) independently APPROVED18e1a109/import503a7d3, note8107778d. Frozenlogical docs unchanged;28stdlib facts pass, no nativepasswordcalls. Integrate main0096323 then release ONLY server/include/subathon/server/password_hashing.hpp, server/src/password_hashing.cpp and stub-author note inisolatednewwriter. ExactAPI declarations/inert wrappers/getters/errors; THREE featuredefinitions entirebodies immediate PasswordHashingNotImplemented throw, no sourceport/validation/init/guardedmemory/crypto beforethrow. Rootownsharness/SDKpin/CI/state. Actualminimal source/harness review beforetests/foundation/native; no production released.",
+        "Actual minimal source/harness64a924c independently APPROVED93d9a576, note206ca8d4. Headerec3c5cf8/CPPeaf56f41 std-only3singlethrows, exactAPI/privateborrow/ownedresults/inertsource;47independentcompiletraits+8stepbuild0PROJECTwarnings/old3infraPASS0.65s. SDKmetadata/auditunchanged, vendor3nativeprobes/SIGABRT134/core report/8Libtoolwarnings preserved; no SDKruntime/passwordproof. Release ONLY literalfixture/GTests/standalone real-SDK foundation/test-author note and PRIVATEtest-onlyerrorharness ifneeded; source/contracts frozen, no newbody/nativeAPIcall beforeactualdifferenttest/foundationreview. No successfulcrypto fakes or SUT-generatedoracles. RootownsCMake/CI/pins/JSON/HTML; currentselectedSDKCI/firstfeature red andproduction stilllatergates. SDKsourceauth/build isnotruntimeacceptance.",
+        "Preliminary SDK-only programs fc62e637/importad9c27bd compile/link and discover only; foundation9f688e3d/generatorf705227e, no native execution. Root harness adds SDK-only foundation CTest and explicitly built generator with no CTest or automatic execution. Different actual native preparation review is next; root FIRST foundation green precedes exact PH12/13 synthetic INPUT generation. Preserve reviewed t6/32768 and t6/131072 examples; added published hashcat t3/65536 is additional coverage only. Full feature fixtures/tests/error harness/review/currentCI/FIRSTred remain incomplete; production remains3immediate throws.",
+        "Actual narrow native programs/harness APPROVED9b92c671/importc0646b4;32 independent static facts plus compile/link/discovery no body. ROOT FIRST host SDK foundation then ran CLEANc0646b4 at14:42:52Z PASS1/1/0.21s/exit0, runtime1.0.22/ABI26/4/publishedvectors/guardedmemory/rawbytes. ONLY AFTER green ROOT FIRST SDK-only generator14:43:01Z exit0/two complete exact PH12t6/m32768 and PH13t6/m131072 INPUTS, rawSHAb351cf46. Publicsynthetic inputs only, independent expectedpolicy literals unchanged. RLIMIT_CORE0; no project/SUT/marker/login/store/featuretest executed. Releases finishing literalfixtures/GTests/privateerror-onlywrappers to service_author; differentfullreview/currentUbuntuCI/FIRSTred/production stilllater. New local selectedCI recipe parsed/bashsyntax only, actualworkflowreview/publication stillpending missingworkflowaccess. HostSDK proof isnot supportedhardwarecost/Ubuntu/platform acceptance.",
+        "Actual full test author8e6d1dd/import82d624d adds37TESTs, fixture025d4de9/test52f0e911/privateheader831a8bb0/wrappers2782be41/author43d1db9d. Exact PH12/13generated INPUTS retained, independentpolicy literals. Root fullCMake/CI links12GNUwraps ONLYfeaturebinary, no operatornewhook; foundation/generatorunwrapped unchanged. Configure+3compile/link steps0warnings/discovery41=37exactenabledintentionalred+old4; actualworkflowdiscoveryPython andYAML/bashsyntax passed, no feature/marker/SDKbody invoked. Freeze fullcandidate for different codec_author actualreview innewisolatedtree afterits scenecorrectionhandoff. SelectedUbuntuCI/publication/FIRSTfeature red remainUNPERFORMED pendingworkflowaccess; oldPR59onlyscaffold41828240775 atf94. No productionrelease or baselinedone claim.",
         "Concurrentpassword actuallogicalf730/importd74/contractbc9ccbf6 independently approved98f0494/importfebe5c2. Primaryf94f5ae releases ONLY concrete API document in separateAPIauthor tree; service_author active. No actualC++header/source/stub/test/foundation/nativecrypto orfutureapproval. This commoncontract branch reconcilesclaimonly.",
         "Concurrentpassword source/harness64a924c independently approved93d9a576/import30bdd15; actualsourceheaderec3c5cf8/CPPeaf56f41 remain3immediate markerbodies. Primaryd9762d7 nowreleases onlytest/foundation/privateerrorharness authoring inisolatedtest-author tree. Literal6-operation PH12/13cases preserved; newinputfixturesmaybegenerated ONLYwithreviewedSDK-onlygenerator afterindependentnativefoundationgreen, neverusingSUT. No passwordnativefeature/foundation/marker call yet. SDKsourceauth+hostbuildmetadata notruntimeproof; current main406/requiredratebridge403recordsreconcilelater.",
-        "Cross-task actualupdate: root FIRST reviewedhostSDKfoundation atclean c0646b4 PASS1/1/0.21s then reviewedSDK-onlygenerator produced exact PH12/13 INPUTS, durable095081d inpasswordbranch. Full37testcandidate8e6d1dd/import82d624d +rootharness2c0c9ab nowwithdifferentcodec_author actualfullreview inisolatedsessiontest001-full-review. No projectfeature/marker/testbody executed; currentselectedUbuntuCI/FIRSTred/publication remainblockedworkflowaccess. ThisscenePR imports no passwordsource/tests/evidence; exactrefs andowningtree retainedincheckpoint, no passwordcapability certified."
+        "Cross-task actualupdate: root FIRST reviewedhostSDKfoundation atclean c0646b4 PASS1/1/0.21s then reviewedSDK-onlygenerator produced exact PH12/13 INPUTS, durable095081d inpasswordbranch. Full37testcandidate8e6d1dd/import82d624d +rootharness2c0c9ab nowwithdifferentcodec_author actualfullreview inisolatedsessiontest001-full-review. No projectfeature/marker/testbody executed; currentselectedUbuntuCI/FIRSTred/publication remainblockedworkflowaccess. ThisscenePR imports no passwordsource/tests/evidence; exactrefs andowningtree retainedincheckpoint, no passwordcapability certified.",
+        "Actualfullreview173d90a5/importcbdb133 CHANGESREQUIREDR1boundedcalleroracles/R2actualpasswordlifetime-lock-unlock-free-addressreuse; noadditionalblockers/37+old4compilelist/old3infraPASS. Originalservice_author nowcorrectsonlytest/privatecontrols/wrappers/authornote innewisolatedtest-correction atcbdb; no runtime. SeparatelyROOTproposed25506e localredordering, ACTUALdifferentconditionalenvironmentapprovald0a3819b/importfb3a5e2/review0b3a9c6d. Rootadopts ONLY replacementofagent-added remoteCI-beforeFIRSTLOCALred: AFTERactualR1/R2correctedfulltestapproval+exacthostSDKproof+cleanhead/discovery rootmayrecordplain37markerred. No firstredyet; remoteCI/access/publication/currentgates BEFOREbaselineintegration/merge andallproductionprereqs unchanged. DoesnotapplyBoost1.92vsselected1.83. No tests/fixtures/CI/permissionweakening; historicalnotes explicitlysupersedednotpretendedsatisfied.",
+        "ActualR1/R2correctedtestsource f1b70a2/import6f03961 independently APPROVED093b528e/importd560cbd, reviewd4f7213b;162assertions/literals/37names preserved. ROOT FIRST LOCAL plainfeatureselection CLEANd560cbda at16:06:50Z actualCTestexit8/37fail/0disabled/0skip/0.063s, all37RUNentries+namedPasswordHashingNotImplemented marker. SDK/source/reviews unchanged, no fakegreen. DIFFERENTactualcausalattribution PENDING. Initialmechanicalchecker expectedwrongfailed-status/pre-final-draftphrase, preservedoriginalrawreceipt; correctedinspectionall37markers, no rerun/assertion/sourceedit. Conditionalorderingadoptione83afteractuald0review appliesonlyexactpasswordhostlane; remoteCI/access/merge/allproductionprereqs remainOPEN. No baselinedone/productionrelease claim.",
+        "ACTUALdifferentredattributionc5b10c59/importf0539e7, note2331871e VALIDintendedLOCALred oncleand560:37executed/fail/0skip/0disabled;158specifictypedmarkerfailures+51consequentialzero source/native counters accountforall209failures, no unrelated/setup/dependency/timeouts. Raw/source8blobs/binary/SDKhashesmatch; norerun. Localreviewedtestauthoring+observedred gatecomplete, taskBLOCKEDonlyonlegitimateworkflowpublication/currentselectedUbuntuCI/baselineintegrationgates. Actualnewworkflow/source remainsunpublished; remotePR59stillf94/old1scaffold. No taskdone/SESSION001dependencyready/implementation/platformbenchmarkclaim. Preserveall162assertions/literals/37names andreviewedboundary/proof. AllremoteCI/rules/discussions/mergegates andallproductionprereqs retained.",
+        "Resumed after normalPR62 merge9345aff fromfinalacf4e7b/all13latestchecksSUCCESS/identicaltreec9a4a9c2. SSHpublicationworks; obsoleteaccessblockcleared. Actualread-onlyPR59preflight confirmslocal3c3035ca clean/remotef94f5ae ancestor/no ownerdecision. Mergecurrentmain preservingbothpermission/passwordflags/targets/presets andall406IDs/1497edges, unchangedPWtests/header/stubs/nativeproof/FIRSTred andallactualreviews. Preserveadditional historicalCONTRACT005 postchecks andCONTRACT008 planningnote, no status/dependencychanges toother tasks. Onlynewsharedbuildintegration/labelcompatibility/currentselectedUbuntuCI/finalnormalmerge gates remain; no hostnativefoundation/inputgeneration/FIRSTred replay. PostPR62 mainchecks were11complete plus numericapt inprogress atlast observation; no product or live work starts.",
+        "Currentmain integratione92f3cb compiled/listed41 withoutbodyreplay. Root label-onlycompatibilityuses explicitTEST_LIST/CTest-time PasswordHashingLabels, all37names/fourlabels/60s/privatewrappers/SDKfoundationisolation unchanged. ActualunchangedPWCIguard passes37; combinedexplicitSodium1.0.22+Boost1.83 permission/password/numeric compile/list105 passes(37PW/30permissions), scratchkiwelb8a. All12postPR62 mainchecksSUCCESS nowobserved. Newactualdifferentrootintegration/harnessreview next, selectedPWUbuntuCI stillnotrun; no ownerinput or oldFIRST/native/inputgenerator replay.",
+        "Baseline COMPLETE and published: actualcurrent-main/label integration9f6cd82 approved524cde88/importa34f728 (noteae49983d), preservingall37names/162assertions/fixtures/source/privateobserver/native/FIRSTred proof. FIRSTactualselectedUbuntuCI41891170698 at9f6 passes fixedauthenticated1.0.22source/staticSDK/exact37enabled discovery/realnativefoundation1of1/old3; all14PRchecksSUCCESS. ValidoriginalFIRSTd56037red+differentc5b10c59 attribution untouched/no replay. Done means baseline only; SESSION001stillplanned/unimplemented. Finalactualmetadatareview/freshfinalHEADchecks/currentnormalrules/discussions/mergepending. PR62merged9345/all13PR+12postmainpass; PR52full logicalcorrectionactive5601branchwithresolvedownerchoices, notanotherquestion. No owneraccessactionneeded."
       ],
       "verification": {
-        "document_review": "not_run",
-        "test_baseline": "not_run",
-        "implementation": "not_run"
+        "document_review": "passed",
+        "test_baseline": "observed_red",
+        "implementation": "not_run",
+        "api_document_review": "passed",
+        "source_authentication": "passed",
+        "selected_sdk": "passed",
+        "minimal_source_review": "passed",
+        "tests": "observed_red",
+        "sdk_build": "passed",
+        "host_sdk_foundation": "passed",
+        "fixture_input_preparation": "passed",
+        "selected_ci": "passed",
+        "local_environment_review": "passed",
+        "full_test_review": "passed",
+        "red_attribution": "passed",
+        "baseline": "observed_red",
+        "integration_review": "passed",
+        "consistency": "passed"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "docs/contracts/password-hashing-v1.md",
+        "docs/evidence/sessiontest-001-contract-author.md",
+        "docs/evidence/sessiontest-001-contract-review.md",
+        "docs/evidence/sessiontest-001-dependency-preparation.md",
+        "docs/evidence/sessiontest-001-source-authentication.json",
+        "docs/contracts/password-hashing-api-v1.md",
+        "docs/evidence/sessiontest-001-api-author.md",
+        "docs/evidence/sessiontest-001-api-review.md",
+        "docs/evidence/sessiontest-001-stub-author.md",
+        "docs/evidence/sessiontest-001-sdk-build.json",
+        "docs/evidence/sessiontest-001-interface-harness.md",
+        "docs/evidence/sessiontest-001-minimal-review.md",
+        "docs/evidence/sessiontest-001-test-author.md",
+        "docs/evidence/sessiontest-001-native-harness.md",
+        "docs/evidence/sessiontest-001-native-review.md",
+        "docs/evidence/sessiontest-001-native-results.json",
+        "docs/evidence/sessiontest-001-native-results.md",
+        "docs/evidence/sessiontest-001-fixture-inputs.json",
+        "docs/evidence/sessiontest-001-ci-preparation.md",
+        "docs/evidence/sessiontest-001-test-harness.md",
+        "docs/evidence/sessiontest-001-test-review.md",
+        "docs/evidence/sessiontest-001-local-red-sequencing.md",
+        "docs/evidence/sessiontest-001-environment-review.md",
+        "docs/evidence/sessiontest-001-red-results.md",
+        "docs/evidence/sessiontest-001-red-results.json",
+        "docs/evidence/sessiontest-001-red-attribution.md",
+        "docs/evidence/sessiontest-001-handoff.md",
+        "docs/evidence/sessiontest-001-main-integration.md",
+        "docs/evidence/sessiontest-001-main-integration-review.md",
+        "docs/evidence/sessiontest-001-ci.md"
+      ],
+      "review": {
+        "author": "service_author",
+        "reviewer": "codec_author",
+        "outcome": "approved",
+        "evidence": "docs/evidence/sessiontest-001-test-review.md",
+        "revision": "Actual correctedfulltestapproval093b528e/importd560 source1d0d3775/fixture025d4de9; FIRSTd560red independentlyattributedc5b10c59/importf053. Newmain/labelharness9f6 actuallyapproved524cde88/importa34f728."
+      }
     },
     {
       "id": "SESSION-001",

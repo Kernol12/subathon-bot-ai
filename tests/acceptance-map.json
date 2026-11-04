@@ -847,9 +847,18 @@
     },
     {
       "id": "AUTH-11",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/password_hashing_tests.cpp",
+        "tests/fixtures/password_hashing_vectors.hpp"
+      ],
+      "evidence": [
+        "docs/evidence/sessiontest-001-handoff.md",
+        "docs/evidence/sessiontest-001-test-review.md",
+        "docs/evidence/sessiontest-001-red-attribution.md",
+        "docs/evidence/sessiontest-001-ci.md"
+      ],
+      "scope": "SESSIONTEST-001 supplies37 independently reviewed password policy/admission/hash/verification/upgrade baseline cases with real private SDK error/cleanup observations and literal synthetic fixtures. FIRSTclean d560 exit8/37failed/0skip, differentc5b10c59 validates158typedmarkers+51consequences. ActualUbuntuCI41891170698 at9f6 passes selected1.0.22source/staticSDK/runtimefoundation/exact37discovery/old3. Three production functions remain immediate unimplemented stubs. No passing password product acceptance, current accepted-login/account/atomic-store/admission integration, complete secret-lifetime proof, supported-hardware100sample cost benchmark or platform/release capability."
     },
     {
       "id": "AUTH-12",

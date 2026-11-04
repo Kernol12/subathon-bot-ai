@@ -9,9 +9,43 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
+endif()
+
+if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
+    # Foundation and input preparation link only the explicit SDK, never the SUT.
+    add_executable(password_hashing_environment acceptance/password_hashing_environment.cpp)
+    target_link_libraries(password_hashing_environment PRIVATE Sodium::Sodium)
+    subathon_target_options(password_hashing_environment)
+    add_test(NAME scaffold.password_hashing_environment COMMAND password_hashing_environment)
+    set_tests_properties(scaffold.password_hashing_environment PROPERTIES
+        LABELS "scaffold;password-hashing-environment" TIMEOUT 30)
+
+    # Explicit preparation target: building never runs it; it is not a CTest test.
+    add_executable(password_hashing_fixture_generator EXCLUDE_FROM_ALL
+        scaffolding/password_hashing_fixture_generator.cpp)
+    target_link_libraries(password_hashing_fixture_generator PRIVATE Sodium::Sodium)
+    subathon_target_options(password_hashing_fixture_generator)
+
+    add_executable(server_password_hashing_acceptance
+        acceptance/password_hashing_tests.cpp
+        support/password_hashing_failures.cpp)
+    target_link_libraries(server_password_hashing_acceptance PRIVATE
+        subathon_password_hashing Sodium::Sodium GTest::gtest_main)
+    subathon_target_options(server_password_hashing_acceptance)
+    # Private error observations/injection belong only to the feature-test executable.
+    foreach(sbt_password_wrap IN ITEMS
+            sodium_init sodium_malloc sodium_allocarray sodium_mlock sodium_memzero
+            sodium_munlock sodium_free crypto_pwhash_str crypto_pwhash_str_alg
+            crypto_pwhash_argon2id_str crypto_pwhash_str_verify crypto_pwhash_argon2id_str_verify)
+        target_link_options(server_password_hashing_acceptance PRIVATE "LINKER:--wrap=${sbt_password_wrap}")
+    endforeach()
+    gtest_discover_tests(server_password_hashing_acceptance DISCOVERY_MODE PRE_TEST
+        TEST_LIST subathon_password_cases PROPERTIES TIMEOUT 60)
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/PasswordHashingLabels.cmake")
 endif()
 
 if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
