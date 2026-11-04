@@ -95,3 +95,8 @@ FIRST selected Boost1.83 native environment passed21 primitive checks (1/1),
 retained output611ea8a5 in environment-first evidence. Existing36 cases also pass.
 No permission body exists or ran; API document remains active. Root is publishing
 this reviewed SDK lane through normal SSH for actual Ubuntu CI observation.
+
+
+API update: author646a11e3/import5757a45, API blobdda2793c/author0680aa30.
+Actual separate codec_author API review active; no source/test stage released.
+Published07418ee succeeded through SSH, all13 checks queued at last observation.
