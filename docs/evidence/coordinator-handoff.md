@@ -1,122 +1,95 @@
-# Coordinator checkpoint — catalog baseline complete, final publication pending
+# Coordinator checkpoint — generator complete, final merge pending
 
-Coordinator /root, 2026-11-04. Continue AGENTS.md and COORDINATOR_PROMPT.md.
-Full product remains incomplete. No new access or routine approval is needed.
-Three earlier CORE-008 product questions remain unanswered; do not default them.
+/root,2026-11-04. Continue AGENTS.md and COORDINATOR_PROMPT.md. Full product is
+incomplete. No new owner choice/access is needed; CORE-008 questions remain parked.
 
-## Integrated main and preserved completed work
+## Current main and completed baseline
 
-Latest fetched main0b631dcbea1ec7765b3a66e41d6059e81de2979d is the normal PR51
-ACCT-004 merge from80cac620 at2026-11-04T05:56:21Z. All11 latest-source checks and
-10 post-main workflows passed; main/head trees matched. [Handoff](acct-004-handoff.md),
-[review](acct-004-code-review.md), [CI](acct-004-ci.md) preserve43slots233scenarios/
-full308 acceptance and independent source/allocation approval. Do not repeat
-completed gates or treat component evidence as actual adapters/platform/full release.
-Raw ignored merge receipt: local-evidence/acct004-merge-receipt.json.
+Main07dc53eaf6a13c4a4fe50b9fb1dcff430d05f326 is the normal PR53 merge from133246d
+at08:46:12Z, after all12latest checks and all applicable reviews/first-red gates.
+All11post-main workflows subsequently passed; merge/head trees equalc453ffd4.
+Ignored local-evidence/localetest001-merge-receipt.json records actual API/check/tree/
+completionlog receipts. ACCT004/PR51 and LOCALETEST001/PR53 are done; do not repeat
+valid completed gates or infer full application/platform capability.
 
-## LOCALETEST-001 — complete baseline, unmerged
+## LOCALE-001 — component done, publication pending
 
-Root branch task/LOCALETEST-001-catalog-baseline; root source at2ef381a before this
-completion-metadata commit. [Draft PR53](https://github.com/Kernol12/subathon-bot-ai/pull/53)
-last published ad0dd23. LOCALETEST-001 is DONE as a test baseline; LOCALE-001 remains
-planned until normally merged/integrated prerequisites. Read
-[handoff](localetest-001-handoff.md), [test review](localetest-001-test-review.md),
-[red review](localetest-001-red-review.md), [foundation](localetest-001-foundation.md)
-and [brief](../tasks/EPIC-023/LOCALE-001.md).
+Root task/LOCALE-001-catalog-generator, [draftPR55](https://github.com/Kernol12/subathon-bot-ai/pull/55).
+Last published source d7d6328; actual source approvalacaeb41 importedbc47188.
+Module d7985160/catalogcb392400/four generated text outputs implement the reviewed
+source513/APIacb. All43 tests6a/7fixtures/probef033 remain unchanged; all145old
+assertion/failure calls preserved. [Implementation](locale-001-implementation.md),
+[code review](locale-001-code-review.md), [CI](locale-001-ci.md) and
+[handoff](locale-001-handoff.md) pin exact source/configuration and limits.
 
-Actual approved source contract51383296/APIacb90189/minimal stub23089e6b remain
-unchanged. Real Qt rejected the old top-level-message inference; supported mapping
-uses one empty context/name. Initial rejection and renewed review are preserved.
-Seven independent source messages/four complete TS/browser goldens, Qt-only raw-QM
-probe and43 Python methods are reviewed. All145 old assertion/failure AST nodes and
-six original message objects/forms remain; later additions test plural percents,
-fresh missing-English load, global validation priority and U2028/U2029 bytes.
-Final actual full source/test/harness approvaleee87e1/import9765647 pins tests6a7da928,
-probe f033074d, inventory3c5b8830, QtCMake9ff75621 and CI d90ce3cc.
+Root full48 PASS6.44s, author43PASS3.753s, different reviewer43PASS6.06s plus Qt100
+foundation and remaining4 checks. Independent source/process/allocation/ownership/
+publication audit found no blocking defect inside the frozen trusted-tool/serialized
+host boundary. Actual [selectedCI41808104501](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41808104501)
+atd7 PASSES archive/runtime verification, real product6artifactgenerate/read-only
+check, exact43enabled/uninverted ordinary discovery, mandatory Qt100 foundation,
+UNCONDITIONAL43 and4infrastructure. All12source checks passed. Ignored selected log
+SHA67ca2ee6a8224944000138edfa7391a571c5440147a9577ba40ddf2755416ca3.
 
-Selected official Qt6.12.0 foundation passed100 assertions and two-fresh-directory
-QM comparisons. Actual final-source CI41799087660 atad0dd23 passed four verified
-archive pins/runtime closure, build/inert imports, exact43enabled/uninverted
-method discovery and five ordinary checks. All12 PR checks atad0 passed BEFORE
-first red. Raw ignored log corrected-tests-41799087660.log SHA d503efe39c9e385d897fdeeabf96b39509041dd6c94363955350c906267f52e1.
+Build integration generates ONLYbuild-root outputs before checking committed text;
+defaultbuild never overwrites tracked text. Explicit update target writes generated
+text; tracked/source files absent from cleanable byproducts. No tests/fixtures were
+regenerated from this implementation. Human-readable CMake option/preset descriptions
+and one comment were subsequently refreshed without behavior change.
 
-FIRST project invocation was plain CTest feature label on CLEAN9765647 after final
-review import; no source changed. Exit8,43/43fail/0disabled/skips/setuperrors/2.47s.
-Independent saved-evidence attributiona66e66a/import2ef381a accepts37direct methods/
-109markererror records (validate78/render3/generate24/check4) and6CLI methods/
-14assertion failures against sole script exit86. Five CLI helpers suppress stderr;
-those are inferred from86 plus the exact frozen guard, not falsely printed markers.
-Three added global-priority rows and separator source individually reached markers.
-Raw [CTest output](localetest-001-red-ctest.txt) SHA0f238e5982a9a2f98675bf9922043158d2f67afabccdd51340d1e65f183f5d9e
-is committed. Ignored first-red JUnit/metadata/per-method JSON remain preserved.
-No replay, assertion weakening, skip, WILL_FAIL, inversion or fake successful tool.
+Current uncommitted completion metadata updates taskdone/acceptance map/docs and
+new CI/handoff evidence; check consistency, commit/push, then observe ALLlatest-head
+checks. Recheck current rules/threads/approvals/mergeability, markready and normally
+merge exacthead only after gates. Refresh main and claim next ready executable task.
+Do not claim PR55 merged or latest completion metadata CI already ran. Runtime
+formatting/preferences/live switching/German layouts/Windows/Python3.10runtime/
+packaging/platform/fullrelease remain unverified separate tasks.
 
-Next concrete actions: publish completion metadata; observe ALL latest-head CI;
-recheck rules, threads, reviews and mergeability; mark PR ready and normally merge
-exact head only when gates pass. Then refresh main, reconcile records and claim
-LOCALE-001 on its own fresh branch. Ordinary baseline CI explicitly excludes only
-intentional-red feature execution while building/discovering all43 and running
-real Qt foundation. Implementation must pass all43, receive independent code/source
-allocation/process/publication audit and promote actual feature execution into CI.
-No generator behavior, named formatter/preferences/switching/layout/package/platform
-or full release acceptance exists yet. Actual .qm generation is still mandatory.
+## Concurrent RATESTEST-001
 
-## Concurrent RATESTEST-001 — approved model, API document being authored
+[DraftPR54](https://github.com/Kernol12/subathon-bot-ai/pull/54),
+task/RATESTEST-001-snapshot-baseline, integrator tree
+local-evidence/worktrees/ratestest001-integrator, latestpublished512828c. Logical
+76d2/c5e approved7003473; API5568/fc1d approved0b9a449; minimalheader3a06/TU4cf1/
+profile23/harnessf5afb60 approved6150962. No actualratefeature/marker has run.
+SelectedBoost interfaceCI41805994785 SUCCESS: pinned1.83/header macro, compile,
+old33numeric+3infrastructure PASS; all13PRchecksSUCCESS. Rawlog ignored under
+local-evidence/ratestest001-ci, SHAaa4ae1254da448d7abdbf2ff1a0bb05c690e03d0bcf864f7ea582b2e5c109c19.
 
-[Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54), branch
-task/RATESTEST-001-snapshot-baseline, published head4853a42, root integrator tree
-local-evidence/worktrees/ratestest001-integrator. Logical documentce1b926/import0c97691
-(contract76d2d9b3/authorc5e87c18) approved7003473/import6a4a487 after RS10/RS15
-clarifications;17 independent arithmetic facts checked. Only concrete API DOCUMENT
-stage is active. No actual header/stub/schema/storage/test/red/implementation exists.
+codec_author RUNNING literalfixtures/53GTests plus14-fact Boost-only foundation in
+local-evidence/worktrees/ratestest001-test-author, branch task/RATESTEST-001-test-author.
+Own ONLY tests/fixtures/rate_snapshots_vectors.hpp, tests/acceptance/rate_snapshot_tests.cpp,
+tests/acceptance/rate_snapshot_environment.cpp and test-author evidence. Actual
+candidate not committed yet; nonewtest/foundation/feature/marker body executed.
+Target handshake: core_rate_snapshot_acceptance links newrate+GTestmain;
+rate_snapshot_environment has ownmain/ONLYBoostheaders, no project include/link.
+Raw literal builders reach each stub directly; no SUT-generated expectations/setup.
+Next: integrate actual4-file candidate, rootCMake/CI register all53 intentionallyred,
+actualindependenttestreview, selected foundationGREEN then FIRSTmissingmarkerred.
+RATES001productionplanned; required exactrational historicalbridge009 stillplanned.
 
-Source/fetch/publication unknowns stay unknown; observations remain separate from
-selected effective constraints, exact positives/inverses/cross-rates and pins. The
-finite-decimal HistoricalValuation/STORAGE-015 gap for1.20→5/6 is now required
-RATESTEST-009/RATES-009 work under EPIC-017 on PR54. Its state has398tasks; this
-focused locale branch has396 and only reconciles the active claim. Merge snapshots
-carefully, preserving newer statuses/evidence and required bridge tasks. No rounded
-fallback or unsupported provider capability is allowed; all3FX providers remain.
+The rate branch has398tasks/new009brief/EPIC017deps; currentlocale396 until that
+focused baseline merges. Preserve newer locale done/evidence when reconciling the
+rate snapshot after PR55; never overwrite main with oldJSON. All3FXproviders remain.
 
-## Agents and ownership — inspect on resume
+## Roles, preservation and blockers
 
-All tree paths below are under local-evidence/worktrees/.
+service_author completed localeactualcandidate c641d06; clean
+locale001-generator-author tree. service_reviewer completed actualcode/config
+approvalacaeb41; clean locale001-code-review tree. Both idle until explicitfollowup;
+codec_author alone authors ratetests. Root owns sharedstate/HTML/maps/schema/build/
+CI/pins/generatedproductartifacts/checkpoint and integration. Use followup_task to
+restart idle agents. Allwritersisolated; oldvalidreviews/dirtyverification trees/
+absentregistrations remain untouched, never reset/prune/delete. No rootbuild/CTest
+child running. Inspect actual state/processes/agents/GitHub on every resume.
 
-- service_author RUNNING rate API DOCUMENT only in ratestest001-contract-author,
-  task/RATESTEST-001-contract-author. Own ONLY new rate-snapshots-api-v1.md and
-  ratestest-001-api-author.md. Source model remains frozen. Old clean
-  localetest001-contract-author/ACCT trees are preserved. No code release yet.
-- codec_author completed locale correctionsbbff4e0 and rate model review7003473;
-  currently idle. Preserve localetest001-fixture-author and ratestest001-contract-review.
-  Explicit followup with actual rate API candidate for independent document review.
-- service_reviewer completed full locale revieweee87e1 and red attributiona66e66a;
-  currently idle in localetest001-contract-review. Future implementation needs actual
-  different source review; no future-code approval. Explicit followup_task restarts
-  idle agents; send_message alone does not.
-- Root exclusively owns state/HTML/maps/shared schemas/CMake/presets/workflows/pins,
-  checkpoint and integration. Never overwrite another writer or reset old trees.
-
-## Blocked timer and preservation
-
-[Draft PR52](https://github.com/Kernol12/subathon-bot-ai/pull/52), head3e05b48,
-preserves CORETEST-008 partial document5446a91/reviewc33a4b1/16literal examples.
-Blocked choices: cap lowered below current Main (retain/reject/audited clamp), first
-Ready Start with passed deadline (reject or finish), enable/move deadline to now/past
-(accept+finish or reject). No answers arrived. No API/test/red/production stage is
-approved. Do not reask settled debt-first addition/above-cap addition retention/
-hard-end/Grace/wait/reopen questions. Preserve this claim during every state merge.
-
-Historical branches/worktrees/valid reviews remain untouched, including seven old
-dirty verification trees and acct004-service verification-only CMake/untracked note.
-Do not reset/prune/delete absent registrations or old trees. No root build/CTest
-child is running. Unrelated IDE/user processes remain untouched. Inspect actual
-processes/agents/dirty state/GitHub on every resume. Selected verified tool prefix
-/tmp/subathon-locale-qttools-6.12.0/prefix; ICU belongs under prefix/lib; do not
-substitute host Qt. Raw scratch Qt failure/success remains ignored and is not
-substituted for the formal baseline.
-
-Latest observed ruleset26170263 requires PR/resolved threads, zero required GitHub
-approvals/no bypass actors; classic protection404 and no required-check rule.
-Written workflow still requires ALL applicable latest CI and independent reviews.
-Recheck before normal merge; no force/admin/protection weakening. All7integrations,
-3FXproviders/both renderers/platforms/license/package/live/fullrelease gates remain.
+CORETEST008 remains blocked in [draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52)
+head3e05b48: partialdoc5446/reviewc33a/16literals only. Unanswered choices: capbelow
+Main retain/reject/auditedclamp; ReadyStartpastdeadline reject/finish; enable/move
+pastdeadline accept+finish/reject. No defaults/newAPI/test/red/production approval;
+do not reask settled policies. No actualchat/payment/provider side effect authorized.
+Latest observed ruleset26170263 requires PR/resolvedthreads/no bypass/0GHapprovals;
+writtenworkflow still requires allapplicable latestCI/independentreviews. No force/
+admin/weakening. All7integrations/3FX/bothrenderers/platform/license/package/live/
+fullscope remain required. Selected Qt prefix/tmp/subathon-locale-qttools-6.12.0/prefix,
+ICUunderlib; rootnative GNU16.2.1/Python3.14.8, CI GNU13.3/Python3.12.3.

@@ -7763,7 +7763,7 @@
       "module": "Currency",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (rate contract); codec_author (independent document review)",
+      "owner": "coordinator /root; service_author (completed rate API author); codec_author (approved API review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -7778,7 +7778,9 @@
       "notes": [
         "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage.",
-        "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge."
+        "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge.",
+        "Newer actual rateAPI15cd944/import5d5712b doc556840c2/note fc1d1baf receives independent document-only approval0b9a449 on focusedPR54. Source/modelunchanged; no actual C++stub/header/test/red yet. Root ratebranch will integrate newmain07dc and release onlyminimaltypedstubsource after recordingapproval; no futurecode/test gate implied. Do not overwrite requirednew009bridge tasks living onPR54 whenreconcilingstate.",
+        "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere."
       ],
       "verification": {
         "document_review": "not_run",
@@ -10542,7 +10544,9 @@
         "Actual independent fulltest candidate bbdeefb/importe0ffc3b and sharedharness e1779a3 now compile/discover43unique Python methods/48CTest entries, no feature/main/script/marker or newQtprobe executed. Initial fixture/probe reviewaeb4091/import39711a2 requested additive plural raw-percent witnesses and actual fresh missing-English load; both corrected preservingall6oldobjects/forms with seventhfixture. Full actual source/test/harness review is running with service_reviewer; no prospective approval. OrdinaryCI discoveryguards43 and explicitly excludes onlyintentional-red execution until implementation; allmethods alwaysregistered. Selected realfoundation green and FIRSTprojectred remain pending.",
         "Actual narrow correctedQtfixture/probe/harness approval2968f33/importacfb4af precedes root FIRSTfoundation execution on same selected officialQtbuild:1/1PASS0.02s/100assertions, en/de byte-identical in2freshdirs, rawlogSHAbd8f98f6. No projectfeature/main/marker invoked. CIguard6fdd985 closes duplicateAST/disabled/inversion/labelgap and actualreviewer acknowledges. OrdinarynewfoundationCI publication/observation and full43semanticreview pending; no baselinecompletion/red claim.",
         "Actual compiledfoundationCI41797849656 atcafe4ad SUCCESS: freshUbuntu24.04/Python3.12.3/4pinnedarchives/runtimeclosure/build/43uniqueenableduninvertedfeaturediscovery/5ordinaryCTestPASS,100Qtassertions and sameen/deQMhashes asroot. LogSHAdae3c419. Fullactual43review e76a9a0/import48e1294 requests two additive purePython oracles beforeFIRSTred: global validationstagepriority across IDs and U2028/U2029 escapedweb/rawTS scalars. Existing43names/assertions/7goldens/probe preserved; codec_author released2ownedfilecorrection. No projectfeature/main/marker hasrun and no prospective finalreview.",
-        "Bounded baseline DONE after actual fulltestrevieweee87e1/import976 and independently acceptedFIRSTred a66e66a/import2ef381a on SAME CLEAN9765647.43/43CTestfail/0setup/disabled/skip/2.47s:37directmethods109namedmarkererrors (validate78/render3/generate24/check4) and6CLI methods14assertions against soleexit86bridge. New3globalpriority+1separator rows individually reached. Selectedrootfoundation100assertions and finalsourceCI41799087660/fiveordinarychecks/43enableduninverteddiscovery/all12checksGREEN precededfirstred. No assertion weakened; all145oldcalls and7fixtures/probe preserved. Rawlog0f238e59 committed. Latest completionmetadata CI/currentrules/discussions/normalmerge remain publicationgates; notassumedmerged. LOCALE001 implementation staysplanned until integrated baseline; allruntime/preferences/layout/package/platform/fullscope gates remain."
+        "Bounded baseline DONE after actual fulltestrevieweee87e1/import976 and independently acceptedFIRSTred a66e66a/import2ef381a on SAME CLEAN9765647.43/43CTestfail/0setup/disabled/skip/2.47s:37directmethods109namedmarkererrors (validate78/render3/generate24/check4) and6CLI methods14assertions against soleexit86bridge. New3globalpriority+1separator rows individually reached. Selectedrootfoundation100assertions and finalsourceCI41799087660/fiveordinarychecks/43enableduninverteddiscovery/all12checksGREEN precededfirstred. No assertion weakened; all145oldcalls and7fixtures/probe preserved. Rawlog0f238e59 committed. Latest completionmetadata CI/currentrules/discussions/normalmerge remain publicationgates; notassumedmerged. LOCALE001 implementation staysplanned until integrated baseline; allruntime/preferences/layout/package/platform/fullscope gates remain.",
+        "Publication complete: normal exact-head PR53 merged07dc53eaf6a13c4a4fe50b9fb1dcff430d05f326 at2026-11-04T08:46:12Z from133246d1f7330a36ac9216edbc5c8c9201d42272 after all12 latestchecksSUCCESS, currentrules/no bypass/zero unresolvedthreads/mergeableCLEAN. Actual selected completionCI41801500267/rawfd7c56a6. Main refreshedclean; merge/head trees equalc453ffd4d538f3e495d6830d18b0943f38d89708. Postmainworkflows initiallypending, notassumedpassed. No replay of validred and no productgeneratorimplementation claim.",
+        "Post-main publication reconciled: all11 workflows on merged07dc53e completedSUCCESS; equalmerge/headtrees and fullreceipt preserved ignoredlocal-evidence/localetest001-merge-receipt.json. No completedbaseline replay."
       ],
       "verification": {
         "tool_environment": "passed",
@@ -10559,7 +10563,7 @@
         "test_review": "passed",
         "baseline": "observed_red",
         "github_ci": "passed",
-        "completion_ci": "not_run"
+        "completion_ci": "passed"
       },
       "evidence": [
         "docs/contracts/translation-catalog-v1.md",
@@ -10592,8 +10596,8 @@
       "title": "Shared translation catalog schema and build generator",
       "module": "Localization",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; service_author (generator/catalog implementation); service_reviewer (independent code review pending actual candidate)",
       "depends_on": [
         "BOOT-001",
         "LOCALETEST-001"
@@ -10606,11 +10610,33 @@
       "summary": "Generate Qt .ts/.qm and browser catalogs deterministically; contributors edit the source catalog.",
       "notes": [
         "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "LOCALETEST001 now has reviewed43-method intentional-red baseline and independentfirstredattribution; see focusedPR53/evidence. Wait for its normal merge/integratedprerequisites before claiming a dedicated implementation branch. Implement exact reviewed catalog/API with allassertions preserved, real6artifactQt/browser acceptance, different code/source audit and promoted ordinaryfeatureCI. No product generator exists yet."
+        "LOCALETEST001 now has reviewed43-method intentional-red baseline and independentfirstredattribution; see focusedPR53/evidence. Wait for its normal merge/integratedprerequisites before claiming a dedicated implementation branch. Implement exact reviewed catalog/API with allassertions preserved, real6artifactQt/browser acceptance, different code/source audit and promoted ordinaryfeatureCI. No product generator exists yet.",
+        "Claimed dedicated task/LOCALE-001-catalog-generator from freshlyintegrated main07dc53e after baselinePR53normalmerge. Scope sourcecontract51383296/APIacb90189/stub23089e6b and reviewedtests6a7da928/43methods/7fixtures/probef033; preserveALLassertions/oracles/inventory, baselineFirstred976 attributiona66e accepted. service_author owns ONLY tools/translation_catalog.py, NEWlocalization/messages.json and docs/evidence/locale-001-implementation.md in isolatedtask/LOCALE-001-generator-author. Implement strictwholecatalogvalidation/globalpriority, exact4text+real2QM, boundedprocess/streamreads, source/path/ownership protection, honestperfilepublication/check/CLIfailures. No runtimeformatter/preferences/UI/provider/otherbehavior. Root owns allgeneratedproducttext/QMpublication/build/presets/CI/pins/state/maps/checkpoint; normalfeatureCIpromoted onlyafteractual43pass+differentreview. Author mayrun43nowreviewedbaselineintegratedandredcomplete; maynoteditanytest/fixture/contracts or fakeQMs. Differentactualsource/allocation/process/filesystemaudit and passingreal43/freshselectedCIbeforecompletion; Windows/Python3.10runtime/package/livegates remainexplicit.",
+        "Component DONE after actualauthorc641/import2d317e4+rootartifact/featureCIpromotiond7d6328, independentfullsource/configapprovalacaeb41/importbc47188 and rootfull48PASS6.44s/different43PASS6.06s+100foundation+4infra. ActualfreshselectedCI41808104501 atd7 completedproduct6-ID6artifactgenerate/check,43enableddiscovery/UNCONDITIONAL43PASS/mandatoryQt100/fourinfra; all12checksSUCCESS, rawSHA67ca2ee6. Alltests/fixtures/contracts unchanged; sourceallocation/process/filesystem audit explicit. Finalmetadata latestCI/rules/discussions/normalmerge remainpublicationgates; notassumedmerged. Python3.10runtime/Windows andruntimeformatter/preferences/liveUI/layout/package/fullrelease remainseparate requiredgates."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "baseline": "observed_red",
+        "implementation": "passed",
+        "code_review": "passed",
+        "acceptance": "passed",
+        "github_ci": "passed",
+        "native_build": "passed",
+        "completion_ci": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/locale-001-implementation.md",
+        "docs/evidence/locale-001-code-review.md",
+        "docs/evidence/locale-001-ci.md",
+        "docs/evidence/locale-001-handoff.md"
+      ],
+      "review": {
+        "author": "/root/service_author (module/catalog); /root (generated outputs/build/CI)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "Actuald7d6328 module d7985160/catalogcb392400/rootCMake9c14c2e8/CIde3cc3f1/Qtregf31aadf6 +fourproducttext blobs approvedacaeb41/importbc47188. Reviewedtests6a/7fixtures/probef033 unchanged. Wording-only CMake descriptions/comment cleanup follows without behavior change.",
+        "evidence": "docs/evidence/locale-001-code-review.md"
+      }
     },
     {
       "id": "LOCALETEST-002",
@@ -13006,6 +13032,11 @@
       "date": "2026-11-04",
       "task": "LOCALETEST-001",
       "note": "Reviewed baseline complete:43methods reach intendedmissingbehavior on clean976 after own selectedgreenfoundation/CI; independentattributionaccepted, finalpublicationgatespending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "LOCALE-001",
+      "note": "Generator component accepted: unchanged43/realQM/productbuild/sourceaudit/selectedordinaryCI passed; finalpublication gatespending."
     }
   ]
 }

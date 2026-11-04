@@ -1,4 +1,4 @@
-name: Translation catalog baseline foundation
+name: Translation catalog acceptance
 on:
   pull_request:
     branches: [main]
@@ -60,11 +60,11 @@ jobs:
                   raise SystemExit("Linguist tool borrowed host Qt/ICU")
               print(line.strip())
           PYTHON
-      - name: Configure catalog baseline and independent Qt literal probe
+      - name: Configure catalog generation and independent Qt literal probe
         run: cmake --preset translation-catalog-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-      - name: Build syntax and inert imports without invoking generator functions
+      - name: Build catalogs and verify generated source consistency
         run: cmake --build --preset translation-catalog-debug
-      - name: Verify complete feature discovery without invoking missing behavior
+      - name: Verify complete enabled feature discovery
         run: |
           python3 - <<'PYTHON'
           import ast
@@ -96,11 +96,16 @@ jobs:
               props = {entry["name"]: entry["value"] for entry in item["properties"]}
               if props.get("DISABLED", False) or props.get("WILL_FAIL", False):
                   raise SystemExit("A reviewed feature case is disabled or failure-inverted")
-              if not {"translation-catalog", "acceptance", "intentional-red"}.issubset(
-                      props.get("LABELS", [])):
-                  raise SystemExit("A reviewed feature case lost its required baseline labels")
-          print("Discovered all 43 intentional-red feature methods; no feature was invoked")
+              labels = set(props.get("LABELS", []))
+              if not {"translation-catalog", "acceptance"}.issubset(labels):
+                  raise SystemExit("A reviewed feature case lost its required labels")
+              if "intentional-red" in labels:
+                  raise SystemExit("Implemented catalog cases still carry an intentional-red label")
+          print("Discovered all 43 enabled reviewed catalog acceptance methods")
           PYTHON
-      - name: Run real Qt literal foundation and existing checks
-        # Feature cases remain explicitly intentional red until LOCALE-001 implementation.
-        run: ctest --preset translation-catalog-debug -LE intentional-red --verbose
+      - name: Require the independent real Qt literal foundation
+        run: ctest --preset translation-catalog-debug -R '^scaffold.translation_catalog_environment$' --verbose
+      - name: Run all reviewed generator API and CLI acceptance cases
+        run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --verbose
+      - name: Run existing infrastructure checks
+        run: ctest --preset translation-catalog-debug -L '^scaffold$' -E '^scaffold.translation_catalog_environment$' --verbose

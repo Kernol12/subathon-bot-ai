@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "license": "GPL-3.0-or-later",
+  "source_locale": "en",
+  "locales": ["en", "de"],
+  "messages": [
+    {
+      "id": "common.action.cancel",
+      "description": "Cancel the current dialog or edit without saving it.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Cancel"},
+        "de": {"text": "Abbrechen"}
+      }
+    },
+    {
+      "id": "common.action.close",
+      "description": "Close the current dialog or panel.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Close"},
+        "de": {"text": "Schließen"}
+      }
+    },
+    {
+      "id": "common.action.save",
+      "description": "Save the user's current changes.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Save"},
+        "de": {"text": "Speichern"}
+      }
+    },
+    {
+      "id": "connection.status.connected",
+      "description": "Status label for an established connection.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Connected"},
+        "de": {"text": "Verbunden"}
+      }
+    },
+    {
+      "id": "connection.status.disconnected",
+      "description": "Status label for a connection that is not established.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Disconnected"},
+        "de": {"text": "Nicht verbunden"}
+      }
+    },
+    {
+      "id": "timer.remaining",
+      "description": "Remaining timer duration; duration is already formatted plain text.",
+      "parameters": {"duration": "text"},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Remaining: {duration}"},
+        "de": {"text": "Verbleibend: {duration}"}
+      }
+    }
+  ]
+}

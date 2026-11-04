@@ -1008,9 +1008,13 @@
         "docs/evidence/localetest-001-foundation.md",
         "docs/evidence/localetest-001-handoff.md",
         "docs/evidence/localetest-001-red-ctest.txt",
-        "docs/evidence/localetest-001-red-review.md"
+        "docs/evidence/localetest-001-red-review.md",
+        "docs/evidence/locale-001-implementation.md",
+        "docs/evidence/locale-001-code-review.md",
+        "docs/evidence/locale-001-ci.md",
+        "docs/evidence/locale-001-handoff.md"
       ],
-      "scope": "Reviewed generator baseline only:43intentional-red methods,7independent fixtures/4complete goldens, selected realQt foundation100assertions and actual ordinaryCI/discovery passed beforeFIRST clean976 red. Independent109directmarker+14CLIsentinel attribution accepted; no generator/runtime preference/formatting/layout/platform feature acceptance yet."
+      "scope": "Shared generator component passes all43 preserved acceptance cases, actualQt/QM/rawlookup/repro/read-only/path/process/CLI checks, separate source audit and selectedordinaryCI41808104501. Six initial productIDs/4trackedtext/2buildQM integrated; full I18N decision remainspartial for runtimeformatting/preferences/live UI/Germanlayout/package/platform gates."
     },
     {
       "id": "VIEW-04",
@@ -1360,7 +1364,7 @@
     },
     {
       "scenario": "Deterministic shared English/German translation catalog and compiled Qt mapping",
-      "status": "observed_red",
+      "status": "passed",
       "tests": [
         "tests/localization/test_translation_catalog.py",
         "tests/qt/translation_catalog_probe.cpp"
@@ -1372,7 +1376,11 @@
         "docs/evidence/localetest-001-foundation.md",
         "docs/evidence/localetest-001-handoff.md",
         "docs/evidence/localetest-001-red-ctest.txt",
-        "docs/evidence/localetest-001-red-review.md"
+        "docs/evidence/localetest-001-red-review.md",
+        "docs/evidence/locale-001-implementation.md",
+        "docs/evidence/locale-001-code-review.md",
+        "docs/evidence/locale-001-ci.md",
+        "docs/evidence/locale-001-handoff.md"
       ],
       "review": {
         "author": "/root/codec_author (fixtures/tests); /root/service_author (contract/API/stubs); /root (shared harness)",
@@ -1381,8 +1389,15 @@
         "baseline": "eee87e1 accepts tests6a7da928/43unique methods; a66e66a attributesFIRSTclean976 red43fail/0skip/setup/109directerrors+14CLIassertions/raw0f238e59.",
         "evidence": "docs/evidence/localetest-001-test-review.md"
       },
-      "verification_level": "reviewed intended missing-feature baseline with actual selected Qt foundation",
-      "scope": "All43 feature methods remain enabled and intentionally fail on explicit stubs. Seven literal messages/four complete goldens and separate actual Qt-only compilation/load/reproduction are independent oracles, not generator success. LOCALE001 still planned; implementation must pass all43, receive separate source review and promote feature execution into ordinaryCI. Runtime/preferences/layout/package/platform and fullrelease remain required."
+      "verification_level": "reviewed Linux build-generator and selected Qt component acceptance",
+      "scope": "All43 preserved methods pass; independent7fixture/4goldens/nativeprobe remain unchanged, historicalfirstred retained. Actual6productartifactgeneration/readonlyconsistency integrated; ordinaryCI requires100assertionfoundation/43enableduninverteddiscovery/unconditional43execution/4infra. Source audit covers allocation/process/filesystem beyondcases. No runtimeformatter/preferences/packaging/Windows/fullrelease proof; finalpublicationgates separate.",
+      "code_review": {
+        "author": "/root/service_author (module/catalog); /root (build/CI/generated outputs)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "Actuald7d6328 module d7985160/catalogcb392400/config/productoutputs approvedacaeb41; tests6a unchanged. Rootfull48/different43+foundation/infrastructure PASS; selectedordinary41808104501 productcheck+43unconditionalPASS/all12SUCCESS.",
+        "evidence": "docs/evidence/locale-001-code-review.md"
+      }
     }
   ]
 }

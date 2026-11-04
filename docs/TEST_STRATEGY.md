@@ -451,23 +451,25 @@ These are synthetic real-SQL component checks: actual ports/financial/review/
 recovery/provider/UI/platform/live/full release acceptance remains incomplete.
 
 
-## Shared translation catalog baseline
+## Shared translation catalog acceptance
 
-LOCALETEST-001 has43 independently reviewed Python methods, seven literal messages,
-four complete TS/browser goldens and a separate Qt-only foundation/verifier.
-[Handoff](evidence/localetest-001-handoff.md), [review](evidence/localetest-001-test-review.md)
-and [red attribution](evidence/localetest-001-red-review.md) distinguish reviewed
-authorship, actual existing-Qt success and FIRST intended project failure.
+LOCALETEST-001 supplied43 independently reviewed Python methods, seven literal
+messages/four complete goldens and a Qt-only foundation. Historical FIRST clean976
+red and separate attribution remain in its [handoff](evidence/localetest-001-handoff.md)
+and [review](evidence/localetest-001-red-review.md); do not replay or replace them.
+All reviewed assertions/fixtures/contracts remain unchanged under LOCALE-001.
 
-Configure/build translation-catalog-debug with the verified Qt6.12.0 tool prefix
-from the preflight. CTest -LE intentional-red runs five ordinary checks, including
-the mandatory real compiler/load/two-directory reproduction foundation. CI always
-discovers all43 enabled/uninverted feature methods; -L '^translation-catalog$' runs
-those intentionally failing project cases. The first clean976 execution returned8
-with43fail/0setup/disabled/skip,109directmarkererrors and14CLIassertions. No failure
-is reversed into green. This is a completed baseline, not passing generator behavior.
+Configure/build translation-catalog-debug with the verified selected Qt6.12.0
+prefix. The build generates actual product QM and compares tracked text. Full
+CTest runs48 passing checks; label '^translation-catalog$' selects all43 generator
+API/CLI methods. They are enabled ordinary acceptance with no intentional-red label.
+CI requires exact discovery, mandatory independent Qt foundation100 assertions,
+unconditional43 execution and four other checks. [CI](evidence/locale-001-ci.md)
+records actual fresh-runner success and selected artifacts/environment.
 
-LOCALE-001 must preserve all assertions, produce actual6artifacts/QM semantics, pass
-all43 and source/allocation/process/publication audit, obtain separate code review
-and promote ordinaryCI feature execution. Formatting/preferences/live switching/
-German layouts/packaging/platform and full release remain separate required gates.
+[Different source review](evidence/locale-001-code-review.md) audits allocation,
+process capture/reaping, source identity/aliases, bounded reads, publication/cleanup
+and safe failures beyond the tests. Trusted serialized local-host/per-file-write
+limits remain explicit. No runtime formatter/preferences/live switching/German
+layout/Windows/package/platform or full release behavior follows from generator
+acceptance; those remain owning tasks. No live provider/supporter operation occurs.
