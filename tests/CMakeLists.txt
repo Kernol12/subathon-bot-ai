@@ -14,6 +14,22 @@ if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SU
     include(GoogleTest)
 endif()
 
+if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
+    # Foundation and input preparation link only the explicit SDK, never the SUT.
+    add_executable(password_hashing_environment acceptance/password_hashing_environment.cpp)
+    target_link_libraries(password_hashing_environment PRIVATE Sodium::Sodium)
+    subathon_target_options(password_hashing_environment)
+    add_test(NAME scaffold.password_hashing_environment COMMAND password_hashing_environment)
+    set_tests_properties(scaffold.password_hashing_environment PROPERTIES
+        LABELS "scaffold;password-hashing-environment" TIMEOUT 30)
+
+    # Explicit preparation target: building never runs it; it is not a CTest test.
+    add_executable(password_hashing_fixture_generator EXCLUDE_FROM_ALL
+        scaffolding/password_hashing_fixture_generator.cpp)
+    target_link_libraries(password_hashing_fixture_generator PRIVATE Sodium::Sodium)
+    subathon_target_options(password_hashing_fixture_generator)
+endif()
+
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     add_executable(core_time_debt_acceptance acceptance/time_debt_tests.cpp)
     target_link_libraries(core_time_debt_acceptance PRIVATE subathon_time_debt subathon_timer_lifecycle GTest::gtest_main)

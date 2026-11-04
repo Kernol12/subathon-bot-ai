@@ -114,3 +114,27 @@ Scene PLAN002/PR60 ACTUALLY mergedmainb2b14bb5cc6d509f45784c55d5dbed7e55f7556b a
 approvals/no bypass. Post-main workflowspending. Root nextclaims009modeldocument
 fromrefreshedmain, preserves406sceneplan nodes and403ratebridge nodes onintegration.
 No password/SDKruntime orscene feature approved by thesecompletedpreparations.
+
+
+## Actual continuation checkpoint: native preparation review
+
+Main b2b14bb5cc6d509f45784c55d5dbed7e55f7556b has all11 post-main check-runs
+completed SUCCESS. PR60 planning is merged, not pending. Scene009 is claimed on
+fresh main in contract009-integrator/task/CONTRACT-009-scene-model, claim24752c0;
+codec_author is actually running in contract009-author and owns only scene model
+and its author evidence. No schemas/feature/renderers released.
+
+Password import ad9c27bd adds only preliminary SDK foundation/generator/authornote;
+[native harness](sessiontest-001-native-harness.md) is now compiled/listed only.
+Neither native program ran. service_reviewer is being explicitly reassigned actual
+native preparation/harness review in a separate worktree; do not assume its older
+minimal review covers this source. service_author preliminary phase completed,
+full fixtures/tests pending exact inputs. Root FIRST foundation then generator
+runs require that new different approval. No production released.
+
+Actual reinspection:167 worktree registrations,16 absent; the same eight older
+dirty trees preserved. No build/CTest/publisher child was running. PR52/54/56/59
+remain drafts at recorded remote heads. gh auth still lacks workflow scope; no
+new answer to the already-pending owner access question. No repeat failed publish
+attempt or permission bypass. Current password tree has not yet integrated scene
+mainb2; root must combine state/checkpoint without losing either branch's records.
