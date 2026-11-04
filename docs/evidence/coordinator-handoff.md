@@ -123,3 +123,20 @@ literal TS and directly inspect real QM; no project generator, baseline tests,
 source catalog or production behavior is authorized by that investigation. Record
 it as third-party feasibility evidence, never independent feature acceptance or red.
 All later test-first gates and actual CI foundation remain required.
+
+
+## Actual Qt probe reopened one document gate
+
+[Scratch Qt feasibility](localetest-001-qt-feasibility.md) found official lrelease6.12
+rejects the approved top-level TS message structure. An explicit EMPTY context/name
+wrapper instead compiled en/de reproducibly in two fresh directories and passed
+56 direct raw lookup checks. This is existing-tool investigation, NOT project
+acceptance, formal baseline tests or missing-feature red. Raw original rejection
+and success are preserved under ignored local-evidence/localetest001-qt-feasibility.
+Separate reviewer ed21886 reopens narrow R4; author explicitly resumed/correcting
+ONLY contract serialization/indentation/completeTC01 and author note. Initial
+approvals remain historical; current document review is partial until the ACTUAL
+corrected revision receives renewed review. API documentation may advance pure
+shape, but no stub/generator/source catalog/schema/project fixture/test stage is
+released on the rejected mapping. No existing baseline assertion was weakened.
+All three CORE-008 owner questions remain unanswered; draftPR52 stays blocked.
