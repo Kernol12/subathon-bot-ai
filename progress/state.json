@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03",
+  "updated_at": "2026-11-04",
   "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1789,8 +1789,8 @@
       "title": "Atomic effect application and operation idempotency",
       "module": "Accounting",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author; codec_author; independent service_reviewer",
       "depends_on": [
         "ACCT-003",
         "STORAGE-002",
@@ -1804,7 +1804,8 @@
       "brief": "docs/tasks/EPIC-002/ACCT-004.md",
       "summary": "Commit application status, actual effects, state and delivery-job records atomically; failed transactions leave no partial award.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Coordination resumed by new owner instruction2026-11-04. Old stop fulfilled: PR49 merged8634eb5; PR50/main1124532458e883001578587c4c826f8b2d400d51 fetched. Dedicated task/ACCT-004-application-service. Preserve completed ACCTTEST004 review/first-red35slots224scenarios and all assertions/fixtures. Scope current logical6d0cd67f/concretebbd6cd83/header03a747a7: canonical command codec, exact orchestration/one real caller-session commit before publication. Service author owns server/src/application_service.cpp +ownnote; codec author owns NEWserver/src/application_service_command.cpp +ownnote; different isolated branches/worktrees. Root owns all sharedbuild/CI/state/HTML/maps/checkpoint/integration. Separate reviewer examines actual candidate. Acceptance exact35/full300, source/thread/allocation/budget/ownership audit, observed ordinary selectedQt CI promoted execution with oldguards/pins, actual separate approval before normal merge. All provider/FX/adapter/financial/refund/recovery/UI/platform/release gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -12888,6 +12889,11 @@
       "date": "2026-11-03",
       "task": "ACCTTEST-004",
       "note": "Reviewed observed-red baseline complete after independent attribution:35/224 named failures, valid setup. Final PR49 metadata CI and normal merge remain, then stop. ACCT004 stays planned."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "ACCT-004",
+      "note": "Coordination resumed by new owner instruction2026-11-04. Old stop fulfilled: PR49 merged8634eb5; PR50/main1124532458e883001578587c4c826f8b2d400d51 fetched. Dedicated task/ACCT-004-application-service. Preserve completed ACCTTEST004 review/first-red35slots224scenarios and all assertions/fixtures. Scope current logical6d0cd67f/concretebbd6cd83/header03a747a7: canonical command codec, exact orchestration/one real caller-session commit before publication. Service author owns server/src/application_service.cpp +ownnote; codec author owns NEWserver/src/application_service_command.cpp +ownnote; different isolated branches/worktrees. Root owns all sharedbuild/CI/state/HTML/maps/checkpoint/integration. Separate reviewer examines actual candidate. Acceptance exact35/full300, source/thread/allocation/budget/ownership audit, observed ordinary selectedQt CI promoted execution with oldguards/pins, actual separate approval before normal merge. All provider/FX/adapter/financial/refund/recovery/UI/platform/release gates remain."
     }
   ]
 }
