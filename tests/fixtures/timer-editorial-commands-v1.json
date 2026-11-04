@@ -1,0 +1,335 @@
+{
+  "cases": [
+    {
+      "name": "TimerEditorial.AdditionsRepayDebtBeforeCurrentCapacity",
+      "logical_examples": [
+        "ED01",
+        "ED02",
+        "ED42",
+        "ED43",
+        "ED44"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.OnlyActualMainCreditRescuesGraceOrConfirmation",
+      "logical_examples": [
+        "ED03",
+        "ED04"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.NegativePoliciesPreserveFullRequestAndEndingTrace",
+      "logical_examples": [
+        "ED05",
+        "ED06",
+        "ED07",
+        "ED08",
+        "ED09",
+        "ED10"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.ClockObservationPrecedesDeltaAndCannotReopen",
+      "logical_examples": [
+        "ED11",
+        "ED37"
+      ],
+      "api_sections": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.CapKeepAndUnaffectedSettingsRetainMainAndDebt",
+      "logical_examples": [
+        "ED12",
+        "ED17",
+        "ED25"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.CapReductionRequiresPerAttemptChoiceAndAbortCancelsBoth",
+      "logical_examples": [
+        "ED18",
+        "ED19",
+        "ED20",
+        "ED21"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.CapExhaustionUsesImmediateConfirmationAndFreshSharedGrace",
+      "logical_examples": [
+        "ED22",
+        "ED23",
+        "ED24",
+        "ED40"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.CapEditsPreserveReadyFinishedGraceAndWait",
+      "logical_examples": [
+        "ED26",
+        "ED27",
+        "ED41"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.FirstStartVariantChecksDeadlineOnly",
+      "logical_examples": [
+        "ED28",
+        "ED29"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.NewReachedDeadlineFinishesOnlyObservedActiveState",
+      "logical_examples": [
+        "ED30",
+        "ED31",
+        "ED32",
+        "ED33"
+      ],
+      "api_sections": [
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.OldDeadlineObservationCannotBeErasedOrReplayed",
+      "logical_examples": [
+        "ED13",
+        "ED14",
+        "ED34",
+        "ED35",
+        "ED36",
+        "ED38"
+      ],
+      "api_sections": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.AccessAndRevisionRefusalsDoNotInventClockResults",
+      "logical_examples": [
+        "ED15",
+        "ED16",
+        "ED39"
+      ],
+      "api_sections": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.ReadyFinishedAndMissingPolicyRemainExplicitPrerequisites",
+      "logical_examples": [
+        "ED07",
+        "ED26",
+        "ED27",
+        "ED37"
+      ],
+      "api_sections": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.EverySegmentRetainsOrderedTransitionsAndPauseMeaning",
+      "logical_examples": [
+        "ED03",
+        "ED04",
+        "ED11"
+      ],
+      "api_sections": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.PrefixSurvivesPolicyReviewAndNumericOverflow",
+      "logical_examples": [
+        "ED07",
+        "ED09",
+        "ED14",
+        "ED37"
+      ],
+      "api_sections": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.WarningPreviewIsHistoryAndCannotFreezeOrIncreaseMain",
+      "logical_examples": [
+        "ED18",
+        "ED21",
+        "ED39"
+      ],
+      "api_sections": [
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.OpaqueIdentitiesAndOptionalEmptyDataRemainExact",
+      "logical_examples": [
+        "ED15",
+        "ED16"
+      ],
+      "api_sections": [
+        "1",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.ReturnedProposalDeeplyOwnsCompleteAuditAndBothTraces",
+      "logical_examples": [
+        "ED18",
+        "ED21"
+      ],
+      "api_sections": [
+        "1",
+        "4"
+      ]
+    },
+    {
+      "name": "TimerEditorial.SnapshotValidationPreservesExistingDomains",
+      "logical_examples": [
+        "ED03",
+        "ED04",
+        "ED08",
+        "ED26",
+        "ED27"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "TimerEditorial.CommandAndAccessShapesAreExplicit",
+      "logical_examples": [
+        "ED08",
+        "ED16",
+        "ED20"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "TimerEditorial.PreviewBindingsCannotBecomeAuthorityOrStaleEffects",
+      "logical_examples": [
+        "ED18",
+        "ED21",
+        "ED39"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "TimerEditorial.ObservationsAreCompleteAndNeverInvented",
+      "logical_examples": [
+        "ED11",
+        "ED14"
+      ],
+      "api_sections": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "name": "TimerEditorial.UtcExtremaAreNotDurationsOrAnElapsedSum",
+      "logical_examples": [
+        "ED08",
+        "ED11",
+        "ED14",
+        "ED31"
+      ],
+      "api_sections": [
+        "2",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "name": "TimerEditorial.StagePrioritySeparatesValidationAccessRevisionAndPreview",
+      "logical_examples": [
+        "ED15",
+        "ED16",
+        "ED39"
+      ],
+      "api_sections": [
+        "3"
+      ]
+    },
+    {
+      "name": "TimerEditorial.ReferenceAndStepProfilesHaveExactBoundaries",
+      "logical_examples": [
+        "ED11",
+        "ED15",
+        "ED16"
+      ],
+      "api_sections": [
+        "2",
+        "5"
+      ]
+    },
+    {
+      "name": "TimerEditorial.CompleteInputAndResultBytesIncludeWholeAudit",
+      "logical_examples": [
+        "ED07",
+        "ED16",
+        "ED18"
+      ],
+      "api_sections": [
+        "3",
+        "5",
+        "6"
+      ]
+    },
+    {
+      "name": "TimerEditorial.AllProfilesRejectInvalidAndOverflowingOptionsBeforeWork",
+      "logical_examples": [
+        "ED15",
+        "ED16"
+      ],
+      "api_sections": [
+        "3",
+        "5"
+      ]
+    }
+  ]
+}
