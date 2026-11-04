@@ -140,3 +140,14 @@ corrected revision receives renewed review. API documentation may advance pure
 shape, but no stub/generator/source catalog/schema/project fixture/test stage is
 released on the rejected mapping. No existing baseline assertion was weakened.
 All three CORE-008 owner questions remain unanswered; draftPR52 stays blocked.
+
+
+## Actual R4 correction approved
+
+Contract273c6e7/import2cde25f (blob51383296, authora203ad4b) now has renewed separate
+approval947eba4. ONE empty context/name wrapper and complete canonical TC01 are
+checked; all earlier review/rejection history remains. Source contract review is
+passed again, not the project baseline. Concrete API DOCUMENT remains the only
+next authorized author stage. Resume/finish that same author's actual API proposal,
+then explicitly followup the idle reviewer with its real revision. No generator,
+minimal stub, schema/source catalog, project fixture/test or intended red exists.
