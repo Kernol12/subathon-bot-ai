@@ -47,13 +47,20 @@ and imported `9d8ba9e`. [API author evidence](milestonetest-001-api-author.md), 
 `9a9f3e5905565e3d51947e00abfcebf6ba5716d4`, records five literal byte sums.
 One raw-input advancement operation returns owned prefix/new range/projection.
 
-codec_author is explicitly resumed for independent ACTUAL API review in
-`local-evidence/worktrees/milestonetest001-contract-review`, branch
-`task/MILESTONETEST-001-contract-review`, owning only a new API review note.
-service_author is idle after its completed handoff, not still running. No actual
-header/source/stub/fixture/test/red or production behavior has been released.
-Next: integrate actual API review, resolve findings, then release only minimal typed
-stub source. Keep API/source/test/harness reviews and first red separate.
+Actual API review `b8932cd`/import `21ba96d`, note blob `99a3dfc0`, APPROVES
+that exact document. Sixteen independent arithmetic/field/count facts passed;
+prior logical review is unchanged. service_author is explicitly resumed for minimal
+typed source in its existing milestone author tree, owning ONLY
+`core/include/subathon/core/milestone_progression.hpp`,
+`core/src/milestone_progression.cpp` and a new stub-author evidence note.
+One immediate distinct NotImplemented throw; inert declarations/accessor/exception
+constructors only. No feature validation, tests, fixtures or calls authorized.
+Root retains harness/build/CI ownership. Next: actual minimal source and harness
+review, then test authoring and separate review/green foundation/first red.
+
+Root also created `task/CONTRACTPLAN-001-wire-prerequisites` from refreshed main
+in `local-evidence/worktrees/contractplan001-integrator`; claim `a9decd7` owns only
+a documentation/dependency decomposition. Plan authoring/review remain pending.
 
 ## Rate baseline: locally reviewed, publication access blocked
 
