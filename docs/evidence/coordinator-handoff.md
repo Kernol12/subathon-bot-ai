@@ -1,95 +1,82 @@
-# Coordinator checkpoint — common wire and password documents
+# Coordinator checkpoint — common contract final publication
 
-Coordinator /root, 2026-11-04. Continue AGENTS.md and
-[COORDINATOR_PROMPT](../COORDINATOR_PROMPT.md). Full product incomplete; continue
-useful authorized work while the workflow access request and timer choices wait.
+Coordinator /root,2026-11-04. Continue AGENTS.md and
+[COORDINATOR_PROMPT](../COORDINATOR_PROMPT.md). Full product incomplete.
 
-## Main and completed work
+Main dd6a141107e4e950f3c6c3f6bd3a74b5ba1f7f09 normally merged PR57 exact886ba3b
+at11:28:48Z after all12 checks/independentreview/zero threads/current rules; merge/
+head tree5262607e matches. All11 post-main workflows passed. PR55/53/51 also done.
+Do not replay their valid reviewed/red/pass evidence or infer full product support.
+See [planning handoff](contractplan-001-handoff.md),
+[generator](locale-001-handoff.md) and [ACCT004](acct-004-handoff.md).
 
-Main `dd6a141107e4e950f3c6c3f6bd3a74b5ba1f7f09` normally merged
-[PR57](https://github.com/Kernol12/subathon-bot-ai/pull/57) at11:28:48Z from
-`886ba3b51b96970390b7586bce9ad95c1bee5e87`. All12 actual exact-head check-runs
-SUCCESS; threads0/reviews0 and active ruleset26170263 requires0 GH approvals/no
-bypass. Merge/head trees equal5262607e. Post-main workflows still need observation.
-[Planning handoff](contractplan-001-handoff.md), [review](contractplan-001-review.md)
-and [ADR-0004](../decisions/0004-wire-contract-prerequisites.md) preserve the complete
-parent/four-child gate, all10 epic lists/319 old baseline edges. Only planning done;
-child schemas/features unverified. PR55 generator, PR53 catalog baseline and PR51
-ACCT004 also completed; preserve their valid reviews/red/pass evidence. See
-[generator handoff](locale-001-handoff.md) and [ACCT004](acct-004-handoff.md).
+## Actual common contract
 
-## Current claims and isolated writers
+This tree task/CONTRACT-005-wire-primitives in contract005-integrator, claimec1e9859
+from integrated main. Author1404de5/import378da1b, contract11eeb5f4/author7cebb719.
+Actual independent reviewf01bd28 APPROVES all323lines/27WP examples;23 arithmetic/
+size/order facts passed, existing4096-byte refs/configurable16384DECIMAL-byte
+components preserved. [Handoff](contract-005-handoff.md),
+[review](contract-005-review.md), [contract](../contracts/wire-primitives-v1.md).
+Only005 document locally done. No schema/parser/encoder/client/provider capability.
+Full003/006–008/consumer/feature/release gates stay open. FinalexactheadCI/rules/
+threads/normalmerge pending; publish this focused document PR now. No new workflow
+needed, so the separate workflow-scope blocker does not prevent ordinary publication.
 
-- CONTRACT-005 primary task/CONTRACT-005-wire-primitives in
-  local-evidence/worktrees/contract005-integrator. codec_author authors ONLY new
-  wire-primitives-v1.md and contract-005-author.md in
-  local-evidence/worktrees/contract005-author, task/CONTRACT-005-document-author.
-  Document/examples only, no schemas/code/clients/provider capability. Actual
-  different document review before next stage.
-- SESSIONTEST-001 primary task/SESSIONTEST-001-password-baseline in
-  local-evidence/worktrees/sessiontest001-integrator. service_reviewer authors ONLY
-  password-hashing-v1.md and sessiontest-001-contract-author.md in
-  local-evidence/worktrees/sessiontest001-author, task/SESSIONTEST-001-contract-author.
-  Logical document/official libsodium investigation/independent examples only, no
-  hash/test/marker/source/fixture execution or supported-cost/pin claim. Separate
-  actual review before API/source/tests/red/production.
-- MILESTONETEST-001 primary task/MILESTONETEST-001-progression-baseline in primary
-  workspace. [Draft PR56](https://github.com/Kernol12/subathon-bot-ai/pull/56), last
-  published d8b3d6a/all12 old component checks SUCCESS; local4f8f3e1. Model0115/API58b8
-  reviews8338981/b8932cd; header9a167813/TU4e3291f0/harnessd8b3d6a approved a2f5d358.
-  Local/reviewer14-step builds0warnings/old36green. GTest evidence corrected53bdf04
-  to actual1.18.0 (minimum1.17). service_author now authors ONLY literal fixture,
-  GTests, standalone std/Boost foundation and author evidence in existing milestone
-  author tree. No feature/foundation body or marker has run; current selected CI,
-  independent test/foundation review and FIRST plain red still required. No production.
-  Integrate this new main before final test/harness review; preserve frozen source.
+## Concurrent assignments and preserved work
 
-This checkpoint belongs to CONTRACT-005; the other claim is reconciled here without
-copying its absent evidence. Root exclusively owns JSON/HTML/checkpoint, shared
-schemas/imports/build/CI/pins/maps and PR integration. All writers isolated; use
-followup_task for idle agents. Do not assume completed agents are still running.
+- Password baseline: task/SESSIONTEST-001-password-baseline in sessiontest001-integrator,
+  localf94f5ae. Logicalf730/importd74 (bc9ccbf6/4d26e84e) approved98f0494/importfebe5c2,
+  review6226c59d. service_author now authors ONLY new password-hashing-api-v1.md +
+  author note in sessiontest001-api-author/task/SESSIONTEST-001-api-author. No native
+  crypto, header/stub/source/test/foundation or implementation. Actual different
+  API review next. codec_author separately does READONLY selected1.0.22 source/pin/
+  license/compile-only-environment preparation, no pin/build/install/native execution.
+- Milestone baseline: primaryworkspace task/MILESTONETEST-001-progression-baseline,
+  local275057b, [draftPR56](https://github.com/Kernol12/subathon-bot-ai/pull/56)
+  remote00d8c57/all12old checks passed. Full53fixture/test/harness candidatefa098e2
+  approved208d0580/importac9234a, no correction. Header9a16/TU4e32/model0115/API58b
+  frozen. Narrowde0/import7d7e621 released FIRSTlocal25-fact foundation atclean7d7e621,
+  1pass/exit0/0.00s/raw9a83525e in ignored milestone-ci files. No milestone acceptance
+  test/function/marker body/currentselected1.83CI/firstred. Source/workflow publication
+  blocked on actual credentials; do not replay completed reviews/localfoundation.
+- Rate baseline: task/RATESTEST-001-snapshot-baseline in ratestest001-integrator,
+  local3d444ee, [draftPR54](https://github.com/Kernol12/subathon-bot-ai/pull/54)
+  remote512828c. All12reviewed source/test/contract/harness blobs unchanged aftermain
+  merge; corrected53test64fd60b2/foundation28a/fixture8936 approveddcf5/import7d6b55f.
+  Local14-factfoundation already passed(raw419c41ee); old interfaceCI41805994785/
+  selected1.83/old36/all13 does not establish current53-case environment. No feature
+  test/function/marker/red. Preserve403-task graph incl requiredRATESTEST009/RATES009
+  exact valuation bridge/EPIC017deps versus main401. No production released.
 
-## Rate workflow access and parked decisions
+service_reviewer completed common review and now READONLY prepares scene008 scope/
+possible split after005 actual merge. No scene claim/files/schema/renderer approved.
+All writers isolated; root owns shared JSON/HTML/checkpoint/schemas/imports/build/CI/
+pins/maps/PR integration. Restart idle agents with followup_task; inspect actual roles.
 
-[Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) task branch in
-local-evidence/worktrees/ratestest001-integrator: remote512828c, local79c8512.
-Actual53-test correction64fd60b2/foundation28a829aa/fixtures8936f4fa received final
-different reviewdcf5dca/import7d6b55f; all earlier assertions/names retained. Model76d2,
-API5568, header3a06/TU4cf1/minimalreview615 preserved. Independent14-fact Boost-only
-foundation already passed locally (raw419c41ee). Old selected1.83 interface CI41805994785
-at512 passed old36/all13 checks; not current53-case selected environment. No new rate
-feature body/test/marker or FIRST red has run. RATES001 production stays planned.
+## Access and parked questions
 
-Current gh scopes lack workflow; no usable SSH agent, authenticated GitHTTPS500,
-newworkflow CreateTree404. Ordinary exact-object API works with bounded transient
-retries; do NOT bypass workflow permission via alternate path/ref. Owner async request
-still pending: restore SSH for CLion or complete
-`gh auth refresh -h github.com -s workflow`. Verify actual access change/remote head;
-a selected option is not access. Then resume rate, publish exact reviewed commits,
-observe current selected CI/new foundation, FIRST plain53 feature red/raw+JUnit,
-independent attribution, final latest CI/normal merge. No completed-gate replay.
-Required RATESTEST009/RATES009 exact valuation bridge/newEPIC017deps live in rate398-task
-branch; current main401 records. Preserve those and newer claims when integrating.
+After milestone fullapproval, gh still lacks workflow scope; SSH_AUTH_SOCK absent,
+existingGPGSSHidentitycount0. Earlier GitHTTPS500/newworkflowCreateTree404. Ownerasync
+request pending: restore SSH forCLion or complete
+`gh auth refresh -h github.com -s workflow`. Verify actualaccess/remotehead; selected
+option is not access. Do not bypass via alternatefile/ref. Then publish approved
+rate/milestone workflows, observe CURRENTselectedCI/foundations, FIRSTplainfeature
+red/raw+JUnit/cleanhead, independent attribution and finalnormalmerge. No fake done.
 
-CORETEST008 [draft PR52](https://github.com/Kernol12/subathon-bot-ai/pull/52) remains
-blocked3e05b48/partialdoc5446/reviewc33a,16 literals only. Three unanswered choices:
-cap below Main retain/reject/audited clamp; Ready Start past deadline reject/finish;
-enable/move deadline now/past accept+finish/reject. No defaults or new API/tests/red.
+CORETEST008 [draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52) remains
+blocked3e05b48/partialdoc5446/reviewc33a,16 literals. Three unansweredchoices:
+capbelowMain retain/reject/auditedclamp; ReadyStartpastdeadline reject/finish;
+enable/movedeadline now/past accept+finish/reject. No defaults/newAPI/tests/red.
 
-## Preservation, transport and next actions
+Eight old dirty verification trees and16 absent registrations remain preserved;
+never reset/prune/delete. Inspect actual worktrees/status/processes/agents/GitHub on
+resume. No publisher/native/build/CTest child is running at this checkpoint. Ordinary
+exact-object task publisher can retry after transient5xx/truncatedJSON, verifying
+all objects and nonforcedrefs; never main/history/scopes. Inspect mutationstate first.
+Prior planning checkpoint linkfailure1b6 corrected69 is recorded as failedintermediate.
 
-Eight older dirty verification trees and16 absent registrations are preserved;
-see earlier checkpoint history for paths. Never reset/prune/delete. Inspect actual
-statuses/processes/agents/GitHub on resume. No root native/publisher child was active
-at this checkpoint. New claims are being committed before author assignments.
-`/tmp/subathon-publish-task-ref.py` uploads exact objects and nonforced task refs
-only; never main or scopes. Inspect actual mutation state after 5xx/truncatedJSON;
-PR57 publication recovered identical objects after truncation, no history rewritten.
-Initial1b6 checkpoint link failure was corrected69 and not recorded as pass.
-
-Next: inspect actual author handoffs; review concrete wire/password documents with
-a different agent and keep stages separate. Integrate milestone new tests/harness,
-review all actual cases/foundation/CI before any body execution. Publish focused PRs,
-observe ALL latest checks, independent reviews, threads/current rules and normal
-merge. All seven integrations, three FX providers, both renderers/locales/themes/
-platform/license/package/live scope remain. No real chat/payment side effects.
+Next: publish/review latest checks/normalmerge005; immediately refresh main and claim
+ready scene/consumer task from actual prep. Continue concrete passwordAPI/independent
+review and selected-library preparation. All7integrations/3FX/bothrenderers/locales/
+themes/platform/license/package/live scope remains; no real chat/payment sideeffects.
