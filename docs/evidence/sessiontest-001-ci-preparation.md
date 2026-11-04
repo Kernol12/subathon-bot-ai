@@ -37,3 +37,14 @@ attempt a bypass or assume local authoring can satisfy the publication gate.
 Actual full workflow review and current successful selected CI are required before
 baseline merge or first feature red. Later tests may update the build/discovery
 portion, requiring review of that actual revision.
+
+
+## Actual full authored test harness update
+
+After full author8e6d1dd/import82d624d, root added the feature target/private12wrap
+links and37-definition/discovery/enabled/intentional-red guard. The workflow now
+builds full tests but executes only independent green foundation andold3checks.
+Actual latest bytes/compile-only/discovery evidence are in
+[full harness](sessiontest-001-test-harness.md). Initial zero-feature state above
+is historical. Full actual different review and selected Ubuntu execution remain
+pending; no featurebody/marker/newSDKcall was run by compiling/listing this update.

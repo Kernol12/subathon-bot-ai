@@ -28,6 +28,22 @@ if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
         scaffolding/password_hashing_fixture_generator.cpp)
     target_link_libraries(password_hashing_fixture_generator PRIVATE Sodium::Sodium)
     subathon_target_options(password_hashing_fixture_generator)
+
+    add_executable(server_password_hashing_acceptance
+        acceptance/password_hashing_tests.cpp
+        support/password_hashing_failures.cpp)
+    target_link_libraries(server_password_hashing_acceptance PRIVATE
+        subathon_password_hashing Sodium::Sodium GTest::gtest_main)
+    subathon_target_options(server_password_hashing_acceptance)
+    # Private error observations/injection belong only to the feature-test executable.
+    foreach(sbt_password_wrap IN ITEMS
+            sodium_init sodium_malloc sodium_allocarray sodium_mlock sodium_memzero
+            sodium_munlock sodium_free crypto_pwhash_str crypto_pwhash_str_alg
+            crypto_pwhash_argon2id_str crypto_pwhash_str_verify crypto_pwhash_argon2id_str_verify)
+        target_link_options(server_password_hashing_acceptance PRIVATE "LINKER:--wrap=${sbt_password_wrap}")
+    endforeach()
+    gtest_discover_tests(server_password_hashing_acceptance DISCOVERY_MODE PRE_TEST
+        PROPERTIES LABELS "password-hashing;acceptance;intentional-red;server" TIMEOUT 60)
 endif()
 
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)

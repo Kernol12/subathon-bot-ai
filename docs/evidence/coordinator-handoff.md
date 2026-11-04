@@ -125,3 +125,13 @@ fullfixtures/GTests/privateerror-onlywrappers, no execution. Different full revi
 then selectedCI/FIRSTred still required. service_reviewer narrow assignment ended;
 its role can be explicitly reassigned to actual completed scene009 document next.
 Native approval does not cover new workflow4835695 or future featuretests/wrappers.
+
+
+Full candidate author8e6d1dd/import82d624d nowcommitted, root CMake/CI integrated:
+37exactenabledintentionalred tests/private12GNUwraps onlyfeaturebinary; nativeprograms
+unchanged/unwrapped. Configure/build3steps0warnings/discover41only; no body/marker/newSDK
+execution. Root is freezing actualcandidate for codec_author differentfulltest/harness/
+CI review innewisolatedtree. [Fullharness](sessiontest-001-test-harness.md). Selected
+UbuntuCI/publication/FIRSTred stillmissing; PR59actualoldheadonly1scaffoldcheck, not
+missing componentCI pass. Scene correctione7274463/import0ace3ae doc9a350733/author8f9f619b
+is nowwith SAMEdifferent service_reviewer inexistingreviewtree199f33c; nofutureapproval.
