@@ -119,3 +119,21 @@ remaining database state. The mutation preconditions require exactly one affecte
 row or independent byte anchor, preventing a vacuous unrelated fixture failure.
 These tests do not claim allocation ordering is measured; that remains source
 audit. Approval precedes root's future actual reached-red, not an invented result.
+
+The subsequent FIFTH additive method historicalJobMeaningIsNotOnlyAnEcho is also
+**APPROVED before first red**: actual CPP1b7d73ca1d9f4266d36c3ef72ca41b9ea001b2b1,
+Qt a4993752/CI cee1d8ab expand enabled exact registration to40. It mutates known
+SAJ1 magic in one literal historical job AND its identical SAR1 echo, requiring
+exactly one updated row each. Matching repeated bytes cannot certify valid known
+job grammar. Expected retained_semantics/invalid_known_document after historical
+disclosure, before current action preparation, and unchanged state follow contractE.
+First35 and the previously approved four additive methods remain unchanged. No
+execution of these five was performed by the reviewer before this approval.
+
+Explicit BoundApplicationPolicy admission unresolved_with_reason represents a
+required unavailable policy after known full input closure. Logical durable-hold
+requirements and concreteD10 support a specific unresolved_policy hold retaining
+its reason, rather than discarding that represented distinction in a generic
+lifecycle not-ready response. Ordinary paused/recovery/Ready/Finished and
+requires_other_command still do not authorize acceptance or automatic reopening.
+A separate actual focused regression must precede a correction to this mapping.
