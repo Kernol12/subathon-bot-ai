@@ -154,3 +154,85 @@ No schema/API/stub/fixture/test/parser/validator/codegen, native, renderer, prov
 media/font, performance or platform behavior ran or was authored. No push, PR or
 main merge occurred. Root owns shared state/HTML/build/schema/import/CI/pin and
 publication changes; this review supplies no scene capability claim.
+
+## R1/R2 correction re-review — approved revised document stage
+
+Date: 2026-11-04. Same different reviewer `/root/service_reviewer`; corrected
+document author remains `/root/codec_author`. Actual author revision
+`e72744635a5e3b8a40ed2e9b5fc8c191516983e8`, root import
+`0ace3ae2e29f82019af1a84b7093a9732af6eb72`, exact review-tree import
+`199f33c9e34a09e4d1c01ebe99a789a6cf3bd86f`:
+
+| Corrected artifact | Git blob |
+| --- | --- |
+| [Scene document](../contracts/scene-document-v1.md) | `9a3507331376a2beed47b93eac7079b45f0f2c94` |
+| [Author evidence](contract-009-author.md) | `8f9f619b6cedca884387335dd91e4688ce5e1cb9` |
+
+**APPROVED for this exact revised logical scene document stage only.** R1 and R2
+are closed by the actual correction. This supersedes the changes-required verdict
+only for the revised artifacts above; the original candidate/findings and its real
+review history remain unchanged. No new owner decision is required. No future
+schema/API/code/test/renderer or complete 008/003 approval is implied.
+
+Inspected the actual two-file correction diff and affected node, family, reference,
+resource and example definitions. R1 now has an explicit common choice of
+NoBindingAttachment or typed ElementBindingsRef for every family, expressly including
+image, intrinsic shape and group. Family-specific content BindingRefs remain and
+are not erased by the empty common attachment. Permitted destinations/value types,
+relationship to content references, override/resolution/conflict precedence and
+unavailable behavior remain UNFINALIZED under 010. The document neither promises
+every property is dynamic nor authorizes overriding static values. No raw property
+bag, server field path, script or accounting-to-geometry coercion is introduced.
+An unresolved attachment remains a dependency, never successful publication.
+
+S and SD01–26 explicitly select the empty common attachment as an example condition,
+not an omitted-field or product default. Empty attachment creates no external
+reference/payload; 012 still owes actual tag/framing/representation budgets. Each
+nonempty attachment use counts against the existing reference/aggregate limits,
+including repeated sharing, and actual 010 definition bodies are not assumed free
+or materialized through an unresolved reference.
+
+New SD27 is a PARTIAL G→A shape/group case, using the compatible GroupBase and S
+shape style. Both nodes attach the same pending definition. Resource `appearance`
+and definition `binding-r1` are 10 bytes each: 20 per reference, 40 across the two
+uses, PLUS actual kind/version bytes. It claims no complete byte total, permitted
+destination, binding effect, static-value precedence or publishable closure before
+010. This satisfies the requested independent partial example without guessing
+the missing semantic registry.
+
+R2 now explicitly applies common identifier grammar to required feature/capability
+identifiers. Authored scene/node labels remain Unicode Text under §1/SD14, without
+ASCII restriction or normalization. Domain identities retain their separate opaque
+byte type. No old Unicode or literal-text example was weakened.
+
+Independent read-only stdlib/Git checks compared old and revised documents:
+EVERY original table row is byte-identical and in the same order; SD27 is the sole
+added table row, increasing top-level SD examples from 26 to 27. Original sections
+1, 3, 6, 7 and 10 are byte-identical. The prior valid geometry/byte/Unicode/forest/
+revision audit is preserved rather than replayed as a new result; the changed
+reference accounting/empty choice and exact 20/40-byte facts were checked directly.
+The correction changes only the two authorized author paths. Revised blobs match
+the assigned hashes; common/specification and shared state/HTML remain unchanged.
+
+Actual re-review checks:
+
+```sh
+git diff 866befc..199f33c -- docs/contracts/scene-document-v1.md docs/evidence/contract-009-author.md
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+All passed; consistency reports 406 tasks/122 decisions/current links/presets/HTML.
+Sole-owned-path, original-review-prefix preservation and staged whitespace checks
+accompany this append-only review commit. No schema/API/stub/fixture/test/parser/
+validator/renderer/native/media/font/platform/provider execution or code authoring
+occurred. Root owns final document/component CI, task closure and publication.
+
+The approved artifact is still a protocol-neutral logical structure. 010 must
+supply actual owning models and typed binding/condition/formatting/time definitions;
+011 owes asset/font/package closure, 012 the complete reviewed schema/tool/resource
+contract, and 008/003 their integration gates. Existing independent renderer/editor/
+publication/privacy/media/SVG/font/budget/performance/OBS/platform/release acceptance
+and test-first obligations are retained. No scope is dropped and no supported
+capability or product behavior is claimed by this corrected document approval.
