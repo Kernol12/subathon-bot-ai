@@ -1641,7 +1641,7 @@
       "module": "Core",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; service_author (complete logical correction); service_reviewer (independent review next)",
+      "owner": "coordinator /root; service_author (concrete API document); service_reviewer (full logical approved)",
       "depends_on": [
         "CORE-005"
       ],
@@ -1658,11 +1658,12 @@
         "Owner answered all three timer policy questions on 2026-11-04: when lowering cap below Main, warn and require an explicit Keep / Reduce / Abort choice for that change; Keep saves cap and retains Main, Reduce saves cap and applies an audited reduction to it, Abort cancels. Reject first Start with a passed enabled deadline and remain Ready until corrected; accept an authorized active deadline edit to now/past and immediately finish. Recorded in docs/evidence/timer-editorial-owner-decisions.md. These owner questions are resolved; revised specification/contract/examples and separate review/API/tests/red/CI remain unfinished. Preserve prior partial review and prioritize PR62 first. No implementation or passing behavior is claimed.",
         "Claimed task/CORETEST-008-timer-command-baseline from integrated main 0b631dc after the verified normal PR51 merge. First stage is DOCUMENT ONLY: propose a simple pure timer command/proposal/revision contract and independent literal examples from specification v0.45 §4/TIMER-01 and existing CORE-005/CORE-002 contracts. No C++ API, stub, test or implementation before separate document review. Author owns only docs/contracts/timer-editorial-commands-v1.md and docs/evidence/coretest-008-contract-author.md in isolated task/CORETEST-008-contract-author. Independent reviewer owns only docs/evidence/coretest-008-contract-review.md in a separate worktree and must inspect the actual candidate. Root owns shared state/HTML/maps/build/CI/checkpoint. Three explicit product questions were sent to the owner: lowering the cap below current Main; Ready/start with a passed deadline; enabling or moving a deadline to now/past. No answers received; preselected options and elapsed time are not answers. Mark these exact semantic gates and do not choose defaults or omit their acceptance. Preserve settled hard-end/debt/Grace/wait/reopen rules and explicit nonfinancial correction policies. The baseline remains in progress until its document/API/tests/reviews/valid red are complete; CORE-008 production remains planned.",
         "Document candidate5446a91/import8754e43 (contract0ed9c693, authorb38bc1ad) received actual independent bounded document approvalc33a4b1:16 literal examples reviewed, no fabricated full command oracles for partial numeric/old-deadline rows. No API/test/red/production stage approved. Blocked for affected next stages by three unanswered explicit owner choices OPEN-CAP/OPEN-READY/OPEN-DEADLINE already asked via async tool. DraftPR52 preserves this actual reviewed work; do not merge as completed baseline or choose defaults. Continue an independent ready task while awaiting answers.",
-        "Resume original focusedPR52 after actual owner answers and PR62 normalmerge9345aff/all13PR+12postmainSUCCESS. Preserve partialdoc0ed9c693/original16ED and review657988a7; three ownerchoices are now resolved, no newquestion: per-attempt Keep/Reduce/Abort warning(cap lowerretainMain/explicit auditedMainreduction/cancelboth), rejectfirstStart withenableddeadline<=now remainReady, authorizedactive deadlineedit<=now acceptfinishimmediately. OriginalPR52branchmergedcurrentmain preserving406IDs/1497edges/allnewcontractplanning gates; onlyCORETEST008 task metadata changes. Root owns sharedspec/state/build/CI/checkpoint; service_author next owns only full logicalcontract+ownnote, actualdifferent service_reviewer fullreview beforeAPI/stub/tests/code. Preserve settledcurrentMain/debt/Grace/absolutehardend/wait/reopen/clock-CAS/nonfinancialcorrection/mixedglobalcontinuation boundaries; no Active-only shortcut or copiedtimerdebtalgorithm. PR59 integration/harnessreview/currentselectedCI proceedsindependently on its ownbranch with all37reviewedtests/redpreserved."
+        "Resume original focusedPR52 after actual owner answers and PR62 normalmerge9345aff/all13PR+12postmainSUCCESS. Preserve partialdoc0ed9c693/original16ED and review657988a7; three ownerchoices are now resolved, no newquestion: per-attempt Keep/Reduce/Abort warning(cap lowerretainMain/explicit auditedMainreduction/cancelboth), rejectfirstStart withenableddeadline<=now remainReady, authorizedactive deadlineedit<=now acceptfinishimmediately. OriginalPR52branchmergedcurrentmain preserving406IDs/1497edges/allnewcontractplanning gates; onlyCORETEST008 task metadata changes. Root owns sharedspec/state/build/CI/checkpoint; service_author next owns only full logicalcontract+ownnote, actualdifferent service_reviewer fullreview beforeAPI/stub/tests/code. Preserve settledcurrentMain/debt/Grace/absolutehardend/wait/reopen/clock-CAS/nonfinancialcorrection/mixedglobalcontinuation boundaries; no Active-only shortcut or copiedtimerdebtalgorithm. PR59 integration/harnessreview/currentselectedCI proceedsindependently on its ownbranch with all37reviewedtests/redpreserved.",
+        "Actualfullcorrectedlogical authorc03b4506/import0e56f39 contractf4a4c3ce/author1dba6bb2 androot5601spec81406806/ownerb5df2afe independentlyAPPROVEDb6277a7b/review99298e93 byservice_reviewer. All16originalED/6223bytepartialreviewprefix preserved;44ED/36independentfacts/fullReadyActiveFinishedcapdeadline/debtGracehardend/CAS/aboveCapKeep outcomeschecked. No substantiveblock/newownerquestion. ReleaseONLYconcreteAPI doc+authornote toservice_author; noheader/source/tests/codeuntilactualAPIreview. RootnewmainPR59normalmergefc28558 from595/all14PRSUCCESS/identicaltreeed9588; taskbranchmustintegrateitsmetadata/buildfilesbeforepublishing, sourcecontractunchanged. Rate/MileFIRSTselected1.83hostfoundations14/25passinscratchafterindependentselectionreview; nofeaturebodiesorredsrun."
       ],
       "verification": {
-        "document_stage": "partial",
-        "document_review": "partial",
+        "document_stage": "passed",
+        "document_review": "passed",
         "partial_document_review": "passed",
         "owner_decision": "passed",
         "test_baseline": "not_run",
@@ -1674,7 +1675,13 @@
         "docs/evidence/coretest-008-contract-review.md",
         "docs/evidence/timer-editorial-owner-decisions.md"
       ],
-      "review": null
+      "review": {
+        "author": "service_author (continuation; original codec_author preserved)",
+        "reviewer": "service_reviewer",
+        "outcome": "approved_logical",
+        "evidence": "docs/evidence/coretest-008-contract-review.md",
+        "revision": "Actualcorrectedlogicalc03b4506/import0e56f39 f4a4c3ce androot5601spec81406806 approvedb6277a7b/review99298e93; API/test/red gates remain."
+      }
     },
     {
       "id": "CORE-008",
