@@ -2,9 +2,10 @@
 
 Coordinator root,2026-11-04, task/ACCT-004-application-service,
 [draft PR51](https://github.com/Kernol12/subathon-bot-ai/pull/51).
-Current checkpoint: bounded implementation acceptance and separate source review
-are complete. Latest completion-head CI/current PR gates and normal merge remain
-publication gates; no merge is claimed before GitHub confirms it.
+Current checkpoint: component integrated. PR51 merged normally at
+2026-11-04T05:56:21Z as 0b631dcbea1ec7765b3a66e41d6059e81de2979d, exact head
+80cac620 after all eleven checks passed. All ten post-main workflows then passed.
+No bypass, force update or branch deletion; broader release gates remain below.
 
 ## Behavior and boundaries
 
@@ -100,3 +101,15 @@ Next: observe latest completion-head CI, current rules/discussions and eligible
 normal merge, then refresh main and select the next dependency-ready slice. All seven
 integrations/three FX, operational/security/backup/recovery, English/German/themes,
 both renderers, supported platforms, packaging and live release scope remain required.
+
+
+## Publication receipt
+
+Final metadata head80cac620 passed all eleven checks, including selected run
+41781864667, before the normal exact-head PR51 merge. Current rules and empty
+review-thread list were checked; GitHub reported CLEAN/mergeable. Main was refreshed
+clean and its merge tree equals the reviewed head. All ten post-main workflows at
+0b631dc passed; selected Qt run 41782291620 is included. Actual API/check/log
+records remain under ignored local-evidence. The coordinator immediately claimed
+CORETEST-008's document stage on a branch from integrated main; no completed gates
+were repeated. Product completion is not implied.

@@ -1813,7 +1813,8 @@
         "Explicit extra authorownership approved BEFORE edit: tiny PRIVATE server/src/sqlite_application_bundle_values.hpp validate_jobs borrowedvector/effectcount overload, existing PreparedBundle wrapper delegates with body/order preserved. Removes source-only unnecessaryowningcopies in servicecheck_jobs; no publicAPI/schema/behavior or assertionschange. Differentfinalreview+all308 stillrequired.",
         "Finalpreallocation4612223 importedce28ff3: root14step0warnings/FULL308PASS24.84s/1420QtPASS0skip. Tinyprivateborrowedvalidator preservesbody/order; exact43compiled-enabledacceptance and workflowinlinePythonparse verified. Differentactualfinalsource/configreviewACTIVE, actualpromotedofficialCIpending; taskremainsin_review.",
         "Boundedcomponent DONE after actualfinalsource/configapprovalc791e72/import2ab1037 +root/differentfull308PASS +actualpromotedofficial41781024558 at completea49 (freshGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/0warnings/required6guard41PASS0skip/exact43/UNCONDITIONAL43PASS8.01/all11SUCCESS), APIcheckedsynthetic52eeb570 parents112+a49/equaltreeea0864d1. ALLold35assertions/fixtures preserved; original224markerred neverreplayed. Eightnewslots9scenarios separatelyreviewed/reachedredbeforecorrections; allocationorderingactuallyaudited. Finalmetadata latestCI/currentrules/discussions/normalmerge remainPUBLICATIONgates; notassumedmerged. Allactualadapters/financial/refund/review/FX/provider/recovery/UI/platform/fullrelease remain required.",
-        "Publication VERIFIED: exactcompletionhead80cac620 all11SUCCESS, selected41781864667SUCCESS, currentrules/threads0 and CLEAN mergeable; normal --match-head-commit merge PR51 confirmed2026-11-04T05:56:21Z as0b631dcbea1ec7765b3a66e41d6059e81de2979d. Rootmain refreshedclean; merge tree equals80. Postmain10 workflows inspected pending separately; no bypass/force/branchdelete."
+        "Publication VERIFIED: exactcompletionhead80cac620 all11SUCCESS, selected41781864667SUCCESS, currentrules/threads0 and CLEAN mergeable; normal --match-head-commit merge PR51 confirmed2026-11-04T05:56:21Z as0b631dcbea1ec7765b3a66e41d6059e81de2979d. Rootmain refreshedclean; merge tree equals80. Postmain10 workflows inspected pending separately; no bypass/force/branchdelete.",
+        "Post-merge verification observed: all ten workflows at actual main0b631dc completed SUCCESS, including selected Qt run41782291620. No further ACCT-004 code/review gates remain; component integration complete, broader release gates stay explicit."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -1826,7 +1827,8 @@
         "regression_baseline": "observed_red",
         "native_build": "passed",
         "github_ci": "passed",
-        "completion_ci": "passed"
+        "completion_ci": "passed",
+        "post_merge_ci": "passed"
       },
       "evidence": [
         "docs/evidence/acct-004-codec-author.md",

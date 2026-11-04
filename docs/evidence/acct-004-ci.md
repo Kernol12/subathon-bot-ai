@@ -42,3 +42,13 @@ Final completion metadata latest CI, current discussions/rules and eligible norm
 merge remain separate closing gates. This result proves synthetic real-SQL component
 acceptance, not actual authority/policy/clock/action providers, financial/refund/
 review continuation, recovery, UI, platform or complete release verification.
+
+
+## Observed publication result
+
+Completion-head selected run41781864667 and all eleven checks succeeded at
+80cac620. Normal exact-head PR51 merge produced0b631dc on2026-11-04T05:56:21Z;
+no bypass/force/delete. All ten post-main workflows succeeded, including selected
+run41782291620. The earlier closing-gate paragraph records the CI capture
+point, not an outstanding integration blocker. Actual source/configuration remained
+identical to the independently approved artifacts.

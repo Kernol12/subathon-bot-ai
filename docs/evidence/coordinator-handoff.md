@@ -16,7 +16,8 @@ actors; GitHub reported CLEAN/mergeable. The normal merge used the exact head ma
 without force, bypass or branch deletion. Local main was refreshed and clean; its
 merge tree equals the reviewed head tree. The actual API result, checks, log hash
 and trees are preserved in ignored `local-evidence/acct004-merge-receipt.json`.
-Ten post-main workflows were observed pending; finish checking their actual results.
+All ten post-main workflows were subsequently observed successful, including
+selected Qt run 41782291620. No ACCT-004 integration gate remains.
 
 [Implementation handoff](acct-004-handoff.md), [source review](acct-004-code-review.md),
 [CI evidence](acct-004-ci.md) and [regressions](acct-004-regressions.md) retain the
@@ -40,7 +41,7 @@ examples, reusing existing numeric/lifecycle contracts. Do not duplicate arithme
 or infer actual server permissions/persistence. No header, stub, executable test,
 red run or production implementation before separate document review.
 
-New assignments, pending actual agent startup:
+Actual new assignments started through followup_task:
 
 - Reuse codec_author as contract author in NEW branch `task/CORETEST-008-contract-author`,
   worktree `local-evidence/worktrees/coretest008-contract-author`. Own only
@@ -71,10 +72,12 @@ affected executable oracles MUST await answers. Neither elapsed time nor an opti
 preselection supplies an answer. Preserve the entire CORE-008 scope; its baseline
 and production implementation are not done. Other independent ready tasks exist.
 
-Next: commit the claim, create isolated worktrees and explicitly resume the two
-agents for document authoring/review. Review the actual candidate and its literal
-examples. Use a focused draft PR. Later API/test stages require actual review and
-settled applicable semantics. Observe and record PR51 post-main checks separately.
+Claim c311f0b and both isolated worktrees are committed/created. The author is
+working on the document; the reviewer completed read-only preparation and is idle
+awaiting the actual candidate (resume explicitly with followup_task). Next inspect
+and integrate the authored document and literal examples, obtain actual review,
+and publish a focused draft PR. Later API/test stages require review and settled
+applicable semantics. PR51 post-main checks have all passed.
 
 ## Preserved work and processes
 
