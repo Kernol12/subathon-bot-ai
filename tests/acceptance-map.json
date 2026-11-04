@@ -52,9 +52,18 @@
     },
     {
       "id": "AUTH-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/effective_permissions_tests.cpp",
+        "tests/fixtures/effective-permissions-v1.json"
+      ],
+      "evidence": [
+        "docs/evidence/accesstest-002-handoff.md",
+        "docs/evidence/accesstest-002-tests-review.md",
+        "docs/evidence/accesstest-002-red.md",
+        "docs/evidence/accesstest-002-red-review.md"
+      ],
+      "scope": "ACCESSTEST-002 supplies30 independently reviewed pure permission baseline cases covering resource-first individual precedence, one whole grant, protected-owner boundaries and complete explanations. FIRST clean8acc9b9 actual exit8/30failed/0skip; separate attribution3f40238f validates215 markers and1 safe guard consequence. Evaluator remains an immediate unimplemented stub. ACCESS-002 production behavior, current session/owner/catalog facts, server execution/transaction and disclosure/delegation/recovery/editor integration remain unimplemented; no passing product acceptance or live/platform capability."
     },
     {
       "id": "AUTH-04",
@@ -463,9 +472,18 @@
     },
     {
       "id": "AUTH-06",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/effective_permissions_tests.cpp",
+        "tests/fixtures/effective-permissions-v1.json"
+      ],
+      "evidence": [
+        "docs/evidence/accesstest-002-handoff.md",
+        "docs/evidence/accesstest-002-tests-review.md",
+        "docs/evidence/accesstest-002-red.md",
+        "docs/evidence/accesstest-002-red-review.md"
+      ],
+      "scope": "ACCESSTEST-002 supplies30 independently reviewed pure permission baseline cases covering resource-first individual precedence, one whole grant, protected-owner boundaries and complete explanations. FIRST clean8acc9b9 actual exit8/30failed/0skip; separate attribution3f40238f validates215 markers and1 safe guard consequence. Evaluator remains an immediate unimplemented stub. ACCESS-002 production behavior, current session/owner/catalog facts, server execution/transaction and disclosure/delegation/recovery/editor integration remain unimplemented; no passing product acceptance or live/platform capability."
     },
     {
       "id": "AUTH-07",
@@ -997,9 +1015,24 @@
     },
     {
       "id": "I18N-04",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/localization/test_translation_catalog.py",
+        "tests/qt/translation_catalog_probe.cpp"
+      ],
+      "evidence": [
+        "docs/evidence/localetest-001-test-author.md",
+        "docs/evidence/localetest-001-test-review.md",
+        "docs/evidence/localetest-001-foundation.md",
+        "docs/evidence/localetest-001-handoff.md",
+        "docs/evidence/localetest-001-red-ctest.txt",
+        "docs/evidence/localetest-001-red-review.md",
+        "docs/evidence/locale-001-implementation.md",
+        "docs/evidence/locale-001-code-review.md",
+        "docs/evidence/locale-001-ci.md",
+        "docs/evidence/locale-001-handoff.md"
+      ],
+      "scope": "Shared generator component passes all43 preserved acceptance cases, actualQt/QM/rawlookup/repro/read-only/path/process/CLI checks, separate source audit and selectedordinaryCI41808104501. Six initial productIDs/4trackedtext/2buildQM integrated; full I18N decision remainspartial for runtimeformatting/preferences/live UI/Germanlayout/package/platform gates."
     },
     {
       "id": "VIEW-04",
@@ -1345,6 +1378,43 @@
         "outcome": "approved",
         "baseline": "Actualsource/configc791e72/import2ab1037 atce28ff3: runtimef20187a7/privatevalues162373ed/command05091e25/privateheader7d9171cd/public84f09f21/test7329b24f/Qt8e9d85ee/CIc63ee177. Original baseline/red preserved,8 additive slots separately reviewed/reached behavior red before fixes.",
         "evidence": "docs/evidence/acct-004-code-review.md"
+      }
+    },
+    {
+      "scenario": "Deterministic shared English/German translation catalog and compiled Qt mapping",
+      "status": "passed",
+      "tests": [
+        "tests/localization/test_translation_catalog.py",
+        "tests/qt/translation_catalog_probe.cpp"
+      ],
+      "contract": "docs/contracts/translation-catalog-api-v1.md",
+      "evidence": [
+        "docs/evidence/localetest-001-test-author.md",
+        "docs/evidence/localetest-001-test-review.md",
+        "docs/evidence/localetest-001-foundation.md",
+        "docs/evidence/localetest-001-handoff.md",
+        "docs/evidence/localetest-001-red-ctest.txt",
+        "docs/evidence/localetest-001-red-review.md",
+        "docs/evidence/locale-001-implementation.md",
+        "docs/evidence/locale-001-code-review.md",
+        "docs/evidence/locale-001-ci.md",
+        "docs/evidence/locale-001-handoff.md"
+      ],
+      "review": {
+        "author": "/root/codec_author (fixtures/tests); /root/service_author (contract/API/stubs); /root (shared harness)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "eee87e1 accepts tests6a7da928/43unique methods; a66e66a attributesFIRSTclean976 red43fail/0skip/setup/109directerrors+14CLIassertions/raw0f238e59.",
+        "evidence": "docs/evidence/localetest-001-test-review.md"
+      },
+      "verification_level": "reviewed Linux build-generator and selected Qt component acceptance",
+      "scope": "All43 preserved methods pass; independent7fixture/4goldens/nativeprobe remain unchanged, historicalfirstred retained. Actual6productartifactgeneration/readonlyconsistency integrated; ordinaryCI requires100assertionfoundation/43enableduninverteddiscovery/unconditional43execution/4infra. Source audit covers allocation/process/filesystem beyondcases. No runtimeformatter/preferences/packaging/Windows/fullrelease proof; finalpublicationgates separate.",
+      "code_review": {
+        "author": "/root/service_author (module/catalog); /root (build/CI/generated outputs)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "Actuald7d6328 module d7985160/catalogcb392400/config/productoutputs approvedacaeb41; tests6a unchanged. Rootfull48/different43+foundation/infrastructure PASS; selectedordinary41808104501 productcheck+43unconditionalPASS/all12SUCCESS.",
+        "evidence": "docs/evidence/locale-001-code-review.md"
       }
     }
   ]

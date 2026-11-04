@@ -232,3 +232,16 @@ cases, separate source/allocation review and actual promoted selected-Qt CI. The
 trusted finite read-only ports still need real authority/policy/clock/action/reference
 producers. Financial refunds, explicit review/continuation, running API/server,
 recovery, delivery and release/platform/provider scope remain separate gates.
+
+
+The shared [translation catalog contract](contracts/translation-catalog-v1.md)
+and [build API](contracts/translation-catalog-api-v1.md) now have an implemented
+standard-library Python generator. One authoritative English/German JSON source
+produces canonical Qt TS/browser text and real selected Qt6.12.0 QM. Native
+consumers require generated declaration metadata and raw QTranslator lookup before
+their later named formatter. The build verifies tracked text without overwriting
+it; an explicit update target regenerates that text. Source files are not cleanable
+build byproducts. [LOCALE-001 evidence](evidence/locale-001-handoff.md) records43
+preserved passing cases, independent source/process/ownership audit and actual
+promoted selected CI. Runtime formatting, preferences, live switching, renderers,
+packaging and supported-platform release checks remain separate requirements.

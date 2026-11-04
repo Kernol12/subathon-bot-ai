@@ -185,6 +185,22 @@
       "cacheVariables": {
         "SUBATHON_BUILD_APPLICATION_SERVICE_TESTS": "ON"
       }
+    },
+    {
+      "name": "translation-catalog-debug",
+      "displayName": "22 \u00b7 Translation catalog generation and acceptance",
+      "inherits": "qt-probe-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS": "ON"
+      }
+    },
+    {
+      "name": "effective-permissions-debug",
+      "displayName": "26 \u00b7 Effective permissions baseline",
+      "inherits": "exact-numeric-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -271,6 +287,14 @@
     {
       "name": "application-service-debug",
       "configurePreset": "application-service-debug"
+    },
+    {
+      "name": "translation-catalog-debug",
+      "configurePreset": "translation-catalog-debug"
+    },
+    {
+      "name": "effective-permissions-debug",
+      "configurePreset": "effective-permissions-debug"
     }
   ],
   "testPresets": [
@@ -477,6 +501,26 @@
     {
       "name": "application-service-debug",
       "configurePreset": "application-service-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "translation-catalog-debug",
+      "configurePreset": "translation-catalog-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "effective-permissions-debug",
+      "configurePreset": "effective-permissions-debug",
       "output": {
         "outputOnFailure": true
       },

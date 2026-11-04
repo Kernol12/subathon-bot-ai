@@ -481,7 +481,11 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-002"
+        "CONTRACT-002",
+        "CONTRACT-005",
+        "CONTRACT-006",
+        "CONTRACT-007",
+        "CONTRACT-008"
       ],
       "spec_refs": [
         "API-01",
@@ -491,7 +495,9 @@
       ],
       "brief": "docs/tasks/CONTRACT-003.md",
       "summary": "OpenAPI 3.1/WS/schema/capability contracts with exact numeric strings and explicit shared-file ownership.",
-      "notes": [],
+      "notes": [
+        "ADR-0004 decomposes common005, HTTP006, WS007 and scene008 contracts; all four remain required before the complete integration audit. Parent is planned until actual children finish. All ten epic consumers retain this parent gate; no feature scope or verification reduced."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -544,6 +550,398 @@
         "baseline": "actual8acbc0a; contract4ba20506db9a858450099b82888a22c8f6dbd761; rootgraph40fbddf; review27ac83b/42dbfa73",
         "evidence": "docs/evidence/contract-004-review.md"
       }
+    },
+    {
+      "id": "CONTRACTPLAN-001",
+      "title": "Split the product wire-contract prerequisites",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "done",
+      "owner": "coordinator /root (plan); codec_author (independent planning review)",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04",
+        "§10",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACTPLAN-001.md",
+      "summary": "Documentation-only decomposition of common, HTTP, WS and scene contracts with reviewed consumer dependencies; no wire behavior finalized.",
+      "notes": [
+        "Claimed on task/CONTRACTPLAN-001-wire-prerequisites from freshly fetched main3217c212. Root owns state/HTML, parent/child briefs, planning ADR and evidence; service_reviewer supplies read-only dependency preparation. Actual independent review follows authored plan. Preserve the entire CONTRACT-003 release gate, all original consumer behavior and existing test-first/platform/provider gates. No schema, implementation or executable tests in scope.",
+        "Authored proposed ADR-0004 and four bounded child briefs; exact24 non-epic replacements plus6 explicit persistent-WS edges. Preserve all10 epic parent edges and every unrelated prerequisite. API-03 is a registered specification decision at line968; no requirement conflict or owner decision. Actual independent planning review pending. No schemas/source/tests/workflow changed.",
+        "Planning locally complete after actual independent approval1de03476 (note0224ebf8), imported into this focused branch. Reviewer verified all24 replacements/sixWS additions/tenepic lists/319 old baseline edges and401-node acyclic graph, all unrelated dependencies and prior review/evidence preserved. Source plan76c7b6e plus corrected metadata69ccc21 approved; failed intermediate1b6 links are recorded as failed, not passed. Child contracts remain planned/unverified. Final exact-head CI/rules/threads/normal merge remain publication gates; not yet integrated.",
+        "Normally integrated PR57 at2026-11-04T11:28:48Z, merge dd6a141107e4e950f3c6c3f6bd3a74b5ba1f7f09 from exact head886ba3b/all12 actual check-runs SUCCESS. Threads0/reviews0; active ruleset requires0 GH approvals/no bypass. Main/head trees match5262607e. Independent planning approval1de03476 remains; all four child contracts still planned until their own claims/review. Post-main workflows remain to inspect."
+      ],
+      "verification": {
+        "planning_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "passed"
+      },
+      "evidence": [
+        "docs/decisions/0004-wire-contract-prerequisites.md",
+        "docs/evidence/contractplan-001-author.md",
+        "docs/evidence/contractplan-001-review.md",
+        "docs/evidence/contractplan-001-handoff.md"
+      ],
+      "review": {
+        "author": "coordinator /root",
+        "reviewer": "codec_author",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contractplan-001-review.md",
+        "revision": "76c7b6e plus69ccc21 metadata correction"
+      }
+    },
+    {
+      "id": "CONTRACTPLAN-002",
+      "title": "Split declarative scene contract prerequisites",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "done",
+      "owner": "coordinator /root (state/integration); service_reviewer (author); codec_author (independent actual review)",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "§11",
+        "API-01",
+        "API-03",
+        "UI-01",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "MEDIA-01",
+        "MEDIA-02",
+        "MEDIA-03",
+        "MEDIA-04",
+        "MEDIA-05",
+        "MEDIA-06",
+        "VIEW-04"
+      ],
+      "brief": "docs/tasks/CONTRACTPLAN-002.md",
+      "summary": "Documentation-only scene contract split preserving full parent, schema, renderer and release gates; no scene behavior finalized.",
+      "notes": [
+        "Claimed task/CONTRACTPLAN-002-scene-prerequisites from freshlyfetched main0096323 after actual005/PR58 normalmerge/all12checks. RootownsJSON/HTML/claims/schemas/imports/build/CI/pins/maps; service_reviewer owns ONLY newADR0005, CONTRACT009–012 briefs, bounded childintegration sectionofCONTRACT008 and sceneplan authornote in isolated writer tree. Concreteowningdomain prerequisites/cycleavoidance and full§11requirement map beforeactualreview; no new default/codec/validator/supportpolicy claim. Independentreview actualauthoredplan/state beforecompletion; no production/source/fixture/assertion/schema edits.",
+        "Actual plan author85be9bb8/import2c76307 changed7assignedMDfiles only, including byte-identical original008prefix+23lines. Root maps exactADR table into406tasks: parent008 adds5gates and4newchildren contribute19edges. All1473 oldedges/319 baseline-prerequisiteedges retained; onlyold008 dependencylist changes. No source/schema/test/validator/provider/native edits or execution. Actualdifferent docs ANDstate review required, no futureapproval.",
+        "Actual independent approvala2897c88, reviewde522f0b, accepts exact84a80bd docs ANDmappedstate. All1473claim-stateedges/319baseline gates and1471published-main edges preserved; exact24 additions/no cycles/full§11allocation checked. No blocker/ownerchoice. OnlyPLAN002locallydone, all009–012remainplanned; finalexactheadCI/rules/threads/normalmerge precedechildclaims. No schema/source/native/provider behavior or newpolicy approved.",
+        "Normally mergedPR60 at2026-11-04T13:46:13Z, exacta390112/all12finalheadcheckrunsSUCCESS, actualreviewa289/thread0/rules0GHapprovals/no bypass. Mainb2b14bb5cc6d509f45784c55d5dbed7e55f7556b/headtree0a7b58f4 equal. Onlyplanningintegrated;009–012remainrequired. Post-mainworkflowspendingobservation.",
+        "Actualb2b14bb post-main all11workflowcheckruns completedSUCCESS; priorpending-observation note is historical. All12PR60finalheadchecks andnormalmerge remainvalid, no planning/source review repeated."
+      ],
+      "verification": {
+        "planning_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "passed"
+      },
+      "evidence": [
+        "docs/decisions/0005-scene-contract-prerequisites.md",
+        "docs/evidence/contractplan-002-author.md",
+        "docs/evidence/contractplan-002-state-integration.md",
+        "docs/evidence/contractplan-002-review.md",
+        "docs/evidence/contractplan-002-handoff.md"
+      ],
+      "review": {
+        "author": "service_reviewer + coordinator /root state mapping",
+        "reviewer": "codec_author",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contractplan-002-review.md",
+        "revision": "84a80bd actual scene documents/state"
+      }
+    },
+    {
+      "id": "CONTRACT-005",
+      "title": "Common wire primitives and compatibility",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "done",
+      "owner": "coordinator /root; codec_author (document author); service_reviewer (independent review)",
+      "depends_on": [
+        "CONTRACT-002",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04",
+        "§2",
+        "§10"
+      ],
+      "brief": "docs/tasks/CONTRACT-005.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
+        "Claimed task/CONTRACT-005-wire-primitives from refreshed main dd6a141 after actual PR57 merge. FIRST DOCUMENT ONLY: versioned common exact-value/reference/unknown/version/capability/envelope primitives and independent valid/invalid examples, consistent with reviewed domain contracts. codec_author owns ONLY NEW docs/contracts/wire-primitives-v1.md and docs/evidence/contract-005-author.md in isolated task/CONTRACT-005-document-author. No schema, C++/TS, stub, client, fixture/test, code generation, network provider or authority behavior. Generic decoding proposals cannot silently reject valid domain values; keep field-specific owning limits explicit. Root owns state/HTML/checkpoint/shared schemas/imports/build/CI/pins/maps. Actual different document review precedes any next stage; API01/02/03/NUM04/§2/§10 remain scope. Parallel password claim is separate and source-free.",
+        "Actual common-wire first document1404de5/import378da1b, contract11eeb5f4/author7cebb719, independently APPROVEDf01bd28. All323 lines/27WP examples reviewed against actual domain/storage/application bounds. Independent23 arithmetic/size/order facts pass, nonsecret error565<=1024, no global256ref/512parser/4096bit cap. This completes005 bounded document acceptance only; no schema/parser/encoder/client/native/provider behavior exists. ExistingCIcoversconsistency/unchangedcomponents; finalexactheadCI/rules/threads/normalmerge are separatepublicationgates. Fullparent003/006–008/schema/consumer/testfirst/platform/provider scope remains.",
+        "Normally mergedPR58 at2026-11-04T12:28:38Z, exactheadf73ef10/all12 actualcheckrunsSUCCESS, currentrules/threads0/GHapprovalsrequired0 satisfied. Merge009632386564f3a00fb413580ac1cee3ef43cc11/headtree0b4014ec equal; no bypass. Document005 integrated; parent003/006–008/source/schema/features stillplanned. Post-main workflows pendingobservation."
+      ],
+      "verification": {
+        "document_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "passed"
+      },
+      "evidence": [
+        "docs/contracts/wire-primitives-v1.md",
+        "docs/evidence/contract-005-author.md",
+        "docs/evidence/contract-005-review.md",
+        "docs/evidence/contract-005-handoff.md"
+      ],
+      "review": {
+        "author": "codec_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contract-005-review.md",
+        "revision": "378da1b contract11eeb5f4/author7cebb719"
+      }
+    },
+    {
+      "id": "CONTRACT-006",
+      "title": "HTTP/OpenAPI 3.1 contract",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACT-008",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "§2",
+        "§10",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACT-006.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-007",
+      "title": "Persistent WebSocket synchronization contract",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACT-006",
+        "SPIKE-001",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "§2",
+        "§10",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACT-007.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-008",
+      "title": "Declarative scene/schema contract",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACTPLAN-001",
+        "CONTRACTPLAN-002",
+        "CONTRACT-009",
+        "CONTRACT-010",
+        "CONTRACT-011",
+        "CONTRACT-012"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-03",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACT-008.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership.",
+        "Proposed ADR-0005 adds required009 scene model/010 bindings-timeline/011 assets-packages/012 complete schemas plus planning002 gates. Existing005/PLAN001, HTTP006→008, C003→008, allSCENE/RENDER and everyprior baseline/epic/release edge retained. No child→parent/downstream dependency. No scene capability or child completion claimed; actual independent integrated-state/doc review pending."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-009",
+      "title": "Protocol-neutral scene document model",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "done",
+      "owner": "coordinator /root; codec_author (document author); service_reviewer (actual independent review)",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "API-01",
+        "API-03",
+        "UI-01",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "MEDIA-02"
+      ],
+      "brief": "docs/tasks/CONTRACT-009.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state.",
+        "Claimed task/CONTRACT-009-scene-model from actualrefreshed mainb2b14bb afterPLAN002/PR60 normalmerge/all12checks. Dependencyready005/PLAN002done. FIRST DOCUMENT ONLY: NEW docs/contracts/scene-document-v1.md + docs/evidence/contract-009-author.md tocodec_author inisolated task/CONTRACT-009-document-author. Protocolneutralmodel/7families/geometry+ordering+groups/typed010-011refs/draft-live+publish-restore boundaries/compatibility/finiteprofile proposal+independentvalid-invalidlogicalexamples; preservefull§11scope anddo notinventdomain clocks/disclosure/progressorigin/newproductdefaults. No schema/API/stub/parser/validator/fixture/test/renderer/code/native/provider. Actualdifferentdocumentreview beforeanotherstage. Rootownssharedstate/HTML/schemas/imports/build/CI/pins/maps/PR. Parent008/C003completepackages/consumer/testfirst/platformgates remain.",
+        "Actual logical document author6a88c79c/import0857f31 supplies scene-document5eb1c845/authorcf0cfc95 only.26independent SD rows+7family rows,14stdlibgeometry/byte/Unicode/graph facts passed; no feature/schema/API/code/runtime. Different service_reviewer now reviews exact0857f31 in contract009-review and owns onlyNEWreviewnote. All7families/typed010-011UNFINALIZED boundaries/forest/geometry/publishrestore staleABA/finiteproposals/fullreleasegates checked next; no schema/decoder/renderer/test stage released. CIassessment docs-only uses existing finalhead checks, no new workflow needed. Parent008/003/012 andconsumer releasegates intact.",
+        "Actual revised logical document9a350733/author8f9f619b frome7274463/import0ace3ae independently APPROVED7f782640/import50915bd, review8ea2e1bd. Originalreview866befcb/import e011221 preserved R1/R2findings; boundedcorrection adds common all7ElementBindingsRef/explicitempty with010semanticsUNFINALIZED, additivepartialSD27/referencecharging, featuregrammarvsUnicodeTextlabels. Alloriginaltable rows byteidentical/sameorder, unchangedsections1/3/6/7/10 andvalid21fact audit preserved. No new schema/API/fixture/test/code/renderer/native behavior.009document acceptance complete; finalactualhead existingCI/rules/threads/publication/normalmerge remain integrationgates, selectedCIcurrentlynotrun.012/010/011/008/C003/consumer/fullscope gates remain. No newworkflow needed for2MD+evidence/state/HTML-onlytask."
+      ],
+      "verification": {
+        "document_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/scene-document-v1.md",
+        "docs/evidence/contract-009-author.md",
+        "docs/evidence/contract-009-review.md",
+        "docs/evidence/contract-009-handoff.md"
+      ],
+      "review": {
+        "author": "codec_author",
+        "reviewer": "service_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contract-009-review.md",
+        "revision": "0ace3ae document9a350733/author8f9f619b; actual revised approval7f782640/import50915bd"
+      }
+    },
+    {
+      "id": "CONTRACT-010",
+      "title": "Typed scene bindings conditions and presentation timelines",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-009",
+        "CORE-002",
+        "CORE-003",
+        "CORE-005",
+        "ACCT-002",
+        "ACCESSTEST-002",
+        "MILESTONETEST-001",
+        "MILESTONETEST-004",
+        "MODIFIERTEST-001",
+        "MODIFIERTEST-002",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "§4",
+        "§6",
+        "§8",
+        "API-03",
+        "NUM-04",
+        "UI-04",
+        "MEDIA-02",
+        "VIEW-03"
+      ],
+      "brief": "docs/tasks/CONTRACT-010.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-011",
+      "title": "Scene assets fonts and portable package contracts",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-009",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "MEDIA-01",
+        "MEDIA-03",
+        "MEDIA-04",
+        "MEDIA-05",
+        "MEDIA-06"
+      ],
+      "brief": "docs/tasks/CONTRACT-011.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-012",
+      "title": "Complete versioned scene schema package",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-009",
+        "CONTRACT-010",
+        "CONTRACT-011",
+        "CONTRACTPLAN-002"
+      ],
+      "spec_refs": [
+        "§11",
+        "API-01",
+        "API-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "MEDIA-01",
+        "MEDIA-02",
+        "MEDIA-03",
+        "MEDIA-04",
+        "MEDIA-05",
+        "MEDIA-06"
+      ],
+      "brief": "docs/tasks/CONTRACT-012.md",
+      "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
+      "notes": [
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
     },
     {
       "id": "SPIKE-001",
@@ -1242,8 +1640,8 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "blocked",
-      "owner": "coordinator /root; timer_contract_author (reused codec_author); independent timer_contract_reviewer (reused service_reviewer)",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (complete logical correction); service_reviewer (independent review next)",
       "depends_on": [
         "CORE-005"
       ],
@@ -1256,18 +1654,25 @@
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
+        "Active work is preserved in unmerged draftPR52, branch task/CORETEST-008-timer-command-baseline head3e05b48. Actual document5446a91 and separate document reviewc33a4b1 are complete only for the partial stage; three owner questions OPEN-CAP/OPEN-READY/OPEN-DEADLINE remain unanswered. No API/test/red/production stage approved. This branch reconciles that existing claim to prevent duplicate assignment; detailed document/review evidence remains on PR52 rather than being copied into unrelated work. Resume only on actual answers, never preselected options.",
+        "Owner answered all three timer policy questions on 2026-11-04: when lowering cap below Main, warn and require an explicit Keep / Reduce / Abort choice for that change; Keep saves cap and retains Main, Reduce saves cap and applies an audited reduction to it, Abort cancels. Reject first Start with a passed enabled deadline and remain Ready until corrected; accept an authorized active deadline edit to now/past and immediately finish. Recorded in docs/evidence/timer-editorial-owner-decisions.md. These owner questions are resolved; revised specification/contract/examples and separate review/API/tests/red/CI remain unfinished. Preserve prior partial review and prioritize PR62 first. No implementation or passing behavior is claimed.",
         "Claimed task/CORETEST-008-timer-command-baseline from integrated main 0b631dc after the verified normal PR51 merge. First stage is DOCUMENT ONLY: propose a simple pure timer command/proposal/revision contract and independent literal examples from specification v0.45 §4/TIMER-01 and existing CORE-005/CORE-002 contracts. No C++ API, stub, test or implementation before separate document review. Author owns only docs/contracts/timer-editorial-commands-v1.md and docs/evidence/coretest-008-contract-author.md in isolated task/CORETEST-008-contract-author. Independent reviewer owns only docs/evidence/coretest-008-contract-review.md in a separate worktree and must inspect the actual candidate. Root owns shared state/HTML/maps/build/CI/checkpoint. Three explicit product questions were sent to the owner: lowering the cap below current Main; Ready/start with a passed deadline; enabling or moving a deadline to now/past. No answers received; preselected options and elapsed time are not answers. Mark these exact semantic gates and do not choose defaults or omit their acceptance. Preserve settled hard-end/debt/Grace/wait/reopen rules and explicit nonfinancial correction policies. The baseline remains in progress until its document/API/tests/reviews/valid red are complete; CORE-008 production remains planned.",
-        "Document candidate5446a91/import8754e43 (contract0ed9c693, authorb38bc1ad) received actual independent bounded document approvalc33a4b1:16 literal examples reviewed, no fabricated full command oracles for partial numeric/old-deadline rows. No API/test/red/production stage approved. Blocked for affected next stages by three unanswered explicit owner choices OPEN-CAP/OPEN-READY/OPEN-DEADLINE already asked via async tool. DraftPR52 preserves this actual reviewed work; do not merge as completed baseline or choose defaults. Continue an independent ready task while awaiting answers."
+        "Document candidate5446a91/import8754e43 (contract0ed9c693, authorb38bc1ad) received actual independent bounded document approvalc33a4b1:16 literal examples reviewed, no fabricated full command oracles for partial numeric/old-deadline rows. No API/test/red/production stage approved. Blocked for affected next stages by three unanswered explicit owner choices OPEN-CAP/OPEN-READY/OPEN-DEADLINE already asked via async tool. DraftPR52 preserves this actual reviewed work; do not merge as completed baseline or choose defaults. Continue an independent ready task while awaiting answers.",
+        "Resume original focusedPR52 after actual owner answers and PR62 normalmerge9345aff/all13PR+12postmainSUCCESS. Preserve partialdoc0ed9c693/original16ED and review657988a7; three ownerchoices are now resolved, no newquestion: per-attempt Keep/Reduce/Abort warning(cap lowerretainMain/explicit auditedMainreduction/cancelboth), rejectfirstStart withenableddeadline<=now remainReady, authorizedactive deadlineedit<=now acceptfinishimmediately. OriginalPR52branchmergedcurrentmain preserving406IDs/1497edges/allnewcontractplanning gates; onlyCORETEST008 task metadata changes. Root owns sharedspec/state/build/CI/checkpoint; service_author next owns only full logicalcontract+ownnote, actualdifferent service_reviewer fullreview beforeAPI/stub/tests/code. Preserve settledcurrentMain/debt/Grace/absolutehardend/wait/reopen/clock-CAS/nonfinancialcorrection/mixedglobalcontinuation boundaries; no Active-only shortcut or copiedtimerdebtalgorithm. PR59 integration/harnessreview/currentselectedCI proceedsindependently on its ownbranch with all37reviewedtests/redpreserved."
       ],
       "verification": {
-        "document_review": "passed",
+        "document_stage": "partial",
+        "document_review": "partial",
+        "partial_document_review": "passed",
+        "owner_decision": "passed",
         "test_baseline": "not_run",
         "implementation": "not_run"
       },
       "evidence": [
         "docs/contracts/timer-editorial-commands-v1.md",
         "docs/evidence/coretest-008-contract-author.md",
-        "docs/evidence/coretest-008-contract-review.md"
+        "docs/evidence/coretest-008-contract-review.md",
+        "docs/evidence/timer-editorial-owner-decisions.md"
       ],
       "review": null
     },
@@ -1822,8 +2227,7 @@
         "Explicit extra authorownership approved BEFORE edit: tiny PRIVATE server/src/sqlite_application_bundle_values.hpp validate_jobs borrowedvector/effectcount overload, existing PreparedBundle wrapper delegates with body/order preserved. Removes source-only unnecessaryowningcopies in servicecheck_jobs; no publicAPI/schema/behavior or assertionschange. Differentfinalreview+all308 stillrequired.",
         "Finalpreallocation4612223 importedce28ff3: root14step0warnings/FULL308PASS24.84s/1420QtPASS0skip. Tinyprivateborrowedvalidator preservesbody/order; exact43compiled-enabledacceptance and workflowinlinePythonparse verified. Differentactualfinalsource/configreviewACTIVE, actualpromotedofficialCIpending; taskremainsin_review.",
         "Boundedcomponent DONE after actualfinalsource/configapprovalc791e72/import2ab1037 +root/differentfull308PASS +actualpromotedofficial41781024558 at completea49 (freshGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/0warnings/required6guard41PASS0skip/exact43/UNCONDITIONAL43PASS8.01/all11SUCCESS), APIcheckedsynthetic52eeb570 parents112+a49/equaltreeea0864d1. ALLold35assertions/fixtures preserved; original224markerred neverreplayed. Eightnewslots9scenarios separatelyreviewed/reachedredbeforecorrections; allocationorderingactuallyaudited. Finalmetadata latestCI/currentrules/discussions/normalmerge remainPUBLICATIONgates; notassumedmerged. Allactualadapters/financial/refund/review/FX/provider/recovery/UI/platform/fullrelease remain required.",
-        "Publication VERIFIED: exactcompletionhead80cac620 all11SUCCESS, selected41781864667SUCCESS, currentrules/threads0 and CLEAN mergeable; normal --match-head-commit merge PR51 confirmed2026-11-04T05:56:21Z as0b631dcbea1ec7765b3a66e41d6059e81de2979d. Rootmain refreshedclean; merge tree equals80. Postmain10 workflows inspected pending separately; no bypass/force/branchdelete.",
-        "Post-merge verification observed: all ten workflows at actual main0b631dc completed SUCCESS, including selected Qt run41782291620. No further ACCT-004 code/review gates remain; component integration complete, broader release gates stay explicit."
+        "Publication reconciled: normal exact-head PR51 merge0b631dcbea1ec7765b3a66e41d6059e81de2979d at2026-11-04T05:56:21Z from80cac620, all11 latest-head checks successful, clean equal merge/head trees. All10 post-main workflows subsequently passed. Raw merge receipt preserved under ignored local-evidence/acct004-merge-receipt.json. Do not repeat completed implementation/review/acceptance gates; full release limits remain explicit."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -1836,8 +2240,7 @@
         "regression_baseline": "observed_red",
         "native_build": "passed",
         "github_ci": "passed",
-        "completion_ci": "passed",
-        "post_merge_ci": "passed"
+        "completion_ci": "not_run"
       },
       "evidence": [
         "docs/evidence/acct-004-codec-author.md",
@@ -2675,8 +3078,8 @@
       "title": "Review and demonstrate red: Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "coordinator /root; service_author (test/foundation author)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -2688,7 +3091,10 @@
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MILESTONE-001.",
       "notes": [
-        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Separate focused PR56 owns actual logical/API document work; root branch task/MILESTONETEST-001-progression-baseline at3fc99ce. Logical document approved; API actual58b8e129 now under separate review. This planning branch only reconciles its active claim, without copying absent evidence or changing any behavior gate.",
+        "Concurrent focused PR56: logical/API and minimal header9a167813/TU4e3291f0/harnessd8b3d6a independently approved through a2f5d358/import6d1fa3e. Root4f8f3e1 released only literal tests and independent Boost/std foundation authoring; service_author active in milestone author tree. Remote d8b3d6a has all12 old component checks green, but no selected new milestone CI/foundation/feature body/red has run. Preserve exact source/contracts/reviews and integrate this new main before final tests/harness review. This branch reconciles claim only; no absent milestone evidence copied.",
+        "Concurrent focusedPR56 local275057b nowfull53-test/harness reviewed208d0580/importac9234a. ApprovedFIRSTlocal25-factfoundation passed once clean7d7e621/raw9a83525e. No milestone acceptance test/function/marker body/currentselected1.83CI/FIRSTred. Remote00d8c57/all12oldchecks; workflowaccessstillabsent afterrecheck. This branch reconcilesblockedclaimonly, no absent milestone evidence copied."
       ],
       "verification": {},
       "evidence": [],
@@ -3111,7 +3517,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSION-001"
       ],
@@ -3123,7 +3529,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-001.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3137,7 +3544,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSION-001",
         "ACCESSTEST-001"
@@ -3150,7 +3557,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-001.md",
       "summary": "Console issues single-use 15-minute owner setup code only while no owner exists; replacement invalidates prior code and completion disables bootstrap.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3161,10 +3569,10 @@
       "title": "Review and demonstrate red: Effective permissions and complete-grant constraints",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "service_author (tests); codec_author (independent tests/red); /root (integration)",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACTPLAN-001"
       ],
       "spec_refs": [
         "§10",
@@ -3174,11 +3582,76 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-002.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
+        "Claimed dedicated task/ACCESSTEST-002-effective-permissions from ACTUALfresh mainb2b14bb afterPLAN001/PR57 complete. FIRST DOCUMENT ONLY: NEW docs/contracts/effective-permissions-v1.md +docs/evidence/accesstest-002-contract-author.md toservice_author inseparateauthorbranch/worktree. Scope pureeffectivepermissionprecedence/onecompleteapplicableconstrainedgrant/protectedowner accessmanagement+recovery boundaries/boundedsourceexplanations/currentrightsatsame serverexecution boundary. Authorityspecv0.45§10/AUTH03-06 andcommon00511eeb5f4; no existing finalizedslice contract. Independent literalprecedence/nonunion/timerA5/B10/opaqueIDs/owner/revocation examples and finite localprofile proposals required. Do notinventunrestrictedowner bypass, rolelabelauthority, page/client/chatcategory rights, delegationeditingpolicy(ACCESS003), credential/sessionauth, providerbehavior or successfulunknown. Identify genuine requirementsambiguities explicitly. No API/header/stub/fixture/test/code/schema/parser/auth/network/crypto/runtime released; actualdifferentlogical review before anotherstage, reviewedtests+FIRSTred beforeproduction. Rootownssharedstate/HTML/maps/schema/build/CI/pins/PR. Routinegrantrepresentationchoices within scope allowed but justifyprecedence/applicability semantics againstspec; no silentauthority expansion.",
+        "Actualauthoridentified genuine D1precedence/applicability ambiguity: individualallowA5 vsroleallowA10 can operationoverride/resource-scopeoverride/complete-requestfallback. Root askedownerasync3explicitpolicychoices; NOanswer observed, UIpreselect/elapsedtime isnotapproval. Recorddocs/evidence/accesstest-002-open-decisions.md. Continue unambiguouslogicalexamples/budgets/ownerboundaries only; dependentsemantics/API/tests cannotfreeze beforeactualdecision+differentreview. No priorclarificationornewpermissiondefault invented. Existingwholegrant/nonunion/denyprecedence stayssettled.",
+        "ActualPARTIALauthor6bc3d51f/importc88bcf5: doc5dfc6a1e/note66edd21f,27EP examples/18stdlibnumeric-byte facts, consistencyPASS. D1explicitlyUNSELECTED; dependentD1A/B notfrozenoracles. No completealgorithm/API/test/implementation/independentreview release. Authorhandofffinishedclean; taskBLOCKEDonlyonrealowner applicabilitychoice afterunambiguouspartialdoccheckpoint, no defaultoranswerassumed. Currentmain8fcscene009integrated withall406ids/1497edges preserved; all11postmaincheckrunsSUCCESS observed. Fullscope remains; originalauthoravailableforPWboundedtestcorrectiononceactualreviewfindingcommitarrives.",
+        "Actual independent partial review b87e16b6/importf2b98d4, note20919ad3, approves only settled contract5dfc6a1e/author66edd21f. All27EP rows and15 independent arithmetic/byte facts checked; no additional defect. D1 remains unanswered/unselected and blocks full logical approval/API/tests/red/implementation/merge. Latest user priority is finish PR62, then walk through other blocked PRs together. Other agents have stopped at durable handoffs; no inferred policy choice or additional unrelated stages. Complete PR62 after actual D1 answer and every subsequent applicable gate.",
+        "Owner requested more context for D1 without selecting an alternative. Explained Moderator role allowing ten minutes on all timers versus an individual five-minute allow on timer A: resource-scoped denies A/10 but permits B/10 through the role; whole-operation denies both; complete-request matching permits both through the role. Resource-scoped remains a recommendation only. Re-presented the choice; no answer or default inferred. Owner answers to the separate PR52 timer questions are recorded and do not resolve D1.",
+        "Owner explicitly accepted the resource-scoped recommendation after the Moderator/Alice A/B explanation. D1 is resolved: select individual overrides by operation/resource scope before quantity/other limits; no broader role fallback inside that scope, normal role rules outside it. Recorded in docs/evidence/accesstest-002-owner-decision.md and specification §10/AUTH-06/acceptance row. Separate timer Keep/Reduce/Abort warning and the other accepted timer choices remain. Resume the original permission logical author on an isolated continuation branch; revised actual independent review before API/tests/code. Prior settled partial review remains valid only for unchanged portions; no future approval or implementation claimed.",
+        "Completed logical author064fecab/import1cd21c1, contract3d82bfa4/author43e16b0f, actually APPROVED0e8bffe9, reviewce5950a5. Owner/spec transcription also checked. EP01–27 and original partial-review prefix preserved; fixed D1-A/B plus EP28–45 cover resource-first selection, complete conditional denies, same-effect alternatives, invalid opposing individual scope overlaps, Any/global/multi-resource shape, no specificity/constraint union. No remaining logical blocker or new owner decision. Release ONLY a new concrete API document and author evidence to original author on an isolated continuation tree; no header/stub/tests/code until actual API review. Root owns harness/CI/shared files; SDK-only environment source is separately being authored, not executed.",
+        "SDK-only source58b7f581/importa9e44a1 authored by service_reviewer; root harness dab476e104f0e6831eae099e8878b453b96bc13c configure/build/discovery passed using authenticated isolated Boost1.83. Exactly37 cases discovered, no native foundation or feature body run. Actual different source/harness review assigned to codec_author; original service_author continues API document only. No new owner choice or access blocker; normal SSH publication works.",
+        "Actual different SDK source/harness approval15460f62/importc3a925f followed by root FIRST selected Boost1.83 native environment: exit0,1/1,21 primitive checks/0fail; exact retained output611ea8a5. Existing36 numeric/infrastructure also pass. This proves SDK/host arithmetic only, no permission behavior. API document still being authored; later gates unchanged.",
+        "Actual concrete API author646a11e3/import5757a45: API blobdda2793c/author0680aa30, std-only raw facts and one evaluator, six limits, complete canonicality/shape/stage/error/B-I/output projection/source explanations. Logical/spec/owner inputs unchanged. Different codec_author API review now active on actual committed revision; no minimal source/test stage released yet. Foundation publication07418ee succeeded through SSH;13 GitHub checks queued at last observation, no current CI pass claimed.",
+        "Actual API review5c029d4/importb9e0520 (notee007e35b) approves APIdda2793c/author0680aa30 without blocker. Release ONLY minimal inert exact API transcription to service_reviewer in accesstest002-source-author fromc8cb5f2. Evaluator body must immediately throw explicit marker; no validation, successful behavior or tests. Different source/harness review precedes test authoring; root owns source build target/shared state/CI.",
+        "Actual minimal source author78195bef/importb29274b, headeredd6ffc2/TU4cf7bcca/author04e5ed87; root targetf1eb3d6 compile/list37 passed. Different actual source/harness review7ddc58b0 (note29e07a50) approves exact API transcription/immediate markerthrow only. Release original service_author test authoring on isolated continuation tree. No feature or marker has run. Foundation published07418ee all13 checks SUCCESS, actual Ubuntu selected1.83 run41878733543 passed21 primitives and old36. New task revisions require fresh CI.",
+        "Actual test author25001158/importd1d36ee:30 named testsfc82d17e, inventoryd0c25108, authorba78ccde. All45EP+2D1 mapped; raw literal setup, complete explanation/lifetime/error/limit cases. Root harnessb519153 compile/list67 and exact30 inventoryguard passed; no feature or marker body run. Different actual testoracle review assignedcodec_author, rootCMake/CI harness review separately assignedservice_reviewer (not selfreview of own prior stub). CI permits only standard CMake GoogleTest skip-message detector, rejects custom result rewriting, and separates intentional feature red from mandatory green SDK+old36. Publishing draft compile/discovery candidate while reviews proceed; actual FIRST red still blocked on both approvals.",
+        "Actual full30 test approval1d8e9335/import6805011 (note68029788); unchangedsourcefc82d17e/inventoryd0c25108, all45EP+2D1 independentoracles checked. Actual localharnessapproval7d7f651/importddb6fac (noteba601329) passed full67 list/guards. SelectedCI6b9 run41884253112 compiled but strict guard rejected suite labels; not behavioralred, no featurebody. Root correction3dc7108 assigns samefourlabels atCTesttime after TEST_LIST, preserving all tests/strict guards; host67 and authenticupstream3.28helper list-only30 reproducecorrectmetadata. Exactrunnerlabelshape/versionnotdumped; old/newhelper mechanism is inference. Actualdifferentcorrectionreviewservice_reviewer active; FIRSTred notyetreleased.",
+        "Actual label correction approvalebe17a9e/import8acc9b9 preceded FIRST plain feature red on clean8acc9b9cf88bb67762c2060ee5fb16a5345a273f at2026-11-04T18:24:09.993522Z: CTestexit8,30/30fail,0skip; exactrawoutpute1598fa3/JUnit5f3872f2/receipt retained. Root mechanical count215 explicitmarkers+1 safe ownership-presence consequence; actual different attribution reviewpending. Corrected selectedUbuntuCI41886146750 at4674822 passes exact30enabled discovery/SDK21/old36 with no featurebody. No test/header/stub/oracle changed and no ACCESS002 implementation released before baseline integration.",
+        "Baseline COMPLETE: actual independent FIRST-red attribution3f40238f (noteb4779823) validates clean8acc9b9,30executed/30failed/0skip and all216failure locations:63decision-helper+143typederror-helper+9directcatch exactmarkers, plus1 safe ownershipASSERT consequence. All reviewed source/inventory/header/stub unchanged. SelectedcorrectedUbuntu4674822 all13checksSUCCESS. Final taskmetadata review/currentfinalheadCI/normalmerge pending; done means reviewed observed-red baseline only, not ACCESS002 implementation or merged status. AftercleanPR62merge return to owner-authorized blockedPR52/54/56/59; allknownownerchoicesanswered, no routineapproval needed."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "document_review": "passed",
+        "test_baseline": "observed_red",
+        "implementation": "not_run",
+        "consistency": "passed",
+        "partial_document_review": "passed",
+        "owner_decision": "passed",
+        "environment": "passed",
+        "api_review": "passed",
+        "source_review": "passed",
+        "tests_review": "passed",
+        "harness_review": "passed",
+        "ci": "passed",
+        "baseline": "observed_red",
+        "red_attribution": "passed"
+      },
+      "evidence": [
+        "docs/evidence/accesstest-002-open-decisions.md",
+        "docs/contracts/effective-permissions-v1.md",
+        "docs/evidence/accesstest-002-contract-author.md",
+        "docs/evidence/accesstest-002-contract-review.md",
+        "docs/evidence/accesstest-002-owner-decision.md",
+        "docs/evidence/accesstest-002-environment-author.md",
+        "docs/evidence/accesstest-002-environment-harness.md",
+        "docs/evidence/accesstest-002-environment-review.md",
+        "docs/evidence/accesstest-002-environment-first.md",
+        "docs/contracts/effective-permissions-api-v1.md",
+        "docs/evidence/accesstest-002-api-author.md",
+        "docs/evidence/accesstest-002-api-review.md",
+        "docs/evidence/accesstest-002-source-author.md",
+        "docs/evidence/accesstest-002-source-review.md",
+        "docs/evidence/accesstest-002-ci.md",
+        "tests/acceptance/effective_permissions_tests.cpp",
+        "tests/fixtures/effective-permissions-v1.json",
+        "docs/evidence/accesstest-002-tests-author.md",
+        "docs/evidence/accesstest-002-tests-review.md",
+        "docs/evidence/accesstest-002-tests-harness-review.md",
+        "docs/evidence/accesstest-002-labels-correction.md",
+        "docs/evidence/accesstest-002-labels-review.md",
+        "docs/evidence/accesstest-002-red.md",
+        "docs/evidence/accesstest-002-red.json",
+        "docs/evidence/accesstest-002-red-review.md",
+        "docs/evidence/accesstest-002-handoff.md"
+      ],
+      "review": {
+        "author": "service_author",
+        "reviewer": "codec_author",
+        "outcome": "approved",
+        "evidence": "docs/evidence/accesstest-002-tests-review.md",
+        "revision": "Actual tests25001158/importd1d36ee sourcefc82d17e/inventoryd0c25108 approved1d8e9335; FIRST8acc9b9 red attribution3f40238f. Separate root-harness7d7f651 and label-fixebe17a9e approvals retained."
+      }
     },
     {
       "id": "ACCESS-002",
@@ -3188,7 +3661,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "ACCESSTEST-002"
       ],
       "spec_refs": [
@@ -3199,7 +3672,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-002.md",
       "summary": "Individual explicit allow/deny takes precedence, then role deny over role allow, then default deny.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3497,10 +3971,10 @@
       "title": "Review and demonstrate red: Password hashing and parameter upgrades",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (feature test author); codec_author (actual full test/harness review)",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACTPLAN-001"
       ],
       "spec_refs": [
         "§10",
@@ -3509,9 +3983,18 @@
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SESSION-001.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
+        "Claimed dedicated task/SESSIONTEST-001-password-baseline from refreshed integrated main dd6a141 after actual PR57; prerequisite CONTRACTPLAN001 done. FIRST DOCUMENT ONLY: bounded libsodium Argon2id password hashing/stored parameters/verification and upgrade proposal, independent literal success/failure examples, secret handling and honest reference-hardware benchmark procedure. service_reviewer owns ONLY NEW docs/contracts/password-hashing-v1.md and docs/evidence/sessiontest-001-contract-author.md in isolated task/SESSIONTEST-001-contract-author. Consult official primary libsodium docs and actual installed1.0.22 headers, distinguish observed API from proposed supported pin; no production/hash/marker/test/fixture/stub/schema/migration or secret invocation. No library hash cost/platform claim without actual reviewed evidence. Root owns shared state/HTML/build/CI/pins/schemas. Actual different logical/API/source/test reviews and greenfoundation/FIRSTred precede SESSION001 production.",
+        "Concurrentpassword actuallogicalf730/importd74/contractbc9ccbf6 independently approved98f0494/importfebe5c2. Primaryf94f5ae releases ONLY concrete API document in separateAPIauthor tree; service_author active. No actualC++header/source/stub/test/foundation/nativecrypto orfutureapproval. This commoncontract branch reconcilesclaimonly.",
+        "Concurrentpassword source/harness64a924c independently approved93d9a576/import30bdd15; actualsourceheaderec3c5cf8/CPPeaf56f41 remain3immediate markerbodies. Primaryd9762d7 nowreleases onlytest/foundation/privateerrorharness authoring inisolatedtest-author tree. Literal6-operation PH12/13cases preserved; newinputfixturesmaybegenerated ONLYwithreviewedSDK-onlygenerator afterindependentnativefoundationgreen, neverusingSUT. No passwordnativefeature/foundation/marker call yet. SDKsourceauth+hostbuildmetadata notruntimeproof; current main406/requiredratebridge403recordsreconcilelater.",
+        "Cross-task actualupdate: root FIRST reviewedhostSDKfoundation atclean c0646b4 PASS1/1/0.21s then reviewedSDK-onlygenerator produced exact PH12/13 INPUTS, durable095081d inpasswordbranch. Full37testcandidate8e6d1dd/import82d624d +rootharness2c0c9ab nowwithdifferentcodec_author actualfullreview inisolatedsessiontest001-full-review. No projectfeature/marker/testbody executed; currentselectedUbuntuCI/FIRSTred/publication remainblockedworkflowaccess. ThisscenePR imports no passwordsource/tests/evidence; exactrefs andowningtree retainedincheckpoint, no passwordcapability certified."
       ],
-      "verification": {},
+      "verification": {
+        "document_review": "not_run",
+        "test_baseline": "not_run",
+        "implementation": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -3523,7 +4006,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "SESSIONTEST-001"
       ],
       "spec_refs": [
@@ -3533,7 +4016,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
       "summary": "Store salted hashes and parameters, verify credentials and upgrade outdated parameters after successful login.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3745,7 +4229,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002"
       ],
       "spec_refs": [
@@ -3756,7 +4240,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-006.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SESSION-006.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3770,7 +4255,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSIONTEST-006"
       ],
@@ -3782,7 +4267,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-006.md",
       "summary": "Define versioned nonce/record/key-ID format and unattended restart loading without storing the key in SQLite.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3888,7 +4374,7 @@
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
-        "CONTRACT-003"
+        "CONTRACT-005"
       ],
       "spec_refs": [
         "§2",
@@ -3898,7 +4384,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-001.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3914,7 +4401,7 @@
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
-        "CONTRACT-003",
+        "CONTRACT-005",
         "APITEST-001"
       ],
       "spec_refs": [
@@ -3925,7 +4412,8 @@
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3940,7 +4428,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "API-001",
-        "CONTRACT-003",
+        "CONTRACT-006",
         "SESSION-003",
         "ACCESS-002"
       ],
@@ -3952,7 +4440,8 @@
       "brief": "docs/tasks/EPIC-008/API-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-002.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3967,7 +4456,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "API-001",
-        "CONTRACT-003",
+        "CONTRACT-006",
         "SESSION-003",
         "ACCESS-002",
         "APITEST-002"
@@ -3980,7 +4469,8 @@
       "brief": "docs/tasks/EPIC-008/API-002.md",
       "summary": "Validate versioned requests with operation IDs and expected revisions before dispatching commands.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3994,7 +4484,8 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "API-002"
+        "API-002",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§2",
@@ -4004,7 +4495,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-003.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -4019,7 +4511,8 @@
       "owner": "Unassigned",
       "depends_on": [
         "API-002",
-        "APITEST-003"
+        "APITEST-003",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§2",
@@ -4029,7 +4522,8 @@
       "summary": "Reconnect clients to an authoritative snapshot and ordered updates without allowing clients to write authoritative state.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -4093,7 +4587,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "CONTRACT-002",
-        "CONTRACT-003"
+        "CONTRACT-005"
       ],
       "spec_refs": [
         "§14",
@@ -4103,7 +4597,8 @@
       "brief": "docs/tasks/EPIC-008/API-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-005.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -4118,7 +4613,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "CONTRACT-002",
-        "CONTRACT-003",
+        "CONTRACT-005",
         "APITEST-005"
       ],
       "spec_refs": [
@@ -4129,7 +4624,8 @@
       "brief": "docs/tasks/EPIC-008/API-005.md",
       "summary": "Describe events/fields, evidence, identifiers, history/refunds, auth/outbound actions and health with explicit unknown/unsupported states.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -7770,8 +8266,8 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "coordinator /root; service_author (completed rate API author); codec_author (approved API review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -7784,9 +8280,18 @@
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-001.",
       "notes": [
-        "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage.",
+        "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge.",
+        "Newer actual rateAPI15cd944/import5d5712b doc556840c2/note fc1d1baf receives independent document-only approval0b9a449 on focusedPR54. Source/modelunchanged; no actual C++stub/header/test/red yet. Root ratebranch will integrate newmain07dc and release onlyminimaltypedstubsource after recordingapproval; no futurecode/test gate implied. Do not overwrite requirednew009bridge tasks living onPR54 whenreconcilingstate.",
+        "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere.",
+        "Separate focused PR54 is locally reviewed through53 tests/foundation, but current CI publication waits actual restored SSH or workflow scope. Remote512828c unchanged; local79c8512 preserved. This branch reconciles the active blocker only; exact source/evidence/required009 bridge tasks remain on its separate branch. No first rate feature red has run."
       ],
-      "verification": {},
+      "verification": {
+        "document_review": "not_run",
+        "test_baseline": "not_run",
+        "implementation": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -8797,7 +9302,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-008",
         "ACCESS-002"
       ],
       "spec_refs": [
@@ -8808,7 +9313,8 @@
       "brief": "docs/tasks/EPIC-019/SCENE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SCENE-001.",
       "notes": [
-        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-008. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -8822,7 +9328,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-008",
         "ACCESS-002",
         "SCENETEST-001"
       ],
@@ -8834,7 +9340,8 @@
       "brief": "docs/tasks/EPIC-019/SCENE-001.md",
       "summary": "Represent supported element types, bindings, visibility, geometry/layers, styles, animations and font/media references with explicit schema versions.",
       "notes": [
-        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-008. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -9176,7 +9683,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACT-008"
       ],
       "spec_refs": [
         "§11",
@@ -9187,7 +9694,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-001.md",
       "summary": "Derive reference expectations independently from specification, including normal/deficit/final progress and both phase/modifier states.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-008. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -9203,7 +9711,8 @@
       "depends_on": [
         "RENDER-001",
         "BOOT-003",
-        "SCENE-001"
+        "SCENE-001",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9214,7 +9723,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RENDER-002.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9231,7 +9741,8 @@
         "RENDER-001",
         "BOOT-003",
         "SCENE-001",
-        "RENDERTEST-002"
+        "RENDERTEST-002",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9242,7 +9753,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-002.md",
       "summary": "Interpret supported scene bindings/visibility/geometry/progress using server state snapshots and shared fixtures.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9257,7 +9769,8 @@
       "owner": "Unassigned",
       "depends_on": [
         "RENDER-001",
-        "SCENE-001"
+        "SCENE-001",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9267,7 +9780,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RENDER-003.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9283,7 +9797,8 @@
       "depends_on": [
         "RENDER-001",
         "SCENE-001",
-        "RENDERTEST-003"
+        "RENDERTEST-003",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9293,7 +9808,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-003.md",
       "summary": "Interpret the same supported declarative elements with reference binding/visibility/geometry/progress behavior.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9537,7 +10053,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
         "API-004"
       ],
       "spec_refs": [
@@ -9547,7 +10063,8 @@
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before WEBAPP-001.",
       "notes": [
-        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -9561,7 +10078,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
         "API-004",
         "WEBAPPTEST-001"
       ],
@@ -9572,7 +10089,8 @@
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
       "summary": "Build React/TypeScript with Vite and ship static output with the C++ server; Node.js is build/development only.",
       "notes": [
-        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -10135,7 +10653,8 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
+        "CONTRACT-007",
         "SESSION-003",
         "ACCESS-002"
       ],
@@ -10147,7 +10666,8 @@
       "brief": "docs/tasks/EPIC-022/VIEWER-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before VIEWER-001.",
       "notes": [
-        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006, CONTRACT-007. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -10161,7 +10681,8 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
+        "CONTRACT-007",
         "SESSION-003",
         "ACCESS-002",
         "VIEWERTEST-001"
@@ -10174,7 +10695,8 @@
       "brief": "docs/tasks/EPIC-022/VIEWER-001.md",
       "summary": "Support Public, revocable Link access and Invited accounts(default), none granting management rights.",
       "notes": [
-        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006, CONTRACT-007. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -10519,8 +11041,8 @@
       "title": "Review and demonstrate red: Shared translation catalog schema and build generator",
       "module": "Localization",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; service_author (contract/API/stub); codec_author (independent fixture/tests); service_reviewer (independent review)",
       "depends_on": [
         "BOOT-001"
       ],
@@ -10531,19 +11053,73 @@
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before LOCALE-001.",
       "notes": [
-        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed dedicated task/LOCALETEST-001-catalog-baseline from fetched integrated main0b631dc after ACCT004 merge; CORETEST008 owner-dependent stages remain parked in PR52. FIRST DOCUMENT stage only: shared authoritative JSON catalog with stable IDs, English/German, named parameters/plurals and deterministic selected Qt .ts/.qm plus browser outputs. Follow specificationv0.45§12/I18N04 and task brief; no existing selected implementation/format is assumed. service_author owns ONLY docs/contracts/translation-catalog-v1.md and docs/evidence/localetest-001-contract-author.md in separate task/LOCALETEST-001-contract-author. service_reviewer owns ONLY docs/evidence/localetest-001-contract-review.md in separate reviewtree and waits for actual candidate. codec_author has bounded READONLY installed Qt Linguist/tool/version and primary documentation investigation, no new generator/fixture/test/native feature execution. Root owns progress/HTML/maps/shared schemas/build/CI/dependency pins/checkpoint. No project generator, schema/source catalog, interface/stub/test authoring or production behavior before reviewed contract. Baseline remainsin_progress until actual contract/API/tests/reviews/intendedred; LOCALE001 implementation remainsplanned. Do not drop actual .qm generation/runtime validation from scope or treat TS/JSON-only outputs as full acceptance. No new dependencies unless justified; use selected tools where sufficient.",
+        "Actual documenta06b3a7/import8cb939e separately reviewed in6e870dc/importe3240eb; three bounded corrections required before API/tests: native metadata, owned output/source alias rules, canonical TS bytes. Root verified matching official QtTools/Base/ICU/Declarative downloads/hashes and actual lrelease6.12.0 runtime closure; corrected an ICU extraction setup error, which is not feature red. No catalog/generator/QM/lookup/repro was executed. Future real selected-tool foundation and independent tests remain mandatory.",
+        "Corrected documentf1e5297/import9a30295 (contract3a249a58/authorf002fc07) receives actual separate approval534d4d0. R1 native metadata from generated English descriptors plus mandatory English QM, R2 exact output/source protection, R3 canonical TS bytes all resolved. ONLY next concrete API DOCUMENT stage released: author owns new docs/contracts/translation-catalog-api-v1.md and docs/evidence/localetest-001-api-author.md; no generator/stubs/sourcecatalog/schema/tests before actual API review. Root may run a bounded scratch existing-Qt capability probe against approved literal TS using verified official prefix, never a project-generator/acceptance/red claim. Baseline and production remain unfinished.",
+        "Actual existing-tool scratch probe invalidated one approved serialization inference: official lrelease6.12 rejects top-level TSmessage (exit1). Explicit EMPTYcontext/name wrapper compiles en/de twice reproducibly;56 literal rawQTranslator checks pass. This is third-party feasibility, NOT project generator/feature test/red. Raw failure/success/code/QMs/manifest preserved under ignoredlocal-evidence/localetest001-qt-feasibility. Separate reviewer reopens narrow R4; author correcting sourcecontract+TC01 only, API doc may draft puretypes but cannot approve unsupportedTS/stubs/tests. No project generator/catalog/schema/stub/featuretests exist and no baselineassertionswerechanged.",
+        "Actual R4 correction273c6e7/import2cde25f changes TS to ONE explicit empty context/name wrapper and fixes canonical indentation/completeTC01. Separate renewed approval947eba4 accepts contract51383296/authora203ad4b, preserving prior unsupported inference/rejection and all review history. Actual externalQt56-check feasibility is not project baseline/acceptance. Only concrete API DOCUMENT is active next; no generator/stub/catalog/schema/projecttests authored.",
+        "Actual concrete API895b500/importec662b1 (doc7f1738b6/authorc247d91a) receives separate changes-required reviewce77a9a: cheap bounded direct timeout option, finite QM file size/chunked reads, and nonregular source rejection before blocking open. Author explicitly resumed throughfollowup_task for ONLY the2 API Markdown corrections; approvedsourcecontract51383296 staysfrozen. No Python/generator/stub/catalog/schema/projectfixture/test behavior exists.",
+        "Corrected API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) receives actual independent approvalf7f4681. Root now releases MINIMAL INTERFACE ONLY: author owns tools/translation_catalog.py plus docs/evidence/localetest-001-stub-author.md, reads tools/AGENTS.md, implements frozen inert enum/dataclass/error definitions and ALL5 immediate distinct unimplemented entrypoints/script86 marker; NO parse/validate/render/file/path/tool/generation/help/version behavior. Root owns CMake22profile/syntax-import harness/new selectedQtCI pins and workflow; no feature function calls at build/discovery. Actual separate minimalcode/config review precedes independent fixture/test stage.",
+        "Actual minimal stub ef4974c/importa9e60e5 plus root shared build/CI1f666b0 is integrated. All five feature entries remain immediate markers and none has been invoked. Selected-prefix configure/build/four existing CTests pass; actual official CI41792990086 passes archive hashes/tool closure/inert imports/four infrastructure checks on Ubuntu24.04/Python3.12.3. Actual separate source/config review is active before fixture/test release. No formal tests, intended red or generator behavior exists yet; no baseline-completion claim.",
+        "Actual minimal source/config1f666b0 receives independent approval732bb2d/import6589861 after separate selected-prefix11step build/four infrastructure passes and inert AST/import checks. Root explicitly releases independent fixture/test author codec_author in NEWtask/LOCALETEST-001-fixture-author from main+6589861. Own ONLY tests/fixtures/translation_catalog/, tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note. Root owns all shared harness/CI/state. Complete literal TS/browser goldens, Qt-only real compiler/raw lookup/repro foundation and meaningful Python API/CLI tests must receive actual review before any project feature/main/script/marker call. Production remains unimplemented and baseline incomplete.",
+        "Actual independent fulltest candidate bbdeefb/importe0ffc3b and sharedharness e1779a3 now compile/discover43unique Python methods/48CTest entries, no feature/main/script/marker or newQtprobe executed. Initial fixture/probe reviewaeb4091/import39711a2 requested additive plural raw-percent witnesses and actual fresh missing-English load; both corrected preservingall6oldobjects/forms with seventhfixture. Full actual source/test/harness review is running with service_reviewer; no prospective approval. OrdinaryCI discoveryguards43 and explicitly excludes onlyintentional-red execution until implementation; allmethods alwaysregistered. Selected realfoundation green and FIRSTprojectred remain pending.",
+        "Actual narrow correctedQtfixture/probe/harness approval2968f33/importacfb4af precedes root FIRSTfoundation execution on same selected officialQtbuild:1/1PASS0.02s/100assertions, en/de byte-identical in2freshdirs, rawlogSHAbd8f98f6. No projectfeature/main/marker invoked. CIguard6fdd985 closes duplicateAST/disabled/inversion/labelgap and actualreviewer acknowledges. OrdinarynewfoundationCI publication/observation and full43semanticreview pending; no baselinecompletion/red claim.",
+        "Actual compiledfoundationCI41797849656 atcafe4ad SUCCESS: freshUbuntu24.04/Python3.12.3/4pinnedarchives/runtimeclosure/build/43uniqueenableduninvertedfeaturediscovery/5ordinaryCTestPASS,100Qtassertions and sameen/deQMhashes asroot. LogSHAdae3c419. Fullactual43review e76a9a0/import48e1294 requests two additive purePython oracles beforeFIRSTred: global validationstagepriority across IDs and U2028/U2029 escapedweb/rawTS scalars. Existing43names/assertions/7goldens/probe preserved; codec_author released2ownedfilecorrection. No projectfeature/main/marker hasrun and no prospective finalreview.",
+        "Bounded baseline DONE after actual fulltestrevieweee87e1/import976 and independently acceptedFIRSTred a66e66a/import2ef381a on SAME CLEAN9765647.43/43CTestfail/0setup/disabled/skip/2.47s:37directmethods109namedmarkererrors (validate78/render3/generate24/check4) and6CLI methods14assertions against soleexit86bridge. New3globalpriority+1separator rows individually reached. Selectedrootfoundation100assertions and finalsourceCI41799087660/fiveordinarychecks/43enableduninverteddiscovery/all12checksGREEN precededfirstred. No assertion weakened; all145oldcalls and7fixtures/probe preserved. Rawlog0f238e59 committed. Latest completionmetadata CI/currentrules/discussions/normalmerge remain publicationgates; notassumedmerged. LOCALE001 implementation staysplanned until integrated baseline; allruntime/preferences/layout/package/platform/fullscope gates remain.",
+        "Publication complete: normal exact-head PR53 merged07dc53eaf6a13c4a4fe50b9fb1dcff430d05f326 at2026-11-04T08:46:12Z from133246d1f7330a36ac9216edbc5c8c9201d42272 after all12 latestchecksSUCCESS, currentrules/no bypass/zero unresolvedthreads/mergeableCLEAN. Actual selected completionCI41801500267/rawfd7c56a6. Main refreshedclean; merge/head trees equalc453ffd4d538f3e495d6830d18b0943f38d89708. Postmainworkflows initiallypending, notassumedpassed. No replay of validred and no productgeneratorimplementation claim.",
+        "Post-main publication reconciled: all11 workflows on merged07dc53e completedSUCCESS; equalmerge/headtrees and fullreceipt preserved ignoredlocal-evidence/localetest001-merge-receipt.json. No completedbaseline replay."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "tool_environment": "passed",
+        "document_review": "passed",
+        "test_baseline": "observed_red",
+        "implementation": "not_run",
+        "api_review": "passed",
+        "interface_build": "passed",
+        "interface_ci": "passed",
+        "interface_review": "passed",
+        "test_authorship": "passed",
+        "selected_qt_foundation": "passed",
+        "selected_foundation_ci": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "github_ci": "passed",
+        "completion_ci": "passed"
+      },
+      "evidence": [
+        "docs/contracts/translation-catalog-v1.md",
+        "docs/evidence/localetest-001-contract-author.md",
+        "docs/evidence/localetest-001-contract-review.md",
+        "docs/evidence/localetest-001-tool-preflight.md",
+        "docs/evidence/localetest-001-qt-feasibility.md",
+        "docs/contracts/translation-catalog-api-v1.md",
+        "docs/evidence/localetest-001-api-author.md",
+        "docs/evidence/localetest-001-api-review.md",
+        "docs/evidence/localetest-001-stub-author.md",
+        "docs/evidence/localetest-001-stub-review.md",
+        "docs/evidence/localetest-001-test-author.md",
+        "docs/evidence/localetest-001-test-review.md",
+        "docs/evidence/localetest-001-foundation.md",
+        "docs/evidence/localetest-001-handoff.md",
+        "docs/evidence/localetest-001-red-ctest.txt",
+        "docs/evidence/localetest-001-red-review.md"
+      ],
+      "review": {
+        "author": "/root/codec_author (independent fixtures/tests); /root/service_author (contract/API/stubs); /root (shared harness)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "Final tests6a7da928/author7f794b74/inventory3c5b8830/probef033074d/Qt9ff75621/CI d90ce3cc approvedeee87e1/import9765647; FIRST clean976 markerred independently attributeda66e66a/import2ef381a.43 methods/109directmarkererrors+14CLIsentinel assertions,0setup/disabled/skipped; raw0f238e59. All145 old assertion/failure calls preserved.",
+        "evidence": "docs/evidence/localetest-001-test-review.md"
+      }
     },
     {
       "id": "LOCALE-001",
       "title": "Shared translation catalog schema and build generator",
       "module": "Localization",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; service_author (generator/catalog implementation); service_reviewer (independent code review pending actual candidate)",
       "depends_on": [
         "BOOT-001",
         "LOCALETEST-001"
@@ -10555,11 +11131,34 @@
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
       "summary": "Generate Qt .ts/.qm and browser catalogs deterministically; contributors edit the source catalog.",
       "notes": [
-        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "LOCALETEST001 now has reviewed43-method intentional-red baseline and independentfirstredattribution; see focusedPR53/evidence. Wait for its normal merge/integratedprerequisites before claiming a dedicated implementation branch. Implement exact reviewed catalog/API with allassertions preserved, real6artifactQt/browser acceptance, different code/source audit and promoted ordinaryfeatureCI. No product generator exists yet.",
+        "Claimed dedicated task/LOCALE-001-catalog-generator from freshlyintegrated main07dc53e after baselinePR53normalmerge. Scope sourcecontract51383296/APIacb90189/stub23089e6b and reviewedtests6a7da928/43methods/7fixtures/probef033; preserveALLassertions/oracles/inventory, baselineFirstred976 attributiona66e accepted. service_author owns ONLY tools/translation_catalog.py, NEWlocalization/messages.json and docs/evidence/locale-001-implementation.md in isolatedtask/LOCALE-001-generator-author. Implement strictwholecatalogvalidation/globalpriority, exact4text+real2QM, boundedprocess/streamreads, source/path/ownership protection, honestperfilepublication/check/CLIfailures. No runtimeformatter/preferences/UI/provider/otherbehavior. Root owns allgeneratedproducttext/QMpublication/build/presets/CI/pins/state/maps/checkpoint; normalfeatureCIpromoted onlyafteractual43pass+differentreview. Author mayrun43nowreviewedbaselineintegratedandredcomplete; maynoteditanytest/fixture/contracts or fakeQMs. Differentactualsource/allocation/process/filesystemaudit and passingreal43/freshselectedCIbeforecompletion; Windows/Python3.10runtime/package/livegates remainexplicit.",
+        "Component DONE after actualauthorc641/import2d317e4+rootartifact/featureCIpromotiond7d6328, independentfullsource/configapprovalacaeb41/importbc47188 and rootfull48PASS6.44s/different43PASS6.06s+100foundation+4infra. ActualfreshselectedCI41808104501 atd7 completedproduct6-ID6artifactgenerate/check,43enableddiscovery/UNCONDITIONAL43PASS/mandatoryQt100/fourinfra; all12checksSUCCESS, rawSHA67ca2ee6. Alltests/fixtures/contracts unchanged; sourceallocation/process/filesystem audit explicit. Finalmetadata latestCI/rules/discussions/normalmerge remainpublicationgates; notassumedmerged. Python3.10runtime/Windows andruntimeformatter/preferences/liveUI/layout/package/fullrelease remainseparate requiredgates."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "baseline": "observed_red",
+        "implementation": "passed",
+        "code_review": "passed",
+        "acceptance": "passed",
+        "github_ci": "passed",
+        "native_build": "passed",
+        "completion_ci": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/locale-001-implementation.md",
+        "docs/evidence/locale-001-code-review.md",
+        "docs/evidence/locale-001-ci.md",
+        "docs/evidence/locale-001-handoff.md"
+      ],
+      "review": {
+        "author": "/root/service_author (module/catalog); /root (generated outputs/build/CI)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "Actuald7d6328 module d7985160/catalogcb392400/rootCMake9c14c2e8/CIde3cc3f1/Qtregf31aadf6 +fourproducttext blobs approvedacaeb41/importbc47188. Reviewedtests6a/7fixtures/probef033 unchanged. Wording-only CMake descriptions/comment cleanup follows without behavior change.",
+        "evidence": "docs/evidence/locale-001-code-review.md"
+      }
     },
     {
       "id": "LOCALETEST-002",
@@ -11504,7 +12103,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACTPLAN-001"
       ],
       "spec_refs": [
         "§19",
@@ -11519,7 +12118,8 @@
       "brief": "docs/tasks/EPIC-026/VALIDATE-001.md",
       "summary": "Map every specification decision/scenario to test owner, planned suite and explicit live/platform gate without labeling planned work verified.",
       "notes": [
-        "Parent epic: EPIC-026. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-026. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -11763,7 +12363,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-005",
         "ACCESS-002",
         "API-005"
       ],
@@ -11774,7 +12374,8 @@
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RELEASE-002.",
       "notes": [
-        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -11788,7 +12389,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-005",
         "ACCESS-002",
         "API-005",
         "RELEASETEST-002"
@@ -11800,7 +12401,8 @@
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
       "summary": "Default local operational-log retention to 14 days independently from retained accounting/audit.",
       "notes": [
-        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -12948,13 +13550,78 @@
     },
     {
       "date": "2026-11-04",
-      "task": "CORETEST-008",
-      "note": "Claimed the timer-command baseline from freshly integrated main 0b631dc. Document-only contract/examples first, followed by independent review. Three explicit owner product questions remain pending; no API, tests, red baseline or implementation claimed."
+      "task": "LOCALETEST-001",
+      "note": "Claimed independent translation catalog baseline. Document/tool investigation first; actual separate review before interfaces/tests/valid red. Timer draftPR52 is preserved and blocked only on three owner decisions."
     },
     {
       "date": "2026-11-04",
-      "task": "CORETEST-008",
-      "note": "Actual document stage reviewed; three existing owner product choices remain unanswered. DraftPR52 preserves all work. Affected API/test/red stages are blocked; no default or baseline completion claimed."
+      "task": "LOCALETEST-001",
+      "note": "Reviewed baseline complete:43methods reach intendedmissingbehavior on clean976 after own selectedgreenfoundation/CI; independentattributionaccepted, finalpublicationgatespending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "LOCALE-001",
+      "note": "Generator component accepted: unchanged43/realQM/productbuild/sourceaudit/selectedordinaryCI passed; finalpublication gatespending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-001",
+      "note": "Claimed documentation-only wire-contract prerequisite split from current main. Actual plan review pending; no product wire schema or implementation finalized."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-001",
+      "note": "Actual independent planning review approved the scoped wire-contract prerequisite split. Child contracts remain planned; final CI/publication/merge gates pending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-001",
+      "note": "PR57 normally merged exact reviewed head after all12 CI checks; refreshed main dd6a141."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-005",
+      "note": "Claimed common wire DOCUMENT stage from integrated main; actual independent review before schemas or consumers."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "SESSIONTEST-001",
+      "note": "Claimed password logical DOCUMENT stage; primary docs/header investigation and literal contract examples before code or hash execution."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-005",
+      "note": "Common primitive document independently approved;27 literal examples/domain widths checked. Contract-only acceptance complete, finalCI/publication gates pending; no codec/schema/client capability."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-002",
+      "note": "Claimed focused scene contract prerequisite refinement from integratedcommon005; actual planning artifacts and independentreview next."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-002",
+      "note": "Actual independent scene-plan/DAG review approved. Four child contracts remain planned; final publication/CI/normal merge pending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-002",
+      "note": "SceneplanPR60 normally merged exactreviewedhead afterall12checks; refreshedmainb2b14bb."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-009",
+      "note": "Claimed FIRSTscene-modeldocument only fromintegratedplan; actualdifferentreview before schema orrenderer work."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACT-009",
+      "note": "Corrected protocol-neutral scene logical document independently approved;27SD+7familyexamples, originalrows preserved. Documentacceptance complete, finalCI/publication/normalmerge pending; no schema/renderer/product capability."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "ACCESSTEST-002",
+      "note": "Claimed FIRST logical DOCUMENT stage from refreshedmainb2 while actual password fulltest/scene corrected-doc reviews continue; no production/API/tests released."
     }
   ]
 }

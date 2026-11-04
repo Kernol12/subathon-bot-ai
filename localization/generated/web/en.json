@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "locale": "en",
+  "fallback": "en",
+  "messages": {
+    "common.action.cancel": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Cancel"
+      }
+    },
+    "common.action.close": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Close"
+      }
+    },
+    "common.action.save": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Save"
+      }
+    },
+    "connection.status.connected": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Connected"
+      }
+    },
+    "connection.status.disconnected": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Disconnected"
+      }
+    },
+    "timer.remaining": {
+      "parameters": {
+        "duration": "text"
+      },
+      "plural": null,
+      "forms": {
+        "text": "Remaining: {duration}"
+      }
+    }
+  }
+}
