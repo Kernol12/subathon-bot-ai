@@ -9,7 +9,9 @@ No owner decision/access currently needed. Product remains incomplete.
 Fetched clean main1124532458e883001578587c4c826f8b2d400d51 (PR50); PR49 merged
 8634eb51778ff7a6952e0fd78b724290cc9db389 at2026-11-03T19:10:05Z. GitHub has
 no open PRs; ten current-main workflows SUCCESS. Classic protection404; active
-ruleset26170263 must be read before merge. Only root exists in new agent tree;
+ruleset26170263 inspected: PR required, zero required GitHub approvals, threads
+must resolve, no bypass actors; deletion/non-fast-forward forbidden. No required
+CI check rule is configured; workflow policy still requires all applicable CI. Only root exists in new agent tree;
 no old assignments or native build/test commands running. Other IDE agent
 processes are unrelated/unclaimed; do not terminate. All111 existing/16absent
 registered worktrees preserved. Seven dirty verification trees untouched:
@@ -23,7 +25,8 @@ ACCT-004 in_progress, root branch task/ACCT-004-application-service from actual
 main. [Task](../tasks/EPIC-002/ACCT-004.md),
 [logical contract](../contracts/application-service-v1.md),
 [concrete API](../contracts/application-service-api-v1.md).
-Intended new isolated assignments (record actual startup next):
+All three assignments are now running in the actual new isolated worktrees below.
+Claim commit603a62a precedes all author edits.
 
 - service_author: local-evidence/worktrees/acct004-service, branch
   task/ACCT-004-service; owns only server/src/application_service.cpp and
