@@ -108,3 +108,18 @@ No catalog/QM/generator/translation lookup/reproducibility was executed. Native
 metadata/format ownership must be resolved before any later generator API/test work.
 All three agents are currently complete or waiting except the document author;
 resume the reviewer explicitly when an actual revised candidate is ready.
+
+
+## Corrected contract reviewed; next bounded stages
+
+Actual corrected f1e5297/import9a30295, contract3a249a58/authorf002fc07, has separate
+approval534d4d0. Native declaration metadata, output inventory/source protection,
+and canonical TS bytes are resolved. This is DOCUMENT approval only. Root releases
+ONLY a concrete API document next: translation-catalog-api-v1.md plus its author
+note, same isolated author. The reviewer must examine that actual revision before
+minimal Python interfaces/CLI/stubs or project fixtures/tests are authored.
+A separate bounded /tmp-only existing-Qt capability probe may compile the approved
+literal TS and directly inspect real QM; no project generator, baseline tests,
+source catalog or production behavior is authorized by that investigation. Record
+it as third-party feasibility evidence, never independent feature acceptance or red.
+All later test-first gates and actual CI foundation remain required.

@@ -10523,10 +10523,22 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before LOCALE-001.",
       "notes": [
         "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed dedicated task/LOCALETEST-001-catalog-baseline from fetched integrated main0b631dc after ACCT004 merge; CORETEST008 owner-dependent stages remain parked in PR52. FIRST DOCUMENT stage only: shared authoritative JSON catalog with stable IDs, English/German, named parameters/plurals and deterministic selected Qt .ts/.qm plus browser outputs. Follow specificationv0.45§12/I18N04 and task brief; no existing selected implementation/format is assumed. service_author owns ONLY docs/contracts/translation-catalog-v1.md and docs/evidence/localetest-001-contract-author.md in separate task/LOCALETEST-001-contract-author. service_reviewer owns ONLY docs/evidence/localetest-001-contract-review.md in separate reviewtree and waits for actual candidate. codec_author has bounded READONLY installed Qt Linguist/tool/version and primary documentation investigation, no new generator/fixture/test/native feature execution. Root owns progress/HTML/maps/shared schemas/build/CI/dependency pins/checkpoint. No project generator, schema/source catalog, interface/stub/test authoring or production behavior before reviewed contract. Baseline remainsin_progress until actual contract/API/tests/reviews/intendedred; LOCALE001 implementation remainsplanned. Do not drop actual .qm generation/runtime validation from scope or treat TS/JSON-only outputs as full acceptance. No new dependencies unless justified; use selected tools where sufficient."
+        "Claimed dedicated task/LOCALETEST-001-catalog-baseline from fetched integrated main0b631dc after ACCT004 merge; CORETEST008 owner-dependent stages remain parked in PR52. FIRST DOCUMENT stage only: shared authoritative JSON catalog with stable IDs, English/German, named parameters/plurals and deterministic selected Qt .ts/.qm plus browser outputs. Follow specificationv0.45§12/I18N04 and task brief; no existing selected implementation/format is assumed. service_author owns ONLY docs/contracts/translation-catalog-v1.md and docs/evidence/localetest-001-contract-author.md in separate task/LOCALETEST-001-contract-author. service_reviewer owns ONLY docs/evidence/localetest-001-contract-review.md in separate reviewtree and waits for actual candidate. codec_author has bounded READONLY installed Qt Linguist/tool/version and primary documentation investigation, no new generator/fixture/test/native feature execution. Root owns progress/HTML/maps/shared schemas/build/CI/dependency pins/checkpoint. No project generator, schema/source catalog, interface/stub/test authoring or production behavior before reviewed contract. Baseline remainsin_progress until actual contract/API/tests/reviews/intendedred; LOCALE001 implementation remainsplanned. Do not drop actual .qm generation/runtime validation from scope or treat TS/JSON-only outputs as full acceptance. No new dependencies unless justified; use selected tools where sufficient.",
+        "Actual documenta06b3a7/import8cb939e separately reviewed in6e870dc/importe3240eb; three bounded corrections required before API/tests: native metadata, owned output/source alias rules, canonical TS bytes. Root verified matching official QtTools/Base/ICU/Declarative downloads/hashes and actual lrelease6.12.0 runtime closure; corrected an ICU extraction setup error, which is not feature red. No catalog/generator/QM/lookup/repro was executed. Future real selected-tool foundation and independent tests remain mandatory.",
+        "Corrected documentf1e5297/import9a30295 (contract3a249a58/authorf002fc07) receives actual separate approval534d4d0. R1 native metadata from generated English descriptors plus mandatory English QM, R2 exact output/source protection, R3 canonical TS bytes all resolved. ONLY next concrete API DOCUMENT stage released: author owns new docs/contracts/translation-catalog-api-v1.md and docs/evidence/localetest-001-api-author.md; no generator/stubs/sourcecatalog/schema/tests before actual API review. Root may run a bounded scratch existing-Qt capability probe against approved literal TS using verified official prefix, never a project-generator/acceptance/red claim. Baseline and production remain unfinished."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "tool_environment": "partial",
+        "document_review": "passed",
+        "test_baseline": "not_run",
+        "implementation": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/translation-catalog-v1.md",
+        "docs/evidence/localetest-001-contract-author.md",
+        "docs/evidence/localetest-001-contract-review.md",
+        "docs/evidence/localetest-001-tool-preflight.md"
+      ],
       "review": null
     },
     {
