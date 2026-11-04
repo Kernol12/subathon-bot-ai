@@ -73,15 +73,15 @@ jobs:
           import subprocess
           test_path = Path("tests/localization/test_translation_catalog.py")
           tree = ast.parse(test_path.read_text(encoding="utf-8"))
-          classes = {"CatalogValues", "CatalogFiles", "CatalogCLI"}
-          declared = {
+          declared = [
               f"test_translation_catalog.{cls.name}.{method.name}"
-              for cls in tree.body if isinstance(cls, ast.ClassDef) and cls.name in classes
+              for cls in tree.body if isinstance(cls, ast.ClassDef)
               for method in cls.body
               if isinstance(method, ast.FunctionDef) and method.name.startswith("test_")
-          }
+          ]
           inventory = Path("tests/localization/case_inventory.txt").read_text().splitlines()
-          if len(inventory) != 43 or len(set(inventory)) != 43 or set(inventory) != declared:
+          if (len(declared) != 43 or len(set(declared)) != 43 or len(inventory) != 43
+                  or len(set(inventory)) != 43 or set(inventory) != set(declared)):
               raise SystemExit("Reviewed 43-method inventory differs from actual test definitions")
           discovery = json.loads(subprocess.check_output(
               ["ctest", "--preset", "translation-catalog-debug", "--show-only=json-v1"], text=True))
@@ -90,6 +90,15 @@ jobs:
           expected = {"translation-catalog." + name for name in inventory}
           if actual != expected:
               raise SystemExit("CTest did not discover every reviewed translation feature case")
+          for item in discovery["tests"]:
+              if item["name"] not in expected:
+                  continue
+              props = {entry["name"]: entry["value"] for entry in item["properties"]}
+              if props.get("DISABLED", False) or props.get("WILL_FAIL", False):
+                  raise SystemExit("A reviewed feature case is disabled or failure-inverted")
+              if not {"translation-catalog", "acceptance", "intentional-red"}.issubset(
+                      props.get("LABELS", [])):
+                  raise SystemExit("A reviewed feature case lost its required baseline labels")
           print("Discovered all 43 intentional-red feature methods; no feature was invoked")
           PYTHON
       - name: Run real Qt literal foundation and existing checks
