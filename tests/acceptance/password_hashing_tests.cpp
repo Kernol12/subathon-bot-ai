@@ -164,8 +164,10 @@ class LoginSource final : public PasswordLoginSource {
                                  same(verified.credential(), *reading.credential) &&
                                  verified.login_attempt_ref() == reading.login_attempt_ref;
         const auto observed = native::snapshot();
-        guarded_during_checks &= observed.live_allocations == 1;
-        same_buffer_during_checks &= observed.same_native_password_buffer;
+        guarded_during_checks &= observed.first_password_live && observed.first_password_locked &&
+                                 observed.first_password_uninterrupted;
+        same_buffer_during_checks &=
+            observed.same_native_password_buffer && observed.first_password_live;
         crypto_precedes_checks &=
             observed.verification_calls == 1 && observed.hash_calls == checks - 1;
         if (checks == throw_on) {
@@ -211,9 +213,10 @@ class LoginSource final : public PasswordLoginSource {
     std::string account_request{account};
 };
 
-// Oracle runs ONLY after this test's SUT call has returned successfully. It does not call project
-// verification or create any setup credential, and compares no predetermined random hash bytes.
-void real_record(const std::string &encoded, PasswordBytes password, std::string_view prefix) {
+// No SDK call here: a fatal assertion returns only from this helper. Each caller must inspect its
+// own completion flag before invoking any oracle, independently of earlier rows' failure status.
+void bounded_record(const std::string &encoded, std::string_view prefix, bool &bounded) {
+    bounded = false;
     ASSERT_LE(encoded.size(), 127U);
     ASSERT_TRUE(encoded.starts_with(prefix));
     ASSERT_EQ(encoded.find('\0'), std::string::npos);
@@ -221,6 +224,12 @@ void real_record(const std::string &encoded, PasswordBytes password, std::string
     ASSERT_NE(salt_end, std::string::npos);
     ASSERT_EQ(salt_end - prefix.size(), 22U);
     ASSERT_EQ(encoded.size() - salt_end - 1, 43U);
+    bounded = true;
+}
+
+// Caller has successfully bounded this exact immutable record before any real SDK oracle.
+// No project verifier/setup credential or predetermined random hash is used as the oracle.
+void real_record(const std::string &encoded, PasswordBytes password) {
     const char empty = '\0';
     const auto *pointer =
         password.empty() ? &empty : reinterpret_cast<const char *>(password.data());
@@ -274,7 +283,12 @@ TEST(PasswordCreation, EmptyNulUnicodeAndFullLengthRemainExactBytes) {
         if (!result) {
             continue;
         }
-        real_record(*result, row.password, "$argon2id$v=19$m=65536,t=3,p=1$");
+        bool bounded = false;
+        bounded_record(*result, "$argon2id$v=19$m=65536,t=3,p=1$", bounded);
+        if (!bounded) {
+            continue;
+        }
+        real_record(*result, row.password);
         const char empty = '\0';
         const auto *different =
             row.different.empty() ? &empty : reinterpret_cast<const char *>(row.different.data());
@@ -677,7 +691,13 @@ TEST(PasswordUpgrade, RawH0AcceptedLoginProducesOnlySourceBoundOwnedProposal) {
     EXPECT_EQ(replacement.login_attempt_ref, "attempt-A");
     EXPECT_EQ(replacement.expected_revision_ref, "rev-A");
     EXPECT_EQ(replacement.expected_encoded_verifier, vectors::h0);
-    real_record(replacement.replacement_encoded_verifier, {}, "$argon2id$v=19$m=65536,t=3,p=1$");
+    bool bounded = false;
+    bounded_record(replacement.replacement_encoded_verifier, "$argon2id$v=19$m=65536,t=3,p=1$",
+                   bounded);
+    if (!bounded) {
+        return;
+    }
+    real_record(replacement.replacement_encoded_verifier, {});
     EXPECT_EQ(source.reads, 1U);
     EXPECT_EQ(source.checks, 2U);
     EXPECT_TRUE(source.all_proofs_belong);
@@ -875,8 +895,13 @@ TEST(PasswordUpgrade, AdditionalPublishedInputRetainsStrongerTimeWhileRaisingMem
         return;
     EXPECT_EQ(result->data().outcome, PasswordUpgradeOutcome::replacement_ready);
     ASSERT_TRUE(result->data().replacement);
-    real_record(result->data().replacement->replacement_encoded_verifier, password,
-                "$argon2id$v=19$m=131072,t=3,p=1$");
+    bool bounded = false;
+    bounded_record(result->data().replacement->replacement_encoded_verifier,
+                   "$argon2id$v=19$m=131072,t=3,p=1$", bounded);
+    if (!bounded) {
+        return;
+    }
+    real_record(result->data().replacement->replacement_encoded_verifier, password);
     EXPECT_EQ(native::snapshot().hash_operations, 3U);
     EXPECT_EQ(native::snapshot().hash_memory_bytes, 134217728U);
     EXPECT_EQ(source.checks, 2U);
@@ -900,8 +925,13 @@ TEST(PasswordUpgrade, PH12RetainsSixPassesWhileRaising32768KiBTo65536) {
     EXPECT_FALSE(result->data().unavailable_reason);
     ASSERT_TRUE(result->data().replacement);
     EXPECT_EQ(result->data().replacement->expected_encoded_verifier, vectors::ph12_record);
-    real_record(result->data().replacement->replacement_encoded_verifier, password,
-                "$argon2id$v=19$m=65536,t=6,p=1$");
+    bool bounded = false;
+    bounded_record(result->data().replacement->replacement_encoded_verifier,
+                   "$argon2id$v=19$m=65536,t=6,p=1$", bounded);
+    if (!bounded) {
+        return;
+    }
+    real_record(result->data().replacement->replacement_encoded_verifier, password);
     EXPECT_EQ(native::snapshot().hash_operations, 6U);
     EXPECT_EQ(native::snapshot().hash_memory_bytes, 67108864U);
     EXPECT_EQ(source.checks, 2U);
@@ -945,8 +975,13 @@ TEST(PasswordUpgrade, StrongerStoredMemoryIsPreservedWhenDesiredPassesIncrease) 
     }
     EXPECT_EQ(result->data().outcome, PasswordUpgradeOutcome::replacement_ready);
     ASSERT_TRUE(result->data().replacement);
-    real_record(result->data().replacement->replacement_encoded_verifier, password,
-                "$argon2id$v=19$m=131072,t=10,p=1$");
+    bool bounded = false;
+    bounded_record(result->data().replacement->replacement_encoded_verifier,
+                   "$argon2id$v=19$m=131072,t=10,p=1$", bounded);
+    if (!bounded) {
+        return;
+    }
+    real_record(result->data().replacement->replacement_encoded_verifier, password);
     EXPECT_EQ(native::snapshot().hash_operations, 10U);
     EXPECT_EQ(native::snapshot().hash_memory_bytes, 134217728U);
     EXPECT_EQ(source.checks, 2U);
@@ -1000,7 +1035,13 @@ TEST(PasswordUpgrade, ProposalOwnsItsSourceAfterCallerAndPortDestruction) {
     EXPECT_EQ(replacement.expected_revision_ref, "rev-A");
     EXPECT_EQ(replacement.expected_encoded_verifier, vectors::h0);
     EXPECT_EQ(replacement.login_attempt_ref, "attempt-A");
-    real_record(replacement.replacement_encoded_verifier, {}, "$argon2id$v=19$m=65536,t=3,p=1$");
+    bool bounded = false;
+    bounded_record(replacement.replacement_encoded_verifier, "$argon2id$v=19$m=65536,t=3,p=1$",
+                   bounded);
+    if (!bounded) {
+        return;
+    }
+    real_record(replacement.replacement_encoded_verifier, {});
 }
 
 TEST(PasswordUpgrade, ProposalCarriesFullCasSourceAndNeverRestoresAfterConcurrentReset) {

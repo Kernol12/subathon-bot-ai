@@ -14,6 +14,7 @@ struct Allocation {
     void *pointer{};
     std::size_t size{};
     bool explicitly_locked{};
+    std::uint64_t lifetime{};
 };
 struct State {
     bool active{};
@@ -22,7 +23,11 @@ struct State {
     std::string_view verifier{};
     password_test::Snapshot observed{};
     std::array<Allocation, 16> allocations{};
+    std::uint64_t last_allocation_lifetime{};
     const void *first_native_password{};
+    std::uint64_t first_password_lifetime{};
+    bool first_password_seen{};
+    bool first_password_protection_interrupted{};
     unsigned int native_depth{};
     unsigned int guard_depth{};
 };
@@ -51,11 +56,12 @@ void remember(void *pointer, std::size_t size) noexcept {
     }
     const auto slot = std::find_if(state.allocations.begin(), state.allocations.end(),
                                    [](const auto &entry) { return entry.pointer == nullptr; });
-    if (slot == state.allocations.end()) {
+    if (slot == state.allocations.end() ||
+        state.last_allocation_lifetime == std::numeric_limits<std::uint64_t>::max()) {
         state.observed.tracking_overflow = true;
         return;
     }
-    *slot = {pointer, size, false};
+    *slot = {pointer, size, false, ++state.last_allocation_lifetime};
     ++state.observed.allocations;
     ++state.observed.live_allocations;
 }
@@ -65,12 +71,17 @@ void observe_password(const char *password, unsigned long long length) noexcept 
     const auto *allocation = allocation_for(password);
     const bool protected_input = allocation && allocation->explicitly_locked &&
                                  allocation->size >= 1 && length <= allocation->size;
-    state.observed.native_pointer_protected_and_locked &= protected_input;
-    if (!state.first_native_password) {
+    if (!state.first_password_seen) {
+        state.first_password_seen = true;
         state.first_native_password = password;
-    } else {
-        state.observed.same_native_password_buffer &= state.first_native_password == password;
+        state.first_password_lifetime = allocation ? allocation->lifetime : 0;
     }
+    state.observed.same_native_password_buffer &=
+        allocation && state.first_password_lifetime != 0 &&
+        allocation->lifetime == state.first_password_lifetime &&
+        state.first_native_password == password;
+    state.observed.native_pointer_protected_and_locked &=
+        protected_input && !state.first_password_protection_interrupted;
     if (!protected_input || length != state.password.size()) {
         state.observed.native_input_matches = false;
         return;
@@ -160,7 +171,17 @@ Controls::Controls(Failure failure, std::span<const std::byte> password,
 Controls::~Controls() { state.active = false; }
 RealLibraryOnly::RealLibraryOnly() noexcept : previous_(state.active) { state.active = false; }
 RealLibraryOnly::~RealLibraryOnly() { state.active = previous_; }
-Snapshot snapshot() noexcept { return state.observed; }
+Snapshot snapshot() noexcept {
+    auto observed = state.observed;
+    const auto *allocation = allocation_for(state.first_native_password);
+    observed.first_password_live = state.first_password_seen && allocation &&
+                                   state.first_password_lifetime != 0 &&
+                                   allocation->lifetime == state.first_password_lifetime;
+    observed.first_password_locked = observed.first_password_live && allocation->explicitly_locked;
+    observed.first_password_uninterrupted =
+        observed.first_password_locked && !state.first_password_protection_interrupted;
+    return observed;
+}
 } // namespace password_test
 
 extern "C" {
@@ -228,7 +249,8 @@ int __wrap_sodium_mlock(void *pointer, std::size_t size) {
     }
     ++state.observed.locks;
     auto *allocation = allocation_for(pointer);
-    if (allocation && !state.password.empty() && allocation->size >= state.password.size()) {
+    if (allocation && !allocation->explicitly_locked && !state.password.empty() &&
+        allocation->size >= state.password.size()) {
         state.observed.password_copied_before_lock |= std::equal(
             state.password.begin(), state.password.end(), static_cast<const std::byte *>(pointer));
     }
@@ -246,7 +268,28 @@ void __wrap_sodium_memzero(void *pointer, std::size_t size) {
     __real_sodium_memzero(pointer, size);
 }
 int __wrap_sodium_munlock(void *pointer, std::size_t size) {
-    return __real_sodium_munlock(pointer, size);
+    const int result = __real_sodium_munlock(pointer, size);
+    if (observing() && result == 0 && size != 0) {
+        const auto start = reinterpret_cast<std::uintptr_t>(pointer);
+        for (auto &allocation : state.allocations) {
+            if (!allocation.pointer || allocation.size == 0) {
+                continue;
+            }
+            const auto base = reinterpret_cast<std::uintptr_t>(allocation.pointer);
+            // Subtraction avoids address+length overflow; any real overlapping unlock breaks
+            // this allocation's continuous lock observation, even if it is later relocked.
+            const bool overlaps =
+                start >= base ? start - base < allocation.size : base - start < size;
+            if (overlaps) {
+                allocation.explicitly_locked = false;
+                if (state.first_password_seen &&
+                    allocation.lifetime == state.first_password_lifetime) {
+                    state.first_password_protection_interrupted = true;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 void __wrap_sodium_free(void *pointer) {

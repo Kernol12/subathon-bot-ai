@@ -5,6 +5,8 @@ The first sections preserve preliminary commit
 feature-test candidate after root's reviewed native foundation/input preparation.
 Historical UNRUN/pending statements below describe that preliminary revision,
 not a claim that root's later recorded native work did not happen.
+The final correction appendix records the actual different R1/R2 review findings
+and the revised source candidate; it claims no approval or behavioral red.
 
 ## Preliminary SDK-only candidate fc62e637
 
@@ -308,3 +310,117 @@ plain intended feature-marker red; no future approval or red result is supplied 
 this note. Production implementation/source audit, all allocation handling and actual
 account/store/admission/conditional-save/platform/benchmark gates remain required.
 This full candidate does not finish SESSIONTEST-001 or implement SESSION-001.
+
+## Correction after actual different review R1/R2
+
+Actual review `173d90a53d74e5e29a647084cc0675cb861957f6`, root import
+`cbdb1332c4d4b04bab7122f11155948a8c0dcf9d`, is CHANGES REQUIRED. Its frozen
+[review note](sessiontest-001-test-review.md) has Git blob
+`56ad3b1c1589b2d601389acb96c36689b2c7710e`. This correction started clean at that
+root import on dedicated `task/SESSIONTEST-001-test-correction`, isolated worktree
+`local-evidence/worktrees/sessiontest001-test-correction`. The same source author
+owns only the test TU, private observer header/source and this author note.
+Fixtures, approved native programs, contracts, production header/source, review
+note, CMake/workflow/pin/state/HTML and other agents' work remain frozen.
+
+### Written specification/API basis and exact revised source
+
+My earlier blanket output-oracle safety claim was incorrect: a fatal assertion in
+a helper returns from that helper, so the creation caller's subsequent different-
+password native oracle was not guarded. R1 is justified by API §§3/4's mandatory
+bounded cost admission before native work, not a changed product requirement.
+
+The SDK-free bounded_record helper retains the SAME six original assertions and
+literal bounds/prefix expectations. A caller-owned bool is reset false for each
+invocation and becomes true only after all six succeed. All six oracle caller
+sites inspect their own flag and continue that row/return the test on failure
+BEFORE calling any real SDK oracle on that record. The creation row's two native
+oracles share that successfully checked immutable current-row string. No cumulative
+HasFatalFailure/previous-row state substitutes for this invocation's result. A
+malformed row still fails and cannot request an oversized native KDF; following
+table rows remain reachable. These paths have been inspected, not executed.
+
+R2 is justified by API §4's SAME checked protected password allocation surviving
+verification, both source checks and replacement creation. That does not restrict
+the total count of separately guarded record/output scratch. The old live-count
+of one could reject valid scratch ownership and did not identify the password
+allocation. A first address alone also survived free/address reuse; a latched
+lock flag incorrectly survived successful real unlock.
+
+The bounded observer now assigns a monotonically increasing nonzero lifetime ID
+only after an actual real guarded allocation succeeds. It retains the first native
+password's pointer AND lifetime ID. Free retires the tracked entry; reusing its
+slot/address gets a different ID and cannot recreate the original lifetime.
+Snapshot reports the CURRENT original password allocation's live and checked-lock
+state plus uninterrupted protection. The source gates check these semantic facts
+instead of total guarded allocation count, while later native uses check original
+allocation identity and protection. Unrelated live scratch does not certify a
+missing original password copy, nor does legitimate extra scratch make it fail.
+
+Successful real explicit mlock records full-allocation locking; repeated locking
+of an already checked locked allocation is not mistaken for copy-before-first-lock.
+Successful real nonempty overlapping munlock clears current lock state and records
+an interruption that later relocking cannot erase. Checked unsigned address
+subtraction avoids range-end overflow. Cleanup free removes the entry; subsequent
+current observations cannot certify its stale address. Slot/lifetime-counter
+exhaustion remains an explicit bounded tracking-overflow diagnostic, never a false
+positive protection result. The fixed16-slot tracker, real SDK delegation,
+error-only injections and whole-buffer zero-before-free checks are preserved.
+There is no operator-new/public API/successful-crypto/readiness/locking fake.
+
+| Corrected artifact | Previously reviewed blob | Revised blob |
+| --- | --- | --- |
+| [Feature tests](../../tests/acceptance/password_hashing_tests.cpp) | `52f0e911cc0dbd17b7f6e847ac778c449598c8b7` | `1d0d37753cd54cad189bdf9d08481838cac9880e` |
+| [Private observer header](../../tests/support/password_hashing_failures.hpp) | `831a8bb0a4536e52c677a00a70caed5841236394` | `7e87bbe9c328a8791244902c7e9446ceef000996` |
+| [Private observer source](../../tests/support/password_hashing_failures.cpp) | `2782be4171cddafd048efdab130a896a3616adb4` | `4e1f049a2dcd0ff018dc3c728daad39f0773a82f` |
+
+### Actual allowed checks and preserved baseline inputs
+
+Linux x86-64/GCC16.2.1/Python3.14.8/CMake4.4.5/clang-format23.1.4, installed
+GTest1.18.0, explicit root-prepared static SDK prefix. Actual commands:
+
+```sh
+correction_audit=/tmp/subathon-sessiontest001-test-correction.LIe2GS
+clang-format -i tests/acceptance/password_hashing_tests.cpp tests/support/password_hashing_failures.hpp tests/support/password_hashing_failures.cpp
+c++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wsign-conversion -Werror -Iserver/include -I/tmp/subathon-sodium-1.0.22-sdk/prefix/include -fsyntax-only tests/acceptance/password_hashing_tests.cpp
+c++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wsign-conversion -Werror -I/tmp/subathon-sodium-1.0.22-sdk/prefix/include -fsyntax-only tests/support/password_hashing_failures.cpp
+cmake --preset password-hashing-debug -DSUBATHON_SODIUM_ROOT=/tmp/subathon-sodium-1.0.22-sdk/prefix
+cmake --build --preset password-hashing-debug
+ctest --preset password-hashing-debug --show-only=json-v1 > "$correction_audit/discovery.json"
+build/password-hashing-debug/tests/server_password_hashing_acceptance --gtest_list_tests > "$correction_audit/gtest-list.txt"
+clang-format --dry-run --Werror tests/acceptance/password_hashing_tests.cpp tests/support/password_hashing_failures.hpp tests/support/password_hashing_failures.cpp
+python3 "$correction_audit/audit.py"
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+Both strict syntax checks PASS. Configure/build PASS, 13 steps/zero project
+warnings. LIST ONLY and CTest show-only contain all unchanged37 feature names and
+41 total registered tests; no feature was disabled, inverted or skipped. The
+stdlib source audit tokenizes balanced ASSERT/EXPECT invocations and proves ALL
+existing invocation arguments/string literals unchanged; it separately compares
+all source string literals and the37 exact method names against cbdb133's frozen
+input. It checks six independent caller gates, the SDK-free validator, bounded
+lifetime/unlock structure and10 unchanged fixture/native/contract/production/build/
+workflow/review blobs. It invokes no C++ helper, wrapper, injection or feature.
+Audit SHA256 `eb287e73efc973db10479a57a9f3419a76006a5be8aae6a16232ba973b8294ea`;
+discovery SHA256 `809c7b4560dc35ab8abc6a819204ab8c328f153e1d91ec4a8c5a068d0db72d33`;
+listing SHA256 `e870eab75ca0518a4bf1e039d54ac90e45083b381ca84e40478647ef5bc56f4d`.
+
+Initial show-only redirection targeted an absent local-evidence directory and
+failed before CTest ran. Corrected only the ignored artifact destination to the
+temporary directory above, then show-only passed. This setup error is not a
+feature failure, native run or valid intended red. Project consistency/current
+HTML passed (406 tasks/122 decisions); staged four-owned-path/whitespace checks
+accompany the commit. No permission/D1 artifact or password fixture/native program
+was changed. No selected SDK API, test/marker/wrapper/injection body, foundation,
+generator or behavior probe ran; only compile/link and discovery/listing executed.
+
+The original different reviewer must re-review this actual corrected revision.
+No approved baseline, red attribution, production release or self/future approval
+is claimed. Root's separate sequencing proposal `25506e` is under different review,
+NOT adopted by this correction and does not authorize a first-red execution.
+Current selected CI/FIRST red and all actual implementation/allocation/secret/
+account/conditional-save/admission/platform/benchmark gates remain as recorded by
+the coordinator. Permission D1 stays pending in its separately preserved worktree.

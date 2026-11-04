@@ -38,6 +38,9 @@ struct Snapshot {
     bool native_input_matches{true};
     bool native_record_matches{true};
     bool same_native_password_buffer{true};
+    bool first_password_live{};
+    bool first_password_locked{};
+    bool first_password_uninterrupted{};
     bool password_copied_before_lock{};
     bool all_freed_buffers_were_zero{true};
     bool tracking_overflow{};
