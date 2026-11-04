@@ -1,5 +1,9 @@
 # LOCALETEST-001 independent fixture/probe/test review
 
+**Current partial verdict: APPROVED corrected Qt-only fixtures/probe/foundation.**
+The full43 Python feature methods and their complete CI guard remain under review.
+No project feature/main/script/marker execution is released by this partial verdict.
+
 Reviewer service_reviewer, different from author codec_author and shared harness
 integrator root,2026-11-04. This note begins with the intermediate fixture/Qt-only
 probe gate. It does not review or approve Python behavior tests not yet authored.
@@ -81,3 +85,47 @@ Later complete Python behavior tests require their own actual independent review
 complete selected-head foundation green and FIRST valid project marker-red. This
 partial fixture/probe gate cannot finish LOCALETEST-001 or approve implementation,
 runtime formatter/preferences/UI/packaging/platform/full-release capability.
+
+## Corrected actual Qt-only fixture/foundation gate: approved
+
+**APPROVED narrow stage**, authorbbdeefb/root e1779a3, independent service_reviewer.
+Only the actual fixture/probe/foundation gate is approved here; full Python behavior
+tests remain unapproved. Exact accepted artifacts:
+
+| Artifact | Git blob |
+| --- | --- |
+| source.json | 2717ee772aaebe438e9c78ce292afeded92fed0c |
+| manifest.json | a467706f2a7ce1edfa2f26d52980bcbab291b530 |
+| README | 87359836dd07942f1825e081b53d7096db12b23f |
+| Qt en golden | 7b8c80e8cd29876f9e06e6cbe52285c1eb14709c |
+| Qt de golden | 3d29d718124a2694a4cd83b628222b16bfea6691 |
+| Browser en golden | 3f57a67032262293384d6cbfd8ca5ad4688f81c2 |
+| Browser de golden | 0ec5cd3554045b79adc0cb40715eb99f8f00e09e |
+| Qt probe | f033074da5e43ab61e7603d3279fb7402228b066 |
+| Qt registration | 9ff756219213f1f5f1b31f4368e8273fe225a0ed |
+
+R1 is resolved by an additive seventh fixture.literal_plural using the exact TC06
+literal-percent/brace text in both forms/languages and TC14's invisible integer
+selector. The actual probe now checks raw en/de witnesses1 AND2, so numerus percent
+replacement cannot pass under the ordinary-message n=-1 escape. R2 uses a fresh
+missing_base translator, actual missing-English filename load refusal and null
+lookup; successful actual English load/fallback checks remain.
+
+Independent mechanical comparison with a9e6eaa proves all previous six source
+objects, browser message objects and complete Qt message fragments remain exact.
+Only the seventh entry is added; all old assertions remain. Manifest explicitly
+contains7 and every file hash matches. Prior independent complete-byte verification
+plus the actual canonical additive block retains XML/JSON order/escaping/scalars/
+metadata. No UUT output constructs any expected data.
+
+Actual selected-prefix configure/build passes5 effective steps after regeneration,
+zero compiler warnings. It compiles the revised probe/test syntax and performs only
+the already-approved inert import. No Qt probe/CTest or project behavior was invoked
+before this approval. CMake's actual scaffold.translation_catalog_environment calls
+ONLY the supplied real Qt tool and this independent literal verifier; no project
+generator is linked/called.
+
+Coordinator may now run ONLY the Qt-only foundation and existing non-intentional-
+red checks/ordinary CI. This releases no execution of the43 project feature methods,
+main/script or missing marker. Complete actual Python-test/harness review and its
+own selected feature-head foundation green remain required before FIRST project red.
