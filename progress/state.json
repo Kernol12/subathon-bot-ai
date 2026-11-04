@@ -1654,13 +1654,17 @@
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
-        "Active work is preserved in unmerged draftPR52, branch task/CORETEST-008-timer-command-baseline head3e05b48. Actual document5446a91 and separate document reviewc33a4b1 are complete only for the partial stage; three owner questions OPEN-CAP/OPEN-READY/OPEN-DEADLINE remain unanswered. No API/test/red/production stage approved. This branch reconciles that existing claim to prevent duplicate assignment; detailed document/review evidence remains on PR52 rather than being copied into unrelated work. Resume only on actual answers, never preselected options."
+        "Active work is preserved in unmerged draftPR52, branch task/CORETEST-008-timer-command-baseline head3e05b48. Actual document5446a91 and separate document reviewc33a4b1 are complete only for the partial stage; three owner questions OPEN-CAP/OPEN-READY/OPEN-DEADLINE remain unanswered. No API/test/red/production stage approved. This branch reconciles that existing claim to prevent duplicate assignment; detailed document/review evidence remains on PR52 rather than being copied into unrelated work. Resume only on actual answers, never preselected options.",
+        "Owner answered all three timer policy questions on 2026-11-04: when lowering cap below Main, warn and require an explicit Keep / Reduce / Abort choice for that change; Keep saves cap and retains Main, Reduce saves cap and applies an audited reduction to it, Abort cancels. Reject first Start with a passed enabled deadline and remain Ready until corrected; accept an authorized active deadline edit to now/past and immediately finish. Recorded in docs/evidence/timer-editorial-owner-decisions.md. These owner questions are resolved; revised specification/contract/examples and separate review/API/tests/red/CI remain unfinished. Preserve prior partial review and prioritize PR62 first. No implementation or passing behavior is claimed."
       ],
       "verification": {
         "document_stage": "partial",
-        "test_baseline": "not_run"
+        "test_baseline": "not_run",
+        "owner_decisions": "passed"
       },
-      "evidence": [],
+      "evidence": [
+        "docs/evidence/timer-editorial-owner-decisions.md"
+      ],
       "review": null
     },
     {
@@ -3556,8 +3560,8 @@
       "title": "Review and demonstrate red: Effective permissions and complete-grant constraints",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "service_author (tests); codec_author (independent tests/red); /root (integration)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3570,11 +3574,75 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-002.",
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
+        "Claimed dedicated task/ACCESSTEST-002-effective-permissions from ACTUALfresh mainb2b14bb afterPLAN001/PR57 complete. FIRST DOCUMENT ONLY: NEW docs/contracts/effective-permissions-v1.md +docs/evidence/accesstest-002-contract-author.md toservice_author inseparateauthorbranch/worktree. Scope pureeffectivepermissionprecedence/onecompleteapplicableconstrainedgrant/protectedowner accessmanagement+recovery boundaries/boundedsourceexplanations/currentrightsatsame serverexecution boundary. Authorityspecv0.45§10/AUTH03-06 andcommon00511eeb5f4; no existing finalizedslice contract. Independent literalprecedence/nonunion/timerA5/B10/opaqueIDs/owner/revocation examples and finite localprofile proposals required. Do notinventunrestrictedowner bypass, rolelabelauthority, page/client/chatcategory rights, delegationeditingpolicy(ACCESS003), credential/sessionauth, providerbehavior or successfulunknown. Identify genuine requirementsambiguities explicitly. No API/header/stub/fixture/test/code/schema/parser/auth/network/crypto/runtime released; actualdifferentlogical review before anotherstage, reviewedtests+FIRSTred beforeproduction. Rootownssharedstate/HTML/maps/schema/build/CI/pins/PR. Routinegrantrepresentationchoices within scope allowed but justifyprecedence/applicability semantics againstspec; no silentauthority expansion.",
+        "Actualauthoridentified genuine D1precedence/applicability ambiguity: individualallowA5 vsroleallowA10 can operationoverride/resource-scopeoverride/complete-requestfallback. Root askedownerasync3explicitpolicychoices; NOanswer observed, UIpreselect/elapsedtime isnotapproval. Recorddocs/evidence/accesstest-002-open-decisions.md. Continue unambiguouslogicalexamples/budgets/ownerboundaries only; dependentsemantics/API/tests cannotfreeze beforeactualdecision+differentreview. No priorclarificationornewpermissiondefault invented. Existingwholegrant/nonunion/denyprecedence stayssettled.",
+        "ActualPARTIALauthor6bc3d51f/importc88bcf5: doc5dfc6a1e/note66edd21f,27EP examples/18stdlibnumeric-byte facts, consistencyPASS. D1explicitlyUNSELECTED; dependentD1A/B notfrozenoracles. No completealgorithm/API/test/implementation/independentreview release. Authorhandofffinishedclean; taskBLOCKEDonlyonrealowner applicabilitychoice afterunambiguouspartialdoccheckpoint, no defaultoranswerassumed. Currentmain8fcscene009integrated withall406ids/1497edges preserved; all11postmaincheckrunsSUCCESS observed. Fullscope remains; originalauthoravailableforPWboundedtestcorrectiononceactualreviewfindingcommitarrives.",
+        "Actual independent partial review b87e16b6/importf2b98d4, note20919ad3, approves only settled contract5dfc6a1e/author66edd21f. All27EP rows and15 independent arithmetic/byte facts checked; no additional defect. D1 remains unanswered/unselected and blocks full logical approval/API/tests/red/implementation/merge. Latest user priority is finish PR62, then walk through other blocked PRs together. Other agents have stopped at durable handoffs; no inferred policy choice or additional unrelated stages. Complete PR62 after actual D1 answer and every subsequent applicable gate.",
+        "Owner requested more context for D1 without selecting an alternative. Explained Moderator role allowing ten minutes on all timers versus an individual five-minute allow on timer A: resource-scoped denies A/10 but permits B/10 through the role; whole-operation denies both; complete-request matching permits both through the role. Resource-scoped remains a recommendation only. Re-presented the choice; no answer or default inferred. Owner answers to the separate PR52 timer questions are recorded and do not resolve D1.",
+        "Owner explicitly accepted the resource-scoped recommendation after the Moderator/Alice A/B explanation. D1 is resolved: select individual overrides by operation/resource scope before quantity/other limits; no broader role fallback inside that scope, normal role rules outside it. Recorded in docs/evidence/accesstest-002-owner-decision.md and specification §10/AUTH-06/acceptance row. Separate timer Keep/Reduce/Abort warning and the other accepted timer choices remain. Resume the original permission logical author on an isolated continuation branch; revised actual independent review before API/tests/code. Prior settled partial review remains valid only for unchanged portions; no future approval or implementation claimed.",
+        "Completed logical author064fecab/import1cd21c1, contract3d82bfa4/author43e16b0f, actually APPROVED0e8bffe9, reviewce5950a5. Owner/spec transcription also checked. EP01–27 and original partial-review prefix preserved; fixed D1-A/B plus EP28–45 cover resource-first selection, complete conditional denies, same-effect alternatives, invalid opposing individual scope overlaps, Any/global/multi-resource shape, no specificity/constraint union. No remaining logical blocker or new owner decision. Release ONLY a new concrete API document and author evidence to original author on an isolated continuation tree; no header/stub/tests/code until actual API review. Root owns harness/CI/shared files; SDK-only environment source is separately being authored, not executed.",
+        "SDK-only source58b7f581/importa9e44a1 authored by service_reviewer; root harness dab476e104f0e6831eae099e8878b453b96bc13c configure/build/discovery passed using authenticated isolated Boost1.83. Exactly37 cases discovered, no native foundation or feature body run. Actual different source/harness review assigned to codec_author; original service_author continues API document only. No new owner choice or access blocker; normal SSH publication works.",
+        "Actual different SDK source/harness approval15460f62/importc3a925f followed by root FIRST selected Boost1.83 native environment: exit0,1/1,21 primitive checks/0fail; exact retained output611ea8a5. Existing36 numeric/infrastructure also pass. This proves SDK/host arithmetic only, no permission behavior. API document still being authored; later gates unchanged.",
+        "Actual concrete API author646a11e3/import5757a45: API blobdda2793c/author0680aa30, std-only raw facts and one evaluator, six limits, complete canonicality/shape/stage/error/B-I/output projection/source explanations. Logical/spec/owner inputs unchanged. Different codec_author API review now active on actual committed revision; no minimal source/test stage released yet. Foundation publication07418ee succeeded through SSH;13 GitHub checks queued at last observation, no current CI pass claimed.",
+        "Actual API review5c029d4/importb9e0520 (notee007e35b) approves APIdda2793c/author0680aa30 without blocker. Release ONLY minimal inert exact API transcription to service_reviewer in accesstest002-source-author fromc8cb5f2. Evaluator body must immediately throw explicit marker; no validation, successful behavior or tests. Different source/harness review precedes test authoring; root owns source build target/shared state/CI.",
+        "Actual minimal source author78195bef/importb29274b, headeredd6ffc2/TU4cf7bcca/author04e5ed87; root targetf1eb3d6 compile/list37 passed. Different actual source/harness review7ddc58b0 (note29e07a50) approves exact API transcription/immediate markerthrow only. Release original service_author test authoring on isolated continuation tree. No feature or marker has run. Foundation published07418ee all13 checks SUCCESS, actual Ubuntu selected1.83 run41878733543 passed21 primitives and old36. New task revisions require fresh CI.",
+        "Actual test author25001158/importd1d36ee:30 named testsfc82d17e, inventoryd0c25108, authorba78ccde. All45EP+2D1 mapped; raw literal setup, complete explanation/lifetime/error/limit cases. Root harnessb519153 compile/list67 and exact30 inventoryguard passed; no feature or marker body run. Different actual testoracle review assignedcodec_author, rootCMake/CI harness review separately assignedservice_reviewer (not selfreview of own prior stub). CI permits only standard CMake GoogleTest skip-message detector, rejects custom result rewriting, and separates intentional feature red from mandatory green SDK+old36. Publishing draft compile/discovery candidate while reviews proceed; actual FIRST red still blocked on both approvals.",
+        "Actual full30 test approval1d8e9335/import6805011 (note68029788); unchangedsourcefc82d17e/inventoryd0c25108, all45EP+2D1 independentoracles checked. Actual localharnessapproval7d7f651/importddb6fac (noteba601329) passed full67 list/guards. SelectedCI6b9 run41884253112 compiled but strict guard rejected suite labels; not behavioralred, no featurebody. Root correction3dc7108 assigns samefourlabels atCTesttime after TEST_LIST, preserving all tests/strict guards; host67 and authenticupstream3.28helper list-only30 reproducecorrectmetadata. Exactrunnerlabelshape/versionnotdumped; old/newhelper mechanism is inference. Actualdifferentcorrectionreviewservice_reviewer active; FIRSTred notyetreleased.",
+        "Actual label correction approvalebe17a9e/import8acc9b9 preceded FIRST plain feature red on clean8acc9b9cf88bb67762c2060ee5fb16a5345a273f at2026-11-04T18:24:09.993522Z: CTestexit8,30/30fail,0skip; exactrawoutpute1598fa3/JUnit5f3872f2/receipt retained. Root mechanical count215 explicitmarkers+1 safe ownership-presence consequence; actual different attribution reviewpending. Corrected selectedUbuntuCI41886146750 at4674822 passes exact30enabled discovery/SDK21/old36 with no featurebody. No test/header/stub/oracle changed and no ACCESS002 implementation released before baseline integration.",
+        "Baseline COMPLETE: actual independent FIRST-red attribution3f40238f (noteb4779823) validates clean8acc9b9,30executed/30failed/0skip and all216failure locations:63decision-helper+143typederror-helper+9directcatch exactmarkers, plus1 safe ownershipASSERT consequence. All reviewed source/inventory/header/stub unchanged. SelectedcorrectedUbuntu4674822 all13checksSUCCESS. Final taskmetadata review/currentfinalheadCI/normalmerge pending; done means reviewed observed-red baseline only, not ACCESS002 implementation or merged status. AftercleanPR62merge return to owner-authorized blockedPR52/54/56/59; allknownownerchoicesanswered, no routineapproval needed."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "document_review": "passed",
+        "test_baseline": "observed_red",
+        "implementation": "not_run",
+        "consistency": "passed",
+        "partial_document_review": "passed",
+        "owner_decision": "passed",
+        "environment": "passed",
+        "api_review": "passed",
+        "source_review": "passed",
+        "tests_review": "passed",
+        "harness_review": "passed",
+        "ci": "passed",
+        "baseline": "observed_red",
+        "red_attribution": "passed"
+      },
+      "evidence": [
+        "docs/evidence/accesstest-002-open-decisions.md",
+        "docs/contracts/effective-permissions-v1.md",
+        "docs/evidence/accesstest-002-contract-author.md",
+        "docs/evidence/accesstest-002-contract-review.md",
+        "docs/evidence/accesstest-002-owner-decision.md",
+        "docs/evidence/accesstest-002-environment-author.md",
+        "docs/evidence/accesstest-002-environment-harness.md",
+        "docs/evidence/accesstest-002-environment-review.md",
+        "docs/evidence/accesstest-002-environment-first.md",
+        "docs/contracts/effective-permissions-api-v1.md",
+        "docs/evidence/accesstest-002-api-author.md",
+        "docs/evidence/accesstest-002-api-review.md",
+        "docs/evidence/accesstest-002-source-author.md",
+        "docs/evidence/accesstest-002-source-review.md",
+        "docs/evidence/accesstest-002-ci.md",
+        "tests/acceptance/effective_permissions_tests.cpp",
+        "tests/fixtures/effective-permissions-v1.json",
+        "docs/evidence/accesstest-002-tests-author.md",
+        "docs/evidence/accesstest-002-tests-review.md",
+        "docs/evidence/accesstest-002-tests-harness-review.md",
+        "docs/evidence/accesstest-002-labels-correction.md",
+        "docs/evidence/accesstest-002-labels-review.md",
+        "docs/evidence/accesstest-002-red.md",
+        "docs/evidence/accesstest-002-red.json",
+        "docs/evidence/accesstest-002-red-review.md",
+        "docs/evidence/accesstest-002-handoff.md"
+      ],
+      "review": {
+        "author": "service_author",
+        "reviewer": "codec_author",
+        "outcome": "approved",
+        "evidence": "docs/evidence/accesstest-002-tests-review.md",
+        "revision": "Actual tests25001158/importd1d36ee sourcefc82d17e/inventoryd0c25108 approved1d8e9335; FIRST8acc9b9 red attribution3f40238f. Separate root-harness7d7f651 and label-fixebe17a9e approvals retained."
+      }
     },
     {
       "id": "ACCESS-002",
@@ -13540,6 +13608,11 @@
       "date": "2026-11-04",
       "task": "CONTRACT-009",
       "note": "Corrected protocol-neutral scene logical document independently approved;27SD+7familyexamples, originalrows preserved. Documentacceptance complete, finalCI/publication/normalmerge pending; no schema/renderer/product capability."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "ACCESSTEST-002",
+      "note": "Claimed FIRST logical DOCUMENT stage from refreshedmainb2 while actual password fulltest/scene corrected-doc reviews continue; no production/API/tests released."
     }
   ]
 }
