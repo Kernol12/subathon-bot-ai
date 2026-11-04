@@ -2667,8 +2667,8 @@
       "title": "Review and demonstrate red: Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (progression contract); codec_author (independent document review pending actual artifact)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -2680,9 +2680,14 @@
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MILESTONE-001.",
       "notes": [
-        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claimed dedicated task/MILESTONETEST-001-progression-baseline from freshlyintegrated main3217c212 after LOCALE001/PR55 normalmerge. Readyprereqs CONTRACT002/CORE001done. FIRST DOCUMENT ONLY: pureexactscore/ascendingtarget sequentialachievement/immutablecompletedprefix/deficit/nextremaining/progress projection; orderedmulti-crossing and800belowcompleted1000deficit200/next2000remaining1200. service_author owns ONLY docs/contracts/milestone-progression-v1.md and docs/evidence/milestonetest-001-contract-author.md in separate task/MILESTONETEST-001-contract-author. Root owns state/HTML/maps/sharedschemas/build/CI/pins/checkpoint. Independentreview actualdocumentbeforeAPI/stubs/tests. No arbitrary positivity/score/origin restriction or hiddenrounding; explicitly propose signedlimits/firsttarget/progresssemantics andrecordtrueconflicts; do not shrinkagreedmanual/reset/edit/queue/policy scope, adjacenttasksretainthose. No C++code/header/schema/fixture/tests/action/statewrites/providerexecution atthis stage. MILESTONE001productionplanned."
       ],
-      "verification": {},
+      "verification": {
+        "document_review": "not_run",
+        "test_baseline": "not_run",
+        "implementation": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -7780,7 +7785,8 @@
         "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage.",
         "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge.",
         "Newer actual rateAPI15cd944/import5d5712b doc556840c2/note fc1d1baf receives independent document-only approval0b9a449 on focusedPR54. Source/modelunchanged; no actual C++stub/header/test/red yet. Root ratebranch will integrate newmain07dc and release onlyminimaltypedstubsource after recordingapproval; no futurecode/test gate implied. Do not overwrite requirednew009bridge tasks living onPR54 whenreconcilingstate.",
-        "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere."
+        "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere.",
+        "Concurrent actualRATESTEST candidate b0517b7/import03124ab has53uniqueGTests/14factBoost-onlyfoundation/literalfixtures; coreheaders/stubs/contracts frozen. Root7ff7d2d compiles/discovers53/90total without anynewbody/marker/foundationexecution. InitialBoost::headers sibling-scope harnessconfigurefailure fixed via test-localfind_package; nevercountedred. Actualseparatetest/harnessreview pending. Source/harnessCI5128actual41805994785/all13SUCCESS remainsinterfaces+old36only. Ratebranch398tasks/new009 retained onPR54; mergefreshmain3217/reconcilelocale done/new milestone claim beforeactualreviewpublication."
       ],
       "verification": {
         "document_review": "not_run",
@@ -10612,7 +10618,8 @@
         "Parent epic: EPIC-023. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "LOCALETEST001 now has reviewed43-method intentional-red baseline and independentfirstredattribution; see focusedPR53/evidence. Wait for its normal merge/integratedprerequisites before claiming a dedicated implementation branch. Implement exact reviewed catalog/API with allassertions preserved, real6artifactQt/browser acceptance, different code/source audit and promoted ordinaryfeatureCI. No product generator exists yet.",
         "Claimed dedicated task/LOCALE-001-catalog-generator from freshlyintegrated main07dc53e after baselinePR53normalmerge. Scope sourcecontract51383296/APIacb90189/stub23089e6b and reviewedtests6a7da928/43methods/7fixtures/probef033; preserveALLassertions/oracles/inventory, baselineFirstred976 attributiona66e accepted. service_author owns ONLY tools/translation_catalog.py, NEWlocalization/messages.json and docs/evidence/locale-001-implementation.md in isolatedtask/LOCALE-001-generator-author. Implement strictwholecatalogvalidation/globalpriority, exact4text+real2QM, boundedprocess/streamreads, source/path/ownership protection, honestperfilepublication/check/CLIfailures. No runtimeformatter/preferences/UI/provider/otherbehavior. Root owns allgeneratedproducttext/QMpublication/build/presets/CI/pins/state/maps/checkpoint; normalfeatureCIpromoted onlyafteractual43pass+differentreview. Author mayrun43nowreviewedbaselineintegratedandredcomplete; maynoteditanytest/fixture/contracts or fakeQMs. Differentactualsource/allocation/process/filesystemaudit and passingreal43/freshselectedCIbeforecompletion; Windows/Python3.10runtime/package/livegates remainexplicit.",
-        "Component DONE after actualauthorc641/import2d317e4+rootartifact/featureCIpromotiond7d6328, independentfullsource/configapprovalacaeb41/importbc47188 and rootfull48PASS6.44s/different43PASS6.06s+100foundation+4infra. ActualfreshselectedCI41808104501 atd7 completedproduct6-ID6artifactgenerate/check,43enableddiscovery/UNCONDITIONAL43PASS/mandatoryQt100/fourinfra; all12checksSUCCESS, rawSHA67ca2ee6. Alltests/fixtures/contracts unchanged; sourceallocation/process/filesystem audit explicit. Finalmetadata latestCI/rules/discussions/normalmerge remainpublicationgates; notassumedmerged. Python3.10runtime/Windows andruntimeformatter/preferences/liveUI/layout/package/fullrelease remainseparate requiredgates."
+        "Component DONE after actualauthorc641/import2d317e4+rootartifact/featureCIpromotiond7d6328, independentfullsource/configapprovalacaeb41/importbc47188 and rootfull48PASS6.44s/different43PASS6.06s+100foundation+4infra. ActualfreshselectedCI41808104501 atd7 completedproduct6-ID6artifactgenerate/check,43enableddiscovery/UNCONDITIONAL43PASS/mandatoryQt100/fourinfra; all12checksSUCCESS, rawSHA67ca2ee6. Alltests/fixtures/contracts unchanged; sourceallocation/process/filesystem audit explicit. Finalmetadata latestCI/rules/discussions/normalmerge remainpublicationgates; notassumedmerged. Python3.10runtime/Windows andruntimeformatter/preferences/liveUI/layout/package/fullrelease remainseparate requiredgates.",
+        "Publication complete: normal exact-head PR55 merge3217c21233bfbe1e4e2732c7c7819bdffe00ef1c at2026-11-04T10:01:43Z from4b008d28f4470dce462d4c987dbda91dc591c3f7; actual12head-matchedcheckrunsSUCCESS/selectedcompletion41810551533, rawSHA526d7aa8/currentrules/no unresolvedthreads/readyCLEAN. InitialGitHub502 merge leftopen; inspectedthen ordinaryRESTmerge_methodmerge+exactsha succeeded, no admin/force. Main refreshedviaHTTPS, merge/head trees equal3b3dd794c0c129cc1f277fd0a3033e3e21699e8d; postmainpending. SSHagentmissing+GitHTTPS500 recoveredpublicationviaGitDataAPIexactblobs/trees/commits withforce:false FFrefupdate; no historychange/protectionbypass. Source/workflow/test behavior reviewed; latestmetadataonly labels/comment cleanup. Do notrepeatcompleted43/review/redgates. RuntimeUI/Python3.10/Windows/package/fullrelease remainexplicit."
       ],
       "verification": {
         "baseline": "observed_red",
@@ -10621,7 +10628,7 @@
         "acceptance": "passed",
         "github_ci": "passed",
         "native_build": "passed",
-        "completion_ci": "not_run",
+        "completion_ci": "passed",
         "platform_release": "not_run"
       },
       "evidence": [
