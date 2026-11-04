@@ -269,15 +269,16 @@ inline void validate_deltas(const PreparedApplicationBundle &b) {
             invalid(Input::invalid_state);
     }
 }
-inline void validate_jobs(const PreparedApplicationBundle &b, const SqliteBundleLimits &l) {
+inline void validate_jobs(const std::vector<ApplicationJobIntent> &jobs, size_t effect_count,
+                          const SqliteBundleLimits &l) {
     std::set<std::string> keys;
     std::map<std::string, std::set<std::int64_t>> groups;
-    for (const auto &j : b.jobs) {
+    for (const auto &j : jobs) {
         if (!bounded(j.job_ref, l.reference_bytes, true) || !keys.insert(j.job_ref).second ||
             !valid_envelope(j.envelope, l) ||
             (j.source_request_ordinal &&
              (*j.source_request_ordinal < 1 ||
-              std::uintmax_t(*j.source_request_ordinal) > b.effects.size())) ||
+              std::uintmax_t(*j.source_request_ordinal) > effect_count)) ||
             j.group_ref.has_value() != j.group_ordinal.has_value() ||
             (j.group_ref &&
              (!bounded(*j.group_ref, l.reference_bytes, true) || *j.group_ordinal < 1)))
@@ -292,6 +293,9 @@ inline void validate_jobs(const PreparedApplicationBundle &b, const SqliteBundle
             if (position != expected++)
                 invalid(Input::invalid_job);
     }
+}
+inline void validate_jobs(const PreparedApplicationBundle &b, const SqliteBundleLimits &l) {
+    validate_jobs(b.jobs, b.effects.size(), l);
 }
 inline bool original_less(const ApplicationOriginalComponent &a,
                           const ApplicationOriginalComponent &b) {

@@ -432,25 +432,27 @@ jobs:
           print("Discovered all 6 required independent service fixture cases")
           PY
           ctest --preset application-service-debug -R '^scaffold.application_service_environment$' --verbose
-      - name: Compile and discover intentional red application-service baseline (no invocation)
+      - name: Check complete reviewed application-service registration
         run: |
           ctest --preset application-service-debug -L '^application-service$' --show-only=json-v1 > "$RUNNER_TEMP/application-service-tests.json"
           python3 - <<'PY'
           import json, os, subprocess
           from pathlib import Path
           tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "application-service-tests.json").read_text())["tests"]
-          if len(tests) != 35:
-              raise SystemExit("Expected all 35 intentional red application-service cases")
+          if len(tests) != 43:
+              raise SystemExit("Expected all 43 reviewed application-service cases")
           executables = {test["command"][0] for test in tests}
           if len(executables) != 1:
               raise SystemExit("Expected one compiled application-service Qt suite")
           compiled = subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines()
           registered = [test["command"][1] + "()" for test in tests]
-          if len(compiled) != 35 or len(set(registered)) != 35 or set(registered) != set(compiled):
+          if len(compiled) != 43 or len(set(registered)) != 43 or set(registered) != set(compiled):
               raise SystemExit("CTest registration must equal the complete compiled service baseline")
           if any(prop["name"] in {"DISABLED", "WILL_FAIL"} and prop["value"] for test in tests for prop in test.get("properties", [])):
-              raise SystemExit("Intentional red baseline must stay enabled without failure inversion")
-          if any("draft-red" not in next((prop["value"] for prop in test.get("properties", []) if prop["name"] == "LABELS"), []) for test in tests):
-              raise SystemExit("Intentional red service cases must retain their explicit label")
-          print("Discovered all 35 compiled intentional red service cases; no feature body invoked")
+              raise SystemExit("Service acceptance must stay enabled without failure inversion")
+          if any("acceptance" not in next((prop["value"] for prop in test.get("properties", []) if prop["name"] == "LABELS"), []) or "draft-red" in next((prop["value"] for prop in test.get("properties", []) if prop["name"] == "LABELS"), []) for test in tests):
+              raise SystemExit("Every reviewed service case must be promoted to acceptance")
+          print("Discovered all 43 compiled reviewed service cases")
           PY
+      - name: Run reviewed application-service acceptance
+        run: ctest --preset application-service-debug -L '^application-service$'

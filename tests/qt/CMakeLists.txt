@@ -29,7 +29,7 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
     subathon_target_options(server_application_service_acceptance)
-    # Intentional missing-feature baseline: compile/discover in CI, invoke only after review.
+    # Reviewed service baseline; keep every case registered and run it in ordinary CI.
     foreach(case IN ITEMS
         commandEncodingMatchesFrozenFrames
         commandDecodingMatchesFrozenMembers
@@ -53,6 +53,14 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
         lifecyclePauseAndDeadlineDoNotCredit
         portBindingsAndIntermediateBounds
         issuerCollisionsNeverRegenerate
+        referenceViewRetainsSelectedKeyLimit
+        retainedStateBudgetPrecedesPolicy
+        historicalBeforePolicyMatchesAudit
+        historicalJobMeaningIsNotOnlyAnEcho
+        explicitUnresolvedPolicyRecordsKnownHold
+        retainedCommandBoundIsNotMalformedData
+        negativeCounterRequiresCorrectionPurpose
+        retainedClockFinalUtcMatchesObservation
         referenceViewPureAndCallbackLifetime
         referenceViewForeignReadAndUnderlyingBudget
         recordSemanticFormatsAreChecked
@@ -69,7 +77,7 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
     )
         add_test(NAME application-service.${case} COMMAND server_application_service_acceptance ${case})
         set_tests_properties(application-service.${case} PROPERTIES
-            LABELS "application-service;draft-red;qt;server" TIMEOUT 30)
+            LABELS "application-service;acceptance;qt;server" TIMEOUT 30)
     endforeach()
 endif()
 if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)

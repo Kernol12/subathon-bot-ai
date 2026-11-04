@@ -60,7 +60,9 @@ if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
     subathon_target_options(subathon_sqlite_application_holds)
 endif()
 if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
-    add_library(subathon_original_application_service STATIC src/application_service.cpp)
+    add_library(subathon_original_application_service STATIC
+        src/application_service.cpp
+        src/application_service_command.cpp)
     target_include_directories(subathon_original_application_service PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_original_application_service PUBLIC subathon_sqlite_application_holds subathon_exact_numeric subathon_time_debt subathon_timer_lifecycle Qt6::Core)
     subathon_target_options(subathon_original_application_service)

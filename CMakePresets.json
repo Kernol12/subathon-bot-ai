@@ -180,7 +180,7 @@
     },
     {
       "name": "application-service-debug",
-      "displayName": "21 \u00b7 Original application-service baseline",
+      "displayName": "21 \u00b7 Original application-service acceptance",
       "inherits": "sqlite-hold-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_APPLICATION_SERVICE_TESTS": "ON"

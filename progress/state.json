@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-03",
-  "summary": "Bounded core/accounting and controlled SQLite writer, migration, retention, receipt, contribution, plan and atomic application-bundle storage components have reviewed passing acceptance. The application orchestrator, integrations/FX, UI and operational/platform release scope remain incomplete.",
+  "updated_at": "2026-11-04",
+  "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -1789,8 +1789,8 @@
       "title": "Atomic effect application and operation idempotency",
       "module": "Accounting",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; service_author; codec_author; independent service_reviewer",
       "depends_on": [
         "ACCT-003",
         "STORAGE-002",
@@ -1804,11 +1804,45 @@
       "brief": "docs/tasks/EPIC-002/ACCT-004.md",
       "summary": "Commit application status, actual effects, state and delivery-job records atomically; failed transactions leave no partial award.",
       "notes": [
-        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-002. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Coordination resumed by new owner instruction2026-11-04. Old stop fulfilled: PR49 merged8634eb5; PR50/main1124532458e883001578587c4c826f8b2d400d51 fetched. Dedicated task/ACCT-004-application-service. Preserve completed ACCTTEST004 review/first-red35slots224scenarios and all assertions/fixtures. Scope current logical6d0cd67f/concretebbd6cd83/header03a747a7: canonical command codec, exact orchestration/one real caller-session commit before publication. Service author owns server/src/application_service.cpp +ownnote; codec author owns NEWserver/src/application_service_command.cpp +ownnote; different isolated branches/worktrees. Root owns all sharedbuild/CI/state/HTML/maps/checkpoint/integration. Separate reviewer examines actual candidate. Acceptance exact35/full300, source/thread/allocation/budget/ownership audit, observed ordinary selectedQt CI promoted execution with oldguards/pins, actual separate approval before normal merge. All provider/FX/adapter/financial/refund/recovery/UI/platform/release gates remain.",
+        "Focused draftPR51 opened; root b3e4a90 integrates actual canonicalcodec746d5c2/import9eeb140+separateCMake linkage. Actualroot first5codecslots/97scenarios PASS, differentactualcodec review active. Full service/source/config/35suite/CI acceptance pending; existing265PASS is only environment/regression reference. Fourfuturepromotionfiles remain rootlocal uncommitted until complete servicecandidate. No done/fullservice claim.",
+        "Actual firstservice722/importe408+promotion95 passes original35/full300 on root/author/differentreviewer, but independentactualsource review CHANGESREQUIRED. Root owns8additiveslots9scenarios preservingALL35originalmethods/fixtures. Differentreviewer approvedeachactualrevisionBEFORE firstexecution; root observed5+2+1slot2row REALbehaviorred on unchangedsourcec25, all16initcleanupPASS0skip/setupfailure. Scope additions: cachedprivateviewlimits, fullinternalgrammar/DTO/allocationB-I/clock/beforebinding/jobsemantics, explicitunresolvedpolicyhold, retainedboundclassification, signedcounterpurpose. Allproductionfixes nowreleased toserviceauthor; codec_author separatelyowns NEWprivateboundedretaineddecoderheader+existingcommandTU+ownnote in task/ACCT-004-retained-codec. No own-code approvals. Final43slots/233scenarios/full308 acceptance/source-review/selectedCI pending; original300green is not finalacceptance.",
+        "Correctedc85/import5ced819 +privatecodec217acc7/root7e033e9 passes actualrootfull30824.84s/1420QtPASS0skip0warnings, author43PASS3.72s. Different reviewer approvesprivatecodec217acc7, fullsourceauditstillwithholdsapproval for remainingprojectionBEFOREowninggrowth inproposal/effects/transitions/hold. Source-onlyallocationorderingisnotmeasuredbytestoutcomes; same43assertions remain. Authorhardeningactive, no finaldone/CI/mergeclaim.",
+        "Explicit extra authorownership approved BEFORE edit: tiny PRIVATE server/src/sqlite_application_bundle_values.hpp validate_jobs borrowedvector/effectcount overload, existing PreparedBundle wrapper delegates with body/order preserved. Removes source-only unnecessaryowningcopies in servicecheck_jobs; no publicAPI/schema/behavior or assertionschange. Differentfinalreview+all308 stillrequired.",
+        "Finalpreallocation4612223 importedce28ff3: root14step0warnings/FULL308PASS24.84s/1420QtPASS0skip. Tinyprivateborrowedvalidator preservesbody/order; exact43compiled-enabledacceptance and workflowinlinePythonparse verified. Differentactualfinalsource/configreviewACTIVE, actualpromotedofficialCIpending; taskremainsin_review.",
+        "Boundedcomponent DONE after actualfinalsource/configapprovalc791e72/import2ab1037 +root/differentfull308PASS +actualpromotedofficial41781024558 at completea49 (freshGNU13.3/Boost1.83/Qt6.12SQLite3.53.4/0warnings/required6guard41PASS0skip/exact43/UNCONDITIONAL43PASS8.01/all11SUCCESS), APIcheckedsynthetic52eeb570 parents112+a49/equaltreeea0864d1. ALLold35assertions/fixtures preserved; original224markerred neverreplayed. Eightnewslots9scenarios separatelyreviewed/reachedredbeforecorrections; allocationorderingactuallyaudited. Finalmetadata latestCI/currentrules/discussions/normalmerge remainPUBLICATIONgates; notassumedmerged. Allactualadapters/financial/refund/review/FX/provider/recovery/UI/platform/fullrelease remain required."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "baseline": "observed_red",
+        "command_codec": "passed",
+        "implementation": "passed",
+        "code_review": "passed",
+        "acceptance": "passed",
+        "official_qt": "passed",
+        "platform_release": "not_run",
+        "regression_baseline": "observed_red",
+        "native_build": "passed",
+        "github_ci": "passed",
+        "completion_ci": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/acct-004-codec-author.md",
+        "docs/evidence/acct-004-service-author.md",
+        "docs/evidence/acct-004-code-review.md",
+        "docs/evidence/acct-004-service-codec-review.md",
+        "docs/evidence/acct-004-regressions.md",
+        "docs/evidence/acct-004-retained-codec-author.md",
+        "docs/evidence/acct-004-handoff.md",
+        "docs/evidence/acct-004-ci.md"
+      ],
+      "review": {
+        "author": "/root/service_author (service); /root/codec_author (command/private retained codec); /root (additive tests/shared integration)",
+        "reviewer": "/root/service_reviewer",
+        "outcome": "approved",
+        "baseline": "Actualsource/configc791e72/import2ab1037 atce28ff3: runtimef20187a7/privatevalues162373ed/command05091e25/privateheader7d9171cd/public84f09f21/test7329b24f/Qt8e9d85ee/CIc63ee177. Original baseline/red preserved,8 additive slots separately reviewed/reached behavior red before fixes.",
+        "evidence": "docs/evidence/acct-004-code-review.md"
+      }
     },
     {
       "id": "ACCTTEST-005",
@@ -12888,6 +12922,16 @@
       "date": "2026-11-03",
       "task": "ACCTTEST-004",
       "note": "Reviewed observed-red baseline complete after independent attribution:35/224 named failures, valid setup. Final PR49 metadata CI and normal merge remain, then stop. ACCT004 stays planned."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "ACCT-004",
+      "note": "Coordination resumed by new owner instruction2026-11-04. Old stop fulfilled: PR49 merged8634eb5; PR50/main1124532458e883001578587c4c826f8b2d400d51 fetched. Dedicated task/ACCT-004-application-service. Preserve completed ACCTTEST004 review/first-red35slots224scenarios and all assertions/fixtures. Scope current logical6d0cd67f/concretebbd6cd83/header03a747a7: canonical command codec, exact orchestration/one real caller-session commit before publication. Service author owns server/src/application_service.cpp +ownnote; codec author owns NEWserver/src/application_service_command.cpp +ownnote; different isolated branches/worktrees. Root owns all sharedbuild/CI/state/HTML/maps/checkpoint/integration. Separate reviewer examines actual candidate. Acceptance exact35/full300, source/thread/allocation/budget/ownership audit, observed ordinary selectedQt CI promoted execution with oldguards/pins, actual separate approval before normal merge. All provider/FX/adapter/financial/refund/recovery/UI/platform/release gates remain."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "ACCT-004",
+      "note": "Reviewed implementation/43 real-SQL cases/full308 native and actual selectedQtCI pass. Original35 assertions/fixtures and baseline red preserved;8 meaningful regressions separately reviewed/reached-red. Component done; completion metadata/current-head merge gates remain."
     }
   ]
 }

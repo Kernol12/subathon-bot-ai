@@ -1405,6 +1405,250 @@ class ApplicationServiceTests final : public QObject {
             unchanged(f, before);
         });
     }
+    // Contract C: selected key limits remain DATA after callback authority expires.
+    void referenceViewRetainsSelectedKeyLimit() {
+        scenario([&] {
+            File f("add10");
+            const auto before = f.snapshot();
+            Ports p(f.data, "add10");
+            std::optional<ApplicationReferenceReadView> saved;
+            p.access_hook = [&](const auto &view) -> AccessDecision {
+                saved = view;
+                return ApplicationAccessDenied{};
+            };
+            ApplicationServiceLimits l;
+            l.bundles.reference_bytes = 1;
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports, l);
+            const auto r = prepared_run(service, f.writer, f.data.command("add10"));
+            no_payload(r->service, D::denied);
+            require(saved.has_value(), "Actual callback view was retained beyond completed work");
+            bool invalid_key = false;
+            try {
+                (void)saved->find_retained({RetainedKind::configuration, "cfg"});
+            } catch (const RetentionFailure &e) {
+                invalid_key = e.error() == RetentionError::invalid_reference;
+            } catch (const ApplicationReferenceViewFailure &) {
+            }
+            require(invalid_key, "Selected reference limit1 rejects cfg before expired capability");
+            bool expired = false;
+            try {
+                (void)saved->find_retained({RetainedKind::configuration, "c"});
+            } catch (const ApplicationReferenceViewFailure &e) {
+                expired = e.error() == ApplicationReferenceViewError::expired_callback;
+            }
+            require(expired, "Retained limits never extend expired read authority");
+            unchanged(f, before);
+        });
+    }
+    // The frozen SAS1 has one clock segment and two balances: three actual items.
+    void retainedStateBudgetPrecedesPolicy() {
+        scenario([&] {
+            File f("add10");
+            const auto bytes = envelope(historical(f.data, "A")["before"].toObject()["envelope"]);
+            f.setup([&](const auto &session) {
+                (void)session.execute({"UPDATE subathon_app_states SET document=? WHERE token=X'61'",
+                                       {bytes.document}});
+                require(session.execute({"SELECT changes()", {}})[0][0].toInt() == 1,
+                        "Exactly current head receives the independent supported SAS1");
+            });
+            const auto before = f.snapshot();
+            Ports p(f.data, "add10");
+            ApplicationServiceLimits l;
+            l.intermediate_items = 2;
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports, l);
+            const auto r = prepared_run(service, f.writer, f.data.command("add10"));
+            local_failure(r->service, ApplicationServiceFailureSource::port_contract,
+                          LR::result_limit);
+            require(p.script.calls == std::vector<std::string>{"access"},
+                    "Combined decoded state quota fails before policy, not at later proposal");
+            unchanged(f, before);
+        });
+    }
+    void historicalBeforePolicyMatchesAudit() {
+        scenario([&] {
+            File f;
+            f.arrange("history");
+            const auto h = historical(f.data, "A");
+            auto bytes = envelope(h["before"].toObject()["envelope"]);
+            const auto needle = QByteArray::fromHex("00000006706f6c696379");
+            require(bytes.document.count(needle) == 1,
+                    "Independent SAS1 B(policy) occurs exactly once in advanced-before");
+            bytes.document.replace(needle, QByteArray::fromHex("00000006706f6c696358"));
+            f.setup([&](const auto &session) {
+                (void)session.execute({"UPDATE subathon_app_states SET document=? WHERE token=X'62'",
+                                       {bytes.document}});
+                require(session.execute({"SELECT changes()", {}})[0][0].toInt() == 1,
+                        "Only historical advanced-before annotation is changed");
+            });
+            const auto before = f.snapshot();
+            const auto c = command(h["command"]);
+            Ports p(f.data, "add10");
+            p.script.expected_command = c;
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports);
+            const auto r = prepared_run(service, f.writer, c);
+            local_failure(r->service, ApplicationServiceFailureSource::retained_semantics,
+                          LR::contradictory_document);
+            require(p.script.calls == std::vector<std::string>{"access", "disclose_application"},
+                    "Authorized historical semantics fail before present-day policy or actions");
+            unchanged(f, before);
+        });
+    }
+    void retainedClockFinalUtcMatchesObservation() {
+        scenario([&] {
+            File f("add10");
+            auto bytes = envelope(historical(f.data, "A")["before"].toObject()["envelope"]);
+            const auto needle = QByteArray::fromHex("00000000000003e800000001");
+            require(bytes.document.count(needle) == 1,
+                    "Independent Clock observedUTC1000 immediately precedes segment count1");
+            bytes.document.replace(needle, QByteArray::fromHex("00000000000003e900000001"));
+            f.setup([&](const auto &session) {
+                (void)session.execute({"UPDATE subathon_app_states SET document=? WHERE token=X'61'",
+                                       {bytes.document}});
+                require(session.execute({"SELECT changes()", {}})[0][0].toInt() == 1,
+                        "Exactly current head receives observed1001 versus final segment1000");
+            });
+            const auto before = f.snapshot();
+            Ports p(f.data, "add10");
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports);
+            const auto r = prepared_run(service, f.writer, f.data.command("add10"));
+            local_failure(r->service, ApplicationServiceFailureSource::retained_semantics,
+                          LR::invalid_known_document);
+            require(p.script.calls == std::vector<std::string>{"access"},
+                    "Malformed retained clock fails before current resolver can replace it");
+            unchanged(f, before);
+        });
+    }
+    void historicalJobMeaningIsNotOnlyAnEcho() {
+        scenario([&] {
+            File f;
+            f.arrange("history");
+            const auto h = historical(f.data, "A");
+            const auto original = envelope(h["jobs"].toArray()[0].toObject()["envelope"]);
+            auto malformed = original;
+            malformed.document[0] = 'X';
+            auto result = envelope(h["result"]);
+            require(result.document.count(original.document) == 1,
+                    "Independent SAR1 includes the frozen complete SAJ1 exactly once");
+            result.document.replace(original.document, malformed.document);
+            f.setup([&](const auto &session) {
+                const QList<QVariant> key{QByteArray("history-alpha"), QByteArray("A")};
+                (void)session.execute({"UPDATE subathon_app_jobs SET document=? WHERE "
+                                       "operation_scope=? AND operation_ref=? AND ordinal=1",
+                                       {malformed.document, key[0], key[1]}});
+                require(session.execute({"SELECT changes()", {}})[0][0].toInt() == 1,
+                        "Only selected historical job receives malformed known SAJ1");
+                (void)session.execute({"UPDATE subathon_app_results SET document=? WHERE "
+                                       "operation_scope=? AND operation_ref=?",
+                                       {result.document, key[0], key[1]}});
+                require(session.execute({"SELECT changes()", {}})[0][0].toInt() == 1,
+                        "SAR1 duplicates the same malformed job without a typed echo mismatch");
+            });
+            const auto before = f.snapshot();
+            const auto c = command(h["command"]);
+            Ports p(f.data, "add10");
+            p.script.expected_command = c;
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports);
+            const auto r = prepared_run(service, f.writer, c);
+            local_failure(r->service, ApplicationServiceFailureSource::retained_semantics,
+                          LR::invalid_known_document);
+            require(p.script.calls == std::vector<std::string>{"access", "disclose_application"},
+                    "Malformed retained job fails before current action preparation");
+            unchanged(f, before);
+        });
+    }
+    void explicitUnresolvedPolicyRecordsKnownHold() {
+        scenario([&] {
+            File f("actions_unavailable");
+            Ports p(f.data, "actions_unavailable");
+            auto &policy = std::get<BoundApplicationPolicy>(p.script.bound_policy);
+            policy.admission = {ApplicationPolicyAdmission::unresolved_with_reason,
+                                "required-action-policy"};
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports);
+            const auto r = prepared_run(service, f.writer, f.data.command("actions_unavailable"));
+            disposition(r->service, D::held_policy);
+            const auto &out = std::get<ApplicationHeldPayload>(r->service.response->payload);
+            const auto expected = f.data.holds().detection("dActionsMissing");
+            check_hold_outcome(out.outcome, expected);
+            require(out.hold_ref == "hActionsMissing", "Exact explicit required-policy hold");
+            check_creation(f.hold(out.hold_ref), expected);
+            require(p.script.calls == std::vector<std::string>{"access", "policy", "clock",
+                                                               "reference:2", "reference:3",
+                                                               "reference:4"},
+                    "Known clock precedes refusal; no numeric actions or speculative state refs");
+            for (const auto *table : {"subathon_app_operations", "subathon_app_effects",
+                                      "subathon_app_jobs"})
+                require(f.observer->rows(QString("SELECT count(*) FROM %1").arg(table))[0][0].toInt() == 0,
+                        "Whole required-policy hold has no partial successful application");
+            require(f.observer->rows("SELECT token FROM subathon_app_head")[0][0].toByteArray() ==
+                        QByteArray("a"),
+                    "No hidden clock-only head commit");
+        });
+    }
+    void retainedCommandBoundIsNotMalformedData() {
+        scenario([&] {
+            File f;
+            f.arrange("history");
+            const auto before = f.snapshot();
+            auto c = command(historical(f.data, "A")["command"]);
+            c.choices.clear(); // This new caller input fits; the old stored six-byte choice does not.
+            Ports p(f.data, "add10");
+            p.script.expected_command = c;
+            ApplicationServiceLimits l;
+            l.choice_bytes = 1;
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports, l);
+            const auto r = prepared_run(service, f.writer, c);
+            local_failure(r->service, ApplicationServiceFailureSource::port_contract,
+                          LR::result_limit);
+            require(p.script.calls == std::vector<std::string>{"access", "disclose_application"},
+                    "Healthy old command hits selected internal bound before retry comparison");
+            unchanged(f, before);
+        });
+    }
+    void negativeCounterRequiresCorrectionPurpose_data() {
+        QTest::addColumn<int>("unit");
+        QTest::newRow("negative-score") << 1;
+        QTest::newRow("negative-count") << 2;
+    }
+    void negativeCounterRequiresCorrectionPurpose() {
+        QFETCH(int, unit);
+        scenario([&] {
+            File f("add10");
+            f.setup([&](const auto &session) {
+                (void)session.execute({"UPDATE subathon_plan_requests SET unit=?, target_ref=?, "
+                                       "exact_numerator=X'2d31', requested_units=-1 WHERE "
+                                       "plan_ref=X'5041' AND revision=X'0000000000000001' AND ordinal=1",
+                                       {unit, unit == 1 ? QByteArray("score") : QByteArray("count")}});
+                require(session.execute({"SELECT changes()", {}})[0][0].toInt() == 1,
+                        "One independent selected negative counter occurrence, exact -1/1");
+                const auto inputs = SqliteApplicationBundleStore(session).read_inputs(
+                    {"PA", 1}, ApplicationSubjectKind::contribution);
+                require(inputs.inputs &&
+                            inputs.inputs->selected_plan.captured.requested_effects.size() == 1 &&
+                            inputs.inputs->selected_plan.captured.requested_effects[0].requested_units == -1,
+                        "Existing typed store accepts complete signed counter input");
+            });
+            const auto before = f.snapshot();
+            const auto c = f.data.command("add10");
+            require(c.purpose == OriginalApplicationPurpose::captured_original,
+                    "Ordinary original never implies signed correction authorization");
+            Ports p(f.data, "add10");
+            auto ports = p.ports();
+            OriginalApplicationService service(f.writer, ports);
+            const auto r = prepared_run(service, f.writer, c);
+            local_failure(r->service, ApplicationServiceFailureSource::port_contract,
+                          LR::invalid_output);
+            require(p.script.calls == std::vector<std::string>{"access", "policy"},
+                    "All negative units require correction purpose before clock/arithmetic/actions");
+            unchanged(f, before);
+        });
+    }
     void referenceViewPureAndCallbackLifetime_data() {
         QTest::addColumn<int>("row");
         QTest::newRow("default-expired") << 0;

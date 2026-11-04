@@ -219,3 +219,16 @@ records270 reviewed scenarios/full264 native acceptance and selected official CI
 with final review/publication gates recorded separately. Storage does not decide
 authority, numeric policy, mixed timer outcomes or review resolution permission;
 the application service and actual policy/clock/action adapters remain required.
+
+
+The [original application service](contracts/application-service-api-v1.md) now
+composes those nonowning stores through one actual queued writer unit. It checks
+current access before protected retry/claim/hold lookup, resolves complete exact
+proposals and records either one atomic bundle or a durable whole-input hold.
+The completion bridge publishes only the actual committed normal typed work value;
+unknown outcomes and post-commit body exceptions never synthesize success.
+[Implementation](evidence/acct-004-handoff.md) retains43 reviewed native/real-SQL
+cases, separate source/allocation review and actual promoted selected-Qt CI. The
+trusted finite read-only ports still need real authority/policy/clock/action/reference
+producers. Financial refunds, explicit review/continuation, running API/server,
+recovery, delivery and release/platform/provider scope remain separate gates.

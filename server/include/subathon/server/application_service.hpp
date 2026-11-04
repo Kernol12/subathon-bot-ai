@@ -112,7 +112,8 @@ class ApplicationReferenceViewFailure final : public std::runtime_error {
     ApplicationReferenceViewError error_;
 };
 
-// Stable missing-feature markers; no entry below performs even pure preflight yet.
+// Historical baseline markers retained for precise test diagnostics. Implemented
+// entrypoints do not throw these missing-feature exceptions.
 class OriginalApplicationCommandEncodeNotImplemented final : public std::logic_error {
   public:
     OriginalApplicationCommandEncodeNotImplemented()
@@ -150,6 +151,7 @@ class ApplicationReferenceReadView final {
 
   private:
     std::weak_ptr<detail::ApplicationReferenceReadState> state_;
+    RetainedLimits limits_{}; // Data survives revocation; no SQL capability is retained.
     friend class OriginalApplicationService;
 };
 
@@ -383,7 +385,8 @@ decode_original_application_command(const ApplicationEnvelope &envelope,
 
 // Inert borrowed dependencies. The host must outlive every prepared pair, even
 // unsubmitted pairs, and drain submitted work before destroying service/ports.
-// Both methods are immediate missing-service stubs; neither queues nor begins.
+// make_work owns a bounded command snapshot; enqueue admits its matching pair.
+// Only real committed normal completion can return a public response.
 class OriginalApplicationService final {
   public:
     using Completion = std::function<void(ApplicationServiceCompletion)>;
