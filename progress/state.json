@@ -7772,7 +7772,7 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "coordinator /root; service_author (completed rate API author); codec_author (approved API review)",
       "depends_on": [
         "CONTRACT-002",
@@ -7791,12 +7791,14 @@
         "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge.",
         "Newer actual rateAPI15cd944/import5d5712b doc556840c2/note fc1d1baf receives independent document-only approval0b9a449 on focusedPR54. Source/modelunchanged; no actual C++stub/header/test/red yet. Root ratebranch will integrate newmain07dc and release onlyminimaltypedstubsource after recordingapproval; no futurecode/test gate implied. Do not overwrite requirednew009bridge tasks living onPR54 whenreconcilingstate.",
         "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere.",
-        "Concurrent actualRATESTEST candidate b0517b7/import03124ab has53uniqueGTests/14factBoost-onlyfoundation/literalfixtures; coreheaders/stubs/contracts frozen. Root7ff7d2d compiles/discovers53/90total without anynewbody/marker/foundationexecution. InitialBoost::headers sibling-scope harnessconfigurefailure fixed via test-localfind_package; nevercountedred. Actualseparatetest/harnessreview pending. Source/harnessCI5128actual41805994785/all13SUCCESS remainsinterfaces+old36only. Ratebranch398tasks/new009 retained onPR54; mergefreshmain3217/reconcilelocale done/new milestone claim beforeactualreviewpublication."
+        "Concurrent actualRATESTEST candidate b0517b7/import03124ab has53uniqueGTests/14factBoost-onlyfoundation/literalfixtures; coreheaders/stubs/contracts frozen. Root7ff7d2d compiles/discovers53/90total without anynewbody/marker/foundationexecution. InitialBoost::headers sibling-scope harnessconfigurefailure fixed via test-localfind_package; nevercountedred. Actualseparatetest/harnessreview pending. Source/harnessCI5128actual41805994785/all13SUCCESS remainsinterfaces+old36only. Ratebranch398tasks/new009 retained onPR54; mergefreshmain3217/reconcilelocale done/new milestone claim beforeactualreviewpublication.",
+        "Currentexactrate53tests/fullreviewdcf and14Boostfoundation are complete locally onPR54 taskbranch, butnewrequiredCIworkflowpublication isACCESSBLOCKED: gh tokenlacksworkflow; no usableSSHagent, GitHTTPS500, GitData CreateTree404onnewworkflow. Remote512unchanged; local79c8512+allsource/reviews preserved. OwnerASYNCaskedrestoreSSH orghauthrefresh-sworkflow. No currentselectedCI/firstmodelred yet, do notinfergrantfromoptionselection orrepeatcompletedreviews. This milestonebranchreconcilesblockedclaimonly, no absentlocalrateevidencefilescopied."
       ],
       "verification": {
         "document_review": "not_run",
         "test_baseline": "not_run",
-        "implementation": "not_run"
+        "implementation": "not_run",
+        "selected_foundation_ci": "blocked"
       },
       "evidence": [],
       "review": null
