@@ -85,3 +85,34 @@ neverterminate them. Inspect currentagents/processes/buildsessions onresume.
 Allsevenintegrations/threeFX, actualauthority/policy/clock/actions, financial/refund/
 review/continuation, security/recovery/backup, bothrenderers/locales/themes,
 packaging/platform/live/fullrelease remainrequired and incomplete.
+
+## Later corrected-candidate update (inspect actual HEAD on resume)
+
+Root imported actualcorrectedc85aa5d as5ced819 and privatecodec3ef4755 as217acc7;
+boundeddecoderapprovalfa3e799 imported7e033e9. Root exactcandidate full308PASS
+24.84s/1420QtPASS0skip/0warnings, raw ignored corrected-full-ctest SHA256
+957d136ef38dcd7eb0899ea5430a506465ddfe44d548ce22b62ba15a74053ff4.
+Task now in_review, notdone. Serviceauthor43/233 passes; authorfull308 had306pass
+and2missing-review-MD tooling failures only, preservedhonestly; actualroot hasall
+reviewdocsandall308pass. Author was authorized exactuncommittedrootreviewMDcopy
+for failedinfrastructure-onlyrerun, no fabricatedapproval.
+
+Differentfullreviewer stillwithholdsapproval: actualcopies/growth in calculate,
+requests/components/effects/negative-transitions and fullhold detection need complete
+B/I projection BEFOREallocation, beyondthenowpassing8regressions. No extra smoke
+or allocation-instrumentationclaim. Serviceauthor implementing boundedsource-only
+hardening; all43assertions/fixturesmustremain. Nextimportthatactualsource, re-review
+allocationordering and run relevantfinalchecks, THEN publishpromoted43CIcandidate.
+RootpublishedPR51stillclaim56eb13f until nextpush; no newofficialCI observed.
+
+## Final hardening ready for publication/review
+
+Actual4612223 importedce28ff3: service.cpp+tinyprivateborrowedjobvalidator+authorMD.
+Root rebuilt14steps/zero warnings; FULL308PASS24.84s/1420QtPASS0skip. Finalrawhash
+0617477e0409658462d4074f8ef18b128bd5bc74ac6fa5c80980fb81f51b6330.
+Exact43compiled/43registered enabledacceptance/non-draft/noinversion,21workflow
+inlinePythonblocksparse. [Implementation handoff](acct-004-handoff.md) nowauthored.
+Primaryreviewer explicitlyresumed on ACTUALce28ff3 to auditcompletebeforeallocation
+projection, tinyprivatevalidatorrefactor and allsource/config; finalverdictpending.
+Nextpushpromotedcandidate toPR51 and observeactualselectedofficial43CI/all11checks
+while differentreviewcompletes. No finalreview/CI/mergeclaimed yet.
