@@ -18,12 +18,12 @@
     },
     {
       "name": "scaffold-debug",
-      "displayName": "01 · Scaffold (no Qt/GoogleTest required)",
+      "displayName": "01 \u00b7 Scaffold (no Qt/GoogleTest required)",
       "inherits": "base"
     },
     {
       "name": "acceptance-debug",
-      "displayName": "02 · Time-credit acceptance and regression",
+      "displayName": "02 \u00b7 Time-credit acceptance and regression",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON"
@@ -31,7 +31,7 @@
     },
     {
       "name": "qt-probe-debug",
-      "displayName": "03 · Qt 6.12 environment probe",
+      "displayName": "03 \u00b7 Qt 6.12 environment probe",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_QT_PROBE": "ON"
@@ -39,7 +39,7 @@
     },
     {
       "name": "exact-numeric-debug",
-      "displayName": "04 · Exact numeric acceptance and regression",
+      "displayName": "04 \u00b7 Exact numeric acceptance and regression",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_EXACT_NUMERIC_TESTS": "ON"
@@ -47,7 +47,7 @@
     },
     {
       "name": "timer-lifecycle-debug",
-      "displayName": "05 · Timer lifecycle acceptance",
+      "displayName": "05 \u00b7 Timer lifecycle acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS": "ON"
@@ -55,7 +55,7 @@
     },
     {
       "name": "receipt-intake-debug",
-      "displayName": "06 · Receipt intake simulation acceptance",
+      "displayName": "06 \u00b7 Receipt intake simulation acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_RECEIPT_INTAKE_TESTS": "ON"
@@ -63,7 +63,7 @@
     },
     {
       "name": "contribution-evidence-debug",
-      "displayName": "07 · Contribution evidence simulation acceptance",
+      "displayName": "07 \u00b7 Contribution evidence simulation acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS": "ON"
@@ -71,7 +71,7 @@
     },
     {
       "name": "pause-policy-debug",
-      "displayName": "08 · Pause policy acceptance",
+      "displayName": "08 \u00b7 Pause policy acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_PAUSE_POLICY_TESTS": "ON"
@@ -79,7 +79,7 @@
     },
     {
       "name": "application-plan-debug",
-      "displayName": "09 · Application plan acceptance",
+      "displayName": "09 \u00b7 Application plan acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_APPLICATION_PLAN_TESTS": "ON"
@@ -87,7 +87,7 @@
     },
     {
       "name": "sqlite-writer-debug",
-      "displayName": "10 · Qt SQL SQLite writer acceptance",
+      "displayName": "10 \u00b7 Qt SQL SQLite writer acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON"
@@ -95,7 +95,7 @@
     },
     {
       "name": "time-debt-debug",
-      "displayName": "11 · Time debt acceptance",
+      "displayName": "11 \u00b7 Time debt acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_TIME_DEBT_TESTS": "ON"
@@ -103,7 +103,7 @@
     },
     {
       "name": "sqlite-work-debug",
-      "displayName": "12 · Writer transaction-work acceptance",
+      "displayName": "12 \u00b7 Writer transaction-work acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON",
@@ -113,7 +113,7 @@
     },
     {
       "name": "sqlite-migrations-debug",
-      "displayName": "13 · Migration catalog acceptance",
+      "displayName": "13 \u00b7 Migration catalog acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_WRITER_TESTS": "ON",
@@ -124,7 +124,7 @@
     },
     {
       "name": "sqlite-retained-debug",
-      "displayName": "14 · Retained configuration/context acceptance",
+      "displayName": "14 \u00b7 Retained configuration/context acceptance",
       "inherits": "sqlite-migrations-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_RETAINED_TESTS": "ON"
@@ -132,7 +132,7 @@
     },
     {
       "name": "sqlite-receipt-debug",
-      "displayName": "15 · Identified receipt SQLite acceptance",
+      "displayName": "15 \u00b7 Identified receipt SQLite acceptance",
       "inherits": "sqlite-retained-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_RECEIPT_TESTS": "ON"
@@ -140,7 +140,7 @@
     },
     {
       "name": "sqlite-contribution-debug",
-      "displayName": "16 · Contribution SQLite acceptance",
+      "displayName": "16 \u00b7 Contribution SQLite acceptance",
       "inherits": "sqlite-receipt-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS": "ON"
@@ -148,7 +148,7 @@
     },
     {
       "name": "sqlite-plan-debug",
-      "displayName": "17 · Captured-plan SQLite acceptance",
+      "displayName": "17 \u00b7 Captured-plan SQLite acceptance",
       "inherits": "sqlite-contribution-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_PLAN_TESTS": "ON"
@@ -156,7 +156,7 @@
     },
     {
       "name": "sqlite-bundle-debug",
-      "displayName": "18 · Application-bundle SQLite acceptance",
+      "displayName": "18 \u00b7 Application-bundle SQLite acceptance",
       "inherits": "sqlite-plan-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_BUNDLE_TESTS": "ON"
@@ -164,7 +164,7 @@
     },
     {
       "name": "sqlite-original-claim-debug",
-      "displayName": "19 · Typed original-claim SQLite acceptance",
+      "displayName": "19 \u00b7 Typed original-claim SQLite acceptance",
       "inherits": "sqlite-bundle-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS": "ON"
@@ -172,7 +172,7 @@
     },
     {
       "name": "sqlite-hold-debug",
-      "displayName": "20 · Durable application-hold SQLite acceptance",
+      "displayName": "20 \u00b7 Durable application-hold SQLite acceptance",
       "inherits": "sqlite-original-claim-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_HOLD_TESTS": "ON"
@@ -180,7 +180,7 @@
     },
     {
       "name": "application-service-debug",
-      "displayName": "21 · Original application-service acceptance",
+      "displayName": "21 \u00b7 Original application-service acceptance",
       "inherits": "sqlite-hold-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_APPLICATION_SERVICE_TESTS": "ON"
@@ -188,7 +188,7 @@
     },
     {
       "name": "translation-catalog-debug",
-      "displayName": "22 · Translation catalog baseline interfaces",
+      "displayName": "22 \u00b7 Translation catalog baseline interfaces",
       "inherits": "qt-probe-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS": "ON"
@@ -196,7 +196,7 @@
     },
     {
       "name": "rate-snapshot-debug",
-      "displayName": "23 · Rate snapshot baseline interfaces",
+      "displayName": "23 \u00b7 Rate snapshot baseline interfaces",
       "inherits": "exact-numeric-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_RATE_SNAPSHOT_TESTS": "ON"
