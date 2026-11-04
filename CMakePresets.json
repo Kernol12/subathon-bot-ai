@@ -209,6 +209,15 @@
       "cacheVariables": {
         "SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS": "ON"
       }
+    },
+    {
+      "name": "timer-editorial-debug",
+      "displayName": "27 \u00b7 Timer editorial command baseline",
+      "inherits": "time-debt-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_TIMER_EDITORIAL_TESTS": "ON",
+        "SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -307,6 +316,10 @@
     {
       "name": "effective-permissions-debug",
       "configurePreset": "effective-permissions-debug"
+    },
+    {
+      "name": "timer-editorial-debug",
+      "configurePreset": "timer-editorial-debug"
     }
   ],
   "testPresets": [
@@ -543,6 +556,16 @@
     {
       "name": "effective-permissions-debug",
       "configurePreset": "effective-permissions-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "timer-editorial-debug",
+      "configurePreset": "timer-editorial-debug",
       "output": {
         "outputOnFailure": true
       },
