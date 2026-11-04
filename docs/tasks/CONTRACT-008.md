@@ -32,3 +32,26 @@ AGENTS. Review actual artifacts before consumers/generated code; record exact
 validation commands and CI coverage for later executable additions. No renderer,
 asset processing or production code is authorized by this brief. Follow
 [ADR-0004](../decisions/0004-wire-contract-prerequisites.md) and [workflow](README.md).
+
+## Child contracts and preserved integration gate
+
+[ADR-0005](../decisions/0005-scene-contract-prerequisites.md) proposes four focused
+children, each additionally gated by CONTRACTPLAN-002: [CONTRACT-009](CONTRACT-009.md)
+for the protocol-neutral model, [CONTRACT-010](CONTRACT-010.md) for typed bindings,
+conditions and presentation clocks, [CONTRACT-011](CONTRACT-011.md) for assets/fonts/
+portable packages and [CONTRACT-012](CONTRACT-012.md) for the complete schema package.
+Actual independent document/state review precedes integration and child claims.
+
+CONTRACT-008 retains every scope and acceptance requirement above. Its completion
+requires all four children and an actual integration audit of their exact versions,
+resolved references, complete valid/invalid examples, feature/profile vocabulary,
+disclosed data and shared reference-scene requirements. Partial model approval is
+not a complete scene contract. Preserve the existing CONTRACT-005/CONTRACTPLAN-001
+gates and add CONTRACTPLAN-002 plus all four children in state under root ownership.
+
+CONTRACT-006 still waits for 008, CONTRACT-003 still waits for 008 and the other
+wire contracts, and every existing SCENE/RENDER/epic/release prerequisite remains.
+No child depends on 008 or a downstream consumer. Required missing owning-domain
+models remain explicit prerequisites; no empty schema, omitted element or renderer
+default may stand in for them. Schema review still establishes none of the separate
+implementation/conformance/media/font/performance/platform/OBS results above.
