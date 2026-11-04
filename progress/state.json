@@ -1664,7 +1664,9 @@
         "Actualfullcorrectedlogical authorc03b4506/import0e56f39 contractf4a4c3ce/author1dba6bb2 androot5601spec81406806/ownerb5df2afe independentlyAPPROVEDb6277a7b/review99298e93 byservice_reviewer. All16originalED/6223bytepartialreviewprefix preserved;44ED/36independentfacts/fullReadyActiveFinishedcapdeadline/debtGracehardend/CAS/aboveCapKeep outcomeschecked. No substantiveblock/newownerquestion. ReleaseONLYconcreteAPI doc+authornote toservice_author; noheader/source/tests/codeuntilactualAPIreview. RootnewmainPR59normalmergefc28558 from595/all14PRSUCCESS/identicaltreeed9588; taskbranchmustintegrateitsmetadata/buildfilesbeforepublishing, sourcecontractunchanged. Rate/MileFIRSTselected1.83hostfoundations14/25passinscratchafterindependentselectionreview; nofeaturebodiesorredsrun.",
         "Allthreeoriginalownerchoicesanswered in timer-editorial-owner-decisions.md; old unanswered blocker superseded. PR62normallymerged9345aff/all13PR+12postmainSUCCESS. ExistingPR52branch resumed in coretest008-integrator, currentmainmerged23caf56 with406IDs/1497edges/partial0ed9c693+657988a7review preserved; root5601a06 transcribesspec§4/§18/TIMER01 onlyonPR52branch. Actual service_author logicalcorrection active at coretest008-logical-correction from5601; actualdifferentfullreviewbeforeAPI/source/tests. Thisrecordcoordinatesexistingunmergedclaim only, imports no timerbehavior/spec/schema/source or futureapproval intoPWPR59. Preserve allReady/Active/Finished/debt/Grace/hardend/wait/reopen/mixedcontinuation releasegates; no repeatedownerquestion.",
         "Actual concrete API author4637698b/import85020d2 a2ac5a2c/author203d307a independently approvedaf076bec/import4281bc5, review5debe113. One rawfour-wayvariantentry, fixed4transitionbatches/fourprofilelimits/directall44ED setup andexactB/count/error/observationlifetime rules checked. Mergecurrentmainfc285 (PR59normallymerged/all14PR+13postmainPASS) preserves all406IDs1497edges andcurrentPW/permissionbaselines. ReleaseONLY exactminimalheader/source/inertgetters/fixederrors/immediatefeaturemarker toservice_author; actualdifferentminimal-source/harnessreviewbeforetests. No Core002/005functioncalls/validation/numeric/clockprocessing or successfulproposal beforethrow. Rootownsnewtarget/harness/CI/state; no freshownerdecision or implementation.",
-        "Actual minimal source author09afec23/import384fb3a header92281931/CPP651c68b3/author d31b7205 approved1648acf1 bycodec_author, review12d13bcf. Rootstdlib-onlytarget/preset27 at9538c15 compiles existingCore002005 dependencies, sourcefeature onlyimmediatemarker. Followingactualreview ROOTold74existingchecks32debt+39timer+3infraallPASS; noeditorialfeaturetestexists/body/markerexecuted. Releaseactualtestauthoringservice_author onisolatedcontinuation; rawall44ED/APIprofiles/errorpriority/lifetime/provenance/currentobservations/choicecases, actualdifferenttest+harnessreview+FIRSTplainredbeforeproduction. No newSDK dependency/foundation or repeatedoldnativeproof needed."
+        "Actual minimal source author09afec23/import384fb3a header92281931/CPP651c68b3/author d31b7205 approved1648acf1 bycodec_author, review12d13bcf. Rootstdlib-onlytarget/preset27 at9538c15 compiles existingCore002005 dependencies, sourcefeature onlyimmediatemarker. Followingactualreview ROOTold74existingchecks32debt+39timer+3infraallPASS; noeditorialfeaturetestexists/body/markerexecuted. Releaseactualtestauthoringservice_author onisolatedcontinuation; rawall44ED/APIprofiles/errorpriority/lifetime/provenance/currentobservations/choicecases, actualdifferenttest+harnessreview+FIRSTplainredbeforeproduction. No newSDK dependency/foundation or repeatedoldnativeproof needed.",
+        "Actual27testgroups78a7936/import9162597 (CPP3b0c8041/inventory1a4fb38d) independentlyapprovedbd7f5e3e/importd6370af. All44ED/API1-6 and22literalinteger/Bfactschecked; rawinputs/noSUToracle/completefields/ownership/safegates valid. Currentmainfe727 mergedb1cf46f preserving408IDs1508edges/Rate009bridge; onlyCORE008recorddiffers. service_author nowauthorsonlynewCI/label/testharness in separatebranch. No editorialbody/marker/red hasrun. Actualdifferentintegratedharnessreview/currentCI/exact27discovery+old74green/FIRSTnative27red+attribution/finalgates remain. Ownershipprimarycaughtmarker thenretained-valueASSERT consequence mustbecountedseparately.",
+        "Rootimports actualharness96c22392 as4021d74 aftercurrentmainmerge. NewtargetTEST_PREFIXtimer-editorial./CTesttimefourlabels30s/strict27source+JSON44ED/all101guard, pinnedUbuntu24/GTestfetch/noSDK. Actualauthorold74runexit0/74names/0editorial, collectorobsolete-summaryassertionafterchild recoveredwithoutreplay. Rootcurrentmainconfigure/build/discoveryguard101 pass; differentactualrootintegration/harnessreviewandselectedcurrentCIremainbeforeFIRST27featurebody."
       ],
       "verification": {
         "document_stage": "passed",
@@ -1675,7 +1677,9 @@
         "implementation": "not_run",
         "api_review": "passed",
         "source_review": "passed",
-        "dependency_acceptance": "passed"
+        "dependency_acceptance": "passed",
+        "test_authoring": "passed",
+        "test_review": "passed"
       },
       "evidence": [
         "docs/contracts/timer-editorial-commands-v1.md",
@@ -1686,14 +1690,18 @@
         "docs/evidence/coretest-008-api-author.md",
         "docs/evidence/coretest-008-api-review.md",
         "docs/evidence/coretest-008-source-author.md",
-        "docs/evidence/coretest-008-source-review.md"
+        "docs/evidence/coretest-008-source-review.md",
+        "docs/evidence/coretest-008-tests-author.md",
+        "docs/evidence/coretest-008-tests-review.md",
+        "docs/evidence/coretest-008-harness-author.md",
+        "docs/evidence/coretest-008-current-integration.md"
       ],
       "review": {
-        "author": "service_author (continuation; original codec_author preserved)",
+        "author": "service_author",
         "reviewer": "service_reviewer",
-        "outcome": "approved_logical",
-        "evidence": "docs/evidence/coretest-008-contract-review.md",
-        "revision": "Actualcorrectedlogicalc03b4506/import0e56f39 f4a4c3ce androot5601spec81406806 approvedb6277a7b/review99298e93; API/test/red gates remain."
+        "outcome": "approved",
+        "evidence": "docs/evidence/coretest-008-tests-review.md",
+        "revision": "78a7936b exact27 tests CPP3b0c8041/inventory1a4fb38d approvedbd7f5e3e; actual root harness/FIRST red remain"
       }
     },
     {
