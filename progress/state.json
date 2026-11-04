@@ -481,7 +481,11 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-002"
+        "CONTRACT-002",
+        "CONTRACT-005",
+        "CONTRACT-006",
+        "CONTRACT-007",
+        "CONTRACT-008"
       ],
       "spec_refs": [
         "API-01",
@@ -491,7 +495,9 @@
       ],
       "brief": "docs/tasks/CONTRACT-003.md",
       "summary": "OpenAPI 3.1/WS/schema/capability contracts with exact numeric strings and explicit shared-file ownership.",
-      "notes": [],
+      "notes": [
+        "ADR-0004 decomposes common005, HTTP006, WS007 and scene008 contracts; all four remain required before the complete integration audit. Parent is planned until actual children finish. All ten epic consumers retain this parent gate; no feature scope or verification reduced."
+      ],
       "verification": {},
       "evidence": [],
       "review": null
@@ -566,12 +572,131 @@
       "brief": "docs/tasks/CONTRACTPLAN-001.md",
       "summary": "Documentation-only decomposition of common, HTTP, WS and scene contracts with reviewed consumer dependencies; no wire behavior finalized.",
       "notes": [
-        "Claimed on task/CONTRACTPLAN-001-wire-prerequisites from freshly fetched main3217c212. Root owns state/HTML, parent/child briefs, planning ADR and evidence; service_reviewer supplies read-only dependency preparation. Actual independent review follows authored plan. Preserve the entire CONTRACT-003 release gate, all original consumer behavior and existing test-first/platform/provider gates. No schema, implementation or executable tests in scope."
+        "Claimed on task/CONTRACTPLAN-001-wire-prerequisites from freshly fetched main3217c212. Root owns state/HTML, parent/child briefs, planning ADR and evidence; service_reviewer supplies read-only dependency preparation. Actual independent review follows authored plan. Preserve the entire CONTRACT-003 release gate, all original consumer behavior and existing test-first/platform/provider gates. No schema, implementation or executable tests in scope.",
+        "Authored proposed ADR-0004 and four bounded child briefs; exact24 non-epic replacements plus6 explicit persistent-WS edges. Preserve all10 epic parent edges and every unrelated prerequisite. API-03 is a registered specification decision at line968; no requirement conflict or owner decision. Actual independent planning review pending. No schemas/source/tests/workflow changed."
       ],
       "verification": {
         "planning_review": "not_run",
-        "consistency": "not_run"
+        "consistency": "passed"
       },
+      "evidence": [
+        "docs/decisions/0004-wire-contract-prerequisites.md",
+        "docs/evidence/contractplan-001-author.md"
+      ],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-005",
+      "title": "Common wire primitives and compatibility",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-002",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04",
+        "§2",
+        "§10"
+      ],
+      "brief": "docs/tasks/CONTRACT-005.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-006",
+      "title": "HTTP/OpenAPI 3.1 contract",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACT-008",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "§2",
+        "§10",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACT-006.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-007",
+      "title": "Persistent WebSocket synchronization contract",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACT-006",
+        "SPIKE-001",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "§2",
+        "§10",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACT-007.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-008",
+      "title": "Declarative scene/schema contract",
+      "module": "Presentation",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACTPLAN-001"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-03",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACT-008.md",
+      "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
+      "notes": [
+        "Parent contract gate: CONTRACT-003. Documentation-only decomposition; no contract authored/reviewed, tests run or behavior implemented by this planning change. Root coordinates all shared primitives/imports and schema ownership."
+      ],
+      "verification": {},
       "evidence": [],
       "review": null
     },
@@ -3134,7 +3259,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSION-001"
       ],
@@ -3146,7 +3271,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-001.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3160,7 +3286,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSION-001",
         "ACCESSTEST-001"
@@ -3173,7 +3299,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-001.md",
       "summary": "Console issues single-use 15-minute owner setup code only while no owner exists; replacement invalidates prior code and completion disables bootstrap.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3187,7 +3314,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACTPLAN-001"
       ],
       "spec_refs": [
         "§10",
@@ -3197,7 +3324,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-002.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3211,7 +3339,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "ACCESSTEST-002"
       ],
       "spec_refs": [
@@ -3222,7 +3350,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-002.md",
       "summary": "Individual explicit allow/deny takes precedence, then role deny over role allow, then default deny.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3523,7 +3652,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACTPLAN-001"
       ],
       "spec_refs": [
         "§10",
@@ -3532,7 +3661,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SESSION-001.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3546,7 +3676,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "SESSIONTEST-001"
       ],
       "spec_refs": [
@@ -3556,7 +3686,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
       "summary": "Store salted hashes and parameters, verify credentials and upgrade outdated parameters after successful login.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3768,7 +3899,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002"
       ],
       "spec_refs": [
@@ -3779,7 +3910,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-006.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SESSION-006.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3793,7 +3925,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSIONTEST-006"
       ],
@@ -3805,7 +3937,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-006.md",
       "summary": "Define versioned nonce/record/key-ID format and unattended restart loading without storing the key in SQLite.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3911,7 +4044,7 @@
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
-        "CONTRACT-003"
+        "CONTRACT-005"
       ],
       "spec_refs": [
         "§2",
@@ -3921,7 +4054,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-001.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3937,7 +4071,7 @@
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
-        "CONTRACT-003",
+        "CONTRACT-005",
         "APITEST-001"
       ],
       "spec_refs": [
@@ -3948,7 +4082,8 @@
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3963,7 +4098,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "API-001",
-        "CONTRACT-003",
+        "CONTRACT-006",
         "SESSION-003",
         "ACCESS-002"
       ],
@@ -3975,7 +4110,8 @@
       "brief": "docs/tasks/EPIC-008/API-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-002.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -3990,7 +4126,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "API-001",
-        "CONTRACT-003",
+        "CONTRACT-006",
         "SESSION-003",
         "ACCESS-002",
         "APITEST-002"
@@ -4003,7 +4139,8 @@
       "brief": "docs/tasks/EPIC-008/API-002.md",
       "summary": "Validate versioned requests with operation IDs and expected revisions before dispatching commands.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -4017,7 +4154,8 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "API-002"
+        "API-002",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§2",
@@ -4027,7 +4165,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-003.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -4042,7 +4181,8 @@
       "owner": "Unassigned",
       "depends_on": [
         "API-002",
-        "APITEST-003"
+        "APITEST-003",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§2",
@@ -4052,7 +4192,8 @@
       "summary": "Reconnect clients to an authoritative snapshot and ordered updates without allowing clients to write authoritative state.",
       "notes": [
         "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note."
+        "SPIKE-001 handoff: carry docs/evidence/spike-001-bridge-validation.md into this production baseline. Test persistent/multi-message WebSockets and actual client/server close semantics; resolve pinned framework received-Close limitation. Also define bounded shutdown/backpressure/cancellation for idle/uncooperative/partial clients and startup signals. The disposable one-command probe is not production behavior or automatic reuse approval. Status remains planned; no production baseline authored by this note.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -4116,7 +4257,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "CONTRACT-002",
-        "CONTRACT-003"
+        "CONTRACT-005"
       ],
       "spec_refs": [
         "§14",
@@ -4126,7 +4267,8 @@
       "brief": "docs/tasks/EPIC-008/API-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-005.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -4141,7 +4283,7 @@
       "owner": "Unassigned",
       "depends_on": [
         "CONTRACT-002",
-        "CONTRACT-003",
+        "CONTRACT-005",
         "APITEST-005"
       ],
       "spec_refs": [
@@ -4152,7 +4294,8 @@
       "brief": "docs/tasks/EPIC-008/API-005.md",
       "summary": "Describe events/fields, evidence, identifiers, history/refunds, auth/outbound actions and health with explicit unknown/unsupported states.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -8829,7 +8972,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-008",
         "ACCESS-002"
       ],
       "spec_refs": [
@@ -8840,7 +8983,8 @@
       "brief": "docs/tasks/EPIC-019/SCENE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SCENE-001.",
       "notes": [
-        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-008. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -8854,7 +8998,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-008",
         "ACCESS-002",
         "SCENETEST-001"
       ],
@@ -8866,7 +9010,8 @@
       "brief": "docs/tasks/EPIC-019/SCENE-001.md",
       "summary": "Represent supported element types, bindings, visibility, geometry/layers, styles, animations and font/media references with explicit schema versions.",
       "notes": [
-        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-019. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-008. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -9208,7 +9353,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACT-008"
       ],
       "spec_refs": [
         "§11",
@@ -9219,7 +9364,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-001.md",
       "summary": "Derive reference expectations independently from specification, including normal/deficit/final progress and both phase/modifier states.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-008. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -9235,7 +9381,8 @@
       "depends_on": [
         "RENDER-001",
         "BOOT-003",
-        "SCENE-001"
+        "SCENE-001",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9246,7 +9393,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RENDER-002.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9263,7 +9411,8 @@
         "RENDER-001",
         "BOOT-003",
         "SCENE-001",
-        "RENDERTEST-002"
+        "RENDERTEST-002",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9274,7 +9423,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-002.md",
       "summary": "Interpret supported scene bindings/visibility/geometry/progress using server state snapshots and shared fixtures.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9289,7 +9439,8 @@
       "owner": "Unassigned",
       "depends_on": [
         "RENDER-001",
-        "SCENE-001"
+        "SCENE-001",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9299,7 +9450,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RENDER-003.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9315,7 +9467,8 @@
       "depends_on": [
         "RENDER-001",
         "SCENE-001",
-        "RENDERTEST-003"
+        "RENDERTEST-003",
+        "CONTRACT-007"
       ],
       "spec_refs": [
         "§11",
@@ -9325,7 +9478,8 @@
       "brief": "docs/tasks/EPIC-020/RENDER-003.md",
       "summary": "Interpret the same supported declarative elements with reference binding/visibility/geometry/progress behavior.",
       "notes": [
-        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-020. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 explicitly retains the persistent WebSocket/synchronized projection contract gate after narrowing upstream HTTP/scene dependencies. No existing prerequisite or acceptance criterion removed."
       ],
       "verification": {},
       "evidence": [],
@@ -9569,7 +9723,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
         "API-004"
       ],
       "spec_refs": [
@@ -9579,7 +9733,8 @@
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before WEBAPP-001.",
       "notes": [
-        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -9593,7 +9748,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
         "API-004",
         "WEBAPPTEST-001"
       ],
@@ -9604,7 +9759,8 @@
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
       "summary": "Build React/TypeScript with Vite and ship static output with the C++ server; Node.js is build/development only.",
       "notes": [
-        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-021. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -10167,7 +10323,8 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
+        "CONTRACT-007",
         "SESSION-003",
         "ACCESS-002"
       ],
@@ -10179,7 +10336,8 @@
       "brief": "docs/tasks/EPIC-022/VIEWER-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before VIEWER-001.",
       "notes": [
-        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006, CONTRACT-007. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -10193,7 +10351,8 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-006",
+        "CONTRACT-007",
         "SESSION-003",
         "ACCESS-002",
         "VIEWERTEST-001"
@@ -10206,7 +10365,8 @@
       "brief": "docs/tasks/EPIC-022/VIEWER-001.md",
       "summary": "Support Public, revocable Link access and Invited accounts(default), none granting management rights.",
       "notes": [
-        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-022. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-006, CONTRACT-007. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -11613,7 +11773,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003"
+        "CONTRACTPLAN-001"
       ],
       "spec_refs": [
         "§19",
@@ -11628,7 +11788,8 @@
       "brief": "docs/tasks/EPIC-026/VALIDATE-001.md",
       "summary": "Map every specification decision/scenario to test owner, planned suite and explicit live/platform gate without labeling planned work verified.",
       "notes": [
-        "Parent epic: EPIC-026. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-026. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -11872,7 +12033,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-005",
         "ACCESS-002",
         "API-005"
       ],
@@ -11883,7 +12044,8 @@
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RELEASE-002.",
       "notes": [
-        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],
@@ -11897,7 +12059,7 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "CONTRACT-003",
+        "CONTRACT-005",
         "ACCESS-002",
         "API-005",
         "RELEASETEST-002"
@@ -11909,7 +12071,8 @@
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
       "summary": "Default local operational-log retention to 14 days independently from retained accounting/audit.",
       "notes": [
-        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-027. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACT-005. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
       ],
       "verification": {},
       "evidence": [],

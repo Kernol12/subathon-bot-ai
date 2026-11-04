@@ -7,3 +7,6 @@ and verification. The repository name and final branding remain open metadata.
 
 [ADR-0002](0002-storage-executable-slices.md) records the independently reviewed bounded storage
 execution split and actual writer/repository transaction prerequisite.
+
+[ADR-0004](0004-wire-contract-prerequisites.md) proposes bounded wire-contract
+prerequisites and precise helper dependencies; actual review status is in the record.
