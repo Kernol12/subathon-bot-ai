@@ -66,13 +66,6 @@ ApplicationServiceResponse unavailable(std::string_view reason,
     bound(sum(1, reason.size()), 0, limits, true);
     return {D::not_ready, ApplicationNotReadyPayload{std::string(reason)}};
 }
-ApplicationServiceLimits internal_limits(const ApplicationServiceLimits &l) {
-    auto x = l;
-    x.input_owned_bytes = l.intermediate_owned_bytes;
-    x.result_owned_bytes = l.intermediate_owned_bytes;
-    x.result_items = l.intermediate_items;
-    return x;
-}
 OriginalApplicationCommand retained_command(const ApplicationEnvelope &e,
                                             const ApplicationServiceLimits &l) {
     try {
@@ -130,6 +123,7 @@ class Bytes {
         b(boost::multiprecision::denominator(x).str());
     }
     QByteArray take() { return value_; }
+    size_t size() const { return size_; }
 
   private:
     size_t limit_, size_{0};
@@ -1019,10 +1013,45 @@ std::int64_t signed_value(const Exact &x) {
         throw std::overflow_error("application aggregate overflow");
     return x.convert_to<std::int64_t>();
 }
+void append_transitions(ApplicationCalculatedProposal &p,
+                        const std::vector<core::TimerTransition> &additional,
+                        const ApplicationServiceLimits &limits, size_t pending_bytes = 0,
+                        size_t pending_items = 0) {
+    const auto count = sum(p.transitions.size(), additional.size());
+    check(count <= size_t(limits.bundles.transitions_per_bundle), R::result_limit);
+    bound(sum(sum(proposal_bytes(p), pending_bytes), additional.size()),
+          sum(sum(proposal_items(p), pending_items), additional.size()), limits);
+    p.transitions.insert(p.transitions.end(), additional.begin(), additional.end());
+}
+size_t pending_effect_bytes(const core::RequestedEffect &r, const Exact &residual,
+                            const BoundApplicationPolicy &policy) {
+    bundle_detail::ByteCount bytes;
+    bytes.add(18);
+    bundle_detail::count_bytes(bytes, r.exact_requested_units);
+    bundle_detail::count_bytes(bytes, residual);
+    bytes.add(r.calculation_explanation.size());
+    if (r.unit == core::RequestedUnit::milliseconds) {
+        bytes.add(27); // Three actual kind/int64 components, including zero values.
+        if (r.requested_units >= 0 && policy.maximum_main_ms)
+            bytes.add(8);
+        if (r.requested_units < 0)
+            bytes.add(2); // Policy and applied disposition.
+    } else {
+        bytes.add(sum(9, r.target_ref.size()));
+    }
+    return bytes.total();
+}
+
 ApplicationCalculatedProposal calculate(const ApplicationBundleInputs &i,
                                         const BoundApplicationPolicy &p,
                                         const ApplicationClockObservation &clock,
                                         const ApplicationServiceLimits &l) {
+    bundle_detail::ByteCount initial;
+    initial.add(46);
+    initial.add(clock_bytes(clock));
+    for (const auto &balance : i.current_state.balances)
+        bundle_detail::count_bytes(initial, balance);
+    bound(initial.total(), sum(i.current_state.balances.size(), clock.segments.size()), l);
     ApplicationCalculatedProposal out;
     out.clock_advanced_timer = i.current_state.timer;
     out.debt_after = i.current_state.time_debt_ms;
@@ -1031,115 +1060,142 @@ ApplicationCalculatedProposal calculate(const ApplicationBundleInputs &i,
     for (const auto &s : clock.segments) {
         auto advanced = core::advance_timer(out.clock_advanced_timer, p.timer_config, s);
         out.clock_advanced_timer = advanced.state;
-        check(advanced.transitions.size() <=
-                  size_t(l.intermediate_items) -
-                      std::min(size_t(l.intermediate_items), out.transitions.size()),
-              R::result_limit);
-        out.transitions.insert(out.transitions.end(), advanced.transitions.begin(),
-                               advanced.transitions.end());
+        append_transitions(out, advanced.transitions, l);
     }
     out.timer_after = out.clock_advanced_timer;
     return out;
 }
-// Full arithmetic is in memory: no token, action preparation or write precedes it.
+// Full arithmetic remains in memory. Borrowed component descriptions let refusal
+// paths return before any hypothetical output vector or provenance copy is made.
 std::optional<ApplicationServiceResponse> requests(ApplicationCalculatedProposal &out,
                                                    const ApplicationBundleInputs &i,
                                                    const BoundApplicationPolicy &p,
                                                    const ApplicationServiceLimits &l) {
+    struct ComponentDescription {
+        ApplicationComponentKind kind;
+        std::int64_t units;
+        std::optional<std::string_view> target;
+    };
     size_t ordinal = 0;
     for (const auto &r : i.selected_plan.captured.requested_effects) {
         ++ordinal;
-        ApplicationEffect e;
-        e.request_ordinal = std::int64_t(ordinal);
-        e.unit = r.unit;
-        e.exact_requested_units = r.exact_requested_units;
-        e.requested_units = r.requested_units;
-        e.rounding_residual = r.exact_requested_units - Exact(r.requested_units);
-        e.application_explanation = r.calculation_explanation;
-        if (r.unit == core::RequestedUnit::milliseconds) {
-            if (r.requested_units >= 0) {
-                e.arithmetic_role = ApplicationArithmeticRole::time_addition;
-                e.maximum_main_ms = p.maximum_main_ms;
-                Exact attempted_main =
-                    Exact(out.timer_after.main_remaining_ms) +
-                    std::max(Exact(0), Exact(r.requested_units) - Exact(out.debt_after));
-                try {
-                    auto n = core::plan_time_addition(
-                        {out.timer_after.main_remaining_ms, out.debt_after},
-                        {"original", r.requested_units}, p.maximum_main_ms);
-                    auto timer =
-                        core::apply_applicable_time_credit(out.timer_after, n.main_added_ms);
-                    check(timer.main_remaining_ms == n.balance_after.main_remaining_ms);
-                    out.timer_after = timer;
-                    out.debt_after = n.balance_after.time_debt_ms;
-                    e.components = {
-                        {ApplicationComponentKind::main_delta, n.main_added_ms, std::nullopt},
-                        {ApplicationComponentKind::debt_delta, -n.debt_repaid_ms, std::nullopt},
-                        {ApplicationComponentKind::cap_limited_time, n.cap_limited_ms,
-                         std::nullopt}};
-                } catch (const std::overflow_error &) {
-                    throw numeric_failure(ordinal, r, attempted_main, 0);
-                }
-            } else {
-                e.arithmetic_role = ApplicationArithmeticRole::time_reversal;
-                auto policy = std::find_if(
-                    p.correction_policies.begin(), p.correction_policies.end(),
-                    [&](const auto &q) { return q.request_ordinal == std::int64_t(ordinal); });
-                check(policy != p.correction_policies.end());
-                e.deficit_policy = policy->deficit_policy;
-                auto attempted_debt =
-                    Exact(out.debt_after) +
-                    std::max(Exact(0),
-                             -Exact(r.requested_units) - Exact(out.timer_after.main_remaining_ms));
-                try {
-                    auto n = core::plan_time_reversal(
-                        {out.timer_after.main_remaining_ms, out.debt_after},
-                        {"original", "captured", r.requested_units}, policy->deficit_policy);
-                    if (n.disposition == core::TimeReversalDisposition::RequiresReview)
-                        return unavailable("required_mixed_timer_policy", l);
-                    e.deficit_disposition = n.disposition;
-                    out.timer_after.main_remaining_ms = n.balance_after.main_remaining_ms;
-                    out.debt_after = n.balance_after.time_debt_ms;
-                    e.components = {
-                        {ApplicationComponentKind::main_delta, n.main_adjustment_ms, std::nullopt},
-                        {ApplicationComponentKind::debt_delta, n.debt_added_ms, std::nullopt},
-                        {ApplicationComponentKind::unapplied_time, n.unapplied_adjustment_ms,
-                         std::nullopt}};
-                    auto a = core::advance_timer(out.timer_after, p.timer_config,
-                                                 {0, out.observation.observed_utc_ms, p.paused});
-                    out.timer_after = a.state;
-                    out.transitions.insert(out.transitions.end(), a.transitions.begin(),
-                                           a.transitions.end());
-                } catch (const std::overflow_error &) {
-                    throw numeric_failure(ordinal, r, attempted_debt, 1);
-                }
+        std::array<ComponentDescription, 3> components{};
+        size_t component_count = 0;
+        auto timer = out.timer_after;
+        auto debt = out.debt_after;
+        ApplicationArithmeticRole role = ApplicationArithmeticRole::direct;
+        std::optional<core::RefundDeficitPolicy> deficit_policy;
+        std::optional<core::TimeReversalDisposition> deficit_disposition;
+        std::vector<core::TimerTransition> additional;
+        if (r.unit == core::RequestedUnit::milliseconds && r.requested_units >= 0) {
+            role = ApplicationArithmeticRole::time_addition;
+            const Exact attempt = Exact(timer.main_remaining_ms) +
+                                  std::max(Exact(0), Exact(r.requested_units) - Exact(debt));
+            try {
+                auto n =
+                    core::plan_time_addition({timer.main_remaining_ms, debt},
+                                             {"original", r.requested_units}, p.maximum_main_ms);
+                timer = core::apply_applicable_time_credit(timer, n.main_added_ms);
+                check(timer.main_remaining_ms == n.balance_after.main_remaining_ms);
+                debt = n.balance_after.time_debt_ms;
+                components = {
+                    {{ApplicationComponentKind::main_delta, n.main_added_ms, std::nullopt},
+                     {ApplicationComponentKind::debt_delta, -n.debt_repaid_ms, std::nullopt},
+                     {ApplicationComponentKind::cap_limited_time, n.cap_limited_ms, std::nullopt}}};
+                component_count = 3;
+            } catch (const std::overflow_error &) {
+                throw numeric_failure(ordinal, r, attempt, 0);
+            }
+        } else if (r.unit == core::RequestedUnit::milliseconds) {
+            role = ApplicationArithmeticRole::time_reversal;
+            const auto policy = std::find_if(
+                p.correction_policies.begin(), p.correction_policies.end(),
+                [&](const auto &q) { return q.request_ordinal == std::int64_t(ordinal); });
+            check(policy != p.correction_policies.end());
+            deficit_policy = policy->deficit_policy;
+            const Exact attempt =
+                Exact(debt) +
+                std::max(Exact(0), -Exact(r.requested_units) - Exact(timer.main_remaining_ms));
+            try {
+                auto n = core::plan_time_reversal({timer.main_remaining_ms, debt},
+                                                  {"original", "captured", r.requested_units},
+                                                  *deficit_policy);
+                if (n.disposition == core::TimeReversalDisposition::RequiresReview)
+                    return unavailable("required_mixed_timer_policy", l);
+                deficit_disposition = n.disposition;
+                timer.main_remaining_ms = n.balance_after.main_remaining_ms;
+                debt = n.balance_after.time_debt_ms;
+                components = {
+                    {{ApplicationComponentKind::main_delta, n.main_adjustment_ms, std::nullopt},
+                     {ApplicationComponentKind::debt_delta, n.debt_added_ms, std::nullopt},
+                     {ApplicationComponentKind::unapplied_time, n.unapplied_adjustment_ms,
+                      std::nullopt}}};
+                component_count = 3;
+                auto advanced = core::advance_timer(timer, p.timer_config,
+                                                    {0, out.observation.observed_utc_ms, p.paused});
+                timer = advanced.state;
+                additional = std::move(advanced.transitions);
+            } catch (const std::overflow_error &) {
+                throw numeric_failure(ordinal, r, attempt, 1);
             }
         } else {
-            auto kind = r.unit == core::RequestedUnit::micro_points
-                            ? ApplicationBalanceKind::score
-                            : ApplicationBalanceKind::whole_count;
-            auto b = std::find_if(
+            const auto kind = r.unit == core::RequestedUnit::micro_points
+                                  ? ApplicationBalanceKind::score
+                                  : ApplicationBalanceKind::whole_count;
+            auto target = std::find_if(
                 out.balances_after.begin(), out.balances_after.end(),
                 [&](const auto &v) { return v.kind == kind && v.target_ref == r.target_ref; });
-            if (b == out.balances_after.end())
+            if (target == out.balances_after.end())
                 return unavailable("required_counter_definition", l);
-            auto attempt = Exact(b->units) + Exact(r.requested_units);
+            const Exact attempt = Exact(target->units) + Exact(r.requested_units);
             try {
-                b->units = signed_value(attempt);
+                target->units = signed_value(attempt);
             } catch (const std::overflow_error &) {
                 throw numeric_failure(ordinal, r, attempt, unsigned(kind));
             }
-            e.components = {{r.unit == core::RequestedUnit::micro_points
+            components[0] = {r.unit == core::RequestedUnit::micro_points
                                  ? ApplicationComponentKind::score
                                  : ApplicationComponentKind::whole_count,
-                             r.requested_units, r.target_ref}};
+                             r.requested_units, std::string_view(r.target_ref)};
+            component_count = 1;
         }
+        const Exact residual = r.exact_requested_units - Exact(r.requested_units);
+        const auto effect_bytes = pending_effect_bytes(r, residual, p);
         check(out.effects.size() < size_t(l.bundles.effects_per_bundle), R::result_limit);
-        out.effects.push_back(std::move(e));
-        bound(proposal_bytes(out), proposal_items(out), l);
+        check(sum(out.transitions.size(), additional.size()) <=
+                  size_t(l.bundles.transitions_per_bundle),
+              R::result_limit);
+        bound(effect_bytes, component_count, l);
+        bound(sum(sum(proposal_bytes(out), effect_bytes), additional.size()),
+              sum(sum(proposal_items(out), sum(1, component_count)), additional.size()), l);
+        ApplicationEffect effect;
+        effect.request_ordinal = std::int64_t(ordinal);
+        effect.arithmetic_role = role;
+        effect.unit = r.unit;
+        effect.exact_requested_units = r.exact_requested_units;
+        effect.requested_units = r.requested_units;
+        effect.rounding_residual = residual;
+        if (role == ApplicationArithmeticRole::time_addition)
+            effect.maximum_main_ms = p.maximum_main_ms;
+        effect.deficit_policy = deficit_policy;
+        effect.deficit_disposition = deficit_disposition;
+        effect.application_explanation = r.calculation_explanation;
+        effect.components.reserve(component_count);
+        for (size_t n = 0; n != component_count; ++n) {
+            const auto &description = components[n];
+            effect.components.push_back({description.kind, description.units,
+                                         description.target
+                                             ? std::optional{std::string(*description.target)}
+                                             : std::nullopt});
+        }
+        append_transitions(out, additional, l, effect_bytes, sum(1, component_count));
+        out.effects.push_back(std::move(effect));
+        out.timer_after = timer;
+        out.debt_after = debt;
     }
     return std::nullopt;
 }
+
 struct AttemptState {
     std::optional<ApplicationServiceFailure> failure;
 };
@@ -1192,11 +1248,9 @@ class Execute {
                                bundle_detail::logical_bytes(selected->selected));
             return std::move(selected->selected);
         });
-        auto old = check_record(record, l_, capture);
+        (void)check_record(record, l_, capture);
         if (d == D::existing_operation) {
-            auto limits = internal_limits(l_);
-            auto bytes = encode_original_application_command(old, limits);
-            if (!bundle_detail::same_envelope(bytes, cmd_))
+            if (!bundle_detail::same_envelope(record.intent.choices, cmd_))
                 return response(D::operation_conflict);
         }
         bound(sum(1, record_bytes(record)), record_items(record), l_, true);
@@ -1230,12 +1284,84 @@ class Execute {
         check(ref(r.reference, l_));
         return r.reference;
     }
+    // Mirrors the published hold DTO field walk without constructing any owned
+    // cause/observation/command/occurrence copy. Opaque annotations add no items.
+    void project_detection(const ApplicationBundleInputs &inputs,
+                           const ApplicationAccessAllowed &access,
+                           const BoundApplicationPolicy *policy,
+                           const ApplicationClockObservation *clock, const NumericFailure *failure,
+                           const std::string *missing, const std::string &hold_ref,
+                           const std::string &detection_ref, const std::string &version_ref,
+                           size_t annotation_bytes) {
+        using bundle_detail::count_bytes;
+        const auto &event = inputs.selected_plan.captured.event;
+        bundle_detail::ByteCount source;
+        source.add(17); // Tagged subject plus receipt ID.
+        count_bytes(source, event.event_ref);
+        count_bytes(source, event.parent_event_ref);
+        count_bytes(source, event.root_event_ref);
+        count_bytes(source, event.arrival.configuration_ref);
+        count_bytes(source, event.arrival.modifier_context_ref);
+        bundle_detail::ByteCount observation;
+        count_bytes(observation, inputs.current_state.token);
+        observation.add(annotation_bytes);
+        if (policy)
+            count_bytes(observation, policy->policy_revision_ref);
+        count_bytes(observation, access.permission_revision_ref);
+        if (c_.actor_ref && !c_.actor_ref->empty())
+            count_bytes(observation, *c_.actor_ref);
+        if (c_.decision_ref && !c_.decision_ref->empty())
+            count_bytes(observation, *c_.decision_ref);
+        if (clock)
+            observation.add(16); // Actually known UTC and elapsed.
+        bundle_detail::ByteCount plan;
+        plan.add(2); // Captured-revision kind and complete extent.
+        count_bytes(plan, c_.plan);
+        const auto &requests = inputs.selected_plan.captured.requested_effects;
+        check(requests.size() <= size_t(l_.holds.known_occurrences_per_cause), R::result_limit);
+        for (const auto &request : requests) {
+            plan.add(17); // Ordinal, unit, finalized units.
+            for (const auto *field :
+                 {&request.action_ref, &request.action_version_ref, &request.rule_ref,
+                  &request.target_ref, &request.calculation_explanation})
+                count_bytes(plan, *field);
+            count_bytes(plan, request.exact_requested_units);
+        }
+        bundle_detail::ByteCount cause;
+        count_bytes(cause, hold_ref);
+        cause.add(source.total());
+        count_bytes(cause, c_.operation);
+        count_bytes(cause, cmd_);
+        cause.add(observation.total());
+        cause.add(plan.total());
+        cause.add(1); // Cause kind.
+        if (failure) {
+            cause.add(1); // Failure stage.
+            if (failure->evidence.failing_ordinal)
+                cause.add(8);
+            count_bytes(cause, failure->evidence.failing_target_ref);
+            count_bytes(cause, failure->evidence.attempted_units);
+            cause.add(annotation_bytes);
+        }
+        if (missing)
+            count_bytes(cause, *missing);
+        bundle_detail::ByteCount detection;
+        detection.add(cause.total());
+        count_bytes(detection, detection_ref);
+        count_bytes(detection, version_ref);
+        detection.add(observation.total());
+        detection.add(annotation_bytes); // Detection audit is its own real copy.
+        bound(detection.total(), requests.size(), l_);
+        check(detection.total() <= size_t(l_.holds.owned_bytes) &&
+                  requests.size() <= size_t(l_.holds.input_items),
+              R::result_limit);
+    }
+
     ApplicationServiceResponse hold(const ApplicationBundleInputs &i,
                                     const ApplicationAccessAllowed &access,
-                                    const std::optional<BoundApplicationPolicy> &policy,
-                                    const std::optional<ApplicationClockObservation> &clock,
-                                    std::optional<NumericFailure> failure,
-                                    std::optional<std::string> missing) {
+                                    const BoundApplicationPolicy *policy,
+                                    const ApplicationClockObservation *clock,
+                                    const NumericFailure *failure, const std::string *missing) {
         auto ordinal = failure ? failure->evidence.failing_ordinal : std::optional<std::int64_t>{};
         auto h = issue(ApplicationReferencePurpose::hold, i, ordinal);
         if (!h)
@@ -1248,28 +1374,46 @@ class Execute {
             return unavailable("required_application_reference", l_);
         check(*h != *d && *h != *v && *d != *v);
         bool v2 = policy && !policy->correction_policies.empty();
-        auto annotation =
-            encoded(v2 ? "subathon.internal.application-hold-observation.v2"
-                       : "subathon.internal.application-hold-observation.v1",
-                    l_, [&](Bytes &w) {
-                        w.raw(v2 ? "SAH2" : "SAH1");
-                        w.b(cmd_.document);
-                        w.b(i.current_state.token);
-                        w.opt(policy, [&](const auto &p) { put_policy(w, p); });
-                        w.opt(clock, [&](const auto &x) { put_clock(w, x); });
-                        w.opt(failure, [&](const auto &x) { put_failure(w, x.evidence); });
-                        w.opt(missing, [&](const auto &x) { w.b(x); });
-                        w.b(std::string_view{});
-                        if (v2) {
-                            w.vec(policy->correction_policies, [&](const auto &x) {
-                                w.i64(x.request_ordinal);
-                                w.u8(unsigned(x.deficit_policy));
-                            });
-                            w.u8(failure ? 1 : 0);
-                            if (failure)
-                                w.u8(failure->balance);
-                        }
-                    });
+        const char *format = v2 ? "subathon.internal.application-hold-observation.v2"
+                                : "subathon.internal.application-hold-observation.v1";
+        auto write_annotation = [&](Bytes &w) {
+            w.raw(v2 ? "SAH2" : "SAH1");
+            w.b(cmd_.document);
+            w.b(i.current_state.token);
+            w.u8(policy ? 1 : 0);
+            if (policy)
+                put_policy(w, *policy);
+            w.u8(clock ? 1 : 0);
+            if (clock)
+                put_clock(w, *clock);
+            w.u8(failure ? 1 : 0);
+            if (failure)
+                put_failure(w, failure->evidence);
+            w.u8(missing ? 1 : 0);
+            if (missing)
+                w.b(*missing);
+            w.b(std::string_view{});
+            if (v2) {
+                w.vec(policy->correction_policies, [&](const auto &x) {
+                    w.i64(x.request_ordinal);
+                    w.u8(unsigned(x.deficit_policy));
+                });
+                w.u8(failure ? 1 : 0);
+                if (failure)
+                    w.u8(failure->balance);
+            }
+        };
+        auto annotation_limits = l_;
+        annotation_limits.bundles.value_bytes =
+            std::min(l_.bundles.value_bytes, l_.holds.references.value_bytes);
+        Bytes sizing(size_t(std::min({annotation_limits.storage_document_bytes,
+                                      annotation_limits.bundles.value_bytes,
+                                      annotation_limits.intermediate_owned_bytes})),
+                     false);
+        write_annotation(sizing);
+        const auto annotation_bytes = sum(std::char_traits<char>::length(format), sizing.size());
+        project_detection(i, access, policy, clock, failure, missing, *h, *d, *v, annotation_bytes);
+        auto annotation = encoded(format, annotation_limits, write_annotation);
         ApplicationHoldDetection detection;
         auto &cause = detection.cause;
         cause.hold_ref = *h;
@@ -1314,7 +1458,8 @@ class Execute {
             cause.failure = failure->evidence;
             cause.failure->annotation = annotation;
         }
-        cause.missing_policy_reason = missing;
+        if (missing)
+            cause.missing_policy_reason = *missing;
         detection.request = {*d, std::nullopt, *v, observation, annotation};
         bound(hold_detail::bytes(detection), hold_detail::items(detection), l_);
         auto result = holds_.record_detection(detection);
@@ -1380,14 +1525,14 @@ class Execute {
             call([&](const auto &v) { return ports_.policy.resolve(v, c_, i, access); });
         if (auto *u = std::get_if<ApplicationUnavailable>(&resolved)) {
             check_unavailable(*u, l_);
-            return hold(i, *allowed, std::nullopt, std::nullopt, std::nullopt, u->reason_ref);
+            return hold(i, *allowed, nullptr, nullptr, nullptr, &u->reason_ref);
         }
         auto policy = std::get<BoundApplicationPolicy>(std::move(resolved));
         check_policy(policy, c_, i, *allowed, l_);
         auto observed = call([&](const auto &v) { return ports_.clock.observe(v, c_, i, policy); });
         if (auto *u = std::get_if<ApplicationUnavailable>(&observed)) {
             check_unavailable(*u, l_);
-            return hold(i, *allowed, policy, std::nullopt, std::nullopt, u->reason_ref);
+            return hold(i, *allowed, &policy, nullptr, nullptr, &u->reason_ref);
         }
         auto clock = std::get<ApplicationClockObservation>(std::move(observed));
         check_clock(clock, i, policy, old, l_);
@@ -1410,21 +1555,21 @@ class Execute {
             policy.paused || policy.recovery_pending)
             return unavailable("required_application_lifecycle_policy", l_);
         if (policy.admission.disposition == ApplicationPolicyAdmission::unresolved_with_reason)
-            return hold(i, *allowed, policy, clock, std::nullopt, policy.admission.reason_ref);
+            return hold(i, *allowed, &policy, &clock, nullptr, &*policy.admission.reason_ref);
         if (policy.admission.disposition != ApplicationPolicyAdmission::allow_active)
             return unavailable(*policy.admission.reason_ref, l_);
         try {
             if (auto refusal = requests(*proposal, i, policy, l_))
                 return *refusal;
         } catch (const NumericFailure &f) {
-            return hold(i, *allowed, policy, clock, f, std::nullopt);
+            return hold(i, *allowed, &policy, &clock, &f, nullptr);
         }
         bound(proposal_bytes(*proposal), proposal_items(*proposal), l_);
         auto actions = call(
             [&](const auto &v) { return ports_.actions.prepare(v, c_, i, policy, *proposal); });
         if (auto *u = std::get_if<ApplicationUnavailable>(&actions)) {
             check_unavailable(*u, l_);
-            return hold(i, *allowed, policy, clock, std::nullopt, u->reason_ref);
+            return hold(i, *allowed, &policy, &clock, nullptr, &u->reason_ref);
         }
         auto jobs = std::get<PreparedApplicationActions>(std::move(actions));
         bundle_detail::ByteCount jobbytes;
@@ -1434,6 +1579,7 @@ class Execute {
         bound(jobbytes.total(), jobs.jobs.size(), l_);
         check(jobs.jobs.size() <= size_t(l_.bundles.jobs_per_bundle), R::result_limit);
         check_jobs(jobs.jobs, *proposal, i);
+        bound(bundle_detail::logical_bytes(i.current_state), i.current_state.balances.size(), l_);
         ApplicationStateSnapshot before = i.current_state;
         before.timer = proposal->clock_advanced_timer;
         auto candidate = encode_state(before, i.current_state.token, clock, policy, l_);
@@ -1444,6 +1590,10 @@ class Execute {
             auto token = issue(ApplicationReferencePurpose::advanced_state, i, std::nullopt);
             if (!token)
                 return unavailable("required_application_reference", l_);
+            const auto base = bundle_detail::logical_bytes(before) - before.token.size() -
+                              bundle_detail::logical_bytes(before.envelope);
+            bound(sum(sum(base, token->size()), bundle_detail::logical_bytes(candidate)),
+                  before.balances.size(), l_);
             before.token = *token;
             before.envelope = std::move(candidate);
         }
@@ -1451,14 +1601,57 @@ class Execute {
         auto token = issue(ApplicationReferencePurpose::after_state, i, std::nullopt);
         if (!token)
             return unavailable("required_application_reference", l_);
+        bound(sum(bundle_detail::logical_bytes(after) - after.token.size(), token->size()),
+              after.balances.size(), l_);
         after.token = *token;
         after.timer = proposal->timer_after;
         after.time_debt_ms = proposal->debt_after;
         after.balances = proposal->balances_after;
-        after.envelope = encode_state(after, i.current_state.token, clock, policy, l_);
+        auto after_envelope = encode_state(after, i.current_state.token, clock, policy, l_);
+        bound(
+            sum(bundle_detail::logical_bytes(after) - bundle_detail::logical_bytes(after.envelope),
+                bundle_detail::logical_bytes(after_envelope)),
+            after.balances.size(), l_);
+        after.envelope = std::move(after_envelope);
         if (after.token == before.token || after.token == i.current_state.token ||
             (!reuse && before.token == i.current_state.token))
             return response(D::state_token_conflict);
+        const char *advance_explanation = reuse ? "" : "clock-observation-v1";
+        auto result_envelope =
+            encode_result(cmd_, i.current_state.token, before, after, c_, proposal->effects,
+                          jobs.jobs, proposal->transitions, l_);
+        auto audit_envelope = encode_audit(cmd_, c_, policy, clock, jobs.explanation, l_);
+        bundle_detail::ByteCount prepared;
+        using bundle_detail::count_bytes;
+        count_bytes(prepared, c_.operation);
+        prepared.add(18 + (c_.contribution_id ? 8 : 0));
+        count_bytes(prepared, c_.plan.plan_ref);
+        count_bytes(prepared, i.current_state.token);
+        if (i.current_contribution)
+            count_bytes(prepared, i.current_contribution->contribution.state);
+        count_bytes(prepared, cmd_);
+        count_bytes(prepared, before);
+        count_bytes(prepared, after);
+        prepared.add(std::char_traits<char>::length(advance_explanation));
+        size_t prepared_items = sum(before.balances.size(), after.balances.size());
+        prepared_items = sum(prepared_items, sum(sum(proposal->effects.size(), jobs.jobs.size()),
+                                                 proposal->transitions.size()));
+        for (const auto &effect : proposal->effects) {
+            count_bytes(prepared, effect);
+            prepared_items = sum(prepared_items, effect.components.size());
+        }
+        for (const auto &job : jobs.jobs)
+            count_bytes(prepared, job);
+        prepared.add(proposal->transitions.size());
+        count_bytes(prepared, result_envelope);
+        count_bytes(prepared, c_.actor_ref);
+        count_bytes(prepared, c_.decision_ref);
+        count_bytes(prepared, c_.reason);
+        count_bytes(prepared, audit_envelope);
+        bound(prepared.total(), prepared_items, l_);
+        check(prepared.total() <= size_t(l_.bundles.owned_bytes) &&
+                  prepared_items <= size_t(l_.bundles.input_items),
+              R::result_limit);
         PreparedApplicationBundle bundle;
         bundle.intent = {c_.operation,
                          ApplicationOperationKind::original,
@@ -1474,15 +1667,12 @@ class Execute {
                          std::nullopt};
         bundle.advanced_before = std::move(before);
         bundle.after = std::move(after);
-        bundle.advance_explanation = reuse ? "" : "clock-observation-v1";
+        bundle.advance_explanation = advance_explanation;
         bundle.effects = std::move(proposal->effects);
         bundle.jobs = std::move(jobs.jobs);
         bundle.transitions = std::move(proposal->transitions);
-        bundle.result =
-            encode_result(cmd_, i.current_state.token, bundle.advanced_before, bundle.after, c_,
-                          bundle.effects, bundle.jobs, bundle.transitions, l_);
-        bundle.audit = {c_.actor_ref, c_.decision_ref, c_.reason,
-                        encode_audit(cmd_, c_, policy, clock, jobs.explanation, l_)};
+        bundle.result = std::move(result_envelope);
+        bundle.audit = {c_.actor_ref, c_.decision_ref, c_.reason, std::move(audit_envelope)};
         auto staged = bundles_.stage(bundle);
         using B = SqliteBundleStageDisposition;
         switch (staged.disposition) {
@@ -1522,11 +1712,8 @@ class Execute {
   private:
     void check_jobs(const std::vector<ApplicationJobIntent> &jobs,
                     const ApplicationCalculatedProposal &p, const ApplicationBundleInputs &i) {
-        PreparedApplicationBundle shell;
-        shell.jobs = jobs;
-        shell.effects = p.effects;
         try {
-            bundle_detail::validate_jobs(shell, l_.bundles);
+            bundle_detail::validate_jobs(jobs, p.effects.size(), l_.bundles);
         } catch (const SqliteBundleInputFailure &) {
             fail(R::invalid_output);
         }

@@ -94,3 +94,46 @@ Configure/5 compile-link steps PASS, zero warnings. ALL43 slots/233 scenarios PA
 labels remain draft-red from its copied harness; coordinator owns final promoted
 acceptance properties/ordinary CI. Full308 and actual independent review/current
 CI are subsequent gates, not implied by this targeted result.
+
+## Final projection-before-growth hardening
+
+Different full source review kept approval pending after the passing43/full308
+checks: test outcomes do not measure allocation ordering. The final source projects
+complete initial numeric proposal before copying balances/clock, calculates scalar
+numeric/refusal outcomes using borrowed component descriptions, then projects the
+actual admitted effect/components and any additional transitions before allocation/
+append. RequireReview and missing-counter paths never charge hypothetical components.
+
+Hold preparation now borrows policy/clock/failure/reason without implicit optional
+copies, sizes its annotation with a nonmaterializing writer, and walks the exact
+published complete detection ownership (all real three/four annotation copies,
+observations, immutable source/command and complete occurrences) before constructing
+any detection owner/vector. It checks intermediate and selected hold input ceilings.
+Current/before/after snapshots and complete prepared-bundle ownership are projected
+before their copies/growth. The tiny coordinator-authorized PRIVATE borrowed
+validate_jobs overload removes the otherwise duplicate jobs/effects shell; its
+original validator body/order and old PreparedBundle entry behavior are unchanged.
+Canonical historical command retry compares the already-validated retained envelope
+with the canonical admitted envelope directly, avoiding a redundant public reencode.
+
+Final authored command pair:
+
+```sh
+cmake --build --preset application-service-debug --target server_application_service_acceptance --parallel 2
+ctest --preset application-service-debug -L '^application-service$' --output-on-failure
+```
+
+Build8steps PASS/zero warnings; ALL43/233 PASS3.75s, zero Qt skips/failures. These
+are runtime behavior observations. Exact field projections/prior-growth sequencing
+still require the different actual final source audit. No baseline data changed.
+
+The prior own full308 run atc85 passed306 native/infrastructure cases and failed
+ONLY two tooling/link cases because this author's imported task state referenced
+review notes not yet copied into this branch. An authorized exact pending review
+copy resolved the first absent path; the targeted two-case tooling retry exposed
+the second absent codec-review note. Both original logs are preserved; no full
+passing author run is claimed for that imported incomplete-document checkout.
+Root independently observed complete308PASS24.84s with the actual review documents;
+root/reviewer will rerun the affected final revision after this source hardening.
+Review-copy MD and coordinator-owned serverCMake remain uncommitted verification
+copies and are excluded from the authored source commit.
