@@ -795,8 +795,8 @@
       "title": "Protocol-neutral scene document model",
       "module": "Presentation",
       "kind": "contract",
-      "status": "in_progress",
-      "owner": "coordinator /root; codec_author (scene model logical document)",
+      "status": "in_review",
+      "owner": "coordinator /root; codec_author (document author); service_reviewer (actual independent review)",
       "depends_on": [
         "CONTRACT-005",
         "CONTRACTPLAN-002"
@@ -815,12 +815,16 @@
       "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
       "notes": [
         "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state.",
-        "Claimed task/CONTRACT-009-scene-model from actualrefreshed mainb2b14bb afterPLAN002/PR60 normalmerge/all12checks. Dependencyready005/PLAN002done. FIRST DOCUMENT ONLY: NEW docs/contracts/scene-document-v1.md + docs/evidence/contract-009-author.md tocodec_author inisolated task/CONTRACT-009-document-author. Protocolneutralmodel/7families/geometry+ordering+groups/typed010-011refs/draft-live+publish-restore boundaries/compatibility/finiteprofile proposal+independentvalid-invalidlogicalexamples; preservefull§11scope anddo notinventdomain clocks/disclosure/progressorigin/newproductdefaults. No schema/API/stub/parser/validator/fixture/test/renderer/code/native/provider. Actualdifferentdocumentreview beforeanotherstage. Rootownssharedstate/HTML/schemas/imports/build/CI/pins/maps/PR. Parent008/C003completepackages/consumer/testfirst/platformgates remain."
+        "Claimed task/CONTRACT-009-scene-model from actualrefreshed mainb2b14bb afterPLAN002/PR60 normalmerge/all12checks. Dependencyready005/PLAN002done. FIRST DOCUMENT ONLY: NEW docs/contracts/scene-document-v1.md + docs/evidence/contract-009-author.md tocodec_author inisolated task/CONTRACT-009-document-author. Protocolneutralmodel/7families/geometry+ordering+groups/typed010-011refs/draft-live+publish-restore boundaries/compatibility/finiteprofile proposal+independentvalid-invalidlogicalexamples; preservefull§11scope anddo notinventdomain clocks/disclosure/progressorigin/newproductdefaults. No schema/API/stub/parser/validator/fixture/test/renderer/code/native/provider. Actualdifferentdocumentreview beforeanotherstage. Rootownssharedstate/HTML/schemas/imports/build/CI/pins/maps/PR. Parent008/C003completepackages/consumer/testfirst/platformgates remain.",
+        "Actual logical document author6a88c79c/import0857f31 supplies scene-document5eb1c845/authorcf0cfc95 only.26independent SD rows+7family rows,14stdlibgeometry/byte/Unicode/graph facts passed; no feature/schema/API/code/runtime. Different service_reviewer now reviews exact0857f31 in contract009-review and owns onlyNEWreviewnote. All7families/typed010-011UNFINALIZED boundaries/forest/geometry/publishrestore staleABA/finiteproposals/fullreleasegates checked next; no schema/decoder/renderer/test stage released. CIassessment docs-only uses existing finalhead checks, no new workflow needed. Parent008/003/012 andconsumer releasegates intact."
       ],
       "verification": {
         "document_review": "not_run"
       },
-      "evidence": [],
+      "evidence": [
+        "docs/contracts/scene-document-v1.md",
+        "docs/evidence/contract-009-author.md"
+      ],
       "review": null
     },
     {
