@@ -34,7 +34,7 @@ established by these synthetic real-SQL component checks.
 ## Active task and ownership
 
 The root branch is `task/CORETEST-008-timer-command-baseline`, created from integrated
-main 0b631dc. CORETEST-008 is in progress; [brief](../tasks/EPIC-001/CORE-008.md),
+main 0b631dc. CORETEST-008 is blocked for its affected next stages; [brief](../tasks/EPIC-001/CORE-008.md),
 specification v0.45 §4/TIMER-01. The FIRST stage is DOCUMENT ONLY: a simple pure
 manual/editorial timer command/proposal/revision model and independent literal
 examples, reusing existing numeric/lifecycle contracts. Do not duplicate arithmetic
@@ -97,3 +97,21 @@ All seven integrations, three FX providers, actual adapters, financial/refund/
 review/continuation flows, security/recovery/backup, both renderers/locales/themes,
 packaging/platform/live verification and the full release remain required and
 unfinished. Green component CI and task labels do not establish product completion.
+
+
+## Reviewed document handoff / owner blocker
+
+Actual candidate5446a91/import8754e43 is now independently reviewed in c33a4b1.
+[Contract](../contracts/timer-editorial-commands-v1.md),
+[author handoff](coretest-008-contract-author.md),
+[document review](coretest-008-contract-review.md). Contract blob0ed9c693 and
+16 literal examples are approved ONLY as a partial document stage. No API,
+feature-test, intended-red or production approval/completion follows. All three
+owner decisions remain unanswered, so CORETEST-008 is now explicitly blocked for
+affected next stages. [DraftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52)
+preserves the reviewed work; keep it open, do not merge it as a completed baseline.
+The document author and reviewer are complete/idle, not running in the background.
+Continue a different dependency-ready task while waiting. Read-only investigation
+of LOCALETEST-001 (shared English/German source catalog and Qt/web generation)
+identified no dependency conflict; its actual contract/tool behavior must be reviewed
+before any generator implementation. No localization task has yet been claimed.

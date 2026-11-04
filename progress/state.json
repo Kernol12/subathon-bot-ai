@@ -1242,7 +1242,7 @@
       "title": "Review and demonstrate red: Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "coordinator /root; timer_contract_author (reused codec_author); independent timer_contract_reviewer (reused service_reviewer)",
       "depends_on": [
         "CORE-005"
@@ -1256,10 +1256,19 @@
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
-        "Claimed task/CORETEST-008-timer-command-baseline from integrated main 0b631dc after the verified normal PR51 merge. First stage is DOCUMENT ONLY: propose a simple pure timer command/proposal/revision contract and independent literal examples from specification v0.45 §4/TIMER-01 and existing CORE-005/CORE-002 contracts. No C++ API, stub, test or implementation before separate document review. Author owns only docs/contracts/timer-editorial-commands-v1.md and docs/evidence/coretest-008-contract-author.md in isolated task/CORETEST-008-contract-author. Independent reviewer owns only docs/evidence/coretest-008-contract-review.md in a separate worktree and must inspect the actual candidate. Root owns shared state/HTML/maps/build/CI/checkpoint. Three explicit product questions were sent to the owner: lowering the cap below current Main; Ready/start with a passed deadline; enabling or moving a deadline to now/past. No answers received; preselected options and elapsed time are not answers. Mark these exact semantic gates and do not choose defaults or omit their acceptance. Preserve settled hard-end/debt/Grace/wait/reopen rules and explicit nonfinancial correction policies. The baseline remains in progress until its document/API/tests/reviews/valid red are complete; CORE-008 production remains planned."
+        "Claimed task/CORETEST-008-timer-command-baseline from integrated main 0b631dc after the verified normal PR51 merge. First stage is DOCUMENT ONLY: propose a simple pure timer command/proposal/revision contract and independent literal examples from specification v0.45 §4/TIMER-01 and existing CORE-005/CORE-002 contracts. No C++ API, stub, test or implementation before separate document review. Author owns only docs/contracts/timer-editorial-commands-v1.md and docs/evidence/coretest-008-contract-author.md in isolated task/CORETEST-008-contract-author. Independent reviewer owns only docs/evidence/coretest-008-contract-review.md in a separate worktree and must inspect the actual candidate. Root owns shared state/HTML/maps/build/CI/checkpoint. Three explicit product questions were sent to the owner: lowering the cap below current Main; Ready/start with a passed deadline; enabling or moving a deadline to now/past. No answers received; preselected options and elapsed time are not answers. Mark these exact semantic gates and do not choose defaults or omit their acceptance. Preserve settled hard-end/debt/Grace/wait/reopen rules and explicit nonfinancial correction policies. The baseline remains in progress until its document/API/tests/reviews/valid red are complete; CORE-008 production remains planned.",
+        "Document candidate5446a91/import8754e43 (contract0ed9c693, authorb38bc1ad) received actual independent bounded document approvalc33a4b1:16 literal examples reviewed, no fabricated full command oracles for partial numeric/old-deadline rows. No API/test/red/production stage approved. Blocked for affected next stages by three unanswered explicit owner choices OPEN-CAP/OPEN-READY/OPEN-DEADLINE already asked via async tool. DraftPR52 preserves this actual reviewed work; do not merge as completed baseline or choose defaults. Continue an independent ready task while awaiting answers."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "document_review": "passed",
+        "test_baseline": "not_run",
+        "implementation": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/timer-editorial-commands-v1.md",
+        "docs/evidence/coretest-008-contract-author.md",
+        "docs/evidence/coretest-008-contract-review.md"
+      ],
       "review": null
     },
     {
@@ -12941,6 +12950,11 @@
       "date": "2026-11-04",
       "task": "CORETEST-008",
       "note": "Claimed the timer-command baseline from freshly integrated main 0b631dc. Document-only contract/examples first, followed by independent review. Three explicit owner product questions remain pending; no API, tests, red baseline or implementation claimed."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CORETEST-008",
+      "note": "Actual document stage reviewed; three existing owner product choices remain unanswered. DraftPR52 preserves all work. Affected API/test/red stages are blocked; no default or baseline completion claimed."
     }
   ]
 }
