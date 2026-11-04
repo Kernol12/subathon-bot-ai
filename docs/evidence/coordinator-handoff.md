@@ -151,3 +151,17 @@ passed again, not the project baseline. Concrete API DOCUMENT remains the only
 next authorized author stage. Resume/finish that same author's actual API proposal,
 then explicitly followup the idle reviewer with its real revision. No generator,
 minimal stub, schema/source catalog, project fixture/test or intended red exists.
+
+
+## Actual concrete API document review
+
+Actual API895b500/importec662b1 is authored in translation-catalog-api-v1.md plus
+its author note. Separate reviewce77a9a requests three bounded corrections: a
+validated shorter direct timeout for cheap real failure tests, finite QM file
+size/chunked reads, and regular-source validation before a blocking open. The
+source catalog contract51383296 remains approved; it was not reopened by this
+API review. Author was explicitly resumed via followup_task for the two API Markdown
+files only. The reviewer is complete/idle; resume with the actual revised artifact.
+No Python generator/CLI/stub, source catalog/schema, formal fixture/test, new native
+harness or missing-feature red exists yet. DraftPR53 currently publishes the reviewed
+source-document stages and preserved proof; it must not merge as a completed baseline.
