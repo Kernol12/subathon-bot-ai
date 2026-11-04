@@ -7737,6 +7737,8 @@
         "RATES-007",
         "RATESTEST-008",
         "RATES-008",
+        "RATESTEST-009",
+        "RATES-009",
         "RATES-090"
       ],
       "spec_refs": [
@@ -7773,7 +7775,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-001.",
       "notes": [
         "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claimed dedicated task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc, independently of active localization PR53. Dependency-ready CONTRACT002/CORE001 both done. FIRST DOCUMENT only: exact fetched observations/effective snapshot/provenance, original monetary precision and known/unknown source/fetch/publication fields; preserve section9 consistent inverse/cross/pins requirements and credited-effect immutability. Author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md in separate task/RATESTEST-001-contract-author. Root owns shared state/HTML/maps/schemas/build/CI/pins/checkpoint. No API/stub/schema/storage/fixture/test/implementation/provider operation before actual reviewed contract. Provider-specific live/limits/capabilities remain unverified; no unknown field fabrication. Resolve routine normalization/resource choices within scope; flag real product conflicts explicitly. Implementation RATES001 remainsplanned until reviewed tests/intendedred."
+        "Claimed dedicated task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc, independently of active localization PR53. Dependency-ready CONTRACT002/CORE001 both done. FIRST DOCUMENT only: exact fetched observations/effective snapshot/provenance, original monetary precision and known/unknown source/fetch/publication fields; preserve section9 consistent inverse/cross/pins requirements and credited-effect immutability. Author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md in separate task/RATESTEST-001-contract-author. Root owns shared state/HTML/maps/schemas/build/CI/pins/checkpoint. No API/stub/schema/storage/fixture/test/implementation/provider operation before actual reviewed contract. Provider-specific live/limits/capabilities remain unverified; no unknown field fabrication. Resolve routine normalization/resource choices within scope; flag real product conflicts explicitly. Implementation RATES001 remainsplanned until reviewed tests/intendedred.",
+        "Actual model prep identified HistoricalValuation.effective_rate_decimal/STORAGE015 finite-decimal gap for recurring inverse1.20→5/6. Required new RATESTEST009/RATES009 tracks versioned exact-rational valuation/capture/codec/durable bridge with separate review/red/migration gates. EPIC017 requires this bridge; puremodel completion is not evidence of a usable award adapter. No existing header/schema/assertion changed and no rounded fallback accepted."
       ],
       "verification": {
         "document_review": "not_run",
@@ -8161,6 +8164,63 @@
       "summary": "Try stored snapshot/cross-rate then supported historical retrieval or authorized manual history rate with provenance.",
       "notes": [
         "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "RATESTEST-009",
+      "title": "Review and demonstrate red: Exact rate snapshots in retained historical valuations",
+      "module": "Currency",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "RATES-001",
+        "ACCT-003",
+        "STORAGE-015",
+        "ACCT-004"
+      ],
+      "spec_refs": [
+        "§3.5",
+        "§9",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-017/RATES-009.md",
+      "summary": "Preserve exact recurring effective rates and original observations through retained valuations, codecs and durable plan history.",
+      "notes": [
+        "Required planning task discovered from finite-decimal historical valuation versus recurring exact inverse gap during RATESTEST-001. No tests/review/red/implementation/verification yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "RATES-009",
+      "title": "Exact rate snapshots in retained historical valuations",
+      "module": "Currency",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "RATES-001",
+        "ACCT-003",
+        "STORAGE-015",
+        "ACCT-004",
+        "RATESTEST-009"
+      ],
+      "spec_refs": [
+        "§3.5",
+        "§9",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-017/RATES-009.md",
+      "summary": "Preserve exact recurring effective rates and original observations through retained valuations, codecs and durable plan history.",
+      "notes": [
+        "Required planning task discovered from finite-decimal historical valuation versus recurring exact inverse gap during RATESTEST-001. No tests/review/red/implementation/verification yet."
       ],
       "verification": {},
       "evidence": [],
