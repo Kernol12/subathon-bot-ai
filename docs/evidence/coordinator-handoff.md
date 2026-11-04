@@ -93,3 +93,24 @@ prune or delete them. No root build/native/CTest/publisher child is currently ru
 No deployment/live chat/payment/provider actions are authorized. All seven integrations,
 three FX providers, both renderers, locales/themes/platforms/licenses/package/live
 release gates remain. The next required action is the actual D1 owner answer.
+
+
+## Latest owner answers
+
+The owner asked for more context on PR62's D1. Root explained the Moderator/Alice
+example with the three different A/10 and B/10 outcomes and re-presented the
+choice. D1 remains unselected; do not infer acceptance of the recommendation.
+
+All three PR52 policy questions are now answered in
+[timer owner decisions](timer-editorial-owner-decisions.md): per-change warning
+with Keep / Reduce / Abort; reject Start after an enabled passed deadline and
+remain Ready; accept an authorized active deadline edit to now/past and finish
+immediately. Do not ask those questions again. Incorporate and independently
+review the affected specification/contract/examples when PR52 resumes after PR62.
+No timer code or executable baseline was changed.
+
+A fresh read-only SSH authentication check in the preceding turn succeeded as
+Kernol12. The old SSH authentication blocker is no longer established. Use the
+legitimate SSH route for later authorized pushes and verify actual publication;
+the token still lacks workflow scope, but no token change is needed if SSH works.
+No new workflow push or current CI is claimed by that authentication check.
