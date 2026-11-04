@@ -27,8 +27,10 @@ and specv0.45 §3.5/9/15/NUM-04/FX-06.
 Only a logical model exists: lossless observations, exact effective potential
 components, explicitly selected fetched/manual constraints, original money and
 honest independently unknown metadata. No provider capability/live check, API,
-stub, schema, storage, fixture/test or red baseline exists. Independent document
-review is RUNNING; actual verdict/corrections precede further stage release.
+stub, schema, storage, fixture/test or red baseline exists. Independent logical document review7003473/import6a4a487 APPROVES corrected
+sourcece1b926/import0c97691 (contract76d2d9b3/authorc5e87c18). Initial RS10/RS15
+findings and resolution remain in the review. ONLY next concrete API DOCUMENT
+is released; no implementation/test/interface-source gate is complete.
 
 Concrete discovered gap: legacy HistoricalValuation.effective_rate_decimal and
 STORAGE-015 cannot represent recurring inverse1.20→5/6 as a finite decimal.
@@ -43,15 +45,18 @@ UI/integration gates remain explicit.
 Ownership under local-evidence/worktrees/:
 
 - service_author completed actual2-file documentaf2f9a9 in clean
-  ratestest001-contract-author, task/RATESTEST-001-contract-author; currently idle.
-- codec_author RUNNING different document review in ratestest001-contract-review,
-  task/RATESTEST-001-contract-review; own ONLY new ratestest-001-contract-review.md.
+  ratestest001-contract-author, task/RATESTEST-001-contract-author. Now assigned
+  ONLY new docs/contracts/rate-snapshots-api-v1.md and own API-author evidence;
+  merge actual approved prerequisites before drafting, no code/stub/test work.
+- codec_author completed approval7003473 in ratestest001-contract-review,
+  task/RATESTEST-001-contract-review; clean/idle until explicit followup on the
+  ACTUAL API candidate. No future API/test/implementation approval.
 - Root owns shared state/HTML/maps/build/CI/pins/checkpoint and integration.
   Do not overwrite other branch snapshots; reconcile newer active task claims.
 
 Next: obtain actual document verdict, integrate it or release bounded corrections,
 then concrete API/stubs and reviewed tests/first red following normal gates.
-Open a focused draft PR with current concrete artifacts; keep it draft until full
+[Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) is open; keep it draft until full
 baseline completion. Existing stable CI covers prior components only; assess/extend
 actual new executable suites at their stage, never count missing setup as red.
 
