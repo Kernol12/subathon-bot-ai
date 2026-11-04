@@ -10540,7 +10540,8 @@
         "Actual minimal stub ef4974c/importa9e60e5 plus root shared build/CI1f666b0 is integrated. All five feature entries remain immediate markers and none has been invoked. Selected-prefix configure/build/four existing CTests pass; actual official CI41792990086 passes archive hashes/tool closure/inert imports/four infrastructure checks on Ubuntu24.04/Python3.12.3. Actual separate source/config review is active before fixture/test release. No formal tests, intended red or generator behavior exists yet; no baseline-completion claim.",
         "Actual minimal source/config1f666b0 receives independent approval732bb2d/import6589861 after separate selected-prefix11step build/four infrastructure passes and inert AST/import checks. Root explicitly releases independent fixture/test author codec_author in NEWtask/LOCALETEST-001-fixture-author from main+6589861. Own ONLY tests/fixtures/translation_catalog/, tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note. Root owns all shared harness/CI/state. Complete literal TS/browser goldens, Qt-only real compiler/raw lookup/repro foundation and meaningful Python API/CLI tests must receive actual review before any project feature/main/script/marker call. Production remains unimplemented and baseline incomplete.",
         "Actual independent fulltest candidate bbdeefb/importe0ffc3b and sharedharness e1779a3 now compile/discover43unique Python methods/48CTest entries, no feature/main/script/marker or newQtprobe executed. Initial fixture/probe reviewaeb4091/import39711a2 requested additive plural raw-percent witnesses and actual fresh missing-English load; both corrected preservingall6oldobjects/forms with seventhfixture. Full actual source/test/harness review is running with service_reviewer; no prospective approval. OrdinaryCI discoveryguards43 and explicitly excludes onlyintentional-red execution until implementation; allmethods alwaysregistered. Selected realfoundation green and FIRSTprojectred remain pending.",
-        "Actual narrow correctedQtfixture/probe/harness approval2968f33/importacfb4af precedes root FIRSTfoundation execution on same selected officialQtbuild:1/1PASS0.02s/100assertions, en/de byte-identical in2freshdirs, rawlogSHAbd8f98f6. No projectfeature/main/marker invoked. CIguard6fdd985 closes duplicateAST/disabled/inversion/labelgap and actualreviewer acknowledges. OrdinarynewfoundationCI publication/observation and full43semanticreview pending; no baselinecompletion/red claim."
+        "Actual narrow correctedQtfixture/probe/harness approval2968f33/importacfb4af precedes root FIRSTfoundation execution on same selected officialQtbuild:1/1PASS0.02s/100assertions, en/de byte-identical in2freshdirs, rawlogSHAbd8f98f6. No projectfeature/main/marker invoked. CIguard6fdd985 closes duplicateAST/disabled/inversion/labelgap and actualreviewer acknowledges. OrdinarynewfoundationCI publication/observation and full43semanticreview pending; no baselinecompletion/red claim.",
+        "Actual compiledfoundationCI41797849656 atcafe4ad SUCCESS: freshUbuntu24.04/Python3.12.3/4pinnedarchives/runtimeclosure/build/43uniqueenableduninvertedfeaturediscovery/5ordinaryCTestPASS,100Qtassertions and sameen/deQMhashes asroot. LogSHAdae3c419. Fullactual43review e76a9a0/import48e1294 requests two additive purePython oracles beforeFIRSTred: global validationstagepriority across IDs and U2028/U2029 escapedweb/rawTS scalars. Existing43names/assertions/7goldens/probe preserved; codec_author released2ownedfilecorrection. No projectfeature/main/marker hasrun and no prospective finalreview."
       ],
       "verification": {
         "tool_environment": "partial",
@@ -10552,7 +10553,9 @@
         "interface_ci": "passed",
         "interface_review": "passed",
         "test_authorship": "draft",
-        "selected_qt_foundation": "passed"
+        "selected_qt_foundation": "passed",
+        "selected_foundation_ci": "passed",
+        "test_review": "partial"
       },
       "evidence": [
         "docs/contracts/translation-catalog-v1.md",

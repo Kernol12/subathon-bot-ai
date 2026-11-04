@@ -47,8 +47,18 @@ revision. Ordinary workflow builds the probe, verifies exact discovery and runs 
 mandatory Qt foundation plus existing checks with explicit -LE intentional-red.
 Intentional feature red is separate and never inverted, skipped or treated as green.
 
-The actual new ordinary CI execution is pending publication/observation at this
-record's revision. Full actual test review and same-environment green setup must
+Actual [CI41797849656](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41797849656)
+at cafe4adc093d1d39a51e0db97effcfd8381207ec completed SUCCESS. Fresh Ubuntu24.04,
+Python3.12.3 and the four verified official archives passed version/runtime closure,
+build/syntax/inert imports, exact43 enabled/uninverted discovery and all five
+non-intentional-red CTests. The Qt foundation completed100 assertions and BOTH
+same-tool binary hashes above also matched the root observations. Ignored log
+local-evidence/localetest001-ci/foundation-41797849656.log SHA256
+ dae3c4196ee47e1675a02e3540aa631c489d59e6b1261b22383bd20b91a25134.
+
+This actual CI ran before two additive Python-only semantic oracle corrections
+(T1 global cross-message stage priority, T2 Unicode separators). It is a real
+foundation/CI check, not approval/execution of a future corrected feature suite. Full actual test review and same-environment green setup must
 precede FIRST intended project marker red. Missing setup is not red. Production
 LOCALE-001 remains unimplemented; formatting/preferences/runtime/package/platform
 and full release gates remain separate. The earlier scratch56-check experiment is
