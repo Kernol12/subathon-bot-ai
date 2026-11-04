@@ -4169,8 +4169,8 @@
       "title": "Password hashing and parameter upgrades",
       "module": "Identity",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; codec_author production author; different code reviewer pending",
       "depends_on": [
         "CONTRACTPLAN-001",
         "SESSIONTEST-001"
@@ -4183,10 +4183,15 @@
       "summary": "Store salted hashes and parameters, verify credentials and upgrade outdated parameters after successful login.",
       "notes": [
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
+        "Claim from actualmain436ed9afb1ac3d3be68f4be8c2b1bdc62557e574 AFTER all original PR62/59/54/56/52 normally merged. Dependency-ready reviewed/red baseline is integrated; originalPRpriority clear. Three real libsodium1.0.22 password entrypoints against frozen approved logical/API/headerec3c5cf8. Strict borrowed PHC/cost preflight, guarded continuously locked/cleared RAII secret ownership, native output validation and two actual source checks for conditional-save proposal. No persistence/session authority or new dependency. Author owns ONLY server/src/password_hashing.cpp and new author evidence in separate worktree. Root owns all shared build/CI/state/map/HTML/spec/checkpoint/PR operations. Reviewed headers/tests/fixtures/observer/assertions remain frozen; any genuine defect needs written specification reason and separate actual review. Relevant acceptance must pass; actual different code/allocation audit + CI promotion/fresh latest checks/normal merge remain. No live or complete product authority claim."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "implementation": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/session-001-claim.md"
+      ],
       "review": null
     },
     {
