@@ -22,11 +22,14 @@ ctest --preset milestone-progression-debug -L '^milestone-progression$' --no-tes
 [JUnit](milestonetest-001-first-red.xml) and
 [exact receipt](milestonetest-001-first-red.json) retain the command/clean head/
 times/direct code/byte hashes. Captured stdout/stderr as bytes and saved bytes,
-return code and receipt BEFORE decoding, retaining intentional high-byte traces.
+return code and receipt BEFORE decoding, preserving original bytes without assuming
+UTF8. This particular stdout contains no high bytes, despite high-byte input data.
 Readable projection uses UTF8 backslashreplace. The capture wrapper returns normally
 after recording nativecode8; this is not CTest failure inversion. Core dumps disabled.
 
-Different actual per-case/source-row marker attribution is still required; no
-prospective approval or unexecuted later assertions are claimed. Full frozen53
+Different actual [attribution](milestonetest-001-first-red-review.md) e030a0e7/
+import897c001 approves all110 primary marker failures:12 uncaught-body,62 wrong-
+exception helper and36 EXPECT_NO_THROW (20MP rows+16 boundary). No consequential
+or unrelated failures. No unexecuted later assertion is claimed observed. Full frozen53
 source/fixture/header/stub remain01997384/409be19d/9a167813/4e3291f0. Production,
 actions/score/history authority, UI/queue/storage/platform/live remain unimplemented.

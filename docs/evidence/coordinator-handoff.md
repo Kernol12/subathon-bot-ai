@@ -10,33 +10,34 @@ all14 PR54 post-main checks now SUCCESS. See corresponding access/session/rate
 handoffs. Rate FIRST native53 failures are valid recovered evidence, but direct
 CTest exit UNKNOWN because UTF8 collector failed after collection. Do not replay.
 
-## Active PR56 MILESTONETEST-001
+## PR56 baseline complete; final gates active
 
-Isolated local-evidence/worktrees/milestonetest001-integrator on
- task/MILESTONETEST-001-main-integration from preserved primary8721770; mergee90d9f9
-includes all main and claim. Continue existing PR56 branch via ordinary fast-forward
-push to task/MILESTONETEST-001-progression-baseline; inspect ancestry/remote first.
-Root owns shared state/build/CI/checkpoint. Full test review208d0580 and frozen
-53-case test01997384/fixture409be19d/header9a167813/stub4e3291f0 remain valid.
-[Current harness](milestonetest-001-current-harness.md) records actual selected
-configure/build/exact53 guard/old36 green, CTest label compatibility patch pending
-actual different review. Selected host25 FIRST already passed19:11:54Z; do not
-replay local foundation. Next publish current workflow, observe selected Ubuntu25
-and old36, after different harness approval save FIRST plain53 feature red as bytes
-with direct native code/JUnit, then separate attribution/final metadata/current
-checks/normal merge. No milestone production implementation released.
+Isolated local-evidence/worktrees/milestonetest001-integrator / branch
+ task/MILESTONETEST-001-main-integration; ordinary publication to existing PR56
+ task/MILESTONETEST-001-progression-baseline (remotea15 lastobserved). Mainfe727
+integratede90; labels/configa15 approved75e62c2/importc2bcb08. Fulltestreview208
+and all frozenartifacts unchanged. ActualselectedUbuntu41907483021 ata15 passed
+53guard/25facts+old36; alla15 checks16SUCCESS. FIRSTclean c2bcb08820:36:28Z:
+directCTest8/53fail0skip; savednativebytes/code/JUnit beforedecode. Differentactual
+attributione030a0e7/import897c001 validates110primarymarkers/nootherfailures.
+[Baseline handoff](milestonetest-001-handoff.md) links evidence. Taskdoneobservedred,
+productionplanned; MILE01/NUM04partial. Next differentactualfinalmetadatareview,
+freshfinalheadCI/rules/reviews/discussions/normalmerge; thenintegratenewmainPR52.
+Do not replay either selectedhost25FIRST19:11:54Z or featureFIRST53.
 
 ## Active PR52 CORETEST-008
 
-local-evidence/worktrees/coretest008-integrator remains4c6c02f5, branch
+local-evidence/worktrees/coretest008-integrator is732f73e2, branch
  task/CORETEST-008-timer-command-baseline. Logical/API/minimal-source reviews through
 5f52125 valid; full owner choices in spec81406806. Test author78a7936b CPP3b0c8041,
 inventory1a4fb38d; actual independent test approvalbd7f5e3e by service_reviewer.
-Root must import both and mainfe727c8 preserving408graph. service_author is assigned
-only new separate harness-author worktree from78a (testsCMake/newlabels/newworkflow/
-authornote), no body executions. codec_author available for actual harness review;
-service_reviewer test gate complete and available. Integrate actual harness then
-get different actual review/current CI exact27 discovery +old74, FIRST plain27 red,
+Tests/review imported9162597/d6370af, mainfe727 mergedb1cf46f preserving408graph.
+Actual harnessauthor96c22392 imported4021d74; currentconfigure/build/list101 and
+strict27guard pass. Authorold74allpass/native0; no editorialbody. Published732f73e
+to existingdraftPR52; codec_author now reviewsactualrootmain/harness only in
+separatetree. service_author available for finalmetadata review; service_reviewer
+completed milestone attribution. Get actualharnessreview/currentCI27guard+old74,
+FIRSTplain27red/nativebytes/directcode/JUnit,
 separate attribution/final gates/merge. Tests safely catch ownership primary marker
 then assert retained value; attribute secondary guard separately. No CORE-008/UI
 implementation released. Timer API remains on the separate PR52 branch.
