@@ -601,8 +601,8 @@
       "title": "Split declarative scene contract prerequisites",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_review",
-      "owner": "coordinator /root (state/integration); service_reviewer (planning author); independent actual review next",
+      "status": "done",
+      "owner": "coordinator /root (state/integration); service_reviewer (author); codec_author (independent actual review)",
       "depends_on": [
         "CONTRACT-005",
         "CONTRACTPLAN-001"
@@ -627,18 +627,28 @@
       "summary": "Documentation-only scene contract split preserving full parent, schema, renderer and release gates; no scene behavior finalized.",
       "notes": [
         "Claimed task/CONTRACTPLAN-002-scene-prerequisites from freshlyfetched main0096323 after actual005/PR58 normalmerge/all12checks. RootownsJSON/HTML/claims/schemas/imports/build/CI/pins/maps; service_reviewer owns ONLY newADR0005, CONTRACT009–012 briefs, bounded childintegration sectionofCONTRACT008 and sceneplan authornote in isolated writer tree. Concreteowningdomain prerequisites/cycleavoidance and full§11requirement map beforeactualreview; no new default/codec/validator/supportpolicy claim. Independentreview actualauthoredplan/state beforecompletion; no production/source/fixture/assertion/schema edits.",
-        "Actual plan author85be9bb8/import2c76307 changed7assignedMDfiles only, including byte-identical original008prefix+23lines. Root maps exactADR table into406tasks: parent008 adds5gates and4newchildren contribute19edges. All1473 oldedges/319 baseline-prerequisiteedges retained; onlyold008 dependencylist changes. No source/schema/test/validator/provider/native edits or execution. Actualdifferent docs ANDstate review required, no futureapproval."
+        "Actual plan author85be9bb8/import2c76307 changed7assignedMDfiles only, including byte-identical original008prefix+23lines. Root maps exactADR table into406tasks: parent008 adds5gates and4newchildren contribute19edges. All1473 oldedges/319 baseline-prerequisiteedges retained; onlyold008 dependencylist changes. No source/schema/test/validator/provider/native edits or execution. Actualdifferent docs ANDstate review required, no futureapproval.",
+        "Actual independent approvala2897c88, reviewde522f0b, accepts exact84a80bd docs ANDmappedstate. All1473claim-stateedges/319baseline gates and1471published-main edges preserved; exact24 additions/no cycles/full§11allocation checked. No blocker/ownerchoice. OnlyPLAN002locallydone, all009–012remainplanned; finalexactheadCI/rules/threads/normalmerge precedechildclaims. No schema/source/native/provider behavior or newpolicy approved."
       ],
       "verification": {
-        "planning_review": "draft",
-        "consistency": "passed"
+        "planning_review": "passed",
+        "consistency": "passed",
+        "selected_ci": "not_run"
       },
       "evidence": [
         "docs/decisions/0005-scene-contract-prerequisites.md",
         "docs/evidence/contractplan-002-author.md",
-        "docs/evidence/contractplan-002-state-integration.md"
+        "docs/evidence/contractplan-002-state-integration.md",
+        "docs/evidence/contractplan-002-review.md",
+        "docs/evidence/contractplan-002-handoff.md"
       ],
-      "review": null
+      "review": {
+        "author": "service_reviewer + coordinator /root state mapping",
+        "reviewer": "codec_author",
+        "outcome": "approved",
+        "evidence": "docs/evidence/contractplan-002-review.md",
+        "revision": "84a80bd actual scene documents/state"
+      }
     },
     {
       "id": "CONTRACT-005",
@@ -13488,6 +13498,11 @@
       "date": "2026-11-04",
       "task": "CONTRACTPLAN-002",
       "note": "Claimed focused scene contract prerequisite refinement from integratedcommon005; actual planning artifacts and independentreview next."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-002",
+      "note": "Actual independent scene-plan/DAG review approved. Four child contracts remain planned; final publication/CI/normal merge pending."
     }
   ]
 }
