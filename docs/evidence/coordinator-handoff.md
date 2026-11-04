@@ -148,3 +148,15 @@ FIRSTplain37localmarkerred withraw/JUnit/hashes/corelimit thenDIFFERENTattributi
 No remoteCIpass/baselinedone/SESSION001dependencyready/merge inferred. Thisdoesnot
 releaseBoostmismatchrate/milestonework. codec_author environmenthandofffinishedclean,
 nextactualassignmentmustbePWcorrectedfullrereview oncecandidateavailable.
+
+
+Actual correctedfullPWapproval093b528e/importd560cbd, reviewd4f7213b nowintegrated.
+ROOT FIRST LOCAL featurebaseline ranCLEANd560cbda44cb180bab8d12fc79d3da5fefded6ba at
+16:06:50Z, actualCTestexit8/37fail/0disabled/0skip/0.063s. All37haveRUNentries and
+exactnamedunimplementedmarker; separateDIFFERENTcausalattribution pending.
+[Results](sessiontest-001-red-results.md), [receipt](sessiontest-001-red-results.json),
+rawignoredlocal-evidence/sessiontest001-red. Originalmechanicalinspectorwrongstatus/
+phrase expectation preserved+corrected separately, no run/source/assertionrepeat.
+Do notrerunFIRST baseline. Rootnextassignsactualattribution to codec_author (exactagent
+codec_author), rawabsolute pathsavailableinowningintegrator. No remoteselectedCI/
+baselinedone/production readiness inferred. Allpublication/access/mergegates stay.
