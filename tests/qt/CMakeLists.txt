@@ -53,6 +53,14 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
         lifecyclePauseAndDeadlineDoNotCredit
         portBindingsAndIntermediateBounds
         issuerCollisionsNeverRegenerate
+        referenceViewRetainsSelectedKeyLimit
+        retainedStateBudgetPrecedesPolicy
+        historicalBeforePolicyMatchesAudit
+        historicalJobMeaningIsNotOnlyAnEcho
+        explicitUnresolvedPolicyRecordsKnownHold
+        retainedCommandBoundIsNotMalformedData
+        negativeCounterRequiresCorrectionPurpose
+        retainedClockFinalUtcMatchesObservation
         referenceViewPureAndCallbackLifetime
         referenceViewForeignReadAndUnderlyingBudget
         recordSemanticFormatsAreChecked

@@ -1,0 +1,37 @@
+Start testing: Nov 04 06:29 CET
+----------------------------------------------------------
+33/308 Testing: application-service.negativeCounterRequiresCorrectionPurpose
+33/308 Test: application-service.negativeCounterRequiresCorrectionPurpose
+Command: "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/application-service-debug/tests/qt/server_application_service_acceptance" "negativeCounterRequiresCorrectionPurpose"
+Directory: /home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/application-service-debug/tests/qt
+"application-service.negativeCounterRequiresCorrectionPurpose" start time: Nov 04 06:29 CET
+Output:
+----------------------------------------------------------
+********* Start testing of ApplicationServiceTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : ApplicationServiceTests::initTestCase()
+FAIL!  : ApplicationServiceTests::negativeCounterRequiresCorrectionPurpose(negative-score) All negative units require correction purpose before clock/arithmetic/actions
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/application_service_tests.cpp(50)]
+FAIL!  : ApplicationServiceTests::negativeCounterRequiresCorrectionPurpose(negative-count) All negative units require correction purpose before clock/arithmetic/actions
+   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/application_service_tests.cpp(50)]
+PASS   : ApplicationServiceTests::cleanupTestCase()
+Totals: 2 passed, 2 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of ApplicationServiceTests *********
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"application-service.negativeCounterRequiresCorrectionPurpose" end time: Nov 04 06:29 CET
+"application-service.negativeCounterRequiresCorrectionPurpose" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 04 06:29 CET
+
+acceptance =   0.05 sec*proc
+
+application-service =   0.05 sec*proc
+
+qt =   0.05 sec*proc
+
+server =   0.05 sec*proc
+
