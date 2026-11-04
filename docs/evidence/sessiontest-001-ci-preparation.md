@@ -48,3 +48,14 @@ Actual latest bytes/compile-only/discovery evidence are in
 [full harness](sessiontest-001-test-harness.md). Initial zero-feature state above
 is historical. Full actual different review and selected Ubuntu execution remain
 pending; no featurebody/marker/newSDKcall was run by compiling/listing this update.
+
+
+Local execution ordering clarification: root explicitly adopted the ACTUALdifferent
+reviewed [password sequencing](sessiontest-001-local-red-sequencing.md), approved
+[environmentreview](sessiontest-001-environment-review.md)d0a3819b/importfb3a5e2.
+It replaces only this evidence's earlier agent-added CI-before-FIRST-LOCAL-red order.
+Actual R1/R2 corrected-fulltest approval and exact matching runtime-proven hostSDK
+are still mandatory before that local operation; currenttests remainchangesrequired.
+Remote currentselected Ubuntu CI/access/publication remains required beforebaseline
+integration/merge; all productionprerequisites remain. No remoteCI/testred isclaimed
+by this clarification and no workflow/source/assertion/fixture ischanged.

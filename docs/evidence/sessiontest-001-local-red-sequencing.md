@@ -64,3 +64,22 @@ to rate/milestone's localBoost1.92 versus selected1.83; their exact selected dep
 must be validated separately before any analogous sequencing decision. No older
 review/foundation/firstred is replayed or relabeled. The owner access request remains
 pending and genuinely needed for publishing new workflows and completing CI gates.
+
+
+## Actual adoption, still conditional on corrected tests
+
+Coordinator /root adopts the limited sequencing clarification after ACTUALdifferent
+approval d0a3819b30a7e3ef7b0a53d13fc9eb01741cf1b0/importfb3a5e2935d36bdc546c9e09173bf02462cb6a68,
+[review](sessiontest-001-environment-review.md) blob0b3a9c6d83b84e002661c90c04289dc09d218ee0.
+It supersedes ONLY the agent-added remote-CI-before-FIRST-LOCAL-red order in prior
+CI preparation/full harness/full review notes, as enumerated in that actualreview.
+Those historical conditions were NOT satisfied retroactively. CI-before-integration/
+merge and all production prerequisites remain mandatory. No assertion, fixture,
+workflow, dependency/environment requirement or permission is weakened.
+
+Current source remains CHANGES REQUIRED R1/R2. Only actual corrected fullcandidate
+approval, matching unchanged selected host SDK/proof/link semantics and cleanhead/
+complete discovery can permit the later explicit localred. This adoption isNOT
+prospective testapproval and no feature/marker/nativebody ran. SESSIONTEST001 is
+notcomplete, SESSION001 notdependency-ready. After actuallocalred, separateactual
+attribution and still-open remoteCI/access/merge gates must be recorded honestly.

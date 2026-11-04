@@ -63,3 +63,14 @@ Frozen logical/API/header/immediate3throw CPP and nativeprograms remainunchanged
 Full differentreview, selectedCI/FIRSTred/attribution andproduction/codeaudit,
 ordinaryallocationexception handling andfullsecretcleanup, account/currentlogin/
 conditionalstore/admission/benchmark/platform/packaging gates remain.
+
+
+Local execution ordering clarification: root explicitly adopted the ACTUALdifferent
+reviewed [password sequencing](sessiontest-001-local-red-sequencing.md), approved
+[environmentreview](sessiontest-001-environment-review.md)d0a3819b/importfb3a5e2.
+It replaces only this evidence's earlier agent-added CI-before-FIRST-LOCAL-red order.
+Actual R1/R2 corrected-fulltest approval and exact matching runtime-proven hostSDK
+are still mandatory before that local operation; currenttests remainchangesrequired.
+Remote currentselected Ubuntu CI/access/publication remains required beforebaseline
+integration/merge; all productionprerequisites remain. No remoteCI/testred isclaimed
+by this clarification and no workflow/source/assertion/fixture ischanged.
