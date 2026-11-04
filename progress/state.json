@@ -2682,17 +2682,21 @@
       "notes": [
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claimed dedicated task/MILESTONETEST-001-progression-baseline from freshlyintegrated main3217c212 after LOCALE001/PR55 normalmerge. Readyprereqs CONTRACT002/CORE001done. FIRST DOCUMENT ONLY: pureexactscore/ascendingtarget sequentialachievement/immutablecompletedprefix/deficit/nextremaining/progress projection; orderedmulti-crossing and800belowcompleted1000deficit200/next2000remaining1200. service_author owns ONLY docs/contracts/milestone-progression-v1.md and docs/evidence/milestonetest-001-contract-author.md in separate task/MILESTONETEST-001-contract-author. Root owns state/HTML/maps/sharedschemas/build/CI/pins/checkpoint. Independentreview actualdocumentbeforeAPI/stubs/tests. No arbitrary positivity/score/origin restriction or hiddenrounding; explicitly propose signedlimits/firsttarget/progresssemantics andrecordtrueconflicts; do not shrinkagreedmanual/reset/edit/queue/policy scope, adjacenttasksretainthose. No C++code/header/schema/fixture/tests/action/statewrites/providerexecution atthis stage. MILESTONE001productionplanned.",
-        "Actual logical4362fe29/importaf7e2be (contract0115a5cc/author67593a9e) receives independentdocumentapproval8338981. MP01-22/23independentarithmeticfacts checked; no ownerquestion. Fullsignedtargets/postscore, U64distances, immutablecapturedprefix/currentprojection/absentfirstinterval explicit. Release ONLYconcreteAPI DOCUMENT toservice_author: NEW docs/contracts/milestone-progression-api-v1.md and docs/evidence/milestonetest-001-api-author.md. No actualheader/source/stub/schema/storage/fixture/test/action/scorebehavior untilactualAPIreview/sourcegate/reviewedtests/firstred. Rootownsallsharedintegration; model/adjacentgates remainfrozen."
+        "Actual logical4362fe29/importaf7e2be (contract0115a5cc/author67593a9e) receives independentdocumentapproval8338981. MP01-22/23independentarithmeticfacts checked; no ownerquestion. Fullsignedtargets/postscore, U64distances, immutablecapturedprefix/currentprojection/absentfirstinterval explicit. Release ONLYconcreteAPI DOCUMENT toservice_author: NEW docs/contracts/milestone-progression-api-v1.md and docs/evidence/milestonetest-001-api-author.md. No actualheader/source/stub/schema/storage/fixture/test/action/scorebehavior untilactualAPIreview/sourcegate/reviewedtests/firstred. Rootownsallsharedintegration; model/adjacentgates remainfrozen.",
+        "Actual API candidate c89776c/import 9d8ba9e, contract blob 58b8e129 and author note 9a9f3e59, is now with codec_author for actual independent document review. One raw-input operation owns prefix/new-range/projection, full signed64/U64 arithmetic and explicit complete-result budgets. Five literal byte sums checked; consistency and current HTML passed. No actual header/source/stub/fixture/test/red or production stage released. Rate workflow access remains blocked; preserve all valid reviews and unfinished work. Root inspected actual agents, worktrees, processes and GitHub heads on resume."
       ],
       "verification": {
         "document_review": "passed",
         "test_baseline": "not_run",
-        "implementation": "not_run"
+        "implementation": "not_run",
+        "api_document_review": "draft"
       },
       "evidence": [
         "docs/contracts/milestone-progression-v1.md",
         "docs/evidence/milestonetest-001-contract-author.md",
-        "docs/evidence/milestonetest-001-contract-review.md"
+        "docs/evidence/milestonetest-001-contract-review.md",
+        "docs/contracts/milestone-progression-api-v1.md",
+        "docs/evidence/milestonetest-001-api-author.md"
       ],
       "review": null
     },

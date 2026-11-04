@@ -1,93 +1,124 @@
-# Coordinator checkpoint — milestone API and rate workflow access
+# Coordinator checkpoint — milestone review and workflow access
 
-/root,2026-11-04. Continue AGENTS.md/COORDINATOR_PROMPT.md. Full project incomplete.
-One operational access request is pending; keep doing independent authorized work.
+Coordinator `/root`, 2026-11-04. Continue AGENTS.md and
+[the coordinator prompt](../COORDINATOR_PROMPT.md). The full product is incomplete.
+Continue useful authorized work while access and product questions wait.
 
-## Current main and completed catalog slices
+## Integrated work and actual repository state
 
-Main3217c21233bfbe1e4e2732c7c7819bdffe00ef1c normally merged PR55 from4b008d28 at
-10:01:43Z after all12 exacthead checks, sourceapprovalacaeb41 and preserved43
-acceptance/Qt100/infrastructure/productartifact checks. Trees equal3b3dd794; all11
-post-main workflows subsequently observedSUCCESS. PR53baseline/PR51ACCT004 also
-complete. See [generator handoff](locale-001-handoff.md), [review](locale-001-code-review.md),
-[CI](locale-001-ci.md) and [historicalred](localetest-001-red-review.md). Do not replay
-completed gates or infer runtimeUI/Windows/package/live/fullrelease capability.
+Main is `3217c21233bfbe1e4e2732c7c7819bdffe00ef1c`, rechecked on resume.
+[PR55](https://github.com/Kernol12/subathon-bot-ai/pull/55) merged normally at
+10:01:43Z from `4b008d28`, after all 12 exact-head checks and review `acaeb41`.
+Merge/head trees equal `3b3dd794`; all 11 post-main workflows passed. PR53 baseline
+and PR51 ACCT-004 also completed. See [generator handoff](locale-001-handoff.md),
+[review](locale-001-code-review.md), [CI](locale-001-ci.md),
+[historical red](localetest-001-red-review.md) and
+[accounting handoff](acct-004-handoff.md). Preserve these completed gates; they do
+not establish runtime UI, Windows, packaging, providers or full-release acceptance.
 
-## Active milestone document task
+Root is on `task/MILESTONETEST-001-progression-baseline`, actual API imported at
+`9d8ba9ec5bebcf512648be274a6a78dc87372b28`. Open drafts PR52/PR54/PR56 remain at
+`3e05b48`/`512828c`/`564e00a`. Existing checks passed at those heads; future local
+revisions do not inherit those results. Inspection preserved dirty files in eight
+older trees: acct004-service, accttest004-service-api-review, storage002-review,
+storage017-review, storage017-validation, storagetest016-api-author,
+storagetest016-review and storagetest017-review. Missing historical registrations
+remain untouched. Never reset, prune or delete them. No Git/build/CTest/publisher
+child was running at inspection. Root checkpoint metadata is being committed next.
 
-Root task/MILESTONETEST-001-progression-baseline, [draftPR56](https://github.com/Kernol12/subathon-bot-ai/pull/56),
-lastpublished564e00a. Actual logical4362/importaf7 (0115a5cc/67593a9e) independently
-approved8338981/import4724. [Contract](../contracts/milestone-progression-v1.md),
-[author](milestonetest-001-contract-author.md), [review](milestonetest-001-contract-review.md)
-fix fullsigned64scores/targets, exactU64distances, immutablecapturedprefix/orderednew
-suffix/currentprojection, no-repeat/deficits, explicit absentinitialinterval. MP01–22
-and23independentarithmetic facts checked. No newproductchoice or positive-onlylimit.
+## Milestone baseline and actual API review
 
-service_author RUNNING API DOCUMENT in local-evidence/worktrees/milestonetest001-contract-author,
-branch task/MILESTONETEST-001-contract-author. Own ONLY NEW milestone-progression-api-v1.md
-and milestonetest-001-api-author.md. Proposal ONE raw-input advancement boundary,
-immutable result with updatedprefix/newrange/projection; no duplicate projection
-algorithm. No actualheader/source/stub/schema/fixture/test/action/state/provider
-behavior released. When actualcandidate arrives, independentcodec_author document
-review before minimal-source stage. Rootowns sharedstate/HTML/schema/build/CI/pins.
+[Draft PR56](https://github.com/Kernol12/subathon-bot-ai/pull/56) last published
+`564e00a87f6a8f52c88ce6003efcb2d1b2a29b5b`; its 12 component checks passed.
+Root owns state/HTML/checkpoint and shared schemas/build/CI/pins.
 
-## Rate baseline locally reviewed, externally access blocked
+The [logical model](../contracts/milestone-progression-v1.md), blob
+`0115a5cc3cdc4fb1ebb8c9739716a27cb3379933`, was authored `4362fe29`, imported
+`af7e2be`, and independently approved `8338981`/import `4724e10`. See
+[author](milestonetest-001-contract-author.md) and
+[review](milestonetest-001-contract-review.md). Full signed64 scores/targets,
+U64 distances, immutable captured prefix, ordered new completions, current-definition
+projection, no repeats and absent first interval are explicit. MP01–22 and 23
+independent arithmetic facts were checked.
 
-[DraftPR54](https://github.com/Kernol12/subathon-bot-ai/pull/54), integrator tree
-local-evidence/worktrees/ratestest001-integrator. Remote512828c, local79c8512.
-Model76d2/API5568/header3a06/TU4cf1/minimalreview615 preserved. Corrected53GTests64fd60b2,
-literalvectors8936/foundation28a/author60d84, fullactualreviewdcf5 imported7d6b55f.
-MixedASCII O/highbytes80/ff source+constraint ordering nowtested; everyoldassertion/
-53names preserved. NO newrate test/function/markerbody has everrun. RATES001 planned.
+Actual [API candidate](../contracts/milestone-progression-api-v1.md), blob
+`58b8e129815c0525176cc6c1b6830a7e6f0a9fdb`, was authored `c89776c5c07252339e1cd85f8c627c3ffaee7b24`
+and imported `9d8ba9e`. [API author evidence](milestonetest-001-api-author.md), blob
+`9a9f3e5905565e3d51947e00abfcebf6ba5716d4`, records five literal byte sums.
+One raw-input advancement operation returns owned prefix/new range/projection.
 
-Approved independent Boost-only foundation ran14factsGREEN onlocal1.92 after narrow
-4e9/import712, raw419c41ee. OldinterfaceCI41805994785 at512 compiles1.83/runsold36/
-all13SUCCESS; it cannot substitute for the CURRENT53-case selectedenvironment.
-CurrentCIworkflow mandatorynew14foundation+old36 and53enableduninverteddiscovery is
-reviewed, but publicationblocked; FIRSTmodelred must wait currentCIgreen.
+codec_author is explicitly resumed for independent ACTUAL API review in
+`local-evidence/worktrees/milestonetest001-contract-review`, branch
+`task/MILESTONETEST-001-contract-review`, owning only a new API review note.
+service_author is idle after its completed handoff, not still running. No actual
+header/source/stub/fixture/test/red or production behavior has been released.
+Next: integrate actual API review, resolve findings, then release only minimal typed
+stub source. Keep API/source/test/harness reviews and first red separate.
 
-Currenttoken scopes repo/readorg/gist/adminpublickey lackworkflow, SSH_AUTH_SOCK is
-absent/no usable existingGPGSSHidentity, GitHTTPSauthenticatedbut500. APIexact-object
-publication recovered ordinaryLOCmetadata and milestone docs, but CreateTree fornew
-rateworkflow at7ff returns404. Workflow scope is required; do not bypass this via
-alternatefile/ref routes. OwnerASYNC asked restoreSSH forCLion or run
-`gh auth refresh -h github.com -s workflow`; pending actualaccesschange. Selecting an
-option is not proofcredentialschanged. Verifyauth/remotehead before resuming task.
+## Rate baseline: locally reviewed, publication access blocked
 
-Alllocalcommits/reviews/objects preserved. Partialrate03124ab APIobjectcreatedexactly,
-no rateref update; do not assume remote advanced. Taskstatusblocked only thisgate.
-Whenaccess restored: resumein_progress, publishexactcurrentcommits, observe selected
-Boost1.83CI/current14facts, then FIRSTplain53featureCTest red, save raw/JUnit/cleanhead,
-independentattribution, finalmetadata/latestCI/normalmerge. No old-review/test replays.
-Required009exactvaluationbridge/newtasks/EPIC017deps liveon398-taskratebranch; this
-milestonebranch396 onlyreconcilesclaim. Preserve newerlocale/MILEstatuses inmerges.
+[Draft PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54), integrator tree
+`local-evidence/worktrees/ratestest001-integrator`, branch
+`task/RATESTEST-001-snapshot-baseline`: remote `512828c`, local `79c8512`.
+Model `76d2d9b3`, API `556840c2`, header `3a06ff18`, TU `4cf1c1ed`, minimal review
+`6150962` remain frozen. Corrected 53 tests `64fd60b2`, literal fixture `8936f4fa`,
+Boost-only foundation `28a829aa` and author note `60d84fb2` received final actual
+review `dcf5dca`/import `7d6b55f`. Mixed ASCII O/high-byte 80/ff ordering correction
+preserves every previous assertion and all 53 names. No new feature test/function/
+marker body has ever run. RATES-001 remains planned.
 
-## Transport recovery and roles
+Independent foundation passed 14 facts locally after narrow review `4e9c615`/import
+`7124003`; raw log SHA starts `419c41ee`. Old interface CI 41805994785 at `512828c`
+compiled Boost1.83/ran old 36 checks; all 13 check-runs passed. It cannot substitute
+for current CI with all 53 compiled/discovered tests and the new foundation. Current
+CI publication is blocked before the first feature red.
 
-Script/tmp/subathon-publish-task-ref.py publishesonlytaskrefs, verifiesallblob/tree/
-commit hashes andnonforcedrefs; it never changeshistory orcredentialscopes. It can
-resume idempotentobjects aftertransient5xx/truncatedJSON; never ignore403/404required
-permissions. Earlier hardcodedLOCALEscript is notgeneric. HTTPSreadfetch with temporary
-GitHubCLIcredentialhelper works; no globalconfig/tokenfile waswritten. After5xx
-inspect actualmutationstate before retry; RESTnormalmerge55 succeeded afterGraphQL502.
+Current gh scopes repo/read:org/gist/admin:public_key lack workflow, rechecked on
+resume. SSH_AUTH_SOCK was absent and existing GPG SSH agent had no usable identity;
+authenticated HTTPS Git returned 500. Ordinary API publication succeeded, but new
+rate workflow CreateTree returned 404. Do not bypass workflow permission through
+another path/ref route. Owner request remains pending: restore SSH for this CLion
+session or complete `gh auth refresh -h github.com -s workflow`. A selected option
+is not proof of restored credentials. Reinspect real auth and remote state first.
 
-codec_author completedrateR1, nowREADONLY CONTRACT003 brief/schema/decomposition
-preparation; nofiles/taskclaim/futureapproval. service_reviewer completedratefull53
-reviewdcf, idle; futureactualtests/code needdifferentreview. Use followup_task foridle
-agents, notsend_messagealone. Allwritersisolated. Rootowns integration/checkpoint.
-No root build/CTest/APIpublisher childrunning. Existingdirtyverificationtrees,
-absentregistrations/validreviews untouched; never reset/prune/delete. Inspectactual
-state/agents/processes/GitHub on everyresume. Currentrootcheckpointmetadata isuncommitted
-untilnextclaimupdate; APIauthor stillrunning.
+After access returns: resume in_progress, publish exact reviewed commits, observe
+current Boost1.83 CI/foundation, then FIRST plain 53-case feature CTest red. Save
+raw/JUnit/clean-head evidence, obtain independent failure attribution, update final
+metadata, observe latest checks and merge normally. Do not replay completed reviews.
+Required RATESTEST-009/RATES-009 exact valuation bridge and EPIC-017 dependencies
+live in the 398-task rate branch; root has 396 tasks. Preserve them and newer locale/
+milestone statuses when integrating.
 
-CORETEST008 [draftPR52](https://github.com/Kernol12/subathon-bot-ai/pull/52) remains
-blockedhead3e05b48/partialdoc5446/reviewc33a/16literals. Three unansweredchoices:
-capbelowMain retain/reject/auditedclamp; ReadyStartpastdeadline reject/finish;
-enable/movepastdeadline accept+finish/reject. No defaults/newAPI/tests/red/production,
-no reasking settledpolicies. All7integrations/3FX/bothrenderers/platform/license/
-package/live/fullscope remain. No realchat/payment/provider effects authorized.
-Latestobservedruleset26170263: PR/resolvedthreads/0GHapprovals/no bypass; written
-workflowrequiresALLlatestCI/independentreviews. Normalexactheadmerge only. Qt6.12
-verifiedprefix/tmp/subathon-locale-qttools-6.12.0/prefix (ICUunderlib), localGNU16.2/
-Python3.14/Boost1.92 vs selectedGNU13.3/Python3.12/Boost1.83; Windows/Python3.10runtime
-andfullplatform/releases stillunverified.
+## Parallel preparation and parked decisions
+
+service_reviewer is resumed for READ-ONLY CONTRACT-003 decomposition preparation:
+common/HTTP/WS/scene children and exact consumer dependencies. Earlier codec_author
+inspection found no authored product wire schemas or specification conflict.
+SPIKE-001 is disposable, not a product wire contract. No task claim/file/schema/
+behavior change is released by that assignment. Root must branch/claim before
+editing; retain every parent requirement and get actual decomposition review.
+Use followup_task to restart idle agents, not send_message alone.
+
+CORETEST-008 [draft PR52](https://github.com/Kernol12/subathon-bot-ai/pull/52)
+remains blocked at `3e05b48`; partial doc `5446a91`/review `c33a4b1` covers 16
+literals only. Three owner choices remain unanswered: cap below Main (retain/reject/
+audited clamp), Ready Start after deadline (reject/finish), enable/move deadline to
+now/past (accept and finish/reject). Do not default, reask settled policies or release
+new API/tests/red/production.
+
+## Transport, integration and release boundaries
+
+`/tmp/subathon-publish-task-ref.py` verifies exact blobs/trees/commits and only
+nonforced task refs; never main/history/credential scopes. Resume identical objects
+after transient 5xx/truncated JSON only; do not ignore 403/404. Earlier locale-only
+publisher is not generic. Partial rate commit `03124ab` exists as an API object,
+but no rate ref advanced. Inspect actual mutation state after ambiguous errors.
+
+Last observed ruleset26170263: PR/resolved threads/zero GH approvals/no bypass.
+Recheck before each merge; written workflow also requires ALL latest CI and actual
+independent reviews. Normal exact-head merge only. All seven integrations, three
+FX providers, both renderers, localization/themes/platform/license/package/live
+release scope remain. No real chat/payment/provider side effects are authorized.
+Local GNU16.2/Python3.14/Boost1.92 differ from selected GNU13.3/Python3.12/Boost1.83.
+Verified Qt6.12 tools remain `/tmp/subathon-locale-qttools-6.12.0/prefix`; Windows
+and Python3.10 runtime gates remain unperformed.
