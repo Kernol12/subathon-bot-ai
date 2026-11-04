@@ -114,3 +114,19 @@ Kernol12. The old SSH authentication blocker is no longer established. Use the
 legitimate SSH route for later authorized pushes and verify actual publication;
 the token still lacks workflow scope, but no token change is needed if SSH works.
 No new workflow push or current CI is claimed by that authentication check.
+
+
+## D1 resolved; PR62 resumes
+
+The owner explicitly accepted the resource-scoped recommendation after the A/B
+comparison. Current authority: [owner decision](accesstest-002-owner-decision.md)
+and the updated specification §10/AUTH-06/acceptance example. The historical open
+analysis is retained with a resolved banner. Individual resource matching precedes
+quantity/other limits; no role fallback inside the selected scope, normal role
+rules outside it. Timer Keep / Reduce / Abort and accepted deadline choices remain.
+
+Root is resuming original author service_author in an isolated continuation tree
+for the complete logical contract and examples. Codec_author will independently
+review the actual revision, including root's specification/decision transcription.
+No API/stub/test/implementation stage is released yet. Finish PR62 first, then
+walk the other blocked PRs with the owner. SSH publication already works normally.

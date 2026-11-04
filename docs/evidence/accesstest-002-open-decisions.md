@@ -1,3 +1,18 @@
+# ACCESSTEST-002 applicability decision — resolved
+
+D1 is resolved by the owner's explicit acceptance on 2026-11-04 of the
+resource-scoped recommendation. The current authority is the
+[owner decision](accesstest-002-owner-decision.md) and specification §10/AUTH-06.
+Individual resource scope selects the tier before quantity/other limits; a failed
+individual limit cannot fall back to roles. Resources outside that scope retain
+normal role deny/allow handling. The revised logical contract and examples require
+actual independent review before API/tests/code stages.
+
+## Historical question and alternatives
+
+The following was the original unresolved analysis, retained as history. Its
+pending-answer statements describe that earlier checkpoint, not current status.
+
 # ACCESSTEST-002 open applicability decision
 
 Coordinator /root,2026-11-04. Actual logical author identified this specification

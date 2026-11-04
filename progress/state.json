@@ -3560,8 +3560,8 @@
       "title": "Review and demonstrate red: Effective permissions and complete-grant constraints",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "blocked",
-      "owner": "coordinator /root; service_author (partial logical author, handoff complete); owner D1 decision pending",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (resolved logical contract); codec_author (independent review)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3579,20 +3579,23 @@
         "Actualauthoridentified genuine D1precedence/applicability ambiguity: individualallowA5 vsroleallowA10 can operationoverride/resource-scopeoverride/complete-requestfallback. Root askedownerasync3explicitpolicychoices; NOanswer observed, UIpreselect/elapsedtime isnotapproval. Recorddocs/evidence/accesstest-002-open-decisions.md. Continue unambiguouslogicalexamples/budgets/ownerboundaries only; dependentsemantics/API/tests cannotfreeze beforeactualdecision+differentreview. No priorclarificationornewpermissiondefault invented. Existingwholegrant/nonunion/denyprecedence stayssettled.",
         "ActualPARTIALauthor6bc3d51f/importc88bcf5: doc5dfc6a1e/note66edd21f,27EP examples/18stdlibnumeric-byte facts, consistencyPASS. D1explicitlyUNSELECTED; dependentD1A/B notfrozenoracles. No completealgorithm/API/test/implementation/independentreview release. Authorhandofffinishedclean; taskBLOCKEDonlyonrealowner applicabilitychoice afterunambiguouspartialdoccheckpoint, no defaultoranswerassumed. Currentmain8fcscene009integrated withall406ids/1497edges preserved; all11postmaincheckrunsSUCCESS observed. Fullscope remains; originalauthoravailableforPWboundedtestcorrectiononceactualreviewfindingcommitarrives.",
         "Actual independent partial review b87e16b6/importf2b98d4, note20919ad3, approves only settled contract5dfc6a1e/author66edd21f. All27EP rows and15 independent arithmetic/byte facts checked; no additional defect. D1 remains unanswered/unselected and blocks full logical approval/API/tests/red/implementation/merge. Latest user priority is finish PR62, then walk through other blocked PRs together. Other agents have stopped at durable handoffs; no inferred policy choice or additional unrelated stages. Complete PR62 after actual D1 answer and every subsequent applicable gate.",
-        "Owner requested more context for D1 without selecting an alternative. Explained Moderator role allowing ten minutes on all timers versus an individual five-minute allow on timer A: resource-scoped denies A/10 but permits B/10 through the role; whole-operation denies both; complete-request matching permits both through the role. Resource-scoped remains a recommendation only. Re-presented the choice; no answer or default inferred. Owner answers to the separate PR52 timer questions are recorded and do not resolve D1."
+        "Owner requested more context for D1 without selecting an alternative. Explained Moderator role allowing ten minutes on all timers versus an individual five-minute allow on timer A: resource-scoped denies A/10 but permits B/10 through the role; whole-operation denies both; complete-request matching permits both through the role. Resource-scoped remains a recommendation only. Re-presented the choice; no answer or default inferred. Owner answers to the separate PR52 timer questions are recorded and do not resolve D1.",
+        "Owner explicitly accepted the resource-scoped recommendation after the Moderator/Alice A/B explanation. D1 is resolved: select individual overrides by operation/resource scope before quantity/other limits; no broader role fallback inside that scope, normal role rules outside it. Recorded in docs/evidence/accesstest-002-owner-decision.md and specification §10/AUTH-06/acceptance row. Separate timer Keep/Reduce/Abort warning and the other accepted timer choices remain. Resume the original permission logical author on an isolated continuation branch; revised actual independent review before API/tests/code. Prior settled partial review remains valid only for unchanged portions; no future approval or implementation claimed."
       ],
       "verification": {
-        "document_review": "blocked",
+        "document_review": "not_run",
         "test_baseline": "not_run",
         "implementation": "not_run",
         "consistency": "passed",
-        "partial_document_review": "passed"
+        "partial_document_review": "passed",
+        "owner_decision": "passed"
       },
       "evidence": [
         "docs/evidence/accesstest-002-open-decisions.md",
         "docs/contracts/effective-permissions-v1.md",
         "docs/evidence/accesstest-002-contract-author.md",
-        "docs/evidence/accesstest-002-contract-review.md"
+        "docs/evidence/accesstest-002-contract-review.md",
+        "docs/evidence/accesstest-002-owner-decision.md"
       ],
       "review": {
         "author": "service_author",
