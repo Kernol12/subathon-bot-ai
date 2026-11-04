@@ -3560,8 +3560,8 @@
       "title": "Review and demonstrate red: Effective permissions and complete-grant constraints",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "in_review",
-      "owner": "coordinator /root; codec_author (red attribution next)",
+      "status": "done",
+      "owner": "service_author (tests); codec_author (independent tests/red); /root (integration)",
       "depends_on": [
         "CONTRACTPLAN-001"
       ],
@@ -3589,7 +3589,8 @@
         "Actual minimal source author78195bef/importb29274b, headeredd6ffc2/TU4cf7bcca/author04e5ed87; root targetf1eb3d6 compile/list37 passed. Different actual source/harness review7ddc58b0 (note29e07a50) approves exact API transcription/immediate markerthrow only. Release original service_author test authoring on isolated continuation tree. No feature or marker has run. Foundation published07418ee all13 checks SUCCESS, actual Ubuntu selected1.83 run41878733543 passed21 primitives and old36. New task revisions require fresh CI.",
         "Actual test author25001158/importd1d36ee:30 named testsfc82d17e, inventoryd0c25108, authorba78ccde. All45EP+2D1 mapped; raw literal setup, complete explanation/lifetime/error/limit cases. Root harnessb519153 compile/list67 and exact30 inventoryguard passed; no feature or marker body run. Different actual testoracle review assignedcodec_author, rootCMake/CI harness review separately assignedservice_reviewer (not selfreview of own prior stub). CI permits only standard CMake GoogleTest skip-message detector, rejects custom result rewriting, and separates intentional feature red from mandatory green SDK+old36. Publishing draft compile/discovery candidate while reviews proceed; actual FIRST red still blocked on both approvals.",
         "Actual full30 test approval1d8e9335/import6805011 (note68029788); unchangedsourcefc82d17e/inventoryd0c25108, all45EP+2D1 independentoracles checked. Actual localharnessapproval7d7f651/importddb6fac (noteba601329) passed full67 list/guards. SelectedCI6b9 run41884253112 compiled but strict guard rejected suite labels; not behavioralred, no featurebody. Root correction3dc7108 assigns samefourlabels atCTesttime after TEST_LIST, preserving all tests/strict guards; host67 and authenticupstream3.28helper list-only30 reproducecorrectmetadata. Exactrunnerlabelshape/versionnotdumped; old/newhelper mechanism is inference. Actualdifferentcorrectionreviewservice_reviewer active; FIRSTred notyetreleased.",
-        "Actual label correction approvalebe17a9e/import8acc9b9 preceded FIRST plain feature red on clean8acc9b9cf88bb67762c2060ee5fb16a5345a273f at2026-11-04T18:24:09.993522Z: CTestexit8,30/30fail,0skip; exactrawoutpute1598fa3/JUnit5f3872f2/receipt retained. Root mechanical count215 explicitmarkers+1 safe ownership-presence consequence; actual different attribution reviewpending. Corrected selectedUbuntuCI41886146750 at4674822 passes exact30enabled discovery/SDK21/old36 with no featurebody. No test/header/stub/oracle changed and no ACCESS002 implementation released before baseline integration."
+        "Actual label correction approvalebe17a9e/import8acc9b9 preceded FIRST plain feature red on clean8acc9b9cf88bb67762c2060ee5fb16a5345a273f at2026-11-04T18:24:09.993522Z: CTestexit8,30/30fail,0skip; exactrawoutpute1598fa3/JUnit5f3872f2/receipt retained. Root mechanical count215 explicitmarkers+1 safe ownership-presence consequence; actual different attribution reviewpending. Corrected selectedUbuntuCI41886146750 at4674822 passes exact30enabled discovery/SDK21/old36 with no featurebody. No test/header/stub/oracle changed and no ACCESS002 implementation released before baseline integration.",
+        "Baseline COMPLETE: actual independent FIRST-red attribution3f40238f (noteb4779823) validates clean8acc9b9,30executed/30failed/0skip and all216failure locations:63decision-helper+143typederror-helper+9directcatch exactmarkers, plus1 safe ownershipASSERT consequence. All reviewed source/inventory/header/stub unchanged. SelectedcorrectedUbuntu4674822 all13checksSUCCESS. Final taskmetadata review/currentfinalheadCI/normalmerge pending; done means reviewed observed-red baseline only, not ACCESS002 implementation or merged status. AftercleanPR62merge return to owner-authorized blockedPR52/54/56/59; allknownownerchoicesanswered, no routineapproval needed."
       ],
       "verification": {
         "document_review": "passed",
@@ -3603,9 +3604,9 @@
         "source_review": "passed",
         "tests_review": "passed",
         "harness_review": "passed",
-        "ci": "partial",
+        "ci": "passed",
         "baseline": "observed_red",
-        "red_attribution": "not_run"
+        "red_attribution": "passed"
       },
       "evidence": [
         "docs/evidence/accesstest-002-open-decisions.md",
@@ -3631,14 +3632,16 @@
         "docs/evidence/accesstest-002-labels-correction.md",
         "docs/evidence/accesstest-002-labels-review.md",
         "docs/evidence/accesstest-002-red.md",
-        "docs/evidence/accesstest-002-red.json"
+        "docs/evidence/accesstest-002-red.json",
+        "docs/evidence/accesstest-002-red-review.md",
+        "docs/evidence/accesstest-002-handoff.md"
       ],
       "review": {
         "author": "service_author",
         "reviewer": "codec_author",
-        "outcome": "approved_logical",
-        "evidence": "docs/evidence/accesstest-002-contract-review.md",
-        "revision": "1cd21c1 contract3d82bfa4/author43e16b0f; actualfullreview0e8bffe9"
+        "outcome": "approved",
+        "evidence": "docs/evidence/accesstest-002-tests-review.md",
+        "revision": "Actual tests25001158/importd1d36ee sourcefc82d17e/inventoryd0c25108 approved1d8e9335; FIRST8acc9b9 red attribution3f40238f. Separate root-harness7d7f651 and label-fixebe17a9e approvals retained."
       }
     },
     {

@@ -17,3 +17,14 @@ and resolved discussions and has zero mandatory GitHub approval count. Actual
 different-author repository reviews remain required regardless of that count.
 The new check is observed by the coordinator; adding a workflow does not itself
 configure it as a ruleset-required status check.
+
+
+The next selected run41884253112 at6b9c27a compiled but the strict exact-inventory
+guard rejected suite labels; no permission body ran. Root correction3dc7108 moved
+exact label-list assignment to CTest-time TEST_LIST/include, actually approved by
+service_reviewerebe17a9e. No test/assertion/inventory or guard was weakened.
+Corrected [run41886146750](https://github.com/Kernol12/subathon-bot-ai/actions/runs/41886146750)
+at46748221d4ccca43b5279e3c568ad157e918072e passed exact30 enabled discovery,
+selectedBoost1.83/macro108300, independentSDK21 checks1/1 andold36. All13 PR checks
+passed at that published revision. Final evidence/status/review commits change no
+reviewed source/harness; fresh current-head checks remain a normal merge gate.
