@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/application_service.hpp>
 
+#include "application_service_command_internal.hpp"
 #include "sqlite_application_hold_values.hpp"
 #include <limits>
 #include <string_view>
@@ -182,13 +183,23 @@ ScannedCommand scan(std::string_view bytes) {
 
 template <class Visit>
 std::size_t validate(const CommandView &v, const Visit &visit, const ApplicationServiceLimits &l,
-                     Error aggregate) {
+                     Error aggregate, bool retained = false) {
     const auto bounded = [](std::string_view s, qsizetype limit) {
         return s.size() <= std::size_t(limit);
     };
+    const auto field_limit = [&](std::string_view s, qsizetype limit, Error ordinary) {
+        if (!bounded(s, limit))
+            invalid(retained ? Error::result_limit : ordinary);
+    };
+    const auto reference_limit =
+        retained ? std::min(l.reference_bytes, l.bundles.reference_bytes) : l.reference_bytes;
+    const auto document_limit =
+        retained ? std::min({l.choice_bytes, l.storage_document_bytes, l.bundles.value_bytes})
+                 : l.choice_bytes;
     const auto key = [&](std::string_view s) {
-        if (s.empty() || !bounded(s, l.reference_bytes))
+        if (s.empty())
             invalid(Error::invalid_key);
+        field_limit(s, reference_limit, Error::invalid_key);
     };
     for (const auto s : {v.scope, v.operation, v.plan, v.installation, v.principal})
         key(s);
@@ -200,23 +211,25 @@ std::size_t validate(const CommandView &v, const Visit &visit, const Application
         invalid(Error::invalid_source);
     if (v.choice_count > std::size_t(l.choices_per_command) ||
         v.choice_count > std::numeric_limits<std::uint32_t>::max())
-        invalid(Error::collection_limit);
+        invalid(retained ? Error::result_limit : Error::collection_limit);
     for (const auto &s : {v.actor, v.decision})
-        if (s && !bounded(*s, l.reference_bytes))
-            invalid(Error::invalid_body);
-    if (v.reason && !bounded(*v.reason, l.choice_bytes))
-        invalid(Error::invalid_body);
+        if (s)
+            field_limit(*s, reference_limit, Error::invalid_body);
+    if (v.reason)
+        field_limit(*v.reason, document_limit, Error::invalid_body);
     visit([&](ChoiceView choice) {
-        if (choice.format.empty() || !bounded(choice.format, l.reference_bytes) ||
-            choice.null_document || !bounded(choice.document, l.choice_bytes))
+        if (choice.format.empty() || choice.null_document)
             invalid(Error::invalid_body);
+        field_limit(choice.format, reference_limit, Error::invalid_body);
+        field_limit(choice.document, document_limit, Error::invalid_body);
     });
     if ((v.preview_mode == 1 && !v.preview) ||
         (v.purpose == 1 && (!v.decision || v.decision->empty() || !v.reason || v.reason->empty())))
         invalid(Error::invalid_conditional_group);
-    Size owned(
-        std::size_t(aggregate == Error::result_limit ? l.result_owned_bytes : l.input_owned_bytes),
-        aggregate);
+    Size owned(std::size_t(retained ? l.intermediate_owned_bytes
+                                    : (aggregate == Error::result_limit ? l.result_owned_bytes
+                                                                        : l.input_owned_bytes)),
+               aggregate);
     // Logical scalars omit wire option tags, lengths and collection headers.
     owned.add(20);
     if (v.contribution)
@@ -297,6 +310,40 @@ template <class Sink, class Visit> void write(Sink &s, const CommandView &v, con
 std::optional<std::string> own(const std::optional<std::string_view> &v) {
     return v ? std::optional<std::string>{*v} : std::nullopt;
 }
+template <class Consume> void visit_choices(const ScannedCommand &scanned, Consume consume) {
+    Reader choices(scanned.choices);
+    for (std::size_t i = 0; i < scanned.command.choice_count; ++i) {
+        const auto format = choices.blob();
+        const auto document = choices.blob();
+        consume(ChoiceView{format, document, false});
+    }
+}
+OriginalApplicationCommand materialize(const ScannedCommand &scanned) {
+    const auto &v = scanned.command;
+    const auto visit = [&](auto consume) { visit_choices(scanned, consume); };
+    OriginalApplicationCommand out;
+    out.operation = {std::string(v.scope), std::string(v.operation)};
+    out.subject_kind = static_cast<ApplicationSubjectKind>(v.subject);
+    out.receipt_id = {v.receipt};
+    if (v.contribution)
+        out.contribution_id = core::ContributionId{*v.contribution};
+    out.plan = {std::string(v.plan), v.revision};
+    out.principal = {static_cast<ApplicationPrincipalKind>(v.principal_kind),
+                     std::string(v.installation), std::string(v.principal)};
+    out.purpose = static_cast<OriginalApplicationPurpose>(v.purpose);
+    out.preview_mode = static_cast<ApplicationPreviewMode>(v.preview_mode);
+    out.preview_state_token = own(v.preview);
+    out.actor_ref = own(v.actor);
+    out.decision_ref = own(v.decision);
+    out.reason = own(v.reason);
+    out.choices.reserve(v.choice_count);
+    visit([&](ChoiceView choice) {
+        out.choices.push_back(
+            {std::string(choice.format),
+             QByteArray(choice.document.data(), qsizetype(choice.document.size()))});
+    });
+    return out;
+}
 } // namespace
 
 ApplicationEnvelope encode_original_application_command(const OriginalApplicationCommand &command,
@@ -344,38 +391,38 @@ decode_original_application_command(const ApplicationEnvelope &envelope,
     const auto scanned =
         scan({envelope.document.constData(), std::size_t(envelope.document.size())});
     const auto &v = scanned.command;
-    const auto visit = [&](auto consume) {
-        Reader choices(scanned.choices);
-        for (std::size_t i = 0; i < v.choice_count; ++i) {
-            const auto format = choices.blob();
-            const auto document = choices.blob();
-            consume(ChoiceView{format, document, false});
-        }
-    };
+    const auto visit = [&](auto consume) { visit_choices(scanned, consume); };
     (void)validate(v, visit, limits, Error::result_limit);
     if (v.choice_count > std::size_t(limits.result_items))
         invalid(Error::result_limit);
-    OriginalApplicationCommand out;
-    out.operation = {std::string(v.scope), std::string(v.operation)};
-    out.subject_kind = static_cast<ApplicationSubjectKind>(v.subject);
-    out.receipt_id = {v.receipt};
-    if (v.contribution)
-        out.contribution_id = core::ContributionId{*v.contribution};
-    out.plan = {std::string(v.plan), v.revision};
-    out.principal = {static_cast<ApplicationPrincipalKind>(v.principal_kind),
-                     std::string(v.installation), std::string(v.principal)};
-    out.purpose = static_cast<OriginalApplicationPurpose>(v.purpose);
-    out.preview_mode = static_cast<ApplicationPreviewMode>(v.preview_mode);
-    out.preview_state_token = own(v.preview);
-    out.actor_ref = own(v.actor);
-    out.decision_ref = own(v.decision);
-    out.reason = own(v.reason);
-    out.choices.reserve(v.choice_count);
-    visit([&](ChoiceView choice) {
-        out.choices.push_back(
-            {std::string(choice.format),
-             QByteArray(choice.document.data(), qsizetype(choice.document.size()))});
-    });
-    return out;
+    return materialize(scanned);
 }
+namespace service_detail {
+OriginalApplicationCommand decode_retained_command(const ApplicationEnvelope &envelope,
+                                                   const ApplicationServiceLimits &limits) {
+    validate_options(limits);
+    if (envelope.format_ref.empty() || envelope.document.isNull())
+        invalid(Error::invalid_body);
+    // Retained DATA is neither a new public command nor a public codec result.
+    // Check both the opaque envelope and its decoded DTO before owning any bytes.
+    if (envelope.format_ref.size() >
+            std::size_t(std::min(limits.reference_bytes, limits.bundles.reference_bytes)) ||
+        envelope.document.size() >
+            std::min(limits.storage_document_bytes, limits.bundles.value_bytes) ||
+        std::uintmax_t(envelope.document.size()) > std::numeric_limits<std::uint32_t>::max())
+        invalid(Error::result_limit);
+    Size input(std::size_t(limits.intermediate_owned_bytes), Error::result_limit);
+    input.add(envelope.format_ref.size());
+    input.add(std::size_t(envelope.document.size()));
+    if (envelope.format_ref != command_format)
+        throw ApplicationServiceUnsupportedFormat(envelope.format_ref);
+    const auto scanned =
+        scan({envelope.document.constData(), std::size_t(envelope.document.size())});
+    const auto visit = [&](auto consume) { visit_choices(scanned, consume); };
+    (void)validate(scanned.command, visit, limits, Error::result_limit, true);
+    if (scanned.command.choice_count > std::size_t(limits.intermediate_items))
+        invalid(Error::result_limit);
+    return materialize(scanned);
+}
+} // namespace service_detail
 } // namespace subathon::server
