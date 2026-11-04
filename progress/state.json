@@ -546,6 +546,36 @@
       }
     },
     {
+      "id": "CONTRACTPLAN-001",
+      "title": "Split the product wire-contract prerequisites",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_reviewer (read-only decomposition preparation)",
+      "depends_on": [
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04",
+        "§10",
+        "§11"
+      ],
+      "brief": "docs/tasks/CONTRACTPLAN-001.md",
+      "summary": "Documentation-only decomposition of common, HTTP, WS and scene contracts with reviewed consumer dependencies; no wire behavior finalized.",
+      "notes": [
+        "Claimed on task/CONTRACTPLAN-001-wire-prerequisites from freshly fetched main3217c212. Root owns state/HTML, parent/child briefs, planning ADR and evidence; service_reviewer supplies read-only dependency preparation. Actual independent review follows authored plan. Preserve the entire CONTRACT-003 release gate, all original consumer behavior and existing test-first/platform/provider gates. No schema, implementation or executable tests in scope."
+      ],
+      "verification": {
+        "planning_review": "not_run",
+        "consistency": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
       "id": "SPIKE-001",
       "title": "Validate Drogon and Qt lifecycle/thread bridge",
       "module": "Server/API",
@@ -2667,8 +2697,8 @@
       "title": "Review and demonstrate red: Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author (API document); codec_author (independent API review)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001"
@@ -2680,7 +2710,8 @@
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MILESTONE-001.",
       "notes": [
-        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Separate focused PR56 owns actual logical/API document work; root branch task/MILESTONETEST-001-progression-baseline at3fc99ce. Logical document approved; API actual58b8e129 now under separate review. This planning branch only reconciles its active claim, without copying absent evidence or changing any behavior gate."
       ],
       "verification": {},
       "evidence": [],
@@ -7762,7 +7793,7 @@
       "title": "Review and demonstrate red: Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "coordinator /root; service_author (completed rate API author); codec_author (approved API review)",
       "depends_on": [
         "CONTRACT-002",
@@ -7780,7 +7811,8 @@
         "Independent ready task claimed6338966 on task/RATESTEST-001-snapshot-baseline from refreshed main0b631dc. Root integrator tree ratestest001-integrator and separate author tree ratestest001-contract-author. FIRST DOCUMENT only: exact fetched/effective snapshot/provenance model plus independent literals, positive exact values and honest unknown metadata. service_author owns ONLY docs/contracts/rate-snapshots-v1.md and docs/evidence/ratestest-001-contract-author.md on that separate task; no newcode/stubs/schema/storage/tests/provider behavior. This localization branch only reconciles the active claim; actual rate documents/review stay in their focused task PR. Root owns allsharedintegration; review actual artifact before next stage.",
         "Concrete rate documentaf2f9a9/importf4f321a is in draftPR54/headf1b26aa on separate focusedbranch. Actual independent codec_author review found RS10 ambiguity about unselected original observations; author released narrow clarification retainingO1outsideEffectiveSnapshot while preservingfetcheddata and selected-only rule. No owner question or newAPI/code/tests stage. Root required exact-rational bridge009 planning lives on thatbranch (398tasks), not copied into this localizationPR; reconcile snapshots atmerge.",
         "Newer actual rateAPI15cd944/import5d5712b doc556840c2/note fc1d1baf receives independent document-only approval0b9a449 on focusedPR54. Source/modelunchanged; no actual C++stub/header/test/red yet. Root ratebranch will integrate newmain07dc and release onlyminimaltypedstubsource after recordingapproval; no futurecode/test gate implied. Do not overwrite requirednew009bridge tasks living onPR54 whenreconcilingstate.",
-        "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere."
+        "Concurrent focusedPR54 now at512828c with actualapprovedminimalrateheader3a06ff18/TU4cf1c1ed/harnessf5afb60/review6150962. SelectednewCI41805994785/all13checksSUCCESS compilesinterfaces/runs33oldnumeric+3infra only, no newratefeature/marker. codec_author nowauthors53literalGTests plusBoost-only14-fact foundation in ratestest001-test-author; no bodyrun untilactualtestreview/selectedfoundation/FIRSTred. Required009bridge/tasks on398-task branch preserved externally, not copiedhere.",
+        "Separate focused PR54 is locally reviewed through53 tests/foundation, but current CI publication waits actual restored SSH or workflow scope. Remote512828c unchanged; local79c8512 preserved. This branch reconciles the active blocker only; exact source/evidence/required009 bridge tasks remain on its separate branch. No first rate feature red has run."
       ],
       "verification": {
         "document_review": "not_run",
@@ -13037,6 +13069,11 @@
       "date": "2026-11-04",
       "task": "LOCALE-001",
       "note": "Generator component accepted: unchanged43/realQM/productbuild/sourceaudit/selectedordinaryCI passed; finalpublication gatespending."
+    },
+    {
+      "date": "2026-11-04",
+      "task": "CONTRACTPLAN-001",
+      "note": "Claimed documentation-only wire-contract prerequisite split from current main. Actual plan review pending; no product wire schema or implementation finalized."
     }
   ]
 }
