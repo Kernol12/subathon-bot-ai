@@ -145,6 +145,8 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     add_executable(core_rate_snapshot_acceptance acceptance/rate_snapshot_tests.cpp)
     target_link_libraries(core_rate_snapshot_acceptance PRIVATE subathon_rate_snapshots GTest::gtest_main)
     subathon_target_options(core_rate_snapshot_acceptance)
-    gtest_discover_tests(core_rate_snapshot_acceptance PROPERTIES
-        LABELS "rate-snapshot;acceptance;intentional-red;core" TIMEOUT 30)
+    gtest_discover_tests(core_rate_snapshot_acceptance
+        TEST_LIST subathon_rate_snapshot_cases PROPERTIES TIMEOUT 30)
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/RateSnapshotLabels.cmake")
 endif()
