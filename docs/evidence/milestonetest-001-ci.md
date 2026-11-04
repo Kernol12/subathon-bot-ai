@@ -90,3 +90,14 @@ After actual full approval, gh authentication was rechecked: workflow scope stil
 absent; SSH_AUTH_SOCK absent and existing GPG agent identity count0. The task is
 blocked before selected CI/first feature red, with all reviewed work preserved.
 No permission bypass, fake success or baseline completion is claimed.
+
+## Superseding current selected lane and FIRST feature result
+
+The earlier publication block above is historical and resolved. SSH publication
+succeeded ordinarily. Exacta15a70e selected Ubuntu run41907483021 passed: pinned
+Boost1.83.0-2.1ubuntu3/macro108300, exactenabled53 discovery,25 independentfacts
+plusold36=37/37green0.98s. Actual changed harness approval75e62c2a importedc2bcb08
+precedes FIRSTplain53 run on cleanc2bcb08,20:36:28Z/directexit8/all53fail/0skip.
+See [native evidence](milestonetest-001-first-red.md); different actual attribution
+and finalmetadata/latestchecks/normalmerge remain. No previous hostfoundation,
+first red or frozen source/oracle has been replayed or changed.

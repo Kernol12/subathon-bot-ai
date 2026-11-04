@@ -1,0 +1,1821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="53"
+	failures="53"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-04T21:36:28"
+	>
+	<testcase name="MilestoneIdentity.PreservesOpaqueNulAndHighBytesWithoutSorting" classname="MilestoneIdentity.PreservesOpaqueNulAndHighBytesWithoutSorting" time="0.00208326" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneIdentity.PreservesOpaqueNulAndHighBytesWithoutSorting
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneIdentity
+[ RUN      ] MilestoneIdentity.PreservesOpaqueNulAndHighBytesWithoutSorting
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneIdentity.PreservesOpaqueNulAndHighBytesWithoutSorting (0 ms)
+[----------] 1 test from MilestoneIdentity (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneIdentity.PreservesOpaqueNulAndHighBytesWithoutSorting
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneIdentity.BytesAfterNulDistinguishMilestones" classname="MilestoneIdentity.BytesAfterNulDistinguishMilestones" time="0.00147615" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneIdentity.BytesAfterNulDistinguishMilestones
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneIdentity
+[ RUN      ] MilestoneIdentity.BytesAfterNulDistinguishMilestones
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneIdentity.BytesAfterNulDistinguishMilestones (0 ms)
+[----------] 1 test from MilestoneIdentity (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneIdentity.BytesAfterNulDistinguishMilestones
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneIdentity.ExactOpaqueDuplicateIsRejected" classname="MilestoneIdentity.ExactOpaqueDuplicateIsRejected" time="0.00115033" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneIdentity.ExactOpaqueDuplicateIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneIdentity
+[ RUN      ] MilestoneIdentity.ExactOpaqueDuplicateIsRejected
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneIdentity.ExactOpaqueDuplicateIsRejected (0 ms)
+[----------] 1 test from MilestoneIdentity (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneIdentity.ExactOpaqueDuplicateIsRejected
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneEndpoints.MinimumScoreEqualsMinimumTarget" classname="MilestoneEndpoints.MinimumScoreEqualsMinimumTarget" time="0.00137302" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneEndpoints.MinimumScoreEqualsMinimumTarget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneEndpoints
+[ RUN      ] MilestoneEndpoints.MinimumScoreEqualsMinimumTarget
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneEndpoints.MinimumScoreEqualsMinimumTarget (0 ms)
+[----------] 1 test from MilestoneEndpoints (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneEndpoints.MinimumScoreEqualsMinimumTarget
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneEndpoints.MaximumScoreCrossesBothSignedExtremes" classname="MilestoneEndpoints.MaximumScoreCrossesBothSignedExtremes" time="0.0015658" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneEndpoints.MaximumScoreCrossesBothSignedExtremes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneEndpoints
+[ RUN      ] MilestoneEndpoints.MaximumScoreCrossesBothSignedExtremes
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneEndpoints.MaximumScoreCrossesBothSignedExtremes (0 ms)
+[----------] 1 test from MilestoneEndpoints (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneEndpoints.MaximumScoreCrossesBothSignedExtremes
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneValidation.EveryRequiredReferenceMustBeNonempty" classname="MilestoneValidation.EveryRequiredReferenceMustBeNonempty" time="0.00155045" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneValidation.EveryRequiredReferenceMustBeNonempty
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneValidation
+[ RUN      ] MilestoneValidation.EveryRequiredReferenceMustBeNonempty
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:284: track_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:284: definition_revision_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:284: progression_context_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:284: target.milestone_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:284: completed.milestone_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:284: completed.definition_revision_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:284: completed.completion_context_ref
+
+[  FAILED  ] MilestoneValidation.EveryRequiredReferenceMustBeNonempty (0 ms)
+[----------] 1 test from MilestoneValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneValidation.EveryRequiredReferenceMustBeNonempty
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneValidation.DuplicateIdsAreRejectedEvenWithDifferentTargets" classname="MilestoneValidation.DuplicateIdsAreRejectedEvenWithDifferentTargets" time="0.00115493" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneValidation.DuplicateIdsAreRejectedEvenWithDifferentTargets
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneValidation
+[ RUN      ] MilestoneValidation.DuplicateIdsAreRejectedEvenWithDifferentTargets
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:303: same-target
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:303: different-target
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:303: separated-and-descending
+
+[  FAILED  ] MilestoneValidation.DuplicateIdsAreRejectedEvenWithDifferentTargets (0 ms)
+[----------] 1 test from MilestoneValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneValidation.DuplicateIdsAreRejectedEvenWithDifferentTargets
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneValidation.CurrentTargetsMustBeStrictlyAscending" classname="MilestoneValidation.CurrentTargetsMustBeStrictlyAscending" time="0.00112144" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneValidation.CurrentTargetsMustBeStrictlyAscending
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneValidation
+[ RUN      ] MilestoneValidation.CurrentTargetsMustBeStrictlyAscending
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:313: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:313: 1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:313: 9223372036854775807
+
+[  FAILED  ] MilestoneValidation.CurrentTargetsMustBeStrictlyAscending (0 ms)
+[----------] 1 test from MilestoneValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneValidation.CurrentTargetsMustBeStrictlyAscending
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneValidation.CompletedIdentitiesMustBeExactlyTheFirstK" classname="MilestoneValidation.CompletedIdentitiesMustBeExactlyTheFirstK" time="0.00114065" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneValidation.CompletedIdentitiesMustBeExactlyTheFirstK
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneValidation
+[ RUN      ] MilestoneValidation.CompletedIdentitiesMustBeExactlyTheFirstK
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:328: 0
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:328: 1
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:328: 2
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:328: 3
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:328: 4
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneValidation.CompletedIdentitiesMustBeExactlyTheFirstK (0 ms)
+[----------] 1 test from MilestoneValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneValidation.CompletedIdentitiesMustBeExactlyTheFirstK
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneValidation.HistoricalTargetsAndScoresNeedNotBeAscendingOrSufficient" classname="MilestoneValidation.HistoricalTargetsAndScoresNeedNotBeAscendingOrSufficient" time="0.00142251" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneValidation.HistoricalTargetsAndScoresNeedNotBeAscendingOrSufficient
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneValidation
+[ RUN      ] MilestoneValidation.HistoricalTargetsAndScoresNeedNotBeAscendingOrSufficient
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneValidation.HistoricalTargetsAndScoresNeedNotBeAscendingOrSufficient (0 ms)
+[----------] 1 test from MilestoneValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneValidation.HistoricalTargetsAndScoresNeedNotBeAscendingOrSufficient
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneValidation.FirstFailureOrderAppliesAcrossAllInputAndOutputPhases" classname="MilestoneValidation.FirstFailureOrderAppliesAcrossAllInputAndOutputPhases" time="0.00115554" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneValidation.FirstFailureOrderAppliesAcrossAllInputAndOutputPhases
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneValidation
+[ RUN      ] MilestoneValidation.FirstFailureOrderAppliesAcrossAllInputAndOutputPhases
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: options-before-resource-and-empty
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: resource-before-earlier-empty
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: input-count-before-reference
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: empty-before-duplicate
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: duplicate-before-order-and-prefix
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: order-before-prefix
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: prefix-before-output-item-refusal
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:684: captured-empty-before-duplicate
+
+[  FAILED  ] MilestoneValidation.FirstFailureOrderAppliesAcrossAllInputAndOutputPhases (0 ms)
+[----------] 1 test from MilestoneValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneValidation.FirstFailureOrderAppliesAcrossAllInputAndOutputPhases
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.EveryReferenceAccepts256Bytes" classname="MilestoneResources.EveryReferenceAccepts256Bytes" time="0.00119683" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.EveryReferenceAccepts256Bytes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.EveryReferenceAccepts256Bytes
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:393: Failure
+Expected: { const auto result = advance_milestone_progression(input); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 395, gtest_ar.failure_message()) = ::testing::Message(); if (result.data().completed_prefix.size() == 1) expect_completion(result.data().completed_prefix[0], before.completed_prefix[0]); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref", "before.track_ref", result.data().track_ref, before.track_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 398, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().definition_revision_ref", "before.definition_revision_ref", result.data().definition_revision_ref, before.definition_revision_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 399, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().progression_context_ref", "before.progression_context_ref", result.data().progression_context_ref, before.progression_context_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 400, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:375: track_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:393: Failure
+Expected: { const auto result = advance_milestone_progression(input); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 395, gtest_ar.failure_message()) = ::testing::Message(); if (result.data().completed_prefix.size() == 1) expect_completion(result.data().completed_prefix[0], before.completed_prefix[0]); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref", "before.track_ref", result.data().track_ref, before.track_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 398, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().definition_revision_ref", "before.definition_revision_ref", result.data().definition_revision_ref, before.definition_revision_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 399, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().progression_context_ref", "before.progression_context_ref", result.data().progression_context_ref, before.progression_context_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 400, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:375: definition_revision_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:393: Failure
+Expected: { const auto result = advance_milestone_progression(input); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 395, gtest_ar.failure_message()) = ::testing::Message(); if (result.data().completed_prefix.size() == 1) expect_completion(result.data().completed_prefix[0], before.completed_prefix[0]); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref", "before.track_ref", result.data().track_ref, before.track_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 398, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().definition_revision_ref", "before.definition_revision_ref", result.data().definition_revision_ref, before.definition_revision_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 399, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().progression_context_ref", "before.progression_context_ref", result.data().progression_context_ref, before.progression_context_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 400, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:375: progression_context_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:393: Failure
+Expected: { const auto result = advance_milestone_progression(input); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 395, gtest_ar.failure_message()) = ::testing::Message(); if (result.data().completed_prefix.size() == 1) expect_completion(result.data().completed_prefix[0], before.completed_prefix[0]); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref", "before.track_ref", result.data().track_ref, before.track_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 398, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().definition_revision_ref", "before.definition_revision_ref", result.data().definition_revision_ref, before.definition_revision_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 399, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().progression_context_ref", "before.progression_context_ref", result.data().progression_context_ref, before.progression_context_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 400, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:375: matching-target-and-completion-id
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:393: Failure
+Expected: { const auto result = advance_milestone_progression(input); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 395, gtest_ar.failure_message()) = ::testing::Message(); if (result.data().completed_prefix.size() == 1) expect_completion(result.data().completed_prefix[0], before.completed_prefix[0]); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref", "before.track_ref", result.data().track_ref, before.track_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 398, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().definition_revision_ref", "before.definition_revision_ref", result.data().definition_revision_ref, before.definition_revision_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 399, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().progression_context_ref", "before.progression_context_ref", result.data().progression_context_ref, before.progression_context_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 400, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:375: captured-definition
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:393: Failure
+Expected: { const auto result = advance_milestone_progression(input); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 395, gtest_ar.failure_message()) = ::testing::Message(); if (result.data().completed_prefix.size() == 1) expect_completion(result.data().completed_prefix[0], before.completed_prefix[0]); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref", "before.track_ref", result.data().track_ref, before.track_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 398, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().definition_revision_ref", "before.definition_revision_ref", result.data().definition_revision_ref, before.definition_revision_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 399, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().progression_context_ref", "before.progression_context_ref", result.data().progression_context_ref, before.progression_context_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 400, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:375: captured-context
+
+[  FAILED  ] MilestoneResources.EveryReferenceAccepts256Bytes (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.EveryReferenceAccepts256Bytes
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.EveryReferenceRejects257Bytes" classname="MilestoneResources.EveryReferenceRejects257Bytes" time="0.00120873" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.EveryReferenceRejects257Bytes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.EveryReferenceRejects257Bytes
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:407: track_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:407: definition_revision_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:407: progression_context_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:407: target.milestone_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:407: completed.milestone_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:407: completed.definition_revision_ref
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:407: completed.completion_context_ref
+
+[  FAILED  ] MilestoneResources.EveryReferenceRejects257Bytes (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.EveryReferenceRejects257Bytes
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.ReferenceBudgetCountsBytesAfterNul" classname="MilestoneResources.ReferenceBudgetCountsBytesAfterNul" time="0.00115148" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.ReferenceBudgetCountsBytesAfterNul
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.ReferenceBudgetCountsBytesAfterNul
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:424: Failure
+Expected: { const auto result = advance_milestone_progression(input); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref", "input.track_ref", result.data().track_ref, input.track_ref))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 426, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().track_ref.size()", "256U", result.data().track_ref.size(), 256U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 427, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.ReferenceBudgetCountsBytesAfterNul (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.ReferenceBudgetCountsBytesAfterNul
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.SmallerReferenceCeilingAcceptsExactAndRefusesOneOver" classname="MilestoneResources.SmallerReferenceCeilingAcceptsExactAndRefusesOneOver" time="0.00117304" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.SmallerReferenceCeilingAcceptsExactAndRefusesOneOver
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.SmallerReferenceCeilingAcceptsExactAndRefusesOneOver
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:435: Failure
+Expected: expect_empty(advance_milestone_progression(base(), limits)) doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.SmallerReferenceCeilingAcceptsExactAndRefusesOneOver (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.SmallerReferenceCeilingAcceptsExactAndRefusesOneOver
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.SmallerTargetCeilingAcceptsExactAndRefusesOneOver" classname="MilestoneResources.SmallerTargetCeilingAcceptsExactAndRefusesOneOver" time="0.00115836" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.SmallerTargetCeilingAcceptsExactAndRefusesOneOver
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.SmallerTargetCeilingAcceptsExactAndRefusesOneOver
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:445: Failure
+Expected: { const auto result = advance_milestone_progression(input, limits); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().projection.state", "MilestoneTrackState::before_first", result.data().projection.state, MilestoneTrackState::before_first))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 447, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().projection.remaining_micro_points", "1U", result.data().projection.remaining_micro_points, 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 448, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.SmallerTargetCeilingAcceptsExactAndRefusesOneOver (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.SmallerTargetCeilingAcceptsExactAndRefusesOneOver
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.Accepts4096TargetsWithoutFabricatingInitialProgress" classname="MilestoneResources.Accepts4096TargetsWithoutFabricatingInitialProgress" time="0.0027273" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.Accepts4096TargetsWithoutFabricatingInitialProgress
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.Accepts4096TargetsWithoutFabricatingInitialProgress
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneResources.Accepts4096TargetsWithoutFabricatingInitialProgress (1 ms)
+[----------] 1 test from MilestoneResources (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.Accepts4096TargetsWithoutFabricatingInitialProgress
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.Rejects4097Targets" classname="MilestoneResources.Rejects4097Targets" time="0.00387249" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.Rejects4097Targets
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.Rejects4097Targets
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.Rejects4097Targets (2 ms)
+[----------] 1 test from MilestoneResources (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.Rejects4097Targets
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.Accepts4096CompletedRowsWithoutRepeatingThem" classname="MilestoneResources.Accepts4096CompletedRowsWithoutRepeatingThem" time="0.00491085" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.Accepts4096CompletedRowsWithoutRepeatingThem
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.Accepts4096CompletedRowsWithoutRepeatingThem
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneResources.Accepts4096CompletedRowsWithoutRepeatingThem (3 ms)
+[----------] 1 test from MilestoneResources (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (3 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.Accepts4096CompletedRowsWithoutRepeatingThem
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.Rejects4097CompletedRowsBeforePrefixShape" classname="MilestoneResources.Rejects4097CompletedRowsBeforePrefixShape" time="0.00832919" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.Rejects4097CompletedRowsBeforePrefixShape
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.Rejects4097CompletedRowsBeforePrefixShape
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.Rejects4097CompletedRowsBeforePrefixShape (6 ms)
+[----------] 1 test from MilestoneResources (6 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (6 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.Rejects4097CompletedRowsBeforePrefixShape
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.SmallerCompletedCeilingAcceptsExactOutputAndRefusesOneOver" classname="MilestoneResources.SmallerCompletedCeilingAcceptsExactOutputAndRefusesOneOver" time="0.0012568" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.SmallerCompletedCeilingAcceptsExactOutputAndRefusesOneOver
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.SmallerCompletedCeilingAcceptsExactOutputAndRefusesOneOver
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:508: Failure
+Expected: { const auto result = advance_milestone_progression(input, limits); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "2U", result.data().completed_prefix.size(), 2U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 510, gtest_ar.failure_message()) = ::testing::Message(); if (result.data().completed_prefix.size() == 2) { expect_completion(result.data().completed_prefix[0], {"A", "v", 0, 1, "c"}); expect_completion(result.data().completed_prefix[1], {"B", "v", 1, 1, "c"}); } switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().newly_completed_count", "2U", result.data().newly_completed_count, 2U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 515, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.SmallerCompletedCeilingAcceptsExactOutputAndRefusesOneOver (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.SmallerCompletedCeilingAcceptsExactOutputAndRefusesOneOver
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.SmallerCompletedCeilingRefusesInputOneOver" classname="MilestoneResources.SmallerCompletedCeilingRefusesInputOneOver" time="0.0014155" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.SmallerCompletedCeilingRefusesInputOneOver
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.SmallerCompletedCeilingRefusesInputOneOver
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:526: Failure
+Expected: { const auto result = advance_milestone_progression(input, limits); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 528, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().newly_completed_count", "0U", result.data().newly_completed_count, 0U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 529, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.SmallerCompletedCeilingRefusesInputOneOver (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.SmallerCompletedCeilingRefusesInputOneOver
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.ItemBudgetMeasuresInputIndependently" classname="MilestoneResources.ItemBudgetMeasuresInputIndependently" time="0.00116516" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.ItemBudgetMeasuresInputIndependently
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.ItemBudgetMeasuresInputIndependently
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:538: Failure
+Expected: { const auto result = advance_milestone_progression(input, limits); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "1U", result.data().completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 540, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().projection.completed_deficits.size()", "1U", result.data().projection.completed_deficits.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 541, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.ItemBudgetMeasuresInputIndependently (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.ItemBudgetMeasuresInputIndependently
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.ItemBudgetMeasuresWholeOutputBeforeGrowth" classname="MilestoneResources.ItemBudgetMeasuresWholeOutputBeforeGrowth" time="0.00117688" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.ItemBudgetMeasuresWholeOutputBeforeGrowth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.ItemBudgetMeasuresWholeOutputBeforeGrowth
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:551: Failure
+Expected: { const auto result = advance_milestone_progression(input, limits); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().completed_prefix.size()", "2U", result.data().completed_prefix.size(), 2U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 553, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().projection.completed_deficits.size()", "2U", result.data().projection.completed_deficits.size(), 2U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 554, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.ItemBudgetMeasuresWholeOutputBeforeGrowth (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.ItemBudgetMeasuresWholeOutputBeforeGrowth
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.ByteBudgetMeasuresExactInput56AndOneOver" classname="MilestoneResources.ByteBudgetMeasuresExactInput56AndOneOver" time="0.00121368" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.ByteBudgetMeasuresExactInput56AndOneOver
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.ByteBudgetMeasuresExactInput56AndOneOver
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:565: Failure
+Expected: { const auto result = advance_milestone_progression(input, limits); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().projection.remaining_micro_points", "101U", result.data().projection.remaining_micro_points, 101U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 567, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("result.data().projection.state", "MilestoneTrackState::before_first", result.data().projection.state, MilestoneTrackState::before_first))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 568, gtest_ar.failure_message()) = ::testing::Message(); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.ByteBudgetMeasuresExactInput56AndOneOver (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.ByteBudgetMeasuresExactInput56AndOneOver
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.ByteBudgetMeasuresExactEmptyOutput36AndOneOver" classname="MilestoneResources.ByteBudgetMeasuresExactEmptyOutput36AndOneOver" time="0.00110861" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.ByteBudgetMeasuresExactEmptyOutput36AndOneOver
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.ByteBudgetMeasuresExactEmptyOutput36AndOneOver
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:576: Failure
+Expected: expect_empty(advance_milestone_progression(base(0), limits), 0) doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.ByteBudgetMeasuresExactEmptyOutput36AndOneOver (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.ByteBudgetMeasuresExactEmptyOutput36AndOneOver
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.ByteBudgetIncludesAllIntervalCopiesAt118" classname="MilestoneResources.ByteBudgetIncludesAllIntervalCopiesAt118" time="0.00168622" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.ByteBudgetIncludesAllIntervalCopiesAt118
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.ByteBudgetIncludesAllIntervalCopiesAt118
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:584: Failure
+Expected: { const auto result = advance_milestone_progression(input, limits); const auto &amp;d = result.data(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.completed_prefix.size()", "1U", d.completed_prefix.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 587, gtest_ar.failure_message()) = ::testing::Message(); if (d.completed_prefix.size() == 1) expect_completion(d.completed_prefix[0], {"A", "old", 0, 0, "z"}); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.newly_completed_begin", "1U", d.newly_completed_begin, 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 590, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.newly_completed_count", "0U", d.newly_completed_count, 0U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 591, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.projection.completed_deficits.size()", "1U", d.projection.completed_deficits.size(), 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 592, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.projection.remaining_micro_points", "2U", d.projection.remaining_micro_points, 2U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 593, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::internal::AssertionResultExpectation gtest_are_ = { ::testing::AssertionResult(d.projection.previous), true}) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 594, ::testing::internal::GetBoolAssertionFailureMessage( gtest_are_.assertion_result, "d.projection.previous", "false", "true")) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::internal::AssertionResultExpectation gtest_are_ = { ::testing::AssertionResult(d.projection.next), true}) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 595, ::testing::internal::GetBoolAssertionFailureMessage( gtest_are_.assertion_result, "d.projection.next", "false", "true")) = ::testing::Message(); if (d.projection.previous) expect_target(*d.projection.previous, {"A", 0}); if (d.projection.next) expect_target(*d.projection.next, {"B", 3}); switch (0) case 0: default: if (const ::testing::internal::AssertionResultExpectation gtest_are_ = { ::testing::AssertionResult(d.projection.interval), true}) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 600, ::testing::internal::GetBoolAssertionFailureMessage( gtest_are_.assertion_result, "d.projection.interval", "false", "true")) = ::testing::Message(); if (d.projection.interval) { switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.projection.interval-&gt;earned_micro_points", "1U", d.projection.interval-&gt;earned_micro_points, 1U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 602, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.projection.interval-&gt;span_micro_points", "3U", d.projection.interval-&gt;span_micro_points, 3U))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 603, gtest_ar.failure_message()) = ::testing::Message(); switch (0) case 0: default: if (const ::testing::AssertionResult gtest_ar = (::testing::internal::EqHelper::Compare("d.projection.interval-&gt;fraction", "Exact(1) / 3", d.projection.interval-&gt;fraction, Exact(1) / 3))) ; else ::testing::internal::AssertHelper(::testing::TestPartResult::kNonFatalFailure, "/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp", 604, gtest_ar.failure_message()) = ::testing::Message(); } } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+
+[  FAILED  ] MilestoneResources.ByteBudgetIncludesAllIntervalCopiesAt118 (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.ByteBudgetIncludesAllIntervalCopiesAt118
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.DeclaredMaximumOptionsAreAccepted" classname="MilestoneResources.DeclaredMaximumOptionsAreAccepted" time="0.00125058" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.DeclaredMaximumOptionsAreAccepted
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.DeclaredMaximumOptionsAreAccepted
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneResources.DeclaredMaximumOptionsAreAccepted (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.DeclaredMaximumOptionsAreAccepted
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneResources.EveryOptionRejectsZeroMaxPlusOneAndSizeMaximum" classname="MilestoneResources.EveryOptionRejectsZeroMaxPlusOneAndSizeMaximum" time="0.00180005" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneResources.EveryOptionRejectsZeroMaxPlusOneAndSizeMaximum
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneResources
+[ RUN      ] MilestoneResources.EveryOptionRejectsZeroMaxPlusOneAndSizeMaximum
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 0
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: reference_bytes
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 257
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: reference_bytes
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 18446744073709551615
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: reference_bytes
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 0
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: targets
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 4097
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: targets
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 18446744073709551615
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: targets
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 0
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: completed_prefix
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 4097
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: completed_prefix
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 18446744073709551615
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: completed_prefix
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 0
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: items
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 16385
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: items
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 18446744073709551615
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: items
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 0
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: owned_bytes
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 8388609
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: owned_bytes
+
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:147: Failure
+Failed
+wrong exception N8subathon4core34MilestoneProgressionNotImplementedE: Milestone progression is intentionally unimplemented; review tests first
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:630: 18446744073709551615
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:629: owned_bytes
+
+[  FAILED  ] MilestoneResources.EveryOptionRejectsZeroMaxPlusOneAndSizeMaximum (0 ms)
+[----------] 1 test from MilestoneResources (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneResources.EveryOptionRejectsZeroMaxPlusOneAndSizeMaximum
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneOwnership.RetainsAllFieldsAfterInputMutationAndDestruction" classname="MilestoneOwnership.RetainsAllFieldsAfterInputMutationAndDestruction" time="0.00123745" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneOwnership.RetainsAllFieldsAfterInputMutationAndDestruction
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneOwnership
+[ RUN      ] MilestoneOwnership.RetainsAllFieldsAfterInputMutationAndDestruction
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneOwnership.RetainsAllFieldsAfterInputMutationAndDestruction (0 ms)
+[----------] 1 test from MilestoneOwnership (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneOwnership.RetainsAllFieldsAfterInputMutationAndDestruction
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneOwnership.LaterProposalDoesNotRewriteEarlierResult" classname="MilestoneOwnership.LaterProposalDoesNotRewriteEarlierResult" time="0.00131556" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneOwnership.LaterProposalDoesNotRewriteEarlierResult
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneOwnership
+[ RUN      ] MilestoneOwnership.LaterProposalDoesNotRewriteEarlierResult
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneOwnership.LaterProposalDoesNotRewriteEarlierResult (0 ms)
+[----------] 1 test from MilestoneOwnership (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneOwnership.LaterProposalDoesNotRewriteEarlierResult
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneOwnership.CopyAndMoveKeepOwnedPrefixRangeAndProjection" classname="MilestoneOwnership.CopyAndMoveKeepOwnedPrefixRangeAndProjection" time="0.00109615" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneOwnership.CopyAndMoveKeepOwnedPrefixRangeAndProjection
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneOwnership
+[ RUN      ] MilestoneOwnership.CopyAndMoveKeepOwnedPrefixRangeAndProjection
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneOwnership.CopyAndMoveKeepOwnedPrefixRangeAndProjection (0 ms)
+[----------] 1 test from MilestoneOwnership (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneOwnership.CopyAndMoveKeepOwnedPrefixRangeAndProjection
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="MilestoneOwnership.RefusalDoesNotChangeEarlierResult" classname="MilestoneOwnership.RefusalDoesNotChangeEarlierResult" time="0.0010841" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = MilestoneOwnership.RefusalDoesNotChangeEarlierResult
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MilestoneOwnership
+[ RUN      ] MilestoneOwnership.RefusalDoesNotChangeEarlierResult
+unknown file: Failure
+C++ exception with description "Milestone progression is intentionally unimplemented; review tests first" thrown in the test body.
+
+[  FAILED  ] MilestoneOwnership.RefusalDoesNotChangeEarlierResult (0 ms)
+[----------] 1 test from MilestoneOwnership (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] MilestoneOwnership.RefusalDoesNotChangeEarlierResult
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP01_Empty" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP01_Empty" time="0.001087" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP01_Empty
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP01_Empty
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP01_Empty
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP01_Empty, where GetParam() = MP01_Empty (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP01_Empty, where GetParam() = MP01_Empty
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP02_BeforeFirst" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP02_BeforeFirst" time="0.00119763" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP02_BeforeFirst
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP02_BeforeFirst
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP02_BeforeFirst
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP02_BeforeFirst, where GetParam() = MP02_BeforeFirst (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP02_BeforeFirst, where GetParam() = MP02_BeforeFirst
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP03_ExactThreshold" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP03_ExactThreshold" time="0.00122819" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP03_ExactThreshold
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP03_ExactThreshold
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP03_ExactThreshold
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP03_ExactThreshold, where GetParam() = MP03_ExactThreshold (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP03_ExactThreshold, where GetParam() = MP03_ExactThreshold
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP04_IntervalHalf" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP04_IntervalHalf" time="0.00142192" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP04_IntervalHalf
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP04_IntervalHalf
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP04_IntervalHalf
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP04_IntervalHalf, where GetParam() = MP04_IntervalHalf (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP04_IntervalHalf, where GetParam() = MP04_IntervalHalf
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP05_RefundDeficit" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP05_RefundDeficit" time="0.00112713" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP05_RefundDeficit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP05_RefundDeficit
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP05_RefundDeficit
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP05_RefundDeficit, where GetParam() = MP05_RefundDeficit (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP05_RefundDeficit, where GetParam() = MP05_RefundDeficit
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP06_RecoveryAtPrevious" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP06_RecoveryAtPrevious" time="0.00112522" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP06_RecoveryAtPrevious
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP06_RecoveryAtPrevious
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP06_RecoveryAtPrevious
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP06_RecoveryAtPrevious, where GetParam() = MP06_RecoveryAtPrevious (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP06_RecoveryAtPrevious, where GetParam() = MP06_RecoveryAtPrevious
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP07_RecoveryAbovePrevious" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP07_RecoveryAbovePrevious" time="0.00120962" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP07_RecoveryAbovePrevious
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP07_RecoveryAbovePrevious
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP07_RecoveryAbovePrevious
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP07_RecoveryAbovePrevious, where GetParam() = MP07_RecoveryAbovePrevious (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP07_RecoveryAbovePrevious, where GetParam() = MP07_RecoveryAbovePrevious
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP08_OrderedJump" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP08_OrderedJump" time="0.00157962" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP08_OrderedJump
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP08_OrderedJump
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP08_OrderedJump
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP08_OrderedJump, where GetParam() = MP08_OrderedJump (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP08_OrderedJump, where GetParam() = MP08_OrderedJump
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP09_JumpPreservesOldPrefix" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP09_JumpPreservesOldPrefix" time="0.00127548" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP09_JumpPreservesOldPrefix
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP09_JumpPreservesOldPrefix
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP09_JumpPreservesOldPrefix
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP09_JumpPreservesOldPrefix, where GetParam() = MP09_JumpPreservesOldPrefix (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP09_JumpPreservesOldPrefix, where GetParam() = MP09_JumpPreservesOldPrefix
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP10_MultipleDeficitsAreNotSummed" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP10_MultipleDeficitsAreNotSummed" time="0.00133708" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP10_MultipleDeficitsAreNotSummed
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP10_MultipleDeficitsAreNotSummed
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP10_MultipleDeficitsAreNotSummed
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP10_MultipleDeficitsAreNotSummed, where GetParam() = MP10_MultipleDeficitsAreNotSummed (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP10_MultipleDeficitsAreNotSummed, where GetParam() = MP10_MultipleDeficitsAreNotSummed
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP11_ManualCompletionWithDeficit" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP11_ManualCompletionWithDeficit" time="0.00109589" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP11_ManualCompletionWithDeficit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP11_ManualCompletionWithDeficit
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP11_ManualCompletionWithDeficit
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP11_ManualCompletionWithDeficit, where GetParam() = MP11_ManualCompletionWithDeficit (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP11_ManualCompletionWithDeficit, where GetParam() = MP11_ManualCompletionWithDeficit
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP12_NegativeTargets" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP12_NegativeTargets" time="0.00109333" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP12_NegativeTargets
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP12_NegativeTargets
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP12_NegativeTargets
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP12_NegativeTargets, where GetParam() = MP12_NegativeTargets (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP12_NegativeTargets, where GetParam() = MP12_NegativeTargets
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP13_ZeroTarget" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP13_ZeroTarget" time="0.00110167" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP13_ZeroTarget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP13_ZeroTarget
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP13_ZeroTarget
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP13_ZeroTarget, where GetParam() = MP13_ZeroTarget (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP13_ZeroTarget, where GetParam() = MP13_ZeroTarget
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP14_FullWidthInterval" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP14_FullWidthInterval" time="0.0011197" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP14_FullWidthInterval
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP14_FullWidthInterval
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP14_FullWidthInterval
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP14_FullWidthInterval, where GetParam() = MP14_FullWidthInterval (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP14_FullWidthInterval, where GetParam() = MP14_FullWidthInterval
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP15_FullWidthCompletedDeficit" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP15_FullWidthCompletedDeficit" time="0.00108663" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP15_FullWidthCompletedDeficit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP15_FullWidthCompletedDeficit
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP15_FullWidthCompletedDeficit
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP15_FullWidthCompletedDeficit, where GetParam() = MP15_FullWidthCompletedDeficit (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP15_FullWidthCompletedDeficit, where GetParam() = MP15_FullWidthCompletedDeficit
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP16_FullWidthFirstRemaining" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP16_FullWidthFirstRemaining" time="0.00111087" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP16_FullWidthFirstRemaining
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP16_FullWidthFirstRemaining
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP16_FullWidthFirstRemaining
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP16_FullWidthFirstRemaining, where GetParam() = MP16_FullWidthFirstRemaining (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP16_FullWidthFirstRemaining, where GetParam() = MP16_FullWidthFirstRemaining
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP17_CurrentVersusCapturedTarget" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP17_CurrentVersusCapturedTarget" time="0.00111484" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP17_CurrentVersusCapturedTarget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP17_CurrentVersusCapturedTarget
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP17_CurrentVersusCapturedTarget
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP17_CurrentVersusCapturedTarget, where GetParam() = MP17_CurrentVersusCapturedTarget (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP17_CurrentVersusCapturedTarget, where GetParam() = MP17_CurrentVersusCapturedTarget
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP18_ExactThird" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP18_ExactThird" time="0.00145233" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP18_ExactThird
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP18_ExactThird
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP18_ExactThird
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP18_ExactThird, where GetParam() = MP18_ExactThird (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP18_ExactThird, where GetParam() = MP18_ExactThird
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP21_BelowNegativeFirstTarget" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP21_BelowNegativeFirstTarget" time="0.0011163" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP21_BelowNegativeFirstTarget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP21_BelowNegativeFirstTarget
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP21_BelowNegativeFirstTarget
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP21_BelowNegativeFirstTarget, where GetParam() = MP21_BelowNegativeFirstTarget (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP21_BelowNegativeFirstTarget, where GetParam() = MP21_BelowNegativeFirstTarget
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+	<testcase name="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP22_SoleZeroTarget" classname="IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP22_SoleZeroTarget" time="0.00110875" status="fail">
+		<failure message="Failed"/>
+		<properties>
+			<property name="cmake_labels" value="acceptance;core;intentional-red;milestone-progression"/>
+		</properties>
+		<system-out>Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+Note: Google Test filter = IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP22_SoleZeroTarget
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IndependentMP/MilestoneVectors
+[ RUN      ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP22_SoleZeroTarget
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:190: Failure
+Expected: { const auto result = advance_milestone_progression(input); expect_result(result, row); } doesn't throw an exception.
+  Actual: it throws subathon::core::MilestoneProgressionNotImplemented with description "Milestone progression is intentionally unimplemented; review tests first".
+Google Test trace:
+/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/local-evidence/worktrees/milestonetest001-integrator/tests/acceptance/milestone_progression_tests.cpp:187: MP22_SoleZeroTarget
+
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP22_SoleZeroTarget, where GetParam() = MP22_SoleZeroTarget (0 ms)
+[----------] 1 test from IndependentMP/MilestoneVectors (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] IndependentMP/MilestoneVectors.MatchesIndependentLiteral/MP22_SoleZeroTarget, where GetParam() = MP22_SoleZeroTarget
+
+ 1 FAILED TEST
+</system-out>
+	</testcase>
+</testsuite>
