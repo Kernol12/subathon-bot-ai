@@ -1,4 +1,4 @@
-name: Effective permissions baseline foundation
+name: Effective permissions baseline
 on:
   pull_request:
     branches: [main]
@@ -38,8 +38,39 @@ jobs:
           cmake --preset effective-permissions-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
-      - name: Build permission environment and reviewed numeric checks
+      - name: Compile permission baseline and existing checks
         run: cmake --build --preset effective-permissions-debug
+      - name: Require the exact enabled permission baseline inventory without running it
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          from pathlib import Path
+          inventory = json.loads(Path("tests/fixtures/effective-permissions-v1.json").read_text())
+          expected = {"effective-permissions." + case["name"] for case in inventory["cases"]}
+          if not expected or len(expected) != len(inventory["cases"]):
+              raise SystemExit("Empty or duplicated baseline inventory")
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "effective-permissions-debug", "--show-only=json-v1"], text=True))
+          found = [case for case in discovery["tests"]
+                   if case["name"].startswith("effective-permissions.")]
+          if len(found) != len(expected) or {case["name"] for case in found} != expected:
+              raise SystemExit("Permission discovery differs from the reviewed case inventory")
+          for case in found:
+              props = {item["name"]: item["value"] for item in case["properties"]}
+              if any(props.get(key, False) for key in ("DISABLED", "WILL_FAIL")):
+                  raise SystemExit("Permission case is disabled or failure-inverted")
+              # CMake's GoogleTest discovery supplies its standard skip-message detector.
+              if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
+                  raise SystemExit("Permission case has a custom skip expression")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit("Permission case has a custom result-rewriting property")
+              if set(props.get("LABELS", [])) != {"effective-permissions", "acceptance", "core", "intentional-red"}:
+                  raise SystemExit("Permission case has unexpected suite labels")
+              if props.get("TIMEOUT") != 10:
+                  raise SystemExit("Permission case has an unexpected timeout")
+          print(f"Compiled and discovered {len(found)} enabled permission cases; no feature body invoked")
+          PYTHON
       - name: Verify mandatory green environment discovery
         run: |
           python3 - <<'PYTHON'

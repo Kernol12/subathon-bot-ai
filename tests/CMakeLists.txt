@@ -9,12 +9,18 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
 endif()
 
 if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
+    add_executable(core_effective_permissions_acceptance acceptance/effective_permissions_tests.cpp)
+    target_link_libraries(core_effective_permissions_acceptance PRIVATE subathon_effective_permissions GTest::gtest_main)
+    subathon_target_options(core_effective_permissions_acceptance)
+    gtest_discover_tests(core_effective_permissions_acceptance TEST_PREFIX "effective-permissions."
+        PROPERTIES LABELS "effective-permissions;acceptance;core;intentional-red" TIMEOUT 10)
+
     # Primitive SDK proof is independent of the permission evaluator and GTest.
     add_executable(effective_permissions_environment acceptance/effective_permissions_environment.cpp)
     target_link_libraries(effective_permissions_environment PRIVATE Boost::headers)
