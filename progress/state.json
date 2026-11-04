@@ -1724,8 +1724,8 @@
       "title": "Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; service_author production author; different code reviewer pending",
       "depends_on": [
         "CORE-005",
         "CORETEST-008"
@@ -1738,10 +1738,15 @@
       "summary": "Record requested/actual signed corrections and validate cap/deadline changes through reviewed contracts without overflow or hidden history rewrite.",
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
+        "Claim from actualmain436ed9afb1ac3d3be68f4be8c2b1bdc62557e574 AFTER all original PR62/59/54/56/52 normally merged. Dependency-ready reviewed/red baseline is integrated; originalPRpriority clear. Pure timer editorial projection against frozen logicalf4a4c3ce/APIa2ac5a2c/header92281931/spec81406806. Preserve Keep/Reduce/Abort, old-config observation order, Ready/Finished prerequisites, above-cap debt-first behavior, exact bounds/audit and allocation mapping. Reuse existing CORE-002/005, no new dependency. Author owns ONLY core/src/timer_editorial_commands.cpp and new author evidence in separate worktree. Root owns all shared build/CI/state/map/HTML/spec/checkpoint/PR operations. Reviewed headers/tests/fixtures/observer/assertions remain frozen; any genuine defect needs written specification reason and separate actual review. Relevant acceptance must pass; actual different code/allocation audit + CI promotion/fresh latest checks/normal merge remain. No live or complete product authority claim."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "implementation": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/core-008-claim.md"
+      ],
       "review": null
     },
     {
