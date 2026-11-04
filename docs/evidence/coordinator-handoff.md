@@ -186,3 +186,12 @@ is changes-required history, not finalapproval. No newQtfoundation/projectfeatur
 or marker has been called. Root CI validates AST/inventory/discovery exactly43,
 runs mandatoryQt-onlyfoundation+existingchecks with explicit -LE intentional-red.
 Only coordinator checkpoint/progress/map metadata are uncommitted at this handoff.
+
+Actual narrow fixture/probe review2968/importacfb4af passed, then root selected
+foundation ran FIRST and passed100 total assertions/1CTest0.02s. Read
+[foundation evidence](localetest-001-foundation.md) for exact rawlog/QM hashes.
+CIguard6fdd985 is separately acknowledged; root may publish non-intentional-redCI.
+Full43Pythonreview continues; no projectfeature/main/marker or firstred has run.
+Rate correctedmodel is approved7003473/import6a4a487; head4853a42 publishes it
+onPR54. service_author RUNNING concrete rate API DOCUMENT only; codec_author is
+completed/idle after modelreview, ready for explicit followup on actualAPI.

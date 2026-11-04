@@ -10539,7 +10539,8 @@
         "Corrected API8a31d9d/importce1e069 (APIacb90189/author1cfe205b) receives actual independent approvalf7f4681. Root now releases MINIMAL INTERFACE ONLY: author owns tools/translation_catalog.py plus docs/evidence/localetest-001-stub-author.md, reads tools/AGENTS.md, implements frozen inert enum/dataclass/error definitions and ALL5 immediate distinct unimplemented entrypoints/script86 marker; NO parse/validate/render/file/path/tool/generation/help/version behavior. Root owns CMake22profile/syntax-import harness/new selectedQtCI pins and workflow; no feature function calls at build/discovery. Actual separate minimalcode/config review precedes independent fixture/test stage.",
         "Actual minimal stub ef4974c/importa9e60e5 plus root shared build/CI1f666b0 is integrated. All five feature entries remain immediate markers and none has been invoked. Selected-prefix configure/build/four existing CTests pass; actual official CI41792990086 passes archive hashes/tool closure/inert imports/four infrastructure checks on Ubuntu24.04/Python3.12.3. Actual separate source/config review is active before fixture/test release. No formal tests, intended red or generator behavior exists yet; no baseline-completion claim.",
         "Actual minimal source/config1f666b0 receives independent approval732bb2d/import6589861 after separate selected-prefix11step build/four infrastructure passes and inert AST/import checks. Root explicitly releases independent fixture/test author codec_author in NEWtask/LOCALETEST-001-fixture-author from main+6589861. Own ONLY tests/fixtures/translation_catalog/, tests/localization/, tests/qt/translation_catalog_probe.cpp and test-author note. Root owns all shared harness/CI/state. Complete literal TS/browser goldens, Qt-only real compiler/raw lookup/repro foundation and meaningful Python API/CLI tests must receive actual review before any project feature/main/script/marker call. Production remains unimplemented and baseline incomplete.",
-        "Actual independent fulltest candidate bbdeefb/importe0ffc3b and sharedharness e1779a3 now compile/discover43unique Python methods/48CTest entries, no feature/main/script/marker or newQtprobe executed. Initial fixture/probe reviewaeb4091/import39711a2 requested additive plural raw-percent witnesses and actual fresh missing-English load; both corrected preservingall6oldobjects/forms with seventhfixture. Full actual source/test/harness review is running with service_reviewer; no prospective approval. OrdinaryCI discoveryguards43 and explicitly excludes onlyintentional-red execution until implementation; allmethods alwaysregistered. Selected realfoundation green and FIRSTprojectred remain pending."
+        "Actual independent fulltest candidate bbdeefb/importe0ffc3b and sharedharness e1779a3 now compile/discover43unique Python methods/48CTest entries, no feature/main/script/marker or newQtprobe executed. Initial fixture/probe reviewaeb4091/import39711a2 requested additive plural raw-percent witnesses and actual fresh missing-English load; both corrected preservingall6oldobjects/forms with seventhfixture. Full actual source/test/harness review is running with service_reviewer; no prospective approval. OrdinaryCI discoveryguards43 and explicitly excludes onlyintentional-red execution until implementation; allmethods alwaysregistered. Selected realfoundation green and FIRSTprojectred remain pending.",
+        "Actual narrow correctedQtfixture/probe/harness approval2968f33/importacfb4af precedes root FIRSTfoundation execution on same selected officialQtbuild:1/1PASS0.02s/100assertions, en/de byte-identical in2freshdirs, rawlogSHAbd8f98f6. No projectfeature/main/marker invoked. CIguard6fdd985 closes duplicateAST/disabled/inversion/labelgap and actualreviewer acknowledges. OrdinarynewfoundationCI publication/observation and full43semanticreview pending; no baselinecompletion/red claim."
       ],
       "verification": {
         "tool_environment": "partial",
@@ -10550,7 +10551,8 @@
         "interface_build": "passed",
         "interface_ci": "passed",
         "interface_review": "passed",
-        "test_authorship": "draft"
+        "test_authorship": "draft",
+        "selected_qt_foundation": "passed"
       },
       "evidence": [
         "docs/contracts/translation-catalog-v1.md",
@@ -10564,7 +10566,8 @@
         "docs/evidence/localetest-001-stub-author.md",
         "docs/evidence/localetest-001-stub-review.md",
         "docs/evidence/localetest-001-test-author.md",
-        "docs/evidence/localetest-001-test-review.md"
+        "docs/evidence/localetest-001-test-review.md",
+        "docs/evidence/localetest-001-foundation.md"
       ],
       "review": null
     },
