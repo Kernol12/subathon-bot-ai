@@ -29,3 +29,11 @@ Record version pins, applicable schema validation commands and observed CI; addi
 an executable validator needs focused reviewed checks and CI. No live requests or
 source generation is authorized by this planning brief. See
 [ADR-0004](../decisions/0004-wire-contract-prerequisites.md) and [workflow](README.md).
+
+## Bounded early package
+
+[CONTRACT-013](CONTRACT-013.md) separately specifies the reference.v1 HTTP package
+without scene imports. This complete package still depends on CONTRACT008 and
+must integrate the reviewed reference package plus every remaining endpoint family.
+[ADR-0006](../decisions/0006-reference-path-prerequisites.md) does not make full
+HTTP or its clients ready by completing an early snapshot contract.
