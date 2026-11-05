@@ -24,6 +24,10 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
         bothSelectedIndexesValidateBeforeConflict
         candidateMissingRootsRemainExplicit
         healthyDifferentMeaningIsSourceMismatch
+        unindexedPlanCanonicalStructurePrecedesCapturedComparison
+        unindexedPlanValuationStructurePrecedesBinding
+        unindexedImportedOpaqueRefsStayHealthyMismatches
+        unindexedGenericChildrenDistinguishMismatchFromCorruption
         selectedCorruptionRollsBackWholeUnit
         structurallyValidDocumentsNeedCompleteMatchingClosure
         corruptOriginalOutranksReplacementConflict
