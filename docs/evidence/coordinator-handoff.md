@@ -5,7 +5,7 @@ no owner decision/access action needed. No live/provider/chat/payment/deployment
 
 ## Actual integrated main
 
-Last observed main d4e3c521bee7069a44d658f5223c2402a7d0d743;419taskIDs/1605edges.
+Last observed main b7878e6a10bd2d5c7ddab61d04863da95474463c;419taskIDs/1605edges.
 
 - PR64 ACCESS002 merged685b17f2026-11-05T17:01:14Z froma7c0fd6/all17finalSUCCESS/
   currentrules26170263/0requiredGHapprovals/0threads/CLEAN. Merge/headtree
@@ -23,27 +23,26 @@ Last observed main d4e3c521bee7069a44d658f5223c2402a7d0d743;419taskIDs/1605edges
   pass. [Handoff](session-001-handoff.md). Current accepted-login/atomic conditional
   store,100sample hardwarebenchmark/platform security remain future gates.
 
-All16post-main685 checks observedSUCCESS; d4e post-main16 newlypending at checkpoint.
+All16post-main685 andd4e checks observedSUCCESS; b787 post-main16 newlypending.
 OriginalPR52/54/56/59/62/63 and reviews/FIRSTred/nativefixtures preserved; no replay.
 
-## CORE008 PR67 — source/component accepted, final CI/merge pending
+## CORE008 PR67 — normally integrated
 
-Root /tmp/subathon-core008/task/CORE-008-editorial-projection, originalclaim3f81224
-explicitlyresumed after parked interval (no oldagent/worktree/productiondiff).
-Actual sourceauthoraccess_reviewer3748a7f8/importc22676f, blob45e817d5; original27/
-44ED/header/API/spec/ownerchoices unchanged. Different actualsource/resource/config
-approvalaccess_implementerb16144e9, finalcombined-maind4e metadata/CI attribution
-approvala01e2872 importedc975c48. Nativeauthor/root/reviewer101PASS0skip/disabled0;
-selected42073629046 at28ec actualunconditional27PASS0.12s+old74PASS1.67s/full logsread.
-Rootfinalheadc975c48 isbeingpublished (process94688 must be inspected ifunpolled),
-readyafteractualreview; latestallapplicableCI/currentrules/threads/normalmerge still
-required. Source/metadata accepted doesnot establishhost/UI/authority/writer/clock.
-Do not reuse preliminary28CI for finalc975. Sourceauthor/reviewer completed; no
-native child presumed running. Handoff/review areonowningbranch, not yetmain.
+Root /tmp/subathon-core008/task/CORE-008-editorial-projection. PR67 nowNORMAL
+MERGED b7878e6 at2026-11-05T17:36:59Z fromEXACTc975c480d2a795a4a6485664ac1f89deac3ccb44,
+all17latestcheckrunsSUCCESS, actualsourceb16144e9/finalmetadataa01e2872 approvals,
+currentrules26170263/0requiredGHapprovals/0threads/no bypass/CLEAN. Actualmerge/head
+treede6e7d528b3c5f874e56bf5a495b58f8f3c94b9e equal. Originalclaim3f81224
+explicitlyresumed; source45e817d5/original27+44ED/header/API/spec/ownerchoices fixed.
+Author/root/reviewer101PASS0skip; actual ordinaryselected27+old74 pass.
+[Handoff](core-008-handoff.md) and[actualreview](core-008-review.md). No host/UI/
+currentauthority/clock/writer/Startreopen/globalreview capability implied. Source
+author/reviewer tasks completed, no native/publisher/ghwatch child stillrunning.
 
 ## Current assignment STORAGETEST018 — FIRST DOCUMENT stage only
 
-Claim30a21a0 fromactualmain d4e, root /tmp/subathon-storagetest018 on
+Claim30a21a0 fromactualmain d4e, nowfreshmainb787 integrated retaining all four
+acceptedstatuses/419IDs/018edges plusONLYown018claim. Root /tmp/subathon-storagetest018 on
  task/STORAGETEST-018-initial-capture-baseline. Dependencies CONTRACT014 and
 retained/receipt/contribution/plan stores actually integrated. STORAGE018 stays
 planned; no executablebaseline/red/implementation is implied by this claim.
@@ -76,15 +75,16 @@ review/compiled real intendedred precedes STORAGE018production.
 
 ## Preservation and next concrete actions
 
-Original primary milestonecheckout8721770 clean/preserved; parkedasset011c4ef1b9 and
+Original milestonebranch8721770 preserved; primary clean checkout nowMAINb787
+fast-forwardonly afterallnormalmerges. Parkedasset011c4ef1b9 and
 alloldrefs/worktrees preserved, neverreset/prune/delete. Newtask source/review trees
 under/tmp preserved. Actualprioragents inspectednone; allcurrentassignmentsfresh.
 SelectedBoost1.83 andlibsodium1.0.22 restoredONLYunder/tmp/authenticpins; no global
 install, all3sodiumartifacts matchpriorreviewedproof. No originalfixturegeneration.
 
-Next: observeCORE67finalheadCI/normalmerge; reconcilethisbranchfromnewactualmain
-preservingown018claim+allacceptedstatuses, regenerateHTML. Receiveactual018doc+
-physical/APIproposal, actualdifferentreview, thenreleaseonlynextreviewedstage.
+Next: observepostmain16CI; receiveactual018doc+
+physical/APIproposal, actualdifferentreview, thenreleaseONLYnextreviewedstage. No actualheader/stub/testbody before approved
+concreteAPI/physicaldoc; no implementation before ownreviewed/observedred baseline.
 Inspect actualagents/processes/heads/PRs at everyresume; do notassumebackground
 execution afterturnstops. Allsevenintegrations/threeFX/bothrenderers/locales/themes/
 platforms/OBS/packages/licenses/security/recovery/live gates remain in intendedscope.
