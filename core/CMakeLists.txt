@@ -9,7 +9,7 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
 endif()
 
 # Exact arithmetic has an explicit target and installed-header dependency.
-if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
     find_package(Boost 1.83 CONFIG REQUIRED)
     message(STATUS "Exact numeric Boost ${Boost_VERSION}: ${Boost_INCLUDE_DIRS}")
 endif()
@@ -18,6 +18,10 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_SERVICE_TEST
     target_include_directories(subathon_exact_numeric PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_exact_numeric PUBLIC Boost::headers)
     subathon_target_options(subathon_exact_numeric)
+endif()
+
+if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
+    target_link_libraries(subathon_effective_permissions PRIVATE Boost::headers)
 endif()
 
 # Explicit boundary for pure milestone progression proposals.

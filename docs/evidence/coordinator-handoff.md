@@ -5,28 +5,25 @@ No owner decision/access request is needed. Ordinary SSH/GitHub work; no live ac
 
 ## Actual main and preserved history
 
-Last actual main d2392e2a5ffaed5947a804a2542b242fb333af49, PR63 integrated, all16
-post-main checks SUCCESS. Original PR52/54/56/59/62 and their reviewed/red baselines
+Last actual main685b17f22998419f1691658a829b468eea05e770, PR64 normal merge
+2026-11-05T17:01:14Z; all17 final checksSUCCESS, exacthead/mergetree
+53054827e286d2c2dbfd806c4cc174479d5cad2a equal. Post-main16checks pending. Original PR52/54/56/59/62 and their reviewed/red baselines
 are integrated; never repeat FIRSTred/foundations or fixture generation. Source
 checkout originally8721770 on old milestone branch remains clean/preserved. Parked
 CONTRACT011 c4ef1b9 and all old author/review refs remain; no reset/prune/delete.
 No prior agent/process was assumed running; all assignments below are fresh.
 
-## ACCESS002 PR64 — accepted component, final CI pending
+## ACCESS002 PR64 — normally integrated
 
 Root /tmp/subathon-access002/task/ACCESS-002-effective-permissions. Actual PR64
-ready head a7c0fd66a420bdc6abbd06983afb74d3fbd3fac2; final independent metadata
-approval5f650782. Actual sourceb7b81e93, original30 frozen, new2 arithmetic/allocation
-regressions63666438 separately approved before invocation. Root and independent
-reviewer full69 PASS0skip. Official selected Ubuntu42066180272 atb1 passed
-unconditional32+21fact environment+old36; latest selected42067232757 also SUCCESS.
-Finalhead16/17checks pass; only translation-catalog-build42067232566 remains in
-APT dependency installation at last observation. Do not merge until it actually
-passes; inspect timeout/failure and rerun only legitimately failed infrastructure
-if necessary. Rules26170263 active/0requiredGHapprovals/no bypass; actual review
-threads0, no GHreviews, MERGEABLE but UNSTABLE. Recheck currenthead/rules/threads/
-allchecks before expected-head normal merge. Root gh-watch process90280 may exist.
-Detailed source/review/native/CI evidence on that branch; no authority host claimed.
+merged exacta7c0fd66a420bdc6abbd06983afb74d3fbd3fac2 after all17 finalcheckruns
+SUCCESS, actual finalmetadata approval5f650782 and code/test reviews, currentrules
+26170263/0requiredGHapprovals/no bypass,0threads andCLEAN. Sourceb7b81e93,
+original30 frozen/new2 regressions separately reviewed, root/reviewer69PASS.
+SelectedUbuntu32+21facts+old36 passed. Existing translation42067232566 first
+attemptcancelled at APT before all tests; targeted SAMEHEAD attempt2 succeeded.
+No test was skipped/weakened or cancelled green inferred. Watch90280 finished.
+[Detailed handoff](access-002-handoff.md) preserves revisions/native/CI proof.
 
 ## CONTRACT014 — actual corrected consumer document/plan accepted
 
@@ -39,10 +36,11 @@ Concrete consumer only; actual code/schema/API producers remain future gates.
 Rootplan4018afd adds STORAGETEST018/STORAGE018, mandatory BOTH API011 records+
 EPIC009; all oldedges/verification retained,419tasks/1605edges/acyclic. Actual
 reviewer23 independent literal facts and project/render/19tooling/whitespace pass.
-Task done documentonly, not published/merged yet. After PR64 normal merge, integrate
-actual fresh main, preserving complete ACCESS002 status/evidence/source and all
-419IDs/018edges. Regenerate HTML; actual different final combined-main metadata
-review, focused draftPR, latestallCI/rules/discussions/normalmerge remain.
+Task done documentonly, not published/merged yet. Actual main685b17f now integrated, preserving ACCESS002 status/evidence/source
+and all419IDs/018edges. Only shared state/generatedHTML/checkpoint conflicts
+resolved by explicit task-row overlay on actual main; all original records kept.
+Different final combined-main metadata review, focused draftPR, latestallCI/
+rules/discussions/normalmerge remain.
 Author/reviewer worktrees /tmp/subathon-contract014-author, -correction, -review
 preserved; author/reviewer completed, no further assignment assumed.
 
@@ -76,7 +74,7 @@ CORE008 original claim3f81224 on task/CORE-008-editorial-projection and
 task/CORE-008-implementation-author has no productiondiff or liveworktree.
 Explicitly PARKED pending capacity, no assumed active agent; resume original claim
 after current tasks, preserve original27/44ED baseline. CONTRACT011 partial remains
-parked without claiming completion. Next: finish PR64 legitimate CI/normalmerge,
-then combine/reference014 metadata+publication, track password actual source review.
+parked without claiming completion. Next: finish reference014 combined-main metadata/publication/normalmerge,
+track password final metadata/currentCI/normalmerge; source review0817f48 approved.
 All seven integrations/threeFX/both renderers/locales/themes/platforms/OBS/packages/
 licenses/recovery/live gates remain. No chat/payment/provider/deployment side effect.

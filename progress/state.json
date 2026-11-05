@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T16:55:39+00:00",
+  "updated_at": "2026-11-05T17:02:41+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3763,8 +3763,8 @@
       "title": "Effective permissions and complete-grant constraints",
       "module": "Identity",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; access_implementer; access_reviewer (independent code review)",
       "depends_on": [
         "CONTRACTPLAN-001",
         "ACCESSTEST-002"
@@ -3778,11 +3778,34 @@
       "summary": "Individual explicit allow/deny takes precedence, then role deny over role allow, then default deny.",
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
+        "Resumed 2026-11-05 from actual main d2392e2 after confirming PR52/54/56/59/62/63 integrated and no open PRs or running prior agents. Dedicated task/ACCESS-002-effective-permissions. Scope frozen effective-permissions logical/API/header and approved 30-case baseline; preserve original red and all assertions. Author owns core/src/effective_permissions.cpp and own evidence only. Coordinator owns build/CI promotion/state/map/HTML/checkpoint. Acceptance all30 permission cases plus independent environment/old36, allocation/order/source audit, actual different code/config review and latest selected-Boost automatic acceptance. No account/session/catalog/delegation/network/runtime authority capability claimed.",
+        "Actual source891e851/commentfbe integrated399fd58/4765bdc and different fullcode/config approval7894cc239e71803bcc9b3f94ae056ae4bdf2aa1a importedfbc3e16. Author/root/reviewer selected1.83 full67 PASS0skip; original30/header/fixture/contracts unchanged. New2 arithmetic/allocation fault tests authored817+corrections3a3dab4 importedcf7fe53, build/discoveryONLY69/exactguardsPASS; actual differenttest review before firstinvocation and automaticnewacceptance/latestheadpublication remain. No account/session/currentauthorization/transport/platform capability claimed.",
+        "Actual separate pre-invocation new2test/harness approval b2ab5c8 importedb4a82b7; then ROOT FIRST full69/69 PASS0skip/directexit0/0.67s with JUnit retained. Full ordinary selected Ubuntu CI/publication remains pending; no new regression-red or runtime session/authority claim.",
+        "Component accepted: selected official42066180272 atb1c7b54 passed unconditional32,21-fact environment andold36; actual full logs read. Source/config7894cc23 and PRE-INVOCATION newtestb2ab5c8 approvals retained; independent full69b4e5fba importedc7e3b01 PASS0skip0.66s. Task done componentonly; PR64 unmerged until actual finalmetadata review/latestHEAD allCI/rules/discussions/normalmerge."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "tests": "passed",
+        "implementation": "passed",
+        "independent_review": "passed",
+        "regression_tests": "passed",
+        "selected_ci": "passed",
+        "acceptance": "passed"
+      },
+      "evidence": [
+        "docs/evidence/access-002-handoff.md",
+        "docs/evidence/access-002-author.md",
+        "docs/evidence/access-002-review.md",
+        "docs/evidence/access-002-ci.md",
+        "docs/evidence/access-002-environment.md"
+      ],
+      "review": {
+        "author": "access_implementer",
+        "reviewer": "access_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/access-002-review.md",
+        "revision": "source b7b81e9327ef8840effecb8319425b1a397bf8af / regression63666438 and exact harness, actual code7894cc23/testb2ab5c8/independent69b4e5fba"
+      }
     },
     {
       "id": "ACCESSTEST-003",
@@ -14397,6 +14420,16 @@
       "date": "2026-11-05",
       "task": "CONTRACTPLAN-003",
       "note": "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation→baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
+    },
+    {
+      "date": "2026-11-05T16:19:28+00:00",
+      "task": "ACCESS-002",
+      "note": "Claim bounded pure permission evaluator implementation from integrated reviewed/red baseline; fresh isolated implementer/reviewer assignments, no prior review or first-red repetition."
+    },
+    {
+      "date": "2026-11-05T16:38:51+00:00",
+      "task": "ACCESS-002",
+      "note": "Complete bounded evaluator acceptance with original30 preserved,2 separately reviewed focused regressions, independent full69 and observed selected official32 execution. Final publication/merge gates remain."
     },
     {
       "date": "2026-11-05T16:23:51+00:00",
