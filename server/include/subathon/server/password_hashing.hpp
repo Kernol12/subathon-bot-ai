@@ -110,7 +110,7 @@ struct PasswordUpgradeData {
 
 class PasswordUpgradeResult;
 
-// All three entrypoints are explicit unimplemented stubs at this stage.
+// Password primitives only; callers retain current-login and conditional-store authority.
 [[nodiscard]] std::string create_password_hash(PasswordBytes password,
                                                const PasswordHashingOptions &options = {});
 [[nodiscard]] PasswordVerification verify_password(PasswordBytes password,

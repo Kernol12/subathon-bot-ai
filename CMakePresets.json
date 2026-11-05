@@ -212,7 +212,7 @@
     },
     {
       "name": "password-hashing-debug",
-      "displayName": "25 \u00b7 Password hashing baseline interfaces and tests",
+      "displayName": "25 \u00b7 Password hashing acceptance and environment",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_PASSWORD_HASHING_TESTS": "ON"
