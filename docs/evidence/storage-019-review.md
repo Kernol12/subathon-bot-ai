@@ -103,3 +103,68 @@ decode followed by postchecks. It provides neither SQL nor admission/authority.
 
 Final source approval awaits the actual bounded correction, passing28 and exact
 final root configuration. This section does not approve an unwritten revision.
+
+## Actual final source and configuration approval
+
+**APPROVED for actual corrected source/configuration at
+`790f757558a60409c4b90fdd808a526089c04752`.** Actual author correction
+`421dc35e8638fe40848fed21a2008f37245dadb1` is imported unchanged. Re-read the
+complete actual delta: bounds remain first, nonmatching outer format is checked
+next, then known-format NULL body keeps invalid_shape. Only the redundant empty-
+format invalid_reference branch is removed; all other scanner/validation/ownership
+code is unchanged. This fixes the independently reviewed reached regression after
+its actual red, while preserving the original27 assertions and behavior.
+
+| Actual final artifact | Exact blob |
+| --- | --- |
+| server/src/reference_capture_values.cpp | fa3fc6d1775606604129522f6e071fd76318c70b |
+| source-private reference_capture_codec_p.hpp | 9fc608d42062ad54525d47bbdc911e55bfc99028 |
+| public reference_capture_values.hpp | 7824d0492e36fad80fcba3519d6538e81fcf509b |
+| tests/qt/reference_capture_values_qt.cpp | 73d02569425e62b19fa23af6a5006b95c74a7825 |
+| tests/qt/CMakeLists.txt | e5460bb5d07bf3475505a1f3cb88c64bf6f9897f |
+| .github/workflows/sqlite-writer.yml | 62771ade6424ce2ddd1474e7d4c3ca26fcf1b797 |
+| CMakePresets.json | 04cce645fb394780d0fdc91fc324aa8d048f81a4 |
+
+Public header changes only the stale two-line implementation comment; every DTO,
+limit/error/signature and historical marker class remains unchanged. Preset
+changes only its display text. CI preserves exact dependency pins/check names/
+permissions, requires complete28 compiled/registered/enabled codec acceptance,
+rejects draft-red labels for that passing lane and executes it unconditionally.
+SQL31 retains its separate enabled intentional-red guard and is not executed.
+No generic failure suppression, assertion relaxation or public/private SQL bypass.
+
+Actual reviewer validation, in isolated source review branch refreshed to this
+root candidate (only this note is reviewer-authored):
+
+```sh
+cmake --preset sqlite-reference-capture-debug -DBoost_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 -Dboost_headers_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+cmake --build --preset sqlite-reference-capture-debug --target server_reference_capture_values_acceptance -j 4
+ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$' --no-tests=error --output-on-failure --output-junit /tmp/storage019-review-codec28.xml
+clang-format --dry-run --Werror server/src/reference_capture_values.cpp server/src/reference_capture_codec_p.hpp tests/qt/reference_capture_values_qt.cpp
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+All exit0. Independent fresh41-step target build, actual28 codec acceptance PASS
+0.10s/0fail/disabled/skipped, including all8 additive rows. Raw reviewer output
+SHA256 `7ea68f68689b17325e75d2c1c39c8e553ee15a4d8c58db8d5e7516c0ceebb910`.
+Text preservation check removes exactly the new slot/data block and compares
+the rest against integrated original CPPc207e423: byte-identical. YAML and24
+embedded Python blocks parse; unconditional28 command/separate SQL31 guard pass
+independent inspection. Project/render checks validate420 records/122 decisions/
+links/presets/current HTML. Host GNU16.2.1/Qt6.12.0, selected Boost1.83.0,
+CMake4.4.5/Python3.14.9.
+
+Independently read actual root `/tmp/storage019-root-337.xml` and raw output:
+337PASS/0fail/disabled/skipped,28 codec cases and ZERO SQL capture cases,24.73s.
+Author separately passed fresh145-step/337 in24.74s. These are actual different
+executions, not fabricated reviewer reruns of the old309 suite. Original marker
+reds remain preserved, and no SQL feature body was invoked by this review.
+
+No source/configuration blocker remains. The memory/priority/scratch conclusions
+above require source inspection, not inferred test coverage. Actual selected
+ordinary28 CI, latest-head publication and normal PR gates still must be observed
+before final task integration. Private body helpers provide structural owned DATA
+only; actual SQL metadata-before-payload integration/current authority/evaluation/
+provider/recovery/UI/platform/package/full release remain separate tasks.
