@@ -264,3 +264,68 @@ configuration/runtime/clock/entropy/bootstrap producers, actual API001/session/
 HTTP contracts and downstream reviewed baselines/red/implementations/source review
 remain required before the reference path can work. Every broader release gate
 listed above remains; no task beyond this document/plan is marked completed.
+
+## Final combined-main metadata review
+
+2026-11-05, same independent reviewer. Actual combined candidate
+9c01573d5c04281089383e7c32ae2eb82058a8bb, after main integration
+a9f5f977b40457707395c44c3ea90433be19ace7 and the one stale-owner-label correction.
+Main prerequisite is actual PR64 merge685b17f22998419f1691658a829b468eea05e770.
+Examined the complete new handoff, actual state/HTML/checkpoint, navigation and018
+brief against the previously approved corrected contract/plan and current main.
+
+**Verdict: approved for integration/publication of final document-task metadata.**
+This extends the previous actual document/planning approval to this exact combined
+revision. It does not satisfy unseen latest-head GitHub checks, rules/discussions
+or normal merge, and supplies no downstream source/schema/runtime acceptance.
+
+Independent exact comparisons establish:
+
+- Concrete contract5a12ebea/author82359174, STORAGE018 brief57852bbb and all three
+  approved navigation/task-brief edits are byte-identical to approved84d087c.
+  No new interpretation or unwritten producer has been smuggled into completion.
+- Against current main, only four old task rows differ: CONTRACT014, EPIC009,
+  APITEST011 and API011; the only added task rows are the two018 records. Every
+  unrelated old row, including accepted ACCESS002, is exactly main's value.
+  Global verification is identical; main's complete activity history remains an
+  exact prefix, followed only by the two actual CONTRACT014 entries. All original
+  dependency edges remain, with the reviewed mandatory018 additions unchanged.
+- CONTRACT014 is done as a contract DOCUMENT only: contract/planning review passed,
+  implementation not_run, actual different review identities/revisions and all
+  evidence linked. Root corrected the stale pending-reviewer owner label to the
+  actual selected_boost/access_implementer author/reviewer identities. Both new018
+  records stay planned and require the independent baseline/red/source gates.
+- Source/server/tests/schema/CI/build/specification/architecture/acceptance-map
+  trees are IDENTICAL to integrated main685b17f. This includes PR64's reviewed
+  evaluator/regressions/ordinary selected-Boost CI; this PR adds no executable
+  change or concurrent implementation patch. Main's Git merge tree and second
+  parent's tree both equal53054827e286d2c2dbfd806c4cc174479d5cad2a, consistent with
+  the checkpoint's exact reviewed PR64 tree attribution.
+- Handoff correctly distinguishes SRI1 semanticB34, document78, format37 and
+  envelope115 and preserves the actual R1/R2/R3 history, current419/1605 DAG,
+  explicit producer work and document-versus-runtime distinction. It claims no
+  authored executable acceptance, schema-validator or feature result here.
+  Publication/merge and latest applicable CI remain open at its authoring.
+- Checkpoint preserves parked/unfinished work and earlier reviews, attributes the
+  actual PR64 merge/CI to coordinator observations, and records current password
+  work as a separate unmerged task with its own different review/official result.
+  No old CI result is transferred to an unseen final head. This review does not
+  independently approve that separate source task or claim its completion.
+
+Actual checks: `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check`, `git diff --check` all exit0 on both
+combineda9f and corrected9c01573. `python3 -m unittest discover -s tests/tooling -v`
+ran19/19 PASS0.289s on a9f; the subsequent change affects only the task owner string,
+updated timestamp, regenerated HTML and checkpoint. An additional exact script
+proved that final owner-only task change, the frozen blobs/trees/rows/history and
+all mandatory edges above. No native/feature/foundation suite was repeated.
+
+Final examined metadata blobs: handoff
+`d44cd850c6f08e6c31fe0178bb25f0870d5f0c11`, state
+`ef62b7bd6c6d77993c2056316067ebf488912795`, HTML
+`d86a812233abdad307e23c88e32c99d5fa73509b`, checkpoint
+`318db40c6d37a68162211af0f2de3a41c0ea7bdc`.
+All broader release/current-authority/physical-producer/HTTP/platform gates recorded
+in the prior review remain. Root may now publish this focused document PR, observe
+its own final applicable CI and current rules/reviews/threads, and merge normally
+only when those separate gates permit it.
