@@ -127,3 +127,79 @@ A separate focused test/review/reached-red gate is required before correcting
 these aggregate expressions. No final source/configuration approval is given by
 this interim note. The historical reviewed baselines, valid review records and
 FIRST-red evidence remain valid and must not be replayed or rewritten.
+
+## Reviewed metadata regression, reached red and resource delta
+
+Separately authored metadata candidate `d75738b`, CPP
+`35c0bacbb4b22d156d7e9ea38d317a3d92df4b5f`, adds one two-row method while
+preserving the earlier 36 methods/61 scenarios. The actual program and root
+configuration `45533d52f251131abf143304b391eee11666385b` were independently
+approved BEFORE invocation. Configuration adds only the new method and changes
+the compiled-function count 36 to 37; enabled draft-red/no inversion/no ordinary
+SQL-body execution remain intact.
+
+Each row first proves healthy complete A find/normal commit under the SAME generous
+65536-byte writer result profile. The existing disposable Observer alone then
+enables ignored CHECK constraints, writes one literal 262144-byte BLOB into either
+rule ordinal or request Boolean, restores CHECK enforcement immediately (including
+the UPDATE failure path), and asserts restoration. Metadata-only typeof/length
+queries establish the fault without returning its payload. After reopening with
+the identical profile, the NEW call must report selected corruption and actual
+whole cleanup before publication.
+
+Independently read raw `/tmp/storage018-aggregate-red.txt` and its XML, SHA-256
+`6949ac096d92904ea204c6b242c0a769f24fae27ec29ab52bffd974493f8884f`.
+Root confirms clean `45533d5`, CPP `8702843...`, direct exit 8 at 21:02:22Z:
+two reached wrong-known-reason assertions, two init/cleanup passes, zero skipped/
+setup/stub failures, 109 ms. Both healthy controls and fault validation completed
+before those assertions. The raw log does not print the actual enum value; the
+source's raw aggregate and writer bounds identify the preownership problem. Only
+after this reviewed program/configuration and reached red was bounded CASE-guard
+correction authorized. Every aggregate argument must remain fixed INTEGER/NULL,
+while malformed counting still examines all rows, including mixed valid/bad rows.
+
+Actual resource correction `da96727`, CPP `27fa987...`, was independently audited
+as a bounded delta from `98c252e`. Its checked field-by-field projection matches
+the public declarations: receipt's six logical optionals; support's full actual
+original receipt plus kind/evidence/verified-link/conditions/associated CID;
+retained kind/key/document/optional configuration; plan-ref once plus the complete
+captured revision with actual header-receipt identity/facts/arrival, state,
+valuation, rule, request, parent and override presence. It derives fixture-A 224
+without hardcoded fixture sizes or arbitrary subtraction. Supported 1/0/1 gathers
+all metadata and checks complete snapshot B before plan header/revision/child
+payload ownership. Per-row SQL buffer checks do not impose a smaller bound: their
+storage keys/scalars are dominated by the corresponding full semantic projection.
+This resource delta is acceptable; it deliberately leaves raw aggregates unchanged
+for the separate gate and is not approval of the complete source yet.
+
+## Intrinsic activity/anchor finding and program review
+
+The initial/structural candidate checks optional activity groups and their nonempty
+members but reaches narrow-profile absence comparison before enforcing the old
+contribution contract's intrinsic origin and original-support compatibility rules.
+The contract requires any present activity identity to have its ACTUAL original
+receipt origin, and the linked original support's complete optional verified key
+must match the contribution's optional identity. These are already required by
+old `validate_observation`, `read_observation`, `contribution`, `compatible` and
+`anchor_matches`; no current mutable state or additional reader is needed.
+
+Separately authored actual `2a07637`, CPP
+`5c4dd48162d224220cae5c0a95813e7dc9608136`, adds a compact four-row method,
+preserving all earlier 37 methods/63 scenarios byte-for-byte (38/67 total):
+
+- Both tuples match actual receipt origin: healthy generic `source_mismatch`,
+  caller remains active until host rollback.
+- Both tuples match each other but have the wrong actual origin: corruption,
+  independently testing origin even with a compatible anchor key.
+- Support's origin alone is wrong: corruption.
+- Both origins match actual receipt but the activity IDs differ: corruption,
+  independently testing full anchor key compatibility.
+
+Both tuple groups and proof are literal complete nonempty BLOBs. OLD setup joins
+verify actual original/observation receipt7 and both real receipt origins, support
+kind0 and evidence3. No index is present. Healthy refusal checks provisional marker
+visibility and actual host rollback; malformed rows require exact stored-data
+failure and independent lock/marker cleanup INSIDE catch. This program was
+approved before invocation. Actual root registration/reached red and the subsequent
+bounded source correction remain pending in this entry. No source author has
+permission here to correct unobserved behavior or weaken these assertions.
