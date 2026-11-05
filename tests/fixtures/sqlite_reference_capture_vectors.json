@@ -2006,6 +2006,66 @@
               }
             ]
           ]
+        },
+        {
+          "name": "A complete initial binding by installation/receipt",
+          "sql": "SELECT installation_ref,provider,source_account,identifier_namespace,opaque_id,receipt_id,contribution_id,configuration_ref,arrival_context_ref,event_ref,plan_ref,plan_revision,execution_context_ref FROM main.subathon_reference_initial_captures WHERE installation_ref=X'49' AND receipt_id=X'0000000000000007'",
+          "expected": [
+            [
+              {
+                "type": "blob",
+                "hex": "49"
+              },
+              {
+                "type": "blob",
+                "hex": "73796e7468657469632e7265666572656e63652e7631"
+              },
+              {
+                "type": "blob",
+                "hex": "41"
+              },
+              {
+                "type": "blob",
+                "hex": "4e"
+              },
+              {
+                "type": "blob",
+                "hex": "45"
+              },
+              {
+                "type": "blob",
+                "hex": "0000000000000007"
+              },
+              {
+                "type": "blob",
+                "hex": "0000000000000000"
+              },
+              {
+                "type": "blob",
+                "hex": "43"
+              },
+              {
+                "type": "blob",
+                "hex": "58"
+              },
+              {
+                "type": "blob",
+                "hex": "56"
+              },
+              {
+                "type": "blob",
+                "hex": "50"
+              },
+              {
+                "type": "blob",
+                "hex": "0000000000000001"
+              },
+              {
+                "type": "blob",
+                "hex": "59"
+              }
+            ]
+          ]
         }
       ]
     },
@@ -3356,6 +3416,66 @@
         {
           "name": "B complete literal subathon_reference_initial_captures 13",
           "sql": "SELECT installation_ref,provider,source_account,identifier_namespace,opaque_id,receipt_id,contribution_id,configuration_ref,arrival_context_ref,event_ref,plan_ref,plan_revision,execution_context_ref FROM main.subathon_reference_initial_captures WHERE installation_ref=X'49' AND provider=X'73796e7468657469632e7265666572656e63652e7631' AND source_account=X'41' AND identifier_namespace=X'4e' AND opaque_id=X'4500'",
+          "expected": [
+            [
+              {
+                "type": "blob",
+                "hex": "49"
+              },
+              {
+                "type": "blob",
+                "hex": "73796e7468657469632e7265666572656e63652e7631"
+              },
+              {
+                "type": "blob",
+                "hex": "41"
+              },
+              {
+                "type": "blob",
+                "hex": "4e"
+              },
+              {
+                "type": "blob",
+                "hex": "4500"
+              },
+              {
+                "type": "blob",
+                "hex": "ffffffffffffffff"
+              },
+              {
+                "type": "blob",
+                "hex": "ffffffffffffffff"
+              },
+              {
+                "type": "blob",
+                "hex": "4332"
+              },
+              {
+                "type": "blob",
+                "hex": "5832"
+              },
+              {
+                "type": "blob",
+                "hex": "5632"
+              },
+              {
+                "type": "blob",
+                "hex": "5032"
+              },
+              {
+                "type": "blob",
+                "hex": "0000000000000001"
+              },
+              {
+                "type": "blob",
+                "hex": "5932"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "B complete initial binding by installation/receipt",
+          "sql": "SELECT installation_ref,provider,source_account,identifier_namespace,opaque_id,receipt_id,contribution_id,configuration_ref,arrival_context_ref,event_ref,plan_ref,plan_revision,execution_context_ref FROM main.subathon_reference_initial_captures WHERE installation_ref=X'49' AND receipt_id=X'ffffffffffffffff'",
           "expected": [
             [
               {

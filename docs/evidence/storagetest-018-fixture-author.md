@@ -108,3 +108,10 @@ namespace+exact opaque bytes (A E, B E+NUL); retain all13 typed expected members
 one-row assertion and all other fixtures/assertions. No first-row shortcut or
 expected-two weakening. Different actual reviewer approval precedes rerun; this
 author ran text/JSON/whitespace checks only and performed no native operation.
+
+Reviewer `/root/capture_reviewer` additionally required the physical contract's
+second exact lookup observation. Add an independent installation+ReceiptId query
+for A and B, each expecting the SAME literal13 typed members/one row as the source
+lookup. This strengthens foundation coverage of both unique indexes and retains
+all existing observations. Text/JSON/whitespace checks pass; actual independent
+review precedes any new native invocation.
