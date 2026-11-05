@@ -17,3 +17,34 @@ Acceptance: unchanged30 cases + green selected-Boost environment and old36; inde
 ## Next action
 
 Assign fresh isolated implementer/reviewer, integrate actual candidate, promote CI labels/execution, run relevant acceptance/regression and review gates. PR63 reference-path plan retained; ACCESS002 unlocks that path's real authorization prerequisite. No deployment/live provider/payment/chat actions. All seven integrations, three FX providers, both renderers, required locales/themes, platforms, packaging/licenses/recovery/live gates remain.
+
+## Actual current assignments and restored environment
+
+Fresh access_implementer works in /tmp/subathon-access002-author on
+ task/ACCESS-002-implementation; independent access_reviewer in
+ /tmp/subathon-access002-review on task/ACCESS-002-code-review. Both branched
+from claim54d45fd. Root CI promotioned30e98/notee2f7ac6 is authored and static-reviewed;
+no actual source approval or acceptance result yet. All16 post-main checks now
+observed SUCCESS. Active ruleset has0 GitHub approval requirement and no required
+check rule, but project workflow requires all applicable CI and actual separate
+review; no bypass is available or used.
+
+selected_boost restored the absent selected SDK to
+/tmp/subathon-boost-1.83-sdk/prefix. Signed Noble InRelease fingerprint
+F6ECB3762474EDA9D21B7022871920D1991BC93C and signed Packages chain authenticates
+libboost1.83-dev1.83.0-2.1ubuntu3 SHA256
+747b364a7d578babed9efa4c40446be4ba3470ac5b2c9951b0e3bde3d7bb47d6.
+Compiler sees108300/all521 used Boost headers inside hashed prefix. Receipt
+/tmp/access002-sdk-restore/receipt.json. No global install or feature/foundation run
+from restoration. Host versions GNU16.2.1/CMake4.4.5/GTest1.18.0/Python3.14.9.
+
+After the SDK handoff the same agent was explicitly reassigned as reference_author
+for independent dependency-ready CONTRACT-014 documentation ONLY. Claim a7d6165
+on task/CONTRACT-014-reference-adapters, integrator /tmp/subathon-contract014;
+author /tmp/subathon-contract014-author/task/CONTRACT-014-document-author.
+Owns only NEW reference-application-adapters-v1.md +contract-014-author.md. Concrete
+current-port/rule/receipt/capture signatures/bounds and RP oracles require actual
+different document review before downstream tests/code. No schema/API source or
+runtime release. Claim/progress live on its separate focused branch; reconcile
+from current integrated main before publication, preserving all claims/reviews.
+Root owns all shared records/integration on both task branches. No owner question.
