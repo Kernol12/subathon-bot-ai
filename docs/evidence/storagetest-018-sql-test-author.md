@@ -136,3 +136,28 @@ Actual commands for revision: `clang-format -i
  tests/qt/sqlite_reference_capture_tests.cpp`, `git diff --check`: all exit0.
 Static inventory only; no native SQL/feature invocation. Root handles compiled
 registration, actual foundation green and reviewed intended red separately.
+
+## Second independent-review boundary correction
+
+Reviewer `/root/capture_fixture_author` found actualb5a7205's NEW healthy reference
+ceiling22 assertion overlooked a selected reference: the plan request's
+`reversal_behavior_ref="reference.original-time.v1"` has26 bytes. Provider22 is
+only the largest key/SRC reference.018 §2 applies `reference_bytes` to EACH
+selected reference; the imported plan contract classifies this field as a
+reference. Therefore healthy complete A needs ceiling26. This unexecuted,
+not-yet-approved added assertion now succeeds at26;25 must give result_limit
+with actual whole rollback because the caller key26-total/individual-max22 fits
+and the selected26-byte reversal reference does not. Explanation strings are
+value-owned bytes, not references; the longer rule explanation does not enlarge
+this reference boundary.
+
+The original selectedfield23/ceiling22 result_limit assertion stays unchanged;
+its category is correct but it does not isolate this field from the selected
+26-byte closure reference. An additional field27/ceiling26 unit isolates the
+index field overage while all healthy closure references otherwise fit. The
+caller-key ceiling21 input_limit assertion also remains. No case/row is removed
+and inventory remains31slots/51scenarios. All earlier marker, rollback, projection
+and full equality assertions remain. No implementation/fixture source is changed.
+
+Formatting/diff checks exit0; no feature execution. Actual revised artifact needs
+the DIFFERENT reviewer's express acceptance before root's first intended red.
