@@ -493,14 +493,14 @@ jobs:
           import json, os, subprocess
           from pathlib import Path
           tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "capture-codecs.json").read_text())["tests"]
-          if len(tests) != 27:
-              raise SystemExit("Expected all 27 initial-capture codec baseline cases")
+          if len(tests) != 28:
+              raise SystemExit("Expected all 28 initial-capture codec baseline cases")
           executables = {test["command"][0] for test in tests}
           if len(executables) != 1:
               raise SystemExit("Expected one compiled initial-capture codec suite")
           compiled = subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines()
           registered = [test["command"][1] + "()" for test in tests]
-          if len(compiled) != 27 or len(set(registered)) != 27 or set(registered) != set(compiled):
+          if len(compiled) != 28 or len(set(registered)) != 28 or set(registered) != set(compiled):
               raise SystemExit("Initial-capture codec registration must equal all compiled cases")
           if any(p["name"] in {"DISABLED", "WILL_FAIL"} and p["value"] for t in tests for p in t.get("properties", [])):
               raise SystemExit("Codec baseline must stay enabled without failure inversion")
@@ -508,7 +508,7 @@ jobs:
               raise SystemExit("Every codec case must keep its acceptance labels")
           if any("draft-red" in next((p["value"] for p in t.get("properties", []) if p["name"] == "LABELS"), []) for t in tests):
               raise SystemExit("Reviewed codec cases must be promoted to ordinary acceptance")
-          print("Discovered all 27 reviewed codec acceptance cases")
+          print("Discovered all 28 reviewed codec acceptance cases")
           PY
       - name: Run reviewed initial-capture codec acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$'

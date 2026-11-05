@@ -84,6 +84,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
         completeStructuralInputsUseEveryScalar
         decodedFieldsRespectReferenceAndPayloadBounds
         exactOpaqueReferencesAndOwnedResults
+        unsupportedFormatPrecedesDocumentSemantics
     )
         add_test(NAME reference-capture-values.${case} COMMAND server_reference_capture_values_acceptance ${case})
         set_tests_properties(reference-capture-values.${case} PROPERTIES
