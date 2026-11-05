@@ -56,7 +56,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     )
         add_test(NAME sqlite-reference-capture.${case} COMMAND server_sqlite_reference_capture_acceptance ${case})
         set_tests_properties(sqlite-reference-capture.${case} PROPERTIES
-            LABELS "sqlite-reference-capture;acceptance;draft-red;qt;server" TIMEOUT 30)
+            LABELS "sqlite-reference-capture;acceptance;qt;server" TIMEOUT 30)
     endforeach()
     add_executable(server_reference_capture_values_acceptance reference_capture_values_qt.cpp)
     target_link_libraries(server_reference_capture_values_acceptance PRIVATE
