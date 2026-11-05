@@ -245,3 +245,14 @@ build byproducts. [LOCALE-001 evidence](evidence/locale-001-handoff.md) records4
 preserved passing cases, independent source/process/ownership audit and actual
 promoted selected CI. Runtime formatting, preferences, live switching, renderers,
 packaging and supported-platform release checks remain separate requirements.
+
+
+The [effective permission evaluator](contracts/effective-permissions-api-v1.md)
+now implements resource-first individual overrides, single complete-grant witnesses,
+role denial, narrow owner protections and complete stable owned explanations.
+[ACCESS-002 evidence](evidence/access-002-handoff.md) records original30 plus2
+reviewed arithmetic/allocation regressions passing, separate source/config audit,
+selected1.83 independent69 and actual ordinary Ubuntu32 acceptance. Raw supplied
+facts and returned decisions convey no execution authority: real current account/
+session/owner/catalog/policy loading, delegated automation, transport enforcement
+and execution/disclosure/recovery workflows remain their required owner tasks.

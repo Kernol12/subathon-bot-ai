@@ -75,3 +75,24 @@ task/CONTRACT-014-document-review at66c4547; owns only new contract-014-review.m
 Concrete input capture lookup prerequisite is under review; no approval/runtime
 claim inferred. Root handles any necessary explicit follow-up/task dependencies.
 No owner question or remaining demonstrated access blocker.
+
+## PR64 acceptance/publication checkpoint
+
+Actual draft [PR64](https://github.com/Kernol12/subathon-bot-ai/pull/64) published
+b1c7b5447ee9f425fd61dde8b274095c750a9e2d by ordinary SSH. New selected Ubuntu
+42066180272 completed SUCCESS16:37:17Z; actual full logs read by root, exact30+2
+guards,21facts green, unconditional32PASS0.12s andold36PASS1.60s. Same frozen
+source/config/test bits. Actual separate PRE-INVOCATION test reviewb2ab5c8 imported
+b4a82b7 then root FIRST full69 exit0/0skip/0.67s; independent69 exit0/0skip/0.66s
+receiptb4e5fba importedc7e3b01. Component done; final metadata/currentheadCI/normal
+merge STILL pending, see [handoff](access-002-handoff.md). Sourceb7b81e93 remains.
+
+CONTRACT014 actual complete independent review970cc2a238f7805233b39d10dd30d9917992161f
+imported3745934 requests R1 concrete durable capture binding consumer +018 owning
+prerequisites, R2 typed admission/refusal channel, R3 zeroelapsed/actual clock
+observation consistency. All original draft/review preserved. selected_boost
+ACTUALLY reassigned original author correction in /tmp/subathon-contract014-correction
+task/CONTRACT-014-document-correction at3745934, owns only originaldoc+authornote.
+access_implementer contract reviewer complete/available, actual corrected rereview
+required before acceptance. Root plans STORAGETEST018/STORAGE018 in that focused
+branch, no migration/code authorized. No owner product/access decision needed.
