@@ -158,3 +158,104 @@ review/continuation/financial reversal and platform/recovery/full release remain
 required. No clock-only commit authority follows from a refused/aborted proposal.
 All seven integrations/threeFX/both renderers/locales/themes/packages/licenses/live
 scope remains. No real provider/chat/payment/deployment side effect occurred.
+
+## Final combined-main metadata and official-CI attribution
+
+2026-11-05, same independent reviewer. Actual final integration candidate
+`82ee32bc1cbb311e2a02463b1ad3fbd518d390aa`, including actual PR65 main
+`d4e3c521bee7069a44d658f5223c2402a7d0d743`. Inspected complete CORE008 handoff,
+native/CI note, task row/activity, architecture, acceptance map, generated HTML and
+curated checkpoint against main and the exact previously approved source/config.
+
+**Verdict: approved for final component metadata/integration.** This covers the
+actual reviewed revision and retained source approval. PR67 remains unmerged and
+requires its own final-head applicable CI/current rules/reviews/discussions and
+GitHub-permitted normal merge; the earlier run is not transferred to an unseen head.
+No host/UI/current-permission/clock/transaction or full product capability is implied.
+
+### Exact preservation and completion scope
+
+Independent Git/JSON comparison against main d4e establishes ALL419 task IDs and
+1605 dependency edges retained; ONLY the CORE008 row changes. Every other task row,
+including ACCESS002/SESSION001/CONTRACT014 and planned STORAGETEST018/STORAGE018,
+is main-exact. Global verification is identical and main's activity history stays
+an exact prefix; only the two actual CORE008 entries append. No prerequisite edge,
+independent baseline/red/source gate or explicit018 producer requirement is removed.
+CORE008 records acceptance/source/config/selected-CI passed with actual separate
+review, while host integration/platforms remain not_run and merge remains separate.
+Author/reviewer identities match the actual assignments, without self-approval.
+
+The complete acceptance map preserves EVERY other row byte/value-for-value,
+including AUTH-11's newly integrated password evidence. TIMER-01 keeps its previous
+scope/evidence as exact prefixes and appends only current editorial component
+proof/limits; its wider queue/state/clock/UI/Start/reopen/mixed-review gates stay
+partial and explicit. Architecture retains main's complete original text as an
+exact prefix, adding only the scoped editorial paragraph. The checkpoint records
+actual integrated PR64/65/66 history, parked/unfinished work and current419/018 scope,
+with PR67/current-head CI/publication still pending. Handoff's earlier5fa main
+reference describes that stage; this review and current checkpoint establish the
+actual later d4e combined state. No false assumption of an old running agent is
+required by these records.
+
+Source45e817d5, header, original27/44ED tests/fixture, logical/API/owner/spec and
+actual timer workflow/label/build targets are byte-identical to the reviewed c226
+candidate AND the official run's owning PR head28ec. All relevant inherited
+configure/build/test presets (base, timer-editorial, time-debt/lifecycle/scaffold)
+are unchanged. Main's password source/header/workflow/labels/metadata enter only as
+accepted main prerequisites; this review does not approve new edits to that source.
+PR65's actual merge and second-parent trees both equal
+`2555063692ea437db3bf00e25e371845153320e2`, consistent with the checkpoint.
+No new implementation change justified rerunning101 after its preceding passing
+source/config review; no native suite was repeated for these metadata-only edits.
+
+### Independently observed official acceptance
+
+Read actual GitHub run metadata with:
+
+```sh
+gh run view 42073629046 --json databaseId,headSha,status,conclusion,event,createdAt,updatedAt,jobs
+```
+
+It reports pull_request head `28ec9cf924e076d09e8198e78ba4895bc2ddbc1e`, completed
+SUCCESS at2026-11-05T17:20:44Z, timer-editorial-build job127407895804 and all required
+build/guard/acceptance/dependency steps SUCCESS. Inspected the actual root-retained
+complete log `/tmp/core008-ci-42073629046.log`, SHA256
+`6d1afa948decb8cf111fcd988dfcaa88d53042e8a5a3ffedfd3bcd897437ac88`.
+The checkout is the normal synthetic PR merge8ca10c40225bab272c05cc07c31fe1b165cc5071
+of that28ec PR revision into5fa6156; it is not claimed to be the later82ee combined
+main or its final required check. GNU13.3/Python3.12.3, explicit common-pinned
+GoogleTest fetch with installed-package discovery disabled, build and exact27/
+44ED/source-JSON/101/74 guards succeed. The log contains exactly27 new passing
+CTest case lines and74 dependency passing lines; both summaries report0 failed,
+with no GTest failure/skip marker. UNCONDITIONAL27 runs0.12s, old74 runs1.67s;
+old74 alone is not new component acceptance. Guard/source/config comparisons
+substantiate the handoff's attribution without carrying CI to an unseen finalhead.
+
+### Metadata checks and remaining gates
+
+On this actual combined candidate:
+
+```sh
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+python3 -m unittest discover -s tests/tooling -v
+git diff --check
+```
+
+All exit0:419 tasks/122 decisions/current HTML,19/19 tooling PASS0.302s. Additional
+exact scripts verified all IDs/edges/other rows/global verification/history prefixes,
+map/architecture prefixes, approved/CI-head blob identity, inherited preset identity,
+PR65 merge-tree equivalence and complete official log counts. No new native/
+feature/foundation/red/fixture-generator execution was performed.
+
+Examined final metadata blobs: handoff
+`c27b4401fa7c1e942b95fe0da8659183eea4fb53`, checkpoint
+`38e5b838d9ff8600e8c7bb6f18e5d0777ac83574`, architecture
+`7f3871eb56d064caddc8e94135aeac05761be0b7`, state
+`d3d5fbc29216bf9f6a924a70709dec46f7b22e21`, map
+`91b826d43c9cd0f22bca1c4eba0f334757d14676`, HTML
+`8809a271f188bc08ec41138a00d930f263ef62ce`.
+No metadata correction or source re-review is required in this candidate. Root
+still owns final push/latest-head all-CI/rules/reviews/threads/normal merge and
+checkpoint updates. Every host/UI/Start/reopen/current-authority/clock/CAS/writer/
+mixed-global-review, platform/live and full release gate above remains required.
