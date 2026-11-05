@@ -1,57 +1,82 @@
-# Coordinator checkpoint — final PR52 gates
+# Coordinator checkpoint — accepted permissions, reference contract, password review
 
-Root,2026-11-04. Last actual main ea943b9e043eb569422be608e89a4f493f604095.
-408 taskIDs/1508 dependencyedges; requiredRATESTEST-009/RATES-009 bridge retained.
-No owner question/access action. All choices resolved; SSHpublication works.
+2026-11-05, coordinator /root. Continue standing coordination; full product incomplete.
+No owner decision/access request is needed. Ordinary SSH/GitHub work; no live actions.
 
-## Completed original PRs
+## Actual main and preserved history
 
-PR62 normalmerge9345aff4 at18:38:33Z; PR59 fc28558a at19:13:27Z; PR54 fe727c8d
-at20:16:17Z; PR56 ea943b9e at20:55:26Z. All final applicablechecks passed before
-eachnormalmerge and mergedtrees matched reviewedheads. PR56 final3b7d0d79 had
-all16SUCCESS; merge/headtreef9346edf79e51bd926856ba1d5dc45ce01a03638. Postmain15
-checks newlypending; observeactualstate. Current rootcontinuation integrates that
-actualmain into PR52; originalprimary8721770 checkout preserved unchanged.
+Last actual main d2392e2a5ffaed5947a804a2542b242fb333af49, PR63 integrated, all16
+post-main checks SUCCESS. Original PR52/54/56/59/62 and their reviewed/red baselines
+are integrated; never repeat FIRSTred/foundations or fixture generation. Source
+checkout originally8721770 on old milestone branch remains clean/preserved. Parked
+CONTRACT011 c4ef1b9 and all old author/review refs remain; no reset/prune/delete.
+No prior agent/process was assumed running; all assignments below are fresh.
 
-[Milestone handoff](milestonetest-001-handoff.md) links fulltest208d0580/config75e/
-FIRSTclean c2bcb08820:36:28Z/direct8/53fail0skip/110primarymarkers/differentactual
-attributione030a0e7/finalmetadata1b6c0d29. SelectedUbuntu41907483021 ata15:53guard/
-25facts+old36green. FIRSTselectedhost25 already passed19:11:54Z. Do notreplay.
-MILESTONETEST-001doneobservedred, MILESTONE-001planned; NUM04/MILE01partial.
-Rate directFIRSTCTestexitUNKNOWN afterUTF8collectorerror; recovered native53/
-364primarymarkers independentlyapproved. Do notinventexit8 orreplay settledred.
-Access/password/ratehandoffs retain their completed source/tests/review/nativeproof.
+## ACCESS002 PR64 — accepted component, final CI pending
 
-## Active PR52 CORETEST-008
+Root /tmp/subathon-access002/task/ACCESS-002-effective-permissions. Actual PR64
+ready head a7c0fd66a420bdc6abbd06983afb74d3fbd3fac2; final independent metadata
+approval5f650782. Actual sourceb7b81e93, original30 frozen, new2 arithmetic/allocation
+regressions63666438 separately approved before invocation. Root and independent
+reviewer full69 PASS0skip. Official selected Ubuntu42066180272 atb1 passed
+unconditional32+21fact environment+old36; latest selected42067232757 also SUCCESS.
+Finalhead16/17checks pass; only translation-catalog-build42067232566 remains in
+APT dependency installation at last observation. Do not merge until it actually
+passes; inspect timeout/failure and rerun only legitimately failed infrastructure
+if necessary. Rules26170263 active/0requiredGHapprovals/no bypass; actual review
+threads0, no GHreviews, MERGEABLE but UNSTABLE. Recheck currenthead/rules/threads/
+allchecks before expected-head normal merge. Root gh-watch process90280 may exist.
+Detailed source/review/native/CI evidence on that branch; no authority host claimed.
 
-Rootlocal-evidence/worktrees/coretest008-integrator /branch
- task/CORETEST-008-timer-command-baseline. Existingdraftremote732f73e lastpublished;
-latestlocal6f9d94a nowintegrates actualmain ea943b9e beforefinalpublication.
-All logical/API/spec/minimalsource/testapprovals valid. Tests3b0c8041/JSON1a4fb38d/
-header92281931/stub651c68b3/logicalf4a4c3ce/APIa2ac5a2c/spec81406806 unchanged.
-OwnerKeepReduceAbort/per-attempt/nofrozenclock;ReadydeadlinecheckrejectandActive
-reacheddeadlineaccept-immediatefinishchoices allretained. No UI behavior implemented.
+## CONTRACT014 — actual corrected consumer document/plan accepted
 
-Actual27testapprovalbd7f5e3e; actualcurrentmain/harness166c3a7a imported2dce71d.
-SelectedUbuntu41908880067 at732strict27JSON/source44ED/101enabledguard/commonpinned
-GTestfetch andonlyold74green1.68s; all16published732checksSUCCESS. FIRSTplain27
-onclean2dce71d19320:46:32.706042Z/directCTest8/27fail0skipdisabled. Rawbytes/code/
-JUnit savedBEFOREdecode. Actualdifferentattribution54f75d2e/importe0f6281 validates
-165primarymarkers (88proposalhelper/76wrongerror/1ownership) +1expectedretained-value
-ASSERTconsequence; all27sourcemultiplicities/repeatedED28-31 labels/noothers.
-[Timer handoff](coretest-008-handoff.md) links exactproof. Baseline taskdoneobservedred,
-CORE-008planned/not_run; TIMER01partialold39passingproofpreservedappend-only.
+Root /tmp/subathon-contract014/task/CONTRACT-014-reference-adapters.
+[Handoff](contract-014-handoff.md), [review](contract-014-review.md). Actual initial
+review970cc2a/import3745934 R1/R2/R3 preserved; original author correction7bca3ba5
+import84d087c, corrected doc5a12ebea/author82359174. SAME different full reviewer
+approval811611e8/import0ef9c9f; source author selected_boost, reviewer access_implementer.
+Concrete consumer only; actual code/schema/API producers remain future gates.
+Rootplan4018afd adds STORAGETEST018/STORAGE018, mandatory BOTH API011 records+
+EPIC009; all oldedges/verification retained,419tasks/1605edges/acyclic. Actual
+reviewer23 independent literal facts and project/render/19tooling/whitespace pass.
+Task done documentonly, not published/merged yet. After PR64 normal merge, integrate
+actual fresh main, preserving complete ACCESS002 status/evidence/source and all
+419IDs/018edges. Regenerate HTML; actual different final combined-main metadata
+review, focused draftPR, latestallCI/rules/discussions/normalmerge remain.
+Author/reviewer worktrees /tmp/subathon-contract014-author, -correction, -review
+preserved; author/reviewer completed, no further assignment assumed.
 
-Next: exactcombinedcurrentmain/config/state/map/HTML review by differentagent,
-currentconfigure/build/discovery101 andnewCIallapplicablechecks; publishordinary
-SSH(existingPR52), actualrules/reviews/discussions/latestHEAD audit/normalmerge.
-Do not repeat FIRSTfeature/oldfoundations or settlefor docs-onlybaseline. No root
-nativeprocessrunning; inspect actualagents/heads/processes onresume. codec_author
-andservice_author priorreviewscomplete/available; service_reviewer actual27native
-attributioncomplete/available. Rootowns allsharedprogress/build/CI/checkpoint.
+## SESSION001 — resumed original claim, source under independent review
 
-AfterlastoriginalPR52merge refreshmainandselect dependency-ready implementations,
-prefer nextworkingproduct slice; no production starts ahead of this originalPRpriority.
-Historicaldirtyworktrees/absentrefs/parkedasset011c4ef1b91 retainedwithoutreset/prune.
-Allsevenintegrations/threeFX/bothrenderers/locales/themes/platforms/packaging/
-licensing/live release scope remains. No livechat/payment/deploy sideeffects.
+Preserved original root+author refs ffdef49 had claimonly/no productiondiff/live
+worktree. Reused task/SESSION-001-password-hashing (not duplicate), refreshed main
+in520cc6e, root /tmp/subathon-session001. Fresh source author access_reviewer in
+/tmp/subathon-session001-author/task/SESSION-001-resumed-author. Actual source
+6b870c27 imported920cfaa, blobe56442511cf51ec4329f7d4a3cf94a3a093f1bb6; original
+37 tests/fixtures/wrappers/contracts unchanged. Header changes obsolete stub comment
+only. Root current41 PASS0skip3.59s; author41 PASS3.57s. No FIRSTred/inputgen replay.
+Root restored exact previously authenticated1.0.22 SDK/all3 artifacts hashMATCH,
+SDK prefix /tmp/subathon-sodium-1.0.22-sdk/prefix, no globalinstall.
+
+Actual [draftPR65](https://github.com/Kernol12/subathon-bot-ai/pull/65) head
+f1042f2d229328e0a268456b03ef22d088133f9f; root ordinary CI promotionfaef49f preserves
+37 names/guards/60stimeouts, removes only redlabel and executes37 after native
+foundation, thenold3. Current officialCI/source review unobserved/pending.
+Fresh DIFFERENT reviewer selected_boost in/tmp/subathon-session001-review on
+task/SESSION-001-code-review at920cfaa, owns only session-001-review.md. Full
+secret/lockedmemory/exception/allocation/PHC/source2checks/native41/config audit
+active. Do not mark done or merge ahead of actual approval+acceptance/currentCI.
+Account/login/conditional-save authority and100sample hardwarebenchmark/platform/
+packaging/security remain future gates. Root owns all shared CI/build/state/map/
+HTML/schema/pins/integration. Reconcile main statuses before final publication.
+
+## Parked original implementation claim and next action
+
+CORE008 original claim3f81224 on task/CORE-008-editorial-projection and
+task/CORE-008-implementation-author has no productiondiff or liveworktree.
+Explicitly PARKED pending capacity, no assumed active agent; resume original claim
+after current tasks, preserve original27/44ED baseline. CONTRACT011 partial remains
+parked without claiming completion. Next: finish PR64 legitimate CI/normalmerge,
+then combine/reference014 metadata+publication, track password actual source review.
+All seven integrations/threeFX/both renderers/locales/themes/platforms/OBS/packages/
+licenses/recovery/live gates remain. No chat/payment/provider/deployment side effect.

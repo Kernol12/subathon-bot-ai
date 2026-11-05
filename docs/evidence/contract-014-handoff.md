@@ -32,7 +32,7 @@ red/implementation remain future stages. Root allocates migration versions only
 when that actual schema is reviewed. Existing migration prefix is unchanged.
 
 Author independent arithmetic/size checks24 PASS; different reviewer23 PASS,
-including SRI1 body34/overall78/format37/envelope115, CId0/initial revision1 and
+including SRI1 semanticB34/document78/format37/envelope115, CId0/initial revision1 and
 RP01–12/14 literal accounting. Project/render/whitespace pass. The actual revised
 DAG419tasks/1605edges retains ALL original IDs/edges and old verification, adding
 exactly4 edges on old records plus11 on the two new records; all acyclic. Navigation
