@@ -461,6 +461,190 @@ class SqliteReferenceCaptureTest : public QObject {
                     "rollback");
         });
     }
+    void unindexedPlanValuationStructurePrecedesBinding_data() {
+        QTest::addColumn<bool>("resolved");
+        QTest::newRow("complete-resolved-quote-without-event-money") << true;
+        QTest::newRow("missing-historical-with-dependent-request") << false;
+    }
+    void unindexedPlanValuationStructurePrecedesBinding() {
+        scenario([&] {
+            QFETCH(bool, resolved);
+            run(*writer_, [&](auto c) {
+                const auto s = c.begin();
+                data_->stage_capture(s, "A");
+                if (resolved) {
+                    // Complete mandatory quote group and fitting optional fields;
+                    // the intrinsic defect is the actual original receipt's NULL money.
+                    (void)s.execute(
+                        {"UPDATE main.subathon_plan_revisions SET valuation_state=2,"
+                         "historical_resolution_ref=X'71',historical_original_decimal=X'312e3030',"
+                         "historical_currency=X'555344',comparison_currency=X'455552',"
+                         "effective_rate_decimal=X'302e39303030',fetched_rate_decimal=X'"
+                         "302e39303031',"
+                         "snapshot_ref=X'73',rate_source_ref=X'66',rate_timestamp_utc_ms=0,"
+                         "fetch_timestamp_utc_ms=0,manual_decision_ref=NULL WHERE plan_ref=X'50' "
+                         "AND revision=X'0000000000000001'",
+                         {}});
+                    const auto quote = s.execute(
+                        {"SELECT valuation_state,typeof(historical_resolution_ref),"
+                         "typeof(historical_original_decimal),typeof(historical_currency),"
+                         "typeof(comparison_currency),typeof(effective_rate_decimal),typeof("
+                         "snapshot_ref) "
+                         "FROM main.subathon_plan_revisions WHERE plan_ref=X'50' "
+                         "AND revision=X'0000000000000001'",
+                         {}});
+                    require(quote.size() == 1 && quote[0].size() == 7 &&
+                                quote[0][0].toLongLong() == 2,
+                            "OLD setup retained resolved state and all six mandatory quote fields");
+                    for (qsizetype field = 1; field < 7; ++field)
+                        require(quote[0][field].toString() == "blob",
+                                "Complete quote fields are actual non-NULL BLOBs");
+                } else {
+                    (void)s.execute({"UPDATE main.subathon_plan_revisions SET valuation_state=1 "
+                                     "WHERE plan_ref=X'50' AND revision=X'0000000000000001'",
+                                     {}});
+                    (void)s.execute(
+                        {"UPDATE main.subathon_plan_requests SET requires_historical_valuation=1 "
+                         "WHERE plan_ref=X'50' AND revision=X'0000000000000001' AND ordinal=1",
+                         {}});
+                }
+                s.commit();
+                return QVariant(1);
+            });
+            require(count("subathon_reference_initial_captures") == 0,
+                    "Selected malformed plan has no index");
+            const auto result = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                bool caught = false;
+                try {
+                    (void)SqliteReferenceCaptureStore(s).retain_initial(record());
+                } catch (const ReferenceCaptureStorageFailure &error) {
+                    require(error.reason() == Reason::invalid_stored_data &&
+                                std::string(error.what()) ==
+                                    "Reference initial capture did not commit",
+                            "Intrinsic capture valuation failure precedes reference-profile "
+                            "binding mismatch");
+                    no_lock_or_marker();
+                    caught = true;
+                }
+                require(caught, "Malformed valuation must throw after whole cleanup, not return "
+                                "source_mismatch");
+                return QVariant(1);
+            });
+            rolled_back(result);
+            require(count("subathon_reference_initial_captures") == 0 &&
+                        count("subathon_plan_headers") == 1,
+                    "No capture inserted and earlier committed selected plan remains");
+        });
+    }
+    void unindexedImportedOpaqueRefsStayHealthyMismatches_data() {
+        QTest::addColumn<bool>("parent");
+        QTest::newRow("generic-rule-ref-present-empty") << false;
+        QTest::newRow("generic-parent-event-present-empty") << true;
+    }
+    void unindexedImportedOpaqueRefsStayHealthyMismatches() {
+        scenario([&] {
+            QFETCH(bool, parent);
+            run(*writer_, [&](auto c) {
+                const auto s = c.begin();
+                data_->stage_capture(s, "A");
+                (void)s.execute(
+                    {parent ? "UPDATE main.subathon_plan_headers SET parent_event_ref=X'' WHERE "
+                              "plan_ref=X'50'"
+                            : "UPDATE main.subathon_plan_rules SET rule_ref=X'' WHERE "
+                              "plan_ref=X'50' AND revision=X'0000000000000001' AND ordinal=1",
+                     {}});
+                s.commit();
+                return QVariant(1);
+            });
+            require(count("subathon_reference_initial_captures") == 0,
+                    "Healthy generic plan remains unindexed");
+            const auto result = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                require(SqliteReferenceCaptureStore(s).retain_initial(record()) ==
+                            Disposition::source_mismatch,
+                        "Imported present-empty opaque value is generic valid data, incompatible "
+                        "with reference profile");
+                const auto rows =
+                    s.execute({"SELECT count(*) FROM main.fixture_capture_markers", {}});
+                require(rows.size() == 1 && rows[0].size() == 1 && rows[0][0].toLongLong() == 1,
+                        "Healthy incompatible generic value preserves active caller marker");
+                require(count("fixture_capture_markers") == 0, "Caller marker stays provisional");
+                s.rollback();
+                no_lock_or_marker();
+                return QVariant(1);
+            });
+            rolled_back(result);
+            require(count("subathon_reference_initial_captures") == 0 &&
+                        count("subathon_plan_headers") == 1,
+                    "Host rollback adds no index or loss of prior generic plan");
+        });
+    }
+    void unindexedGenericChildrenDistinguishMismatchFromCorruption_data() {
+        QTest::addColumn<bool>("gap");
+        QTest::newRow("two-valid-contiguous-ordered-rule-duplicates") << false;
+        QTest::newRow("one-rule-at-invalid-ordinal-two") << true;
+    }
+    void unindexedGenericChildrenDistinguishMismatchFromCorruption() {
+        scenario([&] {
+            QFETCH(bool, gap);
+            run(*writer_, [&](auto c) {
+                const auto s = c.begin();
+                data_->stage_capture(s, "A");
+                (void)s.execute(
+                    {gap ? "UPDATE main.subathon_plan_rules SET ordinal=2 WHERE plan_ref=X'50' AND "
+                           "revision=X'0000000000000001'"
+                         : "INSERT INTO main.subathon_plan_rules SELECT "
+                           "plan_ref,revision,2,rule_ref,version_ref,selected,explanation FROM "
+                           "main.subathon_plan_rules WHERE plan_ref=X'50' AND "
+                           "revision=X'0000000000000001' AND ordinal=1",
+                     {}});
+                s.commit();
+                return QVariant(1);
+            });
+            require(count("subathon_reference_initial_captures") == 0,
+                    "Generic child classification has no index");
+            const auto result = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                if (gap) {
+                    bool caught = false;
+                    try {
+                        (void)SqliteReferenceCaptureStore(s).retain_initial(record());
+                    } catch (const ReferenceCaptureStorageFailure &error) {
+                        require(
+                            error.reason() == Reason::invalid_stored_data &&
+                                std::string(error.what()) ==
+                                    "Reference initial capture did not commit",
+                            "Missing generic ordinal1 is intrinsic selected structure corruption");
+                        no_lock_or_marker();
+                        caught = true;
+                    }
+                    require(caught, "Noncontiguous generic rules must throw after whole cleanup");
+                } else {
+                    require(SqliteReferenceCaptureStore(s).retain_initial(record()) ==
+                                Disposition::source_mismatch,
+                            "Generic contiguous ordered duplicates are valid but incompatible with "
+                            "exactly-one-rule reference profile");
+                    const auto rows =
+                        s.execute({"SELECT count(*) FROM main.fixture_capture_markers", {}});
+                    require(rows.size() == 1 && rows[0].size() == 1 && rows[0][0].toLongLong() == 1,
+                            "Healthy two-rule mismatch preserves active caller marker");
+                    require(count("fixture_capture_markers") == 0,
+                            "Healthy mismatch does not publish caller marker");
+                    s.rollback();
+                    no_lock_or_marker();
+                }
+                return QVariant(1);
+            });
+            rolled_back(result);
+            require(count("subathon_reference_initial_captures") == 0 &&
+                        count("subathon_plan_headers") == 1,
+                    "No index inserted or earlier selected plan removed");
+        });
+    }
     void selectedCorruptionRollsBackWholeUnit_data() {
         QTest::addColumn<QString>("sql");
         QTest::newRow("SRC1") << "UPDATE main.subathon_retained_configurations SET document=X'00' "

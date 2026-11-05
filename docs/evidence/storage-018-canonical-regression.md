@@ -65,3 +65,72 @@ passing CI promotion and publication remain separate gates.
 This note is test-authoring evidence, not observed behavioral red/pass or source
 approval. All data are synthetic/disposable; no provider credentials, live account
 session, chat/payment/deploy or release capability is supplied.
+
+## Additional confirmed selected-root regression authoring
+
+After actual source reviewer/root confirmed three further classification findings,
+root assigned THREE additive methods with TWO rows each. Production still holds
+sourcece8/blob46c0e254. Original31 methods and the already authored canonical2rows
+are byte-for-byte unchanged: removing just the new inserted block reproduces
+actual7a169d0's test CPP exactly. New diff184 additions/0deletions. Total35 feature
+methods/59 scenarios; no fixture or shared file is altered.
+
+### Intrinsic capture valuation before reference binding
+
+`unindexedPlanValuationStructurePrecedesBinding` has:
+
+- Complete resolved2 HistoricalValuation while immutable synthetic event money
+  remains absent. Literal quote has resolution`q`, original`1.00`/USD, comparisonEUR,
+  effective`0.9000`, fetched`0.9001`, snapshot`s`, source`f`, both timestamps0,
+  optional manual decision absent. All six mandatory quote fields are actual BLOBs,
+  asserted with OLD raw SQL before the NEW operation; this is not a missing-group
+  setup error. Imported plan contract's Complete field retention/core
+  validate_capture requires actual event money and byte-equal quote original money.
+- Missing_historical1, absent quote and the original request explicitly marked
+  requires_historical_valuation1. The same imported contract/core validation
+  forbids valuation-dependent requests while historical valuation is missing.
+
+Both are intrinsically malformed PRESENT plan roots, so018§4 requires
+invalid_stored_data before reference-profile comparison. Each case checks exact
+exception/message plus marker removal and actual independent lock acquisition
+INSIDE catch, then the real whole rolled-back outcome. No quote/rate/provider
+meaning is inferred from literal data or opaque source strings.
+
+### Imported opaque values stay healthy mismatches
+
+`unindexedImportedOpaqueRefsStayHealthyMismatches` changes either a generic
+plan rule_ref to actual non-null EMPTY BLOB or header parent_event_ref to actual
+PRESENT EMPTY BLOB. Imported plan contract explicitly adds no semantic nonempty
+restriction to rule/action/policy/etc strings, retains optional-parent presence and
+bytes distinctly, and invents no finalized ancestry evaluator. SQL DDL permits
+these BLOB shapes; core validate_capture requires only its actual stated
+identities, not invented nonempty ancestry/rule rules. These selected roots are
+healthy generic data incompatible with the narrow reference profile, therefore
+source_mismatch. Both cases prove the caller marker remains1 in an active session
+and0 to outside readers until explicit HOST rollback, rather than adapter cleanup.
+
+### Generic children: unsupported versus malformed order
+
+`unindexedGenericChildrenDistinguishMismatchFromCorruption` distinguishes:
+
+- TWO identical contiguous rule rows at ordinals1+2. Imported generic plan storage
+  explicitly preserves ordered duplicates at separate positions; it does not limit
+  valid generic plans to one rule. This healthy generic selected plan is incompatible
+  with the reference profile's exactly-one rule, so source_mismatch and caller
+  activity is preserved until host cleanup.
+- ONE rule only at ordinal2. The generic child sequence itself lacks ordinal1 and
+  is malformed before narrow-profile comparison, so invalid_stored_data with
+  actual whole cleanup before exception publication.
+
+Each case starts from the same OLD literal A receipt/support and committed raw
+plan/SRX WITHOUT an index; after the operation no index exists and the prior
+committed plan remains. Existing INDEXED corruption cases are unchanged: indexed
+reference closure failures stay corruption. These new UNINDEXED cases preserve
+018§4's ordering of present-root intrinsic validation before candidate comparison.
+
+Actual author checks for this extension: clang-format/write and dry-run exit0,
+`git diff --check` exit0, independent static method inventory35 and exact prior
+7a source preservation assertion pass. No native compile/setup/feature function
+has run. Different reviewer must inspect actual added programs/harness before
+root observes all confirmed new behavior reds; no source correction is authorized
+merely by this authored extension. Historical baseline assertions/receipts remain.
