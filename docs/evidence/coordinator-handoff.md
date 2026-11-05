@@ -1,117 +1,107 @@
-# Coordinator checkpoint — ACCESS-002 implementation
+# Coordinator checkpoint — accepted permissions, reference contract, password review
 
-2026-11-05, coordinator /root. Standing coordination resumed; full product incomplete.
+2026-11-05, coordinator /root. Continue standing coordination; full product incomplete.
+No owner decision/access request is needed. Ordinary SSH/GitHub work; no live actions.
 
-## Reconstructed state
+## Actual main and preserved history
 
-Actual GitHub main d2392e2a5ffaed5947a804a2542b242fb333af49 (PR63 merged 2026-11-05T16:12:32Z). No open PRs. PR52/54/56/59/62/63 are integrated; their valid reviews and original red evidence remain preserved. All16 main check runs observed:15 succeeded, milestone still running at startup. Reobserve rather than infer. Repository ruleset26170263 active; exact rules before merge still required. Authenticated GitHub and ordinary SSH fetch work; no owner access/product question is currently required.
+Last actual main685b17f22998419f1691658a829b468eea05e770, PR64 normal merge
+2026-11-05T17:01:14Z; all17 final checksSUCCESS, exacthead/mergetree
+53054827e286d2c2dbfd806c4cc174479d5cad2a equal. Post-main16checks pending. Original PR52/54/56/59/62 and their reviewed/red baselines
+are integrated; never repeat FIRSTred/foundations or fixture generation. Source
+checkout originally8721770 on old milestone branch remains clean/preserved. Parked
+CONTRACT011 c4ef1b9 and all old author/review refs remain; no reset/prune/delete.
+No prior agent/process was assumed running; all assignments below are fresh.
 
-Old primary task/MILESTONETEST-001 checkout8721770 and parked CONTRACT011 c4ef1b9 are clean and preserved. Actual registered worktrees at startup: primary, parked asset, /tmp/subathon-reference-path0fe8105 and /tmp/subathon-reference-review074e340; all clean. Only /root agent/process existed; no previous agent, native/build/CTest job is assumed running. Main task state has no active claims; CONTRACT011 remains planned, with valid partial correction in its parked branch, not completed.
+## ACCESS002 PR64 — normally integrated
 
-## Current bounded assignment
+Root /tmp/subathon-access002/task/ACCESS-002-effective-permissions. Actual PR64
+merged exacta7c0fd66a420bdc6abbd06983afb74d3fbd3fac2 after all17 finalcheckruns
+SUCCESS, actual finalmetadata approval5f650782 and code/test reviews, currentrules
+26170263/0requiredGHapprovals/no bypass,0threads andCLEAN. Sourceb7b81e93,
+original30 frozen/new2 regressions separately reviewed, root/reviewer69PASS.
+SelectedUbuntu32+21facts+old36 passed. Existing translation42067232566 first
+attemptcancelled at APT before all tests; targeted SAMEHEAD attempt2 succeeded.
+No test was skipped/weakened or cancelled green inferred. Watch90280 finished.
+[Detailed handoff](access-002-handoff.md) preserves revisions/native/CI proof.
 
-ACCESS-002 claimed on task/ACCESS-002-effective-permissions, /tmp/subathon-access002, from current main. Pure evaluator only. [Baseline handoff](accesstest-002-handoff.md) retains actual independent logical/API/test approvals and first30-case red8acc9b9/attribution3f40238f. Do not repeat first red or weaken tests. Author owns core/src/effective_permissions.cpp and own note; different agent must review actual source/config, including staged error priority/exact arithmetic/preallocation budgets/complete explanations. Root owns shared build/CI/state/map/HTML/pins and integration. Fresh isolated author/reviewer branches will be recorded at handoff.
+## CONTRACT014 — actual corrected consumer document/plan accepted
 
-Acceptance: unchanged30 cases + green selected-Boost environment and old36; independently audited source/config; promote ordinary selected Ubuntu CI to execute30; all latest-head checks/rules/reviews/discussions pass before normal merge. No account/session/current-authority/delegation/transport or full security/platform claim.
+Root /tmp/subathon-contract014/task/CONTRACT-014-reference-adapters.
+[Handoff](contract-014-handoff.md), [review](contract-014-review.md). Actual initial
+review970cc2a/import3745934 R1/R2/R3 preserved; original author correction7bca3ba5
+import84d087c, corrected doc5a12ebea/author82359174. SAME different full reviewer
+approval811611e8/import0ef9c9f; source author selected_boost, reviewer access_implementer.
+Concrete consumer only; actual code/schema/API producers remain future gates.
+Rootplan4018afd adds STORAGETEST018/STORAGE018, mandatory BOTH API011 records+
+EPIC009; all oldedges/verification retained,419tasks/1605edges/acyclic. Actual
+reviewer23 independent literal facts and project/render/19tooling/whitespace pass.
+Task done documentonly, not published/merged yet. Actual main685b17f now integrated, preserving ACCESS002 status/evidence/source
+and all419IDs/018edges. Only shared state/generatedHTML/checkpoint conflicts
+resolved by explicit task-row overlay on actual main; all original records kept.
+Different final combined-main metadata review, focused draftPR, latestallCI/
+rules/discussions/normalmerge remain.
+Author/reviewer worktrees /tmp/subathon-contract014-author, -correction, -review
+preserved; author/reviewer completed, no further assignment assumed.
 
-## Next action
+## SESSION001 — resumed original claim, source independently approved
 
-Assign fresh isolated implementer/reviewer, integrate actual candidate, promote CI labels/execution, run relevant acceptance/regression and review gates. PR63 reference-path plan retained; ACCESS002 unlocks that path's real authorization prerequisite. No deployment/live provider/payment/chat actions. All seven integrations, three FX providers, both renderers, required locales/themes, platforms, packaging/licenses/recovery/live gates remain.
+Preserved original root+author refs ffdef49 had claimonly/no productiondiff/live
+worktree. Reused task/SESSION-001-password-hashing (not duplicate), refreshed main
+in520cc6e, root /tmp/subathon-session001. Fresh source author access_reviewer in
+/tmp/subathon-session001-author/task/SESSION-001-resumed-author. Actual source
+6b870c27 imported920cfaa, blobe56442511cf51ec4329f7d4a3cf94a3a093f1bb6; original
+37 tests/fixtures/wrappers/contracts unchanged. Header changes obsolete stub comment
+only. Root current41 PASS0skip3.59s; author41 PASS3.57s. No FIRSTred/inputgen replay.
+Root restored exact previously authenticated1.0.22 SDK/all3 artifacts hashMATCH,
+SDK prefix /tmp/subathon-sodium-1.0.22-sdk/prefix, no globalinstall.
 
-## Actual current assignments and restored environment
+Actual [draftPR65](https://github.com/Kernol12/subathon-bot-ai/pull/65) head
+f1042f2d229328e0a268456b03ef22d088133f9f; root ordinary CI promotionfaef49f preserves
+37 names/guards/60stimeouts, removes only redlabel and executes37 after native
+foundation, thenold3. Official42069351732 atf104SUCCESS: root read actual full logs,37 ordinary
+methods PASS5.41s, environment1PASS0.53s,old3PASS1.27s.
+Fresh DIFFERENT reviewer selected_boost in/tmp/subathon-session001-review on
+task/SESSION-001-code-review at920cfaa, owns only session-001-review.md. Full
+secret/lockedmemory/exception/allocation/PHC/source2checks/native41/config audit
+APPROVED0817f48ad45b136789b8b0a92a37c5c03cc42671/import5ff3fa2, reviewer41PASS3.51s.
+Reviewer completed; no new assignment assumed. Root16444ce integrates main685
+while preserving all old tasks/ACCESS002. Final task metadata/currentheadCI/normal
+merge remain; do not transfer official f104 result to an unseen finalhead.
+Account/login/conditional-save authority and100sample hardwarebenchmark/platform/
+packaging/security remain future gates. Root owns all shared CI/build/state/map/
+HTML/schema/pins/integration. Reconcile main statuses before final publication.
 
-Fresh access_implementer works in /tmp/subathon-access002-author on
- task/ACCESS-002-implementation; independent access_reviewer in
- /tmp/subathon-access002-review on task/ACCESS-002-code-review. Both branched
-from claim54d45fd. Root CI promotioned30e98/notee2f7ac6 is authored and static-reviewed;
-no actual source approval or acceptance result yet. All16 post-main checks now
-observed SUCCESS. Active ruleset has0 GitHub approval requirement and no required
-check rule, but project workflow requires all applicable CI and actual separate
-review; no bypass is available or used.
+## Parked original implementation claim and next action
 
-selected_boost restored the absent selected SDK to
-/tmp/subathon-boost-1.83-sdk/prefix. Signed Noble InRelease fingerprint
-F6ECB3762474EDA9D21B7022871920D1991BC93C and signed Packages chain authenticates
-libboost1.83-dev1.83.0-2.1ubuntu3 SHA256
-747b364a7d578babed9efa4c40446be4ba3470ac5b2c9951b0e3bde3d7bb47d6.
-Compiler sees108300/all521 used Boost headers inside hashed prefix. Receipt
-/tmp/access002-sdk-restore/receipt.json. No global install or feature/foundation run
-from restoration. Host versions GNU16.2.1/CMake4.4.5/GTest1.18.0/Python3.14.9.
+CORE008 original claim3f81224 on task/CORE-008-editorial-projection and
+task/CORE-008-implementation-author has no productiondiff or liveworktree.
+Explicitly PARKED pending capacity, no assumed active agent; resume original claim
+after current tasks, preserve original27/44ED baseline. CONTRACT011 partial remains
+parked without claiming completion. Next: finish reference014 combined-main metadata/publication/normalmerge,
+track password final metadata/currentCI/normalmerge; source review0817f48 approved.
+All seven integrations/threeFX/both renderers/locales/themes/platforms/OBS/packages/
+licenses/recovery/live gates remain. No chat/payment/provider/deployment side effect.
 
-After the SDK handoff the same agent was explicitly reassigned as reference_author
-for independent dependency-ready CONTRACT-014 documentation ONLY. Claim a7d6165
-on task/CONTRACT-014-reference-adapters, integrator /tmp/subathon-contract014;
-author /tmp/subathon-contract014-author/task/CONTRACT-014-document-author.
-Owns only NEW reference-application-adapters-v1.md +contract-014-author.md. Concrete
-current-port/rule/receipt/capture signatures/bounds and RP oracles require actual
-different document review before downstream tests/code. No schema/API source or
-runtime release. Claim/progress live on its separate focused branch; reconcile
-from current integrated main before publication, preserving all claims/reviews.
-Root owns all shared records/integration on both task branches. No owner question.
+## Latest actual integrated main — 2026-11-05T17:15:24Z
 
-## Actual implementation handoff
+PR66 now NORMALMERGED exact4340623262026632b6146a5954f09c491eef2ad5 afterall17
+SUCCESS/currentrules26170263/no bypass/0threads/CLEAN. Main5fa6156e18d77daaf7af763b923741b530d06222
+and reviewedhead haveidenticaltreea419252eaa60581f83d035e8ea46954c5b9e8c42.
+All419IDs/1605edges/mandatory018producergates preserved; doconlycomponentdone,
+no runtime/SQLschema/source producer. Postmain16CI pendingactualobservation.
 
-Root ACCESS002 now cf7fe53, source b7b81e9327ef8840effecb8319425b1a397bf8af.
-Author891e851/commentfbe integrated399fd58/4765bdc; different actual full source/
-config approval7894cc239e71803bcc9b3f94ae056ae4bdf2aa1a importedfbc3e16,
-[review](access-002-review.md). Author/root/reviewer full67 pass with selected1.83;
-root build18/full67 exit0/0.65s and no skipped cases. Original five contract/API/
-header/test/fixture blobs exactly equal main; first red untouched.
+This task CORE-008 now integrates that actualmain by retaining ALLmainrecords
+and overlaying ONLY its own claimed row/activity; generatedHTML/checkpoint/state
+conflictsresolved withoutsource/schema/test/CI regression. ACCESS002+CONTRACT014
+remaincompleted/integrated. Source andoriginaltests/fixtures/contracts unchanged.
 
-New isolated2-case arithmetic/allocation fault source authored8172564, corrected
-3a3dab40b174065367524144da717c0dd5e45d04, importedcf7fe53. Original assertions
-unchanged. Actual reviewer safety finding (guard owned request before indexing)
-and root arbitrary8192 allocation-count-cap concern are corrected; complete actual
-newtest/harness approval STILL required before any new body. Root build6/discovery69
-and exact old30/new2 guards pass, no feature regression body run. Current shared
-harnessa1cc306 isolates globalnew into regression executable and guards both sets;
-actual reviewed test invocation/official CI/latestheadPR/merge gates pending.
-
-CONTRACT014 authorad5631754c77a3ef56a26b573a94626456e3aa11 integrated66c4547,
-/doc+ownnote only,21 independent literal facts/project/render/whitespace pass.
-selected_boost author completed. Former access_implementer explicitly reassigned
-as DIFFERENT DOCUMENT REVIEWER in /tmp/subathon-contract014-review on
-task/CONTRACT-014-document-review at66c4547; owns only new contract-014-review.md.
-Concrete input capture lookup prerequisite is under review; no approval/runtime
-claim inferred. Root handles any necessary explicit follow-up/task dependencies.
-No owner question or remaining demonstrated access blocker.
-
-## PR64 acceptance/publication checkpoint
-
-Actual draft [PR64](https://github.com/Kernol12/subathon-bot-ai/pull/64) published
-b1c7b5447ee9f425fd61dde8b274095c750a9e2d by ordinary SSH. New selected Ubuntu
-42066180272 completed SUCCESS16:37:17Z; actual full logs read by root, exact30+2
-guards,21facts green, unconditional32PASS0.12s andold36PASS1.60s. Same frozen
-source/config/test bits. Actual separate PRE-INVOCATION test reviewb2ab5c8 imported
-b4a82b7 then root FIRST full69 exit0/0skip/0.67s; independent69 exit0/0skip/0.66s
-receiptb4e5fba importedc7e3b01. Component done; final metadata/currentheadCI/normal
-merge STILL pending, see [handoff](access-002-handoff.md). Sourceb7b81e93 remains.
-
-CONTRACT014 actual complete independent review970cc2a238f7805233b39d10dd30d9917992161f
-imported3745934 requests R1 concrete durable capture binding consumer +018 owning
-prerequisites, R2 typed admission/refusal channel, R3 zeroelapsed/actual clock
-observation consistency. All original draft/review preserved. selected_boost
-ACTUALLY reassigned original author correction in /tmp/subathon-contract014-correction
-task/CONTRACT-014-document-correction at3745934, owns only originaldoc+authornote.
-access_implementer contract reviewer complete/available, actual corrected rereview
-required before acceptance. Root plans STORAGETEST018/STORAGE018 in that focused
-branch, no migration/code authorized. No owner product/access decision needed.
-
-## 2026-11-05 current CORE008 resumption
-
-Actualmain685b17f (PR64 integratedexacta7c/all17finalSUCCESS/tree53054827equal);
-all16 postmain checks nowSUCCESS. PR65 password draftf104 source/metadata41 and
-ordinaryselected37 CI pass; sourcecode independentlyapproved0817f48, root500ae9b
-combinedmain+completionmetadata awaitingselected_boost actualfinalmetadatareview.
-PR66 referencecontract draft4340623, allcontract/document/planning/metadata reviews
-complete; current17CI pending, no runtime/schema claim. Rootowns bothfocusedPRs.
-
-CORE008 preserved originalclaim3f81224 was parked pendingcapacity, no prioragent/
-worktree/productiondiff. Now REUSED task/CORE-008-editorial-projection in
-/tmp/subathon-core008 with main685 integrated; fresh source authoraccess_reviewer
-ACTUALLYreassigned afterpasswordcodehandoff, newisolatedauthor branch forthcoming.
-Owns only core/src/timer_editorial_commands.cpp +ownnote; frozen27tests/44ED/
-header/API/spec/ownerdecisions and FIRSTred preserved. Corepureprojection; no SQL/
-authority/UI/hostclock. Differentactualcode/allocation review andpassing relevant
-101/27ordinaryCI beforedone. Root owns allsharedfiles/state/schema/pins/CI/merge.
-No ownerquestion. Originalprimary8721770/assetc4ef1b9/oldrefs preserved.
+SESSION001 componentaccepted/sourcee5644251 andactualcode review0817f48/finalmeta76cd
+retained; roote215fb7 ispublishedreadyPR65, currentcombined-mainmetadata/latestCI
+reassessmentstillrequired beforemerge. Native41 andofficial37 proofpreserved.
+CORE008 originalclaim3f81224 actuallyresumed/root57b977e, authoraccess_reviewer
+in/tmp/subathon-core008-author finalsource3748a7f8/blobby45e817d5. Author101/101PASS
+0skip/disabled0. Rootimportsactualcandidate+sharedCIc801 thenactualdifferent
+access_implementer code/resource review+native101/selectedordinary27 remain.
+No originalstubred/header/API/assertions/44ED changed. Rootownsallsharedintegration.
+No ownerdecision/accessneeded; oldprimary8721770/assetc4ef1b9/oldrefs preserved.
