@@ -93,3 +93,46 @@ cannot honestly be manufactured through this single-writer setup; ordinary write
 busy/admission gates remain old acceptance and source audit. No power-loss/recovery,
 current authority/application effects, live provider/FX/UI/platform/release proof
 follows from these synthetic real-SQL component tests.
+
+## Independent-review author revision (before first execution)
+
+Different SQL reviewer `/root/capture_fixture_author` examined actual4376ed7 and
+requested focused coverage beyond malformed frames. This additive revision keeps
+every existing case/assertion except the explicit not-yet-approved plan error
+oracle correction below. New coverage derives directly from018 §4's complete
+admitted selected closure: one unknown0 category with BOTH retained SRC and SRA
+embedded SRC changed consistently; retained SRC policyW→Z while SRA retainsW;
+fully framed SRX receipt7→8, CID0→1 and ruleR→S mismatches. These edits preserve
+lengths and raw codec grammar, showing structural DATA is not admitted closure.
+They use independent frozen fixture bytes, not new encoders/decoders.
+
+Eight additive corruption rows exercise absent/ordinal2/extra rule and request
+rows, an extra modifier (required selected child counts1/0/1 and contiguous
+ordinal1), and noncanonical exact numerator `0600000` despite a valid BLOB SQL
+shape. Healthy reference ceiling22 succeeds,21 gives pure caller-key input_limit,
+then the existing selected23-byte field under22 still gives result_limit and
+whole rollback. No previous constraint or rollback assertion is weakened.
+
+Resulting inventory:31 feature slots,3data methods; selected-corruption16rows,
+structural crossbinding5rows, budget2rows, therefore51 feature scenarios.
+
+The reviewer also identified a genuine authored-oracle priority ambiguity:
+`candidateMissingRootsRemainExplicit` changed only proposed plan P→`missing`
+while retained SRX Y still names P. Original candidate expected missing_reference.
+Root coordinator explicitly decided on018 §4's ordered receipt→contribution→
+retained SRC/SRA/SRX→plan resolution: a healthy present retained SRX describes a
+DIFFERENT candidate plan, so source_mismatch precedes any lookup of the absent
+proposed plan. This revision changes only that assertion's category to
+source_mismatch, preserving the case and every other direct missing-root check.
+IC18-08's broad direct-missing-plan example is conditional on actually reaching
+that healthy direct lookup; this arrangement cannot isolate it. A fabricated SRX
+with a dangling required intrinsic plan target would create corruption and cannot
+prove healthy absence. No isolated missing-plan oracle is claimed. Different SQL
+review must expressly accept this reasoning/revised assertion before first red;
+no observed baseline exists to rewrite and no implementation was altered.
+
+Actual commands for revision: `clang-format -i
+ tests/qt/sqlite_reference_capture_tests.cpp`, `clang-format --dry-run --Werror
+ tests/qt/sqlite_reference_capture_tests.cpp`, `git diff --check`: all exit0.
+Static inventory only; no native SQL/feature invocation. Root handles compiled
+registration, actual foundation green and reviewed intended red separately.

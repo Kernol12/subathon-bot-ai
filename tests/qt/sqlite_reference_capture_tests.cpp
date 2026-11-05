@@ -353,8 +353,10 @@ class SqliteReferenceCaptureTest : public QObject {
                         "Direct absent CID including distinct zero");
                 v = record();
                 v.plan.plan_ref = "missing";
-                require(store.retain_initial(v) == Disposition::missing_reference,
-                        "Direct absent initial plan");
+                // Ordered §4 resolves retained SRX first: Y still binds P, so this
+                // candidate is a different binding before any missing-plan lookup.
+                require(store.retain_initial(v) == Disposition::source_mismatch,
+                        "Retained SRX plan mismatch precedes unresolved new plan");
                 v = record();
                 v.execution_context_ref = "missing";
                 require(store.retain_initial(v) == Disposition::missing_reference,
@@ -409,12 +411,93 @@ class SqliteReferenceCaptureTest : public QObject {
             << "UPDATE main.subathon_plan_rules SET explanation=X'78' WHERE plan_ref=X'50'";
         QTest::newRow("index-event") << "UPDATE main.subathon_reference_initial_captures SET "
                                         "event_ref=X'78' WHERE plan_ref=X'50'";
+        QTest::newRow("missing-rule")
+            << "DELETE FROM main.subathon_plan_rules WHERE plan_ref=X'50'";
+        QTest::newRow("rule-ordinal")
+            << "UPDATE main.subathon_plan_rules SET ordinal=2 WHERE plan_ref=X'50'";
+        QTest::newRow("missing-request")
+            << "DELETE FROM main.subathon_plan_requests WHERE plan_ref=X'50'";
+        QTest::newRow("request-ordinal")
+            << "UPDATE main.subathon_plan_requests SET ordinal=2 WHERE plan_ref=X'50'";
+        QTest::newRow("noncanonical-exact")
+            << "UPDATE main.subathon_plan_requests SET exact_numerator=X'30363030303030' WHERE "
+               "plan_ref=X'50'";
+        QTest::newRow("extra-modifier")
+            << "INSERT INTO main.subathon_plan_modifiers "
+               "VALUES(X'50',X'0000000000000001',1,X'64',X'69',X'54',X'67',X'6d',X'6d',X'31')";
+        QTest::newRow("extra-rule")
+            << "INSERT INTO main.subathon_plan_rules SELECT "
+               "plan_ref,revision,2,rule_ref,version_ref,selected,explanation FROM "
+               "main.subathon_plan_rules WHERE plan_ref=X'50'";
+        QTest::newRow("extra-request")
+            << "INSERT INTO main.subathon_plan_requests SELECT "
+               "plan_ref,revision,2,action_ref,action_version_ref,rule_ref,target_ref,unit,"
+               "requires_historical_valuation,exact_numerator,exact_denominator,requested_units,"
+               "calculation_explanation,reversal_behavior_ref FROM main.subathon_plan_requests "
+               "WHERE plan_ref=X'50'";
     }
     void selectedCorruptionRollsBackWholeUnit() {
         scenario([&] {
             QFETCH(QString, sql);
             full();
             raw(sql);
+            const auto r = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                storage_failure([&] { (void)SqliteReferenceCaptureStore(s).find(record().key); },
+                                Reason::invalid_stored_data);
+                no_lock_or_marker();
+                return QVariant(1);
+            });
+            rolled_back(r);
+        });
+    }
+    void structurallyValidDocumentsNeedCompleteMatchingClosure_data() {
+        QTest::addColumn<int>("change");
+        QTest::newRow("unknown-category") << 0;
+        QTest::newRow("embedded-config-mismatch") << 1;
+        QTest::newRow("execution-receipt-mismatch") << 2;
+        QTest::newRow("execution-cid-mismatch") << 3;
+        QTest::newRow("execution-rule-mismatch") << 4;
+    }
+    void structurallyValidDocumentsNeedCompleteMatchingClosure() {
+        scenario([&] {
+            QFETCH(int, change);
+            full();
+            run(*writer_, [&](auto c) {
+                const auto s = c.begin();
+                const auto docs = data_->capture("A")["documents"].toObject();
+                auto src = QByteArray::fromHex(
+                    docs["SRC1"].toObject()["document_hex"].toString().toLatin1());
+                auto sra = QByteArray::fromHex(
+                    docs["SRA1"].toObject()["document_hex"].toString().toLatin1());
+                auto srx = QByteArray::fromHex(
+                    docs["SRX1"].toObject()["document_hex"].toString().toLatin1());
+                if (change == 0) {
+                    src[111] = char(0);
+                    sra[26 + 111] = char(0);
+                } else if (change == 1)
+                    src[13] = 'Z';
+                else if (change == 2)
+                    srx[67] = char(8);
+                else if (change == 3)
+                    srx[75] = char(1);
+                else
+                    srx[93] = 'S';
+                // All edits retain exact lengths, known tags and framed domains.
+                // Unknown0 facts are structural DATA but fail admitted index meaning.
+                (void)s.execute({"UPDATE main.subathon_retained_configurations SET document=? "
+                                 "WHERE reference=X'43'",
+                                 {src}});
+                (void)s.execute(
+                    {"UPDATE main.subathon_retained_contexts SET document=? WHERE reference=X'58'",
+                     {sra}});
+                (void)s.execute(
+                    {"UPDATE main.subathon_retained_contexts SET document=? WHERE reference=X'59'",
+                     {srx}});
+                s.commit();
+                return QVariant(1);
+            });
             const auto r = exercise([&](auto c) {
                 const auto s = c.begin();
                 marker(s);
@@ -693,6 +776,26 @@ class SqliteReferenceCaptureTest : public QObject {
     void selectedFieldCeilingIsCheckedBeforeOwnership() {
         scenario([&] {
             full();
+            committed(exercise([&](auto c) {
+                const auto s = c.begin();
+                ReferenceCaptureLimits l;
+                l.reference_bytes = 22;
+                const auto value = SqliteReferenceCaptureStore(s, l).find(record().key);
+                require(value.has_value(),
+                        "Provider22 and all healthy A references fit exact ceiling22");
+                same(*value, record());
+                s.commit();
+                return QVariant(1);
+            }));
+            committed(exercise([&](auto c) {
+                const auto s = c.begin();
+                ReferenceCaptureLimits l;
+                l.reference_bytes = 21;
+                input_failure([&] { (void)SqliteReferenceCaptureStore(s, l).find(record().key); },
+                              Input::input_limit);
+                s.commit();
+                return QVariant(1);
+            }));
             run(*writer_, [&](auto c) {
                 const auto s = c.begin();
                 (void)s.execute({"UPDATE main.subathon_reference_initial_captures SET event_ref=? "
