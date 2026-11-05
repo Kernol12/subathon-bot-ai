@@ -29,3 +29,11 @@ the existing [test strategy](../TEST_STRATEGY.md). No assertion weakening or sim
 provider/platform support is permitted. Missing live/platform evidence stays an explicit
 gate; it does not remove a release requirement. Integrate focused PRs, update task evidence
 and regenerate PROGRESS.html before handoff.
+
+## Early reference prerequisite
+
+`RULESTEST-006` → [RULES-006](EPIC-003/RULES-006.md) supplies the bounded single-rule
+reference evaluator under CONTRACT014/ACCESS003. Both are required epic children.
+[ADR-0006](../decisions/0006-reference-path-prerequisites.md) retains complete rule
+conditions/order/exclusions/generated chains/action categories and their original
+tasks; the reference profile cannot declare those implemented.

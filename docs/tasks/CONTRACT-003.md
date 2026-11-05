@@ -33,3 +33,8 @@ All four remain required; this parent audits their consistent versions, imports,
 capabilities, complete packages and independent examples. Common documentation alone
 cannot finish this contract. Read current state/evidence for actual review status.
 The split changes helper sequencing only; original API-01/02/03 and §11 scope stays.
+
+
+The [reference HTTP contract](CONTRACT-013.md) is an additional required import
+under [ADR-0006](../decisions/0006-reference-path-prerequisites.md). It supplies no
+scene/WS capability and cannot complete this full integration audit.
