@@ -122,3 +122,23 @@ authors only pure8-codec acceptance/literals and own evidence. Separate fresh
 support branches/worktrees, actual review before new invocation. Root retains
 all shared CMake/CI/progress/pins/migration ownership. Full SQL test authoring,
 independent reviews and genuine missing-behavior red remain; no production released.
+
+## Resumed fixture and test baseline handoff
+
+Root imported authoredcodec367 asf7e4653, fixture3dc asd677 and actual corrections
+e35/3f508/dd661 asf7c3127/4fa8c00/21c212d. Independent fixture/codec reviews
+11e07c9/1c6ac77 retained. Root build/CI harness0cec1d8 adds mandatory4-slot
+OLD-only foundation and compiled27-slot codec discovery; known-red bodies remain
+separate. Current336 enabled registrations = prior308+foundation1+codec27.
+
+First diagnostic atf7c failed a per-record query oracle (5PASS1FAIL0skip),
+not feature red; reviewed correction retains all expected members and full
+source/receipt indexed predicates. Corrected21c foundation4/6QtPASS0skip192ms
+proves actual host92objects and closure. [Native evidence](storagetest-018-native-baseline.md).
+Selected official CI/final fixture freeze and FIRST codec red pending.
+
+Current roles: capture_codec_tests authors ONLY new SQL feature tests in
+/tmp/subathon-storagetest018-sql-tests; capture_fixture_author explicitly reassigned
+SQL-only independent reviewer (cannot approve own foundation); capture_reviewer
+completed independent foundation/codec source/harness review in separate support
+tree. Root owns shared files. No production implementation released.
