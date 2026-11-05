@@ -73,3 +73,19 @@ with independentreview; preserve this activeSQLclaim during integration.
 All sevenintegrations/threeFX, realauthority/session/clock/APIproducers, renderers/
 locales/themes/platforms/OBS/packages/licenses/security/recovery/live/fullrelease
 remainopen. No execution is promised while this session is stopped.
+
+## Concrete author and concurrent planning update
+
+SQLauthor capture_fixture_author is explicitly active in /tmp/subathon-storage018-author
+(task/STORAGE-018-store-author, fromd73). ActualoneCPPimplementation written,
+freshbuild then preserved31/51+old337validation inprogress; no review/acceptance
+claimed yet. Sourceauthor owns no tests/fixtures/sharedfiles and must report genuine
+baselineissues for separate review. capture_reviewer prepared independentSQLaudit
+and will be explicitly resumed on actualcandidate; unwrittensource isnotapproved.
+
+Separate root planning tree /tmp/subathon-auth-plan/task/CONTRACTPLAN-004-session-contract-gates
+frommain41c, actualcandidateeab2d8f addsDOCUMENT-only SESSIONCONTRACT001 task and
+missingprerequisites, rootauthored. Newplanningbranch422/1619 retainsold420/1608,
+SESSIONCONTRACT001planned/noauthchoicefinalized. Independentcapture_codec_tests
+reviewsactualplan; no source/schema/tests/pins/CI changes. ThisSQLbranch's420/1608
+viewdoesnotyetcontain thatunmergedplan; preserveownSQLclaim whenintegratingit.
