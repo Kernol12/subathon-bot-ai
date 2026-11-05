@@ -142,3 +142,125 @@ No provider/session/delegation/current-port/runtime capability is certified by a
 interface document. Real adapter tests/red/implementation, selected CI, supported
 platform/recovery/HTTP/SQLite end-to-end checks and the complete seven-integration/
 three-FX/client/renderer/localization/theme/package/license/live scope remain.
+
+## Actual corrected document and prerequisite-plan re-review
+
+2026-11-05, SAME independent reviewer `/root/access_implementer`; original author
+`/root/selected_boost`, corrected author revision
+7bca3ba5b942fe5edfec51a6340b513b35457f82. Examined combined root candidate
+84d087c5f5457eb98ca7fe5fba55c15b2185060c, including required-prerequisite plan
+4018afd09c565f487bdc4283d64365f30ace351d. Merged that actual candidate into the
+isolated review branch without altering its artifacts, then re-read the complete
+corrected document/author evidence, the new018 brief/state/DAG/navigation changes,
+and compared affected obligations with the actual unchanged imported interfaces.
+
+Exact examined blobs:
+
+| Artifact | Git blob |
+| --- | --- |
+| corrected reference application contract | `5a12ebea1ecce7192c57db3462427bc3cfb9bfd6` |
+| corrected author evidence | `8235917484be08fd8fd27640b33eb37a7d6fb677` |
+| new STORAGE018 brief | `57852bbbc8b37f7fc1683cfccf57726dcfdc9183` |
+| combined task state | `e6ef92f574b93c80505c1fb51de86c138176f997` |
+
+**Verdict: approved for integration of this DOCUMENT/PREREQUISITE PLAN only.**
+R1/R2/R3 are resolved in this actual candidate. Original findings above are retained
+as the superseded candidate's review, not removed or silently reclassified. This
+approval supplies no future API/schema/test-red/source/runtime acceptance.
+
+### R1 closure and actual planning
+
+The revised document now defines ReferenceCaptureKey/ReferenceInitialCapture,
+ReferenceCaptureLimits, exact find/retain signatures/refusal alternatives and the
+caller-session SqliteReferenceCaptureStore consumer. Key scope includes installation
+and all four receipt-source components; receipt1..MAX/CID0..MAX/initial revision1,
+exact first binding and installation+receipt uniqueness are explicit. The existing
+receipt's immutable context/configuration/source and actual original support,
+initial plan1 and SRX1 must all close over the exact candidate. `find` checks its
+selected immutable closure and retains the distinction between absence and stored
+corruption; advancing current plan history or contribution dimensions does not
+rewrite the original capture. Missing/mismatched new references are separate
+healthy refusals; an existing dangling/contradictory binding is corruption after
+actual known cleanup, with uncertainty overriding the local reason.
+
+The host finds first, stages plan/SRX/index in ONE real session, and commits none
+of them independently. Refusal after earlier staging requires actual whole-unit
+cleanup; no competing orphan plan/context may be committed as partial success.
+Adoption/commit of the earlier receipt/contribution units remains unchanged and
+separate from this plan unit. All returned storage values stay provisional until
+actual acknowledged normal work completion. ReceiptArrival fields now explicitly
+bind configuration_ref to SRC1 and modifier_context_ref to SRA1. SRI1 has exact
+field order, integer/byte grammar, bounded borrowed scan, complete output projection
+and explicit original-reference semantics. No hidden existing lookup, SQL bypass,
+auto-BEGIN/COMMIT, process map or hash collision assumption is introduced.
+
+The actual plan adds ONLY STORAGETEST-018/STORAGE-018, both still planned. The
+baseline requires CONTRACT014 and accepted STORAGE012/013/014/015; implementation
+requires those plus its own baseline. APITEST011 AND API011 require STORAGE018;
+EPIC009 requires both new records. Independent comparison of pre-plan417 records
+to the actual419-record state confirms ZERO removed old IDs/edges, exactly four
+added edges on old records,11 prerequisite edges on the new records, and419 tasks/
+1605 edges with no cycle. Every old task's verification value is preserved. All
+old implementation→baseline gates remain; the new pair's own independent contract/
+physical/API/test/red/source/selected-CI gates are explicit in the brief. No schema,
+SQL/migration statement/version, old source, test or build/workflow file changes.
+Navigation counts and actual rendered state match the new pair. Producer physical
+schema/API validation remains a genuine018 prerequisite, not fabricated runtime
+completion or a reason to leave this now-concrete consumer interface unspecified.
+
+### R2 typed admission and R3 actual clock binding
+
+The revised full configuration-facts DTOs retain unprojected enabled rules,
+trigger/action/unit lists, conditions/exclusions/execution limits and category
+sets, alongside explicit known/unknown state. A source unable to represent a
+complete known unsupported owning configuration can return typed unsupported,
+without constructing fake narrow fields. Concrete snapshot/load, admission,
+runtime-admission and derivation variants define availability/refusal now; missing
+runtime producer implementation remains explicitly gated under API011. The intake
+host can use queue-owned snapshot without fabricating the private service read view.
+
+All malformed tags/refs/shapes/values/bindings are checked before supported-profile
+classification. Expected/actual/projection revision bindings must agree; unknown
+with payload is not a partial success and contradictory complete projection is
+invalid_binding. Known extra rules/categories/shapes/hard deadline are unsupported;
+valid unavailable facts are not_ready, with nonempty fixed reason refs. Wrong gates
+in that availability channel are invalid_shape. Derivation calls admission on the
+retained arrival's exact version, propagates typed unavailability with no request,
+and requires admitted configuration equality before producing one exact integer
+request. Historical r1 cannot be replaced by current r2. Current runtime checks
+remain separate from current delegated permission and cannot authorize an operation
+merely by returning a complete aggregate. All five ACCT004 ports remain unchanged;
+actual producer authority/currentness and complete borrowed/result bounds are
+explicit requirements rather than a bool or permissive fallback.
+
+The two clock branches now match actual existing `check_clock`: empty segments use
+the actual old observation_ref/UTC/unchanged binding and release any unused fresh
+reservation; a retained fresh ref emits an explicit segment, even for elapsed0/
+unchanged UTC. Changed UTC also uses a zero segment. Nonzero elapsed is genuinely
+monotonic, checked, same-lineage and remains inside the admitted Main interval.
+Current-head/reservation journal retention, rollback, unknown and post-COMMIT-body
+failure rules remain truthful. The policy member name is corrected to
+inputs.current_state.configuration_ref. No clock/recovery evidence is manufactured.
+
+### Re-review checks actually run
+
+Ran project consistency, current progress-render check and whitespace check again;
+all exit0, now419 tasks/122 decisions. A separate Python standard-library script
+asserted the exact old/new task IDs and edges above, required new pair dependencies,
+old verification preservation, acyclicity and absence of source/test/schema/build/
+workflow changes. It additionally checked23 independent arithmetic/length facts:
+original request/cap/clock/overflow/reference oracles plus a manually constructed
+SRI1 body with ten distinct one-byte refs, ReceiptId1, CID0 and revision1. That
+independent frame is78 bytes, semantic B34/I0, format-ref length37 and complete
+envelope B115; key B5, CID0 and revision1 preserve their exact unsigned values at
+the independently derived offsets. No SUT serializer/decoder produced these oracles.
+
+No native/feature/foundation/schema-validation program was invoked. This is actual
+document/planning review, not a compiler/schema-validator/runtime pass. Existing
+consistency CI is appropriate for this documentation-only PR; latest-head CI,
+GitHub permissions/rules/threads/merge and final coordinator metadata remain
+publication gates. STORAGETEST018/STORAGE018, ACCESS003/current authority,
+configuration/runtime/clock/entropy/bootstrap producers, actual API001/session/
+HTTP contracts and downstream reviewed baselines/red/implementations/source review
+remain required before the reference path can work. Every broader release gate
+listed above remains; no task beyond this document/plan is marked completed.
