@@ -20,6 +20,17 @@ See [backlog workflow and complete epic index](README.md).
 | `APITEST-008` → [API-008](EPIC-008/API-008.md) | Early fake-event to committed timer and API vertical slice |
 | `APITEST-009` → [API-009](EPIC-008/API-009.md) | Integrate review modifiers reversals milestones and recovery |
 
+| [CONTRACT-013](CONTRACT-013.md) | Bounded reference HTTP package; complete HTTP006/scene gates retained |
+| [CONTRACT-014](CONTRACT-014.md) | Single-rule/current-adapter contract before reference behavior |
+| `APITEST-010` → [API-010](EPIC-008/API-010.md) | Real reference HTTP negotiation and authorized committed snapshot |
+| `APITEST-011` → [API-011](EPIC-008/API-011.md) | Synthetic intake, actual current adapters and operation-time atomic timer state |
+
+[ADR-0006](../decisions/0006-reference-path-prerequisites.md) separates the early
+§17 path from complete scene/milestone/modifier presentation, full transports and
+recovery. All replacement guarantees must actually finish; planning creates no
+runtime capability or ready implementation. See also
+[RULES-006](EPIC-003/RULES-006.md).
+
 ## Completion and integration
 
 The epic depends on every listed baseline/implementation/verification child plus its

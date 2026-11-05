@@ -1,0 +1,28 @@
+# CONTRACT-013 — Bounded reference HTTP contract and schema
+
+Kind: contract. State/owner/dependencies: progress/state.json.
+Authority: specification v0.45 §17, API-01/02/03, §§2/3/10.
+Prerequisite logical proposal: [reference-path-v1](../contracts/reference-path-v1.md).
+
+Finalize a complete OpenAPI 3.1 package for reference.v1 negotiation and protected
+committed timer snapshot ONLY. Independently review actual schema/examples/imports;
+do not use the logical proposal as schema acceptance. Pin method/path/header/body/
+query/content-type policy, session transport import and CSRF rules, current access,
+HTTP status/error priority, finite transport/pre-scan/scratch/result limits and all
+closed representations. Missing SESSION-003 contract details block finalization;
+versioning cannot decide or bypass authentication. No implementation/client code.
+
+Use common exact integer strings/opaque tokens, explicit required/null semantics
+and no scene import. Cover all RP13 compatibility/disclosure cases and malformed/
+oversized/duplicate-key input, complete reference resolution and numeric endpoints.
+Advertise only actually supported capability reference.timer-snapshot.v1 after
+implementation acceptance. No pending endpoint or provider feature may be listed.
+Full HTTP006 retains all remaining endpoint families and imports this reviewed
+package; CONTRACT003 retains full HTTP/WS/scene completion. Version changes must
+record compatibility impact; no automatic generic-v1 alias.
+
+Root owns shared schema imports/state/HTML/build/CI/pins; assigned author owns only
+the approved reference package/doc/examples. Actual separate contract review
+precedes APITEST-010; all later tests/red/code reviews remain. Run actual schema/
+link/consistency checks, assess CI for executable validation and record exact
+results without claiming a running server or schema-validator success not observed.

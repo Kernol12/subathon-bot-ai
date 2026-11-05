@@ -66,6 +66,15 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
     subathon_target_options(core_effective_permissions_acceptance)
     gtest_discover_tests(core_effective_permissions_acceptance TEST_PREFIX "effective-permissions."
         TEST_LIST subathon_permission_cases PROPERTIES TIMEOUT 10)
+    # Private allocator fault injection is confined to this separate executable.
+    add_executable(core_effective_permissions_regression
+        acceptance/effective_permissions_regression_tests.cpp)
+    target_link_libraries(core_effective_permissions_regression PRIVATE
+        subathon_effective_permissions GTest::gtest_main)
+    subathon_target_options(core_effective_permissions_regression)
+    gtest_discover_tests(core_effective_permissions_regression
+        TEST_PREFIX "effective-permissions-regression."
+        TEST_LIST subathon_permission_regression_cases PROPERTIES TIMEOUT 10)
     # Apply the list at CTest time; older GoogleTest helpers flatten list properties.
     set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/EffectivePermissionLabels.cmake")

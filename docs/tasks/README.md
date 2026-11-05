@@ -128,3 +128,9 @@ The [scene-contract prerequisite proposal](../decisions/0005-scene-contract-prer
 retains CONTRACT-008 as the full integration gate while separating the scene model,
 reviewed owning-domain bindings/timelines, assets/packages and complete schemas.
 No schema/renderer/provider/platform capability follows from these planning records.
+
+
+[CONTRACTPLAN-003](CONTRACTPLAN-003.md) / [ADR-0006](../decisions/0006-reference-path-prerequisites.md)
+realigns §17's early reference path with bounded HTTP013, rule/adapter014 and
+separately baseline-gated API010/011/RULES006. Full scene, WS, connector lifecycle,
+planner, modifier/milestone and checkpoint/recovery/release gates remain required.

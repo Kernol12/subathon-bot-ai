@@ -55,15 +55,18 @@
       "status": "partial",
       "tests": [
         "tests/acceptance/effective_permissions_tests.cpp",
-        "tests/fixtures/effective-permissions-v1.json"
+        "tests/fixtures/effective-permissions-v1.json",
+        "tests/acceptance/effective_permissions_regression_tests.cpp"
       ],
       "evidence": [
         "docs/evidence/accesstest-002-handoff.md",
         "docs/evidence/accesstest-002-tests-review.md",
         "docs/evidence/accesstest-002-red.md",
-        "docs/evidence/accesstest-002-red-review.md"
+        "docs/evidence/accesstest-002-red-review.md",
+        "docs/evidence/access-002-handoff.md",
+        "docs/evidence/access-002-review.md"
       ],
-      "scope": "ACCESSTEST-002 supplies30 independently reviewed pure permission baseline cases covering resource-first individual precedence, one whole grant, protected-owner boundaries and complete explanations. FIRST clean8acc9b9 actual exit8/30failed/0skip; separate attribution3f40238f validates215 markers and1 safe guard consequence. Evaluator remains an immediate unimplemented stub. ACCESS-002 production behavior, current session/owner/catalog facts, server execution/transaction and disclosure/delegation/recovery/editor integration remain unimplemented; no passing product acceptance or live/platform capability."
+      "scope": "ACCESS-002 implements bounded pure evaluator with original30+2 independently reviewed arithmetic/allocation regressions passing, separate actual source/config review, independent selected1.83 full69 and ordinary Ubuntu unconditional32 acceptance. Historical ACCESSTEST002 reviewed/red retained unchanged. Resource-first individual precedence, whole-grant constraints, exact arithmetic, complete owned explanations and narrow protected-owner rules are component-tested. Current account/session/owner/catalog facts, actual transport/execution/disclosure/delegation/recovery/editor integration and supported-platform/live security remain separate; no full identity/security capability claimed."
     },
     {
       "id": "AUTH-04",
@@ -497,15 +500,18 @@
       "status": "partial",
       "tests": [
         "tests/acceptance/effective_permissions_tests.cpp",
-        "tests/fixtures/effective-permissions-v1.json"
+        "tests/fixtures/effective-permissions-v1.json",
+        "tests/acceptance/effective_permissions_regression_tests.cpp"
       ],
       "evidence": [
         "docs/evidence/accesstest-002-handoff.md",
         "docs/evidence/accesstest-002-tests-review.md",
         "docs/evidence/accesstest-002-red.md",
-        "docs/evidence/accesstest-002-red-review.md"
+        "docs/evidence/accesstest-002-red-review.md",
+        "docs/evidence/access-002-handoff.md",
+        "docs/evidence/access-002-review.md"
       ],
-      "scope": "ACCESSTEST-002 supplies30 independently reviewed pure permission baseline cases covering resource-first individual precedence, one whole grant, protected-owner boundaries and complete explanations. FIRST clean8acc9b9 actual exit8/30failed/0skip; separate attribution3f40238f validates215 markers and1 safe guard consequence. Evaluator remains an immediate unimplemented stub. ACCESS-002 production behavior, current session/owner/catalog facts, server execution/transaction and disclosure/delegation/recovery/editor integration remain unimplemented; no passing product acceptance or live/platform capability."
+      "scope": "ACCESS-002 implements bounded pure evaluator with original30+2 independently reviewed arithmetic/allocation regressions passing, separate actual source/config review, independent selected1.83 full69 and ordinary Ubuntu unconditional32 acceptance. Historical ACCESSTEST002 reviewed/red retained unchanged. Resource-first individual precedence, whole-grant constraints, exact arithmetic, complete owned explanations and narrow protected-owner rules are component-tested. Current account/session/owner/catalog facts, actual transport/execution/disclosure/delegation/recovery/editor integration and supported-platform/live security remain separate; no full identity/security capability claimed."
     },
     {
       "id": "AUTH-07",
