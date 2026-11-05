@@ -1,4 +1,4 @@
-name: Effective permissions baseline
+name: Effective permissions acceptance
 on:
   pull_request:
     branches: [main]
@@ -38,9 +38,9 @@ jobs:
           cmake --preset effective-permissions-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
-      - name: Compile permission baseline and existing checks
+      - name: Compile permission acceptance and existing checks
         run: cmake --build --preset effective-permissions-debug
-      - name: Require the exact enabled permission baseline inventory without running it
+      - name: Require the exact enabled reviewed permission inventory
         run: |
           python3 - <<'PYTHON'
           import json
@@ -65,11 +65,31 @@ jobs:
                   raise SystemExit("Permission case has a custom skip expression")
               if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
                   raise SystemExit("Permission case has a custom result-rewriting property")
-              if set(props.get("LABELS", [])) != {"effective-permissions", "acceptance", "core", "intentional-red"}:
+              if set(props.get("LABELS", [])) != {"effective-permissions", "acceptance", "core"}:
                   raise SystemExit("Permission case has unexpected suite labels")
               if props.get("TIMEOUT") != 10:
                   raise SystemExit("Permission case has an unexpected timeout")
-          print(f"Compiled and discovered {len(found)} enabled permission cases; no feature body invoked")
+          regression_names = {
+              "effective-permissions-regression.EffectivePermissionRegression.UnequalLongRatiosAndCancellationStayExact",
+              "effective-permissions-regression.EffectivePermissionRegression.AllocationFailuresTranslateAndPreflightStaysAllocationFree",
+          }
+          regressions = [case for case in discovery["tests"]
+                         if case["name"].startswith("effective-permissions-regression.")]
+          if len(regressions) != 2 or {case["name"] for case in regressions} != regression_names:
+              raise SystemExit("Permission regression discovery differs from reviewed cases")
+          for case in regressions:
+              props = {item["name"]: item["value"] for item in case["properties"]}
+              if any(props.get(key, False) for key in ("DISABLED", "WILL_FAIL")):
+                  raise SystemExit("Permission regression is disabled or failure-inverted")
+              if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
+                  raise SystemExit("Permission regression has a custom skip expression")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit("Permission regression rewrites results")
+              if set(props.get("LABELS", [])) != {"effective-permissions", "acceptance", "core", "regression"}:
+                  raise SystemExit("Permission regression labels differ")
+              if props.get("TIMEOUT") != 10:
+                  raise SystemExit("Permission regression timeout differs")
+          print(f"Compiled and discovered {len(found)} original permission cases and 2 regressions")
           PYTHON
       - name: Verify mandatory green environment discovery
         run: |
@@ -94,6 +114,7 @@ jobs:
         run: |
           ulimit -c 0
           ctest --preset effective-permissions-debug -R '^scaffold.effective_permissions_environment$' --no-tests=error --verbose
+      - name: Run reviewed effective permission acceptance
+        run: ctest --preset effective-permissions-debug -L '^effective-permissions$' --no-tests=error --verbose
       - name: Run existing numeric and infrastructure checks
-        # New permission feature red remains a separately recorded explicit command.
-        run: ctest --preset effective-permissions-debug -LE '^intentional-red$' -E '^scaffold.effective_permissions_environment$' --no-tests=error --verbose
+        run: ctest --preset effective-permissions-debug -LE '^effective-permissions$' -E '^scaffold.effective_permissions_environment$' --no-tests=error --verbose
