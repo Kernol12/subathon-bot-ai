@@ -134,3 +134,52 @@ Actual author checks for this extension: clang-format/write and dry-run exit0,
 has run. Different reviewer must inspect actual added programs/harness before
 root observes all confirmed new behavior reds; no source correction is authorized
 merely by this authored extension. Historical baseline assertions/receipts remain.
+
+## Selected semantic DTO resource-budget regression
+
+A further different source-review finding/root assignment authorizes ONE additional
+two-row method, `indexedSelectedPlanOwnedBudgetUsesSemanticDtoBytes`, before any
+resource-accounting correction. Source budget logic remains held; the regression
+contains no production, fixture or shared-file changes. Prior35methods/59scenarios
+are byte-for-byte preserved: stripping only this new block reproduces actualbf92893
+CPP. New diff55 additions/0deletions; total36methods/61scenarios.
+
+Independent arithmetic uses actual public `core::PlanEvent`, ReceiptFacts/Arrival,
+ContributionState/Conditions, PlanValuation, RuleSelection, RequestedEffect and
+CapturedPlanRevision declarations plus consumer§2 semantic B rules:
+
+| Value | Independent literal A calculation | B |
+| --- | --- | ---: |
+| Identity | provider22 + account1 + namespace1 + opaque1 | 25 |
+| ReceiptFacts | event_type30 + schema4 + six absent optional presence bytes | 40 |
+| ReceiptArrival | UTC8 + Q/C/X each1 | 11 |
+| PlanEvent | V1 + absent parent1 + rootV1 + Receipt8 + Identity25 + Facts40 + Arrival11 + CID presence1/value8 | 96 |
+| ContributionConditions/State | conditions11 (all declared scalar/optional/policyC fields), plus payment-evidence1 | 12 |
+| PlanValuation | state1 + absent quote1 | 2 |
+| RuleSelection | R1 + r1 + selected1 + explanation30 | 33 |
+| RequestedEffect | four refs4 + unit1 + requires1 + exact numerator6/denominator1 + units8 + explanation23 + reversal_ref26 | 70 |
+| CapturedPlanRevision | revision8 + absent parent1 + Event96 + State12 + Valuation2 + Rule33 + Request70 + absent override1 | 223 |
+
+The distinct snapshot may add plan_refP1 (224), or an actually materialized outer
+optional another1 (225). Every other selected DTO is at most186 even conservatively
+counting a role envelope; thus chosen bounds240/222 avoid that wrapper endpoint
+ambiguity. SQL FK/ordinal columns and repeated identity fields are NOT additional
+semantic copies in this one DTO; sums of physical query rows or lifetime operations
+cannot replace the independently required complete selected semantic projection.
+
+Both rows use OLD `full()` fixture setup to commit healthy complete INDEXED A.
+Budget240 must find/return every independently expected A member, then return
+already_present on exact duplicate and commit normally, preserving the caller
+marker. This also demonstrates a per-value bound rather than accumulated physical
+history/lifetime accounting. Budget222 is below mandatory selected223 and must
+throw exact result_limit/fixed message after actual whole rollback; marker absence
+and independent BEGIN/ROLLBACK are checked INSIDE catch. Both preserve the original
+committed index. All inputs, refs/documents and other selected DTOs fit these
+profiles, so they cannot legitimately hide the selected-plan boundary.
+
+Actual author checks: independent stdlib integer arithmetic above PASS, exact
+priorbf source reconstruction PASS, method inventory36 and formatting/diff checks
+exit0. No test body, native SQL or production entrypoint invoked. Different actual
+program/harness review and root's reached behavioral red remain prerequisites to
+the resource-budget fix; source corrections for other confirmed classifications
+do not authorize this correction without its own review/red evidence.

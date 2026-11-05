@@ -645,6 +645,61 @@ class SqliteReferenceCaptureTest : public QObject {
                     "No index inserted or earlier selected plan removed");
         });
     }
+    void indexedSelectedPlanOwnedBudgetUsesSemanticDtoBytes_data() {
+        QTest::addColumn<bool>("fits");
+        QTest::newRow("semantic-plan-fits-owned240") << true;
+        QTest::newRow("semantic-plan-exceeds-owned222") << false;
+    }
+    void indexedSelectedPlanOwnedBudgetUsesSemanticDtoBytes() {
+        scenario([&] {
+            QFETCH(bool, fits);
+            // Independent core DTO arithmetic: Event96 + State12 + Valuation2 +
+            // Rule33 + Request70 + revision8 + parent/override presence2 =223.
+            // A plan-ref/outer optional would make224/225; all other selected
+            // DTOs are <=186. Use240/222 to avoid that wrapper endpoint issue.
+            full();
+            const auto result = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                ReferenceCaptureLimits limits;
+                limits.owned_bytes = fits ? 240 : 222;
+                SqliteReferenceCaptureStore store(s, limits);
+                if (fits) {
+                    const auto value = store.find(record().key);
+                    require(value.has_value(),
+                            "Complete healthy indexed A fits its semantic DTO budget240");
+                    same(*value, record());
+                    require(store.retain_initial(record()) == Disposition::already_present,
+                            "Second exact duplicate independently fits per-value budget, not a "
+                            "lifetime physical-row sum");
+                    s.commit();
+                } else {
+                    bool caught = false;
+                    try {
+                        (void)store.find(record().key);
+                    } catch (const ReferenceCaptureStorageFailure &error) {
+                        require(error.reason() == Reason::result_limit &&
+                                    std::string(error.what()) ==
+                                        "Reference initial capture did not commit",
+                                "Budget222 is below mandatory223-byte selected plan DTO");
+                        no_lock_or_marker();
+                        caught = true;
+                    }
+                    require(caught,
+                            "Selected semantic plan overage must fail after actual whole cleanup");
+                }
+                return QVariant(1);
+            });
+            if (fits) {
+                committed(result);
+                require(count("fixture_capture_markers") == 1,
+                        "Fitting selected reads preserve normal caller commit");
+            } else
+                rolled_back(result);
+            require(count("subathon_reference_initial_captures") == 1,
+                    "Resource checks never alter the earlier committed first binding");
+        });
+    }
     void selectedCorruptionRollsBackWholeUnit_data() {
         QTest::addColumn<QString>("sql");
         QTest::newRow("SRC1") << "UPDATE main.subathon_retained_configurations SET document=X'00' "
