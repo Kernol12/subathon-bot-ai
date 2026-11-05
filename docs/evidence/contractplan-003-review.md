@@ -98,3 +98,19 @@ checkpoint cadence/recovery/backups, complete API/web assets, both renderers, al
 seven integrations/three FX providers, localization/themes and platform/package/
 live/security gates remain mandatory. This planning approval certifies no such
 behavior and authorizes no test weakening, skipped acceptance or premature merge.
+
+## Bounded final metadata audit
+
+Separately inspected root `57b453b691fb72806a2223c46238fdd591a398f9` against the
+approved candidate `2c00a1d`. Approved the actual author evidence, imported review,
+handoff and planning-task completion metadata only. All dependency arrays, the
+logical profile/ADR, all other task records and global verification are identical.
+Only CONTRACTPLAN-003 is marked done; its review points to the actual approval and
+selected_ci remains explicitly not_run. No absent schema, feature, test/red,
+HTTP/runtime duplicate/rollback demonstration, future CI or merge is claimed.
+
+Independent exact stdlib equality/graph checks, `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check` and `git diff --check 2c00a1d..57b453b`
+all PASS on that root revision. This audit does not rerun or certify the root's
+recorded scaffold3/19tooling results, and does not approve future publication/CI,
+GitHub protection/discussion state or PR merge. Those remain integrator gates.
