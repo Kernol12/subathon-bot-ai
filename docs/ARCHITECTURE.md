@@ -256,3 +256,12 @@ selected1.83 independent69 and actual ordinary Ubuntu32 acceptance. Raw supplied
 facts and returned decisions convey no execution authority: real current account/
 session/owner/catalog/policy loading, delegated automation, transport enforcement
 and execution/disclosure/recovery workflows remain their required owner tasks.
+
+
+The [timer editorial projector](contracts/timer-editorial-commands-api-v1.md) now
+composes existing lifecycle/debt helpers into owned bounded correction/cap/deadline/
+first-Start proposals. [CORE-008 evidence](evidence/core-008-handoff.md) records
+original27/44ED and full101 passing, separate resource/source/config audit and
+ordinary selected Ubuntu27 acceptance. This supplies no actual UI choice warning,
+current authority/revision/clock proof or writer transaction. Host integration and
+Start/reopen/mixed review workflows remain their required owning gates.

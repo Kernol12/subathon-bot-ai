@@ -111,9 +111,11 @@
         "docs/evidence/coretest-008-first-red.md",
         "docs/evidence/coretest-008-first-red-review.md",
         "docs/evidence/coretest-008-ci.md",
-        "docs/evidence/coretest-008-handoff.md"
+        "docs/evidence/coretest-008-handoff.md",
+        "docs/evidence/core-008-handoff.md",
+        "docs/evidence/core-008-review.md"
       ],
-      "scope": "39 reviewed cases pass against pure lifecycle reducer with separate code review and actual automatic Ubuntu CI. Queue/state/permission/application wiring, pause reasons, start/reopen/recovery/schedules and platform behavior remain separate. CORETEST-008 supplies only a separately reviewed27-group/44-example editorial baseline observed red: per-attempt lower-cap Keep/Reduce/Abort, authoritative timer observation/old-deadline precedence, Ready first-start deadline check and authorized reached Active deadline immediate finish. FIRSTnative27fail/0skip/direct8/165primarymarkers+1safeownershipconsequence; old74 remain green. CORE-008 implementation, warning UI, host permission/currentclock/CAS/atomiccommit, Ready/Finished prerequisites, mixed/global review and broader release scope remain required."
+      "scope": "39 reviewed cases pass against pure lifecycle reducer with separate code review and actual automatic Ubuntu CI. Queue/state/permission/application wiring, pause reasons, start/reopen/recovery/schedules and platform behavior remain separate. CORETEST-008 supplies only a separately reviewed27-group/44-example editorial baseline observed red: per-attempt lower-cap Keep/Reduce/Abort, authoritative timer observation/old-deadline precedence, Ready first-start deadline check and authorized reached Active deadline immediate finish. FIRSTnative27fail/0skip/direct8/165primarymarkers+1safeownershipconsequence; old74 remain green. CORE-008 implementation, warning UI, host permission/currentclock/CAS/atomiccommit, Ready/Finished prerequisites, mixed/global review and broader release scope remain required. CORE-008 additionally implements bounded editorial proposals (original27/44ED), fresh independent101 passing, actual different source/resource/config approval and ordinary Ubuntu27 acceptance. It preserves Keep/Reduce/Abort and Ready/Active deadline choices, exact effects/old-config observation traces. Host/UI warnings/current authority/CAS/clock/audit/writer and full mixed review/reopen/Start composition remain separate; no running authoritative timer/application capability claimed."
     },
     {
       "id": "TIMER-02",
