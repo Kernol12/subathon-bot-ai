@@ -1,72 +1,64 @@
-# Coordinator checkpoint — baseline integrated, codec implementation active
+# Coordinator checkpoint — auth prerequisite plan ready, SQL implementation under review
 
-Coordinator /root, 5 November 2026. Full agreed product incomplete. No owner
-choice/access action needed. No live/provider/chat/payment/deployment operation.
-Inspect actual Git/worktrees/agents/processes/PR checks before resumption.
+Coordinator /root,5 November2026. Full product incomplete. No ownerdecision/access
+action currentlyneeded; GitHub/SSH works. No live/provider/chat/payment/deploy ops.
+Inspectactualstate onresume; oldagents/processes/checks maybestale.
 
-## Integrated baseline and current main
+## Actual main and integrated prerequisites
 
-Main8435fb0888e1d1028195d955ead068c2380fe5a4, primary checkout clean. PR68 normal
-merge at19:30:15Z, reviewed head6e90d4340d73749282a5b96be0cfb94e994cce27. All17
-final checks SUCCESS/current ruleset26170263/0requiredGitHubapprovals/0threads/
-CLEAN; head/merge trees equal. No force/bypass. Mainpostmerge CI is separate;
-inspect its actual state rather than infer from PR results.
+Main41c48424b2cf582b8afdf550357c0562577df8dd, primary clean. PR69normalmerged
+at20:08:44Z, exact768074b/all17SUCCESS/currentrules26170263/0requiredGitHub
+approvals/0unresolvedthreads/CLEAN/mergetree=headtree. PR68baseline previously
+normalmerged8435fb0; its16postmainchecks observedSUCCESS. Prior64/65/66/67
+stayintegrated. Alloldbranches/worktrees/validreviews/FIRSTreds preserved.
 
-Rate workflow42093391469 attempt1 stalled downloading pinned Boost from Azure
-before tests; cancelled. Targeted SAMEHEAD attempt2 SUCCESS observed. Original
-APTlog /tmp/storagetest018-rate-apt-attempt1.txt retained. No testfailure/waiver.
-Earlier PR64/65/66/67 (ACCESS002/SESSION001/CONTRACT014/CORE008) stay integrated,
-with exact reviews/native/provider limitations in their handoffs. All old branches/
-worktrees and parked asset011 remain preserved; do not discard them.
+[Codec handoff](storage-019-handoff.md)/[CI](storage-019-ci.md)/[review](storage-019-review.md)
+pin fa3/private9fc, ordinary28PASS/root337PASS, independentlyreached8rowpriority
+red before boundedfix. [SQL baseline](storagetest-018-handoff.md) pins58b/878,
+validFIRSTclean63331/51markers afterownselectedCI; initial50+1invalid preserved.
+Neverreplaythosecompletedgates or weakenbaseline assertions.
 
-[STORAGETEST018 handoff](storagetest-018-handoff.md) and [red review](storagetest-018-red-review.md)
-retain exact artifacts/reviews/invalid attempts. Codec FIRST clean55027 markers/
-54initcleanupPASS and SQL FIRST complete valid clean63331cases51markers/62PASS
-are complete, never replayed. InitialSQL50markers+1setupfailure stays INVALID.
-Selected own-head Qt6.12/SQLite3.53.4 foundation/fixture/compiled guards actually
-passed before each valid red. Most post-marker assertions await implementation.
+## Concurrent actual SQL018 claim/source
 
-## STORAGE-019 component complete, final PR69 integration pending
+Root /tmp/subathon-storage018/task/STORAGE-018-initial-capture-store,
+[draftPR70](https://github.com/Kernol12/subathon-bot-ai/pull/70) publishedclaime0c7070.
+Actualsourcece8d4d7+evidence984f2eb importedUNPUBLISHEDroot54967ed+c06e6f0.
+Author capture_fixture_author at/tmp/subathon-storage018-author ownsONLYSQLCPP/
+optionalprivatehelper/ownnote. Preserved31/51PASS2.52s andold337PASS24.92s;
+actualCODEaudit by different capture_reviewer active. No sourceapproval/CIpromotion
+or taskcompletion claimed. Canonicalmalformeddata classification for unindexed
+candidates flaggedforactualreview; authorHOLDSe8 unchanged untilreviewed additive
+regression/behaviorred authorizes anycorrection. No fixtures/tests/header edits.
 
-Root /tmp/subathon-storage019/task/STORAGE-019-reference-capture-codecs frommain
-8435, [draft PR69](https://github.com/Kernol12/subathon-bot-ai/pull/69). New420/1608
-graph explicitly splits the permitted codec prerequisite, preserving old419/1605
-and every release requirement. STORAGE018 remainsplanned, depends on019.
+This planningbranch snapshotcontainsSQL018planned frommain; it doesNOTrevoke
+the activeclaim onSQLbranch. Integrate this futuremain plan there by preserving
+ownSQLrow/activity and sourcework, never replacing it withthis mainsnapshot.
+Root owns sharedbuild/CI/state/maps/HTML/pins/schema/migrations/publicinterfaces.
 
-Source author capture_codec_tests used fresh /tmp/subathon-storage019-codec-author
-and /tmp/subathon-storage019-codec-priority-fix trees; actual c2/421 imported146/790.
-FinalCPPfa3fc6d/private9fc608d, publicABI/SQLstub/factory/oldfixtures unchanged.
-Different capture_reviewer full SOURCE+CFG approval09a3e56 accepts actual790;
-independent28PASS0.10s and root337PASS24.73s/0warnings/skips/new-SQL-capture-cases.
+## CONTRACTPLAN004 document repair
 
-Separate test author capture_fixture_author supplied0deb additiveONEslot/8rows,
-old27assertions/literalsbyte-preserved. Different test/harness approval preceded
-root actualclean dbe19:45:12Z behaviorred:8wrong-error failures/2PASS0skip.
-Only then source421 boundedformat-priority fix; knownnullshape/allbounds preserved.
-[Implementation handoff](storage-019-handoff.md), [review](storage-019-review.md),
-[raw regression](storage-019-priority-red-ctest.txt), [native](storage-019-native.md).
-Historical FIRST codec550/SQL633 was never replayed.
+Root /tmp/subathon-auth-plan/task/CONTRACTPLAN-004-session-contract-gates from
+main41c, claimfd8484c/finalauthoredcandidate ddadc20, actualdifferentapproval
+477d43f/import584a3fc. Rootauthored plan only; reviewer capture_codec_tests didnot
+author documents and approved exactgraph/wording. [ADR0007](../decisions/0007-session-contract-prerequisite.md),
+[handoff](contractplan-004-handoff.md), [review](contractplan-004-review.md).
 
-Task019 done as codec component; root promotes actuallypassing28 to ordinary selectedCI with
-exactcompiledguards/unconditionalexecution. SQL31remains enabled separate
-intentionalred discovery, no failure inversion or skippedassertions. Registry368,
-passingselected337=old309+codec28. Actualordinaryselected42098018635 at8d SUCCESS:28PASS0.10s/newfoundation4-6Qt
-PASS0skip295ms/oldlanes/all17checks; full log independentlyread, [receipt](storage-019-ci.md).
+Plan004done; futureSESSIONCONTRACT001 remainsPLANNED/unreviewed. Two newrecords
+and11edges make422/1619 while preservingold420/1608/statuses/runtimegates.
+Missingactualsession supplier/transport document nowexplicitlyblocks CONTRACT013
+andSESSIONTEST002/003; the graph no longer mistakes componentpassword/wire/
+permissiondata forauthentication. No authprotocolchoice/schema/API/test/support
+finalized. Newdoc mustreceiveactualauthoring/oracles/differentreview separately.
 
-Authors/source reviewer current assignments are complete, not assumedbackground
-execution. Root retains sharedCMake/CI/state/map/HTML/pins/schema/migration
-ownership; noSQLproductionauthorassigned. Root recordsfinalmetadata then publishes completionhead for its freshCI.
-Different reviewer checks actualcompletionmetadata before merge. No source blocker
-currently remains; actuallatestCI/currentrules/threads/normalmerge stillrequired.
+## Next concrete actions
 
-## Next concrete steps
+Finalindependentplanningcompletionmetadata review, publishfocusedplanPR, observe
+latestheadCI/rules/discussions andnormalmerge. Thenintegratemain intoactiveSQL018
+carefully retainingitsclaim; continueactualSQLsourceaudit, bounded separately
+reviewed regressions for confirmeddefects, ordinary31CI onlyafterpassingaccepted
+implementation. CurrentSqlsourceauthor/reviewer assignments areexplicit; do not
+assume completedcodec/planningreview sessions stillrunning onresume.
 
-Final independentcompletionmetadatareview, publishPR69 completionhead, then
-latestpublicationheadchecks/currentrules/discussions before normalmerge.
-Then begin dependentSTORAGE018 fromintegratedcodecs, using unchanged31/51
-reviewed/redbaseline and metadata-before-payload/actualcleanup contract.
-
-420tasks is taskcount, not releasepercentage. Allsevenintegrations/threeFX,
-authority/session/clock/APIproducers, renderers/locales/themes/platforms/OBS,
-packages/licenses/security/recovery/live/fullrelease remainopen. No execution
-is promised while this coordinator session is stopped.
+Allsevenintegrations/threeFX, realauthority/session/clock/APIproducers, renderers/
+locales/themes/platforms/OBS/packages/licenses/security/recovery/live/fullrelease
+remainrequired. No execution is promised while this session is stopped.
