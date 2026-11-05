@@ -42,3 +42,64 @@ must pass27 codecs plus stable309, separately review actual source/config,
 promote only passing27 to ordinary selected CI and preserve SQL31/future release
 gates. This document will record actual source review after a written candidate
 exists; this claim approval does not approve future code.
+
+## Actual source review finding and independent regression
+
+Read complete actual authorc2db28be/import146f0c3: CPP blob
+`423f1197d05020781bc6b22b68ea4db98d149288`, private header
+`9fc608d42062ad54525d47bbdc911e55bfc99028`, all704+21lines and author audit note.
+Original27 passing cases were not treated as complete correctness proof.
+
+Found a concrete decoder priority defect in `outer`: fitting empty format yielded
+invalid_reference, and fitting unknown format with NULL document yielded
+invalid_shape before unsupported_format. Consumer§2/concrete§3 explicitly order
+outer limits/B/I→unsupported outer format→framing/decoded DTO semantics. This is
+a written-contract defect, not an invented requirement or changed product choice.
+Known-format NULL document must keep the original invalid_shape assertion.
+
+Different regression author `/root/capture_fixture_author` supplied actual
+`0deb60d26717dc24fa1f9d30e9c86239eaaebfb6`, root import850fd79, test CPP
+`73d02569425e62b19fa23af6a5006b95c74a7825`. Independently APPROVED before
+invocation: exactly one new method/eight named rows across all four decoders,
+each empty format+valid independent literal body or unknown format+actual NULL
+QByteArray. All fit default outer bounds. Exact unsupported_format/fixed message
+is required; every original27 assertion and fixture remains unchanged. No
+implementation generates an expected value.
+
+Actual root harnessdbe8fa3 was independently APPROVED before invocation:
+CMakee5460bb adds only method28; workflow62771ad requires exactly28 compiled/
+registered/enabled ordinary codec cases and retains SQL31 separately intentional
+red. Source423f1197 stayed held unchanged. Root then ran only this new regression
+at clean dbe8fa3,19:45:12Z: direct CTest exit8, all8 real category mismatches,
+2init/cleanup PASS/0skip. Independently parsed numeric-prefixed raw output to avoid
+verbose double-counting: four actual invalid_reference3 and four invalid_shape4,
+all expected unsupported_format7. No marker/setup/warning/compilation failure.
+Raw `/tmp/storage019-priority-red.txt` SHA256
+`56911fd705b32b7e0f7a7d8d94c086f82d13b06c8d5ec628ece1bc0db6de4afe`.
+This reached behavior red is separate from the preserved original27 stub-red.
+Only afterward was the bounded outer-order correction released to the author.
+
+The remaining source/private-boundary audit finds no other blocker in this
+candidate. Fixed typed views contain no owned buffers/tree or variable collection;
+SRA scans embedded SRC directly into its nested configuration rather than a
+duplicate view. Independent sizeof-only audit (no codec body invocation) gives
+Rule144/Configuration288/Arrival400/Execution296/Initial184, Reader24; largest
+scan view plus both outer/embedded readers448 bytes, below512. There are at most
+19 actual borrowed B records and depth3. Fixed reader/sizing control stack is
+separate from borrowed payload; no unbounded recursion, index array or cache.
+
+Full-width C++ enums remain wide through tag validation before U8 emission;
+all positive representable limits/reserved capacity, complete borrowed semantic
+B/I, actual per-field U32 and document/output-container projections precede
+ownership. Sizing covers full format+document and nested frame before Writer
+allocation, with no arbitrary whole-document U32 cap. Decoder framing completes
+before borrowed tag/ref/shape/value/binding checks and owned results. Nested SRC
+frame/semantic bounds are dominated by the enclosing full arrival frame/DTO;
+no temporary encoded envelope or eager DTO clone exists. Own allocation/length
+failures map around all8 public codecs/private body paths, with RAII partial
+cleanup. Private retained mode preflights actual refs under the original profile
+before ownership, without fabricated format refs or a widened public-profile
+decode followed by postchecks. It provides neither SQL nor admission/authority.
+
+Final source approval awaits the actual bounded correction, passing28 and exact
+final root configuration. This section does not approve an unwritten revision.
