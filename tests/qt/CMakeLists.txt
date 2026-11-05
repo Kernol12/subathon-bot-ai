@@ -29,6 +29,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
         unindexedImportedOpaqueRefsStayHealthyMismatches
         unindexedGenericChildrenDistinguishMismatchFromCorruption
         indexedSelectedPlanOwnedBudgetUsesSemanticDtoBytes
+        indexedChildMetadataRejectsMalformedScalarsBeforePayload
         selectedCorruptionRollsBackWholeUnit
         structurallyValidDocumentsNeedCompleteMatchingClosure
         corruptOriginalOutranksReplacementConflict
