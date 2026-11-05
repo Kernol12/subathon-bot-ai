@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T20:26:00+00:00",
+  "updated_at": "2026-11-05T21:11:21Z",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13571,8 +13571,8 @@
       "title": "Session resolution and credential transport contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "capture_codec_tests; coordinator /root",
       "depends_on": [
         "CONTRACTPLAN-004",
         "CONTRACT-005",
@@ -13593,7 +13593,8 @@
       "summary": "Finalize independently reviewed current-session supplier API and exact browser/desktop credential transport before dependent baselines and reference HTTP schema.",
       "notes": [
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
-        "Document-only planned task, not an authored/reviewed contract or supported authentication capability. Component prerequisites do not prove current account/session producers. All later test-first/runtime/release gates remain."
+        "Document-only planned task, not an authored/reviewed contract or supported authentication capability. Component prerequisites do not prove current account/session producers. All later test-first/runtime/release gates remain.",
+        "Claim on dedicated current-main ba66804 branch. Document-only supplier and browser/desktop credential transport contract under specification v0.45 and task brief. Author owns new session contract/examples/author evidence only; root owns state/HTML/shared imports and integration. First inspect scope and actual producers; split before authoring if required for focused review. No production/schema/tests/runtime capability. Independent actual review and explicit literal examples remain required. Concurrent STORAGE018 PR70/localsource work remains active and must be preserved on integration."
       ],
       "verification": {},
       "evidence": [],
@@ -14770,6 +14771,11 @@
       "date": "2026-11-05T20:26:00+00:00",
       "task": "CONTRACTPLAN-004",
       "note": "CompleteDOCUMENT-only graphrepair afteractualdifferent477d43f/import584a3fc reviewoffinalddadc20 andboundedEPIC007summary7→8fix. Exactold420IDs/1608edges/statuses/owners/reviews/evidence preserved; new422/1619/2records11edges, sessiondocument001PLANNED andnoauthchoice/capabilityfinalized. Actualgraph/project/render/19tooling/whitespacePASS. API010/runtimeSESSION003gates unchanged. Finalmetadata/latestpublicationCI/currentrules/normalmerge remain; concurrentSQL018claim c06/PR70 preservedonseparatebranch."
+    },
+    {
+      "task": "SESSIONCONTRACT-001",
+      "date": "2026-11-05T21:11:21Z",
+      "note": "Claim dependency-ready session supplier/credential transport document; isolate from active SQL018 and preserve all test-first/runtime gates."
     }
   ]
 }
