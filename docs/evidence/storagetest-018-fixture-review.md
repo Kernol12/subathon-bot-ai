@@ -98,3 +98,31 @@ grammar. Host GNU16.2.1, Qt6.12.0, selected Boost1.83.0, CMake4.4.5/Python3.14.9
 This approves the actual diagnostic and its harness, not runtime schema92 or
 fixture pass, SQL capture behavior, authority/evaluator/provider/recovery or full
 release acceptance. Observe selected Qt/SQLite before freezing the fixture.
+
+## Observed diagnostic defect and reviewed dual-key correction
+
+Root's first approved host invocation at `f7c3127` failed the A+B closure slot:
+the original index observation filtered only installation I and therefore correctly
+selected both installed A/B rows while expecting one. This reviewer missed that
+predicate defect in the initial audit. Root's log
+`/tmp/storagetest018-foundation.txt`, SHA256
+`742e43f7b6dfff68aa6e4caeffc3060b456ba83b47ce9d2456492dd8c76576da`,
+records exit8,5PASS/1FAIL/0skip including init/cleanup,195ms. Schema/full92,
+constraints and whole rollback slots passed; the foundation as a whole was NOT
+green. This was a diagnostic oracle defect, not a missing018-feature red run.
+
+Actual author correction `3f5082e66431de086f52f7af6a329df20c10ac61`, root import
+`4fa8c00`, supplies all five exact BLOB predicates, distinguishing opaque45 and
+4500. All original13 typed expected fields and one-row assertions remain.
+Reviewer also requested the physical contract's second installation/receipt
+projection. Actual additive `dd661f005fc4ec53b5c40b1c1969d78b75fddcc5`, root import
+`21c212de1dadcb56a2883661d511e279163a3790`, adds that independent exact BLOB8
+receipt query for each A/B with the same13 typed field expectations.
+
+**APPROVED before corrected invocation:** actual final JSON blob
+`878005d95a0c12d69df6b836ac09cd59ba5168ba`, at root `21c212d`; helper/diagnostic/
+harness/codec blobs unchanged. Both lookup predicates now select exactly the
+intended complete record; no row-count relaxation, fixture weakening, skipped
+check or implementation change. Approval was sent before root's next invocation.
+Corrected runtime/selected-CI result and fixture freeze remain observations to
+record separately; this note does not fabricate them.
