@@ -19,3 +19,6 @@ planning review remains required.
 [ADR-0006](0006-reference-path-prerequisites.md) records the §17 reference-path
 proposal, exact replacement guarantees and preserved complete release scope.
 Consult its task/evidence for actual independent review status.
+
+- [ADR-0007 — Session supplier contract prerequisite](0007-session-contract-prerequisite.md):
+  additive document/test-baseline sequencing repair, no authentication behavior.
