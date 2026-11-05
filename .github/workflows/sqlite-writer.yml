@@ -486,7 +486,7 @@ jobs:
           print("Initial-capture diagnostic compiled slots:", compiled)
           PY
           ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_reference_capture_environment$' --verbose
-      - name: Check complete enabled initial-capture codec baseline registration (intentional red)
+      - name: Check complete reviewed initial-capture codec acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$' --show-only=json-v1 > "$RUNNER_TEMP/capture-codecs.json"
           python3 - <<'PY'
@@ -504,10 +504,14 @@ jobs:
               raise SystemExit("Initial-capture codec registration must equal all compiled cases")
           if any(p["name"] in {"DISABLED", "WILL_FAIL"} and p["value"] for t in tests for p in t.get("properties", [])):
               raise SystemExit("Codec baseline must stay enabled without failure inversion")
-          if any(not {"acceptance", "draft-red", "reference-capture-values"}.issubset(next((p["value"] for p in t.get("properties", []) if p["name"] == "LABELS"), [])) for t in tests):
-              raise SystemExit("Codec baseline must keep its explicit intentional-red labels")
-          print("Discovered all 27 enabled codec cases; intentional-red execution remains separate")
+          if any(not {"acceptance", "reference-capture-values"}.issubset(next((p["value"] for p in t.get("properties", []) if p["name"] == "LABELS"), [])) for t in tests):
+              raise SystemExit("Every codec case must keep its acceptance labels")
+          if any("draft-red" in next((p["value"] for p in t.get("properties", []) if p["name"] == "LABELS"), []) for t in tests):
+              raise SystemExit("Reviewed codec cases must be promoted to ordinary acceptance")
+          print("Discovered all 27 reviewed codec acceptance cases")
           PY
+      - name: Run reviewed initial-capture codec acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$'
       - name: Check complete enabled initial-capture SQL baseline registration (intentional red)
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --show-only=json-v1 > "$RUNNER_TEMP/capture-sql.json"

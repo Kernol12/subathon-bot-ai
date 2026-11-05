@@ -55,7 +55,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     target_link_libraries(server_reference_capture_values_acceptance PRIVATE
         subathon_reference_capture_values Qt6::Test)
     subathon_target_options(server_reference_capture_values_acceptance)
-    # Enabled intentional-red baseline: discovery in ordinary CI, execution is a separate gate.
+    # Reviewed codec cases run as ordinary acceptance; SQL remains a separate red baseline.
     foreach(case IN ITEMS
         configurationEncodeLiteral
         configurationDecodeLiteral
@@ -87,7 +87,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     )
         add_test(NAME reference-capture-values.${case} COMMAND server_reference_capture_values_acceptance ${case})
         set_tests_properties(reference-capture-values.${case} PROPERTIES
-            LABELS "reference-capture-values;acceptance;draft-red;qt;server" TIMEOUT 30)
+            LABELS "reference-capture-values;acceptance;qt;server" TIMEOUT 30)
     endforeach()
     # Independent foundation links only existing storage, never the new codec/store stubs.
     add_executable(server_sqlite_reference_capture_environment sqlite_reference_capture_environment.cpp)
