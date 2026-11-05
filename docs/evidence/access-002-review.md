@@ -204,3 +204,55 @@ nine-direction rational test passed; no error was rewritten as successful red.
 JUnit SHA256 `7b277a6928cc1b52436f7ea218ac480669d2db11f539c8a4a3899cbcadac22fb`.
 Source/config/test approvals above remain valid; automatic latest-head CI,
 publication/metadata/rules/discussions and normal merge are still separate gates.
+
+## Final component metadata and CI attribution review
+
+Actual root candidate `19ad06114248410a4f531fac9a5ba2404abf9743`, integrated as
+reviewer `82965fd8285cef178a9bb352cd9461437c204bc8`. **APPROVED for the actual
+completion handoff, architecture/state/map/HTML/checkpoint and evidence receipts.**
+No blocking finding. Source/test/config approvals remain applicable: thirteen
+approved runnable/interface/contract/config blobs are byte-identical to the
+pre-invocation reviewed revision. No behavioral change was carried over unseen.
+
+The authoritative state changes only ACCESS-002 to component done with passing
+acceptance/separate review, preserving the original baseline and its observed red.
+AUTH-03/AUTH-06 remain partial in the acceptance map, append the new evidence and
+explicitly retain current identity/fact loading, real transport/execution/disclosure,
+delegation/recovery/editor and platform/live security requirements. Architecture
+and handoff accurately describe a pure calculation, not authenticated authority or
+a running security boundary. Task done is explicitly distinct from unmerged PR64;
+latest-head checks, rules/reviews/discussions and normal merge remain required.
+Historical checkpoint stages are followed by the current reviewed/pass stage;
+parked work and CONTRACT014's requested corrections remain explicit rather than
+being promoted to completed capability. No owner decision/access action is invented.
+
+Independently queried actual GitHub run42066180272: event pull_request,
+headSha `b1c7b5447ee9f425fd61dde8b274095c750a9e2d`, completed SUCCESS,
+job127380752987 completed2026-11-05T16:37:17Z. Logs identify the normal PR merge
+checkout `c4554f1` merging that head into main d2392e2. Read setup/configuration,
+discovery, command/output evidence and programmatically checked the complete log
+phases: pinned Boost1.83/macro108300, GNU13.3, exact original30/new2 enabled guard,
+21 std/Boost primitive checks with0 failures, ordinary32/32 permission processes
+passing0.12s and old36/36 passing1.60s. None of those phases has a failed/skipped/
+timeout process or failure inversion. Six source/test/config blobs named by that
+run equal the actual current reviewed candidate. This supports the handoff's
+attributed execution receipt; it does not assert that an unobserved final metadata
+head has passed all checks.
+
+The actual restored SDK package is10746098 bytes with SHA256
+`747b364a7d578babed9efa4c40446be4ba3470ac5b2c9951b0e3bde3d7bb47d6`, matching
+the linked authenticated restore receipt. Both actual retained local69 JUnit
+files independently report tests69/failures0/disabled0/skipped0; reviewer receipt
+hash still matches the recorded7b277a69 value. Host GNU16 and selected Ubuntu
+GNU13 evidence are kept distinct; controlled allocator fault simulation is not
+physical OOM/platform proof. Existing numeric/global/live verification is not
+upgraded by this component completion.
+
+Actual checks at this metadata revision: `python3 tools/check_project.py` passes
+417tasks/122decisions/links/presets/current HTML; `python3 tools/progress.py render
+--check` passes; `python3 -m unittest discover -s tests/tooling -v` passes19;
+`git diff --check` passes. Additional Git/Python blob/CI-log/JUnit/package checks
+above pass. No redundant native69 replay or first-red/foundation rerun was made.
+Latest final-head automatic CI and GitHub merge eligibility remain root's next
+mandatory gates; this approval neither asserts a merge nor replaces required
+GitHub approvals/branch protection.
