@@ -161,3 +161,37 @@ and full equality assertions remain. No implementation/fixture source is changed
 
 Formatting/diff checks exit0; no feature execution. Actual revised artifact needs
 the DIFFERENT reviewer's express acceptance before root's first intended red.
+
+## Observed first-attempt setup defect and revised cumulative-result fixture
+
+Coordinator/root actually invoked the SQL candidate at clean550 only after its
+own selected CI42090598539 passed and different SQL approval4247210. That original
+attempt reached **50 explicit missing-feature markers plus ONE setup failure**:
+the result-bytes row's old primitive `SELECT zeroblob(100)` exhausted budget100
+BEFORE reaching the new store. Original SQL baseline is therefore INVALID, not
+51 intended-red scenarios. Its raw output SHA256 remains
+`e13621f40fd74aa36ea68baca186e5374658eb14d942f9fd431f942badc372bf`, preserved by root;
+no original log/assertion is silently replaced. This source author did not run
+that command. The same head's separate27 codec-marker red is valid and must NOT
+be replayed merely to repair this SQL setup.
+
+The genuine fixture defect is specified by the existing writer contract's value
+budget table (`sqlite-writer-v1.md`): each returned QVariant cell costs8 base bytes
+PLUS actual BLOB payload, independently of semantic DTO accounting. Actual old
+`sqlite_writer.cpp::consume_value` implements that documented rule. Thus100 bytes
+of payload would cost108 and cannot set up a healthy exact100 result exhaustion.
+
+Only the old setup query changes to `SELECT zeroblob(92)`:8+92=100. Before the NEW
+store call, a new assertion requires exactly one row/one non-null QByteArray cell
+whose complete bytes equal92 zero bytes. This proves that the old setup actually
+returned its fitting complete payload. Budget100, the subsequent NEW `find`, exact
+expected `ReferenceCaptureStorageReason::result_limit`, in-catch whole rollback/
+lock-release/marker assertions and actual transaction outcome are all preserved.
+No implementation behavior or requirement is relaxed. Slot/scenario inventory is
+unchanged31/51. Different reviewer must approve this specification-based fixture
+correction; root must compile and observe required current-head CI/foundation
+before a new valid SQL-red attempt. No feature implementation is authorized by
+the invalid original attempt or this author correction.
+
+Author correction commands: formatting and `git diff --check` exit0. No native
+SQL/feature execution by this author. Revised observed SQL red remains pending.

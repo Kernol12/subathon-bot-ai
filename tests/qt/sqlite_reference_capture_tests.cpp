@@ -929,9 +929,17 @@ class SqliteReferenceCaptureTest : public QObject {
             const auto r = exercise([&](auto c) {
                 const auto s = c.begin();
                 marker(s);
-                if (resultBudget)
-                    (void)s.execute({"SELECT zeroblob(100)", {}});
-                else {
+                if (resultBudget) {
+                    // OLD writer contract: each cell costs base8 + BLOB payload.
+                    // Payload92 therefore consumes the exact100-byte result budget.
+                    const auto exhausted = s.execute({"SELECT zeroblob(92)", {}});
+                    require(exhausted.size() == 1 && exhausted[0].size() == 1 &&
+                                exhausted[0][0].metaType().id() == QMetaType::QByteArray &&
+                                !exhausted[0][0].isNull() &&
+                                exhausted[0][0].toByteArray() == QByteArray(92, '\0'),
+                            "OLD primitive returned complete92-byte BLOB within exact100-byte cell "
+                            "budget");
+                } else {
                     (void)s.execute({"SELECT 1", {}});
                     (void)s.execute({"SELECT 1", {}});
                 }
