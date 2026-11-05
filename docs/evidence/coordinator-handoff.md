@@ -82,3 +82,26 @@ parked without claiming completion. Next: finish reference014 combined-main meta
 track password final metadata/currentCI/normalmerge; source review0817f48 approved.
 All seven integrations/threeFX/both renderers/locales/themes/platforms/OBS/packages/
 licenses/recovery/live gates remain. No chat/payment/provider/deployment side effect.
+
+## Latest actual integrated main — 2026-11-05T17:15:24Z
+
+PR66 now NORMALMERGED exact4340623262026632b6146a5954f09c491eef2ad5 afterall17
+SUCCESS/currentrules26170263/no bypass/0threads/CLEAN. Main5fa6156e18d77daaf7af763b923741b530d06222
+and reviewedhead haveidenticaltreea419252eaa60581f83d035e8ea46954c5b9e8c42.
+All419IDs/1605edges/mandatory018producergates preserved; doconlycomponentdone,
+no runtime/SQLschema/source producer. Postmain16CI pendingactualobservation.
+
+This task SESSION-001 now integrates that actualmain by retaining ALLmainrecords
+and overlaying ONLY its own claimed row/activity; generatedHTML/checkpoint/state
+conflictsresolved withoutsource/schema/test/CI regression. ACCESS002+CONTRACT014
+remaincompleted/integrated. Source andoriginaltests/fixtures/contracts unchanged.
+
+SESSION001 componentaccepted/sourcee5644251 andactualcode review0817f48/finalmeta76cd
+retained; roote215fb7 ispublishedreadyPR65, currentcombined-mainmetadata/latestCI
+reassessmentstillrequired beforemerge. Native41 andofficial37 proofpreserved.
+CORE008 originalclaim3f81224 actuallyresumed/root57b977e, authoraccess_reviewer
+in/tmp/subathon-core008-author finalsource3748a7f8/blobby45e817d5. Author101/101PASS
+0skip/disabled0. Rootimportsactualcandidate+sharedCIc801 thenactualdifferent
+access_implementer code/resource review+native101/selectedordinary27 remain.
+No originalstubred/header/API/assertions/44ED changed. Rootownsallsharedintegration.
+No ownerdecision/accessneeded; oldprimary8721770/assetc4ef1b9/oldrefs preserved.

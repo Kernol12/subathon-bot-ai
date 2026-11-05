@@ -256,3 +256,14 @@ selected1.83 independent69 and actual ordinary Ubuntu32 acceptance. Raw supplied
 facts and returned decisions convey no execution authority: real current account/
 session/owner/catalog/policy loading, delegated automation, transport enforcement
 and execution/disclosure/recovery workflows remain their required owner tasks.
+
+
+The [password primitive boundary](contracts/password-hashing-api-v1.md) now
+implements selected-libsodium Argon2id hashing/verification and source-bound
+upgrade proposals with strict PHC/cost preflight and guarded continuously locked
+plaintext lifetime. [SESSION-001 evidence](evidence/session-001-handoff.md) records
+unchanged37 methods/native41 passing, different source/config/cleanup audit and
+ordinary selected Ubuntu acceptance. This module writes no credentials and issues
+no login/session authority; actual trusted source/current-login and conditional
+store integration, hardware benchmarking, platforms/packages and security/release
+verification remain separate tasks.
