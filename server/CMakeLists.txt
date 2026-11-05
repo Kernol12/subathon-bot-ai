@@ -74,3 +74,17 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
     target_link_libraries(subathon_original_application_service PUBLIC subathon_sqlite_application_holds subathon_exact_numeric subathon_time_debt subathon_timer_lifecycle Qt6::Core)
     subathon_target_options(subathon_original_application_service)
 endif()
+
+# The initial-capture baseline supplies only reviewed inert declarations/markers.
+if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
+    add_library(subathon_reference_capture_values STATIC src/reference_capture_values.cpp)
+    target_include_directories(subathon_reference_capture_values PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_reference_capture_values PUBLIC subathon_original_application_service)
+    subathon_target_options(subathon_reference_capture_values)
+
+    add_library(subathon_sqlite_reference_capture STATIC src/sqlite_reference_capture.cpp)
+    target_include_directories(subathon_sqlite_reference_capture PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_reference_capture PUBLIC
+        subathon_reference_capture_values subathon_sqlite_application_holds)
+    subathon_target_options(subathon_sqlite_reference_capture)
+endif()

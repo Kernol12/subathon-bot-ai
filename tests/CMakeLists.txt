@@ -190,3 +190,10 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/RateSnapshotLabels.cmake")
 endif()
+
+if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
+    # Link-check every new interface; no CTest registration or feature invocation.
+    add_executable(reference_capture_interface_link scaffolding/reference_capture_interface.cpp)
+    target_link_libraries(reference_capture_interface_link PRIVATE subathon_sqlite_reference_capture)
+    subathon_target_options(reference_capture_interface_link)
+endif()

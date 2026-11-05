@@ -234,6 +234,14 @@
         "SUBATHON_BUILD_TIMER_EDITORIAL_TESTS": "ON",
         "SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS": "ON"
       }
+    },
+    {
+      "name": "sqlite-reference-capture-debug",
+      "displayName": "28 \u00b7 Initial-capture baseline interfaces",
+      "inherits": "application-service-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -344,6 +352,10 @@
     {
       "name": "timer-editorial-debug",
       "configurePreset": "timer-editorial-debug"
+    },
+    {
+      "name": "sqlite-reference-capture-debug",
+      "configurePreset": "sqlite-reference-capture-debug"
     }
   ],
   "testPresets": [
@@ -610,6 +622,16 @@
     {
       "name": "timer-editorial-debug",
       "configurePreset": "timer-editorial-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-reference-capture-debug",
+      "configurePreset": "sqlite-reference-capture-debug",
       "output": {
         "outputOnFailure": true
       },
