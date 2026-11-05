@@ -146,3 +146,53 @@ baseline integration precede STORAGE018 production. This note approves none of
 those unwritten artifacts or future invocations. Inspect actual heads/agents/
 processes/checks on resumption; a stopped session does not continue background work.
 PR68 remains draft/not merge-eligible while required baseline stages are unfinished.
+
+## Closing checkpoint review — 9ebd96d
+
+Independently reviewed actual closing root revision
+`9ebd96d5e6718a8843b0754eaffd025fca9ac270`, then merged it into this isolated
+review branch without modifying shared files. Its entire difference from the
+officially tested b20 head is four metadata files: checkpoint, interface receipt,
+task state and generated HTML. All source/header/harness/build/preset/workflow,
+contract, test, fixture, prefix and task-map blobs are unchanged. The previous
+actual document/source approvals and official source-build attribution therefore
+remain attached to those exact artifacts; this is no new source approval.
+
+Read the complete rewritten checkpoint and appended CI receipt. They correctly
+identify b20 as the tested head, all17 checks there as observed SUCCESS, and the
+closing publication as a later head requiring fresh CI. A fresh independent
+GitHub check-runs query returned17 completed/success checks for exact
+`b20ac8dfd1afb5ff98bdefe9a2da399babd03897`; none is attributed to the closing head.
+The checkpoint retains draft PR68, unfinished baseline status, genuine-red and
+final publication gates. No merge eligibility follows from the interface proof.
+
+Exact JSON comparison confirms only STORAGETEST018 changed from b20: one appended
+observation and `selected_interface_ci` changed from `not_run` to `passed`.
+Its status stays `in_progress`; test authoring, baseline, implementation and
+native-schema projection remain `not_run`. STORAGE018 remains `planned`.
+All419 IDs/1605 dependency edges, every other task row and global verification
+are preserved. The new92-object schema projection remains unobserved. Actual
+coordinate7 acceptance is confined to the reviewed baseline proposal, without
+an installed schema, new manifest behavior or feature acceptance claim.
+
+The clean continuation checkpoint preserves completed reviews and unfinished
+work, identifies the original source author/reviewer as completed and this
+bounded review as active, and requires actual state inspection on resumption.
+Its next step is independent literal fixture/diagnostic authoring, followed by
+review of the concrete program/harness before FIRST selected-Qt execution.
+Future fixture freeze, feature-test review and genuine marker red remain gates.
+No future diagnostic, fixture, new-body invocation or production work is approved
+by this note. Reported completed publisher/native/log processes are attributed
+to the root checkpoint; no background execution is assumed by this reviewer.
+
+Examined closing metadata blobs: checkpoint
+`28a2c450bda0bb840901ff1b1c6043db685b6be5`, interface receipt
+`408759194fa706cedefed8285803c25ac93bfa4f`, state
+`63d7c413225df234e9a1015f8b9b1959ed3f2aad`, HTML
+`8b8a110acf033f633c07b8f9e42396d600857cb2`.
+Fresh project/current-render/whitespace checks all exit0. The19 tooling tests
+already passed above; no tooling or runnable source changed, so they were not
+repeated. No native/SQLite/schema/fixture/new-body or redundant OLD308 execution
+occurred in this closing review. Limited metadata/CI-attribution approval: no
+blocking finding within this assignment; complete baseline acceptance remains
+open and PR68 must remain draft and unmerged.
