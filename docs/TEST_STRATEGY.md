@@ -475,25 +475,25 @@ layout/Windows/package/platform or full release behavior follows from generator
 acceptance; those remain owning tasks. No live provider/supporter operation occurs.
 
 
-## Reference capture codecs and separate SQL baseline
+## Reference capture codecs and SQL acceptance
 
-STORAGETEST-018 preserves actual reviewed codec27 FIRSTred atclean550 and complete
-SQL31/51-scenario FIRSTvalidred atclean633 after their own selected foundations.
-The initialSQL50markers+1setup-error attempt remains explicitly invalid; all raw
-evidence and different reviews are in its [handoff](evidence/storagetest-018-handoff.md).
+STORAGETEST-018 preserves reviewed codec27 FIRSTred atclean550 and complete
+SQL31/51 FIRSTvalidred atclean633 after their selected foundations. Its initial
+SQL50markers+1setup-error attempt stays invalid. Never replay historical reds.
+STORAGE-019 adds a reviewed eight-row priority regression before its correction
+and promotes codec28 to ordinary acceptance; its independent source audit remains.
 
-STORAGE-019 preserves those27 assertions/literals and adds one separately authored/
-reviewed eight-row decoder-priority regression, observed actual behavior red before
-its bounded correction. Configure/build sqlite-reference-capture-debug; label
-`^reference-capture-values$` selects28 passing methods. Passing selection
-`-LE '^sqlite-reference-capture$'` runs337 checks (old309 plus codec28); SQL31 stays
-enabled, separately compiled/discovered and intentionally red until STORAGE018.
-Do not call that selected337 a full-preset or SQL acceptance pass.
+STORAGE-018 preserves every original assertion/fixture and adds seven independently
+authored/reviewed methods (16 scenarios) for source-audit findings. Each intended
+behavior red preceded its authorized correction. Configure/build/test
+`sqlite-reference-capture-debug` now runs375 checks (old337 plus SQL38/67 scenarios).
+`-L '^sqlite-reference-capture$'` selects all38 SQL methods;
+`-L '^reference-capture-values$'` selects codec28. All are ordinary acceptance.
+CI requires exact compiled/registered equality, enabled non-inverted tests and
+mandatory acceptance labels, then unconditionally runs all38 SQL and28 codec bodies.
 
-[Implementation evidence](evidence/storage-019-handoff.md) separates local passes,
-actual source/config audit and selected-CI/publication gates. CI promotes ONLY
-codec28 to unconditional ordinary acceptance with exact registration checks and
-unchanged selected dependencies/old suites. Fixed scratch/preownership/allocation
-claims require source audit; outcomes alone do not measure those properties.
-Authority/evaluation/current-state/provider/SQL/recovery/UI/platform/full release
-remain separate owning tasks; no live operation occurs in these default checks.
+[SQL evidence](evidence/storage-018-handoff.md) records source/resource/config
+review, native passes and separate selected-CI/publication gates. Outcomes alone
+do not measure preownership/scratch/SQL projection correctness: source audit is
+required. No authenticated producer, current-state/authority, recovery, provider,
+UI/platform or full release proof follows from these synthetic component checks.
