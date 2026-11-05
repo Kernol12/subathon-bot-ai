@@ -113,3 +113,18 @@ Public codecs still bound supplied format refs; a private borrowed body path mus
 preflight all actual nested refs under26 before ownership. Any owned synthetic
 envelope still counts fixed-format bytes in its complete owned budget. Widening
 a public codec profile then checking actual refs after decode is forbidden.
+
+## Valid revised SQL baseline
+
+Actual different correction reviewce2cc6b/importb13 accepts source58b22366.
+Selected [42092102634](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42092102634)
+at exact clean633 completedSUCCESS: Qt6.12/SQLite3.53.4, required4/6QtPASS0skip
+231ms and both compiled guards, no feature body. Full logSHA74dc09fc7e6e58b6ee80f5a3ede3a02b850d6f43b3f15a94499274d872d67222.
+Only then root revised SQL command at SAMEclean633,19:18:32Z, directexit8:
+31 cases/51 exact missing-store markers,62initcleanupPASS,0other failures/skip/disabled,
+2.40s. [Valid revised raw](storagetest-018-sql-red-ctest.txt),
+SHA390b28b3b916687ca05df187bc115d788d138e9002e5a211f9f90039f6bb447d.
+Different capture_reviewer independently corroborated raw/JUnit/CI/chronology
+without replaying either completed gate. Codec FIRST remains original550.
+Full baseline is now observed red; implementation and latest publication/merge
+remain separate. See [baseline handoff](storagetest-018-handoff.md).
