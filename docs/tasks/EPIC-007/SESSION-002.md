@@ -50,3 +50,8 @@ Follow [the child-task workflow](../README.md) for PRs, role handoffs and comple
 The paired baseline additionally waits for [SESSIONCONTRACT-001](SESSIONCONTRACT-001.md)'s
 actual reviewed supplier/API/transport document under ADR-0007. This sequencing
 repair finalizes no auth behavior and removes no existing baseline/runtime gate.
+
+The original combined session document was split before authoring: both
+[SESSIONCONTRACT-001](SESSIONCONTRACT-001.md) supplier and
+[SESSIONCONTRACT-002](SESSIONCONTRACT-002.md) transport must be independently reviewed and integrated
+before this task; existing test-first/runtime gates remain.

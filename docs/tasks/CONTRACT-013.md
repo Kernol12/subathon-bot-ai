@@ -32,3 +32,8 @@ reviewed supplier document explicit as SESSIONCONTRACT-001. Wait for that accept
 API/transport import rather than inventing cookie/CSRF/header behavior or requiring
 SESSION-003 implementation just to author the document. Actual runtime acceptance
 still requires SESSION-003 and every existing APITEST-010/API-010 prerequisite.
+
+The original combined session document was split before authoring: both
+[SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) supplier and
+[SESSIONCONTRACT-002](EPIC-007/SESSIONCONTRACT-002.md) transport must be independently reviewed and integrated
+before this task; existing test-first/runtime gates remain.
