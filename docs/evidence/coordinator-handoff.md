@@ -23,7 +23,7 @@ Last observed main b7878e6a10bd2d5c7ddab61d04863da95474463c;419taskIDs/1605edges
   pass. [Handoff](session-001-handoff.md). Current accepted-login/atomic conditional
   store,100sample hardwarebenchmark/platform security remain future gates.
 
-All16post-main685 andd4e checks observedSUCCESS; b787 post-main16 newlypending.
+All16post-main685 andd4e checks observedSUCCESS; b787 post-main16 nowobservedALLSUCCESS.
 OriginalPR52/54/56/59/62/63 and reviews/FIRSTred/nativefixtures preserved; no replay.
 
 ## CORE008 PR67 — normally integrated
@@ -88,3 +88,26 @@ concreteAPI/physicaldoc; no implementation before ownreviewed/observedred baseli
 Inspect actualagents/processes/heads/PRs at everyresume; do notassumebackground
 execution afterturnstops. Allsevenintegrations/threeFX/bothrenderers/locales/themes/
 platforms/OBS/packages/licenses/security/recovery/live gates remain in intendedscope.
+
+## Actual018 authored handoff and publication candidate
+
+Author6728e6a5de9529e6c0d364906f9fd5ff101f597b importedf94755a; only3newMD files,
+logical80bda433abd37e440277349e9103d28d0ba9d128 /physical51b84a100a31387c19f3efb9b6cc35afc7c8c4a3.
+Rootstageaddsno source/header/schema/manifest/pin/build/CI/fixture/test/nativebody.
+Actualdifferent selected_boost fullnewartifactreview ACTUALLYassigned aftercommit
+in018reviewtree, no futureapproval. access_reviewer documentauthor completed/clean.
+Readonlyfacts access_implementer investigatedoldschema/budgets andsentauthor; noedits
+or018reviewapproval. Retainedtables NOformat_ref; existingpublicreadsadoptwork/full
+attempts, so narrowlyboundedprivate projections/recognizedstructuralformats required.
+
+Authorpredicted92objects, one1977-byteDDL, PER-STEP7 canonical71601/SHAefe4d5;
+oldstep6per-step89890/SHA9f5b unchanged. NotcumulativeallDDL, no SQLiteprojection
+observed yet. Indep literalA99/B55/envelope136 textcheck, tooling19/project/render
+passed; not executabletests orred. New8structural codecs supplier neededbefore
+018tests, no actualheader/codec exists. All test-first gates remain.
+
+All16postmainb787 nowactualSUCCESS, no openotherPRs after67merge. Primary mainb787
+clean; oldmilestone872/assetc4ef1b9/oldrefs preserved. RootnextpublishesfocusedDRAFT
+018baselinePR forreviewable3DOC+claim, notmergeeligible. Pollactualpublisher/PRhead
+CI onresume; don'tinferfeaturecapabilityfromunchangedgreenproductCI. Afterdocreview,
+recordfindings/correctoriginalauthorthenrereview orreleaseONLYnextminimalAPIstage.
