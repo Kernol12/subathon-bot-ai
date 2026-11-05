@@ -51,7 +51,12 @@ remain pending. No source/helper SQL execution or live/provider action occurred.
 
 Actual bounded source421/import790 changes ONLY outer role recognition ordering;
 sourcefa3fc6d/private9fc unchanged otherwise. Author fresh145 build +337PASS24.74s,
-root rebuild +337PASS24.73s. Root XML337/0fail/disabled/skipped,0QWARN and SQL0;
+root rebuild +337PASS24.73s. Root XML337/0fail/disabled/skipped,0QWARN and zero new SQL-capture cases;
 all28 codec cases included with old309 stable. Different actual source/config
 review790 accepts the whole implementation and corrected priority after actual
 independent28PASS0.10s. Ordinary selectedCI/latest publication remain pending.
+
+Actual [ordinary selected CI](storage-019-ci.md)42098018635 at8d now passes
+unconditional28 plus all old lanes on GNU13.3/Qt6.12/SQLite3.53.4/Boost1.83.
+Different reviewer independently corroborates full log/hash and limited scope.
+Final publication/latest-head checks/normalmerge remain distinct.

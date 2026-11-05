@@ -1,7 +1,7 @@
 # Handoff — STORAGE-019 bounded reference capture codecs
 
-Coordinator /root,5 November2026. Source and local acceptance approved; selected
-ordinary CI and final publication/merge remain pending. This is structural data
+Coordinator /root,5 November2026. Source, local acceptance and actual selected ordinary CI approved; final
+publication/merge remain pending. This is structural data
 codec implementation only; STORAGE-018 SQL capture remains planned/unimplemented.
 
 ## Scope and actual reviewed revisions
@@ -46,7 +46,7 @@ Historical missing-feature FIRST550/validSQL633 gates were never replayed.
 
 Author fresh145 build and337 selected checks PASS24.74s/0warnings. Root fresh145
 initial build and336 old+original27 PASS25.45s; after the reviewed regression/fix,
-root rebuild and337/337 PASS24.73s,0fail/disabled/skipped/QWARN, ZERO SQL cases.
+root rebuild and337/337 PASS24.73s,0fail/disabled/skipped/QWARN, zero new SQL-capture cases.
 Different reviewer fresh41-step target build and all28 codec cases PASS0.10s;
 actual root JUnit337 independently corroborated. [Native commands](storage-019-native.md)
 record the actual preset/Boost paths, commands and original reached-red receipt.
@@ -55,13 +55,15 @@ Registry368 =old308+foundation1+codec28+SQL31. Passing selection337 excludes
 ONLY the still-unimplemented SQL31; it is not a full-preset/product pass. CMake/CI
 promote28 to ordinary acceptance with exact compiled registration/unconditional
 execution; existing pins/old suites remain, SQL31 stays enabled separate red
-compiled discovery with no skipping/failure inversion. Actual selected CI receipt
-must be observed before task completion/merge.
+compiled discovery with no skipping/failure inversion. [Actual selected CI receipt](storage-019-ci.md) at8d proves ordinary28PASS0.10s
+and all old suites; root and different reviewer read full log independently.
 
 ## Remaining gates
 
-Latest head's selected Qt6.12/SQLite workflow must actually execute28 successfully,
-plus all applicable checks/current rules/reviews/discussions before normal merge.
+Selected official42098018635 at8d completedSUCCESS: GNU13.3/Boost1.83/Qt6.12/
+SQLite3.53.4, required4/6Qtfoundation0skip295ms, actualordinary28PASS0.10s and
+all old suites/17checks. Latest completion head still needs fresh applicable
+checks/current rules/reviews/discussions before normal merge.
 No Windows/package/platform/recovery/provider/live/full release verification is
 claimed. After integration, STORAGE018 uses these codecs to implement the durable
 initial source/capture index against its unchanged31/51 reviewed/red baseline.

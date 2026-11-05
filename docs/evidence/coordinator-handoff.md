@@ -26,7 +26,7 @@ are complete, never replayed. InitialSQL50markers+1setupfailure stays INVALID.
 Selected own-head Qt6.12/SQLite3.53.4 foundation/fixture/compiled guards actually
 passed before each valid red. Most post-marker assertions await implementation.
 
-## Active STORAGE-019 source approved, selected CI pending
+## STORAGE-019 component complete, final PR69 integration pending
 
 Root /tmp/subathon-storage019/task/STORAGE-019-reference-capture-codecs frommain
 8435, [draft PR69](https://github.com/Kernol12/subathon-bot-ai/pull/69). New420/1608
@@ -37,7 +37,7 @@ Source author capture_codec_tests used fresh /tmp/subathon-storage019-codec-auth
 and /tmp/subathon-storage019-codec-priority-fix trees; actual c2/421 imported146/790.
 FinalCPPfa3fc6d/private9fc608d, publicABI/SQLstub/factory/oldfixtures unchanged.
 Different capture_reviewer full SOURCE+CFG approval09a3e56 accepts actual790;
-independent28PASS0.10s and root337PASS24.73s/0warn-skip-SQL.
+independent28PASS0.10s and root337PASS24.73s/0warnings/skips/new-SQL-capture-cases.
 
 Separate test author capture_fixture_author supplied0deb additiveONEslot/8rows,
 old27assertions/literalsbyte-preserved. Different test/harness approval preceded
@@ -47,22 +47,22 @@ Only then source421 boundedformat-priority fix; knownnullshape/allbounds preserv
 [raw regression](storage-019-priority-red-ctest.txt), [native](storage-019-native.md).
 Historical FIRST codec550/SQL633 was never replayed.
 
-Task019 in_review; root promotes actuallypassing28 to ordinary selectedCI with
+Task019 done as codec component; root promotes actuallypassing28 to ordinary selectedCI with
 exactcompiledguards/unconditionalexecution. SQL31remains enabled separate
 intentionalred discovery, no failure inversion or skippedassertions. Registry368,
-passingselected337=old309+codec28. Latest ordinaryselectedCI not yetobserved.
+passingselected337=old309+codec28. Actualordinaryselected42098018635 at8d SUCCESS:28PASS0.10s/newfoundation4-6Qt
+PASS0skip295ms/oldlanes/all17checks; full log independentlyread, [receipt](storage-019-ci.md).
 
 Authors/source reviewer current assignments are complete, not assumedbackground
 execution. Root retains sharedCMake/CI/state/map/HTML/pins/schema/migration
-ownership; noSQLproductionauthorassigned. Root preparesfinalmetadata/publishes
-actualsource and nextasks explicitboundedCI/evidence review. No source blocker
+ownership; noSQLproductionauthorassigned. Root recordsfinalmetadata then publishes completionhead for its freshCI.
+Different reviewer checks actualcompletionmetadata before merge. No source blocker
 currently remains; actuallatestCI/currentrules/threads/normalmerge stillrequired.
 
 ## Next concrete steps
 
-ObservePR69 actualselectedQt6.12 ordinary28 execution andalloldstablelanes; fix
-real failures/autonomously preserve evidence. AfteractualCI, finalreview/status
-and latestpublicationheadchecks/currentrules/discussions before normalmerge.
+Final independentcompletionmetadatareview, publishPR69 completionhead, then
+latestpublicationheadchecks/currentrules/discussions before normalmerge.
 Then begin dependentSTORAGE018 fromintegratedcodecs, using unchanged31/51
 reviewed/redbaseline and metadata-before-payload/actualcleanup contract.
 
