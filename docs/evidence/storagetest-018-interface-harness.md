@@ -49,3 +49,17 @@ featuretestauthoring/fullreview/compile+genuineintendedmarkerred; onlythen may
 STORAGE018productionbeginafterbaselineintegration. NewmanifestALSOstub, never
 callitduringfixturesetuporcountsetupfailureasred. Noactualstep7DDL/codec/store/
 authority/API011/rules/provider/recovery/client/releasecapabilityis implemented.
+
+## Observed selected interface CI
+
+[Run42083636352](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42083636352)
+atb20ac8dfd1afb5ff98bdefe9a2da399babd03897 completedSUCCESS. Rootreadactualmetadata
+andfulllog: exactselectedQt/ICUarchivepins andBoost108300, newprofilecompile/link,
+BOTHnewstaticarchives/link-onlyharnessexistencePASS; harnessexeNOTlaunched. All
+oldcompileddiscoveryguards andoldSQLacceptance/diagnostic lanesPASS unchanged.
+Explicit newartifactstepat18:24:19Z; existingapplication43PASSat18:24:55Z.
+FullrawlogSHA256
+72e3b5644ff222f629124deecd9ec6aa7d9d20b692d1c8150880556aec2674e3.
+All17PR68checkrunsatb20 werealsoobservedSUCCESS. Thisis actualselectedinterface/
+oldregressionproof, NOTcapturefeature/schema7/native92/fixture/red proof. Later
+metadata commits needfreshCI andPR68remainsdraft/notmergeeligible.

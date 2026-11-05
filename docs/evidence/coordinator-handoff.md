@@ -1,144 +1,95 @@
-# Coordinator checkpoint — integrated foundations, initial-capture baseline document stage
+# Coordinator checkpoint — initial-capture baseline, minimal interfaces reviewed
 
-2026-11-05, coordinator /root. Continue standing coordination. Full product incomplete;
-no owner decision/access action needed. No live/provider/chat/payment/deployment action.
+Coordinator /root, 5 November 2026. Full product incomplete. No owner decision or
+access action is currently needed. Continue docs/COORDINATOR_PROMPT.md, inspecting
+actual agents, worktrees, processes and GitHub state before resuming.
 
-## Actual integrated main
+## Integrated main and preserved completed work
 
-Last observed main b7878e6a10bd2d5c7ddab61d04863da95474463c;419taskIDs/1605edges.
+Actual main: b7878e6a10bd2d5c7ddab61d04863da95474463c. Primary checkout is clean
+main at that revision. All 16 post-main checks were observed SUCCESS. All four
+focused PRs below merged normally after their exact final heads had all 17 checks
+SUCCESS, applicable actual independent reviews, current ruleset26170263, zero
+review threads and CLEAN merge state. Rules required zero GitHub approvals and
+provided no bypass; none was used. Each merge tree matched its reviewed head.
 
-- PR64 ACCESS002 merged685b17f2026-11-05T17:01:14Z froma7c0fd6/all17finalSUCCESS/
-  currentrules26170263/0requiredGHapprovals/0threads/CLEAN. Merge/headtree
-  53054827e286d2c2dbfd806c4cc174479d5cad2a equal. Native69/ordinaryUbuntu32;
-  original30+2independentlyreviewed arithmetic/allocationregressions unchanged.
-  [Handoff](access-002-handoff.md). Targeted samehead translationretry passed after
-  initialAPTcancelbeforetests; no skip/inversion/forged pass.
-- PR66 CONTRACT014 merged5fa6156 at17:15:24Z from4340623/all17finalSUCCESS/rules/
-  0threads/CLEAN; treea419252eaa60581f83d035e8ea46954c5b9e8c42 equal.
-  Actual corrected consumerdoc5a12ebea +required018plan4018afd approved811611e;
-  finalmeta7cbc628. [Handoff](contract-014-handoff.md). Documentonly, producerfuture.
-- PR65 SESSION001 mergedd4e3c52 at17:26:20Z frome7d2f63/all17finalSUCCESS/rules/
-  0threads/CLEAN; tree2555063692ea437db3bf00e25e371845153320e2 equal. Sourcee5644251/
-  actual0817f48+76cd4ee+a81bdf4 reviews retained; original37/native41/ordinaryUbuntu37
-  pass. [Handoff](session-001-handoff.md). Current accepted-login/atomic conditional
-  store,100sample hardwarebenchmark/platform security remain future gates.
+| PR / task | Exact merged head | Merge revision / UTC time | Evidence |
+| --- | --- | --- | --- |
+| 64 / ACCESS-002 | a7c0fd6 | 685b17f / 17:01:14 | [handoff](access-002-handoff.md) |
+| 66 / CONTRACT-014 | 4340623 | 5fa6156 / 17:15:24 | [handoff](contract-014-handoff.md) |
+| 65 / SESSION-001 | e7d2f63 | d4e3c52 / 17:26:20 | [handoff](session-001-handoff.md) |
+| 67 / CORE-008 | c975c48 | b7878e6 / 17:36:59 | [handoff](core-008-handoff.md) |
 
-All16post-main685 andd4e checks observedSUCCESS; b787 post-main16 nowobservedALLSUCCESS.
-OriginalPR52/54/56/59/62/63 and reviews/FIRSTred/nativefixtures preserved; no replay.
+Original PR52/54/56/59/62/63 and their valid reviews, FIRST red/native/fixture
+evidence remain integrated. Do not replay those completed stages. Original
+milestone branch8721770, parked asset011 c4ef1b9 and all old author/reviewer refs
+remain preserved; no reset, pruning or deletion. Completed implementation worktrees
+under /tmp/subathon-access002, /tmp/subathon-contract014, /tmp/subathon-session001
+and /tmp/subathon-core008 are retained. No old agent is assumed to be running.
 
-## CORE008 PR67 — normally integrated
+## Active task and exact current gate
 
-Root /tmp/subathon-core008/task/CORE-008-editorial-projection. PR67 nowNORMAL
-MERGED b7878e6 at2026-11-05T17:36:59Z fromEXACTc975c480d2a795a4a6485664ac1f89deac3ccb44,
-all17latestcheckrunsSUCCESS, actualsourceb16144e9/finalmetadataa01e2872 approvals,
-currentrules26170263/0requiredGHapprovals/0threads/no bypass/CLEAN. Actualmerge/head
-treede6e7d528b3c5f874e56bf5a495b58f8f3c94b9e equal. Originalclaim3f81224
-explicitlyresumed; source45e817d5/original27+44ED/header/API/spec/ownerchoices fixed.
-Author/root/reviewer101PASS0skip; actual ordinaryselected27+old74 pass.
-[Handoff](core-008-handoff.md) and[actualreview](core-008-review.md). No host/UI/
-currentauthority/clock/writer/Startreopen/globalreview capability implied. Source
-author/reviewer tasks completed, no native/publisher/ghwatch child stillrunning.
+STORAGETEST-018 is in progress on task/STORAGETEST-018-initial-capture-baseline,
+root worktree /tmp/subathon-storagetest018. It has all 419 task IDs/1605 dependency
+edges from main, all four accepted statuses and required018 gates, with ONLY its
+own task claim/activity changed. STORAGE-018 remains planned.
 
-## Current assignment STORAGETEST018 — FIRST DOCUMENT stage only
+[Draft PR68](https://github.com/Kernol12/subathon-bot-ai/pull/68) published head
+b20ac8dfd1afb5ff98bdefe9a2da399babd03897; all17 checks observed SUCCESS there.
+The current closing metadata will advance that head: do not transfer old check
+results to a new head. PR68 MUST remain draft and unmerged until the complete
+baseline/test-review/intended-red and final publication gates pass.
 
-Claim30a21a0 fromactualmain d4e, nowfreshmainb787 integrated retaining all four
-acceptedstatuses/419IDs/018edges plusONLYown018claim. Root /tmp/subathon-storagetest018 on
- task/STORAGETEST-018-initial-capture-baseline. Dependencies CONTRACT014 and
-retained/receipt/contribution/plan stores actually integrated. STORAGE018 stays
-planned; no executablebaseline/red/implementation is implied by this claim.
+Completed stages, not feature completion:
 
-- Freshauthor access_reviewer in /tmp/subathon-storagetest018-author /
-  task/STORAGETEST-018-contract-author. Owns ONLY NEW
-  docs/contracts/sqlite-initial-captures-v1.md,
-  docs/contracts/sqlite-initial-captures-schema-v1.md,
-  docs/evidence/storagetest-018-contract-author.md. Actualinvestigationactive.
-- Fresh DIFFERENT reviewer selected_boost in /tmp/subathon-storagetest018-review /
-  task/STORAGETEST-018-contract-review at30a21a0. Read-onlyprepactive; no artifact
-  approval. Authored previous014consumer, NOT new018supplier; reviewsownnew018only.
-- Currentactualprefix1..6 immutable; physicalstep7 PROPOSALONLYuntilactualroot
-  review/allocation, no actualschema/manifest change. Root owns sharedschemas,
-  migrationnumbers/order/prefix/pins/build/CI/state/map/HTML/integration.
+- Actual supplier/API/physical documents authored6728e6a5 (logical80bda433,
+  physical51b84a10) independently approved0411b7d4/importea5ace7.
+  [Review](storagetest-018-contract-review.md). Root accepted next coordinate7/
+  IDreference-initial-captures-v1 for this gated baseline. No actual manifest/DDL/
+  installed schema exists. Predicted92 objects/per-step71601/SHAefe4d5 remain
+  unobserved on Qt/SQLite; prefix1–6/step6 89objects/89890/SHA9f5b are unchanged.
+- Minimal declarations/stubs authored760f89b7/import95748b9: four source blobs
+  e68bf483/5445276d/86ad17dc/3372f37d. Eight codecs plus manifest/find/retain three
+  bodies immediately throw distinct markers. Constructors/errors/getters are inert.
+  Root harness58c9cb6 plus formatting-only08592b7 independently approveda257be63/
+  import494fbd1. [Minimal review](storagetest-018-minimal-review.md).
+- Root and reviewer fresh133-step compile/link/discovery pass: exactly308 OLD
+  enabled tests, no new CTest registration. Link-only interface references all11
+  symbols and is never launched. Only AFTER actual review, root old308 run passed
+  exit0/0failed-disabled-skipped/25.30s. New entrypoints/markers were not invoked.
+- Actual selected interface CI42083636352 atb20 passed verified Qt/ICU/Boost pins,
+  both new archives/link-only artifact check and all old guarded SQL lanes. Root
+  inspected full logs. [Native/CI receipt](storagetest-018-interface-harness.md).
 
-Concrete capturekey/record/SRI1 and full indexed FIRSTsource binding/dual receipt
-uniqueness/strictclosure/samecallerunit plan1+SRX+index/knownrollbackvsunknown/
-preownershipB-I/thread/SQLbudget must matchacceptedconsumer5a12ebea. Actual old
-receipt/contribution publicreads adopttransaction; planfindcanownfullchildren.
-No inventedborrowed API/unboundedscan/processmap/hashuniqueness/privatewriter
-shortcut. Proposal must supply smallestsharedstructural reference-data header/
-SRI1/SRC1/SRA1/SRX1 codec DECLARATIONSneededforstrictclosure without futureAPI011/
-RULES006 dependencycycle; no admission/evaluation authority implementation. If
-scopeoversized/conflictsurface, recordprecise prerequisite split/contractrevision
-foractualreview. No source/header/stub/schema/build/fixtures/test/nativebody is
-authorized untilactualdifferent logical/API/physical DOCUMENT approval. Independent
-literaloracles allowed; no SUT-generated expected outcomes. Futuretest authoring/
-review/compiled real intendedred precedes STORAGE018production.
+NO new schema7 diagnostic, literal fixture, capture test body, FIRST intended red,
+codec/store behavior or production implementation has run. Green old suites do
+not prove any of those. No provider/live/chat/payment/deployment action occurred.
 
-## Preservation and next concrete actions
+## Agent ownership and next bounded work
 
-Original milestonebranch8721770 preserved; primary clean checkout nowMAINb787
-fast-forwardonly afterallnormalmerges. Parkedasset011c4ef1b9 and
-alloldrefs/worktrees preserved, neverreset/prune/delete. Newtask source/review trees
-under/tmp preserved. Actualprioragents inspectednone; allcurrentassignmentsfresh.
-SelectedBoost1.83 andlibsodium1.0.22 restoredONLYunder/tmp/authenticpins; no global
-install, all3sodiumartifacts matchpriorreviewedproof. No originalfixturegeneration.
+Authors and reviewers used separate branches/worktrees. Current completed source
+author access_reviewer used /tmp/subathon-storagetest018-author and
+/tmp/subathon-storagetest018-minimal-author; selected_boost independently reviewed
+in corresponding -review and -minimal-review trees. Their source tasks are
+completed, not background execution. access_implementer is explicitly reviewing
+only the current interface CI attribution/continuation evidence, in a separate
+new evidence file; inspect actual status/commit before assuming completion.
+Root owns all CMake/presets/CI, schema/migration allocation/order, pins, progress
+JSON/map/HTML, integration and normal merges. No other writer owns shared files.
+Publisher91245 and native86176/log44778 completed; no native test/build is active.
 
-Next: observepostmain16CI; receiveactual018doc+
-physical/APIproposal, actualdifferentreview, thenreleaseONLYnextreviewedstage. No actualheader/stub/testbody before approved
-concreteAPI/physicaldoc; no implementation before ownreviewed/observedred baseline.
-Inspect actualagents/processes/heads/PRs at everyresume; do notassumebackground
-execution afterturnstops. Allsevenintegrations/threeFX/bothrenderers/locales/themes/
-platforms/OBS/packages/licenses/security/recovery/live gates remain in intendedscope.
+Next: preserve this exact reviewed minimal source and current main. Assign an
+independent literal schema/closure fixture and green diagnostic AUTHOR in a fresh
+worktree. Review the actual diagnostic program/helper/harness before its first
+Qt/SQLite invocation. Use literal reviewed step7 plus the existing accepted runner;
+NEVER call the NEW manifest or codecs for setup or expected results. Observe the
+actual selected Qt/SQLite92-object projection before fixture freeze. Then author
+and independently review real feature tests, compile/discover and observe genuine
+explicit missing-behavior red. Missing dependencies, compilation/setup failures or
+skips are not red. Only the integrated complete baseline releases STORAGE-018.
 
-## Actual018 authored handoff and publication candidate
-
-Author6728e6a5de9529e6c0d364906f9fd5ff101f597b importedf94755a; only3newMD files,
-logical80bda433abd37e440277349e9103d28d0ba9d128 /physical51b84a100a31387c19f3efb9b6cc35afc7c8c4a3.
-Rootstageaddsno source/header/schema/manifest/pin/build/CI/fixture/test/nativebody.
-Actualdifferent selected_boost fullnewartifactreview ACTUALLYassigned aftercommit
-in018reviewtree, no futureapproval. access_reviewer documentauthor completed/clean.
-Readonlyfacts access_implementer investigatedoldschema/budgets andsentauthor; noedits
-or018reviewapproval. Retainedtables NOformat_ref; existingpublicreadsadoptwork/full
-attempts, so narrowlyboundedprivate projections/recognizedstructuralformats required.
-
-Authorpredicted92objects, one1977-byteDDL, PER-STEP7 canonical71601/SHAefe4d5;
-oldstep6per-step89890/SHA9f5b unchanged. NotcumulativeallDDL, no SQLiteprojection
-observed yet. Indep literalA99/B55/envelope136 textcheck, tooling19/project/render
-passed; not executabletests orred. New8structural codecs supplier neededbefore
-018tests, no actualheader/codec exists. All test-first gates remain.
-
-All16postmainb787 nowactualSUCCESS, no openotherPRs after67merge. Primary mainb787
-clean; oldmilestone872/assetc4ef1b9/oldrefs preserved. RootnextpublishesfocusedDRAFT
-018baselinePR forreviewable3DOC+claim, notmergeeligible. Pollactualpublisher/PRhead
-CI onresume; don'tinferfeaturecapabilityfromunchangedgreenproductCI. Afterdocreview,
-recordfindings/correctoriginalauthorthenrereview orreleaseONLYnextminimalAPIstage.
-
-## Actual document approval and next minimal stage (latest)
-
-0411b7d47e174f9561cb003db958b84fb52252d0 importedea5ace7 ACTUALLYapproves supplier/
-API/proposedphysical80bda433/51b84a10, no findings; source/schema/native/tests
-remainunwritten/unrun. Rootacceptsnextcoordinate7 onlyFORgatedbaseline, not actual
-migration/source/installedschema. [Minimal release](storagetest-018-minimal-release.md)
-restricts author to NEW2headers/2CPP+ownnote and11immediate markers. Rootownsall
-sharedschema/build/CI/state/mapHTML. Actualdifferentminimal-source+harnessreview
-beforelaterdiagnostics/fixtures/tests; no productionrelease. Sourceworktrees will
-be explicitlycreated/reassigned; inspectactualheads/agentsbeforeassumingrunning.
-Actual draftPR68 ated14c31, unchangedproductCIpending; baseline notmergeeligible.
-
-## Actual minimal interface gate passed — current next action
-
-Actualsource760f89b7/import95748b9 (4sourceblobs e68bf483/5445276d/86ad17dc/3372f37d),
-root58c9cb6 harness+08592b7 formatonly, receiveDIFFERENTa257be63/import494fbd1
-minimal-source/harnessapproval. Rootandreviewercompile/link133/show-only308OLDPASS,
-nm11symbols, no newtests/harnessexeregistration/program/markerinvocation.
-ONLYAFTERapproval rootranOLD308native: exit0/308PASS/0fail-disabled-skip/25.30s,
-raw/JUnitSHAreceipts [here](storagetest-018-interface-harness.md). No schema7observed.
-All11newfeaturebodiesremainimmediatemarkers; no actual18test/fixture/red/production.
-
-Authoraccess_reviewer/minimalreviewerselected_boost bothcompletedclean. Rootnew
-source/harness+evidencewillbepublishedinexistingdraftPR68, selectedownprofileCI
-mustbeobservedbeforelaterstages. No futurefoundation/fixture/headerbehaviorapproved.
-Nextboundedassignmentisindependentliteralnewstep/schema/selectedclosurefixture
-anddiagnosticAUTHORINGONLY, actualdifferentprogram/harnessreviewbeforeFIRST
-newQt/SQLite native diagnostic; APIcodecs/newmanifestmustNOTbeusedassetup/oracles.
-Contextlimitcontinuationmustinspectactualagent/process/publisher/CIstates; don't
-assumebackgroundexecution. No ownerdecision/accessneeded.
+Real authority/session/account/conditional-store/clock/action producers, API001/
+HTTP/delegation integration and all seven integrations, three FX providers, both
+renderers, locales/themes, platforms/OBS, packages/licenses/security/recovery/live
+release gates remain. Context continuation must inspect actual local/GitHub state;
+no execution is promised while this session is stopped.
