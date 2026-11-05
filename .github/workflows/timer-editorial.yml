@@ -1,4 +1,4 @@
-name: Timer editorial baseline
+name: Timer editorial acceptance
 on:
   pull_request:
     branches: [main]
@@ -15,13 +15,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Configure the std-only baseline with explicit pinned GoogleTest fetch
+      - name: Configure std-only acceptance with explicit pinned GoogleTest fetch
         run: >-
           cmake --preset timer-editorial-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
-      - name: Build the editorial baseline and existing dependency checks
+      - name: Build editorial acceptance and existing dependency checks
         run: cmake --build --preset timer-editorial-debug
-      - name: Require all reviewed cases enabled and uninverted without executing them
+      - name: Require the exact enabled reviewed cases and dependency inventory
         run: |
           python3 - <<'PYTHON'
           import json
@@ -59,8 +59,8 @@ jobs:
                   raise SystemExit("An editorial case has a custom skip expression")
               if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
                   raise SystemExit("An editorial case has a result-rewriting property")
-              if set(props.get("LABELS", [])) != {"timer-editorial", "acceptance", "core", "intentional-red"}:
-                  raise SystemExit("An editorial case lost its complete baseline labels")
+              if set(props.get("LABELS", [])) != {"timer-editorial", "acceptance", "core"}:
+                  raise SystemExit("An editorial case has unexpected acceptance labels")
               if props.get("TIMEOUT") != 30:
                   raise SystemExit("An editorial case has an unexpected timeout")
           green = [case for case in discovery["tests"] if case["name"] not in expected]
@@ -72,10 +72,13 @@ jobs:
                   raise SystemExit("An approved dependency check is disabled or inverted")
               if "intentional-red" in props.get("LABELS", []):
                   raise SystemExit("An approved dependency check was put in the red lane")
-          print("Discovered 27 enabled editorial cases and 74 green dependencies; no editorial body invoked")
+          print("Discovered 27 enabled editorial acceptance cases and 74 green dependencies")
           PYTHON
-      - name: Run only the approved green dependency checks
-        # Editorial bodies/FIRST red remain a separate reviewed coordinator operation.
+      - name: Run every reviewed editorial acceptance case
         run: |
           ulimit -c 0
-          ctest --preset timer-editorial-debug -LE '^intentional-red$' --no-tests=error --verbose
+          ctest --preset timer-editorial-debug -L '^timer-editorial$' --no-tests=error --verbose
+      - name: Run all approved dependency checks
+        run: |
+          ulimit -c 0
+          ctest --preset timer-editorial-debug -LE '^timer-editorial$' --no-tests=error --verbose

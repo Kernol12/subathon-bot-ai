@@ -228,7 +228,7 @@
     },
     {
       "name": "timer-editorial-debug",
-      "displayName": "27 \u00b7 Timer editorial command baseline",
+      "displayName": "27 \u00b7 Timer editorial command acceptance",
       "inherits": "time-debt-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_TIMER_EDITORIAL_TESTS": "ON",

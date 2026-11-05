@@ -267,3 +267,12 @@ ordinary selected Ubuntu acceptance. This module writes no credentials and issue
 no login/session authority; actual trusted source/current-login and conditional
 store integration, hardware benchmarking, platforms/packages and security/release
 verification remain separate tasks.
+
+
+The [timer editorial projector](contracts/timer-editorial-commands-api-v1.md) now
+composes existing lifecycle/debt helpers into owned bounded correction/cap/deadline/
+first-Start proposals. [CORE-008 evidence](evidence/core-008-handoff.md) records
+original27/44ED and full101 passing, separate resource/source/config audit and
+ordinary selected Ubuntu27 acceptance. This supplies no actual UI choice warning,
+current authority/revision/clock proof or writer transaction. Host integration and
+Start/reopen/mixed review workflows remain their required owning gates.

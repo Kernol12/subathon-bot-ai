@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T17:16:53+00:00",
+  "updated_at": "2026-11-05T17:27:48+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -1726,8 +1726,8 @@
       "title": "Manual adjustments cap edits and hard-deadline commands",
       "module": "Core",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; access_reviewer (source author); access_implementer (independent source/config reviewer)",
       "depends_on": [
         "CORE-005",
         "CORETEST-008"
@@ -1740,11 +1740,32 @@
       "summary": "Record requested/actual signed corrections and validate cap/deadline changes through reviewed contracts without overflow or hidden history rewrite.",
       "notes": [
         "Parent epic: EPIC-001. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior."
+        "ACCTCONTRACT001 logicalreview explicitly retains unresolved timer-onlyRequireReview versus wholeinput/mixedactualeffects/globalstatus/authorizedcontinuation policy: CORE008 owns signedmanual request policy, ACCT005 owns originalreview/globalstatus+continuation composition, ACCT006 owns financialreversal equivalent. ExistingCORE005/AT09 timer-onlynumericproposal supplies no globaldefault; unknownmixedpath staysnot_ready untilactualowningcontract/examples/review. Preservealreadyappliedcomponents/exactheldremainingamount/atomicresolution/no replay. Mixedpostfinish time/score similarly needs explicitreviewedrepresentation, never fake cap/unapplied components. Planninggate only, notnewimplementedbehavior.",
+        "Claim from actualmain436ed9afb1ac3d3be68f4be8c2b1bdc62557e574 AFTER all original PR62/59/54/56/52 normally merged. Dependency-ready reviewed/red baseline is integrated; originalPRpriority clear. Pure timer editorial projection against frozen logicalf4a4c3ce/APIa2ac5a2c/header92281931/spec81406806. Preserve Keep/Reduce/Abort, old-config observation order, Ready/Finished prerequisites, above-cap debt-first behavior, exact bounds/audit and allocation mapping. Reuse existing CORE-002/005, no new dependency. Author owns ONLY core/src/timer_editorial_commands.cpp and new author evidence in separate worktree. Root owns all shared build/CI/state/map/HTML/spec/checkpoint/PR operations. Reviewed headers/tests/fixtures/observer/assertions remain frozen; any genuine defect needs written specification reason and separate actual review. Relevant acceptance must pass; actual different code/allocation audit + CI promotion/fresh latest checks/normal merge remain. No live or complete product authority claim.",
+        "2026-11-05 resume preserved originalclaim3f81224/root+authorrefs after parked source inspection: no prioragent/worktree/productiondiff. Reuse task/CORE-008-editorial-projection and refresh actualmain685b17f, preserving allAccess002done records/reviews. Fresh access_reviewer sourceassignment in isolatedtree owns ONLY core/src/timer_editorial_commands.cpp +ownnote. Original27/44ED reviewed/red baseline integrated; no reexecution of FIRSTred or assertion/header/API/fixture/spec change. Root owns allsharedCI/build/state/map/HTML/integration. Preserve owner KeepReduceAbort/deadline policies and oldconfig observation order; pure proposals only, no authority/SQL/UI/runtime clocks. Separate source/allocation review/full101+ordinary27 CI required.",
+        "Actual source3748a7f8/importc22676f (45e817d5) preserves original27/44ED/header/API/spec. Author101PASS0skip0.68s; root18-step build/101PASS0.72s/exactworkflowguard27+44ED+101+74PASS. RootCIc801 unconditional27 after labelpromotion, std-only/pins/guards preserved. Different actualsource/resource revieweraccess_implementer active; source review/currentofficialCI/publication/merge stillpending, no fullhost/UI/authority/runtime claim.",
+        "Component accepted source3748a7f8/importc22676f, DIFFERENT resource/source/config approvalb16144e9/import94252ea; author/root/reviewer101PASS0skip0.68/0.72/0.69s and exact27/44ED/101/74guard. ActualselectedUbuntu42073629046 at28ec ordinary27PASS0.12s+old74PASS1.67s rootreadfull logs. Originalbaseline/header/API/spec/assertions/choices retained. Taskdonepurecomponent only; PR67 draftunmerged pending finalmetadata/currentmain/latestCI/rules/normalmerge. No UI/host clock/authority/transaction/globalmixedreview capability."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "acceptance": "passed",
+        "code_review": "passed",
+        "selected_ci": "passed",
+        "host_integration": "not_run",
+        "platforms": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/core-008-handoff.md",
+        "docs/evidence/core-008-author.md",
+        "docs/evidence/core-008-ci.md",
+        "docs/evidence/core-008-review.md"
+      ],
+      "review": {
+        "author": "access_reviewer",
+        "reviewer": "access_implementer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/core-008-review.md",
+        "revision": "source45e817d55aab8fcba59bb9b04a63b94615f91bd0/configc801; actualb16144e9378c2bc5aa003a55dfd7cd36ea02453c"
+      }
     },
     {
       "id": "EPIC-002",
@@ -14472,6 +14493,16 @@
       "date": "2026-11-05T17:06:09+00:00",
       "task": "SESSION-001",
       "note": "Complete independently reviewed selected crypto primitive component with unchanged37 cases, native41 and observed ordinary Ubuntu37; final task publication/integration gates remain."
+    },
+    {
+      "date": "2026-11-05T17:08:58+00:00",
+      "task": "CORE-008",
+      "note": "Explicitly resume preserved original3f81224 claim with fresh isolated source author after earlier parked interval; no duplicate claim or assumed old agent."
+    },
+    {
+      "date": "2026-11-05T17:23:22+00:00",
+      "task": "CORE-008",
+      "note": "Complete independently reviewed pure editorial projection with unchanged27/44ED, fresh101 and actual ordinary Ubuntu27 acceptance. Final publication/integration gates remain."
     }
   ]
 }
