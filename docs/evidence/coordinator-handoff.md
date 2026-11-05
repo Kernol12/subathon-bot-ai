@@ -48,3 +48,30 @@ different document review before downstream tests/code. No schema/API source or
 runtime release. Claim/progress live on its separate focused branch; reconcile
 from current integrated main before publication, preserving all claims/reviews.
 Root owns all shared records/integration on both task branches. No owner question.
+
+## Actual implementation handoff
+
+Root ACCESS002 now cf7fe53, source b7b81e9327ef8840effecb8319425b1a397bf8af.
+Author891e851/commentfbe integrated399fd58/4765bdc; different actual full source/
+config approval7894cc239e71803bcc9b3f94ae056ae4bdf2aa1a importedfbc3e16,
+[review](access-002-review.md). Author/root/reviewer full67 pass with selected1.83;
+root build18/full67 exit0/0.65s and no skipped cases. Original five contract/API/
+header/test/fixture blobs exactly equal main; first red untouched.
+
+New isolated2-case arithmetic/allocation fault source authored8172564, corrected
+3a3dab40b174065367524144da717c0dd5e45d04, importedcf7fe53. Original assertions
+unchanged. Actual reviewer safety finding (guard owned request before indexing)
+and root arbitrary8192 allocation-count-cap concern are corrected; complete actual
+newtest/harness approval STILL required before any new body. Root build6/discovery69
+and exact old30/new2 guards pass, no feature regression body run. Current shared
+harnessa1cc306 isolates globalnew into regression executable and guards both sets;
+actual reviewed test invocation/official CI/latestheadPR/merge gates pending.
+
+CONTRACT014 authorad5631754c77a3ef56a26b573a94626456e3aa11 integrated66c4547,
+/doc+ownnote only,21 independent literal facts/project/render/whitespace pass.
+selected_boost author completed. Former access_implementer explicitly reassigned
+as DIFFERENT DOCUMENT REVIEWER in /tmp/subathon-contract014-review on
+task/CONTRACT-014-document-review at66c4547; owns only new contract-014-review.md.
+Concrete input capture lookup prerequisite is under review; no approval/runtime
+claim inferred. Root handles any necessary explicit follow-up/task dependencies.
+No owner question or remaining demonstrated access blocker.

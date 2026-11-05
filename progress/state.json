@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T16:19:28+00:00",
+  "updated_at": "2026-11-05T16:35:05+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3763,7 +3763,7 @@
       "title": "Effective permissions and complete-grant constraints",
       "module": "Identity",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "coordinator /root; access_implementer; access_reviewer (independent code review)",
       "depends_on": [
         "CONTRACTPLAN-001",
@@ -3779,11 +3779,29 @@
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
-        "Resumed 2026-11-05 from actual main d2392e2 after confirming PR52/54/56/59/62/63 integrated and no open PRs or running prior agents. Dedicated task/ACCESS-002-effective-permissions. Scope frozen effective-permissions logical/API/header and approved 30-case baseline; preserve original red and all assertions. Author owns core/src/effective_permissions.cpp and own evidence only. Coordinator owns build/CI promotion/state/map/HTML/checkpoint. Acceptance all30 permission cases plus independent environment/old36, allocation/order/source audit, actual different code/config review and latest selected-Boost automatic acceptance. No account/session/catalog/delegation/network/runtime authority capability claimed."
+        "Resumed 2026-11-05 from actual main d2392e2 after confirming PR52/54/56/59/62/63 integrated and no open PRs or running prior agents. Dedicated task/ACCESS-002-effective-permissions. Scope frozen effective-permissions logical/API/header and approved 30-case baseline; preserve original red and all assertions. Author owns core/src/effective_permissions.cpp and own evidence only. Coordinator owns build/CI promotion/state/map/HTML/checkpoint. Acceptance all30 permission cases plus independent environment/old36, allocation/order/source audit, actual different code/config review and latest selected-Boost automatic acceptance. No account/session/catalog/delegation/network/runtime authority capability claimed.",
+        "Actual source891e851/commentfbe integrated399fd58/4765bdc and different fullcode/config approval7894cc239e71803bcc9b3f94ae056ae4bdf2aa1a importedfbc3e16. Author/root/reviewer selected1.83 full67 PASS0skip; original30/header/fixture/contracts unchanged. New2 arithmetic/allocation fault tests authored817+corrections3a3dab4 importedcf7fe53, build/discoveryONLY69/exactguardsPASS; actual differenttest review before firstinvocation and automaticnewacceptance/latestheadpublication remain. No account/session/currentauthorization/transport/platform capability claimed."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "tests": "passed",
+        "implementation": "passed",
+        "independent_review": "passed",
+        "regression_tests": "not_run",
+        "selected_ci": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/access-002-author.md",
+        "docs/evidence/access-002-review.md",
+        "docs/evidence/access-002-ci.md",
+        "docs/evidence/access-002-environment.md"
+      ],
+      "review": {
+        "author": "access_implementer",
+        "reviewer": "access_reviewer",
+        "outcome": "approved",
+        "evidence": "docs/evidence/access-002-review.md",
+        "revision": "source b7b81e9327ef8840effecb8319425b1a397bf8af; root config ed30e98; later additive tests/harness not yet approved"
+      }
     },
     {
       "id": "ACCESSTEST-003",
