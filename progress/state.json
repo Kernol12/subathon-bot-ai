@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T17:03:39+00:00",
+  "updated_at": "2026-11-05T17:06:09+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -4196,8 +4196,8 @@
       "title": "Password hashing and parameter upgrades",
       "module": "Identity",
       "kind": "implementation",
-      "status": "in_progress",
-      "owner": "coordinator /root; password_implementer (explicit reassignment); separate reviewer pending authored source",
+      "status": "done",
+      "owner": "coordinator /root; access_reviewer (password source author); selected_boost (independent source/config reviewer)",
       "depends_on": [
         "CONTRACTPLAN-001",
         "SESSIONTEST-001"
@@ -4212,15 +4212,31 @@
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
         "Claim from actualmain436ed9afb1ac3d3be68f4be8c2b1bdc62557e574 AFTER all original PR62/59/54/56/52 normally merged. Dependency-ready reviewed/red baseline is integrated; originalPRpriority clear. Three real libsodium1.0.22 password entrypoints against frozen approved logical/API/headerec3c5cf8. Strict borrowed PHC/cost preflight, guarded continuously locked/cleared RAII secret ownership, native output validation and two actual source checks for conditional-save proposal. No persistence/session authority or new dependency. Author owns ONLY server/src/password_hashing.cpp and new author evidence in separate worktree. Root owns all shared build/CI/state/map/HTML/spec/checkpoint/PR operations. Reviewed headers/tests/fixtures/observer/assertions remain frozen; any genuine defect needs written specification reason and separate actual review. Relevant acceptance must pass; actual different code/allocation audit + CI promotion/fresh latest checks/normal merge remain. No live or complete product authority claim.",
-        "2026-11-05 reconstruction found preserved pre-existing claimffdef49 on task/SESSION-001-password-hashing and author branch, no source worktree/production diff or running old agent. Reused original branch and claim rather than duplicate; merged current maind239, regenerated only conflicting generatedHTML. Explicitly reassign original bounded source scope to fresh password_implementer; original baseline/red/generator/header/tests/wrappers preserved. Root owns restored selected SDK/build/CI/state/map/HTML/integration. Active CORE008 claim3f81224 separately parked unchanged pending capacity, no prior agent assumed running. ACCESS002 PR64 latesta7c0fd6 ready awaiting final17checks; CONTRACT014 corrected-document review underway separately. No ownerquestion."
+        "2026-11-05 reconstruction found preserved pre-existing claimffdef49 on task/SESSION-001-password-hashing and author branch, no source worktree/production diff or running old agent. Reused original branch and claim rather than duplicate; merged current maind239, regenerated only conflicting generatedHTML. Explicitly reassign original bounded source scope to fresh password_implementer; original baseline/red/generator/header/tests/wrappers preserved. Root owns restored selected SDK/build/CI/state/map/HTML/integration. Active CORE008 claim3f81224 separately parked unchanged pending capacity, no prior agent assumed running. ACCESS002 PR64 latesta7c0fd6 ready awaiting final17checks; CONTRACT014 corrected-document review underway separately. No ownerquestion.",
+        "Bounded component accepted: source6b870c27/import920cfaa, actual different code/config/secret/exception/allocation approval0817f48/import5ff3fa2, author/root/reviewer41 PASS0skip; actualselectedUbuntu42069351732 atf104 ordinary37+realSDK1+old3PASS withfull logs read. Frozen37/fixtures/wrappers/API preserved; headerstatuscommentonly. Current main685/ACCESS002 integrated16444ce. Componentdone, draftPR65 stillunmerged pending actual finalmetadata/currentheadCI/rules/discussions/normalmerge. No account/login/store authority/platform/hardwarecost claim."
       ],
       "verification": {
-        "implementation": "not_run"
+        "acceptance": "passed",
+        "code_review": "passed",
+        "selected_ci": "passed",
+        "account_integration": "not_run",
+        "benchmark": "not_run",
+        "platforms": "not_run"
       },
       "evidence": [
-        "docs/evidence/session-001-claim.md"
+        "docs/evidence/session-001-handoff.md",
+        "docs/evidence/session-001-author.md",
+        "docs/evidence/session-001-review.md",
+        "docs/evidence/session-001-environment.md",
+        "docs/evidence/session-001-ci.md"
       ],
-      "review": null
+      "review": {
+        "author": "access_reviewer",
+        "reviewer": "selected_boost",
+        "outcome": "approved",
+        "evidence": "docs/evidence/session-001-review.md",
+        "revision": "actual sourcee56442511cf51ec4329f7d4a3cf94a3a093f1bb6/root config faef49f/comment-only header0a167d5; approval0817f48"
+      }
     },
     {
       "id": "SESSIONTEST-002",
@@ -14352,6 +14368,11 @@
       "date": "2026-11-05T16:44:46+00:00",
       "task": "SESSION-001",
       "note": "Resume preserved original claimffdef49 with refreshed main and explicit fresh author reassignment; no duplicate claim or previous agent assumed running."
+    },
+    {
+      "date": "2026-11-05T17:06:09+00:00",
+      "task": "SESSION-001",
+      "note": "Complete independently reviewed selected crypto primitive component with unchanged37 cases, native41 and observed ordinary Ubuntu37; final task publication/integration gates remain."
     }
   ]
 }
