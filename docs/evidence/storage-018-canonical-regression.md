@@ -233,3 +233,58 @@ reconstruction PASS, static37-method inventory PASS. No new test function, SQL
 setup or feature entrypoint was invoked by this author. Different actual program/
 harness review precedes root's NEW targeted behavior red pinned to the actual
 held source revision; only that evidence can authorize the bounded source fix.
+
+## Intrinsic activity origins and complete original-support key compatibility
+
+Different source auditor/root confirmed another unindexed classification defect.
+Before authoring, this author read actual `contribution_evidence.hpp`, old
+sqlite-contributions-v1 Identity/association and input validation sections, and
+old `sqlite_contributions.cpp` validate_observation/contribution/read_observation/
+compatible/anchor logic. These require BOTH actual receipt-origin equality and
+full linked original-support key compatibility, not only nonempty grouped fields.
+Support0 retains support conditions; evidence not_applicable3 is valid for support.
+Only confirmation requires confirmed evidence. No evidence promotion is invented.
+
+An initial four-row proposal with separate one-sided healthy tuples would have
+violated the old linked-anchor requirement: a healthy keyed original support must
+match the contribution's present activity key, while unkeyed support only anchors
+an unkeyed contribution. Author flagged this before any code or execution. Root
+and different auditor explicitly refined to the following COMPACT FOUR rows,
+which independently distinguish actual-origin checks and complete-key equality:
+
+| Row | Contribution key | Original support verified key + proofK | Required result |
+| --- | --- | --- | --- |
+| healthy | (synthetic.reference.v1,A,L,Z) | same exact tuple | healthy source_mismatch, active caller until host rollback |
+| both matching wrong origin | (wrong.provider,A,L,Z) | same exact tuple | invalid_stored_data, actual whole cleanup |
+| support-only wrong origin | (synthetic.reference.v1,A,L,Z) | (wrong.provider,A,L,Z) | invalid_stored_data, actual whole cleanup |
+| same origin/different activity ID | (synthetic.reference.v1,A,L,Z) | (synthetic.reference.v1,A,L,Y) | invalid_stored_data, actual whole cleanup |
+
+Method `unindexedActivityOriginsValidateAgainstActualReceipts` uses unchanged OLD
+A receipt/support and commits plan/SRX WITHOUT an index. Both optional tuple groups
+and support proof are complete nonempty BLOBs. Its raw setup query verifies the
+ACTUAL contribution original_receipt_id7 and observation receipt_id7, both actual
+receipt origins synthetic.reference.v1/A, support kind0 and evidence3. No proposed
+candidate origin substitutes for those real selected targets. Other captured
+conditions, facts, configuration/arrival, request, IDs and metadata remain exact.
+These opaque fixture keys/proof are synthetic DATA, never real provider evidence.
+
+The healthy row is a valid generic keyed contribution plus compatible support,
+but the narrow reference profile requires absent activity; return source_mismatch
+without own cleanup, prove session marker1/outside0, then host rollback. Matching
+wrong-origin keys isolate the real origin invariant without an anchor-key mismatch.
+The last row isolates full key equality despite both origins being correct.
+Malformed rows check exact invalid_stored_data/fixed message and actual independent
+BEGIN/marker absence INSIDE catch before observing rolled-back completion. No index
+is inserted and the earlier committed plan/SRX remain in every row.
+
+Old contracts' actual-target and anchor requirements are the oracles, not production
+outcomes. These specific A cases do not replace source audit of every different
+original/observation receipt or proposed-candidate combination.
+
+Only this method/_data and this note are added. Removing the new block reconstructs
+actuald75738b test CPP byte-for-byte: all37 prior methods/63scenarios preserved.
+Diff98 additions/0deletions; inventory38methods/67scenarios. Formatting, exact prior
+source reconstruction, inventory and diff checks PASS. No native setup, test body,
+source fix, shared file or fixture modification occurred. Actual different program/
+harness review and root-observed behavior red must precede origin/anchor source
+corrections; the independently tracked metadata/resource gates remain separate.

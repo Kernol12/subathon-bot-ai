@@ -786,6 +786,104 @@ class SqliteReferenceCaptureTest : public QObject {
                     "Corruption refusal preserves previously committed first index");
         });
     }
+    void unindexedActivityOriginsValidateAgainstActualReceipts_data() {
+        QTest::addColumn<int>("change");
+        QTest::newRow("matching-keys-actual-origin-healthy-mismatch") << 0;
+        QTest::newRow("matching-keys-wrong-actual-receipt-origin") << 1;
+        QTest::newRow("support-only-wrong-origin") << 2;
+        QTest::newRow("same-origin-incompatible-activity-id") << 3;
+    }
+    void unindexedActivityOriginsValidateAgainstActualReceipts() {
+        scenario([&] {
+            QFETCH(int, change);
+            run(*writer_, [&](auto c) {
+                const auto s = c.begin();
+                data_->stage_capture(s, "A");
+                const QByteArray actualProvider("synthetic.reference.v1"),
+                    wrongProvider("wrong.provider");
+                // Complete groups on BOTH sides preserve generic original-support
+                // anchor compatibility in the healthy row. No evidence promotion.
+                (void)s.execute(
+                    {"UPDATE main.subathon_contributions SET activity_provider=?,"
+                     "activity_source_account=X'41',activity_namespace=X'4c',activity_id=X'5a' "
+                     "WHERE contribution_id=X'0000000000000000'",
+                     {change == 1 ? wrongProvider : actualProvider}});
+                (void)s.execute(
+                    {"UPDATE main.subathon_contribution_observations SET activity_provider=?,"
+                     "activity_source_account=X'41',activity_namespace=X'4c',activity_id=?,"
+                     "verification_ref=X'4b' WHERE receipt_id=X'0000000000000007'",
+                     {change == 1 || change == 2 ? wrongProvider : actualProvider,
+                      QByteArray(change == 3 ? "Y" : "Z")}});
+                // Verify the ACTUAL original and observation receipts, not a
+                // proposed candidate origin, while preserving support0/NA3.
+                const auto original = s.execute(
+                    {"SELECT c.original_receipt_id,o.receipt_id,o.kind,o.evidence,"
+                     "r.provider,r.source_account,v.provider,v.source_account "
+                     "FROM main.subathon_contributions AS c "
+                     "JOIN main.subathon_contribution_observations AS o ON "
+                     "o.contribution_id=c.contribution_id "
+                     "JOIN main.subathon_receipts AS r ON r.receipt_id=c.original_receipt_id "
+                     "JOIN main.subathon_receipts AS v ON v.receipt_id=o.receipt_id "
+                     "WHERE c.contribution_id=X'0000000000000000' AND "
+                     "o.receipt_id=X'0000000000000007'",
+                     {}});
+                require(
+                    original.size() == 1 && original[0].size() == 8 &&
+                        original[0][0].toByteArray() == QByteArray::fromHex("0000000000000007") &&
+                        original[0][1].toByteArray() == QByteArray::fromHex("0000000000000007") &&
+                        original[0][2].toLongLong() == 0 && original[0][3].toLongLong() == 3 &&
+                        original[0][4].toByteArray() == actualProvider &&
+                        original[0][5].toByteArray() == QByteArray("A") &&
+                        original[0][6].toByteArray() == actualProvider &&
+                        original[0][7].toByteArray() == QByteArray("A"),
+                    "OLD setup keeps both actual receipt origins and the complete support "
+                    "role/evidence unchanged");
+                s.commit();
+                return QVariant(1);
+            });
+            require(count("subathon_reference_initial_captures") == 0,
+                    "Activity validation uses an unindexed selected closure");
+            const auto result = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                if (change == 0) {
+                    require(SqliteReferenceCaptureStore(s).retain_initial(record()) ==
+                                Disposition::source_mismatch,
+                            "Healthy generic matching actual-origin activity is unsupported by "
+                            "reference profile");
+                    const auto rows =
+                        s.execute({"SELECT count(*) FROM main.fixture_capture_markers", {}});
+                    require(rows.size() == 1 && rows[0].size() == 1 && rows[0][0].toLongLong() == 1,
+                            "Healthy activity mismatch preserves active caller marker");
+                    require(count("fixture_capture_markers") == 0,
+                            "Healthy mismatch leaves caller marker provisional");
+                    s.rollback();
+                    no_lock_or_marker();
+                } else {
+                    bool caught = false;
+                    try {
+                        (void)SqliteReferenceCaptureStore(s).retain_initial(record());
+                    } catch (const ReferenceCaptureStorageFailure &error) {
+                        require(error.reason() == Reason::invalid_stored_data &&
+                                    std::string(error.what()) ==
+                                        "Reference initial capture did not commit",
+                                "Actual-receipt origin or full anchor-key inconsistency is "
+                                "intrinsic selected corruption");
+                        no_lock_or_marker();
+                        caught = true;
+                    }
+                    require(caught, "Malformed intrinsic activity binding must fail after whole "
+                                    "cleanup before profile comparison");
+                }
+                return QVariant(1);
+            });
+            rolled_back(result);
+            require(count("subathon_reference_initial_captures") == 0 &&
+                        count("subathon_plan_headers") == 1 &&
+                        count("subathon_retained_contexts", "reference=X'59'") == 1,
+                    "No first binding inserted and earlier committed selected plan/SRX remain");
+        });
+    }
     void selectedCorruptionRollsBackWholeUnit_data() {
         QTest::addColumn<QString>("sql");
         QTest::newRow("SRC1") << "UPDATE main.subathon_retained_configurations SET document=X'00' "
