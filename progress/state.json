@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T16:35:05+00:00",
+  "updated_at": "2026-11-05T16:36:16+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3780,13 +3780,14 @@
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
         "Resumed 2026-11-05 from actual main d2392e2 after confirming PR52/54/56/59/62/63 integrated and no open PRs or running prior agents. Dedicated task/ACCESS-002-effective-permissions. Scope frozen effective-permissions logical/API/header and approved 30-case baseline; preserve original red and all assertions. Author owns core/src/effective_permissions.cpp and own evidence only. Coordinator owns build/CI promotion/state/map/HTML/checkpoint. Acceptance all30 permission cases plus independent environment/old36, allocation/order/source audit, actual different code/config review and latest selected-Boost automatic acceptance. No account/session/catalog/delegation/network/runtime authority capability claimed.",
-        "Actual source891e851/commentfbe integrated399fd58/4765bdc and different fullcode/config approval7894cc239e71803bcc9b3f94ae056ae4bdf2aa1a importedfbc3e16. Author/root/reviewer selected1.83 full67 PASS0skip; original30/header/fixture/contracts unchanged. New2 arithmetic/allocation fault tests authored817+corrections3a3dab4 importedcf7fe53, build/discoveryONLY69/exactguardsPASS; actual differenttest review before firstinvocation and automaticnewacceptance/latestheadpublication remain. No account/session/currentauthorization/transport/platform capability claimed."
+        "Actual source891e851/commentfbe integrated399fd58/4765bdc and different fullcode/config approval7894cc239e71803bcc9b3f94ae056ae4bdf2aa1a importedfbc3e16. Author/root/reviewer selected1.83 full67 PASS0skip; original30/header/fixture/contracts unchanged. New2 arithmetic/allocation fault tests authored817+corrections3a3dab4 importedcf7fe53, build/discoveryONLY69/exactguardsPASS; actual differenttest review before firstinvocation and automaticnewacceptance/latestheadpublication remain. No account/session/currentauthorization/transport/platform capability claimed.",
+        "Actual separate pre-invocation new2test/harness approval b2ab5c8 importedb4a82b7; then ROOT FIRST full69/69 PASS0skip/directexit0/0.67s with JUnit retained. Full ordinary selected Ubuntu CI/publication remains pending; no new regression-red or runtime session/authority claim."
       ],
       "verification": {
         "tests": "passed",
         "implementation": "passed",
         "independent_review": "passed",
-        "regression_tests": "not_run",
+        "regression_tests": "passed",
         "selected_ci": "not_run"
       },
       "evidence": [

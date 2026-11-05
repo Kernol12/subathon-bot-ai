@@ -33,3 +33,13 @@ Host GNU16.2.1/CMake4.4.5/Python3.14.9. Selected1.83 host SDK restoration is sep
 because the prior disposable SDK is absent and installed Boost is1.92. Frozen
 static_assert108300 is preserved. Native acceptance and official CI will be
 recorded in the implementation handoff after actual execution.
+
+Additive harness a1cc306 is separately approved before first invocation in the
+[actual review](access-002-review.md). It adds one isolated executable containing
+exactly2 independently reviewed arithmetic/allocation tests. The allocator hook
+is not linked to the original30, environment, numeric or product binaries. CI adds
+an exact two-name/enabled/label/timeout/result-property guard alongside the unchanged
+original30 guard. All32 carry the ordinary effective-permissions label and execute
+unconditionally. Root executed the actual workflow discovery guards locally: PASS
+30+2,69 total. Root full69 passes after actual review, recorded in the environment
+receipt; selected automatic Ubuntu execution still must be observed after publication.

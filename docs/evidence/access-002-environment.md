@@ -32,3 +32,14 @@ Subsequent4765bdc changes source comments only, not executable behavior. Separat
 reviewer selected build, additive regression tests and official selected Ubuntu CI
 remain their actual gates, not established by this local receipt. No server/session/
 current authority/provider/platform/physical allocator-fault/hardware cost claim.
+
+After actual different new-test/harness approval b2ab5c8 importedb4a82b7, ROOT FIRST
+invocation of the2 additive regressions was part of plain full-preset CTest at
+b4a82b7: direct exit0,69/69 pass,0 skipped,0.67s. Exact command:
+`ctest --preset effective-permissions-debug --output-on-failure --no-tests=error --output-junit /tmp/access002-native-69.xml`.
+This includes original30 +2 new regressions,33 old numeric,3 infrastructure and
+one independent21-fact SDK environment. Original source/test/fixture/contracts
+remain frozen. The new allocation test simulates actual per-allocation failures
+and verifies typed translation plus preflight-before-allocation; it does not prove
+hardware OOM survival. Local JUnit retained; no regression-red claim is invented
+for these added tests of behavior whose original reviewed/red gate already passed.
