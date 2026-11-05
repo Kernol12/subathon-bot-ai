@@ -1,0 +1,106 @@
+UpdateCTestConfiguration  from :/tmp/subathon-storage019/DartConfiguration.tcl
+Test project /tmp/subathon-storage019/build/sqlite-reference-capture-debug
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 62
+    Start 62: reference-capture-values.unsupportedFormatPrecedesDocumentSemantics
+
+62: Test command: /tmp/subathon-storage019/build/sqlite-reference-capture-debug/tests/qt/server_reference_capture_values_acceptance "unsupportedFormatPrecedesDocumentSemantics"
+62: Working Directory: /tmp/subathon-storage019/build/sqlite-reference-capture-debug/tests/qt
+62: Test timeout computed to be: 30
+62: ********* Start testing of ReferenceCaptureValuesTest *********
+62: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+62: PASS   : ReferenceCaptureValuesTest::initTestCase()
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(configuration-empty-format) Compared values are not the same
+62:    Actual   (e.code()): 3
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(arrival-empty-format) Compared values are not the same
+62:    Actual   (e.code()): 3
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(execution-empty-format) Compared values are not the same
+62:    Actual   (e.code()): 3
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(initial-empty-format) Compared values are not the same
+62:    Actual   (e.code()): 3
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(configuration-unknown-format-null) Compared values are not the same
+62:    Actual   (e.code()): 4
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(arrival-unknown-format-null) Compared values are not the same
+62:    Actual   (e.code()): 4
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(execution-unknown-format-null) Compared values are not the same
+62:    Actual   (e.code()): 4
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(initial-unknown-format-null) Compared values are not the same
+62:    Actual   (e.code()): 4
+62:    Expected (expected): 7
+62:    Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+62: PASS   : ReferenceCaptureValuesTest::cleanupTestCase()
+62: Totals: 2 passed, 8 failed, 0 skipped, 0 blacklisted, 0ms
+62: ********* Finished testing of ReferenceCaptureValuesTest *********
+1/1 Test #62: reference-capture-values.unsupportedFormatPrecedesDocumentSemantics ...***Failed    0.00 sec
+********* Start testing of ReferenceCaptureValuesTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : ReferenceCaptureValuesTest::initTestCase()
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(configuration-empty-format) Compared values are not the same
+   Actual   (e.code()): 3
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(arrival-empty-format) Compared values are not the same
+   Actual   (e.code()): 3
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(execution-empty-format) Compared values are not the same
+   Actual   (e.code()): 3
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(initial-empty-format) Compared values are not the same
+   Actual   (e.code()): 3
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(configuration-unknown-format-null) Compared values are not the same
+   Actual   (e.code()): 4
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(arrival-unknown-format-null) Compared values are not the same
+   Actual   (e.code()): 4
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(execution-unknown-format-null) Compared values are not the same
+   Actual   (e.code()): 4
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+FAIL!  : ReferenceCaptureValuesTest::unsupportedFormatPrecedesDocumentSemantics(initial-unknown-format-null) Compared values are not the same
+   Actual   (e.code()): 4
+   Expected (expected): 7
+   Loc: [/tmp/subathon-storage019/tests/qt/reference_capture_values_qt.cpp(95)]
+PASS   : ReferenceCaptureValuesTest::cleanupTestCase()
+Totals: 2 passed, 8 failed, 0 skipped, 0 blacklisted, 0ms
+********* Finished testing of ReferenceCaptureValuesTest *********
+
+
+0% tests passed, 1 tests failed out of 1
+
+Label Time Summary:
+acceptance                  =   0.00 sec*proc (1 test)
+qt                          =   0.00 sec*proc (1 test)
+reference-capture-values    =   0.00 sec*proc (1 test)
+server                      =   0.00 sec*proc (1 test)
+
+Total Test time (real) =   0.01 sec
+
+The following tests FAILED:
+	 62 - reference-capture-values.unsupportedFormatPrecedesDocumentSemantics (Failed) acceptance qt reference-capture-values server
+Errors while running CTest

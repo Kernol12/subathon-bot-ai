@@ -34,3 +34,9 @@ review and observe ordinary selected Qt CI. No skipped/inverted known-red suite.
 Record exact revisions/commands/results/environment and CI coverage/gaps. API011
 baseline AND implementation depend on the accepted producer, not just this plan.
 All provider/recovery/full release requirements stay under existing owner tasks.
+
+The integrated STORAGETEST-018 baseline covers both codecs and SQL. As permitted
+by the concrete supplier contract, STORAGE-019 implements the bounded shared
+structural codecs first; STORAGE-018 depends on that integrated implementation
+and retains every SQL/index/closure requirement and reviewed assertion. Do not
+replay the original observed-red gates or use a codec pass as SQL acceptance.
