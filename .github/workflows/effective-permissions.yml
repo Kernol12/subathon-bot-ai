@@ -69,7 +69,27 @@ jobs:
                   raise SystemExit("Permission case has unexpected suite labels")
               if props.get("TIMEOUT") != 10:
                   raise SystemExit("Permission case has an unexpected timeout")
-          print(f"Compiled and discovered {len(found)} enabled permission cases")
+          regression_names = {
+              "effective-permissions-regression.EffectivePermissionRegression.UnequalLongRatiosAndCancellationStayExact",
+              "effective-permissions-regression.EffectivePermissionRegression.AllocationFailuresTranslateAndPreflightStaysAllocationFree",
+          }
+          regressions = [case for case in discovery["tests"]
+                         if case["name"].startswith("effective-permissions-regression.")]
+          if len(regressions) != 2 or {case["name"] for case in regressions} != regression_names:
+              raise SystemExit("Permission regression discovery differs from reviewed cases")
+          for case in regressions:
+              props = {item["name"]: item["value"] for item in case["properties"]}
+              if any(props.get(key, False) for key in ("DISABLED", "WILL_FAIL")):
+                  raise SystemExit("Permission regression is disabled or failure-inverted")
+              if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
+                  raise SystemExit("Permission regression has a custom skip expression")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit("Permission regression rewrites results")
+              if set(props.get("LABELS", [])) != {"effective-permissions", "acceptance", "core", "regression"}:
+                  raise SystemExit("Permission regression labels differ")
+              if props.get("TIMEOUT") != 10:
+                  raise SystemExit("Permission regression timeout differs")
+          print(f"Compiled and discovered {len(found)} original permission cases and 2 regressions")
           PYTHON
       - name: Verify mandatory green environment discovery
         run: |
