@@ -14,3 +14,8 @@ prerequisites and precise helper dependencies; actual review status is in the re
 [ADR-0005](0005-scene-contract-prerequisites.md) proposes focused scene-model,
 binding/timeline, asset/package and complete-schema prerequisites; actual independent
 planning review remains required.
+
+
+[ADR-0006](0006-reference-path-prerequisites.md) records the §17 reference-path
+proposal, exact replacement guarantees and preserved complete release scope.
+Consult its task/evidence for actual independent review status.

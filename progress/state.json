@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-04",
+  "updated_at": "2026-11-05T16:44:46+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -485,7 +485,8 @@
         "CONTRACT-005",
         "CONTRACT-006",
         "CONTRACT-007",
-        "CONTRACT-008"
+        "CONTRACT-008",
+        "CONTRACT-013"
       ],
       "spec_refs": [
         "API-01",
@@ -709,7 +710,8 @@
       "depends_on": [
         "CONTRACT-005",
         "CONTRACT-008",
-        "CONTRACTPLAN-001"
+        "CONTRACTPLAN-001",
+        "CONTRACT-013"
       ],
       "spec_refs": [
         "API-01",
@@ -2476,7 +2478,9 @@
         "RULESTEST-004",
         "RULES-004",
         "RULESTEST-005",
-        "RULES-005"
+        "RULES-005",
+        "RULESTEST-006",
+        "RULES-006"
       ],
       "spec_refs": [
         "§6"
@@ -4170,7 +4174,7 @@
       "module": "Identity",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "coordinator /root; codec_author production author; different code reviewer pending",
+      "owner": "coordinator /root; password_implementer (explicit reassignment); separate reviewer pending authored source",
       "depends_on": [
         "CONTRACTPLAN-001",
         "SESSIONTEST-001"
@@ -4184,7 +4188,8 @@
       "notes": [
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
-        "Claim from actualmain436ed9afb1ac3d3be68f4be8c2b1bdc62557e574 AFTER all original PR62/59/54/56/52 normally merged. Dependency-ready reviewed/red baseline is integrated; originalPRpriority clear. Three real libsodium1.0.22 password entrypoints against frozen approved logical/API/headerec3c5cf8. Strict borrowed PHC/cost preflight, guarded continuously locked/cleared RAII secret ownership, native output validation and two actual source checks for conditional-save proposal. No persistence/session authority or new dependency. Author owns ONLY server/src/password_hashing.cpp and new author evidence in separate worktree. Root owns all shared build/CI/state/map/HTML/spec/checkpoint/PR operations. Reviewed headers/tests/fixtures/observer/assertions remain frozen; any genuine defect needs written specification reason and separate actual review. Relevant acceptance must pass; actual different code/allocation audit + CI promotion/fresh latest checks/normal merge remain. No live or complete product authority claim."
+        "Claim from actualmain436ed9afb1ac3d3be68f4be8c2b1bdc62557e574 AFTER all original PR62/59/54/56/52 normally merged. Dependency-ready reviewed/red baseline is integrated; originalPRpriority clear. Three real libsodium1.0.22 password entrypoints against frozen approved logical/API/headerec3c5cf8. Strict borrowed PHC/cost preflight, guarded continuously locked/cleared RAII secret ownership, native output validation and two actual source checks for conditional-save proposal. No persistence/session authority or new dependency. Author owns ONLY server/src/password_hashing.cpp and new author evidence in separate worktree. Root owns all shared build/CI/state/map/HTML/spec/checkpoint/PR operations. Reviewed headers/tests/fixtures/observer/assertions remain frozen; any genuine defect needs written specification reason and separate actual review. Relevant acceptance must pass; actual different code/allocation audit + CI promotion/fresh latest checks/normal merge remain. No live or complete product authority claim.",
+        "2026-11-05 reconstruction found preserved pre-existing claimffdef49 on task/SESSION-001-password-hashing and author branch, no source worktree/production diff or running old agent. Reused original branch and claim rather than duplicate; merged current maind239, regenerated only conflicting generatedHTML. Explicitly reassign original bounded source scope to fresh password_implementer; original baseline/red/generator/header/tests/wrappers preserved. Root owns restored selected SDK/build/CI/state/map/HTML/integration. Active CORE008 claim3f81224 separately parked unchanged pending capacity, no prior agent assumed running. ACCESS002 PR64 latesta7c0fd6 ready awaiting final17checks; CONTRACT014 corrected-document review underway separately. No ownerquestion."
       ],
       "verification": {
         "implementation": "not_run"
@@ -4519,7 +4524,13 @@
         "APITEST-008",
         "API-008",
         "APITEST-009",
-        "API-009"
+        "API-009",
+        "CONTRACT-013",
+        "CONTRACT-014",
+        "APITEST-010",
+        "API-010",
+        "APITEST-011",
+        "API-011"
       ],
       "spec_refs": [
         "§2",
@@ -4910,21 +4921,36 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "API-003",
-        "API-005",
+        "CONTRACTPLAN-003",
+        "CONTRACT-013",
+        "CONTRACT-014",
+        "API-010",
+        "API-011",
         "ACCT-004",
-        "RULES-003",
+        "RULES-006",
         "CORE-002",
-        "STORAGE-003"
+        "CORE-005",
+        "STORAGE-002"
       ],
       "spec_refs": [
+        "§17",
+        "§18",
         "§2",
-        "§3"
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-008/API-008.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-008.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0006 replaces API003 persistent WS/API005 full connector lifecycle/RULES003 complete planner/STORAGE003 periodic recovery with CONTRACT013+API010 bounded real HTTP, CONTRACT014+RULES006+API011 synthetic intake/evaluation/current adapters and operation-time atomic state. Retain ACCT004/CORE002; add explicit CORE005/STORAGE002 and planning review gates. API009 retains all four deferred original prerequisites. Not ready until every replacement guarantee has actual independently reviewed acceptance; no test or runtime capability is claimed.",
+        "Discovered blockers at fetched main436ed9a: production bridge001, session001–003, effective access002/delegated automation003, reference wire/schema, rule evaluation and actual current policy/clock/actions are unimplemented. Existing application-service component tests supply fake ports. No internal projection/green storage suite alone finishes API008 or establishes its missing-feature red."
       ],
       "verification": {},
       "evidence": [],
@@ -4938,22 +4964,37 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
-        "API-003",
-        "API-005",
+        "CONTRACTPLAN-003",
+        "CONTRACT-013",
+        "CONTRACT-014",
+        "API-010",
+        "API-011",
         "ACCT-004",
-        "RULES-003",
+        "RULES-006",
         "CORE-002",
-        "STORAGE-003",
+        "CORE-005",
+        "STORAGE-002",
         "APITEST-008"
       ],
       "spec_refs": [
+        "§17",
+        "§18",
         "§2",
-        "§3"
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-008/API-008.md",
       "summary": "Run a synthetic eligible event through durable receipt, reviewed rule plan, actual capped timer effect and API snapshot.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0006 replaces API003 persistent WS/API005 full connector lifecycle/RULES003 complete planner/STORAGE003 periodic recovery with CONTRACT013+API010 bounded real HTTP, CONTRACT014+RULES006+API011 synthetic intake/evaluation/current adapters and operation-time atomic state. Retain ACCT004/CORE002; add explicit CORE005/STORAGE002 and planning review gates. API009 retains all four deferred original prerequisites. Not ready until every replacement guarantee has actual independently reviewed acceptance; no test or runtime capability is claimed.",
+        "Discovered blockers at fetched main436ed9a: production bridge001, session001–003, effective access002/delegated automation003, reference wire/schema, rule evaluation and actual current policy/clock/actions are unimplemented. Existing application-service component tests supply fake ports. No internal projection/green storage suite alone finishes API008 or establishes its missing-feature red."
       ],
       "verification": {},
       "evidence": [],
@@ -4974,7 +5015,11 @@
         "MILESTONE-008",
         "ACCT-007",
         "CORE-007",
-        "CORE-008"
+        "CORE-008",
+        "API-003",
+        "API-005",
+        "RULES-003",
+        "STORAGE-003"
       ],
       "spec_refs": [
         "§2",
@@ -4987,7 +5032,8 @@
       "brief": "docs/tasks/EPIC-008/API-009.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-009.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0006 explicitly preserves all four broad prerequisites moved off the early API008 path. Full WS/connector lifecycle/planning/periodic checkpoint+restart recovery remain required, as do existing modifier/milestone/reversal and release gates."
       ],
       "verification": {},
       "evidence": [],
@@ -5009,7 +5055,11 @@
         "ACCT-007",
         "CORE-007",
         "CORE-008",
-        "APITEST-009"
+        "APITEST-009",
+        "API-003",
+        "API-005",
+        "RULES-003",
+        "STORAGE-003"
       ],
       "spec_refs": [
         "§2",
@@ -5022,7 +5072,8 @@
       "brief": "docs/tasks/EPIC-008/API-009.md",
       "summary": "Wire captured-context plans, independent eligibility holds, current cap/debt, actual effects and sequential jobs through one transaction path.",
       "notes": [
-        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-008. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0006 explicitly preserves all four broad prerequisites moved off the early API008 path. Full WS/connector lifecycle/planning/periodic checkpoint+restart recovery remain required, as do existing modifier/milestone/reversal and release gates."
       ],
       "verification": {},
       "evidence": [],
@@ -12840,6 +12891,347 @@
       "verification": {},
       "evidence": [],
       "review": null
+    },
+    {
+      "id": "CONTRACTPLAN-003",
+      "title": "Realign the early end-to-end reference path",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "done",
+      "owner": "/root (author/integrator); /root/reference_review (independent actual review)",
+      "depends_on": [
+        "CONTRACT-005",
+        "CONTRACTPLAN-002",
+        "ACCT-004"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/CONTRACTPLAN-003.md",
+      "summary": "Replace broad API-008 prerequisites with reviewed bounded HTTP, rule and operation-time persistence guarantees; retain full release gates.",
+      "notes": [
+        "Claimed task/CONTRACTPLAN-003-reference-path from fetched origin/main436ed9a on 2026-11-05 in isolated worktree. Own ADR0006, reference profile proposal, task briefs/navigation, state/HTML and planning evidence. Documentation/dependency changes only; no source, test, schema, migration, build or CI edits. Different actual review of planning AND profile before dependent behavior. Existing checkout and CONTRACT011 worktree preserved.",
+        "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation→baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
+      ],
+      "verification": {
+        "planning_review": "passed",
+        "logical_contract_review": "passed",
+        "consistency": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "selected_ci": "not_run"
+      },
+      "evidence": [
+        "docs/decisions/0006-reference-path-prerequisites.md",
+        "docs/contracts/reference-path-v1.md",
+        "docs/evidence/contractplan-003-author.md",
+        "docs/evidence/contractplan-003-review.md",
+        "docs/evidence/contractplan-003-handoff.md"
+      ],
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reference_review",
+        "outcome": "approved",
+        "revision": "Actual2c00a1d planning/profile/state candidate, independent approval544c6b9",
+        "evidence": "docs/evidence/contractplan-003-review.md"
+      }
+    },
+    {
+      "id": "CONTRACT-013",
+      "title": "Bounded reference HTTP contract and schema",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-003",
+        "CONTRACT-005"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/CONTRACT-013.md",
+      "summary": "Finalize independently reviewed reference.v1 negotiation and authorized committed timer snapshot with complete OpenAPI 3.1 package, finite limits and no scene imports.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACT-014",
+      "title": "Single-rule reference path and adapter contract",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-003",
+        "CONTRACT-002",
+        "ACCT-004",
+        "CORE-001",
+        "CORE-002",
+        "CORE-005"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/CONTRACT-014.md",
+      "summary": "Finalize immutable synthetic trigger/time rule, delegated authority, normalized receipt linkage and actual current application adapters; no absent-policy success.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "RULESTEST-006",
+      "title": "Review and demonstrate red: Single-rule reference evaluator",
+      "module": "Automation",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-014",
+        "CORE-001",
+        "ACCESS-003"
+      ],
+      "spec_refs": [
+        "§17",
+        "§6",
+        "§10",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-003/RULES-006.md",
+      "summary": "Independently test captured immutable rule evaluation and complete requested-action authority before the bounded evaluator implementation.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "RULES-006",
+      "title": "Single-rule reference evaluator",
+      "module": "Automation",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-014",
+        "CORE-001",
+        "ACCESS-003",
+        "RULESTEST-006"
+      ],
+      "spec_refs": [
+        "§17",
+        "§6",
+        "§10",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-003/RULES-006.md",
+      "summary": "Evaluate one enabled versioned synthetic trigger into one exact nonnegative time request and captured provenance, refusing unsupported configurations.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "APITEST-010",
+      "title": "Review and demonstrate red: Reference HTTP snapshot",
+      "module": "Server/API",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-013",
+        "API-001",
+        "SESSION-003",
+        "ACCESS-002",
+        "STORAGE-002"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-010.md",
+      "summary": "Review real HTTP negotiation/current authorized committed-state snapshot tests, then observe intended red without claiming complete HTTP/WS support.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "API-010",
+      "title": "Reference HTTP negotiation and committed snapshot",
+      "module": "Server/API",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-013",
+        "API-001",
+        "SESSION-003",
+        "ACCESS-002",
+        "STORAGE-002",
+        "APITEST-010"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-010.md",
+      "summary": "Serve only the reference profile over real HTTP via the authoritative Qt queue with current authenticated snapshot access and committed-state projection.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "APITEST-011",
+      "title": "Review and demonstrate red: Reference intake and application adapters",
+      "module": "Server/API",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-014",
+        "ACCT-001",
+        "ACCT-002",
+        "ACCT-003",
+        "ACCT-004",
+        "STORAGE-013",
+        "STORAGE-014",
+        "STORAGE-015",
+        "STORAGE-002",
+        "RULES-006",
+        "CORE-002",
+        "CORE-005",
+        "ACCESS-003"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-011.md",
+      "summary": "Review real-SQL synthetic intake/immutable rule capture/current policy-clock-action binding/atomic timer state tests before adapter implementation.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "API-011",
+      "title": "Reference intake and current application adapters",
+      "module": "Server/API",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-014",
+        "ACCT-001",
+        "ACCT-002",
+        "ACCT-003",
+        "ACCT-004",
+        "STORAGE-013",
+        "STORAGE-014",
+        "STORAGE-015",
+        "STORAGE-002",
+        "RULES-006",
+        "CORE-002",
+        "CORE-005",
+        "ACCESS-003",
+        "APITEST-011"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
+        "API-01",
+        "API-02",
+        "API-03",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-011.md",
+      "summary": "Supply actual normalized synthetic intake and reference-only policy/clock/action/reference producers; commit state with every application through the existing writer/service.",
+      "notes": [
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
     }
   ],
   "activity": [
@@ -13912,6 +14304,21 @@
       "date": "2026-11-04",
       "task": "CORETEST-008",
       "note": "Complete independentlyreviewed27-group/44ED editorial baseline with FIRSTnative directCTest8/27fail0skip/165primarymarkers+1safeconsequence. CurrentCIold74green. Finalcurrentmain/metadata/latestCI/normalPR52merge remains; CORE008unimplemented."
+    },
+    {
+      "date": "2026-11-05",
+      "task": "CONTRACTPLAN-003",
+      "note": "Claimed task/CONTRACTPLAN-003-reference-path from fetched origin/main436ed9a on 2026-11-05 in isolated worktree. Own ADR0006, reference profile proposal, task briefs/navigation, state/HTML and planning evidence. Documentation/dependency changes only; no source, test, schema, migration, build or CI edits. Different actual review of planning AND profile before dependent behavior. Existing checkout and CONTRACT011 worktree preserved."
+    },
+    {
+      "date": "2026-11-05",
+      "task": "CONTRACTPLAN-003",
+      "note": "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation→baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
+    },
+    {
+      "date": "2026-11-05T16:44:46+00:00",
+      "task": "SESSION-001",
+      "note": "Resume preserved original claimffdef49 with refreshed main and explicit fresh author reassignment; no duplicate claim or previous agent assumed running."
     }
   ]
 }

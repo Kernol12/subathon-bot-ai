@@ -44,3 +44,33 @@ Originalprimary checkoutclean8721770 andhistoricaldirtyworktrees/absentrefs/
 parkedasset011c4ef1b91 remainpreserved; neverreset/prune to clean up. Allseven
 integrations/threeFX/bothrenderers/locales/themes/platforms/packaging/licensing/
 hardware/live release scope remains. No livechat/payment/deploy sideeffects.
+
+## 2026-11-05 actual SESSION001 resumption (supersedes active roles above)
+
+Reconstructed actualGitHub maind2392e2/PR63 integrated/no prioragents, all16 main
+checksSUCCESS. Original primary8721770 preserved clean, parked assetc4ef1b9 preserved.
+Actual ACCESS002 PR64 nowready a7c0fd6 (root/tmp/subathon-access002), source and
+newtests/config independentlyreviewed; native69+actual selectedUbuntu32+21facts+old36
+PASS. Finalhead all17checks pending before normalmerge; existingrules26170263/no
+bypass/0requiredGHapprovals. No new ownerdecision/accessneeded.
+
+Original local SESSION001 root+author refs ffdef49 were found without registered
+worktrees; production diff absent, prior source agent notrunning. PRESERVE/reuse
+original rootbranch task/SESSION-001-password-hashing in /tmp/subathon-session001;
+merge currentmain d239 and regenerate only generatedHTML conflict. Fresh explicit
+password_implementer assignment owns only server/src/password_hashing.cpp andown
+authornote in NEWisolatedauthor branch. Do not repeat original37red or generator;
+selected SDK must be restored if absent, sameauthenticpin, no globalinstall. Root
+owns sharedbuild/CI/state/map/HTML/pins/integration, different actual code/cleanup/
+allocation review and ordinary selected acceptance required.
+
+CORE008 preserved original claim3f81224 branches task/CORE-008-editorial-projection
+and task/CORE-008-implementation-author have no productiondiff or liveworktree.
+Explicitly PARKED pending nextavailable implementer, notrunning/complete; keep
+originalclaim/evidence andresume actualbranch instead ofduplicate.
+
+CONTRACT014 root/tmp/subathon-contract014 at4018afd: originalauthor selected_boost
+ACTUALLYcorrecting R1/R2/R3 in/tmp/subathon-contract014-correction/3745934, different
+revieweraccess_implementer970cc2a complete/available foractualrereview. Rootadded
+STORAGETEST018/STORAGE018+mandatoryAPI011/epic prerequisites, no schema/code.
+Check exactcurrentheads/agents/processes beforecontinuing. Fullproduct incomplete.
