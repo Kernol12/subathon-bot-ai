@@ -840,6 +840,21 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
     if (identifier(o, 0, true) != original_receipt_id ||
         identifier(o, 1) != r.contribution_id.value)
         fail(Reason::invalid_stored_data);
+    // The original support row names this same actual receipt (checked above).
+    // Validate both activity origins and the complete anchor key before deciding
+    // whether the healthy generic activity is supported by the reference profile.
+    const auto &anchor_receipt = support_event ? support_event->second : original;
+    const bool activity = !contribution.fields[2].null;
+    if (activity != !support.fields[4].null)
+        fail(Reason::invalid_stored_data);
+    if (activity) {
+        if (data(c, 2) != data(anchor_receipt, 1) || data(c, 3) != data(anchor_receipt, 2) ||
+            data(o, 4) != data(anchor_receipt, 1) || data(o, 5) != data(anchor_receipt, 2))
+            fail(Reason::invalid_stored_data);
+        for (std::size_t i = 0; i < 4; ++i)
+            if (data(c, 2 + i) != data(o, 4 + i))
+                fail(Reason::invalid_stored_data);
+    }
     match(original_receipt_id == r.receipt_id.value && contribution.fields[2].null &&
               support.fields[4].null && integer(o, 3) == 3 && integer(o, 9) == 0 &&
               support.fields[10].null && support.fields[12].null && integer(o, 13) == 0 &&

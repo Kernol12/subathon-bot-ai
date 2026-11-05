@@ -300,3 +300,61 @@ Raw `/tmp/storage018-author-aggregate2.txt` SHA256 `b22011f1effaf8a7128b0c84b957
 Raw `/tmp/storage018-author-sql37.txt` SHA256 `16fb09fd9aa573c1e46f45e8c4614e1a96792ef95f56b81dd9c6815667ad2080`.
 
 Raw `/tmp/storage018-author-full374.txt` SHA256 `69f1df917e522991972e849e705e01063a1e8ab305ec06e9c0bcf228152fa56c`.
+
+## Separately gated actual activity-origin and support-anchor correction
+
+Fresh branch `task/STORAGE-018-origin-fix-author` from actual rootcce251e, isolated
+`/tmp/subathon-storage018-origin-fix-author`, includes all accepted structural,
+semantic-budget and aggregate fixes plus the reviewed38-method regression harness.
+Root authorized this final bounded correction after different actual four-row
+program/harness review and reached red at clean d18:3 behavior failures and1
+healthy-control pass,2 init/cleanupPASS/0skip/setup. Preserved root raw
+`/tmp/storage018-origin-red.txt`, SHA256
+`f97639410d5189d6a94c91b5e7b02275aef5a3febc5d76d263fdfb5edfa6ea72`
+was read and verified. No source correction preceded that gate.
+
+The actual15-line CPP delta follows the existing contribution contract, before
+narrow reference-profile activity-absence comparison:
+
+- Contribution activity and original-support verified activity must both be absent
+  or both be present. Existing selected group/type/domain/nonempty proof checks
+  still run first; no partial group is defaulted.
+- Both present activity origins are compared byte-for-byte with the ACTUAL original
+  receipt provider/account. The selected support receiptID was already verified
+  equal to that actual original receipt, so it is also the ACTUAL observation
+  receipt origin. When this receipt differs from the proposed candidate receipt,
+  use the retained support_event row, never the candidate key or receipt.
+- All four identity components of contribution and support activity must match,
+  including namespace/opaque ID. A malformed actual-origin/key coupling performs
+  known whole rollback before invalid_stored_data, preserving uncertainty priority.
+- Healthy compatible generic activity remains unsupported by the narrow reference
+  profile and returns source_mismatch with healthy caller work preserved; indexed
+  incompatible meaning still fails closed. No evidence promotion, current dimension
+  normalization, authority assertion or invented provider behavior is introduced.
+
+All earlier authorized fixes and their budgets/query scopes remain unchanged.
+No test/fixture/public ABI/shared codec/CMake/state/pin/migration-prefix edit is
+authored. This is synthetic selected-root integrity, not provider verification.
+
+Actual commands:
+
+```sh
+cmake --preset sqlite-reference-capture-debug -DBoost_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 -Dboost_headers_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+cmake --build --preset sqlite-reference-capture-debug
+ctest --preset sqlite-reference-capture-debug -R '^sqlite-reference-capture.unindexedActivityOriginsValidateAgainstActualReceipts$' --verbose --output-junit /tmp/storage018-author-origin4.xml
+ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --verbose --output-junit /tmp/storage018-author-sql38.xml
+ctest --preset sqlite-reference-capture-debug --output-on-failure --output-junit /tmp/storage018-author-full375.xml
+```
+
+All exit0. Fresh145-step compile/link no compiler warnings observed; origin four
+rows PASS0.21s (6QtPASS incl init/cleanup), SQL38 methods/67 scenarios PASS3.33s,
+full375 PASS29.19s,0fail/disabled/skipped and final actual LastTest.log0QWARN/Warning.
+No historical red replay or test weakening. Actual different final combined source/
+config validation, ordinary38 CI/current-head observation and integration/PR/merge
+remain required; this author supplies no self-approval or full-product claim.
+
+Raw `/tmp/storage018-author-origin4.txt` SHA256 `c510bbee491a56467e375f6439712255cc466d9f310d96a563890ab466686133`.
+
+Raw `/tmp/storage018-author-sql38.txt` SHA256 `e5c14d927ebcbf54dc73729bc5586264cc61bfefefd9e85061f4ba7ea3f8b030`.
+
+Raw `/tmp/storage018-author-full375.txt` SHA256 `e0ae6fe42d5853064b402918b7ccbc51c669b6cb074d3c8fc119c7c24d0ff15f`.
