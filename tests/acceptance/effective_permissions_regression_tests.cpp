@@ -16,7 +16,7 @@ namespace allocation_fault {
 struct State {
     bool armed = false;
     bool fired = false;
-    std::size_t before_failure = 0;
+    std::optional<std::size_t> before_failure;
     std::size_t observed = 0;
 };
 constinit thread_local State state;
@@ -25,18 +25,18 @@ void before_allocation() {
     if (!state.armed)
         return;
     ++state.observed;
-    if (!state.fired) {
-        if (state.before_failure == 0) {
+    if (!state.fired && state.before_failure) {
+        if (*state.before_failure == 0) {
             state.fired = true;
             throw std::bad_alloc{};
         }
-        --state.before_failure;
+        --*state.before_failure;
     }
 }
 
 class Scope final {
   public:
-    explicit Scope(std::size_t before_failure) noexcept {
+    explicit Scope(std::optional<std::size_t> before_failure) noexcept {
         state = {true, false, before_failure, 0};
     }
     ~Scope() { state.armed = false; }
@@ -261,38 +261,29 @@ TEST(EffectivePermissionRegression, AllocationFailuresTranslateAndPreflightStays
     EXPECT_EQ(oversized_result.result, CallResult::typed_failure);
     EXPECT_EQ(oversized_result.error, EffectivePermissionError::input_limit);
 
-    std::optional<EffectivePermissionDecision> complete;
-    bool reached_success = false;
-    std::size_t failures = 0;
-    // A termination guard for this finite fixture, not an expected allocator count or
-    // implementation work policy. Every encountered allocation is injected in turn.
-    constexpr std::size_t sweep_guard = 8192;
-    for (std::size_t index = 0; index < sweep_guard; ++index) {
+    // Observe only private allocator fault points, never derive a permission oracle.
+    // No fixed count restricts a conforming finite allocation strategy.
+    const auto unfailed = call_with_failure(fixture, limits, std::nullopt);
+    ASSERT_EQ(unfailed.result, CallResult::returned);
+    ASSERT_TRUE(unfailed.decision);
+    EXPECT_FALSE(unfailed.injected);
+    ASSERT_GT(unfailed.allocations, 0U);
+    for (std::size_t index = 0; index < unfailed.allocations; ++index) {
         const auto observed = call_with_failure(fixture, limits, index);
         SCOPED_TRACE(index); // Hook is already disarmed before any assertion/trace.
-        if (!observed.injected) {
-            ASSERT_EQ(observed.result, CallResult::returned);
-            ASSERT_TRUE(observed.decision);
-            complete.emplace(*observed.decision);
-            reached_success = true;
-            break;
-        }
-        ++failures;
+        EXPECT_TRUE(observed.injected);
         EXPECT_EQ(observed.result, CallResult::typed_failure);
         EXPECT_EQ(observed.error, EffectivePermissionError::allocation_failure);
         EXPECT_FALSE(observed.decision);
     }
-    ASSERT_TRUE(reached_success)
-        << "Allocation sweep exhausted its finite-fixture termination guard";
-    EXPECT_GT(failures, 0U); // Require actual injection without pinning conforming scratch count.
-    ASSERT_TRUE(complete);
+    const auto complete = *unfailed.decision; // Caller copy occurs with the hook disarmed.
     fixture.actor.clear();
     fixture.snapshot.clear();
     fixture.catalog.operations.clear();
     fixture.catalog.revision.clear();
     fixture.policy.entries.clear();
     fixture.request.quantities.clear();
-    const auto &data = complete->data();
+    const auto &data = complete.data();
     EXPECT_EQ(data.actor, expected_actor);
     EXPECT_EQ(data.snapshot, expected_snapshot);
     EXPECT_EQ(data.catalog_revision, expected_catalog);

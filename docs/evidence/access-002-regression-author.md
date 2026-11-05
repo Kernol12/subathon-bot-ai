@@ -38,12 +38,12 @@ sized-delete companions use malloc/free; only the current thread's explicitly
 armed allocation event can throw the synthetic bad_alloc. The hook fires once
 per trial. Direct evaluator invocation, inert optional move/capture and catch-code
 capture occur inside the hook scope. Hook is disarmed before GTest/trace/diagnostic
-work or caller-owned result copies. Each encountered allocation is injected in
-turn until the first full success. Every injection must return the typed fixed
-allocation_failure, never raw bad_alloc/another exception/partial decision. An
-8192-trial termination guard avoids hanging a broken test; it asserts no fixed
-allocation total or internal scratch strategy. At least one injection must occur.
-At first success the complete result is retained, the caller fixture is cleared,
+work or caller-owned result copies. One unfailed instrumented call first observes its actual allocation count A.
+Each index0..A-1 is then injected in turn. This discovers private fault points,
+not expected permission results. Every injection must return the typed fixed
+allocation_failure, never raw bad_alloc/another exception/partial decision. No arbitrary allocation-count ceiling or expected scratch strategy restricts a
+conforming implementation. At least one actual allocation/injection must occur.
+The first unfailed complete result is retained, the caller fixture is cleared,
 and complete request/source/context ownership and permit evidence are checked.
 
 Under an armed first-allocation fault, zero result_items must yield invalid_limits
@@ -69,3 +69,14 @@ linked into the original baseline, environment or product executables. Actual
 different test/harness review precedes first invocation. Existing reviewed/red
 baseline already establishes the production behavior gate; no additional original
 stub-red or retroactive new-regression-red claim is made.
+
+## Pre-review correction
+
+After actual coordinator review of81725648aaf0a440adc3ccb59ee8b28b0537c7a2,
+removed the original8192-trial guard because it could impose an unapproved resource
+policy on a conforming implementation. The revised hook accepts an absent fault
+index for the unfailed instrumented call, observes A, then injects exactly the A
+actual allocator events. Invalid/error/permit expectations are unchanged. This is
+new regression authoring before independent review, not a baseline assertion edit.
+The same compile-only command and whitespace check pass again with0warnings; no
+new test/hook body was executed.
