@@ -296,3 +296,35 @@ Selected official CI execution, root's implementation handoff/status metadata,
 latest-head checks and normal PR merge are still separate coordinator gates. This
 component approval supplies no full product/release, live provider, permission,
 API adapter, recovery, power-loss, platform or deployment verification.
+
+## Initial publication metadata review
+
+Reviewed actual published `fe440ac` (metadata author `e303f0e`) in fresh isolated
+`/tmp/subathon-storage018-metadata-review`; no production/test/fixture changes are
+introduced by this metadata. Final SQL CPP remains `ccdc4f6...`, with the exact
+source/configuration approvals above preserved.
+
+Independent JSON comparison against integrated main `ba66804` confirms all422 task
+IDs and all1619 dependency edges unchanged; only the STORAGE-018 task row differs.
+Its status is `in_review`, local acceptance/source review passed, and selected CI
+is `not_run`, consistent with the ordinary workflow still pending at this review.
+DB-01 and NUM-04 remain `partial`; the document-only session prerequisite remains
+planned in this branch. No other active task/review/owner/dependency was overwritten.
+Architecture/test-strategy/map describe the implemented component and separate
+remaining authentication/producer/authority/provider/recovery/platform/release work.
+The four committed raw regression logs hash exactly to the previously reviewed
+records above. `python3 tools/check_project.py` and
+`python3 tools/progress.py render --check`: exit0 (422 records/current HTML).
+
+The initial status/scope/evidence claims are acceptable, with two bounded wording
+corrections requested from the coordinator: specify *mapped storage/corruption*
+failures in the handoff's whole-cleanup statement (pure input/original capability
+errors retain their distinct contract behavior), and call the four table entries
+*regression families*, rather than four individual gaps. The structural family
+contains several distinct findings. `configuration_review` may now be recorded
+passed from the actual b4 approval above. The coordinator checkpoint is known
+stale in this candidate and is being updated separately; it is not approved here.
+
+No unknown selected-CI outcome, task-done status, completion metadata or latest-head
+merge gate is approved by this initial review. Those require the actual receipt
+and subsequent exact candidate review.
