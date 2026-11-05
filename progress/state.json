@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T16:23:51+00:00",
+  "updated_at": "2026-11-05T16:41:13+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -5117,7 +5117,9 @@
         "STORAGETEST-016",
         "STORAGE-016",
         "STORAGETEST-017",
-        "STORAGE-017"
+        "STORAGE-017",
+        "STORAGETEST-018",
+        "STORAGE-018"
       ],
       "spec_refs": [
         "§16"
@@ -13005,7 +13007,8 @@
       "summary": "Finalize immutable synthetic trigger/time rule, delegated authority, normalized receipt linkage and actual current application adapters; no absent-policy success.",
       "notes": [
         "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
-        "Claimed on dedicated task/CONTRACT-014-reference-adapters from actual main d2392e2. Documentation-only concrete single-rule/actual current adapter contract; author owns NEW docs/contracts/reference-application-adapters-v1.md and docs/evidence/contract-014-author.md. Root owns shared integration/state/HTML/pins/schema/build. Acceptance complete owned typed interfaces/errors/limits with independent literal RP01-12/14 oracles, integration with existing APIs and explicit missing prerequisite gates, actual different document review. No source/header/test/schema/migration/runtime authority or capability enabled; ACCESS002 implementation concurrently isolated."
+        "Claimed on dedicated task/CONTRACT-014-reference-adapters from actual main d2392e2. Documentation-only concrete single-rule/actual current adapter contract; author owns NEW docs/contracts/reference-application-adapters-v1.md and docs/evidence/contract-014-author.md. Root owns shared integration/state/HTML/pins/schema/build. Acceptance complete owned typed interfaces/errors/limits with independent literal RP01-12/14 oracles, integration with existing APIs and explicit missing prerequisite gates, actual different document review. No source/header/test/schema/migration/runtime authority or capability enabled; ACCESS002 implementation concurrently isolated.",
+        "Actual independent full review970cc2a requests R1 durable capture consuming API+018 producer tasks, R2 typed admission/refusal, R3 zeroelapsed clock consistency. Original author correcting only doc+ownnote; root added explicit STORAGETEST018/STORAGE018 and API011/epic prerequisites; actual corrected complete review pending."
       ],
       "verification": {},
       "evidence": [],
@@ -13159,7 +13162,8 @@
         "RULES-006",
         "CORE-002",
         "CORE-005",
-        "ACCESS-003"
+        "ACCESS-003",
+        "STORAGE-018"
       ],
       "spec_refs": [
         "§17",
@@ -13177,7 +13181,8 @@
       "brief": "docs/tasks/EPIC-008/API-011.md",
       "summary": "Review real-SQL synthetic intake/immutable rule capture/current policy-clock-action binding/atomic timer state tests before adapter implementation.",
       "notes": [
-        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
+        "CONTRACT014 actual R1 review adds mandatory accepted STORAGE018 durable initial capture index, preserving all old dependencies and implementation→baseline gates. No raw scan/process map/hash uniqueness shortcut."
       ],
       "verification": {},
       "evidence": [],
@@ -13204,7 +13209,8 @@
         "CORE-002",
         "CORE-005",
         "ACCESS-003",
-        "APITEST-011"
+        "APITEST-011",
+        "STORAGE-018"
       ],
       "spec_refs": [
         "§17",
@@ -13222,7 +13228,73 @@
       "brief": "docs/tasks/EPIC-008/API-011.md",
       "summary": "Supply actual normalized synthetic intake and reference-only policy/clock/action/reference producers; commit state with every application through the existing writer/service.",
       "notes": [
-        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
+        "CONTRACT014 actual R1 review adds mandatory accepted STORAGE018 durable initial capture index, preserving all old dependencies and implementation→baseline gates. No raw scan/process map/hash uniqueness shortcut."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-018",
+      "title": "Review and demonstrate red: durable initial source/capture binding",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-014",
+        "STORAGE-012",
+        "STORAGE-013",
+        "STORAGE-014",
+        "STORAGE-015"
+      ],
+      "spec_refs": [
+        "§3",
+        "§5",
+        "§17",
+        "§18",
+        "DB-01",
+        "API-02",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-018.md",
+      "summary": "Preserve one immutable initial source→arrival/plan/execution binding on the actual caller session, with exact indexed lookup/retention and no duplicate recapture.",
+      "notes": [
+        "Added after actual CONTRACT014 independent review R1 found no existing indexed source→initial-plan lookup. Consumer contract defines narrow required port; actual API/schema/migration, independent fixtures/tests/red/source review remain mandatory. No implementation/capability or reserved migration number supplied by this plan."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-018",
+      "title": "Durable initial source/capture binding",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACT-014",
+        "STORAGE-012",
+        "STORAGE-013",
+        "STORAGE-014",
+        "STORAGE-015",
+        "STORAGETEST-018"
+      ],
+      "spec_refs": [
+        "§3",
+        "§5",
+        "§17",
+        "§18",
+        "DB-01",
+        "API-02",
+        "NUM-04"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-018.md",
+      "summary": "Preserve one immutable initial source→arrival/plan/execution binding on the actual caller session, with exact indexed lookup/retention and no duplicate recapture.",
+      "notes": [
+        "Added after actual CONTRACT014 independent review R1 found no existing indexed source→initial-plan lookup. Consumer contract defines narrow required port; actual API/schema/migration, independent fixtures/tests/red/source review remain mandatory. No implementation/capability or reserved migration number supplied by this plan."
       ],
       "verification": {},
       "evidence": [],
