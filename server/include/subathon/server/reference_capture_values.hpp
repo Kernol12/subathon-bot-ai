@@ -116,8 +116,8 @@ class ReferenceCaptureValuesNotImplemented final : public std::logic_error {
               "Reference capture values are intentionally unimplemented; review tests first") {}
 };
 
-// SRC1/SRA1/SRX1/SRI1 entrypoints intentionally throw immediately until their
-// independently reviewed tests and observed intended red permit implementation.
+// SRC1/SRA1/SRX1/SRI1 structural codecs preserve canonical owned data under
+// explicit limits. They provide no admission, authority or durable-state proof.
 [[nodiscard]] ApplicationEnvelope
 encode_reference_configuration(const ReferenceConfiguration &, const ReferenceAdapterLimits & = {});
 [[nodiscard]] ReferenceConfiguration
