@@ -70,3 +70,25 @@ source review, selected CI mandatory foundation/discovery, actual fixture freeze
 genuine intended codec/SQL red, final baseline review/publication/merge remain.
 Production, authority/provider/recovery/platform/UI and full release are outside
 this bounded configuration/metadata approval.
+
+## Mechanical31-case harness follow-up
+
+Root requested a bounded rereview after actual author response `b5a7205` added
+`structurallyValidDocumentsNeedCompleteMatchingClosure`. Actual pending root
+configuration on `c1a2475` has CMake blob
+`f3987b413c623f84bc9fde7cf349e034a178475b` and workflow blob
+`ed141178ceedfec168197b9a86d04772bf87ff78`. **APPROVED for these exact mechanical
+configuration changes**: one added registered slot and every SQL count/message
+30→31. All prior linkage, fixture definitions, labels, timeouts, old guards/pins
+and no-feature-body ordinary-CI separation remain unchanged.
+
+Actual root `ctest --preset sqlite-reference-capture-debug -L
+'^sqlite-reference-capture$' --show-only=json-v1`, compiled `-functions` and
+independent comparison confirm31 distinct enabled registered/compiled cases,
+including the added slot, exact intentional-red/acceptance labels and no inversion.
+Changed embedded guard parses; `git diff --check` passes. These are discovery
+commands only; no test body was invoked. Existing build/source review gates were
+not replayed or self-certified. Root's pending checkpoint correctly distinguishes
+historical573/366 from updated367=old308+foundation1+codec27+SQL31, and leaves
+the actual SQL source findings/review pending. This approval remains configuration
+only; another reviewer's SQL-source gate and selected-CI/FIRST-red remain.
