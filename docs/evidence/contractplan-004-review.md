@@ -106,3 +106,32 @@ Remaining integration gates: root's completion metadata must preserve these exac
 semantics and document001 planned status; latest-head CI, current GitHub rules/
 review discussions and eligible normal PR merge remain separately required.
 Future document/API/baseline/source and platform/live gates remain unapproved.
+
+## Final completion metadata review
+
+Actual final metadata candidate313355d was independently inspected against
+approvedddadc20. It imports the actual477d43f review as584a3fc, marks ONLY new
+CONTRACTPLAN-004 done with its observed document/graph/19-tooling evidence, keeps
+SESSIONCONTRACT-001 planned/unreviewed, and changes ADR status to accepted for
+DOCUMENT/GRAPH sequencing only. Auth decisions and every runtime gate remain
+unapproved as before. No source, test, schema, dependency or workflow changes.
+
+Final rewritten coordinator checkpoint correctly distinguishes actualmain41c/
+mergedPR69 and separately active SQL018 sourcece8/rootc06/PR70 from this planning
+snapshot. It reports SQL source review/regression gates pending and makes no
+SQL source approval/CI promotion/completion claim. This branch's inherited planned
+SQL018 row explicitly must NOT overwrite the actual separate active claim during
+integration. Valid prior reviews and historical red receipts remain preserved.
+
+Independent final JSON assertions confirm422 records/1619edges, all old420 task
+statuses/owners/verification/review/evidence and1608edges retained, and unchanged
+SESSION002/003/APITEST010/API010 runtime lists. Actual
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check` and
+`git diff --check` exit0. Earlier actual19-tooling acceptance remains applicable:
+completion changes evidence/status text, not generator/tool behavior or its suite.
+
+**Approved actual313355d completion metadata for focused publication/integration.**
+Latest-head CI/current GitHub rules/discussions/normal merge still apply; future
+session supplier content and active SQL implementation are not approved by this
+metadata verdict. Reviewer owns only this appended note in a fresh isolated
+completion-review worktree; no other checkout or uncommitted work was altered.
