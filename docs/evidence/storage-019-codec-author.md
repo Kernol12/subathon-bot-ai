@@ -105,3 +105,52 @@ Different source/private-interface/config audit, actual root integration checks,
 ordinary selected CI27 promotion/current-head results and PR69 publication/merge
 remain required. Passing27 plus309 does not establish allocation/scratch correctness
 without source audit or complete SQL/API/provider/recovery/UI/platform release.
+
+## Independently reviewed decoder-priority regression and bounded correction
+
+Different source reviewer `/root/capture_reviewer` found originalc2db's outer
+helper checked empty format/null body semantics before unsupported format,
+contrary to the explicit consumer§2/concrete§3 decoder sequence. Different
+regression author `/root/capture_fixture_author` added one slot covering all four
+decoders with empty-format/valid-body and unknown-format/null-body values,
+plus existing bounds/known-format semantics. Original27 assertions stay intact.
+Actual regression0deb60d received separate review before root execution.
+
+Root observed actual targeted behavior red at dbe8fa3,19:45:12Z: exit8,
+8 category mismatches,2init/cleanupPASS/0skip/setup failure. Empty format returned
+actual invalid_reference3 instead of unsupported_format7; unknown format/null
+returned invalid_shape4 instead of unsupported_format7. This is reached behavior,
+not a missing marker or a preparation error. Root preserves raw
+/tmp/storage019-priority-red.txt SHA256
+56911fd705b32b7e0f7a7d8d94c086f82d13b06c8d5ec628ece1bc0db6de4afe.
+The source author did not claim that root command as their own.
+
+Only AFTER that valid reviewed regression red did root authorize this bounded
+source correction. Fresh support branch `task/STORAGE-019-codec-priority-fix` at
+`/tmp/subathon-storage019-codec-priority-fix` starts from actualdbe8fa3, including
+root's reviewed regression/harness. `outer` retains ALL option/field/whole-envelope
+bounds first, then rejects a nonmatching supplied format as unsupported_format,
+then checks known-format null body as invalid_shape. The empty-format-specific
+invalid_reference check becomes redundant and is removed. No other codec/body
+logic, private interface, baseline assertion, ABI or shared configuration changes.
+
+Actual author validation on that exact bounded source:
+
+```sh
+cmake --preset sqlite-reference-capture-debug -DBoost_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 -Dboost_headers_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+cmake --build --preset sqlite-reference-capture-debug -j 4
+ctest --preset sqlite-reference-capture-debug -LE '^sqlite-reference-capture$' --no-tests=error --output-on-failure --output-junit /tmp/storage019-priority-author-combined337.xml
+```
+
+Fresh configure/full145-step build exit0, zero warnings/errors. Combined337
+(28 codecs including the additive regression+old stable309) PASS exit0 in24.74s;
+0fail/disabled/skipped, LastTest.log0QWARN/0SKIP. JUnit contains exactly28 codec
+cases and ZERO SQL capture cases. Raw text SHA256
+340b0c1ef7c2d0defa8a3b851cfccab943afaf397959ac01cc2dcb1679b129fd;
+JUnit SHA256ffd78b935f2f7bd4eb5bdaed8945ff47e7cb4cbaabe42346a1cc3e32c83012e5.
+Formatting/diff checks exit0. Environment remains the selected author host above.
+SQL31 is untouched and uninvoked; historical27 marker red is not replayed.
+The fix commit owns ONLY codec CPP and this author note; regression/harness
+ancestors are already root-owned and should not be duplicated on import.
+Different actual revised source/config review and selected ordinary CI28 remain
+root's publication gates before task completion/merge.

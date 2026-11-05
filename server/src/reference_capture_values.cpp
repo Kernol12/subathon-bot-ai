@@ -616,12 +616,11 @@ std::string_view outer(const ApplicationEnvelope &v, const Limits &l, std::strin
     Size input(l.value_owned_bytes, Error::input_limit);
     input.add(v.format_ref.size());
     input.add(std::uint64_t(v.document.size()));
-    if (v.format_ref.empty())
-        fail(Error::invalid_reference);
-    if (v.document.isNull())
-        fail(Error::invalid_shape);
+    // Once complete outer bounds fit, format selects the role before body shape.
     if (v.format_ref != format)
         fail(Error::unsupported_format);
+    if (v.document.isNull())
+        fail(Error::invalid_shape);
     return {v.document.constData(), std::size_t(v.document.size())};
 }
 template <class View>
