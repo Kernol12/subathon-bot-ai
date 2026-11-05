@@ -75,3 +75,21 @@ is preparation only, not an active claim/implementation. No source implementatio
 may start before this baseline merges. All seven integrations, three FX providers,
 renderers, locales/themes, authority/session/clock/API producers, platforms/OBS,
 packages/licenses/security/recovery/live/full release gates remain in scope.
+
+## Actual integration and next active task
+
+PR68 NORMALMERGED8435fb0888e1d1028195d955ead068c2380fe5a4 at19:30:15Z,
+exacthead6e90d434/all17SUCCESS/currentrules26170263/0requiredGitHubapprovals/
+0unresolvedthreads/CLEAN. Merge/head trees are equal. Rate workflow42093391469
+attempt1 stalledAzureBoostdownload beforetests and wascancelled; targeted
+SAMEHEADattempt2 passed. Originalattemptlog /tmp/storagetest018-rate-apt-attempt1.txt
+retained; no testfailed or waswaived. Primarymain refreshedclean8435.
+
+New dedicated root /tmp/subathon-storage019/task/STORAGE-019-reference-capture-codecs
+claims codec implementation after integrated baseline. New task420/edges1608
+explicitly splits permitted codec prerequisite; all419oldIDs/1605oldedges preserved,
+STORAGE018 adds019dependency and remainsplanned; EPIC009 aggregates019. Source
+author capture_codec_tests will be explicitly reassigned freshisolatedtree; no old
+author assumedactive. Root retains sharedfiles. Next actual authoring:8codecs/
+optionalprivateborrowedhelper, unchanged27assertions, then different source/config
+review/passingacceptance/ordinaryselectedCI. SQL31intentionalred remains separate.

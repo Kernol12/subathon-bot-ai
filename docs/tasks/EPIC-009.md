@@ -22,7 +22,7 @@ See [backlog workflow and complete epic index](README.md).
 | `STORAGETEST-002` → [STORAGE-002](EPIC-009/STORAGE-002.md) | Real application-bundle repositories and cross-record integration |
 | `STORAGETEST-016` → [STORAGE-016](EPIC-009/STORAGE-016.md) | Nonowning durable application-review holds and authorized active resolution |
 | `STORAGETEST-017` → [STORAGE-017](EPIC-009/STORAGE-017.md) | Typed early operation/subject/source claim projection |
-| `STORAGETEST-018` → [STORAGE-018](EPIC-009/STORAGE-018.md) | Durable initial source/capture/plan/execution binding |
+| `STORAGETEST-018` → [STORAGE-019](EPIC-009/STORAGE-019.md) → [STORAGE-018](EPIC-009/STORAGE-018.md) | Shared structural codecs, then durable initial source/capture/plan/execution binding |
 | `STORAGETEST-003` → [STORAGE-003](EPIC-009/STORAGE-003.md) | Durable clock checkpoints and restart integration |
 | `STORAGETEST-004` → [STORAGE-004](EPIC-009/STORAGE-004.md) | Consistent database configuration and asset snapshot |
 | `STORAGETEST-005` → [STORAGE-005](EPIC-009/STORAGE-005.md) | Versioned encrypted backup envelope and recovery keys |
