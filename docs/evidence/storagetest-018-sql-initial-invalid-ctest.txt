@@ -1,0 +1,877 @@
+UpdateCTestConfiguration  from :/tmp/subathon-storagetest018/DartConfiguration.tcl
+Test project /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 4
+      Start  4: sqlite-reference-capture.manifestMatchesFrozenPrefixAndStepSeven
+
+4: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "manifestMatchesFrozenPrefixAndStepSeven"
+4: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+4: Test timeout computed to be: 30
+4: ********* Start testing of SqliteReferenceCaptureTest *********
+4: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+4: PASS   : SqliteReferenceCaptureTest::initTestCase()
+4: FAIL!  : SqliteReferenceCaptureTest::manifestMatchesFrozenPrefixAndStepSeven() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+4:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+4: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+4: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 47ms
+4: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 1/31 Test  #4: sqlite-reference-capture.manifestMatchesFrozenPrefixAndStepSeven ....................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::manifestMatchesFrozenPrefixAndStepSeven() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 47ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 5
+      Start  5: sqlite-reference-capture.absentLookupIgnoresUnindexedAndOffScopeData
+
+5: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "absentLookupIgnoresUnindexedAndOffScopeData"
+5: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+5: Test timeout computed to be: 30
+5: ********* Start testing of SqliteReferenceCaptureTest *********
+5: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+5: PASS   : SqliteReferenceCaptureTest::initTestCase()
+5: FAIL!  : SqliteReferenceCaptureTest::absentLookupIgnoresUnindexedAndOffScopeData() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+5:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+5: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+5: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 49ms
+5: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 2/31 Test  #5: sqlite-reference-capture.absentLookupIgnoresUnindexedAndOffScopeData ................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::absentLookupIgnoresUnindexedAndOffScopeData() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 49ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 6
+      Start  6: sqlite-reference-capture.insertAndSameSessionReadAreProvisionalUntilCommit
+
+6: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "insertAndSameSessionReadAreProvisionalUntilCommit"
+6: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+6: Test timeout computed to be: 30
+6: ********* Start testing of SqliteReferenceCaptureTest *********
+6: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+6: PASS   : SqliteReferenceCaptureTest::initTestCase()
+6: FAIL!  : SqliteReferenceCaptureTest::insertAndSameSessionReadAreProvisionalUntilCommit() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+6:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+6: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+6: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+6: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 3/31 Test  #6: sqlite-reference-capture.insertAndSameSessionReadAreProvisionalUntilCommit ..........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::insertAndSameSessionReadAreProvisionalUntilCommit() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 7
+      Start  7: sqlite-reference-capture.exactDuplicateReusesImmutableFirstMeaning
+
+7: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "exactDuplicateReusesImmutableFirstMeaning"
+7: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+7: Test timeout computed to be: 30
+7: ********* Start testing of SqliteReferenceCaptureTest *********
+7: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+7: PASS   : SqliteReferenceCaptureTest::initTestCase()
+7: FAIL!  : SqliteReferenceCaptureTest::exactDuplicateReusesImmutableFirstMeaning() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+7:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+7: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+7: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+7: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 4/31 Test  #7: sqlite-reference-capture.exactDuplicateReusesImmutableFirstMeaning ..................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::exactDuplicateReusesImmutableFirstMeaning() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 8
+      Start  8: sqlite-reference-capture.existingConflictPrecedesProposedTargetResolution
+
+8: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "existingConflictPrecedesProposedTargetResolution"
+8: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+8: Test timeout computed to be: 30
+8: ********* Start testing of SqliteReferenceCaptureTest *********
+8: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+8: PASS   : SqliteReferenceCaptureTest::initTestCase()
+8: FAIL!  : SqliteReferenceCaptureTest::existingConflictPrecedesProposedTargetResolution() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+8:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+8: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+8: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+8: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 5/31 Test  #8: sqlite-reference-capture.existingConflictPrecedesProposedTargetResolution ...........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::existingConflictPrecedesProposedTargetResolution() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 9
+      Start  9: sqlite-reference-capture.receiptAliasConflictsBeforeCandidateResolution
+
+9: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "receiptAliasConflictsBeforeCandidateResolution"
+9: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+9: Test timeout computed to be: 30
+9: ********* Start testing of SqliteReferenceCaptureTest *********
+9: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+9: PASS   : SqliteReferenceCaptureTest::initTestCase()
+9: FAIL!  : SqliteReferenceCaptureTest::receiptAliasConflictsBeforeCandidateResolution() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+9:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+9: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+9: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 49ms
+9: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 6/31 Test  #9: sqlite-reference-capture.receiptAliasConflictsBeforeCandidateResolution .............***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::receiptAliasConflictsBeforeCandidateResolution() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 49ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 10
+      Start 10: sqlite-reference-capture.bothSelectedIndexesValidateBeforeConflict
+
+10: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "bothSelectedIndexesValidateBeforeConflict"
+10: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+10: Test timeout computed to be: 30
+10: ********* Start testing of SqliteReferenceCaptureTest *********
+10: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+10: PASS   : SqliteReferenceCaptureTest::initTestCase()
+10: FAIL!  : SqliteReferenceCaptureTest::bothSelectedIndexesValidateBeforeConflict() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+10:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+10: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+10: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+10: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 7/31 Test #10: sqlite-reference-capture.bothSelectedIndexesValidateBeforeConflict ..................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::bothSelectedIndexesValidateBeforeConflict() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 11
+      Start 11: sqlite-reference-capture.candidateMissingRootsRemainExplicit
+
+11: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "candidateMissingRootsRemainExplicit"
+11: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+11: Test timeout computed to be: 30
+11: ********* Start testing of SqliteReferenceCaptureTest *********
+11: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+11: PASS   : SqliteReferenceCaptureTest::initTestCase()
+11: FAIL!  : SqliteReferenceCaptureTest::candidateMissingRootsRemainExplicit() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+11:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+11: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+11: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 47ms
+11: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 8/31 Test #11: sqlite-reference-capture.candidateMissingRootsRemainExplicit ........................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::candidateMissingRootsRemainExplicit() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 47ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 12
+      Start 12: sqlite-reference-capture.healthyDifferentMeaningIsSourceMismatch
+
+12: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "healthyDifferentMeaningIsSourceMismatch"
+12: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+12: Test timeout computed to be: 30
+12: ********* Start testing of SqliteReferenceCaptureTest *********
+12: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+12: PASS   : SqliteReferenceCaptureTest::initTestCase()
+12: FAIL!  : SqliteReferenceCaptureTest::healthyDifferentMeaningIsSourceMismatch() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+12:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+12: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+12: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+12: ********* Finished testing of SqliteReferenceCaptureTest *********
+ 9/31 Test #12: sqlite-reference-capture.healthyDifferentMeaningIsSourceMismatch ....................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::healthyDifferentMeaningIsSourceMismatch() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 48ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 13
+      Start 13: sqlite-reference-capture.selectedCorruptionRollsBackWholeUnit
+
+13: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "selectedCorruptionRollsBackWholeUnit"
+13: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+13: Test timeout computed to be: 30
+13: ********* Start testing of SqliteReferenceCaptureTest *********
+13: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+13: PASS   : SqliteReferenceCaptureTest::initTestCase()
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(SRC1) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(SRA1) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(SRX1) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(original-facts) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(support) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(request) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(rule) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(index-event) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(missing-rule) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(rule-ordinal) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(missing-request) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(request-ordinal) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(noncanonical-exact) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(extra-modifier) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(extra-rule) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(extra-request) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+13:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+13: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+13: Totals: 2 passed, 16 failed, 0 skipped, 0 blacklisted, 667ms
+13: ********* Finished testing of SqliteReferenceCaptureTest *********
+10/31 Test #13: sqlite-reference-capture.selectedCorruptionRollsBackWholeUnit .......................***Failed    0.67 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(SRC1) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(SRA1) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(SRX1) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(original-facts) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(support) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(request) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(rule) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(index-event) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(missing-rule) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(rule-ordinal) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(missing-request) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(request-ordinal) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(noncanonical-exact) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(extra-modifier) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(extra-rule) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::selectedCorruptionRollsBackWholeUnit(extra-request) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 16 failed, 0 skipped, 0 blacklisted, 667ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 14
+      Start 14: sqlite-reference-capture.structurallyValidDocumentsNeedCompleteMatchingClosure
+
+14: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "structurallyValidDocumentsNeedCompleteMatchingClosure"
+14: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+14: Test timeout computed to be: 30
+14: ********* Start testing of SqliteReferenceCaptureTest *********
+14: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+14: PASS   : SqliteReferenceCaptureTest::initTestCase()
+14: FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(unknown-category) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+14:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+14: FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(embedded-config-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+14:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+14: FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(execution-receipt-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+14:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+14: FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(execution-cid-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+14:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+14: FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(execution-rule-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+14:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+14: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+14: Totals: 2 passed, 5 failed, 0 skipped, 0 blacklisted, 210ms
+14: ********* Finished testing of SqliteReferenceCaptureTest *********
+11/31 Test #14: sqlite-reference-capture.structurallyValidDocumentsNeedCompleteMatchingClosure ......***Failed    0.21 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(unknown-category) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(embedded-config-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(execution-receipt-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(execution-cid-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::structurallyValidDocumentsNeedCompleteMatchingClosure(execution-rule-mismatch) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 5 failed, 0 skipped, 0 blacklisted, 210ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 15
+      Start 15: sqlite-reference-capture.corruptOriginalOutranksReplacementConflict
+
+15: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "corruptOriginalOutranksReplacementConflict"
+15: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+15: Test timeout computed to be: 30
+15: ********* Start testing of SqliteReferenceCaptureTest *********
+15: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+15: PASS   : SqliteReferenceCaptureTest::initTestCase()
+15: FAIL!  : SqliteReferenceCaptureTest::corruptOriginalOutranksReplacementConflict() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+15:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+15: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+15: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+15: ********* Finished testing of SqliteReferenceCaptureTest *********
+12/31 Test #15: sqlite-reference-capture.corruptOriginalOutranksReplacementConflict .................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::corruptOriginalOutranksReplacementConflict() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 16
+      Start 16: sqlite-reference-capture.presentIntrinsicMalformedLinkIsNotMissingCandidate
+
+16: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "presentIntrinsicMalformedLinkIsNotMissingCandidate"
+16: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+16: Test timeout computed to be: 30
+16: ********* Start testing of SqliteReferenceCaptureTest *********
+16: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+16: PASS   : SqliteReferenceCaptureTest::initTestCase()
+16: FAIL!  : SqliteReferenceCaptureTest::presentIntrinsicMalformedLinkIsNotMissingCandidate() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+16:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+16: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+16: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+16: ********* Finished testing of SqliteReferenceCaptureTest *********
+13/31 Test #16: sqlite-reference-capture.presentIntrinsicMalformedLinkIsNotMissingCandidate .........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::presentIntrinsicMalformedLinkIsNotMissingCandidate() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 17
+      Start 17: sqlite-reference-capture.zeroAndMaxIdsAndNulKeysRemainDistinct
+
+17: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "zeroAndMaxIdsAndNulKeysRemainDistinct"
+17: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+17: Test timeout computed to be: 30
+17: ********* Start testing of SqliteReferenceCaptureTest *********
+17: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+17: PASS   : SqliteReferenceCaptureTest::initTestCase()
+17: FAIL!  : SqliteReferenceCaptureTest::zeroAndMaxIdsAndNulKeysRemainDistinct() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+17:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+17: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+17: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+17: ********* Finished testing of SqliteReferenceCaptureTest *********
+14/31 Test #17: sqlite-reference-capture.zeroAndMaxIdsAndNulKeysRemainDistinct ......................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::zeroAndMaxIdsAndNulKeysRemainDistinct() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 18
+      Start 18: sqlite-reference-capture.currentDimensionsRetriesAndLaterPlanHistoryAreUnselected
+
+18: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "currentDimensionsRetriesAndLaterPlanHistoryAreUnselected"
+18: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+18: Test timeout computed to be: 30
+18: ********* Start testing of SqliteReferenceCaptureTest *********
+18: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+18: PASS   : SqliteReferenceCaptureTest::initTestCase()
+18: FAIL!  : SqliteReferenceCaptureTest::currentDimensionsRetriesAndLaterPlanHistoryAreUnselected() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+18:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+18: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+18: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+18: ********* Finished testing of SqliteReferenceCaptureTest *********
+15/31 Test #18: sqlite-reference-capture.currentDimensionsRetriesAndLaterPlanHistoryAreUnselected ...***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::currentDimensionsRetriesAndLaterPlanHistoryAreUnselected() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 19
+      Start 19: sqlite-reference-capture.pureInputPriorityPrecedesStaleCapability
+
+19: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "pureInputPriorityPrecedesStaleCapability"
+19: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+19: Test timeout computed to be: 30
+19: ********* Start testing of SqliteReferenceCaptureTest *********
+19: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+19: PASS   : SqliteReferenceCaptureTest::initTestCase()
+19: FAIL!  : SqliteReferenceCaptureTest::pureInputPriorityPrecedesStaleCapability() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+19:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+19: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+19: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 43ms
+19: ********* Finished testing of SqliteReferenceCaptureTest *********
+16/31 Test #19: sqlite-reference-capture.pureInputPriorityPrecedesStaleCapability ...................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::pureInputPriorityPrecedesStaleCapability() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 43ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 20
+      Start 20: sqlite-reference-capture.pureRefusalPreservesEarlierCallerWork
+
+20: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "pureRefusalPreservesEarlierCallerWork"
+20: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+20: Test timeout computed to be: 30
+20: ********* Start testing of SqliteReferenceCaptureTest *********
+20: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+20: PASS   : SqliteReferenceCaptureTest::initTestCase()
+20: FAIL!  : SqliteReferenceCaptureTest::pureRefusalPreservesEarlierCallerWork() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+20:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+20: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+20: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+20: ********* Finished testing of SqliteReferenceCaptureTest *********
+17/31 Test #20: sqlite-reference-capture.pureRefusalPreservesEarlierCallerWork ......................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::pureRefusalPreservesEarlierCallerWork() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 21
+      Start 21: sqlite-reference-capture.validForeignAndExpiredTicketsPreserveWriterErrors
+
+21: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "validForeignAndExpiredTicketsPreserveWriterErrors"
+21: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+21: Test timeout computed to be: 30
+21: ********* Start testing of SqliteReferenceCaptureTest *********
+21: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+21: PASS   : SqliteReferenceCaptureTest::initTestCase()
+21: FAIL!  : SqliteReferenceCaptureTest::validForeignAndExpiredTicketsPreserveWriterErrors() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+21:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+21: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+21: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+21: ********* Finished testing of SqliteReferenceCaptureTest *********
+18/31 Test #21: sqlite-reference-capture.validForeignAndExpiredTicketsPreserveWriterErrors ..........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::validForeignAndExpiredTicketsPreserveWriterErrors() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 22
+      Start 22: sqlite-reference-capture.activeTerminalTicketAndFacadeDestructionAreHonest
+
+22: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "activeTerminalTicketAndFacadeDestructionAreHonest"
+22: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+22: Test timeout computed to be: 30
+22: ********* Start testing of SqliteReferenceCaptureTest *********
+22: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+22: PASS   : SqliteReferenceCaptureTest::initTestCase()
+22: FAIL!  : SqliteReferenceCaptureTest::activeTerminalTicketAndFacadeDestructionAreHonest() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+22:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+22: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+22: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+22: ********* Finished testing of SqliteReferenceCaptureTest *********
+19/31 Test #22: sqlite-reference-capture.activeTerminalTicketAndFacadeDestructionAreHonest ..........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::activeTerminalTicketAndFacadeDestructionAreHonest() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 23
+      Start 23: sqlite-reference-capture.selectedDocumentsAtBoundAndOneUnder
+
+23: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "selectedDocumentsAtBoundAndOneUnder"
+23: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+23: Test timeout computed to be: 30
+23: ********* Start testing of SqliteReferenceCaptureTest *********
+23: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+23: PASS   : SqliteReferenceCaptureTest::initTestCase()
+23: FAIL!  : SqliteReferenceCaptureTest::selectedDocumentsAtBoundAndOneUnder() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+23:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+23: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+23: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+23: ********* Finished testing of SqliteReferenceCaptureTest *********
+20/31 Test #23: sqlite-reference-capture.selectedDocumentsAtBoundAndOneUnder ........................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::selectedDocumentsAtBoundAndOneUnder() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 24
+      Start 24: sqlite-reference-capture.completeIndexProjectionPrecedesSemanticMismatch
+
+24: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "completeIndexProjectionPrecedesSemanticMismatch"
+24: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+24: Test timeout computed to be: 30
+24: ********* Start testing of SqliteReferenceCaptureTest *********
+24: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+24: PASS   : SqliteReferenceCaptureTest::initTestCase()
+24: FAIL!  : SqliteReferenceCaptureTest::completeIndexProjectionPrecedesSemanticMismatch() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+24:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+24: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+24: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+24: ********* Finished testing of SqliteReferenceCaptureTest *********
+21/31 Test #24: sqlite-reference-capture.completeIndexProjectionPrecedesSemanticMismatch ............***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::completeIndexProjectionPrecedesSemanticMismatch() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 25
+      Start 25: sqlite-reference-capture.selectedFieldCeilingIsCheckedBeforeOwnership
+
+25: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "selectedFieldCeilingIsCheckedBeforeOwnership"
+25: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+25: Test timeout computed to be: 30
+25: ********* Start testing of SqliteReferenceCaptureTest *********
+25: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+25: PASS   : SqliteReferenceCaptureTest::initTestCase()
+25: FAIL!  : SqliteReferenceCaptureTest::selectedFieldCeilingIsCheckedBeforeOwnership() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+25:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+25: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+25: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+25: ********* Finished testing of SqliteReferenceCaptureTest *********
+22/31 Test #25: sqlite-reference-capture.selectedFieldCeilingIsCheckedBeforeOwnership ...............***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::selectedFieldCeilingIsCheckedBeforeOwnership() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 26
+      Start 26: sqlite-reference-capture.explicitRollbackRemovesPlanExecutionIndexTogether
+
+26: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "explicitRollbackRemovesPlanExecutionIndexTogether"
+26: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+26: Test timeout computed to be: 30
+26: ********* Start testing of SqliteReferenceCaptureTest *********
+26: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+26: PASS   : SqliteReferenceCaptureTest::initTestCase()
+26: FAIL!  : SqliteReferenceCaptureTest::explicitRollbackRemovesPlanExecutionIndexTogether() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+26:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+26: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+26: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 46ms
+26: ********* Finished testing of SqliteReferenceCaptureTest *********
+23/31 Test #26: sqlite-reference-capture.explicitRollbackRemovesPlanExecutionIndexTogether ..........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::explicitRollbackRemovesPlanExecutionIndexTogether() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 46ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 27
+      Start 27: sqlite-reference-capture.hostCleansCompetingStagingAfterConflict
+
+27: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "hostCleansCompetingStagingAfterConflict"
+27: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+27: Test timeout computed to be: 30
+27: ********* Start testing of SqliteReferenceCaptureTest *********
+27: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+27: PASS   : SqliteReferenceCaptureTest::initTestCase()
+27: FAIL!  : SqliteReferenceCaptureTest::hostCleansCompetingStagingAfterConflict() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+27:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+27: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+27: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 46ms
+27: ********* Finished testing of SqliteReferenceCaptureTest *********
+24/31 Test #27: sqlite-reference-capture.hostCleansCompetingStagingAfterConflict ....................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::hostCleansCompetingStagingAfterConflict() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 46ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 28
+      Start 28: sqlite-reference-capture.cumulativeSqlBudgetsRequireActualWholeRollback
+
+28: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "cumulativeSqlBudgetsRequireActualWholeRollback"
+28: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+28: Test timeout computed to be: 30
+28: ********* Start testing of SqliteReferenceCaptureTest *********
+28: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+28: PASS   : SqliteReferenceCaptureTest::initTestCase()
+28: FAIL!  : SqliteReferenceCaptureTest::cumulativeSqlBudgetsRequireActualWholeRollback(statements) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+28:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+28: FAIL!  : SqliteReferenceCaptureTest::cumulativeSqlBudgetsRequireActualWholeRollback(result-bytes) SQLite work operation failed
+28:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(50)]
+28: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+28: Totals: 2 passed, 2 failed, 0 skipped, 0 blacklisted, 88ms
+28: ********* Finished testing of SqliteReferenceCaptureTest *********
+25/31 Test #28: sqlite-reference-capture.cumulativeSqlBudgetsRequireActualWholeRollback .............***Failed    0.09 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::cumulativeSqlBudgetsRequireActualWholeRollback(statements) MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+FAIL!  : SqliteReferenceCaptureTest::cumulativeSqlBudgetsRequireActualWholeRollback(result-bytes) SQLite work operation failed
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(50)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 2 failed, 0 skipped, 0 blacklisted, 88ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 29
+      Start 29: sqlite-reference-capture.missingSqlTableMapsOnlyAfterKnownRollback
+
+29: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "missingSqlTableMapsOnlyAfterKnownRollback"
+29: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+29: Test timeout computed to be: 30
+29: ********* Start testing of SqliteReferenceCaptureTest *********
+29: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+29: PASS   : SqliteReferenceCaptureTest::initTestCase()
+29: FAIL!  : SqliteReferenceCaptureTest::missingSqlTableMapsOnlyAfterKnownRollback() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+29:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+29: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+29: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+29: ********* Finished testing of SqliteReferenceCaptureTest *********
+26/31 Test #29: sqlite-reference-capture.missingSqlTableMapsOnlyAfterKnownRollback ..................***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::missingSqlTableMapsOnlyAfterKnownRollback() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 30
+      Start 30: sqlite-reference-capture.lostCommitAcknowledgementNeverPublishesBinding
+
+30: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "lostCommitAcknowledgementNeverPublishesBinding"
+30: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+30: Test timeout computed to be: 30
+30: ********* Start testing of SqliteReferenceCaptureTest *********
+30: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+30: PASS   : SqliteReferenceCaptureTest::initTestCase()
+30: FAIL!  : SqliteReferenceCaptureTest::lostCommitAcknowledgementNeverPublishesBinding() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+30:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+30: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+30: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+30: ********* Finished testing of SqliteReferenceCaptureTest *********
+27/31 Test #30: sqlite-reference-capture.lostCommitAcknowledgementNeverPublishesBinding .............***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::lostCommitAcknowledgementNeverPublishesBinding() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 31
+      Start 31: sqlite-reference-capture.lostCleanupAcknowledgementOutranksLocalCorruption
+
+31: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "lostCleanupAcknowledgementOutranksLocalCorruption"
+31: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+31: Test timeout computed to be: 30
+31: ********* Start testing of SqliteReferenceCaptureTest *********
+31: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+31: PASS   : SqliteReferenceCaptureTest::initTestCase()
+31: FAIL!  : SqliteReferenceCaptureTest::lostCleanupAcknowledgementOutranksLocalCorruption() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+31:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+31: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+31: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+31: ********* Finished testing of SqliteReferenceCaptureTest *********
+28/31 Test #31: sqlite-reference-capture.lostCleanupAcknowledgementOutranksLocalCorruption ..........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::lostCleanupAcknowledgementOutranksLocalCorruption() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 45ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 32
+      Start 32: sqlite-reference-capture.postCommitBodyFailureRetainsRowsWithoutNormalResult
+
+32: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "postCommitBodyFailureRetainsRowsWithoutNormalResult"
+32: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+32: Test timeout computed to be: 30
+32: ********* Start testing of SqliteReferenceCaptureTest *********
+32: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+32: PASS   : SqliteReferenceCaptureTest::initTestCase()
+32: FAIL!  : SqliteReferenceCaptureTest::postCommitBodyFailureRetainsRowsWithoutNormalResult() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+32:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+32: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+32: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+32: ********* Finished testing of SqliteReferenceCaptureTest *********
+29/31 Test #32: sqlite-reference-capture.postCommitBodyFailureRetainsRowsWithoutNormalResult ........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::postCommitBodyFailureRetainsRowsWithoutNormalResult() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 33
+      Start 33: sqlite-reference-capture.queuedCompetingCandidatesPublishOnlyFirstCommit
+
+33: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "queuedCompetingCandidatesPublishOnlyFirstCommit"
+33: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+33: Test timeout computed to be: 30
+33: ********* Start testing of SqliteReferenceCaptureTest *********
+33: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+33: PASS   : SqliteReferenceCaptureTest::initTestCase()
+33: FAIL!  : SqliteReferenceCaptureTest::queuedCompetingCandidatesPublishOnlyFirstCommit() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+33:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+33: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+33: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 55ms
+33: ********* Finished testing of SqliteReferenceCaptureTest *********
+30/31 Test #33: sqlite-reference-capture.queuedCompetingCandidatesPublishOnlyFirstCommit ............***Failed    0.06 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::queuedCompetingCandidatesPublishOnlyFirstCommit() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 55ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+test 34
+      Start 34: sqlite-reference-capture.returnedCaptureOwnsAllReferencesBeyondFacadeAndWork
+
+34: Test command: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt/server_sqlite_reference_capture_acceptance "returnedCaptureOwnsAllReferencesBeyondFacadeAndWork"
+34: Working Directory: /tmp/subathon-storagetest018/build/sqlite-reference-capture-debug/tests/qt
+34: Test timeout computed to be: 30
+34: ********* Start testing of SqliteReferenceCaptureTest *********
+34: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+34: PASS   : SqliteReferenceCaptureTest::initTestCase()
+34: FAIL!  : SqliteReferenceCaptureTest::returnedCaptureOwnsAllReferencesBeyondFacadeAndWork() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+34:    Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+34: PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+34: Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+34: ********* Finished testing of SqliteReferenceCaptureTest *********
+31/31 Test #34: sqlite-reference-capture.returnedCaptureOwnsAllReferencesBeyondFacadeAndWork ........***Failed    0.05 sec
+********* Start testing of SqliteReferenceCaptureTest *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
+PASS   : SqliteReferenceCaptureTest::initTestCase()
+FAIL!  : SqliteReferenceCaptureTest::returnedCaptureOwnsAllReferencesBeyondFacadeAndWork() MISSING_REFERENCE_STORE: SqliteReferenceCaptureNotImplemented
+   Loc: [/tmp/subathon-storagetest018/tests/qt/sqlite_reference_capture_tests.cpp(45)]
+PASS   : SqliteReferenceCaptureTest::cleanupTestCase()
+Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 44ms
+********* Finished testing of SqliteReferenceCaptureTest *********
+
+
+0% tests passed, 31 tests failed out of 31
+
+Label Time Summary:
+acceptance                  =   2.39 sec*proc (31 tests)
+draft-red                   =   2.39 sec*proc (31 tests)
+qt                          =   2.39 sec*proc (31 tests)
+server                      =   2.39 sec*proc (31 tests)
+sqlite-reference-capture    =   2.39 sec*proc (31 tests)
+
+Total Test time (real) =   2.39 sec
+
+The following tests FAILED:
+	  4 - sqlite-reference-capture.manifestMatchesFrozenPrefixAndStepSeven (Failed) acceptance draft-red qt server sqlite-reference-capture
+	  5 - sqlite-reference-capture.absentLookupIgnoresUnindexedAndOffScopeData (Failed) acceptance draft-red qt server sqlite-reference-capture
+	  6 - sqlite-reference-capture.insertAndSameSessionReadAreProvisionalUntilCommit (Failed) acceptance draft-red qt server sqlite-reference-capture
+	  7 - sqlite-reference-capture.exactDuplicateReusesImmutableFirstMeaning (Failed) acceptance draft-red qt server sqlite-reference-capture
+	  8 - sqlite-reference-capture.existingConflictPrecedesProposedTargetResolution (Failed) acceptance draft-red qt server sqlite-reference-capture
+	  9 - sqlite-reference-capture.receiptAliasConflictsBeforeCandidateResolution (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 10 - sqlite-reference-capture.bothSelectedIndexesValidateBeforeConflict (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 11 - sqlite-reference-capture.candidateMissingRootsRemainExplicit (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 12 - sqlite-reference-capture.healthyDifferentMeaningIsSourceMismatch (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 13 - sqlite-reference-capture.selectedCorruptionRollsBackWholeUnit (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 14 - sqlite-reference-capture.structurallyValidDocumentsNeedCompleteMatchingClosure (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 15 - sqlite-reference-capture.corruptOriginalOutranksReplacementConflict (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 16 - sqlite-reference-capture.presentIntrinsicMalformedLinkIsNotMissingCandidate (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 17 - sqlite-reference-capture.zeroAndMaxIdsAndNulKeysRemainDistinct (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 18 - sqlite-reference-capture.currentDimensionsRetriesAndLaterPlanHistoryAreUnselected (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 19 - sqlite-reference-capture.pureInputPriorityPrecedesStaleCapability (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 20 - sqlite-reference-capture.pureRefusalPreservesEarlierCallerWork (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 21 - sqlite-reference-capture.validForeignAndExpiredTicketsPreserveWriterErrors (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 22 - sqlite-reference-capture.activeTerminalTicketAndFacadeDestructionAreHonest (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 23 - sqlite-reference-capture.selectedDocumentsAtBoundAndOneUnder (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 24 - sqlite-reference-capture.completeIndexProjectionPrecedesSemanticMismatch (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 25 - sqlite-reference-capture.selectedFieldCeilingIsCheckedBeforeOwnership (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 26 - sqlite-reference-capture.explicitRollbackRemovesPlanExecutionIndexTogether (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 27 - sqlite-reference-capture.hostCleansCompetingStagingAfterConflict (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 28 - sqlite-reference-capture.cumulativeSqlBudgetsRequireActualWholeRollback (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 29 - sqlite-reference-capture.missingSqlTableMapsOnlyAfterKnownRollback (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 30 - sqlite-reference-capture.lostCommitAcknowledgementNeverPublishesBinding (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 31 - sqlite-reference-capture.lostCleanupAcknowledgementOutranksLocalCorruption (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 32 - sqlite-reference-capture.postCommitBodyFailureRetainsRowsWithoutNormalResult (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 33 - sqlite-reference-capture.queuedCompetingCandidatesPublishOnlyFirstCommit (Failed) acceptance draft-red qt server sqlite-reference-capture
+	 34 - sqlite-reference-capture.returnedCaptureOwnsAllReferencesBeyondFacadeAndWork (Failed) acceptance draft-red qt server sqlite-reference-capture
+Errors while running CTest

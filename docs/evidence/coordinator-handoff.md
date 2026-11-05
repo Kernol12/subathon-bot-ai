@@ -73,15 +73,30 @@ immutable schema1–6, assertions and fixtures remain unchanged.
   No other shared-file writer. New schema7 coordinate accepted for this baseline;
   actual fixture migration uses OLD runner and literal manifest, never new factory.
 
-## Next concrete actions and gates
+## Current gate and next concrete action
 
-Finish actual SQL findings/review and final config metadata, publish draft head,
-observe selected official Qt6.12/SQLite CI mandatory diagnostic/compiled discovery
-and old stable lanes. Freeze actual selected fixture only after that success.
-Then FIRST intended codec and SQL missing-behavior runs on actual reviewed clean
-head; preserve raw evidence and classify setup failures separately. Baseline done
-requires all these stages, actual final review and latest-head CI/merge gates.
-STORAGE018 remains planned until the complete baseline is integrated on main.
+[Selected official42090598539](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42090598539)
+at exact550 SUCCESS; root/different reviewer full log read. New foundation4/6Qt
+PASS0skip267ms, actual Qt6.12.0/SQLite3.53.4, exact27+31 compiled discovery,
+old stable suites and all17 head checks pass. Finalfixture878005d selected freeze
+now has actual proof. Full SQL source approval4247210 preceded execution; imported
+f098 only afterward to keep exact same clean CI/red head.
+
+FIRST codec atclean55019:11:12Z:27exact missing-codec failures,54initcleanup
+PASS/0skip/disabled/setup. Valid historical gate; preserve [raw](storagetest-018-codec-red-ctest.txt),
+never replay it. Initial SQL at SAMEclean55019:11:17Z:50markers+ONE real setup
+error,62initcleanupPASS/0skip. INVALID complete SQL baseline; preserve
+[raw](storagetest-018-sql-initial-invalid-ctest.txt). Writer charges8 per value
+pluspayload, so zeroblob100 exceeded100 before feature entry. Author correction
+a8a440e/importac04a11 uses92+8=exact100 and strict actual returnedBLOB92 setup
+assertion, retaining expected laterresult_limit and all wholecleanup assertions.
+
+Current task remainsin_progress/STORAGE018planned. Different actual correction
+review, new clean-head selectedCI and revised SQL-only intendedred remain. Codec
+FIRSTred is complete and must not be repeated. Capture_reviewer independently
+corroborates raw/CI/chronology and awaits revisedSQL for finalattribution. Root
+will record final reviewed baseline and latest-head CI/merge only after gatespass.
+No implementation source may begin before baseline integration.
 
 All419 task IDs/1605 dependency edges and all earlier accepted statuses remain.
 Real authority/session/account/clock/action producers, API001/reference HTTP and

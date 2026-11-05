@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T18:58:42+00:00",
+  "updated_at": "2026-11-05T19:14:24+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13351,23 +13351,27 @@
         "Actual selected own-profile CI42083636352 atb20ac8d completedSUCCESS: rootreadmetadata/full logs, exactQt/ICU/Boostpins/new2libraries+link-onlyartifactstep andallunchangedoldguardedSQLsuitesgreen; no newentrypoint/interfaceprogram/schema7/fixture/redbodyinvoked. All17b20headchecksSUCCESS observed. Thispasses minimal-interface/old-regression stageONLY, baseline remainsin_progress/STORAGE018planned; closingcheckpoint/newheadCI stillseparate. Nextindependentliteralsetup/diagnostic authoring anddifferentprogramreviewbeforenative92projection/fixturefreeze, thenfeaturetestsreview/compiledintendedred. No ownerdecision/accessneeded.",
         "Actual separate bounded interfaceCI/closingmetadata attribution reviewaccess_implementer1c9e17b6+3ac1c1e3 imported. Exactreviewedclosing9eb/b20sourceunchanged/all419+1605preserved; independentlyverifiedall17b20checksSUCCESS andselectedownprofilepins/newartifactCHECK+oldruntime. No newentry/schema7/nativefixture/featuretest/red/production. Allagentscompletedclean atcontextcheckpoint; no nextfixtureauthorassigned/no backgroundexecutionpromise. PR68 remainsdraft. Resumeactualschema/fixture diagnostic AUTHORING/independentreviewgate afterinspectingcurrentheadCI, preservegenuinebaseline test-first constraints.",
         "Resumed from actual ed898878/PR68 after verifying mainb787 CORE008 merged, all current17 PR checks and16 main checks success, clean worktrees/no prior agents or native commands. Explicitly assign capture_fixture_author isolated literal schema7/closure/green diagnostic and capture_codec_tests isolated pure8-codec acceptance authoring; actual separate program/test review precedes new execution. Root retains shared build/CI/state/migration ownership. SQL feature baseline, intended red and STORAGE018 remain gated.",
-        "Resume actual fixture/codec stages: codec367/f7e4653 independently reviewed11e07c9, fixture3dc+detections e35/3f508/dd661/root21c212d independently reviewed11e07c9+1c6ac77. Native compile/discovery336 enabled; first diagnostic5pass1fail was genuine query-scoping defect, not feature red. All expected fields retained, fullfivepart andreceipt predicates reviewed, correctedfoundation4slots/6QtPASS0skip192ms on hostQt6.12.0. SelectedCI pending; all newentrypoint markers uninvoked. SQL feature author capture_codec_tests and DIFFERENT SQL-only reviewer capture_fixture_author explicitly assigned. STORAGE018 remains planned until completebaseline integrated."
+        "Resume actual fixture/codec stages: codec367/f7e4653 independently reviewed11e07c9, fixture3dc+detections e35/3f508/dd661/root21c212d independently reviewed11e07c9+1c6ac77. Native compile/discovery336 enabled; first diagnostic5pass1fail was genuine query-scoping defect, not feature red. All expected fields retained, fullfivepart andreceipt predicates reviewed, correctedfoundation4slots/6QtPASS0skip192ms on hostQt6.12.0. SelectedCI pending; all newentrypoint markers uninvoked. SQL feature author capture_codec_tests and DIFFERENT SQL-only reviewer capture_fixture_author explicitly assigned. STORAGE018 remains planned until completebaseline integrated.",
+        "Actual official42090598539 atclean550 SUCCESS with selectedQt6.12.0/SQLite3.53.4/newfoundation4slots6QtPASS0skip267ms/exact27+31discovery/oldstable/all17checks, actualdifferentSQLapproval424beforeFIRSTred. FIRSTcodec19:11:12Z sameclean550:27exactmarkers/54initcleanupPASS0skip valid preserved. InitialSQL19:11:17Z sameclean550:50markers+1realsetupresultbudgetfailure/62initcleanupPASS0skip INVALIDfullbaseline, rawpreserved. Author correctiona8a440e/importac04 uses92BLOB+8valuecharge=exact100 plusstrictoldsetupassertion, preservesfeatureexpectations; actualdifferentcorrectionreview/newheadCI/revisedSQLred pending. STORAGE018 remainsplanned; neverreplaycompletedcodecFIRSTred."
       ],
       "verification": {
         "document_authoring": "passed",
         "document_review": "passed",
         "api_source": "passed",
         "test_authoring": "not_run",
-        "baseline": "not_run",
+        "baseline": "partial",
         "implementation": "not_run",
         "physical_document_review": "passed",
-        "native_schema_projection": "partial",
+        "native_schema_projection": "passed",
         "minimal_review": "passed",
         "old_regression": "passed",
         "selected_interface_ci": "passed",
         "codec_test_authoring": "passed",
         "codec_test_review": "passed",
-        "foundation_native": "passed"
+        "foundation_native": "passed",
+        "fixture_selected_ci": "passed",
+        "codec_baseline": "observed_red",
+        "sql_initial_baseline": "failed"
       },
       "evidence": [
         "docs/contracts/sqlite-initial-captures-v1.md",
@@ -13383,7 +13387,12 @@
         "docs/evidence/storagetest-018-codec-review.md",
         "docs/evidence/storagetest-018-fixture-author.md",
         "docs/evidence/storagetest-018-fixture-review.md",
-        "docs/evidence/storagetest-018-native-baseline.md"
+        "docs/evidence/storagetest-018-native-baseline.md",
+        "docs/evidence/storagetest-018-sql-test-author.md",
+        "docs/evidence/storagetest-018-sql-test-review.md",
+        "docs/evidence/storagetest-018-sql-harness-review.md",
+        "docs/evidence/storagetest-018-codec-red-ctest.txt",
+        "docs/evidence/storagetest-018-sql-initial-invalid-ctest.txt"
       ],
       "review": null
     },
@@ -14556,6 +14565,11 @@
       "date": "2026-11-05T18:58:42+00:00",
       "task": "STORAGETEST-018",
       "note": "Resume actual fixture/codec stages: codec367/f7e4653 independently reviewed11e07c9, fixture3dc+detections e35/3f508/dd661/root21c212d independently reviewed11e07c9+1c6ac77. Native compile/discovery336 enabled; first diagnostic5pass1fail was genuine query-scoping defect, not feature red. All expected fields retained, fullfivepart andreceipt predicates reviewed, correctedfoundation4slots/6QtPASS0skip192ms on hostQt6.12.0. SelectedCI pending; all newentrypoint markers uninvoked. SQL feature author capture_codec_tests and DIFFERENT SQL-only reviewer capture_fixture_author explicitly assigned. STORAGE018 remains planned until completebaseline integrated."
+    },
+    {
+      "date": "2026-11-05T19:14:24+00:00",
+      "task": "STORAGETEST-018",
+      "note": "Actual official42090598539 atclean550 SUCCESS with selectedQt6.12.0/SQLite3.53.4/newfoundation4slots6QtPASS0skip267ms/exact27+31discovery/oldstable/all17checks, actualdifferentSQLapproval424beforeFIRSTred. FIRSTcodec19:11:12Z sameclean550:27exactmarkers/54initcleanupPASS0skip valid preserved. InitialSQL19:11:17Z sameclean550:50markers+1realsetupresultbudgetfailure/62initcleanupPASS0skip INVALIDfullbaseline, rawpreserved. Author correctiona8a440e/importac04 uses92BLOB+8valuecharge=exact100 plusstrictoldsetupassertion, preservesfeatureexpectations; actualdifferentcorrectionreview/newheadCI/revisedSQLred pending. STORAGE018 remainsplanned; neverreplaycompletedcodecFIRSTred."
     }
   ]
 }

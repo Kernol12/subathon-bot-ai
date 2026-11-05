@@ -59,4 +59,57 @@ ctest --preset sqlite-reference-capture-debug -LE '^draft-red$' --no-tests=error
 Actual exit0,309/309 PASS (old308 plus the new foundation),25.40s, no failures
 or disabled/skipped cases. Raw output /tmp/storagetest018-stable309.txt. This
 explicitly excludes enabled intentional-red feature baselines and is not a full
-product suite pass. New57 cases require actual review/discovery/FIRST red.
+product suite pass. New58 cases require actual review/discovery/FIRST red.
+
+## Actual selected CI and first feature observations
+
+[Official42090598539](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42090598539)
+completed SUCCESS at exact55046aa8a88d17c9913dba3f166991da9a189f76 before
+FIRST feature execution. Root and different reviewer inspected actual full logs:
+selected Qt6.12.0/SQLite3.53.4/pinnedBoost1.83, required4-slot foundation6QtPASS
+0skip267ms, exact27+31 enabled compiled registration and all old SQL lanes PASS.
+All17 exact-head PR checks SUCCESS. Final fixture JSON878005d is now observed
+on the selected driver. Full CI logSHA256:
+0ecdc1709420e8837f03f6a4f66da286999b68e7518425827064d8530e350f3f
+
+Actual SQL source/harness review4247210 approved exact final CPPea7b53c5 at550.
+Review support branch existed before execution; imported only afterward so root
+remained same clean CI head. No new production changes existed.
+
+At19:11:12Z root FIRST codec command, same clean550:
+
+```sh
+ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$' --verbose --output-junit /tmp/storagetest018-codec-first-red.xml
+```
+
+Direct exit8,27/27 cases fail ONLY exact MISSING_REFERENCE_CODEC marker;54
+init/cleanup passes,0skip/disabled/setup failure. This valid codec FIRST red is
+preserved in [raw output](storagetest-018-codec-red-ctest.txt), SHA256
+8bd2f2b9889c775941ff4f4fe1d39cedd2d8c13f9571cfdcbb0e17f3f9f59d9d.
+Do not repeat or replace this completed gate. Most later assertions remain
+unreachable behind stubs; this is no implementation acceptance pass.
+
+At19:11:17Z root FIRST SQL command, same clean550:
+
+```sh
+ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --verbose --output-junit /tmp/storagetest018-sql-first-red.xml
+```
+
+Direct exit8,31 cases/51 scenarios:50 exact store markers plus ONE real setup
+failure in cumulativeSqlBudgetsRequireActualWholeRollback(result-bytes), with
+62init/cleanup passes/0skip. [Initial raw](storagetest-018-sql-initial-invalid-ctest.txt),
+SHA256 e13621f40fd74aa36ea68baca186e5374658eb14d942f9fd431f942badc372bf.
+This is INVALID as a complete SQL baseline, not51 intended feature failures.
+Existing writer result accounting charges8 bytes per value plus BLOB payload;
+zeroblob100 exceeds the configured100 before the new store can run. Bounded
+author correction/review must use payload92 to consume EXACT100 and preserve
+the expected later result_limit/whole rollback. Selected new-head CI and revised
+SQL red remain mandatory. No production implementation is authorized yet.
+
+Store implementation note, independently agreed by author and SQL reviewer:
+retained SQL stores documents, not outer format refs. Fixed known SRC/SRA/SRX
+role metadata is not an actual selected reference under store reference ceiling26.
+Public codecs still bound supplied format refs; a private borrowed body path must
+preflight all actual nested refs under26 before ownership. Any owned synthetic
+envelope still counts fixed-format bytes in its complete owned budget. Widening
+a public codec profile then checking actual refs after decode is forbidden.
