@@ -393,6 +393,74 @@ class SqliteReferenceCaptureTest : public QObject {
                     "Host removes refused candidate staging");
         });
     }
+    void unindexedPlanCanonicalStructurePrecedesCapturedComparison_data() {
+        QTest::addColumn<bool>("malformed");
+        QTest::newRow("noncanonical-equivalent-request") << true;
+        QTest::newRow("canonical-different-request") << false;
+    }
+    void unindexedPlanCanonicalStructurePrecedesCapturedComparison() {
+        scenario([&] {
+            QFETCH(bool, malformed);
+            // OLD literals/primitives only: commit a plan/SRX closure WITHOUT an
+            // index. Both candidates retain the unchanged captured600000 rule.
+            run(*writer_, [&](auto c) {
+                const auto s = c.begin();
+                data_->stage_capture(s, "A");
+                (void)s.execute({"UPDATE main.subathon_plan_requests SET exact_numerator=?, "
+                                 "exact_denominator=X'31',requested_units=? WHERE plan_ref=X'50' "
+                                 "AND revision=X'0000000000000001' AND ordinal=1",
+                                 {QByteArray(malformed ? "0600000" : "600001"),
+                                  qlonglong(malformed ? 600000 : 600001)}});
+                s.commit();
+                return QVariant(1);
+            });
+            require(count("subathon_reference_initial_captures") == 0,
+                    "No indexed binding can turn candidate comparison into indexed corruption");
+            const auto result = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                if (malformed) {
+                    bool caught = false;
+                    try {
+                        (void)SqliteReferenceCaptureStore(s).retain_initial(record());
+                    } catch (const ReferenceCaptureStorageFailure &error) {
+                        require(error.reason() == Reason::invalid_stored_data &&
+                                    std::string(error.what()) ==
+                                        "Reference initial capture did not commit",
+                                "Present plan's noncanonical0600000/1 is structural corruption "
+                                "before comparison");
+                        // Actual observer BEGIN and marker absence INSIDE catch
+                        // prove whole cleanup happened before error publication.
+                        no_lock_or_marker();
+                        caught = true;
+                    }
+                    require(caught, "Malformed canonical structure must throw instead of healthy "
+                                    "source_mismatch");
+                } else {
+                    require(SqliteReferenceCaptureStore(s).retain_initial(record()) ==
+                                Disposition::source_mismatch,
+                            "Healthy canonical600001/1 differs from captured600000 and remains a "
+                            "refusal");
+                    const auto rows =
+                        s.execute({"SELECT count(*) FROM main.fixture_capture_markers", {}});
+                    require(rows.size() == 1 && rows[0].size() == 1 && rows[0][0].toLongLong() == 1,
+                            "Healthy source mismatch preserves active caller marker before host "
+                            "rollback");
+                    require(count("fixture_capture_markers") == 0,
+                            "Active marker is provisional to outside readers");
+                    s.rollback();
+                    no_lock_or_marker();
+                }
+                return QVariant(1);
+            });
+            rolled_back(result);
+            require(count("subathon_reference_initial_captures") == 0 &&
+                        count("subathon_plan_headers") == 1 &&
+                        count("subathon_retained_contexts", "reference=X'59'") == 1,
+                    "No index inserted; earlier committed selected plan/SRX remain after caller "
+                    "rollback");
+        });
+    }
     void selectedCorruptionRollsBackWholeUnit_data() {
         QTest::addColumn<QString>("sql");
         QTest::newRow("SRC1") << "UPDATE main.subathon_retained_configurations SET document=X'00' "
