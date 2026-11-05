@@ -46,8 +46,8 @@ class SqliteReferenceCaptureNotImplemented final : public std::logic_error {
               "SQLite initial captures are intentionally unimplemented; review tests first") {}
 };
 
-// Even this pure factory is intentionally unimplemented; it builds no prefix,
-// schema, SQL or successful manifest before the reviewed baseline/red gate.
+// Return the additive catalog manifest without opening or updating a database.
+// The caller retains explicit migration/readiness and operational prerequisites.
 [[nodiscard]] MigrationManifest reference_capture_repository_manifest();
 
 class SqliteReferenceCaptureStore final {
