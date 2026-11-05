@@ -111,3 +111,15 @@ clean; oldmilestone872/assetc4ef1b9/oldrefs preserved. RootnextpublishesfocusedD
 018baselinePR forreviewable3DOC+claim, notmergeeligible. Pollactualpublisher/PRhead
 CI onresume; don'tinferfeaturecapabilityfromunchangedgreenproductCI. Afterdocreview,
 recordfindings/correctoriginalauthorthenrereview orreleaseONLYnextminimalAPIstage.
+
+## Actual document approval and next minimal stage (latest)
+
+0411b7d47e174f9561cb003db958b84fb52252d0 importedea5ace7 ACTUALLYapproves supplier/
+API/proposedphysical80bda433/51b84a10, no findings; source/schema/native/tests
+remainunwritten/unrun. Rootacceptsnextcoordinate7 onlyFORgatedbaseline, not actual
+migration/source/installedschema. [Minimal release](storagetest-018-minimal-release.md)
+restricts author to NEW2headers/2CPP+ownnote and11immediate markers. Rootownsall
+sharedschema/build/CI/state/mapHTML. Actualdifferentminimal-source+harnessreview
+beforelaterdiagnostics/fixtures/tests; no productionrelease. Sourceworktrees will
+be explicitlycreated/reassigned; inspectactualheads/agentsbeforeassumingrunning.
+Actual draftPR68 ated14c31, unchangedproductCIpending; baseline notmergeeligible.

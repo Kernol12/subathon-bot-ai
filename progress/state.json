@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T17:50:28+00:00",
+  "updated_at": "2026-11-05T18:02:48+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13345,20 +13345,24 @@
       "notes": [
         "Added after actual CONTRACT014 independent review R1 found no existing indexed source→initial-plan lookup. Consumer contract defines narrow required port; actual API/schema/migration, independent fixtures/tests/red/source review remain mandatory. No implementation/capability or reserved migration number supplied by this plan.",
         "Claim dedicated task/STORAGETEST-018-initial-capture-baseline from actualmaind4e3c52 after integrated accepted CONTRACT014/PR66 and SQL prerequisites. FIRSTstage DOCUMENTONLY: concrete SQLite initial-capture store/API+additive physical proposal and independent examples preserving consumer5a12ebea/SRI1/source-index closure. Author owns ONLY NEW docs/contracts/sqlite-initial-captures-v1.md +docs/contracts/sqlite-initial-captures-schema-v1.md +docs/evidence/storagetest-018-contract-author.md. Differentactualreview before any minimalheader/stub/schema/build/fixture/test/body. Root retains allactualsharedschemas/migrationnumbers/prefix/order/build/CI/state/mapHTML/pins; currentlatestholdmanifestversion6, nextsequence7 proposalonlyuntilactualreview, no reservation/implementation by claim. All old API/tests/assertions/storeprefix fixed, typedCId0 andReceiptId1..MAX unchanged. Missing consuming codec/header technical prerequisites mustbeidentified, not invented existing APIs or unboundedSQL/hash/processmap shortcuts. STORAGE018productionplanned untilgenuine reviewed/redbaselineintegrated.",
-        "Actual document candidate6728e6a5/importf94755a (logical80bda433/physical51b84a10) supplies minimal shared8structural codecs/header contract and direct bounded historical metadata/typedprojections, one13-column table+dualuniqueindexes; actualfutureAPI011cycle avoided without admission/evaluation code. Authorproject/render/19tooling/independentliteral/textframing checks pass; rootlink/project/render/whitespacepass. Actualdifferent fullDOC/API/physical review selected_boost active, no approvalyet. Version7/92objects/per-step71601payloadSHAefe4d5 remainproposed/unallocated/unobservedSQLite; prior1..6framingunchanged. No headers/stubs/build/CI/schema/fixture/test/nativebody/red/implementation. Taskinprogress, notbaselinecomplete."
+        "Actual document candidate6728e6a5/importf94755a (logical80bda433/physical51b84a10) supplies minimal shared8structural codecs/header contract and direct bounded historical metadata/typedprojections, one13-column table+dualuniqueindexes; actualfutureAPI011cycle avoided without admission/evaluation code. Authorproject/render/19tooling/independentliteral/textframing checks pass; rootlink/project/render/whitespacepass. Actualdifferent fullDOC/API/physical review selected_boost active, no approvalyet. Version7/92objects/per-step71601payloadSHAefe4d5 remainproposed/unallocated/unobservedSQLite; prior1..6framingunchanged. No headers/stubs/build/CI/schema/fixture/test/nativebody/red/implementation. Taskinprogress, notbaselinecomplete.",
+        "Actual different full supplier/API/physical DOCUMENT approval0411b7d4/importea5ace7 atauthored6728/rootf947, allnewdocartifacts80bda433/51b84a10 independentlychecked. Rootnowacceptsproposedcoordinate7/IDreference-initial-captures-v1 FORTHISGATEDBASELINE afterconfirmedimmutable1..6/nootherSQLwriter; no actualmanifest/DDL/schema/versioncapability installed ornativeprojectionproved. ReleaseONLYminimalsharedDTO/declarations/inert constructors/fixederrors/11immediate distinctmarkerbodies (8codecs+manifest/find/retain) innewisolatedsourcebranch; no validation/codec/SQL/DDL/native/fixtures/tests yet. Manifeststubnotfixture setup; futureindependentliteralstep+oldrunner diagnostics beforefixturefreeze. Actualsource/harnessreview requiredbeforefurtherstages. Baseline/red/implementation stillnotrun."
       ],
       "verification": {
         "document_authoring": "passed",
-        "document_review": "not_run",
+        "document_review": "passed",
         "api_source": "not_run",
         "test_authoring": "not_run",
         "baseline": "not_run",
-        "implementation": "not_run"
+        "implementation": "not_run",
+        "physical_document_review": "passed",
+        "native_schema_projection": "not_run"
       },
       "evidence": [
         "docs/contracts/sqlite-initial-captures-v1.md",
         "docs/contracts/sqlite-initial-captures-schema-v1.md",
-        "docs/evidence/storagetest-018-contract-author.md"
+        "docs/evidence/storagetest-018-contract-author.md",
+        "docs/evidence/storagetest-018-contract-review.md"
       ],
       "review": null
     },
