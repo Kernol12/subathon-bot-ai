@@ -183,3 +183,53 @@ exit0. No test body, native SQL or production entrypoint invoked. Different actu
 program/harness review and root's reached behavioral red remain prerequisites to
 the resource-budget fix; source corrections for other confirmed classifications
 do not authorize this correction without its own review/red evidence.
+
+## Malformed child scalar metadata before payload ownership
+
+Different source auditor/root separately confirmed raw child aggregates could
+return a malformed large BLOB before its scalar class was checked. Root assigned
+ONE two-row method `indexedChildMetadataRejectsMalformedScalarsBeforePayload`.
+Prior36methods/61scenarios stay byte-for-byte unchanged: deleting only the new
+block exactly reproduces actualaea8e7c CPP. New diff86 additions/0deletions;
+resulting inventory37 feature methods/63 scenarios. Production and literal878
+remain untouched; no source-budget/classification correction is authored here.
+
+Both programs first arrange complete healthy INDEXED A with OLD literals. They
+open a writer with generous result_value_bytes65536 and require a healthy NEW
+find/complete literal comparison/actual normal commit in its own unit under THAT
+SAME profile. This is an assertion in the unexecuted authored program, not a claimed
+observed pass. It prevents a too-small healthy budget from manufacturing the
+negative outcome. No tight implementation-dependent8192 threshold is used.
+
+The writer is closed for controlled raw corruption through the EXISTING disposable
+`Observer` helper. A single negative-fixture connection enables SQLite's existing
+ignore_check_constraints pragma, performs ONE update, then restores it OFF
+immediately on success OR before rethrowing an update error; an actual query
+requires restored0 before any adapter invocation. No production pragma or normal
+fixture/schema path changes. One row assigns zeroblob262144 to plan_rules.ordinal;
+the other assigns it to plan_requests.requires_historical_valuation. Both target
+only planP/revision1's actual original child, with its literal integer ordinal1
+when applicable. No FK or other fixture field is altered. OLD metadata-only
+SELECT typeof/length proves one actual BLOB262144 without returning its payload.
+
+The writer reopens with EXACTLY the proven65536 result profile. NEW find must
+classify the selected ordinal/Boolean's wrong SQL class as invalid_stored_data,
+not result_limit from first materializing a raw min/max aggregate BLOB. Actual
+inside-catch marker0 plus independent BEGIN/ROLLBACK prove whole cleanup before
+error publication; real rolled-back completion and preserved committed index are
+also required. Contract018§4 requires scalar class/length/cardinality preflight
+before payload ownership; ordinal/flag known integer domains do not authorize
+copying arbitrary noninteger values just to discover their class. Writer result
+budgets remain separate from this intrinsic selected-data classification.
+
+These assertions demonstrate the externally observable preownership failure
+ordering; they do not replace actual source audit of all metadata queries. Proper
+source review must still ensure metadata projections cannot themselves return the
+bad variable payload. Controlled corruption is test-only and supplies no repair,
+recovery, provider or public SQL capability.
+
+Actual author commands: formatting/diff checks exit0, prioraea exact-byte
+reconstruction PASS, static37-method inventory PASS. No new test function, SQL
+setup or feature entrypoint was invoked by this author. Different actual program/
+harness review precedes root's NEW targeted behavior red pinned to the actual
+held source revision; only that evidence can authorize the bounded source fix.

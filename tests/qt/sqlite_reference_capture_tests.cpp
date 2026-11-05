@@ -700,6 +700,92 @@ class SqliteReferenceCaptureTest : public QObject {
                     "Resource checks never alter the earlier committed first binding");
         });
     }
+    void indexedChildMetadataRejectsMalformedScalarsBeforePayload_data() {
+        QTest::addColumn<bool>("ordinal");
+        QTest::newRow("rule-ordinal-large-blob") << true;
+        QTest::newRow("request-historical-flag-large-blob") << false;
+    }
+    void indexedChildMetadataRejectsMalformedScalarsBeforePayload() {
+        scenario([&] {
+            QFETCH(bool, ordinal);
+            full();
+            auto wire = limits();
+            wire.result_value_bytes = 65536;
+            writer_.reset();
+            writer_ = std::make_unique<SqliteWriter>();
+            require(writer_->open(path_, wire) == StorageError::none,
+                    "Disposable writer opens with generous fixed65536-byte result budget");
+            committed(exercise([&](auto c) {
+                const auto s = c.begin();
+                const auto value = SqliteReferenceCaptureStore(s).find(record().key);
+                require(value.has_value(),
+                        "Healthy selected A fits this SAME writer result profile");
+                same(*value, record());
+                s.commit();
+                return QVariant(1);
+            }));
+            writer_.reset();
+            {
+                // Controlled disposable-fixture fault connection ONLY. Restore the
+                // connection-local pragma immediately, including failed UPDATE.
+                Observer fault(path_);
+                (void)fault.rows("PRAGMA ignore_check_constraints=ON");
+                try {
+                    (void)fault.rows(
+                        ordinal ? "UPDATE main.subathon_plan_rules SET ordinal=zeroblob(262144) "
+                                  "WHERE plan_ref=X'50' AND revision=X'0000000000000001'"
+                                : "UPDATE main.subathon_plan_requests SET "
+                                  "requires_historical_valuation=zeroblob(262144) WHERE "
+                                  "plan_ref=X'50' AND revision=X'0000000000000001' AND ordinal=1");
+                } catch (...) {
+                    (void)fault.rows("PRAGMA ignore_check_constraints=OFF");
+                    throw;
+                }
+                (void)fault.rows("PRAGMA ignore_check_constraints=OFF");
+                const auto restored = fault.rows("PRAGMA ignore_check_constraints");
+                require(restored.size() == 1 && restored[0].size() == 1 &&
+                            restored[0][0].toLongLong() == 0,
+                        "Raw fault pragma is restored before any NEW adapter call");
+                const auto shape = fault.rows(
+                    ordinal
+                        ? "SELECT typeof(ordinal),length(ordinal) FROM main.subathon_plan_rules "
+                          "WHERE plan_ref=X'50' AND revision=X'0000000000000001'"
+                        : "SELECT "
+                          "typeof(requires_historical_valuation),length(requires_historical_"
+                          "valuation) FROM main.subathon_plan_requests WHERE plan_ref=X'50' AND "
+                          "revision=X'0000000000000001' AND ordinal=1");
+                require(
+                    shape.size() == 1 && shape[0].size() == 2 && shape[0][0].toString() == "blob" &&
+                        shape[0][1].toLongLong() == 262144,
+                    "OLD metadata confirms one malformed scalar without materializing its payload");
+            }
+            writer_ = std::make_unique<SqliteWriter>();
+            require(writer_->open(path_, wire) == StorageError::none,
+                    "Reopen with exactly the already-proven healthy writer result profile");
+            const auto result = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                bool caught = false;
+                try {
+                    (void)SqliteReferenceCaptureStore(s).find(record().key);
+                } catch (const ReferenceCaptureStorageFailure &error) {
+                    require(error.reason() == Reason::invalid_stored_data &&
+                                std::string(error.what()) ==
+                                    "Reference initial capture did not commit",
+                            "Malformed scalar type is stored corruption before any raw aggregate "
+                            "payload ownership");
+                    no_lock_or_marker();
+                    caught = true;
+                }
+                require(caught,
+                        "Malformed selected scalar must fail closed after actual whole cleanup");
+                return QVariant(1);
+            });
+            rolled_back(result);
+            require(count("subathon_reference_initial_captures") == 1,
+                    "Corruption refusal preserves previously committed first index");
+        });
+    }
     void selectedCorruptionRollsBackWholeUnit_data() {
         QTest::addColumn<QString>("sql");
         QTest::newRow("SRC1") << "UPDATE main.subathon_retained_configurations SET document=X'00' "
