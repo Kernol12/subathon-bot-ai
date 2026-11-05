@@ -30,6 +30,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
         unindexedGenericChildrenDistinguishMismatchFromCorruption
         indexedSelectedPlanOwnedBudgetUsesSemanticDtoBytes
         indexedChildMetadataRejectsMalformedScalarsBeforePayload
+        unindexedActivityOriginsValidateAgainstActualReceipts
         selectedCorruptionRollsBackWholeUnit
         structurallyValidDocumentsNeedCompleteMatchingClosure
         corruptOriginalOutranksReplacementConflict

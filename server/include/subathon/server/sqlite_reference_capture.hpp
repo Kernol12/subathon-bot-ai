@@ -56,7 +56,8 @@ class SqliteReferenceCaptureStore final {
                                          ReferenceCaptureLimits limits = {})
         : session_(std::move(session)), limits_(limits) {}
 
-    // Immediate markers: no validation, capability probe, SQL or cleanup occurs.
+    // Use the caller's active revocable session; results stay provisional until
+    // its acknowledged commit and normal work completion.
     [[nodiscard]] std::optional<ReferenceInitialCapture> find(const ReferenceCaptureKey &) const;
     [[nodiscard]] ReferenceCaptureRetainDisposition
     retain_initial(const ReferenceInitialCapture &) const;
