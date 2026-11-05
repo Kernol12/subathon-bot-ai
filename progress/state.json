@@ -12891,8 +12891,8 @@
       "title": "Realign the early end-to-end reference path",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
-      "owner": "/root (planning/profile author and integrator)",
+      "status": "done",
+      "owner": "/root (author/integrator); /root/reference_review (independent actual review)",
       "depends_on": [
         "CONTRACT-005",
         "CONTRACTPLAN-002",
@@ -12914,14 +12914,31 @@
       "brief": "docs/tasks/CONTRACTPLAN-003.md",
       "summary": "Replace broad API-008 prerequisites with reviewed bounded HTTP, rule and operation-time persistence guarantees; retain full release gates.",
       "notes": [
-        "Claimed task/CONTRACTPLAN-003-reference-path from fetched origin/main436ed9a on 2026-11-05 in isolated worktree. Own ADR0006, reference profile proposal, task briefs/navigation, state/HTML and planning evidence. Documentation/dependency changes only; no source, test, schema, migration, build or CI edits. Different actual review of planning AND profile before dependent behavior. Existing checkout and CONTRACT011 worktree preserved."
+        "Claimed task/CONTRACTPLAN-003-reference-path from fetched origin/main436ed9a on 2026-11-05 in isolated worktree. Own ADR0006, reference profile proposal, task briefs/navigation, state/HTML and planning evidence. Documentation/dependency changes only; no source, test, schema, migration, build or CI edits. Different actual review of planning AND profile before dependent behavior. Existing checkout and CONTRACT011 worktree preserved.",
+        "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation→baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
       ],
-      "verification": {},
+      "verification": {
+        "planning_review": "passed",
+        "logical_contract_review": "passed",
+        "consistency": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "selected_ci": "not_run"
+      },
       "evidence": [
         "docs/decisions/0006-reference-path-prerequisites.md",
-        "docs/contracts/reference-path-v1.md"
+        "docs/contracts/reference-path-v1.md",
+        "docs/evidence/contractplan-003-author.md",
+        "docs/evidence/contractplan-003-review.md",
+        "docs/evidence/contractplan-003-handoff.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reference_review",
+        "outcome": "approved",
+        "revision": "Actual2c00a1d planning/profile/state candidate, independent approval544c6b9",
+        "evidence": "docs/evidence/contractplan-003-review.md"
+      }
     },
     {
       "id": "CONTRACT-013",
@@ -14286,6 +14303,11 @@
       "date": "2026-11-05",
       "task": "CONTRACTPLAN-003",
       "note": "Claimed task/CONTRACTPLAN-003-reference-path from fetched origin/main436ed9a on 2026-11-05 in isolated worktree. Own ADR0006, reference profile proposal, task briefs/navigation, state/HTML and planning evidence. Documentation/dependency changes only; no source, test, schema, migration, build or CI edits. Different actual review of planning AND profile before dependent behavior. Existing checkout and CONTRACT011 worktree preserved."
+    },
+    {
+      "date": "2026-11-05",
+      "task": "CONTRACTPLAN-003",
+      "note": "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation→baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
     }
   ]
 }
