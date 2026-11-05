@@ -97,34 +97,38 @@ struct Column {
     Kind kind;
     bool nullable{false};
     std::size_t scalar_bytes{8};
+    bool required{false};
 };
 using Columns = std::span<const Column>;
 constexpr Column ref(const char *n, bool optional = false) {
     return {n, Kind::reference, optional};
+}
+constexpr Column required_ref(const char *n, bool optional = false) {
+    return {n, Kind::reference, optional, 8, true};
 }
 constexpr Column value(const char *n, bool optional = false) { return {n, Kind::value, optional}; }
 constexpr Column id(const char *n, bool optional = false) { return {n, Kind::id, optional}; }
 constexpr Column number(const char *n, std::size_t width = 8, bool optional = false) {
     return {n, Kind::integer, optional, width};
 }
-constexpr std::array index_columns{ref("installation_ref"),
-                                   ref("provider"),
-                                   ref("source_account"),
-                                   ref("identifier_namespace"),
-                                   ref("opaque_id"),
+constexpr std::array index_columns{required_ref("installation_ref"),
+                                   required_ref("provider"),
+                                   required_ref("source_account"),
+                                   required_ref("identifier_namespace"),
+                                   required_ref("opaque_id"),
                                    id("receipt_id"),
                                    id("contribution_id"),
-                                   ref("configuration_ref"),
-                                   ref("arrival_context_ref"),
-                                   ref("event_ref"),
-                                   ref("plan_ref"),
+                                   required_ref("configuration_ref"),
+                                   required_ref("arrival_context_ref"),
+                                   required_ref("event_ref"),
+                                   required_ref("plan_ref"),
                                    id("plan_revision"),
-                                   ref("execution_context_ref")};
+                                   required_ref("execution_context_ref")};
 constexpr std::array receipt_columns{id("receipt_id"),
-                                     ref("provider"),
-                                     ref("source_account"),
-                                     ref("identifier_namespace"),
-                                     ref("opaque_id"),
+                                     required_ref("provider"),
+                                     required_ref("source_account"),
+                                     required_ref("identifier_namespace"),
+                                     required_ref("opaque_id"),
                                      value("event_type"),
                                      number("schema_version", 4),
                                      number("source_timestamp_utc_ms", 8, true),
@@ -138,21 +142,23 @@ constexpr std::array receipt_columns{id("receipt_id"),
                                      ref("activity_opaque_id", true),
                                      number("server_timestamp_utc_ms"),
                                      ref("connection_ref"),
-                                     ref("configuration_ref"),
-                                     ref("modifier_context_ref")};
-constexpr std::array contribution_columns{
-    id("contribution_id"),           id("original_receipt_id"),
-    ref("activity_provider", true),  ref("activity_source_account", true),
-    ref("activity_namespace", true), ref("activity_id", true)};
+                                     required_ref("configuration_ref"),
+                                     required_ref("modifier_context_ref")};
+constexpr std::array contribution_columns{id("contribution_id"),
+                                          id("original_receipt_id"),
+                                          required_ref("activity_provider", true),
+                                          required_ref("activity_source_account", true),
+                                          required_ref("activity_namespace", true),
+                                          required_ref("activity_id", true)};
 constexpr std::array observation_columns{id("receipt_id"),
                                          id("contribution_id", true),
                                          number("kind", 1),
                                          number("evidence", 1),
-                                         ref("activity_provider", true),
-                                         ref("activity_source_account", true),
-                                         ref("activity_namespace", true),
-                                         ref("activity_id", true),
-                                         ref("verification_ref", true),
+                                         required_ref("activity_provider", true),
+                                         required_ref("activity_source_account", true),
+                                         required_ref("activity_namespace", true),
+                                         required_ref("activity_id", true),
+                                         required_ref("verification_ref", true),
                                          number("support_monetary", 1, true),
                                          value("support_original_decimal", true),
                                          value("support_currency", true),
@@ -167,13 +173,14 @@ constexpr std::array observation_columns{id("receipt_id"),
                                          number("support_application", 1, true),
                                          number("support_reversal", 1, true),
                                          number("support_settlement", 1, true)};
-constexpr std::array configuration_columns{ref("reference"), Column{"document", Kind::document}};
-constexpr std::array context_columns{ref("reference"), Column{"document", Kind::document},
-                                     ref("configuration_ref", true)};
+constexpr std::array configuration_columns{required_ref("reference"),
+                                           Column{"document", Kind::document}};
+constexpr std::array context_columns{required_ref("reference"), Column{"document", Kind::document},
+                                     required_ref("configuration_ref", true)};
 constexpr std::array header_columns{
-    ref("plan_ref"),       ref("event_ref"), ref("parent_event_ref", true),
-    ref("root_event_ref"), id("receipt_id"), id("contribution_id", true)};
-constexpr std::array revision_columns{ref("plan_ref"),
+    required_ref("plan_ref"),       required_ref("event_ref"), ref("parent_event_ref", true),
+    required_ref("root_event_ref"), id("receipt_id"),          id("contribution_id", true)};
+constexpr std::array revision_columns{required_ref("plan_ref"),
                                       id("revision"),
                                       id("parent_revision", true),
                                       number("payment_evidence", 1),
@@ -207,10 +214,10 @@ constexpr std::array revision_columns{ref("plan_ref"),
                                       ref("override_actor_ref", true),
                                       value("override_reason", true),
                                       ref("override_decision_ref", true)};
-constexpr std::array rule_columns{ref("plan_ref"),     id("revision"),     number("ordinal"),
-                                  ref("rule_ref"),     ref("version_ref"), number("selected", 1),
-                                  value("explanation")};
-constexpr std::array request_columns{ref("plan_ref"),
+constexpr std::array rule_columns{
+    required_ref("plan_ref"), id("revision"),        number("ordinal"),   ref("rule_ref"),
+    ref("version_ref"),       number("selected", 1), value("explanation")};
+constexpr std::array request_columns{required_ref("plan_ref"),
                                      id("revision"),
                                      number("ordinal"),
                                      ref("action_ref"),
@@ -345,7 +352,7 @@ class Access final {
                     (c.kind == Kind::id &&
                      (m.length != 8 || scalar.metaType().id() != QMetaType::QByteArray ||
                       scalar.toByteArray().size() != 8)) ||
-                    (c.kind == Kind::reference && m.length == 0))
+                    (c.required && m.length == 0))
                     fail(Reason::invalid_stored_data);
                 if (c.kind == Kind::id) {
                     // This CASE returns at most eight actual bytes, a fixed-width
@@ -534,7 +541,7 @@ class Access final {
             fail(Reason::invalid_stored_data);
         return r;
     }
-    void receipt_target(std::uint64_t receipt) {
+    std::pair<Selection, SqlRow> receipt_target(std::uint64_t receipt) {
         const auto target = required(select("subathon_receipts", receipt_columns, "receipt_id=?",
                                             {encode_plan_revision_uint64(receipt)}),
                                      true, true);
@@ -545,6 +552,7 @@ class Access final {
         const auto row = payload(target);
         (void)retained(text(row, 18), true, true, true);
         (void)retained(text(row, 19), false, true, true);
+        return {target, row};
     }
     void closure(const ReferenceInitialCapture &r, bool indexed);
     void stage(const ReferenceInitialCapture &r) {
@@ -569,19 +577,33 @@ class Access final {
                            ") VALUES(" + marks.join(',') + ")",
                        std::move(values)});
     }
-    void children(const char *table, std::string_view plan, qint64 expected) {
+    struct ChildShape {
+        qint64 count;
+        bool dependent;
+    };
+    ChildShape children(const char *table, std::string_view plan) {
+        const bool requests = std::string_view(table) == "subathon_plan_requests";
+        const auto dependency =
+            requests ? QString("coalesce(max(requires_historical_valuation),0)") : QString("0");
+        const auto malformed =
+            requests ? QString(" OR typeof(requires_historical_valuation)<>'integer' OR "
+                               "requires_historical_valuation NOT IN (0,1)")
+                     : QString{};
         const auto rows =
             execute({"SELECT count(*),min(ordinal),max(ordinal),"
-                     "coalesce(sum(CASE WHEN typeof(ordinal)='integer' AND ordinal>0 "
-                     "THEN 0 ELSE 1 END),0) FROM main." +
+                     "coalesce(sum(CASE WHEN typeof(ordinal)<>'integer' OR ordinal<1" +
+                         malformed + " THEN 1 ELSE 0 END),0)," + dependency + " FROM main." +
                          QString::fromLatin1(table) + " WHERE plan_ref=? AND revision=?",
                      {blob(plan), encode_plan_revision_uint64(1)}});
-        if (rows.size() != 1 || rows.front().size() != 4 || !integer_type(rows[0][0]) ||
-            !integer_type(rows[0][3]) || rows[0][0].toLongLong() != expected ||
-            rows[0][3].toLongLong() != 0 ||
-            (expected && (!integer_type(rows[0][1]) || !integer_type(rows[0][2]) ||
-                          rows[0][1].toLongLong() != 1 || rows[0][2].toLongLong() != 1)))
+        if (rows.size() != 1 || rows.front().size() != 5 || !integer_type(rows[0][0]) ||
+            !integer_type(rows[0][3]) || !integer_type(rows[0][4]) || rows[0][3].toLongLong() != 0)
             fail(Reason::invalid_stored_data);
+        const auto count = rows[0][0].toLongLong();
+        if (count < 0 ||
+            (count > 0 && (!integer_type(rows[0][1]) || !integer_type(rows[0][2]) ||
+                           rows[0][1].toLongLong() != 1 || rows[0][2].toLongLong() != count)))
+            fail(Reason::invalid_stored_data);
+        return {count, rows[0][4].toLongLong() != 0};
     }
 
   private:
@@ -732,8 +754,11 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
         select("subathon_plan_headers", header_columns, "plan_ref=?", {blob(r.plan.plan_ref)}),
         indexed);
     const auto header_receipt = header.fields[4].identifier;
+    std::optional<std::pair<Selection, SqlRow>> other_event;
     if (header_receipt != r.receipt_id.value)
-        receipt_target(header_receipt);
+        other_event = receipt_target(header_receipt);
+    const auto &event_metadata = other_event ? other_event->first : receipt;
+    const auto &event = other_event ? other_event->second : original;
     if (!header.fields[5].null && header.fields[5].identifier != r.contribution_id.value) {
         const auto target =
             required(select("subathon_contributions", contribution_columns, "contribution_id=?",
@@ -769,9 +794,19 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
             if (revision.fields[i].null)
                 fail(Reason::invalid_stored_data);
     }
-    children("subathon_plan_rules", r.plan.plan_ref, 1);
-    children("subathon_plan_modifiers", r.plan.plan_ref, 0);
-    children("subathon_plan_requests", r.plan.plan_ref, 1);
+    const auto rule_shape = children("subathon_plan_rules", r.plan.plan_ref);
+    const auto modifier_shape = children("subathon_plan_modifiers", r.plan.plan_ref);
+    const auto request_shape = children("subathon_plan_requests", r.plan.plan_ref);
+    if (revision.fields[18].integer == 1 && request_shape.dependent)
+        fail(Reason::invalid_stored_data);
+    const auto v = payload(revision);
+    if (revision.fields[18].integer == 2 &&
+        (event_metadata.fields[10].null || data(v, 20) != data(event, 10) ||
+         data(v, 21) != data(event, 11)))
+        fail(Reason::invalid_stored_data);
+    // Off-profile cardinality is a bounded refusal, not a generic-plan audit.
+    // Structural ordinal/type checks above still precede that refusal.
+    match(rule_shape.count == 1 && modifier_shape.count == 0 && request_shape.count == 1, indexed);
     const auto rule = required(select("subathon_plan_rules", rule_columns,
                                       "plan_ref=? AND revision=? AND ordinal=1",
                                       {blob(r.plan.plan_ref), encode_plan_revision_uint64(1)}),
@@ -788,12 +823,18 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
          {header.bytes, receipt.bytes, support.bytes, revision.bytes, rule.bytes, request.bytes})
         if (!plan_size.add(n))
             fail(Reason::result_limit);
-    const auto h = payload(header), v = payload(revision), rules = payload(rule),
-               q = payload(request);
+    const auto h = payload(header), rules = payload(rule), q = payload(request);
     if (identifier(v, 1, true) != 1 || text(v, 0) != r.plan.plan_ref ||
         identifier(rules, 1, true) != 1 || identifier(q, 1, true) != 1 ||
         text(rules, 0) != r.plan.plan_ref || text(q, 0) != r.plan.plan_ref)
         fail(Reason::invalid_stored_data);
+    try {
+        (void)decode_plan_exact({data(q, 9), data(q, 10)}, limits_.owned_bytes);
+    } catch (const SqlitePlanInputFailure &e) {
+        fail(e.error() == SqlitePlanInputError::exact_component_limit
+                 ? Reason::result_limit
+                 : Reason::invalid_stored_data);
+    }
     bool state_equal = integer(v, 3) == integer(o, 3);
     for (std::size_t i = 0; i < 14; ++i) {
         const auto a = i + 4, b = i + 9;
