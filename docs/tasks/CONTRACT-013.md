@@ -28,8 +28,9 @@ link/consistency checks, assess CI for executable validation and record exact
 results without claiming a running server or schema-validator success not observed.
 
 [ADR-0007](../decisions/0007-session-contract-prerequisite.md) makes the missing
-reviewed supplier document explicit as SESSIONCONTRACT-001. Wait for that accepted
-API/transport import rather than inventing cookie/CSRF/header behavior or requiring
+reviewed supplier document explicit. After the focused split, wait for accepted
+SESSIONCONTRACT-001 supplier/API and SESSIONCONTRACT-002 transport imports rather
+than inventing cookie/CSRF/header behavior or requiring
 SESSION-003 implementation just to author the document. Actual runtime acceptance
 still requires SESSION-003 and every existing APITEST-010/API-010 prerequisite.
 

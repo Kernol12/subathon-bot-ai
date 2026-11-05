@@ -47,9 +47,11 @@ acceptance-map entries only when tests/evidence are authored or observed. Fixtur
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
 
-The paired baseline additionally waits for [SESSIONCONTRACT-001](SESSIONCONTRACT-001.md)'s
-actual reviewed supplier/API/transport document under ADR-0007. This sequencing
-repair finalizes no auth behavior and removes no existing baseline/runtime gate.
+The paired baseline additionally waits for the actual reviewed
+[SESSIONCONTRACT-001](SESSIONCONTRACT-001.md) supplier/API and
+[SESSIONCONTRACT-002](SESSIONCONTRACT-002.md) transport documents under ADR-0007's
+prerequisite repair and the focused split. No auth behavior is finalized and no
+existing baseline/runtime gate is removed.
 
 The original combined session document was split before authoring: both
 [SESSIONCONTRACT-001](SESSIONCONTRACT-001.md) supplier and

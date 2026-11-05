@@ -4108,7 +4108,7 @@
         "§16"
       ],
       "brief": "docs/tasks/EPIC-007.md",
-      "summary": "8 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
+      "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
       "notes": [
         "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support.",
         "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope.",
