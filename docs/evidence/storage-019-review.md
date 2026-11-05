@@ -168,3 +168,39 @@ ordinary28 CI, latest-head publication and normal PR gates still must be observe
 before final task integration. Private body helpers provide structural owned DATA
 only; actual SQL metadata-before-payload integration/current authority/evaluation/
 provider/recovery/UI/platform/package/full release remain separate tasks.
+
+## Published metadata and actual ordinary selected CI
+
+Bounded actual metadata candidate
+`8d3cdcf14cd8173059c0ebb1241644d97d0460f2` is **APPROVED**. Compared the
+complete790→8d changed-path set: evidence/architecture/test strategy, acceptance
+map, progress/generated HTML and checkpoint only. Production, public/private
+source, tests/fixtures, CMake/preset and workflow blobs remain the approved790
+artifacts. Only STORAGE019's task record moves to in_review; selected_ci remains
+not_run at that checkpoint, accurately pending observation. All420 IDs/1608
+edges and every other task record remain unchanged. DB-01 and NUM-04 stay partial;
+their appended scope distinguishes28 codec/native337 passes from SQL31 known-red
+and broader authority/provider/recovery/platform/full-release obligations.
+Handoff/current checkpoint preserve the actual independent regression/red/fix and
+separate publication/merge gates. Project/render/whitespace checks all pass.
+
+Independently queried actual run metadata and downloaded the FULL log for
+[selected ordinary42098018635](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42098018635).
+It completed SUCCESS at EXACT8d above. Full log:
+`/tmp/storage019-review-official-42098018635.log`, SHA256
+`5b8d6b5120b61bc7ce5d1e565b19e64cd98b68b51b3b3af8ec3692c71f041826`.
+
+Actual verified receipt: selected Qt6.12.0/driver SQLite3.53.4 and pinned
+Boost1.83; unchanged old SQL acceptance/required diagnostics pass; new foundation
+four slots/6Qt PASS/0skip295ms; exact28 compiled/registered ordinary codec cases;
+UNCONDITIONAL28/28 actual PASS0.10s at19:59:42Z, including the additive regression;
+and exact31 enabled intentional-red SQL discovery afterward. No SQL capture body
+was invoked. This is an actual passing changed-workflow observation, not a claim
+derived from local green tests, earlier baseline CI or registration alone.
+
+The initial dependency-install step was still in_progress during earlier queries;
+this reviewer made no success claim then. Completed full metadata/log now supplies
+that missing task-level CI evidence. Final done-status/handoff metadata, its
+latest publication head's applicable checks, current rules/discussions and normal
+merge remain separate root gates; success is not transferred to unseen changes.
+No historical red or SQL feature body was rerun in this attribution review.
