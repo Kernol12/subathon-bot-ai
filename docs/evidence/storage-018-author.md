@@ -252,3 +252,51 @@ source approval and does not mark STORAGE018 done.
 Raw `/tmp/storage018-author-budget2.txt` SHA256 `cadfe4fc86c0e0722b582df046b201a2770280ed8752a4921d67fbafeeb28381`.
 
 Raw `/tmp/storage018-author-full373.txt` SHA256 `ffb7278f9b98ff716b0acdf435a471c60f2cd0f68491fae6b134af47c5fe3813`.
+
+## Separately gated fixed-width aggregate metadata correction
+
+Fresh branch `task/STORAGE-018-aggregate-fix-author` from actual root45533d5,
+isolated `/tmp/subathon-storage018-aggregate-fix-author`; accepted semantic budget
+correction da96727 was imported unchanged as localb5041fd. Root authorized ONLY
+the confirmed aggregate correction after different actual program/harness review
+and reached red: both large malformed scalar rows returned the wrong known reason
+under the SAME already-proven healthy65536-byte SQL result profile. Root's two
+behavior failures/2initcleanupPASS/0skip/setup are preserved in
+`/tmp/storage018-aggregate-red.txt`, SHA256
+`6949ac096d92904ea204c6b242c0a769f24fae27ec29ab52bffd974493f8884f`.
+This author verified that raw fingerprint. No prior test or oracle was weakened.
+
+The bounded source change guards BOTH ordinal MIN/MAX arguments and the historical
+flag MAX argument with actual SQL typeof='integer' CASE expressions, returning
+only a fixed INTEGER or NULL. The independent all-row malformed-type/domain SUM
+is unchanged and still examines EVERY selected row, so good values cannot mask
+malformed BLOB/TEXT mixed into an aggregate. Count/ordinal/generic-profile
+classification and all existing metadata/semantic/SQL budget guards remain.
+SQLite no longer projects an arbitrarily large wrong-class scalar into Qt before
+its bad-type count is examined. This is no generic reader or payload scan, and
+changes no unsupported-cardinality scope. No contribution/support-origin fix is
+included: that separately confirmed finding remains held for its own reviewed
+program/red/authorization. No test/public/shared/source-codec/schema changes.
+
+Actual commands:
+
+```sh
+cmake --preset sqlite-reference-capture-debug -DBoost_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 -Dboost_headers_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+cmake --build --preset sqlite-reference-capture-debug
+ctest --preset sqlite-reference-capture-debug -R '^sqlite-reference-capture.indexedChildMetadataRejectsMalformedScalarsBeforePayload$' --verbose --output-junit /tmp/storage018-author-aggregate2.xml
+ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --verbose --output-junit /tmp/storage018-author-sql37.xml
+ctest --preset sqlite-reference-capture-debug --output-on-failure --output-junit /tmp/storage018-author-full374.xml
+```
+
+All exit0. Fresh145-step compile/link has no compiler warnings observed. Aggregate
+method/two rows PASS0.12s (4QtPASS including init/cleanup), SQL37 methods/63
+scenarios PASS3.20s, full374 PASS27.85s,0fail/disabled/skipped and final actual
+LastTest.log0QWARN/Warning. Separate source/config review, origin gate, ordinary
+CI promotion and current-head PR/merge remain open. No full product or source
+approval is claimed by this author.
+
+Raw `/tmp/storage018-author-aggregate2.txt` SHA256 `b22011f1effaf8a7128b0c84b957df57fd05aff7fd95fa8b2357d0b8158dbc25`.
+
+Raw `/tmp/storage018-author-sql37.txt` SHA256 `16fb09fd9aa573c1e46f45e8c4614e1a96792ef95f56b81dd9c6815667ad2080`.
+
+Raw `/tmp/storage018-author-full374.txt` SHA256 `69f1df917e522991972e849e705e01063a1e8ab305ec06e9c0bcf228152fa56c`.

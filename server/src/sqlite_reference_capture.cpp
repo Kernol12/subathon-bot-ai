@@ -733,13 +733,20 @@ class Access final {
     ChildShape children(const char *table, std::string_view plan) {
         const bool requests = std::string_view(table) == "subathon_plan_requests";
         const auto dependency =
-            requests ? QString("coalesce(max(requires_historical_valuation),0)") : QString("0");
+            requests ? QString("coalesce(max(CASE WHEN typeof(requires_historical_valuation)="
+                               "'integer' THEN requires_historical_valuation ELSE NULL END),0)")
+                     : QString("0");
         const auto malformed =
             requests ? QString(" OR typeof(requires_historical_valuation)<>'integer' OR "
                                "requires_historical_valuation NOT IN (0,1)")
                      : QString{};
+        // SQLite must project only fixed INTEGER/NULL scalars into Qt. The
+        // independent bad-type count still inspects every selected row, including
+        // malformed values mixed with otherwise valid extrema/dependency flags.
         const auto rows =
-            execute({"SELECT count(*),min(ordinal),max(ordinal),"
+            execute({"SELECT count(*),"
+                     "min(CASE WHEN typeof(ordinal)='integer' THEN ordinal ELSE NULL END),"
+                     "max(CASE WHEN typeof(ordinal)='integer' THEN ordinal ELSE NULL END),"
                      "coalesce(sum(CASE WHEN typeof(ordinal)<>'integer' OR ordinal<1" +
                          malformed + " THEN 1 ELSE 0 END),0)," + dependency + " FROM main." +
                          QString::fromLatin1(table) + " WHERE plan_ref=? AND revision=?",
