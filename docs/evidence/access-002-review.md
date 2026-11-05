@@ -185,3 +185,22 @@ defined only in the regression executable, absent from original acceptance and
 SDK environment. YAML/all nine shell bodies/three embedded Python blocks and
 regression clang-format checks pass. Actual first new-regression execution,
 independent passing69 and automatic latest-head CI remain to be observed.
+
+### Independent post-approval acceptance receipt
+
+After coordinator imported the actual pre-invocation approval and reported its
+first full69 pass at `b4a82b7`, this reviewer ran the same unchanged selected
+candidate from clean `b2ab5c8`:
+
+```sh
+ctest --preset effective-permissions-debug --no-tests=error \
+  --output-junit /tmp/access002-review-native69.xml
+```
+
+Direct exit0,69/69 pass,0 skipped, CTest reported0.66s. This includes the
+unchanged30 permission cases, both approved regressions, separate selected21-fact
+environment and old36 checks. The allocation-fault test passed in0.02s and the
+nine-direction rational test passed; no error was rewritten as successful red.
+JUnit SHA256 `7b277a6928cc1b52436f7ea218ac480669d2db11f539c8a4a3899cbcadac22fb`.
+Source/config/test approvals above remain valid; automatic latest-head CI,
+publication/metadata/rules/discussions and normal merge are still separate gates.
