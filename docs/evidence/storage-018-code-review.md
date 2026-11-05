@@ -203,3 +203,96 @@ failure and independent lock/marker cleanup INSIDE catch. This program was
 approved before invocation. Actual root registration/reached red and the subsequent
 bounded source correction remain pending in this entry. No source author has
 permission here to correct unobserved behavior or weaken these assertions.
+
+## Origin/anchor reached red and final source approval
+
+Actual root `d18e15c0caf75d3c172649c0f33c8f56fe2751c6` contains the exact
+approved four-row program and 38-case configuration. The independently reviewed
+configuration changes only the method registration/compiled count 37 to 38 while
+retaining enabled draft-red behavior. Public header changes are comments only,
+accurately describing the pure manifest and provisional caller-session results.
+
+Root's targeted run at clean `d18e15c`, source `27fa987e1cd25366e2538077b5c822d44fb51c96`,
+21:06:38Z exited 8. Independently read raw `/tmp/storage018-origin-red.txt` and XML:
+SHA-256 `f97639410d5189d6a94c91b5e7b02275aef5a3febc5d76d263fdfb5edfa6ea72`.
+The healthy matching-key/origin control passed; three corrupt cases returned
+without the required stored-data failure and reached the `caught` assertions.
+Two init/cleanup passes, zero skipped/setup/stub failures, 198 ms. This is valid
+new regression red after actual program/configuration approval, before the bounded
+origin/anchor correction. It does not replace any preserved historical FIRST red.
+
+Actual aggregate correction `1d54acc`/root `cce251e`, CPP
+`f8013f49b2aa3f6a5a71e2c88639c5fd3e52fe8d`, separately passed source inspection:
+all min/max ordinal and dependency aggregate arguments are now CASE-guarded to
+fixed INTEGER/NULL, while the independent malformed count still covers all rows.
+Domain-invalid integers remain fixed scalars and are rejected by that count;
+mixed malformed/valid rows cannot hide behind a valid extreme or dependency.
+
+**Final source APPROVED:** authored
+`90eeca7b9054fd369dd576127970a458d87e394e`, root import `c0ff1ec`, SQL CPP
+`ccdc4f616529aedc310ffc75259a79f7690239b5`. The final 15-line delta checks both
+optional key presences, both origins against the ACTUAL original support receipt,
+and all four identity components before narrow-profile comparison. When the
+contribution's original receipt differs from the proposed receipt it uses the
+already validated actual target, not candidate identity. Support receipt/CID
+association and structural groups/domains are validated first. Healthy matching
+generic activity remains a caller-preserving `source_mismatch`.
+
+The complete source audit also confirms exact indexed source5/receipt2 ordering,
+bounded2-row ambiguity checks, original-only receipt/support reads, retained known
+roles/private decoders, revision1 without current HEAD/history/dimensions, canonical
+exact components, checked semantic projections before relevant ownership, guarded
+payload queries, one immutable INSERT, and honest actual rollback/uncertainty/
+capability/allocation behavior. No owning repository, secondary writer, hidden
+BEGIN/adopt/COMMIT/retry, authority/evaluator/provider or repair capability is added.
+
+Independent verification in fresh `/tmp/subathon-storage018-final-review`:
+
+```sh
+cmake --preset sqlite-reference-capture-debug -DBoost_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 -Dboost_headers_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+cmake --build --preset sqlite-reference-capture-debug -j4
+ctest --preset sqlite-reference-capture-debug --show-only=json-v1
+ctest --preset sqlite-reference-capture-debug --output-junit /tmp/storage018-review-final.xml
+clang-format --dry-run --Werror server/src/sqlite_reference_capture.cpp
+git diff --check
+```
+
+Fresh configure/145-step build at `cce251e`, then fast-forward to exact `90eeca7`
+and rebuild changed source: exit0, zero compiler warnings. GNU16.2.1,
+QtCore/Sql/Test6.12.0, CMake4.4.5, Python3.14.9, local Boost1.83 SDK.
+Compiled/registered SQL function sets equal38; total375, zero disabled/inverted.
+Actual final full run exit0: **375/375 PASS, 28.32 s**, zero failed/disabled/skipped.
+Its SQL38 methods/67 scenarios total143 Qt passes (67 rows +76 init/cleanup),
+zero FAIL/QWARN/skip. The complete LastTest.log also has zero FAIL/QWARN.
+This is one final passing implementation run, not a historical marker-red replay.
+
+| Independent raw artifact | SHA-256 |
+| --- | --- |
+| `/tmp/storage018-review-final-ctest.txt` | `85920b4f7d167fd7a77384ef16b3396d9f108045df95caedf7c0536ea6568c13` |
+| `/tmp/storage018-review-final.xml` | `83cfe31a6cb70da458d6e323cf767b03cee23e614a89af95c9708cde2f431d52` |
+| Final review tree `Testing/Temporary/LastTest.log` | `95e94565ec428cefd190352366efd67b033c1f565bf4c1ad683fabf207451605` |
+
+Independent byte reconstruction removes ONLY the seven additive methods and
+reproduces original SQL CPP `58b22366b2f853125fd3a79fe9146d2283ccd1ec` exactly:
+all original31/51 assertions remain unchanged. Literal fixture remains
+`878005d95a0c12d69df6b836ac09cd59ba5168ba`; structural codec CPP/private header
+remain `fa3fc6d1775606604129522f6e071fd76318c70b` /
+`9fc608d42062ad54525d47bbdc911e55bfc99028`.
+
+## Ordinary SQL CI configuration approval
+
+**Configuration APPROVED:** actual root `b4a33e1b2e27337420d3cde067d0481805fa43a5`,
+CMake blob `89260636a602204f6412ed447ff52358bad0cab9`, workflow
+`c36d0a992d5f25a0ec5f40d34f7c697e2da76842`, presets
+`daab875da22ab766c785809894e941a564826e27`. It promotes exactly all38 reviewed
+SQL cases by removing draft-red; preserves enabled registration/timeouts/acceptance
+labels; retains compiled/registered equality38, no DISABLED/WILL_FAIL and explicit
+no-draft-red guards; adds unconditional selected SQL38 CTest with normal failure
+propagation. Codec28, old lanes, pins and check names remain unchanged. Preset
+display text is descriptive only. Source/tests are identical to the approved
+final source/program. This review follows the actual passing implementation run.
+
+Selected official CI execution, root's implementation handoff/status metadata,
+latest-head checks and normal PR merge are still separate coordinator gates. This
+component approval supplies no full product/release, live provider, permission,
+API adapter, recovery, power-loss, platform or deployment verification.
