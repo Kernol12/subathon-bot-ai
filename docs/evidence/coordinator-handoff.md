@@ -106,3 +106,19 @@ never mark the baseline done from old green suites. No native/program/publisher
 is expected to continue after this session stops. Next action is the bounded
 independent literal fixture/diagnostic authoring and actual program review above.
 No owner decision, credential or approval is needed to resume that authorized work.
+
+## Resumption audit and current assignments
+
+Coordinator /root reconciled actual mainb787, all clean worktrees and open draft
+PR68 at ed898878. That head has all17 SUCCESS checks; mainb787 has all16 SUCCESS
+post-merge workflows. GitHub currently reports CLEAN/MERGEABLE, zero review
+threads/required approvals under ruleset26170263; baseline gates still prohibit
+merge. No previous agent/native build/test process is running. Preserve all old
+reviews/branches. No owner decision or access is needed.
+
+Explicit reassignment: capture_fixture_author authors only independent literal
+schema7/closure fixture/green diagnostic and own evidence; capture_codec_tests
+authors only pure8-codec acceptance/literals and own evidence. Separate fresh
+support branches/worktrees, actual review before new invocation. Root retains
+all shared CMake/CI/progress/pins/migration ownership. Full SQL test authoring,
+independent reviews and genuine missing-behavior red remain; no production released.

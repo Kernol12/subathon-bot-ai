@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T18:38:14+00:00",
+  "updated_at": "2026-11-05T18:45:42+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13323,7 +13323,7 @@
       "module": "Operations",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "coordinator /root; access_reviewer (storage contract author); selected_boost (independent contract reviewer)",
+      "owner": "coordinator /root; capture_fixture_author (fixture/diagnostic); capture_codec_tests (codec test author)",
       "depends_on": [
         "CONTRACT-014",
         "STORAGE-012",
@@ -13349,7 +13349,8 @@
         "Actual different full supplier/API/physical DOCUMENT approval0411b7d4/importea5ace7 atauthored6728/rootf947, allnewdocartifacts80bda433/51b84a10 independentlychecked. Rootnowacceptsproposedcoordinate7/IDreference-initial-captures-v1 FORTHISGATEDBASELINE afterconfirmedimmutable1..6/nootherSQLwriter; no actualmanifest/DDL/schema/versioncapability installed ornativeprojectionproved. ReleaseONLYminimalsharedDTO/declarations/inert constructors/fixederrors/11immediate distinctmarkerbodies (8codecs+manifest/find/retain) innewisolatedsourcebranch; no validation/codec/SQL/DDL/native/fixtures/tests yet. Manifeststubnotfixture setup; futureindependentliteralstep+oldrunner diagnostics beforefixturefreeze. Actualsource/harnessreview requiredbeforefurtherstages. Baseline/red/implementation stillnotrun.",
         "Actual5fileminimal760f89b7/import95748b9 +root58c9cb6/formatonly08592b7 receivesDIFFERENTsource/harnessapprovala257be63/import494fbd1. Root/reviewer133-step compile+link/show-onlyPASS, exact308OLDenabled/noNEWregistration andnm11symbols; no interfaceexe/newmarker/nativeSQL invoked. ONLYAFTERactualapproval, rootplainOLD308nativePASSexit0/0fail/disabled/skip/25.30s withraw/JUnit retained. All11newentrypointsstillimmediatemarkers. NewselectedownprofileCI publicationpending. No newfixture/schema7diagnostic/tests/red/productionreleased; baseline remainsin_progress.",
         "Actual selected own-profile CI42083636352 atb20ac8d completedSUCCESS: rootreadmetadata/full logs, exactQt/ICU/Boostpins/new2libraries+link-onlyartifactstep andallunchangedoldguardedSQLsuitesgreen; no newentrypoint/interfaceprogram/schema7/fixture/redbodyinvoked. All17b20headchecksSUCCESS observed. Thispasses minimal-interface/old-regression stageONLY, baseline remainsin_progress/STORAGE018planned; closingcheckpoint/newheadCI stillseparate. Nextindependentliteralsetup/diagnostic authoring anddifferentprogramreviewbeforenative92projection/fixturefreeze, thenfeaturetestsreview/compiledintendedred. No ownerdecision/accessneeded.",
-        "Actual separate bounded interfaceCI/closingmetadata attribution reviewaccess_implementer1c9e17b6+3ac1c1e3 imported. Exactreviewedclosing9eb/b20sourceunchanged/all419+1605preserved; independentlyverifiedall17b20checksSUCCESS andselectedownprofilepins/newartifactCHECK+oldruntime. No newentry/schema7/nativefixture/featuretest/red/production. Allagentscompletedclean atcontextcheckpoint; no nextfixtureauthorassigned/no backgroundexecutionpromise. PR68 remainsdraft. Resumeactualschema/fixture diagnostic AUTHORING/independentreviewgate afterinspectingcurrentheadCI, preservegenuinebaseline test-first constraints."
+        "Actual separate bounded interfaceCI/closingmetadata attribution reviewaccess_implementer1c9e17b6+3ac1c1e3 imported. Exactreviewedclosing9eb/b20sourceunchanged/all419+1605preserved; independentlyverifiedall17b20checksSUCCESS andselectedownprofilepins/newartifactCHECK+oldruntime. No newentry/schema7/nativefixture/featuretest/red/production. Allagentscompletedclean atcontextcheckpoint; no nextfixtureauthorassigned/no backgroundexecutionpromise. PR68 remainsdraft. Resumeactualschema/fixture diagnostic AUTHORING/independentreviewgate afterinspectingcurrentheadCI, preservegenuinebaseline test-first constraints.",
+        "Resumed from actual ed898878/PR68 after verifying mainb787 CORE008 merged, all current17 PR checks and16 main checks success, clean worktrees/no prior agents or native commands. Explicitly assign capture_fixture_author isolated literal schema7/closure/green diagnostic and capture_codec_tests isolated pure8-codec acceptance authoring; actual separate program/test review precedes new execution. Root retains shared build/CI/state/migration ownership. SQL feature baseline, intended red and STORAGE018 remain gated."
       ],
       "verification": {
         "document_authoring": "passed",
@@ -14536,6 +14537,11 @@
       "date": "2026-11-05T17:28:55+00:00",
       "task": "STORAGETEST-018",
       "note": "Claim dependency-ready durable initial capture baseline from integrated consumer contract; actual concrete logical/API/physical document stage only before minimalstubs/tests/red."
+    },
+    {
+      "date": "2026-11-05T18:45:42+00:00",
+      "task": "STORAGETEST-018",
+      "note": "Resumed from actual ed898878/PR68 after verifying mainb787 CORE008 merged, all current17 PR checks and16 main checks success, clean worktrees/no prior agents or native commands. Explicitly assign capture_fixture_author isolated literal schema7/closure/green diagnostic and capture_codec_tests isolated pure8-codec acceptance authoring; actual separate program/test review precedes new execution. Root retains shared build/CI/state/migration ownership. SQL feature baseline, intended red and STORAGE018 remain gated."
     }
   ]
 }
