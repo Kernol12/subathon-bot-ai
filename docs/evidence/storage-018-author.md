@@ -176,3 +176,79 @@ Raw `/tmp/storage018-author-structure4.txt` SHA256 `7af1012f17528532876eff0dcaad
 Raw `/tmp/storage018-author-sql35.txt` SHA256 `b784ffc76440b2b3ec8169c533daf4a189dacb818bae72facdd57eab1bb1e561`.
 
 Raw `/tmp/storage018-author-full372.txt` SHA256 `ccd08cce5bae2df66c5255ea9fad90f9bb0947a310ea5048943736753636f064`.
+
+## Separately gated semantic resource-projection correction
+
+Fresh support branch `task/STORAGE-018-budget-fix-author` from actual root98c252e,
+isolated `/tmp/subathon-storage018-budget-fix-author`. Root separately authorized
+this correction only after actual different program/harness review and reached
+red on the held quota: owned240 wrongly threw, owned222 correctly refused;
+1 behavior failure/1 control pass plus2 init/cleanup PASS/0skip/setup/stub.
+Preserved `/tmp/storage018-budget-red.txt` SHA256
+`3d114490a862719f56610f6af740a8ff5354bb6b7d0afadc938e5791b067f7b2`
+was read and verified by this author. No test/fixture/shared-codec/ABI/schema/build
+or progress change is authored here.
+
+Replaced the physical SQL-row sum with a metadata-only projection of the actual
+selected snapshot: plan_ref once plus CapturedPlanRevision, with no fabricated
+outer optional charge. The formula follows actual declared fields and dynamic
+selected lengths/presence; no frozen A constant or subtraction is used:
+
+- revision8 + optional parent-revision presence/value;
+- PlanEvent event/optional-parent/root, actual header ReceiptId, full actual
+  receipt identity/facts/arrival, optional CID presence/value;
+- ContributionState evidence1 plus Conditions seven scalar bytes, optional
+  original money/resolution/decision presence and all present payloads;
+- PlanValuation state1, quote presence and complete actual quote strings,
+  optional fetched/source/manual strings and optional timestamps;
+- actual RuleSelection strings/bool and RequestedEffect references, unit/bool,
+  exact component bytes, signed units, explanation and reversal reference;
+- optional override presence and actual contained fields when present.
+
+For the healthy A literal, these declared-field terms independently give revision
+223 and plan-ref-inclusive snapshot224. The source derives this from actual
+metadata, not that annotation. SQL FK keys/revisions/ordinals are not additional
+copies of semantic child fields, and prior receipt/support DTOs are not a lifetime
+quota. All exact supported1/0/1 metadata and structural scalar checks are gathered
+before snapshot sizing. The complete snapshot preflight now precedes ANY selected
+plan header/revision/rule/request payload fetch. Off-profile cardinality still
+has no selected typed snapshot and only owns the bounded revision row needed for
+intrinsic quote validation before its narrow refusal.
+
+Also audited and projected the other selected declared values before their payload
+ownership: ContributionReceipt includes ReceiptFacts six optional-presence bytes;
+immutable contribution identity has its actual optional activity; original support
+EvidenceRecord includes the full actual original receipt, observation kind/evidence,
+optional verified link, optional Conditions and optional CID; RetainedDocument
+includes kind/key/document and optional configuration link. Each logical optional
+group counts ONCE, not once per SQL column. Fixed codec DTOs retain their already
+reviewed private borrowed preflight. Per-field/row SQL buffer guards and actual
+writer8+payload accounting remain independent. Options reserve n+1 before conversions;
+all new projections use checked bounded addition and actual null-group metadata.
+
+The separate confirmed raw-child MIN/MAX aggregate preownership defect is NOT
+fixed by this commit. Exact text comparison confirms children() is byte-for-byte
+unchanged from98. Root requires its separately reviewed corruption regressions and
+actual reached red before authorizing that correction. Current pass evidence does
+not waive that unresolved source finding or independent source/config review.
+
+Actual checks:
+
+```sh
+cmake --preset sqlite-reference-capture-debug -DBoost_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 -Dboost_headers_DIR=/tmp/subathon-boost-1.83-sdk/prefix/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+cmake --build --preset sqlite-reference-capture-debug
+ctest --preset sqlite-reference-capture-debug -R '^sqlite-reference-capture.indexedSelectedPlanOwnedBudgetUsesSemanticDtoBytes$' --verbose --output-junit /tmp/storage018-author-budget2.xml
+ctest --preset sqlite-reference-capture-debug --output-on-failure --output-junit /tmp/storage018-author-full373.xml
+```
+
+All exit0. Fresh145-step build/link has no compiler warning observed. Targeted
+method/two resource rows PASS0.11s (4 QtPASS including init/cleanup). Full373 PASS
+27.79s,0fail/disabled/skipped, SQL36 methods/61 scenarios included; final actual
+LastTest.log has0 QWARN/Warning. No historical red replay. Different actual
+source audit, separate aggregate correction gate, ordinary CI and integration/
+publication/merge remain root responsibilities. This author supplies no own
+source approval and does not mark STORAGE018 done.
+
+Raw `/tmp/storage018-author-budget2.txt` SHA256 `cadfe4fc86c0e0722b582df046b201a2770280ed8752a4921d67fbafeeb28381`.
+
+Raw `/tmp/storage018-author-full373.txt` SHA256 `ffb7278f9b98ff716b0acdf435a471c60f2cd0f68491fae6b134af47c5fe3813`.

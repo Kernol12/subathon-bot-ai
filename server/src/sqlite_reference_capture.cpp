@@ -426,6 +426,153 @@ class Access final {
         }
         return result;
     }
+    // Semantic ownership is projected from declared DTO fields, not SQL keys,
+    // ordinals, framing, QVariant buffers or a lifetime sum of separate reads.
+    void add(Count &n, std::size_t bytes) {
+        if (!n.add(bytes))
+            fail(Reason::result_limit);
+    }
+    void field(Count &n, const Selection &s, std::size_t i) {
+        if (!s.fields[i].null)
+            add(n, std::size_t(s.fields[i].length));
+    }
+    void optional_field(Count &n, const Selection &s, std::size_t i) {
+        add(n, 1);
+        field(n, s, i);
+    }
+    void optional_scalar(Count &n, const Selection &s, std::size_t i, std::size_t width) {
+        add(n, 1);
+        if (!s.fields[i].null)
+            add(n, width);
+    }
+    void identity_bytes(Count &n, const Selection &receipt) {
+        for (std::size_t i = 1; i <= 4; ++i)
+            field(n, receipt, i);
+    }
+    void facts_bytes(Count &n, const Selection &receipt) {
+        field(n, receipt, 5);                // event type
+        add(n, 4);                           // schema_version
+        optional_scalar(n, receipt, 7, 8);   // source UTC
+        optional_field(n, receipt, 8);       // actor ID
+        optional_field(n, receipt, 9);       // display name
+        for (std::size_t i : {10, 12, 14}) { // money/payment/activity optional groups
+            add(n, 1);
+            if (!receipt.fields[i].null) {
+                field(n, receipt, i);
+                field(n, receipt, i + 1);
+            }
+        }
+    }
+    void arrival_bytes(Count &n, const Selection &receipt) {
+        add(n, 8);
+        for (std::size_t i = 17; i <= 19; ++i)
+            field(n, receipt, i);
+    }
+    void receipt_bytes(Count &n, const Selection &receipt) {
+        add(n, 8); // ContributionReceipt.id
+        identity_bytes(n, receipt);
+        facts_bytes(n, receipt);
+        arrival_bytes(n, receipt);
+    }
+    void conditions_bytes(Count &n, const Selection &s, std::size_t first) {
+        // monetary, missing_rate, review, policy, application, reversal, settlement.
+        add(n, 7);
+        add(n, 1); // optional original money
+        if (!s.fields[first + 1].null) {
+            field(n, s, first + 1);
+            field(n, s, first + 2);
+        }
+        optional_field(n, s, first + 3); // optional resolution
+        field(n, s, first + 7);          // policy_ref
+        add(n, 1);                       // optional review decision
+        if (!s.fields[first + 8].null) {
+            add(n, 1); // choice enum
+            field(n, s, first + 9);
+            field(n, s, first + 10);
+        }
+    }
+    void valuation_bytes(Count &n, const Selection &revision) {
+        add(n, 2); // state + optional HistoricalValuation presence
+        if (revision.fields[18].integer != 2)
+            return;
+        for (std::size_t i : {19, 20, 21, 22, 23, 25})
+            field(n, revision, i);
+        for (std::size_t i : {24, 26, 29})
+            optional_field(n, revision, i);
+        optional_scalar(n, revision, 27, 8);
+        optional_scalar(n, revision, 28, 8);
+    }
+    void bound_receipt(const Selection &receipt) {
+        Count n{std::size_t(limits_.owned_bytes)};
+        receipt_bytes(n, receipt);
+    }
+    void bound_contribution(const Selection &contribution) {
+        Count n{std::size_t(limits_.owned_bytes)};
+        add(n, 16); // immutable CID and original ReceiptId
+        add(n, 1);  // optional verified activity identity
+        if (!contribution.fields[2].null)
+            for (std::size_t i = 2; i <= 5; ++i)
+                field(n, contribution, i);
+    }
+    void bound_support(const Selection &support, const Selection &receipt) {
+        Count n{std::size_t(limits_.owned_bytes)};
+        receipt_bytes(n, receipt); // ContributionEvidenceRecord.observation.receipt
+        add(n, 2);                 // observation kind and payment evidence
+        add(n, 1);                 // optional verified activity/proof
+        if (!support.fields[4].null)
+            for (std::size_t i = 4; i <= 8; ++i)
+                field(n, support, i);
+        add(n, 1); // optional support conditions
+        if (!support.fields[9].null)
+            conditions_bytes(n, support, 9);
+        optional_scalar(n, support, 1, 8); // optional associated CID (including0)
+    }
+    void bound_retained(const Selection &document, bool configuration) {
+        Count n{std::size_t(limits_.owned_bytes)};
+        add(n, 1); // RetainedKey.kind
+        field(n, document, 0);
+        field(n, document, 1);
+        add(n, 1); // optional ConfigurationReference
+        if (!configuration)
+            field(n, document, 2);
+    }
+    void bound_plan(const Selection &header, const Selection &receipt, const Selection &revision,
+                    const Selection &rule, const Selection &request) {
+        Count n{std::size_t(limits_.owned_bytes)};
+        field(n, header, 0); // Selected snapshot's plan_ref, once
+        add(n, 8);           // CapturedPlanRevision.revision
+        optional_scalar(n, revision, 2, 8);
+        // PlanEvent owns its complete original receipt projection.
+        field(n, header, 1);
+        optional_field(n, header, 2);
+        field(n, header, 3);
+        add(n, 8); // event.receipt_id
+        identity_bytes(n, receipt);
+        facts_bytes(n, receipt);
+        arrival_bytes(n, receipt);
+        optional_scalar(n, header, 5, 8);
+        add(n, 1); // captured ContributionState.payment_evidence
+        conditions_bytes(n, revision, 4);
+        valuation_bytes(n, revision);
+        // The selected vectors are already proven exactly1 rule/0 modifiers/1 request.
+        field(n, rule, 3);
+        field(n, rule, 4);
+        add(n, 1); // RuleSelection.selected
+        field(n, rule, 6);
+        for (std::size_t i = 3; i <= 6; ++i)
+            field(n, request, i);
+        add(n, 10);            // RequestedEffect unit + requires-historical + requested_units
+        field(n, request, 9);  // canonical exact numerator
+        field(n, request, 10); // canonical exact denominator
+        field(n, request, 12);
+        field(n, request, 13);
+        add(n, 1); // optional override decision
+        if (!revision.fields[30].null) {
+            add(n, 1); // authority
+            for (std::size_t i = 31; i <= 33; ++i)
+                field(n, revision, i);
+        }
+    }
     Selection required(std::optional<Selection> s, bool indexed, bool intrinsic = false) {
         if (!s) {
             if (indexed || intrinsic)
@@ -497,6 +644,7 @@ class Access final {
                    configuration ? Columns(configuration_columns) : Columns(context_columns),
                    "reference=?", {blob(reference)}),
             indexed, intrinsic);
+        bound_retained(s, configuration);
         const auto row = payload(s);
         if (text(row, 0) != reference)
             fail(Reason::invalid_stored_data);
@@ -549,6 +697,7 @@ class Access final {
         group(target, 10, 11);
         group(target, 12, 13);
         group(target, 14, 15);
+        bound_receipt(target);
         const auto row = payload(target);
         (void)retained(text(row, 18), true, true, true);
         (void)retained(text(row, 19), false, true, true);
@@ -624,6 +773,7 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
                                          {encode_plan_revision_uint64(r.receipt_id.value)}),
                                   indexed);
     receipt_shape(receipt);
+    bound_receipt(receipt);
     const auto original = payload(receipt);
     if (identifier(original, 0, true) != r.receipt_id.value)
         fail(Reason::invalid_stored_data);
@@ -650,14 +800,16 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
                         {encode_plan_revision_uint64(r.contribution_id.value)}),
                  indexed);
     group(contribution, 2, 5);
+    bound_contribution(contribution);
     const auto c = payload(contribution);
     const auto original_receipt_id = identifier(c, 1, true);
     if (identifier(c, 0) != r.contribution_id.value)
         fail(Reason::invalid_stored_data);
     // An existing contribution's original support anchor is intrinsic, even if
     // the proposed source subsequently turns out to be a different receipt.
+    std::optional<std::pair<Selection, SqlRow>> support_event;
     if (original_receipt_id != r.receipt_id.value)
-        receipt_target(original_receipt_id);
+        support_event = receipt_target(original_receipt_id);
     const auto support =
         required(select("subathon_contribution_observations", observation_columns, "receipt_id=?",
                         {encode_plan_revision_uint64(original_receipt_id)}),
@@ -676,6 +828,7 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
     group(support, 17, 19);
     if (!support.fields[17].null)
         domain(support, 17, 0, 1);
+    bound_support(support, support_event ? support_event->first : receipt);
     const auto o = payload(support);
     if (identifier(o, 0, true) != original_receipt_id ||
         identifier(o, 1) != r.contribution_id.value)
@@ -799,30 +952,32 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
     const auto request_shape = children("subathon_plan_requests", r.plan.plan_ref);
     if (revision.fields[18].integer == 1 && request_shape.dependent)
         fail(Reason::invalid_stored_data);
+    const bool supported_shape =
+        rule_shape.count == 1 && modifier_shape.count == 0 && request_shape.count == 1;
+    std::optional<Selection> selected_rule, selected_request;
+    if (supported_shape) {
+        selected_rule = required(select("subathon_plan_rules", rule_columns,
+                                        "plan_ref=? AND revision=? AND ordinal=1",
+                                        {blob(r.plan.plan_ref), encode_plan_revision_uint64(1)}),
+                                 indexed, true);
+        selected_request = required(select("subathon_plan_requests", request_columns,
+                                           "plan_ref=? AND revision=? AND ordinal=1",
+                                           {blob(r.plan.plan_ref), encode_plan_revision_uint64(1)}),
+                                    indexed, true);
+        domain(*selected_rule, 5, 0, 1);
+        domain(*selected_request, 7, 0, 2);
+        domain(*selected_request, 8, 0, 1);
+        bound_plan(header, event_metadata, revision, *selected_rule, *selected_request);
+    }
+    // An off-profile shape owns no selected typed snapshot. Its bounded revision
+    // row can still establish intrinsic quote coupling before the narrow refusal.
     const auto v = payload(revision);
     if (revision.fields[18].integer == 2 &&
         (event_metadata.fields[10].null || data(v, 20) != data(event, 10) ||
          data(v, 21) != data(event, 11)))
         fail(Reason::invalid_stored_data);
-    // Off-profile cardinality is a bounded refusal, not a generic-plan audit.
-    // Structural ordinal/type checks above still precede that refusal.
-    match(rule_shape.count == 1 && modifier_shape.count == 0 && request_shape.count == 1, indexed);
-    const auto rule = required(select("subathon_plan_rules", rule_columns,
-                                      "plan_ref=? AND revision=? AND ordinal=1",
-                                      {blob(r.plan.plan_ref), encode_plan_revision_uint64(1)}),
-                               indexed, true);
-    const auto request = required(select("subathon_plan_requests", request_columns,
-                                         "plan_ref=? AND revision=? AND ordinal=1",
-                                         {blob(r.plan.plan_ref), encode_plan_revision_uint64(1)}),
-                                  indexed, true);
-    domain(rule, 5, 0, 1);
-    domain(request, 7, 0, 2);
-    domain(request, 8, 0, 1);
-    Count plan_size{std::size_t(limits_.owned_bytes)};
-    for (auto n :
-         {header.bytes, receipt.bytes, support.bytes, revision.bytes, rule.bytes, request.bytes})
-        if (!plan_size.add(n))
-            fail(Reason::result_limit);
+    match(supported_shape, indexed);
+    const auto &rule = *selected_rule, &request = *selected_request;
     const auto h = payload(header), rules = payload(rule), q = payload(request);
     if (identifier(v, 1, true) != 1 || text(v, 0) != r.plan.plan_ref ||
         identifier(rules, 1, true) != 1 || identifier(q, 1, true) != 1 ||
