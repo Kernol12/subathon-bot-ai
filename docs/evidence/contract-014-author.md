@@ -82,3 +82,55 @@ Markdown files. Existing document consistency CI covers the new links; future
 executable codecs/suites require their owning CI additions before implementation
 completion. Exact actual separate document review and root publication/merge gates
 remain. No self-approval, PR publication or merge performed by this author.
+
+## Bounded correction after actual independent review
+
+2026-11-05: original author reassigned in clean isolated
+`task/CONTRACT-014-document-correction`, `/tmp/subathon-contract014-correction`,
+from actual root import3745934. Read the COMPLETE actual independent
+[review](contract-014-review.md), source commit
+970cc2a238f7805233b39d10dd30d9917992161f, including R1/R2/R3 and frozen actual
+application-service check_clock/current_state fields. Original candidate and
+request-changes review remain retained. Revision2 is a correction candidate,
+**not independently re-approved**; same different reviewer must inspect it.
+
+- R1: define ReferenceCaptureKey/ReferenceInitialCapture, exact SRI1 bytes and
+  caller-session SqliteReferenceCaptureStore find/retain interface with immutable
+  first-writer meaning, full original receipt/support/plan1/SRC1/SRA1/SRX1 closure,
+  exact already-present/conflict/refusal/error behavior, borrowed bounds and
+  real rollback/unknown truth. Plan/SRX/index stage in ONE unit; no conflicting
+  orphan data may commit. ReceiptArrival configuration_ref/modifier_context_ref
+  now explicitly map SRC1/SRA1. Root owns actual STORAGETEST018/STORAGE018
+  records/required API011+epic edges; this author changes no shared planning.
+  Actual producer physical schema/migration/baseline/red/source remain future.
+- R2: define complete unprojected configuration/category/rule fact types and
+  read-only source snapshot/load seam; callable admission, runtime admission
+  and derivation variants carry actual not_ready/unsupported outcomes. Derivation
+  calls admission before producing any request. Known extras cannot be projected
+  away; malformed inputs remain typed failures. Missing whole current/captured
+  configuration/runtime producer is explicit unavailable; raw flags/aggregates
+  grant no authority. Snapshot needs no fabricated private callback view.
+- R3: empty clock segments require actual old observation ref/UTC/unchanged binding
+  and release any unused fresh reservation; a fresh ref always has an explicit
+  segment, including0 elapsed/unchanged UTC. Changed UTC still uses a zero
+  segment. Correct actual imported member inputs.current_state.configuration_ref.
+
+No settled original policy, effect/cap/request, grant scope, exact accounting,
+commit/unknown/publication or original RP oracle is weakened. Added IC01–03/RC03
+document examples spell interrupted/competing capture closure and zero-clock
+branches; these are expected examples, not executable tests or runtime proof.
+
+Actual corrected-tree checks: `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check`, `git diff --check` all exit0,417tasks/
+122decisions/links/presets/current HTML. Root's new018 records are outside this
+author branch and require actual combined DAG review after integration. Independent
+Python stdlib/Fraction arithmetic check24 facts PASS; receipt
+`/tmp/contract014-correction-arithmetic.json` SHA256
+`a69d993a3adc4d0a87044ba95342ea44810e2b441f459d8f52bbdebc38168345`.
+Checks include SRI1 minimal structural B34/body78 and actual outer-format length37,
+plus original request/cap/clock/overflow/reference facts. An initial ad-hoc check
+mistyped that outer length36; it failed and was corrected to the measured literal37,
+without changing any contract/original oracle. No product test/red was involved.
+No CMake/native/SDK/feature/schema-validation execution, new source/dependency or
+self-approval. Exactly the two owned Markdown files change; publication/shared
+state and the actual same-reviewer re-review remain root's next gates.

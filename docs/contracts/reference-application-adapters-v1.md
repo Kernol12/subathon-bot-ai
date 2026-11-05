@@ -1,6 +1,6 @@
 # Reference application adapters — concrete consumer proposal v1
 
-Task CONTRACT-014, revision 1; specification v0.45 §§2–4/6/10/17/18,
+Task CONTRACT-014, revision 2 (bounded R1–R3 correction); specification v0.45 §§2–4/6/10/17/18,
 NUM-04, AUTH-06/07 and API-01/03. This proposes owned consumer interfaces and
 stored formats for the reviewed [reference.v1 logical profile](reference-path-v1.md).
 [ADR-0006](../decisions/0006-reference-path-prerequisites.md) retains all broader
@@ -98,9 +98,7 @@ struct ReferenceAdapterLimits {
     std::uint64_t clock_journal_entries = 64;
 };
 
-// Pure derivation from retained arrival configuration, never caller-supplied award.
-ReferenceRuleEvaluation evaluate_reference_rule(
-    const ReferenceArrivalCapture &, const ReferenceAdapterLimits & = {});
+// Admission and typed derivation signatures are specified below.
 ApplicationEnvelope encode_reference_configuration(
     const ReferenceConfiguration &, const ReferenceAdapterLimits & = {});
 ReferenceConfiguration decode_reference_configuration(
@@ -115,24 +113,167 @@ ReferenceExecutionBinding decode_reference_execution(
     const ApplicationEnvelope &, const ReferenceAdapterLimits & = {});
 ```
 
-This is a proposed DATA interface, not a way to let clients construct authoritative
-facts. A future strict configuration admission function must obtain complete facts
-from the real versioned configuration owner; raw `complete` tags are not proof.
-Each category above means its actual enabled set is known empty, not merely absent
-from a partial load. The profile has exactly one enabled rule, one exact trigger
-`synthetic.reference.support.v1`, one time-add action, unit milliseconds, zero
-conditions/exclusions/cooldowns and no other actions. `ReferenceRule` cannot encode
-these unsupported extras; the admission adapter must first inspect the complete
-owning configuration and refuse them, rather than project them away into this DTO.
-Unknown categories return not_ready; known nonempty categories return
-unsupported_configuration. Full rules/modifiers/milestones remain their own tasks.
+### Read-only admission consumer and typed refusals
+
+Admission consumes the WHOLE owning configuration before deriving the narrow DTO.
+The following are proposed owned DATA; the real source is API-011's serialized
+configuration owner, never a connector/client or a decoder of SRC1 alone:
+
+```cpp
+struct ReferenceCategoryFacts {
+    ReferenceFactsState state = ReferenceFactsState::unknown;
+    std::vector<std::string> enabled_refs;
+};
+struct ReferenceEnabledRuleFacts {
+    ReferenceRule rule;
+    std::vector<std::string> trigger_types;
+    std::vector<std::string> action_kinds;
+    std::vector<std::string> action_units;
+    std::vector<std::string> conditions;
+    std::vector<std::string> exclusions;
+    std::vector<std::string> execution_limits;
+};
+struct ReferenceConfigurationFacts {
+    std::string configuration_ref;
+    std::string configuration_owner_revision_ref;
+    ReferenceConfiguration projection;
+    ReferenceFactsState rules_state = ReferenceFactsState::unknown;
+    std::vector<ReferenceEnabledRuleFacts> enabled_rules;
+    ReferenceCategoryFacts modifiers;
+    ReferenceCategoryFacts milestones;
+    ReferenceCategoryFacts outbound_actions;
+    ReferenceCategoryFacts generated_events;
+};
+struct ReferenceAdmittedConfiguration {
+    ReferenceConfiguration configuration;
+    std::string configuration_owner_revision_ref;
+};
+using ReferenceConfigurationResolution =
+    std::variant<ReferenceConfigurationFacts, ReferenceUnavailable>;
+using ReferenceAdmissionResolution =
+    std::variant<ReferenceAdmittedConfiguration, ReferenceUnavailable>;
+using ReferenceRuleResolution =
+    std::variant<ReferenceRuleEvaluation, ReferenceUnavailable>;
+class ReferenceConfigurationSource {
+  public:
+    virtual ~ReferenceConfigurationSource() = default;
+    // Queue-owned complete immutable facts; no SQL/session capability is implied.
+    virtual ReferenceConfigurationResolution snapshot(
+        const std::string &configuration_ref) = 0;
+    // Inside existing ACCT004 callbacks only; preserves the finite read capability.
+    virtual ReferenceConfigurationResolution load(
+        const ApplicationReferenceReadView &, const std::string &configuration_ref) = 0;
+};
+ReferenceAdmissionResolution admit_reference_configuration(
+    const std::string &expected_configuration_ref,
+    const ReferenceConfigurationResolution &, const ReferenceAdapterLimits & = {});
+ReferenceRuleResolution evaluate_reference_rule(
+    const ReferenceArrivalCapture &, const ReferenceConfigurationResolution &,
+    const ReferenceAdapterLimits & = {});
+
+struct ReferenceRuntimeFacts {
+    std::string checked_state_token;
+    std::string configuration_ref;
+    std::string pause_recovery_revision_ref;
+    core::TimerState timer;
+    std::int64_t debt_ms = 0;
+    std::vector<ApplicationBalance> balances;
+    bool paused = false;
+    bool recovery_pending = false;
+    bool clock_anchor_available = false;
+};
+using ReferenceRuntimeResolution =
+    std::variant<ReferenceRuntimeFacts, ReferenceUnavailable>;
+using ReferenceRuntimeAdmission =
+    std::variant<ReferenceRuntimeFacts, ReferenceUnavailable>;
+ReferenceRuntimeAdmission admit_reference_runtime(
+    const std::string &expected_head_token,
+    const ReferenceAdmittedConfiguration &, const ReferenceRuntimeResolution &,
+    const ReferenceAdapterLimits & = {});
+```
+
+The source's `snapshot`/`load` must resolve the exact immutable requested version AND its complete
+unprojected enabled rules/categories/trigger-action-shapes from the owning versioned
+configuration. It returns current owner revision provenance, not a caller's guess.
+`snapshot` runs on the authority queue against a complete already owned immutable
+configuration version; it performs no SQL, network or nested work. The intake/plan
+host can call it without constructing ApplicationReferenceReadView, which is private
+to ACCT004 callbacks. A missing selected historical version is unavailable. Actual
+loading/retention of whole owning configuration meaning remains the configuration
+producer's gate; SRC1 alone is insufficient. `load` is used only with the actual
+callback view. Both methods return the same facts/limits/provenance contract.
+Their projection is merely a proposed subset to check; admitted fields are derived
+only after comparing it against ALL facts. Unknown facts have empty supplied
+collections; partial-known payloads with unknown tags are invalid_shape, never a
+permit. A source unable to obtain the whole owning version returns
+not_ready(`reference.configuration-unavailable.v1`). A complete well-formed owning
+configuration that cannot be represented even as the proposed facts (for example
+an action with a different numeric payload) returns the explicit
+unsupported_configuration variant; it must not fabricate placeholder narrow
+fields, silently drop the action or claim that unsupported means absent. The finite read view remains
+read-only; if the actual owning format needs a focused read-view extension, that
+is an API-011 prerequisite, not permission to query arbitrary SQL. SRC1 contains
+only the accepted subset, so decoding SRC1 alone cannot establish that a broader
+current configuration has no other enabled features.
+
+All malformed tags/refs/shapes/numeric values/bindings are validated across the
+complete supplied facts before deciding a supported-profile outcome. Required
+configuration_ref/owner revision must be nonempty; expected ref, facts ref and
+projection ref must match exactly. The rule in the projection must equal the sole
+rule fact if exactly one is supplied. Duplicate enabled rule refs/category members
+are invalid_shape. Complete facts with0 or>1 enabled rules are a known unsupported
+configuration, rather than a partial load; do not index a nonexistent first rule.
+For an otherwise valid one-rule input require trigger_types exactly
+[`synthetic.reference.support.v1`], action_kinds exactly [`time_add`], action_units
+exactly [`ms`], and conditions/exclusions/execution_limits empty. Each other
+category must be complete and empty; its admitted projection tag is complete.
+A known nonempty category or another supported owning action/trigger/unit shape
+returns unsupported_configuration(`reference.configuration-unsupported.v1`).
+A valid unknown rules/category tag returns not_ready with the unavailable reason.
+A known hard deadline, or a non-synthetic supported origin, is unsupported here;
+negative amounts/caps, invalid TimerConfig enums and ill-formed payloads remain
+input failures. Projection tags may NOT claim complete when corresponding facts
+are unknown; that contradiction is invalid_binding. The complete facts are never
+projected away before these checks. The actual loader must establish provenance;
+raw complete tags or a ReferenceAdmittedConfiguration aggregate are not authority.
+
+`evaluate_reference_rule` first validates the complete arrival/facts input and calls
+`admit_reference_configuration(arrival.configuration.configuration_ref, facts)`.
+An unavailable/unsupported result returns that exact ReferenceUnavailable variant,
+with no RuleSelection/request. Success additionally requires the admitted config
+byte/value-equal to the retained arrival config before deriving its one request.
+Thus the pure operation has a callable typed refusal path and cannot assume that
+receiving an already narrow SRC1 means admission passed. Loading retained r1 facts
+must not load current r2 instead. Pure derivation may evaluate a captured r1 while
+execution separately resolves today's supported cap/policy/authority.
+
+`admit_reference_runtime` is called for fresh intake and current execution using
+actual serialized queue facts from the owning current-state/configuration/pause/
+recovery/clock producer. The expected head/config must match all supplied echoes;
+missing producer state is the unavailable variant, never a manufactured false flag.
+Validate all fields first (including inherited TimerState/balance shape), then
+allow only known Active/Main, positive Main, no waiting, debt0, empty balances,
+paused=false/recovery_pending=false, available same-lineage clock anchor and
+admitted no-deadline configuration. Otherwise return
+not_ready(`reference.runtime-unavailable.v1`) without discarding an enabled feature
+or changing state. These booleans are observations from the trusted producer,
+not an `allow` parameter or currentness proof. This DATA result authorizes no
+operation: section4's current permission/delegation check is separately mandatory.
+An unavailable input preserves its reason/gate after the complete input preflight;
+only not_ready/unsupported_configuration are valid source/admission gates here,
+while denied/conflict in this channel is invalid_shape. The actual source and
+runtime producer remain API-011 implementation gates; these consumer signatures
+and outcomes are fixed now, not deferred as unwritten future functions.
 
 All required refs are nonempty and within reference_bytes. `add_ms` is a
 nonnegative signed64 integer; negative values are invalid, zero is a real request.
 Cap is absent or nonnegative signed64. TimerConfig must be a valid CORE-002 config
-with absent hard_end; its grace/end/reuse values are retained, never rewritten to
-reference defaults. The trusted synthetic origin has provider literal `synthetic.reference.v1`; its
-source_account and receipt namespace are stable installation configuration. Connection_ref is a configured trusted test connector
+for well-formed input. A present supported hard_end is a typed unsupported profile
+outcome at admission, not malformed TimerConfig. Admitted output requires absent
+hard_end; its grace/end/reuse values are retained, never rewritten to
+reference defaults. The trusted synthetic origin has provider literal
+`synthetic.reference.v1`; its source_account and receipt namespace are stable
+installation configuration. Connection_ref is a configured trusted test connector
 binding; changing/reconnecting a transport never changes the source-account scope.
 The connector supplies event_id, actual optional source UTC and original payload;
 the queue supplies arrival time/current configuration/event/context refs. A connector
@@ -228,8 +369,15 @@ budgets separately. Check exact output framed length/B/I BEFORE allocating owned
 output. A decoder scans the statically fixed field grammar, maximum64 borrowed index
 records and nesting depth3; no unbounded recursion, eager DTO clone or count×size
 overflow. Index payload is at most512 bytes plus the fixed-depth stack, not
-misreported as result B/I. These NEW codec DTOs contain no vector, so their semantic
-I is0; imported authority/service values retain their own actual vector counts. Integer scalar parsing uses exact
+misreported as result B/I. The fixed SRC1/SRA1/SRX1/SRI1 codec DTOs contain no
+vector, so their semantic I is0. New admission-facts DTOs count ALL actual vector
+elements recursively; imported authority/service values retain their own vector
+counts. Admission shape/duplicate validation can use finite pairwise borrowed
+scans under value_items without a variable owning cache; it is not restricted to
+64 input elements or allowed to clone/sort an oversized source first. Their
+borrowed preflight must inspect losing/unsupported members, and the
+complete result projection precedes owned output. Configuration-source input itself
+is bounded before use; no oversized source result may be copied first. Integer scalar parsing uses exact
 fixed-width bytes and never invokes floating-point conversion. Own
 std::bad_alloc/std::length_error translate to allocation_failure without copying
 input text into the exception. Caller-owned construction/copy and process death
@@ -255,11 +403,21 @@ service return remains provisional until normal actual writer completion.
 One host sequences the following units; no
 nested owner, connector write, secondary connection, raw-SQL bypass or port write:
 
-1. Validate trusted synthetic registration and complete configuration admission.
+1. Validate trusted synthetic registration, call the source snapshot for the actual
+   queue-selected version, then admit_reference_configuration. Call
+   admit_reference_runtime with the actual queue head/current facts before fresh
+   intake. Either unavailable/unsupported result stops intake without new receipt.
+   Only successful supported admission proceeds.
    Sample actual arrival UTC independently of monotonic elapsed. Allocate bounded
    event/context refs using the fresh-reference strategy below, capture SRA1/SRC1
    and retain them with the receipt in the SAME real intake unit. Invoke existing
    ReceiptIntake with normalized ReceiptInput and session-adopting repository.
+   ReceiptInput.identity is configured synthetic_origin+receipt_namespace+event_id;
+   facts are the fixed normalized facts from section1. ReceiptArrival fields are
+   server_timestamp_utc_ms=captured server arrival, connection_ref=trusted registration,
+   configuration_ref=SRC1.configuration_ref and modifier_context_ref=SRA1.arrival_context_ref.
+   Despite its inherited name, modifier_context_ref here points to the complete SRA1
+   arrival context linked to that SRC1, proving known-empty reference modifiers.
    Acknowledged normal completion establishes the receipt/attempt/context record;
    the new source's first attempt also retains the original configuration. An
    unknown outcome stops admission/reconciliation; do not proceed with a guessed ID.
@@ -270,24 +428,27 @@ nested owner, connector write, secondary connection, raw-SQL bypass or port writ
    evidence not_applicable, no VerifiedActivityLink and explicit support conditions:
    nonmonetary, no money/resolution/missing-rate, review not_required,
    require_evidence_review with retained synthetic policy_ref/no review decision,
-   application not_applied, reversal none, settlement clear. evidence_admission.policy_ref is exactly the captured configuration_ref,
-whose SRC1 reference semantics include this synthetic nonfinancial admission.
-These facts come only
-   from the trusted nonfinancial synthetic registration/config; real adapters cannot
+   application not_applied, reversal none, settlement clear.
+   evidence_admission.policy_ref is exactly the captured configuration_ref, whose
+   SRC1 reference semantics include this synthetic nonfinancial admission. These
+   facts come only from the trusted nonfinancial synthetic registration/config; real adapters cannot
    obtain them from absent source fields. ACCT-002 receipt deduplication yields the
    existing CID on retry; no activity/name/money/time resemblance is used.
 3. Retain the first plan using the actual contribution/receipt snapshot and captured
    SRA1/SRC1 in one real plan unit. Construct PlanEvent from immutable original
    receipt, event_ref=root_event_ref, absent parent, actual receipt ID/CID and arrival.
-   PlanValuation is not_applicable/no historical value. Evaluate the retained rule,
+   PlanValuation is not_applicable/no historical value. snapshot the ORIGINAL
+   retained version and evaluate_reference_rule with those full facts; an unavailable
+   or unsupported result stops this capture unit without staging a plan. On success,
    call capture_application_plan with exactly that RuleSelection and explicitly
    empty known modifier result, then retain_initial. Initial revision is1 without
    parent/override. Persist SRX1 binding to the actual receipt/CID/plan1/rule and
    captured configuration in this same plan unit. A retry discovers the existing
    initial capture/binding; it never allocates a competing historical meaning.
+   Use the concrete caller-session SqliteReferenceCaptureStore below for discovery
+   and retain; its first-source binding, initial plan and SRX1 are atomic in this unit.
    Exact already_present is reusable; conflict/stale/unsupported retained meaning
-   stops. Durable source→initial-plan binding lookup must use a concrete bounded
-   lookup owned by API-011; no scan or deterministic hash is assumed to prove uniqueness.
+   stops with the explicit rollback/provisional-result rules below.
 4. Only acknowledged normal completion of prior units permits submitting an
    OriginalApplicationCommand. Subject=contribution, actual receipt/CID/plan1,
    principal=the captured automation binding, purpose=captured_original,
@@ -297,15 +458,144 @@ These facts come only
    change source identity or bypass existing claims. Call OriginalApplicationService,
    preserving its one real application unit and completion bridge entirely.
 
-A source-index/lookup for initial plan/binding is **not present in today's retained
-store API**. API-011 must first provide/review the narrow lookup/retention mechanism
-with its necessary physical schema/migration and test-first gates, or prove an
-existing indexed owner meets it. This document fixes uniqueness/semantics but does
-not invent an existing method or authorize a migration. Until then capture orchestration
-is not_ready; an in-memory map or unbounded retained-row scan cannot supply durable
-retry identity. This is a concrete technical prerequisite, not an owner choice.
+### Durable first-capture binding: concrete consumer for STORAGE-018
 
-Pure evaluate_reference_rule returns one selected RuleSelection identifying captured
+Today's retained/plan APIs do not discover a source's first plan. The following
+NEW caller-session facade is the required STORAGE-018 consumer contract, not a
+claim that this API currently exists. It belongs in future
+`server/include/subathon/server/sqlite_reference_capture.hpp`, same namespace.
+STORAGETEST-018 owns concrete physical/schema review and an independent real-SQL
+baseline/red; STORAGE-018 owns implementation/source review. Both API-011 records
+and EPIC-009 must retain STORAGE-018 as a prerequisite before capture orchestration.
+
+```cpp
+struct ReferenceCaptureKey {
+    std::string installation_ref;
+    core::ReceiptIdentity source;
+};
+struct ReferenceInitialCapture {
+    ReferenceCaptureKey key;
+    core::ReceiptId receipt_id{0};
+    core::ContributionId contribution_id{0};
+    std::string configuration_ref;
+    std::string arrival_context_ref;
+    std::string event_ref;
+    ApplicationPlanKey plan;
+    std::string execution_context_ref;
+};
+struct ReferenceCaptureLimits {
+    qsizetype reference_bytes{4096};
+    qsizetype document_bytes{262144};
+    qsizetype owned_bytes{1048576};
+};
+enum class ReferenceCaptureRetainDisposition : std::uint8_t {
+    inserted, already_present, conflict, missing_reference, source_mismatch
+};
+enum class ReferenceCaptureStorageReason : std::uint8_t {
+    busy, sql_failure, resource_limit, result_limit, invalid_stored_data
+};
+class ReferenceCaptureStorageFailure final : public std::runtime_error {
+  public:
+    explicit ReferenceCaptureStorageFailure(ReferenceCaptureStorageReason);
+    ReferenceCaptureStorageReason reason() const noexcept;
+};
+class SqliteReferenceCaptureStore final {
+  public:
+    explicit SqliteReferenceCaptureStore(SqliteWorkSession,
+                                         ReferenceCaptureLimits = {});
+    std::optional<ReferenceInitialCapture> find(const ReferenceCaptureKey &) const;
+    ReferenceCaptureRetainDisposition retain_initial(
+        const ReferenceInitialCapture &) const;
+};
+ApplicationEnvelope encode_reference_initial_capture(
+    const ReferenceInitialCapture &, const ReferenceAdapterLimits & = {});
+ReferenceInitialCapture decode_reference_initial_capture(
+    const ApplicationEnvelope &, const ReferenceAdapterLimits & = {});
+```
+
+Key equality is installation plus ALL four ReceiptIdentity components, exact opaque
+bytes, including opaque event ID. Receipt ID is1..UINT64_MAX; CID0 is valid; initial
+plan revision MUST be1. The record has ten required nonempty references and three
+U64 scalars (receipt,CID,plan revision). It is immutable first-source meaning:
+retaining another plan/rule/SRX for the same key is conflict, including after the
+initial plan later acquires history or effects. No overwrite, alias, expiry,
+per-process cache, case folding, amount/time matching or hash-as-uniqueness proof.
+Distinct source keys cannot bind one actual receipt; the required schema must
+also enforce installation+receipt uniqueness and validate actual receipt identity.
+One real single writer serializes competing capture units; a second unit finds
+and reuses the first committed binding, not an independently generated winner.
+
+SRI1 canonical envelope format is `subathon.reference.initial-capture.v1`; document:
+ASCII `SRI1`,B(installation_ref),Identity,U64(receipt_id),U64(contribution_id),
+B(configuration_ref),B(arrival_context_ref),B(event_ref),B(plan_ref),U64(plan_revision),
+B(execution_context_ref). Reuse section2 framing/DTO preflight/error priority and
+no-allocation decoder; maximum fixed records64/depth3 unchanged. A hypothetical
+all-one-byte-reference record (not actual fixture data) has B=34,I=0 and document
+length78; an SRI1 body above document_bytes or complete value above owned_bytes
+fails before output allocation. Input components are independently reference-bounded;
+keys have B=sum of their five references,I=0. Record output owns every field/copy.
+The envelope's format-ref bytes are additional output B; they are not hidden in78.
+Actual SQL physical columns/indexes/foreign-key and migration bytes remain explicit
+018 document/test gates, not supplied by this logical serialization annotation.
+
+`find` validates options → borrowed complete key byte preflight → nonempty refs,
+then uses the SAME actual active revocable session. Absent exact source key returns
+nullopt, not a partially empty record. A present key returns the complete owned
+immutable record only after checking its selected reference closure below. Bound
+result reads must preflight complete record/document B before materialization; no
+history scan/full plan-history materialization is required. `retain_initial`
+validates options → complete candidate per-field/owned bounds → refs/ID domains →
+revision1 before any SQL; pure failure uses existing section2 ReferenceInputFailure
+codes and does not touch/cleanup an earlier caller unit. Positive storage limits
+must reserve n+1 below qsizetype/qint64/size_t and each output max_size. The constructor
+is inert; facade destruction neither commits nor cleans up and cannot prolong the
+session's owner/thread/lifetime. Actual capability/protocol/unknown WorkFailure
+retains its exact writer error and transaction truth.
+
+After validation, `retain_initial` checks any existing source AND installation/
+receipt binding with full closure first: an exact complete candidate returns
+already_present, a different candidate or competing receipt key returns conflict.
+With no existing binding it verifies the actual immutable receipt's identity,
+original arrival/facts, actual contribution's original receipt/support anchor,
+selected initial plan1/capture, SRC1/SRA1 and SRX1 and their typed links. Require:
+receipt.original_arrival.configuration_ref=record.configuration_ref;
+receipt.original_arrival.modifier_context_ref=record.arrival_context_ref;
+SRA1 config/event/arrival/source observation and plan event match that original;
+contribution ID/original receipt match; plan1 has no parent/override and its original
+source/event/config/contribution/request derive from captured SRC1; SRX1 echoes ALL
+record identifiers and captured rule/principal; SRX1.installation_ref and
+rule.automation.installation_ref both equal key.installation_ref. Reference closure includes original
+support, not today's mutable contribution dimensions or current plan HEAD. Healthy
+absent references return missing_reference; valid references naming another source/
+CID/config/plan/context return source_mismatch. Neither refusal writes an index row.
+A missing/dangling/malformed/contradictory reference selected by an EXISTING stored
+index is stored corruption, not a benign missing lookup or permit to replace it.
+
+Actual known query busy/SQL/resource failure, selected stored corruption or result
+limit must establish real whole-unit rollback before ReferenceCaptureStorageFailure
+with the actual reason; if cleanup is uncertain, propagate actual
+SqliteWorkFailure(uncertain_outcome), never claim known rollback. The fixed message
+is `"Reference initial capture did not commit"`, with only typed reason exposed.
+Normal retain dispositions make no OWN writes except inserted's complete index row;
+all results remain provisional until real caller commit and normal work completion.
+The store never begins/adopts/commits, replays, queues or generates a replacement ref.
+
+The capture host begins ONE actual unit, calls find first, and either validates/
+uses the existing closure or stages the initial plan, SRX1 and index TOGETHER.
+Never commit plan/SRX before inserting their index. Any healthy conflict,
+missing_reference or source_mismatch after this unit staged new plan/context data
+requires the host's ONE actual whole-session cleanup before reporting capture
+refusal; preserving staged orphan data as a successful partial capture is forbidden.
+A cleanup-unknown outcome stops admission and preserves unknown. An unexpected
+already_present after attempted staging must be exact and closure-validated;
+otherwise roll back rather than commit competing rows. Known rollback leaves prior
+receipt/contribution units intact, no new plan/SRX/index; commit-unknown never
+retries under new refs/keys. Only actual committed/none/normal completion publishes
+a usable binding. The forthcoming 018 physical API/baseline must test interruption
+and competing-candidate outcomes, not merely pure SRI1 roundtrips.
+
+A successful ReferenceRuleResolution from evaluate_reference_rule owns one selected
+RuleSelection identifying captured
 rule/version with fixed explanation `reference.single-rule.match.v1`. Its one
 RequestedEffect copies action/action-version/rule/timer, unit milliseconds,
 requires_historical_valuation=false, exact_requested_units=Exact(add_ms),
@@ -424,7 +714,7 @@ application state or publishes. Actual adapters must prove the following:
 | Existing port | Concrete reference obligation |
 | --- | --- |
 | ExecutionAccess | Section4; current full-request authorization before protected lookup, separate actual-record/whole-hold disclosure; unknown never allow |
-| CurrentApplicationPolicy | Decode current head SAS1 and current SRC1 from inputs.state.configuration_ref, load retained captured SRX1/SRA1, require all source/plan/principal/captured request bindings, current supported configuration and current automation permission revision. Return exact BoundApplicationPolicy echoes; current cap/full TimerConfig/policy revision, paused=false, recovery_pending=false and actual known pause/recovery revision. Admission allow_active only for known supported state; correction_policies empty. It cannot load today's rule as a replacement captured request |
+| CurrentApplicationPolicy | Decode current head SAS1 and current SRC1 from inputs.current_state.configuration_ref, load retained captured SRX1/SRA1, require all source/plan/principal/captured request bindings, current supported configuration and current automation permission revision. Return exact BoundApplicationPolicy echoes; current cap/full TimerConfig/policy revision, paused=false, recovery_pending=false and actual known pause/recovery revision. Admission allow_active only for known supported state; correction_policies empty. It cannot load today's rule as a replacement captured request |
 | SegmentedApplicationClock | Decode SAS1 observation ref/lineage and use the trusted queue-owned journal described below. Produce actual current observation/config/policy/head echoes, ordered nonnegative monotonic segments and independent sampled UTC. No UTC-difference elapsed or fabricated empty interval |
 | RequiredApplicationActions | Recheck captured AND current supported configuration and calculated proposal. Prove no enabled milestone/outbound/generated action obligations and exactly the one captured time request. Only then return jobs={} with explanation `reference.no-external-actions.v1`; missing action knowledge returns unavailable, never empty jobs by default |
 | FreshApplicationReferences | Issue ONE opaque ref per required exact binding/purpose, with no write/side effect to accounting; echo every binding. Collision/exhaustion/error refuses; never regenerate automatically or return a constant |
@@ -457,9 +747,10 @@ route. The anchor contains clock_lineage_ref, observation_ref, separately sample
 monotonic integer milliseconds and UTC milliseconds; journal records additionally
 bind checked state/config/policy references. The journal is owner-thread-only,
 read-only inside service callbacks and bounded by clock_journal_entries. Sampling
-and assigning a new observation ref occurs before the service callback on the
-queue, with no authoritative state/SQL mutation. The callback uses that reserved
-observation; it does not resample time after permission/policy evaluation.
+a candidate observation and reserving a fresh observation ref occurs before the
+service callback on the queue, with no authoritative state/SQL mutation. The
+callback consumes that sampled candidate without resampling after permission/policy
+evaluation. Its exact ref/segment choice follows the two branches below.
 
 For this no-pause/no-deadline profile one segment covers monotonic_now-anchor;
 require same live clock lineage and monotonic_now>=anchor, checked difference and
@@ -468,10 +759,17 @@ interval reaching/exceeding expiry is unavailable for this reference adapter, no
 a silently skipped CORE-002 transition or permission to resume Grace. Current cap
 may change under the serialized supported configuration; changes affecting timer
 interval semantics without retained boundary evidence are unavailable. Its
-utc_now_ms is independently sampled observed_utc_ms. An
-identical anchor/UTC may use no segments; changed UTC with elapsed0 uses a zero
-segment so the actual observation is retained. Never substitute current UTC for
-missing stored metadata. CORE-002 advances through that actual segment BEFORE
+utc_now_ms is independently sampled observed_utc_ms. For elapsed0 and unchanged
+UTC AND unchanged observation/config/policy binding, the adapter may REUSE the
+actual stored anchor observation_ref with segments={} and identical observed UTC.
+It discards/releases the unused fresh reservation; it must not put that fresh ref
+into an empty-segment observation. Alternatively, to retain the fresh reserved ref,
+it emits exactly one TimerClockStep{0,observed_utc_ms,false}, even when UTC is
+unchanged. Changed UTC with elapsed0 ALWAYS uses that explicit zero segment/fresh
+observation. Nonzero elapsed uses the fresh ref and its actual nonnegative segment.
+These branches meet the actual unchanged service check_clock requirement: empty
+segments imply both old observation_ref and old UTC. Never substitute current UTC
+for missing stored metadata. CORE-002 advances through that actual segment BEFORE
 CORE-005 cap-limited credit; ACCT-004 already owns this sequencing and atomic state.
 
 Keep the anchor named by CURRENT committed head and every outstanding reserved
@@ -541,6 +839,10 @@ are distinct opaque bytes; sequence names are explanatory, not numeric revisions
 | RP14-D | Issuer repeats an occupied state token once: explicit actual conflict, no regenerate. Complete result above budget: real failure/rollback, no partial payload; unknown cleanup remains unknown |
 | RC01 | elapsed30000 before credit: Main3480000→3450000, then request600000/current cap3600000 gives actual150000/capped450000, after3600000. UTC difference alone is not elapsed |
 | RC02 | add_ms0: exact0/1, final0/residual0; source applied once, after-token still new and actual0; no fabricated cancellation/negative request |
+| RC03 | elapsed0/UTC unchanged with fresh observation ref x: emit [{elapsed0,UTC1000,paused=false}], never segments={}. Empty segments are allowed only with the actual old anchor ref/UTC/binding and release unused x |
+| IC01 | Interrupted capture unit before COMMIT: earlier receipt/CID remain; no new plan/SRX/index. Explicit retry finds no first binding and may stage one full atomic candidate; unknown commit instead stops admission |
+| IC02 | First committed source key→plan p1/SRX x1; later candidate same source→p2/x2: conflict, no index overwrite/competing committed orphan rows; subsequent find returns fully validated p1/x1 even after p1 history advances |
+| IC03 | find of absent source key returns nullopt; a selected existing index with missing SRX/initial plan/receipt is actual invalid_stored_data after known rollback, never nullopt/replacement. CID0 remains present, receipt0/revision0 invalid input |
 
 RP13 HTTP negotiation/authentication/disclosure framing belongs CONTRACT-013;
 this consumer supplies no HTTP session mechanism or alias. Future tests independently
@@ -554,9 +856,12 @@ Necessary unresolved technical producer gates at authoring:
 - ACCESS-003's actual automation-account/delegation/current revision/explicit
   capability producer and finite persistence reads; SESSION-003 for HTTP identity.
   Consumer mapping above is concrete, but raw capability/principal refs prove no grant.
-- API-011's narrow durable unique source→initial-plan/execution-binding lookup and
-  actual current configuration/pause/recovery facts, plus any reviewed read-view
-  extension. Existing generic retained API cannot be claimed to provide that index.
+- STORAGETEST-018/STORAGE-018 implement the concrete caller-session first-capture
+  consumer defined here after physical/schema review, independently reviewed real-SQL
+  baseline/red and source review. Both API011 records/EPIC009 require STORAGE018.
+  API011 separately produces complete unprojected configuration/runtime/pause/recovery
+  facts and any reviewed finite read-view extension; no existing generic retained
+  API is claimed to provide the new index or configuration owner.
 - Real queue clock sampling/journal, entropy uniqueness/collision behavior and safe
   initial SAS1 fixture/bootstrap; no periodic/restart/recovery support is supplied.
 - Actual different CONTRACT014 document review, then RULESTEST006/APITEST011
