@@ -83,7 +83,24 @@ or fixture was edited to obtain green. Raw final logs under
 `/tmp/storage018-author-sql31-final.txt` and XML above. These are synthetic real-SQL
 component acceptance results, not platform/provider/recovery verification.
 
-The existing337 selection is running separately; its actual result will be appended
-when observed. Different source/config review, root integration/regression checks,
-ordinary31 CI promotion/current-head observation and final PR/merge remain required.
-This author does not self-approve source or mark the implementation task done.
+The existing337 selection also completed:
+
+```sh
+ctest --preset sqlite-reference-capture-debug -LE '^sqlite-reference-capture$' --output-on-failure --output-junit /tmp/storage018-author-old337.xml
+```
+
+Exit0,337/337PASS,0fail/disabled/skipped,24.92s. This includes preserved codec28
+and all old component/foundation suites. Actual LastTest.log has zero QWARN/Warning
+lines. SQL verbose log independently has113 QtPASS (51 scenario bodies plus62
+init/cleanup), no FAIL/SKIP/QWARN. No historical marker-red was replayed.
+
+Different source/config review, root integration/regression checks, ordinary31 CI
+promotion/current-head observation and final PR/merge remain required. This author
+does not self-approve source or mark the implementation task done.
+
+Actual final log fingerprints:
+
+- `/tmp/storage018-author-sql31-final.txt` SHA256 `9585a669f564fd3f291ae95b01008d920ec3468eb93bc3eb553c7b6b1e101c3f`.
+- `/tmp/storage018-author-sql31-final.xml` SHA256 `db83bc11be786e432d185d975ae3a1bdad241a8fc055e97f5533fd1287939639`.
+- `/tmp/storage018-author-old337.txt` SHA256 `3097f343bef23050759fae7d0d60c0caeae356ab62f0cb5b30b60f44c847dfb7`.
+- `/tmp/storage018-author-old337.xml` SHA256 `89156bad4af300262d0af36ddefc0fd71d548bc58e800f67b3afc982adeaa50c`.
