@@ -106,3 +106,33 @@ remain distinct from58 new CTest methods and78 total codec/SQL scenario failures
 Full source/config review and actual passing relevant acceptance are required for
 STORAGE018; full product authority/provider/FX/recovery/platform/UI/package/live
 release gates remain outside this baseline.
+
+## Final completion metadata review
+
+Actual root candidate `3b4b5f792239be8fcabfde4a21e336b5a4311882` is
+**APPROVED for final baseline completion metadata**. Read the actual new handoff,
+rewritten coordinator checkpoint, appended native evidence, authoritative018 task
+record/review matrix, generated HTML and tracked revised raw log. Compared the
+complete633→3b4 changed-path set: only progress/generated HTML and baseline
+evidence/checkpoint/raw records changed. No production, test source, fixture,
+helper, CMake, preset, workflow, public contract or dependency artifact changed.
+The tracked revised SQL log has exact SHA390b28b3 above and equals the already
+independently parsed original; no marker/body was executed again.
+
+Only STORAGETEST018's task record changes, to done with observed_red, explicit
+per-artifact different reviewers, valid codec/revised SQL receipt matrix and
+red-attribution evidence. The initial invalid SQL remains failed rather than
+erased. STORAGE018 stays planned, implementation stays not_run, and all419 task
+IDs/1605 dependency edges/every other task record remain unchanged. The rewritten
+current checkpoint removes stale phase claims and distinguishes completed
+baseline from pending publication/latest-revision CI/normal merge; it expressly
+blocks dependent production before baseline integration. Historical native phase
+paragraphs remain followed by their actual corrected observations, not silently
+rewritten into success. Existing full product/release scope is preserved.
+
+Actual `python3 tools/check_project.py`, `python3 tools/progress.py render --check`
+and `git diff --check` at root3b4 all exit0;419 records/122 decisions/links/presets/
+current HTML pass. Root tree is clean before this review-note import. This final
+metadata-only approval does not transfer550/633 CI to a new publication head;
+latest-head applicable checks, current rules/discussions/mergeability and ordinary
+PR integration remain root's separate gates. No completed red was replayed.
