@@ -22,7 +22,7 @@ option(SUBATHON_BUILD_PASSWORD_HASHING_TESTS "Build password hashing baseline in
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
     include(cmake/SodiumDependency.cmake)
 endif()
-option(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS "Build effective permissions baseline and environment checks" OFF)
+option(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS "Build effective permissions acceptance and environment checks" OFF)
 option(SUBATHON_BUILD_PAUSE_POLICY_TESTS "Build pause policy acceptance tests" OFF)
 option(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS "Build timer lifecycle acceptance tests" OFF)
 option(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS "Build reviewed receipt intake simulation acceptance tests" OFF)
