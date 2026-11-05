@@ -93,3 +93,18 @@ assertion. No contract/production behavior or old assertion changes. Different
 review of this actual corrected artifact still precedes the first invocation.
 Ran formatting/whitespace and exact-source replacement checks, all exit0; no native
 diagnostic/schema/feature execution occurred.
+
+## Selected-driver diagnostic correction: exact key scope
+
+Root's first reviewed diagnostic run at integrated f7c3127 exited8: schema,
+constraints and rollback diagnostics passed, but complete A+B closure verification
+failed A's index row count. Raw log `/tmp/storagetest018-foundation.txt` records
+a diagnostic failure, not018 intended behavior red. No codec/store feature body
+or FIRST feature-red run occurred. The generic author query projected all13
+fields but selected by installation I alone, which correctly matches BOTH healthy
+A/B records. The required per-record oracle is one COMPLETE five-part scoped key.
+Correct only each A/B verification predicate to installation+provider+account+
+namespace+exact opaque bytes (A E, B E+NUL); retain all13 typed expected members,
+one-row assertion and all other fixtures/assertions. No first-row shortcut or
+expected-two weakening. Different actual reviewer approval precedes rerun; this
+author ran text/JSON/whitespace checks only and performed no native operation.
