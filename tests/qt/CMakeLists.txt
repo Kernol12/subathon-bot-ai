@@ -1,4 +1,61 @@
 set(CMAKE_AUTOMOC ON)
+if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
+    add_executable(server_reference_capture_values_acceptance reference_capture_values_qt.cpp)
+    target_link_libraries(server_reference_capture_values_acceptance PRIVATE
+        subathon_reference_capture_values Qt6::Test)
+    subathon_target_options(server_reference_capture_values_acceptance)
+    # Enabled intentional-red baseline: discovery in ordinary CI, execution is a separate gate.
+    foreach(case IN ITEMS
+        configurationEncodeLiteral
+        configurationDecodeLiteral
+        arrivalEncodeLiteral
+        arrivalDecodeLiteral
+        executionEncodeLiteral
+        executionDecodeLiteral
+        initialEncodeLiteral
+        initialDecodeLiteral
+        allLimitsValidateBeforeInput
+        encodedEnvelopeBoundsIncludeFormat
+        borrowedInputBoundsPrecedeSemanticChecks
+        decoderOuterBoundsPrecedeFormatAndFraming
+        decoderFramingRejectsEveryTruncation
+        nullDocumentsAndPayloadsAreNotEmpty
+        payloadBoundariesRetainOpaqueBytes
+        knownUnknownFactsRemainStructuralData
+        invalidTagsPrecedeReferencesAndValues
+        everyRequiredReferenceIsChecked
+        configurationNumericAndTimerBoundaries
+        arrivalTimesPreserveSignedFullRange
+        executionUnsignedDomainsAndInstallationBinding
+        initialRequiresRevisionOneAndPositiveReceipt
+        framedSemanticFailuresUseExactPriority
+        nestedConfigurationIsValidatedWithinArrival
+        completeStructuralInputsUseEveryScalar
+        decodedFieldsRespectReferenceAndPayloadBounds
+        exactOpaqueReferencesAndOwnedResults
+    )
+        add_test(NAME reference-capture-values.${case} COMMAND server_reference_capture_values_acceptance ${case})
+        set_tests_properties(reference-capture-values.${case} PROPERTIES
+            LABELS "reference-capture-values;acceptance;draft-red;qt;server" TIMEOUT 30)
+    endforeach()
+    # Independent foundation links only existing storage, never the new codec/store stubs.
+    add_executable(server_sqlite_reference_capture_environment sqlite_reference_capture_environment.cpp)
+    target_link_libraries(server_sqlite_reference_capture_environment PRIVATE
+        subathon_sqlite_application_holds Qt6::Test)
+    target_compile_definitions(server_sqlite_reference_capture_environment PRIVATE
+        SUBATHON_REFERENCE_CAPTURE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_reference_capture_vectors.json"
+        SUBATHON_HOLD_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_holds_vectors.json"
+        SUBATHON_ORIGINAL_CLAIM_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_original_claims_vectors.json"
+        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
+        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
+        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
+        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
+        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
+    subathon_target_options(server_sqlite_reference_capture_environment)
+    add_test(NAME scaffold.sqlite_reference_capture_environment COMMAND server_sqlite_reference_capture_environment)
+    set_tests_properties(scaffold.sqlite_reference_capture_environment PROPERTIES
+        LABELS "scaffold;qt;reference-capture-environment" TIMEOUT 30)
+endif()
 if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
     add_executable(server_application_service_environment application_service_environment.cpp)
     # The independent foundation cannot link or invoke the new service stubs.

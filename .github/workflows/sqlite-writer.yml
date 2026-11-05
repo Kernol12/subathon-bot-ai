@@ -462,3 +462,49 @@ jobs:
           PY
       - name: Run reviewed application-service acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^application-service$'
+      - name: Check and run required initial-capture fixture diagnostic
+        run: |
+          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_reference_capture_environment$' --show-only=json-v1 > "$RUNNER_TEMP/capture-environment.json"
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "capture-environment.json").read_text())["tests"]
+          if len(tests) != 1:
+              raise SystemExit("Expected one initial-capture foundation executable")
+          test = tests[0]
+          if any(p["name"] in {"DISABLED", "WILL_FAIL"} and p["value"] for p in test.get("properties", [])):
+              raise SystemExit("Initial-capture foundation must stay enabled without failure inversion")
+          compiled = subprocess.check_output([test["command"][0], "-functions"], text=True).splitlines()
+          expected = {
+              "independentSchemaAndFramesUseExistingRunner()",
+              "completeLiteralClosuresKeepZeroAndMaximumIds()",
+              "realConstraintsRefuseAliasesTypesAndMissingParents()",
+              "stagedCaptureAndIndexRollbackAsOneUnit()",
+          }
+          if len(compiled) != 4 or set(compiled) != expected:
+              raise SystemExit("Expected all 4 compiled initial-capture diagnostic slots")
+          print("Initial-capture diagnostic compiled slots:", compiled)
+          PY
+          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_reference_capture_environment$' --verbose
+      - name: Check complete enabled initial-capture codec baseline registration (intentional red)
+        run: |
+          ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$' --show-only=json-v1 > "$RUNNER_TEMP/capture-codecs.json"
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "capture-codecs.json").read_text())["tests"]
+          if len(tests) != 27:
+              raise SystemExit("Expected all 27 initial-capture codec baseline cases")
+          executables = {test["command"][0] for test in tests}
+          if len(executables) != 1:
+              raise SystemExit("Expected one compiled initial-capture codec suite")
+          compiled = subprocess.check_output([next(iter(executables)), "-functions"], text=True).splitlines()
+          registered = [test["command"][1] + "()" for test in tests]
+          if len(compiled) != 27 or len(set(registered)) != 27 or set(registered) != set(compiled):
+              raise SystemExit("Initial-capture codec registration must equal all compiled cases")
+          if any(p["name"] in {"DISABLED", "WILL_FAIL"} and p["value"] for t in tests for p in t.get("properties", [])):
+              raise SystemExit("Codec baseline must stay enabled without failure inversion")
+          if any(not {"acceptance", "draft-red", "reference-capture-values"}.issubset(next((p["value"] for p in t.get("properties", []) if p["name"] == "LABELS"), [])) for t in tests):
+              raise SystemExit("Codec baseline must keep its explicit intentional-red labels")
+          print("Discovered all 27 enabled codec cases; intentional-red execution remains separate")
+          PY
