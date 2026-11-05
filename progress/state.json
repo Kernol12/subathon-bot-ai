@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T15:54:49+00:00",
+  "updated_at": "2026-11-05T16:23:51+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -12978,8 +12978,8 @@
       "title": "Single-rule reference path and adapter contract",
       "module": "Server/API",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; reference_author; independent reviewer pending authored revision",
       "depends_on": [
         "CONTRACTPLAN-003",
         "CONTRACT-002",
@@ -13004,7 +13004,8 @@
       "brief": "docs/tasks/CONTRACT-014.md",
       "summary": "Finalize immutable synthetic trigger/time rule, delegated authority, normalized receipt linkage and actual current application adapters; no absent-policy success.",
       "notes": [
-        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record."
+        "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
+        "Claimed on dedicated task/CONTRACT-014-reference-adapters from actual main d2392e2. Documentation-only concrete single-rule/actual current adapter contract; author owns NEW docs/contracts/reference-application-adapters-v1.md and docs/evidence/contract-014-author.md. Root owns shared integration/state/HTML/pins/schema/build. Acceptance complete owned typed interfaces/errors/limits with independent literal RP01-12/14 oracles, integration with existing APIs and explicit missing prerequisite gates, actual different document review. No source/header/test/schema/migration/runtime authority or capability enabled; ACCESS002 implementation concurrently isolated."
       ],
       "verification": {},
       "evidence": [],
@@ -14308,6 +14309,11 @@
       "date": "2026-11-05",
       "task": "CONTRACTPLAN-003",
       "note": "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation→baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
+    },
+    {
+      "date": "2026-11-05T16:23:51+00:00",
+      "task": "CONTRACT-014",
+      "note": "Claim dependency-ready concrete reference application adapter document in isolated branch; actual independent contract review required before downstream tests/code."
     }
   ]
 }
