@@ -9,9 +9,10 @@ using namespace subathon::server;
 
 static_assert(std::is_constructible_v<SqliteReferenceCaptureStore, SqliteWorkSession,
                                       ReferenceCaptureLimits>);
-static_assert(std::is_same_v<decltype(encode_reference_configuration({}, {})), ApplicationEnvelope>);
-static_assert(std::is_same_v<decltype(decode_reference_initial_capture({}, {})),
-                             ReferenceInitialCapture>);
+static_assert(
+    std::is_same_v<decltype(encode_reference_configuration({}, {})), ApplicationEnvelope>);
+static_assert(
+    std::is_same_v<decltype(decode_reference_initial_capture({}, {})), ReferenceInitialCapture>);
 
 int main() {
     // Volatile address references force actual symbol resolution without calling a stub.
