@@ -80,7 +80,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-004 — Timed modifiers, stacking and arrival-time context](EPIC-004.md) | 6 | 12 |
 | [EPIC-005 — Sequential milestones and persisted action delivery](EPIC-005.md) | 8 | 16 |
 | [EPIC-006 — Invites, permissions, local/Twitch identities and chat roles](EPIC-006.md) | 7 | 14 |
-| [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 7 | 14 |
+| [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 8 | 15 |
 | [EPIC-008 — Qt/Drogon API server, durable intake and live snapshots](EPIC-008.md) | 9 | 18 |
 | [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 21 | 39 |
 | [EPIC-010 — Twitch API, EventSub and both chat identities](EPIC-010.md) | 6 | 11 |
@@ -134,3 +134,8 @@ No schema/renderer/provider/platform capability follows from these planning reco
 realigns §17's early reference path with bounded HTTP013, rule/adapter014 and
 separately baseline-gated API010/011/RULES006. Full scene, WS, connector lifecycle,
 planner, modifier/milestone and checkpoint/recovery/release gates remain required.
+
+[CONTRACTPLAN-004](CONTRACTPLAN-004.md) and
+[ADR-0007](../decisions/0007-session-contract-prerequisite.md) expose the missing
+[SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) document before session
+baselines and the reference HTTP schema; runtime authentication gates remain.

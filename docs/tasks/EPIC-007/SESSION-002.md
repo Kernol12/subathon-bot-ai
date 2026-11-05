@@ -46,3 +46,7 @@ actually ran; no unbuilt test target or unrun command is evidence. Update applic
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
+
+The paired baseline additionally waits for [SESSIONCONTRACT-001](SESSIONCONTRACT-001.md)'s
+actual reviewed supplier/API/transport document under ADR-0007. This sequencing
+repair finalizes no auth behavior and removes no existing baseline/runtime gate.
