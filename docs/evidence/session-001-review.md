@@ -184,3 +184,67 @@ cost measurements, dump/swap policy, platform/package/license/live verification
 are unperformed. No provider/chat/payment/deployment side effect occurred; no real
 credential was used. All wider product scope remains. This sole review note does
 not update task completion, public capability, PR approval count or merge status.
+
+## Actual final metadata, combined-main and official CI attribution review
+
+2026-11-05, SAME different reviewer `/root/selected_boost`. Reviewed actual root
+candidate `500ae9bdfbe5a3fdf328610c11de211cdfe74569`, including main
+`685b17f22998419f1691658a829b468eea05e770` integrated by16444ce after normal PR64.
+The reviewer brought that exact candidate into its isolated review tree, then owns
+ONLY this appended note. Original source/config approval0817f48 remains unchanged.
+**APPROVED for these actual final metadata and combined-main changes, and the
+specific official CI attribution below.** No new source or current-head CI result
+is invented; the final publication/merge checklist remains root's responsibility.
+
+Read the actual new session-001-handoff, CI/environment notes, architecture additions,
+SESSION001 record, acceptance map, generated HTML and latest checkpoint. Completion
+is expressly the bounded selected-library component: actual account/current-login/
+conditional-store integration, aggregate worker admission/cancellation, supported-
+hardware100-sample benchmark and platform/package/security/release verification
+remain unperformed. AUTH11 remains partial; no account/login/session or durable
+credential-save capability is claimed. PR65 is explicitly draft/unmerged at this
+review, so done is not being used as an integration/merge receipt.
+
+Independently compared all417 task IDs and full task objects against integrated
+main685b17f: ONLY SESSION-001 differs. ACCESS002 remains exactly done with its valid
+review/acceptance evidence; every other task record and global verification is
+byte/value-equal to that main. Acceptance-map difference is ONLY AUTH11; AUTH03/06
+retain integrated ACCESS002 evidence. The original CORE008 source claim remains
+parked on its own branch and is not treated as a running old agent or overwritten
+here. CONTRACT014/018 work remains on its separate branch; this PR does not pretend
+those unmerged records are integrated. Generated snapshot/links remain consistent.
+
+Fetched actual official run metadata AND complete logs independently:
+[run42069351732](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42069351732),
+pull_request head `f1042f2d229328e0a268456b03ef22d088133f9f`, completed SUCCESS;
+password-hashing-build and its actual discovery/environment/acceptance/infrastructure
+steps all SUCCESS. Independently downloaded full log is byte-identical to root's
+retained `/tmp/session001-ci-42069351732.log`, SHA256
+`11edf4d64a3bea5b192e478d43768d592e841365f6d238970304219255bd78d1`.
+It shows exact authenticated source archive OK/static-prefix build, exact37 enabled
+ordinary guard, real selected SDK environment1/1 (total0.53s), UNCONDITIONAL37/37
+(total5.41s), old3/3 (total1.27s), all0 failures. These are actual separate lane
+results, not a generated percentage or local result assigned to Ubuntu. Generator
+only builds; no generation command/test executes it. Original FIRST proofs remain.
+
+Every password runnable blob at that CI head equals actual500ae9b: production
+source/header/server CMake, original37 tests, fixture/private header+observer,
+standalone environment/generator, labels/workflow/explicit SDK and GoogleTest
+imports, and old time-credit source. Shared build differences from main integration
+are ONLY the already accepted ACCESS002 option description/preset display and
+Boost/regression target blocks inside effective-permission conditions. Those are
+OFF in the password preset; the password targets/link/commands remain as previously
+reviewed. This comparison supports the recorded earlier selected CI attribution,
+not a claim that final500ae9b or this new review-note commit already has latest-head
+checks. Root must publish/reobserve those actual applicable checks before merge.
+
+Actual final-candidate checks: `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check`,
+`python3 -m unittest discover -s tests/tooling -v`, `git diff --check` all exit0:
+417tasks/122decisions/links/presets/current HTML,19 tooling tests PASS. No redundant
+41 run, native SDK foundation/input generator, benchmark or new feature execution
+was needed because runnable password artifacts are unchanged and no source concern
+arose. The independent earlier41/source/secret audit remains valid. This review
+adds no GitHub approval count or merge permission beyond the existing workflow;
+latest-head CI/current rules/resolved discussions/ordinary GitHub-permitted merge
+remain explicit gates, as do every wider platform/live/security/release obligation.
