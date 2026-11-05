@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T20:13:17+00:00",
+  "updated_at": "2026-11-05T20:26:00+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13520,7 +13520,7 @@
       "title": "Explicit session supplier contract prerequisite",
       "module": "Identity",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "coordinator /root",
       "depends_on": [
         "CONTRACT-005",
@@ -13541,20 +13541,30 @@
       "summary": "Expose the missing reviewed session-resolution and credential-transport document before dependent session and reference-HTTP baselines.",
       "notes": [
         "Claim dedicated task/CONTRACTPLAN-004-session-contract-gates from actualmain41c4842. Read-only investigation found CONTRACT013 graphready but explicitbrief/referencepath blockfinalization on absentSESSION003transport contract. DOCUMENT planning only: record actualmissing supplier, add SESSIONCONTRACT001 task/prerequisite edges preservingalloldscope/runtimegates; rootownsADR/briefs/state/HTML/evidence. Separateactualreview beforedone. No authchoice/schema/API/test/code/CI/pin changes. Concurrent SQL018claim d73 at/tmp/subathon-storage018 remainsactive andmustbepreservedonintegration.",
-        "Authored actualADR0007/missingdocumentbrief and exactadditive2records11edges; no oldedges or runtimegates removed, no authchoice finalized. Differentreview pending; document task remainsplanned. ExistingSQL018claim preservedon separatebranch d73, not overwritten bythisplanning snapshot."
+        "Authored actualADR0007/missingdocumentbrief and exactadditive2records11edges; no oldedges or runtimegates removed, no authchoice finalized. Differentreview pending; document task remainsplanned. ExistingSQL018claim preservedon separatebranch d73, not overwritten bythisplanning snapshot.",
+        "CompleteDOCUMENT-only graphrepair afteractualdifferent477d43f/import584a3fc reviewoffinalddadc20 andboundedEPIC007summary7→8fix. Exactold420IDs/1608edges/statuses/owners/reviews/evidence preserved; new422/1619/2records11edges, sessiondocument001PLANNED andnoauthchoice/capabilityfinalized. Actualgraph/project/render/19tooling/whitespacePASS. API010/runtimeSESSION003gates unchanged. Finalmetadata/latestpublicationCI/currentrules/normalmerge remain; concurrentSQL018claim c06/PR70 preservedonseparatebranch."
       ],
       "verification": {
         "document_authoring": "passed",
         "graph_consistency": "passed",
-        "implementation": "not_run"
+        "implementation": "not_run",
+        "document_review": "passed",
+        "tooling": "passed"
       },
       "evidence": [
         "docs/tasks/CONTRACTPLAN-004.md",
         "docs/decisions/0007-session-contract-prerequisite.md",
         "docs/tasks/EPIC-007/SESSIONCONTRACT-001.md",
-        "docs/evidence/contractplan-004-handoff.md"
+        "docs/evidence/contractplan-004-handoff.md",
+        "docs/evidence/contractplan-004-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "coordinator /root",
+        "reviewer": "capture_codec_tests",
+        "outcome": "approved",
+        "revision": "Actualddadc20 document/graph accepted477d43f: exact422/1619/11additiveedges/oldstatuses andruntimegates preserved; summaryfindingresolved. No futureauthcontract/schema/test/runtime approved.",
+        "evidence": "docs/evidence/contractplan-004-review.md"
+      }
     },
     {
       "id": "SESSIONCONTRACT-001",
@@ -14755,6 +14765,11 @@
       "date": "2026-11-05T20:13:17+00:00",
       "task": "CONTRACTPLAN-004",
       "note": "Claim dedicated task/CONTRACTPLAN-004-session-contract-gates from actualmain41c4842. Read-only investigation found CONTRACT013 graphready but explicitbrief/referencepath blockfinalization on absentSESSION003transport contract. DOCUMENT planning only: record actualmissing supplier, add SESSIONCONTRACT001 task/prerequisite edges preservingalloldscope/runtimegates; rootownsADR/briefs/state/HTML/evidence. Separateactualreview beforedone. No authchoice/schema/API/test/code/CI/pin changes. Concurrent SQL018claim d73 at/tmp/subathon-storage018 remainsactive andmustbepreservedonintegration."
+    },
+    {
+      "date": "2026-11-05T20:26:00+00:00",
+      "task": "CONTRACTPLAN-004",
+      "note": "CompleteDOCUMENT-only graphrepair afteractualdifferent477d43f/import584a3fc reviewoffinalddadc20 andboundedEPIC007summary7→8fix. Exactold420IDs/1608edges/statuses/owners/reviews/evidence preserved; new422/1619/2records11edges, sessiondocument001PLANNED andnoauthchoice/capabilityfinalized. Actualgraph/project/render/19tooling/whitespacePASS. API010/runtimeSESSION003gates unchanged. Finalmetadata/latestpublicationCI/currentrules/normalmerge remain; concurrentSQL018claim c06/PR70 preservedonseparatebranch."
     }
   ]
 }

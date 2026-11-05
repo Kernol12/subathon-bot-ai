@@ -1,6 +1,6 @@
 # ADR-0007 — Make the missing session contract an explicit prerequisite
 
-Status: proposed by CONTRACTPLAN-004, pending independent review.
+Status: accepted DOCUMENT/graph sequencing repair after independent review477d43f.
 Authority: specification v0.45 §§10/17/18, AUTH-05/AUTH-12, API-01/02/03.
 This changes task sequencing only. It chooses no authentication protocol details.
 

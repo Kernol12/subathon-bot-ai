@@ -1,7 +1,7 @@
 # Handoff — CONTRACTPLAN-004 session supplier gate repair
 
 Coordinator /root,5 November2026, dedicated task branch from main41c4842.
-Document/graph authoring complete; independent review/publication gates pending.
+Document/graph authoring and separate review complete; publication/merge gates pending.
 
 ## Problem and change
 
@@ -47,3 +47,11 @@ contract/oracles/different review; SESSIONTEST002/003 retain test-first gates.
 Changed paths: ADR0007/index, taskplan004/newSESSIONCONTRACT001, three affected
 child briefs/epic navigation, state/HTML and this evidence. All source/tests and
 wire/schema packages remain unchanged. No live data or credentials used.
+
+Actual different document/graph approval477d43f/import584a3fc examines finalddadc20:
+new422/1619, no oldedge/status/runtimegate loss, no authchoice/capability finalized.
+One bounded EPIC007summary7→8 coherence finding was corrected and rereviewed.
+Actual19 tooling checks pass,0.31s or less on this host; exact raw
+/tmp/contractplan004-tooling.txt preserved. FutureSESSIONCONTRACT001 remains
+planned/unreviewed; completion of this plan is not that document's acceptance.
+Latest publication-head CI/currentrules/reviewthreads/normalmerge remain required.
