@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T17:02:41+00:00",
+  "updated_at": "2026-11-05T17:04:54+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13004,7 +13004,7 @@
       "module": "Server/API",
       "kind": "contract",
       "status": "done",
-      "owner": "coordinator /root; reference_author; independent reviewer pending authored revision",
+      "owner": "coordinator /root; selected_boost (document author); access_implementer (independent document/planning reviewer)",
       "depends_on": [
         "CONTRACTPLAN-003",
         "CONTRACT-002",
