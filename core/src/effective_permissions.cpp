@@ -432,7 +432,7 @@ void divide_exact(Big &value, const Big &divisor, std::uint64_t bound) {
     value = std::move(quotient);
 }
 
-// Shift/add product: <=G iterations, two work integers, every sum <2^(2G).
+// Shift/add product: <=G iterations, result plus two scratch integers, every sum <2^(2G).
 // This avoids Karatsuba recursion/scratch and keeps the simultaneous Big count explicit.
 Big product(const Big &a, const Big &b, std::uint64_t bound) {
     Big result = 0;

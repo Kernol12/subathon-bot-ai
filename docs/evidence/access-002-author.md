@@ -17,7 +17,7 @@ quantities, owner protection/owner-target refusal, and owned complete determinis
 explanations. No account/session/current-authority/catalog loader, policy editor,
 delegation, queue/transport, authentication or protected workflow is supplied.
 
-The evaluator performs the nine approved stages in order. Tag/category checks and
+The evaluator performs the ten approved stages in order. Tag/category checks and
 shape/domain passes complete their entire category before any lower-priority
 category starts. Borrowed input B/I/string preflight precedes numeric allocation.
 Result B/I and each destination container's max_size are projected before the
