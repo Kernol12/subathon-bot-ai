@@ -46,3 +46,12 @@ and original assertions remain. Historical codec FIRST550 was never replayed.
 Current registry368 =old308+foundation1+codec28+SQL31. Actual corrected-source
 review,337 passing selected checks, ordinary selected28 CI and latest PR gates
 remain pending. No source/helper SQL execution or live/provider action occurred.
+
+## Corrected accepted native integration
+
+Actual bounded source421/import790 changes ONLY outer role recognition ordering;
+sourcefa3fc6d/private9fc unchanged otherwise. Author fresh145 build +337PASS24.74s,
+root rebuild +337PASS24.73s. Root XML337/0fail/disabled/skipped,0QWARN and SQL0;
+all28 codec cases included with old309 stable. Different actual source/config
+review790 accepts the whole implementation and corrected priority after actual
+independent28PASS0.10s. Ordinary selectedCI/latest publication remain pending.

@@ -276,3 +276,14 @@ original27/44ED and full101 passing, separate resource/source/config audit and
 ordinary selected Ubuntu27 acceptance. This supplies no actual UI choice warning,
 current authority/revision/clock proof or writer transaction. Host integration and
 Start/reopen/mixed review workflows remain their required owning gates.
+
+
+The [reference capture structural codecs](contracts/sqlite-initial-captures-v1.md)
+implement canonical bounded SRC1/SRA1/SRX1/SRI1 data with fixed borrowed parsing
+and complete size checks before ownership. A small source-private body boundary
+lets the later SQLite adapter reuse known-role parsing without widening actual
+stored-reference limits. [STORAGE-019 evidence](evidence/storage-019-handoff.md)
+records28 passing codec cases, a separately authored/reviewed/reached-red error-
+priority regression, independent source/config audit and publication gates.
+These codecs grant no admission/authority and perform no SQL. The durable initial
+capture index remains STORAGE-018; actual producers and full release gates remain.

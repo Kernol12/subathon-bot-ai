@@ -26,37 +26,47 @@ are complete, never replayed. InitialSQL50markers+1setupfailure stays INVALID.
 Selected own-head Qt6.12/SQLite3.53.4 foundation/fixture/compiled guards actually
 passed before each valid red. Most post-marker assertions await implementation.
 
-## Active STORAGE-019
+## Active STORAGE-019 source approved, selected CI pending
 
-Root /tmp/subathon-storage019, task/STORAGE-019-reference-capture-codecs from
-actualmain8435; claim36605ee. New record420/edges1608 explicitly splits codec
-implementation as accepted concrete contract§1 permits. Every old419ID/1605edge
-preserved; STORAGE018 adds019dependency and staysplanned, EPIC009 aggregates019.
-[Brief](../tasks/EPIC-009/STORAGE-019.md). No release requirement or assertion removed.
+Root /tmp/subathon-storage019/task/STORAGE-019-reference-capture-codecs frommain
+8435, [draft PR69](https://github.com/Kernol12/subathon-bot-ai/pull/69). New420/1608
+graph explicitly splits the permitted codec prerequisite, preserving old419/1605
+and every release requirement. STORAGE018 remainsplanned, depends on019.
 
-Explicit source author capture_codec_tests at /tmp/subathon-storage019-codec-author,
-task/STORAGE-019-codec-author fromclaim36605ee. Owns ONLY codecCPP, optional
-source-private borrowed parser header and own evidence. PublicABI/SQLfactory/
-SQLstub/tests/build/state/pins unchanged. Eight structural codecs only; no admission/
-evaluation/authority/SQL capability. Source implementation is authorized AFTER
-actual baseline integration; author is currently writing, not completed/reviewed.
+Source author capture_codec_tests used fresh /tmp/subathon-storage019-codec-author
+and /tmp/subathon-storage019-codec-priority-fix trees; actual c2/421 imported146/790.
+FinalCPPfa3fc6d/private9fc608d, publicABI/SQLstub/factory/oldfixtures unchanged.
+Different capture_reviewer full SOURCE+CFG approval09a3e56 accepts actual790;
+independent28PASS0.10s and root337PASS24.73s/0warn-skip-SQL.
 
-Different capture_reviewer checks actual decomposition then actual CODE/CFG
-when supplied; cannot approve unwritten code. Root owns sharedCMake/CI/progress/
-HTML/pins/schema/migration allocation and publicheader COMMENT ONLY. No SQL
-production author assigned. Old author/reviewer tasks are complete; never assume
-old sessions run. New assignments are explicit above.
+Separate test author capture_fixture_author supplied0deb additiveONEslot/8rows,
+old27assertions/literalsbyte-preserved. Different test/harness approval preceded
+root actualclean dbe19:45:12Z behaviorred:8wrong-error failures/2PASS0skip.
+Only then source421 boundedformat-priority fix; knownnullshape/allbounds preserved.
+[Implementation handoff](storage-019-handoff.md), [review](storage-019-review.md),
+[raw regression](storage-019-priority-red-ctest.txt), [native](storage-019-native.md).
+Historical FIRST codec550/SQL633 was never replayed.
+
+Task019 in_review; root promotes actuallypassing28 to ordinary selectedCI with
+exactcompiledguards/unconditionalexecution. SQL31remains enabled separate
+intentionalred discovery, no failure inversion or skippedassertions. Registry368,
+passingselected337=old309+codec28. Latest ordinaryselectedCI not yetobserved.
+
+Authors/source reviewer current assignments are complete, not assumedbackground
+execution. Root retains sharedCMake/CI/state/map/HTML/pins/schema/migration
+ownership; noSQLproductionauthorassigned. Root preparesfinalmetadata/publishes
+actualsource and nextasks explicitboundedCI/evidence review. No source blocker
+currently remains; actuallatestCI/currentrules/threads/normalmerge stillrequired.
 
 ## Next concrete steps
 
-Finish codec source, build/run unchanged27 acceptance and stable309, different
-source/config audit including allocation/preflight/fixedscratch/wideenum/owned
-bytes. Root promotes ONLY actually passing27 to ordinary selectedCI after source
-review; SQL31 remains enabled separate intentional-red discovery. Publish focused
-STORAGE019 PR and normalmerge only after latestheadCI/reviews/discussions/rules
-pass. Then begin dependent STORAGE018 SQL against integrated borrowed codecs.
+ObservePR69 actualselectedQt6.12 ordinary28 execution andalloldstablelanes; fix
+real failures/autonomously preserve evidence. AfteractualCI, finalreview/status
+and latestpublicationheadchecks/currentrules/discussions before normalmerge.
+Then begin dependentSTORAGE018 fromintegratedcodecs, using unchanged31/51
+reviewed/redbaseline and metadata-before-payload/actualcleanup contract.
 
-420tasks is task count, not release percentage. All seven integrations, three FX
-providers, authority/session/clock/API producers, both renderers, locales/themes,
-platforms/OBS, packages/licenses/security/recovery/live release gates remain open.
-No background execution is promised after this session stops.
+420tasks is taskcount, not releasepercentage. Allsevenintegrations/threeFX,
+authority/session/clock/APIproducers, renderers/locales/themes/platforms/OBS,
+packages/licenses/security/recovery/live/fullrelease remainopen. No execution
+is promised while this coordinator session is stopped.

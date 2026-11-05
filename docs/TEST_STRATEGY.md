@@ -473,3 +473,27 @@ and safe failures beyond the tests. Trusted serialized local-host/per-file-write
 limits remain explicit. No runtime formatter/preferences/live switching/German
 layout/Windows/package/platform or full release behavior follows from generator
 acceptance; those remain owning tasks. No live provider/supporter operation occurs.
+
+
+## Reference capture codecs and separate SQL baseline
+
+STORAGETEST-018 preserves actual reviewed codec27 FIRSTred atclean550 and complete
+SQL31/51-scenario FIRSTvalidred atclean633 after their own selected foundations.
+The initialSQL50markers+1setup-error attempt remains explicitly invalid; all raw
+evidence and different reviews are in its [handoff](evidence/storagetest-018-handoff.md).
+
+STORAGE-019 preserves those27 assertions/literals and adds one separately authored/
+reviewed eight-row decoder-priority regression, observed actual behavior red before
+its bounded correction. Configure/build sqlite-reference-capture-debug; label
+`^reference-capture-values$` selects28 passing methods. Passing selection
+`-LE '^sqlite-reference-capture$'` runs337 checks (old309 plus codec28); SQL31 stays
+enabled, separately compiled/discovered and intentionally red until STORAGE018.
+Do not call that selected337 a full-preset or SQL acceptance pass.
+
+[Implementation evidence](evidence/storage-019-handoff.md) separates local passes,
+actual source/config audit and selected-CI/publication gates. CI promotes ONLY
+codec28 to unconditional ordinary acceptance with exact registration checks and
+unchanged selected dependencies/old suites. Fixed scratch/preownership/allocation
+claims require source audit; outcomes alone do not measure those properties.
+Authority/evaluation/current-state/provider/SQL/recovery/UI/platform/full release
+remain separate owning tasks; no live operation occurs in these default checks.
