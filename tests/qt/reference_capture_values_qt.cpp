@@ -295,6 +295,37 @@ class ReferenceCaptureValuesTest : public QObject {
             }
         });
     }
+    void unsupportedFormatPrecedesDocumentSemantics_data() {
+        QTest::addColumn<int>("kind");
+        QTest::addColumn<bool>("nullDocument");
+        QTest::newRow("configuration-empty-format") << 0 << false;
+        QTest::newRow("arrival-empty-format") << 1 << false;
+        QTest::newRow("execution-empty-format") << 2 << false;
+        QTest::newRow("initial-empty-format") << 3 << false;
+        QTest::newRow("configuration-unknown-format-null") << 0 << true;
+        QTest::newRow("arrival-unknown-format-null") << 1 << true;
+        QTest::newRow("execution-unknown-format-null") << 2 << true;
+        QTest::newRow("initial-unknown-format-null") << 3 << true;
+    }
+    void unsupportedFormatPrecedesDocumentSemantics() {
+        scenario([] {
+            QFETCH(int, kind);
+            QFETCH(bool, nullDocument);
+            auto envelope = literal(kind);
+            if (nullDocument) {
+                envelope.format_ref = "unknown";
+                envelope.document = QByteArray();
+                QVERIFY(envelope.document.isNull());
+            } else {
+                envelope.format_ref.clear();
+                QVERIFY(!envelope.document.isNull());
+                QVERIFY(!envelope.document.isEmpty());
+            }
+            // Both arrangements fit outer byte limits. Format rejection precedes
+            // known-format document framing and DTO reference/shape semantics.
+            failure([&] { decode(kind, envelope); }, Error::unsupported_format);
+        });
+    }
     void decoderFramingRejectsEveryTruncation() {
         scenario([] {
             for (int k = 0; k < 4; ++k) {
