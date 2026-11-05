@@ -4,4 +4,4 @@ if(NOT subathon_permission_cases)
     message(FATAL_ERROR "Effective permission cases must be built and discovered first")
 endif()
 set_tests_properties(${subathon_permission_cases} PROPERTIES
-    LABELS "effective-permissions;acceptance;core;intentional-red")
+    LABELS "effective-permissions;acceptance;core")

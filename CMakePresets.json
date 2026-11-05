@@ -220,7 +220,7 @@
     },
     {
       "name": "effective-permissions-debug",
-      "displayName": "26 \u00b7 Effective permissions baseline",
+      "displayName": "26 \u00b7 Effective permissions acceptance",
       "inherits": "exact-numeric-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS": "ON"
