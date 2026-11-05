@@ -78,5 +78,10 @@ policy on a conforming implementation. The revised hook accepts an absent fault
 index for the unfailed instrumented call, observes A, then injects exactly the A
 actual allocator events. Invalid/error/permit expectations are unchanged. This is
 new regression authoring before independent review, not a baseline assertion edit.
-The same compile-only command and whitespace check pass again with0warnings; no
-new test/hook body was executed.
+The initial8aaa179 edit did not update the formatted call-helper parameter and
+its compile-only attempt failed (nullopt could not convert to size_t). That is a
+authoring/build defect, never a red result. The follow-up corrects the parameter
+to optional<size_t>. Actual different reviewer also identified an unsafe unchecked
+request.quantities[0] read in the first test; the caller now asserts its exact
+one-element shape before those reads. The compile-only command and whitespace
+check pass after those corrections with0warnings; no new test/hook body was executed.

@@ -192,6 +192,7 @@ TEST(EffectivePermissionRegression, UnequalLongRatiosAndCancellationStayExact) {
         EXPECT_EQ(data.sources[0].disposition, row.permit
                                                    ? PermissionSourceDisposition::permit_witness
                                                    : PermissionSourceDisposition::quantity_limit);
+        ASSERT_EQ(data.request.quantities.size(), 1U);
         EXPECT_EQ(data.request.quantities[0].value.numerator, row.requested.numerator);
         EXPECT_EQ(data.request.quantities[0].value.denominator, row.requested.denominator);
     }
@@ -209,7 +210,8 @@ struct Observed {
 // Fixture/limits exist before arming. Nothing inside this scope calls GTest/logging,
 // constructs a diagnostic, or invokes an external allocator other than the evaluator.
 Observed call_with_failure(const EffectivePermissionInput &in,
-                           const EffectivePermissionLimits &limits, std::size_t allocation_index) {
+                           const EffectivePermissionLimits &limits,
+                           std::optional<std::size_t> allocation_index) {
     Observed observed;
     {
         allocation_fault::Scope fault(allocation_index);
