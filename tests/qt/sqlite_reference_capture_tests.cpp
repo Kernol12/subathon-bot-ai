@@ -779,14 +779,26 @@ class SqliteReferenceCaptureTest : public QObject {
             committed(exercise([&](auto c) {
                 const auto s = c.begin();
                 ReferenceCaptureLimits l;
-                l.reference_bytes = 22;
+                l.reference_bytes = 26;
                 const auto value = SqliteReferenceCaptureStore(s, l).find(record().key);
-                require(value.has_value(),
-                        "Provider22 and all healthy A references fit exact ceiling22");
+                require(
+                    value.has_value(),
+                    "Selected reversal reference26 and every healthy A reference fit ceiling26");
                 same(*value, record());
                 s.commit();
                 return QVariant(1);
             }));
+            const auto selected = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                ReferenceCaptureLimits l;
+                l.reference_bytes = 25;
+                storage_failure([&] { (void)SqliteReferenceCaptureStore(s, l).find(record().key); },
+                                Reason::result_limit);
+                no_lock_or_marker();
+                return QVariant(1);
+            });
+            rolled_back(selected);
             committed(exercise([&](auto c) {
                 const auto s = c.begin();
                 ReferenceCaptureLimits l;
@@ -815,6 +827,27 @@ class SqliteReferenceCaptureTest : public QObject {
                 return QVariant(1);
             });
             rolled_back(r);
+            // Isolate an oversized selected index field above the otherwise
+            // healthy closure ceiling26, preserving the original23/22 case above.
+            run(*writer_, [&](auto c) {
+                const auto s = c.begin();
+                (void)s.execute({"UPDATE main.subathon_reference_initial_captures SET event_ref=? "
+                                 "WHERE plan_ref=X'50'",
+                                 {QByteArray(27, 'x')}});
+                s.commit();
+                return QVariant(1);
+            });
+            const auto isolated = exercise([&](auto c) {
+                const auto s = c.begin();
+                marker(s);
+                ReferenceCaptureLimits l;
+                l.reference_bytes = 26;
+                storage_failure([&] { (void)SqliteReferenceCaptureStore(s, l).find(record().key); },
+                                Reason::result_limit);
+                no_lock_or_marker();
+                return QVariant(1);
+            });
+            rolled_back(isolated);
         });
     }
     void explicitRollbackRemovesPlanExecutionIndexTogether() {
