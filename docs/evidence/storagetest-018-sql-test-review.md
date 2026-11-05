@@ -194,3 +194,60 @@ audit. These tests are synthetic disposable component acceptance, with neither
 current authority/evaluation/application effects, recovery/power-loss/provider/FX,
 platform/UI/package nor full release verification implied. STORAGE018 production
 continues to wait for the actual integrated reviewed/red baseline.
+
+## Observed SQL setup defect and actual revised-baseline approval
+
+Root's actual clean55046aa SQL attempt, after prior approval4247210 and selected
+CI42090598539 green, is INVALID as a complete missing-feature baseline. This
+reviewer inspected preserved raw `/tmp/storagetest018-sql-first-red.txt`, SHA256
+`e13621f40fd74aa36ea68baca186e5374658eb14d942f9fd431f942badc372bf`:51 actual
+Qt failure rows comprise50 explicit MISSING_REFERENCE_STORE markers and ONE
+non-marker `cumulativeSqlBudgetsRequireActualWholeRollback(result-bytes)` setup
+error, `SQLite work operation failed`, before the new store. This reviewer missed
+the per-cell overhead in the original setup review; the earlier approval does
+not turn this actual setup failure into an intended marker. Preserve that first
+attempt rather than relabel/rewrite it. Separate valid27 codec-marker FIRST red
+at that head is unaffected and must not be replayed for this correction.
+
+Independently checked the EXISTING writer specification, not an implementation-
+generated expected value: sqlite-writer-v1's budget table and writer-transactions-v1's
+Trusted inputs table charge EACH value8 base bytes plus QByteArray payload, for
+both bound and result values. Thus payload100 costs108 and cannot fit the selected
+result_value_bytes100; payload92 costs exactly100. Actual old consume_value agrees
+with this previously accepted contract. The marker INSERT returns no result cell,
+so it does not consume any result-value budget before this one-cell SELECT.
+
+Actual different author correction a8a440e, imported to this review branch as
+e73ef54, has CPP blob `58b22366b2f853125fd3a79fe9146d2283ccd1ec`. Reread the
+ENTIRE actual delta: only the old setup SELECT100 becomes SELECT92 and an additive
+pre-feature assertion requires exactly one row/one non-null actual QByteArray cell
+whose complete bytes equal92 zero bytes. That equality also proves exact size92.
+Result budget100, subsequent new find, exact expected result_limit category,
+whole marker removal/independent in-catch lock release and real rollback/no value
+assertions remain. No baseline assertion is dropped, skipped or relaxed and no
+production/fixture/schema/contract meaning changes. Source31slots/51scenarios and
+CMake/workflow31 guards remain unchanged.
+
+**APPROVED for this actual specification-based SQL setup correction and revised
+SQL baseline source58b22366.** This is separate review of a genuine test defect;
+it supplies NO observed valid revised red or feature implementation authority.
+Root must publish the actual revised head, observe its selected foundation/CI and
+run the corrected SQL suite separately; preserve original invalid output and the
+completed codec FIRST red. All prior final SQL source/config review remains valid
+except this explicitly revised setup fragment. Implementation waits for integrated
+actual valid baseline evidence.
+
+Actual reviewer-only checks:
+
+```sh
+git cherry-pick a8a440e
+cmake --build --preset sqlite-reference-capture-debug --target server_sqlite_reference_capture_acceptance
+ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --show-only=json-v1
+clang-format --dry-run --Werror tests/qt/sqlite_reference_capture_tests.cpp
+git diff --check
+```
+
+All exit0; incremental actual compile/link has no compiler warning observed, exact
+compiled/registered31 methods still enabled/intentional-red. Read-only original-log
+inspection and contract math performed as described. No fixture/setup/new feature
+body or revised red command was invoked by this reviewer.
