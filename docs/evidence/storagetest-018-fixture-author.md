@@ -77,3 +77,19 @@ invocation. After selected-driver success, preserve exact observed fixture
 revision; feature-test authoring/full independent review/build/genuine marker red
 remain separate gates. STORAGE018 production stays planned. No provider/live,
 authority/API011/evaluator/recovery/platform/UI/package/release proof is supplied.
+
+## Independent review correction before first invocation
+
+Reviewer `/root/capture_reviewer` found the actual3dc diagnostic still expected
+`WorkError::none` after explicit session.rollback. My attempted precommit text
+replacement had not matched the formatted source, and my earlier handoff wrongly
+reported that correction as landed. Actual writer transaction contract distinguishes
+explicit rollback (`not_committed`) from successful normal acknowledged commit.
+The established independent writer baseline in
+`tests/qt/sqlite_writer_work_tests.cpp` (explicit rollback/abandoned branch) already
+requires this distinction. Correct only this diagnostic error oracle to
+`not_committed`, retaining actual rolled_back/no value and every physical row/lock
+assertion. No contract/production behavior or old assertion changes. Different
+review of this actual corrected artifact still precedes the first invocation.
+Ran formatting/whitespace and exact-source replacement checks, all exit0; no native
+diagnostic/schema/feature execution occurred.

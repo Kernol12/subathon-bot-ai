@@ -270,7 +270,7 @@ class SqliteReferenceCaptureEnvironment final : public QObject {
                 s.rollback();
                 return 1;
             });
-            require(r.error == WorkError::none &&
+            require(r.error == WorkError::not_committed &&
                         r.transaction == TransactionOutcome::rolled_back && !r.value,
                     "Actual explicit whole rollback cannot publish an owned normal value");
             require(
