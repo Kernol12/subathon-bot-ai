@@ -25,6 +25,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
         candidateMissingRootsRemainExplicit
         healthyDifferentMeaningIsSourceMismatch
         selectedCorruptionRollsBackWholeUnit
+        structurallyValidDocumentsNeedCompleteMatchingClosure
         corruptOriginalOutranksReplacementConflict
         presentIntrinsicMalformedLinkIsNotMissingCandidate
         zeroAndMaxIdsAndNulKeysRemainDistinct

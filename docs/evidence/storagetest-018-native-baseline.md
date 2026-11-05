@@ -32,8 +32,8 @@ Initial output SHA256: 742e43f7b6dfff68aa6e4caeffc3060b456ba83b47ce9d2456492dd8c
 ## Remaining gates
 
 Reviewed corrected foundation must pass natively and in selected official Qt CI.
-Actual codec test review, SQL test authoring/review/discovery and genuine intended
-red remain distinct. Existing308 passing history does not establish018 acceptance.
+Codec test review is complete. SQL source/config review, selected-driver proof
+and genuine intended red remain distinct. Existing308 passing history does not establish018 acceptance.
 
 ## Corrected reviewed foundation observation
 
