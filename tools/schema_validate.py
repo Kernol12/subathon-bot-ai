@@ -263,32 +263,52 @@ def _worker_result(path, installation):
     except (ValueError, AttributeError):
         result = SchemaValidationOutcome.validation_unavailable
     finally:
-        while owned:
-            descriptor = next(iter(owned))
-            try:
-                _close(descriptor, owned)
-            except OSError:
-                cleanup_ok = False
-        if process is not None:
-            try:
-                if process.returncode is None:
+        original_failure = sys.exc_info()[1]
+        deferred = None
+        try:
+            while owned:
+                try:
+                    descriptor = next(iter(owned))
+                    _close(descriptor, owned)
+                except OSError:
+                    cleanup_ok = False
+                except BaseException as interruption:
+                    if deferred is None:
+                        deferred = interruption
+        finally:
+            if process is not None:
+                while process.returncode is None:
                     try:
                         process.kill()
+                        break
                     except ProcessLookupError:
-                        pass
-            finally:
-                try:
-                    process.wait()
-                except (OSError, subprocess.SubprocessError):
-                    cleanup_ok = False
+                        break
+                    except OSError:
+                        cleanup_ok = False
+                        break
+                    except BaseException as interruption:
+                        if deferred is None:
+                            deferred = interruption
+                while True:
+                    try:
+                        process.wait()
+                        break
+                    except (OSError, subprocess.SubprocessError):
+                        cleanup_ok = False
+                        break
+                    except BaseException as interruption:
+                        if deferred is None:
+                            deferred = interruption
+        if deferred is not None and original_failure is None:
+            raise deferred
     return result if cleanup_ok else SchemaValidationOutcome.validation_unavailable
 
 
 def validate_package(manifest_path: str) -> SchemaValidationOutcome:
     """Observe one controlled worker snapshot; return no package data or handles."""
-    if not _bounded_path(manifest_path) or _URI_SCHEME.match(manifest_path):
-        return SchemaValidationOutcome.invalid_path
     try:
+        if not _bounded_path(manifest_path) or _URI_SCHEME.match(manifest_path):
+            return SchemaValidationOutcome.invalid_path
         installation = _installation()
         if installation is None:
             return SchemaValidationOutcome.environment_unavailable

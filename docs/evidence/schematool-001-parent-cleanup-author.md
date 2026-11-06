@@ -125,3 +125,29 @@ bugs now authorize parent correction, preserving both regression assertions.
 A separately identified possible Popen-constructor cancellation ownership window
 remains unresolved for source-based investigation after this coherent fix; this
 new-case result proves neither that window nor all cancellation/resource controls.
+
+## Actual correction and targeted passing checks
+
+Only AFTER that actual red was recorded in commit3d6bed7, correct owned parent:
+initial exact path/UTF8/URI admission now lies inside the public MemoryError catch.
+Owned-descriptor cleanup defers a close-time BaseException, continues draining,
+and uses an enclosing finally for child kill/wait. Transient cancellation during
+kill/wait is deferred until reaping; preserve an already propagating exception,
+otherwise re-raise the SAME deferred interruption after cleanup. OSError cleanup
+refusal still cannot become successful validation. No test assertion changed.
+
+Corrected parent blob `1579604c8d50f08e7320c9d7723246fd2ddd3df7`:
+actual SAME two-method command PASS2/0.009s/exit0. Actual unchanged eleven parent
+methods listed in parent-author note PASS11/0.223s/exit0 with the same selected
+CP314 -I -B/minimal environment. No skips/errors/failures. New regression source
+remainsacde40d; frozen64 source remains64f4911. These are targeted author checks,
+not independent code approval or FULL64 package acceptance. Python3.10-feature
+AST/compile WITHOUT exec PASS. Project/render/diff checks accompany handoff.
+
+C's separate constructor-ownership caveat remains OPEN: a KeyboardInterrupt after
+OS spawn but before Popen returns/assignment may leave caller process=None. This
+coherent two-bug fix does NOT claim that window solved or dynamically tested.
+Root explicitly requested source-based investigation after this handoff and a
+separately reviewed meaningful regression before any constructor fix. No further
+production change, signal handler/mask change or new knob is authorized by these
+passing two cases. Worker/full acceptance/source/integration/ordinaryCI gates stay.
