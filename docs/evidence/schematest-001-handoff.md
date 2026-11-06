@@ -61,3 +61,22 @@ FIRST10:03:26Z. Native63cases/261exact raw missing markers,exit1/0.138s,all63nam
 finalrawframes37/42,stdoutempty,0othercause; [original evidence](schematest-001-wrapper-red-native.md).
 C independent ACTUAL attribution is now active; no replay. Statusin_progress until
 that verdict and separate completion-metadata gates; productionstillplanned.
+
+## Baseline quality completion candidate — publication separate
+
+Actual independent native attributionc15236a/importb6906d0 APPROVES the ORIGINAL
+FIRST raw:243validate_package37+18main42,all261 native errors/all63 names, exact
+source/CI chronology and0othercause. No replay. This completes the reviewed-source/
+selected-foundation/observed-missing-wrapper QUALITY gate on the task branch.
+State statusdone means this TEST BASELINE only; tests remainobserved_red and the
+implementation remainsplanned/Unassigned. PR76 is still unmerged; do not start the
+production task before main integrates this prerequisite. Root completion metadata
+is now a concrete candidate for DIFFERENT actual review; latest-head all19 checks,
+thread/rules/head-match/normal merge remain mandatory and are not preapproved.
+
+The passing CI suite deliberately runs SDK/metadata/definition registration only.
+Actual feature assertions beyond raw markers await implementation and must be
+promoted to unconditional real acceptance after they pass, with separate source
+review. Child ABI/RLIMIT/no-site/read-race/offline/allocation and every original
+logical/public/context/private-installation requirement remain required. No product,
+provider/live/platform or complete-worker verification follows from this baseline.
