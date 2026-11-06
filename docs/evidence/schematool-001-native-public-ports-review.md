@@ -125,3 +125,47 @@ execution, byte/AST preservation and assertion-superset checks. Project426/122,
 render--check and diff--check PASS. No authored module/target/SDK import, test/
 helper/audit/native execution, DSO loading, compiler, subprocess, thread, child,
 signal or probe occurred from this review.
+
+## Actual identical-wire fixture correction after first observation
+
+Reviewer C, fresh isolated review from actual A
+`42ddf02f27ef23c81b5b65b53b018f2091cc54df`.
+**APPROVED: corrected resolver source and only the two affected wrapper methods'
+new reached-boundary observation after integration.** Do not rerun the full74
+before implementation just to replace historical output. Actual revised red
+attribution remains a separate gate; no route body is approved by this note.
+
+Root's actual new public FIRST exposed a fixture defect I missed in C26:
+preserving all23 literal observations did not imply unique tuple lookup. a1/e21
+are identical empty-A/ok+LF/normal0/no-deadline/no-death conditions, both expecting
+validation_unavailable. The prior len(selected)==1 rejected that legitimate
+condition before the public observation. Those fixture AssertionErrors are
+invalid route-red evidence. Preserve other valid actual missing-route failures
+and original FIRST bytes; this is a written test defect correction, not behavior
+change or a weakened expected result.
+
+Reviewed helper source064258ad38533dae987121d7f5e6a5e531f3951f and author's
+written reason. Only protocol_row changes. It now requires a nonempty exact
+five-field tuple match AND agreement of every matching independently literal
+expected value; unknown conditions or inconsistent/wrong expected values still
+refuse. The first equivalent private name is deterministic a1. Actual fixed
+producer1/21 emit the same activation/outcome/status bytes. Both original outer
+calls remain distinct fresh test processes with their unchanged expected enum;
+no call is combined, cached, skipped or converted to success. Direct57 retains
+its independent case21, and e21 remains a selectable closed helper ID.
+
+Independent literal/AST checks find23 rows/22 distinct conditions, the sole
+duplicate pair a1/e21 and common expected value. Every other helper definition,
+all74 method sources and native57 bytes are identical; Python3.10 AST/compile-
+without-execution PASS. Root may run ONLY
+test_worker_activation_missing_extra_and_malformed_refuse_forged_ok and
+test_worker_setup_refusal_before_activation (their3+10 original observations),
+against the reviewed old route/current admitted artifacts, to replace the
+affected fixture causes with genuine boundary assertions. No synthetic31 or
+extra inert relay is needed. Missing setup/artifact/arm/import/timeout still is
+not valid red; actual new causes must be attributed before routing behavior.
+
+Project426/122, render--check and diff--check PASS. No candidate helper/module/
+target import, test/audit/native/SDK execution, compiler, thread, child, signal
+or probe occurred from this reviewer. Earlier C26 approval is corrected only
+for this real fixture defect; all unaffected valid reviews remain preserved.
