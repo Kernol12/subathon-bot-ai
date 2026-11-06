@@ -177,6 +177,85 @@ def syscall_return(path):
     return found[0][1]
 
 
+def probe_entry_binding(functions, relocations):
+    """Admit only the reviewed GNU debug clone edge and the same syscall GOT slot.
+
+    This is deliberately a closed compiler pattern. Unknown generated code needs
+    review rather than a weaker guess about which branch reaches the raw child.
+    """
+    name = "(anonymous namespace)::probe(bool, (anonymous namespace)::Controller*)"
+    probes = [item for item in functions.values() if item[1] == name]
+    require(len(probes) == 1, "actual probe missing/ambiguous")
+    instructions = probes[0][2]
+    calls = [index for index, item in enumerate(instructions)
+             if item[1].startswith("call") and item[2].endswith("<syscall@plt>")]
+    require(len(calls) == 1, "clone syscall edge missing/ambiguous")
+    index = calls[0]
+    require(index >= 2 and index + 7 < len(instructions), "truncated clone edge")
+    require(instructions[index - 2][1:] == ("mov", "$0x1b3,%edi")
+            and instructions[index - 1][1:] == ("mov", "$0x0,%eax"),
+            "clone syscall number/variadic prefix changed")
+    edge = instructions[index + 1:index + 7]
+    saved = re.fullmatch(r"%rax,(-0x[0-9a-f]+\(%rbp\))", edge[0][2])
+    require(edge[0][1] == "mov" and saved is not None,
+            "clone result not saved directly from RAX")
+    require(edge[1][1:] == ("cmpq", "$0x0," + saved.group(1)),
+            "clone zero comparison changed")
+    branch = TARGET.fullmatch(edge[2][2])
+    require(edge[2][1] == "jne" and branch is not None
+            and int(branch.group(1), 16) == instructions[index + 7][0],
+            "clone nonzero branch does not skip the exact child call")
+    require(edge[3][1] == "lea"
+            and re.fullmatch(r"-0x[0-9a-f]+\(%rbp\),%rax", edge[3][2])
+            and edge[4][1:] == ("mov", "%rax,%rdi")
+            and edge[5][1].startswith("call")
+            and edge[5][2].endswith("<schema_foundation::child(schema_foundation::ChildPlan const&)>"),
+            "clone child has an unreviewed instruction/callback before raw entry")
+    child_target = TARGET.fullmatch(edge[5][2])
+    require(child_target is not None and int(child_target.group(1), 16) in functions
+            and functions[int(child_target.group(1), 16)][1]
+            == "schema_foundation::child(schema_foundation::ChildPlan const&)",
+            "clone child call does not name the audited function boundary")
+    plt_target = TARGET.fullmatch(instructions[index][2])
+    require(plt_target is not None and int(plt_target.group(1), 16) in functions,
+            "clone syscall PLT boundary missing")
+    plt = functions[int(plt_target.group(1), 16)]
+    require(plt[1] == "syscall@plt", "clone syscall PLT name changed")
+    jumps = []
+    for _, mnemonic, operands in plt[2]:
+        if mnemonic in {"endbr64", "nop", "nopl", "nopw"}:
+            continue
+        if mnemonic == "bnd" and operands.startswith("jmp "):
+            mnemonic, operands = "jmp", operands[4:]
+        require(mnemonic == "jmp", "unreviewed syscall PLT operation")
+        match = re.fullmatch(r"\*-?0x[0-9a-f]+\(%rip\)\s*# ([0-9a-f]+) <syscall@GLIBC_2\.2\.5>", operands)
+        require(match is not None, "syscall PLT is not the known versioned GOT jump")
+        jumps.append(int(match.group(1), 16))
+    require(len(jumps) == 1, "syscall PLT has an ambiguous GOT jump")
+    slot = jumps[0]
+    matches = []
+    for line in relocations.splitlines():
+        fields = line.split()
+        if len(fields) >= 5 and fields[4].startswith("syscall@"):
+            matches.append(fields)
+    require(len(matches) == 1 and int(matches[0][0], 16) == slot
+            and matches[0][2] == "R_X86_64_GLOB_DAT"
+            and matches[0][4] == "syscall@GLIBC_2.2.5",
+            "syscall GOT slot/version is not one resolved GLOB_DAT relocation")
+    bindings = [item for item in functions.values()
+                if item[1].endswith("SyscallBindingToActualLibc_Test::TestBody()")]
+    require(len(bindings) == 1, "same-binary binding bootstrap missing/ambiguous")
+    references = []
+    for _, mnemonic, operands in bindings[0][2]:
+        if "syscall@" in operands:
+            match = re.fullmatch(r"-?0x[0-9a-f]+\(%rip\),%rax\s*# ([0-9a-f]+) <syscall@GLIBC_2\.2\.5>", operands)
+            require(mnemonic == "mov" and match is not None,
+                    "binding syscall reference has an unknown instruction")
+            references.append(int(match.group(1), 16))
+    require(references == [slot], "bootstrap address and child syscall use different GOT slots")
+    return {"probe": probes[0][0], "syscall_got": slot, "child": int(child_target.group(1), 16)}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--foundation", required=True)
@@ -185,6 +264,8 @@ def main():
     options = parser.parse_args()
     foundation, child, transport = map(elf, (options.foundation, options.child, options.transport))
     graphs = {}
+    graphs["clone_entry_binding"] = probe_entry_binding(
+        disassembly(foundation), command("readelf", "-Wr", str(foundation)))
     graphs["copied_child"] = reachable(
         disassembly(foundation), lambda name: name.startswith("schema_foundation::child("),
         raw_helper)
