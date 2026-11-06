@@ -153,6 +153,19 @@ def identity(value):
     return symbol
 
 
+def implicit_abi_counterpart(name, nodes):
+    """Defer only one nested C1/D1 alias to a real framed C2/D2 node."""
+    tokens = ("C1E", "D1E")
+    if not name.startswith("_ZN") or sum(name.count(token) for token in tokens) != 1:
+        return None
+    token = next(token for token in tokens if token in name)
+    counterpart = name.replace(token, token[0] + "2E", 1)
+    record = nodes.get(counterpart)
+    if record is not None and record[2] is not None and record[3] is None:
+        return counterpart
+    return None
+
+
 def parse_ci(text):
     """The exact GNU VCG record subset emitted by the reviewed build flags."""
     lines = [line.strip() for line in text.splitlines() if line.strip()]
@@ -176,8 +189,10 @@ def parse_ci(text):
             edges.append(tuple(identity(json.loads(x)) for x in edge.groups()))
     require(len(nodes) <= 4096 and len(edges) <= 16384, "compiler graph size bound")
     missing = sorted({name for edge in edges for name in edge if name not in nodes})
-    require(not missing, "compiler edge has no node: "
-            + ", ".join(name[:256] for name in missing[:8]))
+    deferred = {name: implicit_abi_counterpart(name, nodes) for name in missing}
+    require(all(target is not None for target in deferred.values())
+            and all(a in nodes or deferred.get(a) == b for a, b in edges),
+            "compiler edge has no node: " + ", ".join(name[:256] for name in missing[:8]))
     return nodes, edges
 
 
@@ -196,7 +211,7 @@ def parse_su(text):
 
 def compiler_graph(pairs, symbols):
     """Bind compiler mangled identities/frames to actual ELF addresses."""
-    nodes, edges, definitions, origins = {}, [], {}, {}
+    nodes, edges, definitions, origins, implicit = {}, [], {}, {}, {}
     for ci, su in pairs:
         local, connections = parse_ci(ci)
         stack = parse_su(su)
@@ -209,6 +224,13 @@ def compiler_graph(pairs, symbols):
                 require(name not in origins or origins[name] == (signature, location), "conflicting frame source identity")
                 origins[name] = signature, location
             nodes.setdefault(name, []).append(record)
+        for name in {endpoint for edge in connections for endpoint in edge} - local.keys():
+            counterpart = implicit_abi_counterpart(name, local)
+            require(counterpart in definitions and name in symbols and counterpart in symbols
+                    and symbols[name] == symbols[counterpart],
+                    "implicit ABI alias lacks same ELF address and real counterpart frame")
+            require(name not in implicit or implicit[name] == counterpart, "conflicting implicit ABI alias")
+            implicit[name] = counterpart
         edges.extend(connections)
     frames, graph, owners = {}, {}, {}
     for name, frame in definitions.items():
@@ -231,7 +253,9 @@ def compiler_graph(pairs, symbols):
             continue  # Unlinked/unused compiler nodes cannot enter the ELF graph.
         address = symbols[a]
         if a != b and b in symbols and symbols[b] == address:
-            require(any(record[3] == "triangle" for record in nodes[a]) and b in definitions,
+            require(implicit.get(a) == b
+                    or (a in nodes and any(record[3] == "triangle" for record in nodes[a])
+                        and b in definitions),
                     "same-address edge is not a proven constructor/destructor alias")
             continue
         graph.setdefault(address, set()).add(symbols.get(b, b))
