@@ -75,3 +75,37 @@ Project/render/staged diff PASS426 tasks/122 decisions/current HTML. Actual
 corrected-source rereview and explicitly released FIRST still precede bodies;
 native69, helper/reporting/current both-host gates, public74/SDK/source/security,
 latest-head CI and normal PR merge remain separate. No future body is approved.
+
+## Actual58a correction — source approved
+
+Reviewer B, fresh isolated
+`review/SCHEMATOOL-001-native-binding-test-correction` from actual A
+`58a3243ee3ebcf8d065a92c7eaee209b25dcad93`, retaining this prior findings note.
+**APPROVED: exact binding9 tests and minimal16 declaration lines**, corrected test
+blob`42ab9cd058b37e4cbdabe54772769ebd272f3679`; production declaration blob
+`3fc42fee391a95dcde2b7e761cda78416e5cae87` remains byte-identical.
+
+The positive ABI case now transparently instruments the actual CDLL class's
+`__getitem__` with a normal bound method. It invokes the SAVED REAL method on
+the actual library/symbol first, records that genuine return and returns the
+same object unchanged. The returned entry must be identical to one actual lookup
+return for the exact loaded library/versioned symbol. Both documented attribute
+and index forms traverse this seam; neither a cache identity nor lookup count is
+imposed. No native entry is invoked and no callable/result substitutes for the
+genuine lookup return. Symbol provenance resolves the sole finding above.
+
+All existing exact trusted-path/CDLL LOCAL|NOW/library-count/builtin eight-argument
+types/c_int/no-errcheck/non-PythonAPI assertions remain. Independent stdlib AST
+comparison removes ONLY the positive ABI method and reproduces the entire old
+c38 test module exactly: other8 methods, helper lifecycle/recorders, all25 mapping
+integers/ELF cases/module definitions remain unchanged. Nine methods remain; no
+`entry(...)` invocation exists. Current two immediate binding-marker stubs and
+their distinct class are unchanged; the old public-parent AST is still preserved.
+
+Actual AST preservation, project/render/staged diff PASS426 tasks/122 decisions/
+current HTML. No candidate/module/ctypes/SDK import, compiler, load, native/test/
+audit/helper/thread/child/signal execution. Approval is SOURCE only for the later
+explicitly released binding-specific FIRST under matching admitted environment/
+artifact/build gates; it is not actual native31 or a release of owner69. Future
+loader/decoder/public routing bodies, native owner, source/security/74-port and
+latest hosted/normal-merge gates retain their separate requirements.
