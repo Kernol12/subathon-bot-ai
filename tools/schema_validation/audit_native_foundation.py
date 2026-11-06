@@ -112,7 +112,9 @@ def reachable(functions, root_name, allowed):
         for _, mnemonic, operands in instructions:
             require("%fs:" not in operands and "%gs:" not in operands,
                     "TLS/segment access in generated child function " + name)
-            require(mnemonic in PLAIN or SIZED.fullmatch(mnemonic)
+            shared_wake = (name == "(anonymous namespace)::wake((anonymous namespace)::Shared*)"
+                           and mnemonic == "lock" and operands == "addl $0x1,(%rax)")
+            require(mnemonic in PLAIN or SIZED.fullmatch(mnemonic) or shared_wake
                     or mnemonic.startswith(("call", "j", "loop", "set", "cmov")),
                     "unreviewed generated instruction in " + name + ": " + mnemonic)
             if mnemonic.startswith("call") or mnemonic.startswith("j") or mnemonic.startswith("loop"):

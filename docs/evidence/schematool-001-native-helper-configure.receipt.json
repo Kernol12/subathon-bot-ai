@@ -1,0 +1,20 @@
+{
+  "source": "87ef6f892e001d5e43157d9cfb9033d4e5b98bb7",
+  "command": [
+    "cmake",
+    "--preset",
+    "schema-transport-debug",
+    "-DPython3_EXECUTABLE=/tmp/subathon-schematest001-py314/bin/python"
+  ],
+  "start_utc": "2026-11-06T18:17:38.871718+00:00",
+  "seconds": 0.11346440699708182,
+  "returncode": 0,
+  "stdout": {
+    "bytes": 232,
+    "sha256": "1565c9dd2bc401a9222a50d2c23ea7696b6ec1a645f48088c752671e15976570"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

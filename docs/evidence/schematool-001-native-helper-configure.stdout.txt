@@ -1,0 +1,4 @@
+-- Foundation scaffold only: no server, desktop app or live integrations implemented
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /tmp/subathon-schematool001/build/schema-transport-debug
