@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-B",
+    "tests/schema_validation/native_binding_acceptance.py"
+  ],
+  "cwd": "/tmp/subathon-schematool001",
+  "revision": "2a153677f18aa1c71a6e1f48432882360a84b2f5",
+  "utc": "2026-11-06T19:57:44.176766+00:00",
+  "exit": 1,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "705deef82b1f012a264814022ebee0756c22e28a5fbf0b9f6fce522742cd172a",
+  "stderr_bytes": 46349,
+  "methods": 9,
+  "actual_binding_not_implemented_errors": 41,
+  "passive_import_passed": true,
+  "native_entry_calls": 0,
+  "skip_count": 0
+}
