@@ -152,3 +152,44 @@ All426 IDs/1629 edges and allseven integrations/three FX providers remain in sco
 Full application/auth/state/financial/recovery/network/scene/QML/browser/EN-DE/themes/
 Linux-Windows/Wayland/OBS/security/package/live release gates remain open. After the
 next eligible merge, refresh main and continue the standing loop.
+
+## Latest correction checkpoint (supersedes pending items above)
+
+Root current local history includes worker correctiondc1 importedb4def02, reviewed
+parent correction785 imported dcfd9a0 and actual scoped C e9fe review imported825d14b.
+Parent2PASS.009/11PASS.223 are author observations; C verified actual red/raw/source
+for those two paths only. Constructor ownership remains OPEN, never overall parent
+approval. Six exact parent/context raw artifacts are durable in root9004833.
+
+NEW lexical test C91ce5da/sourcefc826 was actually independently approved root72143f4
+before ONE root native run at clean91 author worktree12:23:29Z:3tests/.128s, exit1,
+only65536 wrong enum, controls65535+65537 pass,0errors/skips. Raw1612B SHA71476f2d
++empty stdout/receipt/native note preserved e18a1b4. A released terminal-EOF fix
+only afterward. Currentdc1 code includes that fix; public lexical/full64 still unrun.
+C actual package050 source audit finds numeric pre-slice/EOF/shared leases coherent,
+while root/C reject residual free persistent graph aliases/sort workspaces. A is
+now correcting explicit per-slot reservations, bounded IDs and early child-count
+preflight; get actual next coherent commit before finalsourceaudit. No moving-source
+approval, profile change, limit change or baseline assertion edit is allowed.
+
+B NEW constructor regressiona230265/source777d907, parent-author worktree, is inert
+(unexecuted). TWO cases use saved actual native _execute_child FIRST, real blocked
+child/readiness/partial self/PID then real default SIGINT or specific MemoryError;
+pre-fallback native waitpid/FD oracles. Root source review found a real PRIVATE r2
+test-seam conflict: it requires returning a completed real Popen, impossible for
+failed construction and does not explicitly allow the native-method interception.
+Root proposed process-test revision3 negative-only clarification6224a6a plus
+[scope note](schematool-001-spawn-fault-clarification.md); C actual different doc
+review is active. Root final actual test review/new-only reached-bug red MUST follow
+that actual doc approval. B remains idle/completed after authored handoff; use
+followup_task when releasing it. No constructor production fix exists. No routine
+owner decision is needed for this reviewed private testability clarification.
+
+CI draft e1aea still runs only public64 +parent-cleanup/context modules. Finaldraft
+must also run NEW lexical module and constructor module once reviewed/fixed; C
+reviews ACTUAL final delta after all modules known. Keep promotion unpublished and
+unexecuted until actual combined source review/relevant passing local acceptance,
+then observe both current hosted lanes/alllatestchecks and normalmerge gates.
+Published77 remainsaab/all19baselineSUCCESS at last inspection. Primarymain095
+unchanged. No original red replay. Inspect actualrefs/worktrees/agents/GitHub on
+resume; this local checkpoint does not claim background continuation after stop.
