@@ -1,0 +1,115 @@
+{
+  "summary": {
+    "native_cases": 1,
+    "native_seconds": "0.006",
+    "native_errors": 10,
+    "observed_error_sections": 10,
+    "only_new_method": true,
+    "all_errors_exact_marker_and_final_stub": true,
+    "stdout_empty": true,
+    "original_63_bytes_unchanged": true,
+    "matches_intended_new_only_red": true
+  },
+  "errors": [
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_setup_refusal_before_activation",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "started_at": "2026-11-06T11:00:15+00:00",
+  "source_head": "3d0c96ee01365cf312f1cb7164484d9b78e86edc",
+  "source_blobs": {
+    "tests/schema_validation/wrapper_acceptance.py": "64f4911edae1e6ec1546777661f199252d06131c",
+    "tools/schema_validate.py": "4a124a61c03d84b18b03e00fecda9f3b22427698",
+    "tools/schema_validation/check_baseline.py": "032b141ade5947f95aeb142df2700bb29559b21e",
+    ".github/workflows/schema-library-foundation.yml": "842790e2bd87039c646a1589cd4982463461b778",
+    "tools/schema_validation/wheels.json": "6f4ffec82e73274bebeac2ea1aa0ad31e28f4539",
+    "tools/schema_validation/requirements.lock": "859d7cfaa04a207a3052839e9622287566770259",
+    "docs/contracts/schema-validation-tool-api-v1.md": "973961c2db1b00df828baadff02f6b289f8d6b79",
+    "docs/contracts/schema-validation-process-test-v1.md": "ac25680535064ed8e4b1c85ed87b8999b0d93f4e"
+  },
+  "argv": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-B",
+    "/tmp/subathon-schematest001/tests/schema_validation/wrapper_acceptance.py",
+    "WrapperAcceptance.test_worker_setup_refusal_before_activation"
+  ],
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "cwd": "/tmp/subathon-schematest001",
+  "returncode": 1,
+  "timed_out": false,
+  "elapsed_seconds": 0.063923,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "c974f8324786b5a828ba8838326cc5034c26c8dd851be2cf90be472f3b4dc128",
+  "original_63_stderr_sha256_before": "7e64f76da6664557493b88a3c3a2dd2b12624b35b01236248f5e5f8981179433",
+  "original_63_stderr_sha256_after": "7e64f76da6664557493b88a3c3a2dd2b12624b35b01236248f5e5f8981179433"
+}

@@ -1,0 +1,707 @@
+{
+  "schema_version": 1,
+  "status": "admitted exact artifacts; observed isolated SDK foundations; wrapper implementation and compatibility gates remain",
+  "scope": "isolated developer tooling, Linux x86-64, CPython3.10/3.12/3.14 wheel candidates; no validator execution proof",
+  "index": "https://pypi.org/simple",
+  "packages": [
+    {
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/annotated-types/0.8.0/json",
+      "artifacts": [
+        {
+          "filename": "annotated_types-0.8.0-py3-none-any.whl",
+          "sha256": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0",
+          "size_bytes": 13427,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "annotated_types-0.8.0.dist-info/licenses/LICENSE": "fe1049884b1a0d9342901e88e07f32925d24b3121d9972b6a6805fb9824b095d"
+          },
+          "dist_info_directory": "annotated_types-0.8.0.dist-info",
+          "wheel_metadata_sha256": "942926c567d0b1273d09f20295879abd37507845f6b683eab9f87d808df91100",
+          "distribution_metadata_sha256": "614985b278f601b8ef863f82783b991cc3ada4b89f592eb71c7c48c5f2ef2298"
+        }
+      ]
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "requires_python": ">=3.9",
+      "declared_license": "MIT",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/attrs/26.1.0/json",
+      "artifacts": [
+        {
+          "filename": "attrs-26.1.0-py3-none-any.whl",
+          "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+          "size_bytes": 67548,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "attrs-26.1.0.dist-info/licenses/LICENSE": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f"
+          },
+          "dist_info_directory": "attrs-26.1.0.dist-info",
+          "wheel_metadata_sha256": "41c708c5adba6e097513ab8ccb9f1d7865a2fb469e22491a9e01dcc64da459fc",
+          "distribution_metadata_sha256": "4cd40e690f23bf37cbcad34efd6758e062df1df07c86833f7e3ce95bf1fa38cc"
+        }
+      ]
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.26.0",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [
+        "attrs>=22.2.0",
+        "jsonschema-specifications>=2023.03.6",
+        "referencing>=0.28.4",
+        "rpds-py>=0.25.0",
+        "fqdn; extra == 'format'",
+        "idna; extra == 'format'",
+        "isoduration; extra == 'format'",
+        "jsonpointer>1.13; extra == 'format'",
+        "rfc3339-validator; extra == 'format'",
+        "rfc3987; extra == 'format'",
+        "uri-template; extra == 'format'",
+        "webcolors>=1.11; extra == 'format'",
+        "fqdn; extra == 'format-nongpl'",
+        "idna; extra == 'format-nongpl'",
+        "isoduration; extra == 'format-nongpl'",
+        "jsonpointer>1.13; extra == 'format-nongpl'",
+        "rfc3339-validator; extra == 'format-nongpl'",
+        "rfc3986-validator>0.1.0; extra == 'format-nongpl'",
+        "rfc3987-syntax>=1.1.0; extra == 'format-nongpl'",
+        "uri-template; extra == 'format-nongpl'",
+        "webcolors>=24.6.0; extra == 'format-nongpl'"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/jsonschema/4.26.0/json",
+      "artifacts": [
+        {
+          "filename": "jsonschema-4.26.0-py3-none-any.whl",
+          "sha256": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce",
+          "size_bytes": 90630,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "jsonschema-4.26.0.dist-info/licenses/COPYING": "4f92a015a13c4d1a040bef018aa13430b4f1bc73b41b16bb846c346766de7439"
+          },
+          "dist_info_directory": "jsonschema-4.26.0.dist-info",
+          "wheel_metadata_sha256": "58b82a17209f9bf2804afe161f2632d0fde933f9bb2792fd936b2474a2e2ac2f",
+          "distribution_metadata_sha256": "05b189866ca98a96da3934bf6b83687ced3ff85325273b77e16b705f6d8b26d2"
+        }
+      ]
+    },
+    {
+      "name": "jsonschema-path",
+      "version": "0.5.0",
+      "requires_python": ">=3.10,<4.0.0",
+      "declared_license": "Apache-2.0",
+      "requires_dist": [
+        "PyYAML (>=5.1)",
+        "attrs (>=22.2.0)",
+        "pathable (>=0.6.0,<0.7.0)",
+        "referencing (<0.38.0)",
+        "requests (>=2.31.0,<3.0.0) ; extra == \"requests\""
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/jsonschema-path/0.5.0/json",
+      "artifacts": [
+        {
+          "filename": "jsonschema_path-0.5.0-py3-none-any.whl",
+          "sha256": "2790a070bc7abb08ea3dbe4d340ece4efadf639223001f020c7503229ba068e2",
+          "size_bytes": 24077,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "jsonschema_path-0.5.0.dist-info/licenses/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+          },
+          "dist_info_directory": "jsonschema_path-0.5.0.dist-info",
+          "wheel_metadata_sha256": "ce9d029fb26c1685f6013b4e86d685608884dab985003e0e70c86d5248bc5b75",
+          "distribution_metadata_sha256": "cd7e9a4426436980f099d826dbce8f61afa6603b496385fba9a9eb0ad59cdd48"
+        }
+      ]
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1",
+      "requires_python": ">=3.9",
+      "declared_license": "MIT",
+      "requires_dist": [
+        "referencing>=0.31.0"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/jsonschema-specifications/2025.9.1/json",
+      "artifacts": [
+        {
+          "filename": "jsonschema_specifications-2025.9.1-py3-none-any.whl",
+          "sha256": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe",
+          "size_bytes": 18437,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "jsonschema_specifications-2025.9.1.dist-info/licenses/COPYING": "42dcd63495f87b4eb7c7757afa379bb55a53f94afd7a5f657d9adf57236e515c"
+          },
+          "dist_info_directory": "jsonschema_specifications-2025.9.1.dist-info",
+          "wheel_metadata_sha256": "aad0b0a12256807936d52d4a6f88a1773236ae527564a688bab4e3fe780e8724",
+          "distribution_metadata_sha256": "35abd41757f32b4ea24756920ded47b70173d77cbc052a5a6d3ab583b2e8d89d"
+        }
+      ]
+    },
+    {
+      "name": "lazy-object-proxy",
+      "version": "1.12.0",
+      "requires_python": ">=3.9",
+      "declared_license": "BSD-2-Clause",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/lazy-object-proxy/1.12.0/json",
+      "artifacts": [
+        {
+          "filename": "lazy_object_proxy-1.12.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "d01c7819a410f7c255b20799b65d36b414379a30c6f1684c7bd7eb6777338c1b",
+          "size_bytes": 67559,
+          "candidate_targets": [
+            "cp310"
+          ],
+          "license_files_sha256": {
+            "lazy_object_proxy-1.12.0.dist-info/licenses/LICENSE": "9fb15c116f76f44830c2c07a84e928baf04fcac12d4c9f57651372dff43fd79e"
+          },
+          "dist_info_directory": "lazy_object_proxy-1.12.0.dist-info",
+          "wheel_metadata_sha256": "022bbde9b86db1fcf0dcdbd0bf3c503647fb7fd5e5db05b676da87a5273a7d6d",
+          "distribution_metadata_sha256": "599b9b7fc97ecd378f9baafd925b6df03f1232e1724d4fd94b31e26d9434a224"
+        },
+        {
+          "filename": "lazy_object_proxy-1.12.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+          "sha256": "4ab2c584e3cc8be0dfca422e05ad30a9abe3555ce63e9ab7a559f62f8dbc6ff9",
+          "size_bytes": 71457,
+          "candidate_targets": [
+            "cp312"
+          ],
+          "license_files_sha256": {
+            "lazy_object_proxy-1.12.0.dist-info/licenses/LICENSE": "9fb15c116f76f44830c2c07a84e928baf04fcac12d4c9f57651372dff43fd79e"
+          },
+          "dist_info_directory": "lazy_object_proxy-1.12.0.dist-info",
+          "wheel_metadata_sha256": "997e14e2875feb0e3b6958f065499361dd4c17d05bae154b2a56964af6701c49",
+          "distribution_metadata_sha256": "599b9b7fc97ecd378f9baafd925b6df03f1232e1724d4fd94b31e26d9434a224"
+        },
+        {
+          "filename": "lazy_object_proxy-1.12.0-cp314-cp314-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+          "sha256": "6763941dbf97eea6b90f5b06eb4da9418cc088fce0e3883f5816090f9afcde4a",
+          "size_bytes": 71059,
+          "candidate_targets": [
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "lazy_object_proxy-1.12.0.dist-info/licenses/LICENSE": "9fb15c116f76f44830c2c07a84e928baf04fcac12d4c9f57651372dff43fd79e"
+          },
+          "dist_info_directory": "lazy_object_proxy-1.12.0.dist-info",
+          "wheel_metadata_sha256": "52d768503c5cda2340832a01069f9ddaf836aaaccd7bac9d4b75de20e3f5fc7c",
+          "distribution_metadata_sha256": "599b9b7fc97ecd378f9baafd925b6df03f1232e1724d4fd94b31e26d9434a224"
+        }
+      ]
+    },
+    {
+      "name": "openapi-schema-validator",
+      "version": "0.9.0",
+      "requires_python": ">=3.10.0,<4.0.0",
+      "declared_license": "BSD-3-Clause",
+      "requires_dist": [
+        "jsonschema (>=4.19.1,<5.0.0)",
+        "jsonschema-specifications (>=2024.10.1)",
+        "pydantic (>=2.0.0,<3.0.0)",
+        "pydantic-settings (>=2.0.0,<3.0.0)",
+        "referencing (>=0.37.0,<0.38.0)",
+        "regress (>=2025.10.1) ; extra == \"ecma-regex\"",
+        "rfc3339-validator"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/openapi-schema-validator/0.9.0/json",
+      "artifacts": [
+        {
+          "filename": "openapi_schema_validator-0.9.0-py3-none-any.whl",
+          "sha256": "faa3bbe7c3aa8ca2087ad83f709dc3b7d920283153a570c03e24ea182558aa25",
+          "size_bytes": 19980,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "openapi_schema_validator-0.9.0.dist-info/licenses/LICENSE": "d41b4164b6368056255ae4d17e982176fe243808322d1469a3443dee58d1530a"
+          },
+          "dist_info_directory": "openapi_schema_validator-0.9.0.dist-info",
+          "wheel_metadata_sha256": "573d9f1e0c7a1c5b52c21b3c2af9072ea1f911ae30d7fae77abe6e3551827881",
+          "distribution_metadata_sha256": "a2686e8af37c337b47a05223f6708f33ab44b43e24915f5c2d63ac0ec02979f0"
+        }
+      ]
+    },
+    {
+      "name": "openapi-spec-validator",
+      "version": "0.9.0",
+      "requires_python": ">=3.10,<4.0",
+      "declared_license": "Apache-2.0",
+      "requires_dist": [
+        "jsonschema (>=4.26.0,<5.0.0)",
+        "jsonschema-path (>=0.5.0,<0.6.0)",
+        "lazy-object-proxy (>=1.7.1,<2.0)",
+        "openapi-schema-validator (>=0.9.0,<0.10.0)",
+        "pydantic (>=2.0.0,<3.0.0)",
+        "pydantic-settings (>=2.0.0,<3.0.0)"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/openapi-spec-validator/0.9.0/json",
+      "artifacts": [
+        {
+          "filename": "openapi_spec_validator-0.9.0-py3-none-any.whl",
+          "sha256": "222fecffc7714f6d0a6ad62c0e4b66cc2b7dbfafb7b93acfc6c308abbdb51af8",
+          "size_bytes": 50328,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "openapi_spec_validator-0.9.0.dist-info/licenses/LICENSE": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+            "openapi_spec_validator-0.9.0.dist-info/licenses/NOTICE": "e66e45d437e7b6198772bae62b3a5f5c18ca14878d20a6ab4cae21be433b6df0"
+          },
+          "dist_info_directory": "openapi_spec_validator-0.9.0.dist-info",
+          "wheel_metadata_sha256": "ce9d029fb26c1685f6013b4e86d685608884dab985003e0e70c86d5248bc5b75",
+          "distribution_metadata_sha256": "52e6672f9f16d61ade2291b93faeffa3372719cb342ab57f26bc49a2ee656f9e"
+        }
+      ]
+    },
+    {
+      "name": "pathable",
+      "version": "0.6.0",
+      "requires_python": ">=3.10,<4.0",
+      "declared_license": "Apache-2.0",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/pathable/0.6.0/json",
+      "artifacts": [
+        {
+          "filename": "pathable-0.6.0-py3-none-any.whl",
+          "sha256": "82c4ca6c98c502ad12e0d4e9779b6210afee93c38990988c8c5d1b49bdcdf566",
+          "size_bytes": 18983,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "pathable-0.6.0.dist-info/licenses/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+          },
+          "dist_info_directory": "pathable-0.6.0.dist-info",
+          "wheel_metadata_sha256": "ce9d029fb26c1685f6013b4e86d685608884dab985003e0e70c86d5248bc5b75",
+          "distribution_metadata_sha256": "c418727931012c2306cb8fa2726d044616c3178c1fc078ce182385dcf2b59922"
+        }
+      ]
+    },
+    {
+      "name": "pydantic",
+      "version": "2.14.3",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [
+        "annotated-types>=0.6.0",
+        "pydantic-core==2.50.4",
+        "typing-extensions>=4.16.0",
+        "typing-inspection>=0.4.4",
+        "email-validator>=2.0.0; extra == 'email'",
+        "tzdata; (platform_system == 'Windows') and extra == 'timezone'"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/pydantic/2.14.3/json",
+      "artifacts": [
+        {
+          "filename": "pydantic-2.14.3-py3-none-any.whl",
+          "sha256": "3f7b347782ab7e4cf4c798496ae3a82787d9f21ec12676a9c564355eeef8daa8",
+          "size_bytes": 494071,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "pydantic-2.14.3.dist-info/licenses/LICENSE": "a9e186f3ca16b5eef84318e7a701721351a00cb7b8ae3a4394b67b49e3529ef3"
+          },
+          "dist_info_directory": "pydantic-2.14.3.dist-info",
+          "wheel_metadata_sha256": "da266b2640c891e0e1d24f528a428ca85b913feb9aea66f822bd40b04478044c",
+          "distribution_metadata_sha256": "c3eb8984172bedc8e056655e1419351f4497374a91b7b709dbc4a1340f50e1e9"
+        }
+      ]
+    },
+    {
+      "name": "pydantic-core",
+      "version": "2.50.4",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [
+        "typing-extensions>=4.16.0"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/pydantic-core/2.50.4/json",
+      "artifacts": [
+        {
+          "filename": "pydantic_core-2.50.4-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "sha256": "ed9c0b6f236648dbf30d57e9f57e1f74878caafa04833a19f529b5ba5164b7a8",
+          "size_bytes": 2257210,
+          "candidate_targets": [
+            "cp310"
+          ],
+          "license_files_sha256": {
+            "pydantic_core-2.50.4.dist-info/licenses/LICENSE": "2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+          },
+          "dist_info_directory": "pydantic_core-2.50.4.dist-info",
+          "wheel_metadata_sha256": "3c94840c06b2c3276dd031d052254fb33806dfc0397e04c16f4e35f7f57f7069",
+          "distribution_metadata_sha256": "bb1956097beb504f190f8ea20c859b5dfea567679a247ce252d7813dd73f361d"
+        },
+        {
+          "filename": "pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "sha256": "c81d98e27d9d9261909dcccab1ba5d6ea1c98b0bb9470e368604614fd1d36ddd",
+          "size_bytes": 2261727,
+          "candidate_targets": [
+            "cp312"
+          ],
+          "license_files_sha256": {
+            "pydantic_core-2.50.4.dist-info/licenses/LICENSE": "2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+          },
+          "dist_info_directory": "pydantic_core-2.50.4.dist-info",
+          "wheel_metadata_sha256": "8b356abe878ffd8419e6888ec6cbff2c8b0b77786ae02db72d64b7e3912bf59c",
+          "distribution_metadata_sha256": "bb1956097beb504f190f8ea20c859b5dfea567679a247ce252d7813dd73f361d"
+        },
+        {
+          "filename": "pydantic_core-2.50.4-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "sha256": "f1d62fb172db35c6478c9323da34ff37d1f3d37d7d44337a9d94ba8c583e5730",
+          "size_bytes": 2265388,
+          "candidate_targets": [
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "pydantic_core-2.50.4.dist-info/licenses/LICENSE": "2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+          },
+          "dist_info_directory": "pydantic_core-2.50.4.dist-info",
+          "wheel_metadata_sha256": "651fe6410a3404a594bd0d2f5b1cadf3efc82dae2a54771b75c8388927e08d4c",
+          "distribution_metadata_sha256": "bb1956097beb504f190f8ea20c859b5dfea567679a247ce252d7813dd73f361d"
+        }
+      ]
+    },
+    {
+      "name": "pydantic-settings",
+      "version": "2.15.0",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [
+        "pydantic>=2.7.0",
+        "python-dotenv>=0.21.0",
+        "typing-inspection>=0.4.0",
+        "boto3>=1.35.0; extra == 'aws-secrets-manager'",
+        "azure-identity>=1.16.0; extra == 'azure-key-vault'",
+        "azure-keyvault-secrets>=4.8.0; extra == 'azure-key-vault'",
+        "google-cloud-secret-manager>=2.23.1; extra == 'gcp-secret-manager'",
+        "tomli>=2.0.1; extra == 'toml'",
+        "pyyaml>=6.0.1; extra == 'yaml'"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/pydantic-settings/2.15.0/json",
+      "artifacts": [
+        {
+          "filename": "pydantic_settings-2.15.0-py3-none-any.whl",
+          "sha256": "0ba092c291c94baceb5eff768aa0d56400a457585bc0175925a5a5510303da42",
+          "size_bytes": 69413,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "pydantic_settings-2.15.0.dist-info/licenses/LICENSE": "eb355a753e020346d33d83bf9769135b89fc610568ac531a01c295bcee7fd998"
+          },
+          "dist_info_directory": "pydantic_settings-2.15.0.dist-info",
+          "wheel_metadata_sha256": "942926c567d0b1273d09f20295879abd37507845f6b683eab9f87d808df91100",
+          "distribution_metadata_sha256": "5ac12e408df62f1d4c7643146d9df04ace749f1fe5cf28b3b794be0b2834ca6d"
+        }
+      ]
+    },
+    {
+      "name": "python-dotenv",
+      "version": "1.2.4",
+      "requires_python": ">=3.10",
+      "declared_license": "BSD-3-Clause",
+      "requires_dist": [
+        "click>=5.0; extra == \"cli\""
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/python-dotenv/1.2.4/json",
+      "artifacts": [
+        {
+          "filename": "python_dotenv-1.2.4-py3-none-any.whl",
+          "sha256": "42269a8a5b3fd54ffa6f3d84b18abed50064717576b4ecf03dc4a55d8aa04fdc",
+          "size_bytes": 23266,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "python_dotenv-1.2.4.dist-info/licenses/LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9"
+          },
+          "dist_info_directory": "python_dotenv-1.2.4.dist-info",
+          "wheel_metadata_sha256": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1",
+          "distribution_metadata_sha256": "87cfee6042412d48df1100ea7822684988c3f2b79de7a250f4717f4df3026d6f"
+        }
+      ]
+    },
+    {
+      "name": "pyyaml",
+      "version": "6.0.3",
+      "requires_python": ">=3.8",
+      "declared_license": "MIT",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/pyyaml/6.0.3/json",
+      "artifacts": [
+        {
+          "filename": "pyyaml-6.0.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+          "sha256": "9c7708761fccb9397fe64bbc0395abcae8c4bf7b0eac081e12b809bf47700d0b",
+          "size_bytes": 770293,
+          "candidate_targets": [
+            "cp310"
+          ],
+          "license_files_sha256": {
+            "pyyaml-6.0.3.dist-info/licenses/LICENSE": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+          },
+          "dist_info_directory": "pyyaml-6.0.3.dist-info",
+          "wheel_metadata_sha256": "0d9978c98babbe25c9250b229471f5a80cc2443b1dcfefa836d0d9fa152b6549",
+          "distribution_metadata_sha256": "03c3b415ed38d09faedc49360e930769b40c58f68585e6de00e2e4916a858d34"
+        },
+        {
+          "filename": "pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+          "sha256": "ba1cc08a7ccde2d2ec775841541641e4548226580ab850948cbfda66a1befcdc",
+          "size_bytes": 807870,
+          "candidate_targets": [
+            "cp312"
+          ],
+          "license_files_sha256": {
+            "pyyaml-6.0.3.dist-info/licenses/LICENSE": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+          },
+          "dist_info_directory": "pyyaml-6.0.3.dist-info",
+          "wheel_metadata_sha256": "0f1467590cfe2a9f7ee1ae217431ec4afd0a502dc7eec37d35b79fdfef118d75",
+          "distribution_metadata_sha256": "03c3b415ed38d09faedc49360e930769b40c58f68585e6de00e2e4916a858d34"
+        },
+        {
+          "filename": "pyyaml-6.0.3-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+          "sha256": "c458b6d084f9b935061bc36216e8a69a7e293a2f1e68bf956dcd9e6cbcd143f5",
+          "size_bytes": 794175,
+          "candidate_targets": [
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "pyyaml-6.0.3.dist-info/licenses/LICENSE": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+          },
+          "dist_info_directory": "pyyaml-6.0.3.dist-info",
+          "wheel_metadata_sha256": "0cc9e2d875975c6e286adf18e9b015baefb196407e82b1d08aab13bbe94b1e5b",
+          "distribution_metadata_sha256": "03c3b415ed38d09faedc49360e930769b40c58f68585e6de00e2e4916a858d34"
+        }
+      ]
+    },
+    {
+      "name": "referencing",
+      "version": "0.37.0",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [
+        "attrs>=22.2.0",
+        "rpds-py>=0.7.0",
+        "typing-extensions>=4.4.0; python_version < '3.13'"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/referencing/0.37.0/json",
+      "artifacts": [
+        {
+          "filename": "referencing-0.37.0-py3-none-any.whl",
+          "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231",
+          "size_bytes": 26766,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "referencing-0.37.0.dist-info/licenses/COPYING": "42dcd63495f87b4eb7c7757afa379bb55a53f94afd7a5f657d9adf57236e515c"
+          },
+          "dist_info_directory": "referencing-0.37.0.dist-info",
+          "wheel_metadata_sha256": "aad0b0a12256807936d52d4a6f88a1773236ae527564a688bab4e3fe780e8724",
+          "distribution_metadata_sha256": "c93b00e6ab1524fd60848376604c189a114374776475c25a31d57be47b29de6a"
+        }
+      ]
+    },
+    {
+      "name": "rfc3339-validator",
+      "version": "0.1.4",
+      "requires_python": ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+      "declared_license": "MIT license",
+      "requires_dist": [
+        "six"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/rfc3339-validator/0.1.4/json",
+      "artifacts": [
+        {
+          "filename": "rfc3339_validator-0.1.4-py2.py3-none-any.whl",
+          "sha256": "24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa",
+          "size_bytes": 3490,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "rfc3339_validator-0.1.4.dist-info/LICENSE": "5ba1a4f03626ccca6dcbf53a554545e4f776a335bfdaa233ec3bfe9bb7fac15d"
+          },
+          "dist_info_directory": "rfc3339_validator-0.1.4.dist-info",
+          "wheel_metadata_sha256": "f3335865bc10497a01f487d73a33df78dc2f02c00b0237df824dbb16abc259ba",
+          "distribution_metadata_sha256": "ac4dc2cdea6a8b61c16babbf35c0e9fa6e22e45f1c0338e66e089108dde872d2"
+        }
+      ]
+    },
+    {
+      "name": "rpds-py",
+      "version": "0.30.0",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/rpds-py/0.30.0/json",
+      "artifacts": [
+        {
+          "filename": "rpds_py-0.30.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "0c0e95f6819a19965ff420f65578bacb0b00f251fefe2c8b23347c37174271f3",
+          "size_bytes": 390522,
+          "candidate_targets": [
+            "cp310"
+          ],
+          "license_files_sha256": {
+            "rpds_py-0.30.0.dist-info/licenses/LICENSE": "314e4e91be3baa93c0fb4bccc9e4e97cd643eb839b065af921782c2175fe9909"
+          },
+          "dist_info_directory": "rpds_py-0.30.0.dist-info",
+          "wheel_metadata_sha256": "b208bf522f412a44d77c27a6043c1491db162ad560e7ef96f5604740a6552c8d",
+          "distribution_metadata_sha256": "cc01d097ddb9c7e07a29c9553ee8dd35cf920e85fb574f7b0c23d68138a716bf"
+        },
+        {
+          "filename": "rpds_py-0.30.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "47f236970bccb2233267d89173d3ad2703cd36a0e2a6e92d0560d333871a3d23",
+          "size_bytes": 394080,
+          "candidate_targets": [
+            "cp312"
+          ],
+          "license_files_sha256": {
+            "rpds_py-0.30.0.dist-info/licenses/LICENSE": "314e4e91be3baa93c0fb4bccc9e4e97cd643eb839b065af921782c2175fe9909"
+          },
+          "dist_info_directory": "rpds_py-0.30.0.dist-info",
+          "wheel_metadata_sha256": "9b644ecc2a47e4ac3a6cdff78ca7f0f348f2412f4ea92ba57160610640b4ecf5",
+          "distribution_metadata_sha256": "cc01d097ddb9c7e07a29c9553ee8dd35cf920e85fb574f7b0c23d68138a716bf"
+        },
+        {
+          "filename": "rpds_py-0.30.0-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "47e77dc9822d3ad616c3d5759ea5631a75e5809d5a28707744ef79d7a1bcfcad",
+          "size_bytes": 382112,
+          "candidate_targets": [
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "rpds_py-0.30.0.dist-info/licenses/LICENSE": "314e4e91be3baa93c0fb4bccc9e4e97cd643eb839b065af921782c2175fe9909"
+          },
+          "dist_info_directory": "rpds_py-0.30.0.dist-info",
+          "wheel_metadata_sha256": "dcdbe0fb3fa1abc73e262602fd823a0cdcf2635f398801d1bd29a3696ca4f1e2",
+          "distribution_metadata_sha256": "cc01d097ddb9c7e07a29c9553ee8dd35cf920e85fb574f7b0c23d68138a716bf"
+        }
+      ]
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "requires_python": ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*",
+      "declared_license": "MIT",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/six/1.17.0/json",
+      "artifacts": [
+        {
+          "filename": "six-1.17.0-py2.py3-none-any.whl",
+          "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+          "size_bytes": 11050,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "six-1.17.0.dist-info/LICENSE": "4375ba20e2b9c6c4e7cad2940a628fd90e95cc3d50ee92aae755715d8ba1fbd0"
+          },
+          "dist_info_directory": "six-1.17.0.dist-info",
+          "wheel_metadata_sha256": "a7178d5f925db427b9f0f51260ff6ea6673b8dd44f82f4f41a6f646f5487955c",
+          "distribution_metadata_sha256": "562042078c2752549f6d8a7c86dbc5dd708088a7be6d80672ec7b07100b72468"
+        }
+      ]
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "requires_python": ">=3.9",
+      "declared_license": "PSF-2.0",
+      "requires_dist": [],
+      "pypi_metadata": "https://pypi.org/pypi/typing-extensions/4.16.0/json",
+      "artifacts": [
+        {
+          "filename": "typing_extensions-4.16.0-py3-none-any.whl",
+          "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+          "size_bytes": 45571,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "typing_extensions-4.16.0.dist-info/licenses/LICENSE": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+          },
+          "dist_info_directory": "typing_extensions-4.16.0.dist-info",
+          "wheel_metadata_sha256": "1b68144734c4b66791f27add5d425f3620775585718a03d0f9b110ba3a4d88db",
+          "distribution_metadata_sha256": "b05084ca1d50879865178d9fff9fabeab61bdfb1f361bfbde95421ffc8f9be46"
+        }
+      ]
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.5",
+      "requires_python": ">=3.10",
+      "declared_license": "MIT",
+      "requires_dist": [
+        "typing-extensions>=4.15.0"
+      ],
+      "pypi_metadata": "https://pypi.org/pypi/typing-inspection/0.4.5/json",
+      "artifacts": [
+        {
+          "filename": "typing_inspection-0.4.5-py3-none-any.whl",
+          "sha256": "bc210535442b39e1bf2805e0c7a17dfd6a4ace760c84c7f7d16245d23a6b1c39",
+          "size_bytes": 14874,
+          "candidate_targets": [
+            "cp310",
+            "cp312",
+            "cp314"
+          ],
+          "license_files_sha256": {
+            "typing_inspection-0.4.5.dist-info/licenses/LICENSE": "804b59b25f2c31bd278f9202a19ae49a3945aa2664387e2d0a128c7cacc61ec3"
+          },
+          "dist_info_directory": "typing_inspection-0.4.5.dist-info",
+          "wheel_metadata_sha256": "5b77e4a649bbfb07fdbc123967eeecd1e5a478cfaca6eefc23c35e6fdf037848",
+          "distribution_metadata_sha256": "7306933907768b0098784e56dfd678242f52383ff3e35c10a4c150539393d6ec"
+        }
+      ]
+    }
+  ]
+}

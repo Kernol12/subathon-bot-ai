@@ -1,0 +1,147 @@
+test_exact_admitted_twenty_versions (__main__.LibraryFoundation.test_exact_admitted_twenty_versions) ... ok
+test_exact_numeric_library_recipes (__main__.LibraryFoundation.test_exact_numeric_library_recipes) ... ok
+test_explicit_openapi31_and_separate_example_validation (__main__.LibraryFoundation.test_explicit_openapi31_and_separate_example_validation) ... ERROR
+test_explicit_openapi31_and_separate_example_validation (__main__.LibraryFoundation.test_explicit_openapi31_and_separate_example_validation) ... FAIL
+test_explicit_registry_productive_recursion_and_denied_missing (__main__.LibraryFoundation.test_explicit_registry_productive_recursion_and_denied_missing) ... FAIL
+test_literal_const_ref_is_data_without_retrieval (__main__.LibraryFoundation.test_literal_const_ref_is_data_without_retrieval) ... FAIL
+test_schemapath_uses_actual_replacement_handler (__main__.LibraryFoundation.test_schemapath_uses_actual_replacement_handler) ... FAIL
+test_unknown_formats_need_separate_admission (__main__.LibraryFoundation.test_unknown_formats_need_separate_admission) ... FAIL
+
+======================================================================
+ERROR: test_explicit_openapi31_and_separate_example_validation (__main__.LibraryFoundation.test_explicit_openapi31_and_separate_example_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematest001/tests/schema_validation/library_foundation.py", line 73, in test_explicit_openapi31_and_separate_example_validation
+    self.spec_class(path).validate()  # Real spec success does NOT prove this example.
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/validation/validators.py", line 72, in validate
+    for err in self.iter_errors():
+               ~~~~~~~~~~~~~~~~^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/validation/caches.py", line 61, in __next__
+    item = next(self.parent)
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/validation/caches.py", line 30, in __next__
+    item = next(self.iter)
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/validation/decorators.py", line 28, in wrapper
+    for err in errors:
+               ^^^^^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/validation/validators.py", line 91, in iter_errors
+    yield from self.schema_validator.iter_errors(self.schema)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/schemas/backend/__init__.py", line 43, in get_validator_for
+    return create_jsonschema_validator(schema)
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/schemas/backend/jsonschema.py", line 7, in create_validator
+    validator_cls = validator_for(schema)
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/jsonschema/validators.py", line 1398, in validator_for
+    if schema is True or schema is False or "$schema" not in schema:
+                                            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/schemas/utils.py", line 20, in get_schema_content
+    content, _ = get_schema(version)
+                 ~~~~~~~~~~^^^^^^^^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/openapi_spec_validator/schemas/utils.py", line 16, in get_schema
+    return FilePathReader(schema_path_full).read()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/jsonschema_path/readers.py", line 33, in read
+    return all_urls_handler(uri), uri
+           ~~~~~~~~~~~~~~~~^^^^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/jsonschema_path/handlers/file.py", line 46, in __call__
+    with self._open(uri) as stream:
+         ~~~~~~~~~~^^^^^
+  File "/tmp/subathon-schematest001-py314/lib/python3.14/site-packages/jsonschema_path/handlers/urllib.py", line 25, in _open
+    return closing(urlopen(uri, timeout=self.timeout))
+                   ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1247, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/tmp/subathon-schematest001/tests/schema_validation/library_foundation.py", line 23, in block_network
+    raise FoundationNetworkAttempt("Library foundation forbids network")
+FoundationNetworkAttempt: Library foundation forbids network
+
+======================================================================
+FAIL: test_explicit_openapi31_and_separate_example_validation (__main__.LibraryFoundation.test_explicit_openapi31_and_separate_example_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematest001/tests/schema_validation/library_foundation.py", line 30, in <lambda>
+    self.addCleanup(lambda: self.assertEqual(NETWORK_ATTEMPTS, []))
+                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['network attempted'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'network attempted'
+
+- ['network attempted']
++ []
+
+======================================================================
+FAIL: test_explicit_registry_productive_recursion_and_denied_missing (__main__.LibraryFoundation.test_explicit_registry_productive_recursion_and_denied_missing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematest001/tests/schema_validation/library_foundation.py", line 30, in <lambda>
+    self.addCleanup(lambda: self.assertEqual(NETWORK_ATTEMPTS, []))
+                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['network attempted'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'network attempted'
+
+- ['network attempted']
++ []
+
+======================================================================
+FAIL: test_literal_const_ref_is_data_without_retrieval (__main__.LibraryFoundation.test_literal_const_ref_is_data_without_retrieval)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematest001/tests/schema_validation/library_foundation.py", line 30, in <lambda>
+    self.addCleanup(lambda: self.assertEqual(NETWORK_ATTEMPTS, []))
+                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['network attempted'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'network attempted'
+
+- ['network attempted']
++ []
+
+======================================================================
+FAIL: test_schemapath_uses_actual_replacement_handler (__main__.LibraryFoundation.test_schemapath_uses_actual_replacement_handler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematest001/tests/schema_validation/library_foundation.py", line 30, in <lambda>
+    self.addCleanup(lambda: self.assertEqual(NETWORK_ATTEMPTS, []))
+                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['network attempted'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'network attempted'
+
+- ['network attempted']
++ []
+
+======================================================================
+FAIL: test_unknown_formats_need_separate_admission (__main__.LibraryFoundation.test_unknown_formats_need_separate_admission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematest001/tests/schema_validation/library_foundation.py", line 30, in <lambda>
+    self.addCleanup(lambda: self.assertEqual(NETWORK_ATTEMPTS, []))
+                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['network attempted'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'network attempted'
+
+- ['network attempted']
++ []
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.106s
+
+FAILED (failures=5, errors=1)

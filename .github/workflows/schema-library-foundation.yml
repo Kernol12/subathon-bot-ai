@@ -1,0 +1,83 @@
+name: Schema library foundations
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  schema-library-foundation:
+    name: schema-library-foundation (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            python_minor: '3.10'
+          - runner: ubuntu-24.04
+            python_minor: '3.12'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify the selected distribution Python
+        run: |
+          /usr/bin/python3 - <<'PYTHON'
+          import sys
+          expected = tuple(map(int, '${{ matrix.python_minor }}'.split('.')))
+          if sys.version_info[:2] != expected:
+              raise SystemExit('Runner did not select the admitted Python minor')
+          print(sys.version)
+          PYTHON
+      - name: Create isolated hash-locked library environment
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          /usr/bin/python3 -m venv "$schema_validation_env"
+          "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir install --index-url https://pypi.org/simple --require-hashes --only-binary=:all: --requirement tools/schema_validation/requirements.lock
+          # Python3.10 venv may include setuptools; it is bootstrap, not an admitted dependency.
+          if "$schema_validation_env/bin/python" -I -c 'import importlib.metadata, sys; sys.exit(not any(d.metadata["Name"].lower() == "setuptools" for d in importlib.metadata.distributions()))'; then
+            "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir uninstall --yes setuptools
+          fi
+          "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir check
+      - name: Require all fourteen reviewed foundation methods
+        run: |
+          /usr/bin/python3 - <<'PYTHON'
+          import ast
+          import pathlib
+          source = ast.parse(pathlib.Path('tests/schema_validation/library_foundation.py').read_text())
+          expected = {
+              'test_exact_admitted_twenty_versions',
+              'test_explicit_openapi31_and_separate_example_validation',
+              'test_exact_numeric_library_recipes',
+              'test_literal_const_ref_is_data_without_retrieval',
+              'test_explicit_registry_productive_recursion_and_denied_missing',
+              'test_schemapath_uses_actual_replacement_handler',
+              'test_unknown_formats_need_separate_admission',
+              'test_sdk_default_data_ref_traversal_is_a_known_spec_validator_trap',
+              'test_sdk_uri_fragment_pointers_and_nested_resource_anchor_scope',
+              'test_sdk_schema_subresources_exclude_literal_data_contexts',
+              'test_sdk_instance_validation_does_not_close_unused_schema_references',
+              'test_sdk_fixed_raw_default_cursor_retains_native_default_validation',
+              'test_sdk_fixed_oas_specification_retains_nested_schema_scope',
+              'test_sdk_fixed_no_id_oas_transition_resets_native_fragment_scope',
+          }
+          classes = [n for n in source.body if isinstance(n, ast.ClassDef) and n.name == 'LibraryFoundation']
+          if len(classes) != 1:
+              raise SystemExit('Foundation class inventory differs')
+          methods = [n for n in classes[0].body if isinstance(n, ast.FunctionDef) and n.name.startswith('test_')]
+          if len(methods) != 14 or {n.name for n in methods} != expected or any(n.decorator_list for n in methods):
+              raise SystemExit('Foundation method inventory changed or a case is decorated')
+          print('Fourteen reviewed methods; none disabled or failure-inverted')
+          PYTHON
+      - name: Execute every reviewed real-library foundation unconditionally
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/library_foundation.py
+      - name: Register wrapper baseline without executing intentional red
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -S -B tools/schema_validation/check_baseline.py

@@ -1,74 +1,84 @@
-# Coordinator checkpoint — schema-validator foundation sequencing
+# Coordinator checkpoint — revised64 baseline quality complete; merge pending
 
-Coordinator /root,6 November2026. Owner continuation resumes standing loop; earlier
-PR70-stop superseded. Full v0.45 product incomplete; no owner decision/access needed.
-No live credential/provider/deployment side effects. Preserve every unfinished ref,
-review and FIRSTred; do not assume any prior agent alive on later resumption.
+/root,6 November2026. Standing continuous coordination active; fullspec0.45 incomplete.
+No owner decision/access needed. Preserve all refs/worktrees/reviews/originalFIRSTs;
+no real credential/contribution/chat/provider/deploy operation.
 
-## Verified main / completed task PRs
+## Actual branch/publication/main
 
-Primary/fetchedmain `15cf7f10458b6a8460b2961ab54965c76c413d0a`, clean after normal
-PR74 merge05:53:04Z, exactd23f0c9/all17SUCCESS/currentrules26170263/requiredapprovals0/
-zero threads/CLEAN/no bypass; head/merge trees equal. Transport002 DOCUMENTdone,
-actual corrected6cd/doc2c33 independently reviewedcdb, completionf600 reviewed5750.
-[Handoff](sessioncontract-002-handoff.md), [review](sessioncontract-002-review.md),
-[metadata](sessioncontract-002-metadata-review.md). PinnedDrogon rawmultiplicity/
-rawCookieTRACE and browserWS auth remain actual runtime gates, not supported behavior.
+Primarymain clean14190827f9d6c5d73da669e9da5712726508be3a. Normal session merges
+PR72supplier0605948, PR73puremilestone4e85241, PR74transport15cf7f1, PR75plan1419082.
+Their source/review/CI/merge handoffs remain; do not repeat completed tasks.
+All426IDs/1629edges retained, fullscope unchanged. Parked CONTRACT011/old work preserved.
 
-PR73 normalmerged4e85241 at05:42:42Z, finalcbeabc4/all17SUCCESS/samecurrentrules/zero
-threads/trees equal. [Milestone handoff](milestone-001-handoff.md),
-[actual source/config/final review](milestone-001-code-review.md), [CI](milestone-001-ci.md):
-source d79, ordinaryconfig279, frozen53/full90 native passes, actualselectedold37+
-unconditional53; finalmetadata526 approvedb91. Purecomponentdone, no scoreauthority/
-actions/UI. FIRSTc2/e030 historicalred preserved. PR72 normalmerged0605948 at05:30:13Z,
-finalcae/all17: supplierc5/c7 reviewed46 and completionc961 reviewed0f;
-[handoff](sessioncontract-001-handoff.md). Bothdocs integrated, runtime notimplemented.
-EarlierPR70/68/69/71 integrated. [Capture baseline](storagetest-018-handoff.md)
-FIRST550/validSQL633 retained; invalidsetup attempt remains invalid. No repeat.
+Root `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline,
+claimab822715 frommain141. PR76 DRAFT/UNMERGED. Latest published3d0c96e contains
+reviewed64source/harness/r2contracts and hasALL19SUCCESS before newnative. Later
+local972 CI note,95fad newraw andCc66 attribution/revisedmetadata are not yetpublished.
+Task statusdone is BASELINE QUALITY ON BRANCH only. SCHEMATOOLplanned/Unassigned;
+DO NOT start production until PR76 integrates onmain. Root owns allsharedstate/HTML/
+pins/notices/imports/build/CI/checkpoint/publication. Inspect actual agents/worktrees/
+processes/PR again onresume; never assume old agent or process is running.
 
-## Current CONTRACTPLAN-005
+Rules last26170263:PR/threadresolution required,0GitHubapprovals,NO required-status
+rule/no bypass. Manual written policy still gates ALL latestchecks+independentactual
+reviews. Requery currentready/head/rules/reviews/threads before any normalmerge.
 
-Root `/tmp/subathon-schema-plan`, `task/CONTRACTPLAN-005-schema-validation`, from
-thenmain4e85241. Actual47879e9 authoring/claim defines missing standards validation
-foundation, separately reviewed291f70b/importcda4076 by canonical `session_supplier_review`
-in `/tmp/subathon-schema-plan-review`, task/CONTRACTPLAN-005-independent-review.
-Reviewer owns ONLY contractplan-005-review.md; root owns sharedADR/briefs/state/HTML.
-No other writer edits these files. Currentmain15cf7f1 integrated with only JSON/HTML
-conflicts; all old423 task statuses/evidence incl bothsessiondocs/MILESTONEdone kept.
+## Completed source, environment, original and additive red
 
-[ADR0008](../decisions/0008-schema-validation-foundation.md),
-[handoff](contractplan-005-handoff.md), [review](contractplan-005-review.md).
-Old423IDs/1624edges retained, +3IDs/5edges→426/1629. CONTRACT013 retains same two-route
-package and every prior import/runtime/release gate, additionally SCHEMATOOL001.
-NewSCHEMATEST001 depends on plan005+wire005, SCHEMATOOL001 on its baseline; bothplanned.
-No epiccount changes/cycles. Plancomponentdone afteractualdifferentreview; final
-completionmetadata review/publication/latestCI/currentrules/normalmerge pending.
-No PR published yet at this checkpoint; do not duplicate publication on resume.
+Authoritative [handoff](schematest-001-handoff.md) has exact artifact/review table.
+CURRENT tests64f4911/harness032b141/workflow842790e/decls4a124a/lock859d7c/meta6f4ffec;
+logicalabb/context32ec, API973/processac256 revision2, install86d. A/B/C per-artifact
+source/doc/hash/license approvals are real and integrated.20pins/28archives/targets/
+licenses unchanged; toolsisolated-onlyexception, no global/server/clientdeps.
 
-Concrete evidence: schemas/ placeholders only, no selected validator/pins/harness;
-check_project is link/progress/preset checking, not OpenAPI/JSONSchema/ref/example
-validation. No library/version/API/schema/test/stub/wrapper/CI choice is selected
-by the plan. Newbaseline must first select/review standards libraries and exact
-contract/oracles/testsource, prove real installed-library foundations, then observe
-explicit wrapper behavior red; implementation later needs separate source review,
-passing acceptance and ordinary offline CI. Existing consistency/stable CI covers
-this DOCUMENT plan only. No standards engine or runtime capability is claimed.
+Original63/FIRST261 at CLEANbd10:03:26Z AFTERall19SUCCESS+source/hostedC8db approval:
+63cases/261exactmarkers,243validate37+18main42,exit1/0.138s,stdoutempty/0othercause.
+Original313249B stderrSHA7e64,fullraw/receipt/observer preserved; Cc152 actual
+attribution confirms all261. C8db note importedonlyAFTERnative. No originalreplay.
+Historical initialSDK7guardfailure is NOTwrapperred; narrowreviewedcorrection+SDK14
+facts stand. Old63completion750/A0d is preserved as historicalscope, not current64.
 
-## Checks / next action
+Read-only implementationprep found a real missingactivation/setupfailure conflict.
+Rootr2/C05 allows ONLYemptyAEOF+exact35BenvLF/outcomeEOF+normal3+reap NONVALIDATING
+refusal; nofakeA/package/candidatework/controlcertificate; malformedA/otherreceived
+results invalid; independentdeadline/resourcepriority retained. ONEnew64th testcase
+B a670/A087; removingonlythatmethod gives ENTIREold63moduleAST. HarnessdeltaONEname.
+No weakening/no publicknob/newdependency/scope deletion.
 
-Root426project/render/currentHTML/19tooling/DOMsimulation/whitespace PASS; actual
-separateplanreview corroborates graph and claims. No rootnativecommand running,
-all author/reviewer worktrees/commits preserved, parked CONTRACT011 untouched.
-Startup inspection found all oldworktrees clean/no prioragents; later freshroles
-completed their bounded handoffs. Inspect actual liveness/CI/worktrees on resume.
+Matchinglocal64 definition-onlygreenCP314 e7c:0/0.071915s/20pairs/64registrations,
+no setup/test/feature/SDK/clone. Current hosted42206001771 at3d0 SUCCESS:3.10.12
+SDK14OK0.196 /3.12.3 SDK14OK0.124, both20paired no-site metadata+64definitions;
+full120768B logSHA4487fed2, checkout8f0992c tree==3d0. C40c actualapproval10:58:31Z
+BEFOREnewnative; imported972onlyAFTER. All19exact3dSUCCESS latest10:58:04Z.
 
-Next: different actual completionmetadata review for plan005, publish one focused
-PR, observe latestheadCI/currentrules/threads then normalmerge. After integration
-claim SCHEMATEST001 from actualmain and assign bounded library/contract stage before
-any new source/test behavior. CONTRACT013 may be readied logically but cannot claim
-schema acceptance until foundation actually passes. No routine owner approval needed.
+ONLYnewmethod ran ONCE at SAMEclean3d0,11:00:15Z:1test/10exactrawvalidate37markers,
+exit1/0.006s/external0.063923,stdoutempty/0othercause. Raw13285B SHAc974f832,
+receipt8blobs/selector/observer committed95fad. OriginalFIRST4files/SHA7e64before/
+after BYTE-EXACT. Cc66 independently approves all10records/source/CIchronology.
+Combined64 gate is original63+new1, NOT one full64 execution/pass.327 source-counted
+rawobservations/5script extras are authoredfutureassertions, not runtimecounts.
 
-Fullscope still requires actual account/session/clock/authority/policy/action/
-application producers, financial/review/refund/recovery/delivery, fullHTTP/WS/scene,
-bothrenderers/EN/DE/themes/Windows/Linux/Wayland/OBS, packages/licenses/security,
-allseven integrations/threeFX and live/platform verification. Keep honest partial gates.
+## Current task and next action
+
+Revised64 baseline quality AND actual completion metadata are approved onTASKBRANCH.
+A0d25a7f approves exact98bf:426/1629/other425tasks+scopes preserved,HTML79/345/2,
+current8blobs/old63AST/original4rawfiles exact; no replay. Rootrecordedthis gate only.
+A/B/C are completed/idle; inspect actual agentlist and followup_task for next tasks.
+
+NEXT publish finalreviewed metadata/receipts/notes, observe ALL19 latestheadchecks.
+Ready/requeryactualhead/rules/reviews/threads/CLEAN and normal headmatchedmerge;
+neverbypass. No futuremerge preapproval; PR76 remainsUNMERGED at this snapshot.
+Then fetch CURRENT main/create dedicated implementationbranch/claim beforeediting,
+continue standingloop. B readonlyprep recommends TWO owners aftermerge: parent
+ tools/schema_validate.py; worker subsystem tools/schema_validation excludingroot-
+ownedlock/wheels/CI. Crossboundaryargv/twoFD/protocol/deadline frozen, no new public
+knob/standardsengine. Rootowns eventualunconditionalALL64 acceptance promotion after
+realpassingimplementation/sourceaudit. Do NOT replay any completed original/additive
+red or relabel green definition discovery as feature passing.
+
+Actual privatechild ABI/RLIMIT/no-site/readrace/offline/allocation enforcement and
+featureassertions beyondmarkers remain implementation acceptance/sourceaudit work.
+Only inertpublicdeclarations exist now. Full auth/authority/policy/clock/actions/
+financial/recovery/HTTP/WS/scene/native-browser/EN-DE/themes/Windows-Linux/Wayland/OBS/
+security/packages/sevenintegrations/threeFX/live-platform release scope staysrequired.

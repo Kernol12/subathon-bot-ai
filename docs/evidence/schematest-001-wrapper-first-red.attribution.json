@@ -1,0 +1,2625 @@
+{
+  "summary": {
+    "native_cases": 63,
+    "native_seconds": "0.138",
+    "native_errors": 261,
+    "observed_error_sections": 261,
+    "distinct_error_methods": 63,
+    "all_methods_match": true,
+    "all_errors_exact_marker_and_final_stub": true,
+    "stdout_empty": true,
+    "matches_intended_red": true
+  },
+  "errors": [
+    {
+      "method": "test_all_289_unique_files_are_admitted",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_all_documents_finish_dialect_admission_before_native_checks",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_encoding_and_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_encoding_and_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_encoding_and_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_encoding_and_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_encoding_and_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_encoding_and_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_types_never_convert",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_types_never_convert",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_types_never_convert",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_types_never_convert",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_types_never_convert",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_api_path_types_never_convert",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_complete_unused_reference_closure_and_wrong_target_role",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_phase_priority_across_independent_defects",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_phase_priority_across_independent_defects",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_phase_priority_across_independent_defects",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_phase_priority_across_independent_defects",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_phase_priority_across_independent_defects",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_resource_and_reference_edge_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_resource_and_reference_edge_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_resource_and_reference_edge_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_resource_and_reference_edge_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_resource_and_reference_edge_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_context_resource_and_reference_edge_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_cross_document_scope_nested_ids_anchors_and_ref_siblings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_dialect_admission_is_explicit_and_precedes_format",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_dialect_admission_is_explicit_and_precedes_format",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_dialect_admission_is_explicit_and_precedes_format",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_dialect_admission_is_explicit_and_precedes_format",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_dialect_admission_is_explicit_and_precedes_format",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_dialect_admission_is_explicit_and_precedes_format",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_dialect_admission_is_explicit_and_precedes_format",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_document_and_binding_count_limits_precede_missing_reads",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_document_and_binding_count_limits_precede_missing_reads",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_document_and_binding_count_limits_precede_missing_reads",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_document_and_binding_count_limits_precede_missing_reads",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_declarations_bindings_and_file_aliases",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_declarations_bindings_and_file_aliases",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_declarations_bindings_and_file_aliases",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_declarations_bindings_and_file_aliases",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_declarations_bindings_and_file_aliases",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_resource_ids_anchors_and_outside_ids",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_resource_ids_anchors_and_outside_ids",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_duplicate_resource_ids_anchors_and_outside_ids",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_fraction_multipleof_and_neighbor",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_fraction_multipleof_and_neighbor",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_exact_numeric_integer_boolean_and_keyword_semantics",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_external_example_shared_across_actual_schemas",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_extra_misdirected_and_resolved_alias_inventory",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_extra_misdirected_and_resolved_alias_inventory",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_extra_misdirected_and_resolved_alias_inventory",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_first_failure_json_preflight_and_complete_file_order",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_free_component_example_requires_explicit_actual_schema_binding",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_fresh_calls_do_not_cache_prior_success",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_graph_keys_include_encoded_controls_and_complete_owned_spellings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_graph_keys_include_encoded_controls_and_complete_owned_spellings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_graph_keys_include_encoded_controls_and_complete_owned_spellings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_help_static_without_worker_or_package_io",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_inventory_null_example_and_no_associated_schema",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_json_depth_values_and_raw_string_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_lexical_numeric_bounds_before_exact_construction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_literal_data_ref_id_format_and_reserved_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_literal_data_ref_id_format_and_reserved_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_literal_data_ref_id_format_and_reserved_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_literal_data_ref_id_format_and_reserved_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_argv_never_converts",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_closed_codes_and_real_script_redaction",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_main_tuple_none_and_option_looking_path",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "42",
+        "main"
+      ]
+    },
+    {
+      "method": "test_manifest_and_individual_file_byte_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_and_individual_file_byte_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_and_individual_file_byte_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_and_individual_file_byte_boundaries",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_closed_shape_and_types",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_path_grammar_and_exact_256_boundary",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_and_inline_source_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_and_inline_source_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_and_inline_source_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_and_inline_source_shape",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_escaping_percent_hash_and_unicode",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_escaping_percent_hash_and_unicode",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_escaping_percent_hash_and_unicode",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_escaping_percent_hash_and_unicode",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_manifest_pointer_escaping_percent_hash_and_unicode",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_minimal_draft_package_and_openapi_patches",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_missing_manifest_and_declared_member",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_applicators_booleans_unevaluated_and_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_applicators_booleans_unevaluated_and_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_applicators_booleans_unevaluated_and_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_applicators_booleans_unevaluated_and_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_applicators_booleans_unevaluated_and_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_applicators_booleans_unevaluated_and_property_names",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_invalid_schema_in_unused_children_and_ref_siblings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_invalid_schema_in_unused_children_and_ref_siblings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_invalid_schema_in_unused_children_and_ref_siblings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_invalid_schema_in_unused_children_and_ref_siblings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_native_invalid_schema_in_unused_children_and_ref_siblings",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_nonregular_files_are_refused_without_blocking",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_nonregular_files_are_refused_without_blocking",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_oas_closed_roles_include_unused_components_trace_and_content_forms",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_oas_default_literal_ref_preserved_and_raw_sibling_checked",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_oas_default_literal_ref_preserved_and_raw_sibling_checked",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_oas_default_literal_ref_preserved_and_raw_sibling_checked",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_oas_schema_scope_with_and_without_root_id",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_oas_schema_scope_with_and_without_root_id",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_package_root_is_manifest_parent_not_cwd",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_parameter_header_encoding_and_schema_annotation_inventory",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_parent_pipe_enosys_refuses_without_worker_or_logs",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_productive_recursive_schema_and_inventory_only_edges",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_profile_features_are_context_specific",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_real_sdk_clone_control_then_missing_distribution_is_dependency_unavailable",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_reference_example_physical_identity_complete_forced_schema_pairs",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_required_inventory_growth_refuses_instead_of_truncating",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_same_instance_cycles_even_unused_or_conditional",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_same_instance_cycles_even_unused_or_conditional",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_same_instance_cycles_even_unused_or_conditional",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_same_instance_cycles_even_unused_or_conditional",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_same_instance_cycles_even_unused_or_conditional",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_schema_example_inventory_missing_then_invalid_instance",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_schema_format_only_not_literal_or_metadata",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_schema_format_only_not_literal_or_metadata",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_schema_format_only_not_literal_or_metadata",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_standalone_inline_examples_are_complete_literal_data",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_strict_json_rejects_encoding_duplicates_and_grammar",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_symlink_manifest_parent_and_members",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_sysconfig_environment_presence_including_empty_refuses_unchanged",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_sysconfig_environment_presence_including_empty_refuses_unchanged",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_sysconfig_environment_presence_including_empty_refuses_unchanged",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_sysconfig_environment_presence_including_empty_refuses_unchanged",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_sysconfig_environment_presence_including_empty_refuses_unchanged",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_sysconfig_environment_presence_including_empty_refuses_unchanged",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_total_raw_file_byte_boundary_includes_manifest",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_total_raw_file_byte_boundary_includes_manifest",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_unicode_pointer_identity_is_not_normalized",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_uri_reference_fragments_are_not_reencoded_as_raw_pointers",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_uri_reference_fragments_are_not_reencoded_as_raw_pointers",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_uri_reference_fragments_are_not_reencoded_as_raw_pointers",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_uri_reference_fragments_are_not_reencoded_as_raw_pointers",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_uri_reference_fragments_are_not_reencoded_as_raw_pointers",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_activation_missing_extra_and_malformed_refuse_forged_ok",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_activation_missing_extra_and_malformed_refuse_forged_ok",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_activation_missing_extra_and_malformed_refuse_forged_ok",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_outcome_bounded_exact_closed_protocol",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_outcome_bounded_exact_closed_protocol",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_outcome_bounded_exact_closed_protocol",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_outcome_bounded_exact_closed_protocol",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_outcome_bounded_exact_closed_protocol",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_outcome_bounded_exact_closed_protocol",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_outcome_bounded_exact_closed_protocol",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_startup_deadline_kills_and_reaps",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    },
+    {
+      "method": "test_worker_status_mismatch_and_unclassified_signal",
+      "exact_marker": true,
+      "final_frame_is_raw_stub": true,
+      "final_frame": [
+        "/tmp/subathon-schematest001/tools/schema_validate.py",
+        "37",
+        "validate_package"
+      ]
+    }
+  ]
+}
