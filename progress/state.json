@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:33:26+00:00",
+  "updated_at": "2026-11-06T05:50:35+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13056,7 +13056,8 @@
         "CONTRACTPLAN-003",
         "CONTRACT-005",
         "SESSIONCONTRACT-001",
-        "SESSIONCONTRACT-002"
+        "SESSIONCONTRACT-002",
+        "SCHEMATOOL-001"
       ],
       "spec_refs": [
         "§17",
@@ -13076,7 +13077,8 @@
       "notes": [
         "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
-        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
+        "ADR0008 additive schema-validator baseline/implementation foundation required before actual schema/example/ref acceptance. Every existing supplier/runtime/release gate retained; no validator or schema capability supplied by planning."
       ],
       "verification": {},
       "evidence": [],
@@ -13701,6 +13703,89 @@
       "notes": [
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
         "Document planned only: no authored/reviewed contract, auth choice or supported transport capability."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CONTRACTPLAN-005",
+      "title": "Explicit schema-validation foundation prerequisite",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "coordinator /root",
+      "depends_on": [
+        "CONTRACT-005"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "API-01",
+        "API-02",
+        "API-03",
+        "TEST-04"
+      ],
+      "brief": "docs/tasks/CONTRACTPLAN-005.md",
+      "summary": "Record selected-standards validation gap and bounded independently reviewed/red developer foundation before schema acceptance.",
+      "notes": [
+        "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain.",
+        "Claim dedicated task/CONTRACTPLAN-005-schema-validation from actualmain4e85241 after normalPR73. Read-only CONTRACT013 assessment found no selected/pinned standards validator/harness; link checks are not OpenAPI/JSONSchema/instance validation. DOCUMENT-only add three records/five edges426/1629 preservingallold423/1624/status/reviews. Root owns sharedADR/briefs/state/HTML; differentactualplanreview beforedone. No library/version/API/schema/test/stub/CI/runtime selected; concurrent002PR74donecomponent/latestCIpending preserved on ownbranch."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SCHEMATEST-001",
+      "title": "Reviewed schema-validation wrapper baseline",
+      "module": "Tooling",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-005",
+        "CONTRACT-005"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "API-01",
+        "API-02",
+        "API-03",
+        "TEST-04"
+      ],
+      "brief": "docs/tasks/SCHEMATOOL-001.md",
+      "summary": "Select reviewed standards libraries/contract/literal fixtures/tests and observed wrapper missing-behavior red after real dependency foundation passes.",
+      "notes": [
+        "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SCHEMATOOL-001",
+      "title": "Offline schema-package validation wrapper",
+      "module": "Tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "SCHEMATEST-001"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18",
+        "API-01",
+        "API-02",
+        "API-03",
+        "TEST-04"
+      ],
+      "brief": "docs/tasks/SCHEMATOOL-001.md",
+      "summary": "Implement bounded offline standards-library package/ref/example validation with separate source review and actual automatic CI.",
+      "notes": [
+        "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -14937,6 +15022,11 @@
       "date": "2026-11-06T05:33:26+00:00",
       "task": "MILESTONE-001",
       "note": "Complete pure progression component after preserved53/full90 nativepasses, different actualsource/config/resourceaudit and independently downloaded selectedhosted42168586251 at549SUCCESS: GNU13.3/Boost1.83macro108300/fresh26/strictordinary53guard/old37foundation25PASS1.28s/UNCONDITIONAL53PASS0.16s/0warnings-skips. ActualCIreceipt013/importb363. No originalassertion/fixture/publicABI/FIRSTred changed. Main060 integrated preserving423/1624 and supplier001done; own activeclaim preserved. Finalcomponentcompletionmetadata/latestheadCI/currentrules/discussions/normalmerge still required. MILE01/NUM04 partial and all authoritativeproducer/action/UI/provider/platform/releasegates retained."
+    },
+    {
+      "date": "2026-11-06T05:50:35+00:00",
+      "task": "CONTRACTPLAN-005",
+      "note": "Claim dedicated task/CONTRACTPLAN-005-schema-validation from actualmain4e85241 after normalPR73. Read-only CONTRACT013 assessment found no selected/pinned standards validator/harness; link checks are not OpenAPI/JSONSchema/instance validation. DOCUMENT-only add three records/five edges426/1629 preservingallold423/1624/status/reviews. Root owns sharedADR/briefs/state/HTML; differentactualplanreview beforedone. No library/version/API/schema/test/stub/CI/runtime selected; concurrent002PR74donecomponent/latestCIpending preserved on ownbranch."
     }
   ]
 }
