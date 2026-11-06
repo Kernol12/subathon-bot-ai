@@ -25,11 +25,12 @@ Requery GitHub actual head/checks/reviews/threads/rules before any next merge.
 Root `/tmp/subathon-schematest001`, branch
 `task/SCHEMATEST-001-validation-baseline`, claimed by `ab822715` from main1419082.
 [Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76) is the only open PR.
-Actual published head5233ff4 has all19 latest checks SUCCESS; root later commits
-are local pending separate CI-delta review. Root latestd296f11 includes13 probes,
-raw12/13 receipts and corrected context document. SCHEMATEST001 stays in_progress;
-SCHEMATOOL001 stays planned. NO wrapper/stub/worker/acceptance test or intended
-missing-wrapper red exists. Library facts do not complete the baseline.
+Actual published head0a07f1b contains the separately reviewed fourteen-method
+workflow and accepted final context document; hosted14 is green on both supported
+CI interpreters. Root local2af1b89 adds ONLY inert declarations. Wrapper tests are
+now being authored independently. SCHEMATEST001 stays in_progress and SCHEMATOOL001
+stays planned. No worker, parser or validation behavior exists; no wrapper test or
+intended missing-feature red has run. Library facts do not complete the baseline.
 
 Root owns shared state/HTML/dependency pins/notices/imports/build/CI/publication.
 [Task handoff](schematest-001-handoff.md) links accepted documents/evidence.
@@ -58,9 +59,11 @@ path `/tmp/schematest001-hosted-context-foundation.txt`. Separate hosted receipt
 review is separate from this integrator observation.
 
 Public API corrected438/blob691270f independently reviewed980/importc681642.
-Context document46 corrected d9/import986, plus canonical fragment literal correction
-d296f11; DIFFERENT actual context-doc review remains pending. The profile's dynamic
-ref/discriminator/ambiguous PathItem restrictions are explicit developer-tool gates,
+Context document46→d9→a8b3dc1, blob32ec87a, independently approved31f/importe475.
+Canonical fragments use%24defs. The public native whole-fragment control-schema
+route preserves unchanged raw targets and SDK lexical scope; encoded URI/control
+copies must fit existing budgets BEFORE construction. The profile's dynamic-ref/
+discriminator/ambiguous PathItem restrictions are explicit developer-tool gates,
 not removed product scope or invalid-standard claims. Literal data refs remain data.
 
 Fixed raw-default cursor12 sourceeaa/867fff reviewed5a88/importad5 BEFORE root12OK
@@ -68,37 +71,54 @@ Fixed raw-default cursor12 sourceeaa/867fff reviewed5a88/importad5 BEFORE root12
 root13OK0.116s. Root raw receipts are committed; [native receipt](schematest-001-foundation-cursor-scope-native.md).
 These are fixed real SDK facts, not general role/index/cursor/offline-process proof.
 
-## Actual assignments and next action
+## Latest finite gate and actual assignments
 
-Canonical `session_supplier_author` independently reviews ROOT CI delta1b4dee6
-(exact11→13 inventory, same runners/hash-only install/unconditional command), owns
-ONLY schematest-001-cursor-scope-ci-review.md on a NEW isolated branch. This agent
-authored12/13, so does NOT approve their source; C's actual source reviews are used.
-Await actual configuration review before pushing13 workflow/observing both jobs.
+No-id14 sourcea80/6585 was reviewed8ba/importe373 BEFORE root14OK0.119s.
+Public fresh same-base resolver transition fixes the fixed no-id OAS-prefix/anchor
+case. CI inventory6247 independently reviewed5b65/import0a07. Actual hosted14
+run42187299493 at0a07: Python3.10.12 fourteenOK0.292s,3.12.3 fourteenOK0.199s,
+exact14 guards and pipcheck pass; checkouta11e8a4 names0a07/main141. Full117947B log
+`/tmp/schematest001-hosted-fourteen-foundation.txt`, SHA256
+`ee0c20ccfeb9b388db30271dd1a69c911198b4b507333c43c3064d55d392a2ba`.
+Root observed the complete log; separate receipt review is currently assigned.
+[Native evidence](schematest-001-foundation-no-id-scope-native.md).
 
-Canonical `session_plan_review` reviews actual contextd9+d296 doc, owns ONLY context
-review note on its isolated branch. It found a genuine no-id OAS schema transition
-gap in fixed13: Resource.pointer resets segments only when callback returns a
-DIFFERENT resolver; no-id in_subresource returns the same resolver. Context doc
-approval alone does not imply that common case works.
+Root2af1b89 creates ONLY tools/schema_validate.py:18 outcome enum values, exact
+zero-argument RuntimeError and validate_package/main with immediate first-statement
+named unimplemented markers. No candidate imports or feature behavior. Root has NOT
+invoked either body. [Release receipt](schematest-001-inert-interface.md).
 
-Canonical `session_supplier_review` is explicitly reassigned to AUTHOR one fixed
-additive14th no-id OAS scope fact from root1b4 on a NEW isolated branch. Own ONLY
-foundation.py plus no-id author note; keep entire13 AST/guards/imports unchanged.
-Exercise whole-OAS fragment through real native ref validation, nested id/anchor,
-positive/negative and zero retrieval using a supported explicit scope transition.
-No import/run/install/general adapter. C reviews actual source BEFORE root run.
+Canonical `session_supplier_author` is explicitly reassigned to author independent
+actual wrapper tests/fixtures from2af on a NEW isolated branch. Own ONLY
+wrapper_acceptance.py/optional small wrapper_fixtures.py or fixture directory and
+wrapper-test-author note. Natural focused case counts, exact independent literals,
+real synthetic temporary packages; raw public calls before later subprocess checks.
+No skips/inversion/fake successful validator or production code. NO feature/test
+execution before DIFFERENT actual test/oracle review. Testable OS/protocol fault
+primitives need exact reviewed semantics without public successful-worker injection.
 
-After actual doc/final prerequisite fact review and controlled green foundations,
-release inert enum/two immediate named-unimplemented bodies and independently authored
-complete wrapper fixtures/tests. Independently review actual tests/oracles, then
-observe genuine missing-wrapper red. Production implementation waits for that
-integrated baseline. Missing dependencies/import/library failures never satisfy red.
-Keep intentional red separate from stable CI; do not skip/invert/fake successes.
+Canonical `session_supplier_review` independently reviews ROOT inert declarations
+and hosted14 artifacts on a NEW isolated branch from2af. Own ONLY eventual inert
+interface-review note. This agent authored source14, so does NOT approve it; C's
+8ba source review/B's5b65 CI review remain distinct. AST/source/artifact checks only,
+no imports or feature execution. Also supplies concise read-only fault-testability
+advice, not another production implementation prerequisite.
 
-If a real SDK limitation blocks the agreed raw-data semantics, record it rather
-than refusing ordinary literal `$ref` data or silently shrinking the profile.
-Do not implement a custom standards engine. No routine owner approval is needed.
+Canonical `session_plan_review` will review the ACTUAL authored wrapper tests and
+fixtures after B reports an exact candidate. Read-only preparation is allowed,
+prospective approval is not. It authored neither tests nor inert source. General
+role/cursor/SchemaAccessor/descriptor/no-site/process implementation must NOT occur
+before tests; those remain acceptance and later source-audit obligations.
+
+Next receive actual declarations/test candidates/reviews, add separately reviewed
+minimal static/discovery CI harness and observe current foundations, then FIRST
+genuine named missing-wrapper red in admitted environment. Missing dependencies,
+imports, fixture failures or skipped tests do not satisfy red. Preserve FIRST raw
+bytes and attribution. ProductionSCHEMATOOL001 waits for complete integrated reviewed/
+red baseline. Keep intentional red separate from passing ordinary CI, then promote
+actually passing behavior under later review. Never skip/invert failures to green.
+No routine owner approval is needed. If a real SDK limitation blocks raw-data
+semantics, record it rather than refusing ordinary literal refs or shrinking scope.
 
 Full release retains actual authority/policy/clock/actions/session/application and
 financial/review/refund/recovery/delivery, full HTTP/WS/scene, native/browser renderers,

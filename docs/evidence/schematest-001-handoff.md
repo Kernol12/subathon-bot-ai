@@ -41,11 +41,21 @@ of5d/30169 preceded root13OK0.116s. Raw receipts and limited conclusions are in
 real SDK seams with meaningful native negative controls, not arbitrary role adapters.
 Root CI11→13 inventory1b4 is separately reviewed before publication/hosted13 proof.
 
-Remaining prerequisite: one no-id OAS Schema transition/native whole-document ref
-fact, because the fixed13 Sample has$id and misses the same-resolver segment reset
-case. Author and different reviewer are assigned; no general implementation is
-permitted before tests. Final doc/foundation gates precede inert public declarations,
-independent complete fixtures/tests, actual independent test review and FIRST genuine
-named missing-wrapper red. None of those wrapper source/test/red stages exists yet.
-SCHEMATEST001 stays in_progress and SCHEMATOOL001 planned. No baseline completion,
-actual HTTP/session/API capability or product/platform/provider validation is claimed.
+The no-id OAS transition facta80/6585 is now reviewed8ba and root14OK0.119s;
+[raw/native evidence](schematest-001-foundation-no-id-scope-native.md). CI14delta6247
+reviewed5b65/import0a07, hosted14 run42187299493 passed both3.10/3.12; final contexta8/
+32ec87a independently approved31f/importe475. These close the finite contract/library
+prerequisites for test authoring, not general implementation acceptance.
+
+[Inert interface](schematest-001-inert-interface.md)2af1b89 now supplies only the
+18-value enum/exact exception/two immediate named-marker bodies; DIFFERENT actual
+source/artifact review is assigned. Independent wrapper fixture/test authoring is
+assigned on another isolated branch; no test or feature body has run. Complete
+actual test/oracle review and genuine missing-wrapper red remain mandatory before
+baseline completion. Root owns minimal static/discovery CI, separate from intentional
+red execution. All actual changed revisions must be reviewed before gate reuse.
+
+SCHEMATEST001 stays in_progress and SCHEMATOOL001 planned. General role/cursor/scope/
+offline/process/descriptor behavior remains independent acceptance and implementation
+review work AFTER tests. No application HTTP/session/schema/platform/provider support
+is claimed. See the coordinator checkpoint for actual assignments and next action.
