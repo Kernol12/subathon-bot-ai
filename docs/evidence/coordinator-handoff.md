@@ -1,210 +1,115 @@
 # Coordinator checkpoint — finish PR77, then stop
 
-Root,6November2026. Latest user instruction: **Cleanly finish the open PRs and then
-stop.** Actual latest GitHub query found ONLY draft77 open. No new projecttask/PR
-or standing loop after its normal merge. Do not close/discard77 instead of finishing.
-No owner decision/access is needed. No live provider/chat/contribution/credential/
-deployment action occurred. Full7integrations/3exchangeproviders remain release scope.
+Latest owner instruction: **cleanly finish the open PRs and then stop**. Actual
+GitHub inspection finds only draft [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77)
+open. Do not start another task/PR or continue the standing selection loop after
+normal merge77. No owner decision/access is currently needed. No live operations.
 
-## Actual checkout, publication and reviews
+## Repository and publication
 
-Primary clean main/origin095d192c834e8e7746a7922865bbf0e11d06f905. PR76 normally
-merged/all19checks; earlier72–75 integrated. Rule26170263 requires PR/resolvedthreads/
-0formalapprovals, NO required-status rule; written latestCI/independentreview gates
-still apply. Root branch task/SCHEMATOOL-001-offline-validator at
-/tmp/subathon-schematool001, createdmain before claima663. Root owns shared
-state/HTML/build/presets/CI/pins/integration. All support branches/worktrees retained;
-last complete scan169 had ONLYA active uncommitted source. Inspect actual status.
-Host ps found no cmake/ninja/ctest project command; unrelated long-lived processes
-were preserved. No test command remains running at this checkpoint.
+Main/origin main last observed095d192c834e8e7746a7922865bbf0e11d06f905, clean.
+PR72–76 merged; PR76's normal merge/current main already verified. PR77 task branch
+`task/SCHEMATOOL-001-offline-validator`, integrator `/tmp/subathon-schematool001`,
+latest local fd09044 before this checkpoint, clean; published928fb86e090e2b9c0b32fdf395c21486da74f1da.
+Published head's21checks all SUCCESS, OPEN/DRAFT/CLEAN, zero formal reviews. Later
+local implementation migration is not published or merge eligible. Ruleset26170263
+requires PR/thread resolution/zero formal approvals; it has no required-status
+rule. Latest CI, independent reviews and resolved discussions remain manual gates.
+No bypass. Reinspect actual GH after newhead.
 
-[PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) OPEN/DRAFT; published
-586e18ba01c1ee25c5ab418e3a2e54179a5bd9f0, actual21 latest checks SUCCESS. These are
-Python functional +native STATICbuild evidence, NOT native owner acceptance.
-Local later source/review commits follow; inspect actual log/status. Runtime
-workflow7ef withbf45env correction now independentlyapprovedBa230/Cdf4. ActualLOCAL56
-passed atcleana45; publication authorized for ordinarydiagnosticdraft CI. Latest
-publication/checks must be refreshed after push;
-never markReady/merge just because old remote checks pass.
+All existing support worktrees and unfinished files are preserved. Numerous old
+support branches are historical, not active-agent evidence. Last process inspection
+found only existing IDE/Codex services, no project build/test process. Current root
+command sessions have completed; no background project execution is claimed.
 
-## Preserved functional evidence and current owner gap
+## Active bounded assignments
 
-[Task brief](../tasks/SCHEMATOOL-001.md), [task handoff](schematool-001-handoff.md),
-[original baseline](schematest-001-handoff.md), [74map](schematool-001-native-test-mapping.md).
-Original63 FIRST atbd15260 and ONLYnew64th FIRST3d0 are unchanged, not replayed.
-Public64 source64f4911/worker8f4/sixmodules/pins20/lock859/meta6f unchanged onroot.
-Parent4cc/source3438a92 remains frozen, overall source approval WITHHELD for known
-CPython postbirth allocation/constructor deadline/threadack/before-close ownership.
-Worker root98bc/C0e1 reviews valid. New native architecture is independently
-approved ADR0009/processr4/installr2/native r2; no new thirdparty dependency.
+- B `/root/session_supplier_author`: explicitly released common C++ owner authoring
+  after native69 real red. Branch `task/SCHEMATOOL-001-native-owner-author`, tree
+  `/tmp/subathon-schematool001-native-owner-author`, from9d83b7c. Own ONLY new
+  raw_ops_v1.h, transport_core_v1_impl.h, transport_entry.cpp plus author evidence.
+  Common algorithm/entry, compile-time RawOps vs actual reviewed FaultOps625.
+  No candidate execution; actual source/generated/resource review before runtime.
+- A `/root/session_supplier_review`: Python loader/decoder/public native route
+  authoring, branch `task/SCHEMATOOL-001-native-python-binding`, tree
+  `/tmp/subathon-schematool001-native-python-binding`, from9a70ec0. Own ONLY
+  tools/schema_validate.py plus evidence. Publicroute explicitly released after
+  corrected13actualred945. Remove legacy Python process/FD/thread ownership; keep
+  worker source/pins unchanged. No candidate execution.
+- C `/root/session_plan_review`: independent reviewer only. Native69 attribution
+  746 importedd8af; wire fixture correction997 imported945; temporary31 retirement
+  801 imported34f. Currently attributes binding9/corrected13/four previously
+  unreached public rows, then reviews root971 build/CI and actual authored code.
+- Root owns CMake/presets/CI/static audit integration, tests/state/HTML/checkpoint.
+  New build/CI971 is source preparation, not execution approval.
 
-Actual fullpublic64 +focused2/3/3/2 passed locally at0f8 (receipts337). Hosted
-42229761220 at671 bothUbuntu22/Py3.10.12 and24/Py3.12.3 ranSDK14+74=88methods/host,
-0fail/error/skip. Independent C24df22 raw177341B/SHA65882c13 attribution valid,
-no replay. [Functional CI](schematool-001-functional-ci-review.md).
-This is preserved functional evidence for oldPython, not new native source proof.
+Agents were actually inspected/reassigned; do not assume they remain running on
+resumption. Confirm statuses and inspect their actual worktrees before action.
 
-## Native foundation stages actually completed
+## Completed gates and retained evidence
 
-ExactABI04e8/stube04d SAME literal31 only, independentlyCsourceapproved; no common
-owner/RawOps/native Python binding implementation exists. Directnative12methods/
-22literals e4/90c54 reviewedCf8, NOTRUN. Negative plan587/types/matrix57 separately
-approved. Private Continuation::transport_refusal f5/formattedc87 approved Cwhole
-packet; preserves actualclose0 while requesting existing17, no ABI/outcome change.
+Native/process v1r2, private processr4, installationr2 and ADR0009 exceptions have
+actual different C44/C48 approval. Public18enum/two calls/CLI/error priority/limits
+remain fixed; full product7integrations/3FX scope unchanged. Worker8f4c8c7 and
+root98bc/context/backend/index retain valid C0e1/source review. Old Python parent
+4cc464a/source3438 was frozen for unpublishedPID/deadline/thread/close gaps.
 
-Oldfoundation source/corrections/static8 actualred+fix preserved in
-[foundation review](schematool-001-native-foundation-review.md). Oldlocal bootstrap67
-and full8CTest atb44 FIRSTpassed/independentlyattributedC196/5cb. Earlier hostedstatic
-42262357346 failedONLY export symbolprefix(probe+lambda); f608 exactselector reviewed
-C13a, corrected42263771664 BOTHstaticjobsSUCCESS. Full574848B/SHAf44 archive+receipt
-[hostedstatic](schematool-001-native-hosted-build-review.md). No hosted nativeELF ran.
+Actual SDK14 and old functional public74 passed on BOTH selected hosted runners
+42229761220 (C24df review, retained full raw/receipt). Original wrapper FIRST and
+all focused regressions remain archived, never replayed as new baselines.
+Dedicated actual CPython3.14.9 SDK venv: `/tmp/subathon-schematest001-py314/bin/python`.
+20package pins/metadata/wheelhouses unchanged; no global installation.
 
-Root newentry/GOTchecker004 reviewedCf0;7controlsPASS thenrealoldELF failedclosed on
-xchgaxaxNOP. ONLYnewliteralcontrol1a reviewedC085, selectedFIRST918 ONEreachedgateERROR
-beforeexact2linecorrectione04, independentlyCb69 attributed. Unchanged8entry controls
-thenPASS andrealoldELFgatePASS atc660. Allraw/receipt/notes retained, no feature-red replay.
+Actual BOTH-host foundation56 GREEN at published928:
+[hosted receipt](schematool-001-native-closefrom-hosted.receipt.json), run42282457204,
+C0ae imported634. GCC11/Python3.10.12/glibc2.35 and GCC13/Python3.12.3/glibc2.39.
+Each55CPP +loader2, zero skips/fail/errors. Source child-only closefrom fix follows
+controlled sentinel red, preserved in its own notes; no assertions weakened.
 
-Bfixture832 correctedACK016/disposalffbf, independentlyC9c sourceapproved; rootb55
-normal125 controllerpoison reviewedCwholepacket. A23helper16ff independentlyroot
-reviewed; Bfixednegativechildcfac independentlyroot685 reviewed. Root24 childbyte/
-status/reportcontrols7d +CMake5export/NO_PRETTY_VALUES privatelyCrevieweda108,
-rootimport87ef. Actualconfigure+10stepbuild0/0warn, no discovery.
+[Actual native FIRST69](schematool-001-native-owner-first-red.md), archived9d83:
+clean634c4c0, direct12methods/22calls +57freshrows,58processes/69test executions/
+79exact actual C-return31 errors, no other cause. [Different C attribution](schematool-001-native-owner-first-red-review.md)
+verifies176members/receipts/source/hashes/actual guards. This released B owner
+implementation; it is not a passing implementation. Do not rerun FIRST.
 
-Roota5ad newexact20/29rawgraphs/Driverzeroedge checker+5literalcontrols reviewedB207.
-Actual5PASS/.001 +old8PASS/.005, then15b actualgraph FAILSCLOSED on compiler PXOR/
-MOVAPS from2Observation aggregate padding initializers. A7b addsreal125control,
-c58 converts ONLYthose2toexplicitfieldstores; independentlyroot37 approved, all
-oldassertions retained. Rebuild2steps0/0warn. NEWfoundationSHA285d47cd; negativechild
-fb066fbd/faultDSO2e8fe576/oldreporterbd3e/prodDSObf797 unchanged. Both new+oldactual
-staticgates PASS0, raw4234B5016/2409Bbe77, stderrempty. No SIMDallowanceadded.
-C0105 preserves15b actualproof; Cd1 independentlyadmits corrected285 for ONEbootstrap.
-[Build/generated evidence](schematool-001-native-helper-generated-author.md),
-[staticreview](schematool-001-native-fault-audit-review.md).
+[Actual binding FIRST9](schematool-001-native-binding-first-red.md), clean2a153:
+9methods/41real explicit PythonBindingNotImplemented errors, passiveimportpass,
+no C call or other cause. Source A c38/58 +different B3165/069 all integrated.
 
-Actual FIRST corrected285 NO-CHILD bootstrap at clean54b52f4,18:45:43Z: exactly1XML
-passing case/native0/0errors-skip-disabled, rawstdout624/stderr208/XML1210. Current
-[raw/receipt/note](schematool-001-native-helper-binding.md) received actualCc6 attribution/importa45 BEFORE full56 LOCALrun. At cleana45,
-18:55:59Z strict56inventorypassed, thenall56CTestPASS/native0/.16s/0skip-error,
-raw79453B/SHA002f40fc/stderrempty. No owner behavior or hosted runtime pass inferred. Actual libc2.44/
-kernel7.2.14/seccomp2, syscall offset11e450; no denial invented. NO currenthelper or
-owner behavior has run. NewruntimeCI7ef sourceBapproved conditional static→strict1XML→
-exact55native+loader1→unconditional56 onbothhosts; no negative owner red hidden.
+[Ported public74 FIRST](schematool-001-native-public-routing-first-red.md): clean9a70,
+64wrapper/cleanup2/spawn2 fail at actual unused native boundary; context3/lexical3
+pass. Two duplicate-tuple fixture failures explicitly excluded from validred.
+A42dd correction (C997 approved) preserves23calls/22logicalwiretuples and native57
+case21. [Corrected affected FIRST13](schematool-001-native-public-wire-first-red.md)
+atclean945:2methods/13actualPID0!=1 boundary failures, no fixture issue.
+[Four previously unreached complements](schematool-001-native-public-complement-first-red.md)
+atclean34f: s12 actualPID0!=1;3postreturnnegative rows actual unused-decoder
+assertion, zero fake raw0/identity/quiescence claim. All newrouting baselines
+precede integration of A's working source; no historical/full baseline replay.
 
-## Native negative and public port work
+[Temporary31 retirement](schematool-001-native-temporary-control-migration.md)
+13c+format5a, [different review801](schematool-001-native-temporary-control-review.md):
+three explicitly inert-only controls become actual nullmanifest/len0 invalid2
+BEFORE Ops/t0/resource, all idle fixture cleanup/journal assertions retained.
+Historical31 source/red/pass remains. Valid admitted calls still emit actual
+postcleanup finalkind8/phase39. Do not build with unreviewed admission semantics.
 
-B nonvalidating FaultOps98+417 integrateda9: header4f12/625lines, SOURCEONLY/UNCOMPILED,
-rootactualsource review pending. Exactraw cache→ownerimmediateadoptACK→journal→pins,
-AFTER realreturn preserved; normalizedoutread captureonly afterNONBLOCK; writes
-blocking. Owner must ALWAYS5realnormalizations>=5 with immediateoriginalclose,
-within12adoptions/peak8; no callerstdin mutation/extra controlFD. Core must ACK actual
-reap status(kind4/phase32/fd-1) and final actualABIinteger(kind8/phase39/errno-1)
-afterquiescence; no fakeclassification. Child125 isfixturefailure. [Ops note](schematool-001-native-fault-ops-author.md).
+[Build/CI migration971](schematool-001-native-acceptance-build-migration.md):
+bothDSOs same new entry/common source/options, compile-timefaultmacro/fixedchild,
+-fstack-usage both. Register57freshrows/direct12/sixprograms(binding9+public74),
+56facilities+64semanticCTest programs. Move public74 commands to built native
+bothhost jobs with samehashlockedSDK; SDK14jobs remain. Source review pending.
+Existing inert-only graph checks remain failclosed and require an honestly
+reviewed actual-owner replacement; no new owner configure/build/load/runtime yet.
 
-A nativeowner12methods/57closedrows f090 integrated23aed; childPIDshadow corrected
-978 integrated04c9088, allrows/assertionstructures preserved. SOURCE ONLY, no imports/
-loads/runs. Rootindependentcomplete source review pending; resourceeventbase+samewriter
-order rule needs actual contract-based review, exactselectedphase remainsstrict.
-[Negative author](schematool-001-native-owner-test-author.md). Test-only --row selects
-exactly1 method/row per freshprocess; rootregistration stillpending. Setup/library/
-readiness failure cannot countred. Actual31 must raise exactnamedmarker immediately,
-then idlefallbackalreadyGREEN, before unreachedphase assertions.
+## Next concrete work and stop condition
 
-A ACTIVE public74ports on isolated branch (inspect actual tree), owns ONLY wrapper/
-cleanup/spawn/context testfiles,newnative_public_fault.py,note. PreserveallU/74names/
-literals, Gloaderguards, Pactualsame-corefaultCDLL private_loadseam. Eachfault() row
-freshsubprocess, all5oldloops retained, no extra23CIregistrationneeded ifwrapper64
-executesall. Context3 retainworkerandADDrealpublicpath. Postreturn_decode_native_result
-complement uses REALprod0 beforethrowingprebuiltKeyboardInterrupt/MemoryError after
-rawquiescence; exactidentity/resource outcome retained, no fakeacceptedinteger or
-PythoncallbackinsideC. No production/bindingchanges yet. Actualtestreview/FIRST before
-bindingimplementation. Native25/26 remainseparate genuinechildownership checks.
-
-## Current agents and next concrete actions
-
-* A session_supplier_review ACTIVE public74SOURCEports; earlier57+PID/scalar+125 trees
-  clean and preserved. No executing tests. Read actual collaboration status.
-* B session_supplier_author completedCIa230/static207, actual57 findingsab092
-  withholds approval for AFTERprogress/FDidentity andP3/P4prior-acquisition gaps.
-  Root3a strengthenedonlyassertions, actualBdbdapproval integrated8969 beforeFIRST. No ownerimplementation assignment yet.
-* C session_plan_review completed d1/c6/df4 actual285/bootstrap/envCI reviews.
-  ReassignactualLOCAL56 attribution and laterhostedresults; no candidateexecution
-  byreviewer. Conditional BOTHhostruntime sourceadmission actualpassed.
-* Root integrates/progress/build/CI, reviews actualOps625 and57source, then publishes
-  independentlyreviewed automaticfacilityworkflow. Currenttaskin_progress/partial.
-
-Next: preserve/attribute actualLOCAL56; publishreviewedruntimeCI and observe actual
-BOTHhostfacilityGREEN → reviewed57+direct12
-FIRSTactual31 → commonowner/RawOps implementation andindependentcode/generated/resource
-review; publicportsFIRST thenbindingimplementation; all74/fullnewnativeacceptance/
-latestbothhostCI/threads/rules gates → normalmerge77, updatecheckpoint, STOP.
-No newproject task/PR, no silentrelease-scope shrink, no routineapprovalquestion.
-
-## Portable child correction after hosted static refusal
-
-Actual2ff hosted42275480715 failedBOTHbefore ANYnative on protocol NOTRACK
-jumptable; C5a independentlyattributedfull174179B/c462 archive retained. No kernel
-denial/hostunsupportedclaim. A fc174 sourceconditionalgroups reviewedroot3aa,
-CPP24assertionsunchanged. Rebuild2steps0/0warn; actualstrictnewgraphgatePASS0.
-Only childhashchanged fb066→bc122f84; foundation285/faultDSO2e8/old2unchanged.
-Then TARGETED24 actualproducer controls PASS0/.05s/0skip withnewchild atclean3aa,
-full36049B2601119c/stderrempty. PriorLOCAL56review stillvalidforunchanged31; no
-newhelperreplays. Root nowpublishesportable source andsameindependentlyreviewedCI
-foractualbothhostobservation. A74source4b+926quiet/markerfix awaitCsource review
-androotintegration; original74onrootunchanged. Bactual57source3a APPROVEDdbd,
-FIRSTstillblockedONLYbyactualbothhosthelper+matchingfixture/SDKgates. Bowner
-preparationREADONLYcomplete; noowner/RawOps/bindingbody exists orreleased.
-
-## Hosted tool-path correction
-
-9b hosted42277775666 BOTH actualnew/oldgraphs+strict1XML nochildbinding PASS,
-theninventory ENOENTctest becauseinstalledtooloutsideenv3PATH; kernel/helper
-neverrun. C86 independentfullraw993754B retained. Root348 frozenABSctestlookup
-beforeenv3 (inventory/final), exactnativeenv3/counts/guardsunchanged; actualC86
-sourceAPPROVEDpublication. Publishingthisnarrowcorrection next; firstnative69
-stillhelduntilactualBOTHhosthelperGREEN. Public74source926 approvedC26 butnot
-imported; Aactivebinding-admissiontests+definition-onlyunimplementedinterfaces,
-no workingbinding/native31fabrication. RootBreviewed57source3a/Bdbd isready.
-
-## Latest controlled closure correction
-
-Actual6a hosted42279145549 BOTH execute56:55PASS, onlyproducerreport28 fails on
-extra142/145. Cff95 independent1463958B/ce348 raw retained. Acontrolledsentinel3fbd
-reviewedrootb845/Cff95, FIRSTcleana4a (actual4a067cb)19:35:28 old/newstatic0→strict
-1XML0→ONLYreport28CTest8,2asserts7vs6+64vsUINTMAX, no othercause; C618attributed
-physical1despiteCTestdiagnosticduplicatebody. Exactevidence dc9/sentinel-red note.
-A5ffc ONLYchecked childtableclosefrom>=5 afterdup3/4+knowncloses, reviewedrootcf42293.
-Rebuild0/newfoundationd040a3f0; other4artifacts unchanged. Bothstatic0→strict1XML0→
-FULL LOCAL56PASS0/.16s atcleancf, stdout79450B1fde5d1f/stderrempty, sentinel+allold
-assertsintact. RootpublishesSAMEreviewedCI withfix; actualBothHostfullGREEN STILL
-pending. Thisisnotowner69FIRST. Bcurrentlyactualc38+58binding9source-rereview;
-Acompletedclosefrom+transparentctypeslookupfix58. Public74source926 C26approved
-notimported, bindingdefinitionstubs9c38notimportedyet. Noownerimplementationbody.
-
-## Actual owner and binding baselines reached; implementation assigned
-
-Latest instruction remains finish only PR77 then STOP. Main095d192 unchanged;
-PR77 open/draft published928/all21SUCCESS, no formal reviews. Local9a70ec0
-integrates source-reviewed public74 and binding9. Actual both-host native
-foundations42282457204 acceptedC0ae/root634 (56CTest each/0skip/fail/error).
-Actual clean634 owner FIRST69:58processes,79real native31 errors ONLY;
-[archive/receipt](schematool-001-native-owner-first-red.md). New binding FIRST
-atclean2a153:9methods,41real explicitBindingNotImplemented errors ONLY, passive
-importpass/no Ccall; [rawreceipt](schematool-001-native-binding-first-red.md).
-Neither is product implementation completion. Historical baselines neverreplayed.
-
-Explicitly reassigned liveagents: B session_supplier_author authors ONLY three
-new C++ owner/RawOps/entry paths in isolatedworktree from9d83; A
-session_supplier_review authors Python loader/decoder in isolatedworktreefrom9a70;
-publicroutebody stillheld until actual ported74 route-red, currently command
-session25716/rootdriver logs /tmp/schematool001-public-native-first74. C
-session_plan_review attributes raw69/binding9 and recommends exact retirement of
-explicitlytemporary31 controls; no source mutation. Root owns build/CI/state/tests.
-No newnativeimplementation executed; actual source/generated/resource review
-precedes execution. All supportworktrees/unfinishedfiles preserved; no other
-project commands observed. No ownerdecision/access needed.
-
-Next: preserve ported74 actual mixedred/pass; release Aroutebody, review exact
-new3fileCPP/Python source, root build/CI and reviewed temp31migration, compile
-and actual generated bounds/rawchild audit, run allnative69/binding9/public74
-and SDK14/focused acceptance, observe latestbothhostCI/reviews/threads/rules.
-Normalmerge77 only after allgates; refreshmain/checkpoint and STOP.
+Review actual B3file/A binding sources; integrate compatible actual revisions.
+Root/C review compile configuration, compile without execution, prove actual
+whole-owner stack<=32768/FD<=8/no allocator/callback and raw-child/clonezero graphs
+before new native runtime. Resolve defects without weakening reviewed assertions.
+Run all native69/binding9/public74 with SDK14/focused regressions and automatic
+latest BOTH-host CI. Record exact source/review/red/pass evidence and current
+progress/HTML. Recheck PR threads/reviews/rules/checks/mergeability. Only after
+all applicable gates, mark taskdone/ready and normalmerge77. Refresh main and
+final checkpoint, stop agents and STOP. No next task or bookkeeping PR.
