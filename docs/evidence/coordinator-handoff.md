@@ -27,7 +27,9 @@ Root `/tmp/subathon-schematest001`, branch
 [Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76) is the only open PR.
 Actual published head0a07f1b contains the separately reviewed fourteen-method
 workflow and accepted final context document; hosted14 is green on both supported
-CI interpreters. Root local2af1b89 adds ONLY inert declarations. Wrapper tests are
+CI interpreters. Root local2af1b89 adds ONLY inert declarations, reviewed794/import8edb261.
+Later private process documente6fe6bd/API clarification reviewed3a2003a/import8b779f1.
+Wrapper tests are
 now being authored independently. SCHEMATEST001 stays in_progress and SCHEMATOOL001
 stays planned. No worker, parser or validation behavior exists; no wrapper test or
 intended missing-feature red has run. Library facts do not complete the baseline.
@@ -97,12 +99,11 @@ No skips/inversion/fake successful validator or production code. NO feature/test
 execution before DIFFERENT actual test/oracle review. Testable OS/protocol fault
 primitives need exact reviewed semantics without public successful-worker injection.
 
-Canonical `session_supplier_review` independently reviews ROOT inert declarations
-and hosted14 artifacts on a NEW isolated branch from2af. Own ONLY eventual inert
-interface-review note. This agent authored source14, so does NOT approve it; C's
-8ba source review/B's5b65 CI review remain distinct. AST/source/artifact checks only,
-no imports or feature execution. Also supplies concise read-only fault-testability
-advice, not another production implementation prerequisite.
+Canonical `session_supplier_review` completed actual ROOT inert-declaration/hosted14
+artifact review794e95d/import8edb261 on NEW isolated tree. Exact source4a124 and own
+full117947B hosted log independently checked; no candidate/feature execution. This
+agent authored source14, so its source approval remains C8ba; CI approval remains
+B5b65. Agent is idle after that handoff; use followup_task for any new assignment.
 
 Canonical `session_plan_review` will review the ACTUAL authored wrapper tests and
 fixtures after B reports an exact candidate. Read-only preparation is allowed,
@@ -110,15 +111,25 @@ prospective approval is not. It authored neither tests nor inert source. General
 role/cursor/SchemaAccessor/descriptor/no-site/process implementation must NOT occur
 before tests; those remain acceptance and later source-audit obligations.
 
-Next receive actual declarations/test candidates/reviews, add separately reviewed
-minimal static/discovery CI harness and observe current foundations, then FIRST
-genuine named missing-wrapper red in admitted environment. Missing dependencies,
-imports, fixture failures or skipped tests do not satisfy red. Preserve FIRST raw
-bytes and attribution. ProductionSCHEMATOOL001 waits for complete integrated reviewed/
-red baseline. Keep intentional red separate from passing ordinary CI, then promote
-actually passing behavior under later review. Never skip/invert failures to green.
+The private process/fault documente6fe6bd (process7f30d99/APIa526dbc) is independently
+approved3a2003a/import8b779f1. It explicitly lists the existing two output pipe FDs,
+fixes private argv/Popen/clock plumbing and permits ONLY real fault child processes
+for malformed protocol/deadline/cleanup tests; no fake successful validator. B is
+released to author those exact fault cases. No process implementation exists.
+[Process contract](../contracts/schema-validation-process-test-v1.md),
+[review](schematest-001-process-test-review.md).
+
+Next receive actual test candidates/reviews, add separately reviewed minimal static/
+discovery CI harness and observe current foundations, then FIRST genuine named
+missing-wrapper red in admitted environment. Missing dependencies, imports, fixture
+failures or skipped tests do not satisfy red. Preserve FIRST raw bytes/attribution.
+ProductionSCHEMATOOL001 waits for complete integrated reviewed/red baseline. Keep
+intentional red separate from passing ordinary CI, then promote actually passing
+behavior under later review. Never skip/invert failures to green. Root legacy
+`python3 -m unittest discover -s tests/tooling -v` actually passed19/19 in0.326s;
+project426/122/currentHTML/render/diff also pass. No wrapper body/test has run.
 No routine owner approval is needed. If a real SDK limitation blocks raw-data
-semantics, record it rather than refusing ordinary literal refs or shrinking scope.
+semantics, record it rather than refusing literal refs or shrinking scope.
 
 Full release retains actual authority/policy/clock/actions/session/application and
 financial/review/refund/recovery/delivery, full HTTP/WS/scene, native/browser renderers,

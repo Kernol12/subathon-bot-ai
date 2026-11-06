@@ -49,7 +49,7 @@ prerequisites for test authoring, not general implementation acceptance.
 
 [Inert interface](schematest-001-inert-interface.md)2af1b89 now supplies only the
 18-value enum/exact exception/two immediate named-marker bodies; DIFFERENT actual
-source/artifact review is assigned. Independent wrapper fixture/test authoring is
+source/artifact review794/import8edb261 is complete. Independent wrapper fixture/test authoring is
 assigned on another isolated branch; no test or feature body has run. Complete
 actual test/oracle review and genuine missing-wrapper red remain mandatory before
 baseline completion. Root owns minimal static/discovery CI, separate from intentional
@@ -59,3 +59,10 @@ SCHEMATEST001 stays in_progress and SCHEMATOOL001 planned. General role/cursor/s
 offline/process/descriptor behavior remains independent acceptance and implementation
 review work AFTER tests. No application HTTP/session/schema/platform/provider support
 is claimed. See the coordinator checkpoint for actual assignments and next action.
+
+Private [process fault contract](../contracts/schema-validation-process-test-v1.md)
+e6fe6bd and narrow API two-descriptor clarification separately approved3a2003a/
+import8b779f1; actual fault tests may now be authored. Real isolated fault children,
+owned pipe endpoints, deterministic deadline and reap-before-test-cleanup oracle
+never substitute for actual successful/domain validation. Tests are still pending.
+Legacy tooling19/19 pass0.326s; project426/122/currentHTML/render/diff pass.
