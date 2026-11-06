@@ -153,3 +153,14 @@ foractualbothhostobservation. A74source4b+926quiet/markerfix awaitCsource review
 androotintegration; original74onrootunchanged. Bactual57source3a APPROVEDdbd,
 FIRSTstillblockedONLYbyactualbothhosthelper+matchingfixture/SDKgates. Bowner
 preparationREADONLYcomplete; noowner/RawOps/bindingbody exists orreleased.
+
+## Hosted tool-path correction
+
+9b hosted42277775666 BOTH actualnew/oldgraphs+strict1XML nochildbinding PASS,
+theninventory ENOENTctest becauseinstalledtooloutsideenv3PATH; kernel/helper
+neverrun. C86 independentfullraw993754B retained. Root348 frozenABSctestlookup
+beforeenv3 (inventory/final), exactnativeenv3/counts/guardsunchanged; actualC86
+sourceAPPROVEDpublication. Publishingthisnarrowcorrection next; firstnative69
+stillhelduntilactualBOTHhosthelperGREEN. Public74source926 approvedC26 butnot
+imported; Aactivebinding-admissiontests+definition-onlyunimplementedinterfaces,
+no workingbinding/native31fabrication. RootBreviewed57source3a/Bdbd isready.
