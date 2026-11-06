@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Fixed real-library foundations; no project wrapper or package validator runs."""
 import importlib.metadata
+import hashlib
+import io
 import json
 import os
 import unittest
@@ -12,6 +14,9 @@ from unittest.mock import patch
 
 
 NETWORK_ATTEMPTS = []  # Never reset: a swallowed attempt cannot make any case green.
+TRUSTED_LOCAL_READS = []
+OAS31_RESOURCE = "openapi_spec_validator/resources/schemas/v3.1/schema.json"
+OAS31_SHA256 = "e7cb616a2a10849a166c4e4a93c62c56cfea02cc00eadf287e2fb875e7124098"
 
 
 class FoundationNetworkAttempt(BaseException):
@@ -23,6 +28,22 @@ def block_network(*_args, **_kwargs):
     raise FoundationNetworkAttempt("Library foundation forbids network")
 
 
+def guarded_urlopen(url, *_args, **_kwargs):
+    # The oracle is the member of independently hash-admitted wheel222fec..., not this file.
+    distribution = importlib.metadata.distribution("openapi-spec-validator")
+    resource = Path(distribution.locate_file(OAS31_RESOURCE)).absolute()
+    if type(url) is str and url == resource.as_uri():
+        if distribution.version != "0.9.0" or resource.is_symlink():
+            raise FoundationNetworkAttempt("Untrusted bundled resource identity")
+        with resource.open("rb") as stream:
+            data = stream.read(34261)
+        if len(data) != 34260 or hashlib.sha256(data).hexdigest() != OAS31_SHA256:
+            raise FoundationNetworkAttempt("Bundled resource differs from admitted wheel")
+        TRUSTED_LOCAL_READS.append("admitted OAS3.1 metaschema")
+        return io.BytesIO(data)  # Real verified bundled bytes; never a validating callback.
+    return block_network()
+
+
 class LibraryFoundation(unittest.TestCase):
     def setUp(self):
         guards = ExitStack()
@@ -30,9 +51,10 @@ class LibraryFoundation(unittest.TestCase):
         self.addCleanup(lambda: self.assertEqual(NETWORK_ATTEMPTS, []))
         for target in (
             "socket.getaddrinfo", "socket.create_connection", "socket.socket.connect",
-            "socket.socket.connect_ex", "urllib.request.urlopen",
+            "socket.socket.connect_ex",
         ):
             guards.enter_context(patch(target, side_effect=block_network))
+        guards.enter_context(patch("urllib.request.urlopen", side_effect=guarded_urlopen))
         guards.enter_context(patch.dict(os.environ, {
             "OPENAPI_SPEC_VALIDATOR_SCHEMA_VALIDATOR_BACKEND": "jsonschema",
             "OPENAPI_SPEC_VALIDATOR_RESOLVED_CACHE_MAXSIZE": "0",
@@ -71,6 +93,7 @@ class LibraryFoundation(unittest.TestCase):
                             "schema": schema, "example": "wrong"}}}}}}}}
         path = self.path_class.from_dict(document, handlers={})
         self.spec_class(path).validate()  # Real spec success does NOT prove this example.
+        self.assertEqual(TRUSTED_LOCAL_READS, ["admitted OAS3.1 metaschema"])
         instance_validator = self.classes[1](schema, registry=self.registry_class())
         instance_validator.validate(7)
         with self.assertRaises(self.error):

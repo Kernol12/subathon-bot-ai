@@ -59,3 +59,45 @@ success/native compatibility is inferred from seeing its source files. Next:
 different actual source/oracle review, THEN authorized isolated execution and
 receipt attribution. Concrete wrapper API, complete fixtures/tests/red and later
 implementation/source review/ordinary CI remain gated. Full product scope remains.
+
+## Correction of the first probe's trusted-local classification
+
+Root subsequently executed independently reviewed source6d34ef9/blob4f37 with the
+selected CPython3.14 environment. FIRST native exit1 is retained at
+`/tmp/schematest001-foundation-first-py314.{stdout,stderr,json}`; stderr SHA256
+`2199cb8459b754c905802b3201f1d7af0ed923f2013cedd78c9de1d758e510d5`.
+Seven methods produced one error and five persistent-counter failures. This is
+NOT wrapper behavior-red or a complete green foundation. No raw receipt, source
+history, original assertion or prior independent approval is deleted/replaced.
+
+Inspection of actual traceback and selected source shows
+SpecValidator→get_schema→FilePathReader→UrllibHandler→urlopen received the installed
+package's own `resources/schemas/v3.1/schema.json` file URI. No DNS/socket/HTTP call
+was needed: this probe incorrectly classified the trusted local bundled metaschema
+read as network. The contract explicitly permits reviewed pinned dependency
+metaschemas in its offline registry (§4); refusing this exact actual resource made
+the standalone foundation's stronger guard differ from the agreed requirement.
+
+The correction admits ONLY the exact canonical URI computed from installed
+openapi-spec-validator0.9.0's known resource location. It refuses a symlink leaf,
+reads at most34261 bytes and requires EXACT34260 bytes plus SHA256
+`e7cb616a2a10849a166c4e4a93c62c56cfea02cc00eadf287e2fb875e7124098`.
+This expected size/hash was independently extracted from actual admitted wheel
+`openapi_spec_validator-0.9.0-py3-none-any.whl` AFTER verifying the archive's
+SHA256222fecffc7714f6d0a6ad62c0e4b66cc2b7dbfafb7b93acfc6c308abbdb51af8.
+The expected hash is not derived from the current installed file under test.
+The different reviewer independently corroborated that member identity with
+standard-library archive reads; no candidate library import/execution was involved.
+
+Return an in-memory stream of those REAL verified bytes for the REAL upstream
+metaschema reader. No fake validator, validation callback or arbitrary file opener
+is supplied. The allowed read has a separate persistent ledger and an added exact
+one-read assertion. Every original semantic/version/callback/refusal assertion
+is preserved. Every other file/URI/scheme and every DNS/socket/HTTP/HTTPS attempt
+still hits the persistent tripwire; its poison is never reset. This is a correction
+of a genuine probe classification defect, not weakening offline admission or
+changing the future wrapper's requirements.
+
+Correction source and these reasons require different actual review BEFORE rerun.
+Author performed only static AST syntax and whitespace checks on the correction;
+no corrected probe, candidate-library import, install or wrapper behavior ran here.
