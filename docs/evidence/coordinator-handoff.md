@@ -102,3 +102,22 @@ pinned install/check/foundation after approval, freeze concreteAPI/adapter, auth
 review independent tests/minimal immediate stub and observe intendedwrapperred.
 Do not jump from logicaldoc/dependencydownloads to baseline/implementationdone.
 Root no backgroundnativecommands active; all downloadcommands completed.
+
+## Actual dependency admission / install handoff
+
+Actualc221 independently admittedee5aeb8/importfaddc6b:20pins/28unique wheels/60target
+copies/63licenseNOTICE hashes,20exactversionupstreamPyPIrecords and staticmarker
+closure independentlyverified. [Review](schematest-001-dependency-review.md).
+Rootofflinehashlocked isolatedCP314install20/pip-check/versionmatch exit0, bootstrap
+extraonlypip; [receipt](schematest-001-installation.md). No validatorAPI/probe invoked,
+CP310/312 actualruntimeproofpending. No global/server/client dependency changes.
+
+NEW foundationauthor canonical session_supplier_review at
+/tmp/subathon-schematest001-foundation-author fromfadd, owns ONLY
+tests/schema_validation/library_foundation.py and ownfoundationauthornote. Actual
+source preparation underway, not yet reviewed/executed. Different source/oracle
+reviewer canonical session_supplier_author has read-onlyprepdone, idle awaiting
+actualcandidate; rootmustfollowup_task oncandidate. Own ONLY eventualfoundation-review.md
+inNEWisolatedtree. Probe is fixedliteral/upstreamAPI facts, not reusablewrapper
+implementation/parser/CLI/contextengine; realnetwork must trip failure evenonimports.
+No execution until actualsource/oraclereview. ConcreteAPI/wrappertests/red stillgated.

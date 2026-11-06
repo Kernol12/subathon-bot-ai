@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T06:28:15+00:00",
+  "updated_at": "2026-11-06T06:41:21+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13799,14 +13799,17 @@
         "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain.",
         "Claim dependency-ready validator BASELINE from actualmain1419082 after normalPR75/finalf9dd/all17SUCCESS/currentrules0approvals0threads/CLEAN. Initial stage ONLY bounded tool/library contract+independent literal examples and primary-source author evidence; actualdifferentreview before any pins/interface/stub/test/productionbehavior. Readonlycandidate research is not selection/installedcompatibility proof: explicitOpenAPI3.1 APIs (latestaliasesnow3.2), no defaultremotehandlers, every declaredinstance separate, closedformatpolicy/context-aware refs. Root owns allsharedpins/locks/notices/schemaimports/build/CI/state/HTML. No customstandardsengine, no runtime/authcapability or schemaacceptance. Actualselected-library green and independently reviewed tests/intendedwrapperred stillrequired before baseline done; SCHEMATOOL001remainsplanned.",
         "Actualinitiallogicalcontract4ab268a/importad91266 authored/proposed withcandidateupstreamfacts/literaloracles; differentactualreviewunderway. Rootprecommitfragmentcontextbudgetfindingresolved beforeauthorcommit; no selectedpins/install/API/stubs/tests/red/implementationproof yet. DraftPR76 holds thisstage; alltest-first/selected-libraryfoundation and concreteAPIgatesremain.",
-        "Initiallogical4ab/abb proposal independentlyapprovedb8/import699 only. Rootcandidate20pins/28Linuxwheelshashes/licenses/markerclosure for3.10/3.12/3.14 downloaded/noinstallorexecution, scopedstdlibtoolguidanceexplicitlyreconciled for isolatedreviewedvalidator-onlydeps. Different actualdependency/policy/hash/licensereview pendingbeforeadmission/install; realupstreamfoundations/concreteAPI/testsreview/intendedwrapperred stillgated. No source/schema/assertion/CI implementation or baselinecompletion."
+        "Initiallogical4ab/abb proposal independentlyapprovedb8/import699 only. Rootcandidate20pins/28Linuxwheelshashes/licenses/markerclosure for3.10/3.12/3.14 downloaded/noinstallorexecution, scopedstdlibtoolguidanceexplicitlyreconciled for isolatedreviewedvalidator-onlydeps. Different actualdependency/policy/hash/licensereview pendingbeforeadmission/install; realupstreamfoundations/concreteAPI/testsreview/intendedwrapperred stillgated. No source/schema/assertion/CI implementation or baselinecompletion.",
+        "Actualc221dependencyartifacts/policy admittedee5/importfadd after independent28hash/upstream20records/20pinclosure/licenseaudit. Offlinehashlocked CP314isolatedinstall20/pipcheck/versionsPASS, no validator/probe invoked; CP310/312 runtimeproofpending. Different source-first review ofsmallfixed real-libraryfoundation remains beforeexecution. No wrapper/API/parser/CLI/tests/red/implementation or baselinecompletion."
       ],
       "verification": {
         "contract": "passed",
         "tests": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
-        "dependency_review": "not_run"
+        "dependency_review": "passed",
+        "installation": "passed",
+        "library_foundation": "not_run"
       },
       "evidence": [
         "docs/evidence/schematest-001-readiness.md",
@@ -13814,7 +13817,9 @@
         "docs/contracts/schema-validation-tool-v1.md",
         "docs/evidence/schematest-001-contract-author.md",
         "docs/evidence/schematest-001-contract-review.md",
-        "docs/evidence/schematest-001-dependency-proposal.md"
+        "docs/evidence/schematest-001-dependency-proposal.md",
+        "docs/evidence/schematest-001-dependency-review.md",
+        "docs/evidence/schematest-001-installation.md"
       ],
       "review": null
     },
@@ -15116,6 +15121,11 @@
       "date": "2026-11-06T06:28:15+00:00",
       "task": "SCHEMATEST-001",
       "note": "Initiallogical4ab/abb proposal independentlyapprovedb8/import699 only. Rootcandidate20pins/28Linuxwheelshashes/licenses/markerclosure for3.10/3.12/3.14 downloaded/noinstallorexecution, scopedstdlibtoolguidanceexplicitlyreconciled for isolatedreviewedvalidator-onlydeps. Different actualdependency/policy/hash/licensereview pendingbeforeadmission/install; realupstreamfoundations/concreteAPI/testsreview/intendedwrapperred stillgated. No source/schema/assertion/CI implementation or baselinecompletion."
+    },
+    {
+      "date": "2026-11-06T06:41:21+00:00",
+      "task": "SCHEMATEST-001",
+      "note": "Actualc221dependencyartifacts/policy admittedee5/importfadd after independent28hash/upstream20records/20pinclosure/licenseaudit. Offlinehashlocked CP314isolatedinstall20/pipcheck/versionsPASS, no validator/probe invoked; CP310/312 runtimeproofpending. Different source-first review ofsmallfixed real-libraryfoundation remains beforeexecution. No wrapper/API/parser/CLI/tests/red/implementation or baselinecompletion."
     }
   ]
 }
