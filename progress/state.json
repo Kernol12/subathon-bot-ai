@@ -13799,8 +13799,16 @@
         "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain.",
         "Claim dependency-ready validator BASELINE from actualmain1419082 after normalPR75/finalf9dd/all17SUCCESS/currentrules0approvals0threads/CLEAN. Initial stage ONLY bounded tool/library contract+independent literal examples and primary-source author evidence; actualdifferentreview before any pins/interface/stub/test/productionbehavior. Readonlycandidate research is not selection/installedcompatibility proof: explicitOpenAPI3.1 APIs (latestaliasesnow3.2), no defaultremotehandlers, every declaredinstance separate, closedformatpolicy/context-aware refs. Root owns allsharedpins/locks/notices/schemaimports/build/CI/state/HTML. No customstandardsengine, no runtime/authcapability or schemaacceptance. Actualselected-library green and independently reviewed tests/intendedwrapperred stillrequired before baseline done; SCHEMATOOL001remainsplanned."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "contract": "draft",
+        "tests": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/schematest-001-readiness.md",
+        "docs/evidence/schematest-001-handoff.md"
+      ],
       "review": null
     },
     {
