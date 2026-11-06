@@ -44,3 +44,45 @@ without exec; exact old-method/helper AST preservation and unchanged gate blob;
 project426/122, render--check and diff--check PASS. Neither candidate module,
 selected control, binutils nor any native program was executed by this reviewer.
 All helper/whole-build/generated/runtime/both-host/owner31/74/CI/merge gates remain.
+
+## Actual selected red and exact alias correction
+
+Reviewer C, actual immutable `e04aa62bf1945d192b711cff93c4b249c3fc702e`, fresh
+isolated review branch. I read/hashed all preserved initial-entry control/audit
+and selected-NOP raw/receipt files without replay. **The reached selected static
+refusal is accepted, and actual corrected checker
+`77bd72bd2c9af6e6d600328379e2f8cff00ad998` is approved for unchanged static-control
+green and static audit of already-reviewed existing artifacts only.** No new
+helper compilation, candidate runtime or future source is approved.
+
+The selected receipt records source `918733424dc66fa49c1adf99e34628ef71beaa20`,
+after actual C085 source review, exact qualified ONE-method argv and start
+18:01:33.296012Z. Native1 test/0.001s, exit1 and outer0.042579s match the full
+raw. Stdout is empty; stderr1511 bytes/SHA256
+`d6aa9f69a230d9216ce1d290dc8debb4b4445789f42a8760d8fb6b4aefcd71bb`.
+The sole ERROR reaches the positive at test line64, actual probe_entry_binding
+line230 and require, ending exactly `RuntimeError: unreviewed syscall PLT
+operation`. No import/setup/fixture cause appears. Checkerf797 is exact at both
+earlier b3b and selected918; test10b86 is unchanged through the correction.
+The observer note reports minimal environment; this selected JSON does not itself
+list its keys or watchdog, so I do not invent those missing receipt fields.
+
+The earlier seven-method raw is958 bytes/SHAd88466d7..., all7 pass/0.001s/exit0.
+The old-local artifact audit raw is987 bytes/SHA97bacba9..., actual fail-closed
+at the same PLT gate/exit1. Both receipts record the explicit minimal three-variable
+environment and sourceb3b. These are static harness observations, neither kernel
+failures nor owner red. Complete raw hashes match all three receipts; the original
+FIRST artifacts/cases were not replayed by this reviewer.
+
+The actual implementation diff adds only `mnemonic == "xchg" and operands ==
+"%ax,%ax"` as a skipped decoration. Other register widths/register identities,
+memory operands, calls, TLS and alternate PLT sequences remain refused. No public
+value or unknown-operation allowance changes. This matches the source-reviewed
+positive and preserves both independent negative controls. Root may now run all
+eight entry methods/24 observations, original eight audit controls and the static
+artifact gate; a future green is not presumed by this source verdict.
+
+Actually performed: complete raw/receipt/hash/frame/source chronology and exact
+two-line diff review; syntax-only Python3.10 parse/compile; project426/122,
+render--check and diff--check PASS. No module import, control replay, checker/
+binutils run, configure/build, native executable or probe was performed by me.
