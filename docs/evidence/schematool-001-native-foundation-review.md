@@ -512,3 +512,70 @@ objdump/readelf of the existing files and source-state inspection; repository
 project/render/diff checks below. No checker/control test replay, configure/build,
 native executable, loader, bootstrap, case discovery/listing, kernel/child probe,
 SDK or candidate library entry was executed by me.
+
+## Actual local no-child result and local foundation runtime release
+
+Reviewer C reviewed immutable `28909ecec6eef66a9c4bf53a6f434220942f18a7` on a
+fresh isolated branch. I read the complete bootstrap observer note,
+[receipt](schematool-001-native-bootstrap-first.receipt.json),
+[stdout](schematool-001-native-bootstrap-first.stdout.txt),
+[stderr](schematool-001-native-bootstrap-first.stderr.txt) and
+[XML](schematool-001-native-bootstrap-first.xml), without replaying the case.
+**The actual LOCAL no-child bootstrap result is accepted. Local reviewed
+foundation runtime is now released, within the exact scope below.**
+
+The receipt records clean `67f3e54305d6f9dc3563839653b1bdb8740fadf0`, after C17
+artifact admission. Start16:28:44.408171Z agrees with XML local timestamp17:28:44
+and the source/review chronology. Exact executable/filter/color/XML argv and
+only PATH=/usr/bin:/bin, LC_ALL=C.UTF-8, LANG=C.UTF-8 are recorded; native exit0,
+outer0.003941s and watchdog=false are consistent. The preserved output has one
+RUN/OK and one passed test, with no failure/skip/other case. XML has exactly one
+`SchemaNativeFoundation.SyscallBindingToActualLibc`, statusrun/resultcompleted,
+tests1, failures/errors/disabled0 and no skipped/failure/error elements.
+
+Independent complete hashing matches stdout624 bytes/SHA256
+`440274b654b8f86fe7ffa72af347546ea2e13832cdc807d9a2a58d44eaf4c161`,
+stderr208 bytes/`6367028db22bf63eef01971d96d439af974182fbc837ab0f1a6b70c5e89cf72b`,
+and XML1210 bytes/`a7f9c4fe1d6bfa8dff531ae20e1215464994fff13c70d24173b1a85d18d99d2a`.
+Actual properties report `/usr/lib/libc.so.6`, GLIBC_2.2.5, function
+0x7f3c6211e450 minus base0x7f3c62000000 equals offset0x11e450. That is exactly the
+previously inspected wrapper offset on the same GOT/PLT/versioned-call path.
+The source's actual unversioned/versioned/same-object assertions passed; this is
+runtime binding evidence paired with static proof, not an unrelated lookup.
+
+Current executable SHA256 remains c618c4d6... and libc02c8c3d0..., matching the
+full identities recorded above; all source blobs inspected for this bootstrap,
+raw graph and cleanup are unchanged. Diagnostics genuinely record
+kernel7.2.14-arch1-1/x86_64/libc2.44/seccomp2. They do **not** establish clone3,
+pidfd, close_range, futex or any other facility availability. Reviewed source and
+the sole actual selection establish this result's no-child/no-owner scope.
+
+Root may now perform strict discovery/inventory and execute the unchanged LOCAL
+foundation selection: **seven C++ cases plus the one two-method loader program**,
+eight enabled CTest registrations total. Use the exact reviewed source/artifacts,
+minimal environment, explicit foundation label, no-tests=error, existing finite
+30-second test/watchdog bounds and unaltered assertions. Preserve actual results,
+host profile and any failure. This release covers synthetic nonvalidating own-child
+pipe/pidfd/signal/reap and bounded self-FD observations, not arbitrary processes,
+packages, SDKs, workers or live data. Native ownership is confined to the reviewed
+fixture and actual atomic successful pidfd; no numeric-PID signal or failed-output
+adoption is authorized.
+
+A required syscall denied/missing under the tool's observed seccomp2 is an
+unavailable **foundation**, never intended feature red, skip, or permission to
+weaken an oracle. If a separately authorized execution environment is necessary,
+record its actual profile and repeat the relevant binding/generated-artifact
+admission there rather than infer capability or silently bypass a control. There
+is no owner decision needed by this bounded review; root manages actual access
+and reports any real denial through the normal tool approval process.
+
+Local results do not admit hosted artifacts. The staged hosted compile/static/
+no-child-only workflow still needs its actual configuration review, and both host
+artifact/edge/binding proofs precede child-probe release. The native-owner31
+behavioral red, fault harness/74 ports, implementation and full CI/merge remain
+separate. No user-scope relaxation or product/native-owner capability follows.
+
+Actual reviewer checks: full raw/receipt/XML/hash/name/metadata/address arithmetic,
+chronology, source preservation and current file hashing; project426/122,
+render--check and diff--check PASS. I did not rerun the bootstrap, execute a native
+candidate/checker, perform discovery or create a candidate child/probe.
