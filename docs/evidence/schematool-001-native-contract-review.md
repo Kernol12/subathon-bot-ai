@@ -1,5 +1,12 @@
 # SCHEMATOOL-001 — actual normative native contract review
 
+**CURRENT verdict: APPROVED exact DOCUMENT contract8751ae7/blobaec16d6 ONLY**,
+as detailed in the corrected-revision section below. The original ddad findings
+remain historical review evidence; they are resolved by actual958b781 plus8751ae7.
+The matching complete root policy/private/installation packet still needs actual
+different review BEFORE any dependent interface/test/code release. No native
+implementation, build, probe, test execution or capability is approved here.
+
 Reviewer C (`/root/session_plan_review`), different from contract author B
 (`/root/session_supplier_author`),6 November2026. Actual candidate
 `acb1c8c71a4b986a950973ec472b6689b4c6599d`, contract blob
@@ -96,3 +103,87 @@ signal, install, historical replay, live operation or GitHub write occurred.
 Different actual corrected-contract plus root policy-packet review precede test/
 interface release; real foundations, intended new red, implementation/source audit,
 all preserved oracles/full suites/current hosted/normal merge gates remain open.
+
+## Actual corrected-revision verdict
+
+Reviewer C resumed on NEW isolated branch
+`task/SCHEMATOOL-001-native-contract-corrected-review`, worktree
+`/tmp/subathon-schematool001-native-contract-corrected-review`, from assigned
+rootb572c9d0805ecf60e3a9c6935e350b498af45f8b. ONLY this evidence note changes.
+Read actual author958b78192a240d95d6903e3ededfd5d5c6636588, contract
+`4cba052d74c598d338295c266c8d3b8cd059d75d`, then ACTUAL narrow correction
+`8751ae77e73c2e0f38350b27038c65232080ff08`, final contract blob
+`aec16d6eda116a38eb76a454133890f8d53c6cb3`, through immutable git show/diffs.
+Root must integrate that exact final correction before relying on this verdict;
+this review branch's starting doc4cba is not prospectively treated as corrected.
+
+**APPROVED the exact corrected normative DOCUMENT ONLY.** Prior two findings are
+resolved by the actual text, and the subsequently identified Case28 sequence is
+now explicit. No dependent helper/header/stub/test authoring is released until
+the actual complete root-owned policy reconciliation passes its separate review.
+Neither source correctness nor available Linux/ctypes/native capability is inferred.
+
+The selected128-record journal has parent64/child32/controller32 partitions, not
+a promise to trace every repeated syscall/clock/signal iteration. ALL actual native
+parent adoptions/releases remain mandatory:12 created handles yield24 events;
+selected phase/clocks/lifecycle add12 for36. Child20+7=27 fits32; controller12+12=24
+fits32. Separate writer IDs/local indices avoid a fictional total chronological
+trace. Overflow poisons the fixture; any implementation needing extra operations
+must return for count/contract review. Parent/fixture handles remain separately
+accounted and cannot silently enlarge the production eight-FD/32768-byte bounds.
+
+The actual pre-exec route is now a fixed12288-byte anonymous MAP_SHARED mapping,
+8192 bytes for128 eight-int64 records plus4096 fixed control/capture bytes. Each
+writer has its own segment and publishes completed entries; source/generated-code
+and actual compiler/architecture tests must prove the required inline lock-free
+publication. Snapshot takes committed entries only. Exec removes the child's
+mapping; the contract no longer assumes private or exec'd child memory is visible.
+[mmap shared visibility](https://man7.org/linux/man-pages/man2/mmap.2.html) and
+[exec memory replacement](https://man7.org/linux/man-pages/man2/execve.2.html) support
+that split without certifying an unimplemented helper. Mapping/controller resources
+remain explicit test ownership with unconditional post-oracle disposal.
+
+Case28 now uses the existing outcome4 for one deliberately INVALID NTF1 report,
+without an extra inherited descriptor or accepted worker result. Independently
+checked the literal field widths:4+12+68+40+8+112+4=248bytes. Its raw fcntl/getdents/
+signal fields support literal independent assertions rather than a claimed clean
+boolean. The fixed new scan FD is opened only AFTER exec, so a correct0..4
+inherited set yields scan5/observed0..5; it is closed before reporting. Packet/proc/
+short-write/overflow errors fail the fixture, not the production feature oracle.
+
+The first corrected4cba wording still closed activation before specifying report
+commit. Reviewer requested the final actual narrow ordering correction, without
+claiming every possible conforming core would inevitably fail. Exact875 now freezes:
+gather ALL observations with3/4 OPEN → close ONLY scanfd → commit ALL248 bytes in
+ONE blocking <=PIPE_BUF write on4 WHILE3 remains OPEN → only then close3 without A,
+close4/attempt exit3. This preserves the open-FD observation and prevents empty-A
+EOF preceding the report. [Pipe atomicity/byte-stream rules](https://man7.org/linux/man-pages/man7/pipe.7.html)
+support this bounded write;248 is below even the512-byte POSIX minimum PIPE_BUF.
+Actual tiny reporter/source/facility behavior still needs real reviewed proof.
+
+The SAME owner may reject the packet/kill before the reporter returns from write
+or reaches normal3; normal3 is explicitly NOT required in this negative case.
+Core reads tee ACTUAL bytes without replacement/decoder changes. The separately
+tracked parent-only read duplicate may collect ONLY an unread COMMITTED suffix
+after core return, bounded257; it cannot rescue never-written bytes. The getter
+returns248 only for a complete report plus EOF. Exact public validation_unavailable,
+no logs and real parent-reap/core-FD observations remain separate mandatory oracles
+before fallback. None of this diagnostic report enters normal/error-priority rows
+or certifies successful validation. Existing74 literal oracles stay preserved.
+
+All other acquisition, successful-clone-only commit, error-cell nonownership,
+child-signal/syscall-only exec, definitive wait/other-reaper, closed status and
+absolute work-deadline/mandatory-quiescence assessments above remain in scope.
+Both-host real facility/build/ABI/signal tests, exact minimal helper/test review,
+green foundations then NEW intended red, source/allocator/call-graph review and
+complete integration/ordinary CI remain required. No fallback or lowered public
+limit, omitted assertion, extra public option or new product dependency is admitted.
+
+Actual independent checks: full corrected text/diffs, literal journal/packet sums,
+ordered report clauses and unchanged integrated source/tests. An initial source-
+preservation query assumed root-only regression files existed on the isolated B
+branch; corrected checks use its exact TWO-document diff plus actual rootb572
+against published671 source/tests. They pass. Project426/122/current-render and
+whitespace checks pass. No candidate/helper/worker/SDK import, compile/build,
+native probe, child/thread/signal, fixture/test run, install, historical replay,
+live operation or GitHub write occurred. Exact approval is DOCUMENT scope only.
