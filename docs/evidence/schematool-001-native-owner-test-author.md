@@ -205,3 +205,15 @@ journal event name its separate store; no `pid` reference remains in this method
 `python3 tools/check_project.py` PASS426/122;
 `python3 tools/progress.py render --check` current; `git diff --cached --check`
 PASS before commit. No candidate/test import, native/library/SDK load or execution.
+
+Root integration correction after independent Bab092 findings, before execution:
+AFTER read W14/poll W16 now requires positive actual progress, not EOF/idle0.
+Successful zero-return closes/pipe2/kill require literal0 (including signal AFTER
+close). W5/W6 marker must equal its actual preceding adopted descriptor; normalized
+W5 additionally requires>=5. P3 proves earlier config1+activation pair2; P4 proves
+config1+both pipe pairs2+2+null1. Those phase identities/minima derive from native
+section3's prepare-pipes/open-null/normalize sequence and matrix P3/P4 ordering,
+not Ops417's implementation. Existing57 rows/classifications/inventory/marker,
+all old assertions and real cleanup/status/raw-packet oracles remain. These are
+stronger missing required test assertions, not production changes or a first-run
+claim. Different actual correction review is required before new intended red.

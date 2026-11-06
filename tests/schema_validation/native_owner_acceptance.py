@@ -366,9 +366,29 @@ class FaultSession:
             marker = selected[0]
             if phase & 1:
                 case.assertGreaterEqual(marker[5], 0, "AFTER did not execute real operation")
+                if name in ("w14", "w16"):
+                    case.assertGreater(marker[5], 0, "AFTER read/poll made no actual progress")
+                elif name in ("w2", "w3", "w4", "w8", "c2", "c3", "i25b"):
+                    case.assertEqual(marker[5], 0, "Successful close/pipe/kill must return literal zero")
             prior_adopts = [entry for entry in parent if entry[1] == 3 and entry[2] // 2 == phase // 2
                             and entry[3] >= 0 and entry[0] < marker[0]]
             case.assertGreaterEqual(len(prior_adopts), adopts)
+            if name in ("w5", "w6"):
+                case.assertEqual(len([entry for entry in prior_adopts
+                                      if entry[3] == marker[5] and entry[5] == marker[5]]), 1,
+                                 "AFTER result is not the genuinely adopted descriptor")
+                if name == "w5":
+                    case.assertGreaterEqual(marker[5], 5, "Normalized source is below descriptor five")
+            # Native section3 prepares config, both pipe pairs and null before
+            # source normalization. These rows must prove earlier acquisitions,
+            # rather than replaying an accidentally empty resource history.
+            required_prior = {"p3": {1: 1, 4: 2},
+                              "p4": {1: 1, 4: 2, 5: 2, 7: 1}}.get(name, {})
+            for base, minimum in required_prior.items():
+                prior = [entry for entry in parent if entry[1] == 3 and entry[3] >= 0
+                         and entry[2] // 2 == base and entry[0] < marker[0]]
+                case.assertGreaterEqual(len(prior), minimum,
+                                        "Pre-birth fault omitted required earlier acquisitions")
             if born and phase == 17:
                 case.assertEqual(marker[5], child_pid, "AFTER birth did not preserve real native PID")
             if closed:
