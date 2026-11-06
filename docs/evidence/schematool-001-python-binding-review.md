@@ -80,3 +80,25 @@ main/path and correction-only AST comparisons; project426/122/render/diff PASS.
 No candidate module/helper/test/trace/native/SDK/DSO, compiler, subprocess, thread,
 signal or probe ran from this reviewer. Focused actual PASS and then applicable
 source/generated/full acceptance/latest-head CI/normal PR77 merge remain.
+
+## Corrected real header cleanup — actual focused pass
+
+Reviewer C independently read c87bc97's full committed raw/receipt and matched
+the actual source at clean3c6666b3795dd90b77cd44829602a78b3a4ff132:
+Python f6dc5c2f2a6c3b07ab4731159720d418d691e36d, unchanged regression
+2941be57894a25fcd7fef28368a7ddac8acb4b05. At UTC20:31:59.413647 the
+ordinary selected CPython3.14 `-I -B` command exits0, stdout0. The compressed
+152-byte raw SHA256d8ad1f01b996ae79732fb3c36d06e69d26243e6c37deed66f652256fbeeac317
+expands to289 bytes/SHA256
+`b2529d1d4a5b97bbb24312edac1c7e372453c9c3886a1367276f07cfcc884d59`,
+matching receipt; one actual named method/.005s/OK, no failure/error/skip.
+
+The unchanged method unconditionally iterates the two prebuilt KeyboardInterrupt
+and MemoryError subcases. Both must reach real FileIO type, one trace trigger,
+original exception identity and retained traceback, restored trace, no CDLL,
+empty Python logs and FIRST raw fstat EBADF assertions before disposal. A subcase
+failure cannot yield this native OK footer. Synthetic header bytes never reach
+CDLL or a foreign entry. **ACCEPTED: the observed Python header-handle leak is
+closed under this reviewed regression.** This pass does not execute or admit
+new owner ELF, binding9/full74, SDK, worker, clone, or native resource behavior.
+No replay or candidate execution was performed by this reviewer.
