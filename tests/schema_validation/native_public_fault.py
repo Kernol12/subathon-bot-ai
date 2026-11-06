@@ -140,8 +140,10 @@ def public_fault(case, name):
         session = native.FaultSession(case, str(Path(__file__).resolve().parents[2] /
             "build/schema-transport-debug/lib/libsubathon_schema_fault_v1.so"), row)
         with session:
+            stdout, stderr = io.StringIO(), io.StringIO()
             with mock.patch.object(target, "_load_native_transport", return_value=session.entry,
-                                   create=True) as loader:
+                                   create=True) as loader, \
+                    contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
                 caught, actual = None, None
                 before = time.monotonic()
                 try:
@@ -152,6 +154,8 @@ def public_fault(case, name):
                 # The unmodified public API preserves its real missing-feature
                 # exception. This helper neither substitutes nor decodes C ints.
                 session.assert_evidence()
+                case.assertEqual(stdout.getvalue(), "")
+                case.assertEqual(stderr.getvalue(), "")
             loader.assert_called_once_with()
             if row[1] == 25:
                 case.assertIs(type(caught), KeyboardInterrupt)
@@ -194,23 +198,37 @@ def no_children(case):
         case.assertEqual(absent.exception.errno, errno.ECHILD)
 
 
+@contextlib.contextmanager
+def quiet_descriptors():
+    """Prepare raw log capture before the measured owned interval; never flush."""
+    with contextlib.ExitStack() as stack:
+        stdout = stack.enter_context(tempfile.TemporaryFile())
+        stderr = stack.enter_context(tempfile.TemporaryFile())
+        for descriptor, destination in ((1, stdout), (2, stderr)):
+            flags = fcntl.fcntl(descriptor, fcntl.F_GETFD)
+            saved = os.dup(descriptor)
+            stack.callback(os.close, saved)
+            stack.callback(os.dup2, saved, descriptor, inheritable=not bool(flags & fcntl.FD_CLOEXEC))
+            os.dup2(destination.fileno(), descriptor)
+        yield stdout, stderr
+
+
 def postreturn_negative(case, name):
     """REAL production0 then only a negative Python decode-site fault."""
-    target = load_public()
+    native, target = load_native_oracles(), load_public()
     refusal = (MemoryError("POST_NATIVE_SPAWN_ALLOCATION_REFUSAL") if name == "postreturn-memory"
                else KeyboardInterrupt("owned descriptor close cancellation" if name == "cancel-identity"
                                       else "native constructor cancellation"))
     calls = []
     with tempfile.TemporaryDirectory(prefix="schema-public-postreturn-") as temporary:
         manifest = make_package(temporary)
-        before_fds = descriptor_inventory()
         before_handler = signal.getsignal(signal.SIGINT)
         before_mask = signal.pthread_sigmask(signal.SIG_BLOCK, [])
         stdout, stderr = io.StringIO(), io.StringIO()
 
         def decode_after_return(raw):
             if type(raw) is int and raw == 31:
-                raise target.SchemaValidationNotImplemented()  # Actual raw31, never fake success.
+                raise native.SchemaTransportNotImplemented()  # Actual raw31, never fake success.
             case.assertIs(type(raw), int)
             case.assertEqual(raw, 0)  # Real production worker/SDK positive, not raw5 masking conversion.
             case.assertEqual(descriptor_inventory(), before_fds)
@@ -220,25 +238,30 @@ def postreturn_negative(case, name):
             calls.append(raw)
             raise refusal
 
-        with mock.patch.object(target, "_decode_native_result", side_effect=decode_after_return,
-                               create=True) as decoder, \
-                contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
-            caught, actual = None, None
-            try:
-                actual = target.validate_package(str(manifest))
-            except KeyboardInterrupt as error:
-                caught = error
-        decoder.assert_called_once_with(0)
-        case.assertEqual(calls, [0])
-        if isinstance(refusal, KeyboardInterrupt):
-            case.assertIs(caught, refusal)
-            case.assertIsNone(actual)
-        else:
-            case.assertIsNone(caught)
-            case.assertIs(actual, target.SchemaValidationOutcome.resource_limit)
-        case.assertEqual(descriptor_inventory(), before_fds)
-        no_children(case)
-        case.assertEqual(stdout.getvalue(), ""); case.assertEqual(stderr.getvalue(), "")
+        with quiet_descriptors() as (raw_stdout, raw_stderr):
+            # All capture descriptors exist before this baseline and before C.
+            before_fds = descriptor_inventory()
+            with mock.patch.object(target, "_decode_native_result", side_effect=decode_after_return,
+                                   create=True) as decoder, \
+                    contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                caught, actual = None, None
+                try:
+                    actual = target.validate_package(str(manifest))
+                except KeyboardInterrupt as error:
+                    caught = error
+            decoder.assert_called_once_with(0)
+            case.assertEqual(calls, [0])
+            if isinstance(refusal, KeyboardInterrupt):
+                case.assertIs(caught, refusal)
+                case.assertIsNone(actual)
+            else:
+                case.assertIsNone(caught)
+                case.assertIs(actual, target.SchemaValidationOutcome.resource_limit)
+            case.assertEqual(descriptor_inventory(), before_fds)
+            no_children(case)
+            case.assertEqual(stdout.getvalue(), ""); case.assertEqual(stderr.getvalue(), "")
+            case.assertEqual(os.fstat(raw_stdout.fileno()).st_size, 0)
+            case.assertEqual(os.fstat(raw_stderr.fileno()).st_size, 0)
 
 
 def main():

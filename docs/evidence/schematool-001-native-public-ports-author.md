@@ -140,3 +140,59 @@ the existing enumerate syntax; no fixture/oracle was changed to fit that check.
 PASS before commit. Only the six assigned files change.
 No authored module/public target/SDK import, subprocess, native loading,
 test body, signal, compiler, child/worker or other candidate code ran here.
+
+## Reviewed-source correction: both log layers and native31 identity
+
+Author A, 6 November 2026. New isolated branch
+`task/SCHEMATOOL-001-native-public-log-capture`, tree
+`/tmp/subathon-schematool001-native-public-log-capture`, begins at preserved
+`4b7d5dcf0a38dad4208224b9b8375404b2e3ba86`. Only
+`native_public_fault.py` and this note change. C's actual source review found
+that two different output paths could escape the original assertions:
+
+- The real fault-session scope already captured raw FD1/2, but buffered
+  `sys.stderr.write("PRIVATE")` without LF could remain in the original Python
+  stream until after its FD was restored. The public fault call and its raw
+  `session.assert_evidence()` now also run within stdout/stderr `StringIO`
+  redirects. Both Python buffers must be empty AFTER the raw pre-fallback
+  ownership/FD/reap/phase/log assertions. No flush can hide or relocate bytes.
+- The real-production0 decode complements already captured Python streams,
+  but direct native FD2 output could reach the allowed outer unittest stderr.
+  A small `ExitStack` capture now owns two temporary raw log files and saved
+  stdio duplicates BEFORE the whole-FD baseline and real public call. Its raw
+  files remain open through the decode-site FD/no-child assertions and all
+  final assertions; both actual `fstat(...).st_size` values must be zero before
+  restoration. No capture descriptor is opened after native return, no output
+  flush is used, and the capture closes/restores even on marker/exception/setup
+  failure. Original stdio inheritable flags are restored from saved F_GETFD.
+
+The complementary decode hook's actual31 branch now raises the independently
+declared `native.SchemaTransportNotImplemented()` with exact text
+`Native schema transport is intentionally unimplemented`, matching the genuine
+direct-native baseline. It runs BEFORE raw0/phase/identity assertions and does
+not relabel this baseline with historical `SchemaValidationNotImplemented`.
+The actual production loader/entry/worker remain unpatched for complements;
+real int0, exactly one hook call, exact prebuilt KeyboardInterrupt identity and
+MemoryError→resource_limit assertions all remain. The hook returns no accepted
+integer or outcome. Native fault rows still patch ONLY the private loader with
+the real builtin fault-DSO function, preserving decoder/raw-evidence obligations.
+
+Source-only Python3.10 AST/compile-without-exec checks PASS. Compared with4b,
+only `public_fault` and `postreturn_negative` function ASTs change, with one new
+`quiet_descriptors` context manager. Every prior assertion in those functions
+is retained. Module imports/literal WIRE23/EXTRA7 and every other definition are
+exact. All74 public method names, all five other public/regression source files,
+their existing assertions and the closed30-row driver inventory stay exact.
+This is correction of reviewed fixture defects before first execution, not a
+new owner behavior, weakened no-log rule or retrospective behavior pass.
+
+`python3 tools/check_project.py` PASS426/122/current HTML;
+`python3 tools/progress.py render --check` current; `git diff --check` PASS.
+The current independent FaultSession35cff/Bdbd source gate must be integrated
+before any execution; this branch's inherited historical helper is not an
+approval of a future57-source revision or its behavior.
+No authored module/public/SDK import, test/harness invocation, native artifact
+load/call, subprocess/thread/child/signal, compiler or runtime probe occurs in
+this assignment. C must review the actual corrected source; matching helper/
+kernel/child foundations, intended FIRST attribution, all passing full suites,
+source audits and latest-head normal PR77 merge gates remain. Finish77 then stop.
