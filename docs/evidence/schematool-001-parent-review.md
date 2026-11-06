@@ -112,3 +112,67 @@ unchanged regression/frozen64 hashes, original raw/receipt/frame/diagnostic/time
 attribution and exact diff check PASS. Earlier actual project426/122/render checks
 were green. No source/SDK/test/helper import or execution, fault child/clone/install,
 historical replay or GitHub write occurred; only this bounded review note changes.
+
+## Source-backed unpublished native PID assessment
+
+Additional READ-ONLY assessment by the same different reviewer,6 November2026,
+on NEW isolated branch `task/SCHEMATOOL-001-native-birth-assessment`, worktree
+`/tmp/subathon-schematool001-native-birth-assessment`, basee54b25f. This is an OPEN
+ownership gate, not approval of the author's uncommitted constructor correction,
+proposed helper thread, /proc fallback or a lower-birth test not yet authored.
+
+Primary native source confirms a distinct earlier failure window on ALL selected
+CPython versions:3.10.12 `_posixsubprocess.c` calls do_fork_exec at917 and converts
+its PID to a Python integer at973;3.12.3 does so at1082/1142;3.14.9 at1187/1247.
+The conversion is AFTER actual child birth. A failing PyLong_FromPid can therefore
+return MemoryError with a real child but no published Python PID. In3.14's Python
+wrapper, self.pid assignment waits for `_fork_exec` to return, then marks
+_child_created; its constructor stream cleanup/destructor cannot certify the
+missing identity. Recovering the actual partial self in a higher __init__ traceback
+can fix later paths but cannot establish this earlier unpublished child's ownership.
+
+Sources actually read:
+
+- [CPython3.10.12 native birth](https://raw.githubusercontent.com/python/cpython/v3.10.12/Modules/_posixsubprocess.c)
+- [CPython3.12.3 native birth](https://raw.githubusercontent.com/python/cpython/v3.12.3/Modules/_posixsubprocess.c)
+- [CPython3.14.9 native birth](https://raw.githubusercontent.com/python/cpython/v3.14.9/Modules/_posixsubprocess.c)
+- [CPython3.14.9 Python constructor](https://raw.githubusercontent.com/python/cpython/v3.14.9/Lib/subprocess.py)
+
+Accepted API§4 still applies: a known memory refusal is resource_limit, with no
+surviving worker/cache after synchronous return, and cancellation while Python can
+unwind follows the same cleanup. A native call that actually returns MemoryError
+is not automatically outside this scope because its PID was never published.
+Neither returning a refusal nor calling it an untestable global-OOM case satisfies
+ownership by itself. Unrecoverable interpreter/OS death is different from the
+concrete recoverable exception being assessed. No public enum, lifetime/deadline,
+profile, frozen64 assertion or requirement is relaxed by this finding.
+
+Minimum completion gate: establish positively identified ownership through BOTH
+published-self and unpublished-native windows; kill/reap the actual child, drain
+owned descriptors and end any helper thread before returning known-memory refusal
+or propagating cancellation. Keep the whole10-second startup/IO/exit deadline.
+The two already reviewed native-constructor cases remain meaningful but cannot
+prove the earlier window. A new actual saved-native-first lower-birth regression
+must deliberately withhold PID publication from self, preserve genuine readiness,
+and capture real waitpid/FD state BEFORE fallback; an exited/zombie control must
+not turn absent running-process evidence into false reap proof. A test may observe
+the PID but must never inject it back as a successful production ownership input.
+Actual private-seam clarification/source review/reached-bug red precede that fix.
+
+Linux per-birth-thread /proc children tracking is a research hypothesis only.
+The [official proc children description](https://man7.org/linux/man-pages/man5/proc_tid_children.5.html)
+warns that exit during enumeration can omit other children and identifies optional
+kernel support. Preopening the file alone proves neither complete discovery nor
+safe signal identity. A dedicated one-child birth thread/no-competing-reaper model
+may narrow that warning, but requires actual kernel/source proof, bounded before-
+spawn facility/identity admission and actual selected-host observations. The
+[Linux wait semantics](https://man7.org/linux/man-pages/man2/waitpid.2.html) also
+permit other same-process threads to reap a child by default; numeric PID discovery
+must not become an unsafe signal after identity is lost. Missing facilities must
+refuse before birth, and ambiguous/empty snapshots cannot certify cleanup.
+
+Only primary-source/accepted-contract reading occurred for this assessment. No
+candidate/helper/SDK/test import, signal, child/thread, probe, install, feature run,
+historical red replay or GitHub write occurred. Actual constructor source and its
+scoped2-path receipts remain to review when a coherent committed candidate arrives;
+even a valid scoped verdict will leave this lower-birth gate explicitly open.
