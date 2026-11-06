@@ -26,3 +26,14 @@ Different actual source/control review precedes first static execution. Root wil
 record exact outcomes on actual local ELFs and host evidence; no claim of a
 completed first run, facility green or owner acceptance appears here. New helper
 raw-child entries must receive their own generated graph/edge checks before use.
+
+Actual FIRST at cleanb3bafb3 after C's source/control release: original7 controls
+PASS/.001s/native0. Actual local scoped audit FAILS CLOSED before any native
+execution: GNU16 PLT4440 jumps through23fa8 then4446 has `xchg %ax,%ax`, the exact
+two-byte NOP encoding, whereas known hosted stubs use NOP mnemonics. Current audit
+correctly refuses an unknown PLT mnemonic; this is an incomplete admitted shape,
+not a kernel failure or owner red. Add one independent literal method requiring
+that exact register-identity NOP, with different-register and memory exchange
+negative controls. Different actual test review and observed intended new-control
+failure precede a narrow source correction. Existing7 controls/21rows unchanged;
+no general XCHG operation is admitted and no PLT callback/resolve sequence added.

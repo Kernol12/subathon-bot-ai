@@ -58,6 +58,14 @@ class NativeEntryControls(unittest.TestCase):
                             [(0x500, 'ret', '')])
         self.assertEqual(self.check(functions)['probe'], 0x100)
 
+    def test_two_byte_nop_alias_requires_exact_ax_identity(self):
+        functions = copy.deepcopy(BASE)
+        functions[0x200][2][2] = (0x20a, 'xchg', '%ax,%ax')
+        self.assertEqual(self.check(functions)['syscall_got'], 0xbafb0)
+        for operand in ['%ax,%bx', '%ax,(%rax)']:
+            with self.subTest(operand=operand):
+                self.rejected(lambda f: f[0x200][2].__setitem__(2, (0x20a, 'xchg', operand)))
+
     def test_wrong_clone_number_save_or_comparison(self):
         for index, mnemonic, operand in [
                 (0, 'mov', '$0x39,%edi'), (3, 'mov', '%eax,-0x388(%rbp)'),
