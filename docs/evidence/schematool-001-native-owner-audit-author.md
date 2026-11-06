@@ -42,8 +42,10 @@ gate rejects these unknown contexts; this source does not claim183 is admitted.
 Root/C were notified: scalar source initialization can preserve the opcode profile,
 while any new context-exact atomic admission requires actual different source/
 control review with ALL old default raw-helper guards preserved. Synchronization
-must not be weakened merely to satisfy an opcode list. No such extension or
-external-source change is silently included in this packet.
+must not be weakened merely to satisfy an opcode list. The original0a packet
+included no extension. The separately authorized context-exact atomic revision
+below adds ONLY those two contexts; SIMD refusal and old default guards remain.
+No external-source change is silently included.
 
 ## Exact integration surface and retained old gates
 
@@ -124,10 +126,10 @@ independent raw57/acceptance obligations; this build audit is not a general bina
 FD-lifetime or semantic validation proof.
 
 Private phase revision3's new40/41 is not conflated with this tool's KernelCall
-0..19 specialization set. The current closed `close_bare(Slot)` signature matches
-the actual183 artifact. A future B bool-work-context signature must receive its
-own exact source/manifest update after immutable review; it is not silently
-admitted by method-prefix matching. Final39 is not a metadata decode rule here.
+0..19 specialization set. The original0a `close_bare(Slot)` signature matched
+actual183. The revision below replaces it with the exact immutable B-e1
+bool-work-context signature; no method-prefix alternative is admitted.
+Final39 is not a metadata decode rule here.
 
 ## Five independent literal controls and source-stage checks
 
@@ -151,3 +153,56 @@ bootstrap/facility/behavior acceptance. No checker/control/test/native/SDK/worke
 ELF loader, build/compile, candidate subprocess/probe or CTest discovery executed by this
 author; only explicitly allowed read-only host binutils inspected existing artifacts.
 All prior valid reviews/raw receipts and remaining PR77 merge gates are retained.
+
+## Root-reviewed enum/signature corrections and exact atomic extension
+
+Author A,6November2026. Separate branch
+`task/SCHEMATOOL-001-native-owner-audit-refinement`, tree
+`/tmp/subathon-schematool001-native-owner-audit-refinement`, starts at preserved
+`0a936fcc45231b0edd297eceb2c10dab1054109f`. Same three owned paths ONLY.
+
+Root's actual source review found the child KernelCall set omitted rt_sigaction15
+and wrongly included pidfd_send_signal17. Read the actual frozen enum and native
+§4: the CLOSED child specialization set is now exactly4/5/9/10/11/12/15/16.
+This restores required raw signal setup and refuses parent kill/reap/birth/open/
+pipes; it is not a new syscall capability. The existing admission-control method
+now independently asserts15/16 present and0/7/8/17/18 absent for BOTH policies,
+using literal enum positions/signatures rather than the implementation's name
+generator. All five natural method names and four other method bodies remain.
+
+Read actual immutable B `e1fabcca` header: `close_bare(Slot,bool)` returns RawResult.
+ONLY that exact non-template demangled signature replaces the old one-argument
+signature. There is no return-type prefix in its nm name. Root/C review of that
+source and new normalization40/41 hook remains independent; the hook intentionally
+preserves the classification defect until its separately reviewed reached red.
+This checker change neither fixes nor approves that semantic behavior. Older183
+one-argument artifacts will correctly fail the new closed manifest.
+
+Root/C explicitly approved a scoped new-owner instruction extension. New
+`owner_atomic(name,mnemonic,operands)` returns true ONLY for mnemonic `lock` at:
+
+- Exact `subathon::schema_validation::native::fault::monotonic_ns()` with
+  `cmpxchg %rcx,(%rsi)` (64bit).
+- Exact `subathon::schema_validation::native::fault::checkpoint(subathon::schema_validation::native::Phase, long)`
+  with `cmpxchg %ecx,(%rsi)` (32bit).
+
+Context, width, source register and address are ALL exact. No generic atomic,
+namespace, alternate address, TLS, instruction or SIMD permission exists. The
+existing admission-control method adds two positive literal contexts and negative
+wrong-context/width/register/address/mnemonic/TLS cases. They do not touch an ELF.
+Root separately owns the BASE `reachable(...,extra_instruction=None)` API change:
+defaultNone retains ALL original raw rules, and TLS/target/transfer/trap checks
+remain unconditional. This module passes ONLY its fixed predicate at whole-entry,
+child and policy-clone graph calls. No old auditor/parser is changed by this author.
+Actual reviewed BASE API integration is required before checker execution; it is
+not assumed from the older base in this isolated tree.
+
+All metadata/ELF identity/alias/stack/zero-edge/export/eager/initialization logic and
+strict source-method lists otherwise remain. Actual source-only checks PASS:
+Python3.10 AST/compile-without-exec, corrected eight-call child set, exactly three
+fixed atomic predicate hooks, five control names/four other bodies/all original
+assertions exact, old BASE/auditor bytes unchanged; project426/122/current HTML,
+render--check current and git diff--check. NO checker/control import/
+run, artifact load/execution, compiler/SDK/child/probe occurred. Actual different
+source review and root's matching base/source/artifact integration still precede
+even static-control execution, then all remaining PR77 gates.

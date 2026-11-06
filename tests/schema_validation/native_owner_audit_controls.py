@@ -68,6 +68,33 @@ class NativeOwnerAuditControls(unittest.TestCase):
                 audit.fixed_rsp([instruction])
         self.assertNotIn("malloc@plt", audit.allowed_names(RAW_POLICY))
         self.assertNotIn("subathon::schema_validation::native::detail::unreviewed()", audit.allowed_names(RAW_POLICY))
+        for policy in (RAW_POLICY, FAULT_POLICY):
+            for number, member in ((15, "rt_sigaction"), (16, "rt_sigprocmask")):
+                # Literal enum positions, independently read from the frozen header.
+                expected = ("long " + policy + "::syscall<(subathon::schema_validation::native::KernelCall)"
+                            + str(number) + ">(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)")
+                with self.subTest(policy=policy, child_call=member):
+                    self.assertIn(expected, audit.child_names(policy))
+            for number in (0, 7, 8, 17, 18):
+                forbidden = ("long " + policy + "::syscall<(subathon::schema_validation::native::KernelCall)"
+                             + str(number) + ">(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)")
+                with self.subTest(policy=policy, parent_call=number):
+                    self.assertNotIn(forbidden, audit.child_names(policy))
+        monotonic = "subathon::schema_validation::native::fault::monotonic_ns()"
+        checkpoint = "subathon::schema_validation::native::fault::checkpoint(subathon::schema_validation::native::Phase, long)"
+        self.assertTrue(audit.owner_atomic(monotonic, "lock", "cmpxchg %rcx,(%rsi)"))
+        self.assertTrue(audit.owner_atomic(checkpoint, "lock", "cmpxchg %ecx,(%rsi)"))
+        for context, mnemonic, operand in (
+                ("subathon::schema_validation::native::RawOps::monotonic_ns()", "lock", "cmpxchg %rcx,(%rsi)"),
+                (monotonic, "lock", "cmpxchg %ecx,(%rsi)"),
+                (checkpoint, "lock", "cmpxchg %rcx,(%rsi)"),
+                (monotonic, "lock", "cmpxchg %rdx,(%rsi)"),
+                (monotonic, "lock", "cmpxchg %rcx,(%rdi)"),
+                (checkpoint, "lock", "cmpxchg %ecx,0x8(%rsi)"),
+                (monotonic, "cmpxchg", "%rcx,(%rsi)"),
+                (monotonic, "lock", "cmpxchg %rcx,%fs:(%rsi)")):
+            with self.subTest(context=context, mnemonic=mnemonic, operand=operand):
+                self.assertFalse(audit.owner_atomic(context, mnemonic, operand))
 
     def test_whole_32768_boundary_keeps_inherited_parent_frames_at_child(self):
         audit = load_tool()

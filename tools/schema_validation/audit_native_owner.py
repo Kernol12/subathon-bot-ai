@@ -53,7 +53,7 @@ def allowed_names(policy):
     suffixes = {
         "refuse(int)", "capacity_error(long)", "syscall_failure(long, int, bool)",
         "checkpoint(" + NS + "PhaseBase, " + NS + "PhaseEdge, long, bool)",
-        "adopted(" + slot + ")", "close_bare(" + slot + ")",
+        "adopted(" + slot + ")", "close_bare(" + slot + ", bool)",
         "close_work(" + slot + ", " + NS + "PhaseBase)", "still_working(long*)",
         "config_name()", "read_config()", "make_pipe(" + slot + ", " + slot + ", " + NS + "PhaseBase)",
         "prepare_sources()", "child_exit(int)", "child_refusal(bool)", "child()", "birth()",
@@ -114,8 +114,16 @@ def child_names(policy):
     names = {name for name in names if name != ENTRY and not name.startswith("int " + NS + "run_transport_v1<")
              and (not name.startswith(o + "::") or name in {o + "::child()", o + "::child_refusal(bool)", o + "::child_exit(int)"})}
     names.difference_update(syscall_name(policy, call) for call in range(20))
-    names.update(syscall_name(policy, call) for call in (4, 5, 9, 10, 11, 12, 16, 17))
+    names.update(syscall_name(policy, call) for call in (4, 5, 9, 10, 11, 12, 15, 16))
     return names
+
+
+def owner_atomic(name, mnemonic, operands):
+    """Only the two reviewed, width/register/address-exact shared CAS sites."""
+    return mnemonic == "lock" and (name, operands) in (
+        (NS + "fault::monotonic_ns()", "cmpxchg %rcx,(%rsi)"),
+        (NS + "fault::checkpoint(" + NS + "Phase, long)", "cmpxchg %ecx,(%rsi)"),
+    )
 
 
 def bounded_text(path):
@@ -360,7 +368,8 @@ def _audit_artifact(path, metadata_paths, policy, base):
     path = base["elf"](path)
     functions = base["disassembly"](path)
     names = allowed_names(policy)
-    seen_names = base["reachable"](functions, lambda name: name == ENTRY, lambda name: name in names)
+    seen_names = base["reachable"](functions, lambda name: name == ENTRY, lambda name: name in names,
+                                   extra_instruction=owner_atomic)
     reached = {address for address, (_, name, _) in functions.items() if name in seen_names}
     binary = {address: set() for address in reached}
     for address in reached:
@@ -398,9 +407,11 @@ def _audit_artifact(path, metadata_paths, policy, base):
     zero_edge(functions, birth, syscall_name(policy, 8), child)
     policy_zero_edge(functions, policy)
     raw_names = child_names(policy)
-    base["reachable"](functions, lambda name: name == child, lambda name: name in raw_names)
+    base["reachable"](functions, lambda name: name == child, lambda name: name in raw_names,
+                      extra_instruction=owner_atomic)
     base["reachable"](functions, lambda name: name == syscall_name(policy, 8),
-                      lambda name: name in raw_names or name == syscall_name(policy, 8))
+                      lambda name: name in raw_names or name == syscall_name(policy, 8),
+                      extra_instruction=owner_atomic)
     export_rows = [line.split() for line in base["command"]("nm", "-D", "--defined-only", str(path)).splitlines()]
     expected = {ENTRY}
     if policy == FAULT:
