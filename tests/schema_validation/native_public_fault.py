@@ -75,8 +75,10 @@ def load_native_oracles():
 
 def protocol_row(activation, outcome, status, expected, deadline=False, death=False):
     selected = [row for row in WIRE if row[1:6] == (activation, outcome, status, deadline, death)]
-    if len(selected) != 1 or selected[0][6] != expected:
-        raise AssertionError("Public fault input is outside the exact frozen23 tuples")
+    if not selected or any(row[6] != expected for row in selected):
+        raise AssertionError("Public fault input is outside the exact frozen23 rows")
+    # a1/e21 have identical wire conditions. Use the first literal name while
+    # both original call sites still execute their own fresh isolated child.
     return selected[0][0]
 
 

@@ -196,3 +196,50 @@ load/call, subprocess/thread/child/signal, compiler or runtime probe occurs in
 this assignment. C must review the actual corrected source; matching helper/
 kernel/child foundations, intended FIRST attribution, all passing full suites,
 source audits and latest-head normal PR77 merge gates remain. Finish77 then stop.
+
+## Correct identical public wire identities before route implementation
+
+Author A, 6 November2026. Separate branch
+`task/SCHEMATOOL-001-native-public-wire-identity`, tree
+`/tmp/subathon-schematool001-native-public-wire-identity`, starts at root
+`9fe8d17c130419b02ba1439f9fdc2702fd9cbfc0`. ONLY `native_public_fault.py` and
+this note change. Python binding implementation work remains isolated elsewhere;
+the public route body is explicitly held for the revised test gate.
+
+Root's actual first ported-public74 run at clean9a70ec0 exposed a genuine fixture
+defect: original rows a1 and e21 BOTH have empty activation, exact ok+LF outcome,
+normal0, no deadline and no signal, with expected validation_unavailable. The
+resolver incorrectly required exactly one matching named row and raised its own
+AssertionError before either affected public fault observation. Those errors do
+NOT establish reached route behavior. Other actual journal/PID route failures
+remain independent evidence; they must not be replayed merely for a tidy suite.
+
+The source correction keeps ALL23 literal rows/order/expected values, all30 closed
+helper IDs, original5 outer method bodies and every one of their23 separate
+`fault` calls. Matching now requires at least one exact five-field wire tuple AND
+agreement of EVERY matching row's independently literal expected outcome with
+the caller's expected outcome. Unknown input tuples, one-byte changes, wrong
+status/death/deadline or expected outcome still refuse. Equivalent names select
+the first literal row as a deterministic canonical private identity: the a1/e21
+tuple maps to a1. There are22 unique conditions and23 original executions; no
+call is cached, skipped, combined or converted to a simulated success.
+
+Actual child modes1/21 have the same closed activation/outcome/status behavior:
+both emit no activation, send identical ok+LF on4 and exit0. Canonical selection
+therefore preserves BOTH public call-site conditions and expected enum while
+each still launches its own fresh process. Direct native57 retains separate
+case21 coverage; all23 source rows remain selectable by the independent closed
+driver, including e21. No additional caller-name parameter, old method rewrite,
+fake result or fixture arm reset is introduced. The unknown-row diagnostic says
+`rows`, correcting the former claim that all23 tuples were distinct.
+
+Source-only checks PASS: Python3.10 AST/compile-without-exec, only `protocol_row`
+AST changed,23 rows/22 conditions with sole duplicate a1/e21 and same expected
+outcome, all public74/native57 source bytes exact; project426/122/current HTML,
+render--check current and git diff--check. No helper was invoked. No
+test/module/native import, candidate call, compile, subprocess/child, signal,
+SDK or prior FIRST replay occurs here. C must independently review this actual
+fixture correction before root observes the affected route conditions. Existing
+valid native69/binding9 and unaffected public failures remain scoped historical
+evidence; no public route body is authorized by this authoring alone. Finish77
+then stop and every remaining PR77 gate remain.
