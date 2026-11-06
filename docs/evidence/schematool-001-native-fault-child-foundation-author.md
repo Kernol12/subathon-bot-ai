@@ -95,3 +95,52 @@ import, thread, signal, child, SDK call or focused red was performed here. The
 current24 producer controls, new regression and remaining both-host helper/owner/
 binding/public/source/latest-head/normal PR77 merge gates remain distinct.
 Finish the existing PR77 and then stop remains the scope.
+
+## Child-only close-from correction after the actual controlled red
+
+Author A, 6 November2026. Separate branch
+`task/SCHEMATOOL-001-native-child-closefrom`, tree
+`/tmp/subathon-schematool001-native-child-closefrom`, starts at the preserved
+sentinel source `3fbd47db1cac7746ab3ee31c767adf61a4a4398a`. The preceding section
+is the historical pre-fix source stage; the fixture correction is authorized now
+because root observed the separately reviewed sentinel failure.
+
+Read actual root `dc9c66c` evidence `schematool-001-native-sentinel-red.md` and
+its adjacent raw receipt. At clean source
+`4a067cb83d0a1ec973032dd4cae9811cf4a154f9`, 19:35:28Z, after new-artifact strict
+static gates and exactly one passing no-child XML bootstrap, root invoked ONLY
+report28 `/23` once: CTest8, physical1 case, TWO reached literal failures
+count7 vs6 and slot6 FD64 vsUINTMAX. All four new sentinel checks and every other
+old packet/status/setup assertion passed. Foundation artifact SHA256 was
+`1d827e4a26a7fc75926d784c44c717b8a844372585c90b7ae49192af2ba3218e`;
+stdout4545B/SHA`5c763a3734ab42ff0b154af730e438201f79dbb205679966b1ebfbd2cd2578d1`,
+stderr27B/SHA`18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4`.
+CTest's duplicated verbose failed-body text caused the later naive RUN-token
+postprocessor assertion; the actual receipt/filter/summary prove one invocation.
+No replay for wrapper tidiness occurred or is requested.
+
+The ONLY CPP delta is
+`action(posix_spawn_file_actions_addclosefrom_np(&actions, 5));` immediately AFTER
+the existing dup-to3/4 actions and four known-source close actions. The existing
+checked action helper latches any registration error into setup failure before
+birth. When spawning, the additional action closes the child's remaining
+descriptors>=5 while keeping actual0/1/2 and protocol3/4; it never executes a
+close-from operation on the parent's runner descriptor table. Sentinel creation,
+parent close/state observations, pipe/pidfd cleanup, all24 literal rows and every
+assertion are byte-for-byte unchanged. No production owner/fallback, public API,
+ABI, fault-fixture map, compiler option or dependency changes.
+
+Read the actual `/usr/include/spawn.h` declaration and
+[glibc's primary addition/source](https://sourceware.org/pipermail/glibc-cvs/2021q3/073654.html):
+the API is versioned GLIBC_2.34 and adds a spawn file action for descriptors at or
+above the supplied boundary; Linux spawn uses a separate descriptor table. This
+is within the existing selected glibc2.35/2.39 and root local2.44 dependency scope,
+not new execution evidence or a production atomic-birth alternative.
+
+Source-only checks PASS: removing the one added call restores the complete prior
+CPP bytes; ordering after3/4 dup/known closes and before birth; clang-format
+dry-run; project426/122/current HTML; render--check current; git diff--check.
+No compile/link/configure, test listing/run, native artifact execution,
+SDK/worker/child/signal or replay occurs in this correction assignment. Different
+actual source review, rebuilt artifact gates and both-host56 GREEN still precede
+native-owner69 FIRST/implementation. All original PR77 gates remain.

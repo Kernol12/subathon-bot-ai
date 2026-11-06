@@ -128,6 +128,7 @@ TEST_P(NativeFaultChildBytes, ActualFixedExecBytesAndStatus) {
         action(posix_spawn_file_actions_adddup2(&actions, fds[3], 4));
         for (int fd : fds)
             action(posix_spawn_file_actions_addclose(&actions, fd));
+        action(posix_spawn_file_actions_addclosefrom_np(&actions, 5));
         sigset_t defaults, mask;
         sigemptyset(&defaults);
         sigemptyset(&mask);
