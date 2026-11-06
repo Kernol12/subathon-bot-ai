@@ -118,16 +118,25 @@ class Budget:
         # A checked upper bound covers URI joining BEFORE the library constructs
         # an alias. This is temporary working ownership, not a larger URI limit.
         upper = utf8_size(base) + utf8_size(reference) + 1
+        # Separate temporary join result and native resolver-base aliases. This
+        # is scratch admission; retain() admits the actual <=4096-byte key before
+        # it can become a persistent field or be supplied to native lookup.
+        upper *= 2
         self.reserve(upper, single=False)
         retained = [0]
-        def retain(value):
+        def admit(value):
             size = utf8_size(value)
-            if size > 4096 or size > upper or retained[0]:
+            if size > 4096 or size > upper // 2:
                 refuse("resource_limit")
-            retained[0] = size
+            return value
+        def retain(value):
+            admit(value)
+            if retained[0]:
+                refuse("resource_limit")
+            retained[0] = utf8_size(value)
             return value
         try:
-            yield retain
+            yield admit, retain
         finally:
             self.key_bytes -= upper - retained[0]
 
@@ -177,8 +186,7 @@ class Node:
     value: object
     number: int
     parent_schema: int | None = None
-    edge: str = "inventory"
-    dialect: str = DRAFT
+    dialect: int = 0  # 0=Draft202012, 1=OAS31; no retained dialect-URI alias.
     scope: object = None
     uri: str = ""
 

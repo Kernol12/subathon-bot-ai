@@ -17,7 +17,10 @@ class Index:
     def __init__(self, specs, values, budget):
         self.specs, self.values = specs, values
         self.budget = budget
-        self.order = {name: i for i, name in enumerate(specs)}
+        self.order = {}
+        for i, name in enumerate(specs):
+            self.budget.key(name)
+            self.order[name] = i
         self.nodes = {}
         self.records = []
         self.schemas = []
@@ -34,27 +37,38 @@ class Index:
             root = self.add(name, "", "Schema" if kind == "jsonschema202012" else "Document", values[name])
             self.roots.append(root)
             self.walk(root)
-        self.ordered = sorted(self.nodes.values(), key=lambda n: (self.order[n.document], n.pointer, n.role))
-        self.schemas.sort(key=lambda n: (self.order[n.document], n.pointer))
+        with self.budget.lease() as sorting:
+            for node in self.nodes.values():
+                sorting.claim(node.pointer, node.role)
+            self.ordered = sorted(self.nodes.values(), key=lambda n: (self.order[n.document], n.pointer, n.role))
+        with self.budget.lease() as sorting:
+            for node in self.schemas:
+                sorting.claim(node.pointer)
+            self.schemas.sort(key=lambda n: (self.order[n.document], n.pointer))
+
+    def capacity(self, count):
+        if count > 4096 - len(self.nodes):
+            refuse("resource_limit")
 
     def add(self, document, pointer, role, value, parent=None, edge="inventory"):
-        self.budget.reserve(utf8_size(document) + len(role), single=False)
+        # The tuple AND the retained record fields are separate spelling slots.
+        # The first pointer slot was reserved before its construction by pointer().
+        aliases = 2 * (utf8_size(document) + len(role)) + utf8_size(pointer)
+        self.budget.reserve(aliases, single=False)
         identity = document, pointer, role
         if identity in self.nodes:
-            self.budget.key_bytes -= utf8_size(document) + len(role) + utf8_size(pointer)
+            self.budget.key_bytes -= aliases + utf8_size(pointer)
             return self.nodes[identity]
         if len(self.nodes) >= 4096:
             refuse("resource_limit")
-        # The sole physical-key table owns each pre-reserved spelling. Other
-        # graph tables use the bounded integer record number, never copied keys.
-        node = Node(document, pointer, role, value, len(self.records), parent.number if parent else None, edge)
+        node = Node(document, pointer, role, value, len(self.records), parent.number if parent else None)
         self.nodes[identity] = node
         self.records.append(node)
         if role == "Schema":
-            node.dialect = DRAFT if self.specs[document] == "jsonschema202012" else OAS
+            node.dialect = 0 if self.specs[document] == "jsonschema202012" else 1
             if parent is not None:
                 node.dialect = parent.dialect
-                self.applications.append((parent.number, node.number, edge))
+                self.applications.append((parent.number, node.number, 0 if edge == "same" else 1))
             self.schemas.append(node)
         return node
 
@@ -69,8 +83,11 @@ class Index:
     def mapping(self, parent, key, role):
         value = parent.value
         if type(value) is dict and type(value.get(key)) is dict:
+            self.capacity(len(value[key]))
             result = []
-            with self.budget.temporary_pointer(parent.pointer, key) as pointer:
+            with self.budget.temporary_pointer(parent.pointer, key) as pointer, self.budget.lease() as sorting:
+                for name in value[key]:
+                    sorting.claim(name)
                 for name in sorted(value[key]):
                     child = self.add(parent.document, self.budget.pointer(pointer, name), role, value[key][name])
                     self.walk(child)
@@ -81,6 +98,7 @@ class Index:
     def array(self, parent, key, role):
         value = parent.value
         if type(value) is dict and type(value.get(key)) is list:
+            self.capacity(len(value[key]))
             with self.budget.temporary_pointer(parent.pointer, key) as pointer:
                 for i, item in enumerate(value[key]):
                     self.walk(self.add(parent.document, self.budget.pointer(pointer, i), role, item))
@@ -111,18 +129,23 @@ class Index:
             if type(value.get("examples")) is list:
                 if len(value["examples"]) > 256:
                     refuse("resource_limit")
+                self.capacity(len(value["examples"]))
                 with self.budget.temporary_pointer(node.pointer, "examples") as prefix:
                     for i, item in enumerate(value["examples"]):
                         p = self.budget.pointer(prefix, i)
                         self.annotations.append((self.data(node, p, item).number, node.number))
             for keyword, edge in MAP_SCHEMA.items():
                 if type(value.get(keyword)) is dict:
-                    with self.budget.temporary_pointer(node.pointer, keyword) as p:
+                    self.capacity(len(value[keyword]))
+                    with self.budget.temporary_pointer(node.pointer, keyword) as p, self.budget.lease() as sorting:
+                        for key in value[keyword]:
+                            sorting.claim(key)
                         for key in sorted(value[keyword]):
                             child = self.add(node.document, self.budget.pointer(p, key), "Schema", value[keyword][key], node, edge)
                             self.walk(child)
             for keyword, edge in ARRAY_SCHEMA.items():
                 if type(value.get(keyword)) is list:
+                    self.capacity(len(value[keyword]))
                     with self.budget.temporary_pointer(node.pointer, keyword) as p:
                         for i, item in enumerate(value[keyword]):
                             self.walk(self.add(node.document, self.budget.pointer(p, i), "Schema", item, node, edge))
@@ -172,9 +195,13 @@ class Index:
             if "callbacks" in value:
                 self.unsupported.append(node)
         elif role == "Responses":
-            for key in sorted(value):
-                if not key.startswith("x-"):
-                    self.walk(self.add(node.document, self.budget.pointer(node.pointer, key), "Response", value[key]))
+            self.capacity(sum(not key.startswith("x-") for key in value))
+            with self.budget.lease() as sorting:
+                for key in value:
+                    sorting.claim(key)
+                for key in sorted(value):
+                    if not key.startswith("x-"):
+                        self.walk(self.add(node.document, self.budget.pointer(node.pointer, key), "Response", value[key]))
         elif role == "Response":
             self.mapping(node, "headers", "Header")
             self.mapping(node, "content", "MediaType")
@@ -240,7 +267,7 @@ class Index:
             if "$schema" in value:
                 if type(value["$schema"]) is not str or value["$schema"] not in allowed:
                     refuse("unsupported_dialect")
-                node.dialect = value["$schema"]
+                node.dialect = 0 if value["$schema"] == DRAFT else 1
             elif node.parent_schema is not None:
                 node.dialect = self.records[node.parent_schema].dialect
             if "$vocabulary" in value:

@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+from contextlib import contextmanager
 from urllib.parse import unquote, urldefrag, urljoin
 
 from jsonschema import Draft202012Validator
@@ -30,7 +31,10 @@ class Backend:
     def __init__(self, index, sdk):
         self.index = index
         self.budget = index.budget
-        self.documents = {name: self.budget.prefixed(BASE, name) for name in index.specs}
+        self.documents = {}
+        for name in index.specs:
+            self.budget.key(name)
+            self.documents[name] = self.budget.prefixed(BASE, name)
         self.resources = {}
         self.anchors = {}
         self.targets = {}
@@ -39,6 +43,8 @@ class Backend:
         self.schema_roots = {}
         for node in index.schemas:
             if node.parent_schema is None and index.specs[node.document] == "openapi31":
+                if node.document not in self.schema_roots:
+                    self.budget.key(node.document)
                 self.schema_roots.setdefault(node.document, []).append(node.number)
         self.official = Registry(retrieve=deny).with_resources((uri, OFFICIAL[uri]) for uri in OFFICIAL).crawl()
         path = os.path.join(sdk, "openapi_spec_validator/resources/schemas/v3.1/schema.json")
@@ -53,7 +59,7 @@ class Backend:
         self.oas_structure = Draft202012Validator(self.oas_meta, registry=self.official)
 
     def validator_class(self, node):
-        return Draft202012Validator if node.dialect == DRAFT else OAS31Validator
+        return Draft202012Validator if node.dialect == 0 else OAS31Validator
 
     def validate(self, bindings, values, aliases):
         if self.index.unsupported or any(s is None for _, s in self.index.annotations + self.index.example_uses):
@@ -88,7 +94,8 @@ class Backend:
         if previous is None:
             if len(self.resources) >= 256:
                 refuse("resource_limit")
-            self.resources[uri] = node.number  # Borrow the single admitted URI owner.
+            self.budget.key(uri)  # This map-key occurrence is additional.
+            self.resources[uri] = node.number
 
     def registry_and_scopes(self):
         # Scope traversal follows actual indexed schema ancestry and native IDs.
@@ -102,25 +109,30 @@ class Backend:
             identifier = resource.id()
             if identifier is not None:
                 self.budget.key(identifier)
-                with self.budget.uri_workspace(base, identifier) as retain:
-                    scope = empty.resolver(base_uri=base).in_subresource(resource)
-                    # Workspace was reserved BEFORE native URI joining; transfer
-                    # only the actual canonical spelling to its retained owner.
-                    node.uri = retain(SchemaAccessor(node.value, scope, resolved_cache_maxsize=0).base_uri)
-            else:
-                # Native no-id traversal keeps the existing URI spelling. There
-                # is no new materialized alias: borrow the established owner.
+            with self.budget.uri_workspace(base, identifier or "") as (_admit, retain):
                 scope = empty.resolver(base_uri=base).in_subresource(resource)
-                node.uri = base
+                # Charge this retained field EVEN for the same no-id base string.
+                node.uri = retain(SchemaAccessor(node.value, scope, resolved_cache_maxsize=0).base_uri)
+                del scope  # Temporary native base field ends before scratch exits.
             if identifier is not None:
                 # A root's retrieval URI and its canonical ID may both name it.
                 self.add_resource(node.uri, node)
+            anchor_name = node.value.get("$anchor") if type(node.value) is dict else None
+            if anchor_name is not None:
+                # Own tuple URI/name plus native registry tuple URI/name and
+                # native Anchor.name. Reserve BEFORE native Anchor construction.
+                self.budget.key(node.uri)
+                self.budget.key(anchor_name)
+                self.budget.key(node.uri)
+                self.budget.key(anchor_name)
+                self.budget.key(anchor_name)
             for anchor in resource.anchors():
-                self.budget.key(anchor.name)
                 key = node.uri, anchor.name
                 if key in self.anchors:
                     refuse("unresolved_reference")
                 self.anchors[key] = node.number
+            if anchor_name is not None:
+                del anchor  # No transient Anchor survives into native crawl.
 
         def id_of(value):
             return DRAFT202012.id_of(value) if type(value) is bool or id(value) in self.by_object else None
@@ -141,8 +153,8 @@ class Backend:
             resource = subresource
             value = resource.contents
             def matches(candidate):
-                parts = self.parts(candidate.pointer)
-                return len(parts) == len(segments) and all(a == str(b) for a, b in zip(parts, segments))
+                with self.pointer_parts(candidate.pointer) as parts:
+                    return len(parts) == len(segments) and all(a == str(b) for a, b in zip(parts, segments))
             number = self.by_object.get(id(value)) if type(value) is dict else None
             node = self.index.records[number] if number is not None else None
             if node is None and type(value) is bool:
@@ -166,18 +178,44 @@ class Backend:
 
         bridge = Specification(name="subathon-oas31-physical-schema-context", id_of=id_of,
                                subresources_of=subresources, anchors_in=anchors, maybe_in_subresource=enter)
-        registry = Registry(retrieve=deny)
-        for root in self.index.roots:
-            specification = bridge if root.role == "Document" else DRAFT202012
-            registry = registry.with_resource(self.documents[root.document], specification.create_resource(root.value))
-        self.registry = registry.crawl()
-        # All IDs/anchors were checked BEFORE crawl could overwrite a declaration.
+        # Persistent native resource-map key occurrences are separate from ours.
+        for uri in self.resources:
+            self.budget.key(uri)
+        with self.budget.lease() as native_work:
+            # The native crawl queue may retain one parent base per Schema.
+            for node in self.index.schemas:
+                parent = self.index.records[node.parent_schema] if node.parent_schema is not None else None
+                native_work.claim(parent.uri if parent is not None else self.documents[node.document])
+            for root in self.index.roots:
+                uri = self.documents[root.document]
+                native_work.claim(uri, uri)  # input map/root uncrawled-set slots
+                if root.role == "Document":
+                    native_work.claim(uri)  # the non-Schema OAS root queue entry
+            registry = Registry(retrieve=deny)
+            for root in self.index.roots:
+                specification = bridge if root.role == "Document" else DRAFT202012
+                registry = registry.with_resource(self.documents[root.document], specification.create_resource(root.value))
+            self.registry = registry.crawl()
+            del registry  # Original map/pending-set aliases are now released.
+            if len(self.registry) != len(self.resources) or any(uri not in self.resources for uri in self.registry):
+                refuse("validation_unavailable")
+        # Native crawl locals/queue are gone. Each NEW retained resolver base is
+        # separately charged BEFORE construction, even if Node.uri is identical.
         for node in self.index.schemas:
+            self.budget.key(node.uri)
             node.scope = self.registry.resolver(base_uri=node.uri)
 
     @staticmethod
     def parts(pointer):
         return tuple(x.replace("~1", "/").replace("~0", "~") for x in pointer[1:].split("/")) if pointer else ()
+
+    @contextmanager
+    def pointer_parts(self, pointer):
+        # Split source segments and decoded segments coexist during construction;
+        # each list/tuple spelling sum is bounded by the admitted raw pointer.
+        with self.budget.lease() as working:
+            working.claim(pointer, pointer)
+            yield self.parts(pointer)
 
     def locate(self, node, reference):
         resolver = node.scope if node.role == "Schema" else self.registry.resolver(base_uri=self.documents[node.document])
@@ -185,10 +223,8 @@ class Backend:
         # Native lookup owns URI/resource/pointer/anchor semantics. Physical
         # metadata below verifies the required target role, not assertion truth.
         try:
-            with self.budget.uri_workspace(base, reference):
-                absolute = urljoin(base, reference)
-                if utf8_size(absolute) > 4096:
-                    refuse("resource_limit")
+            with self.budget.uri_workspace(base, reference) as (admit, _retain):
+                absolute = admit(urljoin(base, reference))
                 # Both join workspace and the maximum result were admitted
                 # BEFORE any native lookup; no URI alias survives this block.
                 resolved = resolver.lookup(absolute)
@@ -204,18 +240,19 @@ class Backend:
                     value = resource.value
                     physical, held = resource.pointer, 0
                     try:
-                        for part in self.parts(pointer):
-                            if type(value) is dict and part in value:
-                                value = value[part]
-                            elif (type(value) is list and part.isascii() and part.isdigit()
-                                  and (part == "0" or not part.startswith("0")) and len(part) < 8 and int(part) < len(value)):
-                                part = int(part)
-                                value = value[part]
-                            else:
-                                refuse("unresolved_reference")
-                            physical = self.budget.pointer(physical, part)
-                            self.budget.key_bytes -= held
-                            held = utf8_size(physical)
+                        with self.pointer_parts(pointer) as parts:
+                            for part in parts:
+                                if type(value) is dict and part in value:
+                                    value = value[part]
+                                elif (type(value) is list and part.isascii() and part.isdigit()
+                                      and (part == "0" or not part.startswith("0")) and len(part) < 8 and int(part) < len(value)):
+                                    part = int(part)
+                                    value = value[part]
+                                else:
+                                    refuse("unresolved_reference")
+                                physical = self.budget.pointer(physical, part)
+                                self.budget.key_bytes -= held
+                                held = utf8_size(physical)
                         target = self.index.nodes.get((resource.document, physical, node.role))
                     finally:
                         self.budget.key_bytes -= held
@@ -231,13 +268,17 @@ class Backend:
             refuse("unresolved_reference")
 
     def closure(self):
-        for node in sorted(self.index.references, key=lambda n: (self.index.order[n.document], n.pointer)):
+        with self.budget.lease() as sorting:
+            for node in self.index.references:
+                sorting.claim(node.pointer)
+            ordered = sorted(self.index.references, key=lambda n: (self.index.order[n.document], n.pointer))
+        for node in ordered:
             self.targets[node.identity] = self.locate(node, node.value["$ref"]).number
 
     def cycles(self):
         outgoing = {node.identity: [] for node in self.index.schemas}
         for parent, child, kind in self.index.applications:
-            if kind == "same":
+            if kind == 0:
                 outgoing[parent].append(child)
         for source, target in self.targets.items():
             outgoing.setdefault(source, []).append(target)
@@ -326,7 +367,15 @@ class Backend:
     def instance(self, schema, value, error):
         uri = self.budget.control(self.documents[schema.document], schema.pointer)
         try:
-            self.validator_class(schema)({"$ref": uri}, registry=self.registry).validate(value)
+            # Native construction combines its finite official registry with the
+            # package registry. Charge its additional package-key occurrences
+            # while that native evaluation view exists, before construction.
+            with self.budget.lease() as native_evaluation:
+                for resource_uri in self.resources:
+                    native_evaluation.claim(resource_uri)
+                for anchor_uri, anchor_name in self.anchors:
+                    native_evaluation.claim(anchor_uri, anchor_name)
+                self.validator_class(schema)({"$ref": uri}, registry=self.registry).validate(value)
         except (SchemaError, ValidationError):
             refuse(error)
         finally:
@@ -334,6 +383,10 @@ class Backend:
             self.budget.key_bytes -= len(uri.encode("utf-8")) + 4
 
     def path_cursor(self, name):
+        # The native semantic validator/cache may retain this accessor's root
+        # resolver and the closure document-name cell until worker exit.
+        self.budget.key(name)
+        self.budget.key(self.documents[name])
         backend = self
         class ContextAccessor(SchemaAccessor):
             def context(self, parts):
@@ -353,7 +406,7 @@ class Backend:
                                 node = backend.alias(node)
                             document, pointer, value = node.document, node.pointer, node.value
                             backend.budget.key_bytes -= held
-                            held = 0  # Borrow the physical key's single owner.
+                            held = 0  # No NEW local spelling survives the call.
                             if node.role == "Schema":
                                 scope = node.scope
                             else:
@@ -378,7 +431,10 @@ class Backend:
                 # The real context accessor keeps literal DATA opaque, including
                 # aliases reached through genuine typed Reference Object edges.
                 resolved, data = self.accessor.context(self.parts)
-                return resolved.contents if data else super().read_value()
+                if data:
+                    return resolved.contents
+                del resolved  # Do not retain a duplicate temporary root resolver.
+                return super().read_value()
 
         accessor = ContextAccessor(self.index.values[name], self.registry.resolver(base_uri=self.documents[name]), resolved_cache_maxsize=0)
         return RawDataPath(accessor)

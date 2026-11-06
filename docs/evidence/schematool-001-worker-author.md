@@ -128,9 +128,10 @@ These additions do not alter the original64 source or rewrite a contract oracle.
 
 The same actual audit found incomplete retained graph-key ownership. Node identity
 is now a bounded integer record ID. Edges, visits, parent links, default/example
-associations and inventory pairs carry IDs; a single physical-key table owns
-document/pointer/discriminator spellings. Resource and anchor tables borrow those
-admitted URI owners and carry record IDs. Source binding/duplicate-check aliases,
+associations and inventory pairs carry IDs. The dc1 revision's attempted single-
+owner treatment still undercounted persistent string aliases; actual root/C review
+rejected that accounting. The subsequent correction below counts those slots
+separately. Source binding/duplicate-check aliases,
 file alias maps and snapshots share ONE Budget constructed before package loading,
 instead of escaping accounting before Index construction. Explicit temporary key
 leases transfer ownership across package-shape/load scopes without a free gap.
@@ -172,3 +173,41 @@ again PASS3/7 in1.401s. C's PUBLIC lexical module was not run in this worker-onl
 tree because the public source here remains the frozen inert interface; root must
 run that actual unchanged new module with the integrated parent/corrected worker.
 No parent source was copied/changed by this author and no original64 was replayed.
+
+## Current literal alias and sorting accounting
+
+The physical key tuple AND Node.document/pointer/role fields each count separately.
+Node.uri is separately charged even without an id, as is each retained native
+resolver-base field. The own resource-map URI key and actual native registry URI
+key each count. Own anchor tuple URI/name, native registry tuple URI/name and
+native Anchor.name each count before construction. Document-name dictionary keys,
+native semantic accessor root-base/closure-name fields and the additional package
+keys in native combined evaluation registries are also reserved. Numeric dialect
+tags replace unnecessary persistent dialect-URI labels. No shared/interned string
+or persistent field is declared free merely by calling it borrowed.
+
+Known child counts are checked against4096 BEFORE sorting any Schema/typed map or
+array. Raw-name sort lists and pointer/role sort-key tuples reserve their spelling
+occurrences before sort construction and release after the actual sort lifetime;
+raw-name list reservations stay held during child graph growth. Pointer segment
+split/decode workspace is likewise bounded/reserved before creation. Native crawl
+queue parent-base aliases and original root/pending-set aliases have a scoped
+reservation; those are released only after crawl/input objects finish, before
+separately admitting the persistent Node.scope resolver-base fields.
+
+URI joining now has an explicitly temporary bounded workspace, separate from
+`admit`/`retain` of the actual <=4096-byte key. A join result is checked before
+native lookup or persistent field assignment. Temporary closure URI/pointer
+locals escape no numeric edge/target table and release at the end of that lookup;
+retained aliases remain charged. Native internal allocator overhead still belongs
+to the separate fixed worker address/deadline limits, not a claimed byte-perfect
+Python heap meter. Existing1MiB/4096 ceilings and baseline assertions are unchanged.
+Different actual root/C review of these corrections is still required.
+
+The corrected alias/sorting source passed the unchanged context3/7 regression
+(1.350s), the separate author-local6+23+35 worker observations, Python3.10
+AST/compile admission, project426/122, render--check and whitespace. In particular
+the4095-child/4096-context positive,2048-ref positive and4096-byte encoded-control
+positive remained passing with the additional real alias charges. None of these
+partial controls is the original public64 suite or an approval of this author's
+own source; matching integration/public regressions/hosted gates stay open.
