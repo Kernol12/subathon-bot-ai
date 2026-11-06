@@ -135,6 +135,11 @@ class NativeOwnerAuditControls(unittest.TestCase):
                             (1, "lea", "-0x0(%rbp),%rsp")):
             with self.subTest(fixed_stack_refusal=instruction), self.assertRaises(RuntimeError):
                 audit.fixed_rsp([instruction])
+        for instruction in ((1, "add", "$0x080,%rsp"),
+                            (1, "sub", "$0x00000000000000000080,%rsp"),
+                            (1, "lea", "-0x010(%rbp),%rsp")):
+            with self.subTest(noncanonical_stack=instruction), self.assertRaises(RuntimeError):
+                audit.fixed_rsp([instruction])
 
     def test_whole_32768_boundary_keeps_inherited_parent_frames_at_child(self):
         audit = load_tool()

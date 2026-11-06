@@ -339,3 +339,24 @@ render --check` current; `git diff --check` PASS. Actual different source/policy
 review is required before control or artifact reruns. No checker/control import/run, binutils or
 artifact audit/load, compile, native/SDK/worker/child/probe occurred here; no
 owner runtime success or completion is claimed.
+
+## Canonical one-word hex spelling correction before rerun
+
+Author A,6November2026. New isolated branch
+`task/SCHEMATOOL-001-native-owner-audit-canonical-stack`, tree
+`/tmp/subathon-schematool001-native-owner-audit-canonical-stack`, from actual
+`814c82867d7bd2854e362cec67450421f177aefd`. Root's actual source review found
+the prior unbounded hex regex admitted leading-zero spellings despite the
+chosen canonical single64-bit-word profile. No checker/control rerun intervened.
+
+Only the two regex literals change: ADD/SUB uses canonical `0` or1..16 lowercase
+hex digits beginning nonzero; negative RBP LEA uses1..16 digits beginning
+nonzero. Signed64 decoding, numeric magnitude/alignment checks and every other
+checker rule remain unchanged. The existing admission method appends exactly
+three literal refusals: ADD`0x080`, SUB`0x00000000000000000080`, and LEA`-0x010`.
+All old assertions and the five-method inventory are retained. Source-only
+Python3.10 AST/compile-without-execution proves exactly two checker regex
+constants changed and four other method ASTs/all old admission statements are
+unchanged. Project426/122, render--check and diff--check PASS. No checker/control
+imports/runs, artifact/binutils/native/worker
+execution or build occurs here. Actual different review precedes reruns.
