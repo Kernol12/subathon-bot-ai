@@ -151,3 +151,5 @@ Root explicitly requested source-based investigation after this handoff and a
 separately reviewed meaningful regression before any constructor fix. No further
 production change, signal handler/mask change or new knob is authorized by these
 passing two cases. Worker/full acceptance/source/integration/ordinaryCI gates stay.
+
+Root integration preserves the exact observed raw [stderr](schematool-001-parent-cleanup-first-red.stderr.txt), [stdout](schematool-001-parent-cleanup-first-red.stdout.txt) and [receipt](schematool-001-parent-cleanup-first-red.receipt.json) byte-for-byte. No replay. This integration link does not approve the author's own code or the separate Popen constructor ownership gate.

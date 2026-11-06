@@ -7,7 +7,7 @@ stdout/stderr/receipt from `/tmp/schematool001-worker-context-first.{stdout,stde
 checked exact4158-byte stderr SHA256
 `f93e8925f83b0925c11e41eee10131f33833f8dbe8c1078db498f9c893cb4cbb` and empty stdout.
 Verdict: observed intended reached-bug red APPROVED; no replay or production change
-was run by this reviewer. Author will preserve the same raw artifacts in evidence.
+was run by this reviewer. Raw artifacts are preserved byte-for-byte as [stderr](schematool-001-worker-context-first-red.stderr.txt), [stdout](schematool-001-worker-context-first-red.stdout.txt) and [receipt](schematool-001-worker-context-first-red.receipt.json).
 
 Native exit1,3 methods,1.453s suite /1.515838s external wall,3 assertion failures,
 zero errors/skips. Four positive literal observations passed: dynamic property
