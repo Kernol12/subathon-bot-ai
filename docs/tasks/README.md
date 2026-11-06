@@ -80,7 +80,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-004 — Timed modifiers, stacking and arrival-time context](EPIC-004.md) | 6 | 12 |
 | [EPIC-005 — Sequential milestones and persisted action delivery](EPIC-005.md) | 8 | 16 |
 | [EPIC-006 — Invites, permissions, local/Twitch identities and chat roles](EPIC-006.md) | 7 | 14 |
-| [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 8 | 15 |
+| [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 9 | 16 |
 | [EPIC-008 — Qt/Drogon API server, durable intake and live snapshots](EPIC-008.md) | 9 | 18 |
 | [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 21 | 39 |
 | [EPIC-010 — Twitch API, EventSub and both chat identities](EPIC-010.md) | 6 | 11 |
@@ -102,7 +102,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
 
-Total: 192 work packages, 352 child records
+Total: 193 work packages, 353 child records
 (test baselines, their paired implementations, and distinct feasibility,
 verification and documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.
@@ -137,5 +137,6 @@ planner, modifier/milestone and checkpoint/recovery/release gates remain require
 
 [CONTRACTPLAN-004](CONTRACTPLAN-004.md) and
 [ADR-0007](../decisions/0007-session-contract-prerequisite.md) expose the missing
-[SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) document before session
+[SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) supplier and
+[SESSIONCONTRACT-002](EPIC-007/SESSIONCONTRACT-002.md) transport documents before session
 baselines and the reference HTTP schema; runtime authentication gates remain.

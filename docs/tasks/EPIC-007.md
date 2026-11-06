@@ -10,7 +10,8 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| [SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) | Reviewed current-session supplier and credential-transport document |
+| [SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) | Reviewed current-session supplier and token lifecycle document |
+| [SESSIONCONTRACT-002](EPIC-007/SESSIONCONTRACT-002.md) | Reviewed browser/desktop credential transport document |
 | `SESSIONTEST-001` → [SESSION-001](EPIC-007/SESSION-001.md) | Password hashing and parameter upgrades |
 | `SESSIONTEST-002` → [SESSION-002](EPIC-007/SESSION-002.md) | Opaque sessions expiry revocation and freshness |
 | `SESSIONTEST-003` → [SESSION-003](EPIC-007/SESSION-003.md) | Browser cookie CSRF and desktop header transport |
