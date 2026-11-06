@@ -537,9 +537,8 @@ TEST(SchemaNativeFoundation, InvalidManifestRefusesBeforeOwnership) {
     // ABI admission rejects a null manifest before resource acquisition (native contract section2).
     const unsigned char interpreter[] = "/usr/bin/python3";
     const unsigned char worker[] = "/synthetic/worker.py", sdk[] = "/synthetic/sdk";
-    EXPECT_EQ(subathon_schema_transport_v1(nullptr, 0, interpreter,
-                                           sizeof(interpreter) - 1, worker, sizeof(worker) - 1, sdk,
-                                           sizeof(sdk) - 1),
+    EXPECT_EQ(subathon_schema_transport_v1(nullptr, 0, interpreter, sizeof(interpreter) - 1, worker,
+                                           sizeof(worker) - 1, sdk, sizeof(sdk) - 1),
               2);
 }
 

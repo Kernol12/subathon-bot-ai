@@ -382,9 +382,9 @@ TEST(NativeFaultFoundation, IdleArmInvalidManifestThenTerminalCancel) {
     value.start(25, 19, 0); // A real idle signal controller must not send without a phase/child.
     const unsigned char interpreter[] = "/usr/bin/python3";
     const unsigned char worker[] = "/synthetic/worker.py", sdk[] = "/synthetic/sdk";
-    const int result = subathon_schema_transport_v1(nullptr, 0, interpreter,
-                                                    sizeof(interpreter) - 1, worker,
-                                                    sizeof(worker) - 1, sdk, sizeof(sdk) - 1);
+    const int result =
+        subathon_schema_transport_v1(nullptr, 0, interpreter, sizeof(interpreter) - 1, worker,
+                                     sizeof(worker) - 1, sdk, sizeof(sdk) - 1);
     const int count = value.snapshot();
     value.finish();
     const long after = clock_now();
