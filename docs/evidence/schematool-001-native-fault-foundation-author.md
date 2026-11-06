@@ -191,3 +191,33 @@ checkpoint and freshECHILD/exit before disposal verified. `clang-format --dry-ru
 PASS; `python3 tools/check_project.py` PASS426/122;
 `python3 tools/progress.py render --check` current; `git diff --cached --check`
 PASS before commit. No source import/compile/runtime/discovery/probe was executed.
+
+## Narrow raw-child scalar-store correction
+
+Root's actual static audit of the newly built helper graph failed closed on
+GNU16-generated pxor/movaps for padding initialization in the two aggregate
+Observation declarations inside primitive_child. No input ELF ran. Root explicitly
+assigned this source-only correction from preserved `7b86c25`, retaining that
+source/tree and all observed static evidence (including
+`/tmp/schematool001-helper-fault-audit.stderr.txt` in root's evidence packet).
+
+Only those two initializers become local Observation objects with individual
+kind, phase.base, phase.edge, descriptor, actual getpid and result assignments.
+The actual field values remain syscall-return/config-read/BEFORE/-1/actualPID
+and -EIO or0 respectively. No brace-zeroing, whole-Phase copy or padding read is
+introduced; record receives the same fully initialized semantic members by const
+reference. No test body/assertion,23+1 inventory, driver/control behavior, gate
+opcode allowance, compiler option or parent-side aggregate is changed. Parent
+code may retain compiler SIMD; the copied raw-child graph remains strict.
+
+Actual different source review and root's rebuild/generated-code audit must
+precede runtime. Explicit stores are a source hypothesis, not a claimed binary
+proof. No compilation/disassembly/checker/native loading or test was performed by
+this author. Static preservation/format/doc checks are recorded before commit.
+Actual source-only comparison substitutes those two exact scalar-store sequences
+back to their prior initializers and proves every remaining source token and
+EXPECT/ASSERT invocation identical to `7b86c25`;24 helper cases unchanged. Format
+check `clang-format --dry-run --Werror tests/schema_validation/native_fault_foundation.cpp`
+PASS; `python3 tools/check_project.py` PASS426/122;
+`python3 tools/progress.py render --check` current; `git diff --cached --check`
+PASS before commit. No source import/compiler/checker/disassembler/test ran here.

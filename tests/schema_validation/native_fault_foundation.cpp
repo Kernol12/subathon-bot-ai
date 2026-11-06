@@ -187,8 +187,13 @@ bool token(int descriptor, char expected) noexcept {
         raw(SYS_close, coord[0]);
         raw(SYS_close, coord[3]);
         for (unsigned index = 0; index < 32; ++index) {
-            const native::Observation value{native::ObservationKind::syscall_return, read_before,
-                                            -1, raw(SYS_getpid), -EIO};
+            native::Observation value;
+            value.kind = native::ObservationKind::syscall_return;
+            value.phase.base = read_before.base;
+            value.phase.edge = read_before.edge;
+            value.descriptor = -1;
+            value.pid = raw(SYS_getpid);
+            value.result = -EIO;
             if (!fault::record(fault::Writer::child, value))
                 schema_foundation::finish(77);
         }
@@ -201,8 +206,13 @@ bool token(int descriptor, char expected) noexcept {
         schema_foundation::finish(74);
     }
     if (mode == 2) {
-        const native::Observation excess{native::ObservationKind::syscall_return, read_before, -1,
-                                         raw(SYS_getpid), 0};
+        native::Observation excess;
+        excess.kind = native::ObservationKind::syscall_return;
+        excess.phase.base = read_before.base;
+        excess.phase.edge = read_before.edge;
+        excess.descriptor = -1;
+        excess.pid = raw(SYS_getpid);
+        excess.result = 0;
         if (fault::record(fault::Writer::child, excess))
             schema_foundation::finish(75);
     }
