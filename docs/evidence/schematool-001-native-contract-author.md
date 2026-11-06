@@ -38,8 +38,8 @@ cannot return early merely to meet a non-real-time wall promise.
 The negative-only seam is a separate DSO using the same owner/core bytes/options,
 native syscall/phase/clock adapter, real negative children, bounded raw identity
 ledger and pre-fallback FD/reap observations. No callable/result replacement or
-production fault option. The contract fixes the three test-only C helper signatures,
-64-record/eight-int64 layout, 28 closed case IDs and 19 phase bases; their actual
+production fault option. The contract fixes four test-only C helper signatures,
+128-record/eight-int64 selected-journal layout, 28 closed case IDs and 19 phase bases; their actual
 minimal header/source still needs separate review, and no header is authored here. Normal/domain
 checks remain real production owner+worker+SDK. The 74-map preserves literal
 oracles while requiring mechanism ports and stronger native no-call guards.
@@ -69,3 +69,34 @@ build, candidate/SDK import, test/helper/worker body, clone/child/signal or inst
 was executed. Different actual contract and shared-policy reviews are next; later
 minimal harness/test review, real green foundations, new red, code review/full
 acceptance/hosted receipts remain mandatory separate gates.
+
+## Actual review correction before contract approval
+
+C's review of actual acb1c8c/ddad found two genuine document-testability gaps:
+the 64-record wording appeared to promise every syscall/clock/signal-loop event
+without a bound, and private child VM does not publish its ledger to the parent.
+Root explicitly reassigned only these two documents for correction; parent3438
+and all source/test/header/build/shared contracts remain frozen.
+
+The corrected journal is SELECTED, not a full trace: parent 64/child 32/controller
+32, with explicit maxima 36/27/24 entries and mandatory actual parent FD lifetime
+records. It adds a test-only pre-birth anonymous MAP_SHARED fixed mapping and
+single-writer native publication; after exec that mapping is gone. Case 28 instead
+reports raw descriptor/signal observations in an exact 248-byte intentionally
+invalid packet on existing outcome4, with no A/extra inherited descriptor or fake
+validation. A separately tracked parent-only read duplicate permits exact capture
+without changing core reads/decoder, and a fourth test-only helper copies those
+bytes after return. Raw packet assertions and invalid-protocol/public/reap/FD
+assertions remain separate; no error-priority fixture uses diagnostic bytes.
+
+Capacity arithmetic is independently literal: parent-created handles are
+1+4+1+5+1=12, hence 24 lifetime events; selected parent events add 12, total36.
+Child selected identity/dup/closure/handoff20 plus7 gives27. Controller at most
+six FDs gives12 lifetime events, plus12 selected events gives24. Packet length is
+4+3*4+17*4+10*4+8+4*(4+8+8+8)+4=248. These are contract bounds, not an executed
+native ledger or capability. Primary mmap/exec/getdents/pipe sources are linked
+beside the new rules. No mapping/native reporter/helper was implemented or run.
+Actual correction checks: project426/122 PASS, render current PASS,
+`git diff --check` PASS, frozen parent3438 unchanged. A standalone stdlib
+`python3 -c` assertion of the five literal sums above plus `128*8*8 == 8192`
+PASS; it imports/runs no candidate/test/helper and proves only arithmetic.

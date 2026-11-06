@@ -347,17 +347,23 @@ The fixture exports ABI 1 plus these test-only C functions (document notation):
 int subathon_schema_fault_arm_v1(unsigned int case_id,
     unsigned int phase_id, int fault_errno);
 int subathon_schema_fault_snapshot_v1(int64_t *cells, unsigned int cell_count);
+int subathon_schema_fault_report_v1(unsigned char *bytes, unsigned int byte_count);
 int subathon_schema_fault_fallback_v1(void);
 ```
 
 The arm result is 0 only for an admitted fixed plan before core entry; unknown/
 inconsistent plans return -1 and cannot run the core. Snapshot requires exactly
-512 writable int64_t cells (4096 bytes); it returns 0..64 record count, or -1 for
-invalid state/overflow. Each eight-cell record is sequence, event kind, phase,
+1024 writable int64_t cells (8192 bytes); it returns 0..128 record count, or -1
+for invalid state/overflow. Each eight-cell record is sequence, event kind, phase,
 fd, PID, syscall result, errno, monotonic nanoseconds; unavailable fields are -1.
 Event kinds are 1 syscall-attempt, 2 syscall-return, 3 adopt, 4 release, 5 clock,
-6 signal, 7 readiness, 8 final-commit, 9 poison. Two-output calls record both
-actual descriptors separately; no unrecorded second pipe endpoint is allowed.
+6 signal, 7 readiness, 8 final-commit, 9 poison, 10 child-exec-handoff-intent.
+Sequence encodes writer_id in its upper 32 bits and that writer's increasing local
+index in its lower 32 bits: parent 0, child 1, controller 2. Snapshot concatenates
+their committed entries in that order; this is not a total chronological trace.
+Two-output acquisitions record both actual parent descriptors separately; no
+unrecorded second pipe endpoint is allowed. Handoff intent is NOT a release or
+proof exec succeeded; real outcome/activation/exit evidence remains necessary.
 Copies occur after core return, never through a callback. Fallback returns 0 only
 after actual test-owned/leaked-child termination/reap/close, and runs AFTER the
 oracles; its result cannot repair a failed oracle. Every case uses fresh fixture
@@ -403,12 +409,40 @@ Atomic-birth error fixtures must separately prove real no-child/no-new-fd rollba
 they may not inject failure after successful birth and pretend the kernel rolled
 it back. Both original pre-call and after-real-close cancellation oracles remain.
 
-Use native fixed-capacity event records (at most 64, overflow latches failure) for
-actual syscall sequence, phase, fd/PID/pidfd identity, native result/errno and clock
-observation. Do not accept an owner's claimed clean boolean. Ledger poison and
-unexpected network/phase events are never cleared to manufacture success. Any
-test-owned pidfd duplicate/controller/coordination pipe is separately accounted
-and closed; it is not hidden inside the production eight-descriptor bound.
+This is a SELECTED bounded journal, not a trace of every syscall, poll iteration,
+clock read or individual signal-loop operation. Every actual parent-native FD
+adoption/release/identity is mandatory; selected events supplement it. The fixed
+128-record allocation has disjoint parent 64, child 32 and controller 32 segments:
+
+| Journal | Bound and required selected scope |
+| --- | --- |
+| Parent (64) | At most 12 created handles: config 1 + pipe ends 4 + null 1 + source duplicates 5 + pidfd 1. All adoption/release events fit 24 entries. Up to 2 selected fault-phase attempt/return entries, 4 clock checkpoints (t0, ready, offset advance, final decision) and 6 lifecycle/status/poison entries give at most 36. Acquisitions are not retried after interruption; source duplicates are made at most once per source. |
+| Child (32) | Five inherited source identities, five actual destination-dup results, five source-close observations after close_range, and five destination handoff-intent entries consume 20. The selected phase pair, signal-setup entry/exit, readiness, exec-failure return and poison add at most 7, total 27. No per-signal loop trace. Real exit/reap and post-exec report, not handoff intent, establish later closure/state. |
+| Controller (32) | At most six test-owned descriptors (four coordination ends, one pidfd guard duplicate, one outcome-read capture duplicate) give 12 adoption/release entries. Shared-map acquire/release, selected phase pair, up to four readiness/signal events, two clock events and two poison entries give at most 24. |
+
+If actual source needs more resource operations than these bounds, it must obtain
+contract/count review before tests; overflow is latched failure, never truncation
+or dropped mandatory evidence. Ordinary repeated reads/polls/clocks are exercised
+by the SAME core and source audit, not spuriously declared fully traced. Do not
+accept an owner's claimed clean boolean. Test-owned handles/mapping are separately
+accounted and closed, outside the production eight-FD/32768-byte scratch bounds.
+Ledger poison/unexpected network/phase events never reset to manufacture success.
+
+Because clone3 does NOT share VM, a private child array would be invisible to the
+parent. The fixture therefore prepares ONE 12288-byte test-only anonymous
+MAP_SHARED read/write mapping before birth: 8192 bytes for these records and the
+remaining fixed space for counts/poison/latches/report capture. No fd backs it.
+Parent/child/controller each write only their own segment, publish completed
+records with native release stores and read committed counts with acquire loads.
+The selected compiler/architecture must prove lock-free inline publication and
+the generated pre-exec store/call graph; no hidden lock/allocator/Python callback
+is admitted. Snapshot copies only committed records. The child mapping persists
+across birth but is removed by exec; it supplies PRE-EXEC observations only.
+The fixture releases the parent map in unconditional post-oracle cleanup, even
+when the owner/test fails. A mapping/setup failure is fixture failure, never red.
+[mmap semantics](https://man7.org/linux/man-pages/man2/mmap.2.html) and
+[execve mapping removal](https://man7.org/linux/man-pages/man2/execve.2.html)
+support this route, not a claim that private child stores become shared.
 
 The deterministic test clock uses the SAME native clock access points: saved real
 monotonic time plus a checked fixed offset, initially zero, advanced once beyond
@@ -424,8 +458,56 @@ The native controller observes that readiness before advancing the clock. This
 proves a real pre-exec startup hold and cleanup, not successful exec or unrelated-
 descriptor closure. Production has no such phase behavior. Case 28 separately
 runs actual remap/close_range/exec with NO extra inherited test descriptors and
-observes only 0/1/2 plus 3/4 and the required signal state in its real fault child.
-Thus test coordination cannot silently weaken the production close-fds oracle.
+observes only 0/1/2 plus 3/4 and the required signal state in a real fixed native
+nonvalidating reporter. Thus coordination cannot weaken the close-fds oracle.
+
+The Case 28 reporter closes activation 3 WITHOUT A and writes one intentionally
+INVALID binary packet on existing outcome 4, then attempts close/normal exit 3. It is
+never a worker result/controls certificate. Exactly 248 bytes, all integers little
+endian, no compiler struct padding:
+
+| Field order | Bytes / actual raw observation |
+| --- | --- |
+| Magic | 4 bytes `NTF1`, deliberately not a protocol JSON prefix |
+| PID, scan-fd, descriptor-count | Three signed int32 values; actual getpid/open/getdents-derived values |
+| Descriptor numbers | 17 signed int32 slots, ascending, unused slots -1; count 17 means at least 17 observed and is refusal, never a truncated fitting inventory |
+| F_GETFD, then F_GETFL for 0..4 | Ten signed int32 raw returns (negative errno on failure) |
+| Blocked mask | Raw 64-bit Linux signal-mask bits |
+| SIGINT, SIGPIPE, SIGCHLD, SIGTERM | For each: signed int32 raw sigaction return, uint64 handler, uint64 flags, uint64 action-mask (28 bytes each) |
+| Terminal getdents result | Signed int32 raw result, required 0 for complete EOF |
+
+The reporter opens `/proc/self/fd` AFTER exec solely for bounded raw enumeration,
+using one 4096-byte getdents64 buffer and at most 17 numeric entries; it closes
+this newly opened scan fd before sending. This is not an extra inherited fd. A
+correct inherited set yields scan fd 5 and exact observed set 0..5, count 6, EOF;
+descriptor flags must independently show 0..4 open without CLOEXEC, null read/write
+on 0..2, blocking write channels on 3/4, empty blocked mask and default dispositions.
+Tests compare literal masks/sets/handler values, not a reporter's clean boolean.
+Missing proc/read/error/overfull/incomplete observation is fixture failure. The
+reporter has no Python/SDK/schema engine; actual source/oracle review is mandatory.
+
+The reporter sends the fixed packet in one blocking write below PIPE_BUF; actual
+short/error writes make the fixture fail rather than assume message boundaries.
+The owner may kill on the invalid packet before the reporter's attempted exit;
+the test observes real termination/reap, and does not demand normal 3 or infer a
+normal worker result. Only this case's fixture tees actual outcome reads into a fixed 257-byte
+capture. A separately tracked parent-only duplicate read handle, acquired before
+birth with descriptor >=5 and closed in child close_range, may obtain any unread suffix AFTER the
+core returns, using nonblocking bounded reads; it neither reaps nor repairs the
+owner. `subathon_schema_fault_report_v1` requires exactly 248 writable bytes and
+returns 248 only for the complete packet plus EOF, otherwise -1; it copies bytes,
+not a pass/clean status. It does not replace/withhold bytes returned by real core
+reads, modify the decoder or suppress its refusal. Packet overflow/capture error
+latches fixture failure. Parent/controller identity bounds include this duplicate.
+The shared pre-exec map is NOT assumed available in the exec'd reporter.
+
+Assert the raw packet independently AND exact public validation_unavailable/no
+logs, actual termination/reap/all core FDs closed before fallback. The intentional bad packet
+must not be mixed into normal/domain or the original protocol/error-priority rows;
+those retain their original literal bytes and classifications. A refusal code
+alone cannot establish child FD/signal correctness. [getdents](https://man7.org/linux/man-pages/man2/getdents.2.html)
+and [pipe byte-stream rules](https://man7.org/linux/man-pages/man7/pipe.7.html)
+require explicit bounded capture rather than assumed message/read boundaries.
 
 For native-during-ownership SIGINT, a real native thread/external sender delivers
 the signal to the actual calling main thread at a recorded phase; handler/mask
