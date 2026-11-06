@@ -206,3 +206,38 @@ render--check current and git diff--check. NO checker/control import/
 run, artifact load/execution, compiler/SDK/child/probe occurred. Actual different
 source review and root's matching base/source/artifact integration still precede
 even static-control execution, then all remaining PR77 gates.
+
+## Correct PUSH operand classification after the actual literal-control failure
+
+Author A,6November2026. Separate isolated branch
+`task/SCHEMATOOL-001-native-owner-audit-push`, tree
+`/tmp/subathon-schematool001-native-owner-audit-push`, starts at preserved
+`bb411f6f23d32f8adbf9b066cb23105ea0da64a6`. Same three owned paths; only the
+checker and this note need changes. ALL five test ASTs/bytes remain unchanged.
+
+Root's actual different29bf review released ONLY the five literal controls. Read
+`/tmp/schematool001-owner-audit-control-first/{receipt.json,stderr}`: clean
+`29bf975314f2414201780dbc8a782ecde8ff2a51`,21:11:04Z,5 methods/.021s/exit1,
+stdoutempty, stderr2405B/SHA`804bcf80046f293561f96901be6318f0b5f63ada065052b21a557cd523511d2c`.
+Four methods passed; one errored ONLY on the ALREADY AUTHORED positive
+`push %rbp` at controls line62. `fixed_rsp` treated the read operand as a register
+destination and raised `unreviewed frame-pointer write`. Later assertions in
+that interrupted method were naturally unreached; no all-control pass is claimed.
+No artifact checker/ELF loader/native/worker/child ran in that observation.
+
+The minimal correction recognizes mnemonic `push` before destination-write
+validation: PUSH reads its explicit operand and its fixed stack adjustment is
+already included in the actual GNU per-function total. It does not overwrite RBP
+merely because RBP is the source. The existing base instruction policy already
+admits that mnemonic; no new opcode, operand-writing permission, namespace or
+callback is introduced. All actual RBP/RSP write checks, variable/oversized stack
+refusals, metadata/inherited-frame accounting, trap/TLS/transfer guards, exact
+atomic contexts and other checker logic remain unchanged. No oracle is edited.
+
+Actual source-only checks PASS: Python3.10 AST/compile-without-exec, removing the
+two-line PUSH special case restores every prior checker AST node, all five control
+source bytes exact, project426/122/current HTML, render--check current and git
+diff--check. No candidate helper was invoked.
+No checker/control import/run, artifact load/audit, build/compiler, SDK/worker/
+child/probe occurred here. Root must independently review this actual delta
+BEFORE the literal-control passing run and any later generated-artifact admission.

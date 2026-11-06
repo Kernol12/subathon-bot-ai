@@ -225,6 +225,8 @@ def compiler_graph(pairs, symbols):
 def fixed_rsp(instructions):
     """Allow fixed outgoing-argument pushes, never a register-sized stack."""
     for _, mnemonic, operands in instructions:
+        if mnemonic == "push":
+            continue  # Reads its explicit operand; its fixed stack use is counted by GNU.
         destination = operands.rsplit(",", 1)[-1]
         require(not (mnemonic == "xchg" and any(register in operands for register in ("%rsp", "%esp", "%sp", "%spl", "%rbp", "%ebp"))),
                 "unreviewed stack/frame pointer exchange")
