@@ -4,8 +4,8 @@ Reviewer `/root/session_supplier_author`, 6 November2026, different from product
 author `/root/session_plan_review` (`milestone_author`). Isolated branch
 `task/MILESTONE-001-independent-code-review`, worktree
 `/tmp/subathon-milestone001-code-review`, starts at actual authored candidate
-`a5d18ae`. Only this review note changes. **Actual source approved; ordinary-CI
-promotion and its later selected CI receipt remain separate, not yet reviewed.**
+`a5d18ae`. Only this review note changes. **Actual source and ordinary-CI
+configuration approved; its later selected CI receipt remains separate.**
 
 ## Actual scope and frozen artifacts
 
@@ -110,3 +110,54 @@ completion metadata/state/map/HTML, applicable independent metadata review and
 normal GitHub rule/discussion/merge gates. All application/authority/history/
 actions/persistence/UI/provider/FX/platform/OBS/package/security/recovery/full
 release obligations remain separate. Only synthetic data; no live side effect.
+
+## Actual ordinary-acceptance configuration review
+
+Same independent reviewer, NEW isolated branch
+`task/MILESTONE-001-ordinary-config-review`, worktree
+`/tmp/subathon-milestone001-config-review`, based on actual combined
+`b945ff20f85f2af579efd4b6a62b9eda64cfcf8c` (root promotion2792791 plus imported
+source review). Reviewed ALL four promotion files, surrounding CMake registration,
+source/test/fixture preservation and actual inline workflow guard. **Approved.**
+
+| Actual reviewed artifact | Git blob |
+| --- | --- |
+| Milestone workflow | `48f6c9a4c73ef2d5186efaff7170158d8b139c0b` |
+| Presets | `f347131262262ba67da191da49ed8550dcfa21b2` |
+| Exact suite label include | `af26db7b60aa96a6b3ae93ad219ba8f4181ca2e0` |
+| Public header, comment-only correction | `1f5e1c5c62a8f82c95216352626bfb1e10b92cf5` |
+
+Preset display name and stale public-header status comment now match implemented
+pure proposal behavior; no signature/type/default/ABI or assertion changed.
+Discovery retains original raw33ordinary+20namedMP cases and timeout30. Labels
+become milestone-progression/acceptance/core; historical intentional-red is removed
+only for this now-passing implemented suite. Inline guard requires the exact source
+33+20inventory, required ordinary labels, zero intentional-red, enabled/uninverted
+cases and the unchanged independent foundation. No assertion/fixture was removed
+or weakened and no failure skip/inversion/continue-on-error was added.
+
+PR/main triggers, stable job milestone-progression-build, checkout digest/read-only
+permissions, Ubuntu24.04/selectedBoost1.83 package/config/macro checks, GTest input
+and limits remain unchanged. Old37/foundation execute with exact feature-label
+exclusion, then all53 feature bodies execute in a separate UNCONDITIONAL step
+selected by exact label. Green build/discovery no longer substitutes for acceptance.
+Actual branch rules/required-check configuration and later hosted results remain
+root's gates, not facts implied by workflow authoring.
+
+Independent fresh same selected1.83 configure/build18steps PASS, no compiler warning.
+Actual workflow inventory Python block was extracted verbatim and executed: PASS
+`Discovered 53 enabled milestone cases; all will execute as ordinary acceptance`.
+Ran BOTH literal promoted CTest commands with verbose output and additional JUnit:
+
+```sh
+ctest --preset milestone-progression-debug -LE '^milestone-progression$' --no-tests=error --verbose --output-junit /tmp/subathon-milestone001-independent-promoted-old.xml
+ctest --preset milestone-progression-debug -L '^milestone-progression$' --no-tests=error --verbose --output-junit /tmp/subathon-milestone001-independent-promoted-feature.xml
+```
+
+Old37/37 PASS0.63s and all53/53 feature PASS0.09s, both exit0 and zero native JUnit
+failures/disabled/skipped. Byte-safe stdout/stderr retained beside those JUnits.
+SHA256 old`50e3d3df797302982729f1c4bfd9f7e38b3a64b8b494ff248d66f421e1a81681`,
+feature`e15d6076c10ebf2211d9d806e0a7213a455a93c4596fcde81945454a39de845b`.
+Project consistency/whitespace PASS422/122/currentHTML. No hosted CI run is claimed
+by these local commands; actual selected receipt/final metadata/latest-head merge
+gates remain pending.
