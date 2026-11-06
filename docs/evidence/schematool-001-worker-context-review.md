@@ -78,3 +78,42 @@ be admitted before sorting oversized maps. C independently corroborated this.
 A acknowledged and is correcting actual slot charges rather than changing limits.
 No approval is extended to moving/uncommitted code. Re-audit the next coherent
 actual commit; existing positive record/ref/control boundaries remain immutable.
+
+## Actual 8f4 allocation correction — context/backend/index source approved
+
+Different reviewer `/root` actually inspected correction
+8f4c8c718e2c8ef5661d2498f83302c23455a759 (root importbf5dfcc), backend3eeccae,
+index17c73c4 and shared common41dd38f. APPROVED for this actual context/native-
+delegation/index/graph-allocation source scope. Separate C prologue/file/metadata/
+offline security verdict, real integrated acceptance and constructor-parent gate
+remain required; this approval is neither prospective nor full-task completion.
+
+All three original findings are resolved in the actual revised source. Numeric
+IDs own graph edges/visit/inventory identities. Physical-key tuple AND Node fields
+are charged separately before storage; every no-id Node.uri and final SDK resolver
+base is charged, along with own/native resource and anchor slots. Integer dialect/
+edge labels avoid unnecessary retained URI/name aliases. Native crawl pending/base/
+root workspaces are reserved before construction and released before final scope
+fields; package native-evaluation registry slots are additional scoped leases.
+Known map/array child count is checked before sorted-list growth. Raw-map sort names,
+key tuples and raw/decoded pointer-part workspaces carry bounded lifetime charges.
+URI scratch is reserved before native joining; actual <=4096-byte URI is admitted
+before native lookup/persistent storage, with retained charges surviving scratch
+release. Control URI expansion still reserves before quote/construction. Shared
+package shape/alias reservations are handed to this graph budget, not reset.
+
+The reference bridge continues to use actual public Specification/SDK id/subresource/
+anchor/lookup operations, a real SchemaAccessor and whole-fragment native controls.
+No assertion engine, transformed raw schema/DATA, fallback retriever, changed ceiling
+or convenient target was added. All typed closure precedes bounded same-instance
+cycle/inventory; physical pair equality and forced/free examples use numeric IDs.
+Raw Schema siblings, typed Reference Object aliases and DATA reads remain distinct
+under the actual source paths. Real validators own structural/semantic/default/
+instance truth and unexpected failures retain inability classification.
+
+A reports unchanged context3methods/7observations PASS1.350s and actual private
+6+23+35 controls PASS after this code, including4095-context/2048-edge/4096-control
+positive boundaries. These are author observations, not observer reruns or public64.
+Root's approval is actual source review; full unchanged public64 plus all reviewed
+focused modules and both hosted lanes must actually pass on integrated code before
+taskdone/merge. The parent constructor ownership correction is still outstanding.
