@@ -1,0 +1,179 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""Fixed real-library foundations; no project wrapper or package validator runs."""
+import importlib.metadata
+import json
+import os
+import unittest
+from contextlib import ExitStack
+from fractions import Fraction
+from pathlib import Path
+from unittest.mock import patch
+
+
+NETWORK_ATTEMPTS = []  # Never reset: a swallowed attempt cannot make any case green.
+
+
+class FoundationNetworkAttempt(BaseException):
+    pass
+
+
+def block_network(*_args, **_kwargs):
+    NETWORK_ATTEMPTS.append("network attempted")
+    raise FoundationNetworkAttempt("Library foundation forbids network")
+
+
+class LibraryFoundation(unittest.TestCase):
+    def setUp(self):
+        guards = ExitStack()
+        self.addCleanup(guards.close)
+        self.addCleanup(lambda: self.assertEqual(NETWORK_ATTEMPTS, []))
+        for target in (
+            "socket.getaddrinfo", "socket.create_connection", "socket.socket.connect",
+            "socket.socket.connect_ex", "urllib.request.urlopen",
+        ):
+            guards.enter_context(patch(target, side_effect=block_network))
+        guards.enter_context(patch.dict(os.environ, {
+            "OPENAPI_SPEC_VALIDATOR_SCHEMA_VALIDATOR_BACKEND": "jsonschema",
+            "OPENAPI_SPEC_VALIDATOR_RESOLVED_CACHE_MAXSIZE": "0",
+            "OPENAPI_SCHEMA_VALIDATOR_COMPILED_VALIDATOR_CACHE_MAX_SIZE": "0",
+        }))
+        # Candidate imports happen here, AFTER guards, including first import.
+        from jsonschema import Draft202012Validator
+        from jsonschema.exceptions import ValidationError
+        from jsonschema_path import SchemaPath
+        from openapi_schema_validator import OAS31Validator
+        from openapi_spec_validator import OpenAPIV31SpecValidator
+        from referencing import Registry
+        self.classes = (Draft202012Validator, OAS31Validator)
+        self.error = ValidationError
+        self.path_class = SchemaPath
+        self.spec_class = OpenAPIV31SpecValidator
+        self.registry_class = Registry
+
+    def test_exact_admitted_twenty_versions(self):
+        manifest = Path(__file__).resolve().parents[2] / "tools/schema_validation/wheels.json"
+        packages = json.loads(manifest.read_text(encoding="utf-8"))["packages"]
+        normalize = lambda name: name.lower().replace("_", "-")
+        expected = {normalize(p["name"]): p["version"] for p in packages}
+        self.assertEqual(len(packages), 20)
+        self.assertEqual(len(expected), 20)
+        actual = {normalize(d.metadata["Name"]): d.version
+                  for d in importlib.metadata.distributions()}
+        actual.pop("pip", None)  # The isolated install's bootstrap only, never a validator extra.
+        self.assertEqual(actual, expected)
+
+    def test_explicit_openapi31_and_separate_example_validation(self):
+        schema = {"type": "integer"}
+        document = {"openapi": "3.1.1", "info": {"title": "Synthetic", "version": "1"},
+                    "paths": {"/sample": {"get": {"responses": {"200": {
+                        "description": "Synthetic", "content": {"application/json": {
+                            "schema": schema, "example": "wrong"}}}}}}}}
+        path = self.path_class.from_dict(document, handlers={})
+        self.spec_class(path).validate()  # Real spec success does NOT prove this example.
+        instance_validator = self.classes[1](schema, registry=self.registry_class())
+        instance_validator.validate(7)
+        with self.assertRaises(self.error):
+            instance_validator.validate("wrong")
+        invalid = {"openapi": "3.1.1", "paths": {}}
+        with self.assertRaises(self.error):
+            self.spec_class(self.path_class.from_dict(invalid, handlers={})).validate()
+
+    def test_exact_numeric_library_recipes(self):
+        tenth = Fraction(1, 10)
+        neighbor = Fraction("0.3000000000000000000000000000000000000001")
+        for cls in self.classes:
+            with self.subTest(validator=cls.__name__):
+                integer = cls({"type": "integer"}, registry=self.registry_class())
+                for spelling in ("1.0", "1e0"):
+                    literal = Fraction(spelling)
+                    self.assertEqual(literal.denominator, 1)
+                    integer.validate(literal.numerator)  # Fixed normalized literal, no parser.
+                for value in (True, Fraction(3, 2)):
+                    with self.assertRaises(self.error):
+                        integer.validate(value)
+                schema = {"type": "number", "multipleOf": tenth, "minimum": tenth}
+                cls.check_schema(schema)
+                numbers = cls(schema, registry=self.registry_class())
+                numbers.validate(Fraction(3, 10))
+                for value in (neighbor, True, Fraction(1, 20)):
+                    with self.assertRaises(self.error):
+                        numbers.validate(value)
+                count = Fraction("1.0")
+                self.assertEqual(count.denominator, 1)
+                array_schema = {"type": "array", "maxItems": count.numerator}
+                cls.check_schema(array_schema)
+                cls(array_schema, registry=self.registry_class()).validate([1])
+                with self.assertRaises(self.error):
+                    cls({"uniqueItems": True}, registry=self.registry_class()).validate(
+                        [1, Fraction("1.0").numerator])
+                with self.assertRaises(self.error):
+                    cls({"enum": [tenth]}, registry=self.registry_class()).validate(
+                        tenth + Fraction(1, 10**40))
+                with self.assertRaises(self.error):
+                    cls({"const": 1}, registry=self.registry_class()).validate(True)
+
+    def test_literal_const_ref_is_data_without_retrieval(self):
+        from referencing.exceptions import NoSuchResource
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        value = {"$ref": "https://outside.invalid/data"}
+        for cls in self.classes:
+            cls({"const": value}, registry=self.registry_class(retrieve=denied)).validate(value)
+        self.assertEqual(retrievals, [])
+
+    def test_explicit_registry_productive_recursion_and_denied_missing(self):
+        from referencing.exceptions import NoSuchResource, Unresolvable
+        from referencing.jsonschema import DRAFT202012
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        node_uri = "https://local.invalid/node"
+        node = {"$id": node_uri, "type": "object", "additionalProperties": False,
+                "properties": {"next": {"$ref": node_uri}}}
+        registry = self.registry_class(retrieve=denied).with_resource(
+            node_uri, DRAFT202012.create_resource(node))
+        for cls in self.classes:
+            validator = cls({"$ref": node_uri}, registry=registry)
+            validator.validate({"next": {"next": {}}})
+            with self.assertRaises(self.error):
+                validator.validate({"next": False})
+        self.assertEqual(retrievals, [])
+        missing = "https://outside.invalid/missing"
+        with self.assertRaises(Unresolvable):
+            self.classes[0]({"$ref": missing}, registry=registry).validate(1)
+        self.assertEqual(retrievals, [missing])
+
+    def test_schemapath_uses_actual_replacement_handler(self):
+        from referencing.exceptions import NoSuchResource, Unresolvable
+        admitted = "https://local.invalid/integer"
+        calls = []
+        def memory_only(uri):
+            calls.append(uri)
+            if uri != admitted:
+                raise NoSuchResource(uri)
+            return {"type": "integer"}
+        path = self.path_class.from_dict(
+            {"$ref": admitted}, base_uri="https://local.invalid/root",
+            handlers={"https": memory_only})
+        self.assertEqual((path / "type").read_value(), "integer")
+        self.assertEqual(calls, [admitted])
+        missing = "https://outside.invalid/missing"
+        refused = self.path_class.from_dict(
+            {"$ref": missing}, base_uri="https://local.invalid/root",
+            handlers={"https": memory_only})
+        with self.assertRaises(Unresolvable):
+            (refused / "type").read_value()
+        self.assertEqual(calls, [admitted, missing])
+
+    def test_unknown_formats_need_separate_admission(self):
+        from jsonschema import FormatChecker
+        checker = FormatChecker(formats=[])
+        self.assertTrue(checker.conforms("anything", "subathon-unknown-format"))
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
