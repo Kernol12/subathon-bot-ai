@@ -112,6 +112,34 @@ class StringSubclass(str):
         raise AssertionError("subclass conversion called")
 
 
+class ListSubclass(list):
+    def __iter__(self):
+        raise AssertionError("list subclass iteration called")
+
+    def __len__(self):
+        raise AssertionError("list subclass length called")
+
+    def __getitem__(self, key):
+        raise AssertionError("list subclass indexing called")
+
+    def __repr__(self):
+        raise AssertionError("list subclass repr called")
+
+
+class TupleSubclass(tuple):
+    def __iter__(self):
+        raise AssertionError("tuple subclass iteration called")
+
+    def __len__(self):
+        raise AssertionError("tuple subclass length called")
+
+    def __getitem__(self, key):
+        raise AssertionError("tuple subclass indexing called")
+
+    def __repr__(self):
+        raise AssertionError("tuple subclass repr called")
+
+
 class WrapperAcceptance(unittest.TestCase):
     """Logical §§2–5, API §§1–5, context §§1–5, private process v1."""
 
@@ -176,7 +204,8 @@ class WrapperAcceptance(unittest.TestCase):
         rows = ([], (), ["--unknown"], ["--manifest=x"], ["--manifest"],
                 ["--help", "extra"], ["--manifest", "a", "--manifest", "b"],
                 ["--manifest", "a", "extra"], "--help", Poison(),
-                ["--manifest", Poison()], [StringSubclass("--help")], [b"--help"])
+                ["--manifest", Poison()], [StringSubclass("--help")], [b"--help"],
+                ListSubclass(["--help"]), TupleSubclass(("--help",)))
         for index, row in enumerate(rows):
             with self.subTest(case=index):
                 self.cli(row, "usage_error", 64)
@@ -282,6 +311,18 @@ class WrapperAcceptance(unittest.TestCase):
             interpreter = clone / "bin" / "python"
             # Untouched actual admitted SDK must establish a REAL positive control.
             self.script_result(interpreter, p, "ok", 0)
+            metadata = clone_sdk / "openapi_spec_validator-0.9.0.dist-info"
+            for name in ("WHEEL", "METADATA"):
+                with self.subTest(raw_hash_file=name):
+                    path = metadata / name
+                    original = path.read_bytes()
+                    # A trailing blank line preserves Version/Tag headers and code;
+                    # only the required WHOLE raw metadata identity becomes wrong.
+                    path.write_bytes(original + b"\n")
+                    try:
+                        self.script_result(interpreter, p, "dependency_unavailable", 3)
+                    finally:
+                        path.write_bytes(original)
             shutil.rmtree(clone_sdk / "openapi_spec_validator")
             shutil.rmtree(clone_sdk / "openapi_spec_validator-0.9.0.dist-info")
             self.script_result(interpreter, p, "dependency_unavailable", 3)

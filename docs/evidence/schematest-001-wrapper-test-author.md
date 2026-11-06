@@ -304,3 +304,39 @@ secure descriptor traversal, complete ZERO-network SDK integration and every
 remaining implementation/resource/source gate remain explicit. Public refusal
 codes and parent mocks do not verify all those controls. This adds no public
 option/API, runtime capability, provider/platform/live or release claim.
+
+## Final public admission coverage correction before red
+
+Root authorized a focused correction of actualfc5180b/sourcea80b16c after different
+C's final read-only audit found TWO observable gaps. Preserve that source's valid
+A4347cd admission and C525d dialect reviews and root's observed OLD-a80 green
+metadata/discovery harness receipt. Those are not advance approval/observation of
+this corrected candidate; no feature/test/red body ran in that green harness.
+
+The REAL clone test keeps its untouched positive and actual code+dist-info removal.
+Before removal, keep code AND Version/Tag headers intact; append one newline to
+WHEEL, require real dependency_unavailable/closed CLI/exit3, then restore exact raw
+bytes in finally. Repeat separately for METADATA. These isolate required SAME-
+artifact WHOLE raw hashes: import-only or version/tag-only admission cannot pass.
+No expected hash/output comes from the wrapper; no fake validation or install.
+Only the disposable copied metadata is modified. Appending bytes never touches the
+existing Version/Tag header contents. A wrong Version is necessarily already a
+whole-metadata mismatch; no extra redundant wrong-version fixture was needed.
+
+Public main requires EXACT builtin list/tuple before callbacks. Add separate list
+and tuple subclasses whose iteration/length/indexing/repr raise. Their construction
+uses only ordinary builtin list/tuple arguments, and each test row's subTest label
+is a fixed integer. Require literal usage_error/exit64. This catches isinstance or
+premature container access while retaining ordinary Poison/StringSubclass rows.
+Poison constructors execute only in the test body, never at module import.
+
+Inventory remains63 names. Two added direct argv observations bring the current
+authored total to **317 raw public calls**; two extra REAL clone-script observations
+bring the current extra-script count to **5**. All6 existing Wrapper helper ASTs,
+all prior external helper/class ASTs and61 existing test ASTs remain EXACT versus
+fc5180b. Only the two authorized test methods change; two inert poison classes
+are added. AST3.10/compile-without-exec and preservation assertions PASS. No import,
+test/helper, clone/venv, candidate/SDK, child, feature or intended-red run occurred.
+Different actual correction review and refreshed matching green harness observation
+remain required; final red attribution must inspect actual final stub frames.
+All previously listed real worker/source/integration/offline/ownership gates remain.
