@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-05T20:26:00+00:00",
+  "updated_at": "2026-11-06T00:58:21+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13426,8 +13426,8 @@
       "title": "Durable initial source/capture binding",
       "module": "Operations",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; capture_fixture_author (SQL implementation)",
       "depends_on": [
         "CONTRACT-014",
         "STORAGE-012",
@@ -13450,11 +13450,35 @@
       "summary": "Preserve one immutable initial source→arrival/plan/execution binding on the actual caller session, with exact indexed lookup/retention and no duplicate recapture.",
       "notes": [
         "Added after actual CONTRACT014 independent review R1 found no existing indexed source→initial-plan lookup. Consumer contract defines narrow required port; actual API/schema/migration, independent fixtures/tests/red/source review remain mandatory. No implementation/capability or reserved migration number supplied by this plan.",
-        "Split pure SRC1/SRA1/SRX1/SRI1 codec implementation from STORAGE018 as explicitly permitted by sqlite-initial-captures-v1 section1. Integrated PR68/main8435fb0 preserves actual codec27 review/FIRST550 red and SQL31/51 FIRSTvalid633 red. No tests/requirements removed or replayed. STORAGE019 owns8structural codecs/privateborrowedhelper only; STORAGE018 retains full SQL/index/closure and depends on integrated019. Rootowns sharedfiles/CI/state/pins/schema; all release requirements remain."
+        "Split pure SRC1/SRA1/SRX1/SRI1 codec implementation from STORAGE018 as explicitly permitted by sqlite-initial-captures-v1 section1. Integrated PR68/main8435fb0 preserves actual codec27 review/FIRST550 red and SQL31/51 FIRSTvalid633 red. No tests/requirements removed or replayed. STORAGE019 owns8structural codecs/privateborrowedhelper only; STORAGE018 retains full SQL/index/closure and depends on integrated019. Rootowns sharedfiles/CI/state/pins/schema; all release requirements remain.",
+        "Claim task/STORAGE-018-initial-capture-store from actualmain41c4842 after normalPR69 merge20:08:44Z/exacthead768074b/all17finalSUCCESS/currentrules0approvals/0threads/CLEAN; merge/headtrees equal. Integrated STORAGETEST018 and STORAGE019 release SQL implementation without replaying historicalFIRSTreds. ExactSQL31/51 CPP58b22366, literal878005d and manifestprefix1..6/accepted7 frozen. Sourceauthor capture_fixture_author owns ONLY sqlite_reference_capture.cpp, optional narrow privatehelper and own evidence; root owns allsharedbuild/CI/state/map/HTML/pins/schema/publicABI/tests. Implement bounded caller-session source/receipt indexed lookup, complete selected original closure, immutable initial insert and honest cleanup/unknown semantics; no adoption/commit/currentauthority/evaluator/provider. Actualdifferent source/config review, passingSQL31+old337 and ordinaryselected31CI required beforedone. No baseline assertion/fixture/header/sharedcodec edits authorized to author.",
+        "Integrate actualmainba66804/normalPR71 exact5b1aa/all17SUCCESS/currentrules/0threads/CLEAN, preserve ownSQL018in_progress row/owner/deps/evidence/activity and allsource/tests frombeforemerge. OnlysharedJSON/HTML/checkpoint conflicts; mainnewSESSIONCONTRACT001planned, CONTRACTPLAN004done, graph422/1619 preservesallrequiredgates. Sourceauditpendingaggregate/activityorigin fixes; no implementationdoneclaim.",
+        "Combined SQL source90eeca7/importc0ff1ec CPPccdc4f6 implements caller-session immutable initial capture lookup/retain/closure. Independent source audit found four regression families; seven additive reviewed methods/16 scenarios reached intended behavior red before each bounded fix, original31/51 assertions/literal878 preserved. Root375 PASS28.29s, author37529.19, reviewer37528.32, zero failed-disabled-skipped/warnings. Different final source approval actual90 recorded; actualCI/config/finalmetadata gates remain. Ordinary38SQL CI promotion authored, not yet observed. Taskin_review, notdone; DB01/NUM04 partial and all release gates preserved.",
+        "Complete bounded STORAGE018 component after original31/51 plus seven separately reviewed/reached-red methods16scenarios (now38/67), accepted finalSQLsource90/ccdc and ordinaryCIb4 source/configreview2be. Root/author/reviewer375PASS0warnings/skips; OWN selectedofficialQt42110989863 atfe440acSUCCESS/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/newfoundation4-6QtPASS0skip354ms/exactcodec28/unconditional28PASS0.13s/exactSQL38/unconditional38PASS6.15s/oldmandatorylanes/all17publishedchecks. Source/component taskdone with passingacceptance+differentactualreview; finalcompletionmetadata/latestpublicationCI/currentrules/discussions/normalmerge remain. DB01/NUM04partial; allactualproducer/provider/recovery/UI/platform/fullreleasegates retained. Ownerrequests finishonlyopenPR70thenstop; unpublishedauthsplit/claims preserved, no nexttask."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "acceptance": "passed",
+        "source_review": "passed",
+        "configuration_review": "passed",
+        "selected_ci": "passed",
+        "tooling": "passed"
+      },
+      "evidence": [
+        "docs/evidence/storagetest-018-handoff.md",
+        "docs/evidence/storage-018-handoff.md",
+        "docs/evidence/storage-018-native.md",
+        "docs/evidence/storage-018-author.md",
+        "docs/evidence/storage-018-canonical-regression.md",
+        "docs/evidence/storage-018-code-review.md",
+        "docs/evidence/storage-018-ci.md"
+      ],
+      "review": {
+        "author": "capture_fixture_author",
+        "reviewer": "capture_reviewer",
+        "outcome": "approved",
+        "revision": "Actual final source90eeca7/importc0ff1ec CPPccdc4f616529aedc310ffc75259a79f7690239b5 and CIb4a33e1 approved2beedaf/importfe440ac; actualselected42110989863 atfe440ac independently verified successful, original31 preserved, native375 and ordinarySQL38 pass. Final completion metadata/publication/latest-head merge gates remain separate.",
+        "evidence": "docs/evidence/storage-018-code-review.md"
+      }
     },
     {
       "id": "STORAGE-019",
@@ -13612,14 +13636,14 @@
       "note": "Verified 12 tooling tests, direct GCC contract/scaffold compile and offline page controller simulation. CMake/Qt/GoogleTest/live/platform checks remain not run."
     },
     {
-      "date": "2026-10-29T22:57:21+00:00",
-      "task": "BOOT-002",
-      "note": "Scope: local scaffold/toolchain validation for initial GitHub publication; specification v0.45, draft time-credit contract revision 0. Own progress/state.json, generated PROGRESS.html, README repository setup text and publication evidence. Acceptance: record actual checks; preserve independent-review and product gates."
-    },
-    {
       "date": "2026-10-29",
       "task": "BOOT-002",
       "note": "Reviewed scaffold for initial GitHub publication; local CMake/CTest and Qt 6.12 probe pass. Independent acceptance review/red run and interactive/platform gates remain open."
+    },
+    {
+      "date": "2026-10-29T22:57:21+00:00",
+      "task": "BOOT-002",
+      "note": "Scope: local scaffold/toolchain validation for initial GitHub publication; specification v0.45, draft time-credit contract revision 0. Own progress/state.json, generated PROGRESS.html, README repository setup text and publication evidence. Acceptance: record actual checks; preserve independent-review and product gates."
     },
     {
       "date": "2026-10-30",
@@ -13677,14 +13701,24 @@
       "note": "Published task/BOOT-006-execution-order and opened PR #3. Execution/epic views and dependency availability are ready for review."
     },
     {
-      "date": "2026-10-30T15:39:20+00:00",
-      "task": "BOOT-006",
-      "note": "Owner requested adding state/module selection to the existing open PR #3. Extend its filters to multiple checkbox selections with All/None actions while retaining execution/epic views and test/review gates."
-    },
-    {
       "date": "2026-10-30",
       "task": "BOOT-006",
       "note": "Added checkbox state/module selection to PR #3. Combined filters/search and All/None pass; corrected responsive menu positioning. Task remains in review."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "IMPL-001",
+      "note": "Final integrated rerun after reviewed fixture correction and done-state record: Python19/19, full acceptance preset26/26, scaffold3/3, project consistency, current HTML, DOM simulation and diff checks all exit0. Reviewed original acceptance/header/fixture and production validator unchanged. Publication/latest-revision CI and repository merge gates pending."
+    },
+    {
+      "date": "2026-10-30",
+      "task": "IMPL-001",
+      "note": "Published PR #7 https://github.com/Kernol12/subathon-bot-ai/pull/7 with original author/reviewer branches. Separate final integration review 352f1c5 approved exact b046e9e including status prose, map/workflow and done-state evidence; independent project/render/DOM/Python19 checks pass. No changes to approved implementation/baseline. Recheck latest-revision CI, review discussions and repository merge gates on PR before merge; publication status is recorded there."
+    },
+    {
+      "date": "2026-10-30T15:39:20+00:00",
+      "task": "BOOT-006",
+      "note": "Owner requested adding state/module selection to the existing open PR #3. Extend its filters to multiple checkbox selections with All/None actions while retaining execution/epic views and test/review gates."
     },
     {
       "date": "2026-10-30T16:18:57.449773+00:00",
@@ -13827,16 +13861,6 @@
       "note": "Separate fixture correction 3864b15 approved by independent reviewer in 1453195: synthetic missing/failed acceptance rejection retained, valid passed+review case added, validator and product baselines unchanged. Reviewer replay Python19/19, completed-state injection2/2, CTest26/26 passed. Code review remains approved at exact source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145. Restoring honest numeric-task completion and rerunning final integrated tooling checks; publication CI/merge gates remain."
     },
     {
-      "date": "2026-10-30",
-      "task": "IMPL-001",
-      "note": "Final integrated rerun after reviewed fixture correction and done-state record: Python19/19, full acceptance preset26/26, scaffold3/3, project consistency, current HTML, DOM simulation and diff checks all exit0. Reviewed original acceptance/header/fixture and production validator unchanged. Publication/latest-revision CI and repository merge gates pending."
-    },
-    {
-      "date": "2026-10-30",
-      "task": "IMPL-001",
-      "note": "Published PR #7 https://github.com/Kernol12/subathon-bot-ai/pull/7 with original author/reviewer branches. Separate final integration review 352f1c5 approved exact b046e9e including status prose, map/workflow and done-state evidence; independent project/render/DOM/Python19 checks pass. No changes to approved implementation/baseline. Recheck latest-revision CI, review discussions and repository merge gates on PR before merge; publication status is recorded there."
-    },
-    {
       "date": "2026-10-30T22:06:21.331169+00:00",
       "task": "BOOT-007",
       "note": "Claimed task/BOOT-007-coordinator-prompt from current origin/main. Documentation only: standing coordinator loop plus starting/resume prompts; specification v0.45 and existing contracts unchanged. Own README, prompt, task/evidence notes, progress state and generated HTML; preserve all other task records and verification."
@@ -13867,14 +13891,14 @@
       "note": "Claimed from main 2bc4e64 on task/BOOT-003-qt-environment. Specification v0.45 §2; Qt probe contract unchanged. Acceptance: fresh Qt >=6.12 configure/build/CTest, versions and limitations recorded; separate evidence review. Coordinator owns progress/state.json, PROGRESS.html and coordinator handoff; isolated task/BOOT-003-probe-evidence worktree owns docs/evidence/boot-003-qt-probe.md only. No product or platform verification upgrade."
     },
     {
-      "date": "2026-10-30T22:28:45+00:00",
-      "task": "BOOT-003",
-      "note": "Fresh local Qt6.12.0 configure/build/CTest4/4 passed, repeated independently by /root/independent_reviewer. Author b6863e9, review27fe6b9; probe unchanged. Coordinator scaffold3/3, Python19/19, DOM/current HTML/project checks pass. Local environment task complete; latest PR CI/merge still required. Remote Qt CI, Windows/QML/OBS and product/platform/live gates remain open."
-    },
-    {
       "date": "2026-10-30T22:26:39+00:00",
       "task": "CONTRACT-002",
       "note": "Claimed from main 2bc4e64 on task/CONTRACT-002-domain-boundaries. Specification v0.45 §§2–4 plus linked accounting/recovery decisions; time-credit revision1 preserved. Documentation-only foundation contract: separate receipt, contribution, plan, actual effect, delivery job, clock and writer ownership with versioned examples/errors. Author owns docs/contracts/event-state-boundaries-v1.md, docs/tasks/CONTRACT-002.md and docs/evidence/contract-002-authoring.md. Coordinator owns progress, HTML and shared architecture/handoff. No schema, code or production capability claim; separate review required."
+    },
+    {
+      "date": "2026-10-30T22:28:45+00:00",
+      "task": "BOOT-003",
+      "note": "Fresh local Qt6.12.0 configure/build/CTest4/4 passed, repeated independently by /root/independent_reviewer. Author b6863e9, review27fe6b9; probe unchanged. Coordinator scaffold3/3, Python19/19, DOM/current HTML/project checks pass. Local environment task complete; latest PR CI/merge still required. Remote Qt CI, Windows/QML/OBS and product/platform/live gates remain open."
     },
     {
       "date": "2026-10-30T22:31:21+00:00",
@@ -13917,11 +13941,6 @@
       "note": "Finalsource74f3594/a1ddb428 separately approved by /root/numeric_reviewer indb26514. Original32+one independently authored/reviewed/red zero-regression pass33/33; credit23/23 unchanged. Automatic PR13 numericrun41183487457 atfd86a6b passed with actual pinnedBoost1.83/GCC13.3, compilerheader108300 and33cases; allcredit/scaffoldCIpass. Bounded primitive implementation gates satisfied; finaldone-state integrationreview/latestrevisionCI/merge pending. Fullnumericdecisions remainpartial beyondscope; no platform/live/application claim."
     },
     {
-      "date": "2026-10-31T13:32:45+00:00",
-      "task": "ACCTTEST-001",
-      "note": "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
-    },
-    {
       "date": "2026-10-31T08:18:02+00:00",
       "task": "CORETEST-002",
       "note": "Claimed from refreshed main after CORE001 PR13 merged, task/CORETEST-002-timer-baseline. Specv0.45 §4 TIMER01/02 and reviewed event-state boundariesrev1; no timercontractfinal yet. Scope: bounded deterministic lifecycle/phase reducer contract+examples+publicstub/testharness, default120sgrace/immediate/confirmation, rescue/repeatedfresh/sharedgrace and exacthardend precedence; pause observations accepted but signal/recovery/schedule algorithms remain scopedtasks. Need independent testreview then actualstubred before CORE002implementation. Author isolatedtask/CORETEST-002-timer-author owns timercontract/interface/stubs/tests/taskbrief/authoring evidence; coordinator rootowns sharedCMake/presets,state/HTML/map/checkpoint/PR. Reviewer isolatedtask/CORETEST-002-timer-review owns separate actualrevision review. No productionbehavior or provider/platform claim."
@@ -13930,6 +13949,11 @@
       "date": "2026-10-31T08:24:40+00:00",
       "task": "CORETEST-002",
       "note": "CORE001 merged806f69f at08:17:59UTC, finalheadbfb7717 all4CIgreen, finalintegrationreviewd555cbc. TimerAPIproposal: already-started Active/Finished advance, Readyrepresentation with explicitinvalid_argument boundary; firststart/Readyhardend policy retainedAPI007/CORE008. Elapsedms+UTCnow+constantpauseinterval, orderedtransitionproposalsavoidlosingovershoot. Ownerasyncquestionpending positivecreditduringconfirmationwait; no policyassumed, othercasesauthoringcontinues. Coordinatorpreparedoptional timer-lifecycle-debug harness; no timerreview/red/productionclaim."
+    },
+    {
+      "date": "2026-10-31T13:32:45+00:00",
+      "task": "ACCTTEST-001",
+      "note": "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
     },
     {
       "date": "2026-10-31T13:45:07+00:00",
@@ -13945,6 +13969,11 @@
       "date": "2026-10-31T13:53:51+00:00",
       "task": "CORETEST-002",
       "note": "Only outstanding timer baseline gate is unanswered owner question: positive accepted credit while awaiting finish confirmation resumes main or remains pending for authorizeddecision.35 cases compile/list, partial reviews a99616a/720acc8 close two coverage gaps, but no fullapproval/red/implementation. Continue independent receiptwork; resume prompts are not a policyanswer. This claim records blocked ownership without merging unreviewed timer artifacts."
+    },
+    {
+      "date": "2026-10-31T13:56:39+00:00",
+      "task": "CORETEST-002",
+      "note": "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests."
     },
     {
       "date": "2026-10-31T13:58:19+00:00",
@@ -13967,16 +13996,6 @@
       "note": "Usage-limit checkpoint: author b0fd97e integrates21-case draft/contract with conservative unknown/default-state oracle; coordinatorccdd17c+harness281c821 configure/build0 and -N lists21. Actual hashes in accttest-002-checkpoint. No bodies/red or independentapproval; assigned author/reviewer bothreported usage limit, reviewerworktree remains main8ad458e with no review. Preserveclaims/worktrees and reassign/resume reviewer afteravailability; no ACCT002production before reviewed/red integration."
     },
     {
-      "date": "2026-10-31T19:32:33.416554+00:00",
-      "task": "ACCTTEST-002",
-      "note": "Actual21-case contribution baseline corrected929152c for2 focused coverage findings and independently approveda561508. At integrated4d1400f configure/build0 then actual CTest exit8,21/21 explicit core/service stub failures, no skips/dependency/build failures. Reviewed tests702a7bf1/interfaces/fake unchanged. Scaffold3/credit23/numeric33/receipt15 pass. Baseline done means reviewed intended red, no implementation or SQL/provider/application claim; final integration/latest PR17 CI/merge pending."
-    },
-    {
-      "date": "2026-10-31T13:56:39+00:00",
-      "task": "CORETEST-002",
-      "note": "Refreshed timer branch with merged receipt baseline main7900a61; reconciled shared root/tests CMake and presets to retain both optional lanes, regenerated progress preserving receipt baseline done and active ACCT001 claim. Timer35/header/stub/contract untouched; only fullapproval/red gate blocked on unanswered confirmation-credit owner policy. No policy inferred from resume requests."
-    },
-    {
       "date": "2026-10-31T19:22:55+00:00",
       "task": "CORETEST-002",
       "note": "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation."
@@ -13990,6 +14009,11 @@
       "date": "2026-10-31T19:30:06+00:00",
       "task": "CORETEST-002",
       "note": "Final39-case timer baseline independently approved2fb544f after owner decision and four additive cases160c7e6; testsbf8c1f46/header69cad702/stub5584f845 unchanged. Atcd59601 after approval actual CTest exit8,39/39 TimerLifecycleNotImplemented failures, no skips/dependency failures. Stable scaffold3/credit23/numeric33/receipt15 and tooling19/DOM pass. Baseline done means reviewed intended red, not timer behavior; final integration review/latest PR14 CI/merge pending. CORE002 waits integrated prerequisite and must activate stable timerCI."
+    },
+    {
+      "date": "2026-10-31T19:32:33.416554+00:00",
+      "task": "ACCTTEST-002",
+      "note": "Actual21-case contribution baseline corrected929152c for2 focused coverage findings and independently approveda561508. At integrated4d1400f configure/build0 then actual CTest exit8,21/21 explicit core/service stub failures, no skips/dependency/build failures. Reviewed tests702a7bf1/interfaces/fake unchanged. Scaffold3/credit23/numeric33/receipt15 pass. Baseline done means reviewed intended red, no implementation or SQL/provider/application claim; final integration/latest PR17 CI/merge pending."
     },
     {
       "date": "2026-10-31T19:34:59.655629+00:00",
@@ -14007,11 +14031,6 @@
       "note": "Claimed task/ACCT-002-contribution-evidence from integrated mainf886af9 after PR17 merged19:40:25UTC; final73bd8f9 all5CIpass, baselineapprovala561508/final3ffb71d/reconciliation4e614fe, actual21stubred4d1400f. Contractcontributionrev1; reviewed tests702a7bf1/core65ad81ac/server82c2e5f7/fake8d35e502. Implementer isolated task/ACCT-002-implementation owns ONLY core/src/contribution.cpp, server/src/contribution_evidence.cpp and implementationevidence; no baseline changes. Coordinator owns sharedbuild/labels/workflow/state/HTML/map/status/checkpoint/PR. Acceptance21fake-backedpassingcases, independent code/configreview, stableregressions and observed automaticcontributionCI. No Qt/SQL/provider/application/refund feature claim."
     },
     {
-      "date": "2026-10-31T19:52:17.117617+00:00",
-      "task": "ACCT-002",
-      "note": "Bounded eligibility/linkagesources author3e76ce9/corec3b2ea0d/server975067bb and CIconfig1beb71f independently approved6e917c7. All21 reviewed unchanged tests702a7bf1 pass root/author/reviewer; reviewer timer39/receipt15/numeric33/credit23/scaffold3 pass. Actualautomatic contributionCI41235930193 atPR19a579e38 passed21 GNU13.3. Main0700d5d integrated, headers/fake/contractnormative unchanged. Simulation-backed implementation done; final statusreview/latest PR19CI/merge pending. SQL/Qt/providerproof/application/refunds/platform/live gates remain separate."
-    },
-    {
       "date": "2026-10-31T19:47:47.890097+00:00",
       "task": "CORETEST-003",
       "note": "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim."
@@ -14020,6 +14039,11 @@
       "date": "2026-10-31T19:51:32.846997+00:00",
       "task": "CORETEST-003",
       "note": "Author proposed contract/header/unconditionalstubs4f24779 integrated, optionalpause-policy-debug harness prepared. Independent cases stillauthoring; no compile/body/red/implementation claim. Two actualownerquestions requested asynchronously: pendingOffline->Unknown reset/freeze/continue and optionalUnknownpause recovery/reset. No answer assumed; dependentcases/fullbaseline gate remainpending while independent work proceeds."
+    },
+    {
+      "date": "2026-10-31T19:52:17.117617+00:00",
+      "task": "ACCT-002",
+      "note": "Bounded eligibility/linkagesources author3e76ce9/corec3b2ea0d/server975067bb and CIconfig1beb71f independently approved6e917c7. All21 reviewed unchanged tests702a7bf1 pass root/author/reviewer; reviewer timer39/receipt15/numeric33/credit23/scaffold3 pass. Actualautomatic contributionCI41235930193 atPR19a579e38 passed21 GNU13.3. Main0700d5d integrated, headers/fake/contractnormative unchanged. Simulation-backed implementation done; final statusreview/latest PR19CI/merge pending. SQL/Qt/providerproof/application/refunds/platform/live gates remain separate."
     },
     {
       "date": "2026-10-31T19:55:10.830024+00:00",
@@ -14507,36 +14531,6 @@
       "note": "Actualfixture5cf review and samee2e officialNEW5green/all11 passed; advance independentfeaturetestauthoring only, firstred stillnotrun."
     },
     {
-      "date": "2026-11-03T05:12:21.161693+00:00",
-      "task": "STORAGE-002",
-      "note": "Explicit owner resume; actual GitHub PR42 MERGED/main995e0fa/no openPRs/effective rules26170263 verified, 82 existing clean and16 absent trees preserved, no prior active agents. Claim bounded bundle implementation with different source reviewer; original reviewed/red gate retained."
-    },
-    {
-      "date": "2026-11-03T05:43:48.669884+00:00",
-      "task": "STORAGE-002",
-      "note": "Reviewed implementation acceptance complete: root35/full209, independent5b35/full209, actual automatic official41585131851 unconditional35 at6133 all11SUCCESS. Task done but PR43 unmerged; finalmetadata/latesthead gates pending before dependent work."
-    },
-    {
-      "date": "2026-11-03T05:51:26.743202+00:00",
-      "task": "ACCTTEST-004",
-      "note": "Normally merged PR43 exact34ed asmain8c7 afterall11 latestgates. Claimed next dependency-ready servicebaseline; contract-only author/reviewer isolated branches created fromintegratedmain beforeedits. No serviceAPI/test/red/implementation authored yet."
-    },
-    {
-      "date": "2026-11-03T06:00:00.602322+00:00",
-      "task": "ACCTCONTRACT-001",
-      "note": "Actual missing durablehold port found; explicit logicalcontract+STORAGETEST016/STORAGE016 prerequisite split, originalservice baselineplanned. PR44 narrowed to documentationtask, no requirement/testgate removed. Author/reviewer reassigned same alreadyisolated8c7trees; no serviceproduction/API/test authored."
-    },
-    {
-      "date": "2026-11-03T06:18:50.839133+00:00",
-      "task": "ACCTCONTRACT-001",
-      "note": "Actual925 independentlogicaldocument+planningapproval;21literalAS/7independentexactaudits,396acyclicgraph, no implicitglobaltimerpolicy. CompleteDOCtaskonly; API/schema/test/red/implementations016/017/servicefuture. PR44 latestcompletion/normalmerge gates next."
-    },
-    {
-      "date": "2026-11-03T06:31:35.339083+00:00",
-      "task": "STORAGETEST-017",
-      "note": "NormallymergedPR44 exactdd5 asmain21c afterall11latestgates; fetched/localmainFFbeforefreshdedicatedclaim. Begin concrete earlyoriginalclaims querycontract only; actualdifferentreview beforeAPI/stubs/build/independentfixtures/tests/red. No newreader artifacts or behavior yet."
-    },
-    {
       "date": "2026-11-03",
       "task": "STORAGETEST-016",
       "note": "Reviewed durable-hold35-slot/265-scenario baseline reaches independently verified revised intended red after genuine SQL-setup corrections and own selectedQt gate. Initial invalid attempt retained. Baseline done; PR47 final metadata CI/merge and STORAGE016 production remain separate."
@@ -14575,6 +14569,36 @@
       "date": "2026-11-03",
       "task": "ACCTTEST-004",
       "note": "Reviewed observed-red baseline complete after independent attribution:35/224 named failures, valid setup. Final PR49 metadata CI and normal merge remain, then stop. ACCT004 stays planned."
+    },
+    {
+      "date": "2026-11-03T05:12:21.161693+00:00",
+      "task": "STORAGE-002",
+      "note": "Explicit owner resume; actual GitHub PR42 MERGED/main995e0fa/no openPRs/effective rules26170263 verified, 82 existing clean and16 absent trees preserved, no prior active agents. Claim bounded bundle implementation with different source reviewer; original reviewed/red gate retained."
+    },
+    {
+      "date": "2026-11-03T05:43:48.669884+00:00",
+      "task": "STORAGE-002",
+      "note": "Reviewed implementation acceptance complete: root35/full209, independent5b35/full209, actual automatic official41585131851 unconditional35 at6133 all11SUCCESS. Task done but PR43 unmerged; finalmetadata/latesthead gates pending before dependent work."
+    },
+    {
+      "date": "2026-11-03T05:51:26.743202+00:00",
+      "task": "ACCTTEST-004",
+      "note": "Normally merged PR43 exact34ed asmain8c7 afterall11 latestgates. Claimed next dependency-ready servicebaseline; contract-only author/reviewer isolated branches created fromintegratedmain beforeedits. No serviceAPI/test/red/implementation authored yet."
+    },
+    {
+      "date": "2026-11-03T06:00:00.602322+00:00",
+      "task": "ACCTCONTRACT-001",
+      "note": "Actual missing durablehold port found; explicit logicalcontract+STORAGETEST016/STORAGE016 prerequisite split, originalservice baselineplanned. PR44 narrowed to documentationtask, no requirement/testgate removed. Author/reviewer reassigned same alreadyisolated8c7trees; no serviceproduction/API/test authored."
+    },
+    {
+      "date": "2026-11-03T06:18:50.839133+00:00",
+      "task": "ACCTCONTRACT-001",
+      "note": "Actual925 independentlogicaldocument+planningapproval;21literalAS/7independentexactaudits,396acyclicgraph, no implicitglobaltimerpolicy. CompleteDOCtaskonly; API/schema/test/red/implementations016/017/servicefuture. PR44 latestcompletion/normalmerge gates next."
+    },
+    {
+      "date": "2026-11-03T06:31:35.339083+00:00",
+      "task": "STORAGETEST-017",
+      "note": "NormallymergedPR44 exactdd5 asmain21c afterall11latestgates; fetched/localmainFFbeforefreshdedicatedclaim. Begin concrete earlyoriginalclaims querycontract only; actualdifferentreview beforeAPI/stubs/build/independentfixtures/tests/red. No newreader artifacts or behavior yet."
     },
     {
       "date": "2026-11-04",
@@ -14687,24 +14711,24 @@
       "note": "Claim bounded pure permission evaluator implementation from integrated reviewed/red baseline; fresh isolated implementer/reviewer assignments, no prior review or first-red repetition."
     },
     {
-      "date": "2026-11-05T16:38:51+00:00",
-      "task": "ACCESS-002",
-      "note": "Complete bounded evaluator acceptance with original30 preserved,2 separately reviewed focused regressions, independent full69 and observed selected official32 execution. Final publication/merge gates remain."
-    },
-    {
       "date": "2026-11-05T16:23:51+00:00",
       "task": "CONTRACT-014",
       "note": "Claim dependency-ready concrete reference application adapter document in isolated branch; actual independent contract review required before downstream tests/code."
     },
     {
-      "date": "2026-11-05T16:55:39+00:00",
-      "task": "CONTRACT-014",
-      "note": "Complete independently reviewed concrete reference consumer contract and explicit durable capture producer prerequisites. Documentation only; final focused publication/integration gates remain."
+      "date": "2026-11-05T16:38:51+00:00",
+      "task": "ACCESS-002",
+      "note": "Complete bounded evaluator acceptance with original30 preserved,2 separately reviewed focused regressions, independent full69 and observed selected official32 execution. Final publication/merge gates remain."
     },
     {
       "date": "2026-11-05T16:44:46+00:00",
       "task": "SESSION-001",
       "note": "Resume preserved original claimffdef49 with refreshed main and explicit fresh author reassignment; no duplicate claim or previous agent assumed running."
+    },
+    {
+      "date": "2026-11-05T16:55:39+00:00",
+      "task": "CONTRACT-014",
+      "note": "Complete independently reviewed concrete reference consumer contract and explicit durable capture producer prerequisites. Documentation only; final focused publication/integration gates remain."
     },
     {
       "date": "2026-11-05T17:06:09+00:00",
@@ -14762,6 +14786,11 @@
       "note": "Complete boundedcodec component: actualordinaryselected42098018635 at8dSUCCESS/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/newfoundation4-6QtPASS0skip295ms/exact28/UNCONDITIONAL28PASS0.10s/oldlanes/all17checks. Differentreviewer full source/config09a plusactualCI/metadatafea65b8 approves finalfa3/private9fc and unchanged27+reviewed8rowregression/reachedredbeforeboundedfix. Root/author337PASS0warnings/skips/newSQLcapturecases. Task019donewithactualpassingacceptance+differentreview, finalcompletionpublication/latestheadCI/normalmerge remain; STORAGE018planneduntil019integrates, decisionmapsstaypartial."
     },
     {
+      "date": "2026-11-05T20:10:02+00:00",
+      "task": "STORAGE-018",
+      "note": "Claim task/STORAGE-018-initial-capture-store from actualmain41c4842 after normalPR69 merge20:08:44Z/exacthead768074b/all17finalSUCCESS/currentrules0approvals/0threads/CLEAN; merge/headtrees equal. Integrated STORAGETEST018 and STORAGE019 release SQL implementation without replaying historicalFIRSTreds. ExactSQL31/51 CPP58b22366, literal878005d and manifestprefix1..6/accepted7 frozen. Sourceauthor capture_fixture_author owns ONLY sqlite_reference_capture.cpp, optional narrow privatehelper and own evidence; root owns allsharedbuild/CI/state/map/HTML/pins/schema/publicABI/tests. Implement bounded caller-session source/receipt indexed lookup, complete selected original closure, immutable initial insert and honest cleanup/unknown semantics; no adoption/commit/currentauthority/evaluator/provider. Actualdifferent source/config review, passingSQL31+old337 and ordinaryselected31CI required beforedone. No baseline assertion/fixture/header/sharedcodec edits authorized to author."
+    },
+    {
       "date": "2026-11-05T20:13:17+00:00",
       "task": "CONTRACTPLAN-004",
       "note": "Claim dedicated task/CONTRACTPLAN-004-session-contract-gates from actualmain41c4842. Read-only investigation found CONTRACT013 graphready but explicitbrief/referencepath blockfinalization on absentSESSION003transport contract. DOCUMENT planning only: record actualmissing supplier, add SESSIONCONTRACT001 task/prerequisite edges preservingalloldscope/runtimegates; rootownsADR/briefs/state/HTML/evidence. Separateactualreview beforedone. No authchoice/schema/API/test/code/CI/pin changes. Concurrent SQL018claim d73 at/tmp/subathon-storage018 remainsactive andmustbepreservedonintegration."
@@ -14770,6 +14799,21 @@
       "date": "2026-11-05T20:26:00+00:00",
       "task": "CONTRACTPLAN-004",
       "note": "CompleteDOCUMENT-only graphrepair afteractualdifferent477d43f/import584a3fc reviewoffinalddadc20 andboundedEPIC007summary7→8fix. Exactold420IDs/1608edges/statuses/owners/reviews/evidence preserved; new422/1619/2records11edges, sessiondocument001PLANNED andnoauthchoice/capabilityfinalized. Actualgraph/project/render/19tooling/whitespacePASS. API010/runtimeSESSION003gates unchanged. Finalmetadata/latestpublicationCI/currentrules/normalmerge remain; concurrentSQL018claim c06/PR70 preservedonseparatebranch."
+    },
+    {
+      "date": "2026-11-05T20:56:38+00:00",
+      "task": "STORAGE-018",
+      "note": "Integrate actualmainba66804/normalPR71 exact5b1aa/all17SUCCESS/currentrules/0threads/CLEAN, preserve ownSQL018in_progress row/owner/deps/evidence/activity and allsource/tests frombeforemerge. OnlysharedJSON/HTML/checkpoint conflicts; mainnewSESSIONCONTRACT001planned, CONTRACTPLAN004done, graph422/1619 preservesallrequiredgates. Sourceauditpendingaggregate/activityorigin fixes; no implementationdoneclaim."
+    },
+    {
+      "date": "2026-11-05T21:14:26+00:00",
+      "task": "STORAGE-018",
+      "note": "Combined SQL source90eeca7/importc0ff1ec CPPccdc4f6 implements caller-session immutable initial capture lookup/retain/closure. Independent source audit found four regression families; seven additive reviewed methods/16 scenarios reached intended behavior red before each bounded fix, original31/51 assertions/literal878 preserved. Root375 PASS28.29s, author37529.19, reviewer37528.32, zero failed-disabled-skipped/warnings. Different final source approval actual90 recorded; actualCI/config/finalmetadata gates remain. Ordinary38SQL CI promotion authored, not yet observed. Taskin_review, notdone; DB01/NUM04 partial and all release gates preserved."
+    },
+    {
+      "date": "2026-11-06T00:58:21+00:00",
+      "task": "STORAGE-018",
+      "note": "Complete bounded STORAGE018 component after original31/51 plus seven separately reviewed/reached-red methods16scenarios (now38/67), accepted finalSQLsource90/ccdc and ordinaryCIb4 source/configreview2be. Root/author/reviewer375PASS0warnings/skips; OWN selectedofficialQt42110989863 atfe440acSUCCESS/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/newfoundation4-6QtPASS0skip354ms/exactcodec28/unconditional28PASS0.13s/exactSQL38/unconditional38PASS6.15s/oldmandatorylanes/all17publishedchecks. Source/component taskdone with passingacceptance+differentactualreview; finalcompletionmetadata/latestpublicationCI/currentrules/discussions/normalmerge remain. DB01/NUM04partial; allactualproducer/provider/recovery/UI/platform/fullreleasegates retained. Ownerrequests finishonlyopenPR70thenstop; unpublishedauthsplit/claims preserved, no nexttask."
     }
   ]
 }

@@ -237,7 +237,7 @@
     },
     {
       "name": "sqlite-reference-capture-debug",
-      "displayName": "28 \u00b7 Reference-capture codecs and SQLite baseline",
+      "displayName": "28 \u00b7 Reference-capture codec and SQLite acceptance",
       "inherits": "application-service-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS": "ON"

@@ -286,4 +286,9 @@ stored-reference limits. [STORAGE-019 evidence](evidence/storage-019-handoff.md)
 records28 passing codec cases, a separately authored/reviewed/reached-red error-
 priority regression, independent source/config audit and publication gates.
 These codecs grant no admission/authority and perform no SQL. The durable initial
-capture index remains STORAGE-018; actual producers and full release gates remain.
+capture index is implemented by STORAGE-018 on the caller's actual Qt SQL writer
+session. It uses fixed metadata and bounded indexed source/receipt probes before
+owning selected payloads, validates immutable closure, and stages one first binding
+without taking transaction ownership. [SQL evidence](evidence/storage-018-handoff.md)
+records38/67-scenario acceptance and separate source/resource/config review.
+Actual producers and full release gates remain.

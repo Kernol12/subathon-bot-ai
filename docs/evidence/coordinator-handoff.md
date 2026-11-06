@@ -1,64 +1,78 @@
-# Coordinator checkpoint — auth prerequisite plan ready, SQL implementation under review
+# Coordinator checkpoint — finish PR70, then stop
 
-Coordinator /root,5 November2026. Full product incomplete. No ownerdecision/access
-action currentlyneeded; GitHub/SSH works. No live/provider/chat/payment/deploy ops.
-Inspectactualstate onresume; oldagents/processes/checks maybestale.
+Coordinator /root, 6 November 2026. Owner's latest instruction is to finish the open
+PRs cleanly and then stop. PR70 is the only open PR. Do not continue the standing
+coordination loop, begin tasks or publish the unfinished auth document work. Full
+agreed product remains incomplete; no owner decision/access action is needed.
 
-## Actual main and integrated prerequisites
+## Main and completed integration
 
-Main41c48424b2cf582b8afdf550357c0562577df8dd, primary clean. PR69normalmerged
-at20:08:44Z, exact768074b/all17SUCCESS/currentrules26170263/0requiredGitHub
-approvals/0unresolvedthreads/CLEAN/mergetree=headtree. PR68baseline previously
-normalmerged8435fb0; its16postmainchecks observedSUCCESS. Prior64/65/66/67
-stayintegrated. Alloldbranches/worktrees/validreviews/FIRSTreds preserved.
+Last observed main `ba6680436a69f9b34026a9d53bccbb27e3e7f70a`, primary clean.
+PR71 prerequisite repair merged normally20:42:07Z5 November, exact5b1aa240,
+all17SUCCESS/currentrules26170263/zero requiredGitHub approvals/zero threads/CLEAN;
+head/merge trees equal. SQL branch integrates this main. PR69 codecs merged41c4842,
+PR68 baseline8435fb0; earlier64/65/66/67 integrated. All old branches/worktrees
+and parkedasset011 remain. No reset, prune or discarded unfinished work.
 
-[Codec handoff](storage-019-handoff.md)/[CI](storage-019-ci.md)/[review](storage-019-review.md)
-pin fa3/private9fc, ordinary28PASS/root337PASS, independentlyreached8rowpriority
-red before boundedfix. [SQL baseline](storagetest-018-handoff.md) pins58b/878,
-validFIRSTclean63331/51markers afterownselectedCI; initial50+1invalid preserved.
-Neverreplaythosecompletedgates or weakenbaseline assertions.
+[Baseline](storagetest-018-handoff.md) preserves codecFIRST550 and SQLFIRSTvalid633
+reds after selected foundations. The initial SQL setup-error attempt stays invalid.
+[Codec evidence](storage-019-handoff.md) preserves original27 plus separately
+reviewed/reached-red priority regression and ordinary28CI. Never replay FIRST reds.
 
-## Concurrent actual SQL018 claim/source
+## PR70 completion gates
 
-Root /tmp/subathon-storage018/task/STORAGE-018-initial-capture-store,
-[draftPR70](https://github.com/Kernol12/subathon-bot-ai/pull/70) publishedclaime0c7070.
-Actualsourcece8d4d7+evidence984f2eb importedUNPUBLISHEDroot54967ed+c06e6f0.
-Author capture_fixture_author at/tmp/subathon-storage018-author ownsONLYSQLCPP/
-optionalprivatehelper/ownnote. Preserved31/51PASS2.52s andold337PASS24.92s;
-actualCODEaudit by different capture_reviewer active. No sourceapproval/CIpromotion
-or taskcompletion claimed. Canonicalmalformeddata classification for unindexed
-candidates flaggedforactualreview; authorHOLDSe8 unchanged untilreviewed additive
-regression/behaviorred authorizes anycorrection. No fixtures/tests/header edits.
+Root `/tmp/subathon-storage018`, `task/STORAGE-018-initial-capture-store`,
+[PR70](https://github.com/Kernol12/subathon-bot-ai/pull/70) published implementation
+`fe440ac1c45380367d4f972f3de18084991ea058`, plus local completion metadata.
+Final SQLsource90eeca7/importc0ff1ec CPPccdc4f616529aedc310ffc75259a79f7690239b5;
+SQLtest5c4dd48162d224220cae5c0a95813e7dc9608136/literal878005d unchanged.
+[Handoff](storage-018-handoff.md), [native](storage-018-native.md),
+[author](storage-018-author.md), [separate review](storage-018-code-review.md),
+[actual CI](storage-018-ci.md).
 
-This planningbranch snapshotcontainsSQL018planned frommain; it doesNOTrevoke
-the activeclaim onSQLbranch. Integrate this futuremain plan there by preserving
-ownSQLrow/activity and sourcework, never replacing it withthis mainsnapshot.
-Root owns sharedbuild/CI/state/maps/HTML/pins/schema/migrations/publicinterfaces.
+Original31/51 preserved; seven independent additive methods/16 scenarios across four
+regression families reached reviewed intended behavior red before authorized fixes.
+Now38/67. Root375 PASS28.29s, author37529.19s, different reviewer37528.32s;
+zero failed/disabled/skipped/warnings. Final source90 and CIb4 independently approved
+2beedaf/importfe440ac; initial metadata24fcb44/import02bc203 preserves422/1619,
+partialDB01/NUM04 and accurate scope. Bounded wording/configuration-status findings
+are corrected in completion metadata. Source and tests remain frozen.
 
-## CONTRACTPLAN004 document repair
+OWN ordinary selectedQt42110989863 atfe440ac completedSUCCESS21:19:03Z5 November.
+GNU13.3/Boost1.83/Qt6.12SQLite3.53.4, foundation4slots/6QtPASS0skip354ms,
+codec28PASS0.13s, exactSQL38/unconditional38PASS6.15s, all inherited mandatory
+lanes pass. Independent reviewer downloaded the same log/SHA and approves CI receipt.
+All17fe440ac checks passed; rules26170263 active/no bypass/zero approvalcount,
+no review threads. Final completion metadata review/latest-head checks and normal
+merge still required. Task018 component done; publication/merge state is separate.
 
-Root /tmp/subathon-auth-plan/task/CONTRACTPLAN-004-session-contract-gates from
-main41c, claimfd8484c/finalauthoredcandidate ddadc20, actualdifferentapproval
-477d43f/import584a3fc. Rootauthored plan only; reviewer capture_codec_tests didnot
-author documents and approved exactgraph/wording. [ADR0007](../decisions/0007-session-contract-prerequisite.md),
-[handoff](contractplan-004-handoff.md), [review](contractplan-004-review.md).
+Only capture_reviewer remains assigned to bounded actual completion review; owns
+storage-018-code-review.md on isolated review branches. Source author and regression/
+auth author hit usage limits; no work is assumed running. No root native command
+is active. Stop the reviewer after its actual final note and finish only PR70.
 
-Plan004done; futureSESSIONCONTRACT001 remainsPLANNED/unreviewed. Two newrecords
-and11edges make422/1619 while preservingold420/1608/statuses/runtimegates.
-Missingactualsession supplier/transport document nowexplicitlyblocks CONTRACT013
-andSESSIONTEST002/003; the graph no longer mistakes componentpassword/wire/
-permissiondata forauthentication. No authprotocolchoice/schema/API/test/support
-finalized. Newdoc mustreceiveactualauthoring/oracles/differentreview separately.
+## Preserved unfinished local work
 
-## Next concrete actions
+Auth root `/tmp/subathon-sessioncontract001`, branch
+`task/SESSIONCONTRACT-001-session-transport`, cleanlocaleb98c18, unpublished/no PR.
+Based on mainba66804; claim439206f/splitcb0a2a0/correctednavigationeb98c18.
+Author `/tmp/subathon-sessioncontract001-author`, branch
+`task/SESSIONCONTRACT-001-document-author`, cleancb0a2a0; no contract authored.
+Original001 was split before content into supplier001 and transport002. New002
+requires integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 requireboth.
+Old422IDs/1619edges retained→423/1624. Local001in_progress,002planned. Main's
+001 remains planned. Preserve these claims and graph changes; do not overwrite SQL018
+with this branch's old planned snapshot. A resumed future task must reconcile main.
 
-Finalindependentplanningcompletionmetadata review, publishfocusedplanPR, observe
-latestheadCI/rules/discussions andnormalmerge. Thenintegratemain intoactiveSQL018
-carefully retainingitsclaim; continueactualSQLsourceaudit, bounded separately
-reviewed regressions for confirmeddefects, ordinary31CI onlyafterpassingaccepted
-implementation. CurrentSqlsourceauthor/reviewer assignments areexplicit; do not
-assume completedcodec/planningreview sessions stillrunning onresume.
+Independent auth split review found EPIC007summary9 and stale combined descriptions;
+root fixedeb98c18, but final independent rereview/document authoring never completed.
+Review support tree `/tmp/subathon-sessioncontract001-review` may contain unfinished
+review evidence; inspect actual state before reuse. No auth choice/API/schema/test/
+runtime capability or accepted contract follows from this unfinished plan.
 
-Allsevenintegrations/threeFX, realauthority/session/clock/APIproducers, renderers/
-locales/themes/platforms/OBS/packages/licenses/security/recovery/live/fullrelease
-remainrequired. No execution is promised while this session is stopped.
+After PR70 passes all gates, normalmerge, refresh primarymain and record the actual
+merge receipt in the PR/durable local checkpoint. Preserve all unfinished refs. Verify
+no open PRs or active agents/commands remain, then stop as requested. Do not start002
+or any newtask. Full product, all seven integrations/threeFX and actual session/account/
+clock/authority/policy/action/API producers, renderers/locales/themes/platforms,
+OBS/packages/licenses/security/recovery/live verification remain required.
