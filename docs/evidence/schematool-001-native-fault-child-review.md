@@ -60,3 +60,22 @@ must pass before execution; original producer assertions are byte-identical.
 Foundation285 and other artifacts are unchanged if their actual hashes confirm.
 Existing LOCAL56 and C attribution remain evidence for the earlier artifact set;
 new producer controls and both-host guards must be observed for the new child.
+
+## Controlled inherited-FD regression source
+
+Root independently reviewed A3fbd47d, producer CPP7ceb2d7. SOURCE APPROVED for
+compile/static plus ONLY report28 selected fixture-red after current generated
+entry/binding guards. A adds one genuine F_DUPFD>=64/non-CLOEXEC read alias of an
+already owned source, deliberately excluded from the four known child-close
+fileactions. Successful result is tracked even if later setup fails; parent copy
+closes once and checks raw0/EBADF before further FD creation. Peak5 owned handles
+before birth/6 with pidfd, independent producer resources, no fault-fixture sixth
+slot/ABI/channel change. All24 old literals/assertions/known4closeactions exact,
+four extra sentinel checks only. No closefrom correction exists yet.
+
+Actual hosted6a/42279145549 now executesall56 onbothhosts:55PASS, report28 alone
+observes8FDs vs6 (unrelated142/145). This controlled sentinel should independently
+reproduce that launcher defect locally without lowering the six-FD oracle.
+This is fixture failure, not native owner red. The native owner remains literal31.
+The existing285 admission is not relabelled as this newly built artifact; root
+will record actual new strict graphs/binding before the selected fixture run.
