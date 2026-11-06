@@ -326,6 +326,57 @@ class LibraryFoundation(unittest.TestCase):
         self.assertEqual(raw_reads, [valid, invalid])
         self.assertEqual(retrievals, [])
 
+    def test_sdk_fixed_oas_specification_retains_nested_schema_scope(self):
+        from referencing import Specification
+        from referencing.exceptions import NoSuchResource
+        from referencing.jsonschema import DRAFT202012
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        document_uri = "https://local.invalid/package/api.json"
+        sample_uri = "https://local.invalid/package/schemas/sample.json"
+        leaf_uri = "https://local.invalid/package/schemas/nested/leaf.json"
+        integer = {"$anchor": "integer", "type": "integer"}
+        leaf = {"$id": "nested/leaf.json", "$anchor": "leaf", "type": "object",
+                "$defs": {"Integer": integer}, "properties": {"value": {"$ref": "#integer"}},
+                "required": ["value"], "additionalProperties": False}
+        sample = {"$id": "schemas/sample.json", "$defs": {"leaf": leaf},
+                  "default": {"$id": "https://outside.invalid/data-id",
+                              "$ref": "https://outside.invalid/data-ref"}}
+        document = {"openapi": "3.1.1", "info": {"title": "Synthetic", "version": "1"},
+                    "paths": {}, "components": {"schemas": {"Sample": sample}}}
+        def enter_scope(segments, resolver, subresource):
+            if tuple(segments) == ("components", "schemas", "Sample"):
+                return resolver.in_subresource(subresource)
+            return DRAFT202012.maybe_in_subresource(segments, resolver, subresource)
+        # ONLY this known fixture container supplies a schema child. All of its
+        # enumerated schema descendants keep native Draft202012 metadata behavior.
+        specification = Specification(
+            name="fixed-oas-schema-scope-fixture",
+            id_of=lambda value: None if value is document else DRAFT202012.id_of(value),
+            subresources_of=lambda value: [sample] if value is document
+                else DRAFT202012.subresources_of(value),
+            anchors_in=lambda _spec, value: () if value is document
+                else DRAFT202012.anchors_in(value),
+            maybe_in_subresource=enter_scope)
+        registry = self.registry_class(retrieve=denied).with_resource(
+            document_uri, specification.create_resource(document)).crawl()
+        resolved = registry.resolver(base_uri=document_uri).lookup(
+            "#/components/schemas/Sample/$defs/leaf")
+        self.assertEqual(resolved.contents, leaf)
+        self.assertEqual(resolved.resolver.lookup("#leaf").contents, leaf)
+        self.assertEqual(resolved.resolver.lookup("#integer").contents, integer)
+        self.assertEqual(registry.resolver(base_uri=document_uri).lookup(sample_uri).contents,
+                          sample)
+        self.assertEqual(set(registry), {document_uri, sample_uri, leaf_uri})
+        for cls in self.classes:
+            validator = cls({"$ref": leaf_uri}, registry=registry)
+            validator.validate({"value": 7})
+            with self.assertRaises(self.error):
+                validator.validate({"value": "wrong"})
+        self.assertEqual(retrievals, [])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
