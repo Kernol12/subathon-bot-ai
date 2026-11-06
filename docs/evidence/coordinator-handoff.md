@@ -5,6 +5,51 @@ GitHub inspection finds only draft [PR77](https://github.com/Kernol12/subathon-b
 open. Do not start another task/PR or continue the standing selection loop after
 normal merge77. No owner decision/access is currently needed. No live operations.
 
+## Latest decisive handoff (supersedes older active-assignment details)
+
+Currentroot c87bc97, clean. PublishedPR77 still928/all21green/DRAFT, main095.
+AactualPythona8 wasreviewedC andgenuineheaderhandleleakfound; A b9test independently
+rootreview78, actual FIRST1method/2subcases ONLYfstatlive[0]!=EBADF[9] (259raw).
+FinalA447 protectedacquisition/originalexceptionpriority approvedCfd223, imported
+313/3c. SAMEregression actualPASSclean3c/1method2subcases/.005s/noCentry, archived
+[c87note](schematool-001-native-loader-cleanup-pass.md). Pythonsourceapprovalvalid.
+
+Bactualimmutableowner75d2a298 (831core046c/rawf96/entryfdca) importedb620. Rootactual
+3filecompile-onlyreview456+C398/544 buildreview+exactGNUmetadataflagack permit
+compileONLY. Actualclean456 config0/build8steps0/0warnings20:29:56Z, noELFload/run/
+list/bootstrap/discovery. NewprodSHA d267160e/fault17e9a130/foundationc23be5d5;
+[fullarchive](schematool-001-native-owner-compile-only.md) retains.ci/.su/disassembly/
+exports/relocs/rawcommands. Oldstrictstaticauditors BOTHREFUSEentryTLS/canary;
+no newowner/runtime capability/pass claimed. Raw/tmp/schematool001-owner-static-stage,
+compile/tmp/schematool001-owner-compile-only; allsessionscomplete.
+
+Liveagents nowexplicitlyassigned: B session_supplier_author authorsONLYbounded
+codegen SOURCEcorrection inNEWisolatedbranchfrom3c, owns3ownerfiles PLUS
+native_fault_ops.h+note. Exactactualcanary-edgefunctions getfunction-scoped
+no_stack_protector (no global/harnesshardeningchange); impossiblekernelcontract
+traps become rawnonreturningexit_group127 (no inventedreturn/guessedPID/cleanup);
+denseFaultOps.target switch becomes exactequivalentifchain incldefault. Cack
+sourceauthoringonly, actualdelta reviewBEFORErootrebuild. A
+session_supplier_review authorsONLYnew audit_native_owner.py +focusedliteral
+native_owner_audit_controls.py+note, isolatedfromroot456, usingactualcompiled
+artifactsREADONLY, neverELFload/run. Strictwholeowner/child/canary/trap/indirect
+gates preserved; no namespace-wide whitelist/defaultunknownframe0. C
+session_plan_review nowindependentlyreviewsWHOLEB75semantic/resourcecode and
+futurecodegenactualdelta/generatedartifacts; Pythonfinalreviewalreadycomplete.
+Rootownsoldauditorintegration/build/CI/state; existinginertentryguardsstillfailclosed.
+Inspectactualagentstatus/worktreepaths onresume; do notassumerunning.
+
+GNUdynamic,bounded actualmetadata iscompiletimeTOTALstackupperboundforfixed
+outgoingargumentpush/pop (primaryGCC11.5docverified); acceptONLYwithactual
+fixed-immediateRSPproof, rejectunbounded/unknown/missing. Mangled.cialiasesmust
+mapactualELF+sameframednode; inheritedABI/parentframescounttowhole32768. FD8
+sourceproof+raw57ledger, notgenericbinaryclaim. SemanticCTestprogramcount65
+nowincludesactualreviewedloadercleanup1; originalnative69/binding9/public74/
+foundation56 remainmandatory; SDK14separatejobs preserved. No newruntime
+publicationbeforeactualsource/generatedgates. Next: exactcorrectionreview→rebuild
++newstrictcheckerreview/bounds→fullsemantic/facilityacceptance/bothhostlatestCI→
+normalmerge77→refreshmain/finalcheckpoint/stopagents/STOP. Noownerdecisionneeded.
+
 ## Repository and publication
 
 Main/origin main last observed095d192c834e8e7746a7922865bbf0e11d06f905, clean.
