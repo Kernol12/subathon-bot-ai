@@ -1,0 +1,29 @@
+{
+  "source": "a45fa9bf0a8c3a7b378121bc223c69306835bf07",
+  "artifact_sha256": "285d47cd4046632737aa06fe08890f8fc4d41410cbd9ff28a3b1751d715a8a38",
+  "command": [
+    "ctest",
+    "--preset",
+    "schema-transport-debug",
+    "-L",
+    "^schema-native-foundation$",
+    "--no-tests=error",
+    "--verbose"
+  ],
+  "start_utc": "2026-11-06T18:55:59.231647+00:00",
+  "seconds": 0.1661731689964654,
+  "returncode": 0,
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "stdout": {
+    "bytes": 79453,
+    "sha256": "002f40fca95d57815ffee13563ddfb16a28a8eb0e7224c3a04274e483c47c531"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

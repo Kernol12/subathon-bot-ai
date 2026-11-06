@@ -22,8 +22,9 @@ were preserved. No test command remains running at this checkpoint.
 586e18ba01c1ee25c5ab418e3a2e54179a5bd9f0, actual21 latest checks SUCCESS. These are
 Python functional +native STATICbuild evidence, NOT native owner acceptance.
 Local later source/review commits follow; inspect actual log/status. Runtime
-workflow7ef0a16 is authored/unpublished, actualB source verdict APPROVED and note
-commit pending. Publication waits applicable actual local/source/runtime release;
+workflow7ef withbf45env correction now independentlyapprovedBa230/Cdf4. ActualLOCAL56
+passed atcleana45; publication authorized for ordinarydiagnosticdraft CI. Latest
+publication/checks must be refreshed after push;
 never markReady/merge just because old remote checks pass.
 
 ## Preserved functional evidence and current owner gap
@@ -82,8 +83,9 @@ C0105 preserves15b actualproof; Cd1 independentlyadmits corrected285 for ONEboot
 
 Actual FIRST corrected285 NO-CHILD bootstrap at clean54b52f4,18:45:43Z: exactly1XML
 passing case/native0/0errors-skip-disabled, rawstdout624/stderr208/XML1210. Current
-[raw/receipt/note](schematool-001-native-helper-binding.md) await C actual attribution
-before any full56CTest discovery/kernel/helper/loader run. Actual libc2.44/
+[raw/receipt/note](schematool-001-native-helper-binding.md) received actualCc6 attribution/importa45 BEFORE full56 LOCALrun. At cleana45,
+18:55:59Z strict56inventorypassed, thenall56CTestPASS/native0/.16s/0skip-error,
+raw79453B/SHA002f40fc/stderrempty. No owner behavior or hosted runtime pass inferred. Actual libc2.44/
 kernel7.2.14/seccomp2, syscall offset11e450; no denial invented. NO currenthelper or
 owner behavior has run. NewruntimeCI7ef sourceBapproved conditional static→strict1XML→
 exact55native+loader1→unconditional56 onbothhosts; no negative owner red hidden.
@@ -121,16 +123,17 @@ bindingimplementation. Native25/26 remainseparate genuinechildownership checks.
 
 * A session_supplier_review ACTIVE public74SOURCEports; earlier57+PID/scalar+125 trees
   clean and preserved. No executing tests. Read actual collaboration status.
-* B session_supplier_author ACTIVE finalizing7efCIreviewnote after actualAPPROVED
-  verdict; completedsourceOps417 andstatic207. No ownerimplementation assignment yet.
-* C session_plan_review completed corrected285 artifactadmissiond1; reassign actual
-  binding54 rawresultattribution torelease LOCAL56, then conditional BOTHhostruntime
-  admission underreviewedautomaticgates. No candidateexecution byreviewer.
+* B session_supplier_author completedCIa230/static207, actual57 findingsab092
+  withholds approval for AFTERprogress/FDidentity andP3/P4prior-acquisition gaps.
+  Rootcorrectingthenreassignactualrereview. No ownerimplementation assignment yet.
+* C session_plan_review completed d1/c6/df4 actual285/bootstrap/envCI reviews.
+  ReassignactualLOCAL56 attribution and laterhostedresults; no candidateexecution
+  byreviewer. Conditional BOTHhostruntime sourceadmission actualpassed.
 * Root integrates/progress/build/CI, reviews actualOps625 and57source, then publishes
   independentlyreviewed automaticfacilityworkflow. Currenttaskin_progress/partial.
 
-Next: C bindingattribution → execute exactenabledLOCAL56; fix genuinefixture issues
-withoutweakeningoracles → observe actualBOTHhostfacilityGREEN → reviewed57+direct12
+Next: preserve/attribute actualLOCAL56; publishreviewedruntimeCI and observe actual
+BOTHhostfacilityGREEN → reviewed57+direct12
 FIRSTactual31 → commonowner/RawOps implementation andindependentcode/generated/resource
 review; publicportsFIRST thenbindingimplementation; all74/fullnewnativeacceptance/
 latestbothhostCI/threads/rules gates → normalmerge77, updatecheckpoint, STOP.

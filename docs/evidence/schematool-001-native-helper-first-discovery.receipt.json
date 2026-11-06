@@ -1,0 +1,27 @@
+{
+  "source": "a45fa9bf0a8c3a7b378121bc223c69306835bf07",
+  "artifact_sha256": "285d47cd4046632737aa06fe08890f8fc4d41410cbd9ff28a3b1751d715a8a38",
+  "command": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-S",
+    "-B",
+    "/tmp/schematool001-local-native-inventory.py"
+  ],
+  "start_utc": "2026-11-06T18:55:59.169309+00:00",
+  "seconds": 0.06214675499359146,
+  "returncode": 0,
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "stdout": {
+    "bytes": 78,
+    "sha256": "53cb24257c2dbb6081a98e39f7812cbc24f8879901d0e54ad78489dce8fdda65"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
