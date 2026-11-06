@@ -1,3 +1,6 @@
+Current completion and merge gates: [final task handoff](schematool-001-completion.md).
+The original claim below is historical evidence, not current status.
+
 # SCHEMATOOL-001 — actual integrated-baseline implementation claim
 
 /root,6 November2026. NEW `/tmp/subathon-schematool001`,
