@@ -697,3 +697,66 @@ Actually performed: source/diff/reason review; actual local nm metadata only;
 bash-n on7 run blocks and embedded Python3.10 AST/compile without exec;
 project426/122, render--check and diff--check PASS. No export-script run, native
 candidate, checker/control replay, kernel probe or GitHub write occurred.
+
+## Actual clone-entry automation and literal controls
+
+Reviewer C, fresh isolated branch from actual
+`004bb99e2fcd74a011f9d368d05f60a92bb80cda`. Root authored the new pure static
+checker function, control module and staged control command. Exact blobs: audit
+`f79780a61254c35991af6674328fac2f81f29477`, entry controls
+`feccb7782338689251ce4c203e32dcd3bcea5a4c`, workflow
+`dc6913c12ae4b7c19a837d8e505a0bc0e93d50f0`, author note
+`9ce1a66f75d882dac9b777e8f82817ee455dfdbb`.
+
+**Approved for STATIC-ONLY execution:** root may run the unchanged original
+eight controls plus the new seven-method entry controls, and the corrected static
+checker against already source-approved existing artifacts. No configure/build
+of the new helper packet, candidate runtime, bootstrap/discovery/probe or workflow
+publication is released by this note. The separate f5/265/e5/helper/negative-child
+source and whole build review remain necessary. Existing hosted artifact
+qualification is separately recorded in C7500bd8's native-hosted-build-review.md;
+it is not a result for this automation.
+
+`probe_entry_binding` admits the exact reviewed probe signature, rather than its
+lambda; exactly one known syscall PLT call; syscall435 and the variadic prefix;
+direct full64-bit RAX save and comparison with zero in the same stack slot; JNE
+to the actual next parent instruction after the six-instruction child edge;
+and only LEA/MOV/direct child call on zero. The child numeric target must be the
+actual audited function boundary. The PLT permits only known CET/NOP decorations
+and one known JMP/BND-JMP through the GLIBC_2.2.5 GOT comment emitted by trusted
+binutils. Exactly one GLOB_DAT relocation and exactly one bootstrap MOV reference
+must match that slot/version. Unknown code, callback, branch, slot, version or
+PLT operation fails. This is a closed GNU-debug build profile, not a general
+binary verifier or authentication of arbitrary disassembly text. Existing raw
+transitive graph and actual libc-success-prefix checks are retained.
+
+The new tests independently transcribe the already manually reviewed local and
+two-host shapes. They contain seven ordinary methods and21 fixed observations:
+two real PLT forms, one lambda-exclusion positive, four clone/save/compare
+negatives, four branch/callback/interior negatives, three PLT negatives, five
+relocation negatives and two mismatched-reference negatives. The three positive
+rows assert literal probe/GOT/child identities. The18 negative expectations derive
+from the admitted raw-edge/binding requirements, not checker output. Small
+synthetic instruction addresses/comments are parser data, never assembled code.
+
+The module's non-main runpy load evaluates only the actual known audit's stdlib
+definitions/constants. Every test call reaches the pure dictionary/string
+`probe_entry_binding` function. Mutation lambdas operate only on deep-copied
+literal data outside any native resource interval; they are not native/Python
+validation callbacks. No ELF/proc/file discovery, binutils, library/owner entry or
+kernel operation is called by these controls. Old eight-control blobee13b687 and
+all previous audit helper ASTs remain unchanged; only main calls the new gate.
+
+A future control green is static harness evidence. Runtime still requires actual
+current-artifact graph/entry/binding output, the source-reviewed no-child case's
+one actual XML pass and independent attribution. The helper packet adds new
+child/driver paths: this old-probe gate does not admit those additional roots.
+Actual source/generated-code review must extend the concrete graph coverage before
+their use, without broad unknown-function allowances. Public/owner31/74-oracle
+and both-host runtime gates remain unchanged.
+
+Actually performed: full source/control/diff/oracle review; Python3.10 AST/compile
+without exec; independent7-method/21-row count and old-helper AST/control-blob
+preservation; staged no-runtime source inspection; project426/122, render--check,
+diff--check PASS. I did not import/run the checker or control modules, configure/
+compile, invoke candidate binutils, execute a native program, bootstrap or probe.
