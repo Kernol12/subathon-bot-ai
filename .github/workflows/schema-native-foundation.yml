@@ -71,7 +71,8 @@ jobs:
           namespace = runpy.run_path('tools/schema_validation/audit_native_foundation.py', run_name='native_static_evidence')
           executable = Path('build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation').resolve(strict=True)
           functions = namespace['disassembly'](executable)
-          probes = [item for item in functions.values() if item[1].startswith('(anonymous namespace)::probe(')]
+          probe_name = '(anonymous namespace)::probe(bool, (anonymous namespace)::Controller*)'
+          probes = [item for item in functions.values() if item[1] == probe_name]
           if len(probes) != 1:
               raise SystemExit('Actual native probe symbol is missing/ambiguous')
           instructions = probes[0][2]
