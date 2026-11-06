@@ -1,78 +1,82 @@
-# Coordinator checkpoint — finish PR70, then stop
+# Coordinator checkpoint — resumed session supplier document
 
-Coordinator /root, 6 November 2026. Owner's latest instruction is to finish the open
-PRs cleanly and then stop. PR70 is the only open PR. Do not continue the standing
-coordination loop, begin tasks or publish the unfinished auth document work. Full
-agreed product remains incomplete; no owner decision/access action is needed.
+Coordinator /root, 6 November 2026. The owner's new continuation instruction
+resumes the standing coordination loop; the previous finish-PR70-and-stop boundary
+is superseded. Full agreed specification v0.45 remains incomplete. No owner decision
+or access action is currently needed. No live operation has been performed.
 
-## Main and completed integration
+## Verified repository and completed integration
 
-Last observed main `ba6680436a69f9b34026a9d53bccbb27e3e7f70a`, primary clean.
-PR71 prerequisite repair merged normally20:42:07Z5 November, exact5b1aa240,
-all17SUCCESS/currentrules26170263/zero requiredGitHub approvals/zero threads/CLEAN;
-head/merge trees equal. SQL branch integrates this main. PR69 codecs merged41c4842,
-PR68 baseline8435fb0; earlier64/65/66/67 integrated. All old branches/worktrees
-and parkedasset011 remain. No reset, prune or discarded unfinished work.
+Actual primary/main and fetched origin/main are
+`e2cd5ebfd4842bf2d776642d901d679612132060`, primary clean at startup.
+GitHub PR70 is MERGED at `2026-11-06T01:07:24Z`, final head
+`b053251661ec86cf80968a00ec61266eb1b07518`, merge e2cd5eb. All17 final checks
+SUCCESS, zero review threads; no open PR at startup. Active ruleset26170263 exists.
+[SQL component evidence](storage-018-handoff.md),
+[separate final review](storage-018-code-review.md),
+[CI](storage-018-ci.md) remain valid. PR68/69/71 prerequisites are integrated.
+[Baseline](storagetest-018-handoff.md) retains original codecFIRST550 and valid
+SQLFIRST633 red; initial setup-error attempt stays invalid. Never replay completed
+FIRST-red gates or equate these component passes with a finished product.
 
-[Baseline](storagetest-018-handoff.md) preserves codecFIRST550 and SQLFIRSTvalid633
-reds after selected foundations. The initial SQL setup-error attempt stays invalid.
-[Codec evidence](storage-019-handoff.md) preserves original27 plus separately
-reviewed/reached-red priority regression and ordinary28CI. Never replay FIRST reds.
+All53 registered worktrees were inspected and clean at startup. Historical branches,
+review worktrees and parked CONTRACT011 remain preserved. No old subagent is alive:
+collaboration list contained only /root; process inspection found no build/test/GitHub
+command running. No reset, prune or discarded unfinished work occurred. Default
+sandbox GitHub authentication failed; the normal escalated gh request succeeded,
+so this is not a credential blocker.
 
-## PR70 completion gates
+## Active assignment and ownership
 
-Root `/tmp/subathon-storage018`, `task/STORAGE-018-initial-capture-store`,
-[PR70](https://github.com/Kernol12/subathon-bot-ai/pull/70) published implementation
-`fe440ac1c45380367d4f972f3de18084991ea058`, plus local completion metadata.
-Final SQLsource90eeca7/importc0ff1ec CPPccdc4f616529aedc310ffc75259a79f7690239b5;
-SQLtest5c4dd48162d224220cae5c0a95813e7dc9608136/literal878005d unchanged.
-[Handoff](storage-018-handoff.md), [native](storage-018-native.md),
-[author](storage-018-author.md), [separate review](storage-018-code-review.md),
-[actual CI](storage-018-ci.md).
+Resume preserved `task/SESSIONCONTRACT-001-session-transport` at
+`/tmp/subathon-sessioncontract001`. Original claim439206f and pre-content split
+cb0a2a0/corrected navigationeb98c18 preserved. Integrated fetched main via
+`40c33ad7b8f9770c92cd1ed4c33f6ffa29d0a8d6`; resolved only progress JSON/generated
+HTML conflicts using latest main plus the six scoped session task rows and additive
+activity. Completed STORAGE018, other task owners/statuses/reviews/evidence and all
+old422 IDs/1619 edges remain; split gives423 records/1624 edges. Document001 is
+in_progress; transport002 is planned and requires integrated001. CONTRACT013,
+SESSIONTEST002/003 and EPIC007 require BOTH documents. No runtime gate is waived.
 
-Original31/51 preserved; seven independent additive methods/16 scenarios across four
-regression families reached reviewed intended behavior red before authorized fixes.
-Now38/67. Root375 PASS28.29s, author37529.19s, different reviewer37528.32s;
-zero failed/disabled/skipped/warnings. Final source90 and CIb4 independently approved
-2beedaf/importfe440ac; initial metadata24fcb44/import02bc203 preserves422/1619,
-partialDB01/NUM04 and accurate scope. Bounded wording/configuration-status findings
-are corrected in completion metadata. Source and tests remain frozen.
+Fresh roles (historical agent IDs are not reused):
 
-OWN ordinary selectedQt42110989863 atfe440ac completedSUCCESS21:19:03Z5 November.
-GNU13.3/Boost1.83/Qt6.12SQLite3.53.4, foundation4slots/6QtPASS0skip354ms,
-codec28PASS0.13s, exactSQL38/unconditional38PASS6.15s, all inherited mandatory
-lanes pass. Independent reviewer downloaded the same log/SHA and approves CI receipt.
-All17fe440ac checks passed; rules26170263 active/no bypass/zero approvalcount,
-no review threads. Final completion metadata review/latest-head checks and normal
-merge still required. Task018 component done; publication/merge state is separate.
+- `session_supplier_author`: owns only `docs/contracts/session-resolution-v1.md`
+  and `docs/evidence/sessioncontract-001-author.md`, on a new isolated worktree from
+  40c33ad. Read-only preparation completed; authoring now assigned. No production,
+  schema, interface/stub, test or live credential behavior authorized by this task.
+- `session_plan_review`: independently reviews actual eb98c18 split and40c33ad
+  reconciliation; owns only `docs/evidence/sessioncontract-001-plan-review.md` on
+  a new isolated review branch. Initial graph/scope audit finds no blocker; final
+  committed review/validation pending.
+- `session_supplier_review`: read-only specification/import preparation, then actual
+  author revision review on a new isolated branch; owns only
+  `docs/evidence/sessioncontract-001-review.md`. No contract approval yet.
+- Root owns state/HTML, task briefs/navigation, shared imports/build/CI/pins/schema,
+  integration/checkpoint and GitHub publication/merge. Root does not self-approve
+  authored supplier behavior or the planning split.
 
-Only capture_reviewer remains assigned to bounded actual completion review; owns
-storage-018-code-review.md on isolated review branches. Source author and regression/
-auth author hit usage limits; no work is assumed running. No root native command
-is active. Stop the reviewer after its actual final note and finish only PR70.
+Old author `/tmp/subathon-sessioncontract001-author` atcb0a2a0 and old reviewer
+`/tmp/subathon-sessioncontract001-review` atcb0a2a0 remain clean and preserved.
+The old author wrote no contract. New worktree paths/commits must be recorded at
+actual handoff; do not assume old assignments are running after interruption.
 
-## Preserved unfinished local work
+## Checks, next action and remaining gates
 
-Auth root `/tmp/subathon-sessioncontract001`, branch
-`task/SESSIONCONTRACT-001-session-transport`, cleanlocaleb98c18, unpublished/no PR.
-Based on mainba66804; claim439206f/splitcb0a2a0/correctednavigationeb98c18.
-Author `/tmp/subathon-sessioncontract001-author`, branch
-`task/SESSIONCONTRACT-001-document-author`, cleancb0a2a0; no contract authored.
-Original001 was split before content into supplier001 and transport002. New002
-requires integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 requireboth.
-Old422IDs/1619edges retained→423/1624. Local001in_progress,002planned. Main's
-001 remains planned. Preserve these claims and graph changes; do not overwrite SQL018
-with this branch's old planned snapshot. A resumed future task must reconcile main.
+Root `python3 tools/progress.py render`, `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check`: PASS423/122 after reconciliation.
+No native behavior changed or FIRST red rerun. Document consistency/stable component
+CI remains appropriate; assess again for actual authored content. No new executable
+suite currently exists to promote or new required-check configuration to request.
 
-Independent auth split review found EPIC007summary9 and stale combined descriptions;
-root fixedeb98c18, but final independent rereview/document authoring never completed.
-Review support tree `/tmp/subathon-sessioncontract001-review` may contain unfinished
-review evidence; inspect actual state before reuse. No auth choice/API/schema/test/
-runtime capability or accepted contract follows from this unfinished plan.
+Next: integrate actual split review, receive bounded supplier document/literal
+oracles/primary-source evidence, obtain DIFFERENT actual contract review and resolve
+findings. Run appropriate documentation/tooling checks, update task evidence/status,
+open focused draft PR and observe latest-revision CI/current rules/reviews/threads
+before normal merge. Only integrated001 releases document002; later session baselines
+retain separate actual API/test-review/intended-red/implementation gates.
 
-After PR70 passes all gates, normalmerge, refresh primarymain and record the actual
-merge receipt in the PR/durable local checkpoint. Preserve all unfinished refs. Verify
-no open PRs or active agents/commands remain, then stop as requested. Do not start002
-or any newtask. Full product, all seven integrations/threeFX and actual session/account/
-clock/authority/policy/action/API producers, renderers/locales/themes/platforms,
-OBS/packages/licenses/security/recovery/live verification remain required.
+No session/account/clock producer, authentication transport, permission execution,
+reference HTTP schema or runtime capability follows from a document claim. All seven
+integrations, three FX providers, actual authority/policy/action/application producers,
+financial/recovery/delivery workflows, both renderers, English/German/themes,
+Windows/Linux/Wayland/OBS, packages/licenses/security and live verification remain.
