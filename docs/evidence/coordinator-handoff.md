@@ -1,84 +1,102 @@
-# Coordinator checkpoint — revised64 baseline quality complete; merge pending
+# Coordinator checkpoint — PR76 merged; validator implementation active
 
 /root,6 November2026. Standing continuous coordination active; fullspec0.45 incomplete.
-No owner decision/access needed. Preserve all refs/worktrees/reviews/originalFIRSTs;
-no real credential/contribution/chat/provider/deploy operation.
+No owner decision/access needed. Preserve unfinished refs/worktrees/valid reviews/
+FIRST evidence. No live credential/contribution/chat/provider/deploy operation.
 
-## Actual branch/publication/main
+## Actual merged main and current task
 
-Primarymain clean14190827f9d6c5d73da669e9da5712726508be3a. Normal session merges
-PR72supplier0605948, PR73puremilestone4e85241, PR74transport15cf7f1, PR75plan1419082.
-Their source/review/CI/merge handoffs remain; do not repeat completed tasks.
-All426IDs/1629edges retained, fullscope unchanged. Parked CONTRACT011/old work preserved.
+PR76 NORMALMERGED11:25:59Z at095d192c834e8e7746a7922865bbf0e11d06f905, exact finalhead
+e618eef101e9de22d47baba57b68145ac8e94a07,all19latestSUCCESS,ready/MERGEABLE/CLEAN,
+0reviews/0threads, actual active rules26170263/no bypass. Merge/head trees both
+bf161de1a45675e1f2c44737f8a134c16f208772. Primary main fetched/fastforwarded clean.
+Rules requirePR/threadresolution/0GitHubapprovals, NO required-status rule; written
+manual all-check+independent-review gates remain. Never weaken/bypass protection.
+Prior72supplier0605948/73milestone4e85241/74transport15cf7f1/75plan1419082 remainmerged.
+All426IDs/1629edges/full sevenintegration/threeFX scope retained. Parked CONTRACT011
+and original branches/worktrees are preserved; no cleanup/reset/prune performed.
 
-Root `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline,
-claimab822715 frommain141. PR76 DRAFT/UNMERGED. Latest published3d0c96e contains
-reviewed64source/harness/r2contracts and hasALL19SUCCESS before newnative. Later
-local972 CI note,95fad newraw andCc66 attribution/revisedmetadata are not yetpublished.
-Task statusdone is BASELINE QUALITY ON BRANCH only. SCHEMATOOLplanned/Unassigned;
-DO NOT start production until PR76 integrates onmain. Root owns allsharedstate/HTML/
-pins/notices/imports/build/CI/checkpoint/publication. Inspect actual agents/worktrees/
-processes/PR again onresume; never assume old agent or process is running.
+NEW root `/tmp/subathon-schematool001`, branch
+`task/SCHEMATOOL-001-offline-validator`, created from CURRENTmain095d192 BEFOREedit.
+Claima663b240bed917e182cfc8ed911f8034984593d3: SCHEMATOOL001 nowin_progress;
+SCHEMATEST001 actuallydone onmain. [Task handoff](schematool-001-handoff.md),
+[brief](../tasks/SCHEMATOOL-001.md). Root owns state/HTML/CI/pins/notices/sharedimports.
+Currentcheckpoint and claim will be published in a NEW focused draftPR; none existed
+at inspection immediately after76merge. Inspect actualGH/refs/status again onresume.
 
-Rules last26170263:PR/threadresolution required,0GitHubapprovals,NO required-status
-rule/no bypass. Manual written policy still gates ALL latestchecks+independentactual
-reviews. Requery currentready/head/rules/reviews/threads before any normalmerge.
+## Integrated baseline — DO NOT replay completed first reds
 
-## Completed source, environment, original and additive red
+Frozenlogicalabb426a/context32ec87a/API973961c/privateprocessac256805 revision2/
+installation86d6d4, tests64f4911/harness032b141/workflow842790e/decls4a124a,
+20pinlock859d7cf/metadata6f4ffec. Actualsource/doc/hash/license/platform approvals
+are linked in [baseline handoff](schematest-001-handoff.md); no dependencies changed.
+Toolsisolated-onlyexception preserveslegacytoolsstdlib/no global/server/clientdeps.
 
-Authoritative [handoff](schematest-001-handoff.md) has exact artifact/review table.
-CURRENT tests64f4911/harness032b141/workflow842790e/decls4a124a/lock859d7c/meta6f4ffec;
-logicalabb/context32ec, API973/processac256 revision2, install86d. A/B/C per-artifact
-source/doc/hash/license approvals are real and integrated.20pins/28archives/targets/
-licenses unchanged; toolsisolated-onlyexception, no global/server/clientdeps.
+Original63 FIRST atcleanbd10:03:26Z AFTERall19SUCCESS:63methods/261exactmarkers,
+243validate37+18main42,exit1/0.138s,stdoutempty/0othercause; original313249B stderr
+SHA7e64, independentCc152/C8db chronology. Later real setup-refusal ambiguity was
+explicitly resolved BEFOREimplementation: exactemptyAEOF/env35LF/outcomeEOF/normal3+
+parentreap mayreport NONVALIDATINGenvironment failure; nofakeA/package/candidatework/
+controlcertificate; othermalformedresults invalid; outerdeadline/resourcepriority
+unchanged. C05actualdoc/A087onecase reviewed. ONEnew64th method only; allold63ASTexact.
 
-Original63/FIRST261 at CLEANbd10:03:26Z AFTERall19SUCCESS+source/hostedC8db approval:
-63cases/261exactmarkers,243validate37+18main42,exit1/0.138s,stdoutempty/0othercause.
-Original313249B stderrSHA7e64,fullraw/receipt/observer preserved; Cc152 actual
-attribution confirms all261. C8db note importedonlyAFTERnative. No originalreplay.
-Historical initialSDK7guardfailure is NOTwrapperred; narrowreviewedcorrection+SDK14
-facts stand. Old63completion750/A0d is preserved as historicalscope, not current64.
+Current64 localgreen e7c0/0.071915s; hosted42206001771 at3d0:SDK14 on3.10.12 .196s/
+3.12.3 .124s,20pairedmetadata+64definitionregistrations; C40c verified. ONLYnewcase
+native11:00:15Z SAMEclean3d0 AFTERall19:ONEtest/10rawvalidate37markers,exit1/.006s,
+stdoutempty/0othercause,raw13285B SHAc974f832; Cc66 actualattribution. OriginalFIRST
+4files byteexact/SHA7e64 before/after. No originalreplay. A0d25 finalmetadata approval.
+Combinedproof is original63+new1, NOTfull64passingfeature run.327raw/5script authored
+observations are not runtimecounts. Existing14SDKfacts/20metadata/definitiongreen are
+not genericworker capability. Full64 assertions must pass after realimplementation.
 
-Read-only implementationprep found a real missingactivation/setupfailure conflict.
-Rootr2/C05 allows ONLYemptyAEOF+exact35BenvLF/outcomeEOF+normal3+reap NONVALIDATING
-refusal; nofakeA/package/candidatework/controlcertificate; malformedA/otherreceived
-results invalid; independentdeadline/resourcepriority retained. ONEnew64th testcase
-B a670/A087; removingonlythatmethod gives ENTIREold63moduleAST. HarnessdeltaONEname.
-No weakening/no publicknob/newdependency/scope deletion.
+## ACTUAL live author assignments and ownership
 
-Matchinglocal64 definition-onlygreenCP314 e7c:0/0.071915s/20pairs/64registrations,
-no setup/test/feature/SDK/clone. Current hosted42206001771 at3d0 SUCCESS:3.10.12
-SDK14OK0.196 /3.12.3 SDK14OK0.124, both20paired no-site metadata+64definitions;
-full120768B logSHA4487fed2, checkout8f0992c tree==3d0. C40c actualapproval10:58:31Z
-BEFOREnewnative; imported972onlyAFTER. All19exact3dSUCCESS latest10:58:04Z.
+At current inspection121registeredworktrees allclean; no projectnativebuild/test
+process active. DesktopPython/Codex processes were observed but not killed. Actual
+collaboration.list_agents: Bparent/Aworker RUNNING; Ccode reviewer idle/completed.
+Reinspect, never assume a prioragent isalive. followup_task starts idleagents.
 
-ONLYnewmethod ran ONCE at SAMEclean3d0,11:00:15Z:1test/10exactrawvalidate37markers,
-exit1/0.006s/external0.063923,stdoutempty/0othercause. Raw13285B SHAc974f832,
-receipt8blobs/selector/observer committed95fad. OriginalFIRST4files/SHA7e64before/
-after BYTE-EXACT. Cc66 independently approves all10records/source/CIchronology.
-Combined64 gate is original63+new1, NOT one full64 execution/pass.327 source-counted
-rawobservations/5script extras are authoredfutureassertions, not runtimecounts.
+B `/root/session_supplier_author`: IMPLEMENT parent, NEW
+`/tmp/subathon-schematool001-parent-author`,
+ task/SCHEMATOOL-001-parent-author froma663. Own ONLY tools/schema_validate.py and
+ownparentauthornote. Exactenum/publicAPI/no-callback/type/argv/help/output/pathshape,
+pre-sysconfigoverrideguards/trustedactualruntime SDK binding, os.pipe/Popen/twoFD/
+boundedreads/wholemonotonicdeadline/normalEOFstatus/kill-reap/cancellation. No parent
+package tree, candidateSDK imports/newpublicknob. Preserve knownsetuprefusal rule.
 
-## Current task and next action
+A `/root/session_supplier_review`: IMPLEMENT worker, NEW
+`/tmp/subathon-schematool001-worker`, task/SCHEMATOOL-001-worker froma663. Own ONLY
+NEW .py worker/private modules under tools/schema_validation and ownworkernote;
+EXCLUDE root-ownedcheck_baseline.py/requirements.lock/wheels.json and parentfile.
+Oneowner for resource/ABI/no-siteprologue,secureowned snapshot/strict exactJSON+
+preflight/pureroleindex/metadata phase6/native imports/fulltypedclosure/cycle/
+completeinventory/default/semantic/instance pipeline. GenuinepinnedSDKs/no engine/
+defaultretriever/datarewrite/fakevalidation. Beforeanypackage/candidatework establish
+controls; known setuprefusal NEVERforgesA; allnetworkfallbacks mustbeclosed.
 
-Revised64 baseline quality AND actual completion metadata are approved onTASKBRANCH.
-A0d25a7f approves exact98bf:426/1629/other425tasks+scopes preserved,HTML79/345/2,
-current8blobs/old63AST/original4rawfiles exact; no replay. Rootrecordedthis gate only.
-A/B/C are completed/idle; inspect actual agentlist and followup_task for next tasks.
+Both were explicitly released after ACTUAL mainintegration. Existingfrozenprivate
+argv/twoFD/status/EOF/deadline is the only cross-writer boundary; coordinate actual
+conflicts, no newsharedschema. Read currentAGENTS/scopedfiles. Root and authors have
+not claimedpassingimplementation. Authors mayperform meaningful checks of NEW code
+in admitted /tmp/subathon-schematest001-py314; do NOTreplay unchangedstubs/oldreds or
+call missing-otherhalf a newvalidbaseline. Commits/checks mustbeactual, ownedpaths
+only; nevermodifytests/contracts/pins tofitcode. Receivecoherentactualcommits next.
 
-NEXT publish finalreviewed metadata/receipts/notes, observe ALL19 latestheadchecks.
-Ready/requeryactualhead/rules/reviews/threads/CLEAN and normal headmatchedmerge;
-neverbypass. No futuremerge preapproval; PR76 remainsUNMERGED at this snapshot.
-Then fetch CURRENT main/create dedicated implementationbranch/claim beforeediting,
-continue standingloop. B readonlyprep recommends TWO owners aftermerge: parent
- tools/schema_validate.py; worker subsystem tools/schema_validation excludingroot-
-ownedlock/wheels/CI. Crossboundaryargv/twoFD/protocol/deadline frozen, no new public
-knob/standardsengine. Rootowns eventualunconditionalALL64 acceptance promotion after
-realpassingimplementation/sourceaudit. Do NOT replay any completed original/additive
-red or relabel green definition discovery as feature passing.
+## Next source/integration/CI gates
 
-Actual privatechild ABI/RLIMIT/no-site/readrace/offline/allocation enforcement and
-featureassertions beyondmarkers remain implementation acceptance/sourceaudit work.
-Only inertpublicdeclarations exist now. Full auth/authority/policy/clock/actions/
-financial/recovery/HTTP/WS/scene/native-browser/EN-DE/themes/Windows-Linux/Wayland/OBS/
-security/packages/sevenintegrations/threeFX/live-platform release scope staysrequired.
+C `/root/session_plan_review` (idle) will receive ACTUAL authoredcode for independent
+review; no prospectiveapproval. Root integrates compatibleownedcommits and resolves
+actualfindings. Enforce full64real acceptance PASS, private ABI/RLIMIT/no-site/
+secureopen/readrace/metadata/offline/allocation/FD-cancellation audits, appropriate
+oldchecks. No skippedassertion/successcache/floating-money shortcut or schemaengine.
+If requiredSDKmechanism cannotpreserve rawdata/scope semantics, recordexactblocker;
+do not silently refusevalidliteral$refdata/removeinventory/full release requirements.
+
+Root must update temporarybaseline in check_baseline.py (inert-body stage guard)
+ONLY as a reviewed implementation promotion, keep realSDK14/metadata/registration
+checks and add UNCONDITIONAL ALL64 acceptance to BOTHhostCI. No definition-onlygreen
+aspassingfeatureproof/no failureinversion. Source/harness/configuration changes need
+actualdifferent review and currenthostedobservations before taskdone/normalmerge.
+All appauth/authority/clock/policy/actions/financial/recovery/HTTP/WS/scene/QML-browser/
+EN-DE/themes/Windows-Linux/Wayland/OBS/security/package/provider/live release gates
+remain explicit; developer-tool success is not completed product. Continue loop.
