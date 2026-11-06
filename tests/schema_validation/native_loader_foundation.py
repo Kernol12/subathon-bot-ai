@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Temporary inert-stage ABI/loader foundations, with no validator invocation.
+"""Builtin ABI/loader admission foundations, with no validator invocation.
 
 Run only after separate source/build review:
   python3 -I -S -B native_loader_foundation.py --artifact ABS_TARGET_PATH
-Replacing the stub requires a separately reviewed migration of the literal-31
-control; it is not an enduring assertion about implemented transport behavior.
+The null-manifest control must refuse before any native resource ownership.
 """
 
 import ctypes
@@ -49,7 +48,7 @@ class NativeLoaderFoundation(unittest.TestCase):
         self.assert_builtin_abi()
         print("native loader host:", sys.version.split()[0], os.uname(), file=sys.stderr)
 
-    def test_actual_inert_artifact_returns_literal_31(self):
+    def test_actual_artifact_rejects_null_manifest_before_ownership(self):
         self.assert_builtin_abi()  # No reliance on another method running first.
         library = ctypes.CDLL(self.artifact, mode=os.RTLD_NOW | os.RTLD_LOCAL)
         entry = library.subathon_schema_transport_v1
@@ -69,9 +68,10 @@ class NativeLoaderFoundation(unittest.TestCase):
         arguments = []
         for buffer, value in zip(buffers, payloads):
             arguments.extend((buffer, len(value)))
+        arguments[0], arguments[1] = None, 0
         result = entry(*arguments)
         self.assertIs(type(result), int)
-        self.assertEqual(result, 31)  # TEMPORARY inert baseline, never product ok.
+        self.assertEqual(result, 2)  # Actual invalid_path ABI refusal, never product ok.
 
 
 if __name__ == "__main__":

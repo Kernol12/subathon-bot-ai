@@ -376,13 +376,13 @@ TEST(NativeFaultFoundation, FreshPlanOneShotAndExactSnapshotEncoding) {
     }
 }
 
-TEST(NativeFaultFoundation, IdleArmActualStub31ThenTerminalCancel) {
+TEST(NativeFaultFoundation, IdleArmInvalidManifestThenTerminalCancel) {
     Fixture value;
     const long before = clock_now();
     value.start(25, 19, 0); // A real idle signal controller must not send without a phase/child.
-    const unsigned char manifest[] = "manifest.json", interpreter[] = "/usr/bin/python3";
+    const unsigned char interpreter[] = "/usr/bin/python3";
     const unsigned char worker[] = "/synthetic/worker.py", sdk[] = "/synthetic/sdk";
-    const int result = subathon_schema_transport_v1(manifest, sizeof(manifest) - 1, interpreter,
+    const int result = subathon_schema_transport_v1(nullptr, 0, interpreter,
                                                     sizeof(interpreter) - 1, worker,
                                                     sizeof(worker) - 1, sdk, sizeof(sdk) - 1);
     const int count = value.snapshot();
@@ -390,7 +390,7 @@ TEST(NativeFaultFoundation, IdleArmActualStub31ThenTerminalCancel) {
     const long after = clock_now();
     const long elapsed = before >= 0 && after >= before ? after - before : -1;
     check_fixture(value);
-    EXPECT_EQ(result, 31); // Temporary resource-free actual stub, not owner success.
+    EXPECT_EQ(result, 2); // Actual ABI admission refuses before any owner/journal interval.
     EXPECT_EQ(count_writer(value.cells, count, 0), 0);
     EXPECT_EQ(count_writer(value.cells, count, 1), 0);
     EXPECT_FALSE(event(value.cells, count, 2, 6, 0));

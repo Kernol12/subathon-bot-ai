@@ -532,15 +532,15 @@ TEST(SchemaNativeFoundation, SyscallBindingToActualLibc) {
     diagnostics();
 }
 
-TEST(SchemaNativeFoundation, InertBaselineLiteral31) {
+TEST(SchemaNativeFoundation, InvalidManifestRefusesBeforeOwnership) {
     diagnostics(); // No native resource interval is active.
-    // TEMPORARY inert-stage control. Replacement needs reviewed stage migration.
-    const unsigned char manifest[] = "manifest.json", interpreter[] = "/usr/bin/python3";
+    // ABI admission rejects a null manifest before resource acquisition (native contract section2).
+    const unsigned char interpreter[] = "/usr/bin/python3";
     const unsigned char worker[] = "/synthetic/worker.py", sdk[] = "/synthetic/sdk";
-    EXPECT_EQ(subathon_schema_transport_v1(manifest, sizeof(manifest) - 1, interpreter,
+    EXPECT_EQ(subathon_schema_transport_v1(nullptr, 0, interpreter,
                                            sizeof(interpreter) - 1, worker, sizeof(worker) - 1, sdk,
                                            sizeof(sdk) - 1),
-              31);
+              2);
 }
 
 TEST(SchemaNativeFoundation, SigchldProfileQueryWithoutBirth) {

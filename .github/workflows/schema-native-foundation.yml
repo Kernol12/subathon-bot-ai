@@ -148,10 +148,10 @@ jobs:
           source = ast.parse(Path('tests/schema_validation/native_loader_foundation.py').read_text())
           classes = [item for item in source.body if isinstance(item, ast.ClassDef) and item.name == 'NativeLoaderFoundation']
           methods = [item for item in classes[0].body if isinstance(item, ast.FunctionDef) and item.name.startswith('test_')] if len(classes) == 1 else []
-          if len(methods) != 2 or {item.name for item in methods} != {'test_builtin_abi_profile', 'test_actual_inert_artifact_returns_literal_31'} or any(item.decorator_list for item in methods):
+          if len(methods) != 2 or {item.name for item in methods} != {'test_builtin_abi_profile', 'test_actual_artifact_rejects_null_manifest_before_ownership'} or any(item.decorator_list for item in methods):
               raise SystemExit('Native loader methods changed or are disabled/inverted')
           expected = {
-              'InertBaselineLiteral31',
+              'InvalidManifestRefusesBeforeOwnership',
               'SigchldProfileQueryWithoutBirth',
               'AtomicPidfdSignalsAndCloseRange',
               'ActualExecveNonvalidatingProbe',
@@ -162,7 +162,7 @@ jobs:
           names = {'schema-native-foundation.SchemaNativeFoundation.' + name for name in expected}
           helper = {
               'FreshPlanOneShotAndExactSnapshotEncoding',
-              'IdleArmActualStub31ThenTerminalCancel',
+              'IdleArmInvalidManifestThenTerminalCancel',
               'Parent64RecordBoundaryPoisonsOnlyOn65th',
               'CallerCannotForgeControllerJournal',
               'Case28HasOneActualNonCloexecPrebirthSentinel',
