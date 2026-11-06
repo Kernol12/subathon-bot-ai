@@ -1,3 +1,15 @@
+# Current status — original63 complete; one setup-refusal addendum pending
+
+Original63 baseline+750 metadata are independently approved0d86088/Cc152 and
+preserved. PR76 remainsUNMERGED. Before merging, implementation readiness found an
+actual pre-activation taxonomy conflict; task reopened ONLY for reviewed revision2
+clarification +ONE new64th test+targeted red. No original63 replay/test weakening.
+All production staysplanned/Unassigned until revised baseline integrates. The
+qualified original63 completion handoff follows; its future merge instructions
+apply only AFTER the new addendum gates, not immediately.
+
+---
+
 # SCHEMATEST-001 — baseline quality complete; merge pending
 
 /root,6 November2026. Dedicated claimab822715 from main1419082,

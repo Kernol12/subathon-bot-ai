@@ -205,6 +205,12 @@ Parent retains the10-second monotonic deadline from spawn through process exit,
 including startup/imports/IO. A separate private activation pipe carries EXACT
 one ASCII byte `A` only after limits are active; no package/source text. Missing,
 extra or malformed activation makes any apparent ok result validation_unavailable.
+One nonvalidating setup refusal is allowed BEFORE activation, exactly as private
+process revision2 specifies: empty activation EOF, exact environment_unavailable
+line plus outcome EOF, matching normal exit3 and parent reap. No package read or
+candidate work may precede that refusal, and A must never be forged after failed
+controls. All other received results require A; malformed activation stays invalid.
+Independent deadline/known-resource interruption rules keep their existing priority.
 Close unrelated descriptors and unused pipe ends. Worker has no inherited stdin;
 candidate-library stdout/stderr are suppressed before import. Only the dedicated
 outcome pipe may publish a constant result. No input is sent through stdout/stderr.

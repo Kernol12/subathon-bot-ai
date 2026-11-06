@@ -1,4 +1,4 @@
-# Schema wrapper private process contract and fault tests — proposal v1
+# Schema wrapper private process contract and fault tests — v1, revision2
 
 SCHEMATEST-001, root9c8d083. Refines the approved [public API](schema-validation-tool-api-v1.md)
 and [context contract](schema-validation-context-v1.md) for testability only.
@@ -51,9 +51,29 @@ Validate the normal proposed argv/keyword shape before substituting it. The test
 child has no standards validator and is never used for a successful/domain-validity
 case. Normal package, scope, schema and instance tests use the real unpatched path.
 
+### One nonvalidating setup refusal before activation
+
+If the resource/setup controls cannot be established, the worker MUST NOT forge A.
+Before any package read/candidate work it may close activation WITHOUT writing any
+byte, send EXACT `{"code":"environment_unavailable"}\n` on outcome, close outcome
+and exit normally3. Parent may return environment_unavailable ONLY after EMPTY
+activation EOF, that exact complete line plus outcome EOF, matching normal exit3
+and actual parent reap. This reports a nonvalidating setup refusal; it certifies
+neither active controls nor package/schema/instance validity.
+
+ANY nonempty malformed/extra activation remains validation_unavailable even with
+that line. Received ok, domain/dependency/IO/unknown/extra/truncated/whitespace or
+status-mismatched results without A remain validation_unavailable. This exception
+is only the exact environment refusal; all other received outcomes require A.
+Independent outer interruption precedence remains: parent deadline/known resource
+interruption is resource_limit even before A; an unknown signal alone does not
+prove memory exhaustion. Keep bounded reads, whole deadline, EOF/status, kill/reap
+and descriptor cleanup unchanged. No successful validation is accepted without A.
+
 The fixed fault cases exercise malformed/missing/extra activation;257 outcome bytes;
 unknown/truncated/extra result; a listed failure line with mismatched exit; or
-unclassified signal/death. They must return validation_unavailable and reveal no
+unclassified signal/death. Apart from the exact setup refusal above, these received malformed cases return
+validation_unavailable and reveal no
 child payload on public stdout/stderr. A forged ok line is allowed ONLY paired
 with explicitly malformed activation/protocol and an expected refusal. It never
 establishes successful validation, installed dependencies or library compatibility.
@@ -94,3 +114,11 @@ own different review before any run. Raw inert validate_package/main still raise
 the exact named missing-feature marker BEFORE spawn or argument processing; no
 minimal fault harness may implement validation behind them. FIRST intended red and
 later reviewed implementation/ordinary CI remain mandatory separate gates.
+
+Revision2 reason: implementation-readiness review found the broad missing-activation
+rule conflicted with API§4's required environment_unavailable when controls cannot
+be established, while A is allowed only after verified limits. The narrow fail-only
+exception above resolves that conflict without faking activation, accepting success,
+changing public calls/options/outcomes or removing any existing refusal assertion.
+Actual separate document/source review and targeted additive-case red are required
+before implementation; original FIRST63/261 and all valid reviews remain preserved.

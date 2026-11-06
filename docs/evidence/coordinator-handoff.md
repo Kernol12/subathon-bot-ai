@@ -1,3 +1,20 @@
+# Current addendum gate — setup refusal clarification before merge
+
+Current6 November2026. The ORIGINAL63-case baseline, FIRST261markers and750
+completion metadata are independently approved (A0d86088, Cc152) and preserved.
+PR76 is STILL UNMERGED; SCHEMATOOL001 is planned/Unassigned. Current task reopened
+ONLY for one discovered pre-activation setup-refusal contract ambiguity; no original
+63-case replay or weakened assertion. Root actual revision2 process/API candidate
+is in this commit, not yet separately approved. C read-only interpretation supports
+one exact nonvalidating environment refusal without A, preserving outer deadline/
+resource precedence; ACTUAL document review precedes ONE new64th test and targeted
+new-case red. All oldsource/reviews/receipts remain valid for their scopes. Hold merge
+and ALL implementation until the revised baseline gates pass. The historical
+completion snapshot below is qualified to ORIGINAL63 ONLY, not current64 completion.
+Root must assign C actual doc review next; no user decision/access needed.
+
+---
+
 # Coordinator checkpoint — baseline complete on task branch; merge pending
 
 Current snapshot6 November2026, /root. Standing coordination remains authorized;
