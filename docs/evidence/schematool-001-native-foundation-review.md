@@ -243,3 +243,77 @@ static checker and actual per-host generated/linked graph, TLS/indirect/external
 call inspection still precede discovery/probes and CI publication. No native
 owner, runtime facility or full test-baseline approval follows from this cleanup
 verdict or authoring release.
+
+## Actual raw-function attributes and first static-checker review
+
+Different source review at actual root
+`7b212654c183709dfb97b85d2308b4d7f56926fc`, on a fresh isolated branch. A's
+annotation commit `66cd1ac6357ec6049575ba80c2182a71f3bdca3d` is integrated as
+`8aa2847`; its header is `d002f9dd03ebe8ed721c1fb9051c96b5c92d5121` and reporter
+is `f13e886bc5b622d1f71dcfe5e0e68bc634887c46`. Root separately authored the
+202-line static checker `tools/schema_validation/audit_native_foundation.py`,
+blob `c6245e60f74533237f9487ee0db0ee61a73f32ee`. I authored neither source.
+
+**The actual attribute source is approved for rebuild and static artifact
+inspection. The actual checker requires changes and is not approved for execution
+or admission. Runtime/discovery/loading and workflow publication remain held.**
+Root may now rebuild the corrected/annotated targets, then read objdump/readelf/nm
+and artifact hashes. Neither this source approval nor a future checker result is
+by itself a host capability or native-owner approval.
+
+I independently counted exactly seven header function-local attributes on
+raw/address/finish/observe/publish/hold/child, and three on reporter
+literal/descriptor/main. Removing only those attributes, comments and whitespace
+leaves exact previous bodies/types/literals. Parent probe/cleanup source (including
+all89 EXPECT calls), loader and direct-native22 source are byte-identical to the
+approved previous revision. No target/global hardening option changed. The actual
+annotation therefore matches the narrow GCC/Clang route approved above.
+
+The first checker invokes only fixed objdump/nm/readelf subprocesses with input
+paths as arguments, reads ELF/disassembly/maps, and never loads or executes input
+artifacts. Its command timeouts and trusted build-artifact scope are appropriate
+for a small build harness; it is not the product package validator or a general
+binary verifier. The ELF header, transitive roots, TLS/indirect transfer checks,
+sole-export/eager-binding inspection and libc success-wrapper intent are useful,
+but these concrete gaps prevent its claimed fail-closed admission:
+
+1. `disassembly` lines62–74 silently ignores any address-bearing instruction
+   line that fails its mnemonic regular expression, such as `(bad)` or `.byte`.
+   Unknown decoded bytes can therefore disappear. Reject every unparsed
+   address-bearing record. Local branches must also land on a known instruction
+   start, rather than any byte numerically between first and last addresses
+   (lines101–102).
+2. `syscall_return` lines125–157 checks a **set** of seven moves plus a syscall,
+   compare, forward jae and return. It does not require their exact order, exclude
+   arbitrary extra instructions/TLS/stack mutations, or require the threshold
+   compare immediately after the syscall. Use the actual narrow ordered reviewed
+   wrapper shape, allowing only explicitly justified padding/CET instructions;
+   unknown transforms must fail, not satisfy a subset check.
+3. `raw_helper` lines31–32 admits any symbol in the entire schema_foundation
+   namespace. That does not enforce the claimed rejection of unknown generated
+   helpers. Admit the actual fixed reviewed helper-name families, including
+   concrete address-template instantiations, and reject other names.
+4. The graph root begins **inside** `child`. It omits generated instructions
+   between successful clone return and the zero-PID branch's child entry; compiler
+   helpers/TLS there are outside its graph. Reading the audit Python process's
+   mapped libc also does not establish the executable's actual syscall PLT
+   binding. Add narrowly reviewed callsite/relocation and same minimal-loader
+   binding proof, or explicitly retain different actual **per-host** inspection
+   of those edges before execution. Do not describe this checker alone as complete
+   generated-path proof or infer hosted output from a local compiler.
+
+Findings and the exact rebuild-only release were sent to root before this note.
+No prospective correction or checker fixture is approved. A small literal
+positive/negative parser/wrapper fixture set would be useful to establish that
+malformed or unreviewed disassembly cannot silently pass; that too needs actual
+source review before execution. The existing source/contract/oracle approvals
+remain valid within their stated scopes.
+
+Actual checks: independent stdlib attribute/body/preserved-file comparison;
+checker Python3.10 AST parse and `compile` without exec, with only argparse,
+hashlib, pathlib, re, struct and subprocess imports; clang-format dry-run/Werror
+on both changed C++ files; project426/122; render--check; diff--check: all PASS.
+I did not import/run the checker, configure/build, execute binutils in this review
+turn, discover/list cases, load a DSO, run a probe/test, install SDKs or create a
+candidate child/thread. Prior old-artifact objdump observations above remain
+separately attributed and are not results for this new source.
