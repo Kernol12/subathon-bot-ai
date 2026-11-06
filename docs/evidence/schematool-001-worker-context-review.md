@@ -51,3 +51,30 @@ and no IO fallback against actual corrected source and full public acceptance.
 No changed public assertion, schema fixture, contract, limit, pin, dependency or
 release scope is requested. Authoring/fix ownership remains with A; root owns this
 review and integration. Unknown source behavior remains unverified, not supported.
+
+## Actual dc1 correction re-audit — two paths resolved, allocation gate open
+
+Root actually reread corrected dc1f2237007d91072c932680dfa8f4f32b428b3d (importb4def02),
+backend6701733/indexcaea81f/common59ec0df/package0501437/worker5842b56. Findings1/2
+are resolved in this ACTUAL source: ContextAccessor aliases only REF_ROLES, leaving
+Schema raw value/siblings and stored scope for native semantics; Index.walk checks
+OAS structural x-* fields before either Schema or Reference Object early return.
+DATA/scopes/security maps and standalone unknown-keyword semantics stay exempt.
+Actual unchanged new context3/7 author run passes, separately from this static review.
+
+Numeric record IDs replace copied identities in reference, outgoing/visit and
+inventory tables. Native registry/Specification/whole-fragment/DATA delegation
+continues to use the real SDK; defaults and instance assertions remain raw. Source
+inspection of actual accessor membership/resolve/read_value paths and actual pinned
+SDK semantic calls supports these corrected paths. This is scoped resolution, not
+approval of every future worker revision or passing public acceptance.
+
+Finding3 REMAINS OPEN on dc1: comments claiming a single URI/key owner free persistent
+borrows contradict the explicit alias accounting. Physical tuple keys AND Node
+fields, node URI AND retained resolver bases, resource/anchor/native-registry slots
+must be accounted, or structurally eliminated via record IDs. Sort-key/raw-name
+workspaces need charges during further graph growth and known child counts must
+be admitted before sorting oversized maps. C independently corroborated this.
+A acknowledged and is correcting actual slot charges rather than changing limits.
+No approval is extended to moving/uncommitted code. Re-audit the next coherent
+actual commit; existing positive record/ref/control boundaries remain immutable.
