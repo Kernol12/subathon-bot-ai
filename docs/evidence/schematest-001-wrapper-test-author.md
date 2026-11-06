@@ -27,9 +27,9 @@ the trusted local target file; script-directory/PYTHONPATH discovery is unnecess
 under root's isolated `-I -B` runner. Temporary packages are constructed within cases.
 The local changed_directory helper supports Python3.10 (no contextlib.chdir).
 
-There are **279 authored direct public-call oracles** when all preceding assertions
+There are **300 authored direct public-call oracles** when all preceding assertions
 complete, plus ONE extra real-script parity invocation AFTER its direct main call.
-This is a source-level manual count, not an execution/discovery receipt, and not279
+This is a source-level manual count, not an execution/discovery receipt, and not300
 independent unittest registrations. Many methods contain literal subTest tables or
 several sequential observations. An immediate raw marker terminates that observation;
 later sequential assertions in the same method are not claimed reached in red.
@@ -202,3 +202,23 @@ WITHOUT exec/import and independent literal URI/pointer lengths PASS. No test or
 candidate was imported/executed before or after these corrections. Actual revised
 source still requires both different reviewers' exact-candidate verdicts; additive
 admission families remain pending as described above.
+
+
+Further pre-execution different review of actual328e3b0/source609f9e8 kept all prior
+oracles. C requested closure coverage through every CLOSED Schema child location:
+retain the existing $defs unused reference, add the other19 literal map/array/single
+keyword locations, all expecting unresolved_reference even when instance1 would
+never evaluate that child. This fixture table constructs inputs only; it implements
+no role scanner, resolver or assertion checker. Add separate Operation.callbacks
+and Response.links profile-refusal locations; webhooks alone could not establish
+those roles. The same60 registrations now contain300 authored raw-call observations.
+
+A's re-review found timer.start may raise before a timer is joinable. Register a
+timer for later cancel/join ONLY after successful start; nested finally protects
+all descriptor closing and real child kill/wait even if timer cleanup raises.
+Child kill's own finally attempts wait. Neither cleanup path manufactures any
+accepted result or parent-reap proof. Static3.10 AST/compile-without-exec PASS on
+this1004-line source; no test/candidate import, native child or feature run occurred.
+These findings are actual source/oracle review corrections BEFORE red, not weakened
+assertions, observed runtime failures or production workaround. Admission-family
+completeness still awaits root's separately reviewed installation contract.

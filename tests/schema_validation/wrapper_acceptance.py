@@ -505,7 +505,11 @@ class WrapperAcceptance(unittest.TestCase):
         for keywords in ({"$dynamicRef": "#"}, {"$dynamicAnchor": "x"}, {"discriminator": {"propertyName": "kind"}}):
             with self.subTest(keyword=next(iter(keywords))):
                 self.outcome(self.package(b"null", schema(**keywords)), "unsupported_feature")
-        for members in ({"webhooks": {}}, {"x-custom": {}}, {"components": {"examples": {"E": {"externalValue": "https://outside.invalid/x"}}}}, {"paths": {"/x": {"$ref": "#/components/pathItems/P", "summary": "mixed"}}, "components": {"pathItems": {"P": {}}}}):
+        for members in ({"webhooks": {}}, {"x-custom": {}},
+                        {"paths": {"/x": {"get": {"callbacks": {}, "responses": {"200": {"description": "ok"}}}}}},
+                        {"paths": {"/x": {"get": {"responses": {"200": {"description": "ok", "links": {}}}}}}},
+                        {"components": {"examples": {"E": {"externalValue": "https://outside.invalid/x"}}}},
+                        {"paths": {"/x": {"$ref": "#/components/pathItems/P", "summary": "mixed"}}, "components": {"pathItems": {"P": {}}}}):
             with self.subTest(case=list(members)):
                 p = self.package()
                 p.documents.clear()
@@ -521,6 +525,18 @@ class WrapperAcceptance(unittest.TestCase):
         for index, specification in enumerate(rows):
             with self.subTest(case=index):
                 self.outcome(self.package(b"1", specification), "unresolved_reference")
+        # The existing $defs case plus these19 locations exhaust the CLOSED child
+        # table. Instance1 does not apply many of them; closure still owns each ref.
+        for keyword in ("definitions", "properties", "patternProperties", "dependentSchemas"):
+            with self.subTest(map_child=keyword):
+                self.outcome(self.package(b"1", schema(**{keyword: {"unused": {"$ref": "missing.json"}}})), "unresolved_reference")
+        for keyword in ("allOf", "anyOf", "oneOf", "prefixItems"):
+            with self.subTest(array_child=keyword):
+                self.outcome(self.package(b"1", schema(**{keyword: [{"$ref": "missing.json"}]})), "unresolved_reference")
+        for keyword in ("additionalProperties", "items", "contains", "unevaluatedItems",
+                        "unevaluatedProperties", "propertyNames", "if", "then", "else", "not", "contentSchema"):
+            with self.subTest(single_child=keyword):
+                self.outcome(self.package(b"1", schema(**{keyword: {"$ref": "missing.json"}})), "unresolved_reference")
         p = self.package()
         p.documents.clear()
         p.document("api.json", openapi(components={"responses": {"R": {"$ref": "#/components/schemas/S"}}, "schemas": {"S": {"type": "object"}}}), "openapi31").finish()
@@ -914,8 +930,8 @@ class WrapperAcceptance(unittest.TestCase):
                         pass
                 timer = threading.Timer(5, watchdog)
                 timer.daemon = True
-                watchdogs.append(timer)
                 timer.start()
+                watchdogs.append(timer)
             finally:
                 if deadline:
                     close_owned(ready_write)
@@ -946,16 +962,21 @@ class WrapperAcceptance(unittest.TestCase):
             reaped = True
             self.assertFalse(watchdog_fired.is_set(), "real fault-child watchdog fired")
         finally:
-            for timer in watchdogs:
-                timer.cancel()
-                timer.join(timeout=1)
-            descriptor_owner.close()
-            if saved and not reaped:
+            try:
+                for timer in watchdogs:
+                    timer.cancel()
+                    timer.join(timeout=1)
+            finally:
                 try:
-                    saved[0].kill()
-                except ProcessLookupError:
-                    pass
-                saved[0].wait(timeout=3)
+                    descriptor_owner.close()
+                finally:
+                    if saved and not reaped:
+                        try:
+                            saved[0].kill()
+                        except ProcessLookupError:
+                            pass
+                        finally:
+                            saved[0].wait(timeout=3)
 
     def test_worker_activation_missing_extra_and_malformed_refuse_forged_ok(self):
         for activation in (b"", b"AA", b"B"):
