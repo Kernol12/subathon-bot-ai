@@ -4,4 +4,4 @@ if(NOT subathon_milestone_progression_cases)
     message(FATAL_ERROR "Milestone progression cases must be built and discovered first")
 endif()
 set_tests_properties(${subathon_milestone_progression_cases} PROPERTIES
-    LABELS "milestone-progression;acceptance;intentional-red;core")
+    LABELS "milestone-progression;acceptance;core")

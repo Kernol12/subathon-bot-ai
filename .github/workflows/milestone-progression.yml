@@ -1,4 +1,4 @@
-name: Milestone progression baseline
+name: Milestone progression acceptance
 on:
   pull_request:
     branches: [main]
@@ -38,7 +38,7 @@ jobs:
           cmake --preset milestone-progression-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
-      - name: Build baseline cases without executing milestone bodies
+      - name: Build reviewed milestone acceptance and existing checks
         run: cmake --build --preset milestone-progression-debug
       - name: Require the complete enabled uninverted feature inventory and foundation
         run: |
@@ -65,12 +65,12 @@ jobs:
           ))
           feature = {}
           foundation = []
-          required = {"milestone-progression", "acceptance", "intentional-red", "core"}
+          required = {"milestone-progression", "acceptance", "core"}
           for test in inventory["tests"]:
               properties = {item["name"]: item["value"] for item in test.get("properties", [])}
               labels = set(properties.get("LABELS", []))
               if "milestone-progression" in labels:
-                  if not required.issubset(labels):
+                  if not required.issubset(labels) or "intentional-red" in labels:
                       raise SystemExit("Feature labels are incomplete")
                   if properties.get("DISABLED") or properties.get("WILL_FAIL"):
                       raise SystemExit("Feature test is disabled or failure-inverted")
@@ -85,7 +85,9 @@ jobs:
                   foundation.append(test)
           if set(feature) != expected or len(foundation) != 1:
               raise SystemExit("CTest discovery differs from the complete source inventory/foundation")
-          print(f"Discovered {len(expected)} enabled milestone cases; their first red is a separate gate")
+          print(f"Discovered {len(expected)} enabled milestone cases; all will execute as ordinary acceptance")
           PYTHON
       - name: Run reviewed independent foundation and existing checks
-        run: ctest --preset milestone-progression-debug -LE intentional-red --no-tests=error --verbose
+        run: ctest --preset milestone-progression-debug -LE '^milestone-progression$' --no-tests=error --verbose
+      - name: Run every reviewed milestone acceptance body unconditionally
+        run: ctest --preset milestone-progression-debug -L '^milestone-progression$' --no-tests=error --verbose

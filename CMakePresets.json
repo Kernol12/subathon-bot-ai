@@ -204,7 +204,7 @@
     },
     {
       "name": "milestone-progression-debug",
-      "displayName": "24 \u00b7 Milestone progression baseline interfaces and tests",
+      "displayName": "24 \u00b7 Milestone progression acceptance",
       "inherits": "exact-numeric-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS": "ON"
