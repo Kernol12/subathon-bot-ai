@@ -55,3 +55,15 @@ SDK/foundation/worker run, install, native test or wrapper red occurred. Differe
 public API review, actual context-adapter contract/facts and its separate review
 still precede minimal interfaces/harness/tests. Complete independent oracles/test
 review and genuine intended missing-wrapper red precede SCHEMATOOL001 production.
+
+Independent actual2278c8d review requested one activation clarification plus finite
+trusted-control path bounds. Corrected ONLY this API document and note: pre3.14
+`-S` prefixes are not SDK roots; the parent validates a reviewed installation-
+descriptor's absolute SDK/interpreter/version/platform/ABI binding before startup.
+After resource admission and actual ABI verification the worker directly appends
+only that directory, never site.main/addsitedir/.pth. Every trusted control path
+now has1..4096UTF8 bytes/noNUL/lone-surrogate bound; invalid trusted configuration
+is environment_unavailable. Python's primary3.14 path-initialization documentation
+was opened to verify the change. Concrete descriptor/activation evidence remains
+pending; no new source, probes, installs or runtime proof. Same document checks
+and exact logical-blob preservation were rerun for the corrected candidate.

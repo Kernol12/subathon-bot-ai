@@ -177,14 +177,25 @@ package-selected executable/environment. Its bounded control inputs are only the
 admitted manifest path, trusted selected SDK location and one private activation
 pipe descriptor. No caller graphs/proofs/validation result are serialized in.
 Neither parent nor worker imports the project source as a success fixture.
+Each trusted interpreter/script/SDK-directory path is absolute,1..4096UTF8 bytes,
+without NUL or lone surrogate; invalid/unrepresentable trusted configuration is
+environment_unavailable. These limits do not enlarge the manifest-path ceiling.
 
 Use isolated/no-site startup (`-I -S`) so worker setup does not execute .pth/site
 imports before admission. The fixed standard-library worker prologue establishes
 and verifies the536870912 soft/hard address-space ceiling before ANY package read
-or candidate import, then adds ONLY the trusted hash-admitted SDK directory to
-its dependency search path without importing site. Source/SDK paths come from
-the actual installed tool/environment, not manifest fields. Their exact discovery
-and CPython3.10 -S behavior require reviewed concrete harness/environment evidence.
+or candidate import. Before startup, the parent obtains and validates the absolute
+SDK-directory/interpreter binding from the reviewed trusted installation descriptor,
+including the selected interpreter's actual version/platform/ABI. Neither package
+data nor an environment variable can supply that binding. Pre3.14 `-S` startup
+does NOT provide reliable venv SDK roots through sys.prefix/sys.exec_prefix:
+[Python documents the3.14 change](https://docs.python.org/3.14/library/sys_path_init.html).
+Do not derive the SDK directory from those prefixes. After the resource prologue
+and verification against the actual running interpreter's ABI, append ONLY that
+validated hash-admitted directory directly to sys.path. Do not call site.main,
+site.addsitedir or process any .pth file. Exact trusted-descriptor discovery and
+minimum/selected-host `-I -S` activation require reviewed concrete harness evidence;
+this document does not assert an implemented descriptor or successful activation.
 If these controls cannot be established, return environment_unavailable; no
 uncontrolled fallback. This is Linux developer-tool admission, not Windows/Linux
 product support certification or a new runtime dependency.
