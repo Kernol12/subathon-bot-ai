@@ -191,59 +191,37 @@ template <std::size_t Count>
         send(3, "A");
     close_checked(3);
 
-    switch (mode) {
-    case 1:
-    case 2:
-    case 3:
-    case 21:
+    // Use explicit conditional groups; the generated raw-graph audit still applies.
+    if (mode == 1 || mode == 2 || mode == 3 || mode == 21) {
         send(4, "{\"code\":\"ok\"}\n");
-        break;
-    case 4: {
+    } else if (mode == 4) {
         char excess[257];
         for (auto &byte : excess)
             byte = 'x';
         send(4, excess, static_cast<unsigned>(sizeof(excess)));
-        break;
-    }
-    case 5:
+    } else if (mode == 5) {
         send(4, "{\"code\":\"unknown\"}\n");
-        break;
-    case 6:
+    } else if (mode == 6) {
         send(4, "{\"code\":\"ok\"}");
-        break;
-    case 7:
+    } else if (mode == 7) {
         send(4, "{\"code\":\"ok\"}\nextra");
-        break;
-    case 8:
+    } else if (mode == 8) {
         send(4, "{\"code\":\"usage_error\"}\n");
-        break;
-    case 10:
+    } else if (mode == 10) {
         send(4, "{\"code\":\"invalid_json\",\"secret\":\"PRIVATE\"}\n");
-        break;
-    case 11:
-    case 22:
+    } else if (mode == 11 || mode == 22) {
         send(4, "{\"code\":\"invalid_json\"}\n");
-        break;
-    case 13:
-    case 14:
-    case 19:
-    case 20:
+    } else if (mode == 13 || mode == 14 || mode == 19 || mode == 20) {
         send(4, "{\"code\":\"environment_unavailable\"}\n");
-        break;
-    case 16:
+    } else if (mode == 16) {
         send(4, "{\"code\":\"environment_unavailable\"}\nextra");
-        break;
-    case 17:
+    } else if (mode == 17) {
         send(4, "{\"code\":\"environment_unavailable\"}");
-        break;
-    case 18:
+    } else if (mode == 18) {
         send(4, " {\"code\":\"environment_unavailable\"}\n");
-        break;
-    case 9:
-    case 12:
-    case 15:
-        break; // Literal empty outcome plus actual EOF.
-    default:
+    } else if (mode == 9 || mode == 12 || mode == 15) {
+        // Literal empty outcome plus actual EOF.
+    } else {
         finish(fixture_failure);
     }
     close_checked(4);

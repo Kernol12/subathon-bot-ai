@@ -120,3 +120,72 @@ implementation permission follows. Different actual child/body and independent
 control/test source review, actual BOTH-host helper/kernel/ABI/SDK foundations
 GREEN, then NEW actual stub31 red still precede owner implementation. All74/full
 acceptance/source audits/CI/latest-head/normal merge gates remain, PR77 only.
+
+## Conditional dispatch correction — source only
+
+Author A (`/root/session_supplier_review`), 6 November 2026. New isolated branch
+`task/SCHEMATOOL-001-native-child-conditional-dispatch`, tree
+`/tmp/subathon-schematool001-native-child-conditional-dispatch`, starts at actual
+root `3a055ace8e5c4566e5e86c65027b043fb1da6f4f`; its clean child source is
+`9af9254bc98f8756713aee80f751af55292bd72d`. Only the child and this appended note
+change. Prior source/reviews and old local foundation receipts remain historical.
+
+Root reported hosted run `42275480715` rejected the generated `protocol(unsigned)`
+switch dispatch on BOTH GCC11/GCC13 lanes for an indirect `notrack` jump table,
+before any native executable ran. The correction replaces ONLY that dense switch
+with thirteen explicit `if`/`else if` boolean case groups and its unchanged default
+125 branch. No indirect-transfer permission, compiler flag, opcode exemption,
+new dependency, test assertion, owner behavior or protocol requirement changes.
+Conditional source is a proposed way to obtain an admissible selected Debug
+artifact; it does not itself prove the compiler's generated transfers are direct.
+
+The independent literal table below freezes all22 protocol rows. `empty` means
+zero bytes before actual channel EOF; `\n` means one LF byte, not two characters.
+No payload contains a trailing NUL. Case4 is exactly257 ASCII `x` bytes.
+
+| Mode | Activation bytes | Outcome bytes | Normal status / real death |
+| --- | --- | --- | --- |
+| 1 | empty | `{"code":"ok"}\n` | 0 |
+| 2 | `AA` | `{"code":"ok"}\n` | 0 |
+| 3 | `B` | `{"code":"ok"}\n` | 0 |
+| 4 | `A` | 257 ASCII `x` | 0 |
+| 5 | `A` | `{"code":"unknown"}\n` | 0 |
+| 6 | `A` | `{"code":"ok"}` | 0 |
+| 7 | `A` | `{"code":"ok"}\nextra` | 0 |
+| 8 | `A` | `{"code":"usage_error"}\n` | 64 |
+| 9 | `A` | empty | 0 |
+| 10 | `A` | `{"code":"invalid_json","secret":"PRIVATE"}\n` | 2 |
+| 11 | `A` | `{"code":"invalid_json"}\n` | 0 |
+| 12 | `A` | empty | genuine SELF SIGKILL |
+| 13 | empty | `{"code":"environment_unavailable"}\n` | 3 |
+| 14 | empty | `{"code":"environment_unavailable"}\n` | 0 |
+| 15 | empty | empty | 3 |
+| 16 | empty | `{"code":"environment_unavailable"}\nextra` | 3 |
+| 17 | empty | `{"code":"environment_unavailable"}` | 3 |
+| 18 | empty | ` {"code":"environment_unavailable"}\n` | 3 |
+| 19 | `B` | `{"code":"environment_unavailable"}\n` | 3 |
+| 20 | `AA` | `{"code":"environment_unavailable"}\n` | 3 |
+| 21 | empty | `{"code":"ok"}\n` | 0 |
+| 22 | empty | `{"code":"invalid_json"}\n` | 2 |
+
+Source-only stdlib inspection independently decoded the C++ string literals in
+BOTH old switch groups and new conditional groups and compared every outcome to
+the explicit22-row literal oracle. It also matched all thirteen old/new group
+case sets and statement tokens (only dispatch braces/breaks/comments differ), and
+proved ALL file bytes outside the replaced dispatch identical. Thus activation,
+channel-close order, exit expression, real SELF-kill/failure125, mode24's B/held
+channels, mode28's unchanged248-byte report, argv/PDEATHSIG checks and default
+fixture125 remain exact. The existing24 helper/producer cases and their assertion
+source are byte-for-byte unchanged; no old successful artifact receipt transfers
+to the new child bytes.
+
+Checks on this source-only revision: the above stdlib source/literal comparison,
+`clang-format --dry-run --Werror tests/schema_validation/native_fault_child.cpp`,
+`python3 tools/check_project.py`, `python3 tools/progress.py render --check`, and
+`git diff --check`: all PASS; project check reports426 tasks/122 decisions and
+render reports the snapshot current.
+No configure/compile/link/load, candidate/test import, native execution, thread,
+child, SDK call or replay of an original FIRST red is authorized or performed.
+Different actual source review, rebuilt strict generated-graph proof for this
+child hash, new hosted CI and all remaining PR77 gates precede normal integration.
+Finish PR77 and then stop remains the scope.
