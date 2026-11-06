@@ -239,6 +239,8 @@ def compiler_graph(pairs, symbols):
 def fixed_rsp(instructions):
     """Allow fixed outgoing-argument pushes, never a register-sized stack."""
     for _, mnemonic, operands in instructions:
+        if mnemonic == "cmp":
+            continue  # Reads both operands and writes flags, never a stack/frame pointer.
         if mnemonic == "push":
             continue  # Reads its explicit operand; its fixed stack use is counted by GNU.
         destination = operands.rsplit(",", 1)[-1]
