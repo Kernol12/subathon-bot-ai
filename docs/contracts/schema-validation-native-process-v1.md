@@ -1,4 +1,4 @@
-# Schema validation native process contract — v1
+# Schema validation native process contract — v1, revision2
 
 SCHEMATOOL-001, private developer-tool contract, author B. **Actual document approved
 by different review C44adb36c; no header, stub, test, build or native capability
@@ -355,7 +355,16 @@ The arm result is 0 only for an admitted fixed plan before core entry; unknown/
 inconsistent plans return -1 and cannot run the core. Snapshot requires exactly
 1024 writable int64_t cells (8192 bytes); it returns 0..128 record count, or -1
 for invalid state/overflow. Each eight-cell record is sequence, event kind, phase,
-fd, PID, syscall result, errno, monotonic nanoseconds; unavailable fields are -1.
+fd, PID, native result, errno, monotonic nanoseconds; unavailable fields are -1.
+The sixth cell is a kind-specific native result: for syscall-return it is the
+actual raw kernel return; for final-commit it is the ACTUAL closed ABI integer
+committed by the common owner AFTER its resource cleanup and final decision,
+before C return/Python conversion. That event must not precede quiescence or
+invent/override an accepted result. In particular it can observe private18 when
+pending Python SIGINT later prevents Python from receiving the integer. Its errno
+cell is -1 because this is not a syscall. Other events retain only their actual
+defined native observations; unavailable result/errno fields stay -1. The final
+event is not independent proof of cleanup: raw FD/reap oracles remain mandatory.
 Event kinds are 1 syscall-attempt, 2 syscall-return, 3 adopt, 4 release, 5 clock,
 6 signal, 7 readiness, 8 final-commit, 9 poison, 10 child-exec-handoff-intent.
 Sequence encodes writer_id in its upper 32 bits and that writer's increasing local
@@ -370,6 +379,12 @@ oracles; its result cannot repair a failed oracle. Every case uses fresh fixture
 state/process; unknown-plan/ledger poison cannot be reset and reused as green.
 Minimal actual helper headers/source still require separate review. These symbols
 are absent from production and may not alter its ABI or invoke Python callbacks.
+
+Revision2 clarifies only that existing final-commit observation's scalar meaning;
+the earlier syscall-only cell wording could not represent the already required
+actual interrupted18 oracle when ctypes raises before exposing the return. No
+record/export/layout/public outcome/resource limit or fake result is added. Its
+actual document/type delta needs different review before dependent tests execute.
 Python tests may redirect ONLY the private artifact load to the actual
 reviewed fault DSO, never substitute a Python callable/accepted integer. The
 fixture validates the normal 12-entry argv/3-key environment/2 channels before a

@@ -104,7 +104,9 @@ struct Observation {
     Phase phase;
     std::int64_t descriptor;
     std::int64_t pid;
-    RawResult result;
+    // Raw kernel return, or actual closed ABI integer for final_commit after
+    // quiescence. The observation never supplies/overrides the owner's decision.
+    std::int64_t result;
 };
 
 // Unevaluated signature checks only; policy methods and the owner have NO body here.
