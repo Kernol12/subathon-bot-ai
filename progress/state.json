@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T00:58:21+00:00",
+  "updated_at": "2026-11-06T05:15:13+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3231,8 +3231,8 @@
       "title": "Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; milestone_author (implementation)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001",
@@ -3245,7 +3245,8 @@
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
       "summary": "Record every crossed target immediately in ascending order; score 800 below completed target 1000 retains completion and deficit 200.",
       "notes": [
-        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim."
       ],
       "verification": {},
       "evidence": [],
@@ -14814,6 +14815,11 @@
       "date": "2026-11-06T00:58:21+00:00",
       "task": "STORAGE-018",
       "note": "Complete bounded STORAGE018 component after original31/51 plus seven separately reviewed/reached-red methods16scenarios (now38/67), accepted finalSQLsource90/ccdc and ordinaryCIb4 source/configreview2be. Root/author/reviewer375PASS0warnings/skips; OWN selectedofficialQt42110989863 atfe440acSUCCESS/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/newfoundation4-6QtPASS0skip354ms/exactcodec28/unconditional28PASS0.13s/exactSQL38/unconditional38PASS6.15s/oldmandatorylanes/all17publishedchecks. Source/component taskdone with passingacceptance+differentactualreview; finalcompletionmetadata/latestpublicationCI/currentrules/discussions/normalmerge remain. DB01/NUM04partial; allactualproducer/provider/recovery/UI/platform/fullreleasegates retained. Ownerrequests finishonlyopenPR70thenstop; unpublishedauthsplit/claims preserved, no nexttask."
+    },
+    {
+      "date": "2026-11-06T05:15:13+00:00",
+      "task": "MILESTONE-001",
+      "note": "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim."
     }
   ]
 }
