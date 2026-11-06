@@ -242,6 +242,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS": "ON"
       }
+    },
+    {
+      "name": "schema-transport-debug",
+      "displayName": "29 \u00b7 Schema native process baseline (contains intentional red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SCHEMA_TRANSPORT": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -356,6 +364,10 @@
     {
       "name": "sqlite-reference-capture-debug",
       "configurePreset": "sqlite-reference-capture-debug"
+    },
+    {
+      "name": "schema-transport-debug",
+      "configurePreset": "schema-transport-debug"
     }
   ],
   "testPresets": [
@@ -632,6 +644,16 @@
     {
       "name": "sqlite-reference-capture-debug",
       "configurePreset": "sqlite-reference-capture-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "schema-transport-debug",
+      "configurePreset": "schema-transport-debug",
       "output": {
         "outputOnFailure": true
       },

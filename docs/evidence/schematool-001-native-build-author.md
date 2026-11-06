@@ -17,7 +17,7 @@ source. B separately authors a small direct-native behavior baseline, with its o
 different test review and later intended red. No production owner is authorized.
 
 The new opt-in SUBATHON_BUILD_SCHEMA_TRANSPORT defaults OFF. Preset
-schema-transport-debug selects only this developer foundation plus existing default
+schema-transport-debug builds this developer foundation plus existing default
 scaffold; no Qt/server/client, standards-engine or third-party addition. Platform
 and ELF-toolchain admission fails explicitly outside the selected Linux x86-64
 GNU/Clang profile. Existing GoogleTest >=1.17 discovery/local-source/explicit pinned
@@ -34,6 +34,12 @@ The independent GoogleTest executable links only the actual ABI stub, selected
 GoogleTest and Threads, plus a bounded nonvalidating child target for actual exec
 observations. The child target has eager binding and no C++ exceptions/RTTI.
 Compile-time target paths are trusted build outputs, not package/public inputs.
+The preset also registers the separately reviewed direct-native behavior script
+under schema-native-behavior/intentional-red, not the green foundation label. A full
+CTest preset run would execute that red while the owner is inert; it is NOT a
+passing suite. CI selects the explicit foundation label without inverting or
+executing intentional behavior red before its reviewed gate.
+
 Native case discovery uses the normal GoogleTest route; every foundation has the
 explicit schema-native-foundation label and finite30-second timeout. A separate
 stdlib loader script receives only --artifact ABS_TARGET_PATH under -I -S -B and
@@ -48,10 +54,20 @@ readiness failure, watchdog or compile/dependency failure may be treated as gree
 capability or an intended feature red. Existing Python SDK/public/focused workflows
 remain byte-identical and ordinary; this new label supplies no product acceptance.
 
-Before publication/execution: integrate actual authored A source, add exact compiled
-registration/no-disable/no-inversion guards, then obtain different whole-source/
-build/CI review. Only after actual green foundations on BOTH selected hosts may
+Actual A source8e20a768 is now integrated0f54777: six native cases and two loader
+methods, unchanged source authored separately. Exact compiled-registration and
+loader AST/no-disable/no-inversion guards are authored. The additional direct-native
+12-method/22-observation script e4fe735 is independently approved Cf8ae6904, but
+remains intentional red and unexecuted. Before publication/execution obtain
+different whole-source/build/CI review; source approval must explicitly separate
+compile/generated-code inspection from actual probe execution where necessary. Only after actual green foundations on BOTH selected hosts may
 the reviewed direct-native missing-behavior baseline execute. No old stub red or
 functional suite is replayed to substitute for that gate. Ported74 oracles, new
 negative ownership fixtures, actual implementation/source audit/full integration,
 latest-head CI/reviews/discussions and normal merge requirements remain.
+
+Actual author checks after assembly: project/link/preset/current HTML PASS426/122,
+render--check current and git diff--check PASS. No CMake configure/discovery, compile,
+native load, probe, child/thread or new test execution has occurred. Exact existing
+Python source, public64/focused assertions, SDK14/20 pins and old FIRST artifacts
+remain unchanged. This is authoring for existing PR77 only.

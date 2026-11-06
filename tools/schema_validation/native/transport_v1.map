@@ -1,0 +1,4 @@
+{
+    global: subathon_schema_transport_v1;
+    local: *;
+};

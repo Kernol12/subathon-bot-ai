@@ -1,0 +1,91 @@
+name: Schema native process foundations
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  schema-native-foundation:
+    name: schema-native-foundation (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            python_minor: '3.10'
+          - runner: ubuntu-24.04
+            python_minor: '3.12'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Record actual native host and toolchain
+        run: |
+          uname -a
+          c++ --version
+          cmake --version
+          ninja --version
+          ldd --version
+          /usr/bin/python3 - <<'PYTHON'
+          import sys
+          expected = tuple(map(int, '${{ matrix.python_minor }}'.split('.')))
+          if sys.version_info[:2] != expected:
+              raise SystemExit('Runner did not select the admitted Python minor')
+          print(sys.version)
+          PYTHON
+      - name: Configure the reviewed inert ABI and real native facilities
+        run: >-
+          cmake --preset schema-transport-debug
+          -DPython3_EXECUTABLE=/usr/bin/python3
+          -DSUBATHON_FETCH_GOOGLETEST=ON
+      - name: Build the native foundation and versioned artifact
+        run: cmake --build --preset schema-transport-debug --verbose
+      - name: Record actual artifact identity and exports
+        run: |
+          sha256sum build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so
+          sha256sum tools/schema_validation/native/transport_v1.h tools/schema_validation/native/transport_stub.cpp
+          sha256sum tests/schema_validation/native_foundation.cpp tests/schema_validation/native_foundation_child.cpp tests/schema_validation/native_foundation_child.h tests/schema_validation/native_loader_foundation.py
+          nm -D --defined-only build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so
+      - name: Require the exact enabled native foundation registrations
+        run: |
+          /usr/bin/python3 - <<'PYTHON'
+          import ast
+          import json
+          from pathlib import Path
+          import subprocess
+          source = ast.parse(Path('tests/schema_validation/native_loader_foundation.py').read_text())
+          classes = [item for item in source.body if isinstance(item, ast.ClassDef) and item.name == 'NativeLoaderFoundation']
+          methods = [item for item in classes[0].body if isinstance(item, ast.FunctionDef) and item.name.startswith('test_')] if len(classes) == 1 else []
+          if len(methods) != 2 or {item.name for item in methods} != {'test_builtin_abi_profile', 'test_actual_inert_artifact_returns_literal_31'} or any(item.decorator_list for item in methods):
+              raise SystemExit('Native loader methods changed or are disabled/inverted')
+          expected = {
+              'InertBaselineLiteral31',
+              'SigchldProfileQueryWithoutBirth',
+              'AtomicPidfdSignalsAndCloseRange',
+              'ActualExecveNonvalidatingProbe',
+              'ForeignThreadAndCompetingReapKeepPinnedIdentity',
+              'ControlledCloneErrorsRollbackWithoutGuessingOutput',
+          }
+          names = {'schema-native-foundation.SchemaNativeFoundation.' + name for name in expected}
+          names.add('schema-native.loader-foundation')
+          data = json.loads(subprocess.check_output([
+              'ctest', '--preset', 'schema-transport-debug',
+              '-L', '^schema-native-foundation$', '--show-only=json-v1',
+          ], text=True))
+          if {item['name'] for item in data['tests']} != names or len(data['tests']) != len(names):
+              raise SystemExit('Native foundation registrations differ from the reviewed inventory')
+          for item in data['tests']:
+              properties = {entry['name']: entry['value'] for entry in item['properties']}
+              if properties.get('DISABLED') or properties.get('WILL_FAIL'):
+                  raise SystemExit('Native foundation is disabled or failure-inverted')
+              if 'schema-native-foundation' not in properties.get('LABELS', []):
+                  raise SystemExit('Native foundation label missing')
+          print('Exact six native cases and one two-method loader program registered and enabled')
+          PYTHON
+      - name: Execute every reviewed native foundation unconditionally
+        run: ctest --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose
