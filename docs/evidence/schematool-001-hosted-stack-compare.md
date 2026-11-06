@@ -1,0 +1,5 @@
+# Hosted read-only stack comparison audit defect
+
+Exact ba5366e native run42304624411: both Ubuntu22.04/GCC11 and Ubuntu24.04/GCC13 compiled, passed prior literal controls, then stopped before any native execution at production fixed_rsp: `cmp %r11,%rsp` incorrectly classified as a write. Bootstrap/facilities/full66 were not executed and no hosted acceptance is inferred. Library SDK14 jobs are separate. CMP changes flags and reads both explicit operands; it cannot vary RSP or RBP. The fixed-write proof must preserve rejection of register-sized SUB/MOV/XCHG/CMPXCHG; native source/flags/budgets remain unchanged.
+
+Root authors ONE additive literal regression exercising exact reached comparison, frame-pointer comparison, and five unchanged forbidden register-write forms. Existing five controls/assertions remain byte-for-byte apart from insertion. Different actual test review and observed reached-bug red precede the bounded comparator classification correction. Later independent actual fix review and all latest hosted checks remain mandatory. No bypass, assertion deletion or stack-budget relaxation.

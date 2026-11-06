@@ -36,6 +36,19 @@ def load_tool():
 
 
 class NativeOwnerAuditControls(unittest.TestCase):
+    def test_stack_pointer_comparison_is_read_only_and_writes_still_refuse(self):
+        audit = load_tool()
+        # Literal hosted GCC11/13 stack-clash comparison; CMP writes only flags.
+        audit.fixed_rsp([(0x100, "cmp", "%r11,%rsp")])
+        audit.fixed_rsp([(0x100, "cmp", "%r11,%rbp")])
+        for mnemonic, operands in (("mov", "%r11,%rsp"),
+                                   ("sub", "%r11,%rsp"),
+                                   ("xchg", "%r11,%rsp"),
+                                   ("cmpxchg", "%r11,%rsp"),
+                                   ("mov", "%r11,%rbp")):
+            with self.subTest(mnemonic=mnemonic, operands=operands), self.assertRaises(RuntimeError):
+                audit.fixed_rsp([(0x100, mnemonic, operands)])
+
     def test_literal_mangled_identity_alias_requires_same_elf_frame(self):
         audit = load_tool()
         symbols = {"entry": 0x100, "_ZN1AC1Ev": 0x200, "_ZN1AC2Ev": 0x200}
