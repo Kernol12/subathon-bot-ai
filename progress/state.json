@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:43:45+00:00",
+  "updated_at": "2026-11-06T05:44:58+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13681,7 +13681,7 @@
       "title": "Browser and desktop credential transport contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "coordinator /root; session_supplier_review (transport document author)",
       "depends_on": [
         "SESSIONCONTRACT-001"
@@ -13702,11 +13702,28 @@
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
         "Document planned only: no authored/reviewed contract, auth choice or supported transport capability.",
         "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation.",
-        "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim."
+        "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim.",
+        "Complete focused transport DOCUMENT after actual differentcdbf8e8 review of corrected6cd4a15/doc2c33, unchanged supplierc5. Exact cookie/Bearer/customheader-Origin-closedCORS/proxy/errors/bounds/literal cases, source-specificDrogonmultiplicity/rawCookieTRACE gaps retained as actuallaterimplementationgates. Stale policy MUST503+freshingress and JSONHTTP/WSscope findings corrected beforeapproval. Root423/render/19tooling/whitespace and independent byte/hash/U64 auditsPASS. Main4e85241 integrated preserving source/reviews/MILESTONEdone and own002claim. No source/header/schema/tests/red/runtime capability. Finalmetadata/latestheadCI/currentrules/normalmerge remain before downstreamauthoring."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/session-transport-v1.md",
+        "docs/evidence/sessioncontract-002-author.md",
+        "docs/evidence/sessioncontract-002-review.md",
+        "docs/evidence/sessioncontract-002-handoff.md"
+      ],
+      "review": {
+        "author": "session_supplier_review (transport author)",
+        "reviewer": "session_plan_review (different transport reviewer)",
+        "outcome": "approved",
+        "revision": "Actual corrected6cd4a15/import6f2b825/document2c33c2bbe9052455107c3056783d6bb605a5fef2 approvedcdbf8e8/import4d57195. Supplierc5 unchanged; stale-policy fresh-request and separateWSgate findings resolved. Documentonly, finalmetadata/latestpublicationCI/normalmerge remain.",
+        "evidence": "docs/evidence/sessioncontract-002-review.md"
+      }
     }
   ],
   "activity": [
@@ -14949,6 +14966,11 @@
       "date": "2026-11-06T05:43:45+00:00",
       "task": "SESSIONCONTRACT-002",
       "note": "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim."
+    },
+    {
+      "date": "2026-11-06T05:44:58+00:00",
+      "task": "SESSIONCONTRACT-002",
+      "note": "Complete focused transport DOCUMENT after actual differentcdbf8e8 review of corrected6cd4a15/doc2c33, unchanged supplierc5. Exact cookie/Bearer/customheader-Origin-closedCORS/proxy/errors/bounds/literal cases, source-specificDrogonmultiplicity/rawCookieTRACE gaps retained as actuallaterimplementationgates. Stale policy MUST503+freshingress and JSONHTTP/WSscope findings corrected beforeapproval. Root423/render/19tooling/whitespace and independent byte/hash/U64 auditsPASS. Main4e85241 integrated preserving source/reviews/MILESTONEdone and own002claim. No source/header/schema/tests/red/runtime capability. Finalmetadata/latestheadCI/currentrules/normalmerge remain before downstreamauthoring."
     }
   ]
 }

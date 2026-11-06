@@ -39,10 +39,13 @@ clarifications corrected6cd4a15/import6f2b825 (stale policy MUST503+fresh ingres
 explicit JSONHTTP versus still-required browserWebSocket contract007/API003 gates).
 [Document](../contracts/session-transport-v1.md), [author](sessioncontract-002-author.md).
 Independent byte literals23/88/120/151/90/128/139 and actualdocchecks pass; no runtime.
+ComponentDOCUMENTdone after actualdifferentreview; finalmetadata/publication gates pending.
 
 DIFFERENT reviewer canonical `session_plan_review`, read-only spec/primarysource/
-pinnedDrogon preparation completed, actual corrected6cd review underway. Owns ONLY
-eventual sessioncontract-002-review.md in NEW isolated reviewtree. No approval yet.
+pinnedDrogon preparation completed, actual corrected6cd approvedcdbf8e8/import4d57195. Owns ONLY
+sessioncontract-002-review.md in `/tmp/subathon-sessioncontract002-review`,
+branch task/SESSIONCONTRACT-002-document-review. Author assignment complete;
+no current content work or native command assumed active.
 Do not assume a completed/previous agent continues running: inspect actual agentlist
 on resume. Source author for milestone is different task/role; no self-approved002.
 Root owns state/HTML/task navigation/sharedimports/schemas/build/CI/pins/checkpoint/
@@ -64,9 +67,9 @@ document-only task; stable component CI remains appropriate. All newdefaultinput
 synthetic, no realcredentials. No previous worktrees/refs/reviews discarded; startup
 allclean/no old agents/buildprocesses, all new writes isolated and owned.
 
-Receive actual different corrected002review; resolve any findings, then author
-actual completionmetadata/handoff, run doc/tooling checks, obtain separate actual
-metadata review and publish onexistingPR74. Observe latestheadCI/currentrules/
+Supplierc5/transport2c33 are frozen and both document reviews approved.
+[Handoff](sessioncontract-002-handoff.md) records exact evidence. Next obtain
+actual separate completionmetadata review, then publish onexistingPR74. Observe latestheadCI/currentrules/
 reviews/threads before normalmerge. After002 integrates, select next dependency-ready
 bounded task (CONTRACT013 HTTP reference schema is one candidate; actual runtime
 requires later own test-first and producer gates). Continue without routine approval.
