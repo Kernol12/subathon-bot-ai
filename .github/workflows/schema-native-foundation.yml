@@ -51,6 +51,40 @@ jobs:
           sha256sum tools/schema_validation/native/transport_v1.h tools/schema_validation/native/transport_stub.cpp
           sha256sum tests/schema_validation/native_foundation.cpp tests/schema_validation/native_foundation_child.cpp tests/schema_validation/native_foundation_child.h tests/schema_validation/native_loader_foundation.py
           nm -D --defined-only build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so
+      - name: Run reviewed static-audit controls without any native discovery
+        run: >-
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+          /usr/bin/python3 -I -S -B tests/schema_validation/native_audit_controls.py
+      - name: Audit generated raw child functions before any native execution
+        run: >-
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+          /usr/bin/python3 -I -S -B tools/schema_validation/audit_native_foundation.py
+          --foundation "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation"
+          --child "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation_child"
+          --transport "$PWD/build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so"
+      - name: Verify actual libc binding without creating a child
+        run: |
+          /usr/bin/python3 - <<'PYTHON'
+          from pathlib import Path
+          import subprocess
+          import tempfile
+          import xml.etree.ElementTree as ET
+          executable = Path('build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation').resolve(strict=True)
+          with tempfile.TemporaryDirectory(prefix='schema-native-binding-') as temporary:
+              report = Path(temporary) / 'binding.xml'
+              subprocess.run([
+                  str(executable), '--gtest_filter=SchemaNativeFoundation.SyscallBindingToActualLibc',
+                  '--gtest_color=no', '--gtest_output=xml:' + str(report),
+              ], check=True, timeout=30, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'})
+              root = ET.parse(report).getroot()
+              cases = list(root.iter('testcase'))
+              if (root.get('tests') != '1' or root.get('failures') != '0' or root.get('errors') != '0'
+                      or root.get('disabled') != '0' or len(cases) != 1 or list(root.iter('skipped'))
+                      or cases[0].get('name') != 'SyscallBindingToActualLibc'
+                      or cases[0].get('status') != 'run' or cases[0].get('result') != 'completed'):
+                  raise SystemExit('Binding bootstrap did not execute exactly one passing case')
+          print('One actual no-child libc binding case passed; kernel probes are separate')
+          PYTHON
       - name: Require the exact enabled native foundation registrations
         run: |
           /usr/bin/python3 - <<'PYTHON'
@@ -70,6 +104,7 @@ jobs:
               'ActualExecveNonvalidatingProbe',
               'ForeignThreadAndCompetingReapKeepPinnedIdentity',
               'ControlledCloneErrorsRollbackWithoutGuessingOutput',
+              'SyscallBindingToActualLibc',
           }
           names = {'schema-native-foundation.SchemaNativeFoundation.' + name for name in expected}
           names.add('schema-native.loader-foundation')
@@ -85,7 +120,7 @@ jobs:
                   raise SystemExit('Native foundation is disabled or failure-inverted')
               if 'schema-native-foundation' not in properties.get('LABELS', []):
                   raise SystemExit('Native foundation label missing')
-          print('Exact six native cases and one two-method loader program registered and enabled')
+          print('Exact seven native cases and one two-method loader program registered and enabled')
           PYTHON
       - name: Execute every reviewed native foundation unconditionally
         run: ctest --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose

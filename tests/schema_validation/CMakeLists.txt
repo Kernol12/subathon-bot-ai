@@ -7,7 +7,7 @@ target_link_options(schema_transport_native_foundation_child PRIVATE "LINKER:-z,
 
 add_executable(schema_transport_native_foundation native_foundation.cpp)
 target_link_libraries(schema_transport_native_foundation PRIVATE
-    subathon_schema_transport_v1 GTest::gtest_main Threads::Threads)
+    subathon_schema_transport_v1 GTest::gtest_main Threads::Threads ${CMAKE_DL_LIBS})
 target_compile_definitions(schema_transport_native_foundation PRIVATE
     SUBATHON_NATIVE_FOUNDATION_CHILD_PATH="$<TARGET_FILE:schema_transport_native_foundation_child>")
 add_dependencies(schema_transport_native_foundation schema_transport_native_foundation_child)

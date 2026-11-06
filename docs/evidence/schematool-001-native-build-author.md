@@ -71,3 +71,13 @@ render--check current and git diff--check PASS. No CMake configure/discovery, co
 native load, probe, child/thread or new test execution has occurred. Exact existing
 Python source, public64/focused assertions, SDK14/20 pins and old FIRST artifacts
 remain unchanged. This is authoring for existing PR77 only.
+
+Later candidate update: A473448c adds ONLY the seventh NO-CHILD libc-binding
+case, preserving original six bodies/89 EXPECTs. Root links CMAKE_DL_LIBS to the
+test executable only, adds the corrected static-audit controls/generated graph
+steps before runtime, and requires actual one-case XML-verified binding bootstrap
+before CTest discovery/probes. The compile-time child-call graph is only one
+part: successful-clone return edge and actual relocation/versioned-symbol binding
+remain independently audited per-host prerequisites. This candidate workflow is
+UNPUBLISHED and must not execute while those gates remain open. Actual source
+and runtime release still require different review; no future CI pass is claimed.
