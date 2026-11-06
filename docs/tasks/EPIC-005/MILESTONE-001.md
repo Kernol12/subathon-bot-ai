@@ -3,7 +3,9 @@
 Parent: [EPIC-005](../EPIC-005.md). Kind: implementation.
 Specification: v0.45; §8, MILE-01.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: use the current reviewed slice contract; none is finalized by this plan.
+Contract revision: accepted [logical](../../contracts/milestone-progression-v1.md)
+and [C++ API revision1](../../contracts/milestone-progression-api-v1.md); the reviewed
+53-case baseline and original intended red are linked from task evidence.
 
 ## Scope and ownership
 
