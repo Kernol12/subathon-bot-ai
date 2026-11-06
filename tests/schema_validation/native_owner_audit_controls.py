@@ -63,6 +63,49 @@ class NativeOwnerAuditControls(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             audit.parse_ci(CI.replace('shape : triangle', 'unknown : triangle'))
 
+    def test_missing_abi_alias_node_requires_same_elf_counterpart_frame(self):
+        audit = load_tool()
+        entry_node = 'node: { title: "entry" label: "entry()\\nfixture.cpp:1:1\\n16 bytes (static)" }\n'
+        constructor = CI.replace(
+            'node: { title: "fixture.cpp:_ZN1AC1Ev" label: "A::A()\\nfixture.cpp:2:1" shape : triangle }\n', "")
+        destructor = '''graph: { title: "fixture.cpp"
+node: { title: "entry" label: "entry()\\nfixture.cpp:1:1\\n16 bytes (static)" }
+node: { title: "fixture.cpp:_ZN1AD2Ev" label: "A::~A()\\nfixture.cpp:2:1\\n24 bytes (static)" }
+edge: { sourcename: "entry" targetname: "fixture.cpp:_ZN1AD1Ev" label: "fixture.cpp:1:2" }
+edge: { sourcename: "fixture.cpp:_ZN1AD1Ev" targetname: "fixture.cpp:_ZN1AD2Ev" label: "fixture.cpp:2:1" }
+}
+'''
+        for family, ci, su, alias, counterpart, signature in (
+                ("constructor", constructor, SU, "_ZN1AC1Ev", "_ZN1AC2Ev", "A::A()"),
+                ("destructor", destructor,
+                 "fixture.cpp:1:1:entry()\t16\tstatic\nfixture.cpp:2:1:A::~A()\t24\tstatic\n",
+                 "_ZN1AD1Ev", "_ZN1AD2Ev", "A::~A()")):
+            symbols = {"entry": 0x100, alias: 0x200, counterpart: 0x200}
+            with self.subTest(family=family, control="real counterpart frame"):
+                frames, graph = audit.compiler_graph([(ci, su)], symbols)
+                self.assertEqual(frames, {0x100: (16, "static"), 0x200: (24, "static")})
+                self.assertEqual(graph, {0x100: {0x200}})
+                self.assertEqual(audit.stack_bound(frames, graph, 0x100), 48)
+            counterpart_node = ('node: { title: "fixture.cpp:' + counterpart
+                                + '" label: "' + signature + '\\nfixture.cpp:2:1\\n24 bytes (static)" }\n')
+            for reason, bad_ci, bad_su, bad_symbols in (
+                    ("different ELF address", ci, su, {**symbols, alias: 0x201}),
+                    ("missing alias ELF symbol", ci, su, {"entry": 0x100, counterpart: 0x200}),
+                    ("missing counterpart ELF symbol", ci, su, {"entry": 0x100, alias: 0x200}),
+                    ("missing counterpart CI node", ci.replace(counterpart_node, ""), su, symbols),
+                    ("missing counterpart SU frame", ci, "fixture.cpp:1:1:entry()\t16\tstatic\n", symbols),
+                    ("unmatched counterpart SU frame", ci, su.replace("\t24\t", "\t25\t"), symbols),
+                    ("missing ordinary caller", ci.replace(entry_node, ""), su, symbols),
+                    ("unknown missing target", ci.replace(alias, "_ZN1A3runEv"), su,
+                     {"entry": 0x100, "_ZN1A3runEv": 0x200, counterpart: 0x200}),
+                    ("non-ABI prefix", ci.replace(alias, "plainC1Ev").replace(counterpart, "plainC2Ev"),
+                     su, {"entry": 0x100, "plainC1Ev": 0x200, "plainC2Ev": 0x200}),
+                    ("ambiguous multiple ABI tokens", ci.replace(alias, "_ZN1AC1EC1Ev")
+                     .replace(counterpart, "_ZN1AC2EC2Ev"), su,
+                     {"entry": 0x100, "_ZN1AC1EC1Ev": 0x200, "_ZN1AC2EC2Ev": 0x200})):
+                with self.subTest(family=family, refusal=reason), self.assertRaises(RuntimeError):
+                    audit.compiler_graph([(bad_ci, bad_su)], bad_symbols)
+
     def test_missing_dynamic_external_cycle_and_variable_rsp_refuse(self):
         audit = load_tool()
         rows = (({1: (16, "static")}, {1: {2}}),
