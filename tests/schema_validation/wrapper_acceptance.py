@@ -230,12 +230,16 @@ class WrapperAcceptance(unittest.TestCase):
 
     def test_help_static_without_worker_or_package_io(self):
         stdout, stderr = io.StringIO(), io.StringIO()
-        with mock.patch.object(subprocess, "Popen", side_effect=AssertionError("help spawned")), \
-                mock.patch.object(builtins, "open", side_effect=AssertionError("help opened file")), \
-                mock.patch.object(io, "open", side_effect=AssertionError("help opened file")), \
-                mock.patch.object(os, "open", side_effect=AssertionError("help opened file")), \
+        with mock.patch.object(subprocess, "Popen", side_effect=AssertionError("help spawned")) as spawn, \
+                mock.patch.object(builtins, "open", side_effect=AssertionError("help opened file")) as builtin_open, \
+                mock.patch.object(io, "open", side_effect=AssertionError("help opened file")) as file_open, \
+                mock.patch.object(os, "open", side_effect=AssertionError("help opened file")) as descriptor_open, \
                 contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
             actual = self.target.main(["--help"])
+        spawn.assert_not_called()
+        builtin_open.assert_not_called()
+        file_open.assert_not_called()
+        descriptor_open.assert_not_called()
         self.assertIs(type(actual), int)
         self.assertEqual(actual, 0)
         self.assertEqual(stdout.getvalue(), "Usage: schema_validate.py --manifest PATH\n")

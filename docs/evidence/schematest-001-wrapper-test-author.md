@@ -373,3 +373,22 @@ feature AST parse/compile WITHOUT exec and exact preservation assertions PASS.
 No source/helper/test import, feature/red body, clone/venv, SDK or child ran.
 Actual different correction review and refreshed green harness observation still
 precede final intended red; preserve all prior receipts without extending them.
+
+## Help-operation guard persistence before red
+
+Root's actual read-only audit found the same swallowed-exception hole in the four
+existing help mocks: a wrong main could attempt Popen/open, catch AssertionError
+and still print exact help. Under API§1 help must perform no worker/package/
+dependency operations. Bind the SAME four guards and assert_not_called after the
+raw main returns. Keep their raising behavior AND exact int/help bytes/no-stderr
+assertions; no expectation is weakened or new public operation admitted.
+
+Only test_help_static_without_worker_or_package_io changes.63 names/317 authored
+raw observations/5 extra real scripts remain.62 other test-method ASTs, ALL7 existing
+Wrapper helpers including poison tearDown, every external fixture helper/class and
+the never-reset poison ledger remain EXACT versus6b0cfaf. Static3.10 AST parse/
+compile without exec and exact preservation assertions PASS. No import, body,
+helper/test/clone/venv/SDK/child or red execution occurred. Preserve all earlier
+reviews/green receipts; actual correction review and refreshed final green harness
+remain required before intended red. ENOSYS/environment post-call guards already
+persist and are untouched. No coverage expansion or production change.
