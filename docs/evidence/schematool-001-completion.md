@@ -1,6 +1,6 @@
 # SCHEMATOOL-001 — implemented offline validator
 
-Coordinator /root, 6 November2026; existing task branch
+Coordinator /root, 7 November2026; existing task branch
 `task/SCHEMATOOL-001-offline-validator`, [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77).
 Implementation is done by relevant passing acceptance and separate source reviews;
 PR publication/merge remain separately gated. Owner instruction: finish the open
@@ -58,9 +58,9 @@ ordinary orphan/other-edge/cycle relaxation. [Normalization](schematool-001-nati
 
 ## Remaining merge and release gates
 
-C independently attributes the actual hosted receipt and reviews this completion
-metadata; then the final documentation/status-only revision must pass all latest
-checks. Recheck actual rules/reviews/threads/mergeability before ready/normal merge77.
+C independently accepted the actual hosted receipt and approved this completion
+metadata, including the corrected GoogleTest version label. The final
+documentation/status-only revision must pass all latest checks. Recheck actual rules/reviews/threads/mergeability before ready/normal merge77.
 No bypass or owner confirmation is needed once all applicable gates pass. Refresh
 main, reconcile actual merge outcome and stop agents/coordination. No next task.
 
@@ -69,3 +69,5 @@ FX providers, Windows/Wayland/OBS/native/browser/UI or live-provider release gat
 No deployment, live contribution/chat or credential operation was performed.
 
 Metadata correction: the [immutable upstream GoogleTest pin](https://github.com/google/googletest/blob/063de7e9578f82b369302001269680b4b1553359/CMakeLists.txt) declares1.18.0. Earlier references to “hosted pinned1.17” describe an incorrect version label, not a different artifact. The minimum>=1.17, exact selected pin, build inputs and all observed results remain unchanged; no rerun is needed for this documentation correction.
+
+Final independent [hosted acceptance attribution](schematool-001-hosted-final-review.md) and [completion metadata review](schematool-001-completion-review.md), C475/root3f9, are approved. The [immutable complete successful public CI logs](schematool-001-hosted-final-logs.tar.gz) preserve the exact two independently reviewed log hashes (no new CI export or artifact data): 142013 bytes, archive SHA256 `2ee12f3c84a7b5c76829cb0c3e2d3ed3673f0f3b57edc71d4deab18a415002af`. Executable source/tests/build/workflow/pins are identical to tested6f; final latest documentation-head checks and normal merge remain mandatory.

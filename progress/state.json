@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06",
+  "updated_at": "2026-11-07",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13955,7 +13955,8 @@
         "Actual Cc589 artifactadmission imported ae97 allowed ordered strict1XML bootstrap and full56 facilities PASS. NEW unchanged normalization regression FIRST genuine red actual0!=18 atclean ae97, archive8906/Cae3 importedb2b5000; wrong missing-artifact argparse attempt explicitly excluded. B ece three active-work flags imported e4da/C555 whole-owner source approval725; matching rebuilt productionaa224/faultbadf both combined static0/71+124 functions/26736+27712 bytes, strictbootstrap1 PASS, SAMEreg1 FULLPASS. FIRST fullcurrent65 semanticprograms PASS46.50s/153cases nofail-error-skip atclean725 (native69+binding9+public74+loader1). Immutablepassarchivefcb0860. Registration2195/C25 imported96eb then exact66inventory/configure/ONLYnewCTest1 PASS; no completed65replay forregistration. Current baseline64 registration+20metadata, tooling19, scaffold3 PASS. Native/public BOTHhost full66 +SDK14 latesthead CI stillpending; published928 oldcheckpoint mustnotcount. Guide B b238 importedebda, root90 stablelinks/README correction; differentguide/evidence reviews pending. PR77 ONLY, no newtask/PR; normalmergeafteralllatestgates thenSTOP.",
         "Publishedba native42304624411 BOTHhosts stopstatic beforeanyELFexec onread-onlyCMP %r11,%rsp falsewrite. NewONEliteraltest7a/C4dd/root85 actualintendedCMPred; root6fc exactCMPclassificationfix/Cb75/root3c; SAME1/full6controls/BOTHlocalcombinedstaticPASS, unchangedELF/nativecode/budgets/oldassertions. GuideA52/root78 andlocalpassC4aa/rootba actualapprovalscomplete. BothSDK14hostsjobsSUCCESS butfreshnative/full66currentCI required. Noowneraccessneeded; finish77thenSTOP.",
         "Actualfreshhost0b6 both refuse three C1/D1 missingnodes BEFOREnative. Rootboundeddiagnostic/C141 preservesrejection; rejectedbroadmetadataexportneverapplied. Aab7 ONEadditivetest old6exact; Ce25 actualtest+writtenexactbridgeclarification, actual1method2positiveC1/D1red/all20refusalsPASSclean5ab. Root82 parserdefersonlysingleC1/D1toREALframedC2/D2 andbindsBOTHactualELFsymbolssameaddr, aliasmissingcallerONLYexactidentitybridge; ordinaryorphan/otheredges/cycles/oldexplicittriangle/source/SUproofunchanged. C395 actualsourceapproval imported7f17e23; SAME1/full7/BOTHcombinedlocalstaticPASS, noELF/nativecode/flags/budgetchanges. Immutablealiasred/passarchives retained. Freshhostfullstatic/frameproof/bootstrap56/full66+SDK14 ALLmandatory beforedone/normalmerge77thenSTOP.",
-        "Actual6f5e210 bothhostnative42307836353 SUCCESS: production71/26736 andfault124/27712 withREALGNU11/13alias/frameproof; strictbootstrap1/full56facilities/exact66semanticprograms/154cases eachhost PASS, 0skip/fail/error. SDK42307836415 BOTH14SUCCESS; ALL21exactheadchecksSUCCESS. Source/nativeELFsemantics unchangedafterreviewedaliasparser82/C395/root7f; currentCP310/312hostedacceptanceobserved, localCP314retained. Implementationdone byrelevantacceptance+differentactualsourcereviews; publication/merge trackedseparately. Cactualhostreceipt/completionmetadatareview and finaldocs-onlylatestCI stillprecedenormalmerge77/STOP. No product/provider/releaseplatformcompletionclaim and no nexttask."
+        "Actual6f5e210 bothhostnative42307836353 SUCCESS: production71/26736 andfault124/27712 withREALGNU11/13alias/frameproof; strictbootstrap1/full56facilities/exact66semanticprograms/154cases eachhost PASS, 0skip/fail/error. SDK42307836415 BOTH14SUCCESS; ALL21exactheadchecksSUCCESS. Source/nativeELFsemantics unchangedafterreviewedaliasparser82/C395/root7f; currentCP310/312hostedacceptanceobserved, localCP314retained. Implementationdone byrelevantacceptance+differentactualsourcereviews; publication/merge trackedseparately. Cactualhostreceipt/completionmetadatareview and finaldocs-onlylatestCI stillprecedenormalmerge77/STOP. No product/provider/releaseplatformcompletionclaim and no nexttask.",
+        "Actualdifferent C finalhosted6f receipt and f044/273 completionmetadata accepted; ONLYprecisionfinding hostedGoogleTestversionlabel corrected6a andactualCdeltaapproved. Exacttestedpin063de7 unchanged (1.18.0,minimum>=1.17); no source/buildinput/commandchange. Finalrevision docs/statusonly, allsource/tests/workflows/build/pins identical6f. RootwillrequireALL21latestfinalchecks +actualrules/threads/reviews/mergeability beforenormalmerge77thenSTOP; no newtask/PR."
       ],
       "verification": {
         "integrated_baseline": "passed",
@@ -14017,7 +14018,7 @@
         "native_compiler_alias_source_review": "passed",
         "native_compiler_alias_baseline": "observed_red",
         "native_current_compiler_proofs": "passed",
-        "completion_metadata_review": "partial"
+        "completion_metadata_review": "passed"
       },
       "evidence": [
         "docs/evidence/schematool-001-handoff.md",
@@ -14152,13 +14153,15 @@
         "docs/evidence/schematool-001-hosted-implicit-alias.md",
         "docs/evidence/schematool-001-native-owner-alias-test-author.md",
         "docs/evidence/schematool-001-native-owner-alias-test-review.md",
-        "docs/evidence/schematool-001-completion.md"
+        "docs/evidence/schematool-001-completion.md",
+        "docs/evidence/schematool-001-hosted-final-review.md",
+        "docs/evidence/schematool-001-completion-review.md"
       ],
       "review": {
         "author": "/root/session_supplier_author (parent/native owner/guide), /root/session_supplier_review (worker/binding/tests), /root (integration/auditors/CI)",
         "reviewer": "/root/session_plan_review (independent contracts/tests/security/native source/generated proof/CI); /root/session_supplier_review (independent B guide)",
         "outcome": "approved",
-        "baseline": "Integrated PR76 reviewed64 public baseline plus independently reviewed intended native69, binding9 and additive reached-bug regressions. Current source review C555 whole owner, Cfd223 binding, C0e1 worker and C395 exact alias proof; no completed red replay/assertion weakening. Actual current6f hosted66/154 +facilities56/SDK14 bothhosts pass; final receipt/completionmetadata/latestdocsCI/normalmerge tracked separately.",
+        "baseline": "Integrated PR76 reviewed64 public baseline plus independently reviewed intended native69, binding9 and additive reached-bug regressions. Current source review C555 whole owner, Cfd223 binding, C0e1 worker and C395 exact alias proof; no completed red replay/assertion weakening. Actual current6f hosted66/154 +facilities56/SDK14 bothhosts pass; final receipt/completionmetadata/latestdocsCI/normalmerge tracked separately. Final actual both-host/full receipt and completion metadata independently accepted C475/root3f9; corrected GoogleTest version label6a approved, exact tested pin unchanged.",
         "evidence": "docs/evidence/schematool-001-completion.md"
       }
     }

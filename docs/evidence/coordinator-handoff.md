@@ -18,9 +18,9 @@ BOTH exact14, metadata20 and public64 registrations passed. Local CPython3.14
 acceptance/tooling19/scaffold3 and immutable evidence are retained, not replayed.
 [Final task handoff](schematool-001-completion.md).
 
-PR77 remains DRAFT/unmerged. Local f0449de records completed implementation with
-only state/HTML/handoff documentation changes. C independently reviews the actual
-hosted logs and completion metadata before final documentation-only publication.
+PR77 remains DRAFT/unmerged. Local completion records contain only state/HTML/handoff documentation changes.
+C independently accepted the actual hosted logs and approved completion metadata
+f044/273 plus version-label correction6a before final documentation-only publication.
 The final latest head must pass ALL applicable checks before ready/normal merge.
 No source/test/native executable code changed after the reviewed6f implementation.
 
@@ -28,12 +28,12 @@ No source/test/native executable code changed after the reviewed6f implementatio
 
 Primary/fetched main last observed `095d192c834e8e7746a7922865bbf0e11d06f905`.
 Integrator `/tmp/subathon-schematool001`, branch
-`task/SCHEMATOOL-001-offline-validator`. Existing243 support worktrees and unrelated
+`task/SCHEMATOOL-001-offline-validator`. Existing251 support worktrees and unrelated
 unfinished work are preserved; do not prune/reset them. No root command or native
 project process is running. Inspect actual agents/processes on resume.
 
-C `/root/session_plan_review` is assigned actual6f host-receipt attribution and
-completion-metadata review. A `/root/session_supplier_review` completed alias tests
+C `/root/session_plan_review` completed actual6f host-receipt attribution and
+completion-metadata review; its durable notes are integrated before final push. A `/root/session_supplier_review` completed alias tests
 and guide review; B `/root/session_supplier_author` completed implementation/guide.
 Root owns shared state/HTML/README/CI/build/integration. Previous assignments are
 not assumed running after interruption.
@@ -63,10 +63,12 @@ approved bounded public-symbol failure diagnostic resolved that investigation.
 
 ## Finish and stop
 
-Import actual C host-receipt and completion-metadata verdict. Record final reviewed
-evidence/status/checkpoint and publish existing77 documentation-only revision.
+Actual C host-receipt and completion-metadata verdicts are approved; preserve them
+in the final existing77 documentation-only revision.
 Observe ALL latest checks including BOTH native/full66 and SDK14. Recheck actual
 rules/threads/reviews/mergeability; ready and normal merge77 only when every gate
 passes. Refresh main, reconcile actual merge outcome, stop agents and STOP.
 No next task/PR or direct main writes. Full product, all seven integrations/threeFX
 and unperformed live/platform release gates remain explicitly incomplete.
+
+Final C475 actual host/completion verdicts imported3f9: [host review](schematool-001-hosted-final-review.md), [metadata review](schematool-001-completion-review.md). Root preserved the exact independently hash-verified two public success logs in the [final evidence archive](schematool-001-hosted-final-logs.tar.gz). GoogleTest label corrected to1.18/minimum>=1.17; pin063de7/build unchanged. Taskdone/currentdate7Nov, final metadata reviewpassed; executable/test/build/CI/pin diff6f is empty. Final latest-head ALL21 and normalmerge77/refreshmain/STOP remain.
