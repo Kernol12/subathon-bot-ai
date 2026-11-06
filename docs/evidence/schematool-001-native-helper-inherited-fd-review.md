@@ -141,3 +141,75 @@ Actually performed: complete raw/receipt/source/hash/XML/sequence/count checks,
 current binary hashing and project426/122/render/diff checks PASS. No candidate
 execution/import, audit/control replay, compile/build, CTest/discovery, native/
 DSO/SDK load, thread, child, signal or probe occurred from this reviewer.
+
+## Actual child-only correction and complete selected-host green
+
+Reviewer C, fresh isolated review from actual published
+`928fb86e090e2b9c0b32fdf395c21486da74f1da`.
+**APPROVED: actual5ffc fixture correction. ACCEPTED: updated LOCAL56 and BOTH
+selected-host56 facility prerequisite.** This resolves this launcher defect,
+preserving its genuine red. It supplies no native-owner69 intended red, owner/
+binding implementation or public/native behavior pass; those gates still apply.
+
+Actual producer source `aaa55f86251de0312a75aa6c23f6972ba2878ba8` differs from
+the tested7ceb red source by ONLY the checked addclosefrom_np(actions,5) action.
+Independent byte removal restores the entire prior file, including all24
+literals and sentinel/packet/status/resource assertions. It follows dup-to3/4
+and the four known-source closes, so0..4 remain and unrelated child descriptors
+close. The existing action helper refuses registration errors before birth.
+
+The installed spawn.h declaration and
+[primary glibc addition](https://sourceware.org/pipermail/glibc-cvs/2021q3/073654.html)
+confirm GLIBC_2.34 availability and child-side descriptor-table operation. Existing
+selected glibc2.35/2.39 and local2.44 satisfy this scope. No parent close-from,
+new dependency or production atomic-birth fallback is introduced. The parent
+sentinel still closes0 then immediately observes EBADF, independently guarding
+its separate table. This code follows the reviewed actual reached-bug red;
+rootcf's different source review preceded compilation.
+
+I read all committed closefrom raw/receipts/XML/build output. Build has two
+steps, no warning/diagnostic, empty stderr. Current foundation bytes independently
+match NEW SHA256
+`d040a3f095a58a575deb96b83dd86b7af4487daf71b0e1b1e8eca9e645205cde`;
+the four other artifacts remain unchanged. At sourcecf4229358b3ce14472f45148f64019ca57b01775,
+19:43:53.146866Z original gate exits0/.898961s, then new gate0/.235600s, strict
+ONE no-child XML binding0/.003190s, then full56 CTest0/.172991s. Receipt hashes,
+XML/name/status/zero-failure checks, exact env3 and completion-before-next-start
+all independently match. CTest stdout79450 bytes/SHA256
+`1fde5d1f53633e9fdb66dc05cf036bc0c420a7c849ac136f63abea525bf9e8e5`, stderr0.
+Exact56 reviewed names,55 actual native RUN/OK and both loader methods pass;
+the controlled64 sentinel and original six-descriptor report assertions remain.
+
+I independently downloaded COMPLETE actual
+[run42282457204](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42282457204)
+and both job/step records. Own full log
+`/tmp/schematool001-native-closefrom-hosted-c-review.log` is1440672 bytes,
+SHA256 `21da5b41ec90093a0d9f307ba56831a033d5a47c8cf17d377582d215486b5ae2`.
+Actual checkout1d4287f016625a5e8d15e9856cdab1b3690bb332 has tree
+7b5276e6855cd6c92a46c6bbca6cb86c3d0117c8, equal to published928 by GitHub API.
+Workflow810622fd and its ordered env3/static/XML/inventory guards are unchanged.
+
+- Ubuntu24 job128114660021: ALL17 steps SUCCESS; control8/8/5 PASS.007/.002/
+  .001s, both generated gates PASS, exact one binding PASS at19:46:10Z, exact56
+  inventory then all56 PASS/.19s. Foundation SHA256
+  `df2c4464e8cd9d108d2158a9825ce4d23874d2c93ad18c2641cef082311731d9`.
+- Ubuntu22 job128114660401: ALL17 steps SUCCESS; control8/8/5 PASS.010/.003/
+  .002s, both generated gates PASS, exact one binding PASS at19:46:14Z, exact56
+  inventory then all56 PASS/.32s. Foundation SHA256
+  `155c41bdfb06413ce1fee28faec9e8a8e9789a730f1b3fb1b1f2f11240b99c25`.
+
+For BOTH I independently match every name to the reviewed56 set,55 actual native
+RUN/OK and two loader methods; no skip/error/failure/timeout or inverted case.
+Actual `/usr/local/bin/ctest`, GLIBC_2.2.5 binding offsets0x127510/0x11e9c0,
+glibc2.39/2.35, respective kernels7.0.0/6.8.0 and seccomp0 are recorded. These
+are actual facilities on selected recipes, not a provider/product/release claim.
+Both ABI entries remain literal31; common owner and native binding behavior are
+not supplied. Future FIRST must use its actual admitted tests/source/artifacts.
+
+Privacy checks find masked checkout authorization, public CI/source and synthetic
+data; known unmasked token/private-key scans0. Preserve exact log/metadata/raw.
+Actually performed: source/primary-source/diff/complete log and receipt/XML/hash/
+name/count/chronology review; project426/122/render/diff PASS. No candidate import,
+audit/control replay, configure/build, CTest, native/DSO/SDK load, thread, child,
+signal or probe occurred from this reviewer. Latest-head CI/full acceptance/
+source/normal PR77 merge and finish-then-stop instructions remain applicable.
