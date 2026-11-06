@@ -1,85 +1,86 @@
 # Coordinator checkpoint — finish PR77, then stop
 
-The owner explicitly requested **cleanly finish the open PRs and then stop**.
-Only [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) remains open;
-72–76 merged. Do not select another task or create a bookkeeping PR. No owner
-access/decision is needed. No live provider/chat/payment/deployment operations.
+Owner explicitly requested **cleanly finish the open PRs and then stop**.
+Only [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is open; 72–76
+merged. No next project task/bookkeeping PR, live provider/chat/payment/deployment
+operation. No owner decision/access is needed.
 
-## Repository and publication
+## Actual repository/publication
 
-Primary main and fetched origin/main are `095d192c834e8e7746a7922865bbf0e11d06f905`
-(last fetched after the local acceptance pass). Integrator worktree
+Primary main and fetched origin/main last observed
+`095d192c834e8e7746a7922865bbf0e11d06f905`. Integrator worktree
 `/tmp/subathon-schematool001`, branch `task/SCHEMATOOL-001-offline-validator`.
-Published PR head `928fb86e090e2b9c0b32fdf395c21486da74f1da` is draft/open,
-mergeable, all21 checks passed **for the old inert checkpoint only**. Current
-implementation and evidence are unpublished. Recheck actual latest-head CI,
-reviews, threads, rules and mergeability before normal merge. Last observed
-ruleset26170263 requires PR/thread resolution, zero formal approvals, no required
-status rule; manual acceptance/independent review/latest CI remain mandatory.
+Published head before this checkpoint is `0b6a2c54ac6174d831184ae39237a41f0b9f5b56`,
+DRAFT; current local includes alias fix82 and actual source approval7f17e23.
+Next push this reviewed correction and observe fresh CI. Earlier green928
+was inert-only and never counts as implementation acceptance. Ruleset26170263:
+PR/thread resolution required, zero formal approvals, no required-status rule;
+manual latest CI/applicable acceptance/independent reviews remain mandatory.
+Last actual GitHub review-thread count0. Recheck actual rules/head before merge.
 
-Existing support branches/worktrees and unrelated unfinished work are preserved.
-No native project process or pending root command is running. All local check
-commands have completed. Do not prune or reset historical worktrees.
+243 existing support worktrees and unrelated unfinished work are preserved. No
+native project process or root command is running; completed raw receipts remain
+under /tmp. Do not prune/reset historical worktrees or assume prior agents live.
 
-## Current task and decisive evidence
+## Current decisive state
 
-SCHEMATOOL-001 is in_review: local implementation/source/acceptance passed;
-current-owner hosted execution remains pending. Current private native contract
-v1 revision3 and all public18 codes/pins/caps/old57 rows remain. Full product,
-seven integrations, three FX providers and release/platform gates remain open.
+SCHEMATOOL-001 remains in_review: implementation/source/local acceptance passed;
+current-owner hosted native acceptance still pending, blocked at compiler audit.
+No full product or release/platform/provider completion claim. All seven
+integrations and three FX providers remain in full intended release scope.
 
-- Original reviewed test-first baseline is integrated from PR76. Historical native
-  return31, Python binding stub and public missing-boundary red archives remain
-  valid and must not be replayed for logs.
-- Cc589 actual artifact admission imported ae97 preceded strict no-child1XML
-  bootstrap and full56 facilities PASS. New normalization test genuinely failed
-  only actual0!=18; missing --artifact argparse attempt is excluded. Archive8906
-  and [independent attribution](schematool-001-native-normalization-first-red-review.md).
-- B ece fixed only three active normalization work flags, root e4da; C555 full
-  owner approval root725. Python binding447 full source approved Cfd223; worker
-  8f full security/source approved C0e1; reviewed library pins unchanged.
-- At clean725 fresh build passed, both combined static gates passed, then strict
-  bootstrap1 and SAME normalization regression fully passed. Productionaa224:
-  71 functions/26736 bytes; faultbadf:124/27712, both<=32768. Matching compiler
-  metadata and prior refusals remain archived; no broad opcode/stack allowance.
-- FIRST current full65 semantic CTest programs passed46.50s/153 cases: native69,
-  binding9, public74, loader1, no fail/error/skip. New regression separately1.
-  [Immutable raw pass archive and commands](schematool-001-native-acceptance-pass.md),
-  fcb0860. C independent actual receipt attribution is assigned, not assumed.
-- Permanent registration2195 independently approved C25/root96eb: unconditional
-  exact66 inventory, configure and ONLY new registered CTest passed. Both native
-  hosted jobs must run static/bootstrap/facilities56/full66; both library jobs
-  run unchanged SDK14. Current source-hosted outcomes are not yet observed.
-- Final local current check_baseline (20 metadata/64 registrations), tooling19,
-  scaffold configure/build/3 tests passed. Raw `/tmp/schematool001-final-project-checks`.
-  Project consistency/render checks follow current metadata. No product-wide
-  acceptance-debug passing claim.
-- Usage guide B b238 imported ebda; root90 stable evidence/workflow links and
-  README discoverability. Different A guide review is active.
+- Original PR76 reviewed test-first baseline remains integrated. Historical native31,
+  binding stub and public missing-boundary reds are preserved, not replayed.
+- Actual new normalization reached0!=18 red8906/Cae3, B three-flag fixece/roote4da,
+  C555 whole owner approval725. Python binding447/Cfd223 and worker8f/C0e1 remain
+  source-approved. All20 library pins remain unchanged.
+- At clean725 fresh build/static/no-child bootstrap1/SAME normalization1 PASS.
+  FIRST complete native/public65 programs PASS46.50s/153 cases: native69,
+  binding9, public74, loader1, no failure/error/skip. Immutable archivefcb and
+  independent C4aa reviewba in [pass evidence](schematool-001-native-acceptance-pass.md).
+- Permanent new normalization registration2195/C25: configure/exact66/ONLYnewCTest
+  PASS96eb. Full hosted inventory66 comprises native70+binding9+public74+loader1,
+  154 cases/rows. Facilities56/bootstrap are separate ordered prerequisites.
+- Local final metadata20/public64 registrations, tooling19 and scaffold3 passed;
+  [raw evidence](schematool-001-final-local-checks.md). Project426/122/render checks
+  pass. Guide B b238+root90 approved A52/root78; README links installation/use.
 
-## Agent assignments — inspect actual status on resume
+## Actual hosted refusals and reviewed corrections
 
-C `/root/session_plan_review` independently reviews frozen fcb0860 actual pass
-receipts and registration96eb; owns only its review note in isolated worktree.
-A `/root/session_supplier_review` independently reviews B guide and root90
-correction, owns only its review note in isolated worktree. B
-`/root/session_supplier_author` completed guide/source assignments; no active
-writing task. Root controls state/HTML/README/shared CI/build/integration.
-Do not assume any previous agent or process remains running on resumption.
+ba5366e run42304624411 BOTH hosts built but classified read-only CMP as stack write.
+Root additive1 test/C4dd intendedred, exactCMP fix6fc/Cb75, SAME1/full6/BOTHlocal
+combinedstatic PASS. [Immutable evidence](schematool-001-hosted-stack-compare.md).
 
-## Exact next actions
+2e2d136 run42305422591 BOTH clearCMP then refuse missing compiler node. Bounded
+failure diagnosticceec/C141/root0b6 reports SAME three C1/D1 constructor/destructor
+identities on both hosts42306061441; no native bootstrap/discovery/facilities/full66
+ran in these failures. Broad compressed metadata export was auto-review rejected
+before execution; not applied. Safe targeted public-symbol diagnostic was approved.
+Actual both-host SDK14 success at ba/2e is separately independently attributed;
+new latest SDK14 and native/full66 still required.
 
-Import actual different receipt/guide reviews; finish project consistency/render
-checks and task metadata, push existing77 and update stale PR description. Observe
-ALL latest-revision CI, including BOTH-host full66 and SDK14. Resolve genuine
-failures with bounded source changes and actual different review, preserving all
-assertions. Record actual hosted evidence, mark task done only after applicable
-acceptance/review gates, regenerate HTML and observe final latest checks. Recheck
-GitHub rules/threads/reviews/mergeability; ready and normal merge77 only when all
-gates pass. Refresh main, reconcile actual merge outcome, stop all agents and STOP.
-No new task, no next PR. Local post-merge checkpoint may be retained unpublished
-if needed; never write directly to main or start an endless bookkeeping chain.
+Aab7 one additive alias method, old6 unchanged, approved Ce25 with written exact
+identity-bridge clarification. FIRST new-only1/.008s TWO positive C1/D1 errors,
+all20 refusal mutations passed. Root82 correction requires exact single nested
+C1/D1→REALframedC2/D2, actual CI/SU/source and BOTH same-address ELF symbols.
+Only exact alias→counterpart missing-caller bridge allowed; ordinary orphan/other
+outgoing edges/cycles/old explicit triangle proof remain strict. C395 actual source
+approval7f17e23 preceded SAME1/full7/BOTHcombinedlocalstatic PASS, nativeELFs unchanged.
+[Immutable red/pass and proof scope](schematool-001-hosted-implicit-alias.md).
+Fresh hosted actual aliases/frame/static/bootstrap56/full66 remain unobserved.
 
-## Post-checkpoint actual hosted correction
+## Roles and next actions
 
-Published ba5366e native42304624411 BOTH hosts built but stopped static BEFORE runtime: exact `cmp %r11,%rsp` incorrectly classified as write. Library SDK14 both hosts passed, independent C attribution pending. Root new literal1 test7a reviewed C4dd/root85, actual intended exactCMP red; fix6fc exactCMP read-only classification approved Cb75/root3c. SAME1/full6controls/BOTHcombinedlocalstatic PASS. [Immutable failure/red/pass evidence](schematool-001-hosted-stack-compare.md). No native code/flags/bounds or old assertions changed. Fresh latest hosted full66 remains mandatory; no failed prerequisite bypass. Guide A52 approved imported78, localpass C4aa approved importedba. Next push correction and observeactualCI, then finalmetadata/normalmerge77/STOP.
+A `/root/session_supplier_review` completed alias-test and guide assignments.
+B `/root/session_supplier_author` completed owner/fix/guide assignments.
+C `/root/session_plan_review` completed current alias-source approval; explicitly
+reactivate for actual new-hosted logs/receipts and final completion-metadata review.
+Root owns shared state/HTML/README/CI/build/integration. Inspect actual agents on resume.
+
+Push existing77 correction, observe ALL latest checks including BOTH native/static/
+bootstrap/facilities56/full66 plus BOTH SDK14. Resolve actual failures with bounded
+source changes/independent review and preserve assertions. After actual hosted pass,
+record proof, task done/review and final handoff/HTML; observe all latest final checks.
+Recheck rules, discussions, reviews and mergeability, ready/normal merge77 only
+when every applicable gate passes. Refresh main/reconcile merge outcome, stop all
+agents and STOP. No new task/PR; never direct-write main or start bookkeeping chains.
