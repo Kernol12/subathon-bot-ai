@@ -241,3 +241,54 @@ diff--check. No candidate helper was invoked.
 No checker/control import/run, artifact load/audit, build/compiler, SDK/worker/
 child/probe occurred here. Root must independently review this actual delta
 BEFORE the literal-control passing run and any later generated-artifact admission.
+
+## Exact parent-only CWTL promotion after actual artifact refusal
+
+Author A,6November2026. Separate branch
+`task/SCHEMATOOL-001-native-owner-audit-parent-scalar`, tree
+`/tmp/subathon-schematool001-native-owner-audit-parent-scalar`, starts at preserved
+`0ca5bd4bf524d8574c094a8bd57d9ffcf3bbab20`. Same three owned paths ONLY. No
+production owner/core, old BASE/PLAIN set, child-name admission, public behavior,
+build or CI source changes.
+
+Read actual `/tmp/schematool001-owner-audit-admission-first` receipts and raw:
+clean `af5f263f4fa13a98961900f501656ea8b0491f02`,21:15:14Z, five literal controls
+PASS/.023s/exit0, then artifact static admission exits1/stdoutempty on ONLY the
+first encountered unreviewed `cwtl` in production `Owner<RawOps>::pinned_exit`.
+Artifact stderr1807B/SHA`da876dd0c224c1599ba98cd2b0cdb01f8ff60bbdd9620d243a990975a2c1f6ff`.
+No ELF was loaded or executed. Root separately inspected actual disassembly:
+owner occurrences are confined to receive()/pinned_exit(int) in BOTH policies,
+promoting pollfd.revents after movzwl into EAX and before masks0x11/0x28.
+The unrelated fixture controller is not an admitted owner context.
+
+[GNU assembler primary instruction naming](https://sourceware.org/binutils/docs/as/i386_002dMnemonics.html)
+identifies AT&T `cwtl` as CWDE's word-in-AX to long-in-EAX sign extension. This is
+scalar register work, not a resource acquisition, callback, branch or TLS access.
+Root authorized SOURCE authoring of this bounded promotion; actual different
+private C/source-policy acknowledgment is still required BEFORE execution.
+
+`owner_parent_scalar` admits ONLY mnemonic `cwtl`, EXACT EMPTY operands and these
+four full demangled names: Owner<RawOps>::receive(), pinned_exit(int), and the
+same two Owner<FaultOps> functions, all under the exact native/detail namespace.
+No helper/child/other parent, namespace pattern, operand, alias mnemonic or generic
+scalar instruction is added. `owner_instruction` composes that rule with the
+UNCHANGED two exact `owner_atomic` contexts at the same three BASE reachable
+calls. Parent methods remain absent from BOTH child name sets; an instruction
+predicate cannot admit a forbidden child callee. All other BASE TLS/target/trap/
+transfer gates and old standalone raw checks are unchanged.
+
+The existing admission-control method adds four positive literal parent contexts,
+explicit no-child-name checks, wrong function/mnemonic/operand/TLS/whitespace
+refusals and both atomic-composition positives. Every original assertion, all
+five natural names and four other complete method ASTs remain unchanged. No
+expected value is generated from production disassembly or the checker itself.
+
+Source-only checks: Python3.10 AST parse/compile-without-execution PASS; literal
+AST comparison proves unchanged atomic/child rules, only the three intended
+reachability-hook replacements, all five names/four other entire test ASTs and
+every original admission-method statement/assertion retained. `python3
+tools/check_project.py` PASS426 task records/122 decisions; `python3
+tools/progress.py render --check` reports current; `git diff --check` PASS.
+No new checker/control import/run, artifact audit/load/execution, compiler/SDK/
+worker/child/probe occurs here. Root's actual delta review must precede justified
+control/static reruns; no runtime owner success or completion is claimed.

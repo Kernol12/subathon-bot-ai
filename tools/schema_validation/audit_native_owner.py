@@ -126,6 +126,20 @@ def owner_atomic(name, mnemonic, operands):
     )
 
 
+def owner_parent_scalar(name, mnemonic, operands):
+    """Operand-free word-to-long sign extension in the four reviewed parents."""
+    return mnemonic == "cwtl" and operands == "" and name in (
+        NS + "detail::Owner<" + RAW + ">::receive()",
+        NS + "detail::Owner<" + RAW + ">::pinned_exit(int)",
+        NS + "detail::Owner<" + FAULT + ">::receive()",
+        NS + "detail::Owner<" + FAULT + ">::pinned_exit(int)",
+    )
+
+
+def owner_instruction(name, mnemonic, operands):
+    return owner_atomic(name, mnemonic, operands) or owner_parent_scalar(name, mnemonic, operands)
+
+
 def bounded_text(path):
     with Path(path).open("rb") as source:
         value = source.read(8 * 1024 * 1024 + 1)
@@ -371,7 +385,7 @@ def _audit_artifact(path, metadata_paths, policy, base):
     functions = base["disassembly"](path)
     names = allowed_names(policy)
     seen_names = base["reachable"](functions, lambda name: name == ENTRY, lambda name: name in names,
-                                   extra_instruction=owner_atomic)
+                                   extra_instruction=owner_instruction)
     reached = {address for address, (_, name, _) in functions.items() if name in seen_names}
     binary = {address: set() for address in reached}
     for address in reached:
@@ -410,10 +424,10 @@ def _audit_artifact(path, metadata_paths, policy, base):
     policy_zero_edge(functions, policy)
     raw_names = child_names(policy)
     base["reachable"](functions, lambda name: name == child, lambda name: name in raw_names,
-                      extra_instruction=owner_atomic)
+                      extra_instruction=owner_instruction)
     base["reachable"](functions, lambda name: name == syscall_name(policy, 8),
                       lambda name: name in raw_names or name == syscall_name(policy, 8),
-                      extra_instruction=owner_atomic)
+                      extra_instruction=owner_instruction)
     export_rows = [line.split() for line in base["command"]("nm", "-D", "--defined-only", str(path)).splitlines()]
     expected = {ENTRY}
     if policy == FAULT:

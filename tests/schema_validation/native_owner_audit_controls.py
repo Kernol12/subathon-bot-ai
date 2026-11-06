@@ -95,6 +95,31 @@ class NativeOwnerAuditControls(unittest.TestCase):
                 (monotonic, "lock", "cmpxchg %rcx,%fs:(%rsi)")):
             with self.subTest(context=context, mnemonic=mnemonic, operand=operand):
                 self.assertFalse(audit.owner_atomic(context, mnemonic, operand))
+        self.assertTrue(audit.owner_instruction(monotonic, "lock", "cmpxchg %rcx,(%rsi)"))
+        self.assertTrue(audit.owner_instruction(checkpoint, "lock", "cmpxchg %ecx,(%rsi)"))
+        parents = (
+            "subathon::schema_validation::native::detail::Owner<subathon::schema_validation::native::RawOps>::receive()",
+            "subathon::schema_validation::native::detail::Owner<subathon::schema_validation::native::RawOps>::pinned_exit(int)",
+            "subathon::schema_validation::native::detail::Owner<subathon::schema_validation::native::fault::FaultOps>::receive()",
+            "subathon::schema_validation::native::detail::Owner<subathon::schema_validation::native::fault::FaultOps>::pinned_exit(int)",
+        )
+        for parent in parents:
+            with self.subTest(parent_scalar=parent):
+                self.assertTrue(audit.owner_parent_scalar(parent, "cwtl", ""))
+                self.assertTrue(audit.owner_instruction(parent, "cwtl", ""))
+                self.assertNotIn(parent, audit.child_names(RAW_POLICY))
+                self.assertNotIn(parent, audit.child_names(FAULT_POLICY))
+        for context, mnemonic, operand in (
+                ("subathon::schema_validation::native::detail::Owner<subathon::schema_validation::native::RawOps>::child()", "cwtl", ""),
+                ("subathon::schema_validation::native::detail::Owner<subathon::schema_validation::native::fault::FaultOps>::child()", "cwtl", ""),
+                (monotonic, "cwtl", ""),
+                (parents[0], "cltq", ""),
+                (parents[0], "cwtl", "%eax"),
+                (parents[1], "cwtl", "%fs:0x28"),
+                (parents[2], "cwtl", " ")):
+            with self.subTest(context=context, mnemonic=mnemonic, operand=operand):
+                self.assertFalse(audit.owner_parent_scalar(context, mnemonic, operand))
+                self.assertFalse(audit.owner_instruction(context, mnemonic, operand))
 
     def test_whole_32768_boundary_keeps_inherited_parent_frames_at_child(self):
         audit = load_tool()
