@@ -25,13 +25,14 @@ Requery GitHub actual head/checks/reviews/threads/rules before any next merge.
 Root `/tmp/subathon-schematest001`, branch
 `task/SCHEMATEST-001-validation-baseline`, claimed by `ab822715` from main1419082.
 [Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76) is the only open PR.
-Actual published head0a07f1b contains the separately reviewed fourteen-method
-workflow and accepted final context document; hosted14 is green on both supported
-CI interpreters. Root local2af1b89 adds ONLY inert declarations, reviewed794/import8edb261.
+Latest fully checked published head87f8a75 has all19 checks SUCCESS, no GitHub
+reviews/threads/comments; remains draft. It includes the separately reviewed14-method
+workflow and approved contracts/inert declarations. Executed hosted14 receipts refer
+to exact0a07f1b; those SDK/workflow blobs remain unchanged. Root local2af1b89 adds ONLY inert declarations, reviewed794/import8edb261.
 Later private process documente6fe6bd/API clarification reviewed3a2003a/import8b779f1.
 Wrapper tests are
 now being authored independently. SCHEMATEST001 stays in_progress and SCHEMATOOL001
-stays planned. No worker, parser or validation behavior exists; no wrapper test or
+stays planned. No worker, parser or validation behavior exists; no wrapper feature/test body or
 intended missing-feature red has run. Library facts do not complete the baseline.
 
 Root owns shared state/HTML/dependency pins/notices/imports/build/CI/publication.
@@ -90,14 +91,13 @@ zero-argument RuntimeError and validate_package/main with immediate first-statem
 named unimplemented markers. No candidate imports or feature behavior. Root has NOT
 invoked either body. [Release receipt](schematest-001-inert-interface.md).
 
-Canonical `session_supplier_author` is explicitly reassigned to author independent
-actual wrapper tests/fixtures from2af on a NEW isolated branch. Own ONLY
-wrapper_acceptance.py/optional small wrapper_fixtures.py or fixture directory and
-wrapper-test-author note. Natural focused case counts, exact independent literals,
-real synthetic temporary packages; raw public calls before later subprocess checks.
-No skips/inversion/fake successful validator or production code. NO feature/test
-execution before DIFFERENT actual test/oracle review. Testable OS/protocol fault
-primitives need exact reviewed semantics without public successful-worker injection.
+Canonical `session_supplier_author` authored actual first wrapper test candidate
+73f33c7/import6810a71, corrections328/import32ecbc3 andc1e61bd/import2afe38a.
+Current sourceebb23a has60 named methods/300 SOURCE-COUNTED direct observations,
+not an execution receipt. One module/no helper imports, lazy setUpClass loads target;
+real fault children are only constructed after a raw call. No import/test/feature/
+child has run. Author note explicitly lists remaining admission/integration gates.
+All changes are on its separate wrapper-tests-author branch; only source/author note.
 
 Canonical `session_supplier_review` completed actual ROOT inert-declaration/hosted14
 artifact review794e95d/import8edb261 on NEW isolated tree. Exact source4a124 and own
@@ -105,11 +105,20 @@ full117947B hosted log independently checked; no candidate/feature execution. Th
 agent authored source14, so its source approval remains C8ba; CI approval remains
 B5b65. Agent is idle after that handoff; use followup_task for any new assignment.
 
-Canonical `session_plan_review` will review the ACTUAL authored wrapper tests and
-fixtures after B reports an exact candidate. Read-only preparation is allowed,
-prospective approval is not. It authored neither tests nor inert source. General
-role/cursor/SchemaAccessor/descriptor/no-site/process implementation must NOT occur
-before tests; those remain acceptance and later source-audit obligations.
+Canonical `session_supplier_review` is now actively reviewing ACTUAL test source
+on its separate public-process review branch: first24 API/path/JSON/byte/count
+methods plus last4 process cases and all related helpers. Prior concrete findings
+were corrected before any execution: protocol extra-key/forbidden-code rows now
+use matching exits to isolate each refusal; help exact-int/read coverage; real CLI
+resource-limit status4; complete readiness/timer/FD/child exceptional cleanup.
+Its actual correctedc1/ebb verdict remains pending; no prospective approval.
+
+Canonical `session_plan_review` actively reviews the middle32 numeric/schema/role/
+reference/cycle/inventory/budget/priority methods and common helpers, separate note.
+Actual corrections add the multipart property, raw sibling/anchor/propertyNames/
+encoded-control boundaries and every closed Schema child closure plus unsupported
+OAS callback/link rows. Its actualc1/ebb verdict remains pending. Neither partial
+scope review alone establishes a complete baseline.
 
 The private process/fault documente6fe6bd (process7f30d99/APIa526dbc) is independently
 approved3a2003a/import8b779f1. It explicitly lists the existing two output pipe FDs,
@@ -119,17 +128,40 @@ released to author those exact fault cases. No process implementation exists.
 [Process contract](../contracts/schema-validation-process-test-v1.md),
 [review](schematest-001-process-test-review.md).
 
-Next receive actual test candidates/reviews, add separately reviewed minimal static/
-discovery CI harness and observe current foundations, then FIRST genuine named
-missing-wrapper red in admitted environment. Missing dependencies, imports, fixture
-failures or skipped tests do not satisfy red. Preserve FIRST raw bytes/attribution.
-ProductionSCHEMATOOL001 waits for complete integrated reviewed/red baseline. Keep
-intentional red separate from passing ordinary CI, then promote actually passing
-behavior under later review. Never skip/invert failures to green. Root legacy
-`python3 -m unittest discover -s tests/tooling -v` actually passed19/19 in0.326s;
-project426/122/currentHTML/render/diff also pass. No wrapper body/test has run.
-No routine owner approval is needed. If a real SDK limitation blocks raw-data
-semantics, record it rather than refusing literal refs or shrinking scope.
+## Pending admission refinement and root harness
+
+Root proposal3fbf2e4 pluscb74ecd supplies the private installation contract and
+metadata identities for ALL28 already whole-hash-admitted wheels. Pins/archives/
+versions/targets/licenses remain unchanged. New exact dist-info/WHEEL/METADATA
+hashes were derived using stdlib zipfile only; maximum raw sizes224/141528bytes.
+[Installation proposal](../contracts/schema-validation-installation-v1.md) is NOT
+independently approved yet. It freezes actual parent venv/single-root ABI discovery,
+child -I-S recomputation without prefix guessing, phase6 exact metadata identity,
+real fresh-venv copy/missing-package tests and a documented parent os.pipe ENOSYS
+seam. Missing selected distribution must remain dependency_unavailable, not early
+environment failure. C's different actual document/data review is queued after its
+current corrected source verdict. B may read but NOT author dependent admission
+cases before that actual approval. No general production implementation is released.
+
+Root has an UNTRACKED, UNEXECUTED draft tools/schema_validation/check_baseline.py
+in its integrator worktree. Preserve it. It freezes60 actual registrations and will
+import only reviewed inert definitions/enumerate unittest without setup/body calls.
+It still needs final additive admission names, complete source review, CI integration
+and DIFFERENT actual harness/configuration approval before execution/publication.
+No workflow change for this harness is authored yet; current stableCI onlyruns14SDK.
+
+Next finish actual current partial test reviews; review exact admission document/data;
+author the missing real admission cases; obtain actual complete source/oracle review;
+finalize/review static-discovery CI and observe it; then FIRST genuine missing-wrapper
+red in admitted environment. Preserve all raw bytes and marker attribution. Missing
+dependencies/import/fixture/setup failures/skips do not supply red. Do not erase
+valid partial approvals when adding independently reviewed cases. Production waits
+for the integrated complete reviewed/red baseline. Keep intentional red separate
+from passing CI; later promote only passing behavior under actual review.
+Root tooling19/19 passed0.326s; project426/122/HTML/render/diff pass. No owner decision
+or access is needed. Real worker ABI/resource/no-site/read-race/offline protection
+remains explicitly acceptance/integration/source-audit work, never inferred from a
+parent fault mock or a refusal code. No literal-data refusal or scope shrink allowed.
 
 Full release retains actual authority/policy/clock/actions/session/application and
 financial/review/refund/recovery/delivery, full HTTP/WS/scene, native/browser renderers,
