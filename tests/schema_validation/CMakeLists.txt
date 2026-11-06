@@ -81,7 +81,8 @@ foreach(row IN ITEMS
 endforeach()
 
 # Public and binding suites require the same reviewed native build and real SDK.
-foreach(suite IN ITEMS native_binding_acceptance wrapper_acceptance parent_cleanup_regression
+foreach(suite IN ITEMS native_binding_acceptance native_loader_cleanup_regression
+        wrapper_acceptance parent_cleanup_regression
         worker_context_regression worker_lexical_regression parent_spawn_regression)
     add_test(NAME schema-native.${suite}
         COMMAND /usr/bin/env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8

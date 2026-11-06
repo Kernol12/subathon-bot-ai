@@ -1,0 +1,5 @@
+# Actual loader handle cleanup FIRST red
+
+At clean78e3e3b root explicitly released actualA b9 regression after different root source review78, against integratedactuala8b06e loader. Ordinary dedicatedCPython3.14.9 -I -B/minimalenv, raw/receipt adjacent. One method/two original prebuilt KBI/MemoryError subcases execute and BOTHfail ONLY the final raw handle oracle: fstat state[0] (still open) versus literalEBADF9, at testline111. All earlier trigger/realFileIO/exactexceptionidentity/retainedtraceback/noCDLL/quiet assertions passed. Exit1/.005s/stdoutempty/stderr2470B SHA c702a6b9801791b882c15f29c0ee69b40b29b35a2bd6000c8c14fae498ca3c64.
+
+No candidate/native artifact function, worker, SDK or child was invoked. Explicit fixture closes happen only AFTER the failed oracle. This confirms C's actual unguarded acquisition finding; A is released to change only that acquisition/cleanup boundary to guarded with. Different C actualdelta/code review then actual focusedPASS required; tests remain unchanged and automatically registered with built acceptance.
