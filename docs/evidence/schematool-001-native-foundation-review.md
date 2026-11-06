@@ -828,3 +828,61 @@ render--check and diff--check PASS. No checker/control execution, configure/buil
 ELF entry/loading, listing, bootstrap, arm/thread/child/probe or SDK operation ran
 from this review. Preserve this valid pre-correction evidence; it is not a runtime
 or hosted/helper/owner acceptance certificate.
+
+## Corrected actual helper artifact and bootstrap-only release
+
+Reviewer C, fresh isolated review from actual
+`37ce9bcbd293ffadabb2c487c01bfebb7d9c3144`, carrying forward C0105's valid
+pre-correction note above. Root's different source review admits A's actual
+125 control/scalar stores, helper source20ad5f0c; all old23 assertions are retained.
+B's actual20765 source/control review (root76eb) covers helper audit158a20f5 and
+shared auditd66e643d. Those exact sources are unchanged at the recorded audit head.
+
+**Released: only the exact LOCAL one-case XML no-child binding bootstrap on
+foundation SHA256 `285d47cd4046632737aa06fe08890f8fc4d41410cbd9ff28a3b1751d715a8a38`.**
+Use the previously reviewed exact filter/minimal3-variable environment/30s/checked
+exit/XML-one-actual-pass guard. No full56 CTest inventory/helper/loader/child/kernel
+execution is released until different actual binding-result attribution. This
+does not reuse c618/15b or old hosted hashes, and approves neither uncompiled
+Ops625 nor owner57 source/behavior. No owner31 red or merge is admitted.
+
+I read and independently hashed root's actual temporary raw/receipts. Rebuild
+at source37 exits0/two steps/no warning; stdout1815 bytes/SHA256
+`f3fb51d4c9d792b6894bfaa2eb11e67089d74e3e77dc71519800448a6d281df6`, stderr empty.
+Both actual static audits run under selected CPython -I/-S/-B and explicit minimal
+environment, after their different source gate, at18:39:14.979569Z/18:39:15.207191Z:
+
+- `/tmp/schematool001-helper-rebuilt-fault.*`: exit0, stdout4234 bytes/SHA256
+  `5016a4b29f8f48c391f3df38121e913429bbe9fa109fe8521e99d8e5cc7cb0ce`, stderr0.
+- `/tmp/schematool001-helper-rebuilt-original.*`: exit0, stdout2409 bytes/SHA256
+  `be774e6231090d32439a265627b2f9bb8a4543fef36c131d3a226b66d0b2a23f`, stderr0.
+
+Record/freeze these exact receipts/raw as durable evidence; I did not substitute
+source reasoning for actual PASS output or replay either gate. Actual file hashes
+match both outputs: only foundation changes to285; negative childfb066, original
+reporterbd3e, production DSObf797 and fault DSO2e8 remain byte-identical to the
+full identities in C0105. Their29-function producer graph/exports/init proof stay
+valid. The original audit also binds actual unchanged libc02c8c3d0... and its exact
+success wrapper to the new artifact metadata.
+
+Independent current objdump confirms the20-function primitive closure now has no
+TLS/PLT/XMM/PXOR/MOVAPS. Only the exact Shared wake lock-add remains; scalar stores
+remove the unadmitted aggregate initialization without expanding instruction
+allowances. Driver call22464→plta650 saves full RAX through this, reloads/tests
+the same field, and JNE22480→22499 skips only four MOVs plus direct raw child
+call22494→22054. Old probe bb22 still uses the same PLT. Actual readelf gives
+GLOB_DAT81fa0 for syscall@GLIBC_2.2.5, matching both audited binding metadata and
+the source-reviewed bootstrap address path. Parent canary setup stays outside
+the zero edge. Both reviewed static gates now genuinely pass on these hashes.
+
+This closes the old SIMD hold only for this current no-child phase. Capture exact
+bootstrap raw/XML/defining path/version/offset/status before further runtime
+admission. The native count is now55 plus one two-method loader registration;
+fresh exact discovery/no-disable/no-inversion and current binding remain required.
+Hosted/helper/owner capability and final CI/merge are separate.
+
+Actually performed: source-review-record/blob inspection, complete raw/receipt/
+hash checks, actual five-file hashing and independent objdump/readelf of current
+entries/graph; project426/122, render--check and diff--check PASS. No configure/
+build, audit/control replay, input ELF/DSO entry, bootstrap/listing, arm/thread/
+child/probe or SDK operation occurred from this reviewer.
