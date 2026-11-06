@@ -1,0 +1,45 @@
+{
+  "head": "b44e449f32e23313ff85e2fef9cf773da9ebc147",
+  "review": "19680b15b9f3f7e1366cb3c02923461561c8f108",
+  "discovery_argv": [
+    "/usr/bin/ctest",
+    "--preset",
+    "schema-transport-debug",
+    "-L",
+    "^schema-native-foundation$",
+    "--show-only=json-v1"
+  ],
+  "exact_enabled_registrations": 8,
+  "argv": [
+    "/usr/bin/ctest",
+    "--preset",
+    "schema-transport-debug",
+    "-L",
+    "^schema-native-foundation$",
+    "--no-tests=error",
+    "--verbose"
+  ],
+  "cwd": "/tmp/subathon-schematool001",
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "started_utc": "2026-11-06T16:34:30.703560+00:00",
+  "elapsed_seconds": 0.07462568800838199,
+  "exit_code": 0,
+  "watchdog_fired": false,
+  "scope": "FIRST local reviewed native facilities/loader foundation; unavailable facility is NOT feature red",
+  "discovery": {
+    "bytes": 9436,
+    "sha256": "2a812946d66729bf51d203b5034efc4df5c9b09b0a8e2f520ddd4980f23b0cbf"
+  },
+  "stdout": {
+    "bytes": 11713,
+    "sha256": "cff0c2168c7fd1068c12f14aeb21bf661ce73bc6a568db06a1b6038dc3130ffe"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
