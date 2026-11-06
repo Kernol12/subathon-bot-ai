@@ -38,3 +38,13 @@ Later implementation must preserve all acceptance assertions, replace the tempor
 inert-body stage guard with reviewed actual behavior and run the complete suite
 unconditionally. It cannot retain definition-only discovery as product passing proof.
 No wrapper/worker/validation production behavior is authored here.
+
+## Actual additive registration candidate
+
+Actual wrapper deltafc5180b/sourcea80b16c is now imported:63 names,315 SOURCE-COUNTED
+raw observations/3 additional script observations.59 old test ASTs/all old helpers
+remain; one dialect method gains observations, three admission methods and one
+script helper are new. Different actual delta reviews remain mandatory; no run or
+complete approval is inferred. Root inventory now freezes precisely63 actual names.
+The core harness/CI review at21c71eb is separate from this three-name delta; final
+review must name both unchanged core and actual expanded inventory/source safety.
