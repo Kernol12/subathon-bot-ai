@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:54:52+00:00",
+  "updated_at": "2026-11-06T06:02:09+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13779,8 +13779,8 @@
       "title": "Reviewed schema-validation wrapper baseline",
       "module": "Tooling",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; schema_contract_author (contract stage)",
       "depends_on": [
         "CONTRACTPLAN-005",
         "CONTRACT-005"
@@ -13796,7 +13796,8 @@
       "brief": "docs/tasks/SCHEMATOOL-001.md",
       "summary": "Select reviewed standards libraries/contract/literal fixtures/tests and observed wrapper missing-behavior red after real dependency foundation passes.",
       "notes": [
-        "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain."
+        "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain.",
+        "Claim dependency-ready validator BASELINE from actualmain1419082 after normalPR75/finalf9dd/all17SUCCESS/currentrules0approvals0threads/CLEAN. Initial stage ONLY bounded tool/library contract+independent literal examples and primary-source author evidence; actualdifferentreview before any pins/interface/stub/test/productionbehavior. Readonlycandidate research is not selection/installedcompatibility proof: explicitOpenAPI3.1 APIs (latestaliasesnow3.2), no defaultremotehandlers, every declaredinstance separate, closedformatpolicy/context-aware refs. Root owns allsharedpins/locks/notices/schemaimports/build/CI/state/HTML. No customstandardsengine, no runtime/authcapability or schemaacceptance. Actualselected-library green and independently reviewed tests/intendedwrapperred stillrequired before baseline done; SCHEMATOOL001remainsplanned."
       ],
       "verification": {},
       "evidence": [],
@@ -15090,6 +15091,11 @@
       "date": "2026-11-06T05:54:52+00:00",
       "task": "CONTRACTPLAN-005",
       "note": "CompleteDOCUMENT-only schema-validation prerequisite plan after actualdifferent291/importcda approval. Preserve all old423IDs1624edges/statuses/reviews/evidence, add3records5edges426/1629; no library/version/API/schema/test/stub/wrapper/CI/runtime finalized. Main15cf7f1 integrates bothsessiondocumentsdone and MILESTONEdone; all oldstatuses preserved onreconciliation. Newbaseline/impl remainplanned and CONTRACT013 retainsallgatesplusactualvalidatorfoundation. Root426project/render/19tooling/DOM/whitespacePASS; finalmetadata/latestheadCI/normalmerge remain."
+    },
+    {
+      "date": "2026-11-06T06:02:09+00:00",
+      "task": "SCHEMATEST-001",
+      "note": "Claim dependency-ready validator BASELINE from actualmain1419082 after normalPR75/finalf9dd/all17SUCCESS/currentrules0approvals0threads/CLEAN. Initial stage ONLY bounded tool/library contract+independent literal examples and primary-source author evidence; actualdifferentreview before any pins/interface/stub/test/productionbehavior. Readonlycandidate research is not selection/installedcompatibility proof: explicitOpenAPI3.1 APIs (latestaliasesnow3.2), no defaultremotehandlers, every declaredinstance separate, closedformatpolicy/context-aware refs. Root owns allsharedpins/locks/notices/schemaimports/build/CI/state/HTML. No customstandardsengine, no runtime/authcapability or schemaacceptance. Actualselected-library green and independently reviewed tests/intendedwrapperred stillrequired before baseline done; SCHEMATOOL001remainsplanned."
     }
   ]
 }
