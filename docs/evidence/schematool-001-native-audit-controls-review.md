@@ -77,3 +77,62 @@ allowed direct target-function calls and unchanged checker/main guard inspection
 I did not import/run either candidate Python module, execute test bodies, invoke
 binutils, access ELF/proc artifacts, compile/load native code, create candidate
 children/threads, probe the kernel or install dependencies.
+
+## Independent attribution of actual FIRST static red
+
+Different receipt/source review at immutable root
+`258ac989bd0d19fdd7097f664dc7b395e5286454`, using a fresh isolated branch.
+I read and parsed the complete committed
+[stderr](schematool-001-native-audit-first-red.stderr.txt),
+[empty stdout](schematool-001-native-audit-first-red.stdout.txt),
+[receipt](schematool-001-native-audit-first-red.receipt.json) and
+[observer note](schematool-001-native-audit-first-red.md), without rerunning FIRST.
+**The actual static-only reached-failure attribution is accepted.** This is
+separate from my earlier test-source approval and does not attribute native
+execution, host capability or native-owner behavior.
+
+The receipt identifies clean root `2832f736ffddc28efb1ad36e8639010523715fa3`,
+selected `/tmp/subathon-schematest001-py314/bin/python -I -S -B
+tests/schema_validation/native_audit_controls.py`, cwd `/tmp/subathon-schematool001`,
+with only PATH=/usr/bin:/bin, LC_ALL=C.UTF-8 and LANG=C.UTF-8. Start is
+2026-11-06T16:05:49.166958Z, after actual source review `e19b38a` (16:05:00Z)
+and its integration at the observed head. Parent/observer records Python3.14.9;
+the receipt itself records the selected interpreter path rather than a separate
+version output. Exit1, native8 methods/0.006s, outer0.059447s and watchdog=false
+are consistent across full raw and receipt.
+
+Independent full-byte hashing confirms stderr8411 bytes, SHA256
+`98bf17727ae168001b9dcd252e3b997672c91add859c469a26f56cc1db6786d3`, and stdout0
+bytes with the standard empty SHA256. All eight actual method names appear once
+in the top-level progress inventory. All ten failure records are exactly
+`AssertionError: RuntimeError not raised`, at the reviewed local assertRaises
+sites, grouped as follows:
+
+- Five named altered libc prefixes: reordered moves, extra RAX clobber, TLS,
+  stack mutation and delayed compare (line228).
+- One instruction-middle branch accepted (line104).
+- Three address-bearing bad/byte/unparsed text rows accepted (line128).
+- One unreviewed namespace helper accepted (line88).
+
+No ERROR, setup/import/dependency cause, skip, watchdog or native path appears.
+All three expected-positive parser/closure/libc methods pass. The raw footer is
+`Ran 8 tests in 0.006s` / `FAILED (failures=10)`. Reviewed test `ee13b687` and old
+checker `c6245e6` are exact at the recorded head. The subsequent commit changes
+only checker logic plus these raw/receipt/note files; foundation/public/SDK source
+is unchanged. The actual source limits execution to definitions and mocked text,
+so those reached assertions do not require ELF/proc/binutils/native candidates.
+The receipt is the preserved first observation; I have not replayed it or inferred
+any unrecorded execution from source alone.
+
+I separately reviewed corrected checker `0eacdc88` in
+[the foundation review](schematool-001-native-foundation-review.md). Its approval
+releases the unchanged **static** eight-control green run and static-only artifact
+inspection, while actual clone-entry/binding/per-host/runtime gates stay open.
+The original first red must remain unchanged. Actual future green/output attribution
+is separate work, not proved by this note.
+
+Checks actually performed: stdlib full raw/receipt/hash/ten-frame-group/footer
+analysis; Git review/head/source chronology and frozen-byte comparisons;
+corrected checker AST/compile without exec; project426/122; render--check;
+diff--check, all PASS. No test/checker module import, replay, binutils, native load,
+child/probe, SDK install or candidate execution occurred in this review.

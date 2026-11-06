@@ -317,3 +317,45 @@ I did not import/run the checker, configure/build, execute binutils in this revi
 turn, discover/list cases, load a DSO, run a probe/test, install SDKs or create a
 candidate child/thread. Prior old-artifact objdump observations above remain
 separately attributed and are not results for this new source.
+
+## Actual four-finding static checker correction
+
+Reviewer C reviewed root's actual `258ac989bd0d19fdd7097f664dc7b395e5286454`,
+checker blob `0eacdc88f1e91b26b648eff11b71f07ef3fd0fe3`, against preserved old
+`c6245e6`. This follows independently reviewed controls `ee13b687` and their
+actual FIRST static-only8/10 assertion red, independently attributed in
+[the control review](schematool-001-native-audit-controls-review.md). No test or
+native source changed. **The actual bounded checker correction is approved for
+the unchanged static-control rerun and static artifact audit only.**
+
+Every address-bearing decoded record must now parse and belong to a function;
+unparsed/bad/byte records cannot silently disappear. A local transfer must land
+on an actual instruction start, and duplicate starts fail. The raw helper set
+contains exactly twelve reviewed names, including concrete address-template
+instantiations, rather than accepting the namespace. The libc success prefix
+requires seven exact ordered register moves, syscall, the immediate exact errno
+comparison, one unsigned forward error edge to an actual later instruction and
+an exact ret, with only known initial NOP/CET decorations. Reordered/extra
+instructions, TLS or stack changes no longer satisfy a subset-of-moves rule.
+Fixed actual binutils decoding and the reviewed source remain the trust scope;
+this is not an adversarial general binary verifier or a complete semantic proof.
+
+Root may now run the unchanged eight-control module and use this checker to read
+trusted compiled artifacts via fixed binutils commands, recording exact results
+and hashes. A failed audit is not a green capability or permission to broaden its
+allowlist silently. The checker does not execute or load inputs. No actual green
+or corrected-artifact audit result was observed by me in this review.
+
+The clone3 success-return to child-entry edge and the actual executable's libc
+binding are **still outside this checker**. Root retains different concrete
+per-host generated-path/binding review before runtime unless a separately
+reviewed actual automatic/bootstrap proof replaces it. Reading Python's maps is
+not by itself executable binding proof. A proposed no-child bootstrap source is
+not approved prospectively. Discovery, case listing, DSO loading, facility/child
+probes, native behavior red and CI runtime publication remain held. Both selected
+host foundation receipts and all future native-owner source/test/red gates remain.
+
+Actual checks: source/diff inspection; Python3.10 AST and compile without exec;
+exact twelve helper literals; preserved control/foundation/public/SDK blobs;
+project426/122, render--check and diff--check PASS. I did not import or execute the
+corrected checker, controls, binutils or any candidate artifact in this review.
