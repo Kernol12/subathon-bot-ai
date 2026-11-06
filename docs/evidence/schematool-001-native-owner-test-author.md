@@ -178,3 +178,30 @@ PASS426/122; `python3 tools/progress.py render --check` current;
 `git diff --cached --check` PASS before commit. Only the two assigned files change.
 No test/module/audit/SDK import, native library loading, compile, kernel probe,
 thread/child/signal or execution occurred in this assignment.
+
+## Pre-execution actual child-identity oracle correction
+
+Root's actual source review found that assert_evidence first saved the actual
+born PID in `pid`, then reused that same name while unpacking every journal entry.
+For SIGINT, the controller's final signal record names the PARENT, so the later
+ordinary-reap filter could wrongly search for the parent and reject valid native
+behavior. This is a genuine test-oracle defect against the matrix's required
+actual born-child identity, not a changed outcome/weakening or a run observation.
+
+Root explicitly assigned the narrow separate correction on fresh
+`task/SCHEMATOOL-001-native-owner-pid-oracle` from preserved `f090601`. The stable
+identity is now `child_pid`, assigned exactly once; journal unpacking uses the
+distinct `event_pid`. Guard, packet, ordinary-reap, AFTER-birth, readiness and
+handoff checks continue to use only that saved child identity. Parent-targeted
+SIGINT still explicitly checks actual getpid as before. No literal row, expected
+classification/status, assertion, scope/ABI/CLI, native call or fallback ordering
+is removed or changed. All12 methods/57 rows remain. Actual different source
+re-review precedes any run; this author performs source/AST/doc checks only.
+Actual source-only Python3.10 AST/compile-without-exec PASS. Normalizing ONLY the
+two new local names back to `pid` reproduces the entire old module AST, proving
+all rows/assertion structures/lifecycle code unchanged apart from the intended
+identity binding split. The saved child name has exactly one store and the
+journal event name its separate store; no `pid` reference remains in this method.
+`python3 tools/check_project.py` PASS426/122;
+`python3 tools/progress.py render --check` current; `git diff --cached --check`
+PASS before commit. No candidate/test import, native/library/SDK load or execution.

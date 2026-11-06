@@ -300,20 +300,20 @@ class FaultSession:
                 and entry[2] == 0 and entry[3] >= 0 and entry[5] == entry[3]
                 and entry[4] > 0 and entry[4] != self.getpid()}
         case.assertEqual(len(pids), 1 if born else 0)
-        pid = next(iter(pids)) if born else -1
+        child_pid = next(iter(pids)) if born else -1
         if born:
-            self._guard(pid)
+            self._guard(child_pid)
         case.assertTrue(own_gone, "Own-thread child remains before fallback")
         case.assertTrue(group_gone, "Thread-group child remains before fallback")
         for descriptor in sorted(owner_fds):
             case.assertEqual(fd_states[descriptor], errno.EBADF, "Owner FD live before fallback")
         if which == 28:
-            self.assert_packet(pid)
+            self.assert_packet(child_pid)
         # Validate the closed journal representation, including per-writer sequence.
         counts = [0, 0, 0]
         writers = []
         for entry in self.records:
-            sequence, kind, encoded, descriptor, pid, result, error, timestamp = entry
+            sequence, kind, encoded, descriptor, event_pid, result, error, timestamp = entry
             writer, index = sequence >> 32, sequence & 0xffffffff
             writers.append(writer)
             case.assertIn(writer, (0, 1, 2)); case.assertEqual(index, counts[writer]); counts[writer] += 1
@@ -352,7 +352,7 @@ class FaultSession:
                              (before.st_dev, before.st_ino, before.st_mode))
         if born:
             actor = 2 if which == 27 else 0
-            reaps = [entry for entry in self.records if entry[0] >> 32 == actor and entry[1:5] == (4, 32, -1, pid)]
+            reaps = [entry for entry in self.records if entry[0] >> 32 == actor and entry[1:5] == (4, 32, -1, child_pid)]
             case.assertEqual(len(reaps), 1)
             case.assertNotEqual(reaps[0][5], 125, "Negative child fixture failed")
             case.assertIn(reaps[0][5], statuses)
@@ -370,7 +370,7 @@ class FaultSession:
                             and entry[3] >= 0 and entry[0] < marker[0]]
             case.assertGreaterEqual(len(prior_adopts), adopts)
             if born and phase == 17:
-                case.assertEqual(marker[5], pid, "AFTER birth did not preserve real native PID")
+                case.assertEqual(marker[5], child_pid, "AFTER birth did not preserve real native PID")
             if closed:
                 prior_closes = [entry for entry in parent if entry[1] == 4 and entry[2] // 2 == phase // 2
                                 and entry[3] >= 0 and entry[0] < marker[0]]
@@ -383,7 +383,7 @@ class FaultSession:
             case.assertEqual(len([entry for entry in parent if entry[1:3] == (2, 35) and entry[5] == 0]), 1)
         if which in (23, 25, 26):
             ready = [entry for entry in self.records if entry[0] >> 32 == 2 and entry[1] == 7
-                     and entry[4] == pid and entry[5] == 1]
+                     and entry[4] == child_pid and entry[5] == 1]
             case.assertEqual(len(ready), 1)
         if which == 23:
             advances = [entry for entry in self.records if entry[0] >> 32 == 2 and entry[1] == 5 and entry[5] == 10000000001]
@@ -394,7 +394,7 @@ class FaultSession:
             case.assertEqual(len(sent), 1)
         if 1 <= which <= 22 or which in (27, 28) or name in ("c1", "c2", "c3"):
             handoff = {entry[3] for entry in self.records if entry[0] >> 32 == 1
-                       and entry[1] == 10 and entry[4] == pid}
+                       and entry[1] == 10 and entry[4] == child_pid}
             case.assertEqual(handoff, {0, 1, 2, 3, 4})
             failed_exec = [entry for entry in self.records if entry[0] >> 32 == 1
                            and entry[1:3] == (2, 26) and entry[5] < 0]
