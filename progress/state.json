@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T11:58:26+00:00",
+  "updated_at": "2026-11-06T12:13:26+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13932,7 +13932,8 @@
       "notes": [
         "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain.",
         "Claim from CURRENTmain095d192 after normalPR76 merge11:25:59Z, exacte618/all19SUCCESS/actualrules26170263 nobypass/0threads/CLEAN; merge tree==head bf161de1. Integrated reviewed64baseline:original63FIRST261 atbd +ONLYnew1FIRST10 at3d, actualA/C source/CI/frame/metadata approvals, no replay. Contractrevisions logicalabb/context32ec/API973/processac256r2/install86d; tests64f locked, helperH032/wf842 rootowned;20pins/lock859/meta6f unchanged. Scope implement ONLY bounded offline developer wrapper/strict snapshot+exactJSON/role-ref-cycle-inventory/nativeSDK pipeline+safe parentcontrols. No applicationHTTP/auth/provider capability, no customstandardsengine/newpublicknob/dependency. Parent authorB ownsONLYtools/schema_validate.py; worker authorA ownsONLYnewworker/privatePythonmodules under tools/schema_validation excludingroot-ownedcheck_baseline/lock/wheels; root sharedstate/HTML/CI/pins/notices/imports. Separateworktrees fromthisclaim, actualindependentcode/sourceaudit and FULL64PASS+unconditionalCI promotion beforedone; originalassertions/fixtures/docs neverweakened togreen. Full childresource/ABI/no-site/secureopen/readrace/metadata/offline/allocation/reap audits remain. Missing library/worker midimplementation is not a newvalidred; completedFIRSTs preserved.",
-        "Parent candidate 3e3f4f3 (source a25d531; root import23b6700) authored; 11 targeted real parent acceptance methods pass on CPython3.14.9. Different actual source review found cancellation during descriptor cleanup can bypass remaining closes/child reap. B is assigned a NEW separate focused real-child cleanup regression, C actual test review, reached-bug red before any production correction; frozen64 source64f4911 remains unchanged. Worker A has six controlled genuine isolated-worker/SDK cases passing but broader implementation and coherent commit/source audit remain. Root local3d8 CI promotion removes only the temporary inert-body stage guard and appends unconditional full64 on both hosts; actual C review pending and promotion deliberately unpublished/unexecuted until real worker integration. Draft PR77 published aab9f80 has all19 SUCCESS for claim/baseline only, not implementation. Full64 acceptance/source review/current both-host CI and normal merge remain mandatory; no completed FIRST red replay."
+        "Parent candidate 3e3f4f3 (source a25d531; root import23b6700) authored; 11 targeted real parent acceptance methods pass on CPython3.14.9. Different actual source review found cancellation during descriptor cleanup can bypass remaining closes/child reap. B is assigned a NEW separate focused real-child cleanup regression, C actual test review, reached-bug red before any production correction; frozen64 source64f4911 remains unchanged. Worker A has six controlled genuine isolated-worker/SDK cases passing but broader implementation and coherent commit/source audit remain. Root local3d8 CI promotion removes only the temporary inert-body stage guard and appends unconditional full64 on both hosts; actual C review pending and promotion deliberately unpublished/unexecuted until real worker integration. Draft PR77 published aab9f80 has all19 SUCCESS for claim/baseline only, not implementation. Full64 acceptance/source review/current both-host CI and normal merge remain mandatory; no completed FIRST red replay.",
+        "Coherent actual worker9f88767 imported f1bdaee: six new modules, author-local64 literals (not public64), no frozen assertion/profile/pin change. Actual root context audit requests raw Schema sibling/profile fixes and bounded graph IDs/key reservations; C security audit active. NEW parent2 regression8460/acde approved C adc, actual targeted red2cases/1fail+1MEerror (running real child/open FD + escaping allocation) before fix. NEW context3methods/7literals6894 independently approved root9aed, actual12:11 red3failures/0errors/4positive controls, stdoutempty/4158B stderrSHAf93e; root read/hash/native attribution approved, no replay. Actual initialCI config3d8 approved C13d0, imported883; extra2 regression-module steps e1aea draft need different delta review. Parent Popen-constructor cancellation ownership window remains explicit source gate beyond these2 tests. All source fixes/reviews/full public64/current BOTHhostCI/normalmerge still pending. Draft77 published aab remains baseline-only green, promotion unpublished."
       ],
       "verification": {
         "integrated_baseline": "passed",
@@ -13941,12 +13942,22 @@
         "acceptance": "not_run",
         "selected_ci": "not_run",
         "parent_author_checks": "passed",
-        "ci_promotion_review": "not_run"
+        "ci_promotion_review": "partial",
+        "worker_author_checks": "passed",
+        "focused_regressions": "observed_red"
       },
       "evidence": [
         "docs/evidence/schematool-001-handoff.md",
         "docs/evidence/schematool-001-parent-author.md",
-        "docs/evidence/schematool-001-ci-promotion.md"
+        "docs/evidence/schematool-001-ci-promotion.md",
+        "docs/evidence/schematool-001-worker-author.md",
+        "docs/evidence/schematool-001-parent-cleanup-author.md",
+        "docs/evidence/schematool-001-parent-cleanup-test-review.md",
+        "docs/evidence/schematool-001-worker-context-regression-author.md",
+        "docs/evidence/schematool-001-worker-context-test-review.md",
+        "docs/evidence/schematool-001-worker-context-red-review.md",
+        "docs/evidence/schematool-001-worker-context-review.md",
+        "docs/evidence/schematool-001-ci-review.md"
       ],
       "review": null
     }

@@ -26,10 +26,11 @@ Root owns progress/HTML/CI/pins/notices/shared imports. No unrelated task is cha
 CLEAN, with no reviews; published head `aab9f80e113ca020821cacf721673750c56444bd`.
 Latest actual inspection: all19 checks SUCCESS. That head contains only claim and
 checkpoint, so these are baseline/discovery checks, not implementation acceptance.
-Root local candidate has CI draft `3d8e613ebc1f19cdbc63ca6cee6c0db99c6b78a1` and
-parent import `23b6700bd6080abd8b73672773ffee1a9b00a4ea`, plus this checkpoint/status
-update. Do not publish the CI promotion while worker integration/review is missing.
-Inspect actual HEAD/status/GitHub again on continuation.
+Root local work includes CI draft3d8, parent import23b6700, worker importf1bdaee,
+reviewed new parent regression9ae76b6/1649f9c, new context regressionbf8b4b9 and actual
+root context source/test review9aedf4f. Initial CI configuration C13d0 is imported883;
+extra regression-step candidatee1aea0f needs actual delta review. No implementation
+or CI promotion is published. Inspect actual HEAD/status/GitHub on continuation.
 
 ## Preserved integrated test-first baseline
 
@@ -59,77 +60,95 @@ proof is original63 + new1, never a claimed full64 passing run. Do not replay re
 
 ## Actual agent assignments and unfinished work
 
-`collaboration.list_agents` actually inspected: A worker and C reviewer running;
-B parent completed and then explicitly reactivated for regression authoring. Recheck
-on resume. A message to an idle agent does not start it; use followup_task. Preserve
-all historical branches/worktrees, including parked CONTRACT-011; no cleanup/prune.
+Current agent roles were explicitly resumed, never assumed from old names. At last
+inspection122 registered worktrees; only worker source was dirty before its coherent
+commit (now committed). No relevant project build/test process was running then;
+three long-running desktop Python processes/Codex managers were preserved. New
+short test commands ran since; reinspect actual processes before acting on resume.
+Preserve all historical worktrees/branches including parked CONTRACT-011.
 
-* B `/root/session_supplier_author`, worktree
-  `/tmp/subathon-schematool001-parent-author`, branch
-  `task/SCHEMATOOL-001-parent-author`, from claima663. Parent commit
-  `3e3f4f350b78f7cfcc11e2d55a6ee1b8adb7b5c4`, actual source blob
-  `a25d531ea70271a8434f2a4206b5bff25f444d45`, root import23b6700.
-  Owns `tools/schema_validate.py` and parent author note. Eleven targeted final-source
-  acceptance methods pass (actual command in [author note](schematool-001-parent-author.md)):
-  type/argv/help, environment/pipe refusal, activation/protocol/status/setup failure,
-  whole deadline and reaping; CPython3.14.9,11PASS/.202s, no full64 or worker run.
-* C `/root/session_plan_review` independently audits actual parent source and root
-  CI draft. Actual finding: `_worker_result` final FD loop precedes kill/wait without
-  an enclosing cleanup guarantee. KeyboardInterrupt/BaseException during close can
-  skip remaining descriptors and real-child reap. API §4 requires cancellation while
-  Python can unwind to follow cleanup. No approval has been claimed. B now owns NEW
-  `tests/schema_validation/parent_cleanup_regression.py` and
-  `docs/evidence/schematool-001-parent-cleanup-author.md`. First author a bounded real
-  fault-child + one-shot close cancellation test, C review actual test before run,
-  observe reached-bug red, then correct production and separately review code. Frozen
-  64-method suite stays unchanged. C owns parent-review and optional CI-review notes;
-  get actual branch/worktree/commit from handoff, never invent them.
-* A `/root/session_supplier_review`, worktree `/tmp/subathon-schematool001-worker`,
-  branch `task/SCHEMATOOL-001-worker`, from claima663. Owns ONLY new private worker
-  Python modules and worker author note; excludes check_baseline.py/lock/wheels and
-  parent. Uncommitted modules observed: worker.py, _schema_common.py, _schema_index.py,
-  _schema_installation.py, _schema_package.py, _schema_backend.py. No coherent worker
-  commit yet. Six author-local genuine isolated-worker SDK cases pass (integer
-  positive/negative, Boolean, missing reference, same-instance cycle, OAS instance).
-  Broader DATA/scope/inventory/resource checks continue. These do not prove full
-  public acceptance or replace different code/source audit. Actual pinned SchemaPath
-  requires private role/scope glue using real SchemaAccessor/resolver operations;
-  no contract/test/pin change or custom standards engine is authorized.
+* B `/root/session_supplier_author`, `/tmp/subathon-schematool001-parent-author`,
+  `task/SCHEMATOOL-001-parent-author`. Original parent3e3f4f3/sourcea25d531,
+  root23b6700. Original11 targeted author checks pass on this candidate, not full64.
+  C actual source audit found cancellation during FD cleanup bypasses remaining
+  closes/kill/reap and initial _bounded_path MemoryError is outside public handler.
+  B authored NEW2-method parent_cleanup_regression.py in8460c85/sourceacde40d,
+  C actual test approvaladc1716 imported1649f9c. Actual new-only reached-bug run:
+  2tests/.012s,1FAIL+1ERROR, exit1; child still running and FDstates
+  [closed,closed,open,closed] before test fallback cleanup; exact initial MemoryError
+  escapes. Empty stdout, stderr2827B SHA2041dcb2. B records raw/evidence then fixes
+  owned parent; actual corrected code + C review/pass still pending. No original
+  suite/historical FIRST was replayed. C separately identified Popen-constructor
+  cancellation after OS spawn but before caller assignment as an unresolved
+  ownership/source gate; B is investigating actual CPython source before proposing
+  tests/solution. Two regression passes alone cannot establish that constructor path.
+* A `/root/session_supplier_review`, `/tmp/subathon-schematool001-worker`,
+  `task/SCHEMATOOL-001-worker`. Coherent actual worker9f88767 importedf1bdaee, six
+  modules + [author note](schematool-001-worker-author.md), no baseline/pin/contract
+  change. Author-local64 literals and3 early setup controls are NOT the public64.
+  Root [actual context audit](schematool-001-worker-context-review.md) requested
+  raw Schema sibling semantics, structural OAS x-field profile, numeric graph IDs
+  and key-reservation corrections. NEW context regression6894a22 importedbf8b4b9,
+  root actual test approval9aedf4f BEFORE run. Actual12:11:07Z new-only run on9f:
+  3methods/7literals,3failures/0errors,4positive controls,1.453s, exit1; raw4158B
+  SHAf93e8925, stdout empty. Raw sibling returnedok; Schema x-field returnedok;
+  Parameter Ref x-field returnedinvalid_schema instead of earlier unsupported_feature.
+  [Root actual native attribution](schematool-001-worker-context-red-review.md)
+  read/hash checks these exact raw bytes, no replay. A records raw then fixes owned
+  backend/index/common; existing reviewed/red graph-key tests cover graph changes.
+  Actual corrected source review/new pass remains. No profile/ceiling/assertion change.
+* C `/root/session_plan_review`, actual CI/parent source worktree
+  `/tmp/subathon-schematool001-parent-review`, branch
+  `task/SCHEMATOOL-001-parent-review`; separate test review worktree
+  `/tmp/subathon-schematool001-parent-cleanup-test-review`. Actual parent regression
+  approvaladc and initial CI configuration approval13d0 are committed/imported.
+  Now auditing actual9f worker.py/_schema_installation.py/_schema_package.py/
+  _schema_common.py for resource/ABI/no-site/metadata/secure-open/read-race/strictJSON/
+  allocation/offline controls. Root independently audits backend/index native glue.
+  C must also review actual B correction/native evidence and final CI deltae1aea0f.
+  Get actual new verdicts/commits; none is approved prospectively.
 
-Existing frozen two-FD argv/EOF/status/activation boundary is the cross-writer
-contract. No parent package-tree or SDK import; worker controls must precede input
-and candidate imports. Use genuine pinned standards libraries, exact JSON/accounting,
-secure owned snapshot, all typed closure/inventory, no network/default retriever,
-raw DATA preservation and native scope semantics. Unknown SDK behavior must be
-resolved honestly rather than narrowing profile or refusing valid literal $ref data.
+Root owns state/HTML/CI/pins/notices/shared imports. A and B own their production
+files and separately assigned new regression/author evidence; reviewers own only
+notes. Frozen two-FD argv/EOF/status/activation contract remains the boundary.
+Actual new regression red artifacts are not historical baseline replays. Preserve
+original64 source64f491 and all FIRST artifacts. No author may approve own gate.
 
 ## Integration and CI gates / next actions
 
-Root [CI promotion draft](schematool-001-ci-promotion.md) is local and unexecuted.
-It removes only the temporary inert-body guard, permits private helpers while keeping
-exact two public calls, and preserves enum/exception/test inventory/no skips/no SDK
-imports/paired metadata/no-site projection and real SDK14 checks. Workflow appends
-UNCONDITIONAL complete unchanged64-method acceptance on both minimum3.10 and3.12
-hosts. C actual review remains pending. No publication/execution until real worker
-integration and actual code review make a meaningful full-suite run possible.
+Root [CI promotion draft](schematool-001-ci-promotion.md) remains unpublished and
+unexecuted. Initial3d8/H2673608/WF74f487d actually approved C13d0: removes only the
+temporary inert-body guard, preserves two public calls/enum/exception/no SDK imports/
+all64 registrations/no skips/paired metadata/no-site/real14 SDK cases, and runs the
+whole unchanged public64 unconditionally on minimum3.10 and selected3.12. New
+e1aea0f additionally runs both NEW entire regression modules with the identical
+isolated interpreter/minimal environment, also unconditional on both hosts. Eight
+shell blocks bash-n/static project pass; actual delta review still pending.
 
-Next: receive/review B's focused cancellation regression, observe actual bug red and
-fix; receive A's coherent actual worker commit for different audit; integrate compatible
-owned changes. Resolve source findings, run complete64 public acceptance and focused
-new regression against real implementation, then publish reviewed CI promotion.
-Observe both current hosted lanes and all existing checks; update evidence/status,
-obtain applicable independent review and normal head-matched merge only after gates.
-No implementation taskdone or passing feature claim before these conditions.
+Next: receive actual B/A corrected commits + native raw/red/pass evidence; review
+reached paths and code independently, including Popen constructor ownership and
+complete graph allocation audit. Integrate compatible owned changes, resolve C
+security findings, then run whole real public64 plus new focused modules on that
+actual implementation. Do not treat missing dependency/setup/worker failures as
+intended red, rerun unchanged historical stubs or modify tests to make code green.
 
-Resource/ABI/RLIMIT/no-site/metadata/secure-open/read-race/bounded-allocation/network/
-FD/cancellation audits remain mandatory beyond black-box green. Existing runtime:
-`/tmp/subathon-schematest001-py314/bin/python` (3.14.9), isolated offline admitted20
-packages; preserve cp310/cp312/cp314 wheelhouses and hash/identity evidence. No global
-or server/client runtime dependencies. Do not call a missing worker/dependency a red.
+Only after actual relevant local acceptance/source gates pass publish the reviewed
+CI promotion to draft77. Observe both fresh hosted lanes and all existing checks;
+update status/evidence and obtain applicable independent review. Normal head-matched
+merge only after latest-revision gates/threads/GitHub permissions permit. Published
+aab checks prove claim/baseline only. No taskdone/passing feature/full product claim.
 
-Progress is partial implementation/source review, acceptance and selected CI not_run;
-HTML regenerated/consistency checked with this update. All426 IDs/1629 dependency
-edges and seven integrations/three exchange-rate providers remain in scope. Full
-application/auth/state/financial/recovery/network/scene/QML/browser/EN-DE/themes/
+Runtime remains `/tmp/subathon-schematest001-py314/bin/python` (3.14.9), isolated
+admitted20 packages; preserve cp310/cp312/cp314 wheelhouses/hash/identity evidence.
+No global/server/client dependencies. Resource/ABI/RLIMIT/no-site/metadata/secure-open/
+read-race/bounded-allocation/network/FD/cancellation audits remain mandatory beyond
+black-box green. No parent package-tree/SDK imports, custom assertion engine,
+default retriever, transformed DATA, unknown SDK shortcut or smaller profile.
+
+Progress is partial implementation/source review; new focused regressions observed
+red, initial CI review partial because later delta remains; full acceptance and
+selected feature CI not_run. HTML/check consistency updated with this checkpoint.
+All426 IDs/1629 edges and allseven integrations/three FX providers remain in scope.
+Full application/auth/state/financial/recovery/network/scene/QML/browser/EN-DE/themes/
 Linux-Windows/Wayland/OBS/security/package/live release gates remain open. After the
-next eligible task PR merge, refresh main and continue the standing loop.
+next eligible merge, refresh main and continue the standing loop.
