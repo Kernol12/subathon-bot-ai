@@ -79,3 +79,7 @@ GitHub rules/threads/reviews/mergeability; ready and normal merge77 only when al
 gates pass. Refresh main, reconcile actual merge outcome, stop all agents and STOP.
 No new task, no next PR. Local post-merge checkpoint may be retained unpublished
 if needed; never write directly to main or start an endless bookkeeping chain.
+
+## Post-checkpoint actual hosted correction
+
+Published ba5366e native42304624411 BOTH hosts built but stopped static BEFORE runtime: exact `cmp %r11,%rsp` incorrectly classified as write. Library SDK14 both hosts passed, independent C attribution pending. Root new literal1 test7a reviewed C4dd/root85, actual intended exactCMP red; fix6fc exactCMP read-only classification approved Cb75/root3c. SAME1/full6controls/BOTHcombinedlocalstatic PASS. [Immutable failure/red/pass evidence](schematool-001-hosted-stack-compare.md). No native code/flags/bounds or old assertions changed. Fresh latest hosted full66 remains mandatory; no failed prerequisite bypass. Guide A52 approved imported78, localpass C4aa approved importedba. Next push correction and observeactualCI, then finalmetadata/normalmerge77/STOP.
