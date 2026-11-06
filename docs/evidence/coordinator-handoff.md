@@ -34,18 +34,21 @@ FIRST550/validSQL633 preserved; setup-error initialSQL still invalid. No repeate
 Root `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline, actual
 claimab822715 frommain141. Taskin_progress; SCHEMATOOL001planned. Root owns all shared
 pins/locks/notices/imports/build/CI/state/HTML/checkpoint/integration. Own initialrow/
-activity only; allmain426/1629 task evidence/reviews remain. No PR yet at this snapshot.
+activity only; allmain426/1629 task evidence/reviews remain. [Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76) initiallyf47f888,
+now authoredcandidateimportad91266 published. Olderchecks cover inheritedcomponents
+only, not validator behavior; latestheadCI not a substitute for baselinegates.
 [Handoff](schematest-001-handoff.md), [research](schematest-001-readiness.md).
 
 Canonical session_supplier_review (role schema_contract_author) on NEW
 `/tmp/subathon-schematest001-author`, task/SCHEMATEST-001-contract-author fromab822:
 owns ONLY docs/contracts/schema-validation-tool-v1.md and
- docs/evidence/schematest-001-contract-author.md. Actual contract design underway,
-no authored/approved candidate at this checkpoint. Canonical session_supplier_author
-is DIFFERENT contract reviewer; primary/scoped prep complete, currently idle awaiting
-actualcandidate. Must explicitly followup_task to resume an idle agent; send_message
-alone does not start it. Reviewer will own ONLY eventual contract-review.md in NEW
-isolated tree after candidate. Do not assume any previous agent alive on resume.
+ docs/evidence/schematest-001-contract-author.md. Actual logicalcontract4ab268a/importad91266 now committed,
+[proposal](../contracts/schema-validation-tool-v1.md) and
+[author](schematest-001-contract-author.md). Different actualreview underway;
+no contractapproval/pins/source/tests yet. Canonical session_supplier_author
+is DIFFERENT contract reviewer; primary/scoped prep complete and explicitly resumed with followup_task for actual
+4ab contractreview; own ONLY eventual contract-review.md in NEW isolatedtree.
+An idle agent requires followup_task; send_message alone does not start it. Do not assume any previous agent alive on resume.
 
 Initialstage is ONLY bounded exact CLI/manifest/API/error/resource/registry/example/
 JSONnumeric contract and independent literal/source evidence, no newpins/source/

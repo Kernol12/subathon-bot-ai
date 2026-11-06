@@ -12,7 +12,8 @@ pins/locks/notices/schemaimports/build/CI/state/HTML. Canonical session_supplier
 (role schema_contract_author) owns ONLY schema-validation-tool-v1.md and owncontract
 author note on NEW /tmp/subathon-schematest001-author, branch
  task/SCHEMATEST-001-contract-author. DIFFERENT reviewer session_supplier_author
-read-only prep complete, awaiting actual candidate; no prospective approval.
+read-only prep complete, now reviewing actual4ab268a (importad91266); no
+prospective approval. Logicalcontract/authornote are authored; no pins/source/test.
 
 Candidate upstream versions/APIs are research/proposals, not selected/installed
 compatibility proof. Actual direct/transitive pins/hashes/licenses/real-library
@@ -33,3 +34,8 @@ CI applies until a separately reviewed executable foundation exists. All complet
 source/reviews/FIRSTred receipts and old worktrees/parked work preserved. Next receive
 actual bounded contract, different review and resolve findings before pin/API/test
 stage; retain test-first sequence and no live operations. Full product incomplete.
+
+Actual initial logical proposal4ab268a/importad91266 is now in draftPR76.
+Root fragment-closure budget issue was corrected before commit:256resources,
+4096context nodes,2048edges,4096-byte URI/pointer keys and1MiBaggregatekeys.
+Differentactualreview pending. No dependency install or selected-library success.
