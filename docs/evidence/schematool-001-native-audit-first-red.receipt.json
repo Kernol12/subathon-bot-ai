@@ -1,0 +1,30 @@
+{
+  "head": "2832f736ffddc28efb1ad36e8639010523715fa3",
+  "argv": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-S",
+    "-B",
+    "tests/schema_validation/native_audit_controls.py"
+  ],
+  "cwd": "/tmp/subathon-schematool001",
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "started_utc": "2026-11-06T16:05:49.166958+00:00",
+  "elapsed_seconds": 0.059446748011396267,
+  "exit_code": 1,
+  "watchdog_fired": false,
+  "scope": "FIRST STATIC-ONLY mocked-text audit controls; no ELF/proc/binutils/native artifact/child-probe path",
+  "review": "e19b38af6c90cd5350e82654ae02866fff449849",
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 8411,
+    "sha256": "98bf17727ae168001b9dcd252e3b997672c91add859c469a26f56cc1db6786d3"
+  }
+}

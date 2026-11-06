@@ -16,6 +16,7 @@ import subprocess
 
 
 HEADER = re.compile(r"^([0-9a-f]+) <(.*)>:$")
+ADDRESS = re.compile(r"^\s*[0-9a-f]+\s*:")
 INSTRUCTION = re.compile(r"^\s*([0-9a-f]+):\s+([a-z][a-z0-9]*)\s*(.*)$")
 TARGET = re.compile(r"^([0-9a-f]+)\s+<.*>$")
 PLAIN = {
@@ -28,8 +29,24 @@ PLAIN = {
 SIZED = re.compile(r"^(?:add|sub|cmp|test|xor|and|or|shl|shr|sar|sal|imul|mul|idiv|div|neg|not|inc|dec)[bwlq]?$")
 
 
+RAW_HELPERS = {
+    "schema_foundation::raw(long, long, long, long, long, long, long)",
+    "schema_foundation::finish(int)",
+    "schema_foundation::hold(int)",
+    "schema_foundation::child(schema_foundation::ChildPlan const&)",
+    "schema_foundation::observe(schema_foundation::Report&, int, int, int)",
+    "schema_foundation::publish(schema_foundation::Report const&, int)",
+    "long schema_foundation::address<schema_foundation::KernelAction>(schema_foundation::KernelAction*)",
+    "long schema_foundation::address<unsigned long>(unsigned long*)",
+    "long schema_foundation::address<schema_foundation::Report const>(schema_foundation::Report const*)",
+    "long schema_foundation::address<char>(char*)",
+    "long schema_foundation::address<char const>(char const*)",
+    "long schema_foundation::address<char* const>(char* const*)",
+}
+
+
 def raw_helper(name):
-    return name.startswith("schema_foundation::") or name.startswith("long schema_foundation::address<")
+    return name in RAW_HELPERS
 
 
 def require(condition, message):
@@ -68,7 +85,9 @@ def disassembly(path):
             functions[current[0]] = current
             continue
         instruction = INSTRUCTION.fullmatch(line)
-        if instruction and current is not None:
+        if ADDRESS.match(line):
+            require(instruction is not None and current is not None,
+                    "undecodable or unowned disassembly instruction")
             address, mnemonic, operands = instruction.groups()
             current[2].append((int(address, 16), mnemonic, operands.strip()))
     require(functions, "empty disassembly")
@@ -88,6 +107,8 @@ def reachable(functions, root_name, allowed):
         _, name, instructions = functions[address]
         require(allowed(name) and instructions, "unreviewed generated function: " + name)
         first, last = instructions[0][0], instructions[-1][0]
+        boundaries = {item[0] for item in instructions}
+        require(len(boundaries) == len(instructions), "duplicate instruction boundary")
         for _, mnemonic, operands in instructions:
             require("%fs:" not in operands and "%gs:" not in operands,
                     "TLS/segment access in generated child function " + name)
@@ -99,6 +120,7 @@ def reachable(functions, root_name, allowed):
                 require(target is not None, "indirect/unresolved child transfer in " + name)
                 destination = int(target.group(1), 16)
                 if not mnemonic.startswith("call") and first <= destination <= last:
+                    require(destination in boundaries, "branch targets an instruction interior")
                     continue
                 require(destination in functions, "unknown generated child target in " + name)
                 pending.append(destination)
@@ -128,32 +150,30 @@ def syscall_return(path):
              if item[1] == "syscall" or item[1].startswith("syscall@@")]
     require(len(found) == 1, "actual libc syscall symbol missing/ambiguous")
     instructions = found[0][2]
-    prefix = []
-    for item in instructions:
-        prefix.append(item)
-        if item[1].startswith("ret"):
-            break
-    require(prefix and prefix[-1][1].startswith("ret"), "libc syscall has no bounded success return")
-    require(sum(item[1] == "syscall" for item in prefix) == 1,
-            "libc syscall success path changed")
-    require(not any(item[1].startswith("call") for item in prefix),
-            "libc syscall success path calls another function")
-    branches = [item for item in prefix if item[1].startswith("j")]
-    require(len(branches) == 1 and branches[0][1] in {"jae", "jnb"},
-            "unreviewed libc syscall error branch")
-    branch = branches[0]
+    cursor = 0
+    # Only known entry decorations may precede the exact success sequence.
+    while cursor < len(instructions) and instructions[cursor][1] in {"endbr64", "nop", "nopl", "nopw"}:
+        cursor += 1
+    sequence = [
+        ("mov", "%rdi,%rax"), ("mov", "%rsi,%rdi"), ("mov", "%rdx,%rsi"),
+        ("mov", "%rcx,%rdx"), ("mov", "%r8,%r10"), ("mov", "%r9,%r8"),
+        ("mov", "0x8(%rsp),%r9"), ("syscall", ""),
+        ("cmp", "$0xfffffffffffff001,%rax"),
+    ]
+    for mnemonic, operands in sequence:
+        require(cursor < len(instructions), "truncated libc syscall sequence")
+        _, actual, values = instructions[cursor]
+        require(actual == mnemonic and re.sub(r"\s+", "", values) == operands,
+                "libc ordered syscall success sequence changed")
+        cursor += 1
+    require(cursor + 1 < len(instructions), "missing libc error edge/return")
+    branch, terminal = instructions[cursor:cursor + 2]
     target = TARGET.fullmatch(branch[2])
-    require(target is not None and int(target.group(1), 16) > prefix[-1][0],
-            "libc syscall success does not fall through to ret")
-    compares = [item for item in prefix if item[1].startswith("cmp")]
-    require(len(compares) == 1 and compares[0][0] < branch[0]
-            and "0xfffffffffffff001" in compares[0][2] and "%rax" in compares[0][2],
-            "unreviewed libc negative-errno threshold")
-    moves = {item[2].replace(" ", "").replace("\t", "")
-             for item in prefix if item[1] == "mov"}
-    require({"%rdi,%rax", "%rsi,%rdi", "%rdx,%rsi", "%rcx,%rdx",
-             "%r8,%r10", "%r9,%r8", "0x8(%rsp),%r9"} <= moves,
-            "libc x86-64 syscall argument register mapping changed")
+    require(branch[1] in {"jae", "jnb"} and target is not None
+            and terminal[1:] == ("ret", "")
+            and int(target.group(1), 16) > terminal[0]
+            and int(target.group(1), 16) in {item[0] for item in instructions},
+            "libc syscall positive result does not fall through to exact ret")
     return found[0][1]
 
 
