@@ -3252,7 +3252,7 @@
       "verification": {
         "acceptance": "passed",
         "source_review": "passed",
-        "configuration_review": "not_run",
+        "configuration_review": "passed",
         "selected_ci": "not_run",
         "platform_release": "not_run"
       },
@@ -3267,7 +3267,7 @@
         "author": "session_plan_review (milestone_author)",
         "reviewer": "session_supplier_author (milestone source reviewer)",
         "outcome": "approved",
-        "revision": "Actualsourcea5d18ae/importc2305dd/blobd79b77cad26bf876fd4bd89038161d4fc0c1b809 approvedb1d5dc7/importb945ff2 with independent90PASS; configuration2792791/actualCI/finalmetadata remain pending.",
+        "revision": "Sourcea5/importc2305/d79 approvedb1/importb945, ordinaryconfiguration279 approved276fc8f/import96d79b0 after independent promotedold37/53PASS0.63/0.09s and strict53guard. ActualselectedCI/finalmetadata/latestpublication/normalmerge remain.",
         "evidence": "docs/evidence/milestone-001-code-review.md"
       }
     },

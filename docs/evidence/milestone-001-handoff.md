@@ -23,7 +23,8 @@ root ordinary-promotion full90PASS0.68s. Sourceaudit finds no uncovered defect.
 Public ABI/oracles/assertions/fixtures and valid FIRST-red receipts remain unchanged.
 Header correction is COMMENT only. Root2792791 promotes ordinary labels, strict
 33+20 compiled inventory and unconditional53CI body after old37/foundation.
-Separate configuration review/actual selectedCI/finalmetadata gates remain pending;
+Actual configuration279 separately approved276fc8f/import96d79b0, with independent
+old37/feature53PASS0.63/0.09s and strict53guard. Actual selectedCI/finalmetadata gates remain pending;
 component is in_review, not done or integrated.
 
 Root owns shared build/CI/pins/state/map/HTML/headers/integration; author owns only

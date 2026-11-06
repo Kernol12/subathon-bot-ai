@@ -39,6 +39,7 @@ or new regression family was identified in that audit.
 
 Ordinary workflow now runs old37 checks/foundation separately, then all53 milestone
 bodies unconditionally; same pins/check name, no manual body input/failure inversion.
-Actual separate configuration review, selected Ubuntu CI, final completion metadata,
+Actual separate configuration review276fc8f/import96d79b0 accepts exact279.
+Independent promoted37/53 PASS0.63/0.09s and strict53guard; selected Ubuntu CI, final completion metadata,
 latest checks/current rules/discussions/normal merge remain pending. This is pure
 component/synthetic acceptance, no authoritative state/action/UI/provider/platform proof.
