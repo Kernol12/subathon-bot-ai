@@ -101,6 +101,19 @@ TEST_P(NativeFaultChildBytes, ActualFixedExecBytesAndStatus) {
                 fds[2 * channel + end] = static_cast<int>(copy);
         }
     }
+    // A deliberately unrelated, non-CLOEXEC read alias must not survive exec.
+    // Keep it out of the existing four known-source close actions so the fixed
+    // report independently detects incomplete child-table closure.
+    int sentinel = -1;
+    long sentinel_flags = -1, sentinel_close_result = -1, sentinel_closed = -1;
+    if (setup) {
+        const long copy = raw(SYS_fcntl, fds[0], F_DUPFD, 64);
+        if (copy >= 0) {
+            sentinel = static_cast<int>(copy); // Adopt ONLY a successful duplicate.
+            sentinel_flags = raw(SYS_fcntl, sentinel, F_GETFD);
+        }
+        setup = copy >= 64 && sentinel_flags == 0;
+    }
     auto action = [&](int result) {
         if (result != 0) {
             action_error = result;
@@ -152,6 +165,10 @@ TEST_P(NativeFaultChildBytes, ActualFixedExecBytesAndStatus) {
         posix_spawn_file_actions_destroy(&actions);
     if (have_attributes)
         posix_spawnattr_destroy(&attributes);
+    if (sentinel >= 0) {
+        sentinel_close_result = raw(SYS_close, sentinel); // Never retry Linux close.
+        sentinel_closed = raw(SYS_fcntl, sentinel, F_GETFD);
+    }
     for (unsigned index : {1U, 3U})
         if (fds[index] >= 0) {
             raw(SYS_close, fds[index]);
@@ -237,6 +254,10 @@ TEST_P(NativeFaultChildBytes, ActualFixedExecBytesAndStatus) {
             closed[index] = raw(SYS_fcntl, fds[index], F_GETFD);
             fds[index] = -1;
         }
+    EXPECT_GE(sentinel, 64);
+    EXPECT_EQ(sentinel_flags, 0);
+    EXPECT_EQ(sentinel_close_result, 0);
+    EXPECT_EQ(sentinel_closed, -EBADF);
     EXPECT_EQ(action_error, 0);
     EXPECT_EQ(attr_error, 0);
     EXPECT_TRUE(setup);
