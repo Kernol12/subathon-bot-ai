@@ -41,3 +41,22 @@ review and project/render/diff checks. No compiler/import/load/child/test/contro
 execution. Root-authored24 foundation controls are not self-approved here; C must
 review them and shared CMake independently. Existing A23 helper oracles remain
 separately approved in native-fault-foundation-review.md. Finish PR77 then stop.
+
+## Actual portable dispatch correction
+
+Root independently reviewed A fc17432, integrated7c0e0d7, child blob7a876c03.
+SOURCE APPROVED for rebuild/static and the already-reviewed24 producer controls
+under existing admitted foundation285/binding/environment. Actual hosted2ff jobs
+failed BEFORE native execution: GNU11/13 lowered the dense switch to NOTRACK
+indirect jump. The audit correctly rejected it; no kernel denial was observed.
+
+The correction replaces only that switch with13 explicit conditional groups.
+I compared every mode1..22 branch/payload, empty9/12/15,257-byte x payload and
+shared1/2/3/21,11/22,13/14/19/20 groups against the original source/matrix/24
+independent literals. Activation, exit-status calculation, selfSIGKILL12, held24,
+report28, main/parent checks and125 default remain exact. No policy/gate/indirect
+allowance, target-wide compiler flag or assertion change. Actual new child graph
+must pass before execution; original producer assertions are byte-identical.
+Foundation285 and other artifacts are unchanged if their actual hashes confirm.
+Existing LOCAL56 and C attribution remain evidence for the earlier artifact set;
+new producer controls and both-host guards must be observed for the new child.
