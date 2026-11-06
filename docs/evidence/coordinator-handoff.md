@@ -19,7 +19,7 @@ SUCCESS, zero review threads; no open PR at startup. Active ruleset26170263 exis
 SQLFIRST633 red; initial setup-error attempt stays invalid. Never replay completed
 FIRST-red gates or equate these component passes with a finished product.
 
-All53 registered worktrees were inspected and clean at startup. Historical branches,
+All registered worktrees were inspected and clean at startup. Historical branches,
 review worktrees and parked CONTRACT011 remain preserved. No old subagent is alive:
 collaboration list contained only /root; process inspection found no build/test/GitHub
 command running. No reset, prune or discarded unfinished work occurred. Default
@@ -46,8 +46,8 @@ Fresh roles (historical agent IDs are not reused):
   schema, interface/stub, test or live credential behavior authorized by this task.
 - `session_plan_review`: independently reviews actual eb98c18 split and40c33ad
   reconciliation; owns only `docs/evidence/sessioncontract-001-plan-review.md` on
-  a new isolated review branch. Initial graph/scope audit finds no blocker; final
-  committed review/validation pending.
+  a new isolated review branch. Actual split/reconciliation approved at8846a1c (importc3ee594);
+  [review](sessioncontract-001-plan-review.md) and independent checks pass.
 - `session_supplier_review`: read-only specification/import preparation, then actual
   author revision review on a new isolated branch; owns only
   `docs/evidence/sessioncontract-001-review.md`. No contract approval yet.
@@ -68,7 +68,7 @@ No native behavior changed or FIRST red rerun. Document consistency/stable compo
 CI remains appropriate; assess again for actual authored content. No new executable
 suite currently exists to promote or new required-check configuration to request.
 
-Next: integrate actual split review, receive bounded supplier document/literal
+Next: receive bounded supplier document/literal
 oracles/primary-source evidence, obtain DIFFERENT actual contract review and resolve
 findings. Run appropriate documentation/tooling checks, update task evidence/status,
 open focused draft PR and observe latest-revision CI/current rules/reviews/threads
