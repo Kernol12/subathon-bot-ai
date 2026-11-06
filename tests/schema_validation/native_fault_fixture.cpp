@@ -182,7 +182,10 @@ bool valid_plan(Plan plan) noexcept {
 long wait_pinned(int descriptor, siginfo_t &info, int options) noexcept {
     long result;
     do {
-        info = {};
+        // Clear every siginfo byte on every attempt, including an EINTR retry.
+        volatile unsigned char *info_bytes = reinterpret_cast<volatile unsigned char *>(&info);
+        for (std::size_t index = 0; index != sizeof(info); ++index)
+            info_bytes[index] = 0;
         result = raw(SYS_waitid, pidfd_selector, descriptor, address(&info), options, 0);
     } while (result == -EINTR);
     return result;

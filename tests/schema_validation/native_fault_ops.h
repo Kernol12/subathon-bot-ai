@@ -46,7 +46,7 @@ class [[gnu::visibility("hidden")]] FaultOps {
     RawResult last_result_ = -1, last_clock_ = -1;
     char parent_text_[11]{};
     char mode_text_[3]{};
-    const char *fixed_argv_[6]{};
+    const char *fixed_argv_[6];
 
     template <KernelCall Call> static consteval long number() noexcept {
         if constexpr (Call == KernelCall::openat)
@@ -317,6 +317,11 @@ class [[gnu::visibility("hidden")]] FaultOps {
     explicit FaultOps(const Request &request) noexcept
         : request_(request), plan_(selected_plan()),
           parent_pid_(static_cast<int>(schema_foundation::raw(SYS_getpid))) {
+        // Preserve the six null initial values without generated bulk/SIMD stores.
+        volatile unsigned char *argument_bytes =
+            reinterpret_cast<volatile unsigned char *>(fixed_argv_);
+        for (std::size_t index = 0; index != sizeof(fixed_argv_); ++index)
+            argument_bytes[index] = 0;
         decimal(static_cast<unsigned>(parent_pid_), parent_text_, sizeof(parent_text_));
         decimal(negative_mode(), mode_text_, sizeof(mode_text_));
         fixed_argv_[0] = SUBATHON_NATIVE_FAULT_CHILD_PATH;
