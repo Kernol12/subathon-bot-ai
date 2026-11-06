@@ -35,7 +35,7 @@ def main():
         # -I excludes the script directory. This single trusted source directory
         # is activated only after limits; candidate SDK activation happens later.
         sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-        from _schema_common import EXIT, Refusal
+        from _schema_common import Budget, EXIT, Refusal
         from _schema_installation import Offline, environment
         exits = EXIT
         target, sdk = environment(sys.argv[4])
@@ -47,8 +47,9 @@ def main():
         from _schema_package import load_package
         from _schema_index import Index
         from _schema_installation import dependencies
-        manifest, specs, bindings, snapshots, values, aliases = load_package(sys.argv[2])
-        index = Index(specs, values)
+        budget = Budget()
+        manifest, specs, bindings, snapshots, values, aliases = load_package(sys.argv[2], budget)
+        index = Index(specs, values, budget)
         index.admit_dialects_formats()
         dependencies(sdk, target)
         try:

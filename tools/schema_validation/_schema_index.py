@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Closed physical-role metadata and inventory; assertion truth belongs to SDKs."""
-from _schema_common import BASE, DRAFT, OAS, Budget, Node, pointer_child, refuse
+from _schema_common import DRAFT, OAS, Node, refuse, utf8_size
 
 
 MAP_SCHEMA = {"$defs": "inventory", "definitions": "inventory", "properties": "descending",
@@ -14,11 +14,12 @@ REF_ROLES = {"Response", "Parameter", "RequestBody", "Header", "Example", "Secur
 
 
 class Index:
-    def __init__(self, specs, values):
+    def __init__(self, specs, values, budget):
         self.specs, self.values = specs, values
-        self.budget = Budget()
+        self.budget = budget
         self.order = {name: i for i, name in enumerate(specs)}
         self.nodes = {}
+        self.records = []
         self.schemas = []
         self.roots = []
         self.references = []
@@ -37,26 +38,30 @@ class Index:
         self.schemas.sort(key=lambda n: (self.order[n.document], n.pointer))
 
     def add(self, document, pointer, role, value, parent=None, edge="inventory"):
+        self.budget.reserve(utf8_size(document) + len(role), single=False)
         identity = document, pointer, role
         if identity in self.nodes:
+            self.budget.key_bytes -= utf8_size(document) + len(role) + utf8_size(pointer)
             return self.nodes[identity]
         if len(self.nodes) >= 4096:
             refuse("resource_limit")
-        self.budget.key(pointer)
-        node = Node(document, pointer, role, value, parent, edge)
+        # The sole physical-key table owns each pre-reserved spelling. Other
+        # graph tables use the bounded integer record number, never copied keys.
+        node = Node(document, pointer, role, value, len(self.records), parent.number if parent else None, edge)
         self.nodes[identity] = node
+        self.records.append(node)
         if role == "Schema":
             node.dialect = DRAFT if self.specs[document] == "jsonschema202012" else OAS
             if parent is not None:
                 node.dialect = parent.dialect
-                self.applications.append((parent, node, edge))
+                self.applications.append((parent.number, node.number, edge))
             self.schemas.append(node)
         return node
 
     def child(self, parent, key, role):
         value = parent.value
         if type(value) is dict and key in value:
-            child = self.add(parent.document, pointer_child(parent.pointer, key), role, value[key])
+            child = self.add(parent.document, self.budget.pointer(parent.pointer, key), role, value[key])
             self.walk(child)
             return child
         return None
@@ -64,21 +69,21 @@ class Index:
     def mapping(self, parent, key, role):
         value = parent.value
         if type(value) is dict and type(value.get(key)) is dict:
-            pointer = pointer_child(parent.pointer, key)
             result = []
-            for name in sorted(value[key]):
-                child = self.add(parent.document, pointer_child(pointer, name), role, value[key][name])
-                self.walk(child)
-                result.append(child)
+            with self.budget.temporary_pointer(parent.pointer, key) as pointer:
+                for name in sorted(value[key]):
+                    child = self.add(parent.document, self.budget.pointer(pointer, name), role, value[key][name])
+                    self.walk(child)
+                    result.append(child)
             return result
         return []
 
     def array(self, parent, key, role):
         value = parent.value
         if type(value) is dict and type(value.get(key)) is list:
-            pointer = pointer_child(parent.pointer, key)
-            for i, item in enumerate(value[key]):
-                self.walk(self.add(parent.document, pointer_child(pointer, i), role, item))
+            with self.budget.temporary_pointer(parent.pointer, key) as pointer:
+                for i, item in enumerate(value[key]):
+                    self.walk(self.add(parent.document, self.budget.pointer(pointer, i), role, item))
 
     def data(self, parent, pointer, value):
         return self.add(parent.document, pointer, "Data", value)
@@ -87,6 +92,9 @@ class Index:
         value, role = node.value, node.role
         if type(value) is not dict:
             return  # Malformed typed locations remain for native structural validation.
+        if (self.specs[node.document] == "openapi31" and role not in {"Data", "Scopes", "SecurityRequirement"}
+                and any(key.startswith("x-") for key in value)):
+            self.unsupported.append(node)
         if role == "Schema":
             if "$ref" in value and type(value["$ref"]) is str:
                 self.reference(node)
@@ -95,31 +103,32 @@ class Index:
                     self.unsupported.append(node)
             for key in ("example", "default", "const", "enum"):
                 if key in value:
-                    child = self.data(node, pointer_child(node.pointer, key), value[key])
+                    child = self.data(node, self.budget.pointer(node.pointer, key), value[key])
                     if key == "example":
-                        self.annotations.append((child, node))
+                        self.annotations.append((child.number, node.number))
                     elif key == "default" and self.specs[node.document] == "openapi31":
-                        self.defaults.append((child, node))
+                        self.defaults.append((child.number, node.number))
             if type(value.get("examples")) is list:
                 if len(value["examples"]) > 256:
                     refuse("resource_limit")
-                for i, item in enumerate(value["examples"]):
-                    p = pointer_child(pointer_child(node.pointer, "examples"), i)
-                    self.annotations.append((self.data(node, p, item), node))
+                with self.budget.temporary_pointer(node.pointer, "examples") as prefix:
+                    for i, item in enumerate(value["examples"]):
+                        p = self.budget.pointer(prefix, i)
+                        self.annotations.append((self.data(node, p, item).number, node.number))
             for keyword, edge in MAP_SCHEMA.items():
                 if type(value.get(keyword)) is dict:
-                    p = pointer_child(node.pointer, keyword)
-                    for key in sorted(value[keyword]):
-                        child = self.add(node.document, pointer_child(p, key), "Schema", value[keyword][key], node, edge)
-                        self.walk(child)
+                    with self.budget.temporary_pointer(node.pointer, keyword) as p:
+                        for key in sorted(value[keyword]):
+                            child = self.add(node.document, self.budget.pointer(p, key), "Schema", value[keyword][key], node, edge)
+                            self.walk(child)
             for keyword, edge in ARRAY_SCHEMA.items():
                 if type(value.get(keyword)) is list:
-                    p = pointer_child(node.pointer, keyword)
-                    for i, item in enumerate(value[keyword]):
-                        self.walk(self.add(node.document, pointer_child(p, i), "Schema", item, node, edge))
+                    with self.budget.temporary_pointer(node.pointer, keyword) as p:
+                        for i, item in enumerate(value[keyword]):
+                            self.walk(self.add(node.document, self.budget.pointer(p, i), "Schema", item, node, edge))
             for keyword, edge in SINGLE_SCHEMA.items():
                 if keyword in value:
-                    self.walk(self.add(node.document, pointer_child(node.pointer, keyword), "Schema", value[keyword], node, edge))
+                    self.walk(self.add(node.document, self.budget.pointer(node.pointer, keyword), "Schema", value[keyword], node, edge))
             return
         if role == "Data":
             return  # Atomic borrowed data, including arbitrarily keyword-looking keys.
@@ -129,8 +138,6 @@ class Index:
             if role == "PathItem" and set(value) != {"$ref"}:
                 self.unsupported.append(node)
             return
-        if role not in {"Scopes", "SecurityRequirement"} and any(key.startswith("x-") for key in value):
-            self.unsupported.append(node)
         if role == "Document":
             self.mapping(node, "paths", "PathItem")
             self.child(node, "components", "Components")
@@ -147,7 +154,7 @@ class Index:
                     ("securitySchemes", "SecurityScheme"), ("pathItems", "PathItem")):
                 children = self.mapping(node, key, child_role)
                 if key == "examples":
-                    self.component_examples.extend(children)
+                    self.component_examples.extend(child.number for child in children)
             if "callbacks" in value or "links" in value:
                 self.unsupported.append(node)
         elif role == "PathItem":
@@ -167,7 +174,7 @@ class Index:
         elif role == "Responses":
             for key in sorted(value):
                 if not key.startswith("x-"):
-                    self.walk(self.add(node.document, pointer_child(node.pointer, key), "Response", value[key]))
+                    self.walk(self.add(node.document, self.budget.pointer(node.pointer, key), "Response", value[key]))
         elif role == "Response":
             self.mapping(node, "headers", "Header")
             self.mapping(node, "content", "MediaType")
@@ -178,9 +185,10 @@ class Index:
         elif role in {"Parameter", "Header", "MediaType"}:
             associated = self.child(node, "schema", "Schema")
             if "example" in value:
-                self.annotations.append((self.data(node, pointer_child(node.pointer, "example"), value["example"]), associated))
+                self.annotations.append((self.data(node, self.budget.pointer(node.pointer, "example"), value["example"]).number,
+                                         associated.number if associated is not None else None))
             for child in self.mapping(node, "examples", "Example"):
-                self.example_uses.append((child, associated))
+                self.example_uses.append((child.number, associated.number if associated is not None else None))
             if role == "MediaType":
                 self.mapping(node, "encoding", "Encoding")
             else:
@@ -189,7 +197,7 @@ class Index:
             self.mapping(node, "headers", "Header")
         elif role == "Example":
             if "value" in value:
-                self.example_values[node.identity] = self.data(node, pointer_child(node.pointer, "value"), value["value"])
+                self.example_values[node.identity] = self.data(node, self.budget.pointer(node.pointer, "value"), value["value"]).number
             if "externalValue" in value:
                 self.unsupported.append(node)
         elif role == "Info":
@@ -234,7 +242,7 @@ class Index:
                     refuse("unsupported_dialect")
                 node.dialect = value["$schema"]
             elif node.parent_schema is not None:
-                node.dialect = node.parent_schema.dialect
+                node.dialect = self.records[node.parent_schema].dialect
             if "$vocabulary" in value:
                 vocab = value["$vocabulary"]
                 known = {"https://json-schema.org/draft/2020-12/vocab/" + x for x in

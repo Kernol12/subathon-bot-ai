@@ -17,7 +17,7 @@ from referencing._core import Resolved
 from referencing.exceptions import NoSuchResource, Unresolvable
 from referencing.jsonschema import DRAFT202012
 
-from _schema_common import BASE, DRAFT, OAS, Refusal, pointer_child, pointer_ok, raw_pointer, refuse
+from _schema_common import BASE, DRAFT, OAS, Refusal, pointer_ok, refuse, utf8_size
 from _schema_index import REF_ROLES
 from _schema_installation import metadata_error, regular_bytes
 
@@ -30,16 +30,16 @@ class Backend:
     def __init__(self, index, sdk):
         self.index = index
         self.budget = index.budget
-        self.documents = {name: self.budget.key(BASE + name) for name in index.specs}
+        self.documents = {name: self.budget.prefixed(BASE, name) for name in index.specs}
         self.resources = {}
         self.anchors = {}
         self.targets = {}
-        self.by_object = {id(n.value): n for n in index.schemas if type(n.value) is dict}
-        self.oas_documents = {id(n.value): n for n in index.roots if n.role == "Document"}
+        self.by_object = {id(n.value): n.number for n in index.schemas if type(n.value) is dict}
+        self.oas_documents = {id(n.value): n.number for n in index.roots if n.role == "Document"}
         self.schema_roots = {}
         for node in index.schemas:
             if node.parent_schema is None and index.specs[node.document] == "openapi31":
-                self.schema_roots.setdefault(node.document, []).append(node)
+                self.schema_roots.setdefault(node.document, []).append(node.number)
         self.official = Registry(retrieve=deny).with_resources((uri, OFFICIAL[uri]) for uri in OFFICIAL).crawl()
         path = os.path.join(sdk, "openapi_spec_validator/resources/schemas/v3.1/schema.json")
         try:
@@ -65,7 +65,7 @@ class Backend:
         instances = self.inventory(bindings, values, aliases)
         self.semantics()
         for value, schema in instances:
-            self.instance(schema, value, "invalid_instance")
+            self.instance(self.index.records[schema], value, "invalid_instance")
 
     def structural(self):
         try:
@@ -83,12 +83,12 @@ class Backend:
         if not uri.startswith(BASE) or urldefrag(uri)[1]:
             refuse("unresolved_reference")
         previous = self.resources.get(uri)
-        if previous is not None and previous.identity != node.identity:
+        if previous is not None and previous != node.number:
             refuse("unresolved_reference")
         if previous is None:
             if len(self.resources) >= 256:
                 refuse("resource_limit")
-            self.resources[self.budget.key(uri)] = node
+            self.resources[uri] = node.number  # Borrow the single admitted URI owner.
 
     def registry_and_scopes(self):
         # Scope traversal follows actual indexed schema ancestry and native IDs.
@@ -96,32 +96,40 @@ class Backend:
         for root in self.index.roots:
             self.add_resource(self.documents[root.document], root)
         for node in self.index.schemas:
-            parent = node.parent_schema
+            parent = self.index.records[node.parent_schema] if node.parent_schema is not None else None
             base = parent.uri if parent is not None else self.documents[node.document]
             resource = DRAFT202012.create_resource(node.value)
             identifier = resource.id()
             if identifier is not None:
                 self.budget.key(identifier)
-            scope = empty.resolver(base_uri=base).in_subresource(resource)
-            # SchemaAccessor's public property exposes the SDK-computed base.
-            node.uri = self.budget.key(SchemaAccessor(node.value, scope, resolved_cache_maxsize=0).base_uri)
+                with self.budget.uri_workspace(base, identifier) as retain:
+                    scope = empty.resolver(base_uri=base).in_subresource(resource)
+                    # Workspace was reserved BEFORE native URI joining; transfer
+                    # only the actual canonical spelling to its retained owner.
+                    node.uri = retain(SchemaAccessor(node.value, scope, resolved_cache_maxsize=0).base_uri)
+            else:
+                # Native no-id traversal keeps the existing URI spelling. There
+                # is no new materialized alias: borrow the established owner.
+                scope = empty.resolver(base_uri=base).in_subresource(resource)
+                node.uri = base
             if identifier is not None:
                 # A root's retrieval URI and its canonical ID may both name it.
                 self.add_resource(node.uri, node)
             for anchor in resource.anchors():
-                key = node.uri, anchor.name
                 self.budget.key(anchor.name)
+                key = node.uri, anchor.name
                 if key in self.anchors:
                     refuse("unresolved_reference")
-                self.anchors[key] = node
+                self.anchors[key] = node.number
 
         def id_of(value):
             return DRAFT202012.id_of(value) if type(value) is bool or id(value) in self.by_object else None
 
         def subresources(value):
-            root = self.oas_documents.get(id(value))
-            if root is not None:
-                return (n.value for n in self.schema_roots.get(root.document, ()))
+            root_id = self.oas_documents.get(id(value))
+            if root_id is not None:
+                root = self.index.records[root_id]
+                return (self.index.records[n].value for n in self.schema_roots.get(root.document, ()))
             if type(value) is bool or id(value) in self.by_object:
                 return DRAFT202012.subresources_of(value)
             return ()
@@ -135,13 +143,14 @@ class Backend:
             def matches(candidate):
                 parts = self.parts(candidate.pointer)
                 return len(parts) == len(segments) and all(a == str(b) for a, b in zip(parts, segments))
-            node = self.by_object.get(id(value)) if type(value) is dict else None
+            number = self.by_object.get(id(value)) if type(value) is dict else None
+            node = self.index.records[number] if number is not None else None
             if node is None and type(value) is bool:
                 # Boolean identities are shared; the exact known transition path
                 # disambiguates them, never id(True) as a physical identity.
                 for candidates in self.schema_roots.values():
-                    node = next((n for n in candidates if n.value is value
-                                 and matches(n)), None)
+                    node = next((self.index.records[n] for n in candidates
+                                 if self.index.records[n].value is value and matches(self.index.records[n])), None)
                     if node is not None:
                         break
             if (node is not None and node.parent_schema is None
@@ -176,51 +185,62 @@ class Backend:
         # Native lookup owns URI/resource/pointer/anchor semantics. Physical
         # metadata below verifies the required target role, not assertion truth.
         try:
-            resolved = resolver.lookup(reference)
-            absolute = urljoin(base, reference)
-            self.budget.key(absolute)
-            uri, fragment = urldefrag(absolute)
-            resource = self.resources.get(uri)
-            if resource is None:
-                refuse("unresolved_reference")
-            if fragment.startswith("/"):
-                pointer = unquote(fragment, encoding="utf-8", errors="strict")
-                if not pointer_ok(pointer):
+            with self.budget.uri_workspace(base, reference):
+                absolute = urljoin(base, reference)
+                if utf8_size(absolute) > 4096:
+                    refuse("resource_limit")
+                # Both join workspace and the maximum result were admitted
+                # BEFORE any native lookup; no URI alias survives this block.
+                resolved = resolver.lookup(absolute)
+                uri, fragment = urldefrag(absolute)
+                number = self.resources.get(uri)
+                if number is None:
                     refuse("unresolved_reference")
-                value = resource.value
-                physical = resource.pointer
-                for part in self.parts(pointer):
-                    if type(value) is dict and part in value:
-                        value = value[part]
-                    elif (type(value) is list and part.isascii() and part.isdigit()
-                          and (part == "0" or not part.startswith("0")) and len(part) < 8 and int(part) < len(value)):
-                        part = int(part)
-                        value = value[part]
-                    else:
+                resource = self.index.records[number]
+                if fragment.startswith("/"):
+                    pointer = unquote(fragment, encoding="utf-8", errors="strict")
+                    if not pointer_ok(pointer):
                         refuse("unresolved_reference")
-                    physical = pointer_child(physical, part)
-                target = self.index.nodes.get((resource.document, physical, node.role))
-            elif fragment:
-                target = self.anchors.get((uri, fragment))
-            else:
-                target = resource if resource.role == node.role else None
-            if target is None or target.role != node.role or target.value is not resolved.contents:
-                refuse("unresolved_reference")
-            return target
+                    value = resource.value
+                    physical, held = resource.pointer, 0
+                    try:
+                        for part in self.parts(pointer):
+                            if type(value) is dict and part in value:
+                                value = value[part]
+                            elif (type(value) is list and part.isascii() and part.isdigit()
+                                  and (part == "0" or not part.startswith("0")) and len(part) < 8 and int(part) < len(value)):
+                                part = int(part)
+                                value = value[part]
+                            else:
+                                refuse("unresolved_reference")
+                            physical = self.budget.pointer(physical, part)
+                            self.budget.key_bytes -= held
+                            held = utf8_size(physical)
+                        target = self.index.nodes.get((resource.document, physical, node.role))
+                    finally:
+                        self.budget.key_bytes -= held
+                elif fragment:
+                    anchor = self.anchors.get((uri, fragment))
+                    target = self.index.records[anchor] if anchor is not None else None
+                else:
+                    target = resource if resource.role == node.role else None
+                if target is None or target.role != node.role or target.value is not resolved.contents:
+                    refuse("unresolved_reference")
+                return target
         except (Unresolvable, KeyError, IndexError, TypeError, ValueError, UnicodeError):
             refuse("unresolved_reference")
 
     def closure(self):
         for node in sorted(self.index.references, key=lambda n: (self.index.order[n.document], n.pointer)):
-            self.targets[node.identity] = self.locate(node, node.value["$ref"])
+            self.targets[node.identity] = self.locate(node, node.value["$ref"]).number
 
     def cycles(self):
         outgoing = {node.identity: [] for node in self.index.schemas}
         for parent, child, kind in self.index.applications:
             if kind == "same":
-                outgoing[parent.identity].append(child.identity)
+                outgoing[parent].append(child)
         for source, target in self.targets.items():
-            outgoing.setdefault(source, []).append(target.identity)
+            outgoing.setdefault(source, []).append(target)
         colors = {}
         for start in outgoing:
             if colors.get(start):
@@ -242,38 +262,47 @@ class Backend:
     def alias(self, node):
         # Complete closure/cycle partition is already finished; no recursion or IO.
         while node.identity in self.targets:
-            node = self.targets[node.identity]
+            node = self.index.records[self.targets[node.identity]]
         return node
 
     def inventory(self, bindings, values, aliases):
+        with self.budget.lease() as working:
+            return self._inventory(bindings, values, aliases, working)
+
+    def _inventory(self, bindings, values, aliases, working):
         required, free, forced = set(), set(), set()
         def require(value, schema):
-            pair = value.identity, schema.identity
+            pair = value, schema
             if pair not in required:
                 if len(required) >= 256:
                     refuse("resource_limit")
                 required.add(pair)
-            forced.add(value.identity)
+            forced.add(value)
         for value, schema in self.index.annotations:
             require(value, schema)
         for example, schema in self.index.example_uses:
-            value = self.index.example_values.get(self.alias(example).identity)
+            value = self.index.example_values.get(self.alias(self.index.records[example]).identity)
             if value is not None:
                 require(value, schema)
         for example in self.index.component_examples:
-            value = self.index.example_values.get(self.alias(example).identity)
-            if value is not None and value.identity not in forced:
-                free.add(value.identity)
+            value = self.index.example_values.get(self.alias(self.index.records[example]).identity)
+            if value is not None and value not in forced:
+                free.add(value)
         if len(required) + len(free) > 256:
             refuse("resource_limit")
         actual, used_free, instances = set(), set(), []
+        external_ids = {}
+        for name in values:
+            if name not in self.index.specs:
+                working.claim(name)
+                external_ids[name] = -(len(external_ids) + 1)
         for binding in bindings:
             target = self.index.nodes.get((binding["schema_document"], binding["schema_pointer"], "Schema"))
             if target is None:
                 refuse("invalid_inventory")
             source = binding["path"]
             if type(source) is str:
-                identity = (aliases[source], "", "External")
+                identity = external_ids[aliases[source]]
                 value = values[source]
             else:
                 data = self.index.nodes.get((source["document"], source["pointer"], "Data"))
@@ -289,7 +318,7 @@ class Backend:
             if pair in actual:
                 refuse("invalid_inventory")
             actual.add(pair)
-            instances.append((value, target))
+            instances.append((value, target.number))
         if not required.issubset(actual) or used_free != free:
             refuse("invalid_inventory")
         return instances
@@ -312,23 +341,34 @@ class Backend:
                 value = backend.index.values[document]
                 scope = backend.registry.resolver(base_uri=backend.documents[document])
                 data = False
-                for position in range(len(parts) + 1):
-                    candidates = (backend.index.nodes.get((document, pointer, role)) for role in REF_ROLES | {"Schema"})
-                    node = next((n for n in candidates if n is not None), None)
-                    if node is not None:
-                        node = backend.alias(node)
-                        document, pointer, value = node.document, node.pointer, node.value
-                        if node.role == "Schema":
-                            scope = node.scope
-                        else:
-                            scope = backend.registry.resolver(base_uri=backend.documents[document])
-                    data = data or (document, pointer, "Data") in backend.index.nodes
-                    if position == len(parts):
-                        return Resolved(contents=value, resolver=scope), data
-                    part = parts[position]
-                    value = value[part]
-                    pointer = pointer_child(pointer, part)
-                raise AssertionError("finite path")
+                held = 0
+                try:
+                    for position in range(len(parts) + 1):
+                        candidates = (backend.index.nodes.get((document, pointer, role)) for role in REF_ROLES | {"Schema"})
+                        node = next((n for n in candidates if n is not None), None)
+                        if node is not None:
+                            # OAS Reference Objects are aliases. A Schema $ref is
+                            # an assertion alongside every unchanged raw sibling.
+                            if node.role in REF_ROLES:
+                                node = backend.alias(node)
+                            document, pointer, value = node.document, node.pointer, node.value
+                            backend.budget.key_bytes -= held
+                            held = 0  # Borrow the physical key's single owner.
+                            if node.role == "Schema":
+                                scope = node.scope
+                            else:
+                                scope = backend.registry.resolver(base_uri=backend.documents[document])
+                        data = data or (document, pointer, "Data") in backend.index.nodes
+                        if position == len(parts):
+                            return Resolved(contents=value, resolver=scope), data
+                        part = parts[position]
+                        value = value[part]
+                        pointer = backend.budget.pointer(pointer, part)
+                        backend.budget.key_bytes -= held
+                        held = utf8_size(pointer)
+                    raise AssertionError("finite path")
+                finally:
+                    backend.budget.key_bytes -= held
 
             def get_resolved(self, parts):
                 return self.context(parts)[0]
@@ -353,6 +393,6 @@ class Backend:
                 if kind == "openapi31":
                     OfflineOpenAPI(self.path_cursor(name)).validate()
             for value, schema in self.index.defaults:
-                self.instance(schema, value.value, "invalid_schema")
+                self.instance(self.index.records[schema], self.index.records[value].value, "invalid_schema")
         except (SchemaError, ValidationError):
             refuse("invalid_schema")

@@ -7,6 +7,7 @@ import re
 import stat
 from contextlib import ExitStack
 from fractions import Fraction
+from itertools import chain
 
 from _schema_common import Refusal, refuse, pointer_ok, scalar_string, utf8_size
 
@@ -183,7 +184,9 @@ def preflight(raw):
             i += 1
             while i < len(raw):
                 if raw[i] == 92:
-                    i += 2
+                    # An absent escaped byte is a grammar error, not an extra
+                    # raw byte. Count only actual bytes before strict decoding.
+                    i += 2 if i + 1 < len(raw) else 1
                 elif raw[i] == 34:
                     i += 1
                     break
@@ -200,6 +203,10 @@ def preflight(raw):
             if i == start:
                 i += 1
             if c in b"-0123456789":
+                # Admit the span BEFORE copying/decoding it; a malformed numeric
+                # token may occupy the complete file. Grammar remains json.loads.
+                if i - start > 512:
+                    refuse("resource_limit")
                 numeric_limits(raw[start:i].decode("ascii", "ignore"))
     return text
 
@@ -265,7 +272,15 @@ def decode(raw):
     return holder[0]
 
 
-def manifest_shape(value):
+def manifest_shape(value, budget, package_keys):
+    with budget.lease() as temporary:
+        documents, bindings, external = _manifest_shape(value, temporary)
+        # The returned external-order list remains live through actual reads.
+        temporary.transfer(package_keys, sum(utf8_size(name) for name in external))
+        return documents, bindings, external
+
+
+def _manifest_shape(value, keys):
     if type(value) is not dict or set(value) != {"profile", "documents", "examples"} or value["profile"] != "subathon.schema-package.v1":
         refuse("invalid_manifest")
     docs, bindings = value["documents"], value["examples"]
@@ -281,6 +296,7 @@ def manifest_shape(value):
         name = relative_path(doc["path"])
         if name in names:
             refuse("invalid_manifest")
+        keys.claim(name)
         names.add(name)
         oas += doc["kind"] == "openapi31"
     if oas > 1:
@@ -298,40 +314,47 @@ def manifest_shape(value):
             relative_path(source)
             if source in names:
                 refuse("invalid_manifest")
-            source_key = ("external", source)
             if source not in external:
+                keys.claim(source)
                 external.append(source)
+            keys.claim("external", source, target, binding["schema_pointer"])
+            identity = ("external", source, target, binding["schema_pointer"])
         elif type(source) is dict and set(source) == {"document", "pointer"}:
             relative_path(source["document"])
             if source["document"] not in names or not pointer_ok(source["pointer"]):
                 refuse("invalid_manifest")
-            source_key = ("inline", source["document"], source["pointer"])
+            keys.claim("inline", source["document"], source["pointer"], target, binding["schema_pointer"])
+            identity = ("inline", source["document"], source["pointer"], target, binding["schema_pointer"])
         else:
             refuse("invalid_manifest")
-        identity = source_key + (target, binding["schema_pointer"])
         if identity in identities:
             refuse("invalid_manifest")
         identities.add(identity)
     return docs, bindings, external
 
 
-def load_package(path):
-    with Files() as files:
+def load_package(path, budget):
+    with budget.lease() as working, Files() as files:
         manifest_raw = files.manifest(path)
         manifest = decode(manifest_raw)
-        documents, bindings, external = manifest_shape(manifest)
-        specs = {d["path"]: d["kind"] for d in documents}
+        documents, bindings, external = manifest_shape(manifest, budget, working)
+        specs = {}
+        for document in documents:
+            budget.key(document["path"])
+            specs[document["path"]] = document["kind"]
         handles = []
         seen = {files.manifest_identity: (None, None)}
         aliases = {}
         projected = len(manifest_raw)
-        for name in list(specs) + external:
+        for name in chain(specs, external):
             fd, info = files.member(name)
             identity = info.st_dev, info.st_ino
             if identity in seen:
                 previous, _ = seen[identity]
                 if name in specs or previous in specs or previous is None:
                     refuse("invalid_manifest")
+                budget.key(name)
+                budget.key(previous)
                 aliases[name] = previous
                 continue
             if info.st_size > 1048576:
@@ -339,14 +362,22 @@ def load_package(path):
             projected += info.st_size
             if projected > 8388608:
                 refuse("resource_limit")
+            working.claim(name)
             seen[identity] = (name, fd)
+            budget.key(name)
+            budget.key(name)
             aliases[name] = name
+            working.claim(name)
             handles.append((name, fd, info))
-        raw, values = {}, {}
+        raw, values = {None: manifest_raw}, {}
         for name, fd, info in handles:
+            budget.key(name)
             raw[name] = files.read(fd, info, 1048576)
+            budget.key(name)
             values[name] = decode(raw[name])
         for alias, actual in aliases.items():
-            values[alias] = values[actual]
+            if alias not in values:
+                budget.key(alias)
+                values[alias] = values[actual]
         files.stable()
         return manifest, specs, bindings, raw, values, aliases

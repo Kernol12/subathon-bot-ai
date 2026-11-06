@@ -117,3 +117,58 @@ regression; actual full64 public acceptance passing on the matching integrated
 source; unconditional selected hosted3.10/3.12 lanes and latest-head PR merge
 gates. No schemas/CONTRACT013 producer/runtime/provider/live/release capability is
 claimed by this worker artifact or these local checks.
+
+## Actual source-review corrections after9f88767
+
+Root's actual backend/index audit found a raw-Schema alias bug and two OAS extension
+gate omissions. The separately authored/reviewed/observed reached-bug regression
+and exact receipts are in `schematool-001-worker-context-regression-author.md`.
+Its7 unchanged genuine-worker observations passed after the corresponding fixes.
+These additions do not alter the original64 source or rewrite a contract oracle.
+
+The same actual audit found incomplete retained graph-key ownership. Node identity
+is now a bounded integer record ID. Edges, visits, parent links, default/example
+associations and inventory pairs carry IDs; a single physical-key table owns
+document/pointer/discriminator spellings. Resource and anchor tables borrow those
+admitted URI owners and carry record IDs. Source binding/duplicate-check aliases,
+file alias maps and snapshots share ONE Budget constructed before package loading,
+instead of escaping accounting before Index construction. Explicit temporary key
+leases transfer ownership across package-shape/load scopes without a free gap.
+
+Pointer sizes/aggregate capacity are reserved BEFORE escaping/joining. Temporary
+prefixes and cursor/closure pointers release their admitted working ownership;
+retained physical pointers stay owned until worker exit. URI operations reserve
+a bounded base+reference workspace BEFORE native joining/lookup; retained canonical
+URI ownership is transferred from that reservation, while closure aliases release
+at scope end. Actual4096 URI limits and1MiB aggregate remain unchanged; no URI
+resolution/assertion engine was substituted for real stdlib/SDK resolution.
+Numeric lexical preflight checks the byte span BEFORE slicing/decoding a candidate
+numeric token; the existing reviewed numeric baseline already covers the resource
+rule. The independently identified final-backslash scanner defect was kept
+unchanged until its separately assigned reviewed/reached-red regression below.
+
+After these corrections the SAME author-local6+23+35 controlled worker observations
+passed again, and all6 worker modules passed Python3.10 AST/compile-only admission.
+These are source-matching partial author checks, not the original public64 suite.
+Current package raw snapshots also retain the manifest bytes under a non-URI
+sentinel key, rather than discard that admitted snapshot after parsing.
+
+Root independently approved C's additional lexical regression91ce5da/blobfc826843
+in72143f4, then observed ONLY that new module against unchanged scannera2507d2 and
+real parent1579604. FIRST2026-11-06T12:23:29.107270Z, nativeexit1,3 tests/.128s,
+controls65535/65537 PASS, only65536 returned resource_limit instead of invalid_json;
+0 errors/stdoutempty. Root preserves the receipt under
+`schematool-001-worker-lexical-first-red.*`; stderr1612bytes SHA256
+`71476f2d3f6782fda1c2e6368b49971d2756d28c8810d91c7976df1b7bfe20a7`.
+This author inspected the exact approved source/review and root-reported native
+attribution before fixing the byte counter, then inspected/hash-verified the full
+preserved receipt. A final backslash now advances only through actual input
+bytes. It cannot invent an extra byte and preempt the strict grammar refusal.
+The separate513-byte numeric span check remains before token copying/decoding.
+
+Three author-local actual private-worker controls65535/65536→invalid_json and
+65537→resource_limit PASS after that fix. The unchanged new context regression
+again PASS3/7 in1.401s. C's PUBLIC lexical module was not run in this worker-only
+tree because the public source here remains the frozen inert interface; root must
+run that actual unchanged new module with the integrated parent/corrected worker.
+No parent source was copied/changed by this author and no original64 was replayed.

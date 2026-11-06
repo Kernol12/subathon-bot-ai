@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Private fixed budgets and constant refusals; no standards validation engine."""
 from dataclasses import dataclass
+from contextlib import contextmanager
 
 
 DRAFT = "https://json-schema.org/draft/2020-12/schema"
@@ -35,10 +36,13 @@ def scalar_string(value):
     return type(value) is str and not any(0xD800 <= ord(c) <= 0xDFFF for c in value)
 
 
-def pointer_child(pointer, key):
+def pointer_child(pointer, key, budget=None):
     raw = str(key)
-    if utf8_size(pointer) + 1 + utf8_size(raw) + raw.count("~") + raw.count("/") > 4096:
+    size = utf8_size(pointer) + 1 + utf8_size(raw) + raw.count("~") + raw.count("/")
+    if size > 4096:
         refuse("resource_limit")
+    if budget is not None:
+        budget.reserve(size)
     segment = raw.replace("~", "~0").replace("/", "~1")
     return pointer + "/" + segment
 
@@ -82,12 +86,50 @@ class Budget:
     def __init__(self):
         self.key_bytes = 0
 
-    def key(self, value):
-        size = utf8_size(value)
-        if size > 4096 or self.key_bytes + size > 1048576:
+    def reserve(self, size, *, single=True):
+        if size < 0 or (single and size > 4096) or self.key_bytes + size > 1048576:
             refuse("resource_limit")
         self.key_bytes += size
+
+    def key(self, value):
+        self.reserve(utf8_size(value))
         return value
+
+    def lease(self):
+        return KeyLease(self)
+
+    def pointer(self, parent, key):
+        return pointer_child(parent, key, self)
+
+    def prefixed(self, prefix, suffix):
+        self.reserve(utf8_size(prefix) + utf8_size(suffix))
+        return prefix + suffix
+
+    @contextmanager
+    def temporary_pointer(self, parent, key):
+        value = self.pointer(parent, key)
+        try:
+            yield value
+        finally:
+            self.key_bytes -= utf8_size(value)
+
+    @contextmanager
+    def uri_workspace(self, base, reference):
+        # A checked upper bound covers URI joining BEFORE the library constructs
+        # an alias. This is temporary working ownership, not a larger URI limit.
+        upper = utf8_size(base) + utf8_size(reference) + 1
+        self.reserve(upper, single=False)
+        retained = [0]
+        def retain(value):
+            size = utf8_size(value)
+            if size > 4096 or size > upper or retained[0]:
+                refuse("resource_limit")
+            retained[0] = size
+            return value
+        try:
+            yield retain
+        finally:
+            self.key_bytes -= upper - retained[0]
 
     def control(self, document_uri, pointer):
         # quote(safe='/~') preserves only unreserved bytes and slash. Reserve the
@@ -103,13 +145,38 @@ class Budget:
         return document_uri + "#" + quote(pointer, safe="/~")
 
 
+class KeyLease:
+    """Explicit temporary key ownership, transferable without a free alias gap."""
+    def __init__(self, budget):
+        self.budget, self.bytes = budget, 0
+
+    def __enter__(self):
+        return self
+
+    def claim(self, *values):
+        for value in values:
+            self.budget.key(value)
+            self.bytes += utf8_size(value)
+
+    def transfer(self, other, size):
+        if other.budget is not self.budget or not 0 <= size <= self.bytes:
+            raise AssertionError("key ownership")
+        self.bytes -= size
+        other.bytes += size
+
+    def __exit__(self, *_args):
+        self.budget.key_bytes -= self.bytes
+        self.bytes = 0
+
+
 @dataclass
 class Node:
     document: str
     pointer: str
     role: str
     value: object
-    parent_schema: object = None
+    number: int
+    parent_schema: int | None = None
     edge: str = "inventory"
     dialect: str = DRAFT
     scope: object = None
@@ -117,4 +184,4 @@ class Node:
 
     @property
     def identity(self):
-        return self.document, self.pointer, self.role
+        return self.number
