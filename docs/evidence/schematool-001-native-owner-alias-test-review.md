@@ -61,3 +61,56 @@ AST3.10/compile-without-execution, project426/122/render/diff PASS. No test/chec
 import or execution, compiler, ELF load, SDK, worker, thread, child or probe ran.
 Actual reached red, separate parser source review and current matching local/
 hosted proofs remain required; only PR77 is in scope, then stop.
+
+## Actual reached alias red and bounded parser correction
+
+Reviewer C independently reviewed root's actual `82daabb`, auditor blob
+`70b1b20cee33f48791e6500dda311f104e5f772e`, full selected-red raw/receipt and
+written reason. At clean5ab9304db4ba55ec9cc8d9b2c4402302df245038,
+UTC22:46:44.224802, ONLY the new method runs/.008s/exit1/stdout0. Full3569-byte
+stderr SHA256 `2c0ac96d3e36d350ced0aad42146dff7e2b64cb69a90fa483898f11e561f7c6a`
+matches receipt. Exactly TWO positive subtest errors reach the actual parser's
+missing `_ZN1AC1Ev` and `_ZN1AD1Ev` RuntimeErrors; imports/fixtures succeed.
+The20 refusal contexts complete without failure; on the old parser they can
+reject before their deeper proof conditions, so those deeper checks still need
+the corrected full run. No native feature red or artifact execution is claimed.
+
+**APPROVED SOURCE.** The new pure helper defers only an _ZN name containing
+exactly one C1E/D1E token to its present C2E/D2E counterpart with a real frame
+and no alias shape. Original nodes and raw edges remain intact. Parse validation
+requires every missing endpoint to qualify, and EVERY edge whose source is
+missing must target that source's exact counterpart. Thus other alias outgoing
+edges and arbitrary missing callers cannot pass. An ordinary missing name,
+absent/unframed counterpart, non-ABI prefix or ambiguous tokens still refuses.
+
+After all actual local records have been CI/SU/source validated, compiler_graph
+requires each deferred alias's counterpart in the real definitions and BOTH
+symbols in the actual ELF map at the SAME address. No node, unknown frame or
+zero frame is synthesized. Duplicate implicit mappings must agree. Frames remain
+created only from original real definitions, with old same-address/source/frame
+conflict checks intact. The old explicit triangle proof is preserved.
+
+Only the proved compiler identity bridge can canonicalize at one address. Actual
+binary recursive CALL edges are independently collected by unchanged
+_audit_artifact, unioned with compiler edges and checked by unchanged stack_bound;
+they are not removed by this metadata alias rule and still fail cycle detection.
+All other executable/closure/unknown-frame/stack-limit/transfer/TLS/child/clone
+and source-integrity gates remain. This is not a generic missing-node allowance,
+a full ABI parser, or actual hosted same-address proof by inference.
+
+I independently compared complete AST definitions: only parse_ci and
+compiler_graph change, with one new helper; every other function is exact.
+The entire seven-control source is byte-identical. No native code, ABI, compiler
+flag, build/CI command, dependency or feature assertion changes.
+
+Root may run the SAME new named method, then all seven controls; only if all
+pass, both reviewed combined local static gates against matching current outputs.
+On passing those and applicable repository checks, ordinary draft publication is
+cleared for fresh both-host CI. No local feature baseline needs replay for this
+metadata-only change. Actual latest hosted alias/frame/binary proof, strict
+bootstrap/full56/full66 and SDK14 remain required before normal merge77/stop.
+Any refusal stops dependent native execution; no past local or SDK pass replaces
+that gate. Actual checks performed: full source/control-flow and red/hash/cause
+analysis, AST3.10/definition-only compile, unchanged-control/other-definition
+proof, project426/122/render/diff PASS. No candidate/test/checker/SDK/compiler,
+ELF load/native call, thread, child or probe executed by this reviewer.
