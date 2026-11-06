@@ -5,8 +5,8 @@
 [PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76), DRAFT/UNMERGED.
 [Implementation brief](../tasks/SCHEMATOOL-001.md),[checkpoint](coordinator-handoff.md).
 Statusdone is reviewed+observed-red TEST BASELINE quality only, not main integration
-or passing/implemented features. Current revised completion metadata awaits different
-actual review/latest-head CI/normal merge. SCHEMATOOL remainsplanned/Unassigned;
+or passing/implemented features. Current revised completion metadata98bf is independently approved A0d25a7f;
+publication/latest-head CI/normal merge still remain. SCHEMATOOL remainsplanned/Unassigned;
 no production before the revised baseline reachesmain.
 
 ## Exact actual source and independent gates
@@ -24,7 +24,7 @@ no production before the revised baseline reachesmain.
 | Current definition-only harness/workflow |032b141 /842790e |A4347 core+087 one-name delta |
 | Original63 hosted/native |bd/42198344569 +FIRST63 |C8db /Cc152 |
 | Revised64 hosted +NEW-only native |3d0/42206001771 +selected1 |C40c9 /Cc66b0cf |
-| Original63 completion metadata |75082ae |A0d86088; revised64 review pending |
+| Original63/revised64 completion metadata |75082ae /98bf031 |A0d86088 /A0d25a7f |
 
 B authored all test literals; A/C source scopes are different actual reviewers.
 All original63 ASTs/helpers/classes/ledger/module statements are EXACT after removal
@@ -64,7 +64,7 @@ Combined64 proof is ORIGINAL63 plus NEW1, never a claimed single full64 pass/run
 
 ## Remaining merge and implementation gates
 
-A different actual revised completion metadata review is next, then publication,
+Actual revised completion metadata is approved A0d25a7f. Next publication,
 ALL19 latest-head checks/currentrules/reviews/threads/CLEAN and normal headmatched
 merge. Protection has no enforced required statuses; written manual gates remain.
 Root owns shared state/HTML/pins/notices/CI/publication, no source writer may overwrite.

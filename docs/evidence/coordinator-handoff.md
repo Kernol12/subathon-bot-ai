@@ -61,22 +61,21 @@ rawobservations/5script extras are authoredfutureassertions, not runtimecounts.
 
 ## Current task and next action
 
-Revised64 baseline quality nowdone on TASKBRANCH. Root has prepared concrete revised
-state/HTML/handoff/checkpoint completion candidate; next A actualmetadatareview onNEW
-isolatedbranch, own ONLY setup-refusal-completion-review.md. Verify against main
-entire426/1629/all425othertasks/scope preservation, source/rootblobs, all63+new1proof,
-no stale current future/run claims; old750/A0d review preserved. A/B/C currentlyidle
-following reviews; inspect list and use followup_task (send_message alone won'tstart).
-No replay/importtest/SDK/clone/worker needed for metadata.
+Revised64 baseline quality AND actual completion metadata are approved onTASKBRANCH.
+A0d25a7f approves exact98bf:426/1629/other425tasks+scopes preserved,HTML79/345/2,
+current8blobs/old63AST/original4rawfiles exact; no replay. Rootrecordedthis gate only.
+A/B/C are completed/idle; inspect actual agentlist and followup_task for next tasks.
 
-After actual A verdict, importnote/recordgate/publishfinalmetadata, observe ALL19
-latestheadchecks. Ready/requeryactualhead/rules/reviews/threads/CLEAN and normal
-headmatchedmerge, neverbypass. No futuremerge preapproval. Then fetch CURRENT main,
-create dedicated implementationbranch/claim beforeediting; continue standingloop.
-B read-only prep recommends TWO owners aftermerge: parent tools/schema_validate.py;
-worker subsystem under tools/schema_validation excludingroot-ownedlock/wheels/CI.
-Crossboundaryargv/twoFD/protocol/deadline frozen; no new publicknob/standardsengine.
-Root owns finalunconditionalALL64 acceptance promotion afterrealpassingimplementation.
+NEXT publish finalreviewed metadata/receipts/notes, observe ALL19 latestheadchecks.
+Ready/requeryactualhead/rules/reviews/threads/CLEAN and normal headmatchedmerge;
+neverbypass. No futuremerge preapproval; PR76 remainsUNMERGED at this snapshot.
+Then fetch CURRENT main/create dedicated implementationbranch/claim beforeediting,
+continue standingloop. B readonlyprep recommends TWO owners aftermerge: parent
+ tools/schema_validate.py; worker subsystem tools/schema_validation excludingroot-
+ownedlock/wheels/CI. Crossboundaryargv/twoFD/protocol/deadline frozen, no new public
+knob/standardsengine. Rootowns eventualunconditionalALL64 acceptance promotion after
+realpassingimplementation/sourceaudit. Do NOT replay any completed original/additive
+red or relabel green definition discovery as feature passing.
 
 Actual privatechild ABI/RLIMIT/no-site/readrace/offline/allocation enforcement and
 featureassertions beyondmarkers remain implementation acceptance/sourceaudit work.

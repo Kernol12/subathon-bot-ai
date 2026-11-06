@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T11:10:21+00:00",
+  "updated_at": "2026-11-06T11:15:57+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13809,7 +13809,8 @@
         "BASELINE QUALITY COMPLETE on TASK BRANCH after actual independent native attributionc152/importb690: FIRSTcleanbd63cases/261exactmarkers (243validate37/18main42),all63names/0othercause,actualCI8db/all19beforeFIRST,rawbytespreserved/noreplay. Final source/harness/contract/dependency/environment/testreview gates recorded per artifact. Statusdone applies ONLY reviewed+observed-red baseline, not passing feature/implemented worker/product. PR76 remains unmerged/draft; root completion metadata is a concrete candidate pending different A review and latest-head all19/normalmerge gates. Do not start SCHEMATOOL until baseline integrates onmain; it staysplanned/Unassigned, full privateworker/application/release gates retained.",
         "Original63 baseline QUALITY/metadataver750 independently approved0d86088; preserved as complete historicalstage, PR76 stillunmerged. Beforemerge, read-only implementation readiness found actual contract conflict: controls-not-established requiresenvironment_unavailable butA mayonlyfollow verifiedlimits, broadmissingA rule was ambiguous. Reopen baseline solely for privateprocess revision2 fail-only exception (exactemptyAEOF+exactenvline/outcomeEOF+normal3+parentreap; nofakeA/success; timeout/resourcepriorityunchanged), actualdocreview and ONE additive64th test/targetedmissing-markerred. NEVERreplay FIRST63/261 orweaken63oldassertions. Productionremainsplanned/Unassigned until fullrevisedbaselineintegrates; fullscope/426DAGunchanged.",
         "Addendum actualrevision2API973961c/processac256805 independently approved C05d/import278; B a670/source64f4911 ONE64th method/10literalrows, allold63AST/helpers/classes/moduleexact. A087/importe7 approvesactualsource+ONEname H032 inventory+NEW-onlyplan; wf842 unchanged. MatchingCP314green64 at e7c native0/0.071915s/20pairedidentities/64definitions/no case/feature/SDK/clone, rawreceiptpreserved. Publish/currentbothhost64CI/all19 thenONLY newselectedcase red+Cattribution remain. OriginalFIRST63/261/old750completionreview0d preserved, nofullreplay. Statusin_progress solelyaddendum; implementationplanned/unassigned untilrevisedbaselineonmain.",
-        "Revised64 BASELINE QUALITY COMPLETE on TASK BRANCH after actual new-only attributionCc66:1selectedtest/10exactmarkererrors/rawvalidate37/0othercause,original63FIRST4artifacts exact. ActualC40selectedCI before11:00:15newnative andimport972after, all19latest3d successbefore. Proof is ORIGINAL63+NEW1, not onefull64run and notpassingfeatureassertions. r2setupfail-onlyexception reviewedC05, newtest/inventoryA087; no63assertionweakened, nooriginalreplay, no production. Taskdonequalitycandidate/PR76unmerged; A revisedmetadata review +alllatest19/normalmerge remain. SCHEMATOOLplanned/Unassigned untilmainintegrates; futureimplementationmustpassALL64unconditionally +privatechildallocation/resource/ABI/no-site/readrace/offlinesourceaudit/fullreleasegates."
+        "Revised64 BASELINE QUALITY COMPLETE on TASK BRANCH after actual new-only attributionCc66:1selectedtest/10exactmarkererrors/rawvalidate37/0othercause,original63FIRST4artifacts exact. ActualC40selectedCI before11:00:15newnative andimport972after, all19latest3d successbefore. Proof is ORIGINAL63+NEW1, not onefull64run and notpassingfeatureassertions. r2setupfail-onlyexception reviewedC05, newtest/inventoryA087; no63assertionweakened, nooriginalreplay, no production. Taskdonequalitycandidate/PR76unmerged; A revisedmetadata review +alllatest19/normalmerge remain. SCHEMATOOLplanned/Unassigned untilmainintegrates; futureimplementationmustpassALL64unconditionally +privatechildallocation/resource/ABI/no-site/readrace/offlinesourceaudit/fullreleasegates.",
+        "Actual REVISED64 completion metadata98bf independently approved A0d25a7f: full426IDs/1629edges/other425records+scopes/reviews/globalfields retained,HTML79done345planned2ready,current8blobs/old63AST/original4FIRSTfiles exact,327/5authoredvs63+1observed truthful. No replay. Rootrecordsactualgate only; finalpublication/ALL19latest/currentrules/threads/ready/headmatchednormalmerge remain mandatory. PR76unmerged,SCHEMATOOLplanned/Unassigned untilmainintegration; no implemented/passingfeatureclaim."
       ],
       "verification": {
         "contract": "passed",
@@ -13829,7 +13830,7 @@
         "native_harness": "passed",
         "baseline_harness_ci": "passed",
         "red_attribution": "passed",
-        "completion_metadata_review": "partial",
+        "completion_metadata_review": "passed",
         "setup_refusal_contract": "passed",
         "setup_refusal_baseline": "observed_red",
         "setup_refusal_harness_native": "passed",
@@ -13897,7 +13898,8 @@
         "docs/evidence/schematest-001-setup-refusal-ci-review.md",
         "docs/evidence/schematest-001-setup-refusal-red-native.md",
         "docs/evidence/schematest-001-setup-refusal-red-review.md",
-        "docs/evidence/schematest-001-setup-refusal-first-red.receipt.json"
+        "docs/evidence/schematest-001-setup-refusal-first-red.receipt.json",
+        "docs/evidence/schematest-001-setup-refusal-completion-review.md"
       ],
       "review": {
         "author": "/root/session_supplier_author (wrapper tests); /root (inert interface, harness, receipts)",
