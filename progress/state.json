@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:23:25+00:00",
+  "updated_at": "2026-11-06T05:32:00+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3247,7 +3247,8 @@
       "notes": [
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim.",
-        "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved."
+        "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved.",
+        "Integrate normal PR72 merge0605948 (finalcae986c/all17SUCCESS/zero threads/currentrules/no bypass) while preserving actual milestone in_review row, source/config reviews and all old53 tests/source. Adopt supplier001done/transport002planned and additive423/1624graph; no sessiontask or release gate overwritten. Only sharedJSON/HTML/checkpoint conflicts reconciled. Selected milestone42168586251 at549SUCCESS/old37+unconditional53 observed; different receipt review and completion metadata still pending."
       ],
       "verification": {
         "acceptance": "passed",
@@ -4120,18 +4121,20 @@
         "SESSION-006",
         "SESSIONTEST-007",
         "SESSION-007",
-        "SESSIONCONTRACT-001"
+        "SESSIONCONTRACT-001",
+        "SESSIONCONTRACT-002"
       ],
       "spec_refs": [
         "§10",
         "§16"
       ],
       "brief": "docs/tasks/EPIC-007.md",
-      "summary": "8 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
+      "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
       "notes": [
         "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support.",
         "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope.",
-        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability."
+        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -4291,7 +4294,8 @@
       "depends_on": [
         "SESSION-001",
         "STORAGE-002",
-        "SESSIONCONTRACT-001"
+        "SESSIONCONTRACT-001",
+        "SESSIONCONTRACT-002"
       ],
       "spec_refs": [
         "§10",
@@ -4302,7 +4306,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SESSION-002.",
       "notes": [
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability."
+        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -4343,7 +4348,8 @@
       "owner": "Unassigned",
       "depends_on": [
         "SESSION-002",
-        "SESSIONCONTRACT-001"
+        "SESSIONCONTRACT-001",
+        "SESSIONCONTRACT-002"
       ],
       "spec_refs": [
         "§10",
@@ -4353,7 +4359,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SESSION-003.",
       "notes": [
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability."
+        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -13045,7 +13052,8 @@
       "depends_on": [
         "CONTRACTPLAN-003",
         "CONTRACT-005",
-        "SESSIONCONTRACT-001"
+        "SESSIONCONTRACT-001",
+        "SESSIONCONTRACT-002"
       ],
       "spec_refs": [
         "§17",
@@ -13064,7 +13072,8 @@
       "summary": "Finalize independently reviewed reference.v1 negotiation and authorized committed timer snapshot with complete OpenAPI 3.1 package, finite limits and no scene imports.",
       "notes": [
         "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
-        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability."
+        "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -13612,11 +13621,11 @@
     },
     {
       "id": "SESSIONCONTRACT-001",
-      "title": "Session resolution and credential transport contract",
+      "title": "Current-session supplier contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; session_supplier_author (document)",
       "depends_on": [
         "CONTRACTPLAN-004",
         "CONTRACT-005",
@@ -13634,10 +13643,61 @@
         "API-03"
       ],
       "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-001.md",
-      "summary": "Finalize independently reviewed current-session supplier API and exact browser/desktop credential transport before dependent baselines and reference HTTP schema.",
+      "summary": "Finalize the owned current-session supplier and token lifecycle document before the separate credential transport contract and dependent baselines.",
       "notes": [
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
-        "Document-only planned task, not an authored/reviewed contract or supported authentication capability. Component prerequisites do not prove current account/session producers. All later test-first/runtime/release gates remain."
+        "Document-only planned task, not an authored/reviewed contract or supported authentication capability. Component prerequisites do not prove current account/session producers. All later test-first/runtime/release gates remain.",
+        "Claim on dedicated current-main ba66804 branch. Document-only supplier and browser/desktop credential transport contract under specification v0.45 and task brief. Author owns new session contract/examples/author evidence only; root owns state/HTML/shared imports and integration. First inspect scope and actual producers; split before authoring if required for focused review. No production/schema/tests/runtime capability. Independent actual review and explicit literal examples remain required. Concurrent STORAGE018 PR70/localsource work remains active and must be preserved on integration.",
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
+        "Resume preserved SESSIONCONTRACT-001 claim and pre-content supplier/transport split after verifying PR70 merged e2cd5eb at 2026-11-06T01:07:24Z, all17 final checks SUCCESS, zero review threads; all existing worktrees clean, no previous agents/build commands active. Integrate latest main preserving completed STORAGE018 and all other task evidence. Fresh session_supplier_author owns only supplier document/author note; session_plan_review independently reviews actual eb98c18 split, separate actual contract review required before completion. Root owns state/HTML/shared files; no production or live actions authorized by this document task.",
+        "Complete bounded current-session supplier DOCUMENT after actual separate review of corrected c7e6e68/c5f5a6e, three literal hash vectors, exact byte/time audits and primary sources. Per-value/peak bounds and source-enum precision findings resolved before approval46f1ad2. Plan split423/1624 preserves all old scope/edges and completed STORAGE018. No header/schema/tests/red/runtime authentication supplied. Transport002 still planned and both documents required for CONTRACT013/SESSIONTEST002/003; publication/latestheadCI/currentrules/normalmerge remain before dependent authoring."
+      ],
+      "verification": {
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/sessioncontract-001-plan-review.md",
+        "docs/contracts/session-resolution-v1.md",
+        "docs/evidence/sessioncontract-001-author.md",
+        "docs/evidence/sessioncontract-001-review.md",
+        "docs/evidence/sessioncontract-001-handoff.md"
+      ],
+      "review": {
+        "author": "session_supplier_author",
+        "reviewer": "session_supplier_review",
+        "outcome": "approved",
+        "revision": "Actual corrected authorc7e6e68/import14228ec, documentblobc5f5a6e71664042e18475068d3caf577b0c8d009 independently approved46f1ad2/importfdab76b; separate plan8846a1c/importc3ee594. Document only; final metadata/latest-headCI/normalmerge remain.",
+        "evidence": "docs/evidence/sessioncontract-001-review.md"
+      }
+    },
+    {
+      "id": "SESSIONCONTRACT-002",
+      "title": "Browser and desktop credential transport contract",
+      "module": "Identity",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "SESSIONCONTRACT-001"
+      ],
+      "spec_refs": [
+        "§10",
+        "§17",
+        "§18",
+        "AUTH-05",
+        "AUTH-12",
+        "API-01",
+        "API-02",
+        "API-03"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-002.md",
+      "summary": "Finalize exact browser cookie/Origin/CSRF and desktop header semantics after the integrated current-session supplier, retaining both document gates before consumers.",
+      "notes": [
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
+        "Document planned only: no authored/reviewed contract, auth choice or supported transport capability."
       ],
       "verification": {},
       "evidence": [],
@@ -14836,6 +14896,26 @@
       "note": "Complete bounded STORAGE018 component after original31/51 plus seven separately reviewed/reached-red methods16scenarios (now38/67), accepted finalSQLsource90/ccdc and ordinaryCIb4 source/configreview2be. Root/author/reviewer375PASS0warnings/skips; OWN selectedofficialQt42110989863 atfe440acSUCCESS/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/newfoundation4-6QtPASS0skip354ms/exactcodec28/unconditional28PASS0.13s/exactSQL38/unconditional38PASS6.15s/oldmandatorylanes/all17publishedchecks. Source/component taskdone with passingacceptance+differentactualreview; finalcompletionmetadata/latestpublicationCI/currentrules/discussions/normalmerge remain. DB01/NUM04partial; allactualproducer/provider/recovery/UI/platform/fullreleasegates retained. Ownerrequests finishonlyopenPR70thenstop; unpublishedauthsplit/claims preserved, no nexttask."
     },
     {
+      "task": "SESSIONCONTRACT-001",
+      "date": "2026-11-05T21:11:21Z",
+      "note": "Claim dependency-ready session supplier/credential transport document; isolate from active SQL018 and preserve all test-first/runtime gates."
+    },
+    {
+      "date": "2026-11-05T21:16:54+00:00",
+      "task": "SESSIONCONTRACT-001",
+      "note": "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
+    },
+    {
+      "date": "2026-11-06T05:11:00+00:00",
+      "task": "SESSIONCONTRACT-001",
+      "note": "Resume preserved SESSIONCONTRACT-001 claim and pre-content supplier/transport split after verifying PR70 merged e2cd5eb at 2026-11-06T01:07:24Z, all17 final checks SUCCESS, zero review threads; all existing worktrees clean, no previous agents/build commands active. Integrate latest main preserving completed STORAGE018 and all other task evidence. Fresh session_supplier_author owns only supplier document/author note; session_plan_review independently reviews actual eb98c18 split, separate actual contract review required before completion. Root owns state/HTML/shared files; no production or live actions authorized by this document task."
+    },
+    {
+      "date": "2026-11-06T05:21:44+00:00",
+      "task": "SESSIONCONTRACT-001",
+      "note": "Complete bounded current-session supplier DOCUMENT after actual separate review of corrected c7e6e68/c5f5a6e, three literal hash vectors, exact byte/time audits and primary sources. Per-value/peak bounds and source-enum precision findings resolved before approval46f1ad2. Plan split423/1624 preserves all old scope/edges and completed STORAGE018. No header/schema/tests/red/runtime authentication supplied. Transport002 still planned and both documents required for CONTRACT013/SESSIONTEST002/003; publication/latestheadCI/currentrules/normalmerge remain before dependent authoring."
+    },
+    {
       "date": "2026-11-06T05:15:13+00:00",
       "task": "MILESTONE-001",
       "note": "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim."
@@ -14844,6 +14924,11 @@
       "date": "2026-11-06T05:23:25+00:00",
       "task": "MILESTONE-001",
       "note": "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved."
+    },
+    {
+      "date": "2026-11-06T05:32:00+00:00",
+      "task": "MILESTONE-001",
+      "note": "Integrate normal PR72 merge0605948 (finalcae986c/all17SUCCESS/zero threads/currentrules/no bypass) while preserving actual milestone in_review row, source/config reviews and all old53 tests/source. Adopt supplier001done/transport002planned and additive423/1624graph; no sessiontask or release gate overwritten. Only sharedJSON/HTML/checkpoint conflicts reconciled. Selected milestone42168586251 at549SUCCESS/old37+unconditional53 observed; different receipt review and completion metadata still pending."
     }
   ]
 }
