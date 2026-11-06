@@ -81,3 +81,37 @@ compile/load/native/SDK/child/signal or execution occurred. Project/render/stage
 diff checks PASS426 tasks/122 decisions/current HTML. After separately authored
 correction, actual different source rereview, BOTH-host helper/installed-SDK
 GREEN and matching build/entry source gates must still precede any FIRST31.
+
+## Actual correction rereview — approved source
+
+Reviewer B, fresh isolated `review/SCHEMATOOL-001-native-owner-test-correction`
+from root`3a055ace8e5c4566e5e86c65027b043fb1da6f4f`. Reviewed actual corrected
+test blob`35cff4b78418d5b3505932802796c19d0993bd65` and root's written reason.
+**APPROVED for the later native57 FIRST source gate.** Both findings above are
+resolved in this revision; their historical record remains. This is test-source
+approval only, not B's fixture/child/Ops source approval or execution permission.
+
+W14/W16 now require actual positive read/poll progress. Successful closes,
+pipe2 and kill require literal0, including the real-SIGINT AFTER-close row.
+W5/W6 require the returned FD to equal exactly one prior actual same-base adopted
+FD/result; W5 also enforces the normalization floor5. P3 requires prior config1
+and activation2; P4 requires config1, activation2, outcome2 and null1. Their
+phase identities and earlier same-parent sequence are checked against the
+selected marker. Native§3 explicitly prepares pipes, opens null, then normalizes;
+these minima implement that contract and matrix requirement, not Ops417's code.
+Existing generation replay/release/EBADF/final39 proof still applies to all those
+acquisitions. No fake source phase or parent-stdio mutation is introduced.
+
+Actual diff is ONLY20 additional test-source lines, no removed or changed old
+assertion/row/outcome. Independent stdlib AST comparison confirms every row table,
+all12 test methods and every other class helper unchanged; only assert_evidence
+is strengthened. All57 row IDs/native/status expectations, buffers/real C call,
+31-before-unreached-oracles behavior, child identity, pinned/P_ALL checks, packet,
+no-log and unconditional post-oracle fallback remain intact.
+
+No candidate import, helper/test/audit/native/SDK/thread/child/signal execution.
+AST preservation and project/render/staged diff PASS426/122/current HTML. Actual
+BOTH-host helper/SDK/kernel GREEN, matching artifact/build/source admission and
+root's separately authorized first-red observation/attribution still precede
+FIRST. No common owner body exists or is approved by this review; public74 ports,
+all preservation/security/source/acceptance/CI/normal-merge gates remain distinct.
