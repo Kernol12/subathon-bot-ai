@@ -159,8 +159,8 @@ For RAW manifest pointers, first admit RFC6901 escapes. To create a URI fragment
 UTF8-percent-encode pointer bytes except unreserved bytes and '/', preserving ~0/~1;
 literal %→%25, #→%23 and non-ASCII→its encoded UTF8 bytes. Prefix '#'. Native lookup
 consumes the URI fragment and performs its own percent decoding. Thus raw key
-`p%2Fq` has pointer `/$defs/p%2Fq` and lookup fragment `#/$defs/p%252Fq`; key a/b
-uses `#/$defs/a~1b`, key a~b uses `#/$defs/a~0b`. Never URI-decode a raw pointer or
+`p%2Fq` has pointer `/$defs/p%2Fq` and lookup fragment `#/%24defs/p%252Fq`; key a/b
+uses `#/%24defs/a~1b`, key a~b uses `#/%24defs/a~0b`. Never URI-decode a raw pointer or
 percent-decode a filesystem path. URI references already use URI-fragment syntax;
 they must NOT be encoded a second time as if they were raw manifest pointers.
 
