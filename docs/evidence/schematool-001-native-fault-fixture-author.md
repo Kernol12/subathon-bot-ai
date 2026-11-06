@@ -188,3 +188,24 @@ different source review before execution. No dynamic clock/deadlock claim follow
 Actual correction checks: project426/122/current HTML, render, clang-format and
 whitespace PASS. Parent3438/stube04d/child9af9254 remain unchanged. No compile,
 native load/call, thread/child/control/probe/test/SDK execution occurred.
+
+## Actual C lifecycle findings and narrow source correction
+
+C's independent actual832 body audit found two pre-execution defects, separate
+from the case23 ACK correction: after closing child/FD resources, failed munmap
+left a pointer whose next fallback tried the now-closed guard instead of retrying
+unmap; and fallback's initial kill could help cleanup before a controller reap,
+yet later return0 without latching that assistance. No review/green is claimed.
+
+A fresh `task/SCHEMATOOL-001-native-fault-disposal-author` from actual016b217
+corrects only fixture.cpp/this note. Two fixed map-tail flags record completed
+child and descriptor disposal. A retry skips already completed stages/closed
+numbers and retries only remaining real unmap, with failure poison retained.
+The initial assistance path now poisons BEFORE sending kill/joining, so a racing
+controller's later reap cannot erase evidence. Map capacity/entry layout/ABI/
+phase/journal counts and all child/owner/test sources remain unchanged. Actual
+different body/test review still precedes compile/run; no forced syscall failure
+or dynamic retry/cleanup proof was executed by the author.
+Actual correction checks: project426/122/current HTML, render, clang-format and
+whitespace PASS; frozen parent3438/stube04d/child9af9254 remain exact. No test,
+compiler, native load/control/probe, thread/child/signal or SDK operation ran.

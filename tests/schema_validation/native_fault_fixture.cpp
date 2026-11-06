@@ -38,6 +38,7 @@ struct Shared {
         capture_bound;
     std::uint32_t child_ready, phase_requested, action_done, trigger_claimed;
     std::uint32_t watchdog_fired, controller_error;
+    std::uint32_t child_disposed, descriptors_disposed;
     Plan plan;
     int descriptors[6];
     int core_descriptors[12];
@@ -686,7 +687,8 @@ extern "C" int subathon_schema_fault_fallback_v1(void) noexcept {
     wake(value);
     // The caller's before-fallback observations are already complete. Kill any
     // leaked child now, also waking a controller polling its pinned identity.
-    if (load(&value->birth_bound) && !pinned_reaped(value)) {
+    if (!load(&value->child_disposed) && load(&value->birth_bound) && !pinned_reaped(value)) {
+        poison(value); // Latch assistance BEFORE a controller can complete a concurrent reap.
         long result;
         do {
             result = raw(SYS_pidfd_send_signal, value->descriptors[guard_slot], SIGKILL, 0, 0);
@@ -701,33 +703,41 @@ extern "C" int subathon_schema_fault_fallback_v1(void) noexcept {
         }
         controller_created = false;
     }
-    if (!dispose_child(value))
-        return -1; // Never release the pinned identity while quiescence is unknown.
-    for (unsigned index = 0; index != value->core_count; ++index) {
-        const int descriptor = value->core_descriptors[index];
-        bool seen = false;
-        for (unsigned previous = 0; previous != index; ++previous)
-            seen |= value->core_descriptors[previous] == descriptor;
-        if (!seen && raw(SYS_fcntl, descriptor, F_GETFD) >= 0) {
-            poison(value);
-            raw(SYS_close, descriptor); // No free-FD creation occurred since owner return.
-        }
+    if (!load(&value->child_disposed)) {
+        if (!dispose_child(value))
+            return -1; // Never release the pinned identity while quiescence is unknown.
+        store(&value->child_disposed, 1U);
     }
-    for (auto &descriptor : value->descriptors) {
-        if (descriptor >= 0) {
-            const long result = raw(SYS_close, descriptor);
-            append(value, Writer::controller, ObservationKind::release, 0, descriptor,
-                   value->parent_pid, result);
-            descriptor = -1; // Linux close is never retried on this number.
-            if (result < 0)
+    if (!load(&value->descriptors_disposed)) {
+        for (unsigned index = 0; index != value->core_count; ++index) {
+            const int descriptor = value->core_descriptors[index];
+            bool seen = false;
+            for (unsigned previous = 0; previous != index; ++previous)
+                seen |= value->core_descriptors[previous] == descriptor;
+            if (!seen && raw(SYS_fcntl, descriptor, F_GETFD) >= 0) {
                 poison(value);
+                raw(SYS_close, descriptor); // No free-FD creation occurred since owner return.
+            }
         }
+        for (auto &descriptor : value->descriptors) {
+            if (descriptor >= 0) {
+                const long result = raw(SYS_close, descriptor);
+                append(value, Writer::controller, ObservationKind::release, 0, descriptor,
+                       value->parent_pid, result);
+                descriptor = -1; // Linux close is never retried on this number.
+                if (result < 0)
+                    poison(value);
+            }
+        }
+        store(&value->descriptors_disposed, 1U);
     }
     const bool failed =
         load(&value->poison) || load(&value->watchdog_fired) || load(&value->controller_error);
     const long unmapped = raw(SYS_munmap, address(value), map_bytes);
-    if (unmapped != 0)
+    if (unmapped != 0) {
+        poison(value);
         return -1;
+    }
     store(&shared, static_cast<Shared *>(nullptr));
     last_disposal = failed ? -1 : 0;
     return last_disposal; // Disposal never repairs a failed fixture/owner verdict.
