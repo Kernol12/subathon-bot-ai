@@ -359,3 +359,84 @@ Actual checks: source/diff inspection; Python3.10 AST and compile without exec;
 exact twelve helper literals; preserved control/foundation/public/SDK blobs;
 project426/122, render--check and diff--check PASS. I did not import or execute the
 corrected checker, controls, binutils or any candidate artifact in this review.
+
+## Actual no-child binding source and staged build review
+
+Reviewer C, actual root `3c3ad5fea87bc4465168b9906c19b4ae22850376`, fresh isolated
+review branch. A's actual source `473448c7186d16df84ea4a9ee9133105ac87a730` is
+integrated as `73ecce5`; root separately authored the CMake/CI additions. Reviewed
+identities: foundation .cpp `96eefa80d17553494c63dd8df99581181cacc241`, author
+note `a6324e66ab74eb5a7cf06eb7f72868c45d23a9c2`, scoped test CMake
+`f722d7bde1a3a28427f20de8ddef383b7f097031`, workflow
+`4eb2a350350296cabbc6e125c236799fe1acebbe`. I authored neither source nor build.
+
+**The actual additive source/build configuration is approved for rebuild and
+static inspection.** Root may run the reviewed one-case NO-CHILD bootstrap only
+after the corrected static graph gate and different actual PLT/GOT/clone-entry
+inspection of the resulting local artifact. Those generated observations and
+the bootstrap's future result are not supplied by this source verdict. No kernel
+or child probe, CTest inventory, loader, behavior31 red, native owner or workflow
+runtime publication is released here.
+
+The seventh case rejects nine loader-override keys by presence, including empty
+values, in its disposable process. Its actual `&::syscall` address must resolve
+through dladdr to the exact symbol start/name in one of six fixed standard libc
+spellings; an executable PLT address fails rather than pretending to be libc.
+The path copy is bounded4096+NUL. Its trusted already-loaded base supplies only
+the fixed64-byte ELF header, checked for ELF64/little-endian/current version,
+ordinary SYSV/GNU ABI, ET_DYN and x86-64. Address subtraction checks nonnegative
+offset below64MiB before recording it. This is a selected trusted system-loader
+fixture, not authentication of arbitrary package addresses or a modified host.
+
+Only that resolved resident path is opened with NOLOAD/NOW/LOCAL. The two actual
+lookups clear/check dlerror independently; both unversioned and GLIBC_2.2.5
+addresses must equal the original, and a second dladdr must match base/path/start.
+No GTest assertion, formatting or throwing C++ operation occurs between acquiring
+that reference and its one checked dlclose. Null/lookup/close failures remain hard
+test failures. There is no generic syscall invocation, transport-owner call,
+new FD acquisition, child/thread, signal mutation or probe helper in this case.
+The later metadata records actual loader values, never a fabricated hash or
+runtime control certificate.
+
+I independently read [dladdr's PLT warning](https://man7.org/linux/man-pages/man3/dladdr.3.html),
+[NOLOAD/NOW and reference semantics](https://man7.org/linux/man-pages/man3/dlopen.3.html),
+[versioned lookup/error semantics](https://man7.org/linux/man-pages/man3/dlsym.3.html)
+and the [glibc x86-64 ABI list](https://raw.githubusercontent.com/bminor/glibc/master/sysdeps/unix/sysv/linux/x86_64/64/libc.abilist).
+They support these literal checks; they do not observe selected hosts or prove a
+different call site's binding. A tagged ABI-list fetch failed; the successful
+primary master list is the source used for the stable GLIBC_2.2.5 symbol fact.
+
+Root adds only CMAKE_DL_LIBS to the test executable. Static8 controls and the
+corrected graph audit precede native startup. The explicit filtered bootstrap
+uses the exact executable, minimal environment, finite30s and checked native
+exit. Its XML guard requires exactly one actual named run/completed case, zero
+failures/errors/disabled/skips and one testcase, so an empty filter cannot pass.
+The reviewed registration inventory is now seven native cases plus the unchanged
+two-method loader program. All old six case/helper tokens and89 EXPECT calls,
+264 cleanup and66 raw attributes remain preserved.
+
+**The full candidate workflow remains unpublished.** It still proceeds from the
+bootstrap into discovery/full kernel foundations without enforcing the omitted
+current-artifact clone-entry/binding review. Its ordering/guards are sound as
+source, but cannot stand in for that missing execution gate. A compile/static/
+no-child-only hosted stage needs its actual separately reviewed configuration,
+or a small reviewed exact generated-edge gate, before publication. Concrete
+per-host artifacts/metadata must then be differently admitted before enabling
+unconditional child probes. A local compiler or lookup pass is not hosted proof;
+neither a general ELF dependency resolver nor an unsupported capability claim is
+needed to preserve this staged boundary.
+
+Root's earlier old-source compile/rebuild logs are read as compile-only evidence:
+the latter has four steps/no compiler warning and no execution command. Root
+also reports corrected static8 green and static graph exit0; this source review
+does not replace separate raw/output attribution of those observations. None is
+a result for the newly added bootstrap source.
+
+Actual checks: independently remove only the additive case/five new includes and
+compare all previous tokens with264; enumerate seven cases; verify89 old EXPECTs,
+close-before-assert and no forbidden helper call; syntax-only Python3.10 AST/
+compile for controls/checker/loader; bash-n on all nine workflow run blocks;
+clang-format dry-run/Werror; project426/122; render--check; diff--check, all PASS.
+No CMake configure/build, binutils invocation, candidate import/loading, native
+program, case-list/discovery, bootstrap or child/kernel probe ran during this
+review. Root retains actual artifact/release/integration and PR77 finish/stop.
