@@ -155,3 +155,39 @@ PASS before commit. Only the two owned files change.
 No C++ compilation, test discovery/body, binary loading/audit,
 candidate/SDK import, thread/child, kernel probe, signal, FD-limit mutation or
 installation has run in this author assignment.
+
+## Additive actual-normal125 controller refusal control
+
+Root separately assigned this followup after the coherent NativeOwner57 source.
+Fresh `task/SCHEMATOOL-001-native-helper-125-control` starts at actual root
+`a9c1c78a597fe955c09bddd251f2beb181ca603c`, containing the case27 normal125 poison
+correction. Only this note and the same helper foundation .cpp change. All old
+23 registrations/bodies/assertions are preserved; the fixed raw primitive adds
+only closed mode3 which immediately performs genuine normal exit125.
+
+New case `NativeFaultFoundation.ControllerConsumedNormal125PoisonsBeforeActionAck`
+arms27, genuinely births/pins that primitive and uses raw WEXITED|WNOWAIT to
+observe actual PID/CLD_EXITED/125 **without consuming** it before checkpoint32.
+The real native controller then consumes that exact status. The hook must refuse
+its action ACK and poison the snapshot. An independent nonconsuming own-thread
+wait requires ECHILD and the actual pidfd requires whole-process exit readiness
+before the driver revalidates that state/closes its own FD. Driver fallback must
+remain false and own_reap false; the test cannot reap the child to manufacture
+the controller's result. Only then does fixture fallback run, returning latched
+-1 while actually disposing its map/six FDs. Raw mincore/fcntl disposal assertions
+remain the same. There is no fake journal/final8/17, owner call or successful
+validator, and normal125 cannot be mistaken for the planned malformed protocol.
+
+The current additive inventory is **24 helper registrations /15 source bodies**,
+31 C++ registrations combined with the original seven; the earlier23 inventory
+and its source checks above remain historical. New mode/case needs actual
+different source/oracle/generated-code review, matching build/hash and runtime
+release; no compile/discovery/probe/test has run in this followup. Static
+preservation/literal and ordinary checks are recorded before commit.
+Actual source-only comparison strips only the additive case and two-line mode3
+branch, then proves all previous source tokens/bodies/assertions exact to16ffcbc;
+12 ordinary +6/4/2 parameter rows=24 helpers/31 combined, nonconsuming125 before
+checkpoint and freshECHILD/exit before disposal verified. `clang-format --dry-run --Werror tests/schema_validation/native_fault_foundation.cpp`
+PASS; `python3 tools/check_project.py` PASS426/122;
+`python3 tools/progress.py render --check` current; `git diff --cached --check`
+PASS before commit. No source import/compile/runtime/discovery/probe was executed.

@@ -181,6 +181,8 @@ bool token(int descriptor, char expected) noexcept {
         schema_foundation::finish(76);
     if (mode == 1)
         schema_foundation::finish(73); // Fixed exit for the deliberate competing reaper.
+    if (mode == 3)
+        schema_foundation::finish(125); // Real reserved fixture failure, never owner refusal.
     if (mode == 2) {
         raw(SYS_close, coord[0]);
         raw(SYS_close, coord[3]);
@@ -831,5 +833,40 @@ TEST(NativeFaultFoundation, DeliberateControllerReapIsDistinctFromFallback) {
     EXPECT_TRUE(pinned_exit);
     EXPECT_EQ(driver.waited, -ECHILD);
     EXPECT_TRUE(event(value.cells, count, 2, 4, 73, 32, driver.pid));
+}
+
+TEST(NativeFaultFoundation, ControllerConsumedNormal125PoisonsBeforeActionAck) {
+    Fixture value;
+    value.start(27);
+    Driver driver;
+    if (value.armed == 0)
+        driver.start(3);
+    siginfo_t original{};
+    const long before = driver.pinned ? wait_owned(driver.pidfd, original, WEXITED | WNOWAIT) : -1;
+    // Observe the genuine normal125 WITHOUT consuming it before the explicit
+    // controller is allowed to reap. No synthetic journal/final-result payload.
+    const bool acknowledged =
+        driver.pinned &&
+        fault::checkpoint({native::PhaseBase::wait_reap, native::PhaseEdge::before}, -1);
+    siginfo_t after{};
+    const long fresh =
+        driver.pinned ? wait_owned(driver.pidfd, after, WEXITED | WNOHANG | WNOWAIT) : -1;
+    const bool pinned_exit = driver.pidfd >= 0 && exit_ready(driver.pidfd);
+    if (fresh == -ECHILD && pinned_exit)
+        driver.reap(); // Only revalidate ECHILD after the independent nonconsuming proof.
+    const int poisoned = value.snapshot();
+    driver.finish();
+    value.finish();
+    check_fixture(value, -1);
+    check_driver(driver, false);
+    EXPECT_EQ(before, 0);
+    EXPECT_EQ(original.si_pid, driver.pid);
+    EXPECT_EQ(original.si_code, CLD_EXITED);
+    EXPECT_EQ(original.si_status, 125);
+    EXPECT_FALSE(acknowledged);
+    EXPECT_EQ(poisoned, -1);
+    EXPECT_EQ(fresh, -ECHILD);
+    EXPECT_TRUE(pinned_exit);
+    EXPECT_EQ(driver.waited, -ECHILD);
 }
 } // namespace
