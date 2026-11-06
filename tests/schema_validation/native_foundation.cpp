@@ -31,10 +31,63 @@ static_assert(sizeof(siginfo_t) == 128);
 static_assert(sizeof(std::atomic<int>) == 4 && std::atomic<int>::is_always_lock_free);
 
 long wait_fd(int descriptor, siginfo_t &info, int flags) noexcept {
-    info.si_pid = 0;
-    info.si_code = -1;
-    info.si_status = -1;
-    return raw(SYS_waitid, pidfd_selector, descriptor, address(&info), flags | own_thread, 0);
+    long result;
+    do {
+        info.si_pid = 0;
+        info.si_code = -1;
+        info.si_status = -1;
+        result = raw(SYS_waitid, pidfd_selector, descriptor, address(&info), flags | own_thread, 0);
+    } while (result == -EINTR);
+    return result;
+}
+long wait_pid(long pid, int &status, int flags) noexcept {
+    long result;
+    do {
+        result = raw(SYS_wait4, pid, address(&status), flags, 0);
+    } while (result == -EINTR);
+    return result;
+}
+bool pinned_reaped(int descriptor) noexcept {
+    // This thread is still the recorded birth thread. There is no reparenting,
+    // no signal-profile mutation and no other birth in this standalone fixture.
+    KernelAction action;
+    if (raw(SYS_rt_sigaction, SIGCHLD, 0, address(&action), 8) != 0 || action.handler != 0 ||
+        (action.flags & SA_NOCLDWAIT))
+        return false;
+    pollfd item{descriptor, POLLIN, 0};
+    long events;
+    do {
+        events = raw(SYS_poll, address(&item), 1, 0);
+    } while (events == -EINTR);
+    if (events != 1 || !(item.revents & (POLLIN | POLLHUP)) ||
+        (item.revents & (POLLERR | POLLNVAL)))
+        return false;
+    siginfo_t info;
+    return wait_fd(descriptor, info, WEXITED | WNOHANG | WNOWAIT) == -ECHILD;
+}
+void cleanup_child(long pid, int descriptor) noexcept {
+    // Disposal only: callers have already latched a failed observation. Never
+    // close the pinned identity or return a cleanup claim on an unchecked wait.
+    if (descriptor >= 0) {
+        long signalled;
+        do {
+            signalled = raw(SYS_pidfd_send_signal, descriptor, SIGKILL, 0, 0);
+        } while (signalled == -EINTR);
+        siginfo_t info;
+        const long result = wait_fd(descriptor, info, WEXITED);
+        if (result == 0 && info.si_pid == pid)
+            return;
+        if (result == -ECHILD && pinned_reaped(descriptor))
+            return;
+    }
+    // The saved successful native PID belongs to THIS still-live birth thread;
+    // __WNOTHREAD prevents adopting another thread's reused-PID child. This is
+    // a wait only, never numeric-PID signalling or failed-output-cell adoption.
+    int status;
+    const long result = wait_pid(pid, status, own_thread);
+    if (result == pid || (result == -ECHILD && descriptor >= 0 && pinned_reaped(descriptor)))
+        return;
+    finish(119); // Fatal fixture error: no unproved child-gone return/assertion.
 }
 long readable(int descriptor) noexcept {
     pollfd item;
@@ -163,7 +216,9 @@ void foreign_reaper(Controller &state) noexcept {
         state.failure = 2;
         return;
     }
-    state.reaped = raw(SYS_wait4, state.pid, address(&state.status), 0, 0);
+    state.reaped = wait_pid(state.pid, state.status, 0);
+    if (state.reaped != state.pid)
+        state.failure = 3; // Birth thread retains the pidfd and finishes disposal.
     advance(state, 4);
 }
 
@@ -315,16 +370,9 @@ Result probe(bool exec, Controller *controller = nullptr) noexcept {
     } while (false);
     if (pid > 0 && !reaped) {
         result.fallback = true; // Cannot rescue a failed observation as green.
-        if (descriptors[5] >= 0) {
-            raw(SYS_pidfd_send_signal, descriptors[5], SIGKILL, 0, 0);
-            siginfo_t ignored;
-            wait_fd(descriptors[5], ignored, WEXITED);
-        } else {
-            // Impossible successful atomic-output defect: child watchdog exits;
-            // no guessed output-cell FD or numeric-PID signal is used.
-            int status;
-            raw(SYS_wait4, pid, address(&status), own_thread, 0);
-        }
+        // Without a valid successful output, wait for the kill-only child timer;
+        // never guess a descriptor or signal a numeric PID.
+        cleanup_child(pid, descriptors[5]);
     }
     for (int i = 0; i < 6; ++i)
         close_slot(i);
@@ -589,8 +637,13 @@ TEST(SchemaNativeFoundation, ControlledCloneErrorsRollbackWithoutGuessingOutput)
             finish(117);
         bad_size_errno = bad_size < 0 ? errno : 0;
         if (bad_size > 0) {
-            int status;
-            raw(SYS_wait4, bad_size, address(&status), own_thread, 0);
+            // ONLY successful clone return commits this writable output cell.
+            const int committed_pidfd = pidfd_cell;
+            cleanup_child(bad_size, committed_pidfd);
+            if (committed_pidfd < 0)
+                finish(121); // Reaped child, but no exposed FD identity to own.
+            if (committed_pidfd >= 0 && raw(SYS_close, committed_pidfd) != 0)
+                finish(120); // Actual close, never retry a released number.
         }
         arguments.pidfd =
             static_cast<std::uint64_t>(guard); // Actual PROT_NONE, not a guessed unmapped address.
@@ -599,8 +652,10 @@ TEST(SchemaNativeFoundation, ControlledCloneErrorsRollbackWithoutGuessingOutput)
             finish(118);
         bad_pointer_errno = bad_pointer < 0 ? errno : 0;
         if (bad_pointer > 0) {
-            int status;
-            raw(SYS_wait4, bad_pointer, address(&status), own_thread, 0);
+            cleanup_child(bad_pointer, -1); // Child immediately raw-exits118.
+            // A successful PROT_NONE output cannot expose its actual committed
+            // FD. Do not inspect inaccessible memory or guess an FD to close.
+            finish(121); // Fatal kernel/fixture defect, never normal assertions.
         }
         // Never adopt/close/signal a cell after either failed clone3.
         inventory(directory, after);
@@ -620,9 +675,11 @@ TEST(SchemaNativeFoundation, ControlledCloneErrorsRollbackWithoutGuessingOutput)
     EXPECT_EQ(before.error, 0);
     EXPECT_EQ(after.error, 0);
     EXPECT_EQ(before.count, after.count);
-    if (before.count == after.count)
-        for (int i = 0; i < before.count; ++i)
+    if (before.count == after.count) {
+        for (int i = 0; i < before.count; ++i) {
             EXPECT_EQ(before.descriptors[i], after.descriptors[i]);
+        }
+    }
     EXPECT_EQ(no_child, -ECHILD);
     EXPECT_EQ(close_result, 0);
     EXPECT_EQ(unmap_result, 0);

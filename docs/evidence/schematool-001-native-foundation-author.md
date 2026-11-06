@@ -147,3 +147,62 @@ Static author checks (all exit 0, no candidate import):
   explicitly reports that draft GoogleTest cases are not compiled/run/approved.
 - `python3 tools/progress.py render --check`: current.
 - `git diff --cached --check`: PASS before the source commit.
+
+## Pre-execution interrupted-wait correction
+
+Different reviewer C's actual source review of `8e20a76` / root build-base
+`29902d4` found that disposal used one unchecked blocking wait. Real EINTR there
+could leave a zombie, despite the note's child-gone claim. The foreign reaper and
+unexpected-success negative controls had the same fixture defect; the writable
+short-size control also did not close its committed pidfd on an unexpected
+successful clone. Root explicitly released this bounded correction on fresh
+`task/SCHEMATOOL-001-native-foundation-cleanup-correction` from `29902d4`, preserving
+the original author and matrix trees. This is a pre-execution harness correction,
+not a new feature/test case, implementation change or replayed failing baseline.
+
+The raw waitid/wait4 helpers now retry only EINTR. Disposal of an actual successful
+birth retains its known pidfd, retries interrupted pidfd signalling, and requires
+an actual terminal reap of that native PID before releasing the identity. A lost
+status is accepted for disposal only with pinned exit readiness and a fresh
+same-birth-thread ECHILD under the checked default/no-auto-reap SIGCHLD profile.
+The only other thread here is the recorded controller, which neither births nor
+changes SIGCHLD. Saved-native-PID wait4 with __WNOTHREAD is a wait-only disposal
+fallback: this still-live birth thread has no intervening other birth/reparenting,
+so it cannot reap another thread's reused-PID child. No numeric-PID signal or
+failed-output-cell adoption is introduced. The controller retries interrupted
+wait4, retains an explicit failure on any nonmatching reap, and leaves the pinned
+identity for the birth thread's actual cleanup. `fallback=true` remains latched
+before disposal and its existing assertion still fails; helper recovery cannot
+rescue the original observation.
+
+An unexpected positive short-size clone alone adopts the actual successful
+writable output and closes that pidfd once after definitive child disposal. A
+negative clone return still never reads/adopts/signals/closes its output cell.
+The PROT_NONE unexpected-positive branch can reap the actual child but cannot
+read a committed output identity; it terminates the fixture with raw nonzero121
+instead of guessing a descriptor or returning to ordinary assertions. Likewise
+an impossible missing successful output, unprovable child cleanup or failed
+success-only descriptor disposal is a fatal nonreturning fixture failure
+(119/120/121), never a child-gone claim or passing observation. Parent process
+death is not relabeled as a successful cleanup proof. All normal expected paths
+retain the original literal oracles, six C++/two Python names and temporary31.
+
+Only `native_foundation.cpp` and this note change. Child .cpp/.h and loader bytes
+stay identical. Actual independent correction review is required before root's
+separately permitted compilation/static disassembly; runtime, discovery/loading,
+probes and all tests remain held. Static correction checks are recorded below
+before handoff; this author has performed no compilation or execution.
+Root separately compiled the old `29902d4` packet under C's compile-only release
+and reported one dangling-else macro warning around the inventory comparison.
+This correction adds explicit braces to that unchanged EXPECT_EQ loop; it removes
+the ambiguous macro binding without deleting or weakening an inventory assertion.
+That old build receipt is not execution or a build result for this correction.
+
+Actual correction checks, all exit0: stdlib source-only comparison with preserved
+`8e20a76` author tree proves all six C++ TEST names/order and every EXPECT
+invocation unchanged, the three ancillary source files byte-identical, two loader
+methods by Python3.10 AST, fallback failure still latched and both raw wait helpers
+retry EINTR. `clang-format --dry-run --Werror tests/schema_validation/native_foundation.cpp`
+PASS; `python3 tools/check_project.py` PASS426/122;
+`python3 tools/progress.py render --check` current; `git diff --cached --check`
+PASS. No candidate import, compile, load, thread/child/probe or test body ran here.
