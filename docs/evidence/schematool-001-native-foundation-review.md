@@ -579,3 +579,90 @@ Actual reviewer checks: full raw/receipt/XML/hash/name/metadata/address arithmet
 chronology, source preservation and current file hashing; project426/122,
 render--check and diff--check PASS. I did not rerun the bootstrap, execute a native
 candidate/checker, perform discovery or create a candidate child/probe.
+
+## Immutable actual local facility and loader attribution
+
+Reviewer C reviewed committed receipt packet `6464cc3` from fresh isolated review
+head `c02c2cb`. The complete raw/receipt/observer/discovery files match the earlier
+read-only preparation; this verdict is bound to the immutable evidence, not to
+uncommitted text. **Accepted: these actual LOCAL facility/loader prerequisites
+pass.** I did not replay the run.
+
+The receipt records clean `b44e449f32e23313ff85e2fef9cf773da9ebc147`, after actual
+C196 runtime release. Exact CTest discovery and execution select only
+`^schema-native-foundation$`, with no-tests=error, minimal three-variable
+environment and the reviewed preset. Started16:34:30.703560Z; exit0, outer0.074626s
+and watchdog=false are consistent with native0.07s. Every registration retains its
+30s timeout. Full-byte hashing matches:
+
+- Discovery9436 bytes, SHA256 `2a812946d66729bf51d203b5034efc4df5c9b09b0a8e2f520ddd4980f23b0cbf`.
+- Stdout11713 bytes, `cff0c2168c7fd1068c12f14aeb21bf661ce73bc6a568db06a1b6038dc3130ffe`.
+- Stderr empty, standard empty SHA256.
+
+Independent JSON inspection finds exactly the seven reviewed C++ names plus the
+loader program, foundation labels, no disabled/WILL_FAIL and no substituted test.
+The full stdout contains exactly seven distinct native RUN/OK pairs and native
+one-test pass footers, both loader methods actually passing, all eight CTest PASS
+records, no failure/skip/error/timeout and the100%/8 footer. CMake's ordinary
+`--gtest_also_run_disabled_tests` argument does not hide anything: the actual
+inventory has no disabled case and all required exact names really ran.
+
+Under the measured local kernel7.2.14-arch1-1/libc2.44/seccomp2 profile, the actual
+reviewed raw assertions therefore pass for atomic clone3/pidfd, caught/ignored
+signal and mask behavior, one live extra-FD close_range, real exec reporter,
+foreign-thread wait isolation/competing real reap and EINVAL/EFAULT rollback
+inventory. The loader reports actual CPython3.14.9 and calls the real inert DSO
+under -I/-S/-B. No hypothetical seccomp denial occurred or required escalation;
+that earlier contingency is not an observed blocker. The temporary31 controls
+remain facility/ABI stage assertions, not completed transport success.
+
+The c618/bd3e/bf797 artifact identity and actual local lookup/generated-edge
+admission above provide the source/binary provenance. This result is neither
+native-owner31 behavior red, helper-foundation coverage, full74 port acceptance
+nor hosted capability. Both selected host generated/runtime foundations and the
+remaining test/red/source/CI/merge gates still apply. Original FIRST artifacts
+and reviewed public/SDK assertions remain preserved.
+
+Actual reviewer actions: complete raw/JSON/receipt read, hash/name/status/timeout/
+footer comparisons and source-state review, repository checks below. No local
+foundation case, loader, bootstrap, native candidate or kernel probe was rerun.
+
+## Actual build-evidence-only hosted configuration
+
+Different source/config review of root `ff54bc6` as integrated at `c02c2cb`:
+workflow `.github/workflows/schema-native-foundation.yml` blob
+`b701d5cca24847359e2e5d17fcf66e81d413329f` and build-author note
+`976a1b46cc26c8b0c7c63a7fc137197762fe7e5d`. **Approved for ordinary diagnostic
+DRAFT publication of this exact staged workflow.** This lifts the earlier
+publication hold for the actual build/static-only configuration; it releases no
+hosted bootstrap, discovery, loader, kernel probe, owner behavior, ready/done
+status or merge. No hosted result is asserted by this source verdict.
+
+The name explicitly says build evidence/no kernel acceptance; both selected
+Ubuntu22/3.10 and Ubuntu24/3.12 jobs use the pinned checkout/read-only permissions,
+actual minor/toolchain record, explicit existing GoogleTest selection, reviewed
+opt-in build and hashes/exports. PRE_TEST keeps discovery out of compilation.
+Static8 controls and the approved scoped graph checker then run as reviewed.
+The evidence exporter loads only known audit definitions under a non-main name,
+calls its disassembly/binutils path, and prints actual probe-return instructions,
+address-taking references, PLT and readelf relocations for different review.
+No candidate executable/filter, --list, CTest, loader, bootstrap or kernel case
+command remains in the staged workflow. Unknown extraction shapes fail or remain
+unadmitted evidence; a green build cannot certify the omitted runtime/profile.
+
+Current source lists/CMake registrations remain explicit and unchanged. The new
+B832 fault-fixture body is unlinked/uncompiled by this stage; its presence does
+not require an arbitrary publication hold, and this review confers no approval on
+it. Original public64/focused/SDK workflows and assertions remain byte-identical.
+No runtime assertion is skipped or weakened: this is the explicitly labelled
+prerequisite evidence phase. Restore unconditional full foundation execution only
+after the actual per-host artifacts/edges/binding are differently admitted through
+reviewed configuration. Any missing/unknown printed binding reference or PLT
+needs concrete follow-up proof rather than inference from the build result.
+New check names do not establish branch-rule enforcement by themselves.
+
+Actually performed: full receipt/hash/JSON analysis above; source/CMake/script
+inspection; bash-n on all seven run blocks and Python3.10 AST/compile without exec
+for embedded scripts; frozen CMake/Python-source comparisons; project426/122,
+render--check, diff--check PASS. No workflow/native execution, candidate import,
+configure/build, binutils, probe or GitHub write was performed by this reviewer.
