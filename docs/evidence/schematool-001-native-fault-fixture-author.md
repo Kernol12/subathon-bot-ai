@@ -209,3 +209,12 @@ or dynamic retry/cleanup proof was executed by the author.
 Actual correction checks: project426/122/current HTML, render, clang-format and
 whitespace PASS; frozen parent3438/stube04d/child9af9254 remain exact. No test,
 compiler, native load/control/probe, thread/child/signal or SDK operation ran.
+
+Root integration correction (6 November2026), source-only pending different
+review: case27 controller consumes wait status outside the future FaultOps call.
+Reject actual CLD_EXITED/status125 there before action_done, as the fixed negative
+child reserves125 for fixture setup/IO error. Otherwise a consumed startup failure
+could be hidden behind native17, the same domain refusal expected by a negative
+row. This adds no phase/record/export/count and never overrides the production
+owner; known125 is fixture poison, not expected red. Actual raw wait observation
+and independent child byte/status controls remain required. No execution occurred.

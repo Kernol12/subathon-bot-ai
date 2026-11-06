@@ -325,7 +325,11 @@ void *controller(void *argument) noexcept {
             append(value, Writer::controller, ObservationKind::syscall_return, 32,
                    value->descriptors[guard_slot],
                    result == 0 && info.si_pid > 0 ? info.si_pid : -1, result);
-            if (result != 0 || info.si_pid != value->birth_pid) {
+            // The fixed negative executable reserves normal125 for fixture
+            // setup/IO failure. A controller-consumed status must not hide it
+            // from FaultOps and let an unrelated native17 look like coverage.
+            if (result != 0 || info.si_pid != value->birth_pid ||
+                (info.si_code == CLD_EXITED && info.si_status == 125)) {
                 poison(value);
                 return nullptr;
             }
