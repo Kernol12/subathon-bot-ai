@@ -146,17 +146,25 @@ class NativeBindingAcceptance(unittest.TestCase):
     def test_actual_trusted_function_has_builtin_eight_argument_abi_and_local_now(self):
         target = load_public()
         real_cdll, libraries = ctypes.CDLL, []
+        real_lookup, lookups = real_cdll.__getitem__, []
 
         def actual_load(*arguments, **keywords):
             library = real_cdll(*arguments, **keywords)
             libraries.append(library)
             return library
 
-        with mock.patch.object(ctypes, "CDLL", side_effect=actual_load) as load:
+        def actual_lookup(library, symbol):
+            entry = real_lookup(library, symbol)
+            lookups.append((library, symbol, entry))
+            return entry
+
+        with mock.patch.object(real_cdll, "__getitem__", new=actual_lookup), \
+                mock.patch.object(ctypes, "CDLL", side_effect=actual_load) as load:
             entry = target._load_native_transport()  # No native invocation.
         load.assert_called_once_with(str(ROOT.resolve() / ARTIFACT_SUFFIX), mode=os.RTLD_NOW | os.RTLD_LOCAL)
         self.assertEqual(len(libraries), 1)
-        self.assertIs(entry, getattr(libraries[0], SYMBOL))
+        self.assertTrue(any(library is libraries[0] and symbol == SYMBOL and entry is genuine
+                            for library, symbol, genuine in lookups))
         self.assertIsInstance(entry, ctypes._CFuncPtr)
         expected = (ctypes.POINTER(ctypes.c_ubyte), ctypes.c_uint) * 4
         self.assertEqual(len(entry.argtypes), 8)

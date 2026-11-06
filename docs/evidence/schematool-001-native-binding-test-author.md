@@ -128,3 +128,43 @@ main selecting all9 methods, finite timeout and explicit nonzero inventory.
 No `-S` parent or arbitrary artifact argument is introduced: the positive
 public-None observation needs the ordinary installation binding, and the library
 location is fixed by the trusted entrypoint. This command was NOT executed.
+
+## Source-test correction: genuine lookup return without cache assumptions
+
+Author A, 6 November2026. Separate branch
+`task/SCHEMATOOL-001-native-binding-lookup-identity`, tree
+`/tmp/subathon-schematool001-native-binding-lookup-identity`, starts at preserved
+`c38c24846de39343645e347c76cb8aea7ac2430d`. ONLY the binding test and this note
+change. B's different actual source review3165 found one overconstraint in the
+positive ABI case: comparing the returned entry to a subsequent attribute lookup
+requires ctypes attribute-cache identity that native contract§2 never required.
+
+[Official ctypes documentation](https://docs.python.org/3.10/library/ctypes.html#ctypes.CDLL)
+describes cached attribute access and fresh wrapper objects for indexed access.
+Both are valid ways to retrieve the same genuine exported function. The revised
+test transparently records the actual objects returned by REAL
+`ctypes.CDLL.__getitem__` DURING the loader call; ctypes attribute lookup also uses
+that method. The recorder invokes the saved original method, records its actual
+library/symbol/function-object tuple, and returns that object unchanged. It never
+calls the foreign function, supplies a fake C callable/result, or requires one
+particular lookup syntax/count/cache policy.
+
+The returned entry must now be identical to one of those genuinely returned
+objects for the exact loaded production library and versioned symbol. The real
+CDLL trusted-path/local-now call, exact library count, builtin `_CFuncPtr`, all
+eight builtin argument types, c_int result, absent errcheck and non-PythonAPI/GIL
+flag assertions remain unchanged. This corrects a fixture overconstraint while
+preserving the native ABI requirement; it does not reduce product behavior or
+weaken the prohibition on successful substitutes.
+
+All9 method names, eight other complete method ASTs, header/admission helpers,
+module statements, literal25 integer mappings, negative header rows and all16
+inert declaration lines remain exact. The only test-function change is the
+positive ABI recorder/identity assertion. Source-only checks PASS: Python3.10
+AST/compile-without-exec, exact equality of every other definition and unchanged
+production source/stubs,9 names/25 mapping rows, transparent real lookup forwarder;
+project426/122/current HTML, render--check current and git diff--check.
+No test/candidate import, native artifact
+load, function invocation, child/thread, compiler or SDK execution occurred.
+Actual different delta review is required before the intended named Python-binding
+FIRST; actual native31/owner69 and both-host facility gates remain separate.
