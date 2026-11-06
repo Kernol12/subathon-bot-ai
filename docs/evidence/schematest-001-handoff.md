@@ -39,3 +39,8 @@ Actual initial logical proposal4ab268a/importad91266 is now in draftPR76.
 Root fragment-closure budget issue was corrected before commit:256resources,
 4096context nodes,2048edges,4096-byte URI/pointer keys and1MiBaggregatekeys.
 Differentactualreview pending. No dependency install or selected-library success.
+
+Logicaldocument4ab independently approvedb8/import699 only. Rootcandidate
+[dependency proposal](schematest-001-dependency-proposal.md)c221 adds20pins/28wheel
+hashes/notices/isolatedtoolguidance; different admissionreview pending before any
+install/import/execution. All API/foundation/test/red/implementation gates remain.

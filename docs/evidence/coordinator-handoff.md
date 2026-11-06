@@ -44,11 +44,12 @@ Canonical session_supplier_review (role schema_contract_author) on NEW
 owns ONLY docs/contracts/schema-validation-tool-v1.md and
  docs/evidence/schematest-001-contract-author.md. Actual logicalcontract4ab268a/importad91266 now committed,
 [proposal](../contracts/schema-validation-tool-v1.md) and
-[author](schematest-001-contract-author.md). Different actualreview underway;
-no contractapproval/pins/source/tests yet. Canonical session_supplier_author
+[author](schematest-001-contract-author.md). Logicaldocument4ab actuallyapprovedb8/import699943b only; no concreteAPI/
+installedfoundation/test/red approval. Sourceauthor assignment complete. Canonical session_supplier_author
 is DIFFERENT contract reviewer; primary/scoped prep complete and explicitly resumed with followup_task for actual
 4ab contractreview; own ONLY eventual contract-review.md in NEW isolatedtree.
-An idle agent requires followup_task; send_message alone does not start it. Do not assume any previous agent alive on resume.
+An idle agent requires followup_task; send_message alone does not start it.
+Logicalreview nowb8/import699 committed; not native/library execution proof. Do not assume any previous agent alive on resume.
 
 Initialstage is ONLY bounded exact CLI/manifest/API/error/resource/registry/example/
 JSONnumeric contract and independent literal/source evidence, no newpins/source/
@@ -81,3 +82,23 @@ Fullscope remains actual account/session/clock/authority/policy/action/applicati
 financial/review/refund/recovery/delivery, fullHTTP/WS/scene/bothrenderers/EN/DE/themes,
 Windows/Linux/Wayland/OBS/packages/licenses/security/allseven integrations/threeFX/
 live verification. Component/document completion does not establish complete product.
+
+## Current dependency-only proposal
+
+Rootcandidatec221519 adds tools/schema_validation/{requirements.lock,wheels.json},
+THIRD_PARTY_NOTICES candidateinventory and explicit isolatedvalidator-only library
+exception in tools/AGENTS.md; legacyprogress tools remainstdlib and no global/server/
+client dependency added. Twentyuniversal3.10-compatiblepins/28Linuxwheelhashes for
+CPython3.10/3.12/3.14 downloaded into /tmp/subathon-schema-pinned-cp310,-cp312,-cp314.
+No wheels installed/imported/executed. Staticmetadata/markers checked, not runtimeproof.
+[Proposal](schematest-001-dependency-proposal.md) preserves exactcommands/outcomes.
+Actualdifferent admissionreview canonical session_plan_review owns ONLY eventual
+schematest-001-dependency-review.md onNEWisolatedbranch fromc221; currently auditing
+all hash/license/metadata/PyPIclosure/policy facts. No admission approval yet.
+
+Next finish actual dependency admissionreview BEFORE any install; then author/review
+a small real-library foundation program (not wrapper behavior), run isolatedactual
+pinned install/check/foundation after approval, freeze concreteAPI/adapter, author/
+review independent tests/minimal immediate stub and observe intendedwrapperred.
+Do not jump from logicaldoc/dependencydownloads to baseline/implementationdone.
+Root no backgroundnativecommands active; all downloadcommands completed.
