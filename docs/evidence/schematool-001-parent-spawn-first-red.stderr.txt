@@ -1,0 +1,49 @@
+test_post_native_spawn_allocation_refusal_reaps_before_resource_limit (__main__.ParentSpawnRegression.test_post_native_spawn_allocation_refusal_reaps_before_resource_limit) ... FAIL
+test_sigint_during_native_constructor_reaps_before_propagating (__main__.ParentSpawnRegression.test_sigint_during_native_constructor_reaps_before_propagating) ... FAIL
+
+======================================================================
+FAIL: test_post_native_spawn_allocation_refusal_reaps_before_resource_limit (__main__.ParentSpawnRegression.test_post_native_spawn_allocation_refusal_reaps_before_resource_limit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001-parent-author/tests/schema_validation/parent_spawn_regression.py", line 243, in test_post_native_spawn_allocation_refusal_reaps_before_resource_limit
+    self.exercise_spawn_failure(allocation=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematool001-parent-author/tests/schema_validation/parent_spawn_regression.py", line 204, in exercise_spawn_failure
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        child_state, "parent-reaped",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "native constructor ownership; factory returned=" + repr(factory_returned)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        + "; fd states=" + repr(descriptor_states))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'running' != 'parent-reaped'
+- running
++ parent-reaped
+ : native constructor ownership; factory returned=[]; fd states=['closed', 'closed', 'closed', 'closed']
+
+======================================================================
+FAIL: test_sigint_during_native_constructor_reaps_before_propagating (__main__.ParentSpawnRegression.test_sigint_during_native_constructor_reaps_before_propagating)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001-parent-author/tests/schema_validation/parent_spawn_regression.py", line 240, in test_sigint_during_native_constructor_reaps_before_propagating
+    self.exercise_spawn_failure(allocation=False)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematool001-parent-author/tests/schema_validation/parent_spawn_regression.py", line 204, in exercise_spawn_failure
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        child_state, "parent-reaped",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "native constructor ownership; factory returned=" + repr(factory_returned)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        + "; fd states=" + repr(descriptor_states))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'running' != 'parent-reaped'
+- running
++ parent-reaped
+ : native constructor ownership; factory returned=[]; fd states=['closed', 'closed', 'closed', 'closed']
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.019s
+
+FAILED (failures=2)

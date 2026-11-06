@@ -1,0 +1,36 @@
+{
+  "started_utc": "2026-11-06T12:37:06.899997+00:00",
+  "source_commit": "a23026537a2fab9923fe77f5b71d06e4d35bc7f4",
+  "parent_blob": "1579604c8d50f08e7320c9d7723246fd2ddd3df7",
+  "test_blob": "777d9071cba94cb80e4147918722b5358f53946f",
+  "independent_document_review": "93a5e1cea6ea3d21d6706aefe3ca667b8dc80c91",
+  "private_process_blob": "f009979",
+  "independent_source_review": "57a79f1f6fc68f4c46667944c8079145464de336",
+  "argv": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-B",
+    "/tmp/subathon-schematool001-parent-author/tests/schema_validation/parent_spawn_regression.py"
+  ],
+  "cwd": "/tmp/subathon-schematool001-parent-author",
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "returncode": 1,
+  "timeout": false,
+  "elapsed_seconds": 0.11370279500260949,
+  "streams": {
+    "stdout": {
+      "path": "/tmp/schematool001-parent-spawn-first-red.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "/tmp/schematool001-parent-spawn-first-red.stderr.txt",
+      "bytes": 3138,
+      "sha256": "14fe4719a6cdab8638829dd30a830c74e873c2d07f1dec09d6e1890022c70797"
+    }
+  }
+}
