@@ -57,8 +57,9 @@ Actual selected hosted42168586251/job127730814851 at published5492ac6 completed
 SUCCESS05:28:48Z. Root downloaded full log `/tmp/milestone001-selected-ci.txt`,
 SHA8c6df279882fc72711793b6832d32f067025baa55d52daff77d18b9229225aaa.
 GNU13.3/Boost1.83 macro108300, strictcompiled53 ordinaryguard, old37PASS1.28s then
-UNCONDITIONAL53PASS0.16s; zero compiler/testskip/failure markers. Different reviewer
-is explicitly assigned independent query/download/receipt; approval pending.
+UNCONDITIONAL53PASS0.16s; zero compiler/testskip/failure markers. Different actual receipt approved013af3de/importb3637bc after its own query/
+download/tree proof; [CI](milestone-001-ci.md). Componentdone after actual passes/
+source/config/CI review; final completionmetadata review/publication gates pending.
 [Native](milestone-001-native.md), [handoff](milestone-001-handoff.md),
 [source/config](milestone-001-code-review.md), [metadata](milestone-001-metadata-review.md).
 
@@ -70,8 +71,14 @@ No other branch's old planned snapshot may overwrite this active milestone claim
 
 ## Next session transport work and remaining gates
 
-Canonical `session_supplier_review` has READ-ONLY transport002 preparation only,
-no claim/content. Scope fits focused document; primary-source research identifies
+Transport002 is now claimeddf1f1d1 from actualmain0605948, root
+`/tmp/subathon-sessioncontract002`, task/SESSIONCONTRACT-002-credential-transport.
+Canonical `session_supplier_review` explicitly assigned document AUTHOR on a NEW
+isolatedtree fromclaim, owns ONLY session-transport-v1.md/ownauthornote. Canonical
+`session_plan_review` explicitly assigned DIFFERENT transport document reviewer,
+read-onlypreparation pending actualcandidate; owns ONLY eventual002-review.md.
+No contractapproval/runtimeclaim yet. Its ownbranch423snapshot contains only its
+transportclaim; preserve it when integrating finalmilestonemain. The prior read-only Scope fits focused document; primary-source research identifies
 custom-header+exactconfiguredOrigin CSRF, __Host-/Secure/HttpOnly/SameSiteLax cookie,
 strict single desktopBearer and truthful failure/import obligations. These are
 proposals, not approved choices. Selected Drogon parsed maps lose duplicate headers/
@@ -80,10 +87,10 @@ secret-log suppression must be explicit later implementation/test gates. No supp
 framework behavior follows from source inspection. After normal001 integration root
 may claim002 from actualmain and assign content with a DIFFERENT actual reviewer.
 
-Next concrete actions: independently verify hosted milestone receipt; author/review
-actual completion metadata, publish finalhead, observe all latest CI/currentrules/
-threads, then normalmerge. Continue bounded002 document authoring from integrated
-supplier. Root tooling/project/render/19tests/DOM/whitespace checks pass; one temporary
+Next concrete actions: review actual milestone completion metadata; publish
+finalhead on existingPR73, observe all latest CI/currentrules/threads, then normalmerge.
+Continue bounded002 document authoring/review from integrated supplier. Actual
+PR72 merge0605948 is verified, no pending supplier001 integration remains. Root tooling/project/render/19tests/DOM/whitespace checks pass; one temporary
 parallel-checkpoint link issue was corrected before metadata approval. Native code
 checks unchanged after documentation-only integration; project checks rerun on423.
 

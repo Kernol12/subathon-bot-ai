@@ -24,8 +24,10 @@ Public ABI/oracles/assertions/fixtures and valid FIRST-red receipts remain uncha
 Header correction is COMMENT only. Root2792791 promotes ordinary labels, strict
 33+20 compiled inventory and unconditional53CI body after old37/foundation.
 Actual configuration279 separately approved276fc8f/import96d79b0, with independent
-old37/feature53PASS0.63/0.09s and strict53guard. Actual selectedCI/finalmetadata gates remain pending;
-component is in_review, not done or integrated.
+old37/feature53PASS0.63/0.09s and strict53guard. Actual [selectedCI](milestone-001-ci.md)42168586251 at549 passes old37/unconditional53,
+independently verified013/importb363. Componentdone now supported by passing
+acceptance/different actual source/config/CI review; final completionmetadata/
+latestpublicationCI/currentrules/normalmerge remain, no integration claim.
 
 Root owns shared build/CI/pins/state/map/HTML/headers/integration; author owns only
 source/authornote, reviewer owns only code-review note. Synthetic fixtures only.

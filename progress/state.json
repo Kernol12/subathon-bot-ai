@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:32:00+00:00",
+  "updated_at": "2026-11-06T05:33:26+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3231,7 +3231,7 @@
       "title": "Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "coordinator /root; milestone_author (implementation)",
       "depends_on": [
         "CONTRACT-002",
@@ -3248,27 +3248,30 @@
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim.",
         "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved.",
-        "Integrate normal PR72 merge0605948 (finalcae986c/all17SUCCESS/zero threads/currentrules/no bypass) while preserving actual milestone in_review row, source/config reviews and all old53 tests/source. Adopt supplier001done/transport002planned and additive423/1624graph; no sessiontask or release gate overwritten. Only sharedJSON/HTML/checkpoint conflicts reconciled. Selected milestone42168586251 at549SUCCESS/old37+unconditional53 observed; different receipt review and completion metadata still pending."
+        "Integrate normal PR72 merge0605948 (finalcae986c/all17SUCCESS/zero threads/currentrules/no bypass) while preserving actual milestone in_review row, source/config reviews and all old53 tests/source. Adopt supplier001done/transport002planned and additive423/1624graph; no sessiontask or release gate overwritten. Only sharedJSON/HTML/checkpoint conflicts reconciled. Selected milestone42168586251 at549SUCCESS/old37+unconditional53 observed; different receipt review and completion metadata still pending.",
+        "Complete pure progression component after preserved53/full90 nativepasses, different actualsource/config/resourceaudit and independently downloaded selectedhosted42168586251 at549SUCCESS: GNU13.3/Boost1.83macro108300/fresh26/strictordinary53guard/old37foundation25PASS1.28s/UNCONDITIONAL53PASS0.16s/0warnings-skips. ActualCIreceipt013/importb363. No originalassertion/fixture/publicABI/FIRSTred changed. Main060 integrated preserving423/1624 and supplier001done; own activeclaim preserved. Finalcomponentcompletionmetadata/latestheadCI/currentrules/discussions/normalmerge still required. MILE01/NUM04 partial and all authoritativeproducer/action/UI/provider/platform/releasegates retained."
       ],
       "verification": {
         "acceptance": "passed",
         "source_review": "passed",
         "configuration_review": "passed",
-        "selected_ci": "not_run",
-        "platform_release": "not_run"
+        "selected_ci": "passed",
+        "platform_release": "not_run",
+        "tooling": "passed"
       },
       "evidence": [
         "docs/evidence/milestonetest-001-handoff.md",
         "docs/evidence/milestone-001-author.md",
         "docs/evidence/milestone-001-native.md",
         "docs/evidence/milestone-001-code-review.md",
-        "docs/evidence/milestone-001-handoff.md"
+        "docs/evidence/milestone-001-handoff.md",
+        "docs/evidence/milestone-001-ci.md"
       ],
       "review": {
         "author": "session_plan_review (milestone_author)",
         "reviewer": "session_supplier_author (milestone source reviewer)",
         "outcome": "approved",
-        "revision": "Sourcea5/importc2305/d79 approvedb1/importb945, ordinaryconfiguration279 approved276fc8f/import96d79b0 after independent promotedold37/53PASS0.63/0.09s and strict53guard. ActualselectedCI/finalmetadata/latestpublication/normalmerge remain.",
+        "revision": "Sourcea5/d79 independently approvedb1/importb945; ordinaryconfig279 approved276/import96; actualselected42168586251 at549 independently verified013af3de/importb3637bc (GNU13.3/Boost108300/old37PASS1.28s/unconditional53PASS0.16s/0skip-warning). Initialmetadata33 approved722/import549. Finalcompletionmetadata/latestpublicationCI/normalmerge remain.",
         "evidence": "docs/evidence/milestone-001-code-review.md"
       }
     },
@@ -14929,6 +14932,11 @@
       "date": "2026-11-06T05:32:00+00:00",
       "task": "MILESTONE-001",
       "note": "Integrate normal PR72 merge0605948 (finalcae986c/all17SUCCESS/zero threads/currentrules/no bypass) while preserving actual milestone in_review row, source/config reviews and all old53 tests/source. Adopt supplier001done/transport002planned and additive423/1624graph; no sessiontask or release gate overwritten. Only sharedJSON/HTML/checkpoint conflicts reconciled. Selected milestone42168586251 at549SUCCESS/old37+unconditional53 observed; different receipt review and completion metadata still pending."
+    },
+    {
+      "date": "2026-11-06T05:33:26+00:00",
+      "task": "MILESTONE-001",
+      "note": "Complete pure progression component after preserved53/full90 nativepasses, different actualsource/config/resourceaudit and independently downloaded selectedhosted42168586251 at549SUCCESS: GNU13.3/Boost1.83macro108300/fresh26/strictordinary53guard/old37foundation25PASS1.28s/UNCONDITIONAL53PASS0.16s/0warnings-skips. ActualCIreceipt013/importb363. No originalassertion/fixture/publicABI/FIRSTred changed. Main060 integrated preserving423/1624 and supplier001done; own activeclaim preserved. Finalcomponentcompletionmetadata/latestheadCI/currentrules/discussions/normalmerge still required. MILE01/NUM04 partial and all authoritativeproducer/action/UI/provider/platform/releasegates retained."
     }
   ]
 }
