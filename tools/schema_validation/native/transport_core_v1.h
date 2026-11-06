@@ -83,7 +83,9 @@ struct Phase {
     PhaseEdge edge;
 };
 
-enum class Continuation : unsigned int { proceed, resource_refusal, interrupted };
+// Preserve a successful operation's raw return while a selected AFTER boundary
+// requests refusal. In particular, an already-closed FD must never be retried.
+enum class Continuation : unsigned int { proceed, resource_refusal, interrupted, transport_refusal };
 
 enum class ObservationKind : unsigned int {
     syscall_attempt = 1,
