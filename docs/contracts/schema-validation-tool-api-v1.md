@@ -174,8 +174,9 @@ The future private worker is `tools/schema_validation/worker.py`; it is not anot
 public package validator or alternate success path. Parent creates it with an
 absolute trusted interpreter/script argv, shell=False, isolated startup and no
 package-selected executable/environment. Its bounded control inputs are only the
-admitted manifest path, trusted selected SDK location and one private activation
-pipe descriptor. No caller graphs/proofs/validation result are serialized in.
+admitted manifest path, trusted selected SDK location and two private pipe
+descriptors: activation and outcome. These descriptors identify owned output
+channels, not caller-supplied validation results or additional package inputs. No caller graphs/proofs/validation result are serialized in.
 Neither parent nor worker imports the project source as a success fixture.
 Each trusted interpreter/script/SDK-directory path is absolute,1..4096UTF8 bytes,
 without NUL or lone surrogate; invalid/unrepresentable trusted configuration is
