@@ -1,169 +1,114 @@
-# Coordinator checkpoint — schema baseline in progress
+# Coordinator checkpoint — final wrapper source review before first red
 
-Updated6 November2026 by `/root`. The standing continuous coordinator instruction
-remains active. Full specificationv0.45 is incomplete. No owner decision/access is
-needed. Preserve all unfinished branches/worktrees and valid reviews/raw red evidence.
-No live credential/contribution/chat/provider/deployment operation was performed.
+/root,6 November2026. Standing coordination remains active; full specification0.45
+is incomplete. No owner decision/access is needed. Preserve unfinished refs/worktrees,
+valid reviews and every historical FIRST receipt. No live/provider/chat/auth/deploy
+operation. Primary main is clean14190827f9d6c5d73da669e9da5712726508be3a.
 
-## Integrated main
+## Integrated work and actual publication
 
-Primary checkout is clean main `14190827f9d6c5d73da669e9da5712726508be3a`.
-Normal merges this coordination session: PR72 supplier contract `0605948`, PR73
-pure milestone progression `4e85241`, PR74 credential transport `15cf7f1`, PR75
-schema prerequisite plan `1419082`. Each had all17 latest applicable checks passing,
-separate actual reviews and resolved/empty discussions before head-matched merge.
-See the four task handoffs; do not repeat completed stages. The plan preserved
-all old423 tasks/1624 edges and added3 tasks/5 edges:426 tasks/1629 dependencies.
+Normal session merges: PR72 supplier0605948; PR73 pure milestone4e85241; PR74 transport
+15cf7f1; PR75 schema prerequisite plan1419082. All17 then-applicable checks/separate
+actual reviews/threads/head-match gates passed. Their handoffs remain authoritative;
+do not repeat completed stages. Plan retained old423tasks/1624edges→426/1629.
+Root actual rules26170263 require PR/thread resolution and0 approving GitHub reviews,
+NO required-status rule and no bypass. Written policy still gates all latest checks
+and separate actual reviews. Requery current rules/head/reviews/threads before merge.
 
-Last inspected active ruleset26170263 has no bypass actors, PR/thread-resolution
-requirements and zero required approvals; it has NO required-status-check rule.
-Written policy still requires all applicable latest checks and independent reviews.
-Requery GitHub actual head/checks/reviews/threads/rules before any next merge.
+Active `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline, claimed
+ab822715 frommain141. [Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76).
+Latest fully inspected PUBLISHED87f8a75 has all19 checks SUCCESS, no reviews/threads/
+comments. Many later local commits below are NOT published yet: the new harness
+workflow must not execute until its current test-definition source is approved.
+Root owns state/HTML/pins/notices/imports/build/CI/checkpoint/publication. No reset,
+prune or discard. Inspect actual worktrees/processes/agents again on resumption.
 
-## Active branch and actual stage
+## Accepted contracts, dependencies and SDK facts
 
-Root `/tmp/subathon-schematest001`, branch
-`task/SCHEMATEST-001-validation-baseline`, claimed by `ab822715` from main1419082.
-[Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76) is the only open PR.
-Latest fully checked published head87f8a75 has all19 checks SUCCESS, no GitHub
-reviews/threads/comments; remains draft. It includes the separately reviewed14-method
-workflow and approved contracts/inert declarations. Executed hosted14 receipts refer
-to exact0a07f1b; those SDK/workflow blobs remain unchanged. Root local2af1b89 adds ONLY inert declarations, reviewed794/import8edb261.
-Later private process documente6fe6bd/API clarification reviewed3a2003a/import8b779f1.
-Wrapper tests are
-now being authored independently. SCHEMATEST001 stays in_progress and SCHEMATOOL001
-stays planned. No worker, parser or validation behavior exists; no wrapper feature/test body or
-intended missing-feature red has run. Library facts do not complete the baseline.
+Logical4ab/abb reviewedb8; publicAPI438/691 reviewed980, then private two-output-FD
+clarificatione6/APIa526 reviewed3a2003a/import8b779. Contexta8/32ec reviewed31f/importe475.
+Private installation3fb+cb74+774+0b/doc86d6d4/manifest6f4ffec reviewed522/importfab.
+Actual discovery/profile/ABI/three pre-sysconfig override guards, same-artifact
+WHEEL/METADATA identity and real clone/ENOSYS seam are frozen documents, NOT worker
+implementation. Original20pins/28archives/versions/targets/licenses remain unchanged.
+Metadata fields were independently checked against28unique/60copies and installed20.
+Tools-only isolated exception preserves legacy stdlib tools/no global/server/clientdeps.
 
-Root owns shared state/HTML/dependency pins/notices/imports/build/CI/publication.
-[Task handoff](schematest-001-handoff.md) links accepted documents/evidence.
-Actual93 registered worktrees were inspected clean at this resumption; historical
-refs including parked CONTRACT011 are preserved. Inspect again before writing.
-Agent list/process evidence is live session state, never assume old agents running.
+CP314 isolated offline install/pipcheck pass. Historical FIRST7 invalid guard receipt
+2199 retained: exact trusted bundled fileURI was falsely blocked; NOT wrapper red.
+Narrow01c/d2 correction reviewed21f before root7OK; actual hosted7 receiptde496.
+Additive11 reviewed9f before root11OK; hosted11 run42181462289 receipted separately.
+Fixedcursor12 reviewed5a88 before12OK0.120s; fixedOASscope13 reviewedcdf12 before13OK
+0.116s; no-id14 a80/6585 reviewed8ba before14OK0.119s. CI14delta6247 reviewed5b65;
+actual hosted14 run42187299493 at0a07:3.10.12 fourteenOK0.292s /3.12.3 fourteenOK0.199s.
+A's independently downloaded hosted14 receipt794/import8ed covers exact117947B log
+SHAee0c20ccfeb9b388db30271dd1a69c911198b4b507333c43c3064d55d392a2ba.
+No generic wrapper capability follows from those fixed SDK recipes.
 
-## Completed prerequisite evidence
+## Current actual wrapper source and reviews
 
-Logical contract4ab/abb426a reviewedb8/import699. Dependency candidatec221 reviewed
-ee5/importfadd:20 pins,28 unique wheels for CP310/312/314, complete marker/hash/license
-audit. Isolated offline hash-locked CP314 install and pipcheck pass; no global or
-server/client dependencies. The toolsAGENTS exception is explicit and reviewed.
+Only production tools/schema_validate.py4a124:18 enum/exact RuntimeError/two immediate
+named-marker bodies; independently reviewed794. No parser/worker/validation/help is
+implemented. Raw feature bodies and acceptance bodies have NEVER run.
 
-Initial seven-method source6d/4f37 was reviewed100 before its FIRST run failed
-because the harness blocked an exact trusted bundled fileURI. Preserve raw first
-receipt2199; this was NOT wrapper red or an actual remote request. Narrow correction
-01c/d2 was separately reviewed21f before rerun; unchanged assertions plus exact
-hash-verified bundled bytes/local-read ledger. Root7OK. CI confige040 reviewed23b;
-actual hosted7 run42178767687 independently receiptedde496/import04eaa5c.
+B source history73f→328→c1/ebb60; separate A ff9476a/importf5ec first24+last4 and
+C525b0c4/importc343 middle32/common helper reviews. Corrections were genuine fixture,
+protocol masking, cleanup and closed-role coverage findings before ANY execution.
+Additivefc5180b/a80 gave63 names/315 authored raw observations/3 script extras;
+C525d/import5f12 approved exact OAS dialect delta, A4347/import33ed approved3 real
+admission cases/script helper and root harness/config. Valid scopes preserved.
 
-Additive11 source3d/32e99 reviewed9f before root11OK. CI inventory4c reviewede956/
-import5233. Actual hosted11 run42181462289 at5233 passed Python3.10.12 eleven0.207s
-and3.12.3 eleven0.194s. Root full log SHA256d079f8297fc420cb0a993be89167b2bec5ff667aa4b6fb1c2e17f821011e2c02,
-path `/tmp/schematest001-hosted-context-foundation.txt`. Separate hosted receipt
-review is separate from this integrator observation.
+C final plan audit found intact-code metadata hash and argv-subclass coverage gaps.
+B090/6969 adds WHEEL/METADATA same-header byte mutation refusals +list/tuple poison.
+A found swallowed callback exceptions: B6b/043 adds NEVER-RESET13callback ledger and
+plain-list teardown; A6fae4b9/importaec8384 approved that actual delta. Root then
+found the same masking in help guards; B930a05b/importf785454 now source
+5c5e9b340b61fce93f8504b3d612861467539aff binds4mocks +asserts_not_called.63names,
+317 SOURCE-COUNTED raw observations/5 script extras, NOT runtime counts. A is
+ACTIVELY reviewing that exact final one-method correction; no renewed observation
+until actual approval. B is completed/idle, use followup_task if another finding.
 
-Public API corrected438/blob691270f independently reviewed980/importc681642.
-Context document46→d9→a8b3dc1, blob32ec87a, independently approved31f/importe475.
-Canonical fragments use%24defs. The public native whole-fragment control-schema
-route preserves unchanged raw targets and SDK lexical scope; encoded URI/control
-copies must fit existing budgets BEFORE construction. The profile's dynamic-ref/
-discriminator/ambiguous PathItem restrictions are explicit developer-tool gates,
-not removed product scope or invalid-standard claims. Literal data refs remain data.
+## Root harness, actual early green and next execution
 
-Fixed raw-default cursor12 sourceeaa/867fff reviewed5a88/importad5 BEFORE root12OK
-0.120s. Fixed OAS namespace scope13 source5d/30169 reviewedcdf12/importfd588 BEFORE
-root13OK0.116s. Root raw receipts are committed; [native receipt](schematest-001-foundation-cursor-scope-native.md).
-These are fixed real SDK facts, not general role/index/cursor/offline-process proof.
+Root21c71eb+0aa6d8d: harness97d95c/workflow842790e freezes63 real unittest registrations,
+inert declarations and20 actual installed metadata pairs/no-site child projection.
+Only definitions are imported; NO setup/test/feature/SDK/clone/worker. A4347 approved
+actual core/config+63 names. Definition source changes still require actual review.
+No untracked draft remains; all root work is committed. Current workflow is LOCAL.
 
-## Latest finite gate and actual assignments
+Root FIRST green harness at33ed used OLD testsourcea80, matched all reviewed blobs,
+selected CP314 -I -S -B/minimal env: exit0/0.07235s,20 pairs+63 registration,stderr
+empty. [Raw receipt/history](schematest-001-baseline-harness-native.md) committed3927104.
+Do not project this onto source5c. New final source warrants a refreshed green run.
 
-No-id14 sourcea80/6585 was reviewed8ba/importe373 BEFORE root14OK0.119s.
-Public fresh same-base resolver transition fixes the fixed no-id OAS-prefix/anchor
-case. CI inventory6247 independently reviewed5b65/import0a07. Actual hosted14
-run42187299493 at0a07: Python3.10.12 fourteenOK0.292s,3.12.3 fourteenOK0.199s,
-exact14 guards and pipcheck pass; checkouta11e8a4 names0a07/main141. Full117947B log
-`/tmp/schematest001-hosted-fourteen-foundation.txt`, SHA256
-`ee0c20ccfeb9b388db30271dd1a69c911198b4b507333c43c3064d55d392a2ba`.
-Root observed the complete log; separate receipt review is currently assigned.
-[Native evidence](schematest-001-foundation-no-id-scope-native.md).
+Canonical session_supplier_review(A) is currently final-help delta reviewer; owns
+only its final-delta-review note on isolated branch. Canonical session_plan_review(C)
+completed red-plan read-only coverage audit, idle; it has NOT reviewed a future red.
+Canonical session_supplier_author(B) authored all actual fixtures/tests, idle. Use
+actual collaboration.list_agents; send_message alone does not start completed agents.
 
-Root2af1b89 creates ONLY tools/schema_validate.py:18 outcome enum values, exact
-zero-argument RuntimeError and validate_package/main with immediate first-statement
-named unimplemented markers. No candidate imports or feature behavior. Root has NOT
-invoked either body. [Release receipt](schematest-001-inert-interface.md).
+Next receive A exact final source verdict, import it, verify blobs, run reviewed
+minimal green harness on exact finalsource. Preserve a separate raw receipt. Update
+state/handoff truthfully, render/check, publish reviewed source/config +reviews.
+Observe BOTH actual3.10/3.12 SDK14+metadata/63registration jobs and ALL19 latest checks,
+read full logs/checkout and obtain separate receipt review. No acceptance body runs
+in greenCI. Then at SAME clean source head FIRST native wrapper suite exactly ONCE
+under admitted CP314/minimal env; [execution/attribution plan](schematest-001-red-plan.md).
+Require native63 cases/only exact missing-marker errors/all63 methods/no skips/setup/
+fixture/dependency failures. Inspect final traceback frames at the TWO raw stub
+bodies, not just matching text.315/317 authored observations are NOT expected error
+counts; subTests continue while sequential calls stop. Save bytes/exit/time/hashes
+BEFORE interpreting. No wrapper-red receipt exists yet. Any other failure is an
+honest invalid/incomplete baseline, not intended red; preserve FIRST raw.
 
-Canonical `session_supplier_author` authored actual first wrapper test candidate
-73f33c7/import6810a71, corrections328/import32ecbc3 andc1e61bd/import2afe38a.
-Current sourceebb23a has60 named methods/300 SOURCE-COUNTED direct observations,
-not an execution receipt. One module/no helper imports, lazy setUpClass loads target;
-real fault children are only constructed after a raw call. No import/test/feature/
-child has run. Author note explicitly lists remaining admission/integration gates.
-All changes are on its separate wrapper-tests-author branch; only source/author note.
+Then DIFFERENT C audits actual red chronology/frames/native coverage/environment,
+followed by independent completion-metadata review and latest-head CI/normal merge
+gates. SCHEMATEST001 stays in_progress; SCHEMATOOL001 stays planned. C agreed child
+ABI/RLIMIT/no-site/read-race/offline/allocation internals can remain explicit actual
+implementation acceptance/source-audit obligations, never claimed dynamically proved
+by parent fault mocks. No production before integrated reviewed/red baseline.
 
-Canonical `session_supplier_review` completed actual ROOT inert-declaration/hosted14
-artifact review794e95d/import8edb261 on NEW isolated tree. Exact source4a124 and own
-full117947B hosted log independently checked; no candidate/feature execution. This
-agent authored source14, so its source approval remains C8ba; CI approval remains
-B5b65. Agent is idle after that handoff; use followup_task for any new assignment.
-
-Canonical `session_supplier_review` is now actively reviewing ACTUAL test source
-on its separate public-process review branch: first24 API/path/JSON/byte/count
-methods plus last4 process cases and all related helpers. Prior concrete findings
-were corrected before any execution: protocol extra-key/forbidden-code rows now
-use matching exits to isolate each refusal; help exact-int/read coverage; real CLI
-resource-limit status4; complete readiness/timer/FD/child exceptional cleanup.
-Its actual correctedc1/ebb verdict remains pending; no prospective approval.
-
-Canonical `session_plan_review` actively reviews the middle32 numeric/schema/role/
-reference/cycle/inventory/budget/priority methods and common helpers, separate note.
-Actual corrections add the multipart property, raw sibling/anchor/propertyNames/
-encoded-control boundaries and every closed Schema child closure plus unsupported
-OAS callback/link rows. Its actualc1/ebb verdict remains pending. Neither partial
-scope review alone establishes a complete baseline.
-
-The private process/fault documente6fe6bd (process7f30d99/APIa526dbc) is independently
-approved3a2003a/import8b779f1. It explicitly lists the existing two output pipe FDs,
-fixes private argv/Popen/clock plumbing and permits ONLY real fault child processes
-for malformed protocol/deadline/cleanup tests; no fake successful validator. B is
-released to author those exact fault cases. No process implementation exists.
-[Process contract](../contracts/schema-validation-process-test-v1.md),
-[review](schematest-001-process-test-review.md).
-
-## Pending admission refinement and root harness
-
-Root proposal3fbf2e4 pluscb74ecd supplies the private installation contract and
-metadata identities for ALL28 already whole-hash-admitted wheels. Pins/archives/
-versions/targets/licenses remain unchanged. New exact dist-info/WHEEL/METADATA
-hashes were derived using stdlib zipfile only; maximum raw sizes224/141528bytes.
-[Installation proposal](../contracts/schema-validation-installation-v1.md) is NOT
-independently approved yet. It freezes actual parent venv/single-root ABI discovery,
-child -I-S recomputation without prefix guessing, phase6 exact metadata identity,
-real fresh-venv copy/missing-package tests and a documented parent os.pipe ENOSYS
-seam. Missing selected distribution must remain dependency_unavailable, not early
-environment failure. C's different actual document/data review is queued after its
-current corrected source verdict. B may read but NOT author dependent admission
-cases before that actual approval. No general production implementation is released.
-
-Root has an UNTRACKED, UNEXECUTED draft tools/schema_validation/check_baseline.py
-in its integrator worktree. Preserve it. It freezes60 actual registrations and will
-import only reviewed inert definitions/enumerate unittest without setup/body calls.
-It still needs final additive admission names, complete source review, CI integration
-and DIFFERENT actual harness/configuration approval before execution/publication.
-No workflow change for this harness is authored yet; current stableCI onlyruns14SDK.
-
-Next finish actual current partial test reviews; review exact admission document/data;
-author the missing real admission cases; obtain actual complete source/oracle review;
-finalize/review static-discovery CI and observe it; then FIRST genuine missing-wrapper
-red in admitted environment. Preserve all raw bytes and marker attribution. Missing
-dependencies/import/fixture/setup failures/skips do not supply red. Do not erase
-valid partial approvals when adding independently reviewed cases. Production waits
-for the integrated complete reviewed/red baseline. Keep intentional red separate
-from passing CI; later promote only passing behavior under actual review.
-Root tooling19/19 passed0.326s; project426/122/HTML/render/diff pass. No owner decision
-or access is needed. Real worker ABI/resource/no-site/read-race/offline protection
-remains explicitly acceptance/integration/source-audit work, never inferred from a
-parent fault mock or a refusal code. No literal-data refusal or scope shrink allowed.
-
-Full release retains actual authority/policy/clock/actions/session/application and
-financial/review/refund/recovery/delivery, full HTTP/WS/scene, native/browser renderers,
-EN/DE/themes, Windows/Linux/Wayland/OBS, packaging/security/licenses, all seven
-integrations and all three FX providers, plus live/platform verification gates.
+Root legacy19 tooling tests passed0.326s; project426/122/HTML/render/diff pass.
+Full release retains authority/session/policy/clock/actions/financial/recovery, full
+HTTP/WS/scene, native/browser EN/DE/themes/Windows/Linux/Wayland/OBS/security/packages,
+allseven integrations/threeFX and live/platform gates. No routine owner approval.

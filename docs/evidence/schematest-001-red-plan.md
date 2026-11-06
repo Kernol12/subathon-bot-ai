@@ -1,7 +1,7 @@
 # First wrapper-red execution and attribution plan
 
 Root `/root`,6 November2026. This is a plan, NOT an execution receipt. Actual
-wrapper candidatefc5180b/sourcea80b16c has63 named methods; earlier ebb60 approval
+wrapper candidate930a05b/source5c5e9b3 has63 named methods; earlier ebb60 approval
 A ff9476a/C525b0c4 plus C525d31d dialect delta are recorded. A's actual final
 admission/harness verdict remains required at this plan's authoring. No wrapper
 feature/test body or definition-discovery harness has executed.
@@ -34,8 +34,9 @@ env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 /tmp/subathon-schematest00
    disabled/expected-failure cases, no setup/import/dependency/fixture failures or
    AssertionError failures. Every native ERROR section must end in the exact named
    SchemaValidationNotImplemented text from the reviewed raw immediate stub; the
-   set of method names in those sections must equal all63 registrations. The number
-   of missing-marker errors is OBSERVED, not invented from315 authored observations:
+   set of method names in those sections must equal all63 registrations. Inspect each final traceback frame at the two actual raw stub bodies, beyond
+   matching exception text. The number of missing-marker errors is OBSERVED, not
+   invented from317 authored observations:
    subTests can continue while later sequential calls stop at their first marker.
    Stdout must be empty; native stderr is the real failure report, not CLI success.
 6. If any error has another cause, retain FIRST bytes and label that baseline
