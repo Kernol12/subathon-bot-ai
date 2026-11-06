@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Nonvalidating fixture controls only. Both DSO owner entries remain literal31.
+// Nonvalidating fixture controls; the transport algorithm lives in the shared native core.
 #include "native_fault_state.h"
 #include "native_fault_v1.h"
 #include "native_foundation_child.h"

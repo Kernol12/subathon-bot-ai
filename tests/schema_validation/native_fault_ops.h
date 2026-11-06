@@ -17,7 +17,7 @@ static_assert(sizeof(SUBATHON_NATIVE_FAULT_CHILD_PATH) <= 4097 &&
 namespace subathon::schema_validation::native::fault {
 
 // Test-only syscall policy. This contains no path admission, owner, protocol decoder,
-// launch/read/poll/wait loop or ABI trampoline. The common algorithm stays absent.
+// launch/read/poll/wait loop or ABI trampoline. The shared core owns the algorithm.
 class [[gnu::visibility("hidden")]] FaultOps {
     struct Handle {
         int descriptor = -1;

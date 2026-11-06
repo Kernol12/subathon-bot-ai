@@ -1,0 +1,11 @@
+# Actual new normalization-close reached-bug red
+
+ActualdifferentC c589 artifactadmission imported ae97 precededthisorderedLOCALsequence onmatchingproductionE557/faulte1bb/foundationf831: strictno-childbootstrapXML EXACT1run/completed/0skip-error-fail/native0; enabledfoundationinventory56; FULL56native0/PASS/.15s/55CPP+loader2/0skip. Rawcommands/XML/fullverboseoutput/receipts are adjacentarchive. This refreshesfacilities/runtimeadmission, notoriginalnative31 FIRST orcompletedhistoricalred replay.
+
+Rootthenmistakenly omittedrequired --artifact from newregressioncommand. That attemptat21:55:09 exitedargparse2/usage, ZEROtests/nativecalls. It is EXPRESSLYNOTvalidred; keptfortruthfulchronology. CorrectexactauthoredCLI ranFIRSTactualmethod atclean ae97dea38fee530b5f7ba6bc2d7e81c2dcc9ac7f,21:55:52.494014Z, ordinarydedicatedCPython3.14.9 -I -B/minimalenv3 andexplicitactualfaultartifact. It executes1method/1FAIL/.180s/exit1/stdoutempty/stderr1087B SHA5f4706f7965452458f2cef31a9c2781d15b5f939707bcfc05131af4fb9870c51.
+
+ONLYfailureisline89actual0!=literal18. AllPRECEDINGrawfacts passed: selectedAFTER41actualclose0, realoriginalslotreleaseACK40beforemarker, genuineadoptionhistory, allobservedownerFDsEBADF, rawown-thread+groupP_ALLcleanupfacts beforefallback. The preservedwork=falsebug continuedtoREALworker/SDK0, notafakeacceptedresult. Post-line89 FULLsession.assert_evidence(no-birth/final18etc) wasNOTreached andisnotclaimedpassed. No31/setup/import/compile/dependency/poison/fixturefailure causedthisred. Fixturecleanupfinallycompletedwithoutoverridingtheactualassertion.
+
+This releasesBONLYthreework-contextfalse→truefix, differentCsource review, matchingrebuild/bothcombinedstatics, SAMEnewregressionPASS. Fullnative69/binding9/public74/loadercleanup1/SDK14+latestbothhostCI remainbeforePR77completion/normalmerge/STOP.
+
+Archivebytes 11213 SHA256 64616b359c0b63b02a6c8c53c57100bd8f52b4cfec2e9edbc324a2ea02ae7ffe.
