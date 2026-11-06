@@ -43,7 +43,7 @@ jobs:
             "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir uninstall --yes setuptools
           fi
           "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir check
-      - name: Require all eleven reviewed foundation methods
+      - name: Require all thirteen reviewed foundation methods
         run: |
           /usr/bin/python3 - <<'PYTHON'
           import ast
@@ -61,14 +61,16 @@ jobs:
               'test_sdk_uri_fragment_pointers_and_nested_resource_anchor_scope',
               'test_sdk_schema_subresources_exclude_literal_data_contexts',
               'test_sdk_instance_validation_does_not_close_unused_schema_references',
+              'test_sdk_fixed_raw_default_cursor_retains_native_default_validation',
+              'test_sdk_fixed_oas_specification_retains_nested_schema_scope',
           }
           classes = [n for n in source.body if isinstance(n, ast.ClassDef) and n.name == 'LibraryFoundation']
           if len(classes) != 1:
               raise SystemExit('Foundation class inventory differs')
           methods = [n for n in classes[0].body if isinstance(n, ast.FunctionDef) and n.name.startswith('test_')]
-          if len(methods) != 11 or {n.name for n in methods} != expected or any(n.decorator_list for n in methods):
+          if len(methods) != 13 or {n.name for n in methods} != expected or any(n.decorator_list for n in methods):
               raise SystemExit('Foundation method inventory changed or a case is decorated')
-          print('Eleven reviewed methods; none disabled or failure-inverted')
+          print('Thirteen reviewed methods; none disabled or failure-inverted')
           PYTHON
       - name: Execute every reviewed real-library foundation unconditionally
         run: |
