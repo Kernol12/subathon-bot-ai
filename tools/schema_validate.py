@@ -13,6 +13,7 @@ import select
 import stat
 import subprocess
 import sys
+import threading
 import time
 from types import MappingProxyType
 
@@ -69,6 +70,9 @@ _URI_SCHEME = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 _CHILD_ENVIRONMENT = MappingProxyType({
     "PATH": "/usr/bin:/bin", "LC_ALL": "C.UTF-8", "LANG": "C.UTF-8"
 })
+# Identity metadata only: construction ALWAYS uses the module attribute below.
+_NATIVE_PROCESS_TYPE = subprocess.Popen
+_NATIVE_PROCESS_INIT_CODE = subprocess.Popen.__init__.__code__
 
 
 class _Deadline(Exception):
@@ -77,6 +81,124 @@ class _Deadline(Exception):
 
 class _ProtocolFailure(Exception):
     pass
+
+
+class _SpawnUnavailable(Exception):
+    pass
+
+
+class _OwnedSpawn:
+    __slots__ = ("process", "failure", "cancelled", "stop", "thread", "deadline",
+                 "entered", "started", "finished")
+
+    def __init__(self):
+        self.process = self.failure = self.cancelled = self.thread = self.deadline = None
+        self.stop = False
+        self.entered = self.started = False
+        self.finished = threading.Event()
+
+
+def _failed_constructor_process(failure):
+    """Recover ONLY an actual, published-PID native constructor object.
+
+    The dedicated GIL-enabled CPython profile supplies this exact init code/type.
+    Inspect at most32 control frames and materialize locals for only that frame.
+    An unpublished native PID is a separate unresolved platform ownership gate.
+    """
+    traceback = failure.__traceback__
+    for _ in range(32):
+        if traceback is None:
+            break
+        frame = traceback.tb_frame
+        if frame.f_code is _NATIVE_PROCESS_INIT_CODE:
+            candidate = frame.f_locals.get("self")
+            if type(candidate) is _NATIVE_PROCESS_TYPE:
+                pid = object.__getattribute__(candidate, "__dict__").get("pid")
+                if type(pid) is int and pid > 0:
+                    return candidate
+        traceback = traceback.tb_next
+    return None
+
+
+def _join_spawn(owner):
+    """Use explicit completion, not an interrupted Thread.join liveness result."""
+    while owner.thread is not None and (owner.started or owner.entered):
+        try:
+            if owner.finished.wait():
+                break
+        except BaseException as interruption:
+            owner.stop = True
+            if isinstance(interruption, Exception):
+                if owner.failure is None:
+                    owner.failure = interruption
+            elif owner.cancelled is None:
+                owner.cancelled = interruption
+    if owner.thread is not None and owner.finished.is_set():
+        while True:
+            try:
+                owner.thread.join()
+                break
+            except BaseException as interruption:
+                owner.stop = True
+                if isinstance(interruption, Exception):
+                    if owner.failure is None:
+                        owner.failure = interruption
+                elif owner.cancelled is None:
+                    owner.cancelled = interruption
+
+
+def _start_spawn(owner, argv, write_descriptors):
+    """Keep main-thread signals out of construction and handle publication."""
+    def launch():
+        owner.entered = True
+        try:
+            if owner.stop:
+                return
+            owner.deadline = time.monotonic() + 10.0
+            owner.process = subprocess.Popen(
+                argv, shell=False, close_fds=True, stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                pass_fds=write_descriptors, env=dict(_CHILD_ENVIRONMENT))
+        except BaseException as failure:
+            try:
+                owner.process = _failed_constructor_process(failure)
+            except BaseException as recovery_failure:
+                if owner.failure is None:
+                    owner.failure = recovery_failure
+                recovery_failure.__traceback__ = None
+            finally:
+                if isinstance(failure, Exception):
+                    if owner.failure is None:
+                        owner.failure = failure
+                elif owner.cancelled is None:
+                    owner.cancelled = failure
+                # Keep no native exception frame/object graph after recovery.
+                failure.__traceback__ = None
+        finally:
+            owner.finished.set()
+
+    owner.thread = threading.Thread(target=launch, name="schema-worker-spawn", daemon=False)
+    try:
+        owner.thread.start()
+        owner.started = True
+    except BaseException as failure:
+        # If a native thread starts after caller interruption, this prepublished
+        # flag prevents it from starting a child. A running thread is joined.
+        owner.stop = True
+        if isinstance(failure, RuntimeError):
+            owner.failure = _SpawnUnavailable()
+        elif isinstance(failure, Exception):
+            owner.failure = failure
+        elif owner.cancelled is None:
+            owner.cancelled = failure
+    _join_spawn(owner)
+    if owner.cancelled is not None:
+        raise owner.cancelled
+    if owner.failure is not None:
+        if isinstance(owner.failure, (MemoryError, OSError, ValueError, AttributeError, _SpawnUnavailable)):
+            raise owner.failure
+        raise _ProtocolFailure() from None
+    return owner.process, owner.deadline
 
 
 def _bounded_path(value, absolute=False):
@@ -231,19 +353,17 @@ def _worker_result(path, installation):
     """One owner closes every descriptor and reaps on return or cancellation."""
     owned = set()
     process = None
+    spawn_owner = None
     result = SchemaValidationOutcome.validation_unavailable
     cleanup_ok = True
     try:
+        spawn_owner = _OwnedSpawn()
         activation_read, activation_write = _pipe(owned)
         outcome_read, outcome_write = _pipe(owned)
         executable, worker, sdk = installation
         argv = [executable, "-I", "-S", worker, "--manifest", path, "--sdk-dir", sdk,
                 "--activation-fd", str(activation_write), "--outcome-fd", str(outcome_write)]
-        deadline = time.monotonic() + 10.0
-        process = subprocess.Popen(
-            argv, shell=False, close_fds=True, stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            pass_fds=(activation_write, outcome_write), env=dict(_CHILD_ENVIRONMENT))
+        process, deadline = _start_spawn(spawn_owner, argv, (activation_write, outcome_write))
         _close(activation_write, owned)
         _close(outcome_write, owned)
         result = _receive(process, activation_read, outcome_read, owned, deadline)
@@ -253,6 +373,8 @@ def _worker_result(path, installation):
         result = SchemaValidationOutcome.resource_limit
     except _ProtocolFailure:
         result = SchemaValidationOutcome.validation_unavailable
+    except _SpawnUnavailable:
+        result = SchemaValidationOutcome.environment_unavailable
     except OSError as error:
         if error.errno == errno.ENOMEM:
             result = SchemaValidationOutcome.resource_limit
@@ -265,6 +387,12 @@ def _worker_result(path, installation):
     finally:
         original_failure = sys.exc_info()[1]
         deferred = None
+        if spawn_owner is not None:
+            spawn_owner.stop = True
+            _join_spawn(spawn_owner)
+            process = spawn_owner.process
+            if original_failure is None:
+                deferred = spawn_owner.cancelled
         try:
             while owned:
                 try:
@@ -299,6 +427,10 @@ def _worker_result(path, installation):
                     except BaseException as interruption:
                         if deferred is None:
                             deferred = interruption
+        if spawn_owner is not None:
+            if spawn_owner.failure is not None:
+                spawn_owner.failure.__traceback__ = None
+            spawn_owner.failure = spawn_owner.cancelled = spawn_owner.process = spawn_owner.thread = None
         if deferred is not None and original_failure is None:
             raise deferred
     return result if cleanup_ok else SchemaValidationOutcome.validation_unavailable

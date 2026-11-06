@@ -133,3 +133,67 @@ clock/source/parent/test/document/source-review/status/hashes). External observe
 preserved native failure1 rather than inversion. Root retains durable-artifact
 integration ownership. This is actual author attribution pending different review.
 No ownership correction preceded this evidence or weakened its assertions.
+
+## Coherent published-handle correction (unpublished PID remains OPEN)
+
+AFTER actual red was anchored ina269e17, implement owned construction with ONE
+private preallocated owner and ONE non-daemon helper thread. The actual factory
+call remains module-attribute subprocess.Popen with the SAME argv/keywords/twoFD/
+minimal environment. Native type/init code references are IDENTITY METADATA ONLY;
+never call an alias, __new__, alternate factory, profiler, handler or signal mask.
+Python signals execute in main, so the constructor thread can publish its actual
+returned handle before caller interruption propagates. Sticky stop state prevents
+an interrupted thread startup from later starting an unowned child; a constructor
+that already entered is awaited before caller cleanup.
+
+For native constructor failure AFTER a PID is published on self, walk at most32
+exception control frames, match the EXACT saved native __init__ code and EXACT
+native class, then accept only a builtin positive-int PID from that object's own
+state. This recovers the REAL partial object, never a test PID, argument string,
+protocol result or destructor guess. Materialize locals for ONLY that one native
+frame; all its data are fixed stdlib/control values, not package trees/SDK values.
+The exception traceback is cleared immediately after recovery; failure/control
+references are cleared after synchronous cleanup. No exception/frame/cache is
+stored globally or sent through the public return.
+
+Actual selected3.10.12/3.12.3
+[threading source](https://raw.githubusercontent.com/python/cpython/v3.10.12/Lib/threading.py)
+and [3.12 threading](https://raw.githubusercontent.com/python/cpython/v3.12.3/Lib/threading.py)
+were checked through primary web reads: interrupted join's lock exception path can
+mark a thread stopped. Therefore REAL owner completion is published through an
+explicit Event AFTER process/error recovery, not inferred from is_alive/join's
+state after interruption. Join follows that ownership acknowledgement. No callback
+from package data participates. Deadline is still recorded via module monotonic
+immediately before the actual Popen call IN the constructor thread; startup/IO/exit
+are charged to that same deadline and never reset on activation.
+
+Exact corrected parent blob3438a92c9a98a4aa326ed733abffeee6c26c7502:
+SAME new constructor2 tests actual PASS1.017s/exit0; previous cleanup/allocation2
+actual PASS0.010s/exit0; reviewed11 parent methods actual PASS0.207s/exit0. Same
+selectedCP314 -I -B/minimal environment/cwd as recorded commands. No assertions
+changed. Initial owned-thread draft2 passed1.018s before the explicit completion
+refinement; only1.017 is attributed to3438a92. No full64, old red, clone or SDK
+probe/install ran. Static3.10 AST/compile and exact-one-module-Popen-call assertions
+PASS; project/render/diff checks accompany commit. Regression777d/prioracde/frozen64f
+remain exact. Different corrected CODE review remains required; these are author
+observations, not independent approval or complete task acceptance.
+
+### Specific allocation/ownership limitations retained for different review
+
+This is a PUBLISHED-handle correction only. Primary selected CPython
+[_posixsubprocess.c3.14.9](https://raw.githubusercontent.com/python/cpython/v3.14.9/Modules/_posixsubprocess.c)
+returns PyLong_FromPid AFTER do_fork_exec; real MemoryError there may occur before
+Popen.self.pid receives the native PID. No valid handle exists in that traceback
+state. Traceback-local materialization itself also allocates bounded control
+metadata; failure there cannot be advertised as established child cleanup. The
+helper records/refuses failure but this source does NOT supply the missing kernel
+ownership proof. No unqualified global-OOM guarantee or taskdone claim is made.
+
+Root explicitly retains that known source gate and separately investigates a
+preopened Linux per-birth-thread child-ownership fallback, keeping the birth thread
+alive through recovery. No /proc/pidfd fallback, PID guessing, other-child reaping,
+factory bypass, private runtime relaxation or test-detection branch is implemented
+here. Any fallback needs source-backed bounded parsing/identity/reaping semantics,
+a separate reviewed negative native-fork regression, actual reached red and
+independent code review. Existing public64/worker/ordinaryCI/allocation/security
+and product/release gates remain. No silent scope shrink or fake successful worker.
