@@ -1,4 +1,4 @@
-# Schema validation context adapter — document proposal v1
+# Schema validation context adapter — document proposal v1, revision2
 
 SCHEMATEST-001, author base5233ff4. Completes the proposed concrete DOCUMENT split
 under [logical v1](schema-validation-tool-v1.md), exact blob
@@ -22,8 +22,17 @@ RFC6901 pointer. Root is empty; object segments escape ~→~0 then /→~1, array
 use canonical unsigned decimal. Do not resolve `$ref` while constructing this index.
 A physical value can have distinct indexed roles; identity is
 `(document ordinal, physical pointer, role)`, never Python id/equal JSON contents.
-Schema records additionally hold lexical schema-resource identity and its SDK
-resolver. An alias/reference occurrence retains its own identity and target edge;
+Early public dialect/format admission builds ONLY this pure closed-table physical
+role index, after bounded strict decoding and BEFORE dependency imports. It runs no
+SDK operation, URI lookup or schema assertion engine. Schema scope fields remain
+EMPTY until post-dependency enrichment. Missing/wrong-shaped containers or schema
+children are retained as typed pending-invalid locations for later native structural
+checks; do not invent child contents, coerce types or validate assertions early.
+DATA is one atomic borrowed view of its raw subtree: descendants do not receive
+4096-budget role records or get scanned for keywords. All their JSON values/tokens
+still count in the separate accepted per-file parse/resource budgets. After exact
+dependency admission, valid Schema records acquire SDK resource identity/resolver.
+An alias/reference occurrence retains its own identity and target edge;
 it does not replace/erase the original object or schema `$ref` siblings.
 
 The following is the CLOSED structural-location table. Names after * are map keys;
@@ -48,7 +57,7 @@ Native structure checks, rather than the role index, validate required keys/type
 | Example | value→Data; externalValue is a refused tool feature |
 | SecurityScheme | flows and nested OAuth flow/scopes→Metadata |
 | Metadata | actual nested metadata only: Info contact/license, Server variables, Tag externalDocs, OAuth flows/scopes, security-requirement maps; NO inferred refs/schema/examples |
-| Schema | schema children in the next table; example, examples[], default, const, enum[]→Data |
+| Schema | schema children in the next table; example, examples[], default, const, enum→Data |
 | Data | complete raw JSON value; descendants stay DATA, regardless of key spellings |
 | Document jsonschema202012 | root→Schema |
 
@@ -86,15 +95,25 @@ Package `$dynamicRef`/`$dynamicAnchor` are an explicit unsupported_feature v1 ga
 the finite static cycle proof below does not establish dynamic-scope evaluation.
 This written profile limitation needs actual independent review; no standard or
 product feature is declared invalid or deleted. Official trusted metaschemas may
-use dynamic references inside their real SDK evaluation. Unknown/custom dialects
+use dynamic references inside their real SDK evaluation. Package Schema.discriminator
+is also explicitly unsupported_feature in revision2: OAS3.1.1 §§4.3/4.8.25 gives
+its implicit/explicit component names and URI mappings real schema connections,
+which the finite typed closure above does not establish. Do not silently ignore
+these mappings or rely on ordinary instance validation to close them. A separately
+reviewed profile extension must supply their complete typed/native-backed resolution.
+This applies only to the discriminator FIELD at a real package Schema role, never
+a property NAMED discriminator or literal data. Dynamic/discriminator gates never
+scan/refuse trusted SDK metaschemas or their internal native references; those use
+the admitted finite official registry and actual SDK semantics. Unknown/custom dialects
 and package vocabularies retain logical unsupported_dialect admission.
 
 ## 2. Scope, URI lookup and complete typed closure
 
 Each declared document has exact synthetic URI
 `https://schemas.subathon.invalid/package/` + RelativePath. No URI is a file-open
-instruction. Build the actual in-memory registry BEFORE instance validation, using
-`referencing.Registry(retrieve=deny)` and pinned Draft202012 Resources. The deny
+instruction. AFTER dependency admission, build the actual in-memory registry BEFORE
+instance validation, using `referencing.Registry(retrieve=deny)` and the following
+pinned Draft202012/explicit OAS-container Resources. The deny
 callback raises precise NoSuchResource, performs no IO, and cannot provide a fake
 successful schema. Preloaded official SDK metaschemas are a separate trusted finite
 registry, not permission for package refs to target arbitrary dependencies.
@@ -110,13 +129,31 @@ Resource/root aliases do not permit overwriting an earlier declaration.
 
 Standalone-schema resolver scope follows actual SDK subresource traversal. An OAS
 document is not a Draft202012 schema root: registering its whole JSON as though it
-were one does NOT supply Schema Object scope. Index its actual Schema roots first;
-start from its synthetic-document resolver, then enter each real schema ancestor
-through SDK in_subresource. Retain that scope for each schema record. A cross-OAS
-document-pointer lookup must be matched back to its physical typed index record
-and that record's stored schema scope, not a guessed pointer-prefix base. Exact
-OAS-fragment→embedded-schema `$id`/anchor scope is an additional required fixed SDK
-integration fact; the existing standalone pointer recipe is not this proof.
+were one does NOT supply Schema Object scope. The REQUIRED proposed namespace bridge
+uses public referencing.Specification(name, id_of, subresources_of, anchors_in,
+maybe_in_subresource), with callbacks driven ONLY by the bounded indexed role metadata:
+
+- OAS document/container nodes have no schema id/anchors. Their subresources callback
+  exposes the actual indexed Schema roots; it never guesses from data key spellings.
+- At schema positions, id/subresources/anchor callbacks delegate to native DRAFT202012.
+  Structural-container→typed-Schema transitions in maybe_in_subresource enter the
+  actual child through the SDK resolver.in_subresource. Schema-descendant transitions
+  use native Draft semantics with the correct schema-relative segment context.
+- Register this Specification's resource for the actual OAS document URI, alongside
+  complete native schema resources. This bridge MUST govern native instance `$ref`
+  lookup of `api.json#/.../Schema` too; merely fixing our closure-pass scope is insufficient.
+  It must preserve schema roots WITH and WITHOUT $id, nested relative ids/anchors,
+  cross-document targets and raw `$ref` siblings. Unknown contexts cannot masquerade
+  as Schema; malformed contexts stay for native invalid_schema at its earlier phase.
+
+No assertion checker, resolver replacement or transformed document is introduced by
+the metadata bridge. Retain the actual SDK entry scope on each schema record. Lookup
+targets map back to physical typed records and their scope, not guessed path prefixes.
+The separately authored5d8c962 fixed Specification recipe is only a source hypothesis
+pending different actual review/run; it covers ONE known OASroot→Sample transition
+with a relative root id/nested id/anchors. It does not prove the general role bridge,
+no-id roots or all native instance lookups. Those remain exact integration/test gates;
+the earlier standalone pointer fact supplies none of this OAS-container proof.
 
 For RAW manifest pointers, first admit RFC6901 escapes. To create a URI fragment,
 UTF8-percent-encode pointer bytes except unreserved bytes and '/', preserving ~0/~1;
@@ -193,8 +230,11 @@ schema form. Content form associates through that actual MediaType. No convenien
 permissive target or dereferenced replacement for a schema `$ref` object is accepted.
 An example in such a use context without an associated schema is unsupported_feature
 under this finite profile, not silently omitted or validated against implicit true.
-Unused component Example values have no forced schema: require at least one explicit
-binding to an actual indexed schema. Reuse in several contexts requires every
+FREE component Example values mean precisely ZERO forced use-schema associations
+anywhere in the complete package: require at least one explicit binding to an actual
+indexed schema. Once such a component value is used with an associated schema, it
+is no longer free and permits ONLY its complete set of forced schema associations,
+with no arbitrary extra target. Reuse in several contexts requires every
 distinct associated schema binding; exact repeated use of the same pair needs one.
 
 Normalize manifest sources/targets to these physical identities only AFTER typed

@@ -61,3 +61,25 @@ interfaces/harness/tests. Independent complete fixtures/oracles/test review and
 observed intended missing-wrapper red precede SCHEMATOOL001 production. All original
 CONTRACT013/runtime/platform/live/full-release requirements and seven providers/
 three FX remain. The author does not approve their own document or future behavior.
+
+Actual46bf7de independent review corrections, revision2: explicitly gate package
+Schema.discriminator because normative implicit-name/URI mapping closure is not
+supplied by ordinary validators; this versioned TOOL-profile refinement retains
+the product feature and requires separately reviewed extension/actual C review.
+Trusted SDK metaschemas/internal dynamic/discriminator data are exempt from package
+admission gates. No literal package data is refused to fit the SDK bug.
+
+Early public dialect/format admission is now explicitly a pure closed-table role
+index with no SDK scope/import/assertion work. Post-dependency enrichment owns SDK
+resources/resolvers; invalid-shaped child positions remain for native invalid_schema.
+DATA is an atomic borrowed subtree view, separately covered by all parse budgets;
+free component Example means zero forced associations across all uses, preventing
+an extra permissive binding to a used component value.
+
+The proposed OAS namespace bridge is now explicit public referencing.Specification
+metadata callbacks/delegated nativeDraft semantics and governs NATIVE fragment refs,
+not just our closure pass. Read actual separately authored5d8c962 source as TEXT:
+one known Sample/relative-id/nested-anchor recipe, still awaiting different review/
+execution here. General aliases/no-id roots/context metadata/offline plumbing remain
+unproved gates. Same doc checks/logical/API preservation were repeated; no code,
+SDK import/probe/test/run/install or shared file changed for these corrections.
