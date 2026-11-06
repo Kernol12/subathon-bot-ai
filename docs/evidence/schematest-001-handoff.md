@@ -53,3 +53,11 @@ markers. Real child ABI/RLIMIT/no-site/read-race/offline/allocation obligations 
 explicit implementation acceptance/integration/source-audit gates, never inferred
 from parent fault mocks or codes. All seven integrations/three FX and full product/
 platform/provider/UI/runtime/release scope remain unchanged. No owner input needed.
+
+## FIRST actual native observation
+
+Publishedbd had all19checksSUCCESS and actual selectedCI/source approval before
+FIRST10:03:26Z. Native63cases/261exact raw missing markers,exit1/0.138s,all63names,
+finalrawframes37/42,stdoutempty,0othercause; [original evidence](schematest-001-wrapper-red-native.md).
+C independent ACTUAL attribution is now active; no replay. Statusin_progress until
+that verdict and separate completion-metadata gates; productionstillplanned.

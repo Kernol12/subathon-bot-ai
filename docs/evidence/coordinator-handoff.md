@@ -1,4 +1,4 @@
-# Coordinator checkpoint — final wrapper source review before first red
+# Coordinator checkpoint — FIRST wrapper red observed, independent attribution pending
 
 /root,6 November2026. Standing coordination remains active; full specification0.45
 is incomplete. No owner decision/access is needed. Preserve unfinished refs/worktrees,
@@ -17,9 +17,10 @@ and separate actual reviews. Requery current rules/head/reviews/threads before m
 
 Active `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline, claimed
 ab822715 frommain141. [Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76).
-Latest fully inspected PUBLISHED87f8a75 has all19 checks SUCCESS, no reviews/threads/
-comments. Many later local commits below are NOT published yet: the new harness
-workflow must not execute until its current test-definition source is approved.
+Publishedbd15260 had ALL19 latest checks SUCCESS before FIRST native execution.
+Actual hosted42198344569 atbd passes both SDK14/20metadata/63definition lanes;
+independent C8db receipt was received before native and imported ONLY afterward
+as eebfc1e. Root localb089e2d adds original FIRST raw/native evidence; not yet pushed.
 Root owns state/HTML/pins/notices/imports/build/CI/checkpoint/publication. No reset,
 prune or discard. Inspect actual worktrees/processes/agents again on resumption.
 
@@ -49,7 +50,8 @@ No generic wrapper capability follows from those fixed SDK recipes.
 
 Only production tools/schema_validate.py4a124:18 enum/exact RuntimeError/two immediate
 named-marker bodies; independently reviewed794. No parser/worker/validation/help is
-implemented. Raw feature bodies and acceptance bodies have NEVER run.
+implemented. Raw feature bodies/acceptance cases now ran ONCE atbd and all reached missing markers;
+no production parser/worker/schema/instance validation behavior is implemented.
 
 B source history73f→328→c1/ebb60; separate A ff9476a/importf5ec first24+last4 and
 C525b0c4/importc343 middle32/common helper reviews. Corrections were genuine fixture,
@@ -87,24 +89,35 @@ Canonical A/B/C are completed/idle after actual final reviews/authoring/read-onl
 red-plan audit. C has NOT reviewed a future native red. Use actual agent list and
 followup_task for new assignments; send_message does not start completed agents.
 
-Next publish this reviewed source/configuration/receipts/checkpoint after project/
-render/diff checks. Observe BOTH actual3.10/3.12 SDK14+new20metadata/63registration
-jobs and ALL19 latest checks; read full selected logs/checkout and obtain separate
-receipt review. No acceptance body runs in greenCI. Then at SAME clean source head
-FIRST native wrapper suite exactly ONCE under admitted CP314/minimal env, per the
-[execution/attribution plan](schematest-001-red-plan.md). Require native63 cases/only
-exact missing-marker errors/all63 methods/no skips/setup/fixture/dependency failures;
-inspect final traceback frames at TWO raw stub bodies.317 authored observations are
-NOT expected error counts. Save bytes/exit/time/hashes BEFORE interpreting. No
-wrapper-red receipt exists yet. Any other cause makes an honest invalid/incomplete
-baseline, preserved FIRST raw and written separately reviewed correction required.
+## FIRST actual native red and current assignment
 
-Then different C audits ACTUAL red chronology/frames/native coverage/environment;
-independent completion-metadata review follows, then latest-head CI/normal merge
-gates. Task staysin_progress and implementationplanned. C final coverage audit agreed
-private child ABI/RLIMIT/no-site/read-race/offline/allocation internals can remain
-explicit actual implementation acceptance/source-audit obligations without claiming
-dynamic proof. No production before integrated reviewed/red baseline.
+At SAME CLEAN publishedbd15260,10:03:26Z, AFTER all19checksSUCCESS and C's actual
+selectedCI8db approval message, root executed the unmodified wrapper unittest
+program exactly ONCE under admittedCP314 -I-B/minimal env. Actual native exit1,
+63cases/261ERROR sections/0failures-skips-setup-import-dependency causes, unittest
+0.138s/external0.20254s. Empty stdout. ALL63 names covered, ALL261 exact reviewed
+SchemaValidationNotImplemented and final raw stub frames:validate_package37/main42.
+Raw stderr313249B SHA7e64f76da6664557493b88a3c3a2dd2b12624b35b01236248f5e5f8981179433.
+[Original native evidence](schematest-001-wrapper-red-native.md), raw/receipt/full
+observer detail committedb089e2d.317 authored observations are NOT error counts.
+Observer returned actual failure1; no test was inverted/skipped/altered to obtain red.
+
+Canonical C/session_plan_review is ACTIVELY reviewing ACTUAL b089 raw/source/frames/
+chronology on a NEW isolated branch, owns ONLY wrapper-red-review.md. NO replay or
+feature/test/SDK/clone execution allowed. This is a new actual attribution gate,
+not its earlier red-plan audit. A/B are completed/idle. Inspect actual agent list;
+followup_task is needed to start idle agents. Preserve all refs/worktrees/reviews.
+
+Next receive C actual native-attribution verdict. Until then statusin_progress,
+red_attributionpartial, SCHEMATOOL001planned; no completion/implementation release.
+After actual verdict, update completion metadata/handoff truthfully and obtain a
+DIFFERENT actual metadata review. Publish receipts/reviews, observe ALL latest19
+checks at finalhead and normal ready/head/threads/rules/merge gates; no bypass.
+Do NOT rerun FIRST merely to make a fresh log. Source/harness/locks remain5c/97/842/
+859/6f; later metadata-only heads may reuse matching-source evidence with explicit
+chronology. C agreed private child ABI/RLIMIT/no-site/read-race/offline/allocation
+internals remain real implementation acceptance/source-audit obligations, never
+claimed dynamically proved by parent mocks. No production before integrated baseline.
 
 Root legacy19 tooling tests passed0.326s; project426/122/HTML/render/diff pass.
 Full release retains authority/session/policy/clock/actions/financial/recovery, full

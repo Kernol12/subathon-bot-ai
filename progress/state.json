@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T09:52:28+00:00",
+  "updated_at": "2026-11-06T10:08:46+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13804,17 +13804,18 @@
         "Root inert2af source4a124 independently reviewed794/import8edb261 with actual hosted14 receipts; no parser/worker/validation/help/output implemented. Private process/fault contracte6 plus narrow two-descriptor API clarification independently reviewed3a2003a/import8b779f1; real fault-child tests may now be authored. Independent complete behavioral fixtures/tests being authored on isolated branch; no feature/test execution yet. Actual test review/minimal discovery harness/currentCI then FIRST genuine missing-wrapper red remain. Baselinein_progress, SCHEMATOOL001planned; no production before integrated reviewed/red baseline.",
         "Actual independent wrapper test source73f/7fa authored, corrected328/609 andc1/ebb before ANY run after real reviewer findings: malformed multipart positive, masked protocol oracles, FD/timer cleanup and focused missing child/role coverage. Current60 methods/300 source-counted observations, not execution. A reviews first24+last4; C middle32; actual corrected verdicts pending. Root private installation proposal3fb+cb74 adds only metadata identities from existing28 admitted archives and concrete descriptor/ENOSYS/real missing-package test plan; different approval pending before additive admission cases. Root untracked static/discovery harness draft is unexecuted; no wrapper feature/test body/red or production exists. All19 checks at published87 pass; complete baseline remains in_progress.",
         "Current63-method candidate source5c after actual C/A source scopes, exact OAS dialect delta, installation-doc/data approval and A core harness/config review. Final C coverage findings added real intact-code WHEEL/METADATA byte-corruption refusals and argv-subclass rows; persistent13callback ledger prevents swallowed-exception false greens. A6fa approved043; root then found help guard masking, B930/importf785 source5c fixes four no-call assertions, final A rereview pending. Initial native GREEN definition-only harness on OLDa80 exit0/0.07235s verified20 metadata pairs/63 registrations, no setup/test/feature/SDK/clone ran; receipt preserved392. Final source still needs matching reviewed green observation/new both-hostCI and FIRST intended native red; none exists. Taskin_progress/implementationplanned, all317 source-counted observations and5script extras are authored counts only.",
-        "FINAL actual source5c5/930 (63names,317source-counted raw observations/5script extras) independently approved A a7c/import9dd after raw metadata/argv/13callback/help guard corrections; prior C/A scoped reviews retained. Exact coreharness97d/workflow842 approved4347. Matching selectedCP314 -I-S-B green at9dd native0/0.073746s verified20same-artifact metadata pairs/no-site projection/63 actual registrations, no setup/test/feature/SDK/clone/worker. Separate raw receipt preserved; olda80 earlygreen is history only. Need publish/observe current both-host14+newharness/all19checks before FIRST intendedred atsamecleanhead; no acceptance body or wrapperred hasrun. Baselinein_progress andSCHEMATOOLplanned; no production."
+        "FINAL actual source5c5/930 (63names,317source-counted raw observations/5script extras) independently approved A a7c/import9dd after raw metadata/argv/13callback/help guard corrections; prior C/A scoped reviews retained. Exact coreharness97d/workflow842 approved4347. Matching selectedCP314 -I-S-B green at9dd native0/0.073746s verified20same-artifact metadata pairs/no-site projection/63 actual registrations, no setup/test/feature/SDK/clone/worker. Separate raw receipt preserved; olda80 earlygreen is history only. Need publish/observe current both-host14+newharness/all19checks before FIRST intendedred atsamecleanhead; no acceptance body or wrapperred hasrun. Baselinein_progress andSCHEMATOOLplanned; no production.",
+        "FIRST actual wrapper suite at CLEAN publishedbd15260,10:03:26Z, after ALL19latestSUCCESS and independent hostedreceipt8db message;8db imported only AFTER native as eeb to keep exacthead. Nativeexit1/63cases/261ERRORs/unittest0.138s/external0.20254s,all63names/all261exactnamedmissingmarker+finalrawraise37/42,stdoutempty/0skips-failures-setup-import-dependency causes. Raw313249B stderrSHA7e64 andreceipt/observerdetail committedb089; no replay, nofeatureimplementation. C ACTUAL nativeattribution active; taskin_progress/red_attributionpartial untilactualverdict+completionmetadatareview.317 authoredobservations arenotnativeerrorcounts. No passingfeatureclaim or productionrelease."
       ],
       "verification": {
         "contract": "passed",
-        "tests": "not_run",
-        "baseline": "not_run",
+        "tests": "observed_red",
+        "baseline": "observed_red",
         "implementation": "not_run",
         "dependency_review": "passed",
         "installation": "passed",
         "library_foundation": "passed",
-        "selected_ci": "partial",
+        "selected_ci": "passed",
         "interface_review": "passed",
         "process_contract": "passed",
         "test_source": "passed",
@@ -13822,7 +13823,8 @@
         "minimal_harness_review": "passed",
         "initial_harness_native": "passed",
         "native_harness": "passed",
-        "baseline_harness_ci": "not_run"
+        "baseline_harness_ci": "passed",
+        "red_attribution": "partial"
       },
       "evidence": [
         "docs/evidence/schematest-001-readiness.md",
@@ -13872,7 +13874,10 @@
         "docs/evidence/schematest-001-baseline-harness-native.md",
         "docs/evidence/schematest-001-red-plan.md",
         "docs/evidence/schematest-001-baseline-harness-final.receipt.json",
-        "docs/evidence/schematest-001-baseline-harness-initial.receipt.json"
+        "docs/evidence/schematest-001-baseline-harness-initial.receipt.json",
+        "docs/evidence/schematest-001-selected-baseline-ci-review.md",
+        "docs/evidence/schematest-001-wrapper-red-native.md",
+        "docs/evidence/schematest-001-wrapper-first-red.receipt.json"
       ],
       "review": null
     },
