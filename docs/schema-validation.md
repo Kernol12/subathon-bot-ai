@@ -140,7 +140,8 @@ The [installation contract](contracts/schema-validation-installation-v1.md) and
 [native contract](contracts/schema-validation-native-process-v1.md) define the
 trusted environment and resource ownership.
 
-At source revision `725f770`, local CPython 3.14 acceptance has been observed.
-The selected hosted lanes are CPython 3.10/Ubuntu 22.04 and 3.12/Ubuntu 24.04;
-the current working owner's hosted acceptance is still pending. Consult the
-actual latest workflow results before treating either hosted profile as verified.
+The selected hosted lanes are CPython 3.10/Ubuntu 22.04 and 3.12/Ubuntu 24.04.
+Consult the [recorded acceptance evidence](evidence/schematool-001-native-acceptance-pass.md)
+and [latest native/public workflow results](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/schema-native-foundation.yml)
+for the actual source revision and environment verified. A result from an older
+revision does not admit a newly built artifact.
