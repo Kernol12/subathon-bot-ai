@@ -91,3 +91,37 @@ regression body, child/readiness/timer/probe, clone/SDK or install was executed.
 Project/render/diff checks are recorded with the committed handoff; no shared write.
 Full64 real acceptance, worker source/integration/offline/RLIMIT/no-site/read-race/
 allocation review and ordinary latestCI/task-completion gates remain explicit.
+
+## FIRST actual two-case reached-bug red, before correction
+
+Different actual C test approval `adc171654905a40335c410dba2d3d0ad620b3ed7` was
+read BEFORE execution. At clean8460c85ddac1c03f3c7267deda2e23600e2963d3, actual
+parenta25/testacde, run ONLY the exact new-module command above at
+2026-11-06T12:09:59.871683+00:00. Native exit1,2 tests0.012s,1failure+1error,
+external0.1136749479919672s, no timeout. Original64/FIRST artifacts were not replayed.
+
+Actual cancellation case passed same-object/one-trigger/watchdog checks, then
+failed on child_state running instead of parent-reaped; independently captured
+FD states were ['closed','closed','open','closed']. Test fallback cleanup ran ONLY
+after that real oracle. Actual allocation case escaped MemoryError with exact
+INITIAL_ADMISSION_ALLOCATION_REFUSAL; native traceback shows public initial
+_bounded_path admission at tools/schema_validate.py line289 outside its handler.
+No setup/import/readiness/SDK cause substitutes for either observed failure.
+
+Original bytes/receipt retained BEFORE interpretation at:
+
+- /tmp/schematool001-parent-regression-first-red.stdout.txt (0bytes,
+  SHA256e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855)
+- /tmp/schematool001-parent-regression-first-red.stderr.txt (2827bytes,
+  SHA2562041dcb227306e66accca6c80886d94d7779709dc48af174cb6f8731c0912cb2)
+- /tmp/schematool001-parent-regression-first-red.receipt.json (exact argv/cwd/
+  minimal environment/source/test/review/time/status/hash record).
+
+The stdlib external observer wrote files directly, imposed30s solely as a test
+observation bound, preserved actual native failure1 and did not invert it. This is
+an AUTHOR observation pending different attribution/source-fix review. Root may
+integrate raw files into its owned durable evidence paths. These actual reached
+bugs now authorize parent correction, preserving both regression assertions.
+A separately identified possible Popen-constructor cancellation ownership window
+remains unresolved for source-based investigation after this coherent fix; this
+new-case result proves neither that window nor all cancellation/resource controls.
