@@ -10,8 +10,9 @@ installation, worker, validator or public behavior is implemented by this docume
 
 The private immutable parent record contains its absolute sys.executable spelling,
 normalized absolute SDK directory, implementation name, major/minor, sys.platform,
-os.uname().machine and compile-time SOABI/Py_DEBUG/Py_GIL_DISABLED values. These
-come ONLY from the actual running interpreter and standard-library sysconfig, not
+os.uname().machine and compile-time SOABI/Py_DEBUG/Py_GIL_DISABLED values.
+Normalize both configuration flags with bool(...); a missing/None value is false,
+including older CPython without a free-threading flag. These values come ONLY from the actual running interpreter and standard-library sysconfig, not
 environment variables, manifest/package data, an arbitrary executable option or a
 serialized caller record. Preserve the executable spelling when launching: resolving
 a venv interpreter symlink to the base binary can lose the selected environment.
