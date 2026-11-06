@@ -36,7 +36,7 @@ passed BOTH Ubuntu22.04/CPython3.10 and Ubuntu24.04/CPython3.12:
 passed exact SDK14 foundations on BOTH hosts, exact20 distribution/no-site metadata
 and64 passive test registrations. All21 latest PR checks at6f succeeded. Current
 source is also locally observed on ordinary CPython3.14.9; local system GoogleTest
-1.18 is separate from hosted pinned GoogleTest1.17. See [immutable local acceptance](schematool-001-native-acceptance-pass.md)
+1.18 is separate from the hosted fetched source at pinned commit063de7 (also1.18; minimum>=1.17). See [immutable local acceptance](schematool-001-native-acceptance-pass.md)
 and [final tooling19/scaffold3/metadata receipts](schematool-001-final-local-checks.md).
 No local completed feature/SDK suite was repeated merely for cleaner logs.
 
@@ -67,3 +67,5 @@ main, reconcile actual merge outcome and stop agents/coordination. No next task.
 Developer-tool success does not complete full product, seven integrations, three
 FX providers, Windows/Wayland/OBS/native/browser/UI or live-provider release gates.
 No deployment, live contribution/chat or credential operation was performed.
+
+Metadata correction: the [immutable upstream GoogleTest pin](https://github.com/google/googletest/blob/063de7e9578f82b369302001269680b4b1553359/CMakeLists.txt) declares1.18.0. Earlier references to “hosted pinned1.17” describe an incorrect version label, not a different artifact. The minimum>=1.17, exact selected pin, build inputs and all observed results remain unchanged; no rerun is needed for this documentation correction.

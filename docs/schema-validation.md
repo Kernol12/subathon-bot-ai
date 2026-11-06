@@ -44,7 +44,7 @@ cmake --build --preset schema-transport-debug
 ```
 
 `SUBATHON_FETCH_GOOGLETEST=ON` explicitly permits fetching the repository's pinned
-GoogleTest 1.17 source when a suitable installed package is absent. For a prepared
+GoogleTest 1.18 source when a suitable installed package is absent. For a prepared
 GoogleTest >=1.17 installation, omit that option; the existing
 `SUBATHON_GOOGLETEST_SOURCE_DIR` option can instead select reviewed local sources.
 There is no automatic dependency download without that opt-in.
