@@ -886,3 +886,67 @@ hash checks, actual five-file hashing and independent objdump/readelf of current
 entries/graph; project426/122, render--check and diff--check PASS. No configure/
 build, audit/control replay, input ELF/DSO entry, bootstrap/listing, arm/thread/
 child/probe or SDK operation occurred from this reviewer.
+
+## Corrected285 binding receipt and LOCAL56 release
+
+Reviewer C, fresh isolated review from actual
+`81ebfdd05beb15d65c4972fe50c5d0443bd38fd7`. This is different actual-result
+attribution, without replay, after the preceding d1 artifact-only admission was
+imported as `54b52f4b01a30be66a40e85e251d3476e96c7502` before execution.
+
+**APPROVED: actual corrected no-child binding result. Released: LOCAL strict
+56-registration discovery and all reviewed foundation/helper/producer/loader
+checks on the exact admitted artifacts, under the same three-key minimal
+environment and existing finite test bounds.** This admits neither owner31
+behavior red, uncompiled Ops625/owner57 source, hosted facilities nor merge.
+
+I read the complete adjacent `schematool-001-native-helper-binding` receipt,
+stdout, stderr, XML and observer note. Independent byte/hash checks agree:
+
+- stdout624 bytes, SHA256
+  `440274b654b8f86fe7ffa72af347546ea2e13832cdc807d9a2a58d44eaf4c161`;
+- stderr208 bytes, SHA256
+  `d93a4daee6078687558c0056ca7231b7a108df1f86d844749b6791b59903a7d2`;
+- XML1210 bytes, SHA256
+  `d4353fc340fcad0e5e3e389a67ca3528297bc15b7a0c7e66abadd5f83db254aa`.
+
+Actual source54b is an ancestor of this receipt head and contains the prior
+admission. At18:45:43.671172Z, exact filter
+`SchemaNativeFoundation.SyscallBindingToActualLibc` returned0 in.003090s under
+PATH=/usr/bin:/bin, LC_ALL=C.UTF-8, LANG=C.UTF-8 only. Observer records the30s
+bound did not fire. Raw output has one RUN/OK and one passed case; independently
+parsed XML has tests=1, failures/errors/disabled=0, no skipped descendants, exact
+class/name and run/completed. Local XML19:45:43.672 agrees with UTC18:45:43.
+
+Actual bound `/usr/lib/libc.so.6`, GLIBC_2.2.5 and address difference0x11e450
+match the admitted relocation/entry proof and actual unchanged libc02c8c3d0.
+Current foundation bytes independently hash to
+`285d47cd4046632737aa06fe08890f8fc4d41410cbd9ff28a3b1751d715a8a38`.
+Kernel7.2.14-arch1-1/libc2.44/seccomp2 are observed metadata, not facility proof.
+No helper/kernel/loader test was run by this binding invocation. Current56 must
+actually pass; setup/facility failures cannot become feature-red evidence.
+
+I also read actual runtime workflow54eb26f67078e049ea16012981908d0506fc534b,
+its CMake registrations and B's different a230d857 configuration review. The
+mandatory two static gates, exact-one XML guard, then exact set/count55 native
+plus one two-method loader, no DISABLED/WILL_FAIL and unconditional final CTest
+are coherent. Those reviewed concrete automatic gates can replace a manual
+per-host stop; they do not assert either host has already passed.
+
+One actual narrow configuration finding remains before runtime-CI publication:
+the bootstrap explicitly clears its environment, but inventory's CTest child
+and the final CTest command inherit the runner environment. Native C++ test
+registrations have no clearing launcher. Preserve the admitted binding/test
+selection by passing the same exact three keys to both CTest invocations;
+inherited LD_/GLIBC_TUNABLES or GTEST_FILTER must not alter later native startup
+or selection. Root and B were notified. This does not block the LOCAL release
+above with explicitly clean environment; actual corrected CI source still
+requires review, local56 green and later actual both-host receipts.
+
+Actually performed: complete source/record/raw/XML read, stdlib hash/XML/address/
+ancestry checks, actual current artifact/libc hashing, workflow source and five
+literal-run-block bash-n checks. Project426/122, render--check and diff--check
+PASS. No candidate invocation/import, audit/control replay, configure/build,
+CTest discovery, ELF/DSO loading, arm/thread/child/probe or SDK operation occurred
+from this reviewer. Existing source reviews, historical FIRST bytes and all
+behavior/public assertions remain preserved.
