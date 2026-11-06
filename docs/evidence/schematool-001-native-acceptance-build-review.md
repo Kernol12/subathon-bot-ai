@@ -54,3 +54,34 @@ independent57/64/83-method count/name extraction, five inline Python3.10 ASTs,
 all20 shell-block bash-n, project426/122/render/diff PASS. No SDK install/import,
 CMake configure/build, audit/control replay, candidate import/DSO/listing/native,
 thread, child, signal or probe ran from this reviewer.
+
+## Actual259 cleanup registration and reached-bug evidence
+
+Reviewer C, fresh note-only review from actual
+`259f45564e6fe1f37934d6770c057f4bc9d08ae0`, carrying398's earlier verdict.
+**APPROVED: narrow cleanup-suite configuration delta.** Compile-only permission
+and ALL source/generated/runtime/publication holds above persist.
+
+The only configuration addition is independently root-reviewed loader-cleanup
+program with one method/two subcases, registered identically to the other
+ordinary-venv programs and included in strict AST/CTest inventory. Semantic
+programs now65 (57+1+7); foundation56 unchanged. Native69, binding9 and original
+public74 names/assertions/execution remain; nothing is skipped or weakened.
+Five-heredoc AST/count checks and project/render/diff PASS. No compiler/test ran.
+
+I also read complete regression source and actual committed red receipt/raw.
+Clean78e3e3bd1e7d42900b3d7771c0897b8743212299,20:21:33.082791Z: one method,
+two prebuilt KeyboardInterrupt/MemoryError subcases, exit1/.005s/stdout0.
+Raw2470 bytes/SHA256
+`c702a6b9801791b882c15f29c0ee69b40b29b35a2bd6000c8c14fae498ca3c64`
+matches receipt. Exactly two failures end at regression line111: actual fstat
+state[0] instead of EBADF[9], BEFORE fixture disposal. All prior identity/trigger/
+retained traceback/real FileIO/quiet/zero-CDLL oracles complete. There is no
+fixture/import/setup cause and no C entry or native31. The one-shot trace uses
+actual loader code/first bound real FileIO, no hardcoded line, and restores the
+previous trace. File and original traceback stay alive through the first raw
+oracle; test close follows. This is valid reached Python-handle cleanup bug
+evidence for the separately assigned protected-acquisition fix, not an owner or
+completed-binding pass. Actual reviewer operations are source/raw/hash/frame/
+count analysis only; no candidate import, trace/test/native/SDK/DSO execution,
+compiler, thread, child, signal or probe occurred.
