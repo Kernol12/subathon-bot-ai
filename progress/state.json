@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:21:44+00:00",
+  "updated_at": "2026-11-06T05:32:17+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13657,8 +13657,8 @@
       "title": "Browser and desktop credential transport contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "coordinator /root; session_supplier_review (transport document author)",
       "depends_on": [
         "SESSIONCONTRACT-001"
       ],
@@ -13676,7 +13676,8 @@
       "summary": "Finalize exact browser cookie/Origin/CSRF and desktop header semantics after the integrated current-session supplier, retaining both document gates before consumers.",
       "notes": [
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
-        "Document planned only: no authored/reviewed contract, auth choice or supported transport capability."
+        "Document planned only: no authored/reviewed contract, auth choice or supported transport capability.",
+        "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation."
       ],
       "verification": {},
       "evidence": [],
@@ -14893,6 +14894,11 @@
       "date": "2026-11-06T05:21:44+00:00",
       "task": "SESSIONCONTRACT-001",
       "note": "Complete bounded current-session supplier DOCUMENT after actual separate review of corrected c7e6e68/c5f5a6e, three literal hash vectors, exact byte/time audits and primary sources. Per-value/peak bounds and source-enum precision findings resolved before approval46f1ad2. Plan split423/1624 preserves all old scope/edges and completed STORAGE018. No header/schema/tests/red/runtime authentication supplied. Transport002 still planned and both documents required for CONTRACT013/SESSIONTEST002/003; publication/latestheadCI/currentrules/normalmerge remain before dependent authoring."
+    },
+    {
+      "date": "2026-11-06T05:32:17+00:00",
+      "task": "SESSIONCONTRACT-002",
+      "note": "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation."
     }
   ]
 }
