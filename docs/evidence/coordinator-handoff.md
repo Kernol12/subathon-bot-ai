@@ -1,118 +1,87 @@
-# Coordinator checkpoint — resumed session supplier document
+# Coordinator checkpoint — active transport document and milestone publication
 
-Coordinator /root, 6 November 2026. The owner's new continuation instruction
-resumes the standing coordination loop; the previous finish-PR70-and-stop boundary
-is superseded. Full agreed specification v0.45 remains incomplete. No owner decision
-or access action is currently needed. No live operation has been performed.
+Coordinator /root,6 November2026. Resume standing coordination per owner's latest
+continuation instruction; earlier PR70-stop boundary superseded. Full v0.45 product
+incomplete. No owner decision/access needed; no live credential/provider/deployment
+operation occurred. Preserve every unfinished ref/worktree and valid review/red.
 
-## Verified repository and completed integration
+## Verified main and merged tasks
 
-Actual primary/main and fetched origin/main are
-`e2cd5ebfd4842bf2d776642d901d679612132060`, primary clean at startup.
-GitHub PR70 is MERGED at `2026-11-06T01:07:24Z`, final head
-`b053251661ec86cf80968a00ec61266eb1b07518`, merge e2cd5eb. All17 final checks
-SUCCESS, zero review threads; no open PR at startup. Active ruleset26170263 exists.
-[SQL component evidence](storage-018-handoff.md),
-[separate final review](storage-018-code-review.md),
-[CI](storage-018-ci.md) remain valid. PR68/69/71 prerequisites are integrated.
-[Baseline](storagetest-018-handoff.md) retains original codecFIRST550 and valid
-SQLFIRST633 red; initial setup-error attempt stays invalid. Never replay completed
-FIRST-red gates or equate these component passes with a finished product.
+Primary/fetchedmain `0605948fb90623d053ba637e9ccba2fd9ed284aa`, clean. PR72 normal
+merge05:30:13Z, exactfinalcae986c/all17SUCCESS/currentrules26170263/requiredapprovals0/
+zero threads/CLEAN/no bypass. Supplier001 DOCUMENT is done/integrated;
+[handoff](sessioncontract-001-handoff.md), actual c7/c5 supplier review46f1ad2 and
+completionc961 review0f2506c. Main graph423/1624 retains all old422 IDs/1619edges.
+Transport002 and all consumers still require their own separate accepted document;
+no session/runtime capability follows from supplier completion.
 
-All registered worktrees were inspected and clean at startup. Historical branches,
-review worktrees and parked CONTRACT011 remain preserved. No old subagent is alive:
-collaboration list contained only /root; process inspection found no build/test/GitHub
-command running. No reset, prune or discarded unfinished work occurred. Default
-sandbox GitHub authentication failed; the normal escalated gh request succeeded,
-so this is not a credential blocker.
+Earlier PR70 merged e2cd5eb, finalb053/all17SUCCESS; PR68/69/71 integrated. Preserve
+[SQL capture](storage-018-handoff.md), [codecs](storage-019-handoff.md) and original
+[baseline](storagetest-018-handoff.md) FIRST550/validSQL633 red; initial setup-error
+SQL attempt stays invalid. No completed tests/reviews/FIRST-red was repeated.
 
-## Active assignment and ownership
+## Active SESSIONCONTRACT-002 DOCUMENT
 
-Resume preserved `task/SESSIONCONTRACT-001-session-transport` at
-`/tmp/subathon-sessioncontract001`. Original claim439206f and pre-content split
-cb0a2a0/corrected navigationeb98c18 preserved. Integrated fetched main via
-`40c33ad7b8f9770c92cd1ed4c33f6ffa29d0a8d6`; resolved only progress JSON/generated
-HTML conflicts using latest main plus the six scoped session task rows and additive
-activity. Completed STORAGE018, other task owners/statuses/reviews/evidence and all
-old422 IDs/1619 edges remain; split gives423 records/1624 edges. Document001 component is done after actual separate review; transport002 is planned and requires integrated001. CONTRACT013,
-SESSIONTEST002/003 and EPIC007 require BOTH documents. No runtime gate is waived.
+Root `/tmp/subathon-sessioncontract002`, branch
+`task/SESSIONCONTRACT-002-credential-transport`, actual claimdf1f1d1 from0605948.
+Taskin_progress; owns only this transport assignment in its423snapshot, supplier001
+done and milestone001 still mainplanned until PR73 integrates. Root owns allshared
+state/HTML/imports/schemas/build/CI/pins/checkpoint/publication. Do not overwrite
+another branch's actual task row when refreshingmain.
 
-Fresh roles (historical agent IDs are not reused):
+Canonical `session_supplier_review` now actual transport document AUTHOR,
+`/tmp/subathon-sessioncontract002-author`, branch
+`task/SESSIONCONTRACT-002-document-author` fromdf1. Owns ONLY new
+`docs/contracts/session-transport-v1.md` and `docs/evidence/sessioncontract-002-author.md`.
+Read-only primary-source preparation completed; actual content assigned, no authored
+candidate/approval yet. Canonical `session_plan_review` is DIFFERENT transport
+reviewer, read-only prep complete; owns only eventual002-review.md in a NEW isolated
+reviewtree after actual candidate arrives. No previous agent presumed running.
 
-- `session_supplier_author`: owns only `docs/contracts/session-resolution-v1.md`
-  and `docs/evidence/sessioncontract-001-author.md`, on a new isolated worktree from
-  40c33ad. Actual authored e03c11f/import310ba3e and correctionc7e6e68/import14228ec
-  approved46f1ad2/importfdab76b. Author assignment complete; reassigned as
-  different milestone code reviewer below. Worktree
-  `/tmp/subathon-sessioncontract001-resumed-author`, branch
-  `task/SESSIONCONTRACT-001-resumed-document-author`. No production,
-  schema, interface/stub, test or live credential behavior authorized by this task.
-- `session_plan_review`: independently reviews actual eb98c18 split and40c33ad
-  reconciliation; owns only `docs/evidence/sessioncontract-001-plan-review.md` on
-  a new isolated review branch. Actual split/reconciliation approved at8846a1c (importc3ee594);
-  [review](sessioncontract-001-plan-review.md) and independent checks pass.
-  Reassigned subsequently as milestone implementation author below.
-- `session_supplier_review`: read-only specification/import preparation, then actual
-  author revision review on a new isolated branch; owns only
-  `docs/evidence/sessioncontract-001-review.md`. Actual correctedc7/c5f5a6e supplier document approved46f1ad2/importfdab76b;
-  [review](sessioncontract-001-review.md). Final completion metadata review pending.
-- Root owns state/HTML, task briefs/navigation, shared imports/build/CI/pins/schema,
-  integration/checkpoint and GitHub publication/merge. Root does not self-approve
-  authored supplier behavior or the planning split.
+Selected pinnedDrogon3aae769 source inspection by both agents finds parsedmaps lose
+duplicate headers/cookies and rawCookie TRACE logging. These are concrete unresolved
+lossless-ingress/secret-log runtime gates, not supported behavior or a document blocker.
+Transport must specify exact cookie/Origin/CSRF/desktopBearer/status/bounds/multiplicity
+contracts and independent literal examples, preserve supplierc5 unchanged and all
+later current-producer/test-first/security/platform/release gates. No source/schema/
+APIheader/tests/stubs authorized in this document task. No owner decision identified.
 
-Old author `/tmp/subathon-sessioncontract001-author` atcb0a2a0 and old reviewer
-`/tmp/subathon-sessioncontract001-review` atcb0a2a0 remain clean and preserved.
-The old author wrote no contract. New worktree paths/commits must be recorded at
-actual handoff; do not assume old assignments are running after interruption.
+## MILESTONE-001 parallel component
 
-## Parallel milestone assignment
+Root `/tmp/subathon-milestone001`, task/MILESTONE-001-progression,
+[draft PR73](https://github.com/Kernol12/subathon-bot-ai/pull/73). Actualsourceauthor
+canonical `session_plan_review` already completed a5d18ae/importc2305dd, sourceblob
+ d79b77cad26bf876fd4bd89038161d4fc0c1b809. Source/config reviewer DIFFERENT canonical
+`session_supplier_author`: b1/importb945 +276/import96; actualselectedCI receipt013/
+importb363. Source author tree and all fresh reviewtrees remain preserved.
 
-MILESTONE-001 dependency-ready implementation claimed from currentmain e2cd5eb
-with420d484 on `task/MILESTONE-001-progression`, `/tmp/subathon-milestone001`.
-Read-only readiness audit confirms exact header9a167813/stub4e3291f0/test01997384/
-fixture409be19d plus actual test208d0580/harness75e62c2/FIRST53red c2bcb088
-(attributione030a0e7). No baseline replay or test changes authorized.
+All53 frozen reviewed cases/fixtures and original FIRSTc2bcb088/attributione030
+remain. Root/author/differentreviewer full90PASS0.68/0.72/0.75s; promoted old37/53
+PASS0.63/0.09s. Actual hosted42168586251 at5492ac6 SUCCESS05:28:48Z,
+GNU13.3/Boostmacro108300/fresh26/guard53/old37PASS1.28s/unconditional53PASS0.16s,
+zero warnings/skips; independently downloaded identicalfull logSHA8c6df279882fc727
+11793b6832d32f067025baa55d52daff77d18b9229225aaa. All17initial549checksPASS.
 
-Fresh implementation role `milestone_author` is canonical agent
-`session_plan_review`, NEW `/tmp/subathon-milestone001-author`, isolated branch
-from420d484. Owns only core/src/milestone_progression.cpp, narrowly justified
-privatehelper and own author note. Root retains all shared files and frozen test
-assertions; separate code reviewer is canonical `session_supplier_author` (different from
-source author). Owns only milestone-001-code-review.md in NEW isolated reviewtree. Scope is pure progression
-proposal/resource accounting, no authoritative score/store/actions/UI integration.
-Root selected Boost1.83/C++20 configure and inert build pass without compiler
-warnings; discovery90 includes unchanged53. After author a5d18ae/importc2305dd implements source d79b77ca, root full90 PASS
-0.68s and author53/full90 PASS0.10/0.72s, no failures/skips/warnings. Ordinary CI
-promotion is authored and root promoted full90PASS; different source/config
-review and actual selected CI remain. HistoricalFIRSTred never replayed.
-After implementation: targeted53/full90 passes, different actual source/config
-review, ordinary unconditional selected CI promotion, finalmetadata/latestchecks/
-normalmerge still required. This separate branch snapshot has only its own claim;
-when integrating sessionmain changes preserve the actual milestone task row.
+Initialmetadata33 approved722/import549. Main060 integrated0d8 while preserving
+milestoneclaim and423/1624sessiongraph. Componentcompletion7ca currentlydone on its
+ownbranch, metadatareview found two stale coordination sentences corrected52618d1;
+actual final differentreview pending. Source/config/assertions unchanged. Final
+completionpublication-headCI/currentrules/threads/normalmerge remain; older17green
+checks do NOT approve a newhead. Root must publish actualreviewappend on PR73,
+observefinalgates, normalmerge, refreshprimary, and integrate that main into002 while
+preservingdf1row/activity/ownedcontent. Native/CI/handoff evidence lives in PR73;
+no localbrokenlinks to unmerged files are created in this branch.
 
-## Checks, next action and remaining gates
+## Next action and continuity
 
-[Draft PR72](https://github.com/Kernol12/subathon-bot-ai/pull/72) carries supplier
-work; exact310ba3e published had16SUCCESS and one pending selectedQt at last
-observation. Actual final completion candidate705ced0 is local, pending final
-metadata review/publication/current-headCI. Do not use older greenchecks for a newhead. Root
-`python3 -m unittest discover -s tests/tooling -v`:19PASS;
-`node tools/check_progress_ui.mjs`:PASS DOM simulation; `git diff --check`:PASS.
-No actual browser/OBS execution inferred. Root `python3 tools/progress.py render`, `python3 tools/check_project.py`,
-`python3 tools/progress.py render --check`: PASS423/122 after reconciliation.
-No native behavior changed or FIRST red rerun. Document consistency/stable component
-CI remains appropriate; assess again for actual authored content. No new executable
-suite currently exists to promote or new required-check configuration to request.
+Finish PR73 actualmetadatareview/latestCI/normalmerge while transport authoring and
+differentreview continue. Receive actual002commit, independently review/resolve,
+run doc/tooling checks, update evidence/state/HTML, focusedPR and normalgates.
+Root initial002project/render checksPASS423/122. Do not replay historicalreds or
+mark transport/current auth/framework behavior implemented. On interruption inspect
+actual agents/processes/worktrees/PRs again; checkpointentries are not liveness proof.
 
-Next: obtain actual completion metadata review of supplier001; publish final
-reviewed candidate on existing draftPR72, observe latest-revision CI/current
-rules/reviews/threads, then normalmerge. Supplierdocument/handoff/reviews now
-complete; no runtime behavior supplied. Continue actual milestone source/config
-review and ordinary selectedCI on its separate task branch. Only integrated001 releases document002; later session baselines
-retain separate actual API/test-review/intended-red/implementation gates.
-
-No session/account/clock producer, authentication transport, permission execution,
-reference HTTP schema or runtime capability follows from a document claim. All seven
-integrations, three FX providers, actual authority/policy/action/application producers,
-financial/recovery/delivery workflows, both renderers, English/German/themes,
-Windows/Linux/Wayland/OBS, packages/licenses/security and live verification remain.
+Full release retains actual account/session/clock/authority/policy/action/application
+producers, financial/review/refund/recovery/delivery, bothrenderers, EN/DE/themes,
+Windows/Linux/Wayland/OBS, packages/licenses/security, allseven integrations/threeFX
+and live/platform verification. Component passes do not establish finished product.
