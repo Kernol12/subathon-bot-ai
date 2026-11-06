@@ -44,3 +44,9 @@ Logicaldocument4ab independently approvedb8/import699 only. Rootcandidate
 [dependency proposal](schematest-001-dependency-proposal.md)c221 adds20pins/28wheel
 hashes/notices/isolatedtoolguidance; different admissionreview pending before any
 install/import/execution. All API/foundation/test/red/implementation gates remain.
+
+Current stage: dependency admissionee5/importfadd and isolatedCP314install/pipcheck
+pass. FIRSTfoundation4f37 failed due trustedfileURI misclassification, raw kept;
+actualcorrection01c/d2 independently reviewed21f/import1aa preservesallassertions.
+Controlledrootrerun7OK/0.115s. Minimum/CI3.10/3.12 workflow e040 authored, actual
+separateworkflowreview/hostedexecution pending. No concreteAPI/stub/tests/wrapperred.
