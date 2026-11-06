@@ -5,7 +5,8 @@ author `/root/session_plan_review` (`milestone_author`). Isolated branch
 `task/MILESTONE-001-independent-code-review`, worktree
 `/tmp/subathon-milestone001-code-review`, starts at actual authored candidate
 `a5d18ae`. Only this review note changes. **Actual source and ordinary-CI
-configuration approved; its later selected CI receipt remains separate.**
+configuration and exact selected hosted CI receipt approved; later completion
+metadata/current-head merge gates remain separate.**
 
 ## Actual scope and frozen artifacts
 
@@ -161,3 +162,43 @@ feature`e15d6076c10ebf2211d9d806e0a7213a455a93c4596fcde81945454a39de845b`.
 Project consistency/whitespace PASS422/122/currentHTML. No hosted CI run is claimed
 by these local commands; actual selected receipt/final metadata/latest-head merge
 gates remain pending.
+
+## Independent actual selected hosted-CI receipt
+
+Same different reviewer, NEW isolated receipt branch
+`task/MILESTONE-001-selected-ci-review`, worktree `/tmp/subathon-milestone001-ci-review`,
+from actual published5492ac6e7958c602f9be8b71251bbfe3f0c2c2a7. **Approved exact
+[run42168586251/job127730814851](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42168586251/job/127730814851).**
+Read-only independent `gh api` run/job queries report PR73, same exact head,
+pull_request event, stable milestone-progression-build job, attempt1, completed
+SUCCESS. Run updated05:28:48Z6November2026; job completed05:28:47Z. Every ordinary
+foundation/feature guard/execution step succeeded.
+
+Downloaded the full OWN log via `gh run view 42168586251 --job 127730814851 --log`
+to `/tmp/milestone001-independent-selected-ci.txt`:2130lines/397748bytes/SHA256
+`8c6df279882fc72711793b6832d32f067025baa55d52daff77d18b9229225aaa`, independently
+equal to root's stated receipt. Source d79, workflow48f6, presetsf347, labelsaf26,
+comment-only header1f5 and original tests0199/fixture409 remain exact approved blobs.
+
+Actions actually checks out test merge1661d6256cbab17a5c35489e08c72634ed79eba1,
+with parents main e2cd5eb and published5492ac6. Independent GitHub Git-commit API
+queries verify that merge and published head have the SAME full tree
+1691df9486fe29fd9badbc1472442cf21cf07199; no unseen merge resolution is attributed
+to the source approval. Log shows pinned checkout, Ubuntu24.04, GNU13.3.0,
+selected Boost1.83 package/config and actual BOOST_VERSION108300, fresh26-step
+compile/link including real feature test source, with zero compiler warning.
+
+Actual compiled inventory guard prints enabled53 and ordinary-acceptance intent.
+Old/foundation lane executes37unique passing tests, independent25literal
+std/Boost facts/no project link, exit0/all37PASS1.28s. Separate UNCONDITIONAL feature
+lane executes53unique cases, all native Passed/OK, zero skipped/not-run/failed,
+exit0/all53PASS0.16s. Independently parsed the full per-case log names and compared
+its53-set against the unchanged33ordinary+20namedMP source inventory: exact equality.
+Required ordinary labels remain visible and no intentional-red execution exclusion,
+failure inversion or blanket continue-on-error hides this lane.
+
+Only read-only Git/blob/log/metadata parsing and document consistency/whitespace
+checks were performed for this receipt; no red or native suite was repeated.
+This approves the actual hosted component proof, not an unseen completion commit,
+later latest-head CI/rules/discussions or normal merge. No broader platform/live/
+application authority/atomic state or full-release claim follows.
