@@ -1,0 +1,10 @@
+{
+  "run": "https://github.com/Kernol12/subathon-bot-ai/actions/runs/42282457204",
+  "head": "928fb86e090e2b9c0b32fdf395c21486da74f1da",
+  "result": "both56actualPASS/no skips;17 stepsallSUCCESS",
+  "raw_bytes": 1440672,
+  "raw_sha256": "21da5b41ec90093a0d9f307ba56831a033d5a47c8cf17d377582d215486b5ae2",
+  "archive": "schematool-001-native-closefrom-hosted.log.txt.gz",
+  "archive_sha256": "f32527ff8ad070fb802f82ab58bf85fb561dbd103cde7096be0dcb3c925e7c9d",
+  "review": "schematool-001-native-helper-inherited-fd-review.md"
+}

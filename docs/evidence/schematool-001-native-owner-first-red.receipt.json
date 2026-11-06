@@ -1,0 +1,16 @@
+{
+  "source": "634c4c09f4d32f766b47297000e2610dd25c2bba",
+  "native_cases": 69,
+  "processes": 58,
+  "direct_methods": 12,
+  "direct_markers": 22,
+  "negative_rows": 57,
+  "negative_markers": 57,
+  "exact_actual_native31_errors": 79,
+  "unexpected_fixture_errors": 0,
+  "archive": "schematool-001-native-owner-first-red.tar.gz",
+  "archive_bytes": 12157,
+  "archive_sha256": "08a37d2043e3ff77f8b002cfd9a729ff4674e3409314d1e9e5b67088565c666e",
+  "per_process_receipts": "summary.json inside archive",
+  "gate": "actualC0ae both-host56 accepted BEFORE execution; directCf8 and corrected57Bdbd source reviews valid"
+}
