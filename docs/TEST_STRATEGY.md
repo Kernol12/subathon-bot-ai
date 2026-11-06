@@ -497,3 +497,22 @@ review, native passes and separate selected-CI/publication gates. Outcomes alone
 do not measure preownership/scratch/SQL projection correctness: source audit is
 required. No authenticated producer, current-state/authority, recovery, provider,
 UI/platform or full release proof follows from these synthetic component checks.
+
+
+## Pure sequential milestone progression
+
+MILESTONE-001 preserves all53 MILESTONETEST001 cases and literal fixtures; the
+original reviewed FIRST-red stays in its baseline evidence. SelectedBoost1.83
+root/author/different reviewer full90 pass without warnings/failures/disabled/skips,
+and separate source audit establishes complete resource preflight/fixed borrowed
+scratch/full-width arithmetic beyond output assertions.
+[Native checks](evidence/milestone-001-native.md),
+[source/configuration review](evidence/milestone-001-code-review.md),
+[handoff](evidence/milestone-001-handoff.md).
+
+Configure/build `milestone-progression-debug`, then CTest with
+`-L '^milestone-progression$' --no-tests=error` for53, or full preset90.
+Ordinary CI checks exact33 ordinary+20 literal-row registrations and labels, runs
+old37/foundation, then unconditionally executes every53 feature body. No failure
+inversion, manual body gate or disabled test; actual hosted CI is recorded separately.
+This is pure synthetic progression, not authoritative state/action/UI/platform proof.

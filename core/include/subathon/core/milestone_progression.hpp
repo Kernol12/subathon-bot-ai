@@ -108,8 +108,8 @@ class MilestoneProgressionNotImplemented final : public std::logic_error {
               "Milestone progression is intentionally unimplemented; review tests first") {}
 };
 
-// Revision 1: docs/contracts/milestone-progression-api-v1.md. Missing feature until
-// independently reviewed tests and intended red; never invoke at build/discovery.
+// Revision 1: docs/contracts/milestone-progression-api-v1.md. Returns a complete owned
+// proposal; the caller owns authoritative score/history, permissions and atomic commit.
 [[nodiscard]] MilestoneProgressionResult
 advance_milestone_progression(const MilestoneProgressionInput &input,
                               const MilestoneProgressionLimits &limits = {});
