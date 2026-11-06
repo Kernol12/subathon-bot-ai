@@ -22,7 +22,7 @@ class [[gnu::visibility("hidden")]] FaultOps {
     struct Handle {
         int descriptor = -1;
         bool live = false, adopted = false, released = false;
-        bool outcome_read = false;
+        bool outcome_read = false, normalized = false;
         RawResult close_result = -1;
     };
 
@@ -115,7 +115,8 @@ class [[gnu::visibility("hidden")]] FaultOps {
                 return &handles_[index - 1];
         return nullptr;
     }
-    [[gnu::no_stack_protector]] void acquired(RawResult result, bool outcome = false) noexcept {
+    [[gnu::no_stack_protector]] void acquired(RawResult result, bool outcome = false,
+                                              bool normalized = false) noexcept {
         // Before return to the owner this is ONLY nonfallible scalar cache work.
         // Journal clocks/controller hooks wait for its immediate slot-adopt ACK.
         if (result < 0 || result > INT_MAX || count_ == 12 || live(static_cast<int>(result))) {
@@ -126,6 +127,7 @@ class [[gnu::visibility("hidden")]] FaultOps {
         entry.descriptor = static_cast<int>(result);
         entry.live = true;
         entry.outcome_read = outcome;
+        entry.normalized = normalized;
         ++adopt_pending_;
     }
     [[gnu::no_stack_protector]] void closed(int descriptor, RawResult result) noexcept {
@@ -201,6 +203,7 @@ class [[gnu::visibility("hidden")]] FaultOps {
             handles_[kept].adopted = true;
             handles_[kept].released = false;
             handles_[kept].outcome_read = handles_[index].outcome_read;
+            handles_[kept].normalized = handles_[index].normalized;
             handles_[kept].close_result = -1;
             ++kept;
             emit(ObservationKind::adopt, descriptor, descriptor);
@@ -382,8 +385,8 @@ class [[gnu::visibility("hidden")]] FaultOps {
             if (b == F_DUPFD_CLOEXEC && result >= 0) {
                 const auto *source = live(static_cast<int>(a));
                 if (!source)
-                    fail();
-                acquired(result, source && source->outcome_read);
+                    deferred_failure_ = true;
+                acquired(result, source && source->outcome_read, true);
             }
         } else if constexpr (Call == KernelCall::close) {
             if (!child_)
@@ -550,7 +553,11 @@ class [[gnu::visibility("hidden")]] FaultOps {
             entry->adopted = true;
             --adopt_pending_;
             emit(ObservationKind::adopt, entry->descriptor, entry->descriptor);
-            if (entry->outcome_read && plan_.case_id == 28 && capture_fd_ < 0) {
+            // Raw pipe-end ACK precedes its fallible F_SETFL. Bind ONLY the
+            // normalized read duplicate, after the already-owned original has
+            // become nonblocking. Write ends remain blocking from pipe2 onward.
+            if (entry->outcome_read && entry->normalized && plan_.case_id == 28 &&
+                capture_fd_ < 0) {
                 capture_fd_ = entry->descriptor;
                 if (!pin_report_read(capture_fd_))
                     fail();

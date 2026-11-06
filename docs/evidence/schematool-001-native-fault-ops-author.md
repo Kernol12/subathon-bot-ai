@@ -82,6 +82,12 @@ duplicate or mismatched ACKs poison; all outstanding ACKs must complete
 before the next checkpoint. Only THEN may the policy bind the genuine PID/pidfd
 or case28 outcome reader to the controller, while the source remains owned.
 Case23 birth ACK includes real child readiness and completed clock offset.
+Case28 capture binding is deliberately deferred until the NORMALIZED outcome-read
+F_DUPFD_CLOEXEC result's verified ACK. Common owner uses pipe2(O_CLOEXEC), adopts/
+ACKs both original ends immediately, then sets NONBLOCK on the already-owned
+read ends, then performs normalization. Thus pin_report_read's real NONBLOCK
+prerequisite holds without a fallible fcntl before pipe adoption. All write ends
+remain blocking throughout; no all-NONBLOCK pipe/late write repair is selected.
 The reader's original/normalized duplicates preserve the same outcome identity;
 only real successful reads from it are teed into the existing bounded report
 capture, with no decoder or fabricated packet.
@@ -186,7 +192,7 @@ git diff --check
 Project check:426 task records/122 decisions/local links/presets/current HTML
 PASS; renderer reports current. These do not compile/run the header or approve
 behavior. Final source blob is
-`8d0a773b578faed265bc8329bce9abdf1306e022` (618 lines). Preserved exact blobs:
+`4f12dba80248a8e8bfad90c0881603b76b9bb7a2` (625 lines). Preserved exact blobs:
 stub`e04d4c084a469ab91c6e9f665eacc074ddb30e9c`,
 parent`3438a92c9a98a4aa326ed733abffeee6c26c7502`,
 public64`64f4911edae1e6ec1546777661f199252d06131c`,
@@ -195,3 +201,12 @@ worker`5842b567b3dfb9ee646dfcfe600ff7d8060cf86d`.
 Final staged diff check `git diff --cached --check` also PASS. The header has not
 been compiled (including its root-owned pending enum dependency); no claim of
 source approval, helper GREEN, intended RED or owner capability follows.
+
+Static refinement after first source commit98e8516: root identified that original
+outcome-pipe ACK necessarily precedes fallible read-end NONBLOCK setup. The
+capture pin therefore now keys only on the independently cached normalized-read
+generation. Also a bad raw duplicate-source identity only defers/latches failure
+until ACK; it cannot call the clock-backed poison recorder before slot adoption.
+This is the same strict native§4 acquisition rule, with no changed outcome,
+assertion, test registration or executed baseline. Final checks above were
+repeated on this corrected exact source.
