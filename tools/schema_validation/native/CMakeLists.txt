@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Explicit developer artifact; the baseline source returns only marker31.
-add_library(subathon_schema_transport_v1 SHARED transport_stub.cpp)
+# Explicit developer artifact; one common callback-free process owner.
+add_library(subathon_schema_transport_v1 SHARED transport_entry.cpp)
 target_include_directories(subathon_schema_transport_v1 PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 subathon_target_options(subathon_schema_transport_v1)
-target_compile_options(subathon_schema_transport_v1 PRIVATE -fno-exceptions -fno-rtti)
+target_compile_options(subathon_schema_transport_v1 PRIVATE -fno-exceptions -fno-rtti -fstack-usage)
 set_target_properties(subathon_schema_transport_v1 PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN ON

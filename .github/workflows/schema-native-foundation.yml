@@ -1,4 +1,4 @@
-name: Schema native and helper foundations
+name: Schema native and public acceptance
 on:
   pull_request:
     branches: [main]
@@ -11,7 +11,7 @@ jobs:
   schema-native-foundation:
     name: schema-native-foundation (${{ matrix.runner }})
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -39,17 +39,27 @@ jobs:
               raise SystemExit('Runner did not select the admitted Python minor')
           print(sys.version)
           PYTHON
-      - name: Configure the reviewed inert ABI and real native facilities
+      - name: Create the isolated hash-locked SDK environment
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          /usr/bin/python3 -m venv "$schema_validation_env"
+          "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir install --index-url https://pypi.org/simple --require-hashes --only-binary=:all: --requirement tools/schema_validation/requirements.lock
+          if "$schema_validation_env/bin/python" -I -c 'import importlib.metadata, sys; sys.exit(not any(d.metadata["Name"].lower() == "setuptools" for d in importlib.metadata.distributions()))'; then
+            "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir uninstall --yes setuptools
+          fi
+          "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir check
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -S -B tools/schema_validation/check_baseline.py
+      - name: Configure the reviewed common owner and real native facilities
         run: >-
           cmake --preset schema-transport-debug
-          -DPython3_EXECUTABLE=/usr/bin/python3
+          -DPython3_EXECUTABLE="$RUNNER_TEMP/schema-validation-venv/bin/python"
           -DSUBATHON_FETCH_GOOGLETEST=ON
       - name: Build the native foundation and versioned artifact
         run: cmake --build --preset schema-transport-debug --verbose
       - name: Record actual artifact identity and exports
         run: |
           sha256sum build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so
-          sha256sum tools/schema_validation/native/transport_v1.h tools/schema_validation/native/transport_stub.cpp
+          sha256sum tools/schema_validation/native/transport_v1.h tools/schema_validation/native/transport_entry.cpp tools/schema_validation/native/raw_ops_v1.h tools/schema_validation/native/transport_core_v1_impl.h tests/schema_validation/native_fault_ops.h
           sha256sum tests/schema_validation/native_foundation.cpp tests/schema_validation/native_foundation_child.cpp tests/schema_validation/native_foundation_child.h tests/schema_validation/native_loader_foundation.py
           nm -D --defined-only build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so
       - name: Run reviewed static-audit controls without any native discovery
@@ -207,3 +217,40 @@ jobs:
           schema_ctest_path="$(command -v ctest)"
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 \
             "$schema_ctest_path" --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose
+      - name: Require all closed native and public acceptance registrations
+        run: |
+          /usr/bin/python3 - <<'PYTHON'
+          import ast
+          import json
+          from pathlib import Path
+          import shutil
+          import subprocess
+          rows = {'a1', 'a2', 'a3', 'o4', 'o5', 'o6', 'o7', 'o8', 'o9', 'o10', 's11', 's12', 'e13', 'e14', 'e15', 'e16', 'e17', 'e18', 'e19', 'e20', 'e21', 'e22', 'd23', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7', 'w8', 'w9', 'w10', 'w11', 'w12', 'w13', 'w14', 'w15', 'w16', 'w17', 'w18', 'c1', 'c2', 'c3', 'i25a', 'i25b', 'r26', 'l27', 'f28'}
+          expected = {'schema-native.owner-' + row for row in rows}
+          expected.add('schema-native.transport-acceptance')
+          suites = {'native_binding_acceptance': 9, 'wrapper_acceptance': 64,
+                    'parent_cleanup_regression': 2, 'worker_context_regression': 3,
+                    'worker_lexical_regression': 3, 'parent_spawn_regression': 2}
+          expected.update('schema-native.' + name for name in suites)
+          for name, count in suites.items():
+              source = ast.parse(Path('tests/schema_validation/' + name + '.py').read_text())
+              methods = [n for n in ast.walk(source) if isinstance(n, ast.FunctionDef) and n.name.startswith('test_')]
+              if len(methods) != count or any(n.decorator_list for n in methods):
+                  raise SystemExit('Public/binding method inventory or decoration differs: ' + name)
+          ctest = str(Path(shutil.which('ctest')).resolve(strict=True))
+          data = json.loads(subprocess.check_output([ctest, '--preset', 'schema-transport-debug',
+              '-L', '^schema-(native|public)-behavior$', '--show-only=json-v1'], text=True,
+              env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'}))
+          if len(data['tests']) != 64 or {item['name'] for item in data['tests']} != expected:
+              raise SystemExit('Native/public closed64-program inventory differs')
+          for item in data['tests']:
+              properties = {entry['name']: entry['value'] for entry in item['properties']}
+              if properties.get('DISABLED') or properties.get('WILL_FAIL'):
+                  raise SystemExit('Acceptance disabled or failure-inverted')
+          print('Native12 +57freshrows +binding9 +public74 registered unconditionally')
+          PYTHON
+      - name: Execute all reviewed native and public acceptance unconditionally
+        run: |
+          schema_ctest_path="$(command -v ctest)"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 \
+            "$schema_ctest_path" --preset schema-transport-debug -L '^schema-(native|public)-behavior$' --no-tests=error --verbose
