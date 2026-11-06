@@ -19,12 +19,17 @@ Active root worktree `/tmp/subathon-schematool001`, branch
 `task/SCHEMATOOL-001-offline-validator`, created from current main before claim
  a663b24. [Brief](../tasks/SCHEMATOOL-001.md), [original task handoff](schematool-001-handoff.md).
 Root owns shared state/HTML/build/presets/CI/dependency metadata/integration.
-[PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) remains OPEN/DRAFT,
-published cbfa0590ffd8598b39b66e2d1f229d692aa170b7, all19 actual latest checks
-SUCCESS. Local source/review commits follow it; latest source/build candidate3c3ad5f is followed by actual local artifact
-proofc0e6018; inspect current log. **Do not push the new workflow yet**: actual native runtime/CI-publication
-hold remains. Remote green is Python functional evidence, not native admission.
-Never mark ready/merge on those greens while source/native gates remain open.
+[PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) remains OPEN/DRAFT.
+Published586e18ba01c1ee25c5ab418e3a2e54179a5bd9f0 follows actual C13a9125 review of
+f608's exact probe-name selector. Previous c7 run42262357346 had both native jobs
+FAIL ONLY at evidence export: broad symbol prefix matched the probe and its lambda.
+Both corrected static jobs in run42263771664 SUCCESS (Ubuntu22.04/24.04), including
+configure/build/hash/static8/scopedgraph/actual entry-edge+relocation export.
+No hosted ELF/bootstrap/loader/kernel executable ran in these staged jobs.
+The earlier publication/runtime hold was superseded for this static diagnostic
+stage by C5cb94ee; source/owner/Ready/merge gates remain open. Root local source97e222a
+adds uncompiled negativechild/ACK/disposal corrections, then shared build authoring.
+Inspect actual current git log/status and latest GitHub checks before acting.
 
 All work is committed at the latest source handoffs; root checkpoint/state changes
 may follow3c. Inspect actual git status before acting. Preserve every prior ref/
@@ -142,8 +147,13 @@ foundationc618c4d6/reporterbd3e/stubbf797. Actual source artifactproofc0e6018
 preserves the clone-zero return edge and SAMEGOT23fa8 pointer/PLT relocation.
 [Exact local proof](schematool-001-native-bootstrap-local-static.md). C is explicitly
 assigned DIFFERENT actual resulting-artifact review before NO-CHILD bootstrap.
-**Do not run bootstrap/discovery/probes or publish until actual verdict permits
-that phase.** No native ELF has run; the rebuilt binary now contains seven cases.
+Different actual C17bf81c released the local one-case bootstrap; FIRST at clean67
+passed exact one-test XML. C19680b1 then released full local facilities; FIRST at
+cleanb44e449 passed all8 CTest registrations (7native+loader2), native0, no skips,
+actual clone3/close_range/real rollback supported even with seccomp2. C5cb94ee
+independently attributed actual full raw/receipt without replay. This is LOCAL
+facility evidence, not BOTH-host native/helper admission or owner acceptance.
+[Local full evidence](schematool-001-native-local-foundation-first.md) and foundation-review appendices preserve it.
 
 Practical next sequence: receive C actualc0 artifact verdict → run the exact
 XML-verified NO-CHILD bootstrap only if released → obtain LOCAL runtime release → actual local
@@ -173,26 +183,33 @@ decoder/launcher. All six test-FD slots are reserved before ownerentry; original
 plus two placeholders avoid needless high-FD normalization. Guard/capture dup3
 replaces continuously owned slots, so no closed coreFD can be reused. B count
 proof now18 worst-case/17 case28, under existing24/partition32; no contract edit
-or dropped history. Actual source/count proof needs review; not runtime evidence. A must separately author helper green
+or dropped history. Actual source/count proof needs review; not runtime evidence. Actual B832 fixture729body was integrated c02, then childcfac root0122, case23ACK016 root74c8, and disposalffbf root97e222a. C body review is ACTIVE; no fixture/child compile or execution. A is ACTIVE authoring helper green
 controls and actual57-row source/74 public ports after matching interfaces, with
 actual different reviews, BOTH-host real helperGREEN and intended actual31 red
 before B owner algorithm/RawOps/binding implementation. No owner code exists yet.
 
 ## Actual agents and durable stopping scope
 
-* A session_supplier_review: completed actual473 binding source on
-  /tmp/subathon-schematool001-native-libc-binding-source, clean; earlierfoundation,
-  corrections, matrix and staticcontrols trees preserved. Await explicit next task.
-* B session_supplier_author: ACTIVE bounded nonvalidating fixture-source authoring
-  from930; inspect actual agent/worktree status, preserve unfinished files.
-* C session_plan_review: completed source91/bootstrap compile-only verdict; ACTIVE
-  actualc0 local artifact/entry-edge/GOT review on a fresh note-only tree. Exact
- 6d static red/correction attribution and all earlier reviews preserved.
-* Root integrates and owns state/HTML/CI/build. No native command is running.
+* A session_supplier_review ACTIVE: independent helper C++ foundation authoring,
+  native_fault_foundation.cpp + author note only, no execution. Latest instruction
+  adds this source/fixture to the existing foundation executable to reuse its actual
+  same-binary binding test; every new child entry/call graph still needs audit.
+* B session_supplier_author ACTIVE: source-only native_fault_ops.h adapter and note
+  from root97e222a, no owner/decoder/binding. Childcfac/ACK016/disposalffbf completed
+  in clean isolated worktrees, root integrated them. Preserve those refs.
+* C session_plan_review ACTIVE: actual fixture body8d53 review including ACK/disposal,
+  then actual helper/build/child review. C13a9125 selector review completed/imported.
+* Root owns state/HTML/CI/build. Current static run42263771664 raw captured at
+  /tmp/schematool001-hosted-static-fixed.log for different per-host artifact review
+  BEFORE hosted runtime enablement. No project shell command remains running.
 
-Latest user instruction remains finish ONLY open PR77 then STOP. No new project
-PR/task after77. Main still095, publicPython source3438/worker8f/64/focused/pins
-unchanged, overall implementation/source/acceptance stillpartial/in_progress.
-All426 IDs/1629edges and full agreed product/release gates remain. Do not mark77
-done/ready/merge until owner/source/public74/CI/latest-head/discussions/rules gates
-actually pass; do not close/discard unfinished work as a substitute for completion.
+Next: C actual fixture/child/helper/build source verdict; then compile/static new
+artifacts; different actual per-host clone entry/binding proof and exact bootstrap,
+then unconditional kernel/helper green on BOTHhosts. Actual12direct/57negative
+owner source must be reviewed and FIRST31 reached before production owner code.
+Implement/review common native owner/RawOps/Python binding; preserve all74 methods;
+observe all applicable current-head CI, resolve discussions, normalmerge77 then STOP.
+Do not close/discard unfinished work as a substitute for completion. No other task,
+newPR or live operation. Main095/publicPython3438+worker8f/64/focused/pins unchanged,
+426IDs/1629edges and full product scope preserved. Implementation/source/acceptance
+remain partial/in_progress; no owner decision/access needed.
