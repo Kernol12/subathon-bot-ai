@@ -27,9 +27,9 @@ the trusted local target file; script-directory/PYTHONPATH discovery is unnecess
 under root's isolated `-I -B` runner. Temporary packages are constructed within cases.
 The local changed_directory helper supports Python3.10 (no contextlib.chdir).
 
-There are **272 authored direct public-call oracles** when all preceding assertions
+There are **279 authored direct public-call oracles** when all preceding assertions
 complete, plus ONE extra real-script parity invocation AFTER its direct main call.
-This is a source-level manual count, not an execution/discovery receipt, and not272
+This is a source-level manual count, not an execution/discovery receipt, and not279
 independent unittest registrations. Many methods contain literal subTest tables or
 several sequential observations. An immediate raw marker terminates that observation;
 later sequential assertions in the same method are not claimed reached in red.
@@ -70,7 +70,7 @@ successful worker stand-in exists. Root owns separate inert import/enum/static c
 | oas_closed_roles_include_unused_components_trace_and_content_forms | role table including PathItem/TRACE/ref containers/content forms/OAuth metadata, unused structural ref closure |
 | all_documents_finish_dialect_admission_before_native_checks; context_phase_priority_across_independent_defects | complete ordered phases: dialect, supported profile, structure, closure, cycle, inventory, semantics, instances |
 | required_inventory_growth_refuses_instead_of_truncating; context_resource_and_reference_edge_boundaries | complete inventory257; context4096/4097, resources256/257, refs2048/2049 separately |
-| graph_keys_include_encoded_controls_and_complete_owned_spellings | expanded URI control exceeds4096 despite fitting raw pointer; aggregate retained key lower bound>1MiB |
+| graph_keys_include_encoded_controls_and_complete_owned_spellings | exact4096/4097 encoded URI controls and larger expansion despite fitting raw pointer; aggregate retained key lower bound>1MiB |
 | worker_activation_missing_extra_and_malformed_refuse_forged_ok; worker_outcome_bounded_exact_closed_protocol; worker_status_mismatch_and_unclassified_signal; worker_startup_deadline_kills_and_reaps | private process v1 actual children, malformed protocol refusal, bounded257 read, unexpected death, deterministic complete deadline, real parent reap |
 
 The exact60 names are statically enumerable from the actual class source; no name
@@ -163,3 +163,42 @@ subprocess child, installation or intended red was executed. Different actual
 source/oracle review (including additive admission families), root's inert harness
 review, selected green foundations and FIRST genuine missing-wrapper marker run
 remain mandatory. Root owns exact task/CI/publication status and later PR gates.
+
+
+## Actual pre-execution source-review corrections
+
+First committed candidate73f33c7/source7fa72d4 had60 names/272 authored calls.
+Different C's actual audit found one malformed positive fixture: multipart
+encoding.part lacked the required media-schema property. Independently checked
+[OAS3.1.1 §4.8.14.1](https://spec.openapis.org/oas/v3.1.1.html#media-type-object)
+through the primary web tool: an encoding key must be a schema property. Add
+properties.part with type string, preserving the intended positive Header inventory
+case and its later missing-binding refusal. No expected outcome was weakened.
+
+Different A found two fault cases masked by an independent exit mismatch. The
+extra-key invalid_json line now exits2 and forbidden worker usage_error exits64;
+only malformed-line/worker-code admission can justify refusal there. The separate
+status-mismatch case remains unchanged. Both reviewers/self-audit identified help's
+bool/int ambiguity and exceptional readiness descriptor ownership: require exact
+int0, add test-only builtins.open/io.open/os.open read tripwires, and retain ALL
+four test synchronization descriptors in one outer ExitStack from creation through
+spawn/readiness/public return. Idempotent close_owned removes closed descriptors
+before early release so later cleanup cannot close a reused descriptor. No cleanup
+or poll/wait may reap a child before the actual parent-reap assertion.
+
+C's requested focused additions retain the same60 method registrations: with AND
+without OAS Schema root$id, raw1 must violate the sibling minimum2; a recursive
+propertyNames->$ref-root cycle is productive through the finite name-string facet;
+missing anchor is unresolved_reference. Literal control prefix
+https://schemas.subathon.invalid/package/s.json#/%24defs/ is57ASCII bytes. Names
+of4039/4040 ASCII a characters yield exactly4096/4097 encoded controls while raw
+pointers are4046/4047 bytes and fit. Expect ok/resource_limit independently of
+implementation calculations. A's requested actual main observation on the65537-byte
+manifest verifies resource_limit exit4 and its closed stdout; no fake result.
+
+These add SEVEN raw observations (six context/reference/boundary and one main),
+bringing the authored source count to279. Python3.10-feature AST parse, compile
+WITHOUT exec/import and independent literal URI/pointer lengths PASS. No test or
+candidate was imported/executed before or after these corrections. Actual revised
+source still requires both different reviewers' exact-candidate verdicts; additive
+admission families remain pending as described above.

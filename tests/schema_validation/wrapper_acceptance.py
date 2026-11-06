@@ -5,6 +5,7 @@ Run only after independent source/oracle review. Every behavior case calls an
 unmodified public entrypoint. Fault children exercise refusal/cleanup only.
 """
 
+import builtins
 import contextlib
 import importlib.util
 import io
@@ -182,8 +183,12 @@ class WrapperAcceptance(unittest.TestCase):
     def test_help_static_without_worker_or_package_io(self):
         stdout, stderr = io.StringIO(), io.StringIO()
         with mock.patch.object(subprocess, "Popen", side_effect=AssertionError("help spawned")), \
+                mock.patch.object(builtins, "open", side_effect=AssertionError("help opened file")), \
+                mock.patch.object(io, "open", side_effect=AssertionError("help opened file")), \
+                mock.patch.object(os, "open", side_effect=AssertionError("help opened file")), \
                 contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
             actual = self.target.main(["--help"])
+        self.assertIs(type(actual), int)
         self.assertEqual(actual, 0)
         self.assertEqual(stdout.getvalue(), "Usage: schema_validate.py --manifest PATH\n")
         self.assertEqual(stderr.getvalue(), "")
@@ -358,6 +363,8 @@ class WrapperAcceptance(unittest.TestCase):
                 raw = p.manifest.read_bytes()
                 p.write("manifest.json", raw + b" " * (65536 + extra - len(raw)))
                 self.outcome(p, expected)
+                if extra:
+                    self.cli(["--manifest", str(p.manifest)], "resource_limit", 4)
             with self.subTest(file_extra=extra):
                 p = self.package(b"null")
                 p.write("v.json", b"null" + b" " * (1048576 + extra - 4))
@@ -509,6 +516,7 @@ class WrapperAcceptance(unittest.TestCase):
         rows = (schema(**{"$ref": "https://outside.invalid/x"}),
                 schema(**{"$defs": {"unused": {"$ref": "missing.json"}}}),
                 schema(**{"$ref": "#/$defs/missing", "$defs": {"T": True}}),
+                schema(**{"$ref": "#absent"}),
                 schema(**{"$ref": "#/const", "const": {"type": "integer"}}))
         for index, specification in enumerate(rows):
             with self.subTest(case=index):
@@ -579,6 +587,8 @@ class WrapperAcceptance(unittest.TestCase):
                 p.document("api.json", openapi(components={"schemas": {"Sample": sample}}), "openapi31")
                 p.example("v.json", b"3", "api.json", "/components/schemas/Sample").finish()
                 self.outcome(p, "ok")
+                p.write("v.json", b"1")
+                self.outcome(p, "invalid_instance")
                 p.write("v.json", b'"wrong"')
                 self.outcome(p, "invalid_instance")
 
@@ -599,6 +609,7 @@ class WrapperAcceptance(unittest.TestCase):
         node = schema(type="object", properties={"value": {"type": "integer"}, "next": {"$ref": "#"}}, required=["value"], additionalProperties=False)
         self.outcome(self.package({"value": 1, "next": {"value": 2}}, node), "ok")
         self.outcome(self.package({"value": 1, "next": {"value": "bad"}}, node), "invalid_instance")
+        self.outcome(self.package({"name": 1}, schema(propertyNames={"$ref": "#"})), "ok")
         # $defs/contentSchema seed checking; they do not apply to this instance.
         self.outcome(self.package(b"1", schema(type="integer", **{"$defs": {"T": {"$ref": "#"}}, "contentSchema": {"$ref": "#"}})), "ok")
 
@@ -712,7 +723,7 @@ class WrapperAcceptance(unittest.TestCase):
     def test_parameter_header_encoding_and_schema_annotation_inventory(self):
         p = self.package()
         p.documents.clear()
-        doc = openapi(paths={"/x": {"parameters": [{"name": "q", "in": "query", "schema": {"type": "integer"}, "example": 1}], "post": {"requestBody": {"content": {"multipart/form-data": {"schema": {"type": "object"}, "encoding": {"part": {"headers": {"X": {"schema": {"type": "integer"}, "example": 2}}}}}}}, "responses": {"200": {"description": "ok"}}}}}, components={"schemas": {"S": {"type": "object", "example": {"$ref": "https://outside.invalid/data"}}}})
+        doc = openapi(paths={"/x": {"parameters": [{"name": "q", "in": "query", "schema": {"type": "integer"}, "example": 1}], "post": {"requestBody": {"content": {"multipart/form-data": {"schema": {"type": "object", "properties": {"part": {"type": "string"}}}, "encoding": {"part": {"headers": {"X": {"schema": {"type": "integer"}, "example": 2}}}}}}}, "responses": {"200": {"description": "ok"}}}}}, components={"schemas": {"S": {"type": "object", "example": {"$ref": "https://outside.invalid/data"}}}})
         p.document("api.json", doc, "openapi31")
         p.inline("/paths/~1x/parameters/0/example", "/paths/~1x/parameters/0/schema")
         p.inline("/paths/~1x/post/requestBody/content/multipart~1form-data/encoding/part/headers/X/example", "/paths/~1x/post/requestBody/content/multipart~1form-data/encoding/part/headers/X/schema")
@@ -782,6 +793,15 @@ class WrapperAcceptance(unittest.TestCase):
                 self.outcome(self.package(specification=schema(**{"$defs": definitions})), expected)
 
     def test_graph_keys_include_encoded_controls_and_complete_owned_spellings(self):
+        # Literal prefix https://schemas.subathon.invalid/package/s.json#/%24defs/
+        # is57 ASCII bytes. These names yield exactly4096 and4097-byte controls.
+        for length, expected in ((4039, "ok"), (4040, "resource_limit")):
+            with self.subTest(control_name_bytes=length):
+                p = self.package()
+                name = "a" * length
+                p.write("s.json", schema(**{"$defs": {name: True}}))
+                p.example("v.json", b"null", pointer="/$defs/" + name).finish()
+                self.outcome(p, expected)
         p = self.package()
         name = "é" * 1000
         p.write("s.json", schema(**{"$defs": {name: True}}))
@@ -819,7 +839,8 @@ class WrapperAcceptance(unittest.TestCase):
         saved = []
         ready_for_expiry = [False]
         base = real_clock()
-        release_writer = None
+        descriptor_owner = contextlib.ExitStack()
+        owned_fds = set()
         reaped = False
         watchdogs = []
         watchdog_fired = threading.Event()
@@ -827,8 +848,19 @@ class WrapperAcceptance(unittest.TestCase):
         def clock():
             return base + 11 if ready_for_expiry[0] else base
 
+        def close_owned(fd):
+            if fd in owned_fds:
+                owned_fds.remove(fd)
+                os.close(fd)
+
+        def owned_pipe():
+            ends = os.pipe()
+            for fd in ends:
+                owned_fds.add(fd)
+                descriptor_owner.callback(close_owned, fd)
+            return ends
+
         def spawn(argv, **kwargs):
-            nonlocal release_writer
             self.assertEqual(len(saved), 0)
             self.assertIn(type(argv), (list, tuple))
             self.assertEqual(len(argv), 12)
@@ -858,8 +890,8 @@ class WrapperAcceptance(unittest.TestCase):
             env = {"TEST_A": str(first), "TEST_O": str(second)}
             ready_read = None
             if deadline:
-                ready_read, ready_write = os.pipe()
-                release_read, release_writer = os.pipe()
+                ready_read, ready_write = owned_pipe()
+                release_read, release_writer = owned_pipe()
                 descriptors.extend((ready_write, release_read))
                 env.update(TEST_R=str(ready_write), TEST_B=str(release_read))
                 code = ("import os; os.write(int(os.environ['TEST_R']),b'R'); "
@@ -886,8 +918,8 @@ class WrapperAcceptance(unittest.TestCase):
                 timer.start()
             finally:
                 if deadline:
-                    os.close(ready_write)
-                    os.close(release_read)
+                    close_owned(ready_write)
+                    close_owned(release_read)
             if deadline:
                 try:
                     # Kernel readiness timeout is a test watchdog, never its oracle.
@@ -896,7 +928,7 @@ class WrapperAcceptance(unittest.TestCase):
                     self.assertEqual(os.read(ready_read, 2), b"R")
                     ready_for_expiry[0] = True
                 finally:
-                    os.close(ready_read)
+                    close_owned(ready_read)
             return process
 
         p = self.package(b"1", schema(type="integer"))
@@ -917,8 +949,7 @@ class WrapperAcceptance(unittest.TestCase):
             for timer in watchdogs:
                 timer.cancel()
                 timer.join(timeout=1)
-            if release_writer is not None:
-                os.close(release_writer)
+            descriptor_owner.close()
             if saved and not reaped:
                 try:
                     saved[0].kill()
@@ -932,11 +963,13 @@ class WrapperAcceptance(unittest.TestCase):
                 self.fault(activation, b'{"code":"ok"}\n', 0)
 
     def test_worker_outcome_bounded_exact_closed_protocol(self):
-        for payload in (b"x" * 257, b'{"code":"unknown"}\n', b'{"code":"ok"}',
-                        b'{"code":"ok"}\nextra', b'{"code":"usage_error"}\n', b"",
-                        b'{"code":"invalid_json","secret":"PRIVATE"}\n'):
-            with self.subTest(payload_case=len(payload)):
-                self.fault(b"A", payload, 0)
+        rows = ((b"x" * 257, 0), (b'{"code":"unknown"}\n', 0),
+                (b'{"code":"ok"}', 0), (b'{"code":"ok"}\nextra', 0),
+                (b'{"code":"usage_error"}\n', 64), (b"", 0),
+                (b'{"code":"invalid_json","secret":"PRIVATE"}\n', 2))
+        for index, (payload, status) in enumerate(rows):
+            with self.subTest(protocol_case=index):
+                self.fault(b"A", payload, status)
 
     def test_worker_status_mismatch_and_unclassified_signal(self):
         self.fault(b"A", b'{"code":"invalid_json"}\n', 0)
