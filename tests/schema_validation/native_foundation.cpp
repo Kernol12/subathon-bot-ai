@@ -5,8 +5,13 @@
 #include <atomic>
 #include <climits>
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <dlfcn.h>
+#include <elf.h>
 #include <gnu/libc-version.h>
 #include <gtest/gtest.h>
+#include <initializer_list>
 #include <linux/futex.h>
 #include <linux/sched.h>
 #include <poll.h>
@@ -436,6 +441,95 @@ void diagnostics() {
                  "native foundation host: uname=%ld kernel=%s machine=%s seccomp=%ld libc=%s\n",
                  status, status == 0 ? identity.release : "unavailable",
                  status == 0 ? identity.machine : "unavailable", seccomp, ::gnu_get_libc_version());
+}
+
+TEST(SchemaNativeFoundation, SyscallBindingToActualLibc) {
+    // No generic ::syscall invocation, new FD, child, thread or signal mutation.
+    // The loader-supplied defining object is inspected only at its fixed header.
+    for (const char *key :
+         {"LD_PRELOAD", "LD_LIBRARY_PATH", "LD_AUDIT", "LD_DYNAMIC_WEAK", "LD_BIND_NOT", "LD_DEBUG",
+          "LD_DEBUG_OUTPUT", "LD_ORIGIN_PATH", "GLIBC_TUNABLES"}) {
+        ASSERT_EQ(std::getenv(key), nullptr) << key;
+    }
+    const void *bound = reinterpret_cast<const void *>(&::syscall);
+    Dl_info defining{};
+    ASSERT_NE(::dladdr(bound, &defining), 0);
+    ASSERT_NE(defining.dli_fname, nullptr);
+    ASSERT_NE(defining.dli_fbase, nullptr);
+    ASSERT_NE(defining.dli_sname, nullptr);
+    ASSERT_STREQ(defining.dli_sname, "syscall");
+    ASSERT_EQ(defining.dli_saddr, bound);
+    char path[4097];
+    const std::size_t bytes = ::strnlen(defining.dli_fname, sizeof(path));
+    ASSERT_GT(bytes, 0U);
+    ASSERT_LT(bytes, sizeof(path));
+    std::memcpy(path, defining.dli_fname, bytes + 1);
+    bool standard = false;
+    for (const char *admitted :
+         {"/lib/x86_64-linux-gnu/libc.so.6", "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "/lib/libc.so.6", "/usr/lib/libc.so.6", "/lib64/libc.so.6", "/usr/lib64/libc.so.6"}) {
+        if (std::strcmp(path, admitted) == 0)
+            standard = true;
+    }
+    ASSERT_TRUE(standard); // Exact defining path only; no search/fallback library.
+    static_assert(sizeof(Elf64_Ehdr) == 64);
+    Elf64_Ehdr header;
+    std::memcpy(&header, defining.dli_fbase, 64); // Already loaded ELF header.
+    ASSERT_EQ(header.e_ident[EI_MAG0], 0x7f);
+    ASSERT_EQ(header.e_ident[EI_MAG1], 'E');
+    ASSERT_EQ(header.e_ident[EI_MAG2], 'L');
+    ASSERT_EQ(header.e_ident[EI_MAG3], 'F');
+    ASSERT_EQ(header.e_ident[EI_CLASS], ELFCLASS64);
+    ASSERT_EQ(header.e_ident[EI_DATA], ELFDATA2LSB);
+    ASSERT_EQ(header.e_ident[EI_VERSION], EV_CURRENT);
+    ASSERT_TRUE(header.e_ident[EI_OSABI] == ELFOSABI_SYSV ||
+                header.e_ident[EI_OSABI] == ELFOSABI_GNU);
+    ASSERT_EQ(header.e_type, ET_DYN);
+    ASSERT_EQ(header.e_machine, EM_X86_64);
+    ASSERT_EQ(header.e_version, EV_CURRENT);
+    ASSERT_EQ(header.e_ehsize, 64);
+    const auto base = reinterpret_cast<std::uintptr_t>(defining.dli_fbase);
+    const auto function = reinterpret_cast<std::uintptr_t>(bound);
+    ASSERT_GE(function, base);
+    ASSERT_LT(function - base, 64U * 1024U * 1024U);
+
+    void *handle = ::dlopen(path, RTLD_NOLOAD | RTLD_NOW | RTLD_LOCAL);
+    void *symbol = nullptr, *versioned = nullptr;
+    bool symbol_ok = false, version_ok = false, same_object = false;
+    int closed = -1;
+    if (handle) {
+        ::dlerror();
+        symbol = ::dlsym(handle, "syscall");
+        symbol_ok = ::dlerror() == nullptr;
+        ::dlerror();
+        versioned = ::dlvsym(handle, "syscall", "GLIBC_2.2.5");
+        version_ok = ::dlerror() == nullptr;
+        Dl_info looked_up{};
+        same_object = symbol && ::dladdr(symbol, &looked_up) != 0 &&
+                      looked_up.dli_fbase == defining.dli_fbase && looked_up.dli_fname &&
+                      std::strcmp(looked_up.dli_fname, path) == 0 && looked_up.dli_saddr == symbol;
+        closed = ::dlclose(handle); // No assertion/unwind while this ref is owned.
+    }
+    EXPECT_NE(handle, nullptr);
+    EXPECT_TRUE(symbol_ok);
+    EXPECT_TRUE(version_ok);
+    EXPECT_TRUE(same_object);
+    EXPECT_EQ(symbol, bound);
+    EXPECT_EQ(versioned, bound);
+    EXPECT_EQ(closed, 0);
+    ::testing::Test::RecordProperty("native_bound_libc_path", path);
+    char addresses[96];
+    const int address_bytes =
+        std::snprintf(addresses, sizeof(addresses), "syscall=%p base=%p offset=%#lx", bound,
+                      defining.dli_fbase, static_cast<unsigned long>(function - base));
+    ASSERT_GT(address_bytes, 0);
+    ASSERT_LT(static_cast<unsigned>(address_bytes), sizeof(addresses));
+    ::testing::Test::RecordProperty("native_bound_libc_addresses", addresses);
+    ::testing::Test::RecordProperty("native_bound_syscall_version", "GLIBC_2.2.5");
+    std::fprintf(stderr, "native binding: libc=%s %s version=GLIBC_2.2.5\n", path, addresses);
+    // This address comparison alone does NOT certify a different PLT call edge.
+    // Root must pair these values with actual relocation/version/code/hash audit.
+    diagnostics();
 }
 
 TEST(SchemaNativeFoundation, InertBaselineLiteral31) {

@@ -247,3 +247,87 @@ PASS; `python3 tools/check_project.py` PASS426/122;
 `python3 tools/progress.py render --check` current; `git diff --cached --check`
 PASS. No compiler, candidate import/loading, disassembler/checker, native probe,
 thread/child or test body executed in this author assignment.
+
+## Additive no-child binding-source gate
+
+Root released ONE additive source-only case from actual `0530e6a`, isolated
+`task/SCHEMATOOL-001-native-libc-binding-source`:
+`SchemaNativeFoundation.SyscallBindingToActualLibc`. Only `native_foundation.cpp`
+and this note change. All six prior test bodies and their89 EXPECT invocations,
+raw child annotations, child/report bytes and two loader cases remain exact.
+The new inventory is seven C++ cases plus two loader methods, not observed passes.
+The original6+2 scope/reviews remain valid; this additive case requires its own
+different source review before compilation and runtime.
+
+The bootstrap does not call generic `::syscall`, the transport owner, clone,
+thread, signal-mutating or FD-test helpers. It rejects dynamic-loader override
+presence, obtains the ACTUAL `&::syscall` address and uses dladdr to require its
+exact symbol start/name in a defining DSO named libc.so.6 at one of six fixed
+standard x86-64 system spellings. The path is copied with a4096-byte bound; it
+comes only from that loader resolution, never argv/env/package/library search.
+An unexpected PLT address resolving to the executable fails this check, rather
+than pretending it identified libc. No native object supplied by a package is
+probed. This is a trusted ordinary local-build assumption, not authentication
+against an administrator replacing system libraries or startup code.
+
+As root explicitly accepted for this no-new-FD bootstrap, it copies only the
+fixed64-byte Elf64_Ehdr at the trusted loaded `dli_fbase`, requiring ELF64,
+little-endian/current version, ordinary SYSV/GNU ABI, ET_DYN, x86-64 and64-byte
+header. It does not parse arbitrary tables or dereference package addresses.
+The actual function offset must lie within the64MiB audit-file ceiling. The six
+admitted loader spellings cover `/lib`/`/usr/lib`, their x86_64-linux-gnu subdirs
+and `/lib64`/`/usr/lib64`, each ending exactly libc.so.6. It does not search these
+paths: exactly ONE path, the resolved defining object, is used.
+
+dlopen uses that exact resident object's path with
+RTLD_NOLOAD|RTLD_NOW|RTLD_LOCAL, so no new library/search/fallback is selected.
+dlsym("syscall") and dlvsym("syscall","GLIBC_2.2.5") must return exactly the
+original address; a second dladdr must match base/path/exact symbol address.
+dlerror is cleared/read independently for each lookup. The one acquired loader
+reference is passed to checked dlclose BEFORE any subsequent assertion or
+formatting; no GTest failure/unwind occurs while it is owned. Root may add only
+`${CMAKE_DL_LIBS}` to this TEST target, not a new third-party/runtime dependency.
+This author changes no build file.
+
+Primary basis: [dladdr](https://man7.org/linux/man-pages/man3/dladdr.3.html) defines
+the symbol/object information and explicitly warns about executable PLT-address
+results; [dlopen](https://man7.org/linux/man-pages/man3/dlopen.3.html) defines
+NOLOAD/NOW/LOCAL and reference release; [dlsym/dlvsym](https://man7.org/linux/man-pages/man3/dlsym.3.html)
+defines handle/version lookup and proper dlerror checking. The
+[glibc x86-64 ABI list](https://raw.githubusercontent.com/bminor/glibc/master/sysdeps/unix/sysv/linux/x86_64/64/libc.abilist)
+lists syscall as a GLIBC_2.2.5 function. These source facts motivate literal
+expectations, not a host observation in this source-authoring stage.
+
+**Lookup is not the whole PLT proof.** RecordProperty/stderr will emit the actual
+defining loader-path spelling, base/function addresses, their offset and required
+version. The spelling is not claimed as independently canonicalized/authenticated.
+This case computes no fabricated hash: root's paired STATIC artifact gate must
+hash that actual defining libc file and bind the hash/symbol offset/version to
+the foundation binary and this future receipt. Per host, inspect actual dynamic
+dependencies, symbol-version requirements and the generic syscall call edge from
+probe. Depending on the actual generated binary, syscall's canonical address/call
+may use R_X86_64_GLOB_DAT/.plt.got or R_X86_64_JUMP_SLOT/.plt; neither is presumed
+from source. Resolve that exact relocation/GOT/PLT path to the same versioned
+libc symbol, reject interposition/unknown edges, audit its exact safe success
+prefix and verify returned-zero enters only the admitted raw child graph. A
+dlsym address in the same DSO alone cannot certify a different call-site binding.
+Entry-edge/call-graph/compiler-helper and all selected-host gates stay mandatory.
+
+Staging remains reviewed static graph/artifact gate, then explicit isolated
+NO-CHILD bootstrap selection requiring one real registered pass (zero matching
+tests is not success), then separately released full kernel foundations. Root's
+already observed static-control red is independent harness history, not this
+case's execution or a native-feature red. No bootstrap, loader, binary audit,
+compile, test discovery, kernel probe or other candidate code ran in this author
+assignment. Static preservation/doc checks are recorded below before handoff.
+
+Actual source-only check removes ONLY the additive case/new standard/dl headers,
+then compares every prior token (including all original6 bodies/helpers and89
+EXPECT invocations) with preserved `264c522`: PASS. It verifies exactly seven
+native cases, one checked dlclose before post-lookup assertions, the fixed64-byte
+header copy, versioned literal and no probe/child/thread helper call in this case.
+`clang-format --dry-run --Werror tests/schema_validation/native_foundation.cpp`
+PASS; `python3 tools/check_project.py` PASS426/122;
+`python3 tools/progress.py render --check` current; `git diff --cached --check`
+PASS. No source import, compiler, checker/disassembler, bootstrap, library load,
+native probe or test executed in this source-authoring assignment.
