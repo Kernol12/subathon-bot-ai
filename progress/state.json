@@ -13915,7 +13915,7 @@
       "module": "Tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "coordinator /root; parent /root/session_supplier_author; worker /root/session_supplier_review",
+      "owner": "coordinator /root; native author /root/session_supplier_author; test author /root/session_supplier_review; reviewer /root/session_plan_review",
       "depends_on": [
         "SCHEMATEST-001"
       ],
@@ -13942,7 +13942,8 @@
         "PR77 only: direct native behavior tests e4fe735/source90c54b integrated aedbec0, independently approved C f8ae6904 (root dcd55e9). Twelve methods contain22 literal real-CABI observations;31 raises exact SchemaTransportNotImplemented. No execution. Actual A foundation/build review and BOTH hosted green facilities must precede first intended native red. This subset does not cover negative ownership,74 ports or public binding and does not authorize owner implementation. B now authors only the same-core fault-harness plan, before separately reviewed negative fixtures/tests/red. Native header/stub remain exact22e0df4. Document statuses record factual C44/C48 acceptance; normative bodies remain unchanged. Root CMake/presets/export-map/native CI are authored, uncommitted pending A immutable tests; no native configure/build/load/probe/child ran. Finish77 then stop remains the latest instruction.",
         "Finish only PR77 then stop remains current instruction; published cbfa059 still draft/all19 functional SUCCESS, later native candidates unpublished under C runtime hold. Actual source/build299 compile-only approved Cac163; A264 cleanup fixed EINTR/pidfd with89 EXPECTs preserved, Ca4 approval; A66 function-local raw-child annotations approved C403, no parent/global hardening change. Configure GNU16.2.1/CP314.9/GTest1.18.0 and corrected4-step rebuild exit0/0warnings; no ELF/loader/probe ran. A static controls0ced/ee13 reviewed Ce19; FIRST clean2832 8methods/.006s/10assertFAIL/0errors, raw8411B SHA98bf, stdoutempty. C6d independently attributes and approves corrected checker0eac at258. Unchanged8 then PASS/.005s; scoped binutils helper graph audit exits0 on19aad/bd3e/bf797 artifacts/libc02c8; this does NOT prove clone entry or actual executable binding. New A473 seventh no-child binding case +root3c build/CI staging await actual C review before rebuild/runtime/publication; bothhost native facilities/helper green still precede owner31 red. B nonvalidating map/controller fixture authoring only; matrix57 and declarations separately root reviewed; no common owner/RawOps/binding implementation exists. All74/public/pins/history/fullscope preserved; task stays in_progress/partial.",
         "Actual C91bec03 approves seventh no-child binding source3c for rebuild/static only, importedee3. Root rebuild exits0/0warnings and scoped staticgraph exits0 on NEWfoundationSHA c618c4d6, unchangedreporterbd3e/stubbf797/libc02c8. Artifactproofc0e6018 preserves real clone-return zero branch/directchildcall and SAMEGOT23fa8 address/GLIBC2.2.5 relocation shared by syscallPLT andbootstrap pointer. Different C actualartifact review is active BEFOREbootstrap; no nativeELF/--list/kernel/loader ran. Remote77cbf stilldraft, newworkflowunpublished underperhostruntimehold. B helper uses six original/reserved testFDlifetimes with18-event maximum undercurrent24/32, eliminating needless high normalization andcountamendment. No ownerimplementation or productcompletion; finish77thenstop.",
-        "PR77 only/thenSTOP. ActualLOCAL bootstrapclean67 and fullfoundationcleanb44 FIRST8CTest(7CPP+loader2) allPASS/native0/0skip; C19680b1/5cb94ee independent attribution. Publishedc7 stagedhostedrun42262357346 nativebothFAIL solely broadprobe/lambda export selector; actual f608 correction independentlyapprovedC13a9125, published586e18b. Corrected42263771664 bothUbuntu22/24 configure/build/static8/scopedgraph/actualentry+reloc exportSUCCESS; NO hostedELF/bootstrap/kernel execution yet. B832fixture integratedc02, childcfac→0122, case23ACK016→74c8 and disposalffbf→97e sourceonly; Cactualbody reviewACTIVE, AindependenthelpertestsACTIVE, BnonvalidatingFaultOps sourceassigned. RootsharedfaultDSO5export/build authoring uncompiled. BOTHhostfacilities/helperGREEN and reviewed57negativeFIRST31 stillprecedecommonowner/RawOps/Pythonbinding. Task stayspartial/in_progress/Ready+mergeWITHHELD; noownerdecisionneeded."
+        "PR77 only/thenSTOP. ActualLOCAL bootstrapclean67 and fullfoundationcleanb44 FIRST8CTest(7CPP+loader2) allPASS/native0/0skip; C19680b1/5cb94ee independent attribution. Publishedc7 stagedhostedrun42262357346 nativebothFAIL solely broadprobe/lambda export selector; actual f608 correction independentlyapprovedC13a9125, published586e18b. Corrected42263771664 bothUbuntu22/24 configure/build/static8/scopedgraph/actualentry+reloc exportSUCCESS; NO hostedELF/bootstrap/kernel execution yet. B832fixture integratedc02, childcfac→0122, case23ACK016→74c8 and disposalffbf→97e sourceonly; Cactualbody reviewACTIVE, AindependenthelpertestsACTIVE, BnonvalidatingFaultOps sourceassigned. RootsharedfaultDSO5export/build authoring uncompiled. BOTHhostfacilities/helperGREEN and reviewed57negativeFIRST31 stillprecedecommonowner/RawOps/Pythonbinding. Task stayspartial/in_progress/Ready+mergeWITHHELD; noownerdecisionneeded.",
+        "PR77ONLY/thenSTOP; actualpublished586 all21SUCCESS butnativeSTATIConly. LocalA23+root24+Bchild/fixture sourcepacket independentlyCa108→87ef configure+10build0/0warn; newstatic5+old8PASS, real15b graphFAILCLOSED onObservation aggregatePXOR/MOVAPS. A7b real125control+c58scalarstores independentlyroot37; two-steprebuild0/0warn NEWfoundation285d47cd, other4ELFs unchanged; bothactualstaticgatesPASS0. Cd1actual285artifactadmission imported54b; FIRSTcorrectedNOCHILD1XML18:45:43Z native0/0skip-error-disabled. Full56stillpendingCactualbindingattribution; newruntimeCI7ef authoringunpublished BactualsourceAPPROVED notecommitpending. B625Ops417 importeda9 SOURCEONLY/uncompiled; A57f090 imported23aed andPID978→04c9088 SOURCEONLY/unrun, rootreviews pending. Aactivepublic74sourceports withfreshper-rowactualfaultCDLL andrealprod0postdecodeidentitycomplements, no productionchange. BOTHhosthelperGREEN→reviewed57+12FIRST31→owner/RawOps/source→binding/public74/fullCI/normalmerge stillrequired; noownerdecision/access needed."
       ],
       "verification": {
         "integrated_baseline": "passed",
@@ -13976,7 +13977,11 @@
         "native_generated_helpers": "partial",
         "native_binding": "partial",
         "native_selected_ci": "partial",
-        "native_owner_baseline": "not_run"
+        "native_owner_baseline": "not_run",
+        "native_helper_compile": "passed",
+        "native_helper_acceptance": "not_run",
+        "native_fault_ops_review": "partial",
+        "native_owner_test_review": "partial"
       },
       "evidence": [
         "docs/evidence/schematool-001-handoff.md",
@@ -14033,7 +14038,16 @@
         "docs/evidence/schematool-001-native-bootstrap-local-static.md",
         "docs/evidence/schematool-001-native-export-selector-correction.md",
         "docs/evidence/schematool-001-native-fault-child-author.md",
-        "docs/evidence/schematool-001-native-fault-fixture-author.md"
+        "docs/evidence/schematool-001-native-fault-fixture-author.md",
+        "docs/evidence/schematool-001-native-helper-build-review.md",
+        "docs/evidence/schematool-001-native-helper-generated-author.md",
+        "docs/evidence/schematool-001-native-helper-binding.md",
+        "docs/evidence/schematool-001-native-fault-foundation-review.md",
+        "docs/evidence/schematool-001-native-fault-child-review.md",
+        "docs/evidence/schematool-001-native-fault-audit-review.md",
+        "docs/evidence/schematool-001-native-fault-ops-author.md",
+        "docs/evidence/schematool-001-native-owner-test-author.md",
+        "docs/evidence/schematool-001-native-runtime-ci-author.md"
       ],
       "review": null
     }

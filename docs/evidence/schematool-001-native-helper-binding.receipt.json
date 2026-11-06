@@ -1,0 +1,31 @@
+{
+  "source": "54b52f4b01a30be66a40e85e251d3476e96c7502",
+  "artifact_sha256": "285d47cd4046632737aa06fe08890f8fc4d41410cbd9ff28a3b1751d715a8a38",
+  "command": [
+    "/tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation",
+    "--gtest_filter=SchemaNativeFoundation.SyscallBindingToActualLibc",
+    "--gtest_color=no",
+    "--gtest_output=xml:/tmp/schematool001-helper-binding-285.xml"
+  ],
+  "start_utc": "2026-11-06T18:45:43.671172+00:00",
+  "seconds": 0.0030900519923307,
+  "returncode": 0,
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "stdout": {
+    "bytes": 624,
+    "sha256": "440274b654b8f86fe7ffa72af347546ea2e13832cdc807d9a2a58d44eaf4c161"
+  },
+  "stderr": {
+    "bytes": 208,
+    "sha256": "d93a4daee6078687558c0056ca7231b7a108df1f86d844749b6791b59903a7d2"
+  },
+  "xml": {
+    "bytes": 1210,
+    "sha256": "d4353fc340fcad0e5e3e389a67ca3528297bc15b7a0c7e66abadd5f83db254aa"
+  },
+  "exact_one_passed": true
+}
