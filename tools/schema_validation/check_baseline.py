@@ -75,6 +75,7 @@ EXPECTED_METHODS = (
     'test_uri_reference_fragments_are_not_reencoded_as_raw_pointers',
     'test_worker_activation_missing_extra_and_malformed_refuse_forged_ok',
     'test_worker_outcome_bounded_exact_closed_protocol',
+    'test_worker_setup_refusal_before_activation',
     'test_worker_startup_deadline_kills_and_reaps',
     'test_worker_status_mismatch_and_unclassified_signal',
 )
