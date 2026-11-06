@@ -1,17 +1,32 @@
-# Current addendum gate — setup refusal clarification before merge
+# Current gate — one setup-refusal addendum before merge
 
-Current6 November2026. The ORIGINAL63-case baseline, FIRST261markers and750
-completion metadata are independently approved (A0d86088, Cc152) and preserved.
-PR76 is STILL UNMERGED; SCHEMATOOL001 is planned/Unassigned. Current task reopened
-ONLY for one discovered pre-activation setup-refusal contract ambiguity; no original
-63-case replay or weakened assertion. Root actual revision2 process/API candidate
-is in this commit, not yet separately approved. C read-only interpretation supports
-one exact nonvalidating environment refusal without A, preserving outer deadline/
-resource precedence; ACTUAL document review precedes ONE new64th test and targeted
-new-case red. All oldsource/reviews/receipts remain valid for their scopes. Hold merge
-and ALL implementation until the revised baseline gates pass. The historical
-completion snapshot below is qualified to ORIGINAL63 ONLY, not current64 completion.
-Root must assign C actual doc review next; no user decision/access needed.
+Snapshot6 November2026. ORIGINAL63/FIRST261 and750 completion metadata are approved
+A0d/Cc152 and preserved. PR76 is STILL UNMERGED; SCHEMATOOL001planned/Unassigned.
+Root actual revision2API973961c/processac256805 is independently approvedC05d/import278:
+exact emptyAEOF+env35LF/outcomeEOF+normal3+parentreap is NONVALIDATING refusal, nofakeA/
+package/candidatework; malformedA/otherreceivedresults invalid, outer resource/
+deadline priority unchanged. No new public option or scope deletion.
+
+B a670/source64f4911 adds ONE64th method/10literalrows; ALLold63AST/helpers/classes/
+ledger/moduleexact. A087/importe7 approves actualsource/ONEname inventory H032/plan;
+workflow842/coreunchanged. Root exact matchingCP314green64 at e7c:0/0.071915s,
+20pairedmetadata+64definitionregistrations,stderr empty/no setup/test/feature/SDK/
+clone/worker. Raw receipt is committed with this checkpoint. No acceptance replay.
+
+NEXT publish reviewed64 candidate, observe BOTH actual SDK14/20metadata/64definition
+jobs+ALL19latestchecks, obtain independent selectedCIreceipt. Hold root HEAD clean
+at that published candidate. Then run ONLY NEW64th method once per
+[addendum plan](schematest-001-setup-refusal-plan.md), preserve actualbytes/exit/frames/
+count/source, get differentC attribution. NEVER rerun original63 for this addendum.
+C's currentCI note may be held unimported until new-case red to keep samehead.
+Only after the new gate complete revised metadata and A actual re-review, latestCI,
+normalready/rules/threads/headmatchedmerge; NO production before mainintegration.
+A/B/C are idle after actual reviews/authoring; inspect agentlist and followup_task
+for next actualselectedCI/newraw tasks. No owner decision/access needed.
+
+The historical ORIGINAL63 snapshot below is explicitly qualified: old future merge
+instructions are NOT current until the addendum above passes. Original source/
+reviews/raw remain valid; do not repeat completed preparation or FIRST63.
 
 ---
 

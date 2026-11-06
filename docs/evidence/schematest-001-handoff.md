@@ -1,12 +1,13 @@
-# Current status — original63 complete; one setup-refusal addendum pending
+# Current status — original63 complete; reviewed64 addendum awaits CI/new-only red
 
-Original63 baseline+750 metadata are independently approved0d86088/Cc152 and
-preserved. PR76 remainsUNMERGED. Before merging, implementation readiness found an
-actual pre-activation taxonomy conflict; task reopened ONLY for reviewed revision2
-clarification +ONE new64th test+targeted red. No original63 replay/test weakening.
-All production staysplanned/Unassigned until revised baseline integrates. The
-qualified original63 completion handoff follows; its future merge instructions
-apply only AFTER the new addendum gates, not immediately.
+Original63/FIRST261/750metadata approvedA0d/Cc152 remain preserved. PR76 UNMERGED,
+implementationplanned/unassigned. Revision2API/process clarified one nonvalidating
+pre-A setup refusal, actualC05 approval; B64f4911 ONEnew method/allold63exact;
+A087 actualsource/H03264inventory/plan approval. MatchingCP314definition-onlygreen64
+0/0.071915s, no case/feature/SDK/clone. [Current targeted plan](schematest-001-setup-refusal-plan.md).
+Need currentbothhost64CI/all19, thenONLY newcase red+independentCattribution/revised
+completionmetadata review/latestCI/normalmerge. NEVER replay original63 for addendum.
+Historical original63 completion below is qualified to that earlier scope only.
 
 ---
 

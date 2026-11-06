@@ -36,3 +36,13 @@ merge remain. SCHEMATOOL staysplanned/Unassigned until the revised baseline reac
 main. Original FIRST63/261 bytes are immutable; never rerun them for this addendum.
 Later actual implementation must pass ALL64 acceptance cases unconditionally, with
 separate source/integration audit; definition discovery is not passing behavior.
+
+Actual source/config/plan A087b66c/importe7c9a99 APPROVED source64f4911/harness032b141,
+with old63 ASTs/helpers exact. Root matching selectedCP314 -I-S-B green at e7c9a99:
+exit0/0.071915s,20pairedmetadata/no-siteprojection/64definition registrations,
+stderrempty; no setup/test/feature/SDK/clone/child. Separate raw
+[receipt](schematest-001-setup-refusal-harness.receipt.json),
+[stdout](schematest-001-setup-refusal-harness.stdout.txt),
+[stderr](schematest-001-setup-refusal-harness.stderr.txt).
+Both CURRENT hosted14/20metadata/64definition observations and all19 latest checks
+remain before ONLY NEW-case intended red. Original FIRST63/261 is not replayed.
