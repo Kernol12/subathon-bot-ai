@@ -292,6 +292,40 @@ class LibraryFoundation(unittest.TestCase):
             registry.resolver(base_uri=root_uri).lookup(missing)
         self.assertEqual(retrievals, [missing])
 
+    def test_sdk_fixed_raw_default_cursor_retains_native_default_validation(self):
+        from referencing.exceptions import NoSuchResource
+        retrievals = []
+        raw_reads = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        literal_parts = ("components", "schemas", "Sample", "default")
+        def fixture_path(raw_default):
+            # Fixed fixture plumbing only: no general schema-role classifier.
+            class LiteralDefaultCursor(self.path_class):
+                def read_value(cursor):
+                    if cursor.parts == literal_parts:
+                        raw_reads.append(raw_default)
+                        return raw_default  # REAL data, never a validation verdict.
+                    return super().read_value()
+            schema = {"type": "object", "properties": {"$ref": {"type": "string"}},
+                      "required": ["$ref"], "additionalProperties": False, "default": raw_default}
+            document = {"openapi": "3.1.1", "info": {"title": "Synthetic", "version": "1"},
+                        "paths": {}, "components": {"schemas": {"Sample": schema}}}
+            path = LiteralDefaultCursor.from_dict(
+                document, base_uri="https://local.invalid/literal-default.json",
+                handlers={"https": denied})
+            self.assertIsInstance(path / "components" / "schemas" / "Sample" / "default",
+                                  LiteralDefaultCursor)
+            return path
+        valid = {"$ref": "https://outside.invalid/literal-data"}
+        invalid = {"$ref": 7}
+        self.spec_class(fixture_path(valid)).validate()
+        with self.assertRaises(self.error):
+            self.spec_class(fixture_path(invalid)).validate()
+        self.assertEqual(raw_reads, [valid, invalid])
+        self.assertEqual(retrievals, [])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
