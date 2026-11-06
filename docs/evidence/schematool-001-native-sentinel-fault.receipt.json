@@ -1,0 +1,33 @@
+{
+  "source": "4a067cb83d0a1ec973032dd4cae9811cf4a154f9",
+  "artifact_sha256": "1d827e4a26a7fc75926d784c44c717b8a844372585c90b7ae49192af2ba3218e",
+  "command": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-S",
+    "-B",
+    "tools/schema_validation/audit_native_fault_foundation.py",
+    "--foundation",
+    "/tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation",
+    "--child",
+    "/tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_fault_child",
+    "--fault",
+    "/tmp/subathon-schematool001/build/schema-transport-debug/lib/libsubathon_schema_fault_v1.so"
+  ],
+  "start_utc": "2026-11-06T19:35:27.777366+00:00",
+  "seconds": 0.2263430570019409,
+  "returncode": 0,
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "stdout": {
+    "bytes": 4234,
+    "sha256": "d89d300c8d2be435bdae9d985dd31d6bb917b5fd33b362343fe4138be2444a41"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
