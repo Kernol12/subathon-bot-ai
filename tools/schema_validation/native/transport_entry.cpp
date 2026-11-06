@@ -12,7 +12,7 @@ using TransportPolicy = subathon::schema_validation::native::fault::FaultOps;
 using TransportPolicy = subathon::schema_validation::native::RawOps;
 #endif
 
-extern "C" int
+extern "C" [[gnu::no_stack_protector]] int
 subathon_schema_transport_v1(const unsigned char *manifest, unsigned int manifest_bytes,
                              const unsigned char *interpreter, unsigned int interpreter_bytes,
                              const unsigned char *worker, unsigned int worker_bytes,

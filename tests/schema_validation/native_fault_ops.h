@@ -143,41 +143,33 @@ class [[gnu::visibility("hidden")]] FaultOps {
     }
     [[gnu::no_stack_protector]] static bool target(PhaseBase base, KernelCall call,
                                                    NativeWord operation) noexcept {
-        switch (base) {
-        case PhaseBase::config_open:
-        case PhaseBase::null_open:
+        if (base == PhaseBase::config_open || base == PhaseBase::null_open)
             return call == KernelCall::openat;
-        case PhaseBase::config_read:
-        case PhaseBase::protocol_read:
+        if (base == PhaseBase::config_read || base == PhaseBase::protocol_read)
             return call == KernelCall::read;
-        case PhaseBase::config_close:
-        case PhaseBase::parent_write_close:
-        case PhaseBase::pidfd_close:
+        if (base == PhaseBase::config_close || base == PhaseBase::parent_write_close ||
+            base == PhaseBase::pidfd_close)
             return call == KernelCall::close;
-        case PhaseBase::activation_pipe:
-        case PhaseBase::outcome_pipe:
+        if (base == PhaseBase::activation_pipe || base == PhaseBase::outcome_pipe)
             return call == KernelCall::pipe2;
-        case PhaseBase::source_duplicate:
+        if (base == PhaseBase::source_duplicate)
             return call == KernelCall::fcntl && operation == F_DUPFD_CLOEXEC;
-        case PhaseBase::atomic_birth:
+        if (base == PhaseBase::atomic_birth)
             return call == KernelCall::clone3;
-        case PhaseBase::child_signal:
+        if (base == PhaseBase::child_signal)
             return call == KernelCall::rt_sigaction || call == KernelCall::rt_sigprocmask;
-        case PhaseBase::child_dup:
+        if (base == PhaseBase::child_dup)
             return call == KernelCall::dup3;
-        case PhaseBase::child_close_range:
+        if (base == PhaseBase::child_close_range)
             return call == KernelCall::close_range;
-        case PhaseBase::child_exec:
+        if (base == PhaseBase::child_exec)
             return call == KernelCall::execve;
-        case PhaseBase::protocol_poll:
+        if (base == PhaseBase::protocol_poll)
             return call == KernelCall::poll;
-        case PhaseBase::wait_reap:
+        if (base == PhaseBase::wait_reap)
             return call == KernelCall::waitid;
-        case PhaseBase::pidfd_kill:
+        if (base == PhaseBase::pidfd_kill)
             return call == KernelCall::pidfd_send_signal;
-        case PhaseBase::final_commit:
-            return false;
-        }
         return false;
     }
 

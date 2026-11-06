@@ -214,12 +214,12 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
         }
         return false;
     }
-    void adopted(Slot slot) noexcept {
+    [[gnu::no_stack_protector]] void adopted(Slot slot) noexcept {
         had_resource_ = true;
         ops_.observe(
             {ObservationKind::adopt, phase_, descriptors_[slot], pid_, descriptors_[slot]});
     }
-    void close_bare(Slot slot) noexcept {
+    [[gnu::no_stack_protector]] void close_bare(Slot slot) noexcept {
         if (descriptors_[slot] < 0)
             return;
         const int descriptor = descriptors_[slot];
@@ -229,7 +229,7 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
         if (result != 0)
             syscall_failure(result, validation_unavailable, false);
     }
-    bool close_work(Slot slot, PhaseBase base) noexcept {
+    [[gnu::no_stack_protector]] bool close_work(Slot slot, PhaseBase base) noexcept {
         if (!checkpoint(base, PhaseEdge::before, -1))
             return false;
         const int descriptor = descriptors_[slot];
@@ -416,6 +416,8 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
         return true;
     }
 
+    // Raw terminal path: normal child completion, or a fatal backend defect in
+    // the caller. It cannot invoke a user SIGILL handler or fabricate a return.
     [[noreturn, gnu::no_stack_protector]] void child_exit(int status) noexcept {
         for (;;)
             ops_.template syscall<KernelCall::exit>(word(status));
@@ -511,7 +513,7 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
         // Proven atomic kernel success commits both. Invalid successful output is
         // a fatal backend-contract defect, never permission to kill a guessed PID.
         if (result > INT_MAX || descriptors_[pidfd] < 0)
-            __builtin_trap();
+            child_exit(127);
         adopted(pidfd);
         return checkpoint(PhaseBase::atomic_birth, PhaseEdge::after, result);
     }
@@ -549,9 +551,9 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
         scratch_.status.si_code = 0;
         scratch_.status.si_status = 0;
     }
-    void reaped() noexcept {
+    [[gnu::no_stack_protector]] void reaped() noexcept {
         if (scratch_.status.si_pid != pid_)
-            __builtin_trap(); // Admitted P_PIDFD wait must identify its atomic birth.
+            child_exit(127); // Admitted P_PIDFD wait must identify its atomic birth.
         child_code_ = scratch_.status.si_code;
         child_status_ = scratch_.status.si_status;
         quiescent_ = true;
@@ -603,7 +605,7 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
         }
         refuse(validation_unavailable);
     }
-    void receive() noexcept {
+    [[gnu::no_stack_protector]] void receive() noexcept {
         while (decision_ < 0) {
             RawResult remaining;
             if (!still_working(&remaining))
@@ -700,7 +702,7 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
             pinned_exit(-1);
         }
     }
-    void cleanup() noexcept {
+    [[gnu::no_stack_protector]] void cleanup() noexcept {
         close_bare(config);
         close_bare(temporary);
         close_bare(activation_write);
@@ -735,7 +737,7 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
             cleanup();
     }
 
-    int run() noexcept {
+    [[gnu::no_stack_protector]] int run() noexcept {
         scratch_.argv[0] = reinterpret_cast<const char *>(scratch_.paths[1]);
         scratch_.argv[1] = "-I";
         scratch_.argv[2] = "-S";
@@ -806,7 +808,8 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
 } // namespace subathon::schema_validation::native::detail
 
 namespace subathon::schema_validation::native {
-template <TransportOps Ops> int run_transport_v1(const Request &request, Ops &ops) noexcept {
+template <TransportOps Ops>
+[[gnu::no_stack_protector]] int run_transport_v1(const Request &request, Ops &ops) noexcept {
     // Foreign ABI shape refusals precede any clock/resource/owner observation.
     if (!detail::shape(request.manifest))
         return detail::invalid_path;
