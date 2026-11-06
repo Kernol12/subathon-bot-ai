@@ -102,3 +102,28 @@ Keep publication/execution held until coherent reviewed source and real passing
 public64 plus every focused module are obtained. Then observe both actual hosted
 lanes/latest required checks and normal merge gates. Existing product/platform/
 live/release boundaries above remain unchanged.
+
+## Actual diagnostic draft-publication clarification after full functional pass
+
+Same independent reviewer,6 November2026. Actual durable3371ab9 records clean
+source0f8ed17/parent3438a92/worker8f4, ENTIRE unchanged public64 PASS38.297s and all
+four focused modules2/3/3/2 PASS. Different actual receipt attribution is recorded
+in [functional review](schematool-001-public-functional-review.md). Workflow3b6b7ae,
+harness2673608, frozen assertions/pins/SDK14 remain exact. No hosted result exists
+in this clarification.
+
+Explicitly SUPERSEDES this review's earlier publication hold for this checkpoint
+ONLY: DRAFT PR77 may publish the actual Python code plus reviewed unconditional
+workflow to obtain diagnostic3.10/3.12 functional compatibility evidence. A real
+worker and passing whole modules now exist; this does not replay a missing-worker
+stub baseline. The user's standing routine publication authority covers this
+bounded diagnostic push; no owner policy exception or source approval is inferred
+from editing a local review. Keep the PR DRAFT and evidence/status truthful.
+
+This does NOT release overall parent/source/taskdone/ready/merge gates. Unpublished
+PID/recovery allocation, whole constructor deadline, helper-start acknowledgement
+and before-real-close findings remain OPEN, even if hosted checks turn green.
+Native ownership proposal/contract/test changes remain separately gated and
+unimplemented. Latest actual checks/reviews/discussions/protection/normal merge
+requirements still apply after all source gates pass. No tests are omitted,
+weakened or failure-inverted to obtain diagnostic green.
