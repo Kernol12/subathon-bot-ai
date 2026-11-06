@@ -93,3 +93,11 @@ jobs:
         run: |
           schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/worker_context_regression.py
+      - name: Execute reviewed lexical boundary regressions unconditionally
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/worker_lexical_regression.py
+      - name: Execute reviewed native constructor ownership regressions unconditionally
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/parent_spawn_regression.py

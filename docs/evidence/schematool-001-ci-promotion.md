@@ -43,3 +43,13 @@ need actual delta review; initial configuration approval does not cover them.
 Keep this candidate unpublished/unexecuted until actual corrected implementation,
 source review and real local acceptance/regressions pass. Hosted observations then
 remain required on the actual published revision.
+
+Final draft also includes the entire NEW worker_lexical_regression.py and
+parent_spawn_regression.py modules as two further unconditional identical-environment
+steps on BOTH hosts. Lexical source C91 reviewed root721 before actual new-only red;
+constructor source Ba230 reviewed root57a79 after actual private-r3 C93 approval,
+with its reached-bug/fix/source gates still pending. These are stable reviewed
+method invocations, not permission to run CI before corrected code/local gates.
+All four focused modules remain separate from original64 and SDK14. Ten shell
+blocks parse statically; actual different FINAL workflow delta review, real passing
+local checks and fresh hosted observations remain mandatory. Candidate unpublished.
