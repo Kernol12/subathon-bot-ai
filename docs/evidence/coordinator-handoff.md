@@ -42,15 +42,20 @@ Fresh roles (historical agent IDs are not reused):
 
 - `session_supplier_author`: owns only `docs/contracts/session-resolution-v1.md`
   and `docs/evidence/sessioncontract-001-author.md`, on a new isolated worktree from
-  40c33ad. Read-only preparation completed; authoring now assigned. No production,
+  40c33ad. Actual authored e03c11f imported310ba3e; two precision findings from
+  the separate reviewer are being corrected. Worktree
+  `/tmp/subathon-sessioncontract001-resumed-author`, branch
+  `task/SESSIONCONTRACT-001-resumed-document-author`. No production,
   schema, interface/stub, test or live credential behavior authorized by this task.
 - `session_plan_review`: independently reviews actual eb98c18 split and40c33ad
   reconciliation; owns only `docs/evidence/sessioncontract-001-plan-review.md` on
   a new isolated review branch. Actual split/reconciliation approved at8846a1c (importc3ee594);
   [review](sessioncontract-001-plan-review.md) and independent checks pass.
+  Reassigned subsequently as milestone implementation author below.
 - `session_supplier_review`: read-only specification/import preparation, then actual
   author revision review on a new isolated branch; owns only
-  `docs/evidence/sessioncontract-001-review.md`. No contract approval yet.
+  `docs/evidence/sessioncontract-001-review.md`. No final contract approval yet; actual e03c11f source/clock/lifecycle and literal
+  oracles reviewed, two precision corrections pending.
 - Root owns state/HTML, task briefs/navigation, shared imports/build/CI/pins/schema,
   integration/checkpoint and GitHub publication/merge. Root does not self-approve
   authored supplier behavior or the planning split.
@@ -60,9 +65,34 @@ Old author `/tmp/subathon-sessioncontract001-author` atcb0a2a0 and old reviewer
 The old author wrote no contract. New worktree paths/commits must be recorded at
 actual handoff; do not assume old assignments are running after interruption.
 
+## Parallel milestone assignment
+
+MILESTONE-001 dependency-ready implementation claimed from currentmain e2cd5eb
+with420d484 on `task/MILESTONE-001-progression`, `/tmp/subathon-milestone001`.
+Read-only readiness audit confirms exact header9a167813/stub4e3291f0/test01997384/
+fixture409be19d plus actual test208d0580/harness75e62c2/FIRST53red c2bcb088
+(attributione030a0e7). No baseline replay or test changes authorized.
+
+Fresh implementation role `milestone_author` is canonical agent
+`session_plan_review`, NEW `/tmp/subathon-milestone001-author`, isolated branch
+from420d484. Owns only core/src/milestone_progression.cpp, narrowly justified
+privatehelper and own author note. Root retains all shared files and frozen test
+assertions; separate code reviewer not yet assigned. Scope is pure progression
+proposal/resource accounting, no authoritative score/store/actions/UI integration.
+Root selected Boost1.83/C++20 configure and inert build pass without compiler
+warnings; discovery90 includes unchanged53. No feature body ran in this root build.
+After implementation: targeted53/full90 passes, different actual source/config
+review, ordinary unconditional selected CI promotion, finalmetadata/latestchecks/
+normalmerge still required. This separate branch snapshot has only its own claim;
+when integrating sessionmain changes preserve the actual milestone task row.
+
 ## Checks, next action and remaining gates
 
-Root `python3 tools/progress.py render`, `python3 tools/check_project.py`,
+[Draft PR72](https://github.com/Kernol12/subathon-bot-ai/pull/72) carries supplier
+work, exact310ba3e published; current-head CI is running. Root
+`python3 -m unittest discover -s tests/tooling -v`:19PASS;
+`node tools/check_progress_ui.mjs`:PASS DOM simulation; `git diff --check`:PASS.
+No actual browser/OBS execution inferred. Root `python3 tools/progress.py render`, `python3 tools/check_project.py`,
 `python3 tools/progress.py render --check`: PASS423/122 after reconciliation.
 No native behavior changed or FIRST red rerun. Document consistency/stable component
 CI remains appropriate; assess again for actual authored content. No new executable
