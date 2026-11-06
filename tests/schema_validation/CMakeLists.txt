@@ -14,6 +14,9 @@ add_dependencies(subathon_schema_fault_v1 schema_transport_native_fault_child)
 target_link_libraries(subathon_schema_fault_v1 PRIVATE Threads::Threads)
 subathon_target_options(subathon_schema_fault_v1)
 target_compile_options(subathon_schema_fault_v1 PRIVATE -fno-exceptions -fno-rtti -fstack-usage)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(subathon_schema_fault_v1 PRIVATE -fcallgraph-info=su)
+endif()
 set_target_properties(subathon_schema_fault_v1 PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN ON
