@@ -108,3 +108,71 @@ record failures honestly, assess required-check configuration and complete norma
 review/discussion/rules/merge gates. Concrete wrapper/API, reviewed independent
 tests/intended red, later implementation/ordinary CI and full runtime/platform/live/
 release requirements remain. All seven integrations and three FX providers remain.
+
+## Actual hosted foundation receipt — separately observed
+
+**APPROVED for this actual fixed-library foundation receipt only.** Same different
+reviewer, NEW isolated receipt branch
+`task/SCHEMATEST-001-hosted-foundation-review`, worktree
+`/tmp/subathon-schematest001-hosted-foundation-review`, based on actual published
+`0dfa0de931a42523169418f8792126cbd435a82e`. The preceding configuration verdict is
+retained as a prior stage, not rewritten as prospective hosted approval.
+
+Independently queried
+[workflow run42178767687](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42178767687)
+and downloaded the COMPLETE log with `gh run view 42178767687 --log` to my own
+`/tmp/schematest001-hosted-foundation-independent.txt`:111203bytes/585lines, SHA256
+`ee79b053ef0a311eac97ad22776911f623dadf96a7d8d6a219b0e5d09a646be1`.
+That independently matches root's retained log. Run metadata reports pull_request,
+exact head0dfa0de, created07:07:12Z, completed SUCCESS/updated07:07:30Z on6November2026.
+
+Both jobs checked out PR merge commit
+`55fed51b07c80f78ab27da081deb3aa61f0def4c`, as their actual checkout logs report.
+Independent GitHub Git-object queries confirm parents main14190827 and exact0dfa
+and tree `9c76d34c217628ee5c2e0874945f880d26621368`, identical to published0dfa's
+tree and my local Git tree. Thus the actual checked-out source/config/dependency
+artifacts equal the reviewed head; the PR merge ref is not assumed identical merely
+because workflow metadata names its head. Initial Git-object lookup with a short
+SHA returned404; using the complete logged SHA resolved it, with no test rerun.
+
+| Actual job | Distribution Python | Observed foundation body | Job result |
+| --- | --- | --- | --- |
+| [127763232191](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42178767687/job/127763232191), Ubuntu22.04 | 3.10.12/GCC11.4.0 | Seven distinct named ok records, Ran7tests0.158s, final OK | SUCCESS, completed07:07:30Z |
+| [127763231560](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42178767687/job/127763231560), Ubuntu24.04 | 3.12.3/GCC13.3.0 | Seven distinct named ok records, Ran7tests0.191s, final OK | SUCCESS, completed07:07:28Z |
+
+Read the full setup/version/install/inventory/body logs, not only status summaries.
+Both minor guards actually pass; binary-only/require-hashes/isolated/no-cache
+installation runs against the reviewed lock. Independent parsing of each actual
+Successfully installed line confirms the exact20 admitted versions. Ubuntu22.04
+finds bootstrap setuptools59.6.0 and explicitly uninstalls it; Ubuntu24.04 reports
+no such removal. Both unconditionally print No broken requirements found, then
+the strict seven-method inventory guard passes and the minimal-env `-I -B` command
+actually runs every method. The20+pip runtime inventory assertion passes in both.
+There are no skipped tests, fail/error summaries or failed/ignored steps in these
+two jobs. No optional backend/extra/source build appears in the installed inventory.
+
+Source d2 and workflow87aa2e6, all dependency/policy/notice artifacts remain EXACT
+the prior reviewed versions from e0406e0; intervening0dfa changes only evidence/
+handoff/checkpoint. The actual seven passing recipes include their persistent
+tripwire cleanup and trusted-resource ledger assertions. This supports the absence
+of intercepted attempts during those recipes, not a universal OS network sandbox
+or unknown-scheme/default-handler guarantee. Initial invalid4f37 attempt/correction
+history remains unchanged and is still not wrapper intended red.
+
+Read-only current ruleset26170263 remains active with0 required GitHub approving
+reviews, discussion resolution and no bypass actors; it has NO required-status-check
+rule. New job existence and success therefore do not claim enforcement. The written
+workflow still requires applicable latest-head checks and normal review/rules/merge
+gates, including after later source/config revisions.
+
+Actual independent Git-object/log/installed-version/name/hash comparisons,
+`python3 tools/check_project.py` PASS426/122, `python3 tools/progress.py render --check`
+PASS and `git diff --check` PASS. No local foundation/native/library replay, install,
+venv edit, source/test change or GitHub write occurred in this receipt review.
+
+This establishes these exact ordinary fixed SDK recipes on actual hosted3.10/3.12,
+alongside retained local3.14 proof. Complete schema-context traversal/closure,
+reference-cycle/inventory/offline adapter, process/resource limits, concrete wrapper
+API/tests/review/intended red and later SCHEMATOOL001 source/ordinary CI remain open.
+SCHEMATEST001 baseline completion, actual CONTRACT013 package, product/runtime/
+platform/live/release capability and future-head checks/merge are not approved.
