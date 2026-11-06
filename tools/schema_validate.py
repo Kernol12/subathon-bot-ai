@@ -48,6 +48,22 @@ class SchemaValidationNotImplemented(RuntimeError):
         )
 
 
+class SchemaNativeBindingNotImplemented(RuntimeError):
+    """Explicit Python-binding baseline; never an observation of native31."""
+
+    def __init__(self):
+        super().__init__("Native schema binding is intentionally unimplemented")
+
+
+# Declaration-only surfaces: no native loading, mapping or public routing yet.
+def _load_native_transport():
+    raise SchemaNativeBindingNotImplemented()
+
+
+def _decode_native_result(result: int) -> SchemaValidationOutcome:
+    raise SchemaNativeBindingNotImplemented()
+
+
 _EXIT_STATUS = MappingProxyType({
     outcome: (0 if outcome is SchemaValidationOutcome.ok else
               64 if outcome is SchemaValidationOutcome.usage_error else
