@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:32:17+00:00",
+  "updated_at": "2026-11-06T05:43:45+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3231,8 +3231,8 @@
       "title": "Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; milestone_author (implementation)",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001",
@@ -3245,11 +3245,35 @@
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
       "summary": "Record every crossed target immediately in ascending order; score 800 below completed target 1000 retains completion and deficit 200.",
       "notes": [
-        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim.",
+        "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved.",
+        "Integrate normal PR72 merge0605948 (finalcae986c/all17SUCCESS/zero threads/currentrules/no bypass) while preserving actual milestone in_review row, source/config reviews and all old53 tests/source. Adopt supplier001done/transport002planned and additive423/1624graph; no sessiontask or release gate overwritten. Only sharedJSON/HTML/checkpoint conflicts reconciled. Selected milestone42168586251 at549SUCCESS/old37+unconditional53 observed; different receipt review and completion metadata still pending.",
+        "Complete pure progression component after preserved53/full90 nativepasses, different actualsource/config/resourceaudit and independently downloaded selectedhosted42168586251 at549SUCCESS: GNU13.3/Boost1.83macro108300/fresh26/strictordinary53guard/old37foundation25PASS1.28s/UNCONDITIONAL53PASS0.16s/0warnings-skips. ActualCIreceipt013/importb363. No originalassertion/fixture/publicABI/FIRSTred changed. Main060 integrated preserving423/1624 and supplier001done; own activeclaim preserved. Finalcomponentcompletionmetadata/latestheadCI/currentrules/discussions/normalmerge still required. MILE01/NUM04 partial and all authoritativeproducer/action/UI/provider/platform/releasegates retained."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "acceptance": "passed",
+        "source_review": "passed",
+        "configuration_review": "passed",
+        "selected_ci": "passed",
+        "platform_release": "not_run",
+        "tooling": "passed"
+      },
+      "evidence": [
+        "docs/evidence/milestonetest-001-handoff.md",
+        "docs/evidence/milestone-001-author.md",
+        "docs/evidence/milestone-001-native.md",
+        "docs/evidence/milestone-001-code-review.md",
+        "docs/evidence/milestone-001-handoff.md",
+        "docs/evidence/milestone-001-ci.md"
+      ],
+      "review": {
+        "author": "session_plan_review (milestone_author)",
+        "reviewer": "session_supplier_author (milestone source reviewer)",
+        "outcome": "approved",
+        "revision": "Sourcea5/d79 independently approvedb1/importb945; ordinaryconfig279 approved276/import96; actualselected42168586251 at549 independently verified013af3de/importb3637bc (GNU13.3/Boost108300/old37PASS1.28s/unconditional53PASS0.16s/0skip-warning). Initialmetadata33 approved722/import549. Finalcompletionmetadata/latestpublicationCI/normalmerge remain.",
+        "evidence": "docs/evidence/milestone-001-code-review.md"
+      }
     },
     {
       "id": "MILESTONETEST-002",
@@ -13677,7 +13701,8 @@
       "notes": [
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
         "Document planned only: no authored/reviewed contract, auth choice or supported transport capability.",
-        "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation."
+        "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation.",
+        "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim."
       ],
       "verification": {},
       "evidence": [],
@@ -14896,9 +14921,34 @@
       "note": "Complete bounded current-session supplier DOCUMENT after actual separate review of corrected c7e6e68/c5f5a6e, three literal hash vectors, exact byte/time audits and primary sources. Per-value/peak bounds and source-enum precision findings resolved before approval46f1ad2. Plan split423/1624 preserves all old scope/edges and completed STORAGE018. No header/schema/tests/red/runtime authentication supplied. Transport002 still planned and both documents required for CONTRACT013/SESSIONTEST002/003; publication/latestheadCI/currentrules/normalmerge remain before dependent authoring."
     },
     {
+      "date": "2026-11-06T05:15:13+00:00",
+      "task": "MILESTONE-001",
+      "note": "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim."
+    },
+    {
+      "date": "2026-11-06T05:23:25+00:00",
+      "task": "MILESTONE-001",
+      "note": "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved."
+    },
+    {
+      "date": "2026-11-06T05:32:00+00:00",
+      "task": "MILESTONE-001",
+      "note": "Integrate normal PR72 merge0605948 (finalcae986c/all17SUCCESS/zero threads/currentrules/no bypass) while preserving actual milestone in_review row, source/config reviews and all old53 tests/source. Adopt supplier001done/transport002planned and additive423/1624graph; no sessiontask or release gate overwritten. Only sharedJSON/HTML/checkpoint conflicts reconciled. Selected milestone42168586251 at549SUCCESS/old37+unconditional53 observed; different receipt review and completion metadata still pending."
+    },
+    {
+      "date": "2026-11-06T05:33:26+00:00",
+      "task": "MILESTONE-001",
+      "note": "Complete pure progression component after preserved53/full90 nativepasses, different actualsource/config/resourceaudit and independently downloaded selectedhosted42168586251 at549SUCCESS: GNU13.3/Boost1.83macro108300/fresh26/strictordinary53guard/old37foundation25PASS1.28s/UNCONDITIONAL53PASS0.16s/0warnings-skips. ActualCIreceipt013/importb363. No originalassertion/fixture/publicABI/FIRSTred changed. Main060 integrated preserving423/1624 and supplier001done; own activeclaim preserved. Finalcomponentcompletionmetadata/latestheadCI/currentrules/discussions/normalmerge still required. MILE01/NUM04 partial and all authoritativeproducer/action/UI/provider/platform/releasegates retained."
+    },
+    {
       "date": "2026-11-06T05:32:17+00:00",
       "task": "SESSIONCONTRACT-002",
       "note": "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation."
+    },
+    {
+      "date": "2026-11-06T05:43:45+00:00",
+      "task": "SESSIONCONTRACT-002",
+      "note": "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim."
     }
   ]
 }

@@ -1,87 +1,77 @@
-# Coordinator checkpoint — active transport document and milestone publication
+# Coordinator checkpoint — session transport document review
 
-Coordinator /root,6 November2026. Resume standing coordination per owner's latest
-continuation instruction; earlier PR70-stop boundary superseded. Full v0.45 product
-incomplete. No owner decision/access needed; no live credential/provider/deployment
-operation occurred. Preserve every unfinished ref/worktree and valid review/red.
+Coordinator /root,6 November2026. Owner's continuation resumes standing coordination;
+prior PR70-stop boundary superseded. Full specification v0.45 incomplete. No owner
+decision/access needed; no live credential/provider/deployment side effect.
 
-## Verified main and merged tasks
+## Verified integrations and current main
 
-Primary/fetchedmain `0605948fb90623d053ba637e9ccba2fd9ed284aa`, clean. PR72 normal
-merge05:30:13Z, exactfinalcae986c/all17SUCCESS/currentrules26170263/requiredapprovals0/
-zero threads/CLEAN/no bypass. Supplier001 DOCUMENT is done/integrated;
-[handoff](sessioncontract-001-handoff.md), actual c7/c5 supplier review46f1ad2 and
-completionc961 review0f2506c. Main graph423/1624 retains all old422 IDs/1619edges.
-Transport002 and all consumers still require their own separate accepted document;
-no session/runtime capability follows from supplier completion.
+Primary/fetchedmain `4e8524139918954f2b0ec791438913305a495e08`, clean after normal
+PR73 merge05:42:42Z, exactcbeabc4/all17latestSUCCESS/currentrules26170263/
+requiredGitHubapprovals0/zero threads/CLEAN/no bypass. Head/merge trees equal.
+[Milestone handoff](milestone-001-handoff.md), [source/config/final review](milestone-001-code-review.md),
+[CI](milestone-001-ci.md) preserve frozen53/full90 passes, separate source/config/
+metadata/actual selected receipt. Source d79, ordinaryconfig279; componentdone is
+pure progression, not score authority/actions/UI. FIRSTc2/e030 red never replayed.
 
-Earlier PR70 merged e2cd5eb, finalb053/all17SUCCESS; PR68/69/71 integrated. Preserve
-[SQL capture](storage-018-handoff.md), [codecs](storage-019-handoff.md) and original
-[baseline](storagetest-018-handoff.md) FIRST550/validSQL633 red; initial setup-error
-SQL attempt stays invalid. No completed tests/reviews/FIRST-red was repeated.
+Supplier PR72 normalmerged0605948 at05:30:13Z, exactcae986c/all17SUCCESS/currentrules/
+zero threads. Accepted supplier001 c5 correctedc7 reviewed46, completionc961 reviewed0f;
+[handoff](sessioncontract-001-handoff.md), [review](sessioncontract-001-review.md).
+All old422 IDs/1619edges retained→423/1624. Consumers require BOTH session documents.
+Earlier PR70/68/69/71 integrated; [capture baseline](storagetest-018-handoff.md)
+FIRST550/validSQL633 remains, initial setup-error attempt invalid. Never replay
+completed tests/reviews/FIRST-red gates or claim component passes finish the product.
 
-## Active SESSIONCONTRACT-002 DOCUMENT
+## Active SESSIONCONTRACT-002
 
-Root `/tmp/subathon-sessioncontract002`, branch
-`task/SESSIONCONTRACT-002-credential-transport`, actual claimdf1f1d1 from0605948.
-Taskin_progress; owns only this transport assignment in its423snapshot, supplier001
-done and milestone001 still mainplanned until PR73 integrates. Root owns allshared
-state/HTML/imports/schemas/build/CI/pins/checkpoint/publication. Do not overwrite
-another branch's actual task row when refreshingmain.
+Root `/tmp/subathon-sessioncontract002`, task/SESSIONCONTRACT-002-credential-transport,
+[draft PR74](https://github.com/Kernol12/subathon-bot-ai/pull/74), initialpublished77e704c.
+Claimdf1 from thenmain060 preserved. Root just integrates currentmain4e85241 while
+preserving actual002row/activity/content; all non002 task rows exactly latestmain,
+423/1624 unchanged, supplier001/milestone001done. Only JSON/HTML/checkpoint conflicts.
+No source/config/assertion/schema/pin overwritten. Newmain integration still needs
+publication/latestheadCI; older77/PR checks do not approve later heads.
 
-Canonical `session_supplier_review` now actual transport document AUTHOR,
-`/tmp/subathon-sessioncontract002-author`, branch
-`task/SESSIONCONTRACT-002-document-author` fromdf1. Owns ONLY new
-`docs/contracts/session-transport-v1.md` and `docs/evidence/sessioncontract-002-author.md`.
-Actual document3f1699a imported751437f; primary-source/literal author evidence
-committed. Different actual review underway, no approval yet. Canonical `session_plan_review` is DIFFERENT transport
-reviewer, read-only prep complete; owns only eventual002-review.md in a NEW isolated
-reviewtree after actual candidate arrives. No previous agent presumed running.
+Author canonical `session_supplier_review`, NEW `/tmp/subathon-sessioncontract002-author`,
+branch task/SESSIONCONTRACT-002-document-author fromdf1. Owns ONLY
+session-transport-v1.md/002-author.md. Actual3f1699a/import751437f; two review
+clarifications corrected6cd4a15/import6f2b825 (stale policy MUST503+fresh ingress,
+explicit JSONHTTP versus still-required browserWebSocket contract007/API003 gates).
+[Document](../contracts/session-transport-v1.md), [author](sessioncontract-002-author.md).
+Independent byte literals23/88/120/151/90/128/139 and actualdocchecks pass; no runtime.
 
-Selected pinnedDrogon3aae769 source inspection by both agents finds parsedmaps lose
-duplicate headers/cookies and rawCookie TRACE logging. These are concrete unresolved
-lossless-ingress/secret-log runtime gates, not supported behavior or a document blocker.
-Transport must specify exact cookie/Origin/CSRF/desktopBearer/status/bounds/multiplicity
-contracts and independent literal examples, preserve supplierc5 unchanged and all
-later current-producer/test-first/security/platform/release gates. No source/schema/
-APIheader/tests/stubs authorized in this document task. No owner decision identified.
+DIFFERENT reviewer canonical `session_plan_review`, read-only spec/primarysource/
+pinnedDrogon preparation completed, actual corrected6cd review underway. Owns ONLY
+eventual sessioncontract-002-review.md in NEW isolated reviewtree. No approval yet.
+Do not assume a completed/previous agent continues running: inspect actual agentlist
+on resume. Source author for milestone is different task/role; no self-approved002.
+Root owns state/HTML/task navigation/sharedimports/schemas/build/CI/pins/checkpoint/
+publication; neither author/reviewer edits those. Actualsource/headers/tests/stubs/
+parsers are untouched in002; selected supplierc5 imports stay unchanged.
 
-## MILESTONE-001 parallel component
+PinnedDrogon3aae769 publicmaps collapse duplicate auth/cookie fields and rawCookie
+TRACE log exposes the full value. Both agents inspected exact source independently;
+this is SOURCE evidence, not live exploit or runtime support. Actual lossless bounded
+ingress/secret-log suppression/TLS/proxy/Origin/CORS/cookie/native persistence and
+browserWebSocket auth remain explicit later reviewed-test/red/implementation gates.
+No marker-free HTTP fallback, unknown framework capability or release-scope deletion.
 
-Root `/tmp/subathon-milestone001`, task/MILESTONE-001-progression,
-[draft PR73](https://github.com/Kernol12/subathon-bot-ai/pull/73). Actualsourceauthor
-canonical `session_plan_review` already completed a5d18ae/importc2305dd, sourceblob
- d79b77cad26bf876fd4bd89038161d4fc0c1b809. Source/config reviewer DIFFERENT canonical
-`session_supplier_author`: b1/importb945 +276/import96; actualselectedCI receipt013/
-importb363. Source author tree and all fresh reviewtrees remain preserved.
+## Checks and next action
 
-All53 frozen reviewed cases/fixtures and original FIRSTc2bcb088/attributione030
-remain. Root/author/differentreviewer full90PASS0.68/0.72/0.75s; promoted old37/53
-PASS0.63/0.09s. Actual hosted42168586251 at5492ac6 SUCCESS05:28:48Z,
-GNU13.3/Boostmacro108300/fresh26/guard53/old37PASS1.28s/unconditional53PASS0.16s,
-zero warnings/skips; independently downloaded identicalfull logSHA8c6df279882fc727
-11793b6832d32f067025baa55d52daff77d18b9229225aaa. All17initial549checksPASS.
+Root423project/render/currentHTML/19tooling/whitespace PASS before mainintegration;
+project/render checks rerun after reconciliation. No native/red applicable to this
+document-only task; stable component CI remains appropriate. All newdefaultinputs
+synthetic, no realcredentials. No previous worktrees/refs/reviews discarded; startup
+allclean/no old agents/buildprocesses, all new writes isolated and owned.
 
-Initialmetadata33 approved722/import549. Main060 integrated0d8 while preserving
-milestoneclaim and423/1624sessiongraph. Componentcompletion7ca corrected52618d1
-actually approvedb91ca2c8/importcbeabc4. Finalpublishedcbeabc44e81119a0602719e465543cc508015a23
-has15SUCCESS/two hostedjobs pending at last observation, no failures.
-Source/config/assertions unchanged. Final currentheadCI/currentrules/threads/normalmerge
-remain; older17greenchecks do NOT approve a newhead. Root must
-observefinalgates, normalmerge, refreshprimary, and integrate that main into002 while
-preservingdf1row/activity/ownedcontent. Native/CI/handoff evidence lives in PR73;
-no localbrokenlinks to unmerged files are created in this branch.
+Receive actual different corrected002review; resolve any findings, then author
+actual completionmetadata/handoff, run doc/tooling checks, obtain separate actual
+metadata review and publish onexistingPR74. Observe latestheadCI/currentrules/
+reviews/threads before normalmerge. After002 integrates, select next dependency-ready
+bounded task (CONTRACT013 HTTP reference schema is one candidate; actual runtime
+requires later own test-first and producer gates). Continue without routine approval.
 
-## Next action and continuity
-
-Finish PR73 actualmetadatareview/latestCI/normalmerge while transport authoring and
-differentreview continue. Receive actual002commit, independently review/resolve,
-run doc/tooling checks, update evidence/state/HTML, focusedPR and normalgates.
-Root initial002project/render checksPASS423/122. Do not replay historicalreds or
-mark transport/current auth/framework behavior implemented. On interruption inspect
-actual agents/processes/worktrees/PRs again; checkpointentries are not liveness proof.
-
-Full release retains actual account/session/clock/authority/policy/action/application
-producers, financial/review/refund/recovery/delivery, bothrenderers, EN/DE/themes,
-Windows/Linux/Wayland/OBS, packages/licenses/security, allseven integrations/threeFX
-and live/platform verification. Component passes do not establish finished product.
+Remaining fullscope includes actual account/session/clock/authority/policy/action/
+application producers, financial/review/refund/recovery/delivery, both renderers,
+EN/DE/themes, Windows/Linux/Wayland/OBS, packages/licenses/security, allseven
+integrations/threeFX and live/platform verification. Keep precise durable evidence.

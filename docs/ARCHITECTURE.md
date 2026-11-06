@@ -292,3 +292,13 @@ owning selected payloads, validates immutable closure, and stages one first bind
 without taking transaction ownership. [SQL evidence](evidence/storage-018-handoff.md)
 records38/67-scenario acceptance and separate source/resource/config review.
 Actual producers and full release gates remain.
+
+
+The [pure milestone progression model](contracts/milestone-progression-api-v1.md)
+now derives ordered completion proposals and current deficit/remaining/exact interval
+from supplied score and immutable active history. All53 preserved cases/full90 pass
+with separate source/resource/configuration review; [handoff](evidence/milestone-001-handoff.md)
+records actual artifacts and separate selected-CI/publication gates. Input/output
+ownership is completely preflighted and signed64 extremes retain fullU64 distances.
+This is no authoritative score/history producer, application transaction, permission,
+manual/reset/edit/action/presentation queue, UI or release/platform capability.
