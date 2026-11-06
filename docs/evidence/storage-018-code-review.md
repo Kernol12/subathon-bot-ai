@@ -328,3 +328,44 @@ stale in this candidate and is being updated separately; it is not approved here
 No unknown selected-CI outcome, task-done status, completion metadata or latest-head
 merge gate is approved by this initial review. Those require the actual receipt
 and subsequent exact candidate review.
+
+## Final selected CI and completion metadata approval
+
+**Selected CI receipt APPROVED.** Independently queried actual
+[42110989863](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42110989863):
+completed SUCCESS at21:19:03Z5 November, job127538162682, exact published head
+`fe440ac1c45380367d4f972f3de18084991ea058`. Full independent download
+`/tmp/storage018-review-ci42110989863.txt` SHA-256
+`edc962b9f6d7a3bef2a98276af8b1395bdacde48195698b39b0a4746ae8d8353`
+matches the coordinator's receipt. Actual checkout records fe merged against
+ba66804; GNU13.3/selected Boost1.83/official Qt6.12/SQLite3.53.4, pinned archives
+and145-step build pass. Required literal foundation has four slots/six Qt passes,
+zero skip,354ms; exact compiled codec28/unconditional28 passes0.13s; exact compiled
+SQL38/enabled/non-inverted/ordinary acceptance/unconditional38 passes6.15s.
+Every inherited mandatory lane passes. Full log contains zero compiler warning,
+QWARN or FAIL markers. This is actual execution evidence, not inferred from a badge.
+
+**Completion metadata APPROVED:** exact
+`47b35e84343a9717985edb8c80ce2215537820cc`, independently inspected from a fresh
+isolated review branch. Its source/tests/fixtures/CMake/CI/presets remain identical
+to approved and CI-tested fe. All422 task IDs and1619 dependency edges are
+preserved; only STORAGE-018's task row changes from fe. Its component `done` status
+is supported by actual acceptance, different source/configuration review and the
+observed selected CI. All other task records, owners, reviews and dependency gates
+remain unchanged. DB-01/NUM-04 stay partial; no auth/provider/recovery/platform/full
+release verification is invented. Both bounded wording findings are corrected.
+
+Independent `check_project.py`, `progress.py render --check`, all19 tooling tests
+and whitespace checks pass. The checkpoint accurately separates already-passing
+implementation-head CI from pending final-publication checks and normal merge.
+It records the latest owner instruction: finish ONLY open PR70, then STOP; preserve
+unfinished unpublished auth split/claims and do not begin or publish further work.
+No accepted auth contract or runtime capability follows from those parked branches.
+
+Independent GitHub inspection at this review confirms all17 checks SUCCESS atfe,
+PR70 draft/OPEN/CLEAN, zero reviews/threads, active ruleset26170263 with no bypass
+actors, required approval count0 and required thread resolution. These observations
+do not preapprove unknown checks at a later head. Coordinator must publish the
+final reviewed note/metadata, observe all applicable latest-head checks, recheck
+current rules/reviews/discussions, merge normally and stop. No code/test/old-red
+replay or new task is required from this reviewer.
