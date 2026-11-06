@@ -1,7 +1,7 @@
 # Private SDK installation admission — v1, revision2
 
-SCHEMATEST-001 / SCHEMATOOL-001. Proposed revision2 requires different actual
-document review before dependent native work. Refines the [public API](schema-validation-tool-api-v1.md) and
+SCHEMATEST-001 / SCHEMATOOL-001. Revision2 has actual different document approval
+C48c07527; native source/build/test/execution gates remain. Refines the [public API](schema-validation-tool-api-v1.md) and
 [private process plan](schema-validation-process-test-v1.md); logical/context/public
 outcomes, limits and package phases remain unchanged. This fixes the previously
 unspecified installation discovery needed for independent admission tests. No

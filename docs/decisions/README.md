@@ -27,5 +27,5 @@ Consult its task/evidence for actual independent review status.
   developer-tool baseline/implementation prerequisite before actual package acceptance.
 
 - [ADR-0009 — Schema native process owner](0009-schema-native-process-owner.md):
-  proposed narrow first-party process boundary and explicit contract/test/source gates;
-  consult its actual independent review before dependent work.
+  independently reviewed narrow first-party process boundary with explicit
+  contract/test/source gates; document acceptance does not approve implementation.

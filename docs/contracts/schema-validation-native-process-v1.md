@@ -1,8 +1,8 @@
 # Schema validation native process contract — v1
 
-SCHEMATOOL-001, private developer-tool contract, author B. **Authored document,
-pending different actual review; no header, stub, test, build or native capability
-is supplied or approved here.** Planning approval is C `f94b1ef`; the Python
+SCHEMATOOL-001, private developer-tool contract, author B. **Actual document approved
+by different review C44adb36c; no header, stub, test, build or native capability
+is approved by that document verdict.** Planning approval is C `f94b1ef`; the Python
 transport stays frozen at `4cc464a`, source `3438a92c` until the replacement gates
 below pass. Root owns the matching policy, installation and private-process edits.
 

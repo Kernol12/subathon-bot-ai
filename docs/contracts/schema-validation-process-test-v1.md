@@ -1,7 +1,7 @@
 # Schema wrapper private process contract and fault tests — v1, revision4
 
-SCHEMATOOL-001. Proposed actual private-mechanism revision; different document
-review is required before dependent native interfaces, tests, probes or code.
+SCHEMATOOL-001. Actual private-mechanism document revision approved by different
+review C48c07527; separate source/build/test/execution/implementation gates remain.
 Authority remains specification v0.45 §§17/18, API-01/02/03, TEST-04 and the
 [public API](schema-validation-tool-api-v1.md). Public calls/outcomes, exact limits,
 logical/context/SDK semantics and test-first gates remain. No behavior is supplied.

@@ -1,7 +1,9 @@
 # ADR-0009 — Own the schema worker lifetime inside one native call
 
-Date: 6 November 2026. Status: proposed; different actual policy/contract review
-required before dependent interfaces, tests, probes or implementation.
+Date: 6 November 2026. Status: accepted document decision after actual different
+policy review C48c07527 and native-contract review C44adb36c. Their approvals
+release separately assigned inert interface/harness and test source authoring;
+actual source/build/test review, foundations and red still precede implementation.
 Authority: specification v0.45 §§17/18, API-01/02/03 and TEST-04;
 [ADR-0008](0008-schema-validation-foundation.md), SCHEMATOOL-001.
 
