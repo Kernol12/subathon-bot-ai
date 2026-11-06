@@ -121,3 +121,17 @@ actualcandidate; rootmustfollowup_task oncandidate. Own ONLY eventualfoundation-
 inNEWisolatedtree. Probe is fixedliteral/upstreamAPI facts, not reusablewrapper
 implementation/parser/CLI/contextengine; realnetwork must trip failure evenonimports.
 No execution until actualsource/oraclereview. ConcreteAPI/wrappertests/red stillgated.
+
+## FIRST foundation attempt / correction gate
+
+Actualsource6d/importe0/4f37 independently reviewed100/importc3 BEFOREexecution.
+FIRSTcontrolledCP314run native1/0.178s/7methods2OK5fail1error; broadurlopentripwire
+falselyblocked trustedbundledOpenAPI fileURI, thenpersistentpoison. NOrealnetwork/
+wrapperred/greenfoundation claim. [Rawreceipt/cause](schematest-001-foundation-first.md).
+Differentreviewer independentlyconfirmedsource/cause. Keepallraw/source/reviewhistory.
+Author session_supplier_review explicitly assigned narrow canonical admittedwheel
+resource size/hash correction+reason inownfoundation files; differentreviewer
+session_supplier_author awaitsACTUALcorrectedsource BEFORErerun. No broadfileURI
+allow/reset/skip/fakevalidation. Library_foundation failed; baselinein_progress,
+SCHEMATOOL001planned. Rootnoactivecommands. Nextactualcorrection→differentreview→
+controlledfoundationrerun; then selectedCI/concreteAPI/test/redgates still required.
