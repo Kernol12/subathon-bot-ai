@@ -4,7 +4,7 @@ Root,6November2026. Different actual Ca108a14 compile-only review integrated87ef
 before commands. Exact configure/native verbose10-step build at that source exits0,
 0warnings/stderrempty. GNU16.2.1/CP314.9/localGTest1.18 unchanged. Discovery stays
 PRE_TEST; no ELF/loader/arm/thread/child/bootstrap/list/test program executed.
-Raw configure/build/receipts and compressed exact2379-line generated-code proof
+Raw configure/build/receipts and compressed exact2417-line generated-code proof
 are linked by the accompanying receipt with actual five artifact SHA256 values.
 
 Static source authoring ONLY, pending different actual review: new closed

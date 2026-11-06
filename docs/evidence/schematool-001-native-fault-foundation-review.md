@@ -43,3 +43,24 @@ Actually performed: complete source/header/contract/matrix read, fixed inventory
 and literal review, project consistency/render/diff checks. No compile, import,
 listing, native test/control/child/thread execution. BOTH-host helper green and
 reviewed intended57-row actual31 red still precede owner implementation.
+
+## Actual additive125 and scalar-store corrections
+
+Root independently read A7b86c25/c58b42c, integrated4f7711b/bdcaf54,
+helper source20ad5f0c. SOURCE APPROVED for rebuild/static inspection under the
+existing C whole-build approval. Only a closed rawchild mode3 is added (literal
+normal125), plus one test which peeks actual PID/CLD_EXITED/125 with WNOWAIT before
+controller consumption. Controller must poison without actionACK; fresh same-thread
+ECHILD+pinned exit and snapshot-1 precede driver disposal. No recovery kill may
+pass; final helper fallback must be-1 with real map/FD disposal. Old23 assertions
+and literal rows remain exact. Natural native count55 (7+24+24), loaderprogram1.
+
+The two raw-child Observation aggregate initializations alone become explicit
+stores to every declared field. Kind/phase.base/phase.edge/descriptor/PID/result
+values are identical; no code reads object padding. This avoids compiler zeroing
+of padding with previously unreviewed PXOR/MOVAPS in actual GNU16 rawchild code,
+without broadening the audit's SIMD allowance. Existing5new+8old static controls
+passed, then first actual new graph check failed closed on that shape; this was
+not a kernel/owner red. No weakened assertion, skip or feature implementation.
+Actual rebuilt graphs/entry/binding still require different artifact review
+before bootstrap or native runtime. I did not author these A corrections.

@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tools/schema_validation/audit_native_fault_foundation.py", line 137, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/subathon-schematool001/tools/schema_validation/audit_native_fault_foundation.py", line 116, in main
+    print('primitive_child:', BASE['reachable'](
+                              ~~~~~~~~~~~~~~~~~^
+        functions, lambda n: n == PRIMITIVE, lambda n: n in PRIMITIVE_HELPERS))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematool001/tools/schema_validation/audit_native_foundation.py", line 117, in reachable
+    require(mnemonic in PLAIN or SIZED.fullmatch(mnemonic) or shared_wake
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            or mnemonic.startswith(("call", "j", "loop", "set", "cmov")),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            "unreviewed generated instruction in " + name + ": " + mnemonic)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematool001/tools/schema_validation/audit_native_foundation.py", line 54, in require
+    raise RuntimeError(message)
+RuntimeError: unreviewed generated instruction in (anonymous namespace)::primitive_child(unsigned int, int const*): pxor
