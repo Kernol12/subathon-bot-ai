@@ -1,0 +1,9 @@
+# Actual public native-routing FIRST (partial attribution)
+
+Root explicitly released the newlyported architecture tests after matching C26 source review, binding declaration/test B069 review, actual both-host56 green and genuine owner69 red. This runs the new public-port revision against the preserved old Python route, not the historical wrapper-stub baseline.
+
+At clean9a70ec0 allfive programs ran in the dedicated CPython3.14.9 venv with -I -B/minimal3-variableenvironment. Exact receipts/raw archive are adjacent. Wrapper64:exit1/44.808s/23failure-events;cleanup2:exit1/1failure;spawn2:exit1/2failures;context3 andlexical3 passed. Most fault rows reach the actual native resource-journal assertion0PIDs!=1 because the old public route has not called the newlypatched genuine native loader/entry. Actual fixtures cancel/dispose in finally. These are missing public-native routing observations, not fabricated native31 markers.
+
+TWO failure-events are a genuine test-routing defect and expressly EXCLUDED from valid intended-red attribution: a1/e21 have identical five-field wire tuples but protocol_row demanded unique literal identity. This prevented the two calls from reaching their actual public boundary. Different-reviewed correction and affected-method observations must be recorded separately; no tests/expected results may be dropped. A42ddf02 authors the narrow canonical-logical-tuple correction, preserving23 original callsites and separate native57case21. Some subsequent calls within first-failing ordinarymethods are naturally unreached; no claim every assertion executed is made.
+
+Unchanged old functional public acceptance remains preserved separately. This partial architecture baseline does not establish successful native integration, authorize feature completion or waive code/generated/resource/fullacceptance/CI gates. Root will release the new public route after the fixture correction and remaining affected route-red observation.
