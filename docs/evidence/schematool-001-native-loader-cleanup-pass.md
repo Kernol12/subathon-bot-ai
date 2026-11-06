@@ -1,0 +1,5 @@
+# Actual corrected loader cleanup pass
+
+Afteractuala8sourcegap, independentlyreviewedb9test, actual78firstred2rawliveFDfailures and correctedA447/differentCfd223FULLPythonsourceapproval, rootintegrated313/3c. Atclean3c6666b the SAME1method/2subcases now PASS/0skip-error-fail/exit0/.005s/stdoutempty. Rawstderr/receipt adjacent. Actualfstat reportsEBADF whileoriginalprebuiltKBI/MemoryError+traceback+realFileIOremain stronglyheld, beforefixtureclose; originalexceptionidentity/quiet/noCDLL assertionsallpass. No nativeartifact/ownerfunction/SDK/child wasloaded/invoked bythissyntheticheader regression.
+
+Binding9/public74/newowner69 runtime stillheldforindependentCwholeowner/generatedgraph/resourcegates. This closesonlytheobservedPythonheadercleanupfinding, notnativeintegration.

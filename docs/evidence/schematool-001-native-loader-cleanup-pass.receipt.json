@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-B",
+    "tests/schema_validation/native_loader_cleanup_regression.py"
+  ],
+  "revision": "3c6666b3795dd90b77cd44829602a78b3a4ff132",
+  "utc": "2026-11-06T20:31:59.413647+00:00",
+  "exit": 0,
+  "stdout_bytes": 0,
+  "stderr_sha256": "b2529d1d4a5b97bbb24312edac1c7e372453c9c3886a1367276f07cfcc884d59"
+}
