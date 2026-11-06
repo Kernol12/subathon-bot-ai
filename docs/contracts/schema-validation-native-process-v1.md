@@ -1,8 +1,9 @@
-# Schema validation native process contract — v1, revision2
+# Schema validation native process contract — v1, revision3 (normalization-close profile)
 
-SCHEMATOOL-001, private developer-tool contract, author B. **Actual document approved
-by different review C44adb36c; no header, stub, test, build or native capability
-is approved by that document verdict.** Planning approval is C `f94b1ef`; the Python
+SCHEMATOOL-001, private developer-tool contract, original author B. Revision2 has
+actual different document approval C44adb36c. Revision3 adds ONLY the bounded
+normalization-close profile below, authored root and pending different actual
+document review. No earlier verdict approves this new revision or future code. Planning approval is C `f94b1ef`; the Python
 transport stays frozen at `4cc464a`, source `3438a92c` until the replacement gates
 below pass. Root owns the matching policy, installation and private-process edits.
 
@@ -407,7 +408,8 @@ The phase bases, in order, are 1 config-open, 2 config-read, 3 config-close,
 4 activation-pipe, 5 outcome-pipe, 6 source-duplicate, 7 null-open, 8 atomic-birth,
 9 parent-write-close, 10 child-signal, 11 child-dup, 12 child-close-range,
 13 child-exec, 14 protocol-read, 15 protocol-poll, 16 wait/reap, 17 pidfd-kill,
-18 pidfd-close, 19 final-commit. The encoded phase_id is twice the base for BEFORE
+18 pidfd-close, 19 final-commit. Revision3 appends base20 normalization-original-close;
+all earlier numeric values remain unchanged. The encoded phase_id is twice the base for BEFORE
 and twice the base plus one for AFTER. Repeated operations select their FIRST
 occurrence only. For case 24, fault_errno is one of EINTR, ENOSYS, ENOMEM, EMFILE,
 ENFILE, EAGAIN, EIO, EACCES or EPERM, only where meaningful under section 6;
@@ -423,6 +425,38 @@ signal cannot turn an already-released number into an owned retry candidate.
 Atomic-birth error fixtures must separately prove real no-child/no-new-fd rollback;
 they may not inject failure after successful birth and pretend the kernel rolled
 it back. Both original pre-call and after-real-close cancellation oracles remain.
+
+Revision3 admits exactly ONE additional case24 tuple: phase41 (AFTER the first
+normalization-original-close), fault_errno EINTR. No new case ID, child mode,
+channel, export, public argument or successful test result is added. Phase40
+exists as the corresponding BEFORE observation but is not an admitted injection
+tuple. The source duplication's original descriptor is closed during ACTIVE
+setup work; it is not cleanup. A work close error EINTR and an AFTER-close
+interrupted continuation both commit private18, then finish all cleanup without
+retrying the released Linux descriptor number. Cleanup-only closes retain their
+existing distinct classification.
+
+For this new tuple, execute the actual raw close, invalidate its slot and record
+the real release ACK BEFORE the AFTER checkpoint. Preserve the actual syscall
+return0 and the actual closed descriptor identity; the adapter may request only
+the negative interrupted continuation. It MUST NOT fabricate a negative kernel
+return, keep a closed number owned, accept any worker result or report a birth
+that did not occur. Expected18 is reached before birth and all remaining owned
+descriptors are released before the actual final-commit event. The original
+source-duplicate AFTER boundary remains after the genuine F_DUPFD_CLOEXEC adopt
+and BEFORE this original close, preserving every existing oracle.
+
+This closes the independently identified75source defect where active normalization
+reused cleanup-only close classification. Tests must observe the genuine missing
+work interruption behavior before the separately reviewed fix. A minimal
+interface/phase hook may be authored with the CURRENT cleanup-only classification
+explicitly preserved solely to establish that new red; this is not working
+behavior or permission to skip original69/public74/binding9 acceptance. Independent
+review must inspect that hook's retained classification and actual release facts.
+Journal capacities remain128/36+27+24; the new selected parent observation/release
+uses the same bounded resources. No resource budget or ordinary acceptance rule
+changes. The original57-row negative inventory remains exact and mandatory; a
+separate focused normalization-close regression records this new tuple.
 
 This is a SELECTED bounded journal, not a trace of every syscall, poll iteration,
 clock read or individual signal-loop operation. Every actual parent-native FD

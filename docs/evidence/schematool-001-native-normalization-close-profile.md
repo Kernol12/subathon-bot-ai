@@ -1,0 +1,7 @@
+# Normalization-close work classification profile proposal
+
+Root proposes ONLY native-process revision3's appended privatebase20/case24phase41EINTR tuple. Independent C found and B confirmed actual75 commonOwner prepare_sources invokes cleanup-only close_bare for active normalization-original close, causing actual work EINTR to classify17 instead of native§6 required18. FD invalidation/release/no-retry are alreadycorrect. Existing57hooks targetF_DUPFD, notthisrealclose; they must not be misreported as coverage.
+
+A new separate realFaultSession regression will assert literal18/nochild/realrelease-beforeAFTER from the actual faultDSO/commonowner, after realclose0 plus negative interruptedContinuation, no fabricatedkernelresult/positivefactory/newchildmode. Original57 and public74 assertions remain unchanged. Currentclassification stays explicit in a reviewed minimalphasehook until that reviewed test reaches intended red; onlythen work=truefix is implemented/reviewed. Source-only codegen correction remains separate and preserves75classification. Source/generated/resource gates stillprecede any owner execution. No user decision or public behavior/scope change required: original activeEINTR18 requirement is unchanged.
+
+This actual document proposal needs different review before new interfaces/tests/profileimplementation. No newprofile code/test/owner/runtime was executed or authored by this document edit.
