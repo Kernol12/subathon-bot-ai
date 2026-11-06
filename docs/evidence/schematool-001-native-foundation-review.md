@@ -760,3 +760,71 @@ without exec; independent7-method/21-row count and old-helper AST/control-blob
 preservation; staged no-runtime source inspection; project426/122, render--check,
 diff--check PASS. I did not import/run the checker or control modules, configure/
 compile, invoke candidate binutils, execute a native program, bootstrap or probe.
+
+## Actual first helper artifacts — static evidence, runtime held
+
+Reviewer C, fresh isolated branch at actual `a9c1c78`, reviewed immutable a5ad6b7
+configure/build/proof evidence for source `87ef6f892e001d5e43157d9cfb9033d4e5b98bb7`
+after Ca108 compile approval. **Actual compilation/identity/entry/export evidence
+is accepted; runtime remains WITHHELD.** Root subsequently observed the closed
+new static gate refusing aggregate SIMD in primitive_child and has explicitly
+held this artifact's bootstrap. No conditional permission is converted into a
+pass; corrected source/new hashes require current static admission first.
+
+Independent complete raw hashing matches configure232 bytes, build7258 bytes,
+both exit0/stderr empty,10 build steps/no compiler warning. The proof archive
+SHA256cdab6e04... decompresses to96227 bytes/SHA256
+`e435088e1bc67e6d3cc14de5dd363138857a047620dc5b6c47cab57b2584554d`.
+Actual line count is2417, not the stale2379 in the author prose; authoritative
+bytes/hashes match. I independently hashed all five actual build files:
+
+| Artifact | SHA256 |
+| --- | --- |
+| Foundation | `15b58433c10df5574ce32a6a5e4d87d39c7ed3fe4c31ad48508d10f4d724745d` |
+| Original reporter | `bd3e5ea0c6af3de7e1abcbd80d4a74f91cf8f23755dee1a85c497798084c22c1` |
+| Fixed negative child | `fb066fbdfb23f9e5c6626a6dfbc234fd622b83c14b7fa6f07b397684eba53455` |
+| Production inert DSO | `bf797690cc4f7d6341b10b4e22bb581f47572d418eea0e956af17b18e54fcac2` |
+| Fault DSO | `2e8fe576ed8d023ad0fbbe09b750a2323ff1f639159ebc533361c0ec5809a8bc` |
+
+I read the full preserved graph/driver/DSO evidence and independently invoked
+objdump/readelf/nm only. Actual primitive closure has20 functions, no TLS/PLT or
+indirect call, with one inline `lock addl $0x1,(%rax)` in exact Shared wake. The
+address calculation is the expected sequence-word offset2010. Acquire/release
+loads/stores are inline scalar machine operations; no libatomic/mutex/allocator
+helper appears. This does not override the gate's separate unknown-instruction
+check: two Observation initializers emit pxor/movaps/movq-XMM at221e9 and22353.
+Those operations are unadmitted by the current closed instruction profile. Root
+chooses separately reviewed scalar source stores rather than broadening SIMD.
+
+Actual negative-main closure has29 functions, direct boundary-resolved transfers,
+no TLS/PLT/SIMD. The raw report/parse/write/self-exit helpers match the reviewed
+bounded fixed producer. Parent C++ driver canaries and setup SIMD are outside the
+copied-child edge; they are not globally disabled. Driver call22462→syscall@plta650
+stores full RAX through saved this, reloads the same field, tests zero and JNE
+2247e→22497 skips only four argument MOVs plus direct call22492→primitive22054.
+No TLS/helper/callback lies on that zero path. Old probe bb22 uses the same PLT,
+with its own saved-RAX/cmp/JNE/LEA/MOV/direct-child edge. Both and bootstrap's ee33
+address load share actual GOT80f90, GLOB_DAT syscall@GLIBC_2.2.5. Actual runtime
+target identity still needs the source-reviewed exact-one XML binding case.
+
+The actual fault DSO defines exactly the declared five C exports, BIND_NOW and
+GNU_RELRO. Its sole init-array pointer is frame_dummy1140, with no custom C++
+resource initializer; source globals are constant scalar metadata. The actual
+public entry disassembly only spills arguments and returns31. Production DSO and
+original reporter hashes remain unchanged. These are artifact observations, not
+permission to arm/load a future owner or infer cleanup from a scalar result.
+
+The new static checker/control source is independently reviewed by B; its actual
+approval and genuine static PASS are required. Current15b runtime remains held
+for the pxor refusal and pending scalar/125 test-source update. Only after new
+source approval/build, concrete current graphs/edges/exports and static PASS may
+the exact no-child XML bootstrap be separately released. Full helper/child/native
+execution still follows actual binding attribution. Ops417/a9 is uncompiled and
+not part of this proof; neither it nor NativeOwner57 source is approved here.
+
+Actually performed: full archive/raw/receipt/hash/source read and independent
+binutils extraction/call-boundary/closure/hash/export/init checks; project426/122,
+render--check and diff--check PASS. No checker/control execution, configure/build,
+ELF entry/loading, listing, bootstrap, arm/thread/child/probe or SDK operation ran
+from this review. Preserve this valid pre-correction evidence; it is not a runtime
+or hosted/helper/owner acceptance certificate.
