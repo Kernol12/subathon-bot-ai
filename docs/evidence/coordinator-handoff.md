@@ -1,214 +1,170 @@
-# Coordinator checkpoint — worker reviewed; native parent ownership active
+# Coordinator checkpoint — functional CI passed; native contract review in progress
 
-Coordinator `/root`,6 November2026. Standing continuous coordination under AGENTS.md
-and COORDINATOR_PROMPT.md remains active. No owner decision/access needed. Full
-specificationv0.45 is incomplete. No live provider/chat/contribution/credentials or
-deployment operation has been performed. Preserve historical refs/worktrees, valid
-reviews and original FIRST artifacts; never restart completed preparation/reds.
+Coordinator `/root`, 6 November 2026. Standing coordination under AGENTS.md and
+COORDINATOR_PROMPT.md is active. No owner decision or access is needed. Full
+specification v0.45 remains incomplete. No live provider/chat/contribution,
+credential or deployment operation has occurred. Preserve all existing worktrees,
+valid reviews and original FIRST artifacts; do not restart completed preparation.
 
-## Actual integration and publication
+## Actual repository and publication
 
-Main is095d192c834e8e7746a7922865bbf0e11d06f905, actually rechecked remotely. Primary
-checkout clean/trackingmain at that revision. PR76 normally merged11:25:59Z from
-e618eef101e9de22d47baba57b68145ac8e94a07, all19 latestSUCCESS; head/merge tree both
-bf161de1a45675e1f2c44737f8a134c16f208772. Earlier72–75 integrated. Actual rules26170263
-require PR/thread resolution/zero formal approvals, NO required-status rule. Written
-all-check/independent-review gates still apply; never bypass/weaken protection or
-claim those statuses are enforced by that rule.
+Main is `095d192c834e8e7746a7922865bbf0e11d06f905`, re-fetched from origin during
+this checkpoint. The primary checkout is clean main at that revision. PR76 merged
+normally at 11:25:59Z from e618eef, after all19 latest checks passed; head and merge
+trees both bf161de1. PR72–75 were already integrated. Rules26170263 require a PR,
+resolved discussions and zero formal approvals, with NO required-status rule.
+Written all-check and independent-review gates still apply. Never bypass protection
+or imply that this rule enforces the statuses.
 
-Root implementation worktree `/tmp/subathon-schematool001`, branch
-`task/SCHEMATOOL-001-offline-validator`, created from currentmain before editing and
-claimed a663b240. [Scope/ownership](schematool-001-handoff.md),[brief](../tasks/SCHEMATOOL-001.md).
-Root owns state/HTML/CI/pins/notices/shared imports. [Draft PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77)
-actually OPEN/draft/CLEAN/0reviews, published aab9f80e113ca020821cacf721673750c56444bd.
-Last all19SUCCESS observation is on this same CLAIM/BASELINE-ONLY head. The functional Python implementation and reviewed CI promotion are prepared for
-diagnostic DRAFT publication in the next step; at this checkpoint GitHub still has
-the older claim-only head. Never infer publication from this intent; inspect GH.
-The task remains unmergeable on source quality even if exercised checks are green.
-Reinspect actual GitHub/refs/worktrees/processes/checks before acting on resume.
+Root's active task worktree is `/tmp/subathon-schematool001`, branch
+`task/SCHEMATOOL-001-offline-validator`, created from current main before claim
+`a663b24`. [Brief](../tasks/SCHEMATOOL-001.md), [task handoff](schematool-001-handoff.md).
+Root owns shared state/HTML/build/presets/CI/dependency metadata and integration.
+[PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is actually OPEN/DRAFT,
+CLEAN, zero reviews at published `671fdf476c89cd842eb82112b534776a8771799c`.
+All19 checks on THAT head were actually rechecked SUCCESS. Local document/evidence
+commits now follow that published head; inspect actual git log/status on resume.
+The PR is not ready or mergeable on source quality. Green checks do not waive that.
 
-Local actual integrated milestones: CI3d8/config extension5c4; original parent23b;
-parent2-fix dcfd9a0; workerf1b→dc1 correctionb4def02→alias8f4 correctionbf5dfcc;
-actual root context approval98bc72b; C security0e1f imported e54b25f; C finalCIba616
-importedc8cb783; C native-source assessmenta348 imported418fc7c; actual public lexical
-pass recorded691df39. Current status/checkpoint commits may follow; inspect git log.
-Root code is frozen at parent4cc/source3438 +worker8f; current changes after0f8
-are metadata/evidence only. B committed4cc and the document proposal; author trees
-are clean at latest inspected handoffs. No native source/stub/build/probe exists. Last complete worktree scan128 allclean before later B edits/
-reviewer worktree additions; never prune/reset/discard them. Parked CONTRACT-011
-remains preserved. Reinspect actual process list; older desktop Python/Codex managers
-were left untouched, not assumed project builds or live agents.
+At the latest complete scan, all136 worktrees were clean. Subsequent root changes
+are the explicitly owned document/evidence/checkpoint changes. Preserve all refs
+and unfinished/parked work, including CONTRACT-011; do not prune/reset them. No
+project test/build command remains running at the latest inspected handoffs.
+Sandbox-local ps exposed only the inspection process; do not infer global process
+absence from it. Actual completed agent statuses are recorded below, not assumed
+background execution.
 
-## Preserved integrated baseline and current private contract
+## Preserved baseline and functional evidence
 
-[Baseline handoff](schematest-001-handoff.md) links exact original artifacts/reviews.
-SCHEMATEST-001 done means reviewed observed-red baseline, not passing feature.
-Frozen logicalabb426a/context32ec87a/API973961c/installation86d6d48,
-original64 tests64f4911edae1e6ec1546777661f199252d06131c,
-20pinlock859d7cf/wheel-paired-metadata6f4ffec/SDK14 source6585db8 remain unchanged.
-Private process baseline revision2ac256805 remains historical; current narrow
-negative-instrumentation revision3f009979/root622 is ACTUALLY approved C93a5e1
-(import5e0e92f). All originalr2 text/production argv/limits/setup refusal retained.
+[SCHEMATEST baseline](schematest-001-handoff.md) remains done as reviewed observed
+red, not implementation. Original logical abb426a, context32ec87a, public API973961c,
+installation revision1 86d6d48, public64 source64f4911, SDK14 source6585db8,
+20-pin lock859d7cf and wheel metadata6f4ffec are preserved. Installation now has an
+explicit proposed revision2; process revision4 retains the entire historical
+approved revision3 byte-for-byte. New private revisions require actual review.
 
-Original FIRST: cleanbd15260,10:03:26Z,63methods/261exactmissingmarkers,exit1/.138s,
-243validate37+18main42,stdoutempty/0othercause,313249B SHA7e64, Cc152 attribution.
-ONE additive64th setup-refusal FIRST: clean3d0,11:00:15Z,1method/10exactvalidate37
-errors,exit1/.006s,13285B SHAc974f832, Cc66 attribution; all original63 AST/helpers
-and four FIRST files byteexact. Both-host actual SDK14/20metadata/64 definitions
-reviewed C40 before that new-only run; revised metadata reviewed A0d25 before normal
-PR76 merge. Combined proof is original63+new1, never a claimed full64 passing run.
-Do NOT replay original reds, weaken assertions/fixtures/pins or treat missing worker/
-dependency/setup/compilation/skips as intended behavioral red.
+Historical FIRST original63 at cleanbd15260: 261 exact missing markers, exit1,
+243validate37+18main42, 313249B stderr SHA7e64, stdout empty, different Cc152
+attribution. Only additive64th setup-refusal FIRST at clean3d0: one method/10 exact
+validate37 errors, exit1, 13285B SHA c974f832, Cc66 attribution. These are historical
+red records, not a combined original64 run. Do not replay them.
 
-The frozen setup exception remains exactemptyAEOF +35byte environment line+
-outcomeEOF +normal3 +parentreap, nonvalidating only, no fakeA/package/candidatework.
-All other received outcomes require actualA; known outer resource/deadline priority
-unchanged. Currentr3 additionally permits narrowly reviewed real native constructor
-failure instrumentation and explicit close/admission allocation negative seams;
-it approves no future production solution or successful fake validator.
+Root's FIRST complete implemented-code public64 run was at CLEAN
+`0f8ed17c2f96ca60236f8cf961c48caaff541502`, parent3438a92 + worker8f4, CPython3.14.9,
+-I -B/minimal environment, 13:28:36Z:64PASS,38.297s, native exit0, no skips/errors/
+failures/watchdog. Same source then passed full cleanup2/context3/lexical3/spawn2
+(.010/1.452/.106/1.017s); context3 contains seven private-worker observations.
+Fifteen exact raw/receipt artifacts and scope note3371ab9 are durable; public
+stderr9268B SHA4a7a34aa, stdout empty. Different C76e3ddd attribution imported6743
+approved actual functional evidence and diagnostic draft publication ONLY.
+[Local receipts](schematool-001-public-functional-first.md),
+[review](schematool-001-public-functional-review.md).
 
-## Actual active agents and owned work
+Actual hosted [run42229761220](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42229761220)
+on published671 passed BOTH Ubuntu22.04/CPython3.10.12 and Ubuntu24.04/3.12.3.
+Each executed SDK14, public64 and all focused2/3/3/2 methods (88 per host), zero
+skip/error/failure/inversion. Public durations65.544s/39.257s. Exact merge checkout
+e0c43ebf tree17fe7ec equals head671 tree, base095. Different C24df22f independently
+downloaded/read the full875-line/177341B log, SHA65882c13892f0fe89505c4745daa8c241a2165dc46b8ed06bf52ae48b52fab40,
+and approved FUNCTIONAL CI attribution only (importf9856eb). Root inspected privacy
+and preserved the unchanged [raw log](schematool-001-functional-ci.log.txt) and
+[receipt](schematool-001-functional-ci.receipt.json).
+[Independent hosted review](schematool-001-functional-ci-review.md).
+No same-code rerun is needed merely to obtain logs.
 
-Latest actual handoffs: B scoped parent/proposal, A worker/investigation/mapping and
-C source/functional/planning reviews are COMPLETED. Root is active and will
-explicitly assign the next concrete contract stage.
-Never assume old agents are alive; use followup_task for idle/completed agents.
-All agents use isolated branches/worktrees; reviewers own notes only unless separately
-assigned test authoring. Root integrates all shared changes.
+## Current source and actual findings
 
-* B `/root/session_supplier_author`, `/tmp/subathon-schematool001-parent-author`,
-  `task/SCHEMATOOL-001-parent-author`. Owns tools/schema_validate.py and separate
-  parent test/author evidence. Original3e3/sourcea25 candidate11 focused methodsPASS.
-  C actual review found FD-close cancellation and initial path MemoryError defects.
-  NEW cleanup8460/sourceacde reviewed Cadc BEFORE actual2-case red12:09:59:
-  1FAIL childrunning/FD[closed,closed,open,closed]+1specificMEERROR,2tests/.012s,
-  2827B SHA2041. B corrected785/source157, actual2PASS.009 +11PASS.223;
-  C actual scoped source/red approvale9fe imported825d14b. This approves TWO paths,
-  not all constructor ownership. Raw artifacts durable root900.
-* NEW B constructor tests a230265/source777d907, parent_spawn_regression.py, authored
-  inert then root actual review found private r2 return-object test conflict.
-  Rootr3 doc622 approved C93 FIRST; root actual TEST approval57a79f1 THEN new-only
-  native12:37:06:2tests/.019s/2FAIL/0errors, BOTH real native-constructor childrunning,
-  factory_returned[], all4 parentFDsclosed; earlier readiness/defaultSIGINT/resource/
-  controller/watchdog guards pass. Genuine native SIGINT and post-spawn MemoryError,
-  no validating fake. Raw3138B SHA14fe/empty stdout+receipt and different root
-  attribution durable45ff86f. Test fallback reaps only after oracle. No old replay.
-  B committed4cc/source3438, imported4902d82: private owned spawn thread +exact native
-  init traceback-self recovery for publishedPID, modulePopen/no globalhandler change.
-  C actual e0 scoped review is imported43804d7; public functional64+focused evidence
-  is recorded below. Overall source remains withheld; Python resource patches are
-  frozen while the reviewed native-boundary proposal proceeds to actual contracts.
-* A `/root/session_supplier_review`, `/tmp/subathon-schematool001-worker`,
-  `task/SCHEMATOOL-001-worker`. Owns6 private worker modules/worker author evidence,
-  excludes root-owned check_baseline/lock/wheels/public parent. Coherent9f importedf1b;
-  root found raw Schema siblings/profile +graph-key ownership issues. NEW context
-  tests6894/source reviewed root9aed before actual12:11 red:3methods/7observations,
-  3FAIL/0errors/4positive controls,1.453s,4158B SHAf93e, root native attribution.
-  Source fixesdc1 then8f4 charge persistent/sort/native aliases explicitly, use
-  numeric IDs/capacity-before-growth/raw native semantics. Authorcontext3/7 PASS1.350s
-  and private6+23+35 controls PASS, including4095/2048/4096 positive boundaries.
-  Actual root context/backend/index source APPROVED98bc; C worker/security/common
-  APPROVED0e1f (e54). Actual public FUNCTIONAL64 is separately observed below;
-  neither this worker approval nor that pass approves overall parent lifetime.
-* C `/root/session_plan_review` separately authored lexical3 test91ce/sourcefc826
-  on `/tmp/subathon-schematool001-worker-lexical-tests-author`; root721 ACTUAL source
-  approval BEFORE one root native at clean91,12:23:29:3tests/.128s,ONLY65536 wrongenum,
-  65535/65537 controlsPASS,exit1/0errors/skips,1612B SHA71476f2d/raw preservede18.
-  A scanner corrected only after red. Root then observed unchanged PUBLIC lexical3
-  PASS/.114s/exit0 on parent157+worker8f at e54 after actual worker source approvals;
-  [pass evidence](schematool-001-worker-lexical-pass.md). This is the sole new public
-  passing module, not original64/full feature. C owns parent/security/CI/doc review
-  notes across isolated reviewer worktrees; actual latest commits are linked above.
+Python source is FROZEN: parent4cc464a/source3438a92, worker8f4c8c7 and its six
+private modules. Root context/backend/index review98bc72b and C worker security/
+common review0e1f8fb1 (e54b25f) approve the actual final worker. No custom standards
+engine or added SDK/dependency version. Preserve these valid reviews.
 
-## Actual functional checkpoint; overall source still withheld
+Parent cleanup2 and spawn2 have separately authored/reviewed tests, actual reached
+bug reds and scoped corrected-code reviews (Ce9fe945 and Ce0a98d9). Context3 and
+lexical3 likewise retain their reviewed source, genuine red and actual corrected
+passes. [Constructor source review](schematool-001-constructor-code-review.md) links
+these records. The four current functional modules remain unchanged.
 
-At CLEAN0f8ed17, parent3438a92/worker8f4, root observed FIRST entire unchanged64
-public script CP314-I-B/minimalenv13:28:36Z:64PASS/38.297s,exit0, no failures/errors/
-skips/watchdog. Then SAME unchanged source four entire focused scripts2+3+3+2 all
-PASS (.010/1.452/.106/1.017s). Context3 uses private worker7literals, not the public
-parent. Fifteen actual raw/receipt artifacts +scope note committed3371ab9; public
-stderr9268B SHA4a7a34aa/stdoutempty. C76e3dddb independently checked all64exactnames,
-fiveexits/source/head/hashes/oldraws, imported6743ab8. [Native receipts and scope](schematool-001-public-functional-first.md),[different attribution](schematool-001-public-functional-review.md).
-This is NEW implemented-code integration, not historical-stub-red replay.
+OVERALL PARENT SOURCE IS WITHHELD: native child birth before Python PID publication,
+recovery allocation, unbounded constructor wait/whole deadline, Thread.start before
+acknowledgement and owned.remove before actual close remain concrete findings.
+No further Python recovery patch is assigned. Actual selected CPython sources fork
+before PyLong_FromPid and publish self.pid later; pidfd_open also has FD-before-
+boxing risk. Per-birth-thread proc/pidfd identity research is not a complete owner
+or approved production fallback. [Allocation findings](schematool-001-native-allocation-findings.md).
 
-C76 EXPLICITLY supersedes its earlier publication hold for diagnostic DRAFT77
-publication of this verified FUNCTIONAL Python checkpoint ONLY. Reviewed current
-unconditionalCI can now learn actual3.10/.12 compatibility. Overall parent/source/
-taskdone/ready/merge/native gates remain WITHHELD; green tests never waive them.
-Native-owner later code/fixture changes justify relevant reruns. Don't repeat this
-same-code run just to get logs. Tooling19PASS/.346s and actualCP314 -I-S-B harness
-20metadata+64registrations green observed before this publication; not feature proof.
+## Native document gate and bounded assignments
 
-Actual scoped parent correction4cc464a/source3438 imported4902d82 AFTER its genuine
-redrecord; C e0a98d9 actual two-path code review imported43804d7. Spawn2PASS1.017s,
-cleanup2PASS.010s/11parentPASS.207s were also author observations before root combined
-run. Overall parent remains unapproved: native unpublished PID/recovery allocation,
-unbounded constructor completion wait/wholedeadline, Thread.start-before-entered
-acknowledgement and owned.remove-before-real-close intervals remain concrete source
-gates. [Actual constructor review](schematool-001-constructor-code-review.md).
+B proposal46a464a, A complete74-method mapbe753ee and C planning-only approval
+f94b1ef are preserved. [Proposal](schematool-001-native-boundary-proposal.md),
+[map](schematool-001-native-test-mapping.md),
+[planning review](schematool-001-native-boundary-review.md). First-party C++20/
+stdlib ctypes fits the standing coordination authority, but current tools/private
+Popen constraints require explicit different-reviewed revisions. No inherent owner
+permission question is needed; report actual public/scope conflicts if discovered.
 
-### Native boundary design direction — documents only
+B native contractacb1c8c was integrated199e284. C0af changes requested journal count
+bounds and child observation route. B958b781 corrected these; final8751ae77
+(rootf8c5586) fixes case28 gather while3/4open → full atomic248-byte report on4
+while3open → close3 without A/close4. Contract blobaec16d6. Different C44adb36c
+(importa8ace53) approves this ACTUAL DOCUMENT ONLY: selected128-record journal
+36/27/24 bounds, MAP_SHARED preexec observations and separate postexec report.
+[Native contract](../contracts/schema-validation-native-process-v1.md),
+[author](schematool-001-native-contract-author.md),
+[review](schematool-001-native-contract-review.md). No native header/stub/source,
+test/fixture/probe/build or capability has been written/run or approved by it.
 
-[Native allocation findings](schematool-001-native-allocation-findings.md) preserve
-B/C/A primary-source investigations. ALL3selectedCPythons fork BEFORE allocating
-PythonPID result and publishing self.pid. Python pidfd_open itself also createsFD
-before Python-result allocation in inspected3.10.20/.12.15/.14.9 sources. Current
-thread/traceback/proc repair cannot be labeled a complete allocation-safe owner.
-Per-birth-thread proc +pidfd+waitid(WNOTHREAD) identity step is source-supported but
-has its own allocation/deadline/FD gates; no capability/probe/production solution
-was approved. APIknown-memory/no-survivors/unwinding obligations are NOT waived.
+Root actual policy packet877c41e authors proposed
+[ADR0009](../decisions/0009-schema-native-process-owner.md), tools/AGENTS exception,
+process-test revision4 and installation revision2. Public/logical/context/tests/
+production source stay byte-identical to671; archived processr3 is byte-identical.
+C has been explicitly reassigned different actual packet review, note-only on a
+fresh isolated review branch. Approval is pending; no dependent executable work
+may begin until that ACTUAL verdict. Match latest immutable revisions, not plans.
 
-B native C++20/stdlibctypes proposal46a464a (rootd3d6c94) +A full74method mapping
-be753ee (root89a2799) ACTUALLY approved planning-only C f94b1ef1 (rootee1c7b2).
-[Proposal](schematool-001-native-boundary-proposal.md),[exact oracle map](schematool-001-native-test-mapping.md),
-[different review](schematool-001-native-boundary-review.md). One fixed callback-free
-native lifetime/closed C ABI/atomicclone3(CLONE_PIDFD) is a candidate, not a safety or
-actual kernel/seccomp certificate. No native code/build/interface/stub/test/probe.
+Keep this bounded implementation in focused draft PR77 with explicit support
+assignments: actual contracts/policy → reviewed inert interface/harness/tests →
+GREEN real build/loader/ABI/kernel facilities → intended new native behavior red →
+native owner/binding implementation → different source/resource/call-graph review
+→ full preserved/migrated integration and ordinary BOTH-host CI → merge checklist.
+Root retains shared CMake/presets/CI/state ownership. All74 methods and every literal
+protocol/setup/deadline/FD/reap/cleanup oracle remain; each mechanism port needs
+written reason, actual different test review and new red. No fake positive/domain
+validator, skipped facility, compile/dependency failure or fixture error is proof.
 
-Authority assessment finds no inherently needed owner decision for this selected-
-stack first-party developer-only helper, BUT current tools guidance/privatePopen
-contract do not already allow it. Root must author explicit narrow ADR/tools/
-private/installation/test-contract revisions; DIFFERENT actual review must precede
-code/test authorship. No public outcome/limit/product platform/dependency/release
-scope may shrink. Concrete contract must freeze ABI/artifact/noELFresourcectors,
-allocation-free owner, childsignal/asyncsafeexec/closefds, all FD/pidfd ledgers,
-other-reaper proof, no-lateOK deadline vs mandatorycleanup, native failuretaxonomy,
-real negative oracles and BOTHhost foundation gates. Missing/nativeunsupported is
-NOT intended red or green selected-host acceptance. Port each oldmechanism oracle
-with written reason/review/red; never skip/delete/weaken it or use a successful fake.
+Candidate atomic clone3(CLONE_PIDFD|CLONE_CLEAR_SIGHAND), sole versioned C ABI,
+fixed trusted build artifact and allocation-free callback-free owner remain
+UNVERIFIED requirements. Whole10s work deadline rejects late ordinary results;
+mandatory quiescent cleanup cannot return with survivors and may exceed deadline
+under non-real-time OS delay. No fallback or public limit/outcome change is selected.
 
-Current roles: B proposal authored/complete; A mapping/investigation complete;
-C actual plan/mapping/functional reviews complete. Root will explicitly reassign
-actual concrete-contract/test/build/source work after documenting scopes; do not
-assume a completed agent is running. Preserve all128+ worktrees and existingrefs.
+## Actual agents, worktrees and next action
 
-## CI, next actions and full scope
+* B `/root/session_supplier_author`: completed8751ae77 document correction;
+  `/tmp/subathon-schematool001-parent-author`, branch
+  `task/SCHEMATOOL-001-parent-author`, clean at handoff, source3438 frozen.
+* A `/root/session_supplier_review`: completed allocation investigation and74-map;
+  `/tmp/subathon-schematool001-native-test-mapping`, branch
+  `task/SCHEMATOOL-001-native-test-mapping`, mapbe753ee. Original worker tree
+  `/tmp/subathon-schematool001-worker` clean8f4. No new executable task assigned yet.
+* C `/root/session_plan_review`: completed actual native-contract review44adb36c,
+  `/tmp/subathon-schematool001-native-contract-corrected-review`; explicitly resumed
+  for actual root877 policy review, a new isolated note-only assignment. Inspect
+  actual agent status and reply before assuming completion or assigning execution.
+* Root integrates and preserves CI receipts, updates state/checkpoint/HTML, and then
+  uses the actual policy verdict to release bounded next assignments. Next proposed
+  A work is independent foundation/test source; B minimal inert ABI/harness only;
+  root build/CI; all actual source review precedes runs. Do not write implementation
+  before reviewed tests and valid intended red.
 
-Actual final CI candidate5c4/workflow3b6b7ae/harness267 source APPROVED configuration-
-only Cba616/importc8. Temporary inert-body guard removed appropriately; exactpublic
-calls/enum/marker/64 registrations/no skips/no SDK imports/20pairedmetadata/no-site/
-SDK14 unchanged. BOTH minimum3.10/selected3.12 hosts run original64 and all FOUR
-entire focused modules (parent cleanup2,context3,lexical3,spawn2) UNCONDITIONALLY
-with fixed -I-B/minimalenv. Ten bash-n/staticproject checks PASS; matching local
-Python bodies passed as recorded above. Hosted promotion is still UNPUBLISHED at
-this checkpoint, and hosted results have not been observed. New native modules
-and fixture ports need actual revised CI/source reviews before their publication.
+Actual document checks at877: check_project PASS426tasks/122decisions/local links/
+presets/currentHTML, render--check PASS, diff--check PASS; no feature rerun. Earlier
+unchanged-source tooling19PASS/.346s and actual CP314 -I -S -B20metadata+64registration
+remain separate checks, not native acceptance. After state changes rerender and
+record actual consistency checks. Next normal publication should update PR body
+with observed functional CI while keeping DRAFT and all source/native/merge gates.
+After any new pushed head, recheck actual latest statuses before eventual merge.
 
-Next: publish the current verified Python FUNCTIONALcheckpoint to diagnosticDRAFT77
-and observe actual3.10/.12/alllatestCI while authoring/reviewing concrete native
-policy/private/installation/test contracts. No native code/test before those gates.
-Then actual foundations/reviewedtests/newred/nativeimplementation/fixtureports,
-sourceaudit/full real integration +ordinaryBOTHhostCI. Taskdone/ready/merge remain
-withheld until allsource/control gates pass; recheck rules/threads/HEAD then.
-No implementation done/passing full suite/source gate may be inferred from green
-claim CI, finite author controls, a scoped review, or the three lexical tests.
-
-Runtime `/tmp/subathon-schematest001-py314/bin/python`3.14.9 and admitted offline20;
-preserve cp310/cp312/cp314 wheelhouses/hash/license/identity evidence. No new/global/
-server/client dependency, custom standards engine, fallback retrieval, transformed
-raw DATA, lower limit, smaller profile or user injection. No live provider operation.
-All426 task IDs/1629edges/full seven integrations/threeFX remain. Full app/auth/state/
-financial/recovery/network/scene/QML/browser/EN-DE/themes/Linux-Windows/Wayland/OBS/
-security/package/platform/live release gates stay open. After eligible task merge,
-refresh main and immediately continue the standing loop. Local checkpoint does
-not claim execution continues after a stopped session.
+All426 task IDs/1629 dependency edges and full release scope remain. CONTRACT013
+waits for merged SCHEMATOOL001. No provider, HTTP/auth/runtime, Windows/Wayland/OBS,
+recovery/UI/locales/themes/packaging/live/full release claim follows from tooling.
