@@ -408,11 +408,11 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
             adopted(temporary);
             if (!checkpoint(PhaseBase::source_duplicate, PhaseEdge::after, duplicate))
                 return false;
-            // Revision3 exposes this REAL original-close boundary. Preserve the
-            // confirmed work=false bug until the reviewed regression reaches red.
-            checkpoint(PhaseBase::normalization_close, PhaseEdge::before, -1, false);
-            const auto closed = close_bare(static_cast<Slot>(index), false);
-            checkpoint(PhaseBase::normalization_close, PhaseEdge::after, closed, false);
+            // Original-close normalization is active work: its interruption must
+            // remain distinct from cleanup's default non-work handling.
+            checkpoint(PhaseBase::normalization_close, PhaseEdge::before, -1, true);
+            const auto closed = close_bare(static_cast<Slot>(index), true);
+            checkpoint(PhaseBase::normalization_close, PhaseEdge::after, closed, true);
             descriptors_[index] = descriptors_[temporary];
             descriptors_[temporary] = -1; // Move one owned identity, not another acquisition.
             if (decision_ >= 0)
