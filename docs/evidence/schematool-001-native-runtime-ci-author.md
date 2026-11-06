@@ -33,3 +33,13 @@ inherited runner variables. Root corrects inventory subprocess and final CTest t
 that SAME exact3-key environment. This excludes LD_*/GLIBC_TUNABLES/GTEST_FILTER
 changes between admitted binding and discovery/probes; no assertion/name/count/
 platform/code changes. Actual different C delta review precedes publication.
+
+Actual portablechild hosted42277775666 at9b passed BOTH static graphs and exact
+no-child bootstrap. Both inventory steps then failed as a HARNESS PATH issue:
+CTest is installed outside the native env3 PATH (/usr/local rather than /usr/bin).
+No kernel/helper run occurred and this is neither owner red nor kernel refusal.
+Freeze/resolve the actual configured CTest executable BEFORE clearing its inherited
+environment, then invoke that ABSOLUTE tool with unchanged native env3. Do this in
+inventory and final run, record CTest version/path, keep all names/assertions/guards.
+No fourth native variable or broad PATH expansion is introduced. Actual different
+CI-source review precedes publication; actual hosted probe results remain required.

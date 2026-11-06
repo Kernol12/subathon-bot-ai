@@ -29,6 +29,7 @@ jobs:
           uname -a
           c++ --version
           cmake --version
+          ctest --version
           ninja --version
           ldd --version
           /usr/bin/python3 - <<'PYTHON'
@@ -142,6 +143,7 @@ jobs:
           import ast
           import json
           from pathlib import Path
+          import shutil
           import subprocess
           source = ast.parse(Path('tests/schema_validation/native_loader_foundation.py').read_text())
           classes = [item for item in source.body if isinstance(item, ast.ClassDef) and item.name == 'NativeLoaderFoundation']
@@ -181,8 +183,13 @@ jobs:
           ):
               names.update('schema-native-foundation.' + prefix + '.' + method + '/' + str(index) for index in range(count))
           names.add('schema-native.loader-foundation')
+          ctest = shutil.which('ctest')
+          if ctest is None:
+              raise SystemExit('Configured CTest tool is unavailable')
+          ctest = str(Path(ctest).resolve(strict=True))
+          print('Selected CTest tool:', ctest)
           data = json.loads(subprocess.check_output([
-              'ctest', '--preset', 'schema-transport-debug',
+              ctest, '--preset', 'schema-transport-debug',
               '-L', '^schema-native-foundation$', '--show-only=json-v1',
           ], text=True, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'}))
           if {item['name'] for item in data['tests']} != names or len(data['tests']) != len(names):
@@ -196,6 +203,7 @@ jobs:
           print('Exact55 native cases and one two-method loader program registered and enabled')
           PYTHON
       - name: Execute every reviewed native foundation unconditionally
-        run: >-
-          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
-          ctest --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose
+        run: |
+          schema_ctest_path="$(command -v ctest)"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 \
+            "$schema_ctest_path" --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose
