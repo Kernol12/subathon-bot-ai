@@ -100,3 +100,12 @@ Actual correction checks: project426/122 PASS, render current PASS,
 `git diff --check` PASS, frozen parent3438 unchanged. A standalone stdlib
 `python3 -c` assertion of the five literal sums above plus `128*8*8 == 8192`
 PASS; it imports/runs no candidate/test/helper and proves only arithmetic.
+
+C's actual 958b781/4cba rereview resolved those two findings and requested one
+narrow ordering correction: Case 28 must gather observations while 3/4 are open,
+close only its new scan fd, atomically write ALL 248 bytes on 4 with 3 still open,
+then close 3 without A, close 4 and attempt exit 3. Short/error writes fail the
+fixture; normal 3 is not required if the owner kills after invalid-packet commit.
+The read duplicate captures only an unread committed suffix, never recovers bytes
+that were not written. This correction changes only that explicit sequence and
+this evidence; no source/header/test/probe or other contract rule changes.

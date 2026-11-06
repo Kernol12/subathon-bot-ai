@@ -461,8 +461,11 @@ runs actual remap/close_range/exec with NO extra inherited test descriptors and
 observes only 0/1/2 plus 3/4 and the required signal state in a real fixed native
 nonvalidating reporter. Thus coordination cannot weaken the close-fds oracle.
 
-The Case 28 reporter closes activation 3 WITHOUT A and writes one intentionally
-INVALID binary packet on existing outcome 4, then attempts close/normal exit 3. It is
+The Case 28 reporter gathers all raw observations while activation 3 AND outcome 4
+are OPEN, closes only its newly opened scan fd, and commits one intentionally
+INVALID binary packet on existing outcome 4 while activation 3 remains OPEN.
+Only AFTER a successful full write does it close activation 3 WITHOUT A, close
+outcome 4, and attempt normal exit 3. It is
 never a worker result/controls certificate. Exactly 248 bytes, all integers little
 endian, no compiler struct padding:
 
@@ -486,13 +489,15 @@ Tests compare literal masks/sets/handler values, not a reporter's clean boolean.
 Missing proc/read/error/overfull/incomplete observation is fixture failure. The
 reporter has no Python/SDK/schema engine; actual source/oracle review is mandatory.
 
-The reporter sends the fixed packet in one blocking write below PIPE_BUF; actual
-short/error writes make the fixture fail rather than assume message boundaries.
+The reporter commits ALL 248 bytes in ONE blocking write <=PIPE_BUF on descriptor
+4 while descriptor 3 is still OPEN. Any short/error write is fixture failure,
+never a committed report. Closing activation early is forbidden: it would both
+invalidate the 0..5 descriptor observation and permit refusal before packet commit.
 The owner may kill on the invalid packet before the reporter's attempted exit;
 the test observes real termination/reap, and does not demand normal 3 or infer a
 normal worker result. Only this case's fixture tees actual outcome reads into a fixed 257-byte
 capture. A separately tracked parent-only duplicate read handle, acquired before
-birth with descriptor >=5 and closed in child close_range, may obtain any unread suffix AFTER the
+birth with descriptor >=5 and closed in child close_range, may obtain only the unread committed suffix AFTER the
 core returns, using nonblocking bounded reads; it neither reaps nor repairs the
 owner. `subathon_schema_fault_report_v1` requires exactly 248 writable bytes and
 returns 248 only for the complete packet plus EOF, otherwise -1; it copies bytes,
