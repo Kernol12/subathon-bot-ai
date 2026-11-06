@@ -666,3 +666,34 @@ inspection; bash-n on all seven run blocks and Python3.10 AST/compile without ex
 for embedded scripts; frozen CMake/Python-source comparisons; project426/122,
 render--check, diff--check PASS. No workflow/native execution, candidate import,
 configure/build, binutils, probe or GitHub write was performed by this reviewer.
+
+## Actual static evidence selector correction
+
+Reviewer C, fresh isolated branch from actual
+`f60835c36180b0bfafa4091e3e8e516e985cf66f`. **Approved: this narrow build-evidence
+selector correction for ordinary diagnostic DRAFT publication.** Corrected
+workflow blob is `8e2398981e98fa66653dca94c869c1af75d78d06`; the only other
+changed path is the written [selector-defect reason](schematool-001-native-export-selector-correction.md).
+No native/test/ABI body changes, new runtime phase or gate relaxation is supplied.
+
+The old startswith selector matches both the actual probe and its lambda's call
+operator. I independently inspected actual local `nm -C --defined-only` output:
+the broad set has exactly2 names, while equality to
+`(anonymous namespace)::probe(bool, (anonymous namespace)::Controller*)` has
+exactly1. The correction names that exact source-defined function and retains
+strict count==1 refusal; it does not take an arbitrary first match or remove an
+unknown-shape check. This is a real evidence-extraction defect, not an owner
+failure or reason to alter runtime assertions.
+
+Root's written reason records both hosted export failures in run42262357346,
+earlier step success and a corrected local static export. This delta review does
+not independently certify those hosted step receipts. Actual selected-host output
+from the corrected workflow still needs different attribution/edge/binding review.
+The staged workflow continues to contain only build/static/text commands; no
+candidate execution, discovery/list, loader, bootstrap or kernel acceptance is
+added. All prior publication limits and unlinked-fixture source gates remain.
+
+Actually performed: source/diff/reason review; actual local nm metadata only;
+bash-n on7 run blocks and embedded Python3.10 AST/compile without exec;
+project426/122, render--check and diff--check PASS. No export-script run, native
+candidate, checker/control replay, kernel probe or GitHub write occurred.
