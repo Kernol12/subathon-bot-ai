@@ -1,4 +1,4 @@
-# Schema wrapper private process contract and fault tests — v1, revision2
+# Schema wrapper private process contract and fault tests — v1, revision3
 
 SCHEMATEST-001, root9c8d083. Refines the approved [public API](schema-validation-tool-api-v1.md)
 and [context contract](schema-validation-context-v1.md) for testability only.
@@ -50,6 +50,51 @@ REAL Popen object, preserve the actual pipe endpoints/ownership and save its PID
 Validate the normal proposed argv/keyword shape before substituting it. The test
 child has no standards validator and is never used for a successful/domain-validity
 case. Normal package, scope, schema and instance tests use the real unpatched path.
+
+### Native constructor failure and parent cleanup faults (revision3)
+
+The return-a-real-Popen rule above applies when the constructor RETURNS. Actual
+selected CPython can create a real child and then raise before returning its
+handle; its constructor exception path closes IO but does not guarantee kill/reap.
+API§4 still requires parent ownership/cleanup while Python can unwind. This narrow
+fault-only extension permits independent tests of that already required behavior.
+It supplies no alternate successful validator or public injection.
+
+A test may intercept the ACTUAL selected Popen class's native _execute_child method
+ONLY to call its SAVED native implementation FIRST, then retain the actual self/
+PID/child-created observation and hold constructor return at a bounded readiness
+point. The child is the same real isolated BLOCKED FAULT child substituted through
+the existing parent module-attribute Popen seam; no activation/result certifies
+validity. After native spawn, a real SIGINT with the unchanged default handler may
+interrupt the main thread, or a specific MemoryError may be raised at the selected
+post-spawn boundary. Such failed construction cannot return a completed Popen.
+Retain its real object strongly for the test's observations; never use destructor
+polling/test cleanup as proof of parent ownership. This is explicitly a failed
+constructor fixture, not permission to fabricate a successful process/result.
+
+SIGINT tests leave caller signal handlers/masks unchanged, use a bounded controller
+and readiness/release synchronization, and join their controller after the oracle.
+A kill-only watchdog must never reap or turn a timeout into a passing observation.
+Both cancellation and allocation tests capture real waitpid(WNOHANG) and all owned
+parent FD states BEFORE any fallback poll/wait/kill/close. Require actual parent
+reap/descriptor release; allocation returns resource_limit, cancellation propagates
+its original interruption when observable. Setup/readiness/controller/handler or
+other failures are not an intended red for this ownership requirement.
+
+Separate bounded parent cleanup tests may inject a one-shot BaseException AFTER
+a saved REAL os.close completes on an owned descriptor, or a specific MemoryError
+at initial private path-admission entry. The latter checks public known-allocation
+containment, not actual heap exhaustion; setup/Popen/package IO guards must remain
+independently asserted after return. No successful package/schema/instance test may
+use these faults or replace a backend. Ordinary original fault protocol tests and
+all public real-validation cases retain their existing semantics and assertions.
+
+This revision changes only permitted negative-test instrumentation, not production
+Popen module lookup/argv/keywords, worker count, public calls/outcomes, deadlines,
+resource ceilings, raw-data/ref semantics or full release scope. It does not approve
+a helper-thread solution or any future code. Different actual document review,
+then actual test source/oracle review, reached-bug red and separate corrected-code
+review remain mandatory. Preserve original64/earlier red artifacts byte-for-byte.
 
 ### One nonvalidating setup refusal before activation
 
@@ -122,3 +167,11 @@ exception above resolves that conflict without faking activation, accepting succ
 changing public calls/options/outcomes or removing any existing refusal assertion.
 Actual separate document/source review and targeted additive-case red are required
 before implementation; original FIRST63/261 and all valid reviews remain preserved.
+
+Revision3 reason: actual selected CPython constructor source audit found a child can
+exist before Popen returns; r2 fault wording required returning a completed object
+and could not represent this failed-constructor ownership path. The explicit narrow
+negative-test extension above allows real native evidence without forging process
+success or changing any production/public requirement. Earlier r2 setup-refusal
+exception and all original assertions/reviews remain intact. This proposed revision
+requires different actual review BEFORE new constructor tests are approved/run.
