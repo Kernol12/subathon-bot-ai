@@ -84,8 +84,8 @@ strict single desktopBearer and truthful failure/import obligations. These are
 proposals, not approved choices. Selected Drogon parsed maps lose duplicate headers/
 cookies and source trace-logs cookie values; actual raw-multiplicity ingress and
 secret-log suppression must be explicit later implementation/test gates. No supported
-framework behavior follows from source inspection. After normal001 integration root
-may claim002 from actualmain and assign content with a DIFFERENT actual reviewer.
+framework behavior follows from source inspection. Supplier001 is already integrated; preserve actual002 claimdf1 and continue
+its assigned author/reviewer work rather than creating a duplicate claim.
 
 Next concrete actions: review actual milestone completion metadata; publish
 finalhead on existingPR73, observe all latest CI/currentrules/threads, then normalmerge.

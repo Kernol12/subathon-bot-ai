@@ -31,8 +31,9 @@ latestpublicationCI/currentrules/normalmerge remain, no integration claim.
 
 Root owns shared build/CI/pins/state/map/HTML/headers/integration; author owns only
 source/authornote, reviewer owns only code-review note. Synthetic fixtures only.
-Preserved all existing branches/worktrees; parallel session supplier document PR72
-must integrate without overwriting this task's active row/evidence.
+Preserved all existing branches/worktrees; session supplier document PR72 merged normally as0605948 and was integrated
+without overwriting this task's row/evidence. Parallel transport002 claimdf1 remains
+on its isolated branch and must be preserved on later integration.
 
 MILE-01 and NUM-04 stay partial. Authoritative score/history/revisions/current access,
 application atomicity and actual milestone jobs/actions/manual/reset/edit/refund
