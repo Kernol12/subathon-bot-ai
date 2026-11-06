@@ -93,3 +93,12 @@ foreach(suite IN ITEMS native_binding_acceptance native_loader_cleanup_regressio
     set_tests_properties(schema-native.${suite} PROPERTIES
         LABELS "schema-public-behavior;acceptance" TIMEOUT 180)
 endforeach()
+
+# Independently reviewed reached-bug regression; now passing with active-work classification.
+add_test(NAME schema-native.native_normalization_close_regression
+    COMMAND /usr/bin/env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+        "${Python3_EXECUTABLE}" -I -B
+        "${CMAKE_CURRENT_SOURCE_DIR}/native_normalization_close_regression.py"
+        --artifact "$<TARGET_FILE:subathon_schema_fault_v1>")
+set_tests_properties(schema-native.native_normalization_close_regression PROPERTIES
+    LABELS "schema-native-behavior;acceptance" TIMEOUT 40)

@@ -233,6 +233,7 @@ jobs:
           expected = {'schema-native.owner-' + row for row in rows}
           expected.add('schema-native.transport-acceptance')
           suites = {'native_binding_acceptance': 9, 'native_loader_cleanup_regression': 1,
+                    'native_normalization_close_regression': 1,
                     'wrapper_acceptance': 64,
                     'parent_cleanup_regression': 2, 'worker_context_regression': 3,
                     'worker_lexical_regression': 3, 'parent_spawn_regression': 2}
@@ -246,13 +247,13 @@ jobs:
           data = json.loads(subprocess.check_output([ctest, '--preset', 'schema-transport-debug',
               '-L', '^schema-(native|public)-behavior$', '--show-only=json-v1'], text=True,
               env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'}))
-          if len(data['tests']) != 65 or {item['name'] for item in data['tests']} != expected:
-              raise SystemExit('Native/public closed65-program inventory differs')
+          if len(data['tests']) != 66 or {item['name'] for item in data['tests']} != expected:
+              raise SystemExit('Native/public closed66-program inventory differs')
           for item in data['tests']:
               properties = {entry['name']: entry['value'] for entry in item['properties']}
               if properties.get('DISABLED') or properties.get('WILL_FAIL'):
                   raise SystemExit('Acceptance disabled or failure-inverted')
-          print('Native12 +57freshrows +binding9 +public74 +loader-cleanup1 registered unconditionally')
+          print('Native12 +57freshrows +normalization1 +binding9 +public74 +loader-cleanup1 registered unconditionally')
           PYTHON
       - name: Execute all reviewed native and public acceptance unconditionally
         run: |

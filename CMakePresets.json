@@ -245,7 +245,7 @@
     },
     {
       "name": "schema-transport-debug",
-      "displayName": "29 \u00b7 Schema native process baseline (contains intentional red)",
+      "displayName": "29 \u00b7 Schema native transport and acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_SCHEMA_TRANSPORT": "ON"
