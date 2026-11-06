@@ -2,19 +2,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Bounded public parent for the isolated offline schema-package worker.
 
-The parent admits caller/control strings and owns one child's pipes and lifetime.
-Package snapshots, exact JSON and standards-library work belong to the worker.
+Python admits bounded paths and calls one native owner before decoding its result.
+All child/pipe/configuration ownership ends inside C; package work stays in the worker.
 """
 from enum import Enum
-import errno
 import os
 import re
-import select
 import stat
-import subprocess
 import sys
-import threading
-import time
 from types import MappingProxyType
 
 
@@ -49,19 +44,97 @@ class SchemaValidationNotImplemented(RuntimeError):
 
 
 class SchemaNativeBindingNotImplemented(RuntimeError):
-    """Explicit Python-binding baseline; never an observation of native31."""
+    """Retained binding-baseline declaration; implemented calls do not raise it."""
 
     def __init__(self):
         super().__init__("Native schema binding is intentionally unimplemented")
 
 
-# Declaration-only surfaces: no native loading, mapping or public routing yet.
 def _load_native_transport():
-    raise SchemaNativeBindingNotImplemented()
+    """Admit only the fixed trusted ELF, then configure its genuine builtin ABI."""
+    try:
+        if (sys.platform != "linux" or sys.byteorder != "little"
+                or os.uname().machine != "x86_64" or not _bounded_path(__file__)):
+            return None
+        import ctypes
+        if (ctypes.sizeof(ctypes.c_ubyte), ctypes.sizeof(ctypes.c_int),
+                ctypes.sizeof(ctypes.c_uint), ctypes.sizeof(ctypes.c_void_p)) != (1, 4, 4, 8):
+            return None
+        root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        artifact = os.path.join(root, "build", "schema-transport-debug", "lib",
+                                "libsubathon_schema_transport_v1.so")
+        if not _bounded_path(artifact, absolute=True):
+            return None
+        expected = os.stat(artifact, follow_symlinks=False)
+        if not stat.S_ISREG(expected.st_mode) or expected.st_size < 64:
+            return None
+
+        def identity(value):
+            return (value.st_dev, value.st_ino, value.st_mode, value.st_size,
+                    value.st_mtime_ns, value.st_ctime_ns)
+
+        # FileIO owns the native handle before Python can observe a numeric FD.
+        # No raw os.open result/publication or file handle crosses the C call.
+        stable, header = False, b""
+        source = open(artifact, "rb", buffering=0)
+        try:
+            before = os.fstat(source.fileno())
+            if identity(before) == identity(expected):
+                header = source.read(64)
+                after = os.fstat(source.fileno())
+                stable = identity(before) == identity(after)
+        except BaseException:
+            try:
+                source.close()
+            except BaseException:
+                pass  # Preserve the original interruption/allocation exception.
+            raise
+        else:
+            source.close()
+        if (not stable or len(header) != 64 or header[:7] != b"\x7fELF\x02\x01\x01"
+                or header[7] not in (0, 3)
+                or header[16:24] != b"\x03\x00\x3e\x00\x01\x00\x00\x00"
+                or header[52:54] != b"\x40\x00"):
+            return None
+        # The path remains a trusted reviewed build; this is not authentication
+        # against an administrator replacing it between header read and dlopen.
+        library = ctypes.CDLL(artifact, mode=os.RTLD_NOW | os.RTLD_LOCAL)
+        entry = library.subathon_schema_transport_v1
+        entry.argtypes = [ctypes.POINTER(ctypes.c_ubyte), ctypes.c_uint] * 4
+        entry.restype = ctypes.c_int
+        return entry
+    except (OSError, ImportError, AttributeError, ValueError):
+        return None
+
+
+_NATIVE_OUTCOMES = (
+    SchemaValidationOutcome.ok,
+    SchemaValidationOutcome.validation_unavailable,  # Native1 is reserved to CLI.
+    SchemaValidationOutcome.invalid_path,
+    SchemaValidationOutcome.io_unavailable,
+    SchemaValidationOutcome.environment_unavailable,
+    SchemaValidationOutcome.resource_limit,
+    SchemaValidationOutcome.invalid_json,
+    SchemaValidationOutcome.invalid_manifest,
+    SchemaValidationOutcome.unsupported_dialect,
+    SchemaValidationOutcome.unsupported_format,
+    SchemaValidationOutcome.dependency_unavailable,
+    SchemaValidationOutcome.invalid_schema,
+    SchemaValidationOutcome.unresolved_reference,
+    SchemaValidationOutcome.reference_cycle,
+    SchemaValidationOutcome.invalid_inventory,
+    SchemaValidationOutcome.unsupported_feature,
+    SchemaValidationOutcome.invalid_instance,
+    SchemaValidationOutcome.validation_unavailable,
+)
 
 
 def _decode_native_result(result: int) -> SchemaValidationOutcome:
-    raise SchemaNativeBindingNotImplemented()
+    """Decode only after native quiescence; integer18 never invents a signal."""
+    if type(result) is int and 0 <= result < len(_NATIVE_OUTCOMES):
+        return _NATIVE_OUTCOMES[result]
+    # Includes interrupted18, forbidden completed-native31 and unknown integers.
+    return SchemaValidationOutcome.validation_unavailable
 
 
 _EXIT_STATUS = MappingProxyType({
@@ -74,147 +147,10 @@ _EXIT_STATUS = MappingProxyType({
                                SchemaValidationOutcome.validation_unavailable) else 2)
     for outcome in SchemaValidationOutcome
 })
-_WORKER_LINES = MappingProxyType({
-    ('{"code":"' + outcome.value + '"}\n').encode("ascii"): outcome
-    for outcome in SchemaValidationOutcome
-    if outcome is not SchemaValidationOutcome.usage_error
-})
 _SYSCONFIG_OVERRIDES = (
     "_PYTHON_SYSCONFIGDATA_NAME", "_PYTHON_SYSCONFIGDATA_PATH", "_PYTHON_PROJECT_BASE"
 )
 _URI_SCHEME = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
-_CHILD_ENVIRONMENT = MappingProxyType({
-    "PATH": "/usr/bin:/bin", "LC_ALL": "C.UTF-8", "LANG": "C.UTF-8"
-})
-# Identity metadata only: construction ALWAYS uses the module attribute below.
-_NATIVE_PROCESS_TYPE = subprocess.Popen
-_NATIVE_PROCESS_INIT_CODE = subprocess.Popen.__init__.__code__
-
-
-class _Deadline(Exception):
-    pass
-
-
-class _ProtocolFailure(Exception):
-    pass
-
-
-class _SpawnUnavailable(Exception):
-    pass
-
-
-class _OwnedSpawn:
-    __slots__ = ("process", "failure", "cancelled", "stop", "thread", "deadline",
-                 "entered", "started", "finished")
-
-    def __init__(self):
-        self.process = self.failure = self.cancelled = self.thread = self.deadline = None
-        self.stop = False
-        self.entered = self.started = False
-        self.finished = threading.Event()
-
-
-def _failed_constructor_process(failure):
-    """Recover ONLY an actual, published-PID native constructor object.
-
-    The dedicated GIL-enabled CPython profile supplies this exact init code/type.
-    Inspect at most32 control frames and materialize locals for only that frame.
-    An unpublished native PID is a separate unresolved platform ownership gate.
-    """
-    traceback = failure.__traceback__
-    for _ in range(32):
-        if traceback is None:
-            break
-        frame = traceback.tb_frame
-        if frame.f_code is _NATIVE_PROCESS_INIT_CODE:
-            candidate = frame.f_locals.get("self")
-            if type(candidate) is _NATIVE_PROCESS_TYPE:
-                pid = object.__getattribute__(candidate, "__dict__").get("pid")
-                if type(pid) is int and pid > 0:
-                    return candidate
-        traceback = traceback.tb_next
-    return None
-
-
-def _join_spawn(owner):
-    """Use explicit completion, not an interrupted Thread.join liveness result."""
-    while owner.thread is not None and (owner.started or owner.entered):
-        try:
-            if owner.finished.wait():
-                break
-        except BaseException as interruption:
-            owner.stop = True
-            if isinstance(interruption, Exception):
-                if owner.failure is None:
-                    owner.failure = interruption
-            elif owner.cancelled is None:
-                owner.cancelled = interruption
-    if owner.thread is not None and owner.finished.is_set():
-        while True:
-            try:
-                owner.thread.join()
-                break
-            except BaseException as interruption:
-                owner.stop = True
-                if isinstance(interruption, Exception):
-                    if owner.failure is None:
-                        owner.failure = interruption
-                elif owner.cancelled is None:
-                    owner.cancelled = interruption
-
-
-def _start_spawn(owner, argv, write_descriptors):
-    """Keep main-thread signals out of construction and handle publication."""
-    def launch():
-        owner.entered = True
-        try:
-            if owner.stop:
-                return
-            owner.deadline = time.monotonic() + 10.0
-            owner.process = subprocess.Popen(
-                argv, shell=False, close_fds=True, stdin=subprocess.DEVNULL,
-                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                pass_fds=write_descriptors, env=dict(_CHILD_ENVIRONMENT))
-        except BaseException as failure:
-            try:
-                owner.process = _failed_constructor_process(failure)
-            except BaseException as recovery_failure:
-                if owner.failure is None:
-                    owner.failure = recovery_failure
-                recovery_failure.__traceback__ = None
-            finally:
-                if isinstance(failure, Exception):
-                    if owner.failure is None:
-                        owner.failure = failure
-                elif owner.cancelled is None:
-                    owner.cancelled = failure
-                # Keep no native exception frame/object graph after recovery.
-                failure.__traceback__ = None
-        finally:
-            owner.finished.set()
-
-    owner.thread = threading.Thread(target=launch, name="schema-worker-spawn", daemon=False)
-    try:
-        owner.thread.start()
-        owner.started = True
-    except BaseException as failure:
-        # If a native thread starts after caller interruption, this prepublished
-        # flag prevents it from starting a child. A running thread is joined.
-        owner.stop = True
-        if isinstance(failure, RuntimeError):
-            owner.failure = _SpawnUnavailable()
-        elif isinstance(failure, Exception):
-            owner.failure = failure
-        elif owner.cancelled is None:
-            owner.cancelled = failure
-    _join_spawn(owner)
-    if owner.cancelled is not None:
-        raise owner.cancelled
-    if owner.failure is not None:
-        if isinstance(owner.failure, (MemoryError, OSError, ValueError, AttributeError, _SpawnUnavailable)):
-            raise owner.failure
-        raise _ProtocolFailure() from None
-    return owner.process, owner.deadline
 
 
 def _bounded_path(value, absolute=False):
@@ -227,22 +163,6 @@ def _bounded_path(value, absolute=False):
     except UnicodeEncodeError:
         return False
     return not absolute or os.path.isabs(value)
-
-
-def _regular_venv_config(path):
-    """Own one bounded trusted configuration handle; never parse package bytes."""
-    descriptor = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
-    try:
-        before = os.fstat(descriptor)
-        if not stat.S_ISREG(before.st_mode) or before.st_size > 4096:
-            return False
-        raw = os.read(descriptor, 4097)
-        after = os.fstat(descriptor)
-        identity = lambda entry: (entry.st_dev, entry.st_ino, entry.st_mode,
-                                  entry.st_size, entry.st_mtime_ns, entry.st_ctime_ns)
-        return len(raw) == before.st_size and len(raw) <= 4096 and identity(before) == identity(after)
-    finally:
-        os.close(descriptor)
 
 
 def _installation():
@@ -264,8 +184,7 @@ def _installation():
         executable = sys.executable
         if not _bounded_path(executable, absolute=True):
             return None
-        executable = os.path.normpath(executable)  # Preserve the venv symlink spelling.
-        binary_directory = os.path.dirname(executable)
+        binary_directory = os.path.dirname(os.path.normpath(executable))
         if os.path.basename(binary_directory) != "bin":
             return None
         if not _bounded_path(sys.prefix, absolute=True) or not _bounded_path(sys.base_prefix, absolute=True):
@@ -273,8 +192,7 @@ def _installation():
         prefix = os.path.realpath(sys.prefix)
         venv_root = os.path.realpath(os.path.dirname(binary_directory))
         if (prefix == os.path.realpath(sys.base_prefix) or prefix != venv_root
-                or not _bounded_path(prefix, absolute=True)
-                or not _regular_venv_config(os.path.join(prefix, "pyvenv.cfg"))):
+                or not _bounded_path(prefix, absolute=True)):
             return None
         paths = sysconfig.get_paths()
         purelib, platlib = paths.get("purelib"), paths.get("platlib")
@@ -292,164 +210,19 @@ def _installation():
         return None
 
 
-def _pipe(owned):
-    """The frozen os.pipe seam owns both ends, including partial setup failures."""
-    read_end, write_end = os.pipe()
-    owned.update((read_end, write_end))
-    if write_end < 3:
-        import fcntl
-        replacement = fcntl.fcntl(write_end, fcntl.F_DUPFD_CLOEXEC, 3)
-        owned.add(replacement)
-        _close(write_end, owned)
-        write_end = replacement
-    return read_end, write_end
-
-
-def _close(descriptor, owned):
-    owned.remove(descriptor)
-    os.close(descriptor)
-
-
-def _remaining(deadline):
-    remaining = deadline - time.monotonic()
-    if remaining <= 0:
-        raise _Deadline()
-    return remaining
-
-
-def _receive(process, activation, outcome, owned, deadline):
-    """Admit complete bounded channels and normal exit, never a JSON prefix."""
-    buffers = {activation: bytearray(2), outcome: bytearray(257)}
-    views = {descriptor: memoryview(buffer) for descriptor, buffer in buffers.items()}
-    lengths = {activation: 0, outcome: 0}
-    pending = {activation, outcome}
-    poller = select.poll()
-    for descriptor in pending:
-        os.set_blocking(descriptor, False)
-        poller.register(descriptor, select.POLLIN | select.POLLHUP | select.POLLERR)
-    while pending:
-        events = poller.poll(max(1, int(_remaining(deadline) * 1000)))
-        if not events:
-            _remaining(deadline)
-            continue
-        for descriptor, event in events:
-            _remaining(deadline)
-            if descriptor not in pending or event & select.POLLNVAL:
-                raise _ProtocolFailure()
-            try:
-                count = os.readv(descriptor, (views[descriptor][lengths[descriptor]:],))
-            except BlockingIOError:
-                continue
-            if not count:
-                pending.remove(descriptor)
-                poller.unregister(descriptor)
-                _close(descriptor, owned)
-                continue
-            lengths[descriptor] += count
-            _remaining(deadline)
-            if descriptor == activation and (lengths[activation] != 1 or buffers[activation][0] != 65):
-                raise _ProtocolFailure()
-            if descriptor == outcome and lengths[outcome] > 256:
-                raise _ProtocolFailure()
-    try:
-        status = process.wait(timeout=_remaining(deadline))
-    except subprocess.TimeoutExpired:
-        raise _Deadline() from None
-    _remaining(deadline)
-    received = views[outcome][:lengths[outcome]]
-    result = next((value for line, value in _WORKER_LINES.items() if received == line), None)
-    if result is None or status != _EXIT_STATUS[result]:
-        raise _ProtocolFailure()
-    if lengths[activation] != 1 and not (lengths[activation] == 0 and result is SchemaValidationOutcome.environment_unavailable):
-        raise _ProtocolFailure()
-    return result
-
-
-def _worker_result(path, installation):
-    """One owner closes every descriptor and reaps on return or cancellation."""
-    owned = set()
-    process = None
-    spawn_owner = None
-    result = SchemaValidationOutcome.validation_unavailable
-    cleanup_ok = True
-    try:
-        spawn_owner = _OwnedSpawn()
-        activation_read, activation_write = _pipe(owned)
-        outcome_read, outcome_write = _pipe(owned)
-        executable, worker, sdk = installation
-        argv = [executable, "-I", "-S", worker, "--manifest", path, "--sdk-dir", sdk,
-                "--activation-fd", str(activation_write), "--outcome-fd", str(outcome_write)]
-        process, deadline = _start_spawn(spawn_owner, argv, (activation_write, outcome_write))
-        _close(activation_write, owned)
-        _close(outcome_write, owned)
-        result = _receive(process, activation_read, outcome_read, owned, deadline)
-    except _Deadline:
-        result = SchemaValidationOutcome.resource_limit
-    except MemoryError:
-        result = SchemaValidationOutcome.resource_limit
-    except _ProtocolFailure:
-        result = SchemaValidationOutcome.validation_unavailable
-    except _SpawnUnavailable:
-        result = SchemaValidationOutcome.environment_unavailable
-    except OSError as error:
-        if error.errno == errno.ENOMEM:
-            result = SchemaValidationOutcome.resource_limit
-        elif error.errno in (errno.ENOSYS, errno.ENOTSUP):
-            result = SchemaValidationOutcome.environment_unavailable
-        else:
-            result = SchemaValidationOutcome.validation_unavailable
-    except (ValueError, AttributeError):
-        result = SchemaValidationOutcome.validation_unavailable
-    finally:
-        original_failure = sys.exc_info()[1]
-        deferred = None
-        if spawn_owner is not None:
-            spawn_owner.stop = True
-            _join_spawn(spawn_owner)
-            process = spawn_owner.process
-            if original_failure is None:
-                deferred = spawn_owner.cancelled
-        try:
-            while owned:
-                try:
-                    descriptor = next(iter(owned))
-                    _close(descriptor, owned)
-                except OSError:
-                    cleanup_ok = False
-                except BaseException as interruption:
-                    if deferred is None:
-                        deferred = interruption
-        finally:
-            if process is not None:
-                while process.returncode is None:
-                    try:
-                        process.kill()
-                        break
-                    except ProcessLookupError:
-                        break
-                    except OSError:
-                        cleanup_ok = False
-                        break
-                    except BaseException as interruption:
-                        if deferred is None:
-                            deferred = interruption
-                while True:
-                    try:
-                        process.wait()
-                        break
-                    except (OSError, subprocess.SubprocessError):
-                        cleanup_ok = False
-                        break
-                    except BaseException as interruption:
-                        if deferred is None:
-                            deferred = interruption
-        if spawn_owner is not None:
-            if spawn_owner.failure is not None:
-                spawn_owner.failure.__traceback__ = None
-            spawn_owner.failure = spawn_owner.cancelled = spawn_owner.process = spawn_owner.thread = None
-        if deferred is not None and original_failure is None:
-            raise deferred
-    return result if cleanup_ok else SchemaValidationOutcome.validation_unavailable
+def _worker_result(manifest, installation, entry):
+    """Prepare private immutable inputs, call C once, then decode after cleanup."""
+    import ctypes
+    paths = (manifest, *installation)
+    payloads = tuple(value.encode("utf-8") for value in paths)
+    buffers = tuple(value + b"\0" for value in payloads)
+    pointer = ctypes.POINTER(ctypes.c_ubyte)
+    pointers = tuple(ctypes.cast(ctypes.c_char_p(value), pointer) for value in buffers)
+    arguments = (pointers[0], len(payloads[0]), pointers[1], len(payloads[1]),
+                 pointers[2], len(payloads[2]), pointers[3], len(payloads[3]))
+    # The immutable bytes/pointer tuples remain live until the one call returns.
+    result = entry(*arguments)
+    return _decode_native_result(result)
 
 
 def validate_package(manifest_path: str) -> SchemaValidationOutcome:
@@ -460,7 +233,10 @@ def validate_package(manifest_path: str) -> SchemaValidationOutcome:
         installation = _installation()
         if installation is None:
             return SchemaValidationOutcome.environment_unavailable
-        return _worker_result(manifest_path, installation)
+        entry = _load_native_transport()
+        if entry is None:
+            return SchemaValidationOutcome.environment_unavailable
+        return _worker_result(manifest_path, installation, entry)
     except MemoryError:
         return SchemaValidationOutcome.resource_limit
 
