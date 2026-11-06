@@ -318,7 +318,7 @@ class FaultSession:
             writers.append(writer)
             case.assertIn(writer, (0, 1, 2)); case.assertEqual(index, counts[writer]); counts[writer] += 1
             case.assertIn(kind, tuple(range(1, 11))); case.assertNotEqual(kind, 9)
-            case.assertTrue(encoded == 0 or 2 <= encoded <= 39)
+            case.assertTrue(encoded == 0 or 2 <= encoded <= 39 or encoded in (40, 41))
             case.assertGreater(timestamp, 0)
             case.assertEqual(error, -result if kind == 2 and -4095 <= result < 0
                              else 0 if kind == 2 and result >= 0 else -1)

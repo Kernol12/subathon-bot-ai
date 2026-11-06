@@ -148,7 +148,7 @@ class [[gnu::visibility("hidden")]] FaultOps {
         if (base == PhaseBase::config_read || base == PhaseBase::protocol_read)
             return call == KernelCall::read;
         if (base == PhaseBase::config_close || base == PhaseBase::parent_write_close ||
-            base == PhaseBase::pidfd_close)
+            base == PhaseBase::pidfd_close || base == PhaseBase::normalization_close)
             return call == KernelCall::close;
         if (base == PhaseBase::activation_pipe || base == PhaseBase::outcome_pipe)
             return call == KernelCall::pipe2;
@@ -465,7 +465,7 @@ class [[gnu::visibility("hidden")]] FaultOps {
         const unsigned base = static_cast<unsigned>(phase.base);
         const unsigned edge = static_cast<unsigned>(phase.edge);
         const unsigned encoded = 2 * base + edge;
-        if (base < 1 || base > 19 || edge > 1 || before_pending_ || deferred_failure_ ||
+        if (base < 1 || base > 20 || edge > 1 || before_pending_ || deferred_failure_ ||
             (!child_ && (adopt_pending_ || release_pending_))) {
             fail();
             return Continuation::transport_refusal;

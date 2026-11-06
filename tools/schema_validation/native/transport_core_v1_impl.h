@@ -219,15 +219,16 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
         ops_.observe(
             {ObservationKind::adopt, phase_, descriptors_[slot], pid_, descriptors_[slot]});
     }
-    [[gnu::no_stack_protector]] void close_bare(Slot slot) noexcept {
+    [[gnu::no_stack_protector]] RawResult close_bare(Slot slot, bool work = false) noexcept {
         if (descriptors_[slot] < 0)
-            return;
+            return -EBADF; // No operation or journal event for an unowned cleanup slot.
         const int descriptor = descriptors_[slot];
         const auto result = ops_.template syscall<KernelCall::close>(word(descriptor));
         descriptors_[slot] = -1; // Actual Linux close precedes slot invalidation; NO retry.
         ops_.observe({ObservationKind::release, phase_, descriptor, pid_, result});
         if (result != 0)
-            syscall_failure(result, validation_unavailable, false);
+            syscall_failure(result, validation_unavailable, work);
+        return result;
     }
     [[gnu::no_stack_protector]] bool close_work(Slot slot, PhaseBase base) noexcept {
         if (!checkpoint(base, PhaseEdge::before, -1))
@@ -407,7 +408,11 @@ template <TransportOps Ops> class [[gnu::visibility("hidden")]] Owner {
             adopted(temporary);
             if (!checkpoint(PhaseBase::source_duplicate, PhaseEdge::after, duplicate))
                 return false;
-            close_bare(static_cast<Slot>(index));
+            // Revision3 exposes this REAL original-close boundary. Preserve the
+            // confirmed work=false bug until the reviewed regression reaches red.
+            checkpoint(PhaseBase::normalization_close, PhaseEdge::before, -1, false);
+            const auto closed = close_bare(static_cast<Slot>(index), false);
+            checkpoint(PhaseBase::normalization_close, PhaseEdge::after, closed, false);
             descriptors_[index] = descriptors_[temporary];
             descriptors_[temporary] = -1; // Move one owned identity, not another acquisition.
             if (decision_ >= 0)

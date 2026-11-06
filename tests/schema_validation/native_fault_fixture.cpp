@@ -68,7 +68,7 @@ constexpr ErrnoPlan selected_errors[] = {
     {16, EAGAIN}, {16, EPERM},  {4, EINTR},   {7, EINTR},   {9, ENOMEM},  {11, ENOMEM},
     {13, ENOMEM}, {15, ENOMEM}, {17, EINTR},  {19, EIO},    {20, EPERM},  {22, ENOSYS},
     {24, ENOSYS}, {26, EACCES}, {28, EIO},    {29, EINTR},  {30, EIO},    {31, EINTR},
-    {32, EIO},    {32, EINTR},  {34, EINTR},  {35, EIO},    {37, EIO},
+    {32, EIO},    {32, EINTR},  {34, EINTR},  {35, EIO},    {37, EIO},    {41, EINTR},
 };
 
 template <class T> [[gnu::no_stack_protector]] T load(const T *value) noexcept {
@@ -99,7 +99,7 @@ template <class T> [[gnu::no_stack_protector]] void store(T *value, T next) noex
 [[gnu::no_stack_protector]] unsigned encoded(Phase phase) noexcept {
     const unsigned base = static_cast<unsigned>(phase.base);
     const unsigned edge = static_cast<unsigned>(phase.edge);
-    return base >= 1 && base <= 19 && edge <= 1 ? 2U * base + edge : 0;
+    return base >= 1 && base <= 20 && edge <= 1 ? 2U * base + edge : 0;
 }
 [[gnu::no_stack_protector]] bool append(Shared *value, Writer writer, ObservationKind kind,
                                         unsigned phase, std::int64_t descriptor, std::int64_t pid,

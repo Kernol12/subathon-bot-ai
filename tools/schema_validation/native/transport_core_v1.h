@@ -72,7 +72,8 @@ enum class PhaseBase : unsigned int {
     wait_reap = 16,
     pidfd_kill = 17,
     pidfd_close = 18,
-    final_commit = 19
+    final_commit = 19,
+    normalization_close = 20
 };
 
 enum class PhaseEdge : unsigned int { before = 0, after = 1 };
