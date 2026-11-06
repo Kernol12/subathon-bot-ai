@@ -34,16 +34,16 @@ cb0a2a0/corrected navigationeb98c18 preserved. Integrated fetched main via
 `40c33ad7b8f9770c92cd1ed4c33f6ffa29d0a8d6`; resolved only progress JSON/generated
 HTML conflicts using latest main plus the six scoped session task rows and additive
 activity. Completed STORAGE018, other task owners/statuses/reviews/evidence and all
-old422 IDs/1619 edges remain; split gives423 records/1624 edges. Document001 is
-in_progress; transport002 is planned and requires integrated001. CONTRACT013,
+old422 IDs/1619 edges remain; split gives423 records/1624 edges. Document001 component is done after actual separate review; transport002 is planned and requires integrated001. CONTRACT013,
 SESSIONTEST002/003 and EPIC007 require BOTH documents. No runtime gate is waived.
 
 Fresh roles (historical agent IDs are not reused):
 
 - `session_supplier_author`: owns only `docs/contracts/session-resolution-v1.md`
   and `docs/evidence/sessioncontract-001-author.md`, on a new isolated worktree from
-  40c33ad. Actual authored e03c11f imported310ba3e; two precision findings from
-  the separate reviewer are being corrected. Worktree
+  40c33ad. Actual authored e03c11f/import310ba3e and correctionc7e6e68/import14228ec
+  approved46f1ad2/importfdab76b. Author assignment complete; reassigned as
+  different milestone code reviewer below. Worktree
   `/tmp/subathon-sessioncontract001-resumed-author`, branch
   `task/SESSIONCONTRACT-001-resumed-document-author`. No production,
   schema, interface/stub, test or live credential behavior authorized by this task.
@@ -54,8 +54,8 @@ Fresh roles (historical agent IDs are not reused):
   Reassigned subsequently as milestone implementation author below.
 - `session_supplier_review`: read-only specification/import preparation, then actual
   author revision review on a new isolated branch; owns only
-  `docs/evidence/sessioncontract-001-review.md`. No final contract approval yet; actual e03c11f source/clock/lifecycle and literal
-  oracles reviewed, two precision corrections pending.
+  `docs/evidence/sessioncontract-001-review.md`. Actual correctedc7/c5f5a6e supplier document approved46f1ad2/importfdab76b;
+  [review](sessioncontract-001-review.md). Final completion metadata review pending.
 - Root owns state/HTML, task briefs/navigation, shared imports/build/CI/pins/schema,
   integration/checkpoint and GitHub publication/merge. Root does not self-approve
   authored supplier behavior or the planning split.
@@ -77,10 +77,14 @@ Fresh implementation role `milestone_author` is canonical agent
 `session_plan_review`, NEW `/tmp/subathon-milestone001-author`, isolated branch
 from420d484. Owns only core/src/milestone_progression.cpp, narrowly justified
 privatehelper and own author note. Root retains all shared files and frozen test
-assertions; separate code reviewer not yet assigned. Scope is pure progression
+assertions; separate code reviewer is canonical `session_supplier_author` (different from
+source author). Owns only milestone-001-code-review.md in NEW isolated reviewtree. Scope is pure progression
 proposal/resource accounting, no authoritative score/store/actions/UI integration.
 Root selected Boost1.83/C++20 configure and inert build pass without compiler
-warnings; discovery90 includes unchanged53. No feature body ran in this root build.
+warnings; discovery90 includes unchanged53. After author a5d18ae/importc2305dd implements source d79b77ca, root full90 PASS
+0.68s and author53/full90 PASS0.10/0.72s, no failures/skips/warnings. Ordinary CI
+promotion is authored and root promoted full90PASS; different source/config
+review and actual selected CI remain. HistoricalFIRSTred never replayed.
 After implementation: targeted53/full90 passes, different actual source/config
 review, ordinary unconditional selected CI promotion, finalmetadata/latestchecks/
 normalmerge still required. This separate branch snapshot has only its own claim;
@@ -89,7 +93,9 @@ when integrating sessionmain changes preserve the actual milestone task row.
 ## Checks, next action and remaining gates
 
 [Draft PR72](https://github.com/Kernol12/subathon-bot-ai/pull/72) carries supplier
-work, exact310ba3e published; current-head CI is running. Root
+work; exact310ba3e published had16SUCCESS and one pending selectedQt at last
+observation. Actual final completion candidate705ced0 is local, pending final
+metadata review/publication/current-headCI. Do not use older greenchecks for a newhead. Root
 `python3 -m unittest discover -s tests/tooling -v`:19PASS;
 `node tools/check_progress_ui.mjs`:PASS DOM simulation; `git diff --check`:PASS.
 No actual browser/OBS execution inferred. Root `python3 tools/progress.py render`, `python3 tools/check_project.py`,
@@ -98,11 +104,11 @@ No native behavior changed or FIRST red rerun. Document consistency/stable compo
 CI remains appropriate; assess again for actual authored content. No new executable
 suite currently exists to promote or new required-check configuration to request.
 
-Next: receive bounded supplier document/literal
-oracles/primary-source evidence, obtain DIFFERENT actual contract review and resolve
-findings. Run appropriate documentation/tooling checks, update task evidence/status,
-open focused draft PR and observe latest-revision CI/current rules/reviews/threads
-before normal merge. Only integrated001 releases document002; later session baselines
+Next: obtain actual completion metadata review of supplier001; publish final
+reviewed candidate on existing draftPR72, observe latest-revision CI/current
+rules/reviews/threads, then normalmerge. Supplierdocument/handoff/reviews now
+complete; no runtime behavior supplied. Continue actual milestone source/config
+review and ordinary selectedCI on its separate task branch. Only integrated001 releases document002; later session baselines
 retain separate actual API/test-review/intended-red/implementation gates.
 
 No session/account/clock producer, authentication transport, permission execution,
