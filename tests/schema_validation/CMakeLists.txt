@@ -31,15 +31,19 @@ target_compile_options(schema_transport_native_foundation_child PRIVATE -fno-exc
 target_link_options(schema_transport_native_foundation_child PRIVATE "LINKER:-z,now")
 
 add_executable(schema_transport_native_foundation
-    native_foundation.cpp native_fault_foundation.cpp native_fault_fixture.cpp)
+    native_foundation.cpp native_fault_foundation.cpp native_fault_fixture.cpp
+    native_fault_child_foundation.cpp)
 target_link_libraries(schema_transport_native_foundation PRIVATE
     subathon_schema_transport_v1 GTest::gtest_main Threads::Threads ${CMAKE_DL_LIBS})
 target_compile_definitions(schema_transport_native_foundation PRIVATE
-    SUBATHON_NATIVE_FOUNDATION_CHILD_PATH="$<TARGET_FILE:schema_transport_native_foundation_child>")
-add_dependencies(schema_transport_native_foundation schema_transport_native_foundation_child)
+    SUBATHON_NATIVE_FOUNDATION_CHILD_PATH="$<TARGET_FILE:schema_transport_native_foundation_child>"
+    SUBATHON_NATIVE_FAULT_CHILD_PATH="$<TARGET_FILE:schema_transport_native_fault_child>")
+add_dependencies(schema_transport_native_foundation
+    schema_transport_native_foundation_child schema_transport_native_fault_child)
 subathon_target_options(schema_transport_native_foundation)
 gtest_discover_tests(schema_transport_native_foundation
     DISCOVERY_MODE PRE_TEST
+    NO_PRETTY_VALUES
     TEST_PREFIX "schema-native-foundation."
     PROPERTIES LABELS "schema-native-foundation;foundation" TIMEOUT 30)
 
