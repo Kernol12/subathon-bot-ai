@@ -169,3 +169,77 @@ all first-red artifacts/reviews remain historical evidence, not native approval.
 
 Only this review note is owned/changed. Root retains integration, shared metadata,
 CI publication, actual runtime release and final PR77 merge/stop responsibilities.
+
+## Actual cleanup correction and generated stack-protector finding
+
+I independently reviewed A's actual correction
+`264c522fad3067aa95c2d42f8338d0e749909601` from `29902d4`, on a fresh isolated
+review branch. Its only authored changes are foundation .cpp
+`83c2255edc7281be46032486e14a73088c55afd8` and author note
+`2e59eeb30a2aa7f633ab0488361d8698b8c82537`. **The two cleanup source findings
+above are resolved for these actual fixture paths.** Configure/build/static
+inspection permission remains; runtime and workflow publication remain withheld
+pending the generated-code and source gates below.
+
+Both raw wait helpers retry EINTR. `cleanup_child` retains the known successful
+identity through real signal/wait, and returns only after actual native-PID
+terminal consume, or pinned exit readiness plus a fresh birth-thread ECHILD under
+the checked default/no-auto-reap SIGCHLD profile. The saved native PID fallback is
+a wait, never a signal; this still-live birth thread makes no other birth or
+reparenting, and __WNOTHREAD prevents claiming another thread's reused-PID child.
+Unexpected failures cannot become a normal unproved child-gone return. The
+nonreturning raw119 fixture failure is nonzero, not a cleanup or success
+certificate. The foreign reaper retries interruption and records a nonmatching
+consume as failure before allowing birth-thread disposal.
+
+The writable short-size control now adopts/closes its pidfd only on a real
+positive successful clone return. Negative returns still never adopt the cell.
+An impossible positive PROT_NONE result reaps its actual child, then raw-exits121
+rather than reading inaccessible output or guessing an FD. Missing successful
+output/failed known-FD release are likewise fatal fixture errors, not passing
+inventory observations. `fallback=true` still fails the original test. Explicit
+braces preserve the inventory comparison and remove the reported dangling-else
+macro ambiguity. No new product requirement or fixture weakening is involved.
+
+I checked all **89 EXPECT invocations** against the original packet with an
+independent balanced-parenthesis/string-aware source extractor: exact order and
+arguments are preserved. All six TEST names/order, the three ancillary source
+files and two loader registrations are unchanged. Python3.10 AST/compile without
+exec, `clang-format --dry-run --Werror` on the changed .cpp, project426/122,
+render--check and diff--check pass. No correction compilation or execution was
+performed by me.
+
+Root reported a permitted old-299 compile using GNU16.2.1, CPython3.14.9 and actual
+system GoogleTest1.18.0: 12 build steps, exit0, one dangling-else warning corrected
+by this revision. That is not a build receipt for the new source. I independently
+used `objdump -dC` only on those existing ELF files, without executing/loading
+either. Old foundation executable SHA256
+`5905cd3241dbc8a9f301da01b1ce4a4c8a07db1ff5fd4517bf74ebc10b3db06a`
+contains `%fs:0x28` canary access/check and `__stack_chk_fail@plt` in
+`schema_foundation::observe`. Old reporter SHA256
+`5615377668e308cfbde4029ef51752c5d25371702a2803b0c47fe065ecf43a70`
+contains canary TLS access in main/observe and the external failure call in
+observe. Thus raw-only generated paths are presently **not** established even
+though the source uses no explicit runtime helper.
+
+The narrow correction is a function-local `no_stack_protector` attribute on the
+already bounded raw child helper/entry call graph and the fixed reporter's
+main/literal/descriptor helpers where needed. [GCC documents the function-local
+attribute](https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html), and
+[Clang documents the same supported behavior](https://clang.llvm.org/docs/AttributeReference.html#no-stack-protector-safebuffers).
+These functions use fixed arrays/reports, bounded decimal/literal parsing and
+raw syscall results; their bounds still need source review. Removing one generated
+helper does not prove absence of all compiler instrumentation. This route honors
+the frozen raw-only path more directly than claiming the external failure branch
+unreachable or permitting an extra PLT call.
+
+This assessment releases **annotation source authoring only** for those bounded
+functions, with a written rationale and exact different source review before
+compilation. Keep parent GoogleTest/probe/disposal hardening; no target/global
+`-fno-stack-protector`, expanded raw graph, accepted PLT exception, altered oracle,
+ABI, public limit or normative scope relaxation is approved. The actual future
+annotation diff is not prospectively approved. A fail-closed, differently reviewed
+static checker and actual per-host generated/linked graph, TLS/indirect/external
+call inspection still precede discovery/probes and CI publication. No native
+owner, runtime facility or full test-baseline approval follows from this cleanup
+verdict or authoring release.
