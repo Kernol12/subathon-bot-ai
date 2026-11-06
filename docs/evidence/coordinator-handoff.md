@@ -1,139 +1,81 @@
 # Coordinator checkpoint — finish PR77, then stop
 
-Latest owner instruction is **cleanly finish the open PRs and then stop**. Only
-[PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is open; PR72–76 are
-merged. Do not select a new project task, create another PR, or resume the broader
-standing task-selection loop after normal merge77. No owner decision/access is needed.
-No live provider/chat/contribution/credential/deployment operation is authorized.
+The owner explicitly requested **cleanly finish the open PRs and then stop**.
+Only [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) remains open;
+72–76 merged. Do not select another task or create a bookkeeping PR. No owner
+access/decision is needed. No live provider/chat/payment/deployment operations.
 
-## Actual repository/publication
+## Repository and publication
 
-Main/origin main last observed095d192c834e8e7746a7922865bbf0e11d06f905, clean.
-Integrator `/tmp/subathon-schematool001`, branch
-`task/SCHEMATOOL-001-offline-validator`, currentlocal37f0ecd beforethischeckpoint,
-clean. Publishedhead928fb86e090e2b9c0b32fdf395c21486da74f1da is OPEN/DRAFT/CLEAN
-with21SUCCESS checks/zeroformalreviews; thosechecks describe the OLDpublished
-checkpoint, not currentimplementation. Local code/CI/evidence are unpushed.
-Ruleset26170263 requires PR/threadresolution/zeroformalapprovals and has NO
-required-statusrule. LatestCI/independentreviews/applicableacceptance remainmanual
-gates. Never bypass protection; recheckactualGH/latesthead beforemerge.
+Primary main and fetched origin/main are `095d192c834e8e7746a7922865bbf0e11d06f905`
+(last fetched after the local acceptance pass). Integrator worktree
+`/tmp/subathon-schematool001`, branch `task/SCHEMATOOL-001-offline-validator`.
+Published PR head `928fb86e090e2b9c0b32fdf395c21486da74f1da` is draft/open,
+mergeable, all21 checks passed **for the old inert checkpoint only**. Current
+implementation and evidence are unpublished. Recheck actual latest-head CI,
+reviews, threads, rules and mergeability before normal merge. Last observed
+ruleset26170263 requires PR/thread resolution, zero formal approvals, no required
+status rule; manual acceptance/independent review/latest CI remain mandatory.
 
-Existing supportworktrees/uncommittedoldwork arepreserved. Do not prune/reset them.
-No nativeprojectprocess is running; all root execsessions completed. NO NEWOWNER
-ELF has been loaded, executed, listed, bootstrapped or tested. Staticbinutils/Python
-controls and compilers only have run. Thisstatementmustbeupdatedafterruntime.
+Existing support branches/worktrees and unrelated unfinished work are preserved.
+No native project process or pending root command is running. All local check
+commands have completed. Do not prune or reset historical worktrees.
 
-## Current decisive state
+## Current task and decisive evidence
 
-SCHEMATOOL-001 remains in_progress/partial. Nativeprocess contractv1 **revision3**
-(C99documentapproval) addsONLYbase20 normalization-original-close/encoded40–41
-andONLYnegative tuple24/41/EINTR. Existing1..19/57rows/public74/binding9/caps remain.
-The source has a KNOWN DELIBERATELY PRESERVED bug: normalizationuses cleanup-only
-work=false in THREEcontexts, so active interruptiondoesnotcommit required18.
-DoNOTfixbeforethe newreviewedone-case test reaches actualintendedred.
+SCHEMATOOL-001 is in_review: local implementation/source/acceptance passed;
+current-owner hosted execution remains pending. Current private native contract
+v1 revision3 and all public18 codes/pins/caps/old57 rows remain. Full product,
+seven integrations, three FX providers and release/platform gates remain open.
 
-B75 owner/source fullaudit Cb857 (rootfa088) found onlythatblockingclassification
-defect; allothersemantic/sourceconditions wereexamined. C4ef approvesBe1hook+
-newregressionSOURCE/minimalinterface, with bugpreserved. Actualroota97/982 integrated
-6sourcepaths/newtest; old57changesONLYexplicitjournalgrammar40/41 (writtenr3reason).
-[Cactualreview](schematool-001-native-normalization-close-regression-review.md).
-The newtest is `tests/schema_validation/native_normalization_close_regression.py`,
-ONE method, realFaultSession24/41/EINTR, actualclose0/releaseACK beforeAFTER41,
-rawFD/P_ALLquiescence beforefallback, literal18 thenfullno-birth/final39oracles.
-It is NOT RUN. Itmustnotcount31/setup/poison/import/compilefailure asvalidred.
+- Original reviewed test-first baseline is integrated from PR76. Historical native
+  return31, Python binding stub and public missing-boundary red archives remain
+  valid and must not be replayed for logs.
+- Cc589 actual artifact admission imported ae97 preceded strict no-child1XML
+  bootstrap and full56 facilities PASS. New normalization test genuinely failed
+  only actual0!=18; missing --artifact argparse attempt is excluded. Archive8906
+  and [independent attribution](schematool-001-native-normalization-first-red-review.md).
+- B ece fixed only three active normalization work flags, root e4da; C555 full
+  owner approval root725. Python binding447 full source approved Cfd223; worker
+  8f full security/source approved C0e1; reviewed library pins unchanged.
+- At clean725 fresh build passed, both combined static gates passed, then strict
+  bootstrap1 and SAME normalization regression fully passed. Productionaa224:
+  71 functions/26736 bytes; faultbadf:124/27712, both<=32768. Matching compiler
+  metadata and prior refusals remain archived; no broad opcode/stack allowance.
+- FIRST current full65 semantic CTest programs passed46.50s/153 cases: native69,
+  binding9, public74, loader1, no fail/error/skip. New regression separately1.
+  [Immutable raw pass archive and commands](schematool-001-native-acceptance-pass.md),
+  fcb0860. C independent actual receipt attribution is assigned, not assumed.
+- Permanent registration2195 independently approved C25/root96eb: unconditional
+  exact66 inventory, configure and ONLY new registered CTest passed. Both native
+  hosted jobs must run static/bootstrap/facilities56/full66; both library jobs
+  run unchanged SDK14. Current source-hosted outcomes are not yet observed.
+- Final local current check_baseline (20 metadata/64 registrations), tooling19,
+  scaffold configure/build/3 tests passed. Raw `/tmp/schematool001-final-project-checks`.
+  Project consistency/render checks follow current metadata. No product-wide
+  acceptance-debug passing claim.
+- Usage guide B b238 imported ebda; root90 stable evidence/workflow links and
+  README discoverability. Different A guide review is active.
 
-## Actual static proof now GREEN; runtime admission pending
+## Agent assignments — inspect actual status on resume
 
-MatchingproductionE5579584ecab74295219ae1ca10c52424517d969b14fbca3b809c5baf57ff0b6:
-71closedfunctions/inheritedABI-to-childstack26736bytes. Matchingfault
-e1bb573d0ca3a6d771a2644838113c343b3600bd468a97edad36436483a64f76:
-124closedfunctions/inheritedstack27712bytes. BOTH<=32768 withCI/SU/mangledELF/
-sourcealiasbinding, acyclicwholecallchain+returnoverhead, strictchild/clonezero/
-rawRAX/noTLS/PLT/trap/indirect/export/eager/noCppinit checks. FD8 remainsactual
-Csource+future57rawledger, notagenericbinaryclaim. Foundationf831be2f, oldreporter
-bd3e/negativechildbc122/libc02c8 unchangedasapplicable.
+C `/root/session_plan_review` independently reviews frozen fcb0860 actual pass
+receipts and registration96eb; owns only its review note in isolated worktree.
+A `/root/session_supplier_review` independently reviews B guide and root90
+correction, owns only its review note in isolated worktree. B
+`/root/session_supplier_author` completed guide/source assignments; no active
+writing task. Root controls state/HTML/README/shared CI/build/integration.
+Do not assume any previous agent or process remains running on resumption.
 
-[Fullstaticarchive](schematool-001-native-owner-generated-pass.md), commit37f0ecd,
-contains matchingALLcurrentCI/SU and actualcombinedoldCLI commands/receipts/full
-outputs. Rootb559 oldauditorintegration approvedCf028 (roota145), then BOTHold
-staticgatesPASS0/emptyerr. EachnowrequiresitsmatchingperDSOownerproof whileALLold
-rawhelper/primitive/negativeexec/GOT/libc-prefix/defaultguardsremain. Olddefault
-8+8+5literalcontrolsPASSat1393; new5literalcontrolsPASSafterreviewedcorrections.
-CIadds5controls unconditionallyBEFOREfirstownerproof. No runtimeapproval inferred.
+## Exact next actions
 
-Controlledstaticissues/sourcecorrections retained, notsilentlyrelaxed: actual
-9canarycallerseach→scopedattrsC09; scalar48/128initializationB7a/C6a; actualowned
-pin_birth observercanaryRootd098/Ca966→singleattr; exacttwoCAScontexts via
-optionalBASEpredicateRoot363/C065(defaultNoneunchanged); correctedchild15/16
-set/boolclose_baresig; reachedPUSHcontrolbug→A0ca/rootreview; actualparentCWTL
-12sites→exactfourparentfn/emptyoperandpredicateA961; actualsigned128/RBPepilogues
-→A814/389canonicalboundedforms. ALLoldassertions preserved, no namespace/global
-LOCK/SSE/variableframe allowance. Rootfullactualchecker/controlreview is linked in
-[review](schematool-001-native-owner-audit-review.md). No genericartifactpass inferred
-frompreliminaryentry-TUcanary0: fullclosurecorrectlycaughtpin_birth andwasfixed.
-
-## Active roles — inspect actual agents on resume
-
-- C `/root/session_plan_review` has been explicitly reactivated to independently
-  inspect ACTUAL37f0ecd archive/metadata/artifactproof and release NARROWstrict
-  no-child1XMLbootstrap→ifpassupdatedfoundation56→ifpassONLYnewnormalizer1red.
-  WaitingactualCverdict; NOnewELF/runtime untilitarrives. Its source/receipt
-  reviewbranches arehistorical, notassumedrunningonresume.
-- A `/root/session_supplier_review` COMPLETED ownerauditor source revisions through
-  389aa49, tree `/tmp/subathon-schematool001-native-owner-audit-canonical-stack`.
-  Noactivewritingassignment. Reuseforboundedcode/failureworkifneeded.
-- B `/root/session_supplier_author` COMPLETED currentcore/hook/scalar source, tree
-  `/tmp/subathon-schematool001-native-scalar-zero` at7a13117. DoNOTassumerunning.
-  AFTERgenuineNEWnormalizerred explicitlyreactivateforONLY3work-contextfalse→true
-  classificationfix+note onfreshcurrenttaskrevision, thenCactualsource review/
-  rebuiltgeneratedproof/SAMEtestPASS. No fixauthoredyet.
-- Root owns sharedCMake/presets/CI/progress/HTML/oldauditors/integration/checkpoint.
-  CurrentCMake/CI register56facilities+65semanticprograms(native12+57freshrows,
-  binding9/public74/loadercleanup1). NEWnormalizer1 is notregisteredyet: keepits
-  intentionalredseparate, thenaddunconditionalstableprogram afterfixPASS (66).
-
-## Completed prerequisites — preserve, do not replay
-
-Nativepolicy/ADR0009/privateprocessr4/installr2 had actualC44/C48documentapproval.
-Worker8f4c8c7/root98bc andC0e1source/securityreviewremainvalid;20SDKpins/metadata/
-licenses/wheelhousesunchanged. Ordinarydedicatedvenv
-`/tmp/subathon-schematest001-py314/bin/python` is CPython3.14.9. LocalGTest1.18
-(system), hostedfetch1.17pin; neverconfusethem.
-
-ActualBOTHhostfoundation56GREEN42282457204(head928,C0ae/root634) alreadypassed
-GCC11/Python3.10.12/glibc2.35 andGCC13/Python3.12.3/glibc2.39. Originalnative
-FIRST69 atclean634:58processes/12directmethods22calls+57rows/79ACTUALCreturn31
-errorsONLY, archive9d83/C746attribution. DoNOTreplayFIRST. ActualbindingFIRST9
-(clean2a153,9methods/41REALPythonbindingstuberrors/passiveimportPASS/noCcall)
-archived9a70/Cec3. Originalpublicandfocusedwrapper FIRSTs arearchival.
-
-ActualoldfunctionalSDK14+public74bothhosts42229761220(C24df) remainsvalidforold
-parent3438 only, not currentnativeimplementation. Newported74 mixedred e2ad
-excluded2duplicatetuplefixtureerrors; correctedA42/C997preserves23calls/22logical
-conditions; actual2affectedmethods13missingnativeboundaryfailures5a/Cec3. Four
-previouslyunreachedrowsfd090 actualmissing-boundaryassertions acceptedC5a319.
-Noneisfuturecodeacceptance.
-
-PythonbindingA447/sourcef6dc isFULLsourceapprovedCfd223 (root313/3c). Actualheader
-cleanupb9 firstred78 (2rawliveFDfailures)→protectedacquisition/originalexception
-priorityfix→SAMEregression1method/2subcasesPASS/.005s/noCDLLorCentry, c87/C5a319.
-[Evidence](schematool-001-native-loader-cleanup-pass.md). AllPythonsource/CLI/
-18enum/input/environmentguardreviewvalid; fullnewbinding9/public74runstillpending.
-
-## Finish sequence and stop
-
-1. ActualCartifactadmission, thenstrict1XMLnochildbootstrap, thenupdated56facilities,
-   thenONLYNEWnormalizer1intendedred. Recordactualcommands/causes/quiescence; no
-   fixtureerror cancount. Preserveallcompletedbaselineevidence.
-2. ExplicitBclassificationfix afterred; Cactualdelta/sourceapproval; rebuild and
-   bothcombinedstaticgates; SAMEnewregressionPASS, thenfullnative69/binding9/
-   public74/loadercleanup1/SDK14 integrationacceptance, resolveactualfindings.
-3. AddstableNEWnormalizer1unconditionalCI/CMake; updatepreset/docs/staleinert
-   comments beforefinalreview (commentsinfixture/FaultOps stilloutdated).
-   ActualdifferentCI/code/evidencereviews, currentstate/HTML, publishfocused77.
-4. ObserveALLlatestheadCIincludingBOTHnative/publichosts, resolveGHthreads/required
-   reviews/rules/mergeability. Normalmerge77onlyafterallgates, refreshmain and
-   finaldurablecheckpoint, stopagentsandSTOP. No nextprojecttask/bookkeepingPR.
-
-Task426IDs/1629edges/122decisions/full7integrations+3FXscopeunchanged. Thisdeveloper
-tooling task doesnotcompleteproduct/runtime/live/platformreleasegates.
+Import actual different receipt/guide reviews; finish project consistency/render
+checks and task metadata, push existing77 and update stale PR description. Observe
+ALL latest-revision CI, including BOTH-host full66 and SDK14. Resolve genuine
+failures with bounded source changes and actual different review, preserving all
+assertions. Record actual hosted evidence, mark task done only after applicable
+acceptance/review gates, regenerate HTML and observe final latest checks. Recheck
+GitHub rules/threads/reviews/mergeability; ready and normal merge77 only when all
+gates pass. Refresh main, reconcile actual merge outcome, stop all agents and STOP.
+No new task, no next PR. Local post-merge checkpoint may be retained unpublished
+if needed; never write directly to main or start an endless bookkeeping chain.
