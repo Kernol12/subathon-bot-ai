@@ -377,6 +377,64 @@ class LibraryFoundation(unittest.TestCase):
                 validator.validate({"value": "wrong"})
         self.assertEqual(retrievals, [])
 
+    def test_sdk_fixed_no_id_oas_transition_resets_native_fragment_scope(self):
+        from referencing import Specification
+        from referencing.exceptions import NoSuchAnchor, NoSuchResource
+        from referencing.jsonschema import DRAFT202012
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        document_uri = "https://local.invalid/no-id/api.json"
+        leaf_uri = "https://local.invalid/no-id/nested/leaf.json"
+        integer = {"$anchor": "integer", "type": "integer"}
+        leaf = {"$id": "nested/leaf.json", "$anchor": "leaf", "type": "object",
+                "$defs": {"Integer": integer}, "properties": {"value": {"$ref": "#integer"}},
+                "required": ["value"], "additionalProperties": False}
+        sample = {"$defs": {"leaf": leaf}}  # Deliberately NO $id at the OAS transition.
+        document = {"openapi": "3.1.1", "info": {"title": "Synthetic", "version": "1"},
+                    "paths": {}, "components": {"schemas": {"Sample": sample}}}
+        fragment = "#/components/schemas/Sample/%24defs/leaf"
+        def fixture_registry(reset_no_id):
+            def enter_scope(segments, resolver, subresource):
+                if tuple(segments) == ("components", "schemas", "Sample"):
+                    if reset_no_id:
+                        # Fresh SAME-base public resolver resets Resource.pointer segments.
+                        return registry.resolver(base_uri=document_uri)
+                    return resolver.in_subresource(subresource)
+                return DRAFT202012.maybe_in_subresource(segments, resolver, subresource)
+            specification = Specification(
+                name="fixed-no-id-oas-scope-fixture",
+                id_of=lambda value: None if value is document else DRAFT202012.id_of(value),
+                subresources_of=lambda value: [sample] if value is document
+                    else DRAFT202012.subresources_of(value),
+                anchors_in=lambda _spec, value: () if value is document
+                    else DRAFT202012.anchors_in(value),
+                maybe_in_subresource=enter_scope)
+            registry = self.registry_class(retrieve=denied).with_resource(
+                document_uri, specification.create_resource(document)).crawl()
+            return registry
+        control = fixture_registry(False)
+        parent = control.resolver(base_uri=document_uri)
+        self.assertIs(parent.in_subresource(DRAFT202012.create_resource(sample)), parent)
+        wrong_scope = parent.lookup(fragment)
+        self.assertEqual(wrong_scope.contents, leaf)  # The physical target exists.
+        with self.assertRaises(NoSuchAnchor):
+            wrong_scope.resolver.lookup("#leaf")
+        registry = fixture_registry(True)
+        resolved = registry.resolver(base_uri=document_uri).lookup(fragment)
+        self.assertEqual(resolved.contents, leaf)
+        self.assertEqual(resolved.resolver.lookup("#leaf").contents, leaf)
+        self.assertEqual(resolved.resolver.lookup("#integer").contents, integer)
+        self.assertEqual(set(registry), {document_uri, leaf_uri})
+        for cls in self.classes:
+            # The REAL validator follows the WHOLE OAS fragment; no private hook.
+            validator = cls({"$ref": document_uri + fragment}, registry=registry)
+            validator.validate({"value": 7})
+            with self.assertRaises(self.error):
+                validator.validate({"value": "wrong"})
+        self.assertEqual(retrievals, [])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
