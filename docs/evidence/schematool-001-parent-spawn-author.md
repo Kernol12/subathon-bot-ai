@@ -1,0 +1,114 @@
+# Native spawn ownership regressions — SCHEMATOOL-001
+
+Author `/root/session_supplier_author`,6 November2026. **AUTHORED; NOT REVIEWED OR
+EXECUTED.** Existing isolated parent branch/worktree at7850a7106fb83931942b520602002698b9938ab5,
+`task/SCHEMATOOL-001-parent-author` / `/tmp/subathon-schematool001-parent-author`.
+Only NEW parent_spawn_regression.py and this note change. No production fix,
+profile/contract, frozen64 assertion or earlier regression is modified.
+
+Different C and root identified a constructor ownership gap separate from the two
+already observed/fixed parent bugs: actual Popen may spawn, then raise before the
+caller assigns its return to process. Caller cleanup still has process=None.
+Root authorized these TWO focused tests and requires actual different source/
+oracle review followed by new-only reached-bug red BEFORE ownership correction.
+The tests add no public injection, success factory or validating fake.
+
+## Source-backed requirement and actual native boundary
+
+API§4 requires one child owned/reaped on failure or cancellation while Python can
+unwind. Known allocation refusal yields resource_limit; it cannot leave a running
+child simply because the Python constructor did not return. The frozen module-
+attribute Popen/12argv/twoFD/minimal-environment boundary remains.
+
+Read selected local /usr/lib/python3.14/subprocess.py, SHA256
+7fa4af83422024a19e64a80937f6c8094244c3397372a495b348dfbe44a5dd72:
+_execute_child sets pid/_child_created and performs further Python operations;
+__init__ catches constructor failure to close IO handles and rethrows, without
+unconditional kill/reap. __del__ polls and retains a live child for later polling;
+it does not establish synchronous parent cleanup.
+
+Independently checked primary tagged
+[CPython3.10.12 subprocess](https://raw.githubusercontent.com/python/cpython/v3.10.12/Lib/subprocess.py),
+[3.12.3 subprocess](https://raw.githubusercontent.com/python/cpython/v3.12.3/Lib/subprocess.py)
+and [3.14.9 subprocess](https://raw.githubusercontent.com/python/cpython/v3.14.9/Lib/subprocess.py)
+through the web tool: the same structural gap appears. The
+[Python signal/thread rules](https://docs.python.org/3.10/library/signal.html#signals-and-threads)
+state Python handlers run on the main interpreter thread. This supports a real
+SIGINT fixture; no global handler or signal mask is changed. A private spawn thread
+may avoid main-thread signal interruption inside the constructor, but by itself
+cannot claim safe post-spawn MemoryError ownership. Both independently required
+oracles below must pass; no implementation solution is preapproved.
+
+## Actual test source and independent oracles
+
+A stdlib-only inert module defines ParentSpawnRegression with2 ordinary test names
+and one fixture helper. setUpClass lazily loads the trusted local parent; no SDK
+or fixture operation runs at module import. Tests use native methods of the actual
+selected Popen class, not a replacement successful constructor.
+
+The helper records ONLY the two real parent os.pipe pairs before Popen-interposer
+entry, excluding native Popen's internal error pipe. The frozen public module call
+is still exercised and its actual argv/FD/DEVNULL/shell/close options checked.
+The fault-only argv interposer launches a REAL tiny -I -S child with both actual
+protocol writes plus separate readiness/blocking pipes. It acknowledges readiness
+then blocks indefinitely on a held test pipe, sends NO activation or result, and
+has no standards validator/package IO. It never forges validation success.
+
+The test-only native _execute_child wrapper FIRST calls the SAVED ACTUAL selected
+CPython method. Only AFTER native spawn/exec succeeds does it retain the real self/
+PID/_child_created, close unused sync copies, obtain a real bounded readiness byte
+and hold __init__ before return. Keeping that self strongly referenced prevents
+__del__ or its poll from manufacturing parent cleanup. A real5-second watchdog
+can kill ONLY and must not fire; it never reaps or supplies an accepted result.
+
+- test_sigint_during_native_constructor_reaps_before_propagating requires the
+  actual default SIGINT handler and leaves it unchanged. A controller waits for
+  that real native hold, calls signal.pthread_kill on the actual main thread, then
+  releases the hold. A bounded1-second constructor-interruption acknowledgement
+  lets the old main-thread constructor see the signal before release; it is not
+  the cleanup oracle. A future owned constructor thread need not itself receive
+  main-thread Python signal exceptions. Require a real KeyboardInterrupt propagated
+  by the public call; if caught at the native hook, require that SAME object.
+- test_post_native_spawn_allocation_refusal_reaps_before_resource_limit raises
+  the specific MemoryError POST_NATIVE_SPAWN_ALLOCATION_REFUSAL AFTER that saved
+  native spawn/readiness and BEFORE constructor return. Require exact resource_limit
+  and no logs, with no runtime/SDK fake. This tests known failure containment AND
+  actual child ownership, not actual heap exhaustion or a successful worker.
+
+BOTH capture REAL waitpid(WNOHANG) and ALL4 parent fstat states BEFORE any test
+poll/wait/close/kill fallback. Require ChildProcessError (parent already reaped),
+all4FDs closed, no watchdog/controller error and empty public logs. A running OR
+waitable unreaped child fails; a probe-reaped child cannot pass. Diagnostics preserve
+whether the outer factory returned and the actual FD states. Only AFTER the oracle
+may finally release/join controller, cancel/join watchdog, close remaining sync/
+parent descriptors and kill/wait a child. No test cleanup can establish parent reap.
+
+This fixture deliberately covers ACTUAL native constructor work rather than merely
+launching a completed Popen then raising from an unrelated wrapper. A future fix
+may not add test-detection branches, bypass the frozen public module seam or claim
+helper-thread-only safety from the SIGINT case while the allocation case fails.
+If private ownership cannot meet both under the frozen boundary, report the precise
+source/contract conflict for different review; do not weaken either oracle.
+
+## Intended new-only observation and current verification
+
+After ROOT's actual different source/oracle review, intended command:
+
+```sh
+env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 /tmp/subathon-schematest001-py314/bin/python -I -B /tmp/subathon-schematool001-parent-author/tests/schema_validation/parent_spawn_regression.py
+```
+
+cwd the author worktree. Preserve real raw output/status/source/test/review hashes;
+inspect constructor readiness/signal/factory/child/FD attribution. Native result is
+FUTURE, not inferred from this plan. A handler/setup/readiness/timeout or unrelated
+failure cannot substitute for reached constructor-ownership red. No full64 or old
+red replay is requested.
+
+Actual author checks ONLY: Python3.10-feature ast.parse/compile WITHOUT exec PASS,
+2 test definitions/247 source lines; source hashes verify parent1579604, frozen64f
+and previousacde regression unchanged. Project/render/diff checks accompany commit.
+No candidate/helper/test import or body, SIGINT/controller/watchdog/native method,
+child/probe/SDK/clone/installation executed. Production remains gated pending
+actual review/red; corrected implementation needs different source review and all
+relevant regressions/full64/ordinaryCI. All worker/offline/RLIMIT/no-site/read-race/
+allocation and original product/platform/provider/live/release gates remain.
