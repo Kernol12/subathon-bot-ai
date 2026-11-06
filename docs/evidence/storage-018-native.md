@@ -74,4 +74,5 @@ build `/tmp/storage018-root-final-build.txt` SHA-256
 Author full375 PASS29.19s. Independent reviewer fresh145-step build/rebuild and
 full375 PASS28.32s, zero failures/disabled/skips/warnings; detailed commands,
 source/resource audit and configuration review belong to the separate review note.
-Ordinary selected Qt CI and final publication/merge are separate gates.
+[Ordinary selected Qt CI](storage-018-ci.md) now passes atfe440ac; final completion
+publication/latest-head normal merge gates remain separate.
