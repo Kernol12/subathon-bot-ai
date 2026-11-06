@@ -1,0 +1,34 @@
+{
+  "started_utc": "2026-11-06T12:09:59.871683+00:00",
+  "source_commit": "8460c85ddac1c03f3c7267deda2e23600e2963d3",
+  "parent_blob": "a25d531ea70271a8434f2a4206b5bff25f444d45",
+  "test_blob": "acde40d001a7932f68d2c8ebe5aa25b3a983ef82",
+  "independent_test_review": "adc171654905a40335c410dba2d3d0ad620b3ed7",
+  "argv": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-B",
+    "/tmp/subathon-schematool001-parent-author/tests/schema_validation/parent_cleanup_regression.py"
+  ],
+  "cwd": "/tmp/subathon-schematool001-parent-author",
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "returncode": 1,
+  "timeout": false,
+  "elapsed_seconds": 0.1136749479919672,
+  "streams": {
+    "stdout": {
+      "path": "/tmp/schematool001-parent-regression-first-red.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "/tmp/schematool001-parent-regression-first-red.stderr.txt",
+      "bytes": 2827,
+      "sha256": "2041dcb227306e66accca6c80886d94d7779709dc48af174cb6f8731c0912cb2"
+    }
+  }
+}

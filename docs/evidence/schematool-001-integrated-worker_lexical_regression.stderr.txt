@@ -1,0 +1,8 @@
+test_unterminated_escape_65535_bytes_is_invalid_json (__main__.WorkerLexicalRegression.test_unterminated_escape_65535_bytes_is_invalid_json) ... ok
+test_unterminated_escape_65536_bytes_is_invalid_json (__main__.WorkerLexicalRegression.test_unterminated_escape_65536_bytes_is_invalid_json) ... ok
+test_unterminated_escape_65537_bytes_is_resource_limit (__main__.WorkerLexicalRegression.test_unterminated_escape_65537_bytes_is_resource_limit) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.106s
+
+OK

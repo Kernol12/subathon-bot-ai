@@ -1,0 +1,23 @@
+test_two_byte_nop_alias_requires_exact_ax_identity (__main__.NativeEntryControls.test_two_byte_nop_alias_requires_exact_ax_identity) ... ERROR
+
+======================================================================
+ERROR: test_two_byte_nop_alias_requires_exact_ax_identity (__main__.NativeEntryControls.test_two_byte_nop_alias_requires_exact_ax_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_entry_controls.py", line 64, in test_two_byte_nop_alias_requires_exact_ax_identity
+    self.assertEqual(self.check(functions)['syscall_got'], 0xbafb0)
+                     ~~~~~~~~~~^^^^^^^^^^^
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_entry_controls.py", line 38, in check
+    return AUDIT['probe_entry_binding'](functions, relocations)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematool001/tools/schema_validation/audit_native_foundation.py", line 230, in probe_entry_binding
+    require(mnemonic == "jmp", "unreviewed syscall PLT operation")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/subathon-schematool001/tools/schema_validation/audit_native_foundation.py", line 54, in require
+    raise RuntimeError(message)
+RuntimeError: unreviewed syscall PLT operation
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)

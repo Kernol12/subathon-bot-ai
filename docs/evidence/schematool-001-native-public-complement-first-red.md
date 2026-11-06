@@ -1,0 +1,7 @@
+# Previously unreached public-route complements: actual FIRST
+
+At clean34f3e0d root explicitly released ONLY four differently reviewed public rows not reached by first-failing ordinary methods in the new74port run: s12, cancel-identity, spawn-identity and postreturn-memory. This is not a baseline replay or new test revision. Same ordinary dedicatedCPython3.14.9 venv -I -B/minimalenv, exact receipts/raw stdout/stderr archived adjacent.
+
+Allfour fresh processes execute one test each and exit1 with one intended assertion failure, stdoutempty, no setup/import/fixture/dependencyerror. s12 reaches actual session.assert_evidence PID0!=1 because old public route ignores the real native entry seam. Each actual post-return negative complement reaches decoder.assert_called_once_with(0):0calls because oldroute ignores the new decoder seam. The real positive old worker ran; the hook supplied no successful return. No actual raw-native0/quiescence or exception-identity success is claimed before implementation. Times .197/.188/.184/.181s.
+
+Together with preserved full74mixedred and corrected13wire observations, every new routing failure/complement now has an actual missing-boundary observation before integration of A's replacement. Native69red and purebinding9red remain separate genuine named markers. Full postimplementation acceptance and independent source/generated/resource/CI gates still apply.

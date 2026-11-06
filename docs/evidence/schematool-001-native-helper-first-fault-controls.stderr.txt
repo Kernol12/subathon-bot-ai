@@ -1,0 +1,10 @@
+test_atomic_sequence_increment_is_the_only_new_lock_operation (__main__.NativeFaultAuditControls.test_atomic_sequence_increment_is_the_only_new_lock_operation) ... ok
+test_binding_probe_syscall_stub_must_match (__main__.NativeFaultAuditControls.test_binding_probe_syscall_stub_must_match) ... ok
+test_literal_success_path_has_exact_boundary (__main__.NativeFaultAuditControls.test_literal_success_path_has_exact_boundary) ... ok
+test_unreviewed_helpers_remain_refused_even_without_external_calls (__main__.NativeFaultAuditControls.test_unreviewed_helpers_remain_refused_even_without_external_calls) ... ok
+test_wrong_clone_save_comparison_branch_or_callback_refuses (__main__.NativeFaultAuditControls.test_wrong_clone_save_comparison_branch_or_callback_refuses) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK

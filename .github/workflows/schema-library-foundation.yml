@@ -77,7 +77,8 @@ jobs:
         run: |
           schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/library_foundation.py
-      - name: Register wrapper baseline without executing intentional red
+      - name: Verify wrapper environment and reviewed acceptance registrations
         run: |
           schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -S -B tools/schema_validation/check_baseline.py
+      # Native/public acceptance runs with the reviewed compiled owner in schema-native-foundation.

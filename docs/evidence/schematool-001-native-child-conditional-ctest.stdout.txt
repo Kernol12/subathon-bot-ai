@@ -1,0 +1,498 @@
+UpdateCTestConfiguration  from :/tmp/subathon-schematool001/DartConfiguration.tcl
+Test project /tmp/subathon-schematool001/build/schema-transport-debug
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 35
+      Start 35: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/0
+
+35: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/0" "--gtest_also_run_disabled_tests"
+35: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+35: Test timeout computed to be: 30
+35: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+35: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/0
+35: [==========] Running 1 test from 1 test suite.
+35: [----------] Global test environment set-up.
+35: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+35: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/0
+35: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/0 (0 ms)
+35: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+35: 
+35: [----------] Global test environment tear-down
+35: [==========] 1 test from 1 test suite ran. (0 ms total)
+35: [  PASSED  ] 1 test.
+ 1/24 Test #35: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/0 ....   Passed    0.00 sec
+test 36
+      Start 36: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/1
+
+36: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/1" "--gtest_also_run_disabled_tests"
+36: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+36: Test timeout computed to be: 30
+36: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+36: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/1
+36: [==========] Running 1 test from 1 test suite.
+36: [----------] Global test environment set-up.
+36: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+36: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/1
+36: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/1 (0 ms)
+36: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+36: 
+36: [----------] Global test environment tear-down
+36: [==========] 1 test from 1 test suite ran. (0 ms total)
+36: [  PASSED  ] 1 test.
+ 2/24 Test #36: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/1 ....   Passed    0.00 sec
+test 37
+      Start 37: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/2
+
+37: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/2" "--gtest_also_run_disabled_tests"
+37: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+37: Test timeout computed to be: 30
+37: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+37: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/2
+37: [==========] Running 1 test from 1 test suite.
+37: [----------] Global test environment set-up.
+37: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+37: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/2
+37: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/2 (0 ms)
+37: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+37: 
+37: [----------] Global test environment tear-down
+37: [==========] 1 test from 1 test suite ran. (0 ms total)
+37: [  PASSED  ] 1 test.
+ 3/24 Test #37: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/2 ....   Passed    0.00 sec
+test 38
+      Start 38: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/3
+
+38: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/3" "--gtest_also_run_disabled_tests"
+38: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+38: Test timeout computed to be: 30
+38: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+38: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/3
+38: [==========] Running 1 test from 1 test suite.
+38: [----------] Global test environment set-up.
+38: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+38: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/3
+38: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/3 (0 ms)
+38: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+38: 
+38: [----------] Global test environment tear-down
+38: [==========] 1 test from 1 test suite ran. (0 ms total)
+38: [  PASSED  ] 1 test.
+ 4/24 Test #38: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/3 ....   Passed    0.00 sec
+test 39
+      Start 39: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/4
+
+39: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/4" "--gtest_also_run_disabled_tests"
+39: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+39: Test timeout computed to be: 30
+39: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+39: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/4
+39: [==========] Running 1 test from 1 test suite.
+39: [----------] Global test environment set-up.
+39: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+39: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/4
+39: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/4 (0 ms)
+39: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+39: 
+39: [----------] Global test environment tear-down
+39: [==========] 1 test from 1 test suite ran. (0 ms total)
+39: [  PASSED  ] 1 test.
+ 5/24 Test #39: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/4 ....   Passed    0.00 sec
+test 40
+      Start 40: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/5
+
+40: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/5" "--gtest_also_run_disabled_tests"
+40: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+40: Test timeout computed to be: 30
+40: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+40: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/5
+40: [==========] Running 1 test from 1 test suite.
+40: [----------] Global test environment set-up.
+40: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+40: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/5
+40: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/5 (0 ms)
+40: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+40: 
+40: [----------] Global test environment tear-down
+40: [==========] 1 test from 1 test suite ran. (0 ms total)
+40: [  PASSED  ] 1 test.
+ 6/24 Test #40: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/5 ....   Passed    0.00 sec
+test 41
+      Start 41: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/6
+
+41: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/6" "--gtest_also_run_disabled_tests"
+41: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+41: Test timeout computed to be: 30
+41: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+41: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/6
+41: [==========] Running 1 test from 1 test suite.
+41: [----------] Global test environment set-up.
+41: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+41: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/6
+41: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/6 (0 ms)
+41: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+41: 
+41: [----------] Global test environment tear-down
+41: [==========] 1 test from 1 test suite ran. (0 ms total)
+41: [  PASSED  ] 1 test.
+ 7/24 Test #41: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/6 ....   Passed    0.00 sec
+test 42
+      Start 42: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/7
+
+42: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/7" "--gtest_also_run_disabled_tests"
+42: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+42: Test timeout computed to be: 30
+42: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+42: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/7
+42: [==========] Running 1 test from 1 test suite.
+42: [----------] Global test environment set-up.
+42: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+42: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/7
+42: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/7 (0 ms)
+42: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+42: 
+42: [----------] Global test environment tear-down
+42: [==========] 1 test from 1 test suite ran. (0 ms total)
+42: [  PASSED  ] 1 test.
+ 8/24 Test #42: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/7 ....   Passed    0.00 sec
+test 43
+      Start 43: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/8
+
+43: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/8" "--gtest_also_run_disabled_tests"
+43: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+43: Test timeout computed to be: 30
+43: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+43: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/8
+43: [==========] Running 1 test from 1 test suite.
+43: [----------] Global test environment set-up.
+43: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+43: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/8
+43: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/8 (0 ms)
+43: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+43: 
+43: [----------] Global test environment tear-down
+43: [==========] 1 test from 1 test suite ran. (0 ms total)
+43: [  PASSED  ] 1 test.
+ 9/24 Test #43: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/8 ....   Passed    0.00 sec
+test 44
+      Start 44: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/9
+
+44: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/9" "--gtest_also_run_disabled_tests"
+44: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+44: Test timeout computed to be: 30
+44: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+44: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/9
+44: [==========] Running 1 test from 1 test suite.
+44: [----------] Global test environment set-up.
+44: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+44: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/9
+44: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/9 (1 ms)
+44: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (1 ms total)
+44: 
+44: [----------] Global test environment tear-down
+44: [==========] 1 test from 1 test suite ran. (1 ms total)
+44: [  PASSED  ] 1 test.
+10/24 Test #44: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/9 ....   Passed    0.00 sec
+test 45
+      Start 45: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/10
+
+45: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/10" "--gtest_also_run_disabled_tests"
+45: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+45: Test timeout computed to be: 30
+45: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+45: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/10
+45: [==========] Running 1 test from 1 test suite.
+45: [----------] Global test environment set-up.
+45: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+45: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/10
+45: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/10 (0 ms)
+45: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+45: 
+45: [----------] Global test environment tear-down
+45: [==========] 1 test from 1 test suite ran. (0 ms total)
+45: [  PASSED  ] 1 test.
+11/24 Test #45: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/10 ...   Passed    0.00 sec
+test 46
+      Start 46: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/11
+
+46: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/11" "--gtest_also_run_disabled_tests"
+46: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+46: Test timeout computed to be: 30
+46: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+46: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/11
+46: [==========] Running 1 test from 1 test suite.
+46: [----------] Global test environment set-up.
+46: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+46: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/11
+46: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/11 (0 ms)
+46: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+46: 
+46: [----------] Global test environment tear-down
+46: [==========] 1 test from 1 test suite ran. (0 ms total)
+46: [  PASSED  ] 1 test.
+12/24 Test #46: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/11 ...   Passed    0.00 sec
+test 47
+      Start 47: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/12
+
+47: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/12" "--gtest_also_run_disabled_tests"
+47: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+47: Test timeout computed to be: 30
+47: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+47: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/12
+47: [==========] Running 1 test from 1 test suite.
+47: [----------] Global test environment set-up.
+47: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+47: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/12
+47: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/12 (0 ms)
+47: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+47: 
+47: [----------] Global test environment tear-down
+47: [==========] 1 test from 1 test suite ran. (0 ms total)
+47: [  PASSED  ] 1 test.
+13/24 Test #47: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/12 ...   Passed    0.00 sec
+test 48
+      Start 48: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/13
+
+48: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/13" "--gtest_also_run_disabled_tests"
+48: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+48: Test timeout computed to be: 30
+48: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+48: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/13
+48: [==========] Running 1 test from 1 test suite.
+48: [----------] Global test environment set-up.
+48: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+48: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/13
+48: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/13 (0 ms)
+48: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+48: 
+48: [----------] Global test environment tear-down
+48: [==========] 1 test from 1 test suite ran. (0 ms total)
+48: [  PASSED  ] 1 test.
+14/24 Test #48: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/13 ...   Passed    0.00 sec
+test 49
+      Start 49: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/14
+
+49: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/14" "--gtest_also_run_disabled_tests"
+49: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+49: Test timeout computed to be: 30
+49: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+49: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/14
+49: [==========] Running 1 test from 1 test suite.
+49: [----------] Global test environment set-up.
+49: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+49: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/14
+49: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/14 (0 ms)
+49: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+49: 
+49: [----------] Global test environment tear-down
+49: [==========] 1 test from 1 test suite ran. (0 ms total)
+49: [  PASSED  ] 1 test.
+15/24 Test #49: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/14 ...   Passed    0.00 sec
+test 50
+      Start 50: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/15
+
+50: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/15" "--gtest_also_run_disabled_tests"
+50: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+50: Test timeout computed to be: 30
+50: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+50: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/15
+50: [==========] Running 1 test from 1 test suite.
+50: [----------] Global test environment set-up.
+50: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+50: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/15
+50: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/15 (0 ms)
+50: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+50: 
+50: [----------] Global test environment tear-down
+50: [==========] 1 test from 1 test suite ran. (0 ms total)
+50: [  PASSED  ] 1 test.
+16/24 Test #50: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/15 ...   Passed    0.00 sec
+test 51
+      Start 51: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/16
+
+51: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/16" "--gtest_also_run_disabled_tests"
+51: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+51: Test timeout computed to be: 30
+51: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+51: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/16
+51: [==========] Running 1 test from 1 test suite.
+51: [----------] Global test environment set-up.
+51: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+51: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/16
+51: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/16 (0 ms)
+51: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+51: 
+51: [----------] Global test environment tear-down
+51: [==========] 1 test from 1 test suite ran. (0 ms total)
+51: [  PASSED  ] 1 test.
+17/24 Test #51: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/16 ...   Passed    0.00 sec
+test 52
+      Start 52: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/17
+
+52: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/17" "--gtest_also_run_disabled_tests"
+52: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+52: Test timeout computed to be: 30
+52: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+52: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/17
+52: [==========] Running 1 test from 1 test suite.
+52: [----------] Global test environment set-up.
+52: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+52: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/17
+52: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/17 (0 ms)
+52: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+52: 
+52: [----------] Global test environment tear-down
+52: [==========] 1 test from 1 test suite ran. (0 ms total)
+52: [  PASSED  ] 1 test.
+18/24 Test #52: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/17 ...   Passed    0.00 sec
+test 53
+      Start 53: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/18
+
+53: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/18" "--gtest_also_run_disabled_tests"
+53: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+53: Test timeout computed to be: 30
+53: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+53: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/18
+53: [==========] Running 1 test from 1 test suite.
+53: [----------] Global test environment set-up.
+53: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+53: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/18
+53: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/18 (0 ms)
+53: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+53: 
+53: [----------] Global test environment tear-down
+53: [==========] 1 test from 1 test suite ran. (0 ms total)
+53: [  PASSED  ] 1 test.
+19/24 Test #53: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/18 ...   Passed    0.00 sec
+test 54
+      Start 54: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/19
+
+54: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/19" "--gtest_also_run_disabled_tests"
+54: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+54: Test timeout computed to be: 30
+54: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+54: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/19
+54: [==========] Running 1 test from 1 test suite.
+54: [----------] Global test environment set-up.
+54: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+54: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/19
+54: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/19 (0 ms)
+54: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+54: 
+54: [----------] Global test environment tear-down
+54: [==========] 1 test from 1 test suite ran. (0 ms total)
+54: [  PASSED  ] 1 test.
+20/24 Test #54: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/19 ...   Passed    0.00 sec
+test 55
+      Start 55: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/20
+
+55: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/20" "--gtest_also_run_disabled_tests"
+55: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+55: Test timeout computed to be: 30
+55: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+55: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/20
+55: [==========] Running 1 test from 1 test suite.
+55: [----------] Global test environment set-up.
+55: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+55: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/20
+55: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/20 (0 ms)
+55: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+55: 
+55: [----------] Global test environment tear-down
+55: [==========] 1 test from 1 test suite ran. (0 ms total)
+55: [  PASSED  ] 1 test.
+21/24 Test #55: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/20 ...   Passed    0.00 sec
+test 56
+      Start 56: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/21
+
+56: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/21" "--gtest_also_run_disabled_tests"
+56: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+56: Test timeout computed to be: 30
+56: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+56: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/21
+56: [==========] Running 1 test from 1 test suite.
+56: [----------] Global test environment set-up.
+56: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+56: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/21
+56: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/21 (0 ms)
+56: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+56: 
+56: [----------] Global test environment tear-down
+56: [==========] 1 test from 1 test suite ran. (0 ms total)
+56: [  PASSED  ] 1 test.
+22/24 Test #56: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/21 ...   Passed    0.00 sec
+test 57
+      Start 57: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/22
+
+57: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/22" "--gtest_also_run_disabled_tests"
+57: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+57: Test timeout computed to be: 30
+57: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+57: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/22
+57: [==========] Running 1 test from 1 test suite.
+57: [----------] Global test environment set-up.
+57: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+57: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/22
+57: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/22 (0 ms)
+57: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+57: 
+57: [----------] Global test environment tear-down
+57: [==========] 1 test from 1 test suite ran. (0 ms total)
+57: [  PASSED  ] 1 test.
+23/24 Test #57: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/22 ...   Passed    0.00 sec
+test 58
+      Start 58: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/23
+
+58: Test command: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation "--gtest_filter=ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/23" "--gtest_also_run_disabled_tests"
+58: Working Directory: /tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation
+58: Test timeout computed to be: 30
+58: Running main() from /usr/src/debug/gtest/googletest-1.18.0/googletest/src/gtest_main.cc
+58: Note: Google Test filter = ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/23
+58: [==========] Running 1 test from 1 test suite.
+58: [----------] Global test environment set-up.
+58: [----------] 1 test from ClosedBytes/NativeFaultChildBytes
+58: [ RUN      ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/23
+58: [       OK ] ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/23 (0 ms)
+58: [----------] 1 test from ClosedBytes/NativeFaultChildBytes (0 ms total)
+58: 
+58: [----------] Global test environment tear-down
+58: [==========] 1 test from 1 test suite ran. (0 ms total)
+58: [  PASSED  ] 1 test.
+24/24 Test #58: schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/23 ...   Passed    0.00 sec
+
+The following tests passed:
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/0
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/1
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/2
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/3
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/4
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/5
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/6
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/7
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/8
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/9
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/10
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/11
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/12
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/13
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/14
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/15
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/16
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/17
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/18
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/19
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/20
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/21
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/22
+	schema-native-foundation.ClosedBytes/NativeFaultChildBytes.ActualFixedExecBytesAndStatus/23
+
+100% tests passed out of 24
+
+Label Time Summary:
+foundation                  =   0.05 sec*proc (24 tests)
+schema-native-foundation    =   0.05 sec*proc (24 tests)
+
+Total Test time (real) =   0.05 sec

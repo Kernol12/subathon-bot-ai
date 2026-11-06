@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Check inert declarations and register intentional-red tests without running them."""
+"""Verify SDK identities and reviewed acceptance registration without running cases."""
 import ast
 import hashlib
 import json
@@ -165,19 +165,11 @@ def main():
     acceptance = root / "tests" / "schema_validation" / "wrapper_acceptance.py"
     wrapper_tree = ast.parse(wrapper.read_text(), feature_version=(3, 10))
     acceptance_tree = ast.parse(acceptance.read_text(), feature_version=(3, 10))
-    raw_calls = {node.name: node for node in wrapper_tree.body
-                 if isinstance(node, ast.FunctionDef)}
-    require(set(raw_calls) == {"validate_package", "main"}, "Raw interface inventory differs")
-    for node in raw_calls.values():
-        require(not node.decorator_list and len(node.body) == 1,
-                "Baseline raw body must remain inert")
-        statement = node.body[0]
-        require(isinstance(statement, ast.Raise)
-                and isinstance(statement.exc, ast.Call)
-                and isinstance(statement.exc.func, ast.Name)
-                and statement.exc.func.id == "SchemaValidationNotImplemented"
-                and not statement.exc.args and not statement.exc.keywords,
-                "Baseline raw call must immediately raise the named marker")
+    public_calls = {node.name: node for node in wrapper_tree.body
+                    if isinstance(node, ast.FunctionDef) and not node.name.startswith("_")}
+    require(set(public_calls) == {"validate_package", "main"}, "Public interface inventory differs")
+    require(not any(node.decorator_list for node in public_calls.values()),
+            "Public interface cannot replace the reviewed raw calls with decorators")
 
     classes = [node for node in acceptance_tree.body
                if isinstance(node, ast.ClassDef) and node.name == "WrapperAcceptance"]
@@ -195,8 +187,8 @@ def main():
                     and node.name in {"__init__", "__call__", "id", "run"}
                     for node in classes[0].body), "Custom acceptance lifecycle is not admitted")
 
-    # Only definitions and enum/exception construction are admitted here. Neither
-    # feature call, unittest setup, test body nor suite.run is invoked.
+    # This step loads definitions only. Feature behavior is checked by the separate
+    # unconditional suite; setup, cases and suite.run are never called here.
     api = load_definitions(wrapper, "schema_wrapper_baseline_declarations")
     require(tuple(api.SchemaValidationOutcome.__members__) == EXPECTED_OUTCOMES,
             "Outcome names/order differ")
@@ -227,7 +219,7 @@ def main():
     }
     require(not candidate_roots.intersection(name.split(".")[0] for name in sys.modules),
             "Definition-only harness imported a candidate SDK")
-    print(f"Registered {len(registered)} wrapper acceptance methods; intentional red is not executed")
+    print(f"Registered {len(registered)} reviewed wrapper acceptance methods; cases run in the separate suite")
     return 0
 
 

@@ -1,0 +1,112 @@
+test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) ... 
+  test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='reordered-register-moves') ... FAIL
+  test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='extra-rax-clobber') ... FAIL
+  test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='tls-before-syscall') ... FAIL
+  test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='modified-stack') ... FAIL
+  test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='compare-not-immediate-after-syscall') ... FAIL
+test_indirect_or_unresolved_transfers_refuse (__main__.NativeAuditControls.test_indirect_or_unresolved_transfers_refuse) ... FAIL
+test_internal_raw_graph_has_exact_reachable_names (__main__.NativeAuditControls.test_internal_raw_graph_has_exact_reachable_names) ... ok
+test_literal_libc_success_prefix (__main__.NativeAuditControls.test_literal_libc_success_prefix) ... ok
+test_literal_objdump_text_preserves_graph (__main__.NativeAuditControls.test_literal_objdump_text_preserves_graph) ... ok
+test_malformed_text_and_missing_or_ambiguous_roots_refuse (__main__.NativeAuditControls.test_malformed_text_and_missing_or_ambiguous_roots_refuse) ... 
+  test_malformed_text_and_missing_or_ambiguous_roots_refuse (__main__.NativeAuditControls.test_malformed_text_and_missing_or_ambiguous_roots_refuse) (text=2) ... FAIL
+  test_malformed_text_and_missing_or_ambiguous_roots_refuse (__main__.NativeAuditControls.test_malformed_text_and_missing_or_ambiguous_roots_refuse) (text=3) ... FAIL
+  test_malformed_text_and_missing_or_ambiguous_roots_refuse (__main__.NativeAuditControls.test_malformed_text_and_missing_or_ambiguous_roots_refuse) (text=4) ... FAIL
+test_plt_and_unknown_external_transfers_refuse (__main__.NativeAuditControls.test_plt_and_unknown_external_transfers_refuse) ... 
+  test_plt_and_unknown_external_transfers_refuse (__main__.NativeAuditControls.test_plt_and_unknown_external_transfers_refuse) (row=3) ... FAIL
+test_tls_unreviewed_instructions_and_traps_refuse (__main__.NativeAuditControls.test_tls_unreviewed_instructions_and_traps_refuse) ... ok
+
+======================================================================
+FAIL: test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='reordered-register-moves')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 228, in test_corrupted_libc_prefixes_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='extra-rax-clobber')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 228, in test_corrupted_libc_prefixes_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='tls-before-syscall')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 228, in test_corrupted_libc_prefixes_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='modified-stack')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 228, in test_corrupted_libc_prefixes_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_corrupted_libc_prefixes_refuse (__main__.NativeAuditControls.test_corrupted_libc_prefixes_refuse) (row='compare-not-immediate-after-syscall')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 228, in test_corrupted_libc_prefixes_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_indirect_or_unresolved_transfers_refuse (__main__.NativeAuditControls.test_indirect_or_unresolved_transfers_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 104, in test_indirect_or_unresolved_transfers_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_malformed_text_and_missing_or_ambiguous_roots_refuse (__main__.NativeAuditControls.test_malformed_text_and_missing_or_ambiguous_roots_refuse) (text=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 128, in test_malformed_text_and_missing_or_ambiguous_roots_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_malformed_text_and_missing_or_ambiguous_roots_refuse (__main__.NativeAuditControls.test_malformed_text_and_missing_or_ambiguous_roots_refuse) (text=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 128, in test_malformed_text_and_missing_or_ambiguous_roots_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_malformed_text_and_missing_or_ambiguous_roots_refuse (__main__.NativeAuditControls.test_malformed_text_and_missing_or_ambiguous_roots_refuse) (text=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 128, in test_malformed_text_and_missing_or_ambiguous_roots_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_plt_and_unknown_external_transfers_refuse (__main__.NativeAuditControls.test_plt_and_unknown_external_transfers_refuse) (row=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/subathon-schematool001/tests/schema_validation/native_audit_controls.py", line 88, in test_plt_and_unknown_external_transfers_refuse
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.006s
+
+FAILED (failures=10)

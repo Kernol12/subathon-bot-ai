@@ -1,10 +1,42 @@
-# Private SDK installation admission — proposal v1
+# Private SDK installation admission — v1, revision2
 
-SCHEMATEST-001. Refines the [public API](schema-validation-tool-api-v1.md) and
+SCHEMATEST-001 / SCHEMATOOL-001. Revision2 has actual different document approval
+C48c07527; native source/build/test/execution gates remain. Refines the [public API](schema-validation-tool-api-v1.md) and
 [private process plan](schema-validation-process-test-v1.md); logical/context/public
 outcomes, limits and package phases remain unchanged. This fixes the previously
 unspecified installation discovery needed for independent admission tests. No
 installation, worker, validator or public behavior is implemented by this document.
+
+## Explicit local native build prerequisite
+
+[ADR-0009](../decisions/0009-schema-native-process-owner.md) and the
+[native process contract](schema-validation-native-process-v1.md) select one
+first-party C++20 process library using existing CMake/Ninja, with no Qt or new
+third-party runtime. After actual contract/build/test review, build explicitly
+with preset schema-transport-debug and target subathon_schema_transport_v1.
+The sole artifact is
+`<repository>/build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so`,
+derived from the trusted script's repository, never cwd/package/environment search.
+Record exact source/configuration/compiler/libc/architecture/artifact SHA256 and
+reviewed symbol/call-graph provenance. No automatic build, download or alternate
+search path is admitted; no machine-specific toolchain setting is committed.
+
+The exact ABI1 pointer/length types, closed integer mapping and sole versioned
+production symbol are frozen in that contract. Use stdlib ctypes.CDLL only after
+public/path/ABI/sysconfig-override admission, with builtin types and no callbacks,
+custom converters or errcheck. Import/help neither load the artifact nor inspect
+the SDK/build files. Missing/unloadable/wrong-architecture/unbound-symbol native
+installation is environment_unavailable; known Python MemoryError is resource_limit.
+This prerequisite is separate from the phase6 dependency check: a missing native
+artifact never proves a selected SDK distribution is missing. Trusted loading is
+not an authentication scheme against an administrator replacing local binaries.
+
+The positive profile additionally needs actual reviewed clone3 atomic pidfd,
+close_range, raw signal/clock/wait/rollback and loader/ABI foundations on BOTH
+selected CI hosts. Kernel version alone or a green Python-only receipt is
+insufficient. Unsupported local facilities fail closed; selected positive CI
+must actually establish and exercise them without skip/fallback. No broader
+Python or product-platform claim follows. Python3.14 remains separately observed.
 
 ## Bound parent record and one SDK root
 
@@ -33,7 +65,15 @@ No Windows/product runtime support is removed by this developer installation pro
 
 The parent must be in a dedicated stdlib venv: its actual prefix differs from its
 base prefix, and the normalized prefix equals the parent of the executable's bin
-directory. That root contains a regular pyvenv.cfg of at most4096bytes. Discover
+directory. That root contains a regular pyvenv.cfg of at most4096bytes. The Python
+parent derives prefix/sysconfig/path identities without opening that file. Its
+actual bounded no-follow/nonblocking open, regular-file/snapshot checks, at most
+4097-byte read and close now occur INSIDE the single native resource interval,
+before child birth, under the native contract. Thus Python allocation/unwinding
+cannot separate a configuration FD acquisition from its cleanup. Failure remains
+environment_unavailable (known resource refusal remains resource_limit); no package
+file is read or candidate imported here. Child checks below remain independent.
+Discover
 purelib and platlib with the parent's stdlib sysconfig, normalize their absolute
 existing directory identities and require they name ONE directory. Do not append
 an unreviewed second native-extension root. Retain the public4096-byte bounds for
@@ -107,14 +147,15 @@ with no secret/package/exception text. This is a real missing distribution, neve
 a fake validating worker. The raw direct public call remains FIRST before clone
 construction in this authored behavior case, preserving named-marker attribution.
 
-The parent constructs its two protocol pipes through the stdlib module attribute
-os.pipe, with no prebound alias or pipe2 substitution in this private seam.
-For one unsupported-parent-facility case, tests may patch ONLY that module
-attribute to raise OSError(errno.ENOSYS). Expect environment_unavailable,
-no Popen call and no public output. This explicitly tests an injected missing
-PARENT pipe capability; it does not claim the host lacks pipes, simulate child
-RLIMIT failure, or prove child file/ABI/resource protection. The existing actual
-Popen/time fault seam is unchanged. ENOSYS is not EMFILE/resource exhaustion.
+Revision1's exact os.pipe ENOSYS interposition is now HISTORICAL: revision2
+explicitly ports it to one real native pipe2 capability-refusal phase through
+the reviewed negative-only SAME-core adapter. Preserve the exact
+environment_unavailable/no birth/no public output assertion and before-fallback
+resource evidence; require actual port-source review and intended red. An injected
+parent ENOSYS still does not claim absent host pipes, child RLIMIT/ABI/file proof
+or resource exhaustion. EMFILE/ENFILE/ENOMEM retain resource_limit. Other fault
+rows and real SDK-clone controls remain as defined in process-test revision4;
+an unreachable Python os.pipe/Popen/time patch must never yield vacuous green.
 
 Real worker prologue/ABI/root/no-site enforcement, exact trusted-resource integrity,
 secure open/read-race handling, bounded allocation and every SDK no-fetch path
@@ -126,3 +167,13 @@ A DIFFERENT reviewer must approve the ACTUAL document and metadata fields before
 these additive tests depend on them. Actual test/oracle/harness review and genuine
 missing-wrapper red still precede implementation. These are private developer-tool
 admission refinements, not new public signatures/options or reduced release scope.
+
+Revision2 reason: actual selected Python resource/PID result-allocation and cleanup
+source intervals prevent complete parent ownership proof. This explicit native
+admission/configuration-owner split and negative-seam port address that private
+architecture change without changing the one SDK root, exact interpreter spelling,
+three pre-sysconfig presence guards, all three ABI profiles, child recomputation,
+no-site behavior, phase6, paired20 metadata checks, hashes or selected versions.
+Original revision1 source86d6d482 and its valid tests/reviews/red artifacts remain
+historical evidence. Actual different revision review is a prerequisite, not a
+claim that a native installation or foundation already works.

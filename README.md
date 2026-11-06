@@ -84,6 +84,9 @@ python3 tools/progress.py render
 Use `python` instead of `python3` on Windows when appropriate. See setup instructions.
 CLion imports configure/build presets; run CTest preset commands in its terminal.
 
+For the bounded offline JSON Schema/OpenAPI developer tool, see
+[installation and usage](docs/schema-validation.md).
+
 ## Test first
 
 The numeric `calculate_time_credit` helper implements contract revision 1: it

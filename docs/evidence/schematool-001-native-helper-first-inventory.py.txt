@@ -1,0 +1,55 @@
+import ast
+import json
+from pathlib import Path
+import subprocess
+source = ast.parse(Path('tests/schema_validation/native_loader_foundation.py').read_text())
+classes = [item for item in source.body if isinstance(item, ast.ClassDef) and item.name == 'NativeLoaderFoundation']
+methods = [item for item in classes[0].body if isinstance(item, ast.FunctionDef) and item.name.startswith('test_')] if len(classes) == 1 else []
+if len(methods) != 2 or {item.name for item in methods} != {'test_builtin_abi_profile', 'test_actual_inert_artifact_returns_literal_31'} or any(item.decorator_list for item in methods):
+    raise SystemExit('Native loader methods changed or are disabled/inverted')
+expected = {
+    'InertBaselineLiteral31',
+    'SigchldProfileQueryWithoutBirth',
+    'AtomicPidfdSignalsAndCloseRange',
+    'ActualExecveNonvalidatingProbe',
+    'ForeignThreadAndCompetingReapKeepPinnedIdentity',
+    'ControlledCloneErrorsRollbackWithoutGuessingOutput',
+    'SyscallBindingToActualLibc',
+}
+names = {'schema-native-foundation.SchemaNativeFoundation.' + name for name in expected}
+helper = {
+    'FreshPlanOneShotAndExactSnapshotEncoding',
+    'IdleArmActualStub31ThenTerminalCancel',
+    'Parent64RecordBoundaryPoisonsOnlyOn65th',
+    'CallerCannotForgeControllerJournal',
+    'Case28HasOneActualNonCloexecPrebirthSentinel',
+    'CaptureTee257ThenOneRefusesWithoutOverflow',
+    'TinyFdLimitRollbackRestoresCallerLimit',
+    'SharedChildJournal32ThenOverflowIsVisible',
+    'RealReadyChildAdvancesOnlyTheOffsetClock',
+    'PostBirthResourceHookNeedsRealReadinessWithoutClassifying',
+    'DeliberateControllerReapIsDistinctFromFallback',
+    'ControllerConsumedNormal125PoisonsBeforeActionAck',
+}
+names.update('schema-native-foundation.NativeFaultFoundation.' + name for name in helper)
+for prefix, method, count in (
+    ('ClosedTuples/NativeFaultInvalidPlan', 'RefusesFreshInvalidTupleWithoutPublishedState', 6),
+    ('ClosedCapture/NativeFaultCapture', 'ActualPipeTeeSuffixAndEofAreRequired', 4),
+    ('CloseEdges/NativeFaultSignal', 'ActualMainThreadSigintPreservesCallerState', 2),
+    ('ClosedBytes/NativeFaultChildBytes', 'ActualFixedExecBytesAndStatus', 24),
+):
+    names.update('schema-native-foundation.' + prefix + '.' + method + '/' + str(index) for index in range(count))
+names.add('schema-native.loader-foundation')
+data = json.loads(subprocess.check_output([
+    'ctest', '--preset', 'schema-transport-debug',
+    '-L', '^schema-native-foundation$', '--show-only=json-v1',
+], text=True, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'}))
+if {item['name'] for item in data['tests']} != names or len(data['tests']) != len(names):
+    raise SystemExit('Native foundation registrations differ from the reviewed inventory')
+for item in data['tests']:
+    properties = {entry['name']: entry['value'] for entry in item['properties']}
+    if properties.get('DISABLED') or properties.get('WILL_FAIL'):
+        raise SystemExit('Native foundation is disabled or failure-inverted')
+    if 'schema-native-foundation' not in properties.get('LABELS', []):
+        raise SystemExit('Native foundation label missing')
+print('Exact55 native cases and one two-method loader program registered and enabled')

@@ -1,0 +1,32 @@
+{
+  "source": "c6602a69c06af6e8c920a6474b52e44f7fba00bd",
+  "command": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-S",
+    "-B",
+    "tools/schema_validation/audit_native_foundation.py",
+    "--foundation",
+    "/tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation",
+    "--child",
+    "/tmp/subathon-schematool001/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation_child",
+    "--transport",
+    "/tmp/subathon-schematool001/build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so"
+  ],
+  "start_utc": "2026-11-06T18:06:22.685591+00:00",
+  "seconds": 0.6566024390049279,
+  "returncode": 0,
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "stdout": {
+    "bytes": 2408,
+    "sha256": "31f172342e8a5c232d8a7873d885eee245a5d5c9d875407445d55c90b6e3d357"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

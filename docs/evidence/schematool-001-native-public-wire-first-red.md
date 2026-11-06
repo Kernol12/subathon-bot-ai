@@ -1,0 +1,5 @@
+# Corrected public wire-routing red
+
+After actual different C997 review of A42dd duplicate-logical-tuple correction, root integrated307/945 and explicitly released ONLY the two affected original wrapper methods. Actual clean945a469, dedicated ordinary CPython3.14.9 venv -I -B/minimalenv:2methods/13literal observations, exit1/3.463s, stdoutempty. All13failures now reach genuine public_fault/session.assert_evidence PIDcount0!=1 because oldroute has not used the real native boundary. No duplicate-tuple fixture failure, import/setup/missingdependency error or synthetic31 exists. Full original74mixedred remains in the separately retained e2ad archive; unaffected baselines were not replayed.
+
+Raw compressedstderr/receipt adjacent. This completes the remaining affected new routing-red observations and releases A's public route implementation alongside actual binding9red9a70 and actual native69red9d83, with independent source/generated/resource review, full integration acceptance and latestbothhostCI still mandatory before PR77ready/merge. No successful native behavior claimed.

@@ -7,19 +7,16 @@ unmodified public entrypoint. Fault children exercise refusal/cleanup only.
 
 import builtins
 import contextlib
+import ctypes
 import errno
 import importlib.util
 import io
 import json
 import os
 from pathlib import Path
-import select
-import signal
 import subprocess
 import sys
 import tempfile
-import threading
-import time
 import unittest
 from unittest import mock
 
@@ -30,6 +27,14 @@ ROOT = Path(__file__).parents[2]
 SCRIPT = ROOT / "tools" / "schema_validate.py"
 # Never reset: a swallowed poison exception must remain visible after the call.
 POISON_TOUCHES = []
+
+
+def native_public_helper():
+    spec = importlib.util.spec_from_file_location(
+        "schema_wrapper_native_public_helper", Path(__file__).with_name("native_public_fault.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 @contextlib.contextmanager
@@ -156,7 +161,7 @@ class TupleSubclass(tuple):
 
 
 class WrapperAcceptance(unittest.TestCase):
-    """Logical §§2–5, API §§1–5, context §§1–5, private process v1."""
+    """Logical §§2–5, API §§1–5, context §§1–5, private process revision4."""
 
     @classmethod
     def setUpClass(cls):
@@ -234,12 +239,17 @@ class WrapperAcceptance(unittest.TestCase):
                 mock.patch.object(builtins, "open", side_effect=AssertionError("help opened file")) as builtin_open, \
                 mock.patch.object(io, "open", side_effect=AssertionError("help opened file")) as file_open, \
                 mock.patch.object(os, "open", side_effect=AssertionError("help opened file")) as descriptor_open, \
+                mock.patch.object(self.target, "_load_native_transport", create=True,
+                                  side_effect=AssertionError("help loaded native")) as native_load, \
+                mock.patch.object(ctypes, "CDLL", side_effect=AssertionError("help loaded library")) as library_load, \
                 contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
             actual = self.target.main(["--help"])
         spawn.assert_not_called()
         builtin_open.assert_not_called()
         file_open.assert_not_called()
         descriptor_open.assert_not_called()
+        native_load.assert_not_called()
+        library_load.assert_not_called()
         self.assertIs(type(actual), int)
         self.assertEqual(actual, 0)
         self.assertEqual(stdout.getvalue(), "Usage: schema_validate.py --manifest PATH\n")
@@ -292,12 +302,9 @@ class WrapperAcceptance(unittest.TestCase):
             self.assertEqual(stderr.read(257), b"")
 
     def test_parent_pipe_enosys_refuses_without_worker_or_logs(self):
-        p = self.package(b"1", schema(type="integer"))
-        with mock.patch.object(os, "pipe", side_effect=OSError(errno.ENOSYS, "PRIVATE facility detail")) as pipe, \
-                mock.patch.object(subprocess, "Popen", side_effect=AssertionError("ENOSYS spawned worker")) as spawn:
-            self.outcome(p, "environment_unavailable")
-        pipe.assert_called()
-        spawn.assert_not_called()
+        # The real native pipe facility fails before birth; Python os.pipe mocks
+        # cannot reach this boundary. The child checks raw no-birth/FD/no-log facts.
+        native_public_helper().run_child(self, "p2")
 
     def test_sysconfig_environment_presence_including_empty_refuses_unchanged(self):
         keys = ("_PYTHON_SYSCONFIGDATA_NAME", "_PYTHON_SYSCONFIGDATA_PATH", "_PYTHON_PROJECT_BASE")
@@ -310,9 +317,14 @@ class WrapperAcceptance(unittest.TestCase):
                             os.environ.pop(other, None)
                         os.environ[key] = value
                         before = dict(os.environ)
-                        with mock.patch.object(subprocess, "Popen", side_effect=AssertionError("override spawned worker")) as spawn:
+                        with mock.patch.object(subprocess, "Popen", side_effect=AssertionError("override spawned worker")) as spawn, \
+                                mock.patch.object(self.target, "_load_native_transport", create=True,
+                                                  side_effect=AssertionError("override loaded native")) as native_load, \
+                                mock.patch.object(ctypes, "CDLL", side_effect=AssertionError("override loaded library")) as library_load:
                             self.outcome(p, "environment_unavailable")
                         spawn.assert_not_called()
+                        native_load.assert_not_called()
+                        library_load.assert_not_called()
                         self.assertEqual(dict(os.environ), before)
 
     def test_real_sdk_clone_control_then_missing_distribution_is_dependency_unavailable(self):
@@ -999,133 +1011,10 @@ class WrapperAcceptance(unittest.TestCase):
         self.outcome(p, "invalid_schema")
 
     def fault(self, activation, outcome, status, expected="validation_unavailable", deadline=False, death=False):
-        """Private v1 fault seam: REAL children, bounded channels, no fake success."""
-        real_popen, real_clock = subprocess.Popen, time.monotonic
-        saved = []
-        ready_for_expiry = [False]
-        base = real_clock()
-        descriptor_owner = contextlib.ExitStack()
-        owned_fds = set()
-        reaped = False
-        watchdogs = []
-        watchdog_fired = threading.Event()
-
-        def clock():
-            return base + 11 if ready_for_expiry[0] else base
-
-        def close_owned(fd):
-            if fd in owned_fds:
-                owned_fds.remove(fd)
-                os.close(fd)
-
-        def owned_pipe():
-            ends = os.pipe()
-            for fd in ends:
-                owned_fds.add(fd)
-                descriptor_owner.callback(close_owned, fd)
-            return ends
-
-        def spawn(argv, **kwargs):
-            self.assertEqual(len(saved), 0)
-            self.assertIn(type(argv), (list, tuple))
-            self.assertEqual(len(argv), 12)
-            self.assertTrue(Path(argv[0]).is_absolute())
-            self.assertEqual(list(argv[1:3]), ["-I", "-S"])
-            self.assertTrue(Path(argv[3]).is_absolute())
-            self.assertEqual(list(argv[4::2]), ["--manifest", "--sdk-dir", "--activation-fd", "--outcome-fd"])
-            self.assertTrue(Path(argv[7]).is_absolute())
-            numbers = argv[9], argv[11]
-            for number in numbers:
-                self.assertEqual(str(int(number)), number)
-                self.assertGreaterEqual(int(number), 3)
-            first, second = map(int, numbers)
-            self.assertNotEqual(first, second)
-            self.assertEqual(set(kwargs["pass_fds"]), {first, second})
-            self.assertEqual(len(kwargs["pass_fds"]), 2)
-            for key in ("stdin", "stdout", "stderr"):
-                self.assertEqual(kwargs[key], subprocess.DEVNULL)
-            self.assertIs(kwargs["shell"], False)
-            self.assertIs(kwargs["close_fds"], True)
-            self.assertNotIn("preexec_fn", kwargs)
-            self.assertFalse(kwargs.get("text", False))
-            code = ("import os,signal; a=int(os.environ['TEST_A']); o=int(os.environ['TEST_O']); "
-                    "os.write(a," + repr(activation) + "); os.close(a); "
-                    "os.write(o," + repr(outcome) + "); os.close(o); ")
-            descriptors = [first, second]
-            env = {"TEST_A": str(first), "TEST_O": str(second)}
-            ready_read = None
-            if deadline:
-                ready_read, ready_write = owned_pipe()
-                release_read, release_writer = owned_pipe()
-                descriptors.extend((ready_write, release_read))
-                env.update(TEST_R=str(ready_write), TEST_B=str(release_read))
-                code = ("import os; os.write(int(os.environ['TEST_R']),b'R'); "
-                        "os.close(int(os.environ['TEST_R'])); os.read(int(os.environ['TEST_B']),1)")
-            elif death:
-                code += "os.kill(os.getpid(),signal.SIGKILL)"
-            else:
-                code += "os._exit(" + str(status) + ")"
-            try:
-                process = real_popen([sys.executable, "-I", "-S", "-c", code],
-                                     shell=False, close_fds=True, stdin=subprocess.DEVNULL,
-                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                                     pass_fds=tuple(descriptors), env=env)
-                saved.append(process)
-                def watchdog():
-                    watchdog_fired.set()
-                    try:
-                        os.kill(process.pid, signal.SIGKILL)
-                    except ProcessLookupError:
-                        pass
-                timer = threading.Timer(5, watchdog)
-                timer.daemon = True
-                timer.start()
-                watchdogs.append(timer)
-            finally:
-                if deadline:
-                    close_owned(ready_write)
-                    close_owned(release_read)
-            if deadline:
-                try:
-                    # Kernel readiness timeout is a test watchdog, never its oracle.
-                    readable, _, _ = select.select([ready_read], [], [], 3)
-                    self.assertEqual(readable, [ready_read], "fault child readiness watchdog")
-                    self.assertEqual(os.read(ready_read, 2), b"R")
-                    ready_for_expiry[0] = True
-                finally:
-                    close_owned(ready_read)
-            return process
-
-        p = self.package(b"1", schema(type="integer"))
-        try:
-            with mock.patch.object(subprocess, "Popen", side_effect=spawn):
-                if deadline:
-                    with mock.patch.object(time, "monotonic", side_effect=clock):
-                        self.outcome(p, expected)
-                else:
-                    self.outcome(p, expected)
-            self.assertEqual(len(saved), 1)
-            # No poll/wait/test cleanup is allowed before this proof of parent reap.
-            with self.assertRaises(ChildProcessError):
-                os.waitpid(saved[0].pid, os.WNOHANG)
-            reaped = True
-            self.assertFalse(watchdog_fired.is_set(), "real fault-child watchdog fired")
-        finally:
-            try:
-                for timer in watchdogs:
-                    timer.cancel()
-                    timer.join(timeout=1)
-            finally:
-                try:
-                    descriptor_owner.close()
-                finally:
-                    if saved and not reaped:
-                        try:
-                            saved[0].kill()
-                        except ProcessLookupError:
-                            pass
-                        finally:
-                            saved[0].wait(timeout=3)
+        """Process-r4: exact frozen tuple, one actual public row per fresh child."""
+        helper = native_public_helper()
+        row = helper.protocol_row(activation, outcome, status, expected, deadline, death)
+        helper.run_child(self, row)
 
     def test_worker_activation_missing_extra_and_malformed_refuse_forged_ok(self):
         for activation in (b"", b"AA", b"B"):

@@ -1,0 +1,21 @@
+{
+  "source": "37ce9bcbd293ffadabb2c487c01bfebb7d9c3144",
+  "command": [
+    "cmake",
+    "--build",
+    "--preset",
+    "schema-transport-debug",
+    "--verbose"
+  ],
+  "start_utc": "2026-11-06T18:34:32.831242+00:00",
+  "seconds": 1.7405941640026867,
+  "returncode": 0,
+  "stdout": {
+    "bytes": 1815,
+    "sha256": "f3fb51d4c9d792b6894bfaa2eb11e67089d74e3e77dc71519800448a6d281df6"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

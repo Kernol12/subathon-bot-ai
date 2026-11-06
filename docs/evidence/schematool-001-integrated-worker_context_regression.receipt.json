@@ -1,0 +1,41 @@
+{
+  "start_utc": "2026-11-06T13:32:00.642393+00:00",
+  "source_commit": "0f8ed17c2f96ca60236f8cf961c48caaff541502",
+  "source_blobs": {
+    "tests/schema_validation/worker_context_regression.py": "b34a564e87bf3cd818dc8ebd1fac8a7a3979035c",
+    "tools/schema_validate.py": "3438a92c9a98a4aa326ed733abffeee6c26c7502",
+    "tools/schema_validation/worker.py": "5842b567b3dfb9ee646dfcfe600ff7d8060cf86d",
+    "tools/schema_validation/_schema_backend.py": "3eeccae013606c258fe8f7ddddfd40017b642c9e",
+    "tools/schema_validation/_schema_index.py": "17c73c41fee4d3bfcd34e46de3d86545826c77fd",
+    "tools/schema_validation/_schema_common.py": "41dd38fadeac7fc4139d63c12451a356d33fe7e5"
+  },
+  "argv": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-B",
+    "tests/schema_validation/worker_context_regression.py"
+  ],
+  "cwd": "/tmp/subathon-schematool001",
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "external_watchdog_seconds": 45,
+  "timeout": false,
+  "returncode": 0,
+  "elapsed_seconds": 1.5157882570056245,
+  "purpose": "Scoped integrated functional regression; native ownership/source completion withheld",
+  "streams": {
+    "stdout": {
+      "path": "docs/evidence/schematool-001-integrated-worker_context_regression.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "docs/evidence/schematool-001-integrated-worker_context_regression.stderr.txt",
+      "bytes": 588,
+      "sha256": "7b67f66071162b5f74f93cb12808eae418c17785926268a6ccfc8e7cf0d336de"
+    }
+  }
+}
