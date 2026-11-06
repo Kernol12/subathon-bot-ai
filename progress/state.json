@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:15:13+00:00",
+  "updated_at": "2026-11-06T05:23:25+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -3231,7 +3231,7 @@
       "title": "Sequential achievement and deficit calculation",
       "module": "Automation",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "coordinator /root; milestone_author (implementation)",
       "depends_on": [
         "CONTRACT-002",
@@ -3246,11 +3246,30 @@
       "summary": "Record every crossed target immediately in ascending order; score 800 below completed target 1000 retains completion and deficit 200.",
       "notes": [
         "Parent epic: EPIC-005. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim."
+        "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim.",
+        "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "acceptance": "passed",
+        "source_review": "passed",
+        "configuration_review": "not_run",
+        "selected_ci": "not_run",
+        "platform_release": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/milestonetest-001-handoff.md",
+        "docs/evidence/milestone-001-author.md",
+        "docs/evidence/milestone-001-native.md",
+        "docs/evidence/milestone-001-code-review.md",
+        "docs/evidence/milestone-001-handoff.md"
+      ],
+      "review": {
+        "author": "session_plan_review (milestone_author)",
+        "reviewer": "session_supplier_author (milestone source reviewer)",
+        "outcome": "approved",
+        "revision": "Actualsourcea5d18ae/importc2305dd/blobd79b77cad26bf876fd4bd89038161d4fc0c1b809 approvedb1d5dc7/importb945ff2 with independent90PASS; configuration2792791/actualCI/finalmetadata remain pending.",
+        "evidence": "docs/evidence/milestone-001-code-review.md"
+      }
     },
     {
       "id": "MILESTONETEST-002",
@@ -14820,6 +14839,11 @@
       "date": "2026-11-06T05:15:13+00:00",
       "task": "MILESTONE-001",
       "note": "Claim dependency-ready pure progression implementation from integrated main e2cd5eb. Read-only independent readiness audit confirms exact reviewed baseline header9a167813/stub4e3291f0/test01997384/fixture409be19d, actual different review208d0580/current harness75e62c2/FIRST53 intended red c2bcb088 attributede030a0e7; historical FIRST red never replayed. Author owns ONLY core/src/milestone_progression.cpp, narrowly justified private helper and own evidence on isolated branch. Root owns public comment/shared build/CI/state/map/HTML/pins/tests. Preserve all53 assertions and full domain/resource priorities; different actual source/config review and passing53/full90 plus observed ordinary selectedCI required before done. No authoritative score/storage/actions/UI/provider/release claim."
+    },
+    {
+      "date": "2026-11-06T05:23:25+00:00",
+      "task": "MILESTONE-001",
+      "note": "Implement pure bounded sequential progression from preserved53-case baseline: exact immutable-prefix/current-deficit/interval, fullU64distance, seven-phase priorities, fixed4096 borrowed scratch and complete count/item/byte preownership projection. Sourcea5/importc2305/d79 approveddifferentb1d/importb945; author53/full90PASS0.10/0.72s, root90PASS0.68s, different90PASS0.75s,0warnings/skips. Root279 ordinary53CIpromotion authored afterpassingcases, separateconfigreview/observedselectedCI/finalmetadata remain; in_review notdone. All publicABI/assertions/fixtures/originalFIRSTred preserved."
     }
   ]
 }
