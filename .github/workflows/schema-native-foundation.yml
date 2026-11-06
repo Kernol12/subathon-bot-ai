@@ -184,7 +184,7 @@ jobs:
           data = json.loads(subprocess.check_output([
               'ctest', '--preset', 'schema-transport-debug',
               '-L', '^schema-native-foundation$', '--show-only=json-v1',
-          ], text=True))
+          ], text=True, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'}))
           if {item['name'] for item in data['tests']} != names or len(data['tests']) != len(names):
               raise SystemExit('Native foundation registrations differ from the reviewed inventory')
           for item in data['tests']:
@@ -196,4 +196,6 @@ jobs:
           print('Exact55 native cases and one two-method loader program registered and enabled')
           PYTHON
       - name: Execute every reviewed native foundation unconditionally
-        run: ctest --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose
+        run: >-
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+          ctest --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose

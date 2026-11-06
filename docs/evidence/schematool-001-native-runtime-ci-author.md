@@ -26,3 +26,10 @@ SDK-green or merge claim. BOTH-host actual green and reviewed FIRST31 still
 precede common owner implementation. Local285 static passes/independent actual
 artifact review and exact binding result remain separate evidence; a prior15b
 or old hosted hash cannot be reused for the changed native binary.
+
+C actual binding-result/runtime review found an environment continuity gap:
+bootstrap used the exact3-key environment, but the later CTest inventory/probes
+inherited runner variables. Root corrects inventory subprocess and final CTest to
+that SAME exact3-key environment. This excludes LD_*/GLIBC_TUNABLES/GTEST_FILTER
+changes between admitted binding and discovery/probes; no assertion/name/count/
+platform/code changes. Actual different C delta review precedes publication.
