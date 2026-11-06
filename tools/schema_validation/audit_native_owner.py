@@ -175,7 +175,9 @@ def parse_ci(text):
         else:
             edges.append(tuple(identity(json.loads(x)) for x in edge.groups()))
     require(len(nodes) <= 4096 and len(edges) <= 16384, "compiler graph size bound")
-    require(all(a in nodes and b in nodes for a, b in edges), "compiler edge has no node")
+    missing = sorted({name for edge in edges for name in edge if name not in nodes})
+    require(not missing, "compiler edge has no node: "
+            + ", ".join(name[:256] for name in missing[:8]))
     return nodes, edges
 
 
