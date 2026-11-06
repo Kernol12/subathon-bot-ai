@@ -94,7 +94,7 @@ def disassembly(path):
     return functions
 
 
-def reachable(functions, root_name, allowed):
+def reachable(functions, root_name, allowed, extra_instruction=None):
     roots = [address for address, (_, name, _) in functions.items() if root_name(name)]
     require(len(roots) == 1, "generated child root missing/ambiguous")
     pending = roots[:]
@@ -114,7 +114,10 @@ def reachable(functions, root_name, allowed):
                     "TLS/segment access in generated child function " + name)
             shared_wake = (name == "(anonymous namespace)::wake((anonymous namespace)::Shared*)"
                            and mnemonic == "lock" and operands == "addl $0x1,(%rax)")
-            require(mnemonic in PLAIN or SIZED.fullmatch(mnemonic) or shared_wake
+            # Optional owner-specific atomic context; all default gates stay strict.
+            extra = (extra_instruction is not None
+                     and extra_instruction(name, mnemonic, operands))
+            require(mnemonic in PLAIN or SIZED.fullmatch(mnemonic) or shared_wake or extra
                     or mnemonic.startswith(("call", "j", "loop", "set", "cmov")),
                     "unreviewed generated instruction in " + name + ": " + mnemonic)
             if mnemonic.startswith("call") or mnemonic.startswith("j") or mnemonic.startswith("loop"):
