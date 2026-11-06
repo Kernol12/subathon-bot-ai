@@ -50,12 +50,12 @@ Fresh roles (historical agent IDs are not reused):
 - `session_plan_review`: independently reviews actual eb98c18 split and40c33ad
   reconciliation; owns only `docs/evidence/sessioncontract-001-plan-review.md` on
   a new isolated review branch. Actual split/reconciliation approved at8846a1c (importc3ee594);
-  [review](sessioncontract-001-plan-review.md) and independent checks pass.
+  `docs/evidence/sessioncontract-001-plan-review.md` (in PR72) and independent checks pass.
   Reassigned subsequently as milestone implementation author below.
 - `session_supplier_review`: read-only specification/import preparation, then actual
   author revision review on a new isolated branch; owns only
   `docs/evidence/sessioncontract-001-review.md`. Actual correctedc7/c5f5a6e supplier document approved46f1ad2/importfdab76b;
-  [review](sessioncontract-001-review.md). Final completion metadata review pending.
+  `docs/evidence/sessioncontract-001-review.md` (in PR72). Final completion metadata review pending.
 - Root owns state/HTML, task briefs/navigation, shared imports/build/CI/pins/schema,
   integration/checkpoint and GitHub publication/merge. Root does not self-approve
   authored supplier behavior or the planning split.
@@ -120,8 +120,7 @@ Windows/Linux/Wayland/OBS, packages/licenses/security and live verification rema
 ## Latest milestone handoff
 
 Actualsourcea5/importc2305/d79 separately approvedb1/importb945. Ordinary config279
-separately approved276fc8f (import pending in this checkpoint wording; actual branch
-contains the reviewed append). Root/author/reviewer full90PASS0.68/0.72/0.75s,
+separately approved276fc8f/import96d79b0. Root/author/reviewer full90PASS0.68/0.72/0.75s,
 independent promoted old37/53PASS0.63/0.09s and exactguard53. New
 [native](milestone-001-native.md), [handoff](milestone-001-handoff.md),
 [source/config review](milestone-001-code-review.md) retain exact artifacts.
