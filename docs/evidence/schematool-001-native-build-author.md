@@ -81,3 +81,13 @@ part: successful-clone return edge and actual relocation/versioned-symbol bindin
 remain independently audited per-host prerequisites. This candidate workflow is
 UNPUBLISHED and must not execute while those gates remain open. Actual source
 and runtime release still require different review; no future CI pass is claimed.
+
+First HOSTED publication is now explicitly staged as schema-native-build-evidence
+(no kernel acceptance): compile, mocked static controls, scoped binutils graph and
+actual entry/GOT relocation text ONLY. The unpublished full runtime steps are
+removed from this first stage; all test bodies/assertions/CMake registrations
+remain. No bootstrap/CTest discovery/loader/kernel program executes in this
+hosted stage. A different actual per-host binary review precedes restored
+unconditional runtime after a reviewed binding/edge gate. Green build-evidence
+checks cannot satisfy native facilities/owner/merge acceptance. This staging
+implements C's required admission order and changes no product/public scope.

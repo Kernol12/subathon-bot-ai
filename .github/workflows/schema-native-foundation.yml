@@ -1,4 +1,4 @@
-name: Schema native process foundations
+name: Schema native build evidence (no kernel acceptance)
 on:
   pull_request:
     branches: [main]
@@ -8,8 +8,8 @@ on:
 permissions:
   contents: read
 jobs:
-  schema-native-foundation:
-    name: schema-native-foundation (${{ matrix.runner }})
+  schema-native-build-evidence:
+    name: schema-native-build-evidence (${{ matrix.runner }})
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 15
     strategy:
@@ -62,65 +62,37 @@ jobs:
           --foundation "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation"
           --child "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation_child"
           --transport "$PWD/build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so"
-      - name: Verify actual libc binding without creating a child
+      - name: Export actual clone entry and binding relocations for different review
         run: |
           /usr/bin/python3 - <<'PYTHON'
           from pathlib import Path
+          import runpy
           import subprocess
-          import tempfile
-          import xml.etree.ElementTree as ET
+          namespace = runpy.run_path('tools/schema_validation/audit_native_foundation.py', run_name='native_static_evidence')
           executable = Path('build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation').resolve(strict=True)
-          with tempfile.TemporaryDirectory(prefix='schema-native-binding-') as temporary:
-              report = Path(temporary) / 'binding.xml'
-              subprocess.run([
-                  str(executable), '--gtest_filter=SchemaNativeFoundation.SyscallBindingToActualLibc',
-                  '--gtest_color=no', '--gtest_output=xml:' + str(report),
-              ], check=True, timeout=30, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'})
-              root = ET.parse(report).getroot()
-              cases = list(root.iter('testcase'))
-              if (root.get('tests') != '1' or root.get('failures') != '0' or root.get('errors') != '0'
-                      or root.get('disabled') != '0' or len(cases) != 1 or list(root.iter('skipped'))
-                      or cases[0].get('name') != 'SyscallBindingToActualLibc'
-                      or cases[0].get('status') != 'run' or cases[0].get('result') != 'completed'):
-                  raise SystemExit('Binding bootstrap did not execute exactly one passing case')
-          print('One actual no-child libc binding case passed; kernel probes are separate')
+          functions = namespace['disassembly'](executable)
+          probes = [item for item in functions.values() if item[1].startswith('(anonymous namespace)::probe(')]
+          if len(probes) != 1:
+              raise SystemExit('Actual native probe symbol is missing/ambiguous')
+          instructions = probes[0][2]
+          calls = [index for index, item in enumerate(instructions) if item[1].startswith('call') and 'syscall@' in item[2]]
+          if len(calls) != 1:
+              raise SystemExit('Actual clone syscall edge needs separate extraction/review')
+          print('ACTUAL CLONE RETURN EDGE; EVIDENCE ONLY, NO RUNTIME ADMISSION', flush=True)
+          for address, mnemonic, operands in instructions[max(0, calls[0]-8):calls[0]+30]:
+              print(f'{address:x}: {mnemonic} {operands}', flush=True)
+          bindings = [item for item in functions.values() if 'SyscallBindingToActualLibc_Test::TestBody()' in item[1]]
+          if len(bindings) != 1:
+              raise SystemExit('Actual binding test symbol is missing/ambiguous')
+          print('ACTUAL ADDRESS-TAKEN BINDING REFERENCES', flush=True)
+          for address, mnemonic, operands in bindings[0][2]:
+              if 'syscall@' in operands:
+                  print(f'{address:x}: {mnemonic} {operands}', flush=True)
+          print('ACTUAL SYSCALL PLT', flush=True)
+          for _, name, instructions in functions.values():
+              if name == 'syscall@plt':
+                  print(name, instructions, flush=True)
+          print('ACTUAL DYNAMIC SYMBOL RELOCATIONS', flush=True)
+          subprocess.run(['readelf', '-Wr', str(executable)], check=True, timeout=30)
+          print('Build/static evidence only; no bootstrap, discovery, loader or kernel case executed', flush=True)
           PYTHON
-      - name: Require the exact enabled native foundation registrations
-        run: |
-          /usr/bin/python3 - <<'PYTHON'
-          import ast
-          import json
-          from pathlib import Path
-          import subprocess
-          source = ast.parse(Path('tests/schema_validation/native_loader_foundation.py').read_text())
-          classes = [item for item in source.body if isinstance(item, ast.ClassDef) and item.name == 'NativeLoaderFoundation']
-          methods = [item for item in classes[0].body if isinstance(item, ast.FunctionDef) and item.name.startswith('test_')] if len(classes) == 1 else []
-          if len(methods) != 2 or {item.name for item in methods} != {'test_builtin_abi_profile', 'test_actual_inert_artifact_returns_literal_31'} or any(item.decorator_list for item in methods):
-              raise SystemExit('Native loader methods changed or are disabled/inverted')
-          expected = {
-              'InertBaselineLiteral31',
-              'SigchldProfileQueryWithoutBirth',
-              'AtomicPidfdSignalsAndCloseRange',
-              'ActualExecveNonvalidatingProbe',
-              'ForeignThreadAndCompetingReapKeepPinnedIdentity',
-              'ControlledCloneErrorsRollbackWithoutGuessingOutput',
-              'SyscallBindingToActualLibc',
-          }
-          names = {'schema-native-foundation.SchemaNativeFoundation.' + name for name in expected}
-          names.add('schema-native.loader-foundation')
-          data = json.loads(subprocess.check_output([
-              'ctest', '--preset', 'schema-transport-debug',
-              '-L', '^schema-native-foundation$', '--show-only=json-v1',
-          ], text=True))
-          if {item['name'] for item in data['tests']} != names or len(data['tests']) != len(names):
-              raise SystemExit('Native foundation registrations differ from the reviewed inventory')
-          for item in data['tests']:
-              properties = {entry['name']: entry['value'] for entry in item['properties']}
-              if properties.get('DISABLED') or properties.get('WILL_FAIL'):
-                  raise SystemExit('Native foundation is disabled or failure-inverted')
-              if 'schema-native-foundation' not in properties.get('LABELS', []):
-                  raise SystemExit('Native foundation label missing')
-          print('Exact seven native cases and one two-method loader program registered and enabled')
-          PYTHON
-      - name: Execute every reviewed native foundation unconditionally
-        run: ctest --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose
