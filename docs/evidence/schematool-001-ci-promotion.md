@@ -30,3 +30,16 @@ review findings and perform real full64 acceptance. Only then publish the review
 promotion and observe both current hosted lanes/oldchecks. A passing registration
 step alone never establishes passing implementation. Actual child resource/ABI/
 no-site/read-race/offline/allocation and source-review gates remain mandatory.
+
+The initial configuration scope3d8 is now actually independently reviewed C13d0
+(harness2673608/workflow74f487d), with no execution/feature approval. Since that
+candidate, actual reviews found parent cancellation/allocation and worker raw
+Schema/profile defects. Their NEW source-reviewed focused regressions have their
+own intended reached-bug observations; the unchanged public64 remains separate.
+This additive draft runs each entire new module unconditionally after public64,
+on BOTH selected hosts, with the identical isolated interpreter/minimal environment.
+No test selector/skip/failure inversion is introduced. These extra workflow steps
+need actual delta review; initial configuration approval does not cover them.
+Keep this candidate unpublished/unexecuted until actual corrected implementation,
+source review and real local acceptance/regressions pass. Hosted observations then
+remain required on the actual published revision.

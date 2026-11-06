@@ -85,3 +85,11 @@ jobs:
         run: |
           schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/wrapper_acceptance.py
+      - name: Execute reviewed parent cleanup and allocation regressions unconditionally
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/parent_cleanup_regression.py
+      - name: Execute reviewed raw schema context regressions unconditionally
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 "$schema_validation_env/bin/python" -I -B tests/schema_validation/worker_context_regression.py
