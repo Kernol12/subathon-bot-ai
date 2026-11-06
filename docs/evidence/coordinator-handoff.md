@@ -1,135 +1,99 @@
-# Coordinator checkpoint — baseline quality complete on task branch, merge gates pending
+# Coordinator checkpoint — baseline complete on task branch; merge pending
 
-/root,6 November2026. Standing coordination remains active; full specification0.45
-is incomplete. No owner decision/access is needed. Preserve unfinished refs/worktrees,
-valid reviews and every historical FIRST receipt. No live/provider/chat/auth/deploy
-operation. Primary main is clean14190827f9d6c5d73da669e9da5712726508be3a.
+Current snapshot6 November2026, /root. Standing coordination remains authorized;
+full specificationv0.45 is incomplete. No owner decision/access is needed. Preserve
+unfinished refs/worktrees, valid reviews and original FIRST evidence. No live
+credential/contribution/chat/provider/deployment operation was performed.
 
-## Integrated work and actual publication
+## Actual repository and publication
 
-Normal session merges: PR72 supplier0605948; PR73 pure milestone4e85241; PR74 transport
-15cf7f1; PR75 schema prerequisite plan1419082. All17 then-applicable checks/separate
-actual reviews/threads/head-match gates passed. Their handoffs remain authoritative;
-do not repeat completed stages. Plan retained old423tasks/1624edges→426/1629.
-Root actual rules26170263 require PR/thread resolution and0 approving GitHub reviews,
-NO required-status rule and no bypass. Written policy still gates all latest checks
-and separate actual reviews. Requery current rules/head/reviews/threads before merge.
+Primary main is clean14190827f9d6c5d73da669e9da5712726508be3a. Normal session merges:
+PR72 supplier0605948, PR73 pure milestone4e85241, PR74 transport15cf7f1, PR75 schema
+prerequisite plan1419082. Their actual checks/reviews/head-match merge evidence is
+in task handoffs. Do not repeat completed work. All old423tasks/1624edges retained;
+plan adds3tasks/5edges→426tasks/1629dependencies, full release scope unchanged.
 
-Active `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline, claimed
-ab822715 frommain141. [Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76).
-Publishedbd15260 had ALL19 latest checks SUCCESS before FIRST native execution.
-Actual hosted42198344569 atbd passes both SDK14/20metadata/63definition lanes;
-independent C8db receipt was received before native and imported ONLY afterward
-as eebfc1e. Published78c87b5 now includes original FIRST raw/native evidence; its latest CI
-was running at this snapshot. Root later localb690 adds actual C native approval;
-completion metadata below is not yet independently reviewed or merged.
-Root owns state/HTML/pins/notices/imports/build/CI/checkpoint/publication. No reset,
-prune or discard. Inspect actual worktrees/processes/agents again on resumption.
+Active task worktree `/tmp/subathon-schematest001`, branch
+`task/SCHEMATEST-001-validation-baseline`, claimab822715 frommain141.
+[PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76) is DRAFT/UNMERGED.
+Published78c87b5 includes FIRST raw/native evidence; later localc152 attribution and
+root completion metadata await final independent metadata review/publication.
+Root owns state/HTML/pins/notices/imports/build/CI/checkpoint/publication.
 
-## Accepted contracts, dependencies and SDK facts
+Last inspected rules26170263 require PR/thread resolution,0 approving GitHub reviews,
+NO required-status rule and no bypass. Written policy gates ALL latest checks and
+independent actual reviews. Requery rules/head/reviews/threads/status before merge.
+No reset/prune/discard. Inspect actual agents/worktrees/processes on resumption.
 
-Logical4ab/abb reviewedb8; publicAPI438/691 reviewed980, then private two-output-FD
-clarificatione6/APIa526 reviewed3a2003a/import8b779. Contexta8/32ec reviewed31f/importe475.
-Private installation3fb+cb74+774+0b/doc86d6d4/manifest6f4ffec reviewed522/importfab.
-Actual discovery/profile/ABI/three pre-sysconfig override guards, same-artifact
-WHEEL/METADATA identity and real clone/ENOSYS seam are frozen documents, NOT worker
-implementation. Original20pins/28archives/versions/targets/licenses remain unchanged.
-Metadata fields were independently checked against28unique/60copies and installed20.
-Tools-only isolated exception preserves legacy stdlib tools/no global/server/clientdeps.
+## Current completed baseline gates
 
-CP314 isolated offline install/pipcheck pass. Historical FIRST7 invalid guard receipt
-2199 retained: exact trusted bundled fileURI was falsely blocked; NOT wrapper red.
-Narrow01c/d2 correction reviewed21f before root7OK; actual hosted7 receiptde496.
-Additive11 reviewed9f before root11OK; hosted11 run42181462289 receipted separately.
-Fixedcursor12 reviewed5a88 before12OK0.120s; fixedOASscope13 reviewedcdf12 before13OK
-0.116s; no-id14 a80/6585 reviewed8ba before14OK0.119s. CI14delta6247 reviewed5b65;
-actual hosted14 run42187299493 at0a07:3.10.12 fourteenOK0.292s /3.12.3 fourteenOK0.199s.
-A's independently downloaded hosted14 receipt794/import8ed covers exact117947B log
-SHAee0c20ccfeb9b388db30271dd1a69c911198b4b507333c43c3064d55d392a2ba.
-No generic wrapper capability follows from those fixed SDK recipes.
+The authoritative [task handoff](schematest-001-handoff.md) has the complete artifact/
+review table. Key frozen blobs: logicalabb426a, publicAPIa526dbc/privateprocess7f30d99,
+context32ec87a, installation86d6d4/metadata6f4ffec, inertdeclarations4a124a6,
+FINALtests5c5e9b3, greenharness97d95c2/workflow842790e,20-pinlock859d7cf.
+A/B/C authors/reviewers are distinct per artifact; source corrections were reviewed
+before execution. Original archives/versions/targets/licenses and seven integrations/
+threeFX scope remain. Tools exception is isolated-only; legacy tools stay stdlib.
 
-## Current actual wrapper source and reviews
+Actual final test source930a05b has63 methods/317 AUTHORED direct-call observations/
+5 script extras. Original60 scopes: A ff9476a first24+last4, C525b0c4 middle32;
+C525d31d dialect delta; A4347cd8 admission/harness; A6fae4b9+a7c2766 final metadata/
+container/13callback-ledger/help corrections. All source reviews are integrated.
+Only enum/exact RuntimeError/two immediate raw raises exist in production source.
+No parser/worker/schema/instance/help behavior is implemented. Implementation task
+SCHEMATOOL001 remainsplanned/Unassigned. State statusdone is TEST BASELINE quality
+on the task branch, not main integration, passing features or product completion.
 
-Only production tools/schema_validate.py4a124:18 enum/exact RuntimeError/two immediate
-named-marker bodies; independently reviewed794. No parser/worker/validation/help is
-implemented. Raw feature bodies/acceptance cases now ran ONCE atbd and all reached missing markers;
-no production parser/worker/schema/instance validation behavior is implemented.
+Historical FIRST7 SDK bundled-file guard error is preserved, NOT wrapper red;
+narrow separately reviewed correction passed. Actual14 fixed SDK recipes pass,
+including raw-data/default/no-id OAS scope facts. These do not prove a generic
+adapter. Final local CP314 definition-only harness at9dd5a16 exit0/0.073746s verified
+20 metadata pairs/no-site projection/63 registrations; no setup/case/feature/SDK
+import/clone/worker in THAT green process. Initial olda80 result is separate history.
 
-B source history73f→328→c1/ebb60; separate A ff9476a/importf5ec first24+last4 and
-C525b0c4/importc343 middle32/common helper reviews. Corrections were genuine fixture,
-protocol masking, cleanup and closed-role coverage findings before ANY execution.
-Additivefc5180b/a80 gave63 names/315 authored raw observations/3 script extras;
-C525d/import5f12 approved exact OAS dialect delta, A4347/import33ed approved3 real
-admission cases/script helper and root harness/config. Valid scopes preserved.
+## Actual selected CI and FIRST native red — do not replay
 
-C final plan audit found intact-code metadata hash and argv-subclass coverage gaps.
-B090/6969 adds WHEEL/METADATA same-header byte mutation refusals +list/tuple poison.
-A found swallowed callback exceptions: B6b/043 adds NEVER-RESET13callback ledger and
-plain-list teardown; A6fae4b9/importaec8384 approved that actual delta. Root then
-found the same masking in help guards; B930a05b/importf785454 now source
-5c5e9b340b61fce93f8504b3d612861467539aff binds4mocks +asserts_not_called.63names,
-317 SOURCE-COUNTED raw observations/5 script extras, NOT runtime counts. A actuala7c2766/import9dd5a16 APPROVES that exact final correction. B and A are
-completed/idle; use followup_task if another finding. No acceptance body has run.
+Workflow IS PUBLISHED. Run42198344569 atbd15260 SUCCESS:3.10.12 SDK14OK0.132s,
+3.12.3 SDK14OK0.114s; both actual20paired metadata identities/63definition-only
+registrations. Original full120769B log SHA3ab62153dae76d7de8336140c865999b4de667e18bb1dfe41ade4b6c480618cb.
+Checkout5997951 tree==bd tree. C independent receipt8db1d3b was received BEFORE
+FIRST and imported only AFTER FIRST as eebfc1e to preserve exact clean source head.
+All19 exact-bd check recordsSUCCESS, last09:58:24Z BEFORE native.
 
-## Root harness, actual early green and next execution
-
-Root21c71eb+0aa6d8d: harness97d95c/workflow842790e freezes63 real unittest registrations,
-inert declarations and20 actual installed metadata pairs/no-site child projection.
-Only definitions are imported; NO setup/test/feature/SDK/clone/worker. A4347 approved
-actual core/config+63 names. Definition source changes still require actual review.
-No untracked draft remains; all root work is committed. Current workflow is LOCAL.
-
-Root initial green harness at33ed used OLD testsourcea80, matched all reviewed blobs,
-selected CP314 -I -S -B/minimal env: exit0/0.07235s,20 pairs+63 registration,stderr
-empty. [Raw receipt/history](schematest-001-baseline-harness-native.md) committed3927104.
-Do not project the old result onto source5c. FINAL exactsource5c at9dd5a16 received
-a matching reviewed CP314 green run:0/0.073746s,20pairs/63registrations,stderr empty,
-no setup/test/feature/SDK/clone/worker. Separate raw final receipt is committed with
-this checkpoint. Both hosted new-harness lanes and FIRST wrapper-red still future.
-
-Canonical A/B/C are completed/idle after actual final reviews/authoring/read-only
-red-plan audit. C has NOT reviewed a future native red. Use actual agent list and
-followup_task for new assignments; send_message does not start completed agents.
-
-## FIRST actual native red and current assignment
-
-At SAME CLEAN publishedbd15260,10:03:26Z, AFTER all19checksSUCCESS and C's actual
-selectedCI8db approval message, root executed the unmodified wrapper unittest
-program exactly ONCE under admittedCP314 -I-B/minimal env. Actual native exit1,
-63cases/261ERROR sections/0failures-skips-setup-import-dependency causes, unittest
-0.138s/external0.20254s. Empty stdout. ALL63 names covered, ALL261 exact reviewed
-SchemaValidationNotImplemented and final raw stub frames:validate_package37/main42.
+FIRST actual wrapper acceptance execution occurred ONCE at SAME CLEANbd15260,
+10:03:26Z, selectedCP314 -I-B/minimalenv: nativeexit1,63methods/261ERROR sections,
+unittest0.138s/external0.20254s,stdoutempty. EVERY error exact missing marker and
+final raw raise:243validate_package37+18main42. All63names;0 assertion/cleanup/
+setup/import/dependency/skip causes.317 authored observations are NOT error counts.
 Raw stderr313249B SHA7e64f76da6664557493b88a3c3a2dd2b12624b35b01236248f5e5f8981179433.
-[Original native evidence](schematest-001-wrapper-red-native.md), raw/receipt/full
-observer detail committedb089e2d.317 authored observations are NOT error counts.
-Observer returned actual failure1; no test was inverted/skipped/altered to obtain red.
+[Original evidence](schematest-001-wrapper-red-native.md), raw/receipt/observerdetail
+committedb089e2d. C ACTUAL independent attributionc15236a/importb6906d0 APPROVES all
+261 ordered records, source/review/CI chronology and no other cause. No replay.
 
-C actual native attributionc15236a/importb6906d0 APPROVES all raw/error/frame/
-chronology claims:243validate37+18main42,all63names,actual19checkrecordsSUCCESS
-latest09:58:24Z before FIRST10:03:26Z. No replay. This completes baseline quality
-on the task branch. State statusdone is a concrete completion candidate, not an
-integrated main/product/implementation claim. SCHEMATOOL001 remainsplanned/Unassigned;
-DO NOT start production before PR76 integrates onmain. Full release unchanged.
+## Current assignment and exact next step
 
-Next A/session_supplier_review receives the ACTUAL root completion metadata candidate
-on a NEW isolated branch: own ONLY completion-review.md; inspect actual source,
-review/red/CI chronology, entire state diff to main, preserved426/1629 DAG and scope,
-HTML and explicit remaining gates. Source author B and actual red reviewer C are
-idle; inspect agent list. No execution/replay/source mutation needed for metadata.
-After actual verdict root imports only its note, records review, publishes final
-metadata/receipts and observes ALL19 latest checks. Then ready/requery actual latest
-head/rules/reviews/threads/CLEAN and normal head-match merge; no bypass. Required-
-status enforcement is still NOT configured; written policy remains manual gates.
-If another candidate change affects reviewed behavior, obtain actual re-review.
+A/session_supplier_review is reviewing actual root completion metadatafd1a2ef on
+an isolated branch, owns ONLY completion-review.md. It found stale checkpoint
+sentences; THIS consolidation removes them. All completed source/CI/red gates
+above are current; they must NOT be rerun as preparation. A still checks fullstate
+vs main (426/1629/all other tasks/scope preserved), HTML, review/evidence claims,
+remaining release gates and legacy tooling. Root must send this actual checkpoint
+correction commit for its final review. B/C are idle after actual authoring/native
+attribution. Inspect collaboration.list_agents; followup_task starts idle agents.
 
-Private child ABI/RLIMIT/no-site/read-race/offline/allocation internals remain actual
-implementation acceptance/source-audit obligations, not proof from parent mocks.
-Feature assertions after raw markers are authored/reviewed but unexecuted. Preserve
-all FIRST raw/old invalid SDK guard evidence; do not repeat completed red. Once merged,
-select/claim a dependency-ready bounded implementation slice from CURRENT main,
-read its brief/scoped instructions and preserve tests; routine approval not needed.
+After A ACTUAL metadata approval: import its note, record that gate, publish final
+metadata/receipts/reviews, observe ALL19 latest-head checks. Requery ready/head/rules/
+reviews/threads/CLEAN and normal head-matched merge. Never bypass protection or
+relabel intentional red as green acceptance. Source/harness/locks remain unchanged;
+new metadata-only heads reuse original matching-source receipts with explicit dates.
+PR76 is NOT merged at this checkpoint. Do not claim/start production before main
+integrates the baseline. Then fetch CURRENT main, select/claim a dependency-ready
+bounded implementation slice on its own branch and continue the standing loop.
 
-Root legacy19 tooling tests passed0.326s; project426/122/HTML/render/diff pass.
-Full release retains authority/session/policy/clock/actions/financial/recovery, full
-HTTP/WS/scene, native/browser EN/DE/themes/Windows/Linux/Wayland/OBS/security/packages,
-allseven integrations/threeFX and live/platform gates. No routine owner approval.
+Actual private child ABI/RLIMIT/no-site/read-race/offline/allocation enforcement
+remains implementation acceptance/integration/source-audit work, not proof from
+parent mocks. Feature assertions beyond raw markers await real implementation and
+unconditional acceptance promotion after passing separate source review. All full
+application/auth/authority/policy/clock/actions/financial/recovery/HTTP/WS/scene,
+native/browser EN/DE/themes/Windows/Linux/Wayland/OBS/security/package requirements,
+seven integrations/threeFX and live/platform gates remain. No routine owner approval.
