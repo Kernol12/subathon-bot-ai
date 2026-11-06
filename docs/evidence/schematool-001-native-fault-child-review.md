@@ -79,3 +79,17 @@ reproduce that launcher defect locally without lowering the six-FD oracle.
 This is fixture failure, not native owner red. The native owner remains literal31.
 The existing285 admission is not relabelled as this newly built artifact; root
 will record actual new strict graphs/binding before the selected fixture run.
+
+## Actual one-line launcher correction after reached red
+
+Root independently reviewed A5ffc2c8, CPPaaa55f86, after actualdc9 sentinel-red
+and different C618 attribution. SOURCE APPROVED for rebuild/static/binding and
+unchanged24 producer verification, then reviewed both-host gates. EXACT one
+added checked fileaction `posix_spawn_file_actions_addclosefrom_np(&actions,5)`
+after stdio/3/4 duplication and known4 source closes. It modifies only the child's
+private descriptor table; parent runner/sentinel/source descriptors remain owned
+and disposed by their existing paths. The six-descriptor report oracle and all
+old/sentinel assertions are unchanged; removing the line restores prior CPP.
+Existing selected glibc>=2.35 includes the reviewed GLIBC2.34 API. This test-only
+POSIX launcher is still not an atomic production backend or resource proof.
+No assertion/gate/platform skip was added; actual new artifact gates precede use.
