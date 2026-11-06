@@ -197,6 +197,101 @@ class LibraryFoundation(unittest.TestCase):
         checker = FormatChecker(formats=[])
         self.assertTrue(checker.conforms("anything", "subathon-unknown-format"))
 
+    def test_sdk_default_data_ref_traversal_is_a_known_spec_validator_trap(self):
+        from referencing.exceptions import NoSuchResource, Unresolvable
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        data_uri = "https://outside.invalid/default-data"
+        value = {"$ref": data_uri}
+        schema = {"type": "object", "default": value}
+        self.classes[1](schema, registry=self.registry_class(retrieve=denied)).validate(value)
+        self.assertEqual(retrievals, [])
+        document = {"openapi": "3.1.1", "info": {"title": "Synthetic", "version": "1"},
+                    "paths": {}, "components": {"schemas": {"Sample": schema}}}
+        path = self.path_class.from_dict(document, base_uri="https://local.invalid/api.json",
+                                         handlers={"https": denied})
+        # Upstream SchemaPath dereferences default DATA. This expected trap is
+        # not wrapper acceptance, and the handler never performs a network read.
+        with self.assertRaises(Unresolvable):
+            self.spec_class(path).validate()
+        self.assertEqual(retrievals, [data_uri])
+
+    def test_sdk_uri_fragment_pointers_and_nested_resource_anchor_scope(self):
+        from referencing.exceptions import NoSuchResource, PointerToNowhere
+        from referencing.jsonschema import DRAFT202012
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        root_uri = "https://local.invalid/pointers.json"
+        leaf = {"$anchor": "leaf", "type": "integer"}
+        child = {"$id": "nested/child.json", "$anchor": "child", "$defs": {"leaf": leaf}}
+        schema = {"$id": root_uri, "$defs": {
+            "a/b": {"type": "integer"}, "a~b": {"type": "string"},
+            "p%2Fq": {"type": "boolean"}, "child": child}}
+        registry = self.registry_class(retrieve=denied).with_resource(
+            root_uri, DRAFT202012.create_resource(schema)).crawl()
+        resolver = registry.resolver(base_uri=root_uri)
+        self.assertEqual(resolver.lookup("#/$defs/a~1b").contents, {"type": "integer"})
+        self.assertEqual(resolver.lookup("#/$defs/a~0b").contents, {"type": "string"})
+        self.assertEqual(resolver.lookup("#/$defs/p%252Fq").contents, {"type": "boolean"})
+        # lookup consumes a URI fragment, so raw '%' must be percent-encoded.
+        with self.assertRaises(PointerToNowhere):
+            resolver.lookup("#/$defs/p%2Fq")
+        resolved_child = resolver.lookup("#/$defs/child")
+        self.assertEqual(resolved_child.contents, child)
+        self.assertEqual(resolved_child.resolver.lookup("#leaf").contents, leaf)
+        self.assertEqual(resolver.lookup("nested/child.json#child").contents, child)
+        self.assertEqual(resolver.lookup("nested/child.json#leaf").contents, leaf)
+        self.assertEqual(retrievals, [])
+
+    def test_sdk_schema_subresources_exclude_literal_data_contexts(self):
+        from referencing.exceptions import NoSuchResource
+        from referencing.jsonschema import DRAFT202012
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        root_uri = "https://local.invalid/context-root.json"
+        property_child = {"$id": "property-child", "type": "integer"}
+        defs_child = {"$id": "defs-child", "type": "string"}
+        items_child = {"$id": "items-child", "type": "boolean"}
+        schema = {"$id": root_uri, "properties": {"$ref": property_child},
+                  "$defs": {"chosen": defs_child}, "items": items_child,
+                  "const": {"$id": "https://outside.invalid/const", "$ref": "ignored"},
+                  "enum": [{"$id": "https://outside.invalid/enum", "$ref": "ignored"}],
+                  "default": {"$id": "https://outside.invalid/default", "$ref": "ignored"},
+                  "examples": [{"$id": "https://outside.invalid/example", "$ref": "ignored"}]}
+        resource = DRAFT202012.create_resource(schema)
+        self.assertCountEqual([r.contents for r in resource.subresources()],
+                              [property_child, defs_child, items_child])
+        registry = self.registry_class(retrieve=denied).with_resource(root_uri, resource).crawl()
+        self.assertEqual(set(registry), {root_uri, "https://local.invalid/property-child",
+                                        "https://local.invalid/defs-child",
+                                        "https://local.invalid/items-child"})
+        self.assertEqual(retrievals, [])
+
+    def test_sdk_instance_validation_does_not_close_unused_schema_references(self):
+        from referencing.exceptions import NoSuchResource, Unresolvable
+        from referencing.jsonschema import DRAFT202012
+        retrievals = []
+        def denied(uri):
+            retrievals.append(uri)
+            raise NoSuchResource(uri)
+        root_uri = "https://local.invalid/unused.json"
+        missing = "https://outside.invalid/unused"
+        schema = {"$id": root_uri, "type": "integer", "$defs": {"unused": {"$ref": missing}}}
+        registry = self.registry_class(retrieve=denied).with_resource(
+            root_uri, DRAFT202012.create_resource(schema)).crawl()
+        for cls in self.classes:
+            cls(schema, registry=registry).validate(7)
+        self.assertEqual(retrievals, [])
+        with self.assertRaises(Unresolvable):
+            registry.resolver(base_uri=root_uri).lookup(missing)
+        self.assertEqual(retrievals, [missing])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
