@@ -14,7 +14,13 @@ os.uname().machine and compile-time SOABI/Py_DEBUG/Py_GIL_DISABLED values.
 Normalize both configuration flags with bool(...); a missing/None value is false,
 including older CPython without a free-threading flag. These values come ONLY from the actual running interpreter and standard-library sysconfig, not
 environment variables, manifest/package data, an arbitrary executable option or a
-serialized caller record. Preserve the executable spelling when launching: resolving
+serialized caller record. BEFORE importing sysconfig or accessing its configuration,
+reject the PRESENCE of _PYTHON_SYSCONFIGDATA_NAME, _PYTHON_SYSCONFIGDATA_PATH or
+_PYTHON_PROJECT_BASE in the parent environment as environment_unavailable, including
+empty values. CPython sysconfig reads these overrides directly even with -I; isolated
+startup alone is not proof of neutralization. Do not silently mutate the caller's
+environment. The exact minimal child environment excludes all three keys.
+Preserve the executable spelling when launching: resolving
 a venv interpreter symlink to the base binary can lose the selected environment.
 
 This selected installation profile is Linux x86-64, ordinary non-debug CPython3.10,
