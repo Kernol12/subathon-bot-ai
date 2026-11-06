@@ -1,0 +1,30 @@
+{
+  "source": "3aa6124aca2bd83adb163dcb6d0e22424a2b8be6",
+  "command": [
+    "ctest",
+    "--preset",
+    "schema-transport-debug",
+    "-R",
+    "^schema-native-foundation\\.ClosedBytes/NativeFaultChildBytes\\.",
+    "--no-tests=error",
+    "--verbose"
+  ],
+  "start_utc": "2026-11-06T19:12:38.623290+00:00",
+  "seconds": 0.06225985201308504,
+  "returncode": 0,
+  "foundation_sha256": "285d47cd4046632737aa06fe08890f8fc4d41410cbd9ff28a3b1751d715a8a38",
+  "child_sha256": "bc122f84ffc00aa79005de58f8fa38ba6e43855581d8d9767874f3f5ba54102b",
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "stdout": {
+    "bytes": 36049,
+    "sha256": "2601119cdfc05ac800387856c8cf942d6549e92d3dd66f239a1b449f6d896eca"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

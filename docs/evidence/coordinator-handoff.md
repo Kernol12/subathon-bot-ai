@@ -125,7 +125,7 @@ bindingimplementation. Native25/26 remainseparate genuinechildownership checks.
   clean and preserved. No executing tests. Read actual collaboration status.
 * B session_supplier_author completedCIa230/static207, actual57 findingsab092
   withholds approval for AFTERprogress/FDidentity andP3/P4prior-acquisition gaps.
-  Rootcorrectingthenreassignactualrereview. No ownerimplementation assignment yet.
+  Root3a strengthenedonlyassertions, actualBdbdapproval integrated8969 beforeFIRST. No ownerimplementation assignment yet.
 * C session_plan_review completed d1/c6/df4 actual285/bootstrap/envCI reviews.
   ReassignactualLOCAL56 attribution and laterhostedresults; no candidateexecution
   byreviewer. Conditional BOTHhostruntime sourceadmission actualpassed.
@@ -138,3 +138,18 @@ FIRSTactual31 → commonowner/RawOps implementation andindependentcode/generated
 review; publicportsFIRST thenbindingimplementation; all74/fullnewnativeacceptance/
 latestbothhostCI/threads/rules gates → normalmerge77, updatecheckpoint, STOP.
 No newproject task/PR, no silentrelease-scope shrink, no routineapprovalquestion.
+
+## Portable child correction after hosted static refusal
+
+Actual2ff hosted42275480715 failedBOTHbefore ANYnative on protocol NOTRACK
+jumptable; C5a independentlyattributedfull174179B/c462 archive retained. No kernel
+denial/hostunsupportedclaim. A fc174 sourceconditionalgroups reviewedroot3aa,
+CPP24assertionsunchanged. Rebuild2steps0/0warn; actualstrictnewgraphgatePASS0.
+Only childhashchanged fb066→bc122f84; foundation285/faultDSO2e8/old2unchanged.
+Then TARGETED24 actualproducer controls PASS0/.05s/0skip withnewchild atclean3aa,
+full36049B2601119c/stderrempty. PriorLOCAL56review stillvalidforunchanged31; no
+newhelperreplays. Root nowpublishesportable source andsameindependentlyreviewedCI
+foractualbothhostobservation. A74source4b+926quiet/markerfix awaitCsource review
+androotintegration; original74onrootunchanged. Bactual57source3a APPROVEDdbd,
+FIRSTstillblockedONLYbyactualbothhosthelper+matchingfixture/SDKgates. Bowner
+preparationREADONLYcomplete; noowner/RawOps/bindingbody exists orreleased.
