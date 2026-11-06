@@ -104,3 +104,64 @@ complete context/resolver/process policy, independently reviewed acceptance fixt
 tests, genuine intended wrapper red, implementation/source review and ordinary offline
 CI remain separate. No product/runtime/provider/platform/live/release acceptance is
 claimed; full agreed scope remains.
+
+## Actual first-run failure and separately reviewed guard correction
+
+Same different reviewer, NEW isolated correction branch
+`task/SCHEMATEST-001-foundation-guard-review`, worktree
+`/tmp/subathon-schematest001-foundation-guard-review`, based on actual author
+`01c7f8ccaa9c8d1a54bee1e4143efa17d5b6e3f5`; prior source review is retained.
+**APPROVED the exact corrected source for another controlled run, NOT a passing
+foundation or wrapper red.** Corrected source blob
+`d2df9b986892d9eee8074678c2c2aa3de35b55b5`, author-reason blob
+`54220fee52195723ffceba363266547df3e4c228`.
+
+Actually read root's FIRST CPython3.14 receipt and raw stderr: source4f37, native
+exit1/elapsed0.178s/seven methods, one error and five persistent-counter failures.
+Raw stderr SHA2562199cb8459b754c905802b3201f1d7af0ed923f2013cedd78c9de1d758e510d5;
+stdout is empty. No complete green foundation follows, and this is NOT the future
+wrapper's intended missing-behavior red. The original receipts/failure history
+and prior source approval remain preserved rather than replaced by a clean claim.
+
+Traceback and actual selected source show OSV get_schema→FilePathReader→
+UrllibHandler called guarded urlopen for its OWN bundled v3.1 metaschema file URI.
+The overbroad initial guard classified that legitimate local dependency read as
+network before DNS/socket/HTTP. Contract section4 explicitly admits reviewed pinned
+official metaschema resources. Allowing precisely that resource corrects a genuine
+harness classification defect; it does not relax the contract's offline requirement.
+
+Independently re-read admitted wheel
+openapi_spec_validator-0.9.0-py3-none-any.whl and ASSERTED its archive SHA256
+222fecffc7714f6d0a6ad62c0e4b66cc2b7dbfafb7b93acfc6c308abbdb51af8 before extracting
+member openapi_spec_validator/resources/schemas/v3.1/schema.json. Exact34260bytes/
+SHA256e7cb616a2a10849a166c4e4a93c62c56cfea02cc00eadf287e2fb875e7124098 match the
+correction's independent expected constants and the installed314 member. No
+candidate import/execution supplies that oracle.
+
+The corrected URL guard permits ONLY exact-str equality to that canonical known
+installed resource URI, after explicit distribution version0.9.0, no symlink leaf,
+bounded34261-byte read, exact34260 length and admitted-member hash. It returns a
+BytesIO stream of those REAL verified bytes to the REAL native reader; there is
+no generic original-urlopener delegation, blanket file:// allow or fake validation.
+Request objects, non-strs, other URIs/schemes/files and all DNS/socket/HTTP attempts
+still hit the original persistent poison. Invalid trusted-resource identity/content
+is a fatal FoundationNetworkAttempt; it cannot become an expected schema/ref error.
+The separate trusted-read ledger and new exact-one-read assertion further identify
+this specific required operation without erasing any unexpected attempt.
+
+Static AST comparison proves all SEVEN original test method bodies/semantic
+assertions are EXACT after excluding ONLY the one additive trusted-ledger assertion.
+Version20+pip, native validations/refusals, typed errors, callback counts, both
+literal recursion/data-ref cases, never-reset NETWORK_ATTEMPTS and independent
+cleanup checks remain. Only guard classification/imports/trusted-byte supply and
+written defect rationale change; no fixture, project wrapper or standards engine
+is substituted. This remains fixed dependency-foundation coverage, not a hostile
+filesystem admission implementation or universal network-sandbox guarantee.
+
+Actual standard-library AST/archive/hash checks, project426/122/currentHTML and
+whitespace checks PASS. NO corrected test, selected-library import/native validator,
+wrapper marker or installation was executed by this reviewer. Root may now run
+EXACT01c7/source d2 in the admitted isolated environment and record the direct result.
+Further foundation failures remain explicit blockers; none may be renamed wrapper
+red or fixed by weakening original assertions. Actual green receipts/minimum/CI,
+concrete wrapper API/tests/red/source/ordinary-CI and full product gates remain.
