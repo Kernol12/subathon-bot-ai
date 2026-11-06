@@ -392,3 +392,46 @@ helper/test/clone/venv/SDK/child or red execution occurred. Preserve all earlier
 reviews/green receipts; actual correction review and refreshed final green harness
 remain required before intended red. ENOSYS/environment post-call guards already
 persist and are untouched. No coverage expansion or production change.
+
+## ONE additive revision2 setup-refusal case —64 registrations
+
+NEW isolated branch `task/SCHEMATEST-001-setup-refusal-author`, worktree
+`/tmp/subathon-schematest001-setup-refusal-author`, from actual root
+`278e8aa4ec816ed9eb367b15dcb9bdafa323eb25`. Read actual API revision2 blob
+`973961c2db1b00df828baadff02f6b289f8d6b79`, private process revision2 blob
+`ac25680535064ed8e4b1c85ed87b8999b0d93f4e` and DIFFERENT C's actual document
+approval05dbe285 BEFORE this source authoring. This resolves only the already
+required known setup failure before activation; it adds no successful validation.
+
+Add ONLY test_worker_setup_refusal_before_activation, using the EXISTING real
+fault helper. Its10 literal rows require the exact EMPTY-activation/EOF plus
+35-byte environment_unavailable LF/EOF and normal exit3 to return
+ environment_unavailable. Other rows refuse that line with exit0, absent output,
+extra bytes, missing LF, leading whitespace, nonempty B or AA activation, and
+no-activation ok/exit0 or invalid_json/exit2. All nine malformed/other received
+combinations require validation_unavailable. Expected bytes/status/codes are
+literal and independent; fixed integer subTest labels. The helper's FIRST
+observation remains raw validate_package before any real fault-child spawn, and
+its existing parent-reap proof/cleanup/log assertions remain intact.
+
+The permitted environment result reports only a nonvalidating setup refusal;
+the synthetic child never claims to establish RLIMIT or validate a package.
+The existing blocked no-activation DEADLINE case is EXACT and still requires
+resource_limit: a timeout is not a received protocol tuple. Original no-A forged
+ok refusal and every other prior assertion remain EXACT.
+
+Static3.10 AST parse/compile WITHOUT exec and whole-module preservation assertions
+PASS: **ALL prior63 test ASTs, ALL helpers/fixtures/classes/ledger and every other
+module statement are EXACT** against root278e8aa/source5c5e9b3. Only this method
+is added.64 registrations;10 NEW authored raw observations,327 combined authored
+raw observations and the unchanged5 future script extras. These are source counts,
+not a native result or an invented expected error count.
+
+No candidate/test/helper/SDK import, unittest discovery/body, fault child, clone,
+venv, implementation or installation ran. DIFFERENT actual new-case and root's
+63→64 harness/config review, matching green SDK/64-definition observation and
+NEW-ONLY intended marker red/actual separate attribution remain gates. Preserve
+original FIRST63/261 raw output/receipt/attribution and all valid reviews; no full
+replay or rewritten original receipt. Implementation remains gated on integration.
+All real worker setup/ABI/RLIMIT/no-site/secure-open/read-race/offline/allocation
+and product/runtime/platform/provider/release obligations remain explicit.

@@ -1145,6 +1145,23 @@ class WrapperAcceptance(unittest.TestCase):
         self.fault(b"A", b'{"code":"invalid_json"}\n', 0)
         self.fault(b"A", b"", 0, death=True)
 
+    def test_worker_setup_refusal_before_activation(self):
+        rows = (
+            (b"", b'{"code":"environment_unavailable"}\n', 3, "environment_unavailable"),
+            (b"", b'{"code":"environment_unavailable"}\n', 0, "validation_unavailable"),
+            (b"", b"", 3, "validation_unavailable"),
+            (b"", b'{"code":"environment_unavailable"}\nextra', 3, "validation_unavailable"),
+            (b"", b'{"code":"environment_unavailable"}', 3, "validation_unavailable"),
+            (b"", b' {"code":"environment_unavailable"}\n', 3, "validation_unavailable"),
+            (b"B", b'{"code":"environment_unavailable"}\n', 3, "validation_unavailable"),
+            (b"AA", b'{"code":"environment_unavailable"}\n', 3, "validation_unavailable"),
+            (b"", b'{"code":"ok"}\n', 0, "validation_unavailable"),
+            (b"", b'{"code":"invalid_json"}\n', 2, "validation_unavailable"),
+        )
+        for index, (activation, payload, status, expected) in enumerate(rows):
+            with self.subTest(protocol_case=index):
+                self.fault(activation, payload, status, expected)
+
     def test_worker_startup_deadline_kills_and_reaps(self):
         self.fault(b"", b"", 0, "resource_limit", deadline=True)
 
