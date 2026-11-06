@@ -120,6 +120,21 @@ class NativeOwnerAuditControls(unittest.TestCase):
             with self.subTest(context=context, mnemonic=mnemonic, operand=operand):
                 self.assertFalse(audit.owner_parent_scalar(context, mnemonic, operand))
                 self.assertFalse(audit.owner_instruction(context, mnemonic, operand))
+        # Literal fixed GNU allocations and RBP-relative epilogues, not dynamic RSP.
+        audit.fixed_rsp([(1, "add", "$0xffffffffffffff80,%rsp"),
+                         (2, "sub", "$0xffffffffffffff80,%rsp"),
+                         (3, "lea", "-0x10(%rbp),%rsp"), (4, "lea", "-0x18(%rbp),%rsp")])
+        for instruction in ((1, "add", "$0x10000000000000000,%rsp"),
+                            (1, "sub", "$0xffffffffffff7ff8,%rsp"),
+                            (1, "add", "$0xffffffffffffff81,%rsp"),
+                            (1, "lea", "-0x8008(%rbp),%rsp"),
+                            (1, "lea", "-0x11(%rbp),%rsp"),
+                            (1, "lea", "-0x10(%rbp,%rax,1),%rsp"),
+                            (1, "lea", "-0x10(%rax),%rsp"),
+                            (1, "lea", "0x10(%rbp),%rsp"),
+                            (1, "lea", "-0x0(%rbp),%rsp")):
+            with self.subTest(fixed_stack_refusal=instruction), self.assertRaises(RuntimeError):
+                audit.fixed_rsp([instruction])
 
     def test_whole_32768_boundary_keeps_inherited_parent_frames_at_child(self):
         audit = load_tool()

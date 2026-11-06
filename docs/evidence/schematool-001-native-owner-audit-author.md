@@ -292,3 +292,50 @@ tools/progress.py render --check` reports current; `git diff --check` PASS.
 No new checker/control import/run, artifact audit/load/execution, compiler/SDK/
 worker/child/probe occurs here. Root's actual delta review must precede justified
 control/static reruns; no runtime owner success or completion is claimed.
+
+## Fixed signed immediates and constant RBP epilogues after actual refusal
+
+Author A,6November2026. Branch
+`task/SCHEMATOOL-001-native-owner-audit-fixed-stack`, tree
+`/tmp/subathon-schematool001-native-owner-audit-fixed-stack`, starts at preserved
+`961becab8a9bb11ec4b96fd9e0c034aed2f5bc63`. Same three owned paths ONLY; no
+production, old BASE gate, build or CI changes.
+
+Read actual `/tmp/schematool001-owner-audit-cwtl` receipts/raw: clean
+`68017b998596566f358c71e7ddaa4fa50b00e39b`,21:26:51Z, five literal controls
+PASS/.024s/exit0; the subsequent static artifact audit exits1/stdoutempty on
+`unbounded/unknown generated stack-pointer write` inside fixed_rsp, after the
+opcode gate. Artifact stderr1662B/SHA
+`b09eb99837d7aaeca35464127e3a4e831b351c64d62fb40e0f755651d238fa5c`.
+No ELF was loaded or executed. Root's read-only review of the current closed
+owner graph identified `add $0xffffffffffffff80,%rsp` (fixed signed -128) and
+constant `lea -0x10(%rbp),%rsp` / `-0x18` epilogues; no variable stack form was
+found. These are the concrete reason for this source-only correction.
+
+For canonical hex ADD/SUB to RSP, decode a value below2^64 as signed64, then
+require absolute magnitude<=32768 and8-byte alignment. Encodings>=2^64 are
+refused, without wraparound. LEA to RSP admits ONLY a strictly negative constant
+hex displacement from RBP, magnitude<=32768/aligned8; indexed, other-base,
+positive, zero, oversized and unaligned forms remain refused. The existing
+`mov %rbp,%rsp` rule, frame-pointer-write/exchange rules, variable-stack refusal,
+cycle/external/frame/whole-inherited-stack gates and exact instruction context
+rules are unchanged. Refusal now includes the actual mnemonic/operands.
+
+The actual GNU CI/SU certified TOTAL frame bounds and unchanged32768 whole-call
+sum still govern stack accounting; matching a fixed instruction is not an
+independent stack bound or a claim about arbitrary RBP provenance. Existing
+GCC dynamic,bounded source interpretation above is unchanged. The existing
+admission-control method appends literal ADD/SUB signed128 and negative16/24 LEA
+positives plus oversized64-bit input, negative oversized/unaligned immediate,
+and oversized/unaligned/indexed/other-base/positive/zero LEA refusals. Every old
+assertion, all five natural names and the four other complete method ASTs remain
+unchanged; expected operands are independent fixed literals.
+
+Source-only checks PASS: Python3.10 syntax/compile-without-execution; AST equality
+outside fixed_rsp and preservation of all five names/four other method ASTs and
+every original admission-method statement; independent literal signed128/32776
+arithmetic. `python3 tools/check_project.py` PASS426/122; `python3 tools/progress.py
+render --check` current; `git diff --check` PASS. Actual different source/policy
+review is required before control or artifact reruns. No checker/control import/run, binutils or
+artifact audit/load, compile, native/SDK/worker/child/probe occurred here; no
+owner runtime success or completion is claimed.

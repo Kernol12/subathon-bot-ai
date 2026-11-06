@@ -252,10 +252,18 @@ def fixed_rsp(instructions):
         if destination not in ("%rsp", "%esp", "%sp", "%spl"):
             continue
         immediate = re.fullmatch(r'\$0x([0-9a-f]+),%rsp', operands)
-        require((mnemonic in ("add", "sub") and immediate is not None
-                 and int(immediate[1], 16) <= LIMIT and int(immediate[1], 16) % 8 == 0)
+        signed = None
+        if immediate is not None:
+            encoded = int(immediate[1], 16)
+            if encoded < 1 << 64:
+                signed = encoded if encoded < 1 << 63 else encoded - (1 << 64)
+        epilogue = re.fullmatch(r'-0x([0-9a-f]+)\(%rbp\),%rsp', operands)
+        require((mnemonic in ("add", "sub") and signed is not None
+                 and abs(signed) <= LIMIT and signed % 8 == 0)
+                or (mnemonic == "lea" and epilogue is not None
+                    and 0 < int(epilogue[1], 16) <= LIMIT and int(epilogue[1], 16) % 8 == 0)
                 or (mnemonic == "mov" and operands == "%rbp,%rsp"),
-                "unbounded/unknown generated stack-pointer write")
+                "unbounded/unknown generated stack-pointer write: " + mnemonic + " " + operands)
 
 
 def stack_bound(frames, graph, root):
