@@ -202,3 +202,59 @@ checks were performed for this receipt; no red or native suite was repeated.
 This approves the actual hosted component proof, not an unseen completion commit,
 later latest-head CI/rules/discussions or normal merge. No broader platform/live/
 application authority/atomic state or full-release claim follows.
+
+## Independent actual completion-metadata review
+
+Same reviewer, different from coordinator/metadata author `/root`. NEW isolated
+branch `task/MILESTONE-001-final-metadata-review`, worktree
+`/tmp/subathon-milestone001-final-review`, initially actual7ca796d and advanced only
+to actual correction52618d167b008a30dd5a84ce77991138b244ac41 before approval.
+**APPROVED exact526 completion metadata; later publication/merge gates separate.**
+
+| Actual completion artifact | Git blob |
+| --- | --- |
+| Task state | `0c202b5201f3b4f73d97427911bf07d3343c4cf6` |
+| Acceptance map | `4e46a3d5d95bb189f731d6e4d2c556e42ff321e5` |
+| Generated progress | `aee0c4e39a534c393e13d921551e72be58bd20d8` |
+| Corrected checkpoint | `9b35645da0c7f727d640c8f9b02fb98361894846` |
+| Corrected handoff | `3c8b3bf0d1e9d988675be54d29c1a6642cef475f` |
+| Actual selected CI receipt | `ef2af1583e5067432a7223e5b5dd55544e85bf8c` |
+| Root native receipt | `d7515a2aa313228404464a07cec988b894a18df9` |
+
+Parsed actual main0605948 and candidate preserve EXACT423task IDs/1624dependency
+edges, with ONLY MILESTONE-001's task row changed. Main activity is an exact prefix.
+All other tasks, including supplier001done/transport002planned and the completed
+MILESTONETEST001 baseline, remain identical to main. The active parallel transport
+claimdf1 is explicitly preserved on its separate task branch, rather than silently
+overwritten or falsely imported into this milestone snapshot.
+
+MILESTONE-001 done has actual unchanged53/full90 acceptance, different exactsource/
+resource/config reviews and independently downloaded actual ordinary selectedCI,
+with source/config/selected_ci/acceptance passed and platform_release not_run.
+Current GitHub publication/merge remains explicitly separate. Source d79, workflow
+48f6, labelsaf26, presetsf347, comment-only header1f5, tests0199/fixture409 and both
+contracts remain the exact approved blobs after main's documentation integration.
+No assertion, fixture, historical FIRST red or dependency gate changed.
+
+Map changes affect ONLY MILE-01/NUM-04, both still partial. Existing test lists are
+exactly retained; prior evidence lists are exact prefixes. NUM04's complete prior
+scope remains before its additive milestone description; scenario rows are EXACTLY
+unchanged. New architecture/strategy/brief/handoff/native/CI descriptions distinguish
+this pure component from authoritative score/history/application/actions/manual/
+edit/reset/UI/provider/platform/full-release behavior. All broader scope remains.
+
+Review found two stale resume sentences in7ca (PR72 still needed integration and
+002 could be newly claimed). Actual526 changes ONLY those two evidence documents:
+PR72/main060 already integrated; preserve existing002claim and continue assigned
+roles. This correction removes duplicate-claim directions without changing any
+source/config/test/state/result or earlier valid review. Both original and corrected
+revisions were inspected; this approval covers the corrected actual526, not unseen
+future prose or commits.
+
+Read-only parsed Git/JSON/blob checks, `python3 tools/check_project.py`,
+`python3 tools/progress.py render --check`, all19 tooling unittests,
+`node tools/check_progress_ui.mjs` and `git diff --check` PASS423/122/currentHTML.
+DOM simulation is not actual browser/OBS verification. No build/native suite or
+FIRST red was repeated for metadata. Latest publication-head applicableCI,
+current rules/required approvals/resolved discussions/GitHub-permitted normal merge
+remain root's gates. No owner action or release-completion claim follows.
