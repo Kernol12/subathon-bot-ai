@@ -100,8 +100,10 @@ with no secret/package/exception text. This is a real missing distribution, neve
 a fake validating worker. The raw direct public call remains FIRST before clone
 construction in this authored behavior case, preserving named-marker attribution.
 
-For one unsupported-parent-facility case, tests may patch ONLY the stdlib module
-attribute os.pipe to raise OSError(errno.ENOSYS). Expect environment_unavailable,
+The parent constructs its two protocol pipes through the stdlib module attribute
+os.pipe, with no prebound alias or pipe2 substitution in this private seam.
+For one unsupported-parent-facility case, tests may patch ONLY that module
+attribute to raise OSError(errno.ENOSYS). Expect environment_unavailable,
 no Popen call and no public output. This explicitly tests an injected missing
 PARENT pipe capability; it does not claim the host lacks pipes, simulate child
 RLIMIT failure, or prove child file/ABI/resource protection. The existing actual
