@@ -1,0 +1,119 @@
+# SCHEMATOOL-001 worker author handoff
+
+Author branch `task/SCHEMATOOL-001-worker`, isolated worktree
+`/tmp/subathon-schematool001-worker`, base `a663b240bed917e182cfc8ed911f8034984593d3`
+after normal baseline PR76 integration into main095d192. Root owns integration,
+public API author owns `tools/schema_validate.py`. This artifact does not complete
+SCHEMATOOL-001 or approve the author's own source.
+
+Owned new source: `tools/schema_validation/worker.py`, `_schema_common.py`,
+`_schema_installation.py`, `_schema_package.py`, `_schema_index.py`,
+`_schema_backend.py`. No baseline assertion, contract, pin, manifest, public module,
+CI, state or HTML change. Accepted logical abb426, context32ec87, API973961,
+processac2568 revision2, installation86d6d4 and original reviewed/red64f491
+remain authority. Historical FIRST observations are preserved and never replayed.
+
+The private worker accepts only the frozen eight control arguments after its
+script name. It establishes and verifies the512MiB address limit before importing
+owned helpers or reading package/candidate files; recomputes the real ABI/no-site
+venv/SDK binding; then writes exact A. A configuration failure before activation
+sends only the frozen environment-unavailable line/exit3. Whole deadline/kill/reap
+and parent cancellation are the separately owned parent subsystem's obligations.
+
+Package snapshots use owned no-follow/nonblocking regular-file handles, bounded
+reads and before/after identity/size/timestamp checks plus final owned-parent link
+checks. Traversal handles are released as they advance; at most one retained
+parent per member plus member/root handles is needed. All declared handles/sizes
+are admitted before payload decoding. Changed evidence refuses IO; this does not
+claim an atomic filesystem snapshot. UTF8/BOM admission precedes lexical bounds,
+strict complete standard JSON decoding/duplicate detection and exact Fraction/int
+construction. No float/Decimal numeric approximation or parser acceptance engine
+is introduced. The role index is pure metadata before dependency imports.
+
+Phase6 checks all20 SAME-artifact WHEEL/METADATA whole hashes using fixed manifest
+paths, then directly appends the one admitted SDK root without site/.pth handling.
+The actual bundled OAS3.1 metaschema is separately size/hash checked against the
+admitted wheel34260-byte/e7cb616a resource. Real Draft202012Validator validates the
+whole OAS structure. Real explicit schema check_schema calls cover every indexed
+raw schema before closure. A private native SpecValidator subclass supplies that
+real offline structural validator instead of its lazy URL-reading wrapper; its
+genuine semantic keyword validators are unchanged.
+
+The public Specification bridge supplies indexed OAS Schema roots and delegates
+schema IDs/subresources/anchors to native Draft metadata. A fresh public same-base
+resolver handles no-id OAS transitions. Complete native lookups are mapped back to
+physical typed targets; independent finite graph admission checks same-instance
+cycles before semantics. DATA is atomic and no data-reference walk is performed.
+Complete inventory equality includes unused component examples and forced schema
+associations, before defaults/instances. Every present OAS default and every bound
+instance uses the unchanged raw schema through a native whole-document-fragment
+control reference, including siblings and nested scope. Encoded controls are
+checked before expansion against existing key/aggregate budgets.
+
+The private actual SchemaAccessor subclass supplies context-aware physical path
+and alias access with actual stored SDK scopes. The required SchemaPath.read_value
+override borrows raw DATA and delegates other reads to its superclass. This is
+metadata/accessor glue, not a replacement assertion validator. Both the alias-aware
+accessor and general Specification bridge require different implementation audit;
+the limited historical SDK facts are not claimed to prove this new implementation.
+
+The registry retrieval callback always raises NoSuchResource without IO. A
+persistent audit backstop, installed before candidate imports, forbids socket,
+HTTP/URL, subprocess and execution attempts. A swallowed forbidden attempt cannot
+yield success or a package-invalid diagnostic; known resource interruption retains
+priority. This does not claim that ordinary acceptance alone certifies every
+hostile allocation/IO/SDK path: actual independent security/source review remains.
+
+## Author-local observations
+
+CPython3.14.9 in the previously admitted isolated SDK, Linux x86-64. Temporary
+author-local drivers use fresh real `-I -S` worker processes with exact private
+FDs/minimal environment, finite10s timeout, literal expected codes, actual exit and
+activation/outcome checks, empty worker stdout/stderr. They do not invoke the
+public module, original acceptance methods, baseline harness or historical red.
+
+Commands actually run:
+
+```sh
+python3 /tmp/schematool-worker-author-check.py
+python3 - <<'PY'
+import runpy
+m = runpy.run_path('/tmp/schematool-worker-author-check.py')
+m['extended']()
+PY
+python3 /tmp/schematool-worker-more-check.py
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+The first driver PASS6 actual worker observations: integer positive/negative,
+Boolean target, missing ref, same-instance cycle and OAS whole-fragment positive.
+Its first development run found a real callback keyword-name defect; corrected
+`subresource` signature then all6 passed. The extended driver PASS23 observations:
+literal DATA, unused refs/duplicate IDs/anchors, no-id/id OAS nested scope,
+raw-sibling defaults, complete/invalid examples, escaped pointer targets,
+productive recursion and4096 context boundary. Additional driver PASS35:
+exact numeric/JSON limits, fractions and neighboring failure, resources/ref-edge
+boundaries, encoded URI boundary, outside/file/FTP/unknown-scheme refusal, free and
+referenced Example inventory. A counter variable in that temporary driver first
+printed an incorrect total; replaced with an observation ledger, rerun PASS35.
+No assertion was weakened.
+
+Separately launched3 genuine worker prologue controls: unsupported system
+interpreter, nonexistent SDK root, present-empty sysconfig override. All produced
+EMPTY activation + exact35-byte environment line + normal3, with a nonexistent
+manifest so no package success was implied. All64 post-activation author-local
+cases above passed again after final source hardening; the3 setup controls were
+observed before the later metadata errno-priority-only edit.
+
+Python3.10 AST/compile admission passed for the new source. Project check PASS426
+tasks/122 decisions; render--check and whitespace check PASS. These are partial
+author observations, not full64 public acceptance or hosted compatibility proof.
+
+Remaining gates: DIFFERENT actual worker implementation/secure-open/ABI/resource/
+offline/allocation/source audit; parent integration and its reviewed cancellation
+regression; actual full64 public acceptance passing on the matching integrated
+source; unconditional selected hosted3.10/3.12 lanes and latest-head PR merge
+gates. No schemas/CONTRACT013 producer/runtime/provider/live/release capability is
+claimed by this worker artifact or these local checks.
