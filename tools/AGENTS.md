@@ -10,3 +10,16 @@ environment. Keep existing progress/repository tools standard-library-only. Revi
 all direct/transitive versions, hashes, licenses and real offline foundations before
 admitting executable validator behavior; tests/red and implementation gates remain.
 Do not install these dependencies globally or add them to the server/client runtime.
+
+For the same offline schema tool only, proposed
+[ADR-0009](../docs/decisions/0009-schema-native-process-owner.md) defines a narrow
+first-party C++20 transport exception, using existing CMake/Ninja/GoogleTest and
+Python stdlib ctypes. It adds no third-party process library or Qt/server/client
+runtime dependency. The actual ADR, native/process-test/installation contracts
+and oracle map require different review before native interface/test/probe/code
+work; this policy edit is not its own approval. Preserve test review → intended
+red → implementation → separate source review, real both-host facility foundations,
+all public guarantees and every existing assertion. Other repository/progress
+tools remain Python standard-library-only. Native build/loading is explicit and
+must not occur during import/help. Owned resources must end inside one callback-free
+native call before Python result conversion or unwinding.

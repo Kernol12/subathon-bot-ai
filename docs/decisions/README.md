@@ -25,3 +25,7 @@ Consult its task/evidence for actual independent review status.
 
 - [ADR-0008 — Schema validation foundation](0008-schema-validation-foundation.md):
   developer-tool baseline/implementation prerequisite before actual package acceptance.
+
+- [ADR-0009 — Schema native process owner](0009-schema-native-process-owner.md):
+  proposed narrow first-party process boundary and explicit contract/test/source gates;
+  consult its actual independent review before dependent work.
