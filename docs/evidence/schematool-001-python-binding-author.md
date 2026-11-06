@@ -34,7 +34,8 @@ cases refuse with None before any foreign invocation or print.
 
 The FileIO object owns its native handle, rather than obtaining a raw numeric
 os.open result that could lose ownership during Python allocation. No opener
-callback is supplied. The header handle closes BEFORE dlopen. If reading/stat
+callback is supplied. Acquisition/assignment is inside the protected try, with
+`source=None` before it. The header handle closes BEFORE dlopen. If acquisition/reading/stat
 raises, explicit cleanup preserves that original exception object even if closing
 also raises; on ordinary completion a close error is a controlled loader refusal.
 The selected CPython3.10 primary source stores the open result directly in
@@ -123,3 +124,43 @@ Different actual code review, matching source integration, generated
 native gates and passing binding/public/direct/native/SDK suites plus unconditional
 latest-head both-host CI/normal merge remain. This source stage is not completion
 or a supported native validation claim; no earlier FIRST is replayed.
+
+## Protect acquisition and preserve original exception priority
+
+Author A,6November2026. Separate branch
+`task/SCHEMATOOL-001-native-loader-protected-acquisition`, tree
+`/tmp/subathon-schematool001-native-loader-protected-acquisition`, starts at
+preserved a8 implementation `a8ae7779d39f9bb72674490cca1b4a321fa7d58d`/sourceb06e.
+Only the Python source and this note change. Existing binding9/public74/new real
+header-cleanup test, native/worker/pin/build artifacts remain unchanged.
+
+The different-reviewed b9/test2941 regression actually ran at cleanroot78e3e3b,
+20:21:33Z: one method/two subcases, exit1/.005s, stdoutempty, stderr2470B/
+SHA`c702a6b9801791b882c15f29c0ee69b40b29b35a2bd6000c8c14fae498ca3c64`.
+Both prebuilt original KeyboardInterrupt/MemoryError cases reached ONLY the raw
+live-FD assertion `[0] != [9]`, with their real traceback/file retained, actual
+trace trigger/restoration, original identity, no CDLL and quiet streams already
+verified. Fixture disposal followed the oracle. The actual receipt/raw stderr
+were read at `/tmp/schematool001-loader-cleanup-first-red`; no red was replayed.
+
+The first proposed correction aebed used with-acquisition, but C's actual delta
+review identified that a FileIO exit/close exception could replace the original
+pending exception. Root/C explicitly selected the narrower final correction here:
+initialize `source=None`, put the SAME open/assignment as the FIRST statement of
+the original try, and guard the SAME existing exception-preserving close block
+with `if source is not None`. Its bare re-raise retains the original exception
+object even if cleanup raises; its ordinary else-close is unchanged. Failed open
+has no assigned source to close. The header read/snapshot body and all subsequent
+header/ABI/mapping/routing behavior are unchanged. A trace fault after local binding
+now lies inside the protected region. No new expected outcome/fixture rewrite or
+meta-test is needed under the explicit root/C review decision; the same observed
+two-case regression and original cleanup semantics are preserved.
+
+This is one clean correction from a8; unimported/unexecuted aebed and its isolated
+tree remain history rather than being reset/discarded. The actual new source still
+requires different C final verdict before any post-fix execution. Source-only
+checks PASS: Python3.10 AST/compile-without-exec; same acquisition/body protected;
+original close/re-raise/ordinary-close AST retained behind None guard; all other
+module AST exact; project426/122/current HTML; render--check current; git diff--check. No
+candidate import, trace/test/native/worker/SDK/child/compiler operation occurred;
+no passing runtime or completed PR77 claim is made.

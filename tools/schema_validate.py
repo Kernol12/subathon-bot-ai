@@ -76,18 +76,20 @@ def _load_native_transport():
         # FileIO owns the native handle before Python can observe a numeric FD.
         # No raw os.open result/publication or file handle crosses the C call.
         stable, header = False, b""
-        source = open(artifact, "rb", buffering=0)
+        source = None
         try:
+            source = open(artifact, "rb", buffering=0)
             before = os.fstat(source.fileno())
             if identity(before) == identity(expected):
                 header = source.read(64)
                 after = os.fstat(source.fileno())
                 stable = identity(before) == identity(after)
         except BaseException:
-            try:
-                source.close()
-            except BaseException:
-                pass  # Preserve the original interruption/allocation exception.
+            if source is not None:
+                try:
+                    source.close()
+                except BaseException:
+                    pass  # Preserve the original interruption/allocation exception.
             raise
         else:
             source.close()
