@@ -222,3 +222,85 @@ this1004-line source; no test/candidate import, native child or feature run occu
 These findings are actual source/oracle review corrections BEFORE red, not weakened
 assertions, observed runtime failures or production workaround. Admission-family
 completeness still awaits root's separately reviewed installation contract.
+
+## Released additive admission source — current63-case candidate
+
+NEW isolated author branch `task/SCHEMATEST-001-wrapper-admission-author`, worktree
+`/tmp/subathon-schematest001-wrapper-admission-author`, from actual root
+`fab7d825c02d4d2085fe820d9a61acc8e87db373`. The earlier author branches/reviews
+remain intact. Actual installation document0bcdc4a/blob
+`86d6d482e767af3d57d4da58d7fd644a9383c34e` and admitted manifest metadata blob
+`6f4ffec82e73274bebeac2ea1aa0ad31e28f4539` received DIFFERENT C document/data
+approval52229d7 BEFORE this additive authoring. Read the complete actual document
+and review; no prospective document gate is assumed. Source remains unexecuted.
+
+Current actual inventory is **63 named tests**, **315 authored direct public-call
+observations**, and **3 additional real public-script observations** after direct
+calls. The original60-case/300-call evidence above remains historical source
+provenance, not an overwritten approval of new behavior. Added registrations:
+
+- test_parent_pipe_enosys_refuses_without_worker_or_logs
+- test_sysconfig_environment_presence_including_empty_refuses_unchanged
+- test_real_sdk_clone_control_then_missing_distribution_is_dependency_unavailable
+
+The new script_result helper invokes the REAL absolute public script with the
+REAL requested interpreter, isolated startup, no shell/inherited input and a fixed
+minimal PATH/locale environment. Separate temporary stdout/stderr files are read
+at most257bytes after bounded wait/cleanup; fixed expected line/exit and no stderr
+are asserted. This is no injectable successful worker or validating callback.
+
+The clone test's FIRST operation under test is actual raw validate_package on the
+literal valid package. Only after that completes may it import stdlib shutil/
+sysconfig/venv, discover the ACTUAL single admitted SDK root, create a NEW disposable
+with_pip=False/no-system-site venv and copy site-packages. It does not relocate a
+whole venv or run pip/download/install. The untouched copied SDK must first produce
+REAL CLI ok/exit0. Remove exact openapi_spec_validator code AND the pinned
+openapi_spec_validator-0.9.0.dist-info directory; the same real script then must
+produce dependency_unavailable/exit3/no stderr. Missing metadata cannot be relabeled
+as early environment_unavailable. No clone/helper/child has actually run yet, and
+this authored recipe does not establish that runtime result in advance.
+
+The parent-only ENOSYS test patches the exact approved module os.pipe seam, verifies
+it was reached, and forbids ANY Popen call. It requires environment_unavailable and
+no public logs. No pipe2/prebound fallback is admitted by the private document.
+This proves only the injected parent refusal when later executed; it never claims
+that actual host pipes, child RLIMIT, ABI or secure-open support are unavailable.
+
+For EACH of the three exact sysconfig override keys, both empty and nonempty values
+require environment_unavailable/no worker/no public logs; the complete caller
+environment must remain equal before/after. Each subtest isolates one key and the
+outer patch restores test-owned state even when the raw missing-feature marker
+raises. No untrusted value becomes a module/SDK location. Outcome/no-spawn checks
+do not replace implementation audit of the required BEFORE-sysconfig-import/access
+ordering or the minimal child's exact environment.
+
+C's separately retained dialect-selection gap is closed in the EXISTING dialect
+method only: explicit OAS root jsonSchemaDialect base with Schema.$schema base OR
+Draft2020-12 accepts1.0 and rejects true; a Draft or unknown ROOT jsonSchemaDialect,
+and an unknown Schema.$schema, refuse unsupported_dialect. These7 added direct
+observations plus8 admission observations yield315. No default-latest class is
+selected by fixtures; expected codes stay independent literal oracles.
+
+Static preservation check compared parsed ASTs against actual rootfab7d82/source
+`ebb23a2542cde9466d20fdea38c52cc5b0901560`: **59 original test-method ASTs and ALL5
+Wrapper helpers are EXACT**, as are every external fixture helper/class. The sole
+existing-method delta is the explicitly agreed dialect method; all earlier
+assertions remain and7 observations append. Only errno is added to module imports;
+stdlib clone imports occur AFTER its raw first call. Additive script_result and3
+new test methods are the only new class definitions. No module-load fixture,
+process, SDK discovery, candidate import or feature call is introduced.
+
+Actual stdlib Python3.10-feature AST parse and compile WITHOUT exec/import PASS;
+63 distinct registered method definitions,1090 source lines. Independent AST
+preservation assertions PASS. Neither unittest discovery nor module/target/helper/
+venv/SDK/feature import or execution occurred. Different actual additive source/
+oracle review and root's matching63-case inert harness/config review remain gates
+before FIRST intended red. Prior A28/C32 reviews remain valid only for their actual
+unchanged scope, not advance approval of this delta or a complete baseline.
+
+Worker prologue/real no-site activation, ABI/root recomputation, exact trusted
+metadata/resource integrity and bounded reads/ownership, changed-read races,
+secure descriptor traversal, complete ZERO-network SDK integration and every
+remaining implementation/resource/source gate remain explicit. Public refusal
+codes and parent mocks do not verify all those controls. This adds no public
+option/API, runtime capability, provider/platform/live or release claim.

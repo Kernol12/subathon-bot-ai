@@ -7,6 +7,7 @@ unmodified public entrypoint. Fault children exercise refusal/cleanup only.
 
 import builtins
 import contextlib
+import errno
 import importlib.util
 import io
 import json
@@ -219,6 +220,71 @@ class WrapperAcceptance(unittest.TestCase):
             stderr.seek(0)
             self.assertEqual(stdout.read(257), b'{"code":"invalid_instance"}\n')
             self.assertEqual(stderr.read(257), b"")
+
+    def script_result(self, interpreter, package, expected, status):
+        """REAL public script in an owned venv; called only after the raw marker call."""
+        with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
+            child = subprocess.Popen(
+                [str(interpreter), "-I", "-B", str(SCRIPT), "--manifest", str(package.manifest)],
+                shell=False, close_fds=True, stdin=subprocess.DEVNULL,
+                stdout=stdout, stderr=stderr,
+                env={"PATH": os.defpath, "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"})
+            try:
+                self.assertEqual(child.wait(timeout=15), status)
+            finally:
+                if child.poll() is None:
+                    child.kill()
+                    child.wait(timeout=3)
+            stdout.seek(0)
+            stderr.seek(0)
+            self.assertEqual(stdout.read(257), ('{"code":"' + expected + '"}\n').encode("ascii"))
+            self.assertEqual(stderr.read(257), b"")
+
+    def test_parent_pipe_enosys_refuses_without_worker_or_logs(self):
+        p = self.package(b"1", schema(type="integer"))
+        with mock.patch.object(os, "pipe", side_effect=OSError(errno.ENOSYS, "PRIVATE facility detail")) as pipe, \
+                mock.patch.object(subprocess, "Popen", side_effect=AssertionError("ENOSYS spawned worker")) as spawn:
+            self.outcome(p, "environment_unavailable")
+        pipe.assert_called()
+        spawn.assert_not_called()
+
+    def test_sysconfig_environment_presence_including_empty_refuses_unchanged(self):
+        keys = ("_PYTHON_SYSCONFIGDATA_NAME", "_PYTHON_SYSCONFIGDATA_PATH", "_PYTHON_PROJECT_BASE")
+        p = self.package(b"1", schema(type="integer"))
+        for key in keys:
+            for value in ("", "PRIVATE-untrusted-config"):
+                with self.subTest(key=key, empty=value == ""):
+                    with mock.patch.dict(os.environ):
+                        for other in keys:
+                            os.environ.pop(other, None)
+                        os.environ[key] = value
+                        before = dict(os.environ)
+                        with mock.patch.object(subprocess, "Popen", side_effect=AssertionError("override spawned worker")) as spawn:
+                            self.outcome(p, "environment_unavailable")
+                        spawn.assert_not_called()
+                        self.assertEqual(dict(os.environ), before)
+
+    def test_real_sdk_clone_control_then_missing_distribution_is_dependency_unavailable(self):
+        p = self.package(b"1", schema(type="integer"))
+        # FIRST is the genuine raw public call, before venv/config/copy/child work.
+        self.outcome(p, "ok")
+        import shutil
+        import sysconfig
+        import venv
+        sdk = Path(sysconfig.get_path("purelib")).resolve()
+        self.assertEqual(sdk, Path(sysconfig.get_path("platlib")).resolve())
+        self.assertNotEqual(sys.prefix, sys.base_prefix)
+        with tempfile.TemporaryDirectory(prefix="schema-sdk-clone-") as temporary:
+            clone = Path(temporary) / "venv"
+            venv.EnvBuilder(with_pip=False, system_site_packages=False).create(clone)
+            clone_sdk = clone / "lib" / ("python" + str(sys.version_info.major) + "." + str(sys.version_info.minor)) / "site-packages"
+            shutil.copytree(sdk, clone_sdk, dirs_exist_ok=True)
+            interpreter = clone / "bin" / "python"
+            # Untouched actual admitted SDK must establish a REAL positive control.
+            self.script_result(interpreter, p, "ok", 0)
+            shutil.rmtree(clone_sdk / "openapi_spec_validator")
+            shutil.rmtree(clone_sdk / "openapi_spec_validator-0.9.0.dist-info")
+            self.script_result(interpreter, p, "dependency_unavailable", 3)
 
     def test_fresh_calls_do_not_cache_prior_success(self):
         p = self.package(b"1", schema(type="integer"))
@@ -469,6 +535,26 @@ class WrapperAcceptance(unittest.TestCase):
                 p.document("api.json", openapi(openapi=version), "openapi31").finish()
                 self.outcome(p, "unsupported_dialect")
         self.outcome(self.package(b"null", schema(**{"$vocabulary": {"https://outside.invalid/vocab": True}})), "unsupported_dialect")
+        oas_base = "https://spec.openapis.org/oas/3.1/dialect/base"
+        for selected in (oas_base, DRAFT):
+            with self.subTest(oas_schema_dialect=selected):
+                p = self.package()
+                p.documents.clear()
+                p.document("api.json", openapi(jsonSchemaDialect=oas_base, components={"schemas": {"S": {"$schema": selected, "type": "integer"}}}), "openapi31")
+                p.example("v.json", b"1.0", "api.json", "/components/schemas/S").finish()
+                self.outcome(p, "ok")
+                p.write("v.json", b"true")
+                self.outcome(p, "invalid_instance")
+        for selected in (DRAFT, "https://outside.invalid/oas-dialect"):
+            with self.subTest(oas_root_dialect=selected):
+                p = self.package()
+                p.documents.clear()
+                p.document("api.json", openapi(jsonSchemaDialect=selected), "openapi31").finish()
+                self.outcome(p, "unsupported_dialect")
+        p = self.package()
+        p.documents.clear()
+        p.document("api.json", openapi(components={"schemas": {"S": {"$schema": "https://outside.invalid/schema-dialect"}}}), "openapi31").finish()
+        self.outcome(p, "unsupported_dialect")
 
     def test_schema_format_only_not_literal_or_metadata(self):
         for name in ("date-time", "unknown"):
