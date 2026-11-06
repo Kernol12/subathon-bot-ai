@@ -58,3 +58,47 @@ feature import/execution, install, live operation or GitHub write occurred. Full
 worker resource/ABI/no-site/secure-read/read-race/offline/allocation, implementation
 review/acceptance/latest CI/normal merge and product/platform/live/release gates,
 all7 integrations/3 FX providers and CONTRACT013 scope remain.
+
+## Actual final focused-regression configuration delta
+
+Reviewer `/root/session_plan_review`, different from coordinator/configuration
+author `/root`,6 November2026. **APPROVED configuration delta ONLY** at actual
+`5c4e0d2dc6861deadd32ea21c2ea2452284ab82d`, workflow blob
+`3b6b7ae968ea1d582576e978971db84e05f71670`. Review uses NEW
+isolated branch `task/SCHEMATOOL-001-ci-final-review`, worktree
+`/tmp/subathon-schematool001-ci-final-review`, based on that actual commit. ONLY
+this evidence note changes. Earlier3d8 configuration approval above is preserved.
+
+The entire earlier workflow is an exact prefix. Four added unconditional steps
+run the ENTIRE reviewed parent_cleanup_regression.py, worker_context_regression.py,
+worker_lexical_regression.py and parent_spawn_regression.py modules after unchanged
+public64, on BOTH matrix hosts. Each uses the identical selected isolated venv,
+`env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8` and `-I -B`; no selector,
+condition, suppression, failure inversion or continue-on-error was added. Matrix,
+checkout digest, triggers/permissions/time ceiling, hash-only install/bootstrap/
+pipcheck, SDK14 and no-site metadata/definition checks remain unchanged.
+
+Actual module blobs are respectively `acde40d001a7932f68d2c8ebe5aa25b3a983ef82`
+(2 methods), `b34a564e87bf3cd818dc8ebd1fac8a7a3979035c` (3 methods/7 observations),
+`fc826843aa64e5e5d1917403bd0f612e2f9f9240` (3 methods) and
+`777d9071cba94cb80e4147918722b5358f53946f` (2 methods). Their actual different
+source reviews are C adc1716, root context9aed/lexical72143f4 and root spawn57a79f1;
+the last follows actual private-r3 C93a5e1. This configuration review reuses those
+reviews. It does not self-approve the lexical tests authored by this reviewer.
+The original64 blob64f4911, SDK14 blob6585db8, baseline harness2673608, lock859d7cf
+and metadata6f4ffec are byte-identical to reviewed3d8. No frozen assertion or
+historical FIRST artifact changes.
+
+Actual source-only Python3.10 AST/compile checks for all four new modules, ten
+extracted shell blocks through `bash -n`, exact original-workflow-prefix and
+unchanged-source comparisons, project426/122, current-render and whitespace checks
+PASS. No module/helper/SDK/test/harness import or execution, child, signal,
+installation, network/GitHub write or hosted run occurred during this review.
+
+This remains an UNPUBLISHED/UNEXECUTED configuration candidate. Actual constructor
+ownership correction and worker key-allocation findings remain open at this
+revision; no passing source/local/hosted claim follows from configuration approval.
+Keep publication/execution held until coherent reviewed source and real passing
+public64 plus every focused module are obtained. Then observe both actual hosted
+lanes/latest required checks and normal merge gates. Existing product/platform/
+live/release boundaries above remain unchanged.
