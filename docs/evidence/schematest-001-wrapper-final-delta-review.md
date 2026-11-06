@@ -3,16 +3,18 @@
 Reviewer `/root/session_supplier_review`, DIFFERENT from author
 `/root/session_supplier_author` and integrator `/root`,6 November2026.
 **APPROVED exact final source delta**, actual candidate
-`6b0cfafbdf51485d5751612abf0d66e3cde5c19b`, source
-`043072830b888e7f2d2cee3ce67e326170b7c7ae`, author-note blob
-`de2050927cdf6997c176ce5cf94ff5c359f66a0b`.
+`930a05bb093b44f07ea15e959dd590a8235d8b29`, source
+`5c5e9b340b61fce93f8504b3d612861467539aff`, author-note blob
+`59921bb4d70e555b5463c7b9352c24937b17f055`. Earlier ledger/hash/type candidate6b0cfaf,
+source0430728, was separately approved in6fae4b9; that history remains below.
 
 NEW isolated branch `task/SCHEMATEST-001-wrapper-final-delta-review`, worktree
 `/tmp/subathon-schematest001-wrapper-final-delta-review`, from actual root
 `a11099740fe3dec4899990c2b6264a1ee5d01f50`. Own ONLY this note. Read initial final
 candidate090e1a349/source6969 at that root, then full actual6b0 correction using
-immutable Git objects; do not mistake this branch's earlier file for the verdict
-target. Root must integrate exact043 before the refreshed harness/CI or red run.
+immutable Git objects, then exact930a05bb help correction below; do not mistake this
+branch's earlier file for the verdict target. Root must integrate exact5c5 before
+the refreshed harness/CI or red run.
 
 Authority: root/tests instructions, public exact-type/no-callback requirements,
 installation86d6d4/manifest6f4ffec whole SAME-artifact metadata admission and actual
@@ -75,7 +77,7 @@ No new SDK import, class decorator, lifecycle constructor or load_tests hook app
 
 ## Exact preservation and remaining execution gates
 
-Against priorfc/sourcea80,61 old test ASTs and ALL6 old helpers remain exact; only
+At the6b0 ledger stage, against priorfc/sourcea80,61 old test ASTs and ALL6 old helpers remain exact; only
 the two authorized methods gained the literal container/hash observations. Against
 090, ALL63 method ASTs/ALL6 old helpers are exact. Independent whole-module AST
 comparison removes ONLY the new ledger assignment, first literal append in each
@@ -87,7 +89,7 @@ method. The317 raw/5 extra-script figures remain authored source inventory, not
 
 Actual harness `97d95c29d1f7f33dfc06e65ecd7cc38e4d74dd61` and workflow
 `842790e2bd87039c646a1589cd4982463461b778` remain unchanged and their63-name inventory
-matches source043. Existing core/source approvals remain valid ONLY for unchanged
+matches source043 AND final5c5. Existing core/source approvals remain valid ONLY for unchanged
 scope; this note supplies the actual new callbacks/lifecycle/hash/type delta.
 Root's retained native OLD-a80 harness0 result is not proof for this source.
 
@@ -106,3 +108,31 @@ attribute actual raw marker frames, not dependency,
 fixture/setup/teardown failure or skips. Full baseline integration, later production/
 source/acceptance/ordinary CI and real worker/resource/no-site/no-fetch/ownership/
 platform/live/full-release gates remain. No implementation capability is claimed.
+
+## Final actual help-guard persistence correction
+
+After the6b0 scoped verdict, root found the identical swallowed-exception hole in
+the existing help-operation mocks: an incorrect main could attempt Popen/open,
+catch their AssertionError and still emit the expected help. Root explicitly
+authorized only four mock aliases plus post-call no-call assertions; no new case,
+outcome or coverage expansion. Final actual930a05bb/source5c5 fixes that exact path.
+
+The SAME Popen/builtins.open/io.open/os.open raising guards are now retained as
+named mocks. Immediately after the direct raw main returns, EACH mock must report
+assert_not_called. A swallowed attempted operation remains visible. Exact builtin
+int0/help bytes/empty stderr and all original guards remain; early raw marker still
+propagates before any post-call checks. No target function is mocked into success.
+
+Independent full-module AST comparison removes ONLY those four aliases and four
+post-call assertions: the ENTIRE remaining module equals approved043.62 other
+test methods, ALL7 existing helpers including plain-list tearDown, all fixture/
+poison classes and never-reset13-callback ledger remain exact.63 registrations/
+317 source-counted raw observations/5 extra scripts remain. Definition-only loading
+still invokes no test/help/guard/teardown body; harness97d95/workflow842 are unchanged.
+
+Actual final Python3.10-feature AST/compile-only, whole-module preservation and63
+inventory checks PASS; repository/render/whitespace checks PASS. No source module,
+test/helper, clone/venv, SDK, harness, feature or child was imported/executed here.
+This final approval targets5c5 only for the actual corrected source; prior green
+OLD-a80 observations remain historical. Refresh matching-source green harness before
+the reviewed intended-red sequence; all production/integration/release gates remain.
