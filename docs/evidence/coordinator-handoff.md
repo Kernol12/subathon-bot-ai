@@ -164,3 +164,18 @@ sourceAPPROVEDpublication. Publishingthisnarrowcorrection next; firstnative69
 stillhelduntilactualBOTHhosthelperGREEN. Public74source926 approvedC26 butnot
 imported; Aactivebinding-admissiontests+definition-onlyunimplementedinterfaces,
 no workingbinding/native31fabrication. RootBreviewed57source3a/Bdbd isready.
+
+## Latest controlled closure correction
+
+Actual6a hosted42279145549 BOTH execute56:55PASS, onlyproducerreport28 fails on
+extra142/145. Cff95 independent1463958B/ce348 raw retained. Acontrolledsentinel3fbd
+reviewedrootb845/Cff95, FIRSTcleana4a (actual4a067cb)19:35:28 old/newstatic0→strict
+1XML0→ONLYreport28CTest8,2asserts7vs6+64vsUINTMAX, no othercause; C618attributed
+physical1despiteCTestdiagnosticduplicatebody. Exactevidence dc9/sentinel-red note.
+A5ffc ONLYchecked childtableclosefrom>=5 afterdup3/4+knowncloses, reviewedrootcf42293.
+Rebuild0/newfoundationd040a3f0; other4artifacts unchanged. Bothstatic0→strict1XML0→
+FULL LOCAL56PASS0/.16s atcleancf, stdout79450B1fde5d1f/stderrempty, sentinel+allold
+assertsintact. RootpublishesSAMEreviewedCI withfix; actualBothHostfullGREEN STILL
+pending. Thisisnotowner69FIRST. Bcurrentlyactualc38+58binding9source-rereview;
+Acompletedclosefrom+transparentctypeslookupfix58. Public74source926 C26approved
+notimported, bindingdefinitionstubs9c38notimportedyet. Noownerimplementationbody.
