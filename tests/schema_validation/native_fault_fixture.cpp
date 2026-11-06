@@ -489,7 +489,12 @@ bool pin_birth(int pid, int pidfd) noexcept {
     value->birth_source = pidfd;
     store(&value->birth_request, 1U);
     wake(value);
-    return await_flag(value, &value->birth_bound);
+    if (!await_flag(value, &value->birth_bound))
+        return false;
+    // Case23 must advance the clock BEFORE the caller can compute a poll timeout.
+    // The child independently enters its pre-remap ready/hold path, so controller
+    // readiness/offset completion does not depend on this parent return.
+    return value->plan.case_id != 23 || await_flag(value, &value->action_done);
 }
 bool pin_report_read(int descriptor) noexcept {
     auto *value = state();

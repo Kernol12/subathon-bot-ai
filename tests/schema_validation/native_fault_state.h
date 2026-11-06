@@ -21,6 +21,8 @@ struct Plan {
 [[gnu::visibility("hidden")]] RawResult monotonic_ns() noexcept;
 // Caller supplies genuine saved kernel identities and HOLDS each source FD until
 // acknowledgement. False is fixture failure, never a worker/domain classification.
+// Case23 acknowledgement additionally requires genuine child readiness and clock
+// offset completion; the child must enter ready/hold without waiting for this return.
 [[gnu::visibility("hidden")]] bool pin_birth(int pid, int pidfd) noexcept;
 [[gnu::visibility("hidden")]] bool pin_report_read(int descriptor) noexcept;
 [[gnu::visibility("hidden")]] bool capture_outcome(const unsigned char *bytes,

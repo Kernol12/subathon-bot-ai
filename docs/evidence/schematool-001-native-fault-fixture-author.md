@@ -165,3 +165,26 @@ test source/oracles and actual build review precede ALL execution. BOTH-host rea
 helper/kernel/ABI/SDK GREEN precedes NEW actual same-stub31 owner red; only then
 may owner implementation be separately released. All74 ports/full acceptance/
 resource/offline audits/CI/latest-head/normal merge remain, PR77 only then stop.
+
+## Pre-execution case23 acknowledgement correction
+
+Root's different actual body read found that successful pin_birth waited only for
+guard binding; the caller could compute a real poll timeout before the controller
+observed readiness and advanced the offset. That could introduce a real10s wait.
+The separately assigned correction is made on fresh
+`task/SCHEMATOOL-001-native-fault-ack-author` from the committed child-source
+candidatecfac309; only fixture.cpp/private hook comment/this note change.
+
+Case23 pin_birth now requires BOTH actual birth_bound AND action_done before
+return. Controller23 already sets action_done ONLY after genuine child R readiness
+and the checked offset advance, independently of phase_requested. The child must
+enter the existing pre-remap ready/hold path without waiting for this parent
+return; its code uses the already prepared map/coordination handles. This gives
+the caller an admitted clock-completion acknowledgement, no repeated1ms polling,
+sleep or new phase/ABI/export/record. All other plans are unchanged. Arm remains
+nonblocking and literal31 never calls pin_birth, so idle cancellation is unchanged.
+The actual A control/driver must honor that child precondition and receive its own
+different source review before execution. No dynamic clock/deadlock claim follows.
+Actual correction checks: project426/122/current HTML, render, clang-format and
+whitespace PASS. Parent3438/stube04d/child9af9254 remain unchanged. No compile,
+native load/call, thread/child/control/probe/test/SDK execution occurred.
