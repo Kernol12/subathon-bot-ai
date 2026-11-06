@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:50:35+00:00",
+  "updated_at": "2026-11-06T05:54:48+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13683,8 +13683,8 @@
       "title": "Browser and desktop credential transport contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "coordinator /root; session_supplier_review (transport document author)",
       "depends_on": [
         "SESSIONCONTRACT-001"
       ],
@@ -13702,11 +13702,30 @@
       "summary": "Finalize exact browser cookie/Origin/CSRF and desktop header semantics after the integrated current-session supplier, retaining both document gates before consumers.",
       "notes": [
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
-        "Document planned only: no authored/reviewed contract, auth choice or supported transport capability."
+        "Document planned only: no authored/reviewed contract, auth choice or supported transport capability.",
+        "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation.",
+        "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim.",
+        "Complete focused transport DOCUMENT after actual differentcdbf8e8 review of corrected6cd4a15/doc2c33, unchanged supplierc5. Exact cookie/Bearer/customheader-Origin-closedCORS/proxy/errors/bounds/literal cases, source-specificDrogonmultiplicity/rawCookieTRACE gaps retained as actuallaterimplementationgates. Stale policy MUST503+freshingress and JSONHTTP/WSscope findings corrected beforeapproval. Root423/render/19tooling/whitespace and independent byte/hash/U64 auditsPASS. Main4e85241 integrated preserving source/reviews/MILESTONEdone and own002claim. No source/header/schema/tests/red/runtime capability. Finalmetadata/latestheadCI/currentrules/normalmerge remain before downstreamauthoring."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "docs/contracts/session-transport-v1.md",
+        "docs/evidence/sessioncontract-002-author.md",
+        "docs/evidence/sessioncontract-002-review.md",
+        "docs/evidence/sessioncontract-002-handoff.md"
+      ],
+      "review": {
+        "author": "session_supplier_review (transport author)",
+        "reviewer": "session_plan_review (different transport reviewer)",
+        "outcome": "approved",
+        "revision": "Actual corrected6cd4a15/import6f2b825/document2c33c2bbe9052455107c3056783d6bb605a5fef2 approvedcdbf8e8/import4d57195. Supplierc5 unchanged; stale-policy fresh-request and separateWSgate findings resolved. Documentonly, finalmetadata/latestpublicationCI/normalmerge remain.",
+        "evidence": "docs/evidence/sessioncontract-002-review.md"
+      }
     },
     {
       "id": "CONTRACTPLAN-005",
@@ -13730,7 +13749,8 @@
       "summary": "Record selected-standards validation gap and bounded independently reviewed/red developer foundation before schema acceptance.",
       "notes": [
         "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain.",
-        "Claim dedicated task/CONTRACTPLAN-005-schema-validation from actualmain4e85241 after normalPR73. Read-only CONTRACT013 assessment found no selected/pinned standards validator/harness; link checks are not OpenAPI/JSONSchema/instance validation. DOCUMENT-only add three records/five edges426/1629 preservingallold423/1624/status/reviews. Root owns sharedADR/briefs/state/HTML; differentactualplanreview beforedone. No library/version/API/schema/test/stub/CI/runtime selected; concurrent002PR74donecomponent/latestCIpending preserved on ownbranch."
+        "Claim dedicated task/CONTRACTPLAN-005-schema-validation from actualmain4e85241 after normalPR73. Read-only CONTRACT013 assessment found no selected/pinned standards validator/harness; link checks are not OpenAPI/JSONSchema/instance validation. DOCUMENT-only add three records/five edges426/1629 preservingallold423/1624/status/reviews. Root owns sharedADR/briefs/state/HTML; differentactualplanreview beforedone. No library/version/API/schema/test/stub/CI/runtime selected; concurrent002PR74donecomponent/latestCIpending preserved on ownbranch.",
+        "Integrate normalPR74 main15cf7f1/finald23/all17SUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass/headmergetreesequal. Preserve both sessiondocumentsdone/MILESTONEdone/allmain423/1624 taskevidence; apply only plan005/newfoundationrecords/013additivegate/activity. New426/1629. No schema/library/test/wrapper/runtime finalized; actualdifferent plan291/importcda preserved."
       ],
       "verification": {},
       "evidence": [],
@@ -15024,9 +15044,29 @@
       "note": "Complete pure progression component after preserved53/full90 nativepasses, different actualsource/config/resourceaudit and independently downloaded selectedhosted42168586251 at549SUCCESS: GNU13.3/Boost1.83macro108300/fresh26/strictordinary53guard/old37foundation25PASS1.28s/UNCONDITIONAL53PASS0.16s/0warnings-skips. ActualCIreceipt013/importb363. No originalassertion/fixture/publicABI/FIRSTred changed. Main060 integrated preserving423/1624 and supplier001done; own activeclaim preserved. Finalcomponentcompletionmetadata/latestheadCI/currentrules/discussions/normalmerge still required. MILE01/NUM04 partial and all authoritativeproducer/action/UI/provider/platform/releasegates retained."
     },
     {
+      "date": "2026-11-06T05:32:17+00:00",
+      "task": "SESSIONCONTRACT-002",
+      "note": "Claim dependency-ready focused transport DOCUMENT from actualmain0605948 after normal PR72 merge05:30:13Z/finalcae986c/all17SUCCESS/currentrules/zero threads. Import accepted supplierc5f5a6e unchanged, preserve both-document downstream gates and every runtime/test-first/release requirement. Author owns ONLY session-transport-v1.md and own authornote; DIFFERENT reviewer required. Read-only primary-source/pinnedDrogon inspection identifies duplicate collapsing and raw-cookie TRACE log, retained as mandatory lossless-ingress/secret-log implementation gates rather than advertised capability. Root owns sharedstate/HTML/imports/build/CI/pins/schema; no production/schema/tests/stubs/live operation."
+    },
+    {
+      "date": "2026-11-06T05:43:45+00:00",
+      "task": "SESSIONCONTRACT-002",
+      "note": "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim."
+    },
+    {
+      "date": "2026-11-06T05:44:58+00:00",
+      "task": "SESSIONCONTRACT-002",
+      "note": "Complete focused transport DOCUMENT after actual differentcdbf8e8 review of corrected6cd4a15/doc2c33, unchanged supplierc5. Exact cookie/Bearer/customheader-Origin-closedCORS/proxy/errors/bounds/literal cases, source-specificDrogonmultiplicity/rawCookieTRACE gaps retained as actuallaterimplementationgates. Stale policy MUST503+freshingress and JSONHTTP/WSscope findings corrected beforeapproval. Root423/render/19tooling/whitespace and independent byte/hash/U64 auditsPASS. Main4e85241 integrated preserving source/reviews/MILESTONEdone and own002claim. No source/header/schema/tests/red/runtime capability. Finalmetadata/latestheadCI/currentrules/normalmerge remain before downstreamauthoring."
+    },
+    {
       "date": "2026-11-06T05:50:35+00:00",
       "task": "CONTRACTPLAN-005",
       "note": "Claim dedicated task/CONTRACTPLAN-005-schema-validation from actualmain4e85241 after normalPR73. Read-only CONTRACT013 assessment found no selected/pinned standards validator/harness; link checks are not OpenAPI/JSONSchema/instance validation. DOCUMENT-only add three records/five edges426/1629 preservingallold423/1624/status/reviews. Root owns sharedADR/briefs/state/HTML; differentactualplanreview beforedone. No library/version/API/schema/test/stub/CI/runtime selected; concurrent002PR74donecomponent/latestCIpending preserved on ownbranch."
+    },
+    {
+      "date": "2026-11-06T05:54:48+00:00",
+      "task": "CONTRACTPLAN-005",
+      "note": "Integrate normalPR74 main15cf7f1/finald23/all17SUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass/headmergetreesequal. Preserve both sessiondocumentsdone/MILESTONEdone/allmain423/1624 taskevidence; apply only plan005/newfoundationrecords/013additivegate/activity. New426/1629. No schema/library/test/wrapper/runtime finalized; actualdifferent plan291/importcda preserved."
     }
   ]
 }
