@@ -1,160 +1,139 @@
 # Coordinator checkpoint — finish PR77, then stop
 
-Latest owner instruction: **cleanly finish the open PRs and then stop**. Actual
-GitHub inspection finds only draft [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77)
-open. Do not start another task/PR or continue the standing selection loop after
-normal merge77. No owner decision/access is currently needed. No live operations.
+Latest owner instruction is **cleanly finish the open PRs and then stop**. Only
+[PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is open; PR72–76 are
+merged. Do not select a new project task, create another PR, or resume the broader
+standing task-selection loop after normal merge77. No owner decision/access is needed.
+No live provider/chat/contribution/credential/deployment operation is authorized.
 
-## Latest decisive handoff (supersedes older active-assignment details)
-
-Currentroot c87bc97, clean. PublishedPR77 still928/all21green/DRAFT, main095.
-AactualPythona8 wasreviewedC andgenuineheaderhandleleakfound; A b9test independently
-rootreview78, actual FIRST1method/2subcases ONLYfstatlive[0]!=EBADF[9] (259raw).
-FinalA447 protectedacquisition/originalexceptionpriority approvedCfd223, imported
-313/3c. SAMEregression actualPASSclean3c/1method2subcases/.005s/noCentry, archived
-[c87note](schematool-001-native-loader-cleanup-pass.md). Pythonsourceapprovalvalid.
-
-Bactualimmutableowner75d2a298 (831core046c/rawf96/entryfdca) importedb620. Rootactual
-3filecompile-onlyreview456+C398/544 buildreview+exactGNUmetadataflagack permit
-compileONLY. Actualclean456 config0/build8steps0/0warnings20:29:56Z, noELFload/run/
-list/bootstrap/discovery. NewprodSHA d267160e/fault17e9a130/foundationc23be5d5;
-[fullarchive](schematool-001-native-owner-compile-only.md) retains.ci/.su/disassembly/
-exports/relocs/rawcommands. Oldstrictstaticauditors BOTHREFUSEentryTLS/canary;
-no newowner/runtime capability/pass claimed. Raw/tmp/schematool001-owner-static-stage,
-compile/tmp/schematool001-owner-compile-only; allsessionscomplete.
-
-Liveagents nowexplicitlyassigned: B session_supplier_author authorsONLYbounded
-codegen SOURCEcorrection inNEWisolatedbranchfrom3c, owns3ownerfiles PLUS
-native_fault_ops.h+note. Exactactualcanary-edgefunctions getfunction-scoped
-no_stack_protector (no global/harnesshardeningchange); impossiblekernelcontract
-traps become rawnonreturningexit_group127 (no inventedreturn/guessedPID/cleanup);
-denseFaultOps.target switch becomes exactequivalentifchain incldefault. Cack
-sourceauthoringonly, actualdelta reviewBEFORErootrebuild. A
-session_supplier_review authorsONLYnew audit_native_owner.py +focusedliteral
-native_owner_audit_controls.py+note, isolatedfromroot456, usingactualcompiled
-artifactsREADONLY, neverELFload/run. Strictwholeowner/child/canary/trap/indirect
-gates preserved; no namespace-wide whitelist/defaultunknownframe0. C
-session_plan_review nowindependentlyreviewsWHOLEB75semantic/resourcecode and
-futurecodegenactualdelta/generatedartifacts; Pythonfinalreviewalreadycomplete.
-Rootownsoldauditorintegration/build/CI/state; existinginertentryguardsstillfailclosed.
-Inspectactualagentstatus/worktreepaths onresume; do notassumerunning.
-
-GNUdynamic,bounded actualmetadata iscompiletimeTOTALstackupperboundforfixed
-outgoingargumentpush/pop (primaryGCC11.5docverified); acceptONLYwithactual
-fixed-immediateRSPproof, rejectunbounded/unknown/missing. Mangled.cialiasesmust
-mapactualELF+sameframednode; inheritedABI/parentframescounttowhole32768. FD8
-sourceproof+raw57ledger, notgenericbinaryclaim. SemanticCTestprogramcount65
-nowincludesactualreviewedloadercleanup1; originalnative69/binding9/public74/
-foundation56 remainmandatory; SDK14separatejobs preserved. No newruntime
-publicationbeforeactualsource/generatedgates. Next: exactcorrectionreview→rebuild
-+newstrictcheckerreview/bounds→fullsemantic/facilityacceptance/bothhostlatestCI→
-normalmerge77→refreshmain/finalcheckpoint/stopagents/STOP. Noownerdecisionneeded.
-
-## Repository and publication
+## Actual repository/publication
 
 Main/origin main last observed095d192c834e8e7746a7922865bbf0e11d06f905, clean.
-PR72–76 merged; PR76's normal merge/current main already verified. PR77 task branch
-`task/SCHEMATOOL-001-offline-validator`, integrator `/tmp/subathon-schematool001`,
-latest local fd09044 before this checkpoint, clean; published928fb86e090e2b9c0b32fdf395c21486da74f1da.
-Published head's21checks all SUCCESS, OPEN/DRAFT/CLEAN, zero formal reviews. Later
-local implementation migration is not published or merge eligible. Ruleset26170263
-requires PR/thread resolution/zero formal approvals; it has no required-status
-rule. Latest CI, independent reviews and resolved discussions remain manual gates.
-No bypass. Reinspect actual GH after newhead.
+Integrator `/tmp/subathon-schematool001`, branch
+`task/SCHEMATOOL-001-offline-validator`, currentlocal37f0ecd beforethischeckpoint,
+clean. Publishedhead928fb86e090e2b9c0b32fdf395c21486da74f1da is OPEN/DRAFT/CLEAN
+with21SUCCESS checks/zeroformalreviews; thosechecks describe the OLDpublished
+checkpoint, not currentimplementation. Local code/CI/evidence are unpushed.
+Ruleset26170263 requires PR/threadresolution/zeroformalapprovals and has NO
+required-statusrule. LatestCI/independentreviews/applicableacceptance remainmanual
+gates. Never bypass protection; recheckactualGH/latesthead beforemerge.
 
-All existing support worktrees and unfinished files are preserved. Numerous old
-support branches are historical, not active-agent evidence. Last process inspection
-found only existing IDE/Codex services, no project build/test process. Current root
-command sessions have completed; no background project execution is claimed.
+Existing supportworktrees/uncommittedoldwork arepreserved. Do not prune/reset them.
+No nativeprojectprocess is running; all root execsessions completed. NO NEWOWNER
+ELF has been loaded, executed, listed, bootstrapped or tested. Staticbinutils/Python
+controls and compilers only have run. Thisstatementmustbeupdatedafterruntime.
 
-## Active bounded assignments
+## Current decisive state
 
-- B `/root/session_supplier_author`: explicitly released common C++ owner authoring
-  after native69 real red. Branch `task/SCHEMATOOL-001-native-owner-author`, tree
-  `/tmp/subathon-schematool001-native-owner-author`, from9d83b7c. Own ONLY new
-  raw_ops_v1.h, transport_core_v1_impl.h, transport_entry.cpp plus author evidence.
-  Common algorithm/entry, compile-time RawOps vs actual reviewed FaultOps625.
-  No candidate execution; actual source/generated/resource review before runtime.
-- A `/root/session_supplier_review`: Python loader/decoder/public native route
-  authoring, branch `task/SCHEMATOOL-001-native-python-binding`, tree
-  `/tmp/subathon-schematool001-native-python-binding`, from9a70ec0. Own ONLY
-  tools/schema_validate.py plus evidence. Publicroute explicitly released after
-  corrected13actualred945. Remove legacy Python process/FD/thread ownership; keep
-  worker source/pins unchanged. No candidate execution.
-- C `/root/session_plan_review`: independent reviewer only. Native69 attribution
-  746 importedd8af; wire fixture correction997 imported945; temporary31 retirement
-  801 imported34f. Currently attributes binding9/corrected13/four previously
-  unreached public rows, then reviews root971 build/CI and actual authored code.
-- Root owns CMake/presets/CI/static audit integration, tests/state/HTML/checkpoint.
-  New build/CI971 is source preparation, not execution approval.
+SCHEMATOOL-001 remains in_progress/partial. Nativeprocess contractv1 **revision3**
+(C99documentapproval) addsONLYbase20 normalization-original-close/encoded40–41
+andONLYnegative tuple24/41/EINTR. Existing1..19/57rows/public74/binding9/caps remain.
+The source has a KNOWN DELIBERATELY PRESERVED bug: normalizationuses cleanup-only
+work=false in THREEcontexts, so active interruptiondoesnotcommit required18.
+DoNOTfixbeforethe newreviewedone-case test reaches actualintendedred.
 
-Agents were actually inspected/reassigned; do not assume they remain running on
-resumption. Confirm statuses and inspect their actual worktrees before action.
+B75 owner/source fullaudit Cb857 (rootfa088) found onlythatblockingclassification
+defect; allothersemantic/sourceconditions wereexamined. C4ef approvesBe1hook+
+newregressionSOURCE/minimalinterface, with bugpreserved. Actualroota97/982 integrated
+6sourcepaths/newtest; old57changesONLYexplicitjournalgrammar40/41 (writtenr3reason).
+[Cactualreview](schematool-001-native-normalization-close-regression-review.md).
+The newtest is `tests/schema_validation/native_normalization_close_regression.py`,
+ONE method, realFaultSession24/41/EINTR, actualclose0/releaseACK beforeAFTER41,
+rawFD/P_ALLquiescence beforefallback, literal18 thenfullno-birth/final39oracles.
+It is NOT RUN. Itmustnotcount31/setup/poison/import/compilefailure asvalidred.
 
-## Completed gates and retained evidence
+## Actual static proof now GREEN; runtime admission pending
 
-Native/process v1r2, private processr4, installationr2 and ADR0009 exceptions have
-actual different C44/C48 approval. Public18enum/two calls/CLI/error priority/limits
-remain fixed; full product7integrations/3FX scope unchanged. Worker8f4c8c7 and
-root98bc/context/backend/index retain valid C0e1/source review. Old Python parent
-4cc464a/source3438 was frozen for unpublishedPID/deadline/thread/close gaps.
+MatchingproductionE5579584ecab74295219ae1ca10c52424517d969b14fbca3b809c5baf57ff0b6:
+71closedfunctions/inheritedABI-to-childstack26736bytes. Matchingfault
+e1bb573d0ca3a6d771a2644838113c343b3600bd468a97edad36436483a64f76:
+124closedfunctions/inheritedstack27712bytes. BOTH<=32768 withCI/SU/mangledELF/
+sourcealiasbinding, acyclicwholecallchain+returnoverhead, strictchild/clonezero/
+rawRAX/noTLS/PLT/trap/indirect/export/eager/noCppinit checks. FD8 remainsactual
+Csource+future57rawledger, notagenericbinaryclaim. Foundationf831be2f, oldreporter
+bd3e/negativechildbc122/libc02c8 unchangedasapplicable.
 
-Actual SDK14 and old functional public74 passed on BOTH selected hosted runners
-42229761220 (C24df review, retained full raw/receipt). Original wrapper FIRST and
-all focused regressions remain archived, never replayed as new baselines.
-Dedicated actual CPython3.14.9 SDK venv: `/tmp/subathon-schematest001-py314/bin/python`.
-20package pins/metadata/wheelhouses unchanged; no global installation.
+[Fullstaticarchive](schematool-001-native-owner-generated-pass.md), commit37f0ecd,
+contains matchingALLcurrentCI/SU and actualcombinedoldCLI commands/receipts/full
+outputs. Rootb559 oldauditorintegration approvedCf028 (roota145), then BOTHold
+staticgatesPASS0/emptyerr. EachnowrequiresitsmatchingperDSOownerproof whileALLold
+rawhelper/primitive/negativeexec/GOT/libc-prefix/defaultguardsremain. Olddefault
+8+8+5literalcontrolsPASSat1393; new5literalcontrolsPASSafterreviewedcorrections.
+CIadds5controls unconditionallyBEFOREfirstownerproof. No runtimeapproval inferred.
 
-Actual BOTH-host foundation56 GREEN at published928:
-[hosted receipt](schematool-001-native-closefrom-hosted.receipt.json), run42282457204,
-C0ae imported634. GCC11/Python3.10.12/glibc2.35 and GCC13/Python3.12.3/glibc2.39.
-Each55CPP +loader2, zero skips/fail/errors. Source child-only closefrom fix follows
-controlled sentinel red, preserved in its own notes; no assertions weakened.
+Controlledstaticissues/sourcecorrections retained, notsilentlyrelaxed: actual
+9canarycallerseach→scopedattrsC09; scalar48/128initializationB7a/C6a; actualowned
+pin_birth observercanaryRootd098/Ca966→singleattr; exacttwoCAScontexts via
+optionalBASEpredicateRoot363/C065(defaultNoneunchanged); correctedchild15/16
+set/boolclose_baresig; reachedPUSHcontrolbug→A0ca/rootreview; actualparentCWTL
+12sites→exactfourparentfn/emptyoperandpredicateA961; actualsigned128/RBPepilogues
+→A814/389canonicalboundedforms. ALLoldassertions preserved, no namespace/global
+LOCK/SSE/variableframe allowance. Rootfullactualchecker/controlreview is linked in
+[review](schematool-001-native-owner-audit-review.md). No genericartifactpass inferred
+frompreliminaryentry-TUcanary0: fullclosurecorrectlycaughtpin_birth andwasfixed.
 
-[Actual native FIRST69](schematool-001-native-owner-first-red.md), archived9d83:
-clean634c4c0, direct12methods/22calls +57freshrows,58processes/69test executions/
-79exact actual C-return31 errors, no other cause. [Different C attribution](schematool-001-native-owner-first-red-review.md)
-verifies176members/receipts/source/hashes/actual guards. This released B owner
-implementation; it is not a passing implementation. Do not rerun FIRST.
+## Active roles — inspect actual agents on resume
 
-[Actual binding FIRST9](schematool-001-native-binding-first-red.md), clean2a153:
-9methods/41real explicit PythonBindingNotImplemented errors, passiveimportpass,
-no C call or other cause. Source A c38/58 +different B3165/069 all integrated.
+- C `/root/session_plan_review` has been explicitly reactivated to independently
+  inspect ACTUAL37f0ecd archive/metadata/artifactproof and release NARROWstrict
+  no-child1XMLbootstrap→ifpassupdatedfoundation56→ifpassONLYnewnormalizer1red.
+  WaitingactualCverdict; NOnewELF/runtime untilitarrives. Its source/receipt
+  reviewbranches arehistorical, notassumedrunningonresume.
+- A `/root/session_supplier_review` COMPLETED ownerauditor source revisions through
+  389aa49, tree `/tmp/subathon-schematool001-native-owner-audit-canonical-stack`.
+  Noactivewritingassignment. Reuseforboundedcode/failureworkifneeded.
+- B `/root/session_supplier_author` COMPLETED currentcore/hook/scalar source, tree
+  `/tmp/subathon-schematool001-native-scalar-zero` at7a13117. DoNOTassumerunning.
+  AFTERgenuineNEWnormalizerred explicitlyreactivateforONLY3work-contextfalse→true
+  classificationfix+note onfreshcurrenttaskrevision, thenCactualsource review/
+  rebuiltgeneratedproof/SAMEtestPASS. No fixauthoredyet.
+- Root owns sharedCMake/presets/CI/progress/HTML/oldauditors/integration/checkpoint.
+  CurrentCMake/CI register56facilities+65semanticprograms(native12+57freshrows,
+  binding9/public74/loadercleanup1). NEWnormalizer1 is notregisteredyet: keepits
+  intentionalredseparate, thenaddunconditionalstableprogram afterfixPASS (66).
 
-[Ported public74 FIRST](schematool-001-native-public-routing-first-red.md): clean9a70,
-64wrapper/cleanup2/spawn2 fail at actual unused native boundary; context3/lexical3
-pass. Two duplicate-tuple fixture failures explicitly excluded from validred.
-A42dd correction (C997 approved) preserves23calls/22logicalwiretuples and native57
-case21. [Corrected affected FIRST13](schematool-001-native-public-wire-first-red.md)
-atclean945:2methods/13actualPID0!=1 boundary failures, no fixture issue.
-[Four previously unreached complements](schematool-001-native-public-complement-first-red.md)
-atclean34f: s12 actualPID0!=1;3postreturnnegative rows actual unused-decoder
-assertion, zero fake raw0/identity/quiescence claim. All newrouting baselines
-precede integration of A's working source; no historical/full baseline replay.
+## Completed prerequisites — preserve, do not replay
 
-[Temporary31 retirement](schematool-001-native-temporary-control-migration.md)
-13c+format5a, [different review801](schematool-001-native-temporary-control-review.md):
-three explicitly inert-only controls become actual nullmanifest/len0 invalid2
-BEFORE Ops/t0/resource, all idle fixture cleanup/journal assertions retained.
-Historical31 source/red/pass remains. Valid admitted calls still emit actual
-postcleanup finalkind8/phase39. Do not build with unreviewed admission semantics.
+Nativepolicy/ADR0009/privateprocessr4/installr2 had actualC44/C48documentapproval.
+Worker8f4c8c7/root98bc andC0e1source/securityreviewremainvalid;20SDKpins/metadata/
+licenses/wheelhousesunchanged. Ordinarydedicatedvenv
+`/tmp/subathon-schematest001-py314/bin/python` is CPython3.14.9. LocalGTest1.18
+(system), hostedfetch1.17pin; neverconfusethem.
 
-[Build/CI migration971](schematool-001-native-acceptance-build-migration.md):
-bothDSOs same new entry/common source/options, compile-timefaultmacro/fixedchild,
--fstack-usage both. Register57freshrows/direct12/sixprograms(binding9+public74),
-56facilities+64semanticCTest programs. Move public74 commands to built native
-bothhost jobs with samehashlockedSDK; SDK14jobs remain. Source review pending.
-Existing inert-only graph checks remain failclosed and require an honestly
-reviewed actual-owner replacement; no new owner configure/build/load/runtime yet.
+ActualBOTHhostfoundation56GREEN42282457204(head928,C0ae/root634) alreadypassed
+GCC11/Python3.10.12/glibc2.35 andGCC13/Python3.12.3/glibc2.39. Originalnative
+FIRST69 atclean634:58processes/12directmethods22calls+57rows/79ACTUALCreturn31
+errorsONLY, archive9d83/C746attribution. DoNOTreplayFIRST. ActualbindingFIRST9
+(clean2a153,9methods/41REALPythonbindingstuberrors/passiveimportPASS/noCcall)
+archived9a70/Cec3. Originalpublicandfocusedwrapper FIRSTs arearchival.
 
-## Next concrete work and stop condition
+ActualoldfunctionalSDK14+public74bothhosts42229761220(C24df) remainsvalidforold
+parent3438 only, not currentnativeimplementation. Newported74 mixedred e2ad
+excluded2duplicatetuplefixtureerrors; correctedA42/C997preserves23calls/22logical
+conditions; actual2affectedmethods13missingnativeboundaryfailures5a/Cec3. Four
+previouslyunreachedrowsfd090 actualmissing-boundaryassertions acceptedC5a319.
+Noneisfuturecodeacceptance.
 
-Review actual B3file/A binding sources; integrate compatible actual revisions.
-Root/C review compile configuration, compile without execution, prove actual
-whole-owner stack<=32768/FD<=8/no allocator/callback and raw-child/clonezero graphs
-before new native runtime. Resolve defects without weakening reviewed assertions.
-Run all native69/binding9/public74 with SDK14/focused regressions and automatic
-latest BOTH-host CI. Record exact source/review/red/pass evidence and current
-progress/HTML. Recheck PR threads/reviews/rules/checks/mergeability. Only after
-all applicable gates, mark taskdone/ready and normalmerge77. Refresh main and
-final checkpoint, stop agents and STOP. No next task or bookkeeping PR.
+PythonbindingA447/sourcef6dc isFULLsourceapprovedCfd223 (root313/3c). Actualheader
+cleanupb9 firstred78 (2rawliveFDfailures)→protectedacquisition/originalexception
+priorityfix→SAMEregression1method/2subcasesPASS/.005s/noCDLLorCentry, c87/C5a319.
+[Evidence](schematool-001-native-loader-cleanup-pass.md). AllPythonsource/CLI/
+18enum/input/environmentguardreviewvalid; fullnewbinding9/public74runstillpending.
+
+## Finish sequence and stop
+
+1. ActualCartifactadmission, thenstrict1XMLnochildbootstrap, thenupdated56facilities,
+   thenONLYNEWnormalizer1intendedred. Recordactualcommands/causes/quiescence; no
+   fixtureerror cancount. Preserveallcompletedbaselineevidence.
+2. ExplicitBclassificationfix afterred; Cactualdelta/sourceapproval; rebuild and
+   bothcombinedstaticgates; SAMEnewregressionPASS, thenfullnative69/binding9/
+   public74/loadercleanup1/SDK14 integrationacceptance, resolveactualfindings.
+3. AddstableNEWnormalizer1unconditionalCI/CMake; updatepreset/docs/staleinert
+   comments beforefinalreview (commentsinfixture/FaultOps stilloutdated).
+   ActualdifferentCI/code/evidencereviews, currentstate/HTML, publishfocused77.
+4. ObserveALLlatestheadCIincludingBOTHnative/publichosts, resolveGHthreads/required
+   reviews/rules/mergeability. Normalmerge77onlyafterallgates, refreshmain and
+   finaldurablecheckpoint, stopagentsandSTOP. No nextprojecttask/bookkeepingPR.
+
+Task426IDs/1629edges/122decisions/full7integrations+3FXscopeunchanged. Thisdeveloper
+tooling task doesnotcompleteproduct/runtime/live/platformreleasegates.
