@@ -22,3 +22,6 @@ Consult its task/evidence for actual independent review status.
 
 - [ADR-0007 — Session supplier contract prerequisite](0007-session-contract-prerequisite.md):
   additive document/test-baseline sequencing repair, no authentication behavior.
+
+- [ADR-0008 — Schema validation foundation](0008-schema-validation-foundation.md):
+  developer-tool baseline/implementation prerequisite before actual package acceptance.

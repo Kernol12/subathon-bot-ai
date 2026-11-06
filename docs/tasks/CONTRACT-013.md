@@ -38,3 +38,8 @@ The original combined session document was split before authoring: both
 [SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) supplier and
 [SESSIONCONTRACT-002](EPIC-007/SESSIONCONTRACT-002.md) transport must be independently reviewed and integrated
 before this task; existing test-first/runtime gates remain.
+
+[ADR-0008](../decisions/0008-schema-validation-foundation.md) additionally requires
+the separately reviewed/red [schema-validation foundation](SCHEMATOOL-001.md) before
+claiming actual schema/reference/example acceptance. Repository link/JSON syntax
+checks alone do not establish that gate. All original imports/runtime gates remain.
