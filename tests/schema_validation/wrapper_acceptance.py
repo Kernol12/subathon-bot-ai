@@ -28,6 +28,8 @@ DRAFT = "https://json-schema.org/draft/2020-12/schema"
 BASE = "https://schemas.subathon.invalid/package/"
 ROOT = Path(__file__).parents[2]
 SCRIPT = ROOT / "tools" / "schema_validate.py"
+# Never reset: a swallowed poison exception must remain visible after the call.
+POISON_TOUCHES = []
 
 
 @contextlib.contextmanager
@@ -95,48 +97,61 @@ class Poison:
     """Any conversion/iteration/repr callback is itself a test failure."""
 
     def __fspath__(self):
+        POISON_TOUCHES.append("object fspath")
         raise AssertionError("path conversion called")
 
     def __str__(self):
+        POISON_TOUCHES.append("object str")
         raise AssertionError("string conversion called")
 
     def __repr__(self):
+        POISON_TOUCHES.append("object repr")
         raise AssertionError("repr called")
 
     def __iter__(self):
+        POISON_TOUCHES.append("object iter")
         raise AssertionError("iteration called")
 
 
 class StringSubclass(str):
     def __str__(self):
+        POISON_TOUCHES.append("string subclass str")
         raise AssertionError("subclass conversion called")
 
 
 class ListSubclass(list):
     def __iter__(self):
+        POISON_TOUCHES.append("list subclass iter")
         raise AssertionError("list subclass iteration called")
 
     def __len__(self):
+        POISON_TOUCHES.append("list subclass len")
         raise AssertionError("list subclass length called")
 
     def __getitem__(self, key):
+        POISON_TOUCHES.append("list subclass getitem")
         raise AssertionError("list subclass indexing called")
 
     def __repr__(self):
+        POISON_TOUCHES.append("list subclass repr")
         raise AssertionError("list subclass repr called")
 
 
 class TupleSubclass(tuple):
     def __iter__(self):
+        POISON_TOUCHES.append("tuple subclass iter")
         raise AssertionError("tuple subclass iteration called")
 
     def __len__(self):
+        POISON_TOUCHES.append("tuple subclass len")
         raise AssertionError("tuple subclass length called")
 
     def __getitem__(self, key):
+        POISON_TOUCHES.append("tuple subclass getitem")
         raise AssertionError("tuple subclass indexing called")
 
     def __repr__(self):
+        POISON_TOUCHES.append("tuple subclass repr")
         raise AssertionError("tuple subclass repr called")
 
 
@@ -151,6 +166,9 @@ class WrapperAcceptance(unittest.TestCase):
         sys.modules[spec.name] = module
         spec.loader.exec_module(module)
         cls.target = module
+
+    def tearDown(self):
+        self.assertEqual(POISON_TOUCHES, [])
 
     def package(self, value=None, specification=None):
         temporary = tempfile.TemporaryDirectory(prefix="schema-wrapper-")

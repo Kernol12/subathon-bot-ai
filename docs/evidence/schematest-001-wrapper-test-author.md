@@ -340,3 +340,36 @@ test/helper, clone/venv, candidate/SDK, child, feature or intended-red run occur
 Different actual correction review and refreshed matching green harness observation
 remain required; final red attribution must inspect actual final stub frames.
 All previously listed real worker/source/integration/offline/ownership gates remain.
+
+## Persistent poison evidence — actual pre-red correction
+
+Different A's actual090e1a3/source6969 review found a concrete false-green path:
+an incorrect main can call a poison callback, catch its ordinary AssertionError,
+then return expected usage_error. Root authorized the same correction for the
+older Poison and StringSubclass callbacks, which had that identical gap. Public
+API§1 requires rejection WITHOUT conversion/iteration/representation callbacks;
+the expected refusal code alone cannot prove that property.
+
+Add ONE test-module POISON_TOUCHES ledger, never reset during the process. Every
+one of the13 callbacks in Poison/StringSubclass/ListSubclass/TupleSubclass appends
+a fixed literal label BEFORE its original raise. Add ordinary unittest tearDown
+requiring the ledger equal the empty builtin list. It inspects no poison object,
+and cannot erase a touched callback even when the implementation catches its
+exception. All integer subTest labels and original public observations stay exact.
+No test-derived input/exception text is added to product diagnostics.
+
+A correct immediate raw feature stub invokes no poison callback, so this teardown
+passes during genuine marker red; it neither catches/maps the marker nor adds a
+new test registration. No ledger clearing, callback reset, successful fake result,
+fixture weakening or source behavior appears. Module import merely creates an
+empty test-only list; callbacks and teardown run only during actual later tests.
+
+Static comparison to090e1a3: **ALL63 existing test-method ASTs and ALL6 existing
+Wrapper helper ASTs are EXACT**. Add tearDown; prepend only the literal ledger
+append to each of13 existing poison callbacks, retaining its prior full body.
+Other fixture helpers, old metadata hash mutations and restores, names/counts
+(63 registrations/317 raw calls/5 extra scripts) remain unchanged. Python3.10-
+feature AST parse/compile WITHOUT exec and exact preservation assertions PASS.
+No source/helper/test import, feature/red body, clone/venv, SDK or child ran.
+Actual different correction review and refreshed green harness observation still
+precede final intended red; preserve all prior receipts without extending them.
