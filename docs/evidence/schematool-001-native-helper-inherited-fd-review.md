@@ -88,3 +88,56 @@ Project426/122, render--check and diff--check PASS. No candidate import, audit/
 control replay, configure/build, CTest/listing, native/DSO/SDK load, thread,
 signal, child or probe occurred from this review. Owner69 FIRST, binding/public
 ports, full acceptance/source/latest-head CI and normal PR77 merge remain gated.
+
+## Actual controlled sentinel FIRST — valid reached fixture bug
+
+Reviewer C, fresh isolated review from admitted clean source
+`4a067cb83d0a1ec973032dd4cae9811cf4a154f9`, after the ff95 source verdict was
+imported. **ACCEPTED: actual one-case reached-bug red for the child-table
+launcher defect.** This is not native-owner FIRST or a facility green. Root may
+continue its separately assigned narrow correction; actual fix source/generated
+gates and BOTH-host complete acceptance remain required.
+
+I read and independently hashed all `/tmp/schematool001-sentinel-` original,
+fault, binding and red stdout/stderr/receipts plus binding.xml.txt. Each records
+source4a, exact env3 and NEW foundation SHA256
+`1d827e4a26a7fc75926d784c44c717b8a844372585c90b7ae49192af2ba3218e`;
+current artifact bytes independently match. Reviewed sentinel source remains
+7ceb2d77. Prior valid source/artifact/runtime evidence is preserved.
+
+Temporal checks prove each stage finishes before the next starts:
+
+- Original actual generated audit: no candidate execution; starts19:35:26.890186Z,
+  exits0/.887019s. Stdout2409 bytes/SHA256
+  `5e6b075d1c84801345f11aedbc09b0d284639f30b548939dbc37153c669be1e0`.
+- Fault generated audit starts19:35:27.777366Z, exits0/.226343s; stdout4234 bytes/
+  SHA256 `d89d300c8d2be435bdae9d985dd31d6bb917b5fd33b362343fe4138be2444a41`.
+- Exact no-child binding starts19:35:28.003853Z, exits0/.003657s. Full624/208/1210
+  raw/XML hashes match receipt. XML has exactly one named class/case, run/
+  completed, zero failure/error/disabled/skip. Actual libc2.44/GLIBC_2.2.5 offset
+  0x11e450 agrees with static02c8 libc/entry proof; seccomp2 is metadata only.
+- Only report28/parameter23 CTest starts19:35:28.007724Z, exits8/.023987s.
+  Stdout4545 bytes/SHA256
+  `5c763a3734ab42ff0b154af730e438201f79dbb205679966b1ebfbd2cd2578d1`;
+  stderr27 bytes/SHA256
+  `18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4`,
+  exactly the ordinary CTest failure notice.
+
+Raw prefixed execution has one RUN, physical CTest1/1 and exactly TWO failure
+locations: packet count7 versus6 and real extra descriptor64 versus UINT32_MAX.
+All other assertions, including actual sentinel>=64/flags0/close0/EBADF controls,
+complete; there is no125/readiness/setup/timeout/skip cause. These failures match
+the independently reviewed unchanged report oracle and explicit owned sentinel.
+
+CTest then repeats its failed test's captured body without the `58:` prefix.
+Root reported its later naive total-RUN-count postprocessor assertion after raw
+receipts were written. It is not a second native invocation or a different test
+failure: exact selector, prefixed single RUN,1/1 physical summary and receipt
+agree. Preserve both the true red and that postprocessing limitation; do not
+replay FIRST to produce prettier evidence. Freeze these exact raw/receipts in
+durable project evidence.
+
+Actually performed: complete raw/receipt/source/hash/XML/sequence/count checks,
+current binary hashing and project426/122/render/diff checks PASS. No candidate
+execution/import, audit/control replay, compile/build, CTest/discovery, native/
+DSO/SDK load, thread, child, signal or probe occurred from this reviewer.
