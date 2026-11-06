@@ -1,4 +1,4 @@
-# Schema validation context adapter — document proposal v1, revision2
+# Schema validation context adapter — document proposal v1, revision3
 
 SCHEMATEST-001, author base5233ff4. Completes the proposed concrete DOCUMENT split
 under [logical v1](schema-validation-tool-v1.md), exact blob
@@ -8,7 +8,7 @@ Those requirements, SV01–20, public outcomes/priority/process limits and immed
 named missing-feature stubs remain unchanged. This supplies no executable adapter,
 schema, fixture, source/interface/stub, test, worker, dependency or CI change.
 
-The selected eleven fixed SDK methods establish only their actual small recipes.
+The selected fixed SDK methods establish only their actual small recipes.
 Plain OpenAPIV31SpecValidator misinterprets a default DATA object's string `$ref`.
 The proposed raw-value cursor below requires additional independently reviewed
 fixed SDK evidence. Even that evidence would not prove an arbitrary context adapter.
@@ -149,11 +149,18 @@ maybe_in_subresource), with callbacks driven ONLY by the bounded indexed role me
 No assertion checker, resolver replacement or transformed document is introduced by
 the metadata bridge. Retain the actual SDK entry scope on each schema record. Lookup
 targets map back to physical typed records and their scope, not guessed path prefixes.
-The separately authored5d8c962 fixed Specification recipe is only a source hypothesis
-pending different actual review/run; it covers ONE known OASroot→Sample transition
-with a relative root id/nested id/anchors. It does not prove the general role bridge,
-no-id roots or all native instance lookups. Those remain exact integration/test gates;
-the earlier standalone pointer fact supplies none of this OAS-container proof.
+The5d8c962 fixed Specification recipe covers ONE known OASroot→Sample transition
+with a relative root id/nested id/anchors; its separate receipt is not general proof.
+At a NO-id schema transition, ordinary in_subresource returns the SAME resolver,
+so Resource.pointer cannot reset the accumulated OAS-container segments. The proposed
+fixed-context remedy returns a FRESH public registry.resolver at that same known
+base, then native Draft handles subsequent schema segments. The additivea80bc21
+fixed fact tests this control/correction and real native validation of the WHOLE OAS
+fragment with a nested relative id/anchors. It remains pending actual different
+source/oracle review and execution, a finite SDK gate BEFORE inert stubs/tests.
+General role classification, arbitrary no-id/alias transitions and complete native
+scope integration are acceptance/implementation obligations AFTER tests are authored;
+neither fixed fact or the earlier standalone pointer case proves that implementation.
 
 For RAW manifest pointers, first admit RFC6901 escapes. To create a URI fragment,
 UTF8-percent-encode pointer bytes except unreserved bytes and '/', preserving ~0/~1;
@@ -280,10 +287,30 @@ unsigned UTF8 canonical physical-pointer order. Resource failures may interrupt.
    Draft202012Validator for explicit2020-12, the complete in-memory registry and its
    exact lexical resolver. Wrong instance→invalid_instance; all stages passing→ok.
 
-Instance/default validator construction is `(raw_schema, registry=registry,
-_resolver=entry_resolver)`, then validate(raw_value). This is a PINNED integration
-hook already used by upstream OSV, not a stable cross-version public-library promise;
-its exact embedded-scope recipe requires the additional fixed integration fact.
+Instance/default validation uses a privately owned IMMUTABLE control schema exactly
+`{"$ref": schema_uri}`. schema_uri is the absolute admitted document URI plus the
+canonical URI fragment for the indexed RAW schema location, as defined in §2.
+Construct the real selected OAS31Validator or Draft202012Validator with that control
+schema and the complete registry/public Specification bridge, then validate(raw_value).
+Select the class by the target schema's admitted dialect, not by the control schema.
+The control object is fixed by trusted index metadata and never caller-injectable.
+It is a native reference entry point, NOT a rewrite of the document/schema/data:
+all raw `$ref` siblings/defaults stay present and actual SDK resolution owns scope.
+BEFORE constructing the encoded URI/control object, checked-count the full projected
+UTF8/percent-encoded absolute URI length, including document prefix and '#': it must
+fit the EXISTING4096-byte per-key ceiling. A fitting4096-byte raw pointer can expand
+past this ceiling; refuse resource_limit before materializing that expanded string.
+Reserve its URI spelling and every control-key copy as separately materialized key-
+byte occurrences in the EXISTING1048576-byte aggregate, with worker memory ownership
+also admitted before growth. An alias/shared string is not a free budget exemption.
+Release the temporary control's ownership after its one evaluation. No ceiling is
+expanded; no unbounded full-schema copy or extra successful validation path exists.
+
+Thea80bc21 source hypothesis exercises this public whole-fragment route, pending
+actual independent review/run. A private `_resolver=entry_resolver` constructor hook
+is NOT required by this contract or a prerequisite to stubs/tests. If a later
+implementation chooses that alternative, it needs separate actual source/API proof
+and acceptance before use; no private hook is approved merely from upstream usage.
 
 Native API/exception dispatch is pinned, not injectable by a manifest. Structural
 SchemaError/ValidationError and native semantic ValidationError map to invalid_schema;
@@ -345,9 +372,23 @@ Pinned source: [Draft202012 resource semantics](https://raw.githubusercontent.co
 [SchemaAccessor construction](https://raw.githubusercontent.com/p1c2u/jsonschema-path/0.5.0/jsonschema_path/accessors.py).
 These support the stated facts/risks, not a successful new arbitrary-package recipe.
 
-Remaining: actual different context-document review; additional reviewed/observed
-cursor and OAS-fragment/scope integration facts; actual installed SDK/resource/offline
-and process harness audit; minimal inert interfaces only after these gates; complete
-independent fixtures/oracles and test review; intended missing-wrapper red; later
-SCHEMATOOL001 implementation/source review/passing ordinary CI. Logical/public API
-requirements and every CONTRACT013/runtime/platform/live/full-release gate remain.
+Mandatory BEFORE inert stubs/test authoring: actual different public/context contract
+approval and admitted dependencies plus actual reviewed green FINITE SDK foundations,
+including the fixed raw-value cursor and no-id whole-fragment case above. No general
+role engine, working adapter or process implementation is required before writing
+independent tests for that behavior. This is test-first sequencing, not feature success.
+
+Then author complete independent fixtures/oracles/tests and immediate named inert
+stubs with the minimal harness. Different actual test review and the real selected
+environment/green foundations precede the intended missing-wrapper red. A missing
+dependency, failed import/process or skip cannot supply that red. Minimal harness
+admission does not implement validation behind the raw immediate feature stubs.
+
+General role/alias/SchemaAccessor/cursor/registry integration, all raw schema/data
+scope cases, trusted installation descriptor/no-site activation, secure process/IO,
+resource/offline guarantees and every other implementation requirement must have
+independent acceptance tests and actual implementation/source review. They are NOT
+an invitation to implement production before those tests. SCHEMATOOL001 still waits
+for the integrated reviewed/red baseline, implementation review and passing ordinary
+CI. Logical/public API requirements and every CONTRACT013/runtime/platform/live/
+full-release gate remain unchanged.

@@ -83,3 +83,38 @@ one known Sample/relative-id/nested-anchor recipe, still awaiting different revi
 execution here. General aliases/no-id roots/context metadata/offline plumbing remain
 unproved gates. Same doc checks/logical/API preservation were repeated; no code,
 SDK import/probe/test/run/install or shared file changed for these corrections.
+
+Revision3 bounded public-route clarification, NEW isolated branch
+`task/SCHEMATEST-001-context-public-route-author` from actual root846c243, worktree
+`/tmp/subathon-schematest001-context-public-route-author`. ONLY this note and context
+document are edited. Root846 contains the separately corrected canonical %24defs
+fragment literals; those and all accepted API691/logicalabb requirements remain.
+
+Written reason: native SDK public whole-document-fragment validation supplies the
+narrow meaningful scope entry route without requiring a private constructor hook.
+Use a privately owned immutable one-key control schema `{"$ref":schema_uri}` with
+absolute document URI+canonical raw-schema fragment, real target-dialect class and
+complete in-memory registry/public Specification bridge. Original schema/data/ref
+siblings/defaults are never transformed or stripped; its retained URI/control counts
+in existing ownership/budgets. No caller validator/graph or success callback is added.
+Projected full encoded URI length/control key copies reserve existing4096-byte per-
+key/1048576-byte aggregate budgets BEFORE construction; raw pointer percent expansion
+cannot silently enlarge limits or create free aliases. Worker ownership still applies.
+The optional private _resolver alternative now requires separate proof before later
+use, instead of blocking inert stubs merely because this public route exists.
+
+Actuala80bc21 ONE no-id source hypothesis remains pending different source/oracle
+review and root execution here. Ordinary no-id in_subresource returns the same object;
+proposed fresh same-base public resolver resets pointer context, with real positive/
+negative whole-OAS-fragment instance validation. No general bridge is proved by it.
+Document approval and actual required finite SDK facts stay mandatory pre-stub gates;
+general role/cursor/SchemaAccessor/descriptor/no-site/process/resource/offline behavior
+belong in independent tests plus later actual implementation/source/acceptance review.
+Do not preimplement production as a prerequisite to test authoring. Actual reviewed
+tests/green foundation/minimal environment and genuine intended marker red still
+precede SCHEMATOOL001 production. No logical coverage or profile gate was weakened.
+
+Actual checks: project consistency426/122, render--check and diff--check PASS; exact
+logicalabb/publicAPI691 preserved. No source/probe/import/run/install/test/fixture/
+stub/worker/dependency/CI/state/HTML/GitHub change. Different actual revision3 review
+remains required; author cannot approve their own document or future behavior.
