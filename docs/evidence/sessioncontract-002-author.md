@@ -87,3 +87,14 @@ examine the actual committed candidate and every literal/resource/security bound
 before document acceptance. Concrete ingress/raw multiplicity/trace suppression,
 proxy/TLS/CORS/cookie/platform behavior and every later reviewed test/red/runtime
 gate remain open. All seven integrations/three FX and full release scope remain.
+
+Actual separate reviewer `session_plan_review` examined3f1699a and requested two
+bounded precision corrections before verdict. The corrected document explicitly
+rejects a changed queued ingress-policy revision as503/unavailable with a fresh
+actual client request required; digest-only prepared state cannot reconstruct
+erased Origin/marker/authority/multiplicity. It explicitly scopes the custom-header
+profile to JSON HTTP/sign-in, retaining browser WebSocket handshake/message
+authentication as unfinalized CONTRACT007/API003 work and preserving full release
+scope. Browser WebSocket constructor constraints are linked to its primary standard.
+No executable assertion/baseline or production behavior changed; actual corrected
+revision still requires separate approval.

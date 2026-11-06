@@ -16,6 +16,14 @@ setup/invitation/recovery/transfer token is accepted as an account credential.
 CONTRACT-013 still owns actual routes/schema/negotiation/domain results; public
 negotiation grants no account access. No login or other route is registered here.
 
+This profile covers JSON HTTP request/response and the browser sign-in guard only.
+The browser WebSocket constructor cannot supply this profile's arbitrary custom
+header. Its handshake/cookie/Origin authentication and later message-time current
+authority remain explicitly unfinalized CONTRACT-007/API-003 owning gates; neither
+this profile nor HTTP013 establishes browser WebSocket support. No marker-free
+HTTP fallback is permitted. Full browser/native WebSocket scope remains required.
+[WebSocket constructor standard](https://websockets.spec.whatwg.org/#dom-websocket-websocket).
+
 ## 1. Actual ingress and bounded internal interface
 
 An application-owned ingress adapter must expose the ORIGINAL decoded field
@@ -94,7 +102,10 @@ These are obligations on a real owned adapter, not booleans from an HTTP client.
 An unimplemented/unknown producer returns unavailable; a test fake is explicitly
 simulated raw input, not evidence of a supported framework. Policy revision is a
 nonempty exact opaque reference. Queue execution must compare it with current
-ingress policy and re-admit if policy changed; it never grants account access.
+ingress policy. A changed revision MUST reject as503/unavailable and require a
+fresh actual client request under current policy. This profile does not re-admit
+using a prepared digest: it cannot reconstruct erased Origin, marker, authority or
+raw field/pair multiplicity. The reference never grants account access.
 
 Before any variable copy, validate positive limits and checked representability
 of sizes/sums/terminators in size_t, uint64 and the destination max_size; otherwise
@@ -229,7 +240,9 @@ Stop at the FIRST applicable phase, without owning token/header input:
    crypto unavailable → crypto_unavailable. Success returns digest+mode+policy ref.
    Allocation/unclassified internal failure → ingress_unavailable, never success.
 
-At authoritative execution, re-admit current ingress policy, then call the accepted
+At authoritative execution, require the SAME current ingress-policy revision;
+otherwise reject503/unavailable and retry only a fresh actual client request.
+A prepared digest alone cannot revalidate discarded request evidence. Then call the accepted
 supplier resolve with the installation selected by the actual host, original
 digest, real current session source/clock and route's required freshness. Apply
 current permissions/revisions/disclosure in that SAME serialized operation. An
@@ -308,7 +321,7 @@ null, never echoed from arbitrary malformed input. Exact auth import:
 | Origin/CSRF rejection | 403 / not_authorized |
 | Actual valid session, required freshness absent | 403 / not_authorized / `X-Subathon-Reauthenticate: 1` |
 | Valid session/current permission denies | 403 / not_authorized |
-| Invalid trusted limits, ingress/crypto unavailable, supplier unavailable/invalid_stored_data/resource_limit, changed policy not re-admitted | 503 / unavailable |
+| Invalid trusted limits, ingress/crypto unavailable, supplier unavailable/invalid_stored_data/resource_limit, changed ingress-policy revision | 503 / unavailable |
 
 Supplier resource_limit refers here to current stored-fact/result inability; the
 separate token-lexeme length mapping above is401. No detailed expired/revoked/account
