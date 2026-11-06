@@ -40,3 +40,38 @@ full source/diff/literal/oracle and hosted failure analysis, AST3.10 plus
 compile-without-execution, old-module/auditor preservation, project426/122,
 render/diff PASS. No candidate import/test/checker, compiler, ELF load/native
 call, SDK, thread or child executed by this reviewer. PR77 only, then stop.
+
+## Actual reached control red and exact CMP-only correction
+
+Reviewer C independently reviewed root's actual `6fcfcd0`, checker blob
+`5c1ebe2`, written reason and full original selected-control receipt/raw.
+At clean85c8952132f327ab364e0c3cd45ba896f9fd965a, UTC22:29:11.608675,
+the one approved named method executes/.008s/exit1/stdout0. Raw1819 bytes/
+SHA256c555966f17254b2e47ceb7ec18e729e27d4745b42d81c60e269088edfd235d90
+matches receipt. It reaches the actual pure fixed_rsp at its first literal
+positive CMP and raises the exact hosted unknown-stack-write RuntimeError.
+Imports and definition loading succeed; no artifact/helper/setup cause is used.
+This is a genuine reached auditor bug, not a native feature red or a retry of
+hosted code. Later negative rows were not reached in this first error and must
+run after the correction.
+
+**APPROVED SOURCE.** Exactly two added lines skip stack-write classification
+ONLY for mnemonic equality `cmp`. I independently removed them and obtained the
+entire previous checker byte-for-byte. Full six-control source is unchanged.
+CMP reads its explicit operands and writes flags, whereas CMPXCHG and every
+forbidden MOV/SUB/XCHG/RBP/RSP write still traverse the existing checks. No broad
+prefix, new base opcode, variable-stack form, budget or instruction/transfer/TLS/
+child guard is allowed. No native source, ABI, compile flag or dependency changes.
+
+Root may rerun the SAME selected regression, then the FULL six controls; only if
+all pass, run both reviewed combined static artifact gates on matching current
+outputs. Preserve actual results and stop on any failure. On passing these and
+applicable repository checks, ordinary diagnostic draft publication is cleared
+to obtain fresh both-host CI; ba5366e's skipped native stages are not promoted
+into success. Actual latest-hosted static/bootstrap/full56/full66 and SDK14
+results remain required before normal merge77 and stop.
+
+Actually performed: complete diff/context/source inverse, actual raw/count/cause/
+hash analysis, AST3.10/compile-without-execution, unchanged control-source check,
+project426/122/render/diff PASS. No candidate/checker/test import or execution,
+compiler, ELF load, worker, SDK, thread, child or probe ran in this review.
