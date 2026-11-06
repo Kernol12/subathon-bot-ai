@@ -4,7 +4,7 @@ Author `/root/session_supplier_review`,6 November2026. NEW isolated worktree
 `/tmp/subathon-schematest001-no-id-scope-author`, branch
 `task/SCHEMATEST-001-no-id-scope-author`, from actual root1b4dee6.
 Own ONLY [foundation source](../../tests/schema_validation/library_foundation.py)
-and this NEW note. Root/tests instructions, accepted API691/contextd9, actual
+and this NEW note. Root/tests instructions, accepted API691/proposed contextd9, actual
 thirteen-method source30169 and pinned referencing source were read before editing.
 **AUTHORED, NOT EXECUTED.** No selected package import occurred here.
 
