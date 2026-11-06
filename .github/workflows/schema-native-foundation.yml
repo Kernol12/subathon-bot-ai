@@ -1,4 +1,4 @@
-name: Schema native build evidence (no kernel acceptance)
+name: Schema native and helper foundations
 on:
   pull_request:
     branches: [main]
@@ -8,8 +8,8 @@ on:
 permissions:
   contents: read
 jobs:
-  schema-native-build-evidence:
-    name: schema-native-build-evidence (${{ matrix.runner }})
+  schema-native-foundation:
+    name: schema-native-foundation (${{ matrix.runner }})
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 15
     strategy:
@@ -66,6 +66,17 @@ jobs:
           --foundation "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation"
           --child "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation_child"
           --transport "$PWD/build/schema-transport-debug/lib/libsubathon_schema_transport_v1.so"
+      - name: Run literal fault-path static controls
+        run: >-
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+          /usr/bin/python3 -I -S -B tests/schema_validation/native_fault_audit_controls.py
+      - name: Audit actual primitive entry and both new raw child graphs
+        run: >-
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+          /usr/bin/python3 -I -S -B tools/schema_validation/audit_native_fault_foundation.py
+          --foundation "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation"
+          --child "$PWD/build/schema-transport-debug/tests/schema_validation/schema_transport_native_fault_child"
+          --fault "$PWD/build/schema-transport-debug/lib/libsubathon_schema_fault_v1.so"
       - name: Export actual clone entry and binding relocations for different review
         run: |
           /usr/bin/python3 - <<'PYTHON'
@@ -99,5 +110,90 @@ jobs:
                   print(name, instructions, flush=True)
           print('ACTUAL DYNAMIC SYMBOL RELOCATIONS', flush=True)
           subprocess.run(['readelf', '-Wr', str(executable)], check=True, timeout=30)
-          print('Build/static evidence only; no bootstrap, discovery, loader or kernel case executed', flush=True)
+          print('Static stage complete; runtime requires the following exact bootstrap', flush=True)
           PYTHON
+      - name: Verify actual libc binding without creating a child
+        run: |
+          /usr/bin/python3 - <<'PYTHON'
+          from pathlib import Path
+          import subprocess
+          import tempfile
+          import xml.etree.ElementTree as ET
+          executable = Path('build/schema-transport-debug/tests/schema_validation/schema_transport_native_foundation').resolve(strict=True)
+          with tempfile.TemporaryDirectory(prefix='schema-native-binding-') as temporary:
+              report = Path(temporary) / 'binding.xml'
+              subprocess.run([
+                  str(executable), '--gtest_filter=SchemaNativeFoundation.SyscallBindingToActualLibc',
+                  '--gtest_color=no', '--gtest_output=xml:' + str(report),
+              ], check=True, timeout=30, env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C.UTF-8', 'LANG': 'C.UTF-8'})
+              root = ET.parse(report).getroot()
+              cases = list(root.iter('testcase'))
+              if (root.get('tests') != '1' or root.get('failures') != '0' or root.get('errors') != '0'
+                      or root.get('disabled') != '0' or len(cases) != 1 or list(root.iter('skipped'))
+                      or cases[0].get('name') != 'SyscallBindingToActualLibc'
+                      or cases[0].get('classname') != 'SchemaNativeFoundation'
+                      or cases[0].get('status') != 'run' or cases[0].get('result') != 'completed'):
+                  raise SystemExit('Binding bootstrap did not execute exactly one passing case')
+          print('One actual no-child libc binding case passed; kernel probes are separate')
+          PYTHON
+      - name: Require the exact enabled native foundation registrations
+        run: |
+          /usr/bin/python3 - <<'PYTHON'
+          import ast
+          import json
+          from pathlib import Path
+          import subprocess
+          source = ast.parse(Path('tests/schema_validation/native_loader_foundation.py').read_text())
+          classes = [item for item in source.body if isinstance(item, ast.ClassDef) and item.name == 'NativeLoaderFoundation']
+          methods = [item for item in classes[0].body if isinstance(item, ast.FunctionDef) and item.name.startswith('test_')] if len(classes) == 1 else []
+          if len(methods) != 2 or {item.name for item in methods} != {'test_builtin_abi_profile', 'test_actual_inert_artifact_returns_literal_31'} or any(item.decorator_list for item in methods):
+              raise SystemExit('Native loader methods changed or are disabled/inverted')
+          expected = {
+              'InertBaselineLiteral31',
+              'SigchldProfileQueryWithoutBirth',
+              'AtomicPidfdSignalsAndCloseRange',
+              'ActualExecveNonvalidatingProbe',
+              'ForeignThreadAndCompetingReapKeepPinnedIdentity',
+              'ControlledCloneErrorsRollbackWithoutGuessingOutput',
+              'SyscallBindingToActualLibc',
+          }
+          names = {'schema-native-foundation.SchemaNativeFoundation.' + name for name in expected}
+          helper = {
+              'FreshPlanOneShotAndExactSnapshotEncoding',
+              'IdleArmActualStub31ThenTerminalCancel',
+              'Parent64RecordBoundaryPoisonsOnlyOn65th',
+              'CallerCannotForgeControllerJournal',
+              'Case28HasOneActualNonCloexecPrebirthSentinel',
+              'CaptureTee257ThenOneRefusesWithoutOverflow',
+              'TinyFdLimitRollbackRestoresCallerLimit',
+              'SharedChildJournal32ThenOverflowIsVisible',
+              'RealReadyChildAdvancesOnlyTheOffsetClock',
+              'PostBirthResourceHookNeedsRealReadinessWithoutClassifying',
+              'DeliberateControllerReapIsDistinctFromFallback',
+              'ControllerConsumedNormal125PoisonsBeforeActionAck',
+          }
+          names.update('schema-native-foundation.NativeFaultFoundation.' + name for name in helper)
+          for prefix, method, count in (
+              ('ClosedTuples/NativeFaultInvalidPlan', 'RefusesFreshInvalidTupleWithoutPublishedState', 6),
+              ('ClosedCapture/NativeFaultCapture', 'ActualPipeTeeSuffixAndEofAreRequired', 4),
+              ('CloseEdges/NativeFaultSignal', 'ActualMainThreadSigintPreservesCallerState', 2),
+              ('ClosedBytes/NativeFaultChildBytes', 'ActualFixedExecBytesAndStatus', 24),
+          ):
+              names.update('schema-native-foundation.' + prefix + '.' + method + '/' + str(index) for index in range(count))
+          names.add('schema-native.loader-foundation')
+          data = json.loads(subprocess.check_output([
+              'ctest', '--preset', 'schema-transport-debug',
+              '-L', '^schema-native-foundation$', '--show-only=json-v1',
+          ], text=True))
+          if {item['name'] for item in data['tests']} != names or len(data['tests']) != len(names):
+              raise SystemExit('Native foundation registrations differ from the reviewed inventory')
+          for item in data['tests']:
+              properties = {entry['name']: entry['value'] for entry in item['properties']}
+              if properties.get('DISABLED') or properties.get('WILL_FAIL'):
+                  raise SystemExit('Native foundation is disabled or failure-inverted')
+              if 'schema-native-foundation' not in properties.get('LABELS', []):
+                  raise SystemExit('Native foundation label missing')
+          print('Exact55 native cases and one two-method loader program registered and enabled')
+          PYTHON
+      - name: Execute every reviewed native foundation unconditionally
+        run: ctest --preset schema-transport-debug -L '^schema-native-foundation$' --no-tests=error --verbose
