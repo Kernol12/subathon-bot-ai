@@ -482,7 +482,7 @@ Plan selected_plan() noexcept {
     }
     return now + offset;
 }
-bool pin_birth(int pid, int pidfd) noexcept {
+[[gnu::no_stack_protector]] bool pin_birth(int pid, int pidfd) noexcept {
     auto *value = state();
     if (!value || pid <= 0 || pidfd < 0 || raw(SYS_gettid) != value->parent_tid ||
         load(&value->birth_request))
