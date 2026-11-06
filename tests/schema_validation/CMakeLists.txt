@@ -1,5 +1,30 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 find_package(Threads REQUIRED)
+# Both initial artifacts use the exact reviewed, literal31-only entry source.
+# The additional fault controls are test infrastructure, never another owner.
+add_library(subathon_schema_fault_v1 SHARED
+    "${PROJECT_SOURCE_DIR}/tools/schema_validation/native/transport_stub.cpp"
+    native_fault_fixture.cpp)
+target_include_directories(subathon_schema_fault_v1 PRIVATE
+    "${PROJECT_SOURCE_DIR}/tools/schema_validation/native")
+target_link_libraries(subathon_schema_fault_v1 PRIVATE Threads::Threads)
+subathon_target_options(subathon_schema_fault_v1)
+target_compile_options(subathon_schema_fault_v1 PRIVATE -fno-exceptions -fno-rtti)
+set_target_properties(subathon_schema_fault_v1 PROPERTIES
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN ON
+    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
+target_link_options(subathon_schema_fault_v1 PRIVATE
+    "LINKER:-z,now" "LINKER:-z,relro"
+    "LINKER:--version-script=${CMAKE_CURRENT_SOURCE_DIR}/native_fault_v1.map")
+set_property(TARGET subathon_schema_fault_v1 APPEND PROPERTY
+    LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/native_fault_v1.map")
+
+add_executable(schema_transport_native_fault_child native_fault_child.cpp)
+subathon_target_options(schema_transport_native_fault_child)
+target_compile_options(schema_transport_native_fault_child PRIVATE -fno-exceptions -fno-rtti)
+target_link_options(schema_transport_native_fault_child PRIVATE "LINKER:-z,now")
+
 add_executable(schema_transport_native_foundation_child native_foundation_child.cpp)
 subathon_target_options(schema_transport_native_foundation_child)
 target_compile_options(schema_transport_native_foundation_child PRIVATE -fno-exceptions -fno-rtti)
