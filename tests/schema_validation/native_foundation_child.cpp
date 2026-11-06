@@ -4,7 +4,7 @@
 #include <climits>
 
 namespace {
-bool literal(const char *value, const char *expected) noexcept {
+[[gnu::no_stack_protector]] bool literal(const char *value, const char *expected) noexcept {
     for (unsigned i = 0; i < 32; ++i) {
         if (value[i] != expected[i])
             return false;
@@ -13,7 +13,7 @@ bool literal(const char *value, const char *expected) noexcept {
     }
     return false;
 }
-int descriptor(const char *value) noexcept {
+[[gnu::no_stack_protector]] int descriptor(const char *value) noexcept {
     unsigned result = 0;
     for (unsigned i = 0; i <= 10; ++i) {
         const unsigned byte = static_cast<unsigned char>(value[i]);
@@ -27,7 +27,8 @@ int descriptor(const char *value) noexcept {
 }
 } // namespace
 
-int main(int argc, char **argv) {
+// Fixed bounded reporter path only; no target-wide hardening exception.
+[[gnu::no_stack_protector]] int main(int argc, char **argv) {
     using namespace schema_foundation;
     if (argc != 5 || !literal(argv[1], "--facility-observation"))
         finish(115);

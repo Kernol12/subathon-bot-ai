@@ -206,3 +206,44 @@ retry EINTR. `clang-format --dry-run --Werror tests/schema_validation/native_fou
 PASS; `python3 tools/check_project.py` PASS426/122;
 `python3 tools/progress.py render --check` current; `git diff --cached --check`
 PASS. No candidate import, compile, load, thread/child/probe or test body ran here.
+
+## Narrow raw-child instrumentation correction
+
+Root's actual GNU16.2.1 compile/static-disassembly of the old packet found a
+generated `__stack_chk_fail@plt` branch in `schema_foundation::observe` and a TLS
+canary check in the fixed exec reporter main. Even a failure branch is outside
+the admitted raw-only copied-child call graph. C then explicitly released a
+function-level annotation correction; this is not permission for target-wide
+hardening changes or a PLT/TLS exception. This isolated branch starts at root
+`3837fbb`, containing the separately reviewed `264c522` wait-cleanup correction.
+Only child .h/.cpp and this note change; every other source/config remains exact.
+
+The seven bounded header functions `raw`, `address`, `finish`, `observe`,
+`publish`, `hold` and `child`, plus reporter `literal`, `descriptor` and `main`,
+receive only `gnu::no_stack_protector`. Bodies, fixed report128, literal parser
+bounds, parameters, syscalls and all six native/two loader oracles remain exact.
+Comments explain why this fixed raw child graph needs the narrow exclusion.
+The [GCC function-attribute documentation](https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html)
+defines the function-local effect and GNU standard attribute spelling; this is
+not a claim that every compiler/selected binary implements it as intended.
+
+Parent GoogleTest/probe/controller/disposal functions retain compiler hardening;
+there is no global or target `-fno-stack-protector`, no sanitizer/profile exception,
+no `noplt` allowance, changed decoder or new behavior. Generated-code audit on
+each actual selected host remains mandatory: the complete reachable raw graph
+must contain no TLS access, indirect/external call, stack-check helper, profiling,
+sanitizer or other compiler runtime helper. Source annotation alone is not proof.
+Actual different source review, generated-checker review and artifact audit must
+precede runtime. This author has not configured/compiled/run or loaded a candidate.
+Static annotation/preservation and ordinary repository checks are recorded below
+before handoff; no native/runtime/source-implementation capability is claimed.
+
+Actual static checks, all exit0: stdlib source comparison strips only the new
+attributes/comments/whitespace and proves header/reporter declarations, bodies,
+parameters and literals unchanged; exactly7 header/3 reporter attributes;
+parent `native_foundation.cpp` and loader byte-identical to `264c522`; report128
+assertion retained. `clang-format --dry-run --Werror tests/schema_validation/native_foundation_child.h tests/schema_validation/native_foundation_child.cpp`
+PASS; `python3 tools/check_project.py` PASS426/122;
+`python3 tools/progress.py render --check` current; `git diff --cached --check`
+PASS. No compiler, candidate import/loading, disassembler/checker, native probe,
+thread/child or test body executed in this author assignment.

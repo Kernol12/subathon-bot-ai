@@ -14,8 +14,11 @@
 #endif
 
 namespace schema_foundation {
-inline long raw(long number, long a = 0, long b = 0, long c = 0, long d = 0, long e = 0,
-                long f = 0) noexcept {
+// Only this fixed raw child call graph excludes stack-protector instrumentation:
+// its TLS/PLT failure path is forbidden between clone and exec. Parent harness
+// hardening is unchanged; every selected artifact still needs call-graph audit.
+[[gnu::no_stack_protector]] inline long raw(long number, long a = 0, long b = 0, long c = 0,
+                                            long d = 0, long e = 0, long f = 0) noexcept {
     long result;
     __asm__ volatile("mov %[four], %%r10; mov %[five], %%r8; mov %[six], %%r9; syscall"
                      : "=a"(result)
@@ -25,9 +28,11 @@ inline long raw(long number, long a = 0, long b = 0, long c = 0, long d = 0, lon
     return result; // Raw negative errno, no libc/TLS error path.
 }
 
-template <class T> inline long address(T *value) noexcept { return reinterpret_cast<long>(value); }
+template <class T> [[gnu::no_stack_protector]] inline long address(T *value) noexcept {
+    return reinterpret_cast<long>(value);
+}
 
-[[noreturn]] inline void finish(int code) noexcept {
+[[noreturn, gnu::no_stack_protector]] inline void finish(int code) noexcept {
     raw(SYS_exit_group, code);
     __builtin_unreachable();
 }
@@ -50,7 +55,8 @@ struct Report {
 static_assert(sizeof(Report) == 128);
 inline constexpr std::int64_t report_magic = 0x4e465031; // NFP1, not JSON/protocol.
 
-inline void observe(Report &value, int stage, int channel, int extra) noexcept {
+[[gnu::no_stack_protector]] inline void observe(Report &value, int stage, int channel,
+                                                int extra) noexcept {
     KernelAction action;
     std::uint64_t mask;
     value.magic = report_magic;
@@ -85,14 +91,14 @@ inline void observe(Report &value, int stage, int channel, int extra) noexcept {
     value.mask_after = after == 0 ? static_cast<long>(mask) : -1;
 }
 
-inline void publish(const Report &report, int channel) noexcept {
+[[gnu::no_stack_protector]] inline void publish(const Report &report, int channel) noexcept {
     // One <=PIPE_BUF blocking write, never a successful validation result.
     if (raw(SYS_write, channel, address(&report), sizeof(report)) !=
         static_cast<long>(sizeof(report)))
         finish(110);
 }
 
-[[noreturn]] inline void hold(int descriptor) noexcept {
+[[noreturn, gnu::no_stack_protector]] inline void hold(int descriptor) noexcept {
     char byte;
     raw(SYS_read, descriptor, address(&byte), 1);
     finish(111); // Unexpected EOF/error is not the planned parent kill.
@@ -106,7 +112,7 @@ struct ChildPlan {
     char *const *environment;
 };
 
-[[noreturn]] inline void child(const ChildPlan &plan) noexcept {
+[[noreturn, gnu::no_stack_protector]] inline void child(const ChildPlan &plan) noexcept {
     // clone3 fork-like return enters here immediately. Never return through
     // parent/GTest/destructors. The independent kill-only watchdog cannot reap.
     if (raw(SYS_alarm, 5) < 0)
