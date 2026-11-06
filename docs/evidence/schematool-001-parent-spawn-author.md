@@ -112,3 +112,24 @@ child/probe/SDK/clone/installation executed. Production remains gated pending
 actual review/red; corrected implementation needs different source review and all
 relevant regressions/full64/ordinaryCI. All worker/offline/RLIMIT/no-site/read-race/
 allocation and original product/platform/provider/live/release gates remain.
+
+## FIRST actual approved new-only constructor red
+
+Read actual private revision3/document approval93a5e1 and root's actual test-source
+approval57a79f1 BEFORE execution. At unchanged cleana23026537a2fab9923fe77f5b71d06e4d35bc7f4,
+parent1579604/test777d907, actual command above ran at
+2026-11-06T12:37:06.899997+00:00. Native exit1,2 tests0.019s,2failures, external
+0.11370279500260949s, no timeout; stdout empty. BOTH tests reached ownership
+assertion with child_state running, factory_returned=[] and ALL4 parent FD states
+closed. Prior real readiness/default handler/controller/signal or literal resource
+enum/watchdog assertions passed. No setup/import/timeout failure substitutes.
+Actual fallback cleanup ran ONLY after those captured oracles; no old64/FIRST replay.
+
+Preserved raw files/receipt before interpretation:
+/tmp/schematool001-parent-spawn-first-red.stdout.txt (0bytes, SHA256e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855),
+/tmp/schematool001-parent-spawn-first-red.stderr.txt (3138bytes, SHA25614fe4719a6cdab8638829dd30a830c74e873c2d07f1dec09d6e1890022c70797),
+/tmp/schematool001-parent-spawn-first-red.receipt.json (actual command/environment/
+clock/source/parent/test/document/source-review/status/hashes). External observer
+preserved native failure1 rather than inversion. Root retains durable-artifact
+integration ownership. This is actual author attribution pending different review.
+No ownership correction preceded this evidence or weakened its assertions.
