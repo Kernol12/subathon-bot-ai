@@ -70,6 +70,10 @@ jobs:
         run: >-
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
           /usr/bin/python3 -I -S -B tests/schema_validation/native_entry_controls.py
+      - name: Run literal owner graph and inherited stack controls
+        run: >-
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+          /usr/bin/python3 -I -S -B tests/schema_validation/native_owner_audit_controls.py
       - name: Audit generated raw child functions before any native execution
         run: >-
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8

@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Read generated ELF/disassembly before any native foundation program executes.
 
-This is a deliberately narrow build-harness audit for the reviewed inert stage,
+This is a deliberately narrow build-harness audit for the reviewed raw-helper and fixed-owner profiles,
 not a general binary verifier. Unknown generated control flow fails closed and
 needs different review. It never loads or executes an input artifact.
 """
@@ -11,6 +11,7 @@ import argparse
 import hashlib
 from pathlib import Path
 import re
+import runpy
 import struct
 import subprocess
 
@@ -263,6 +264,13 @@ def probe_entry_binding(functions, relocations):
     return {"probe": probes[0][0], "syscall_got": slot, "child": int(child_target.group(1), 16)}
 
 
+def owner_proof(path, role):
+    """Require the matching fixed-TU owner proof before any runtime bootstrap."""
+    namespace = runpy.run_path(str(Path(__file__).with_name("audit_native_owner.py")),
+                               run_name="native_owner_static_gate")
+    return namespace["audit_artifact"](path, role, Path(path).resolve(strict=True).parent.parent)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--foundation", required=True)
@@ -281,9 +289,7 @@ def main():
         lambda name: name == "main" or raw_helper(name)
         or name.startswith("(anonymous namespace)::literal(")
         or name.startswith("(anonymous namespace)::descriptor("))
-    graphs["inert_transport"] = reachable(
-        disassembly(transport), lambda name: name == "subathon_schema_transport_v1",
-        lambda name: name == "subathon_schema_transport_v1")
+    graphs["production_owner"] = owner_proof(transport, "production")
     exports = command("nm", "-D", "--defined-only", str(transport)).splitlines()
     require(len(exports) == 1 and exports[0].split()[-1] == "subathon_schema_transport_v1",
             "production native exports differ")
@@ -292,7 +298,7 @@ def main():
             "native artifact is not eagerly bound")
     symbols = command("nm", "--defined-only", "--demangle", str(transport))
     require("_GLOBAL__sub_I" not in symbols and "__static_initialization_and_destruction" not in symbols,
-            "unexpected C++ resource initialization in inert transport")
+            "unexpected C++ resource initialization in production transport")
     libc = libc_path()
     graphs["libc_success_return"] = syscall_return(libc)
     for label, names in graphs.items():
@@ -303,7 +309,7 @@ def main():
             for chunk in iter(lambda: source.read(65536), b""):
                 digest.update(chunk)
         print("sha256", digest.hexdigest(), path)
-    print("Static inert-stage child call graphs admitted; no input artifact executed")
+    print("Static helper and bounded owner graphs admitted; no input artifact executed")
 
 
 if __name__ == "__main__":

@@ -125,9 +125,7 @@ def main():
     symbols = command('nm', '--defined-only', '--demangle', str(fault))
     require('_GLOBAL__sub_I' not in symbols and '__static_initialization_and_destruction' not in symbols,
             'unexpected fault C++ initialization')
-    print('fault_inert_entry:', BASE['reachable'](
-        disassembly(fault), lambda n: n == 'subathon_schema_transport_v1',
-        lambda n: n == 'subathon_schema_transport_v1'))
+    print('fault_owner:', BASE['owner_proof'](fault, 'fault'))
     for path in (foundation, child, fault):
         print('sha256', hashlib.sha256(path.read_bytes()).hexdigest(), path)
     print('Static fault-foundation graphs checked; no input artifact executed')
