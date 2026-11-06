@@ -64,9 +64,8 @@ A found swallowed callback exceptions: B6b/043 adds NEVER-RESET13callback ledger
 plain-list teardown; A6fae4b9/importaec8384 approved that actual delta. Root then
 found the same masking in help guards; B930a05b/importf785454 now source
 5c5e9b340b61fce93f8504b3d612861467539aff binds4mocks +asserts_not_called.63names,
-317 SOURCE-COUNTED raw observations/5 script extras, NOT runtime counts. A is
-ACTIVELY reviewing that exact final one-method correction; no renewed observation
-until actual approval. B is completed/idle, use followup_task if another finding.
+317 SOURCE-COUNTED raw observations/5 script extras, NOT runtime counts. A actuala7c2766/import9dd5a16 APPROVES that exact final correction. B and A are
+completed/idle; use followup_task if another finding. No acceptance body has run.
 
 ## Root harness, actual early green and next execution
 
@@ -76,37 +75,36 @@ Only definitions are imported; NO setup/test/feature/SDK/clone/worker. A4347 app
 actual core/config+63 names. Definition source changes still require actual review.
 No untracked draft remains; all root work is committed. Current workflow is LOCAL.
 
-Root FIRST green harness at33ed used OLD testsourcea80, matched all reviewed blobs,
+Root initial green harness at33ed used OLD testsourcea80, matched all reviewed blobs,
 selected CP314 -I -S -B/minimal env: exit0/0.07235s,20 pairs+63 registration,stderr
 empty. [Raw receipt/history](schematest-001-baseline-harness-native.md) committed3927104.
-Do not project this onto source5c. New final source warrants a refreshed green run.
+Do not project the old result onto source5c. FINAL exactsource5c at9dd5a16 received
+a matching reviewed CP314 green run:0/0.073746s,20pairs/63registrations,stderr empty,
+no setup/test/feature/SDK/clone/worker. Separate raw final receipt is committed with
+this checkpoint. Both hosted new-harness lanes and FIRST wrapper-red still future.
 
-Canonical session_supplier_review(A) is currently final-help delta reviewer; owns
-only its final-delta-review note on isolated branch. Canonical session_plan_review(C)
-completed red-plan read-only coverage audit, idle; it has NOT reviewed a future red.
-Canonical session_supplier_author(B) authored all actual fixtures/tests, idle. Use
-actual collaboration.list_agents; send_message alone does not start completed agents.
+Canonical A/B/C are completed/idle after actual final reviews/authoring/read-only
+red-plan audit. C has NOT reviewed a future native red. Use actual agent list and
+followup_task for new assignments; send_message does not start completed agents.
 
-Next receive A exact final source verdict, import it, verify blobs, run reviewed
-minimal green harness on exact finalsource. Preserve a separate raw receipt. Update
-state/handoff truthfully, render/check, publish reviewed source/config +reviews.
-Observe BOTH actual3.10/3.12 SDK14+metadata/63registration jobs and ALL19 latest checks,
-read full logs/checkout and obtain separate receipt review. No acceptance body runs
-in greenCI. Then at SAME clean source head FIRST native wrapper suite exactly ONCE
-under admitted CP314/minimal env; [execution/attribution plan](schematest-001-red-plan.md).
-Require native63 cases/only exact missing-marker errors/all63 methods/no skips/setup/
-fixture/dependency failures. Inspect final traceback frames at the TWO raw stub
-bodies, not just matching text.315/317 authored observations are NOT expected error
-counts; subTests continue while sequential calls stop. Save bytes/exit/time/hashes
-BEFORE interpreting. No wrapper-red receipt exists yet. Any other failure is an
-honest invalid/incomplete baseline, not intended red; preserve FIRST raw.
+Next publish this reviewed source/configuration/receipts/checkpoint after project/
+render/diff checks. Observe BOTH actual3.10/3.12 SDK14+new20metadata/63registration
+jobs and ALL19 latest checks; read full selected logs/checkout and obtain separate
+receipt review. No acceptance body runs in greenCI. Then at SAME clean source head
+FIRST native wrapper suite exactly ONCE under admitted CP314/minimal env, per the
+[execution/attribution plan](schematest-001-red-plan.md). Require native63 cases/only
+exact missing-marker errors/all63 methods/no skips/setup/fixture/dependency failures;
+inspect final traceback frames at TWO raw stub bodies.317 authored observations are
+NOT expected error counts. Save bytes/exit/time/hashes BEFORE interpreting. No
+wrapper-red receipt exists yet. Any other cause makes an honest invalid/incomplete
+baseline, preserved FIRST raw and written separately reviewed correction required.
 
-Then DIFFERENT C audits actual red chronology/frames/native coverage/environment,
-followed by independent completion-metadata review and latest-head CI/normal merge
-gates. SCHEMATEST001 stays in_progress; SCHEMATOOL001 stays planned. C agreed child
-ABI/RLIMIT/no-site/read-race/offline/allocation internals can remain explicit actual
-implementation acceptance/source-audit obligations, never claimed dynamically proved
-by parent fault mocks. No production before integrated reviewed/red baseline.
+Then different C audits ACTUAL red chronology/frames/native coverage/environment;
+independent completion-metadata review follows, then latest-head CI/normal merge
+gates. Task staysin_progress and implementationplanned. C final coverage audit agreed
+private child ABI/RLIMIT/no-site/read-race/offline/allocation internals can remain
+explicit actual implementation acceptance/source-audit obligations without claiming
+dynamic proof. No production before integrated reviewed/red baseline.
 
 Root legacy19 tooling tests passed0.326s; project426/122/HTML/render/diff pass.
 Full release retains authority/session/policy/clock/actions/financial/recovery, full

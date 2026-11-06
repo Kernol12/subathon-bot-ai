@@ -1,68 +1,55 @@
-# SCHEMATEST-001 — current baseline stage
+# SCHEMATEST-001 — reviewed tests, green local harness, first red pending
 
-Coordinator `/root`,6 November2026. Claimab822715 from main1419082; dedicated
+/root,6 November2026. Claimab822715 from main1419082, dedicated
 `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline,
 [draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76).
-Scope: reviewed bounded developer-tool wrapper baseline, not runtime/product schema
-support. [Paired brief](../tasks/SCHEMATOOL-001.md),
-[ADR0008](../decisions/0008-schema-validation-foundation.md).
-Root owns shared state/HTML/pins/notices/imports/build/CI/publication; agent owned
-paths/actual assignments are in the [coordinator checkpoint](coordinator-handoff.md).
+[Paired task](../tasks/SCHEMATOOL-001.md),[checkpoint](coordinator-handoff.md).
+Root owns shared state/HTML/pins/notices/build/CI/publication; separate author/review
+worktrees and all historical receipts are preserved.
 
-Accepted logical[contract](../contracts/schema-validation-tool-v1.md)4ab/abb reviewedb8,
-[dependency admission](schematest-001-dependency-review.md)c221 reviewedee5,
-[offline installation](schematest-001-installation.md)20-package CP314/pipcheck pass.
-The exact supported pins/hashes/licenses and isolated tool-only policy exception
-are reviewed. Legacy progress tools remain standard-library-only; no global/server/
-client dependency additions. Candidate source research is not observed compatibility.
+## Actual artifacts and independent reviews
 
-[First invalid foundation](schematest-001-foundation-first.md) raw6d/4f37 retained:
-trusted bundled fileURI misclassified, persistent poison; NOT intended wrapper red.
-[Narrow correction/source review](schematest-001-foundation-review.md)01c/d2 reviewed21f
-before [native7pass](schematest-001-foundation-native.md). All assertions retained.
-[CI review](schematest-001-ci-review.md)23b and hosted7 receiptde496 establish actual
-minimum3.10/selected3.12 seven-method outcomes, not wrapper behavior.
+| Artifact | Final actual blob/revision | Different review |
+| --- | --- | --- |
+| Logical contract | abb426a | b8 |
+| Public API/private two-output-FD plan | a526dbc /7f30d99 | 980 then3a2003a |
+| Context contract | 32ec87a |31f3b857 |
+|20pins/28archives/licenses |c221 and unchanged original hashes |ee5aeb81 |
+| Installation/metadata/override guard |86d6d4 /6f4ffec |52229d7 |
+| Inert raw declarations |4a124a6 |794e95d |
+| Original60 test scopes |ebb23a2 |A ff9476a first24+last4; C525b0c4 middle32 |
+| Added dialect observations |a80b16c delta |C525d31d |
+|3 admission cases/real helper/core harness |a80b16c /97d95c2 /workflow842790e |A4347cd8 |
+| Raw metadata/type/poison/help corrections |final5c5e9b3 |A6fae4b9 thena7c2766 |
 
-[Additive context source review](schematest-001-context-foundation-review.md)9f of3d/32e99
-preceded root11OK. [CI delta review](schematest-001-ci-review.md)e956 of4c
-preceded publication5233. Actual hosted11 run42181462289 passed both3.10/3.12;
-[root receipt](schematest-001-foundation-cursor-scope-native.md) gives exact log hash
-and durations. All19 latest published checks pass. Baseline remains unfinished.
+Full reviews/evidence are linked from state/checkpoint. Author B never approves its
+own tests; A/C scoped source approvals collectively cover actual63 names and helpers.
+All corrections had written contract reasons BEFORE any test run. No weakening,
+skip/inversion or successful fake validator exists.63 methods/317 raw observations/
+5 script extras are SOURCE counts, not execution counts.
 
-[Public API](../contracts/schema-validation-tool-api-v1.md) corrected438/blob691270f
-has [actual separate review](schematest-001-api-review.md)980/importc681642.
-[Context document](../contracts/schema-validation-context-v1.md)46→d9+d296 correction
-is under separate actual review; no prospective compatibility/stub release.
+## Actual environment and green observations
 
-[Fixed raw-default cursor review](schematest-001-literal-cursor-review.md)5a88 ofeaa/867fff
-preceded root12OK0.120s. [Fixed OAS scope review](schematest-001-oas-scope-review.md)cdf12
-of5d/30169 preceded root13OK0.116s. Raw receipts and limited conclusions are in
-[native evidence](schematest-001-foundation-cursor-scope-native.md). These prove fixed
-real SDK seams with meaningful native negative controls, not arbitrary role adapters.
-Root CI11→13 inventory1b4 is separately reviewed before publication/hosted13 proof.
+Hash-locked isolated CP31420-package install/pipcheck; exact14 fixed SDK methods
+nativeOK0.119s and hosted3.10.12 fourteenOK0.292 /3.12.3 fourteenOK0.199 at0a07,
+independent hosted artifact review794. FIRST invalid7-method bundled-file guard
+receipt retained; narrow correction separately reviewed. It was NOT wrapper red.
+Fixed raw-data/no-id/OAS scope facts are not a general wrapper implementation.
 
-The no-id OAS transition facta80/6585 is now reviewed8ba and root14OK0.119s;
-[raw/native evidence](schematest-001-foundation-no-id-scope-native.md). CI14delta6247
-reviewed5b65/import0a07, hosted14 run42187299493 passed both3.10/3.12; final contexta8/
-32ec87a independently approved31f/importe475. These close the finite contract/library
-prerequisites for test authoring, not general implementation acceptance.
+[Definition-only native receipt](schematest-001-baseline-harness-native.md): olda80
+initial0.07235s preserved; FINAL reviewed5c5 at9dd5a16 actual native0/0.073746s,
+real20 metadata pairs/no-site SDK projection/63 registrations, no SDK imports or
+setup/test/feature/clone/worker bodies. Exact argv/env/blobs/raw outputs/hashes kept.
 
-[Inert interface](schematest-001-inert-interface.md)2af1b89 now supplies only the
-18-value enum/exact exception/two immediate named-marker bodies; DIFFERENT actual
-source/artifact review794/import8edb261 is complete. Independent wrapper fixture/test authoring is
-assigned on another isolated branch; no test or feature body has run. Complete
-actual test/oracle review and genuine missing-wrapper red remain mandatory before
-baseline completion. Root owns minimal static/discovery CI, separate from intentional
-red execution. All actual changed revisions must be reviewed before gate reuse.
+Next publish reviewed candidate, observe BOTH actual hosted14+new harness lanes and
+all19 latest checks at the SAME clean source head. Then FIRST native intended-red
+under admitted CP314/minimal env, preserve raw bytes/exit/frames/observed counts,
+obtain different actual attribution and final metadata review. [Red plan](schematest-001-red-plan.md).
+No wrapper feature or acceptance body has run; no wrapper-red receipt exists yet.
+SCHEMATEST001 remains in_progress, SCHEMATOOL001 planned.
 
-SCHEMATEST001 stays in_progress and SCHEMATOOL001 planned. General role/cursor/scope/
-offline/process/descriptor behavior remains independent acceptance and implementation
-review work AFTER tests. No application HTTP/session/schema/platform/provider support
-is claimed. See the coordinator checkpoint for actual assignments and next action.
-
-Private [process fault contract](../contracts/schema-validation-process-test-v1.md)
-e6fe6bd and narrow API two-descriptor clarification separately approved3a2003a/
-import8b779f1; actual fault tests may now be authored. Real isolated fault children,
-owned pipe endpoints, deterministic deadline and reap-before-test-cleanup oracle
-never substitute for actual successful/domain validation. Tests are still pending.
-Legacy tooling19/19 pass0.326s; project426/122/currentHTML/render/diff pass.
+No worker/parser/validation/help behavior is implemented behind the two immediate
+markers. Real child ABI/RLIMIT/no-site/read-race/offline/allocation obligations remain
+explicit implementation acceptance/integration/source-audit gates, never inferred
+from parent fault mocks or codes. All seven integrations/three FX and full product/
+platform/provider/UI/runtime/release scope remain unchanged. No owner input needed.
