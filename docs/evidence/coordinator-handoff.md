@@ -33,8 +33,8 @@ Canonical `session_supplier_review` now actual transport document AUTHOR,
 `/tmp/subathon-sessioncontract002-author`, branch
 `task/SESSIONCONTRACT-002-document-author` fromdf1. Owns ONLY new
 `docs/contracts/session-transport-v1.md` and `docs/evidence/sessioncontract-002-author.md`.
-Read-only primary-source preparation completed; actual content assigned, no authored
-candidate/approval yet. Canonical `session_plan_review` is DIFFERENT transport
+Actual document3f1699a imported751437f; primary-source/literal author evidence
+committed. Different actual review underway, no approval yet. Canonical `session_plan_review` is DIFFERENT transport
 reviewer, read-only prep complete; owns only eventual002-review.md in a NEW isolated
 reviewtree after actual candidate arrives. No previous agent presumed running.
 
@@ -63,11 +63,11 @@ zero warnings/skips; independently downloaded identicalfull logSHA8c6df279882fc7
 11793b6832d32f067025baa55d52daff77d18b9229225aaa. All17initial549checksPASS.
 
 Initialmetadata33 approved722/import549. Main060 integrated0d8 while preserving
-milestoneclaim and423/1624sessiongraph. Componentcompletion7ca currentlydone on its
-ownbranch, metadatareview found two stale coordination sentences corrected52618d1;
-actual final differentreview pending. Source/config/assertions unchanged. Final
-completionpublication-headCI/currentrules/threads/normalmerge remain; older17green
-checks do NOT approve a newhead. Root must publish actualreviewappend on PR73,
+milestoneclaim and423/1624sessiongraph. Componentcompletion7ca corrected52618d1
+actually approvedb91ca2c8/importcbeabc4. Finalpublishedcbeabc44e81119a0602719e465543cc508015a23
+has15SUCCESS/two hostedjobs pending at last observation, no failures.
+Source/config/assertions unchanged. Final currentheadCI/currentrules/threads/normalmerge
+remain; older17greenchecks do NOT approve a newhead. Root must
 observefinalgates, normalmerge, refreshprimary, and integrate that main into002 while
 preservingdf1row/activity/ownedcontent. Native/CI/handoff evidence lives in PR73;
 no localbrokenlinks to unmerged files are created in this branch.
