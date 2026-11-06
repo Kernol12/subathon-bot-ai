@@ -5,6 +5,8 @@ Literal oracles come from the accepted context contract, not worker algorithms.
 The actual fresh worker, pinned libraries, protocol and OS handles are used.
 """
 import contextlib
+import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -66,6 +68,22 @@ class WorkerContextRegression(unittest.TestCase):
                             child.kill()
                         finally:
                             child.wait(timeout=10)
+            # Preserve every direct worker observation above, then exercise the
+            # same literal package through the REAL unpatched public/native path.
+            if not hasattr(type(self), "public_target"):
+                spec = importlib.util.spec_from_file_location(
+                    "schema_context_public_target", worker.parents[1] / "schema_validate.py")
+                target = importlib.util.module_from_spec(spec)
+                sys.modules[spec.name] = target
+                spec.loader.exec_module(target)
+                type(self).public_target = target
+            target = type(self).public_target
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                actual = target.validate_package(str(root / "manifest.json"))
+            self.assertIs(actual, target.SchemaValidationOutcome(expected))
+            self.assertEqual(stdout.getvalue(), "")
+            self.assertEqual(stderr.getvalue(), "")
 
     @staticmethod
     def oas(components):
