@@ -179,3 +179,32 @@ assertsintact. RootpublishesSAMEreviewedCI withfix; actualBothHostfullGREEN STIL
 pending. Thisisnotowner69FIRST. Bcurrentlyactualc38+58binding9source-rereview;
 Acompletedclosefrom+transparentctypeslookupfix58. Public74source926 C26approved
 notimported, bindingdefinitionstubs9c38notimportedyet. Noownerimplementationbody.
+
+## Actual owner and binding baselines reached; implementation assigned
+
+Latest instruction remains finish only PR77 then STOP. Main095d192 unchanged;
+PR77 open/draft published928/all21SUCCESS, no formal reviews. Local9a70ec0
+integrates source-reviewed public74 and binding9. Actual both-host native
+foundations42282457204 acceptedC0ae/root634 (56CTest each/0skip/fail/error).
+Actual clean634 owner FIRST69:58processes,79real native31 errors ONLY;
+[archive/receipt](schematool-001-native-owner-first-red.md). New binding FIRST
+atclean2a153:9methods,41real explicitBindingNotImplemented errors ONLY, passive
+importpass/no Ccall; [rawreceipt](schematool-001-native-binding-first-red.md).
+Neither is product implementation completion. Historical baselines neverreplayed.
+
+Explicitly reassigned liveagents: B session_supplier_author authors ONLY three
+new C++ owner/RawOps/entry paths in isolatedworktree from9d83; A
+session_supplier_review authors Python loader/decoder in isolatedworktreefrom9a70;
+publicroutebody stillheld until actual ported74 route-red, currently command
+session25716/rootdriver logs /tmp/schematool001-public-native-first74. C
+session_plan_review attributes raw69/binding9 and recommends exact retirement of
+explicitlytemporary31 controls; no source mutation. Root owns build/CI/state/tests.
+No newnativeimplementation executed; actual source/generated/resource review
+precedes execution. All supportworktrees/unfinishedfiles preserved; no other
+project commands observed. No ownerdecision/access needed.
+
+Next: preserve ported74 actual mixedred/pass; release Aroutebody, review exact
+new3fileCPP/Python source, root build/CI and reviewed temp31migration, compile
+and actual generated bounds/rawchild audit, run allnative69/binding9/public74
+and SDK14/focused acceptance, observe latestbothhostCI/reviews/threads/rules.
+Normalmerge77 only after allgates; refreshmain/checkpoint and STOP.
