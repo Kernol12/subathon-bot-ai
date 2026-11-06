@@ -30,7 +30,8 @@ subathon_target_options(schema_transport_native_foundation_child)
 target_compile_options(schema_transport_native_foundation_child PRIVATE -fno-exceptions -fno-rtti)
 target_link_options(schema_transport_native_foundation_child PRIVATE "LINKER:-z,now")
 
-add_executable(schema_transport_native_foundation native_foundation.cpp)
+add_executable(schema_transport_native_foundation
+    native_foundation.cpp native_fault_foundation.cpp native_fault_fixture.cpp)
 target_link_libraries(schema_transport_native_foundation PRIVATE
     subathon_schema_transport_v1 GTest::gtest_main Threads::Threads ${CMAKE_DL_LIBS})
 target_compile_definitions(schema_transport_native_foundation PRIVATE
