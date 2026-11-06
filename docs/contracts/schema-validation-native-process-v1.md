@@ -2,8 +2,8 @@
 
 SCHEMATOOL-001, private developer-tool contract, original author B. Revision2 has
 actual different document approval C44adb36c. Revision3 adds ONLY the bounded
-normalization-close profile below, authored root and pending different actual
-document review. No earlier verdict approves this new revision or future code. Planning approval is C `f94b1ef`; the Python
+normalization-close profile below, authored root and independently approved
+C99d244e for interface/test authoring. No document verdict approves future code. Planning approval is C `f94b1ef`; the Python
 transport stays frozen at `4cc464a`, source `3438a92c` until the replacement gates
 below pass. Root owns the matching policy, installation and private-process edits.
 
