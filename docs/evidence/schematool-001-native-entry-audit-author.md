@@ -37,3 +37,14 @@ that exact register-identity NOP, with different-register and memory exchange
 negative controls. Different actual test review and observed intended new-control
 failure precede a narrow source correction. Existing7 controls/21rows unchanged;
 no general XCHG operation is admitted and no PLT callback/resolve sequence added.
+
+After actual C0856721 selected-test review, FIRST ONLYnew method at CLEAN9187334,
+18:01:33Z CP314-I-S-B/minimalenv:1 ERROR/.001s/native1, actual gate RuntimeError
+'unreviewed syscall PLT operation' at the reached exact-xchg positive, not import/
+missing dependency/native facility failure. Stdoutempty/stderr1511B SHA d6aa9f69;
+exact three raw/receipt artifacts retained alongside the earlier seven-PASS and
+real-artifact fail-closed receipts. Original7/FIRSTs were not replayed. This
+reached static-algorithm defect permits a narrow correction: allow ONLY mnemonic
+xchg with exact operands%ax,%ax as a NOP. Different actual correction review still
+precedes unchanged8 controls and actual local artifact audit. No native program
+or new helper has compiled/executed, and owner-red gates remain unchanged.

@@ -1,0 +1,22 @@
+{
+  "source": "918733424dc66fa49c1adf99e34628ef71beaa20",
+  "command": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-S",
+    "-B",
+    "tests/schema_validation/native_entry_controls.py",
+    "NativeEntryControls.test_two_byte_nop_alias_requires_exact_ax_identity"
+  ],
+  "start_utc": "2026-11-06T18:01:33.296012+00:00",
+  "seconds": 0.04257874199538492,
+  "returncode": 1,
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 1511,
+    "sha256": "d6aa9f69a230d9216ce1d290dc8debb4b4445789f42a8760d8fb6b4aefcd71bb"
+  }
+}

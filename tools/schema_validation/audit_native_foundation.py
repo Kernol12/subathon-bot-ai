@@ -225,6 +225,8 @@ def probe_entry_binding(functions, relocations):
     for _, mnemonic, operands in plt[2]:
         if mnemonic in {"endbr64", "nop", "nopl", "nopw"}:
             continue
+        if mnemonic == "xchg" and operands == "%ax,%ax":
+            continue  # Exact two-byte register-identity NOP, no memory exchange.
         if mnemonic == "bnd" and operands.startswith("jmp "):
             mnemonic, operands = "jmp", operands[4:]
         require(mnemonic == "jmp", "unreviewed syscall PLT operation")

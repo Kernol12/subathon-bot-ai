@@ -1,0 +1,26 @@
+{
+  "source": "b3bafb35717be1019c3d187a078ddf46c1cce6f2",
+  "command": [
+    "/tmp/subathon-schematest001-py314/bin/python",
+    "-I",
+    "-S",
+    "-B",
+    "tests/schema_validation/native_entry_controls.py"
+  ],
+  "start_utc": "2026-11-06T17:54:39.786619+00:00",
+  "seconds": 0.04256837301363703,
+  "returncode": 0,
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 958,
+    "sha256": "d88466d7518991c0310a1dda5ad53ed32f66979600613dfcb22edb55e275488a"
+  }
+}
