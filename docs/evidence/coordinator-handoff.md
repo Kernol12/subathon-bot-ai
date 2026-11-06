@@ -1,97 +1,106 @@
-# Coordinator checkpoint — validator library foundations, not wrapper baseline
+# Coordinator checkpoint — schema baseline in progress
 
-Coordinator /root,6 November2026. Standing coordination remains authorized by latest
-owner continuation; earlier PR70-stop superseded. Full specification v0.45 incomplete.
-No owner decision/access needed. No real credential/contribution/chat/provider/deploy
-operation. Preserve unfinished refs/worktrees and all valid review/FIRSTred evidence.
+Updated6 November2026 by `/root`. The standing continuous coordinator instruction
+remains active. Full specificationv0.45 is incomplete. No owner decision/access is
+needed. Preserve all unfinished branches/worktrees and valid reviews/raw red evidence.
+No live credential/contribution/chat/provider/deployment operation was performed.
 
-## Actual main and integrated PRs
+## Integrated main
 
-Primary/fetchedmain `14190827f9d6c5d73da669e9da5712726508be3a`, clean. PR75 normalmerged
-06:00:56Z exactf9dd217/all17SUCCESS/currentrules26170263/requiredGitHubapprovals0/zero
-threads/CLEAN/no bypass. [Plan005](contractplan-005-handoff.md), actualplan291/importcda,
-completion3da reviewed966/importf9dd. Old423IDs/1624edges retained→426/1629. New
-SCHEMATEST001 baseline/SCHEMATOOL001 implementation gate CONTRACT013's same two-route
-package; no old requirement/runtime gate removed. No custom standards engine.
+Primary checkout is clean main `14190827f9d6c5d73da669e9da5712726508be3a`.
+Normal merges this coordination session: PR72 supplier contract `0605948`, PR73
+pure milestone progression `4e85241`, PR74 credential transport `15cf7f1`, PR75
+schema prerequisite plan `1419082`. Each had all17 latest applicable checks passing,
+separate actual reviews and resolved/empty discussions before head-matched merge.
+See the four task handoffs; do not repeat completed stages. The plan preserved
+all old423 tasks/1624 edges and added3 tasks/5 edges:426 tasks/1629 dependencies.
 
-PR74 normalmerged15cf7f1 at05:53:04Z, exactd23/all17/samecurrentrules/zero threads,
-head/merge trees equal. Transportdoc2c33/corrected6cd reviewedcdb; completionf600
-reviewed5750. [Handoff](sessioncontract-002-handoff.md), [review](sessioncontract-002-review.md).
-PinnedDrogon multiplicity/rawCookieTRACE and browserWS/auth/runtime remain actualgates.
-PR73 normalmerged4e85241 at05:42:42Z, exactcbe/all17/trees equal: [milestone](milestone-001-handoff.md),
-[review](milestone-001-code-review.md), [CI](milestone-001-ci.md). Sourced79/config279,
-frozen53/full90 nativepass, actualselectedold37/unconditional53; completion526 reviewedb91.
-Pureproposal, no actualscore/actions/UI. OriginalFIRSTc2/e030red preserved.
-PR72 normalmerged0605948 at05:30:13Z, exactcae/all17: supplierc5/c7 reviewed46,
-completionc961 reviewed0f; [handoff](sessioncontract-001-handoff.md). Bothdocs integrated,
-no runtimeauthentication. Earlier70/68/69/71 integrated; [capturebaseline](storagetest-018-handoff.md)
-FIRST550/validSQL633 retained; initialsetup-error remainsinvalid. No completedstage replay.
+Last inspected active ruleset26170263 has no bypass actors, PR/thread-resolution
+requirements and zero required approvals; it has NO required-status-check rule.
+Written policy still requires all applicable latest checks and independent reviews.
+Requery GitHub actual head/checks/reviews/threads/rules before any next merge.
 
-## Active SCHEMATEST-001 / draft PR76
+## Active branch and actual stage
 
-Root `/tmp/subathon-schematest001`, task/SCHEMATEST-001-validation-baseline,
-[draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76). Claimab822715 from141.
-Latestpublished3df3ba9 at this snapshot; rootlocale0406e0 adds reviewed-candidate CI/
-correctedreceipt awaiting workflowreview. Taskin_progress, SCHEMATOOL001planned.
-Allmain426/1629 task statuses/reviews retained except actualbaselineclaim/stage fields.
-Root owns all sharedpins/locks/notices/imports/build/CI/state/HTML/checkpoint/publication.
-[Stage handoff](schematest-001-handoff.md), [logical contract](../contracts/schema-validation-tool-v1.md).
+Root `/tmp/subathon-schematest001`, branch
+`task/SCHEMATEST-001-validation-baseline`, claimed by `ab822715` from main1419082.
+[Draft PR76](https://github.com/Kernol12/subathon-bot-ai/pull/76) is the only open PR.
+Actual published head5233ff4 has all19 latest checks SUCCESS; root later commits
+are local pending separate CI-delta review. Root latestd296f11 includes13 probes,
+raw12/13 receipts and corrected context document. SCHEMATEST001 stays in_progress;
+SCHEMATOOL001 stays planned. NO wrapper/stub/worker/acceptance test or intended
+missing-wrapper red exists. Library facts do not complete the baseline.
 
-Logicalauthor canonical session_supplier_review, `/tmp/subathon-schematest001-author`,
-4ab268a/importad91266; independentlogicalreview b8/import699 bysession_supplier_author
-in `/tmp/subathon-schematest001-contract-review`. Logicalapproval ONLY; concreteAPI/
-context/process adapter/wrapper tests/red still absent, no validator wrapper exists.
+Root owns shared state/HTML/dependency pins/notices/imports/build/CI/publication.
+[Task handoff](schematest-001-handoff.md) links accepted documents/evidence.
+Actual93 registered worktrees were inspected clean at this resumption; historical
+refs including parked CONTRACT011 are preserved. Inspect again before writing.
+Agent list/process evidence is live session state, never assume old agents running.
 
-Dependency/policyc221 reviewedee5/importfadd bysession_plan_review in
-`/tmp/subathon-schematest001-dependency-review`. [Admission](schematest-001-dependency-review.md)
-verifies20pins/28wheels/60targetcopies/63licenseNOTICE hashes,20upstreamPyPIrecords,
-staticclosure3.10/3.12/3.14. ExplicittoolsAGENTisolated-onlyexception keepslegacytools
-stdlib/no global/server/clientdeps. ActualofflineCP314install20/pipcheck/versionmatch
-PASS in `/tmp/subathon-schematest001-py314`; [receipt](schematest-001-installation.md).
-Onlybootstrapextra pip. CP310/312 actualruntimeproof stillpending, not inferred.
+## Completed prerequisite evidence
 
-## Actual source / failed first / corrected local pass
+Logical contract4ab/abb426a reviewedb8/import699. Dependency candidatec221 reviewed
+ee5/importfadd:20 pins,28 unique wheels for CP310/312/314, complete marker/hash/license
+audit. Isolated offline hash-locked CP314 install and pipcheck pass; no global or
+server/client dependencies. The toolsAGENTS exception is explicit and reviewed.
 
-Foundationauthor session_supplier_review in `/tmp/subathon-schematest001-foundation-author`,
-task/SCHEMATEST-001-foundation-author, owns ONLY library_foundation.py/ownauthornote.
-Actual6d34ef9/source4f37 independently reviewed100/importc3 BEFOREfirstexecution.
-FIRSTnative1/7methods2OK5FAIL1ERROR: urllibtripwire falselyblocked bundledmetaschema
-fileURI, thenpersistentpoison. [Raw/cause](schematest-001-foundation-first.md) retained;
-NOTwrapperred/greenfoundation/realnetworkexposure. No fixture/assertion deleted/reset.
+Initial seven-method source6d/4f37 was reviewed100 before its FIRST run failed
+because the harness blocked an exact trusted bundled fileURI. Preserve raw first
+receipt2199; this was NOT wrapper red or an actual remote request. Narrow correction
+01c/d2 was separately reviewed21f before rerun; unchanged assertions plus exact
+hash-verified bundled bytes/local-read ledger. Root7OK. CI confige040 reviewed23b;
+actual hosted7 run42178767687 independently receiptedde496/import04eaa5c.
 
-Correction01c7f8c/import9b8, sourced2df9b986892d9eee8074678c2c2aa3de35b55b5,
-actually reviewed21f/import1aa byDIFFERENTsession_supplier_author in
-`/tmp/subathon-schematest001-foundation-guard-review` before rerun. Exactcanonical
-trustedbundledmetaschema34260bytes/hash fromadmittedwheel only, realverifiedBytesIO,
-all7originalmethods/assertions/networkbans pluslocalreadledger. [Review](schematest-001-foundation-review.md).
-RootcontrolledCP314 rerun actualexit0/7OK/0fail-error-skip/unittest0.115s;
-[raw/receipt](schematest-001-foundation-native.md). No interceptednetworkattempt in
-these fixedrecipes; not OSsandbox/generalofflinewrapper proof. Unknownscheme fallback,
-fullcontextclosure/inventory/numberadmission/worker constraints remain concreteAPIgates.
+Additive11 source3d/32e99 reviewed9f before root11OK. CI inventory4c reviewede956/
+import5233. Actual hosted11 run42181462289 at5233 passed Python3.10.12 eleven0.207s
+and3.12.3 eleven0.194s. Root full log SHA256d079f8297fc420cb0a993be89167b2bec5ff667aa4b6fb1c2e17f821011e2c02,
+path `/tmp/schematest001-hosted-context-foundation.txt`. Separate hosted receipt
+review is separate from this integrator observation.
 
-## Current assignments / next action
+Public API corrected438/blob691270f independently reviewed980/importc681642.
+Context document46 corrected d9/import986, plus canonical fragment literal correction
+d296f11; DIFFERENT actual context-doc review remains pending. The profile's dynamic
+ref/discriminator/ambiguous PathItem restrictions are explicit developer-tool gates,
+not removed product scope or invalid-standard claims. Literal data refs remain data.
 
-Canonical session_plan_review independently audits actuale0406e0 new CI matrix:
-Ubuntu22/usrbinPython3.10 andUbuntu24/3.12, hash-onlyisolated20deps/pipcheck, limited
-bootstrapsetuptoolscleanup, strict7methodAST/no decorators, unconditionalminimalenv
-realprobe. Own ONLY eventualschematest-001-ci-review.md inNEWisolatedtree. Static
-checksreportedPASS; finalactualapproval pending. NOhostedgreen/preapproval/required-
-checkenforcementclaim. Oldnativeworkflows/source/pins/assertions unchanged.
+Fixed raw-default cursor12 sourceeaa/867fff reviewed5a88/importad5 BEFORE root12OK
+0.120s. Fixed OAS namespace scope13 source5d/30169 reviewedcdf12/importfd588 BEFORE
+root13OK0.116s. Root raw receipts are committed; [native receipt](schematest-001-foundation-cursor-scope-native.md).
+These are fixed real SDK facts, not general role/index/cursor/offline-process proof.
 
-Canonical session_supplier_review separately READ-ONLY concreteAPIreadiness assessment,
-no newAPI/source/tests authorized: identify bounded role/ref/example/priority APIs or
-honestmissingfacts/split. Source/oraclereviewer session_supplier_author is idle after
-correctionapproval. Inspectactualagentlist; followup_task needed for idle agents,
-send_message alone doesnotstartthem. No previous ID/process assumedalive onresume.
+## Actual assignments and next action
 
-Next receive actualworkflowapproval, publish rootcandidate+review onexistingPR76,
-observeBOTHminimum/CIhostedfoundationjobs and remainingchecks. Then actualconcreteAPI/
-adapter contract review before minimalimmediatestub+independenttestsource/review and
-genuine intendedwrapperred. Never mark baseline/SCHEMATOOLdone from librarypasses.
-Rootproject/render checksPASS426/122; no rootnativecommand active. Keep honest partial
-stage fields, allraws and futureactualCI/evidence. No ownerapprovalroutine needed.
+Canonical `session_supplier_author` independently reviews ROOT CI delta1b4dee6
+(exact11→13 inventory, same runners/hash-only install/unconditional command), owns
+ONLY schematest-001-cursor-scope-ci-review.md on a NEW isolated branch. This agent
+authored12/13, so does NOT approve their source; C's actual source reviews are used.
+Await actual configuration review before pushing13 workflow/observing both jobs.
 
-Fullrelease still requires actualaccount/session/clock/authority/policy/action/
-application, financial/review/refund/recovery/delivery, fullHTTP/WS/scene/bothrenderers/
-EN/DE/themes/Windows/Linux/Wayland/OBS/packages/licenses/security/allseven integrations/
-threeFX/live verification. Component/document/foundation success is not finishedproduct.
+Canonical `session_plan_review` reviews actual contextd9+d296 doc, owns ONLY context
+review note on its isolated branch. It found a genuine no-id OAS schema transition
+gap in fixed13: Resource.pointer resets segments only when callback returns a
+DIFFERENT resolver; no-id in_subresource returns the same resolver. Context doc
+approval alone does not imply that common case works.
+
+Canonical `session_supplier_review` is explicitly reassigned to AUTHOR one fixed
+additive14th no-id OAS scope fact from root1b4 on a NEW isolated branch. Own ONLY
+foundation.py plus no-id author note; keep entire13 AST/guards/imports unchanged.
+Exercise whole-OAS fragment through real native ref validation, nested id/anchor,
+positive/negative and zero retrieval using a supported explicit scope transition.
+No import/run/install/general adapter. C reviews actual source BEFORE root run.
+
+After actual doc/final prerequisite fact review and controlled green foundations,
+release inert enum/two immediate named-unimplemented bodies and independently authored
+complete wrapper fixtures/tests. Independently review actual tests/oracles, then
+observe genuine missing-wrapper red. Production implementation waits for that
+integrated baseline. Missing dependencies/import/library failures never satisfy red.
+Keep intentional red separate from stable CI; do not skip/invert/fake successes.
+
+If a real SDK limitation blocks the agreed raw-data semantics, record it rather
+than refusing ordinary literal `$ref` data or silently shrinking the profile.
+Do not implement a custom standards engine. No routine owner approval is needed.
+
+Full release retains actual authority/policy/clock/actions/session/application and
+financial/review/refund/recovery/delivery, full HTTP/WS/scene, native/browser renderers,
+EN/DE/themes, Windows/Linux/Wayland/OBS, packaging/security/licenses, all seven
+integrations and all three FX providers, plus live/platform verification gates.
