@@ -69,7 +69,9 @@ digest success. Ready initialization returns 0 or 1.
 
 Future namespace `subathon::server`, header `session_resolution.hpp`; these are
 document declarations only. Enum values use uint8_t, consecutive from zero as
-listed; invalid enum casts are invalid input. References are byte-exact nonempty
+listed. An invalid caller-input enum is invalid_input; an invalid state enum in
+selected source facts is invalid_stored_data, following section3's priority.
+References are byte-exact nonempty
 opaque strings, never tokens or authority certificates. Signed times are UTC
 milliseconds in the full int64 domain; no float, local timezone or guessed zero.
 
@@ -163,6 +165,15 @@ The five resolved-result occurrences count separately, including copied values.
 The input installation is an additional separately owned request occurrence.
 Each value must fit both its own limit and its complete value's aggregate limit
 BEFORE its allocation/copy; a source must inspect stored lengths/types first.
+owned_bytes is a PER-VALUE ceiling for each of request, complete facts and resolved
+result, rather than a shared call-wide ceiling. All three may coexist; their
+simultaneous string payload is at most3×owned_bytes. A source/result handoff moves
+owned values rather than making additional full owning copies; validation borrows
+views. Validate owned_bytes<=min(UINT64_MAX,SIZE_MAX)/3 before work so the peak bound
+and cumulative sums are representable, then use checked sums for actual payloads.
+Thus the literal request1+facts12+result5 owns18 simultaneous bytes even with
+owned_bytes=12, within its36-byte peak ceiling. Application fixed objects and native
+scratch remain additional fixed storage under their separate obligations below.
 No caller-owned allocation is retroactively bounded. Native object/control-block
 overhead and fixed scalar/array storage are additional fixed storage, not hidden
 string payload; no collections or recursively nested values exist in this profile.

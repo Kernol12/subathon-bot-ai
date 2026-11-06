@@ -59,3 +59,13 @@ existing document/scaffold tooling CI remains appropriate; root owns actual late
 PR CI receipt and any shared state/HTML update. Separate reviewer must examine the
 actual authored commit before acceptance. Planned implementation/platform/live gates
 remain not_run. No review/feature-completion claim is made by this author note.
+
+Independent reviewer `session_supplier_review` examined actual e03c11f and requested
+two precision clarifications before approval. The corrected document makes enum
+provenance explicit (selected source invalid state→invalid_stored_data) and freezes
+owned_bytes as a per-value budget with simultaneous request+facts+result payload
+at most3×owned_bytes, checked configuration/arithmetic and moving ownership
+handoffs. The literal12-byte facts profile can coexist with request1/result5
+(18 actual bytes,36-byte peak ceiling). No assertion, authored literal, behavior,
+shared file or release requirement changed. Review must cover the actual corrected
+revision; this correction does not self-approve either candidate.
