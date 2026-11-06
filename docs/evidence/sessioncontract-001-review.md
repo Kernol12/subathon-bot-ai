@@ -112,3 +112,46 @@ baselines and CONTRACT-013. Concrete account/session/clock/storage/queue produce
 native scratch, permission/disclosure integration, reviewed tests/intended reds,
 desktop secure persistence, platform/recovery/live/release verification remain open.
 All seven integrations and three FX providers remain required.
+
+## Independent completion metadata review
+
+**APPROVED:** actual coordinator completion candidate
+`c961e607d6e4a3fa00cfd2d24ada2e70a1943349` (component metadata `705ced0`,
+checkpoint `c961e60`). Inspected on a NEW isolated branch
+`task/SESSIONCONTRACT-001-completion-metadata-review` at
+`/tmp/subathon-sessioncontract001-completion-review`. This reviewer remains
+different from supplier author and coordinator. Supplier blob `c5f5a6e...` and
+author-note blob `4610af9...` exactly match the already accepted corrected candidate.
+No later source, header, schema, test, fixture, build, pin or workflow change is
+included in the supplier task.
+
+Independent structured comparison with actual integrated main `e2cd5eb` confirms
+all422 original task IDs and1619 dependency edges retained; the split adds one ID
+and exactly five edges, yielding423/1624. Only the five existing session-scoped
+records change (EPIC007, SESSIONTEST002/003, CONTRACT013, SESSIONCONTRACT001),
+plus new SESSIONCONTRACT002. Every other current-main task record, including
+STORAGE018 and MILESTONE001, remains identical; all old activity and project
+verification/summary are preserved. Supplier001's `done` is DOCUMENT completion
+supported by actual separate plan/contract review and literal audits. Runtime is
+explicitly not_run. Transport002 stays planned, requires integrated001, and every
+downstream consumer retains BOTH document gates and later test-first/runtime gates.
+
+Handoff and checkpoint separate component completion from draftPR72 publication,
+latest-head CI, current rules/reviews/discussions and normal merge. They accurately
+supersede the earlier owner stop boundary with the resumed coordination assignment.
+They preserve unfinished work and record the independent active MILESTONE001 claim
+on its separate branch instead of overwriting this supplier branch's main snapshot.
+I observed the actual separate `/tmp/subathon-milestone001` task worktree and branch;
+milestone source/configuration/CI approval is outside this document review.
+DB01/NUM04 and full runtime/platform/live/release gates are not promoted by supplier
+completion. There is no supported authentication or running-server claim.
+
+Actual independent commands on the completion candidate:
+`python3 tools/check_project.py` PASS423/122; `python3 tools/progress.py render --check`
+PASS; `python3 -m unittest discover -s tests/tooling -v` PASS19/19 in0.316s;
+`node tools/check_progress_ui.mjs` PASS DOM simulation; `git diff e2cd5eb HEAD --check`
+PASS. Structured Python assertions confirmed all task/edge/activity/verification
+preservation and both-document dependencies above. No product browser/OBS/native
+session behavior or new red baseline was executed. Applicable latest-publication
+checks and normal GitHub merge gates remain actual coordinator observations,
+not preapproved future outcomes.
