@@ -1,0 +1,153 @@
+# SCHEMATOOL-001 — closed generated-owner audit source
+
+Author A (`/root/session_supplier_review`),6November2026. New isolated branch
+`task/SCHEMATOOL-001-native-owner-audit`, tree
+`/tmp/subathon-schematool001-native-owner-audit`, from actual root
+`4563ff3c76702f071a1da03e106eb75aaa333f6f`. Own ONLY
+[audit_native_owner.py](../../tools/schema_validation/audit_native_owner.py),
+[native_owner_audit_controls.py](../../tests/schema_validation/native_owner_audit_controls.py)
+and this note. Root/tools/tests instructions read. Root owns old-auditor integration,
+CMake/CI/state; B owns native production source. No owner/test assertion/build,
+old-auditor/old-control, Python binding, worker or pin file changes here. PR77 only.
+
+This is a bounded GNU/Linux x86-64 BUILD harness for the exact two reviewed source
+instantiations, not a generic binary verifier, standards engine, valid schema
+factory or capability declaration. Authority is
+[native §§1–3/7](../contracts/schema-validation-native-process-v1.md), actual
+immutable B75d2/rootb620 source and root/C456 compile-only flag admission.
+
+## Actual read-only source/artifact basis
+
+Inspected B's actual `transport_entry.cpp`, `raw_ops_v1.h`, common831-line core and
+fixed FaultOps/fixture. Root's symmetric builds use the SAME entry/core, selecting
+ONLY `SUBATHON_SCHEMA_NATIVE_FAULT_OPS` for the fault policy. The stable seams are
+`detail::Owner<RawOps/FaultOps>::birth()/child()` plus `run_transport_v1` and policy
+`syscall<KernelCall::clone3>`. A transient uncommitted macro mismatch seen during
+earlier preparation was reconciled before immutable B75; it is not a present
+finding against that source.
+
+Root explicitly released READ-ONLY binutils/metadata after actual configure/build
+456 native0. Read real GNU `.ci/.su`, nm and disassembly WITHOUT loading/executing
+any input. This exposed true canary/PLT/trap/indirect paths; their strict refusal
+remains, rather than allowing namespaces or opcode exceptions. Root retained that
+456 evidence and assigned different-reviewed source corrections separately. Also
+read current root183 rebuild artifacts, actual hashes production
+`01180ba6a90b1dc9d133e3db7cb7d18b1e1c6813d21f4855ed602b0e46c93935`, fault
+`6a03925e54f9016968602b5ef644804a83e9404c6889adb84f508f64c4d82f6d`.
+No candidate checker/control was imported or called against either version.
+Read-only183 inspection also shows SIMD zero-initialization in the FaultOps
+constructor and fixture `wait_pinned`, plus precise lock-cmpxchg instructions in
+`fault::monotonic_ns` and `fault::checkpoint`. The CURRENT reused raw instruction
+gate rejects these unknown contexts; this source does not claim183 is admitted.
+Root/C were notified: scalar source initialization can preserve the opcode profile,
+while any new context-exact atomic admission requires actual different source/
+control review with ALL old default raw-helper guards preserved. Synchronization
+must not be weakened merely to satisfy an opcode list. No such extension or
+external-source change is silently included in this packet.
+
+## Exact integration surface and retained old gates
+
+Definition-only import exposes
+`audit_artifact(artifact_path, policy_role, build_root)` with role EXACTLY
+`production` or `fault`. It requires the matching fixed build-root/lib artifact,
+derives the fixed compiler TU metadata inventory, lazily reads definitions from
+the existing auditor and returns an actual proof dictionary ONLY after all checks.
+Fields include artifact/SHA256, exact policy, audited function count, inherited
+stack upper bound, and hashes of every inspected compiler metadata file.
+
+Production metadata is exactly
+`tools/schema_validation/native/CMakeFiles/subathon_schema_transport_v1.dir/transport_entry.cpp.ci`.
+Fault metadata is exactly
+`tests/schema_validation/CMakeFiles/subathon_schema_fault_v1.dir/__/__/tools/schema_validation/native/transport_entry.cpp.ci`
+and the same target's `native_fault_fixture.cpp.ci`. Each requires its actual
+`.su` sibling. Paths are beneath the caller's explicit build root, not recursively
+discovered among unrelated object files. Standalone build-tool CLI is
+`--build-root ABS [--role production|fault]`; absent role audits both.
+
+Root's intended migration replaces ONLY the two old inert-single-entry reachability
+assertions with the corresponding per-DSO call above. Each old auditor remains
+independently unable to pass without owner proof; avoid re-auditing both artifacts
+twice. ALL existing foundation raw-helper/primitive/negative-exec graphs,
+probe/clone/GOT/libc-prefix proof, export/eager/no-initializer checks, independent
+literal controls and no-child XML bootstrap stay mandatory and unchanged. This
+packet does not itself modify those old files or CI registration.
+
+## Closed graph, metadata and inherited stack rules
+
+The checker reuses the existing ELF/disassembly/reachable parsers, including their
+unknown-instruction/middle-branch/indirect/TLS/PLT/trap refusal. Source-derived
+finite exact method/signature sets admit the two core/policy instantiations and
+their actual scalar/raw fixture callees; no whole namespace or arbitrary `std::*`
+is allowed. Parent owner methods are excluded from the child subset, as are
+unneeded child syscall specializations. Both the common child and pre-common-child
+policy clone closure are raw-audited. Exports must be exactly one/five strong C
+functions; eager binding and absent dynamic C++ resource initialization remain.
+
+The bounded parser accepts ONLY the actual GNU VCG node/edge/alias subset.
+Compiler identities are mangled (with optional TU prefix), while actual `.su`
+uses source signature/location labels. Frame bytes/qualifier must agree between
+the `.ci` framed definition and that exact `.su` signature/location. Actual nm
+function symbols bind these identities to ELF addresses. A C1/D1 alias gets no
+invented zero frame: its one target MUST be a real framed definition at the SAME
+actual ELF address. Multiple framed names sharing an address require the SAME
+actual frame source identity and bound. Missing/unresolved/external frames,
+conflicting records/aliases or recursive call graphs fail closed.
+
+[GNU11.5 developer documentation](https://gcc.gnu.org/onlinedocs/gcc-11.5.0/gcc/Developer-Options.html)
+defines `dynamic,bounded` to include compile-time bounded argument pushes/pops,
+with the numeric field an upper bound on TOTAL function stack use. Root explicitly
+selected admission of ONLY that certified case alongside `static`, rather than
+the earlier overbroad preparation shorthand rejecting every `dynamic` label.
+Unbounded `dynamic` and unknown qualifiers still refuse. Actual instructions
+additionally permit only fixed bounded/aligned immediate RSP adjustments, ordinary
+frame setup/teardown and fixed pushes/pops; register-sized writes, frame-pointer
+replacement, stack exchanges or unknown callee stack adjustment refuse.
+
+ELF direct call/tail edges must have compiler edges; compiler closure may not escape
+the audited ELF closure. The maximum acyclic frame sum starts at the ABI ENTRY,
+including `run_transport_v1`'s large Scratch and every ancestor frame retained
+through birth/child/policy calls. It NEVER restarts from a small child-only root.
+Eight additional bytes per call edge are conservatively included even if a GNU
+frame already covers that return slot; whole total must be <=32768. Actual build
+flags/source/compiler provenance and same-build metadata remain prerequisites;
+this does not authenticate hostile hand-forged metadata against an administrator.
+
+The GNU Debug clone gate requires the actual policy result saved unchanged,
+zero comparison/skip-parent branch and direct noreturn child call at the audited
+function boundary. Production raw clone must use syscall435 and return actual RAX
+unchanged. Fault clone must use the same raw syscall435, only the reviewed scalar
+post-return bookkeeping, direct zero→entered_child, skip parent-only adoption and
+return that saved zero unchanged. Unknown emitted patterns require review rather
+than a guessed register/branch allowance. Exact syscall-argument/clone flags,
+phase semantics, all-path cleanup and FD<=8 are STILL actual C source review plus
+independent raw57/acceptance obligations; this build audit is not a general binary
+FD-lifetime or semantic validation proof.
+
+Private phase revision3's new40/41 is not conflated with this tool's KernelCall
+0..19 specialization set. The current closed `close_bare(Slot)` signature matches
+the actual183 artifact. A future B bool-work-context signature must receive its
+own exact source/manifest update after immutable review; it is not silently
+admitted by method-prefix matching. Final39 is not a metadata decode rule here.
+
+## Five independent literal controls and source-stage checks
+
+One standalone unittest class, FIVE natural methods: actual-address constructor
+alias/frame agreement; missing/unbounded/external/cycle/fixed-RSP refusals;
+32768 exact inherited-parent bound and +1 refusal; common zero-edge/raw-result
+preservation; RawOps/FaultOps syscall/zero/bookkeeping/parent-skip corruption.
+Their VCG/SU/instruction dictionaries are explicit synthetic literals, with
+independently calculated expectations; no production output generates an expected
+oracle. They never inspect/load an ELF, call binutils/libc/proc discovery, start a
+child or substitute a successful validator. Imports define helpers/tests only.
+
+Actual source-only checks PASS: Python3.10 AST/compile-without-exec, five unique
+natural controls, literal VCG/SU escaping/tab fields and independent32768 arithmetic,
+exact three-argument per-DSO API, old auditors/owner/acceptance source byte-exact;
+project426/122/current HTML, render--check current and git diff--check.
+Different root/C must review actual checker/control
+source BEFORE any execution or publication. Root then owns control execution,
+old-auditor/CI integration, actual per-compiler artifacts/static proof and later
+bootstrap/facility/behavior acceptance. No checker/control/test/native/SDK/worker,
+ELF loader, build/compile, candidate subprocess/probe or CTest discovery executed by this
+author; only explicitly allowed read-only host binutils inspected existing artifacts.
+All prior valid reviews/raw receipts and remaining PR77 merge gates are retained.
