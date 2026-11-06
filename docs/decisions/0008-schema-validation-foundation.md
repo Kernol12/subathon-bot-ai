@@ -1,6 +1,6 @@
 # ADR-0008 — Validate schema packages through an explicit foundation
 
-Status: proposed DOCUMENT sequencing repair; different actual review required.
+Status: accepted DOCUMENT sequencing repair after actual different review291f70b.
 Authority: specification v0.45 §§17/18, API-01/02/03 and TEST-04.
 
 ## Evidence and problem

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-06T05:54:48+00:00",
+  "updated_at": "2026-11-06T05:54:52+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -13732,7 +13732,7 @@
       "title": "Explicit schema-validation foundation prerequisite",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "coordinator /root",
       "depends_on": [
         "CONTRACT-005"
@@ -13750,11 +13750,29 @@
       "notes": [
         "ADR0008 sequencing proposal only. No selected library/version, actual executable contract/schema/tests/red/wrapper/CI or runtime capability supplied; all existing scope and later independent gates remain.",
         "Claim dedicated task/CONTRACTPLAN-005-schema-validation from actualmain4e85241 after normalPR73. Read-only CONTRACT013 assessment found no selected/pinned standards validator/harness; link checks are not OpenAPI/JSONSchema/instance validation. DOCUMENT-only add three records/five edges426/1629 preservingallold423/1624/status/reviews. Root owns sharedADR/briefs/state/HTML; differentactualplanreview beforedone. No library/version/API/schema/test/stub/CI/runtime selected; concurrent002PR74donecomponent/latestCIpending preserved on ownbranch.",
-        "Integrate normalPR74 main15cf7f1/finald23/all17SUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass/headmergetreesequal. Preserve both sessiondocumentsdone/MILESTONEdone/allmain423/1624 taskevidence; apply only plan005/newfoundationrecords/013additivegate/activity. New426/1629. No schema/library/test/wrapper/runtime finalized; actualdifferent plan291/importcda preserved."
+        "Integrate normalPR74 main15cf7f1/finald23/all17SUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass/headmergetreesequal. Preserve both sessiondocumentsdone/MILESTONEdone/allmain423/1624 taskevidence; apply only plan005/newfoundationrecords/013additivegate/activity. New426/1629. No schema/library/test/wrapper/runtime finalized; actualdifferent plan291/importcda preserved.",
+        "CompleteDOCUMENT-only schema-validation prerequisite plan after actualdifferent291/importcda approval. Preserve all old423IDs1624edges/statuses/reviews/evidence, add3records5edges426/1629; no library/version/API/schema/test/stub/wrapper/CI/runtime finalized. Main15cf7f1 integrates bothsessiondocumentsdone and MILESTONEdone; all oldstatuses preserved onreconciliation. Newbaseline/impl remainplanned and CONTRACT013 retainsallgatesplusactualvalidatorfoundation. Root426project/render/19tooling/DOM/whitespacePASS; finalmetadata/latestheadCI/normalmerge remain."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "document_review": "passed",
+        "graph_consistency": "passed",
+        "tooling": "passed",
+        "implementation": "not_run"
+      },
+      "evidence": [
+        "docs/tasks/CONTRACTPLAN-005.md",
+        "docs/tasks/SCHEMATOOL-001.md",
+        "docs/decisions/0008-schema-validation-foundation.md",
+        "docs/evidence/contractplan-005-review.md",
+        "docs/evidence/contractplan-005-handoff.md"
+      ],
+      "review": {
+        "author": "coordinator /root",
+        "reviewer": "session_supplier_review",
+        "outcome": "approved",
+        "revision": "Actual author47879e9 independently approved291f70b/importcda4076: all old423/1624 preserved, new426/1629/3IDs5edges, no selected validator/schema/executable behavior; finalmetadata/latestpublicationCI/normalmerge remain.",
+        "evidence": "docs/evidence/contractplan-005-review.md"
+      }
     },
     {
       "id": "SCHEMATEST-001",
@@ -15067,6 +15085,11 @@
       "date": "2026-11-06T05:54:48+00:00",
       "task": "CONTRACTPLAN-005",
       "note": "Integrate normalPR74 main15cf7f1/finald23/all17SUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass/headmergetreesequal. Preserve both sessiondocumentsdone/MILESTONEdone/allmain423/1624 taskevidence; apply only plan005/newfoundationrecords/013additivegate/activity. New426/1629. No schema/library/test/wrapper/runtime finalized; actualdifferent plan291/importcda preserved."
+    },
+    {
+      "date": "2026-11-06T05:54:52+00:00",
+      "task": "CONTRACTPLAN-005",
+      "note": "CompleteDOCUMENT-only schema-validation prerequisite plan after actualdifferent291/importcda approval. Preserve all old423IDs1624edges/statuses/reviews/evidence, add3records5edges426/1629; no library/version/API/schema/test/stub/wrapper/CI/runtime finalized. Main15cf7f1 integrates bothsessiondocumentsdone and MILESTONEdone; all oldstatuses preserved onreconciliation. Newbaseline/impl remainplanned and CONTRACT013 retainsallgatesplusactualvalidatorfoundation. Root426project/render/19tooling/DOM/whitespacePASS; finalmetadata/latestheadCI/normalmerge remain."
     }
   ]
 }
