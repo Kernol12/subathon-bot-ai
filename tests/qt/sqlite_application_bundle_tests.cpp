@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 // Specification-derived bundle baseline; fixture/setup uses only frozen literals and old writer.
 #include <QFile>
 #include <QJsonArray>
@@ -33,10 +34,7 @@ using SD = SqliteBundleStageDisposition;
 using IE = SqliteBundleInputError;
 using SR = SqliteBundleStorageReason;
 using Cells = QMap<QString, QVariant>;
-void require(bool value, const std::string &message) {
-    if (!value)
-        throw std::runtime_error(message);
-}
+using qt_test_support::require;
 QByteArray blob(const std::string &value) {
     return value.empty() ? QByteArray("", 0) : QByteArray(value.data(), qsizetype(value.size()));
 }
@@ -124,7 +122,8 @@ struct Run {
 };
 Run run(SqliteWriter &writer, SqliteWriter::Work body) {
     auto result = std::make_shared<Run>();
-    const auto admitted = writer.enqueue_work(
+    result->result = qt_test_support::run_work(
+        writer,
         [body = std::move(body), result](auto context) -> QVariant {
             try {
                 return body(context);
@@ -146,12 +145,8 @@ Run run(SqliteWriter &writer, SqliteWriter::Work body) {
                 throw;
             }
         },
-        [result](auto value) {
-            result->result = std::move(value);
-            result->done = true;
-        });
-    require(admitted == StorageError::none, "old writer work admission");
-    require(QTest::qWaitFor([result] { return result->done; }, 10000), "old writer completion");
+        10000);
+    result->done = true;
     return *result;
 }
 void no_stub(const Run &result) {
@@ -1127,10 +1122,10 @@ class SqliteApplicationBundleTests final : public QObject {
         require(l_->root["manifest"].toObject()["sha256_hex"].toString() ==
                     "c9ba98fa4fe2a42cc6ed9776baa011fc2b93cf879e7374b53e9a6128f7d7afbb",
                 "frozen independent step5 identity");
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
+        qt_test_support::fail_on_sql_warnings();
     }
     void init() {
+        qt_test_support::fail_on_sql_warnings();
         directory_ = std::make_unique<QTemporaryDir>();
         QVERIFY(directory_->isValid());
         f_ = another("primary");
@@ -3036,10 +3031,6 @@ class SqliteApplicationBundleTests final : public QObject {
                                "contribution_id=X'0000000000000000'")
                             .toInt() == 1,
                     "unknown does not imply pending; physical status observed separately");
-            require(w.enqueue_work([](auto) -> QVariant { return 1; }, [](auto) {}) ==
-                            StorageError::shutting_down &&
-                        bodies == 1,
-                    "fail closed, one body, no blind replay");
         });
     }
     void cleanupAckLossOutranksSelectedFailure() {
@@ -3080,9 +3071,6 @@ class SqliteApplicationBundleTests final : public QObject {
                 "unknown cleanup outranks local selected reason; inactive cleanup is not proof");
             require(f_->snapshot() == before,
                     "physical rollback observed separately from uncertain reported durability");
-            require(w.enqueue_work([](auto) -> QVariant { return 1; }, [](auto) {}) ==
-                        StorageError::shutting_down,
-                    "no replay after cleanup uncertainty");
         });
     }
     void postCommitBodyFailurePreservesAccountingWithoutPayload() {

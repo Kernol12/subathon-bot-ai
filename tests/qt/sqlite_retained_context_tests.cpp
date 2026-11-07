@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -29,10 +30,7 @@ RetainedDocument document(RetainedKey key, QByteArray value,
                           std::optional<ConfigurationReference> link = std::nullopt) {
     return {std::move(key), std::move(value), std::move(link)};
 }
-void require(bool condition, const char *message) {
-    if (!condition)
-        throw std::runtime_error(message);
-}
+using qt_test_support::require;
 RetainedDocument must_find(const SqliteRetainedContextStore &store, const RetainedKey &key) {
     const auto found = store.find(key);
     require(found.has_value(), "expected retained row is missing");
@@ -145,7 +143,8 @@ struct Run {
 };
 Run run(SqliteWriter &writer, std::function<QVariant(SqliteWorkSession)> body) {
     auto state = std::make_shared<Run>();
-    const auto admission = writer.enqueue_work(
+    state->result = qt_test_support::run_work(
+        writer,
         [state, body = std::move(body)](SqliteWorkContext work) {
             try {
                 return body(work.begin());
@@ -160,13 +159,9 @@ Run run(SqliteWriter &writer, std::function<QVariant(SqliteWorkSession)> body) {
                 throw;
             }
         },
-        [state](SqliteWorkResult result) {
-            state->result = std::move(result);
-            state->done = true;
-        });
-    state->admitted = admission == StorageError::none;
-    if (state->admitted && !QTest::qWaitFor([state] { return state->done; }, 5000))
-        state->unexpected = "Timed out waiting for writer completion";
+        5000);
+    state->admitted = true;
+    state->done = true;
     return *state;
 }
 } // namespace
@@ -225,8 +220,7 @@ class SqliteRetainedContextTests final : public QObject {
   private slots:
     void initTestCase() {
         QVERIFY(QSqlDatabase::isDriverAvailable("QSQLITE"));
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
+        qt_test_support::fail_on_sql_warnings();
         QFile file(SUBATHON_RETAINED_VECTOR_PATH);
         QVERIFY(file.open(QIODevice::ReadOnly));
         QJsonParseError error;
@@ -239,6 +233,7 @@ class SqliteRetainedContextTests final : public QObject {
                  QString("0906f121c3ba1193cdea41a70f1c91013724ea90416b0f1d04b6c23d8f091f5e"));
     }
     void init() {
+        qt_test_support::fail_on_sql_warnings();
         directory_ = std::make_unique<QTemporaryDir>();
         QVERIFY(directory_->isValid());
         path_ = directory_->filePath("retained.sqlite");
@@ -916,8 +911,6 @@ class SqliteRetainedContextTests final : public QObject {
             QCOMPARE(unknown.result.error, WorkError::uncertain_outcome);
             QVERIFY(!unknown.result.value);
             QCOMPARE(count_config(), 1); // Physical commit, no normal reported success.
-            QCOMPARE(writer.enqueue_work([](auto) { return QVariant(1); }, [](auto) {}),
-                     StorageError::shutting_down);
         }
         QVERIFY(seed_config("corrupt", "x"));
         QVERIFY(fixture_->exec("PRAGMA ignore_check_constraints=ON"));

@@ -5,7 +5,7 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
 
 ## Completed
 
-- Current main `2d5488f`: TESTCLEAN-001 normal PR #95 merge after independent
+- TESTCLEAN-001 main merge `2d5488f`: normal PR #95 merge after independent
   complete-head review and all 19 checks. Actual selected CPython 3.10.12/3.12.3
   each passed eight schema methods plus infrastructure 3/3; local 3.14 passed too.
   Explicit generic/native surface retirement was reviewed before source removal.
@@ -15,7 +15,7 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   checks. The published annotated archive targets `01cf400`; all 969 removed
   receipts were retrieved and verified. Notes remain bounded to 500 characters.
 
-## Current handoff: TESTCLEAN-003 / PR #96
+## Completed registration cleanup: TESTCLEAN-003 / PR #96
 
 - Root `task/TESTCLEAN-003-test-registration` began at current main `2d5488f`.
   Author `/root/test_registration_author` finished clean `8034ead5` in isolated
@@ -49,17 +49,65 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   Do not replay passing bodies for receipts. Detailed actual commands/results are
   in PR #96 and `/tmp/testclean003-author-handoff.md`; raw stable log SHA256
   `eb3dc1817ade1ef406795ef431cf47c4beb5a733388b1f8094521be471d2a079`.
-- PR #96 is draft at observed `f11baa7`; 18/19 check contexts passed, SQLite CI
-  running at last inspection. Final metadata is being prepared for independent
-  complete-head review. Current-head CI, resolved discussions, actual repository
-  rules and normal protected merge remain; do not infer permission from old heads.
+- PR #96 normal merge `7179680e6748531337d2b143f9b0ea9111ba6f8a`,
+  7 November 2026 18:08:14 UTC. Complete head `de68ae4` independently approved;
+  all 19 latest-head checks passed. Current branch rules inspected, no unresolved
+  review threads; no bypass. Main refreshed before claiming the next task.
 - The existing Qt initTestCase failOnWarning placement does not enforce subsequent
   slots under Qt 6.12. This was independently verified and assigned explicitly in
   TESTCLEAN-004's brief; no source fix or active-warning-guard claim here.
-- After normal PR #96 merge and fresh main, choose dependency-ready TESTCLEAN-004
-  (shared helpers/writer mechanics/warning lifecycle), using a fresh implementation
-  session and separate exact deletion/oracle/source review. TESTCLEAN-007 also becomes
-  ready; later cleanup keeps its own baseline gates. No routine owner approval needed.
+
+## Active assignment: TESTCLEAN-004
+
+- Dedicated root branch `task/TESTCLEAN-004-qt-support` starts at `7179680`.
+  Claim `/root/qt_support_author`; fresh author owns `tests/qt` only in an isolated
+  worktree. Coordinator owns state/HTML/evidence/checkpoint/PR and shared integration.
+- Scope/acceptance: task brief, ADR-0012, specification v0.45 §17 and current
+  writer/repository contracts. Share small assertion/completion-wait helpers with
+  condition-based waits; consolidate only truly shared writer-session mechanics.
+  Every repository retains unique behavior, unknown-outcome/physical-row checks,
+  rollback/idempotency/exactness/ownership. Correct reviewed warning initialization
+  so the existing policy covers each actual test function and expected warnings.
+- Author must first inventory exact duplicated assertions, current helper/async failure
+  semantics and selected Qt lifecycle. Produce bounded proposal/retained-coverage map
+  before baseline edits. Different fresh reviewer approves exact deletions and warning
+  handling; no production changes, blanket warning ignores, new harness framework or
+  artificial tests of deleted machinery. New behavior still obeys test-first gates.
+- Exact proposal SHA256 `7c94a6643a441efdbbdb729e3d13444c3db05b85263b86219ba7dfd258af94de`
+  and inventory `5b32bfd54c42c275883ddb4559791b7bb58991bc4bec63f9f4db9a4e6d0aa71b`
+  independently approved by `/root/qt_support_review` before any source edits.
+  Reviewer checked all 13 removal fragments: seven raw COMMIT re-admission tails,
+  five raw ROLLBACK tails and one raw migration reopen. Physical repository proof,
+  methods, adapter second-begin/input priority/budgets remain. Reviewer caught a
+  missing raw new-work refusal in the writer rollback owner; the revised proposal
+  requires relocating one existing assertion into BOTH explicit/automatic rollback
+  paths before removing repeated rollback tails. Commit owner already covers it.
+- Root released bounded `tests/qt` edits only: common throwing/source-location
+  require (callback failure must unwind), real queue/condition-wait preserving
+  typed local wrappers/timeouts, identical 13 regex policies in per-test init, and
+  exact reviewed tails. No production, fixture, private-pin or warning suppression
+  changes. Mechanical support/relocation needs no manufactured stub-red test.
+- Exact author source `017083ce751dc59df69d8a894f5208d3bf282468` independently
+  approved BEFORE runtime and imported unchanged. All 18 paths/65-line header,
+  11 real queue/wait wrappers, 13 per-test policies, exact assertions, all methods
+  and 17 old archive-equal blobs verified. Root authorized fresh SQL selected-Qt
+  build/discovery, stable 14 Qt suites/all 361 methods and infrastructure three.
+  Author actual fresh configure/build109 steps pass. Stable14 Qt suites pass
+  in24.04s: all361 methods/869data+lifecycle IDs match the prior approved run;
+  zero failures/skips/blacklists/QWARN/QFATAL. Discovery18nodes=15Qt+3infra,
+  account44 passive functions only. Infrastructure3 includes34tooling methods
+  and461tasks/122decisions/current render, allpass. No unrelated/red replay.
+  Proposal/inventory at `/tmp/testclean004-{proposal,writer-inventory}.md`.
+  PR #97 is draft on root branch, observed source+metadata head22a9d7f.
+  Raw receipts `/tmp/testclean004-author-handoff.md` and runtime-results.json;
+  stable log SHA256077b7a4af44b511b0aed0f6dfac104211744b17bb690b41ba79c543e70843d07.
+  Different reviewer independently audited allraw receipt hashes,14discovery/start
+  nodes,361methods/869PASS-ID multiset and passive44account methods, then approved
+  exact017083ce runtime evidence. Twelve guarded stableclasses ran; thirteenth
+  policy/account remains passive. Passing native bodies must not replay for receipts.
+  Root docs/state/HTML finalized; next complete-head integration review, actual
+  current hosted CI/rules/discussions and normal protected merge remain.
+  TESTCLEAN-007 remains ready and unclaimed; later tasks keep their own gates.
 
 ## Preserved context
 

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 // OC01–14: independent frozen fixtures; no new reader runs until full baseline review.
 #include "support/sqlite_original_claim_fixture.hpp"
 #include <QMap>
@@ -49,33 +50,30 @@ struct Outcome {
 // need their real typed synchronous cause and actual independent completion.
 Outcome capture(SqliteWriter &writer, SqliteWriter::Work body) {
     auto state = std::make_shared<Outcome>();
-    require(writer.enqueue_work(
-                [state, body = std::move(body)](auto context) -> QVariant {
-                    try {
-                        return body(context);
-                    } catch (const SqliteOriginalClaimNotImplemented &) {
-                        state->missing = true;
-                        throw;
-                    } catch (const SqliteBundleInputFailure &e) {
-                        state->input = e.error();
-                        throw;
-                    } catch (const SqliteBundleStorageFailure &e) {
-                        state->storage = e.reason();
-                        throw;
-                    } catch (const SqliteWorkFailure &e) {
-                        state->synchronous = e.error();
-                        throw;
-                    } catch (const std::exception &e) {
-                        state->problem = QString::fromUtf8(e.what());
-                        throw;
-                    }
-                },
-                [state](auto result) {
-                    state->completion = std::move(result);
-                    state->done = true;
-                }) == StorageError::none,
-            "Feature work admitted by real old writer");
-    require(QTest::qWaitFor([state] { return state->done; }, 10000), "Feature completion observed");
+    state->completion = qt_test_support::run_work(
+        writer,
+        [state, body = std::move(body)](auto context) -> QVariant {
+            try {
+                return body(context);
+            } catch (const SqliteOriginalClaimNotImplemented &) {
+                state->missing = true;
+                throw;
+            } catch (const SqliteBundleInputFailure &e) {
+                state->input = e.error();
+                throw;
+            } catch (const SqliteBundleStorageFailure &e) {
+                state->storage = e.reason();
+                throw;
+            } catch (const SqliteWorkFailure &e) {
+                state->synchronous = e.error();
+                throw;
+            } catch (const std::exception &e) {
+                state->problem = QString::fromUtf8(e.what());
+                throw;
+            }
+        },
+        10000);
+    state->done = true;
     return *state;
 }
 void no_missing(const Outcome &out) {
@@ -376,10 +374,8 @@ SqlStatement revised_scalar(const Data &data) {
 class SqliteOriginalClaimTests final : public QObject {
     Q_OBJECT
   private slots:
-    void initTestCase() {
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
-    }
+    void initTestCase() { qt_test_support::fail_on_sql_warnings(); }
+    void init() { qt_test_support::fail_on_sql_warnings(); }
     void frozenSelectorsPreserveGlobalPriorityAndRoles_data() {
         QTest::addColumn<int>("index");
         for (int i = 0; i < 6; ++i)
@@ -986,9 +982,6 @@ class SqliteOriginalClaimTests final : public QObject {
                         !out.completion.value,
                     "Old known record cannot override this attempt's actual unknown/no payload");
             require(db.saved() == before, "Read-only physical COMMIT changed no accounting bytes");
-            require(db.writer->enqueue_work([](auto) -> QVariant { return 0; }, [](auto) {}) ==
-                        StorageError::shutting_down,
-                    "Actual writer fail-closed, no blind retry");
         });
     }
     void rollbackAckLossOutranksSelectedCorruption() {

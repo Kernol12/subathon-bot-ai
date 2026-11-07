@@ -213,9 +213,20 @@ process isolation. All 428 stable CTest entries passed: 410 GoogleTest cases,
 and three infrastructure checks. Tooling 34/34 passed. The 53 rate and 44 account
 feature methods remain enabled intentional red and were not replayed.
 [PR #96](https://github.com/Kernol12/subathon-bot-ai/pull/96) records the baseline
-and independent source/runtime review; final integration and current hosted CI
-remain pending. Existing ineffective Qt warning hooks are explicitly assigned to
-TESTCLEAN-004; observing no warnings is not proof of active warning enforcement.
+and independent source/runtime/integration review. All 19 latest-head hosted
+checks passed before normal merge. TESTCLEAN-004 shares throwing assertions and
+actual completion waits while retaining suite-local typed errors and timeouts.
+Independent proposal/source review approved consolidating thirteen raw writer
+fragments, with an existing fresh-work refusal relocated into both rollback paths.
+All methods and unique adapter/physical-outcome/budget checks remain. It also moves
+the same thirteen warning policies into per-test initialization; twelve guarded
+classes ran stable, while the account suite remains passive red. All fourteen
+stable Qt suites passed, covering the same 361 methods and 869 data/lifecycle
+results, with no failures, skips, blacklists or warnings. Infrastructure 3/3 and
+tooling 34/34 passed. [PR #97](https://github.com/Kernol12/subathon-bot-ai/pull/97)
+records the exact baseline and actual commands. Independent raw runtime review
+confirmed source/discovery/log equivalence; final integration review and current
+hosted checks remain pending.
 Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence
 and release readiness remain open.

@@ -241,7 +241,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
       "notes": [
-        "Unified acceptance selection and suite registration under independent proposal/test/source/runtime review. Selector intended red then five green; 31 presets/cache migration verified. Stable 428 CTest nodes pass: 410 GTest, 361 Qt methods and 43 translation methods; tooling34/scaffold3 pass. Rate53/account44 stay passive red; warning-hook correction belongs to TESTCLEAN-004. Final integration/current CI/normal PR96 merge remain."
+        "Unified acceptance selection and suite registration after independent proposal/test/source/runtime review. Selector intended red then five green; 31 presets/cache migration verified. Stable428 CTest nodes pass:410 GTest,361 Qt methods and43 translation methods; tooling34/scaffold3 pass. Rate53/account44 remain passive red; warning fix belongs to TESTCLEAN-004. All19 checks passed before normal PR96 merge. Next: shared Qt helpers."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
@@ -256,7 +256,7 @@
         "discovery_equivalence": "passed",
         "stable_acceptance": "passed",
         "runtime_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -266,7 +266,7 @@
         "author": "/root/test_registration_author; coordinator integrates shared records",
         "reviewer": "/root/test_registration_review",
         "outcome": "approved",
-        "revision": "Proposal132096a6, selector af6497b2 intended-red/green and complete source/runtime8034ead approved independently. All428 stable nodes,361 Qt methods/43 translation methods verified; final integration/current CI/merge pending.",
+        "revision": "Proposal132096a6, selector af6497b2 red/green, source/runtime8034ead and complete de68ae4 independently approved. All19 latest-head checks passed before normal PR96 merge7179680.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/96"
       }
     },
@@ -275,8 +275,8 @@
       "title": "Share Qt test support and deduplicate writer plumbing",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "/root/qt_support_author",
       "depends_on": [
         "TESTCLEAN-003"
       ],
@@ -286,11 +286,30 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
       "notes": [
-        "Planned shared helpers/writer-mechanics cleanup under separate baseline review. TC003 static audit found 13 Qt failOnWarning hooks in initTestCase; Qt6.12 clears them before slots, so per-test enforcement is currently ineffective. Fix via reviewed shared per-test initialization here, preserving expected-warning and unique repository assertions. No fix or execution yet."
+        "Shared throwing assertions and actual completion waits; typed errors/timeouts retained. Independent proposal/source/runtime review approved exact writer consolidation with rollback new-work refusal relocated. All methods/unique adapter/physical/budget checks remain. Qt14/361 methods/869 results and infra3/tooling34 pass without warnings/skips. Same13 policies now run per test; account44 stays passive red. Final integration/current CI/normal PR97 merge remain."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "cleanup_proposal_review": "passed",
+        "source_review": "passed",
+        "native_build": "passed",
+        "discovery": "passed",
+        "stable_qt_acceptance": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/97"
+      ],
+      "review": {
+        "author": "/root/qt_support_author; read-only inventory helper /root/qt_support_author/writer_inventory",
+        "reviewer": "/root/qt_support_review",
+        "outcome": "approved",
+        "revision": "Proposal7c94a664/inventory5b32bfd5 and source/runtime017083ce independently approved. Raw14Qt/361methods/869results match prior baseline; account44 passive. Complete-head integration/current CI/merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/97"
+      }
     },
     {
       "id": "TESTCLEAN-005",
@@ -16570,6 +16589,11 @@
       "date": "2026-11-07T17:35:15.558997+00:00",
       "task": "TESTCLEAN-003",
       "note": "Independenttestreviewstubf7eea7ef/testaf6497b2 thenFIRSTactualCMake-P red accepted:5methods/8scenarios solelynamedFeatureNotImplemented, no parse/compiler/SDK/setupfailure. Authorevidence /tmp/testclean003-selector-first-red.log; baseline2cf8f82. Rootnowreleasedexactresolver/registration/vector/label/preset/8CI/guidancepaths, wholepacketstaticreviewbeforebroaderruntime. No test/fixture/prodsource assertions changed."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "TESTCLEAN-004",
+      "note": "Claimed dependency-ready Qt support cleanup after normal PR96 merge; fresh author and independent review required."
     }
   ]
 }

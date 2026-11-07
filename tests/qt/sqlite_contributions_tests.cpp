@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -28,10 +29,7 @@ QByteArray blob(const std::string &s) {
     return s.empty() ? QByteArray("", 0) : QByteArray(s.data(), qsizetype(s.size()));
 }
 std::string opaque(const QByteArray &s) { return std::string(s.constData(), size_t(s.size())); }
-void require(bool value, const char *message) {
-    if (!value)
-        throw std::runtime_error(message);
-}
+using qt_test_support::require;
 template <class Operation>
 void expect_input(Operation operation, SqliteContributionInputError error) {
     try {
@@ -379,33 +377,31 @@ struct Run {
 };
 Run run(SqliteWriter &writer, std::function<QVariant(SqliteWorkContext)> body) {
     auto state = std::make_shared<Run>();
-    state->admitted = writer.enqueue_work(
-                          [state, body = std::move(body)](auto work) {
-                              try {
-                                  return body(work);
-                              } catch (const SqliteContributionsNotImplemented &) {
-                                  state->stub = true;
-                                  throw;
-                              } catch (const SqliteContributionInputFailure &e) {
-                                  state->invalid = e.error();
-                                  throw;
-                              } catch (const SqliteContributionStorageFailure &e) {
-                                  state->storage = e.reason();
-                                  throw;
-                              } catch (const SqliteWorkFailure &e) {
-                                  state->synchronous = e.error();
-                                  throw;
-                              } catch (const std::exception &e) {
-                                  state->unexpected = QString::fromUtf8(e.what());
-                                  throw;
-                              }
-                          },
-                          [state](SqliteWorkResult r) {
-                              state->result = std::move(r);
-                              state->done = true;
-                          }) == StorageError::none;
-    if (state->admitted && !QTest::qWaitFor([state] { return state->done; }, 5000))
-        state->unexpected = "Timed out waiting for writer completion";
+    state->result = qt_test_support::run_work(
+        writer,
+        [state, body = std::move(body)](auto work) {
+            try {
+                return body(work);
+            } catch (const SqliteContributionsNotImplemented &) {
+                state->stub = true;
+                throw;
+            } catch (const SqliteContributionInputFailure &e) {
+                state->invalid = e.error();
+                throw;
+            } catch (const SqliteContributionStorageFailure &e) {
+                state->storage = e.reason();
+                throw;
+            } catch (const SqliteWorkFailure &e) {
+                state->synchronous = e.error();
+                throw;
+            } catch (const std::exception &e) {
+                state->unexpected = QString::fromUtf8(e.what());
+                throw;
+            }
+        },
+        5000);
+    state->admitted = true;
+    state->done = true;
     return *state;
 }
 ContributionRecord contribution_found(ContributionTransaction &tx,
@@ -631,8 +627,7 @@ class SqliteContributionTests final : public QObject {
   private slots:
     void initTestCase() {
         QVERIFY(QSqlDatabase::isDriverAvailable("QSQLITE"));
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
+        qt_test_support::fail_on_sql_warnings();
         for (const auto &pair : {std::pair{QString(SUBATHON_CONTRIBUTION_VECTOR_PATH), &json_},
                                  std::pair{QString(SUBATHON_RECEIPT_VECTOR_PATH), &m2_},
                                  std::pair{QString(SUBATHON_RETAINED_VECTOR_PATH), &m1_}}) {
@@ -652,6 +647,7 @@ class SqliteContributionTests final : public QObject {
                  QString("b72249ba22c4838af98b9ae29600e70969cf3295eea958a30074167221d2ad1d"));
     }
     void init() {
+        qt_test_support::fail_on_sql_warnings();
         directory_ = std::make_unique<QTemporaryDir>();
         QVERIFY(directory_->isValid());
         path_ = directory_->filePath("contributions.sqlite");
@@ -2503,8 +2499,6 @@ class SqliteContributionTests final : public QObject {
         QCOMPARE(fixture_->rows("SELECT typeof(last_allocated),hex(last_allocated) FROM "
                                 "main.subathon_contribution_allocator"),
                  SqlRows({{"blob", "0000000000000000"}}));
-        QCOMPARE(writer.enqueue_work([](auto) { return QVariant(1); }, [](auto) {}),
-                 StorageError::shutting_down);
     }
 
     void lostCleanupAckOutranksLocalFailure() {
@@ -2559,8 +2553,6 @@ class SqliteContributionTests final : public QObject {
         QCOMPARE(r.result.error, WorkError::uncertain_outcome);
         QVERIFY(!r.result.value);
         QCOMPARE(fixture_->snapshot(), before);
-        QCOMPARE(writer.enqueue_work([](auto) { return QVariant(1); }, [](auto) {}),
-                 StorageError::shutting_down);
     }
 };
 QTEST_GUILESS_MAIN(SqliteContributionTests)

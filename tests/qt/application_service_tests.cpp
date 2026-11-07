@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 // PUBLIC orchestration acceptance: independent frozen DATA, real writer/completion.
 // No fixture/setup calls the new codec, service or reference view to make an oracle.
 #include "support/application_service_fixture.hpp"
@@ -382,10 +383,8 @@ void unchanged(File &f, const std::vector<SqlRows> &before) {
 class ApplicationServiceTests final : public QObject {
     Q_OBJECT
   private slots:
-    void initTestCase() {
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
-    }
+    void initTestCase() { qt_test_support::fail_on_sql_warnings(); }
+    void init() { qt_test_support::fail_on_sql_warnings(); }
     // Complete SAC1 bytes include every command field; no UUT encoding is an oracle.
     void commandEncodingMatchesFrozenFrames_data() { codec_rows(); }
     void commandEncodingMatchesFrozenFrames() {
