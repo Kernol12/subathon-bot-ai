@@ -224,3 +224,34 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     target_link_libraries(reference_capture_interface_link PRIVATE subathon_sqlite_reference_capture)
     subathon_target_options(reference_capture_interface_link)
 endif()
+
+if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
+    add_executable(server_sqlite_account_sessions_acceptance qt/sqlite_account_sessions_tests.cpp)
+    set_target_properties(server_sqlite_account_sessions_acceptance PROPERTIES AUTOMOC ON)
+    target_link_libraries(server_sqlite_account_sessions_acceptance PRIVATE
+        subathon_sqlite_account_sessions subathon_sqlite_migrations subathon_session_resolution Qt6::Test)
+    target_compile_definitions(server_sqlite_account_sessions_acceptance PRIVATE
+        SUBATHON_ACCOUNT_SESSION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_account_sessions_vectors.json"
+        SUBATHON_FIXTURE_DIRECTORY="${PROJECT_SOURCE_DIR}/tests/fixtures")
+    subathon_target_options(server_sqlite_account_sessions_acceptance)
+    include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SqliteAccountSessionCases.cmake")
+    foreach(case IN LISTS subathon_sqlite_account_session_cases)
+        add_test(NAME sqlite-account-sessions.${case}
+            COMMAND server_sqlite_account_sessions_acceptance ${case})
+        set_tests_properties(sqlite-account-sessions.${case} PROPERTIES
+            LABELS "sqlite-account-sessions;acceptance;qt;server" TIMEOUT 60)
+    endforeach()
+
+    # Foundation never links the new storage or supplier implementation.
+    add_executable(server_sqlite_account_sessions_environment qt/sqlite_account_sessions_environment.cpp)
+    set_target_properties(server_sqlite_account_sessions_environment PROPERTIES AUTOMOC ON)
+    target_link_libraries(server_sqlite_account_sessions_environment PRIVATE
+        subathon_sqlite_migrations Sodium::Sodium Qt6::Test)
+    target_compile_definitions(server_sqlite_account_sessions_environment PRIVATE
+        SUBATHON_ACCOUNT_SESSION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_account_sessions_vectors.json"
+        SUBATHON_FIXTURE_DIRECTORY="${PROJECT_SOURCE_DIR}/tests/fixtures")
+    subathon_target_options(server_sqlite_account_sessions_environment)
+    add_test(NAME scaffold.sqlite_account_sessions_environment COMMAND server_sqlite_account_sessions_environment)
+    set_tests_properties(scaffold.sqlite_account_sessions_environment PROPERTIES
+        LABELS "scaffold;qt;sqlite-account-sessions-environment" TIMEOUT 60)
+endif()
