@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T15:12:09.234401+00:00",
+  "updated_at": "2026-11-07T15:20:23.337774+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -118,7 +118,7 @@
       "title": "Enforce concise task notes and current suite summaries",
       "module": "Quality and tooling",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/evidence_notes_author",
       "depends_on": [
         "EVIDENCE-001"
@@ -130,11 +130,25 @@
       "brief": "docs/tasks/EPIC-028/EVIDENCE-002.md",
       "summary": "Limit combined task notes to 500 characters and maintain a current test-strategy summary without per-task history.",
       "notes": [
-        "Claim at main dc0a544: EVIDENCE-001 merged/verified. Scope EVIDENCE-002/spec v0.45 §§17–18: concise all task notes, max500 validation and current suite strategy. Author owns tools/progress.py, test_progress.py, strategy, and notes-only state rewrite; coordinator owns other task fields/HTML/checkpoint/PR. Independent tests/red/code/note review and CI required; all old verification/reviews/gates retained."
+        "All 461 task notes now fit 500 characters; validator refuses oversized notes without writing state/HTML. Current strategy replaces per-task history. Independent tests/red/source/110-note review, tooling29 and scaffold3 passed. Hosted CI and protected PR93 merge remain. Next: TESTCLEAN-001 or TESTCLEAN-002."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "tooling": "passed",
+        "scaffold": "passed",
+        "independent_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/93"
+      ],
+      "review": {
+        "author": "/root/evidence_notes_author; strategy helper /root/evidence_notes_author/current_strategy",
+        "reviewer": "/root/evidence_notes_review",
+        "outcome": "approved",
+        "revision": "Author440618cb imported52b984a; all110notes/source/currentstrategy independently approved. Three additive tests independently reviewed before observed intended red.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/93"
+      }
     },
     {
       "id": "TESTCLEAN-001",
@@ -16444,6 +16458,11 @@
       "date": "2026-11-07T15:12:09.234401+00:00",
       "task": "EVIDENCE-002",
       "note": "Claim after normalPR92/main dc0a544/all21checks/independent f88 review and fetched archive969paths verification. Fresh author scoped to notes/validator/tests/current strategy; coordinator shared state integration. No task gates or product behavior changed."
+    },
+    {
+      "date": "2026-11-07T15:20:23.337774+00:00",
+      "task": "EVIDENCE-002",
+      "note": "Independent author440618cb/source110notes/strategy review approved. Integrator imported52b984a, current HTML/check_project461/122/tooling29/scaffold3 passed. PR93 final metadata confirmation, latest hosted checks and normal merge remain."
     }
   ]
 }
