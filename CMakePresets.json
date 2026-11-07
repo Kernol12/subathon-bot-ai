@@ -211,6 +211,14 @@
       }
     },
     {
+      "name": "session-resolution-debug",
+      "displayName": "Current-session resolution baseline and SDK environment",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SESSION_RESOLUTION_TESTS": "ON"
+      }
+    },
+    {
       "name": "password-hashing-debug",
       "displayName": "25 \u00b7 Password hashing acceptance and environment",
       "inherits": "base",
@@ -348,6 +356,10 @@
     {
       "name": "milestone-progression-debug",
       "configurePreset": "milestone-progression-debug"
+    },
+    {
+      "name": "session-resolution-debug",
+      "configurePreset": "session-resolution-debug"
     },
     {
       "name": "password-hashing-debug",
@@ -604,6 +616,16 @@
     {
       "name": "milestone-progression-debug",
       "configurePreset": "milestone-progression-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "session-resolution-debug",
+      "configurePreset": "session-resolution-debug",
       "output": {
         "outputOnFailure": true
       },

@@ -9,13 +9,36 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_SCHEMA_TRANSPORT OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_SCHEMA_TRANSPORT OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
 endif()
 
 if(SUBATHON_BUILD_SCHEMA_TRANSPORT)
     add_subdirectory(schema_validation)
+endif()
+
+if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
+    # SDK-only foundation; building/discovery never runs this body or any selected SDK function.
+    add_executable(session_resolution_environment acceptance/session_resolution_environment.cpp)
+    target_link_libraries(session_resolution_environment PRIVATE Sodium::Sodium)
+    subathon_target_options(session_resolution_environment)
+    add_test(NAME scaffold.session_resolution_environment COMMAND session_resolution_environment)
+    set_tests_properties(scaffold.session_resolution_environment PROPERTIES
+        LABELS "scaffold;session-resolution-environment" TIMEOUT 10)
+
+    add_executable(server_session_resolution_acceptance acceptance/session_resolution_tests.cpp)
+    target_link_libraries(server_session_resolution_acceptance PRIVATE
+        subathon_session_resolution Sodium::Sodium GTest::gtest_main)
+    subathon_target_options(server_session_resolution_acceptance)
+    foreach(sbt_session_wrap IN ITEMS sodium_init crypto_generichash sodium_memzero sodium_memcmp)
+        target_link_options(server_session_resolution_acceptance PRIVATE "LINKER:--wrap=${sbt_session_wrap}")
+    endforeach()
+    gtest_discover_tests(server_session_resolution_acceptance DISCOVERY_MODE PRE_TEST
+        TEST_LIST subathon_session_resolution_cases PROPERTIES TIMEOUT 10)
+    # Closed ordinary-case inventory and full labels applied after passive native discovery.
+    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/SessionResolutionLabels.cmake")
 endif()
 
 if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
