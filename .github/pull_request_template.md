@@ -8,6 +8,8 @@ Concrete trigger and resulting behavior:
 Reviewed baseline revision and red evidence:
 Commands actually run and results:
 Independent test/code reviewer:
+Reviewer verdict and PR review link:
+Task note (one concise outcome / next step):
 Contract/schema/migration changes:
 Remaining live/provider/platform gates:
 Progress JSON and generated HTML updated:

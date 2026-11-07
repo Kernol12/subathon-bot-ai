@@ -49,9 +49,10 @@ class ProgressTests(unittest.TestCase):
             progress.validate(self.state)
 
     def test_dependency_cycle_is_rejected(self):
-        self.state["tasks"][0]["status"] = "planned"
-        self.state["tasks"][1]["status"] = "planned"
-        self.state["tasks"][0]["depends_on"] = [self.state["tasks"][1]["id"]]
+        self.state["tasks"] = [
+            task("CYCLEA-999", ["CYCLEB-999"]),
+            task("CYCLEB-999", ["CYCLEA-999"]),
+        ]
         with self.assertRaisesRegex(ValueError, "cycle"):
             progress.validate(self.state)
 
@@ -99,6 +100,35 @@ class ProgressTests(unittest.TestCase):
         self.state["tasks"] = [implementation]
         self.state["activity"] = []
         progress.validate(self.state)
+
+    def test_https_pull_request_evidence_is_valid_and_rendered_as_a_link(self):
+        completed = task("DONE-999", status="done")
+        completed["evidence"] = ["https://github.com/example/project/pull/42"]
+        self.state["tasks"] = [completed]
+        self.state["activity"] = []
+
+        progress.validate(self.state)
+
+        rendered = progress.render(self.state)
+        self.assertIn('href="https://github.com/example/project/pull/42"', rendered)
+
+    def test_done_cleanup_requires_a_separate_approved_review(self):
+        cleanup = task("CLEAN-999", status="done", kind="cleanup")
+        cleanup["evidence"] = ["https://github.com/example/project/pull/43"]
+        self.state["tasks"] = [cleanup]
+        self.state["activity"] = []
+
+        with self.assertRaisesRegex(ValueError, "separate approved review"):
+            progress.validate(self.state)
+
+    def test_non_https_url_is_not_accepted_as_evidence(self):
+        planned = task("PATH-999")
+        planned["evidence"] = ["http://example.com/pull/44"]
+        self.state["tasks"] = [planned]
+        self.state["activity"] = []
+
+        with self.assertRaisesRegex(ValueError, "project-relative path"):
+            progress.validate(self.state)
 
     def test_self_review_is_rejected(self):
         task = next(t for t in self.state["tasks"] if t["id"] == "IMPL-001")

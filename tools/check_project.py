@@ -67,6 +67,8 @@ def main() -> int:
             if href.startswith("#"):
                 if href[1:] not in parser.ids:
                     raise ValueError(f"Missing HTML anchor {href}")
+            elif href.startswith(("https://", "http://")):
+                continue
             elif not local_path(unquote(href)).is_file():
                 raise ValueError(f"Missing HTML link {href}")
         # Check actual Markdown links; fenced setup examples are intentionally not path manifests.

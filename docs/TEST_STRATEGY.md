@@ -98,16 +98,28 @@ synthetic/redacted fixtures. Expected values must be independently derived, not 
 by the code under test. Each behavior has one primary testing home. No blanket coverage
 percentage or number of green tests replaces the acceptance map and review.
 
+## Test quality rules
+
+Prefer focused behavior tests with named, hand-derived scenarios. Keep one primary home
+for shared transaction mechanics; repository suites should assert repository behavior,
+not copy writer plumbing. Avoid harness/environment tests that only prove fixture shape
+or third-party library facts, and avoid pinning private SQL, object counts, error wording,
+or struct-layout byte limits unless they are an explicit persisted/public contract.
+Keep assertions that protect specified behavior, exact accounting, rollback, idempotency,
+security boundaries and recovery. Remove or rewrite baseline assertions only through the
+approved test-cleanup decision, a scoped task brief and a separate independent review;
+retain their original receipts.
+
 ## Required evidence
 
-Use docs/templates/VERIFICATION.md. Record expected red separately from pass, fail,
-not-run and unsupported. Scaffold CI excludes unreviewed feature tests explicitly.
-Credit acceptance/regression CI runs automatically for PRs targeting main and pushes
-to main, with manual dispatch retained. It executes the real reviewed cases without
-failure inversion. It must not turn a missing dependency or failing test into a
-passing feature claim. Extend CI with executable product capabilities according to
-[the workflow policy](AGENT_WORKFLOW.md#evolving-continuous-integration); record gaps
-and actual results separately from live/platform evidence.
+For each completed task, record the PR URL in `progress/state.json` `evidence`, one
+concise outcome/next-step line in `notes`, and any independent review in the `review`
+field and PR. Record exact commands, outcomes, environment and remaining gates in the PR.
+Keep detailed historical evidence unchanged; use [`docs/evidence/README.md`](evidence/README.md)
+to navigate it. Expected red remains distinct from pass, fail, not-run and unsupported.
+Scaffold CI excludes unreviewed feature tests explicitly and must not hide a missing
+dependency or failure. Extend CI with executable capabilities according to the
+[workflow policy](AGENT_WORKFLOW.md); record live/platform evidence separately.
 
 Individual test-drafting tasks may be marked authored/done when their draft artifacts
 are ready for review; they do not complete the reviewed/red-baseline gate. The separate

@@ -3,5 +3,5 @@
 int main() {
     std::cout << "Twitch Subathon Bot - development scaffold 0.1.0\n"
                  "No live bot/server or production feature is implemented.\n"
-                 "Start with FIRST_AGENT_PROMPT.md and open PROGRESS.html.\n";
+                 "Start with AGENTS.md and open PROGRESS.html.\n";
 }

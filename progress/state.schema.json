@@ -138,6 +138,7 @@
         "kind": {
           "enum": [
             "code_review",
+            "cleanup",
             "contract",
             "environment",
             "epic",
@@ -187,7 +188,18 @@
         "evidence": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "anyOf": [
+              {
+                "format": "uri",
+                "pattern": "^https://[^\\s]+$"
+              },
+              {
+                "not": {
+                  "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:"
+                }
+              }
+            ]
           }
         },
         "review": {

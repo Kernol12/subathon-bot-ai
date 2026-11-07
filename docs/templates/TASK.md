@@ -9,5 +9,5 @@ Scope and shared-file ownership:
 Test author/reviewer and red baseline:
 Implementation and independent reviewer:
 Required commands/environment:
-Evidence, remaining live/platform gates:
+PR URL in progress evidence; one concise outcome/next-step note; remaining live/platform gates:
 Handoff and next task:

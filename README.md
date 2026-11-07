@@ -51,16 +51,17 @@ These are size statistics, not product completion. See
 1. Extract the complete folder and open its root `CMakeLists.txt` in CLion.
 2. Follow [CLion setup](docs/CLION_SETUP.md). Enable the `scaffold-debug` profile.
 3. Open **[PROGRESS.html](PROGRESS.html)** in any browser; no web server is needed.
-4. Give your CLion agent [FIRST_AGENT_PROMPT.md](FIRST_AGENT_PROMPT.md).
-5. Read [AGENTS.md](AGENTS.md), [workflow](docs/AGENT_WORKFLOW.md), and the initial task briefs.
+4. Choose a dependency-ready task in [PROGRESS.html](PROGRESS.html) and read its brief.
+5. Ask your CLion agent to follow [AGENTS.md](AGENTS.md) and the
+   [workflow](docs/AGENT_WORKFLOW.md).
 
 For ongoing development with subagents, use the
 [coordinator instructions and starting/continuation prompts](docs/COORDINATOR_PROMPT.md).
 The coordinator selects from current task evidence and preserves a durable checkpoint
-for resuming after an interruption; it does not repeat completed initial preparation.
+for resuming after an interruption.
 
 The [epic and child-task index](docs/tasks/README.md) lists the bounded release backlog
-and separate test-first gates. Start with the existing initial core baseline; planned
+and separate test-first gates. The current priority is EPIC-028 test cleanup; planned
 child records do not mean tests or product behavior have been completed.
 
 The scaffold preset needs CMake >=3.25, Ninja, a C++20 compiler and Python >=3.10.

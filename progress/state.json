@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T13:11:54.865282+00:00",
-  "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
+  "updated_at": "2026-11-07T14:35:00+01:00",
+  "summary": "EPIC-028 prioritizes simplifying redundant test machinery and agent instructions under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -44,6 +44,213 @@
     }
   ],
   "tasks": [
+    {
+      "id": "EPIC-028",
+      "title": "Simplify agent workflow and focus test coverage",
+      "module": "Quality and tooling",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-001",
+        "TESTCLEAN-002",
+        "TESTCLEAN-003",
+        "TESTCLEAN-004",
+        "TESTCLEAN-005",
+        "TESTCLEAN-006",
+        "TESTCLEAN-007",
+        "TESTCLEAN-008"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-028.md",
+      "summary": "8 bounded test-cleanup tasks to simplify agent instructions and focus tests on specified behavior without reducing release scope.",
+      "notes": [
+        "All v0.45 release requirements remain in scope. This is planning only; no test assertions or product behavior were changed by task decomposition.",
+        "Cleanup tasks require separate approved review, retained historical receipts, and an accurate revised baseline where assertions change."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-001",
+      "title": "Replace schema harness tests with real schema checks",
+      "module": "Tooling",
+      "kind": "cleanup",
+      "status": "ready",
+      "owner": "Unassigned",
+      "depends_on": [],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
+      "summary": "Replace validator harness-on-harness tests with real schema and valid/invalid example checks, subject to independent review of any superseded process contract.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition. Preserve §18 validation purpose and all original receipts."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-002",
+      "title": "Remove environment foundation programs",
+      "module": "Test infrastructure",
+      "kind": "cleanup",
+      "status": "ready",
+      "owner": "Unassigned",
+      "depends_on": [],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
+      "summary": "Remove environment executables that assert library or fixture facts instead of product behavior, preserving focused real tests.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-003",
+      "title": "Simplify test registration and labels",
+      "module": "Build and test infrastructure",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-002"
+      ],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
+      "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-004",
+      "title": "Share Qt test support and deduplicate writer plumbing",
+      "module": "Test infrastructure",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-003"
+      ],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
+      "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-005",
+      "title": "Remove repeated implementation-detail assertions",
+      "module": "Test infrastructure",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-004"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
+      "summary": "Keep public/persisted contracts while replacing repeated private DDL, layout, message, and order pins with behavior assertions.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-006",
+      "title": "Replace giant unreproducible fixtures",
+      "module": "Test infrastructure",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-005"
+      ],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
+      "summary": "Make oversized test fixtures reproducible or replace them with small named hand-derived scenarios.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-007",
+      "title": "Trim libsodium call-counting tests",
+      "module": "Identity tests",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-003"
+      ],
+      "spec_refs": [
+        "§10",
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-007.md",
+      "summary": "Remove call-count/order pins while retaining failure, zeroization, and sensitive-allocation checks.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "TESTCLEAN-008",
+      "title": "Merge regression executables and simplify test labels",
+      "module": "Test infrastructure",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-004",
+        "TESTCLEAN-007"
+      ],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/TESTCLEAN-008.md",
+      "summary": "Merge meaningful regression cases into owning suites and clean stale labels/comments without deleting behavior coverage.",
+      "notes": [
+        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
     {
       "id": "BOOT-001",
       "title": "Create the packaged agent foundation",
@@ -16792,6 +16999,11 @@
       "date": "2026-11-07T13:11:54.865282+00:00",
       "task": "STORAGETEST-020",
       "note": "Actualchangedworkflow42374659005 atfdcadfbcc93560cccf08094a1cb70d94c8ae15f0 succeeded: sameadmittedSDKbuild/closed44passivediscovery/mandatory5-slotindependentQt6.12foundation7PASS andallpriorstableSQLsuites. All21finalheadchecks/currentrules/0threads/d717+743independentgates beforeNORMALPR89merge5bd7d52 at13:05:54UTC. Evidencecollectedread-only, noCI/testreplay; initialcollectoruppercaseenumassumption correctedtolowerrunJSON statuses. SelectedCI outcome recordedinnextcoordinatorintegration toavoidbookkeeping-onlyPR/CIcycle. Actual44featuresremainunimplemented/expectedred; no production020started."
+    },
+    {
+      "date": "2026-11-07T14:35:00+01:00",
+      "task": "EPIC-028",
+      "note": "Created the reviewed test-cleanup decision, eight bounded tasks, concise agent workflow, and historical evidence index; no test assertions or product behavior changed."
     }
   ]
 }

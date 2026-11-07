@@ -7,26 +7,11 @@ it neither finalizes contracts nor claims a reviewed test or supported provider 
 
 ## Read and claim a child
 
-1. Start with FIRST_AGENT_PROMPT.md and the existing initial core baseline sequence.
-   Do not implement product behavior while its reviewed/red gate remains unfinished.
-2. Choose a dependency-ready child from progress/state.json. Read its brief, the
-   referenced specification decisions and scoped AGENTS.md. Create its task branch
-   from current main and record scope, contract revision and shared-file ownership.
-3. For a production slice, first complete its `*TEST-NNN` record (kind test_baseline):
-   bounded contract/examples → test authoring → separate test review → intended red.
-   The paired implementation record cannot start until that baseline is done. Both
-   records link one brief so the oracle and implementation scope stay together.
-   Minimal public interfaces, build harnesses, fakes and explicit unimplemented stubs
-   are allowed for this stage; missing dependencies or compilation errors are not red.
-4. Implement the paired bounded behavior, keep assertions intact, obtain separate
-   code review and pass its relevant acceptance/regression checks. Keep unimplemented
-   behavior visible in the full acceptance lane; green scaffold CI is never product proof.
-5. Verify live providers/platforms only in their separate verification tasks. Default
-   fixtures are synthetic/redacted, clocks controlled and adapters fake. Missing accounts,
-   hardware or capability evidence stays blocked/not_run, never fabricated support.
-6. Update evidence/acceptance map, progress JSON and generated HTML; open a focused PR
-   following AGENT_WORKFLOW.md. Independent reviewers must be different agents/sessions/
-   people from the author. Do not invent review identities to satisfy validation.
+Read [the agent workflow](../AGENT_WORKFLOW.md), select a dependency-ready child from
+`progress/state.json`, and follow its brief plus scoped `AGENTS.md`. The workflow covers
+task branches, test-first gates, independent review, evidence, PRs and completion. EPIC-028
+contains the prioritized cleanup of redundant and low-value tests; its tasks preserve
+the reviewed-baseline and full-release-scope rules.
 
 New decomposition records are planned, not authored/reviewed; consult state/evidence
 for slices completed since the original decomposition. Their
@@ -37,8 +22,9 @@ split it further before claiming production work; preserve its original requirem
 
 ## Dependency and completion model
 
-The existing progress schema/tooling is unchanged. Epic `depends_on` lists aggregate
-required child completion, including test, implementation and live/platform gates.
+The progress schema/tooling validates task kinds, local or HTTPS evidence, and separate
+approved reviews for completed cleanup tasks. Epic `depends_on` lists aggregate required
+child completion, including test, implementation and live/platform gates.
 A child never depends on its own epic. Each child's notes identify its parent for
 searching in PROGRESS.html. All statuses/dependencies live in progress/state.json;
 the tables here are navigation, not a second status database.
@@ -101,8 +87,9 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-025 — Windows portable ZIP, Linux archives and Arch package](EPIC-025.md) | 6 | 10 |
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
+| [EPIC-028 — Simplify agent workflow and focus test coverage](EPIC-028.md) | 8 | 8 |
 
-Total: 193 work packages, 353 child records
+Total: 201 work packages, 361 child records
 (test baselines, their paired implementations, and distinct feasibility,
 verification and documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.
