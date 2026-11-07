@@ -1,5 +1,9 @@
 # SESSIONCONTRACT-005 — source-backed ingress solution document
 
+Current result: **complete document proposal independently approved**, no runtime/
+artifact capability. Original partial/source receipts preserved; normalPR85merge
+and actual native011/proxy007008/source010/transport003 gates remain.
+
 Coordinator `/root`, 7 November 2026. Branch `task/SESSIONCONTRACT-005-ingress`,
 `/tmp/subathon-sessioncontract005`, from current main `e440c7f050fdee04c39eb5b74b01c9f079124ed6`.
 [Brief](../tasks/EPIC-007/SESSIONCONTRACT-005.md).
@@ -60,3 +64,32 @@ policy/sourcehandoffs/oracles. No raw-envelope/mTLS/TLSslab/durablebootepoch is
 implied; native011/proxy007/008 separatelyownproduction/testfirst/artifactadmission.
 No header/test/source/native/proxybody/configselection/runtimechange. Actualdifferent
 complete-solutionreview before done/PR85ready; sourcefacts alone aren'tcapability.
+
+## Actual resumed solution and fresh independent approval
+
+Sameauthorbbacc5e43241c7d822c3634062d17079eef375ff/import08b6f01 completescoherent
+R2proposal/authorrecord ONLY. Newnativeprivatelease/premap-prelogcapture+bounded
+plainreceive/policygeneration/reload/sourcehandoff andI01–24/A–Doracles explicitly
+concrete; no envelope/mTLS/TLSslab/durablebootepocharchitecture. Nativecapacity104472
+sum PLUSfixedrecords/leasefacts, notwholeheap/globalzeroization orTLS proof.
+
+FRESHdifferent82cd57c67da4e62501c9d6c6e9f15c58820b07ce
+[APPROVED completeactualproposal](sessioncontract-005-review.md) at08b6f01.
+Actualall6frozenimports/source8+26+5officialbytecomparisons/policy/trust/copy/
+lifetime/budget/oraclesand14links audited; no blockingdesignfinding/newsubsystem.
+Importantnative011 baseline/sourceguidance: methodcapturemust occurinkExpectMethod
+BEFOREenumconversion/retrieve (processRequestLinealoneistoolate), andprivatefixed
+scope mustprovide<=64stableAccountHeaderView entriesfor unchangedspanAPI. Source
+capture/ABI/receiver/logs/cleanup/nativeTLS/resource/platformadmission remainunproved
+untiltheiractualtests/implementation/source checks, notgrantedbythisdocumentreview.
+
+Rootcompletesstatus/handoff/PR85; preserveoriginal4b/8source receipts/read-onlyaudit
+andfullR2review/graph/fullrelease. Currentmaine712d85/all450IDs1780edges maintained.
+Existingdoc/project/toolingCI fits scope, no new executable suite. LatestheadCI/
+currentrules/discussions/normalmerge required beforefreshnative011baseline; actual
+011SDK/foundation/testsreview/intendedred beforepatchcode. OptionaldirectTLS isn't
+requireddefault/alternativeproxy substitute. No live/provider/deploymentoperation.
+
+Rootcompletion: initialprojectcheckcaughtpendingbaselinehandoff local link before
+its merge; correctedtoactualpublishedPR89revision. Subsequentproject450/122PASS,
+tooling19PASS,render--checkcurrent,whitespace0. No native/newfeature/SDKreplay.

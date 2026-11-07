@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T12:31:03.856465+00:00",
+  "updated_at": "2026-11-07T12:57:44.524740+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -14898,7 +14898,7 @@
       "title": "Concrete lossless and secret-safe ingress solution",
       "module": "Identity",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex /root integration; resumed account_ingress_contract_author",
       "depends_on": [
         "CONTRACTPLAN-006",
@@ -14925,19 +14925,30 @@
         "Partial source-backed work preserved on task/SESSIONCONTRACT-005-ingress, draftPR85, authordocument4b0178cc/importd720282. Eight immutable source files authenticated. Independent read-only audit found external-wire engineering contract mismatch and avoidable new-envelope/TLS-slab architecture; parent remains unfinished until explicit006 revision and actual complete solution review. No new implementation selected.",
         "Claim source-backed DOCUMENT-only ingress/secret-handling solution from actualmaine440c7f050fdee04c39eb5b74b01c9f079124ed6. Fresh author owns ONLY new account-ingress-v1.md +authornote, readonly selectedDrogon/Trantor/officialsource research and literalwire examples. No actual parser/proxy/library/pin/patch/config/deployment/header/test/source implementation. Define concrete pre-loss/pre-log bounded multiplicity/framing/TLS/proxy/origin/policy/owned-secret solution preserving acceptedtransport; actual different review required, unknownpaths unavailable. Root owns pins/build/CI/schema/deploy/state/HTML. API001/SESSION003/SESSION010 retain full ownership; split substantial reusable new runtime prerequisites beforeimplementation. Concurrentstoragecontract separate.",
         "Preserve honest partial4b0178cc (exactofficialsourcehashes/directproposal/literalwireoracles) but NOTcontractcompletion. Read-only independent proxy_ingress_boundary_audit found unimplementedengineeringcontract conflict: originalexternal4096/H2wire accounting cannotbeprovenafterstockproxy normalization, andConnection-nominatedcriticalfields canbelost. Raw-headenvelope/mTLS/TLSslab/newproxy subsystem arenotproductrequirements. Explicitprerequisite SESSIONCONTRACT006 will reconcile boundaries with spec-basedreason+independentreview and separatelyrecord nativeartifact/proxyadmission test-first work; no weakeningcredential/framing/CSRF/TLS/log guarantees ordefaultCaddy/alternative release scope. Authorended, preserve twoownedfiles; resume afterprerequisiteintegration.",
-        "Resume SAME unfinished005 afteractual006R2 normalPR87/e712d85/44e384d/all21SUCCESS/independent83bb+0990approval; currentmainintegrated retaining450IDs1780edges/allcompletedstates/reviews. Preservepartial4b0178cc/importd720282/PR85/history/source8bytecomparisons; SAMEaccount_ingress_contract_author resumesactualacceptedR2 notassumedrunning. Onlyown2documents, rewriteaffectedpartialchoices/oracles into completeconcreteselectedDrogon/Trantor capture+policy/lifetime/nativebounds/sourcehandoffs; no rawenvelope/mTLS/TLSslab/durablebootprotocol mandated. Native011/proxy007008 actualtestfirst/artifact gates separatelyowned; documentnotruntime. Rootsharedstate/graph/build/pins/CI/deploy; actualdifferentcomplete-solutionreview beforedone/PRready."
+        "Resume SAME unfinished005 afteractual006R2 normalPR87/e712d85/44e384d/all21SUCCESS/independent83bb+0990approval; currentmainintegrated retaining450IDs1780edges/allcompletedstates/reviews. Preservepartial4b0178cc/importd720282/PR85/history/source8bytecomparisons; SAMEaccount_ingress_contract_author resumesactualacceptedR2 notassumedrunning. Onlyown2documents, rewriteaffectedpartialchoices/oracles into completeconcreteselectedDrogon/Trantor capture+policy/lifetime/nativebounds/sourcehandoffs; no rawenvelope/mTLS/TLSslab/durablebootprotocol mandated. Native011/proxy007008 actualtestfirst/artifact gates separatelyowned; documentnotruntime. Rootsharedstate/graph/build/pins/CI/deploy; actualdifferentcomplete-solutionreview beforedone/PRready.",
+        "CompleteDOCUMENT-only actual005proposal bbacc5e/import08b6f01 afterFRESHdifferent82cd57c6 fullsolutionreview: sixacceptedR2/supplier/common/clock/storeimports, source8+26+5primaryfiles, privatecapturelease/pre-map-prelog/nativewindow/scope/policyreload/currentqueue/copywipe/budgets/I01–24 audited. Original4bpartial/sourceauthentication andallhistory preserved; no rawenvelope/mTLS/TLSslab/durableepoch/newsubsystemrequired. Native011guidance capturesmethod in kExpectMethod BEFOREenum/retrieval andmaterializesstableAccountHeaderViewspan in fixedscope; actualpatch/ABI/nativeTLS/globalresource/platformsupport NOTapproved. Native011/proxy007008/Source010/API001/SESSION003 actualtestfirst/releaseownersretained. RootfinalPR85/latestheadCI/currentrules/threads/normalmerge remain beforedownstreamwork."
       ],
       "verification": {
-        "authored": "partial",
-        "document_review": "not_run",
+        "authored": "passed",
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "source_byte_audit": "passed",
+        "tooling": "passed",
         "runtime": "not_run"
       },
       "evidence": [
         "docs/evidence/sessioncontract-005-handoff.md",
         "docs/contracts/account-ingress-v1.md",
-        "docs/evidence/sessioncontract-005-author.md"
+        "docs/evidence/sessioncontract-005-author.md",
+        "docs/evidence/sessioncontract-005-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/account_ingress_contract_author (preserved partial and resumed R2)",
+        "reviewer": "/root/account_ingress_solution_review",
+        "outcome": "approved",
+        "revision": "Actual resumed bbacc5e/import08b6f01 documentblob00a4fa46b93af3e71cfeaf8ddf000dc4acf98f42 approved independently82cd57c6 complete-source/lifetime/policy/bounds/oracle review; original4bpartial/source8/history preserved, no runtime admission.",
+        "evidence": "docs/evidence/sessioncontract-005-review.md"
+      }
     },
     {
       "id": "SESSIONTEST-010",
@@ -16713,6 +16724,11 @@
       "date": "2026-11-07T12:31:03.856465+00:00",
       "task": "SESSIONCONTRACT-005",
       "note": "Resume SAME unfinished005 afteractual006R2 normalPR87/e712d85/44e384d/all21SUCCESS/independent83bb+0990approval; currentmainintegrated retaining450IDs1780edges/allcompletedstates/reviews. Preservepartial4b0178cc/importd720282/PR85/history/source8bytecomparisons; SAMEaccount_ingress_contract_author resumesactualacceptedR2 notassumedrunning. Onlyown2documents, rewriteaffectedpartialchoices/oracles into completeconcreteselectedDrogon/Trantor capture+policy/lifetime/nativebounds/sourcehandoffs; no rawenvelope/mTLS/TLSslab/durablebootprotocol mandated. Native011/proxy007008 actualtestfirst/artifact gates separatelyowned; documentnotruntime. Rootsharedstate/graph/build/pins/CI/deploy; actualdifferentcomplete-solutionreview beforedone/PRready."
+    },
+    {
+      "date": "2026-11-07T12:57:44.524740+00:00",
+      "task": "SESSIONCONTRACT-005",
+      "note": "CompleteDOCUMENT-only actual005proposal bbacc5e/import08b6f01 afterFRESHdifferent82cd57c6 fullsolutionreview: sixacceptedR2/supplier/common/clock/storeimports, source8+26+5primaryfiles, privatecapturelease/pre-map-prelog/nativewindow/scope/policyreload/currentqueue/copywipe/budgets/I01–24 audited. Original4bpartial/sourceauthentication andallhistory preserved; no rawenvelope/mTLS/TLSslab/durableepoch/newsubsystemrequired. Native011guidance capturesmethod in kExpectMethod BEFOREenum/retrieval andmaterializesstableAccountHeaderViewspan in fixedscope; actualpatch/ABI/nativeTLS/globalresource/platformsupport NOTapproved. Native011/proxy007008/Source010/API001/SESSION003 actualtestfirst/releaseownersretained. RootfinalPR85/latestheadCI/currentrules/threads/normalmerge remain beforedownstreamwork."
     }
   ]
 }
