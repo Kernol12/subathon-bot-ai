@@ -1,35 +1,36 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Verify actual state before resuming.
+Updated: 7 November 2026. Verify live state before resuming.
 
-## Current handoff
+## Completed work
 
-- Main `dc0a544`: normal EVIDENCE-001 PR #92 merge after all21 final-head
-  checks atf88c628 and actual different review. Published annotated archive tag
-  objecte7b13d26 targets01cf400; post-merge fetch/all969 removed paths verified.
-- EVIDENCE-002 branch `task/EVIDENCE-002-concise-notes`, PR #93. Fresh author
-  `/root/evidence_notes_author` finished/retired at440618cb (import52b984a),
-  strategy-only helper finished. Author worktree `/tmp/subathon-evidence002-author`
-  remains clean at440618cb; do not assume agents active.
-- Different `/root/evidence_notes_review` approved original test packet before
-  first execution. The author then observed intended red and added the minimal
-  two-line guard. Full
-  source/110notes/currentstrategy at440618cb independently approved. All461 notes
-  <=500chars, every other old state field preserved; three additive tests, all old
-  tests AST-identical. Strategy147lines/current actual suites/two red baselines.
-- Integrator state/render/project461/122, tooling29 and scaffold3 pass. Completion
-  metadata confirmation and final PR head hostedCI/current rules/resolved threads/
-  normal merge remain. Local reviewed result recorded done with hostedCI:not_run
-  and open merge gate; do not start next task until normal merge.
-- After PR93 merge refresh main and choose TESTCLEAN-002 (16 environment sources
-  found by initial read-only inventory) or TESTCLEAN-001 (ADR0008/0009 gates).
-  Both need fresh implementation and actual independent cleanup review.
+- Current main `116a6cd`: EVIDENCE-002 merged normally in PR #93 after all 21
+  checks passed at independently approved head `438679e`. Tooling 29/29,
+  scaffold 3/3, state/render/project checks passed. All 461 notes <=500 characters;
+  110 summaries preserve gates, other old state fields and assertions unchanged.
+  Current strategy is 147 lines. Author and reviewer sessions finished.
+- EVIDENCE-001: PR #92 merge `dc0a544`, all 21 checks and different review passed.
+  Published annotated archive tag `evidence-archive-2026-11` targets `01cf400`;
+  post-merge fetch verified all 969 removed paths remain accessible.
 
-## Preserved work and boundaries
+## Active assignment
 
-ACCESSCONTRACT-001 approved unpublished53524fc plus author/review branches intact;
-publish after priority permits. STORAGE-020 unstarted with reviewed44-case red.
-No stale active claim at startup and no worktree prune/reset performed. Preserve
-all v0.45, seven integrations, threeFX providers, English/German, themes, independent
-renderers/editor and platform scope. No live credential/provider/chat/payment/
-deployment actions. Historical detailed evidence remains in the published tag.
+- TESTCLEAN-002 claimed on `task/TESTCLEAN-002-environment-cleanup` from current
+  main `116a6cd`. Fresh `/root/environment_cleanup_author` will own the 16 inventoried
+  environment sources, registrations/labels and corresponding CI invocations.
+  Coordinator owns state/HTML/checkpoint/evidence summary/PR integration.
+- Contract: task brief, ADR-0012, v0.45 §17. Inventory each source's assertions and
+  owning behavior coverage, then obtain independent approval of precise deletions
+  before changing the reviewed baseline. Retain a focused SQLite capability check
+  only if the reviewer establishes unique product prerequisite coverage. No domain
+  assertion deletion, red inversion or dependency masking. Source review, affected
+  build/acceptance checks, latest-head CI and normal PR merge remain required.
+- Next action: create isolated author worktree/session and independent reviewer.
+  No stale agent is assumed active. No next task until this task's gates pass.
+
+## Preserved work and limits
+
+ACCESSCONTRACT-001 approved unpublished `53524fc` plus author/review branches remain;
+publish after priority permits. STORAGE-020 unstarted, reviewed 44-case red unchanged.
+No prune/reset performed. Full v0.45, seven integrations, three FX providers and all
+UI/platform/release scope remain. No live credential/provider/chat/payment/deployment.

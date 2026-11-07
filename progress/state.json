@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T15:20:23.337774+00:00",
+  "updated_at": "2026-11-07T15:26:37.011678+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -130,13 +130,13 @@
       "brief": "docs/tasks/EPIC-028/EVIDENCE-002.md",
       "summary": "Limit combined task notes to 500 characters and maintain a current test-strategy summary without per-task history.",
       "notes": [
-        "All 461 task notes now fit 500 characters; validator refuses oversized notes without writing state/HTML. Current strategy replaces per-task history. Independent tests/red/source/110-note review, tooling29 and scaffold3 passed. Hosted CI and protected PR93 merge remain. Next: TESTCLEAN-001 or TESTCLEAN-002."
+        "All 461 task notes fit 500 characters; oversized updates refuse without writing state/HTML. Current strategy summarizes suites and gaps. Independent tests/red/source/110-note review, tooling29, scaffold3 and all21 hosted checks passed before normal PR93 merge. No product capability. Next: TESTCLEAN-002."
       ],
       "verification": {
         "tooling": "passed",
         "scaffold": "passed",
         "independent_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -146,7 +146,7 @@
         "author": "/root/evidence_notes_author; strategy helper /root/evidence_notes_author/current_strategy",
         "reviewer": "/root/evidence_notes_review",
         "outcome": "approved",
-        "revision": "Author440618cb imported52b984a; all110notes/source/currentstrategy independently approved. Three additive tests independently reviewed before observed intended red.",
+        "revision": "Author440618cb/import52b984a and complete head438679e independently approved; normal PR93 merge116a6cd after all21latest-head checks.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/93"
       }
     },
@@ -176,8 +176,8 @@
       "title": "Remove environment foundation programs",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "ready",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/environment_cleanup_author",
       "depends_on": [],
       "spec_refs": [
         "§17"
@@ -185,7 +185,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
       "summary": "Remove environment executables that assert library or fixture facts instead of product behavior, preserving focused real tests.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Claim from main116a6cd after normal PR93 merge. Scope ADR0012/v0.45 §17: inventory16 environment sources, review precise redundant assertions before deletion, preserve domain tests and red baselines. Author owns sources/registrations/corresponding CI; coordinator owns state/HTML/checkpoint/PR. Fresh independent cleanup and code review, affected builds/tests and latest CI required."
       ],
       "verification": {},
       "evidence": [],
@@ -16463,6 +16463,11 @@
       "date": "2026-11-07T15:20:23.337774+00:00",
       "task": "EVIDENCE-002",
       "note": "Independent author440618cb/source110notes/strategy review approved. Integrator imported52b984a, current HTML/check_project461/122/tooling29/scaffold3 passed. PR93 final metadata confirmation, latest hosted checks and normal merge remain."
+    },
+    {
+      "date": "2026-11-07T15:26:37.011678+00:00",
+      "task": "TESTCLEAN-002",
+      "note": "Claim dependency-ready priority cleanup from actual main116a6cd after PR93 all21SUCCESS/different438679e review/normalmerge. Fresh author inventories16 environment sources and corresponding build/CI before independent deletion approval. Existing product assertions, intentionally red baselines and release scope remain."
     }
   ]
 }

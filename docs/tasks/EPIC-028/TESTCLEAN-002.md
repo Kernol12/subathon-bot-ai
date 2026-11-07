@@ -3,7 +3,9 @@
 Module: Test infrastructure. Kind: cleanup. Specification: v0.45; §17.
 Contract revision: current test strategy and v0.45. Parent: EPIC-028. Dependencies: none.
 Shared-file ownership: test-only `*_environment.cpp` programs and their registrations in
-`tests/acceptance`, `tests/qt`, `tests/CMakeLists.txt`, and relevant CMake label files.
+`tests/acceptance`, `tests/qt`, `tests/CMakeLists.txt`, relevant CMake label files,
+and corresponding environment-only invocations/registration checks in
+`.github/workflows/`. Preserve feature discovery/execution and all product assertions.
 
 ## Scope
 
