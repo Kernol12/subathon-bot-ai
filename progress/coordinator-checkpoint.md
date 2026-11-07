@@ -44,6 +44,10 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/PRs before act
 - NEXT HARD GATE: coherent new tests/literals/bootstrap/resolver/build/CI packet needs
   independent oracle/source review BEFORE any new helper/validator/suite execution or
   configure/build/discovery that could execute it. Static AST/diff checks only now.
+  Fixture-only oracle review separately approved `schema_cases.py` SHA256
+  `17c3d00f14c49ed6a1119beddfcdfb2e27723f81e37cc27942d68dbf173dc631`:
+  77 OpenAPI literals (26 valid/51 invalid over all 17 targets) and 11 progress
+  literals (2 valid/9 invalid). This is NOT full packet/execution approval.
   No native or new suite execution observed. Existing standards-library refactor
   requires genuine positive/negative validation, not manufactured stub/setup red;
   actual schema defects retain reviewed expectations and separate correction review.
