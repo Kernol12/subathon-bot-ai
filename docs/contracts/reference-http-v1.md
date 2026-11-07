@@ -245,9 +245,12 @@ Stop at the first applicable phase; do not reorder to disclose protected state:
 1. Actual edge and application framing/TLS/authority/occurrence/log admission and
    trusted-limit validity. Unknown ingress =>503/unavailable or safe close. An edge
    parser/protocol/normalization refusal occurs BEFORE an application reference
-   request exists: fixed nonreflecting400/431/501 or safe close may have a small
+   request exists: fixed nonreflecting400/417/431/501/505 or safe close may have a small
    stock text/empty body, no CORS/credential/request echo; it is not a CommonFailure
-   capability. Edge errors must never use application auth/state lookup. At the
+   capability. Go emits417/close for nonempty unsupported Expect and505/close for
+   parsed unsupported HTTP versions before invoking Caddy; later refusal routes
+   cannot replace those responses. Edge errors must never use application auth/state
+   lookup; finite cleanup and log suppression apply to these early paths too. At the
    admitted application boundary, first preflight all field/count/H bounds and
    `method+target+12+H<=4096` (no body yet): overage=>431/resource_limit.
    Next body>4096=>413/resource_limit; then complete semantic projection>4096
@@ -373,13 +376,23 @@ sum remains116992, with its4096 request owner now explicitly semantic.
 Independent literal construction: canonical desktop GET control from005 is149
 external H1 bytes. Add `X-Pad: `,3938 SP bytes, `a\r\n` before the terminating
 empty line:4097 external bytes,159 after permitted outer-OWS normalization. With
-ONLY the three edge-added fields X-Forwarded-For=`127.0.0.1`,
-X-Forwarded-Proto=`https`, X-Forwarded-Host=`timer.example`, their87 semantic bytes
-make the backend projection246, so R2 may admit it after all real gates. This is
-an independent arithmetic oracle, not proof of a deployed proxy. For the same
-concrete field set, one X-Pad value of3851 `a` bytes gives complete backend4096;
-3852 gives4097 and must fail431. All inserted metadata is counted. Any selected
+the three edge-added fields X-Forwarded-For=`127.0.0.1`,
+X-Forwarded-Proto=`https`, X-Forwarded-Host=`timer.example` (87 semantic bytes)
+AND Caddy's added `Via: 1.1 Caddy` (16), the backend projection is262, so R2 may
+admit it after all real gates. This concrete control contains no incoming Via;
+every incoming Via remains an additional counted occurrence. These are independent
+arithmetic oracles, not proof of a deployed proxy. For this same complete candidate
+field set, one X-Pad value of3835 `a` bytes gives complete backend4096;3836 gives4097
+and must fail431. All original and added metadata occurrences count. Any selected
 configuration adding other fields needs independently recounted boundary vectors.
+
+Additional early negative oracles use an otherwise valid canonical Host/credential
+control: H1.1 `Expect: synthetic-secret` receives fixed Go417/close; ASCII request
+line `GET /api/reference/v1/timer HTTP/3.0` receives fixed Go505/close. Both precede
+Caddy and cause zero backend dispatch, no request echo/CORS/auth/state lookup or
+application CommonFailure. They retain the finite cleanup/secret-log obligations;
+no parser patch or application status/schema addition is needed. The latter is an
+unsupported-version ASCII input oracle, not HTTP/3 support.
 
 All H01–17/H19–26 credential/current-access/schema oracles and supplied examples
 are retained; transport R2 §5.1 adds normalization/Connection/framing/log controls.

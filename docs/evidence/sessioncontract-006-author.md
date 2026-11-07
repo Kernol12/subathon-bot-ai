@@ -215,3 +215,72 @@ and three exchange-rate providers remain required. Future tests must reach actua
 valid controls as well as negative cases, independently review before intended red,
 then preserve assertions through implementation and separate source/native/config
 review. Document/source inspection alone establishes none of those capabilities.
+
+## Coherent correction after independent review F1/F2
+
+Resumed the SAME author on `task/SESSIONCONTRACT-006-author` at
+`89f2d5f64af2b312766b067184bc13f28b8cd6b4`, after root imported the actual
+[request-changes review](sessioncontract-006-review.md) by a different session.
+The original author commit/receipts/arithmetic/blob table above and the review's
+original verdict remain historical, unmodified. In particular, the original
+three-field246/3851/3852 arithmetic omitted a real candidate field and is superseded
+for the stock candidate by this correction. This is a correction within the
+unaccepted R2 packet, not a new product version or a claim that review now passes.
+
+F1: reread immutable Caddy `prepareRequest`735–736 in the already authenticated
+source (SHA256 `a873d0f5cdd7216f0708162504990641ac0c7df59ff9ea2f869437dc1ea3beb1`)
+and browsed its official commit URL again. It unconditionally appends one Via
+occurrence. Transport §1.1 now explicitly admits `Via: 1.1 Caddy`, counts its16
+semantic bytes and EVERY existing/new occurrence, and forbids treating it as trust
+or silently removing it. Transport/reference oracles now cover retained repeated
+case-varied Via values plus the added value. The concrete reference candidate
+without incoming Via has forwarding87+Via16=103 added bytes: normalized159 becomes
+backend262; X-Pad3835/3836 now produces backend4096/4097. The old3851/3852 values
+produce4112/4113 and are no longer candidate acceptance vectors.
+
+F2: reread immutable Go `conn.readRequest`1049–1050,
+`http1ServerSupportsRequest`1113–1125, `conn.serve`2088–2090 and
+`sendExpectationFailed`2217–2232 (already authenticated SHA256
+`6fdef8d77c060b890e56d56f04fa1243fbf976a366aa5ef827496387a5493625`), and browsed its
+official commit URL again. Both contracts now name fixed nonreflecting417/close
+for nonempty unsupported Expect and505/close for a parsed unsupported HTTP version
+BEFORE Caddy. Added literal negative oracles: `Expect: synthetic-secret` on a valid
+H1.1 control, and ASCII `GET /api/reference/v1/timer HTTP/3.0` with valid Host and
+credential. Each requires zero backend dispatch, no echo/CORS/auth/state lookup,
+continued finite cleanup/log safety and no application CommonFailure. No parser
+patch/status/schema change is proposed. HTTP/3.0 here is a parsed unsupported version
+in an ASCII request-line refusal oracle, not supported HTTP/3.
+
+Only the two contracts and this appended author correction are edited. OpenAPI
+remains byte-identical to the reviewed R2 blob `ee317612c7f890ecccecd650f8853205b87eeff9`;
+payload schemas, operation/security/examples, C++ interface and transport §§2–4
+remain frozen. No additional local source file was downloaded or executed; no native/proxy/feature test
+or product operation was run. Actual correction checks and blobs follow.
+
+| Correction command/audit at89f2d5f plus owned delta | Actual result |
+| --- | --- |
+| `python3 /tmp/sessioncontract006-source/check_correction.py` | Final exit0: compares frozen transport CPP/§§2–4/reference §2/25 unchanged H rows against original9bea6fb; OpenAPI exactly3 historical description deltas and byte-identical to reviewed R2; JSON25files/23pointers,14 local links,6allow/10refuse Connection vectors; Via16, candidate262, X-Pad3835→4096/3836→4097 and old3851→4112/3852→4113; two incoming10-byte Via values add34, all three Via values retained, padded candidate296. Resource sums unchanged. This is structural/literal inspection, not schema validation or Go/Caddy execution. |
+| `python3 -m unittest discover -s tests/tooling -v` | exit0,19/19 passed,0skips; tooling only. |
+| `python3 tools/progress.py render --check` | exit0, snapshot current; no regeneration/state edit. |
+| `git diff --check` | exit0 before appending this receipt. Staged whitespace is also checked before commit. |
+| `python3 tools/check_project.py` | exit1 on the SAME assigned-tree shared coordinator link to storagecontract-002-author.md; left outside owned paths. Integrated reviewer/root checks are separate receipts. |
+
+The correction audit's first run stopped at an incorrect expected32-byte sum for
+the two synthetic incoming Via fields: their values are10 bytes each, so the
+correct sum is34 and the padded projection296, not294. Corrected only that local
+audit expectation, reran successfully, and then ran tooling/progress/project checks.
+No contract/schema/fixture or production assertion was weakened to hide a failure.
+The actual Via16/262/3835/3836 correction was unchanged by that audit correction.
+
+Correction artifact Git blobs:
+
+| Artifact | Git blob |
+| --- | --- |
+| `docs/contracts/session-transport-v1.md` | `0d0cbde9450abc5d7f99b7a97b03cfe41f385890` |
+| `docs/contracts/reference-http-v1.md` | `fe69e3c3b06fbe63d1d2beaea458cbacf905032f` |
+| `schemas/http/reference-v1/api.json` | `ee317612c7f890ecccecd650f8853205b87eeff9` |
+
+Actual different reviewer must inspect this corrected delta after root integration;
+original request-changes is not an approval. Hosted selected-schema/latest-head CI,
+normal merge and all previously listed native/proxy/client/runtime/release gates
+remain unchanged. No runtime/support or new acceptance evidence is claimed.
