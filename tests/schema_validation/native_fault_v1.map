@@ -1,9 +1,0 @@
-{
-    global:
-        subathon_schema_transport_v1;
-        subathon_schema_fault_arm_v1;
-        subathon_schema_fault_snapshot_v1;
-        subathon_schema_fault_report_v1;
-        subathon_schema_fault_fallback_v1;
-    local: *;
-};

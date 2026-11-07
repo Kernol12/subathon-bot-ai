@@ -1,6 +1,6 @@
-# Candidate isolated schema-validator dependencies; independent review pending.
+# Admitted isolated schema-validator dependencies; versions/artifact hashes unchanged.
 # Wheels only: pip --require-hashes --only-binary=:all:; no global install.
-# Linux x86-64 CPython3.10/3.12/3.14 candidate hashes, not execution proof.
+# Linux x86-64 CPython3.10/3.12/3.14 hashes; validation execution is separate proof.
 
 annotated-types==0.8.0 \
     --hash=sha256:f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0

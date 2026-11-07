@@ -252,11 +252,11 @@
       }
     },
     {
-      "name": "schema-transport-debug",
-      "displayName": "29 \u00b7 Schema native transport and acceptance",
+      "name": "schema-validation-debug",
+      "displayName": "29 \u00b7 Repository schema and example validation",
       "inherits": "base",
       "cacheVariables": {
-        "SUBATHON_BUILD_SCHEMA_TRANSPORT": "ON"
+        "SUBATHON_BUILD_SCHEMA_VALIDATION_TESTS": "ON"
       }
     },
     {
@@ -386,8 +386,8 @@
       "configurePreset": "sqlite-reference-capture-debug"
     },
     {
-      "name": "schema-transport-debug",
-      "configurePreset": "schema-transport-debug"
+      "name": "schema-validation-debug",
+      "configurePreset": "schema-validation-debug"
     },
     {
       "name": "sqlite-account-sessions-debug",
@@ -686,8 +686,8 @@
       }
     },
     {
-      "name": "schema-transport-debug",
-      "configurePreset": "schema-transport-debug",
+      "name": "schema-validation-debug",
+      "configurePreset": "schema-validation-debug",
       "output": {
         "outputOnFailure": true
       },
