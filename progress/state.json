@@ -14413,7 +14413,7 @@
       "title": "Bounded token preparation and current-session resolution",
       "module": "Identity",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Codex /root integration; fresh session_supplier_implementer",
       "depends_on": [
         "CONTRACTPLAN-006",
@@ -14432,11 +14432,18 @@
       "summary": "Implement only accepted supplier v1 prepare/resolve with bounded ownership and honest current-fact/clock outcomes; full SESSION-002/003 remain required.",
       "notes": [
         "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
-        "Claim dependency-ready implementation from normalPR82/main37f098d afterall21final50aaeSUCCESS/currentrules/0threads/independent2014testreview+6befattribution/actualSDK1green→39stubred. Scopeaccepted supplierc5f5a6e prepare/resolve ONLY. Fresh author owns ONLY server/src/session_resolution.cpp and own implementationnote; preserveexactpublicAPI/39assertions/fixtures/SDK/harness/receipts. Root owns allsharedCI/labels/state/HTML/checkpoint/pins/integration. Pass39/full43 +actualdifferent source/resource review and promotedstableCI beforedone. No issuance/realSQLsource/clock/login/permissions/lifecycle/transport/provider/platform capability."
+        "Claim dependency-ready implementation from normalPR82/main37f098d afterall21final50aaeSUCCESS/currentrules/0threads/independent2014testreview+6befattribution/actualSDK1green→39stubred. Scopeaccepted supplierc5f5a6e prepare/resolve ONLY. Fresh author owns ONLY server/src/session_resolution.cpp and own implementationnote; preserveexactpublicAPI/39assertions/fixtures/SDK/harness/receipts. Root owns allsharedCI/labels/state/HTML/checkpoint/pins/integration. Pass39/full43 +actualdifferent source/resource review and promotedstableCI beforedone. No issuance/realSQLsource/clock/login/permissions/lifecycle/transport/provider/platform capability.",
+        "Actual author26f275fa/import028f83b source0525d755 implements onlyboundedprepare/resolve, frozen39PASS/full43PASS0.68s/0warnings-skips; frozenheader/tests/fixtures/SDKunchanged. Root2cf5 promotes all39 toordinarylabels and unconditionalselectedSDKCI afterpassingcases, no assertionrelaxation. Freshdifferent session_supplier_code_review examines exactsource/configpacket2cf5ba5; source/resourceapproval and observedhostedCI required beforedone/merge. No full lifecycle/real source-clock/login/SQL/transport/provider/platform claim."
       ],
-      "verification": {},
+      "verification": {
+        "implementation": "passed",
+        "acceptance": "passed",
+        "source_review": "not_run",
+        "selected_ci": "not_run"
+      },
       "evidence": [
-        "docs/evidence/session-008-handoff.md"
+        "docs/evidence/session-008-handoff.md",
+        "docs/evidence/session-008-author.md"
       ],
       "review": null
     },
@@ -16265,6 +16272,11 @@
       "date": "2026-11-07T10:27:23.126151+00:00",
       "task": "SESSION-008",
       "note": "Claim dependency-ready implementation from normalPR82/main37f098d afterall21final50aaeSUCCESS/currentrules/0threads/independent2014testreview+6befattribution/actualSDK1green→39stubred. Scopeaccepted supplierc5f5a6e prepare/resolve ONLY. Fresh author owns ONLY server/src/session_resolution.cpp and own implementationnote; preserveexactpublicAPI/39assertions/fixtures/SDK/harness/receipts. Root owns allsharedCI/labels/state/HTML/checkpoint/pins/integration. Pass39/full43 +actualdifferent source/resource review and promotedstableCI beforedone. No issuance/realSQLsource/clock/login/permissions/lifecycle/transport/provider/platform capability."
+    },
+    {
+      "date": "2026-11-07T10:37:09.902112+00:00",
+      "task": "SESSION-008",
+      "note": "Actual author26f275fa/import028f83b source0525d755 implements onlyboundedprepare/resolve, frozen39PASS/full43PASS0.68s/0warnings-skips; frozenheader/tests/fixtures/SDKunchanged. Root2cf5 promotes all39 toordinarylabels and unconditionalselectedSDKCI afterpassingcases, no assertionrelaxation. Freshdifferent session_supplier_code_review examines exactsource/configpacket2cf5ba5; source/resourceapproval and observedhostedCI required beforedone/merge. No full lifecycle/real source-clock/login/SQL/transport/provider/platform claim."
     }
   ]
 }

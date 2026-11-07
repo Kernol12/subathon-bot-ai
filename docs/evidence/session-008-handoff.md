@@ -37,3 +37,17 @@ SDK prefix `/tmp/subathon-session-sdk/prefix`, static archive SHA256
 Current native readiness and source/bounded hash review already passed; no need to
 repeat first readiness/red for logs. Configure/build/passive discovery in the fresh
 worktree, run relevant tests, record commands/results and resource limitations.
+
+
+## Actual authored implementation and current review
+
+Fresh author26f275fa/import028f83b supplies sourceblob0525d755 and
+[author evidence](session-008-author.md). All39 original feature methods and full43
+passed (final0.68s), with strict compilation/formatting/project/render/whitespace
+checks and exact frozen-file identity checks. No original assertion, header,
+fixture, SDK source or receipt changed; no historical red replay.
+Root2cf5ba5 changes only labels/CI so all39 run as ordinary acceptance after SDK1.
+Actual fresh `session_supplier_code_review` reviews the full source/resource/config
+packet at2cf5ba5 in `/tmp/subathon-session008-review`, `review/SESSION-008-source`.
+Task is in_review, source verdict and actual selected CI pending. This component
+consumes injected current facts; it does not supply real authority or a runtime app.
