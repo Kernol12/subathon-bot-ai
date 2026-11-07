@@ -1,5 +1,11 @@
 # STORAGETEST-020 — physical account/session baseline
 
+Current result: **reviewed baseline and independently attributed intended red**;
+not production storage. FIRSTfoundation1CTest/fivechecksPASS, then FIRSTordinary
+44cases allfail ONLY immediate markers. Publication/selectedCI/normalmerge remain.
+[Actual review and attribution](storagetest-020-review.md),
+[immutable first originals](storagetest-020-first-runs.tar.gz).
+
 Coordinator `/root`,7 November2026. `/tmp/subathon-storagetest020`,
 `task/STORAGETEST-020-account-session-baseline`, actual main7897e3e after normal
 [PR86](https://github.com/Kernol12/subathon-bot-ai/pull/86),11:42:25UTC,
@@ -82,3 +88,44 @@ reauthcurrentfences,upgradefullfences,andabsentlocalcreation/staleno-resurrectio
 All40originalbodies/fixturesremain. RootCIbed9f66stagesclosed44, no publication/
 newbodyexecution. Actualcorrecteddelta+sameindependentreviewapproval required before
 FIRSTfoundationgreen→FIRSTordinary44markerred/immutablechronology+attribution.
+
+## First executions / independent attribution / publication
+
+Actualcorrectedpacket11e864d6 approveddifferent d7174d63a7617ec6621992164215ef5b52a529f0
+(import45cedfb) BEFORE ANYnewbody. RootexecutedONCEatcleanreviewrevisiond7174d63:
+
+1. `ctest --preset sqlite-account-sessions-debug -R '^scaffold.sqlite_account_sessions_environment$' --no-tests=error --verbose --output-junit /tmp/subathon-storagetest020-first-foundation/ctest.xml`
+   direct0,1CTest/fiveactualchecks+initcleanup7PASS,0fail/skip. RuntimeQt6.12.0,
+   selectedSDK1.0.22ABI26/4/init/fixed32guardedrandomcall, actualfull102schema/all8
+   literalframes+constraints/types/indexcapability/reopen/older-executablerefusal.
+2. ONLYafteractualgreen/rawpreservation,
+   `ctest --preset sqlite-account-sessions-debug -L '^sqlite-account-sessions$' --no-tests=error --verbose --output-junit /tmp/subathon-storagetest020-first-red/ctest.xml`
+   direct8,44ordinarycases/44failures/0errors/skips. Immediatefactory/constructor
+   marker ONLY; no assertionsaftereachthrowexecuted/passingfeatureclaim.
+
+Immutablearchive18772bytes/SHA256
+`f4079c1e4d5606340e272a1886b92ce9b452922af6c5c268505a57cd589f7837`
+contains13rawfiles,stdout/stderr/LastTest/failedinventory/nativeJUnit/directexits,
+exactsourceGitblobs/binary-SDKQtpluginhashes/UTCandmonotonicsequence/env/core0,
+capturedBEFOREanotherCTest. Minimalactualenv PATH=/usr/bin:/bin,
+LC_ALL=C.UTF-8,LANG=C.UTF-8 explicitlyrecorded; no unknownfields filled afterward.
+NativeJUnitnaivetimestamps are localCET, actualUTCchronology inreceipts.
+
+SAMEdifferent743a70b43167fd375900b48bb8eb0e9d61105c5a verifiesall13memberbytes/hashes,
+8artifactfingerprints/9sourceblobs,foundation-before-red andEACH44individualraw
+body'ssolemissingmarker+initcleanupPASS. Stdout88markers=44live+44failureecho;
+stderr27bytes onlygenericCTestsummary. Its firstauditregex matchedmethodname
+postCommitException; correctedread-onlyparserattributedall44, no testreplay or
+receiptchange. Original39c95d58findingrecord/d717approval/actualfirstoutputs retained.
+
+RootpublishesfocusedbaselinePRwithmandatorygreenindependentfoundation/closed44
+passivediscovery andexistingstableSQLsuites; ordinaryfeaturefailures stayseparate,
+neverinverted/skipped/relabeledaspassing. SelectedhostCI/latestcompletionheadrules/
+threads/normalmerge remainbeforefreshSTORAGE020. Implementationmustpreserve44
+assertions/fixtures/publicAPI/privateMAXseam, mayaddneededprivateownedstate under
+actualsource-review, reuseactualcompiled7prefix+targetdependency, no copiedoldSQL.
+ActualSQL/preownership/copies/indices/CPU/scratch/hostauthority/entropy/lifetimes and
+fullLinux/Windows/native/browser/provider/live releasegates remainexplicit.
+
+Rootactualcompletionchecks: progressrender0,project450/122PASS,tooling19PASS0.353s,
+render--checkcurrent,whitespace0. Python3.14.9/Linux coordinator. No firstbodyreplay.

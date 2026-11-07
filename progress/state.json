@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T12:32:38.647515+00:00",
+  "updated_at": "2026-11-07T12:54:23.784785+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -14603,7 +14603,7 @@
       "title": "Review and demonstrate red: physical account/session store",
       "module": "Operations",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex /root integration; fresh account_session_storage_test_author",
       "depends_on": [
         "STORAGECONTRACT-002",
@@ -14630,21 +14630,32 @@
         "Claim concrete physical/API/fixture/harness TEST baseline after acceptedSTORAGECONTRACT002 normalPR86/main7897e3e/all21SUCCESS/different393015e5. Minimal value interfaces/immediate explicitmarker stubs allowed; no productionSQL/migration/read/write/crypto behavior. Fresh author owns explicitly delegated newserver/test/harness paths; rootownsactualprefix8allocation/sharedbuild/CI/pins/state/HTML/integration unless exactlimitedbuilddelegation. Coherent complete contract/API/literalfixture/test packet must receive actual different review BEFORE anynewtest/nativefeature/foundationbody runs. Existingdriver/compileravailable6.12files are inspectiononly, not newreadinessclaim. Intendedred requires realdependencies/compile and correctmarkerfailures after separatefoundationgreen. Fullcurrentepoch/metadata/CAS/rollback/unknown/index/resource/lifetime scope preserved; no acceptedlogin/permission/clock/provider capability.",
         "Root integrator reserves NEXT additive catalog version8/idaccount-sessions-v1 for this020baseline/implementation ONLY after inspecting actualcurrentmain7897e3e immutablecompiledprefix7/reference-initial-captures-v1 and activeassignments/noothermigrationwriter. Reservation is metadata, not productionmanifest/SQL support. Author independentfixture proposesfiveexactDDL/full102objects/77258payloadSHAec41d4b3bf7d04a3e846b401060cc3ed9430020db3dfce0e2650ed76f6a46d5b; actualdifferentfixture/selecteddriverreview+foundation must confirm BEFOREfreeze/red. Allprefix1–7 unchanged; newerhead compatibility and explicitupdate/rollback gates retained.",
         "Actual coherentauthor1b7e7d9/import777407a providesminimalvalue/API/immediatemarkerstubs/privateordinalMAXseam/fullindependent102objectliteralv8/40ordinaryQtfeatures+5foundationchecks/119passiveregistrations; no bodyexecuted. RootCIbc0b54c/f1cd77f stages sameadmittedSDKpreparation+closed40compiled/CTestdiscovery+ONLYfoundation; neverpublishedbeforereview. Freshdifferentaccount_session_storage_test_review examinesactualwhole777407a API/fixture/oracles/native/harness/CI; physicalrevisionreuse/currentrotationfencegapscandidatefindings beingbatchedbeforecorrection. Firstapprovedfoundationgreen/40markerred/immutableattribution remain; production020blocked. Rootreserved8/idaccount-sessions-v1; no oldassertions/fixtures/source/receipts changed.",
-        "Integrate actualmain e712d85 normalPR88clock/cddfe82 andPR87ingressR2/e712d85, bothall21finalSUCCESS/independentreviews/currentrules/normalmerge. Preserveall450IDs/1780edges/allmainrowstates/reviews exceptown020baselineclaim; ownsource/tests/fixtures/stubs/review39c95d58 unchanged. OnlysharedJSON/HTML/checkpoint conflicts. SameauthorcorrectingR1–R4/+4focusedcases→44; stagedCIbed9f66closed44 pendingactualdelta. NOnewbodyexecuted; firstactualwholepacketdeltaapproval thenfoundationgreen/red remains."
+        "Integrate actualmain e712d85 normalPR88clock/cddfe82 andPR87ingressR2/e712d85, bothall21finalSUCCESS/independentreviews/currentrules/normalmerge. Preserveall450IDs/1780edges/allmainrowstates/reviews exceptown020baselineclaim; ownsource/tests/fixtures/stubs/review39c95d58 unchanged. OnlysharedJSON/HTML/checkpoint conflicts. SameauthorcorrectingR1–R4/+4focusedcases→44; stagedCIbed9f66closed44 pendingactualdelta. NOnewbodyexecuted; firstactualwholepacketdeltaapproval thenfoundationgreen/red remains.",
+        "Baseline COMPLETE review/redgate: author1b7e7d9/import777407a +coherent418cdd46/import1dae531 fourassertionadditions preservesoriginal40, actual44tests/API/stubs/fixtures/foundation/CIapprovedDIFFERENTd7174d63/import45cedfb afteroriginal39c95d58 findings. FIRSTatclean d717foundationdirect0/1CTest/5Qtchecks+initcleanup7PASS; ONLYthenFIRSTordinary44features/direct8/44failures/0skips-othererrors; independentlyattributed743a70b4 exact13rawarchivefiles/SHAf4079c1e/18772bytes/88stdout44live+44echo/each44soleintendedfactoryconstructor marker. EnvPATH/locale/core0/source/binary/SDKQt fingerprints/UTC+monotonicchronology explicit, noreplay. Allassertionsaftermarkerunexecuted/notpassingcoverage. CInewclosed44+ONLYgreenfoundation andexistingstableSQLsuites ready; branchpublication/latestheadCI/normalPRmerge stillbeforefreshSTORAGE020source. Fullsourcepreownership/index/compiledprefix7reuse/realhost/producer/permission/clock/lifecycle/platform/releasegates retained."
       ],
       "verification": {
         "authored": "passed",
-        "compiled": "passed",
+        "compilation": "passed",
         "passive_discovery": "passed",
-        "baseline_review": "not_run",
-        "observed_red": "not_run",
-        "runtime": "not_run"
+        "test_review": "passed",
+        "sdk_readiness": "passed",
+        "baseline": "observed_red",
+        "red_attribution": "passed",
+        "selected_ci": "not_run"
       },
       "evidence": [
         "docs/evidence/storagetest-020-handoff.md",
-        "docs/evidence/storagetest-020-author.md"
+        "docs/evidence/storagetest-020-author.md",
+        "docs/evidence/storagetest-020-review.md",
+        "docs/evidence/storagetest-020-first-runs.tar.gz"
       ],
-      "review": null
+      "review": {
+        "author": "/root/account_session_storage_test_author; /root (CI/integration/first receipts)",
+        "reviewer": "/root/account_session_storage_test_review",
+        "outcome": "approved",
+        "revision": "Actual whole777407a reviewed39c95d58; corrected11e864d6 approvedd7174d63/import45cedfb BEFORE firstfoundation+44ordinarymarkerred atcleand7174d63, actual13rawfiles independentlyattributed743a70b4. LatestselectedCI/publication/normalmerge separate.",
+        "evidence": "docs/evidence/storagetest-020-review.md"
+      }
     },
     {
       "id": "STORAGE-020",
@@ -16721,6 +16732,11 @@
       "date": "2026-11-07T12:32:38.647515+00:00",
       "task": "STORAGETEST-020",
       "note": "Integrate actualmain e712d85 normalPR88clock/cddfe82 andPR87ingressR2/e712d85, bothall21finalSUCCESS/independentreviews/currentrules/normalmerge. Preserveall450IDs/1780edges/allmainrowstates/reviews exceptown020baselineclaim; ownsource/tests/fixtures/stubs/review39c95d58 unchanged. OnlysharedJSON/HTML/checkpoint conflicts. SameauthorcorrectingR1–R4/+4focusedcases→44; stagedCIbed9f66closed44 pendingactualdelta. NOnewbodyexecuted; firstactualwholepacketdeltaapproval thenfoundationgreen/red remains."
+    },
+    {
+      "date": "2026-11-07T12:54:23.784785+00:00",
+      "task": "STORAGETEST-020",
+      "note": "Baseline COMPLETE review/redgate: author1b7e7d9/import777407a +coherent418cdd46/import1dae531 fourassertionadditions preservesoriginal40, actual44tests/API/stubs/fixtures/foundation/CIapprovedDIFFERENTd7174d63/import45cedfb afteroriginal39c95d58 findings. FIRSTatclean d717foundationdirect0/1CTest/5Qtchecks+initcleanup7PASS; ONLYthenFIRSTordinary44features/direct8/44failures/0skips-othererrors; independentlyattributed743a70b4 exact13rawarchivefiles/SHAf4079c1e/18772bytes/88stdout44live+44echo/each44soleintendedfactoryconstructor marker. EnvPATH/locale/core0/source/binary/SDKQt fingerprints/UTC+monotonicchronology explicit, noreplay. Allassertionsaftermarkerunexecuted/notpassingcoverage. CInewclosed44+ONLYgreenfoundation andexistingstableSQLsuites ready; branchpublication/latestheadCI/normalPRmerge stillbeforefreshSTORAGE020source. Fullsourcepreownership/index/compiledprefix7reuse/realhost/producer/permission/clock/lifecycle/platform/releasegates retained."
     }
   ]
 }

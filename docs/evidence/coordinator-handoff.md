@@ -44,35 +44,30 @@ againstacceptedR2after006merge. `/tmp/subathon-sessioncontract005`, original
 `task/SESSIONCONTRACT-005-ingress`, [draftPR85](https://github.com/Kernol12/subathon-bot-ai/pull/85).
 Rootintegratede712d85 preservingall450/1780/mainstates/reviews andunreviewedpartial/
 source8bytecomparisons. Same`account_ingress_contract_author` resumesonlyown2docs;
-oldturnwascompleted, thisisexplicitreassignment. Author worktree mergedactualclaim4ea39bb/R2; explicitfollowuptask nowrunning. Completeactualproposal+differentreview
-remain; neverassumeoldpartial/review/sourcefacts are runtime oracceptedsolution.
+oldturnwascompleted, thisisexplicitreassignment. Author worktree mergedactualclaim4ea39bb/R2; explicitfollowuptask nowrunning. Actualcompletebbacc5e/import08b6f01 APPROVEDfreshdifferent82cd57c6;
+rootfinalmetadata/latestCI/normalPR85merge remain; neverassumeoldpartial/review/sourcefacts are runtime oracceptedsolution.
 Handoff on005branch recordsactualnextnative011/proxy007008owners/noenvelopemTPS
 orTLSslabrequirement. Rootownsallsharedgraph/schema/pins/build/deploy/CI/state/HTML.
 
-STORAGETEST-020, `/tmp/subathon-storagetest020`,
-`task/STORAGETEST-020-account-session-baseline`, NOTYETpublished (avoid automatic
-newbodyexecutionbeforereview). Freshauthor1b7e7d9/import777407a complete13files:
-minimal lifecyclevalues/API, immediatemarkerstubs, independentfull102objectliteral8,
-40originalordinaryQtfeatures/fivefoundationchecks, build/passive119registrationsONLY.
-Rootreservation2ae8d1a: additive8/idaccount-sessions-v1 afteractualcompiledprefix7;
-alloldprefix1–7 unchanged. RootCIbc0b54c/f1cd77f stages sameadmittedSDKbuild,
-closed40native/CTestdiscovery andONLYmandatoryfoundation; knownredfeatures separately.
-Different `account_session_storage_test_review` REQUEST_CHANGES39c95d58/import4689c78
-actual777407a (fourSTORE-ownedrevision/fence/localinsert/immutableshapeassertiongaps);
-sameauthor nowcorrectscoherentbatch inoriginalauthortree at05e75ab. No newbodyrun.
-Originalreviewer examined actual777407a in
-`/tmp/subathon-storagetest020-review`, `review/STORAGETEST-020-baseline`, ownsONLYnew
-reviewrecord. ActualwholeAPI/fixture/40tests/foundation/native/harness/CIreview BEFORE
-ANYnewbody. Then root FIRSTfoundationgreen → FIRSTordinary40markerred withimmutable
-rawreceipts/env/source/binaryidentity anddifferentfailureattribution. MissingSDK/
-compilation/skips aren't red. Actual source020 waits for reviewed/redmergedbaseline.
-Do not push authored executablepacket beforeapproval/firstlocalruns. Handoff on020branch.
+STORAGETEST-020 review/red evidencegate COMPLETE, `/tmp/subathon-storagetest020`,
+`task/STORAGETEST-020-account-session-baseline`. Actualauthor1b7e7d9/import777407a,
+coherent418cdd46/import1dae531 preserves40oldcases/adds4. Differentd7174d63 whole
+API/44tests/fixture/stubs/foundation/CIapproval; FIRSTclean d717foundation0/1CTest/
+fivechecksPASS thenFIRSTordinary44markerred/direct8/nootherfailure-skip. Independent
+743a70b4 verifies13immutableoriginals/44individualmarkers/chronology/hashes/env, no
+replay. Archive18772/SHAf4079c1e. [Handoff](storagetest-020-handoff.md).
+RootpublishesfocusedPRwithnewmandatoryfoundation+closed44passivediscovery, actual
+selectedhostCI/finalheadrules/threads/normalmerge remain. No production020source
+untilmergedbaseline; freshimplementationagentthenownscomponent, all44frozenassertions
+andhost/source/platform/fullreleasegates preserved. No activebaselineauthor/reviewer
+turn; no bodyrerunneeded. Oldnotpublishednotesarehistoricalstage, nowpublicationstarts.
 
-ACCESSCONTRACT-001 newlyclaimed frommaincddfe82, `/tmp/subathon-accesscontract001`,
-`task/ACCESSCONTRACT-001-local-login`; fresh`local_login_authority_contract_author`
-ownsonlynewlocal-login-authority-v1.md+ownnote. Brief/handoff onthisbranch;
-actualretainedacceptedlocalowner/pre-session/offwritercrypto/rehash/thread document,
-no implementation/header/test/publicproof/provider/native. Differentactualreviewrequired.
+ACCESSCONTRACT001 authorf4e38dbc/import7f67cd7 complete in
+`/tmp/subathon-accesscontract001`, `task/ACCESSCONTRACT-001-local-login` (noPRyet).
+Freshdifferent `local_login_authority_contract_review` reviewsactual7f67cd7 in
+`/tmp/subathon-accesscontract001-review`, `review/ACCESSCONTRACT-001-authority`,
+onlynewreviewrecord. LA01–30/thread/secret/member/rehash reviewpending; no native/
+provider/featureoperation. Existingactualruntime/directory/source owners retained.
 
 ## Continuity and remaining gates
 
