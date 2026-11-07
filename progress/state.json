@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T15:26:37.011678+00:00",
+  "updated_at": "2026-11-07T15:44:32.657454+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -176,7 +176,7 @@
       "title": "Remove environment foundation programs",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/environment_cleanup_author",
       "depends_on": [],
       "spec_refs": [
@@ -185,13 +185,27 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
       "summary": "Remove environment executables that assert library or fixture facts instead of product behavior, preserving focused real tests.",
       "notes": [
-        "Independent cleanup review approved exact 18-registration inventory before deletion. Remove 17 environment-only programs and translation foundation-only mode; retain real verifier, domain assertions/fixtures/pins, rate53/account44 red separation. Author now applies bounded wiring/CI/doc changes. Actual source review, native checks, hosted CI and normal PR merge remain."
+        "Removed 17 environment programs and translation foundation mode after independent cleanup/source review. Product tests, fixtures, pins and verifier unchanged. Real Qt/SQLite 361 cases, focused suites, tooling29 and scaffold3 passed; rate53/account44 remain red. Hosted CI and normal PR94 merge remain. Next: TESTCLEAN-003 or TESTCLEAN-001."
       ],
       "verification": {
-        "cleanup_baseline_review": "passed"
+        "cleanup_baseline_review": "passed",
+        "source_review": "passed",
+        "native_acceptance": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/94"
+      ],
+      "review": {
+        "author": "/root/environment_cleanup_author",
+        "reviewer": "/root/environment_cleanup_review",
+        "outcome": "approved",
+        "revision": "Exact pre-deletion proposal SHA256 a1053859 approved, then source b014fcf/importfe483fe and supporting cef3146b approved. No product assertion/fixture/pin change; final integration metadata and hosted CI remain.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/94"
+      }
     },
     {
       "id": "TESTCLEAN-003",
@@ -16475,6 +16489,11 @@
       "date": "2026-11-07T15:26:37.011678+00:00",
       "task": "TESTCLEAN-002",
       "note": "Different environment_cleanup_review approved proposal SHA256 a1053859 before deletions/builds; 18 environment registrations, no unique extraSQLiteprobe, translationverify preserved. Added narrow docsCI currentguidance correction to explicit ownership. Final source/native/CI/normalmerge gates remain."
+    },
+    {
+      "date": "2026-11-07T15:44:32.657454+00:00",
+      "task": "TESTCLEAN-002",
+      "note": "Imported independently approved b014fcf/fe483fe; precise18registration removal admitted before deletion. Native361+contract passed, two stale-reference infra failures corrected via separately reviewed cef3146b then only2rerunPASS. Focused32/53/37/39/43/33 passed; red53/44 unchanged. Roottooling29/scaffold3/currentstate/render/project pass. PR94 finalmetadatareview/CI/normalmerge remain."
     }
   ]
 }
