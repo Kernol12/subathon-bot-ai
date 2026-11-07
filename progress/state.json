@@ -14205,6 +14205,39 @@
         "baseline": "584940e plus explicitly reviewed blocked-status clarification in docs/AGENT_WORKFLOW.md",
         "evidence": "docs/evidence/boot-009-review.md"
       }
+    },
+    {
+      "id": "CONTRACTPLAN-006",
+      "title": "Split current-session and lifecycle architectural prerequisites",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "Codex /root coordinator; fresh session_slice_plan_author",
+      "depends_on": [
+        "SESSIONCONTRACT-001",
+        "SESSIONCONTRACT-002",
+        "SESSION-001",
+        "STORAGE-002"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "§17",
+        "AUTH-05",
+        "AUTH-12",
+        "TEST-04",
+        "DEV-02"
+      ],
+      "brief": "docs/tasks/CONTRACTPLAN-006.md",
+      "summary": "Plan separate current-session supplier component and lifecycle/storage/accepted-login/ingress prerequisites without implementing them or shrinking full session scope.",
+      "notes": [
+        "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002→ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges."
+      ],
+      "verification": {},
+      "evidence": [
+        "docs/evidence/contractplan-006-handoff.md"
+      ],
+      "review": null
     }
   ],
   "activity": [
@@ -15517,6 +15550,11 @@
       "date": "2026-11-07T08:57:14.796864+00:00",
       "task": "BOOT-009",
       "note": "Documentation workflow changes independently approved and locally checked; PR78 publication/merge gates separate, no product work resumed."
+    },
+    {
+      "date": "2026-11-07T09:30:00.269440+00:00",
+      "task": "CONTRACTPLAN-006",
+      "note": "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002→ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges."
     }
   ]
 }
