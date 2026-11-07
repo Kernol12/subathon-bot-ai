@@ -1,99 +1,76 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Verify actual branches, worktrees, claims, processes and
-PR/check/review state before acting. Preserve valid work; explicitly reassign stale tasks.
+Updated: 7 November 2026. Inspect actual branches, worktrees, claims, processes,
+PRs/checks/reviews before acting. Preserve work and explicitly reassign stale tasks.
 
 ## Completed priority work
 
-- Current main `e48f231384644eb39300957003dcc1a702734df7`: normal TESTCLEAN-004
-  PR #97 merge at 18:31:05 UTC after all 19 current-head checks, independent exact
-  integration approval `0d41cc5`, actual branch-rule inspection and no unresolved
-  review threads. No bypass. Main refreshed before selecting the next task.
-- TESTCLEAN-004 proposal `7c94a664`/inventory `5b32bfd5`, source/runtime `017083ce`
-  approved independently by `/root/qt_support_review` (different fresh author
-  `/root/qt_support_author`). Common 65-line Qt support preserves throwing callback
-  failures/source locations, real completion/typed errors and 5/10/20s timeouts.
-  Same 13 warning policies install first in per-test init plus existing setup.
-  Twelve guarded stable classes ran; account stays passive. No warning suppression.
-- Exact baseline: 12 raw writer re-admission tails, one raw migration reopen and three
-  repeated counts consolidated. Reviewer required relocating fresh-work refusal
-  into BOTH writer rollback paths before the five rollback-tail removals. All methods
-  and unique adapter priority/budget/physical-outcome assertions remain. All 17 old
-  touched source blobs equal the published archive; source imports byte-identically.
-- Actual fresh Qt 6.12 SQL build 109 steps, passive 18 nodes (15 Qt +3 infra), stable
-  Qt14/14 with all361 methods/869PASS IDs identical to prior approved run, no failures/
-  skips/blacklists/QWARN/QFATAL. Infra3 includes tooling34 and project461/122; allpass.
-  Account44functions passive only. Raw stable SHA256
-  `077b7a4af44b511b0aed0f6dfac104211744b17bb690b41ba79c543e70843d07`.
-  Commands/review in PR97 and `/tmp/testclean004-author-handoff.md`; do not replay
-  passing native bodies for receipts. Actual local SDK does not establish platforms.
-- TESTCLEAN-003 PR #96 merge `7179680`: selector test-first red/green, 31presets/cache
-  migration, stable428 nodes/410GTest/361Qt methods/translation43; independent full
-  source/runtime/integration review and all19 current checks before normal merge.
-- TESTCLEAN-001 #95 (`2d5488f`), TESTCLEAN-002 #94 (`b8bd0d3`), EVIDENCE-002 #93
-  (`116a6cd`), EVIDENCE-001 #92 (`dc0a544`) all merged normally after independent
-  review and current checks. Published annotated archive targets `01cf400`; all969
-  removed receipts verified after publication. Notes <=500; sole evidence README.
+- Current main `f25035772a5e1b569859e22c1c3ae1f6414486e4`: normal TESTCLEAN-005
+  PR #98 merge at 18:52:40 UTC after exact-head `e2c7344` independent review,
+  all19current checks, actual branch rules and zero unresolved discussions. No bypass.
+  Main refreshed before claiming the next task.
+- TESTCLEAN-005 author `/root/behavior_assertions_author` (no helper), different
+  reviewer `/root/behavior_assertions_review`. Proposal8990b6e2/source-runtime4db2401
+  approved before edits/execution. Six methods consolidate repeated prefix framing/
+  hash at independent canonical owners1–7; required existing4payload/hash and5hash
+  relocate into plan/bundle. Every factory still independently compares all prefix
+  versions/IDs/orderedSQL/full projections. Public formats/errors/order/budgets,
+  methods/rows/fixtures/dependencies/warning hooks unchanged. Seven fixtures equal
+  archive; current old CPPs include TC004 changes and do not all equal original tag.
+- Actual freshSQL109build steps, discovery18nodes=15Qt+3infra, stable14/14Qt25.48s,
+  all361methods/869PASSIDs identical TC004, all7canonicalowners/genericUnicode/NULL/
+  BOM/frame tests PASS, zero failures/skips/blacklists/QWARN/QFATAL. Infra3/tooling34/
+  project461/122 pass. Account44functions passive only. Different reviewer recomputed
+  seven receipt hashes and exact relocated4/5literal identity from oldholds.prefixes.
+  StableSHA256 `1d191ddd00d3063ffa979d884672659b1c4716a94bf739b99e4c6a18b503a95e`.
+  Details in PR98 and `/tmp/testclean005-author-handoff.md`; no native receipt replay.
+  Final metadata corrected nonexistent helper attribution and stale read-only wording.
+- TESTCLEAN-004 #97 (`e48f231`): shared throwing/source-location assertions and real
+  completion retain typed errors/timeouts; same13warningpolicies in per-test init,
+  12guardedstable classes ran/accountpassive. Exact writer tails consolidate with
+  fresh-work refusal relocated into BOTH rollback paths. All361methods/869results,
+  infra3/tooling34 and19current CI passed before normal merge after separate reviews.
+- TESTCLEAN-003 #96 (`7179680`), TESTCLEAN-001 #95 (`2d5488f`), TESTCLEAN-002 #94
+  (`b8bd0d3`), EVIDENCE-002 #93 (`116a6cd`), EVIDENCE-001 #92 (`dc0a544`) merged
+  normally with independent reviews and current checks. Selector test-first red/green,
+  all31preset/cache closures, stable428nodes/410GTest/361Qt/translation43 verified.
+  Published annotated archive targets01cf400/all969receipts verified postpublication;
+  state notes<=500/current soleREADME. Current schema8 uses20unchanged pins.
 
-## Active assignment: TESTCLEAN-005
+## Active assignment: TESTCLEAN-006
 
-- Dedicated root branch `task/TESTCLEAN-005-behavior-assertions` from actual current
-  main `e48f231`; claim `/root/behavior_assertions_author`. Use fresh implementation
-  and different review sessions, isolated author worktree. Coordinator exclusively
-  owns state/HTML/evidence/checkpoint/PR and shared integration.
-- Read brief, ADR-0012, v0.45 §§17–18 and current shipped migration/codec/repository
-  contracts. Scope is repeated private implementation pins: SQL shape/object counts,
-  repeated DDL/hashes, struct-derived bounds, private error wording or orchestration
-  lists only where not contractual. Keep one deliberate shipped-migration freeze
-  test and every public/persisted encoding guarantee. Preserve actual under/over-limit,
-  rollback/idempotency/exactness/ownership and observable repository behavior.
-- First read-only inventory precise candidate assertions and their contract status;
-  derive independent retention/replacement examples. Produce bounded exact proposal
-  with removed-pin rationale and retained coverage BEFORE edits. Separate reviewer
-  approves baseline revision; no broad deletion or expected-value derivation from
-  implementation. Do not alter production/fixtures/generators or overlap TC006/007.
-- Exact proposal `8990b6e251aaec2a6d7a5867759a6eb6932e10f07aa8f86b668cdcf95e5e47fd`
-  independently approved before edits. All6named old methods/7stablecanonicalowners,
-  seven archive-equal independent fixtures and inherited suite availability checked.
-  Root authorized only six named CPP/method edits: each factory keeps full independent
-  prefix tuples, own1–7 framing/hash retained; existing step4payload/hash and5hash
-  MUST relocate into plan/bundle owners before higher-prefix repeats are removed.
-  Plan per-object comparison becomes exact ordered whole-list equality over all4fields.
-  Remove only repeated12payload/14hash executions, relocating1payload/2hash. No unique
-  bytes/format/publicerror/order/budget checks or methods/rows/fixtures/deps change.
-- Exact author source `4db2401f86903ec21ae16e96a7e8be54aae97dda` independently
-  approved before execution and imported unchanged. All6files/methods match proposal,
-  all public contracts/methods/catches/warning hooks/fixtures/dependencies unchanged.
-  Root authorized focused checks only after that gate. Actual freshSQLconfigure/
-  build109steps PASS; discovery18nodes=15Qt+3infra, soleaccountred44functions passive.
-  Stable14/14Qt PASS25.48s/all361methods/869PASS-IDmultiset exactly TC004; allseven
-  canonicalowners and generic literal/NULL/Unicode/BOM methods PASS; zero failures/
-  skips/blacklists/QWARN/QFATAL. Infra3 includes34tooling/project461/122, allpass.
-  Different reviewer audited all7receipt hashes, raw method/discovery equivalence,
-  onlytemp-root property normalization and exact relocated4/5literal identity;
-  RUNTIME APPROVED unchanged4db2401. No passed native replay for receipts.
-  Handoff `/tmp/testclean005-author-handoff.md`; stable raw SHA256
-  `1d191ddd00d3063ffa979d884672659b1c4716a94bf739b99e4c6a18b503a95e`.
-  Author/reviewer sessions finished; explicitly resume reviewer for finalintegration.
-  PR #98 draft at observed4cd36b8; final rootdocs/state/HTML nowprepared. No invented stub red for this
-  mechanical relocation/comparison. Complete-head independent review and current CI/rules/discussions/normal merge
-  remain final gates. TESTCLEAN-007 also ready but
-  unclaimed. Full product loop continues; no routine owner confirmation needed.
-- Initial independent contract audit protects exact migration framing/projections/
-  digests/DDL, published B/I budget formulas, fixed no-secret exception messages and
-  required service order. Approved scope consolidates repeated same-method or prefix checks with precise
-  independent canonical per-step owners. A later-step digest does not freeze earlier
-  SQL. Proposal/source/runtime gates passed; final integration/current CI remain.
+- Dedicated root branch `task/TESTCLEAN-006-fixture-provenance` from currentf250357.
+  Claim `/root/fixture_provenance_author`; fresh implementation session in isolated
+  author worktree and a different reviewer. Coordinator owns state/HTML/currentdocs/
+  evidence/checkpoint/PR, rootCMake/shared integration.
+- Brief/ADR0012/v0.45§17/current fixture-oracle contracts govern. Read scoped tests
+  and tools AGENTS before edits. First READ-ONLY inventory current oracle origins,
+  missing generators, named/opaque scenarios, each distinct behavior and owning tests.
+- Six current fixtures exceed500lines: application_service(13748), bundle(10040),
+  holds(5021), reference_capture(4921), original_claims(2992), account_sessions(720).
+  Either propose deterministic independent generators under tools or compact named,
+  hand-derived scenarios. Preserve every required oracle/encoding/migration freeze,
+  rollback/idempotency/ownership/exactness and account44intentional-red provenance.
+  No expected value may derive from production/system-under-test calculations.
+- Produce exact bounded path/provenance/input-output/coverage/deletion map BEFORE
+  baseline edits; independent oracle/coverage review required. Split substantial
+  prerequisites explicitly before expansion, without silently reducing006 scope.
+  Avoid a new harness framework, giant literal-copy generator or line-count target
+  that removes behavior. New generator/CLI behavior needs appropriate test-first
+  contract/examples/tests/review/intended-red/implementation gates; mechanical
+  oracle-preserving relocation needs no manufactured product stub baseline.
+- No source edits/runtime/proposal approval yet. Next exact proposal/test gates then
+  bounded source and independent execution review/relevant checks. Current CI,
+  final integration/rules/discussions and normal protected merge remain. TC007 also
+  ready but unclaimed; full standing product loop continues without routine approval.
 
-## Preserved work and environment
+## Preserved context
 
-All registered worktrees/old branches remain; no reset/prune/delete. Prior author and
-reviewer sessions finished and are not assumed active. Approved unpublished
-ACCESSCONTRACT-001 `53524fc` and its valid review remain; publish when priority permits.
-STORAGE-020 unstarted; reviewed44-case intended-red baseline unchanged.
-
-Local Qt6.12.0/Boost1.92/GCC16.2.1/Python3.14.9, sodium SDK
-`/tmp/subathon-session-sdk/prefix`, schema20-pin SDK and prior disposable build/log
-paths remain. Verify before reuse; never commit personal paths. Full v0.45, all seven
-integrations/three FX providers/UI/platform scope stay required. No live credentials,
-provider/chat/payment/deployment effects are authorized. Detailed proof stays in PRs.
+No worktree/branch reset/prune/delete. Earlier author/reviewer sessions finished,
+not assumed live. Approved unpublished ACCESSCONTRACT-001 `53524fc` and its valid
+review remain. STORAGE-020 unstarted/reviewed44-case intended-red baseline intact.
+Local Qt6.12.0/Boost1.92/GCC16.2.1/Python3.14.9 differ from selected hosted versions;
+SDK `/tmp/subathon-session-sdk/prefix`, schema20pinSDK and earlier disposablebuilds/logs
+remain. Verify before reuse; no personal paths committed. Fullv0.45/seven integrations/
+threeFX/UI/platform scope remains. No live credential/provider/chat/payment/deployment
+side effect is authorized. Detailed exact evidence belongs in focusedPRs/archive.

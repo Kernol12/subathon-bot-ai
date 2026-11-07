@@ -328,7 +328,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
       "summary": "Keep public/persisted contracts while replacing repeated private DDL, layout, message, and order pins with behavior assertions.",
       "notes": [
-        "Six manifest methods consolidate repeated framing/hash at independent owning steps1–7; every factory keeps full frozen prefixes. Public format/error/order/budget contracts and all methods/rows/fixtures remain. Independent proposal/source/runtime review passed; real Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips, account44 passive. Final integration/current CI/normal PR98 merge remain. Next: TESTCLEAN-006."
+        "Six manifest methods keep canonical framing/hash at independent owners1–7; every factory keeps full frozen prefixes. Public format/error/order/budget contracts, methods/rows/fixtures remain. Independent proposal/source/runtime/integration review approved; real Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips, account44 passive. All19 checks passed before normal PR98 merge. Next: TESTCLEAN-006."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
@@ -339,7 +339,7 @@
         "tooling": "passed",
         "scaffold": "passed",
         "runtime_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -349,7 +349,7 @@
         "author": "/root/behavior_assertions_author",
         "reviewer": "/root/behavior_assertions_review",
         "outcome": "approved",
-        "revision": "Exact proposal8990b6e2 and source/runtime4db2401 independently approved; all6method diffs,7canonicalowners/literal identity and raw14Qt/361methods/869results verified. Complete-head/currentCI/merge pending.",
+        "revision": "Proposal8990b6e2/source+runtime4db2401 and corrected completee2c7344 independently approved; all19latesthead checks passed before normal PR98 mergef250357.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/98"
       }
     },
@@ -358,8 +358,8 @@
       "title": "Replace giant unreproducible fixtures",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/fixture_provenance_author",
       "depends_on": [
         "TESTCLEAN-005"
       ],
@@ -369,7 +369,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
       "summary": "Make oversized test fixtures reproducible or replace them with small named hand-derived scenarios.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Claimed from mainf250357 for six large-fixture provenance/scenario cleanup. Fresh read-only author inventories oracle origins and coverage before proposing compact named scenarios or deterministic independent generators. Preserve every unique behavior/public encoding/migration freeze and account44 red baseline. Coordinator owns state/HTML/evidence/checkpoint/PR; exact oracle/deletion review precedes edits."
       ],
       "verification": {},
       "evidence": [],
@@ -16618,6 +16618,11 @@
       "date": "2026-11-07",
       "task": "TESTCLEAN-005",
       "note": "Claimed after normal PR97 merge with fresh implementation and independent exact assertion review."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "TESTCLEAN-006",
+      "note": "Claimed after normal PR98 merge for independent fixture provenance/coverage review and fresh implementation session."
     }
   ]
 }
