@@ -74,6 +74,8 @@ def validate(data: dict, root: Path = ROOT) -> None:
         for key in ("depends_on", "spec_refs", "notes", "evidence"):
             if not isinstance(task.get(key), list) or any(not isinstance(x, str) for x in task[key]):
                 raise ValueError(f"{task_id}: {key} must be an array of strings")
+        if sum(map(len, task["notes"])) > 500:
+            raise ValueError(f"{task_id}: combined notes exceed 500 characters; shorten the task notes in JSON")
         brief = local_path(task.get("brief"), root)
         if not brief.is_file():
             raise ValueError(f"{task_id}: missing local document: {task.get('brief')}")
