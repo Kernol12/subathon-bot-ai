@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "34 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "36 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -360,8 +360,8 @@
       "title": "Independent catalog, reference and account fixture recipes",
       "module": "Fixture tooling",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "/root/fixture_catalog_author",
       "depends_on": [
         "TESTCLEAN-005"
       ],
@@ -371,11 +371,35 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
       "notes": [
-        "Planned prerequisite only. Exact family contract/oracle/coverage proposal and authored-test review/intended-red gates precede implementation. No generator or product behavior is implemented or verified by this record."
+        "Reference/account outputs reproduce original bytes from four pinned seeds; account8 remains proposed. Independent test-first/oracle/source/fix/runtime/integration reviews approved; focused2/tooling36/infra3 and19CI checks passed for validated code. Fixtures/native sources unchanged; failure history retained. PR100 completion record must pass current-head gates and normal merge. Owner requested stop after this task; no nextclaim."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "scope_contract_review": "passed",
+        "test_oracle_review": "passed",
+        "baseline": "observed_red",
+        "baseline_review": "passed",
+        "source_oracle_review": "passed",
+        "acceptance": "passed",
+        "first_green": "passed",
+        "source_fix_review": "passed",
+        "usage_identity": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "native_identity": "passed",
+        "runtime_review": "passed",
+        "github_ci": "passed",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/100"
+      ],
+      "review": {
+        "author": "/root/fixture_catalog_author",
+        "reviewer": "/root/fixture_catalog_review",
+        "outcome": "approved",
+        "revision": "Scope/test-red/source/fix/runtime39c5529 and fullpacketd6ef10c independently approved; all19CIcontexts passed atd6. Finalcompletion metadata changes no code/oracles; latest-head checks/normalPR100merge remain mandatory.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/100"
+      }
     },
     {
       "id": "FIXTURE-002",
@@ -440,10 +464,12 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
       "summary": "Make oversized test fixtures reproducible or replace them with small named hand-derived scenarios.",
       "notes": [
-        "Read-only author handed off independently approved planc52d8293; claim explicitly released to Unassigned pending three executable prerequisites. FIXTURE001 covers catalog/reference/account,002 storage/selectors,003 service; final006 retains all-six adoption/CI/docs. Every oracle/public contract and account44 red remains. No fixture/source/generator implementation or feature execution yet; fresh child sessions and full test-first/review gates required."
+        "Read-only decomposition planc52d8293/packet2bf4381 independently approved; all19checks passed before normal PR99 merge855a1f0. Parent claim explicitly released planned/Unassigned pending FIXTURE001catalog/reference/account,002storage/selectors,003service, then final006adoption/CI/docs. All six oracles/public contracts/account44red remain. No generator or fixture implementation follows from planning; fresh executable sessions/test-first gates required."
       ],
       "verification": {
-        "decomposition_plan_review": "passed"
+        "decomposition_plan_review": "passed",
+        "decomposition_packet_review": "passed",
+        "decomposition_ci": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/99"
@@ -16703,6 +16729,16 @@
       "date": "2026-11-07",
       "task": "TESTCLEAN-006",
       "note": "Read-only plan independently approved; explicit prerequisites created and inventory claim released. No implementation gate approved."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "FIXTURE-001",
+      "note": "Fresh first prerequisite claimed after normal planningPR99 merge; contract/test-first and independent oracle/source execution gates intact."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "FIXTURE-001",
+      "note": "Owner requested clean completion of FIXTURE-001 and then stop; no subsequent task claim or standing-loop continuation."
     }
   ]
 }

@@ -178,7 +178,7 @@ and [implementation #77](https://github.com/Kernol12/subathon-bot-ai/pull/77) re
 archived; hostile-package/resource/kernel guarantees are not current capabilities.
 These offline artifact checks establish no runtime HTTP/auth/provider/client/platform
 behavior. The progress schema remains an editor hint; runtime tooling owns DAG,
-review and note-length invariants. Current tooling 34/34 and infrastructure 3/3 pass.
+review and note-length invariants. Current tooling 36/36 and infrastructure 3/3 pass.
 
 [ADR-0012](../decisions/0012-test-suite-simplification.md) bounds the current cleanup.
 The published archive preserves all 969 removed receipts, verified after publication;
@@ -210,8 +210,21 @@ The latest local Qt 6.12 run passed 14/14 stable suites, all 361 methods and the
 869 data/lifecycle results, without failures, skips, blacklists or warnings;
 infrastructure 3/3 and tooling 34/34 passed. Independent raw runtime review confirmed the unchanged baseline and relocated
 literals. The final integrated head passed separate review and all 19 current checks
-before normal PR #98 merge. Fixture reconstruction is planned in [three explicit prerequisites](../tasks/EPIC-028/TESTCLEAN-006.md)
-before final all-six adoption; no recipe/generator implementation is established yet.
+before normal PR #98 merge.
+
+The independent fixture CLI now reproduces reference/account outputs exactly from
+four pinned small seeds and literal source recipes, with legacy outputs absent in
+reproduction tests. Original raw and typed fingerprints remain; no fixture or native
+source changed. The same two focused tests reached reviewed intended red before
+implementation and now pass, including selected-file sentinels and no-write output/
+seed drift. Direct generation/check and infrastructure 3/3 with tooling 36/36 pass.
+Independent raw runtime review confirmed the exact outputs and all local checks.
+[PR #100](https://github.com/Kernol12/subathon-bot-ai/pull/100) records the contract,
+test-first and failure/fix history. Complete-packet review and all 19 CI checks
+passed for the validated implementation; the completion record follows the same
+current-head review and normal merge gates. Account
+coordinate8 remains proposed and its 44 feature bodies passive. The other four
+families and final all-six adoption remain in [explicit prerequisites](../tasks/EPIC-028/TESTCLEAN-006.md).
 Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release
