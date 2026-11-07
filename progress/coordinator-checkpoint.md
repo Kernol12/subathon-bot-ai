@@ -48,7 +48,12 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/PRs before act
   `17c3d00f14c49ed6a1119beddfcdfb2e27723f81e37cc27942d68dbf173dc631`:
   77 OpenAPI literals (26 valid/51 invalid over all 17 targets) and 11 progress
   literals (2 valid/9 invalid). This is NOT full packet/execution approval.
-  No native or new suite execution observed. Existing standards-library refactor
+  Source packet `80b240d` was held at pre-execution review for three coverage
+  guards: uninventoried inline examples, full binding-tuple uniqueness, and actual
+  Schema-target admission (metadata /info is not a valid target). Author committed
+  those fixes at `e4af41ef`; exact revised whole-packet approval is still pending.
+  Literals/schemas/pins unchanged; no helper/validator/suite or SDK execution yet.
+  Existing standards-library refactor
   requires genuine positive/negative validation, not manufactured stub/setup red;
   actual schema defects retain reviewed expectations and separate correction review.
 - Inventory: one actual OpenAPI3.1.1 document, 17 components, 23 current positive
