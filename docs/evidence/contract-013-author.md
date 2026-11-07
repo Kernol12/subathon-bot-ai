@@ -95,3 +95,14 @@ Next action: coordinator integrates this focused author commit, arranges differe
 packet review, resolves findings, then observes actual hosted package validation.
 Publication/PR/progress and final check evidence are in the coordinator handoff;
 this author record does not invent a PR, review or validation receipt.
+
+## Integrated dialect correction
+
+Coordinator /root corrected the one actual independent packet finding after author
+5819a297/importcebf164: the OpenAPI document-level `jsonSchemaDialect` must select
+`https://spec.openapis.org/oas/3.1/dialect/base`, as the accepted validator logical
+§4/context profile and actual `_schema_index.py` require. The original Draft2020-12
+URI selected the wrong admitted document dialect. Only that one schema string
+changed; every assertion,23example file and binding remains. No validator scope,
+import contract, runtime behavior or baseline changed. Different actual delta review
+and hosted acceptance remain required. Strict JSON parse and whitespace pass.
