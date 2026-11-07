@@ -1,0 +1,9 @@
+{
+  "supported_versions": [
+    "future.v9",
+    "reference.v1"
+  ],
+  "required_capabilities": [
+    "reference.timer-snapshot.v1"
+  ]
+}

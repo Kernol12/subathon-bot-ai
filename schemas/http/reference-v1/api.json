@@ -1,0 +1,855 @@
+{
+  "openapi": "3.1.1",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Subathon bounded reference HTTP contract",
+    "version": "1.0.0",
+    "description": "CONTRACT-013 reference-http-v1 revision1; authored contract only. Normative raw HTTP/resource/auth/current-read priority: docs/contracts/reference-http-v1.md. Exactly two operations, no runtime support implied.",
+    "license": {
+      "name": "GPL-3.0-or-later",
+      "identifier": "GPL-3.0-or-later"
+    }
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "The actual configured canonical HTTPS origin; never a request-supplied trust policy."
+    }
+  ],
+  "paths": {
+    "/api/reference/v1/negotiate": {
+      "post": {
+        "operationId": "negotiateReferenceV1",
+        "summary": "Select a public reference profile and required capabilities",
+        "description": "No query. Exact application/json body; public Origin/optional marker rules, no account resolution. Bounded request and strict pre-materialization JSON scan required. No partial support/capability claim.",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/BrowserMarker"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NegotiateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "431": {
+            "$ref": "#/components/responses/HeaderTooLarge"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "200": {
+            "description": "Selected public version/capability set; no authority or existence grant.",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/CacheControl"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/NoSniff"
+              },
+              "X-Subathon-Correlation-Id": {
+                "$ref": "#/components/headers/CorrelationId"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NegotiateResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Only POST is allowed on this path.",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/CacheControl"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/NoSniff"
+              },
+              "Allow": {
+                "$ref": "#/components/headers/AllowPost"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidPrimitiveFailure"
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/IncompatibleVersion"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnsupportedCapability"
+          }
+        }
+      }
+    },
+    "/api/reference/v1/timer": {
+      "get": {
+        "operationId": "getReferenceTimerV1",
+        "summary": "Read the current authorized committed timer snapshot",
+        "description": "No query/body/Content-Type. Exactly one browser cookie plus mandatory marker OR one desktop Bearer without Origin/marker; never mixed. Current queue-time ingress revision/session/epochs/clock and timer.snapshot.read permission precede readiness/state lookup. require_fresh=false. No stage/private state, timer mutation or inferred application success.",
+        "security": [
+          {
+            "DesktopAccountSession": []
+          },
+          {
+            "BrowserAccountSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/BrowserMarker"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "431": {
+            "$ref": "#/components/responses/HeaderTooLarge"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "200": {
+            "description": "Complete coherent committed timer snapshot, only after current account and granular disclosure authorization.",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/CacheControl"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/NoSniff"
+              },
+              "X-Subathon-Correlation-Id": {
+                "$ref": "#/components/headers/CorrelationId"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimerSnapshot"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/NotAuthenticated"
+          },
+          "405": {
+            "description": "Only GET is allowed on this path, with no body/Content-Type.",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/CacheControl"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/NoSniff"
+              },
+              "Allow": {
+                "$ref": "#/components/headers/AllowGet"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidPrimitiveFailure"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProtocolIdentifier": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9_.-]{0,63}(?![\\s\\S])",
+        "description": "Common ProtocolIdentifier/CapabilityIdentifier bounded vocabulary, never a permission."
+      },
+      "NonnegativeMilliseconds": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 19,
+        "pattern": "^(?:0|[1-9][0-9]{0,17}|[1-8][0-9]{18}|9[0-1][0-9]{17}|92[0-1][0-9]{16}|922[0-2][0-9]{15}|9223[0-2][0-9]{14}|92233[0-6][0-9]{13}|922337[0-1][0-9]{12}|92233720[0-2][0-9]{10}|922337203[0-5][0-9]{9}|9223372036[0-7][0-9]{8}|92233720368[0-4][0-9]{7}|922337203685[0-3][0-9]{6}|9223372036854[0-6][0-9]{5}|92233720368547[0-6][0-9]{4}|922337203685477[0-4][0-9]{3}|9223372036854775[0-7][0-9]{2}|922337203685477580[0-6]|9223372036854775807)(?![\\s\\S])",
+        "description": "Canonical nonnegative Signed64 milliseconds: 0..9223372036854775807, exact string."
+      },
+      "SignedUtcMilliseconds": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20,
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/NonnegativeMilliseconds"
+          },
+          {
+            "type": "string",
+            "pattern": "^-(?:[1-9][0-9]{0,17}|[1-8][0-9]{18}|9[0-1][0-9]{17}|92[0-1][0-9]{16}|922[0-2][0-9]{15}|9223[0-2][0-9]{14}|92233[0-6][0-9]{13}|922337[0-1][0-9]{12}|92233720[0-2][0-9]{10}|922337203[0-5][0-9]{9}|9223372036[0-7][0-9]{8}|92233720368[0-4][0-9]{7}|922337203685[0-3][0-9]{6}|9223372036854[0-6][0-9]{5}|92233720368547[0-6][0-9]{4}|922337203685477[0-4][0-9]{3}|9223372036854775[0-7][0-9]{2}|922337203685477580[0-7]|9223372036854775808)(?![\\s\\S])"
+          }
+        ],
+        "description": "Canonical Signed64 UTC milliseconds: -9223372036854775808..9223372036854775807. No numeric coercion."
+      },
+      "StateRevision": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 8192,
+        "pattern": "^(?:[0-9a-f]{2}){1,4096}(?![\\s\\S])",
+        "description": "Nonempty common OpaqueBytes: 1..4096 decoded bytes, no counter interpretation."
+      },
+      "CorrelationReference": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 512,
+        "pattern": "^(?:[0-9a-f]{2}){1,256}(?![\\s\\S])",
+        "description": "Nonempty common CorrelationReference, 1..256 decoded bytes."
+      },
+      "AccountToken": {
+        "type": "string",
+        "minLength": 64,
+        "maxLength": 64,
+        "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+        "description": "Supplier account token syntax only. Never accepted in a JSON body, URL or correlation field. No token example is a real credential."
+      },
+      "NegotiateRequest": {
+        "type": "object",
+        "description": "Public version/capability offer. Unknown valid identifiers remain structurally valid; compatibility is a later decision.",
+        "properties": {
+          "supported_versions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/components/schemas/ProtocolIdentifier"
+            }
+          },
+          "required_capabilities": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 16,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/components/schemas/ProtocolIdentifier"
+            }
+          }
+        },
+        "required": [
+          "supported_versions",
+          "required_capabilities"
+        ],
+        "additionalProperties": false
+      },
+      "NegotiateResponse": {
+        "type": "object",
+        "description": "Only actually implemented, accepted and enabled target capability may occur. Empty capability list is valid; this schema announces no running support.",
+        "properties": {
+          "selected_version": {
+            "type": "string",
+            "const": "reference.v1"
+          },
+          "capabilities": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "const": "reference.timer-snapshot.v1"
+            }
+          }
+        },
+        "required": [
+          "selected_version",
+          "capabilities"
+        ],
+        "additionalProperties": false
+      },
+      "TimerSnapshot": {
+        "type": "object",
+        "description": "Complete current authorized committed projection. JSON shape never establishes provenance, readiness, permission or currentness.",
+        "properties": {
+          "profile_version": {
+            "type": "string",
+            "const": "reference.v1"
+          },
+          "state_revision": {
+            "$ref": "#/components/schemas/StateRevision"
+          },
+          "lifecycle": {
+            "type": "string",
+            "const": "active"
+          },
+          "main_ms": {
+            "$ref": "#/components/schemas/NonnegativeMilliseconds"
+          },
+          "grace_ms": {
+            "$ref": "#/components/schemas/NonnegativeMilliseconds"
+          },
+          "debt_ms": {
+            "type": "string",
+            "const": "0"
+          },
+          "maximum_main_ms": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/NonnegativeMilliseconds"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Required: explicit null means no cap, never unknown."
+          },
+          "observed_utc_ms": {
+            "$ref": "#/components/schemas/SignedUtcMilliseconds"
+          },
+          "paused": {
+            "type": "boolean",
+            "const": false
+          }
+        },
+        "required": [
+          "profile_version",
+          "state_revision",
+          "lifecycle",
+          "main_ms",
+          "grace_ms",
+          "debt_ms",
+          "maximum_main_ms",
+          "observed_utc_ms",
+          "paused"
+        ],
+        "additionalProperties": false
+      },
+      "CommonFailure": {
+        "type": "object",
+        "description": "Unchanged common failure object, complete encoded body <=1024 UTF-8 bytes. No diagnostics or private details.",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "invalid_encoding",
+              "invalid_json",
+              "invalid_primitive",
+              "resource_limit",
+              "incompatible_version",
+              "unsupported_capability",
+              "not_authorized",
+              "conflict",
+              "unavailable",
+              "outcome_unknown"
+            ]
+          },
+          "correlation_id": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CorrelationReference"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "correlation_id"
+        ],
+        "additionalProperties": false
+      },
+      "InvalidRequestFailure": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CommonFailure"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "invalid_encoding",
+                  "invalid_json",
+                  "invalid_primitive"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "Closed common envelope with this response status-specific code subset."
+      },
+      "InvalidPrimitiveFailure": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CommonFailure"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "invalid_primitive"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "Closed common envelope with this response status-specific code subset."
+      },
+      "ResourceLimitFailure": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CommonFailure"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "resource_limit"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "Closed common envelope with this response status-specific code subset."
+      },
+      "NotAuthorizedFailure": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CommonFailure"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "not_authorized"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "Closed common envelope with this response status-specific code subset."
+      },
+      "IncompatibleVersionFailure": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CommonFailure"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "incompatible_version"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "Closed common envelope with this response status-specific code subset."
+      },
+      "UnsupportedCapabilityFailure": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CommonFailure"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "unsupported_capability"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "Closed common envelope with this response status-specific code subset."
+      },
+      "UnavailableFailure": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CommonFailure"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "unavailable"
+                ]
+              }
+            }
+          }
+        ],
+        "description": "Closed common envelope with this response status-specific code subset."
+      }
+    },
+    "parameters": {
+      "CorrelationId": {
+        "name": "X-Subathon-Correlation-Id",
+        "in": "header",
+        "required": false,
+        "description": "At most one raw field; canonical even lowercase hex after HTTP OWS. Duplicate/invalid =>400 with null correlation.",
+        "schema": {
+          "$ref": "#/components/schemas/CorrelationReference"
+        }
+      },
+      "BrowserMarker": {
+        "name": "X-Subathon-CSRF",
+        "in": "header",
+        "required": false,
+        "description": "Exactly one value 1 REQUIRED for browser-cookie GET; FORBIDDEN for desktop Bearer. Security alternatives alone do not enforce this. Optional on public POST, where duplicate/non-1 is403.",
+        "schema": {
+          "type": "string",
+          "const": "1"
+        }
+      },
+      "Origin": {
+        "name": "Origin",
+        "in": "header",
+        "required": false,
+        "description": "If present: exactly one exact canonical configured HTTPS origin, <=1024 bytes. Forbidden for desktop Bearer; browser safe GET and public POST may omit. No CORS permission.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      }
+    },
+    "headers": {
+      "CacheControl": {
+        "description": "Required exact cache policy on all reference responses.",
+        "schema": {
+          "type": "string",
+          "const": "no-store"
+        }
+      },
+      "NoSniff": {
+        "description": "Required exact X-Content-Type-Options.",
+        "schema": {
+          "type": "string",
+          "const": "nosniff"
+        }
+      },
+      "CorrelationId": {
+        "description": "Present only when a request correlation was safely admitted; echoes it exactly on success. Failure correlation is in the body.",
+        "schema": {
+          "$ref": "#/components/schemas/CorrelationReference"
+        }
+      },
+      "BearerChallenge": {
+        "description": "Required on every 401; no detailed credential diagnosis.",
+        "schema": {
+          "type": "string",
+          "const": "Bearer realm=\"subathon\""
+        }
+      },
+      "UpgradeGuidance": {
+        "description": "Required on 409/422: client localizes explanation and instructs selection/upgrading to a mutually supported client/server release.",
+        "schema": {
+          "type": "string",
+          "const": "compatible-client-or-server"
+        }
+      },
+      "AllowPost": {
+        "description": "Required Allow value for unsupported methods on negotiate.",
+        "schema": {
+          "type": "string",
+          "const": "POST"
+        }
+      },
+      "AllowGet": {
+        "description": "Required Allow value for unsupported methods on timer.",
+        "schema": {
+          "type": "string",
+          "const": "GET"
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "400: closed request/JSON/primitive failure; no protected state lookup.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InvalidRequestFailure"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "404: no reference handler for this exact path; applies to the listener, not a wildcard registered route.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InvalidPrimitiveFailure"
+            }
+          }
+        }
+      },
+      "NotAcceptable": {
+        "description": "406: unsupported Accept representation.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InvalidPrimitiveFailure"
+            }
+          }
+        }
+      },
+      "PayloadTooLarge": {
+        "description": "413: complete wire/body/JSON resource limit, never a fitting prefix.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ResourceLimitFailure"
+            }
+          }
+        }
+      },
+      "UnsupportedMediaType": {
+        "description": "415: missing/duplicate/unsupported Content-Type or unsupported Content-Encoding.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InvalidPrimitiveFailure"
+            }
+          }
+        }
+      },
+      "HeaderTooLarge": {
+        "description": "431: complete transport/header/projection resource limit.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ResourceLimitFailure"
+            }
+          }
+        }
+      },
+      "NotAuthenticated": {
+        "description": "401: missing/malformed/duplicate/mixed/revoked/expired session; same public envelope.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          },
+          "WWW-Authenticate": {
+            "$ref": "#/components/headers/BearerChallenge"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NotAuthorizedFailure"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "403: Origin/CSRF rejection, or valid session with denied/unknown current disclosure permission. No freshness challenge on this read.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NotAuthorizedFailure"
+            }
+          }
+        }
+      },
+      "IncompatibleVersion": {
+        "description": "409: no mutual version; tested before required capabilities. No account/timer lookup.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          },
+          "X-Subathon-Upgrade": {
+            "$ref": "#/components/headers/UpgradeGuidance"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/IncompatibleVersionFailure"
+            }
+          }
+        }
+      },
+      "UnsupportedCapability": {
+        "description": "422: selected version lacks a required capability; no protected lookup.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          },
+          "X-Subathon-Upgrade": {
+            "$ref": "#/components/headers/UpgradeGuidance"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UnsupportedCapabilityFailure"
+            }
+          }
+        }
+      },
+      "Unavailable": {
+        "description": "503: unknown ingress/policy/source/crypto/readiness/queue/committed-read/output ability. No guessed rollback, Retry-After, success, or account diagnosis.",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/CacheControl"
+          },
+          "X-Content-Type-Options": {
+            "$ref": "#/components/headers/NoSniff"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UnavailableFailure"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "DesktopAccountSession": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "One Authorization field; case-insensitive Bearer + one or more SP + exactly64 lowercase hex token, after outer OWS. No Origin/browser marker; no cookie fallback."
+      },
+      "BrowserAccountSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-subathon_session",
+        "description": "Exactly one unquoted64lowerhex account cookie plus exactly one X-Subathon-CSRF:1. Present Origin must equal configured origin. Cookie flags are issuance obligations, not input evidence."
+      }
+    }
+  }
+}
