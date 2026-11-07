@@ -14,8 +14,8 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | receipt-intake.yml | Reviewed receipt service with primitive simulation storage |
 | contribution-evidence.yml | Reviewed eligibility/linkage with primitive simulation storage |
 | application-plan.yml | Reviewed owned captured-plan transformations |
-| time-debt.yml | Reviewed32pure debt proposals/composition, exact registration and unconditional real acceptance |
-| sqlite-writer.yml | Qt6.12 build, exact registration and writer/work acceptance; stage-specific evidence below |
+| time-debt.yml | Reviewed 32 pure debt proposals/composition with unconditional real acceptance |
+| sqlite-writer.yml | Qt 6.12 whole-suite SQL acceptance and passive account/session red discovery |
 | schema-validation.yml | Real repository schemas/examples with unchanged pinned libraries on CPython 3.10/3.12 |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
@@ -24,6 +24,21 @@ and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
 Ubuntu run. The existing `sqlite-writer-build` check name is retained. Historical
 stub-red and the earlier build-only scope remain in baseline evidence. No failure
 inversion, skipped baseline, WILL_FAIL or continue-on-error is allowed.
+
+Native/translation presets share `SUBATHON_BUILD_ACCEPTANCE_TESTS` and explicit
+`SUBATHON_ACCEPTANCE_SUITES` selection, preserving targeted dependencies and all job
+names. Old enabled per-feature caches require a fresh configure. Qt suites invoke
+each existing executable without slot filters; GoogleTest keeps built-in per-case
+processes and full labels. Translation runs ordinary unittest discovery with the
+same real Qt verifier. CI no longer maintains duplicate method/count inventories;
+semantic fixture integrity, independent literal vectors and requirement maps remain.
+Every stable suite selection fails on empty discovery and runs unconditionally.
+The SQL job explicitly selects `sqlite-reference-capture;sqlite-account-sessions`:
+all stable storage suites run, while the enabled account/session suite is checked
+passively with `intentional-red` labels. Rate methods likewise remain enabled red
+and discovery-only in passing CI. No failure inversion or blanket continuation hides
+their unimplemented behavior. [Test strategy](TEST_STRATEGY.md) documents selection
+and the distinction between method coverage and suite-level CTest nodes.
 
 The SQLite lane downloads official Qtbase6.12.0 and ICU archives with fixed SHA-256
 hashes, extracts with bsdtar, and uses the explicit prefix. Core/Sql/Test compilation and actual writer event-loop operations are checked automatically;
@@ -47,8 +62,8 @@ workflow gates still require every applicable latest-head check; adding a workfl
 does not configure GitHub enforcement. Recheck live rules/reviews before each merge.
 
 CORE-005 promotes the original32 reviewed time-debt cases to unconditional
-ordinary acceptance while retaining the time-debt-build check name. The guard
-compares compiled GoogleTest names to all CTestJSON registrations before bodies.
+ordinary acceptance while retaining the time-debt-build check name. Built-in
+GoogleTest discovery registers each case in its own process.
 [Actual CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-ci.md) records passing Ubuntu32case execution; original
 stub-red remains a historical prerequisite, not a present failing feature suite.
 This remains bounded pure arithmetic/composition, not complete refund/application
@@ -58,7 +73,7 @@ STORAGETEST-010 established a separate reviewed24-case work baseline with genuin
 stub-red, keeping build/discovery distinct from passing old25 behavior; its
 [historical CI assessment](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-ci.md) remains valid. STORAGE-010
 now configures `sqlite-work-debug` to run both suites unconditionally (old25 plus
-new24) on PR/main/manual, retaining the stable job and complete registration guard.
+new24) on PR/main/manual, retaining the stable job and ordinary failure visibility.
 Its [implementation CI assessment](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-ci.md) records actual
 results and remaining gates. Source023451 is independently approved9216d8d; actual Ubuntu41300728417 at
 a1e3a89 passed new24/old25/probe1 with verified selected archives and exact
@@ -66,7 +81,7 @@ registration. Latest-head CI still applies before merge; these49 cases do not
 establish product schemas/recovery/platform/provider release behavior.
 
 The migration catalog suite runs all 24 reviewed cases as ordinary acceptance with
-exact compiled/CTest discovery in the SQLite lane. Its original stub-red and the
+Qt-native whole-suite discovery in the SQLite lane. Its original stub-red and the
 former seven-slot driver diagnostic remain in the
 [archived baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-ci.md).
 Redundant environment programs are removed only through separately approved cleanup;

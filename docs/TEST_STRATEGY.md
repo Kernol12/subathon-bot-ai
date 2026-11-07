@@ -78,7 +78,7 @@ from schema shape, and editor hints do not replace runtime progress invariants.
 | Preset / focused selection | Current state |
 | --- | --- |
 | `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
-| `sqlite-account-sessions-debug` / `-L '^sqlite-account-sessions$'` | 44 reviewed feature cases have intended missing-implementation red evidence; production storage remains unimplemented. Feature labels alone do not distinguish this baseline from passing acceptance. |
+| `sqlite-account-sessions-debug` / `-L '^sqlite-account-sessions$'` | 44 reviewed feature cases have intended missing-implementation red evidence; production storage remains unimplemented. The suite has `intentional-red` labels. |
 
 Their passing CI checks compile/discover feature registrations, enforce selected
 dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into
@@ -100,10 +100,45 @@ ctest --preset exact-numeric-debug -L '^exact-numeric$' --no-tests=error
 Change the preset/selection using the tables above. Inspect discovery with
 `ctest --preset <preset> --show-only=json-v1` when registration changes. Run the full
 preset when affected composition warrants it, accounting for any explicit red baseline.
-CI retains exact feature registration, dependency configuration and ordinary stable
-acceptance. Environment-only fixture/library programs were removed under the separately
+CI retains native discovery, dependency configuration and ordinary stable acceptance. Environment-only fixture/library programs were removed under the separately
 reviewed cleanup. Schema checks retain isolated dependency admission and actual
 artifact/example validation under their separately reviewed contract.
+
+All native/translation acceptance presets use one Boolean,
+`SUBATHON_BUILD_ACCEPTANCE_TESTS`, and an explicit `SUBATHON_ACCEPTANCE_SUITES`
+semicolon list. Selector names match the preset without `-debug`, except
+`acceptance-debug` selects `time-credit`. Named presets retain their existing suite
+and SDK closure: SQLite presets include earlier storage stages; milestone,
+permissions and rate include numeric checks; editorial includes debt and lifecycle.
+Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
+`all` explicitly includes every native/translation suite, all required SDKs and both
+known red baselines. Schema validation and configure-only Qt probing remain separate
+controls. To combine SQL stable checks with passive account discovery:
+
+```sh
+cmake --preset sqlite-reference-capture-debug -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions"
+cmake --build --preset sqlite-reference-capture-debug
+ctest --preset sqlite-reference-capture-debug -LE '^intentional-red$' --no-tests=error
+```
+
+Retired per-feature cache switches are refused when enabled; migrate an existing
+build directory with `cmake --fresh --preset <name>`. Disabled retired entries are
+removed during configuration. Keep personal SDK paths in user presets as before.
+
+`subathon_add_qt_suite` in `cmake/AcceptanceRegistration.cmake` registers one
+`${name}.suite` CTest node per existing executable. Qt's unfiltered `qExec` runs every
+slot/data row and its normal lifecycle; add Qt suites through this helper instead
+of maintaining slot lists. Test-only fixture paths are shared through its interface
+target. GoogleTest retains built-in per-case discovery and process isolation,
+including sodium initialization/fault cases; `subathon_discover_gtests` applies
+complete labels to that discovered list. Translation uses ordinary unittest
+discovery for its whole module, retaining the real Qt verifier environment. Counts
+above describe methods/scenarios rather than CTest nodes. Source assertions and
+fixtures remain the acceptance baseline.
+
+The pre-existing Qt `failOnWarning` calls in `initTestCase` do not guard later slots:
+Qt clears warning patterns before them. TESTCLEAN-004 owns the reviewed hook cleanup;
+registration changes preserve the statements without claiming active warning guards.
 
 Use C++20/CMake/Ninja and the existing selected dependencies: GoogleTest, Boost >=1.83
 for numeric-dependent lanes, Qt >=6.12 with its real QSQLITE plugin for SQL/Qt lanes,
