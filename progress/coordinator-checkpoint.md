@@ -24,16 +24,22 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/PRs before act
 - Scope: brief/ADR-0012/v0.45 §§17–18. Inventory every real shipped schema and its
   independently derived valid/invalid examples. Inspect actual selected validators,
   pins/hashes/licenses and CI. Preserve full release and actual standards validation.
-- HARD FIRST GATE: read ADR-0008/0009 and accepted native/process-test/installation
-  contracts plus oracle map. Before deleting process assertions or changing interfaces,
-  author a precise boundary/contract/oracle disposition with specification-based reason
-  and obtain actual different-agent approval. No native probe/build/discovery before
-  that approval. Accepted current process guarantees remain authoritative until then.
-- Static inventory: one real OpenAPI 3.1.1 root under schemas/, 17 components,
-  23 current positive bindings and 94 local reference occurrences. Scene/WebSocket
-  schemas are still planned placeholders. Include progress/state.schema.json as a
-  shipped tooling schema, without claiming its structural checks enforce runtime
-  DAG/review/combined-note rules. No removal or execution gate is approved yet.
+- First boundary proposal gate APPROVED by different `/root/schema_cleanup_review`:
+  SHA256 `fc7c25ccac8c846175869b624e712d4081c69ae6e897c65a859282a7599c411c`,
+  static spec/consumer/all-six-contract/74-method-map audit. The generic hostile
+  package API/limits/context/native worker is not a product requirement; retire the
+  whole surface explicitly. Preserve real validators/current refs/examples, all 20
+  pins/hashes/licenses/metadata admission and full runtime/product/release scope.
+- Root released ONLY doc authoring: six schema contracts (five retirement notices,
+  one active revision2), ADR-0008/0009, tools policy and active consumer/setup/CI/
+  strategy/notice prose. Author must commit that stage; different reviewer must
+  approve ACTUAL documents before deleting any assertion/native source or authoring
+  new tests/helpers/fixtures. No native/source/test execution approved or observed.
+- Inventory: one actual OpenAPI3.1.1 document, 17 components, 23 current positive
+  examples and 94 local references. Scene/WebSocket schemas remain planned. Include
+  progress/state.schema.json and real state plus independent structural cases; no
+  DAG/review/500-note or format-assertion proof from editor hints. Exact source/CI
+  ownership and independent new-test review gates come after actual doc approval.
 - Reuse existing admitted developer-only dependencies where sufficient; any new version
   or dependency needs isolated pin/hash/license/offline foundation review first. Do not
   install globally or add runtime dependencies. New behavior still follows test review,
