@@ -189,7 +189,8 @@ and scaffold 3/3 passed. All 21 hosted checks passed before normal
 removed 17 environment-only programs and the translation foundation-only mode
 after separate inventory and source review. Product tests, fixtures, pins and the
 translation verifier are unchanged. Local real-Qt/SQLite and focused native checks
-passed; [PR #94](https://github.com/Kernol12/subathon-bot-ai/pull/94) retains
-hosted CI and normal merge gates. Later cleanup tasks retain their own reviews and
+passed. All 21 hosted checks passed before normal
+[PR #94](https://github.com/Kernol12/subathon-bot-ai/pull/94) merge. TESTCLEAN-001
+is reviewing schema coverage and accepted process contracts before any removal. Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence
 and release readiness remain open.

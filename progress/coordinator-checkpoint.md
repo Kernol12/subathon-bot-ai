@@ -29,6 +29,11 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/PRs before act
   author a precise boundary/contract/oracle disposition with specification-based reason
   and obtain actual different-agent approval. No native probe/build/discovery before
   that approval. Accepted current process guarantees remain authoritative until then.
+- Static inventory: one real OpenAPI 3.1.1 root under schemas/, 17 components,
+  23 current positive bindings and 94 local reference occurrences. Scene/WebSocket
+  schemas are still planned placeholders. Include progress/state.schema.json as a
+  shipped tooling schema, without claiming its structural checks enforce runtime
+  DAG/review/combined-note rules. No removal or execution gate is approved yet.
 - Reuse existing admitted developer-only dependencies where sufficient; any new version
   or dependency needs isolated pin/hash/license/offline foundation review first. Do not
   install globally or add runtime dependencies. New behavior still follows test review,

@@ -10,7 +10,9 @@ its CMake registration, relevant schema tooling/contracts, and ADR-0009 updates 
 Replace the disproportionate native loader/fault-injection/audit machinery with a
 data-driven test of the actual project schemas. Validate every schema in `schemas/`
 with a selected standards-compliant validator and check its valid and invalid example
-documents. Keep the §18 validation purpose. Review the current validator/tooling and
+documents. Keep the §18 validation purpose. Include `progress/state.schema.json` as a shipped
+tooling schema with structural valid/invalid examples and the real state instance;
+its editor hints do not prove runtime DAG, review or combined-note-length rules. Review the current validator/tooling and
 ADR-0009 plus `docs/contracts/schema-validation-native-process-v1.md` before changing
 or deleting any accepted process-boundary requirement.
 
