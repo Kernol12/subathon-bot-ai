@@ -57,3 +57,11 @@ The original combined session document was split before authoring: both
 [SESSIONCONTRACT-001](SESSIONCONTRACT-001.md) supplier and
 [SESSIONCONTRACT-002](SESSIONCONTRACT-002.md) transport must be independently reviewed and integrated
 before this task; existing test-first/runtime gates remain.
+
+
+## ADR-0010 additive session prerequisites
+
+[Session executable decomposition](../../decisions/0010-session-executable-prerequisites.md)
+preserves all original scope and test-first/release gates. The authoritative task
+graph adds the relevant supplier/lifecycle/store/local-login/clock/ingress prerequisites.
+These components do not complete this task's own full acceptance or real integration.
