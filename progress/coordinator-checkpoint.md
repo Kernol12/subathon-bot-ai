@@ -51,8 +51,15 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/PRs before act
   Source packet `80b240d` was held at pre-execution review for three coverage
   guards: uninventoried inline examples, full binding-tuple uniqueness, and actual
   Schema-target admission (metadata /info is not a valid target). Author committed
-  those fixes at `e4af41ef`; exact revised whole-packet approval is still pending.
-  Literals/schemas/pins unchanged; no helper/validator/suite or SDK execution yet.
+  those fixes at `e4af41ef`, then progress inline guard at `9281a823`.
+  Different WHOLE-PACKET EXECUTION GATE APPROVED exact `9281a823`, material digest
+  `bcfe245a93f8b6291b4c4531e347ce06d98f193237d8ec2f086c269fb6cab749`.
+  Imported as `edde97e`/`3b4255a`/`1e80709`; all 47 removed source/workflow blobs
+  match the published archive. No prior SDK remains locally; fresh temporary venv
+  with unchanged 20 hash-locked wheels authorized after gate. Author is starting
+  SDK preparation and real eight-method suite; actual outcomes still pending.
+  No native worker/probe returns. Preserve literal expectations if genuine defects
+  appear; separate setup/dependency errors from semantic validation results.
   Existing standards-library refactor
   requires genuine positive/negative validation, not manufactured stub/setup red;
   actual schema defects retain reviewed expectations and separate correction review.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T16:15:22.341536+00:00",
+  "updated_at": "2026-11-07T16:41:35.029153+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -165,11 +165,13 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
       "summary": "Replace validator harness-on-harness tests with real schema and valid/invalid example checks, subject to independent review of any superseded process contract.",
       "notes": [
-        "Independent proposal and actual contract review approved generic worker/API retirement. Author now prepares real-schema suite, literal cases, dependency bootstrap and CI with 20 pins/licenses unchanged. Whole packet needs independent oracle/source review before execution. Current refs, 17 component targets, all23 examples and progress structural schema remain required; final checks/CI/merge open."
+        "Actual contracts and whole test/bootstrap/resolver/CI packet independently approved at 9281a823; source imported 1e80709. Eight methods cover 77 OpenAPI literals, all23 existing examples and 11 progress cases. Unchanged 20-pin isolated SDK setup is starting; real suite outcomes, final integration review, hosted CI and normal merge remain. Generic API retirement is explicit; full product scope preserved."
       ],
       "verification": {
         "boundary_proposal_review": "passed",
-        "contract_review": "passed"
+        "contract_review": "passed",
+        "test_review": "passed",
+        "bootstrap_source_review": "passed"
       },
       "evidence": [],
       "review": null
@@ -16512,6 +16514,11 @@
       "date": "2026-11-07T16:15:22.341536+00:00",
       "task": "TESTCLEAN-001",
       "note": "Actualdoc40e8bfcb independently approved (digest49501a60), imported82415e5. Rootassigned exactschema namespaces/onlyschema CMake-preset-workflow blocks for approvedretirement/newtests/SDKbootstrap authoring. All20pins/artifacts/licensesfrozen; no newhelper/suite/native execution beforewholepacketreview. Fixturehelper explicitly reassigned with noexecution permission."
+    },
+    {
+      "date": "2026-11-07T16:41:35.029153+00:00",
+      "task": "TESTCLEAN-001",
+      "note": "Different whole-packet review approved exact9281a823/digestbcfe245a after inlineinventory/bindingtuple/typedtarget/progress guards fixed beforeexecution. Imported80b/e4/9281 asedde97e/3b4255a/1e80709. All47 retiredsource/workflow paths verifiedbyteequalpushedarchivetag. SDK20immutablepins temporaryinstall and actualrealvalidator suite nowreleased; no manufacturedred or nativeworker."
     }
   ]
 }
