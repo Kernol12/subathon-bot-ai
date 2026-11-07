@@ -182,3 +182,96 @@ native/resource controls, reviewed tests and valid intended red, source/config
 review and acceptance, full 010/008/003 closure, Noto binary/weight/hash/OFL
 packaging and dual-renderer/OBS/minimum-version/platform/deployment/performance/
 release gates remain. Root owns publication; this reviewer does no push/PR/merge.
+
+## Corrected R2 packet — actual same-reviewer resolution, 2026-11-07
+
+The same actual reviewer `/root/asset_contract_review` reviewed the coherent
+author correction `7b47fb3`, imported on this isolated review branch at
+`8cf678521b9787111d0a7a8c68a3cca0aa6a22f9` (root import `b2f6636`). The earlier
+findings, verdict and receipts above remain historical and unchanged.
+
+| Corrected artifact | Exact reviewed Git blob |
+| --- | --- |
+| [Contract](../contracts/scene-assets-packages-v1.md) | `56807729eb838315e7b50d59d1a8825d5f067700` |
+| [Append-only author evidence](contract-011-author.md) | `08c0d300ecbc36807aa7f50ff4b46c088fd75a20` |
+
+**APPROVED for CONTRACT-011 logical document integration at these exact revisions.**
+R2-a and R2-b are resolved below; the prior review's valid R1 and unchanged-scope
+observations continue to apply. This closes the original R1/R2 logical-document
+correction gate. Actual codec, SVG, font, native-resource and platform support
+remain UNKNOWN until the separately owned implementation/evidence gates pass.
+
+### R2-a resolution
+
+§3.1 now points omitted gradient transforms to explicit template resolution.
+§3.3 copies the nearest explicit transform along the complete valid same-kind
+href chain and uses identity only when none exists. An explicit local transform
+overrides the inherited value; template transforms are not multiplied. Own stops
+do not suppress transform inheritance. All inherited transforms receive the same
+list/invertibility/matrix/inverse/geometry/work checks, with repeated template hops
+charged and all original source gradients still validated. This preserves the SVG
+template semantics verified against the primary W3C source in the original review.
+
+S02 now states the unchanged all-absent identity case, B's scale(2) inherited by G,
+G's explicit identity override, and G's scale(3) override rather than scale(6).
+The transform-only inverse of scale(2) is scale(1/2); the small values fit the
+existing bounds. Source bytes are retained without inserted/repaired attributes.
+The decoded `href`/`xlink:href` grammar is expressly literal `#ID` with the
+existing ID vocabulary and no surrounding whitespace/escape/percent normalization.
+No remaining blocking issue was found in this correction.
+
+### R2-b resolution
+
+S05 now supplies a full literal n=1 source and an exact finite construction for
+larger n. G0 is a rect; Gi is a group with two use children targeting G(i−1),
+with every definition present once in defs and one outer source use. Every
+cloned group, child use and referenced shape is charged. The outer source use
+is excluded from its own target instance and separately charged in source
+validation. This gives T0=1, Tn=1+2*(1+T(n−1))=4*2^n−3.
+
+Independent subtotals agree: a target Gn expansion contains 2^n−1 groups,
+2*(2^n−1) use elements and 2^n rects. Source element count is 3*n+4, with
+2*n+1 source reference occurrences. At n=18 this is 1048573 expanded elements
+plus 58 source elements = 1048631 element visits; n=19 gives 2097149+61=2097210.
+Only the former fits the 1048576 expansion ceiling. The text expressly treats
+these as element subtotals; attributes/references/arithmetic and other work,
+generated geometry and concurrent memory still apply separately. The old
+ambiguous 20/21-level oracle has been replaced. No remaining blocking issue
+was found in this correction.
+
+### Affected verification and remaining gates
+
+A read-only Python stdlib/Git audit passed **41** affected text/literal/arithmetic
+checks. It verified both recurrences and independent element-type subtotals at
+n=0/1/18/19, source/reference counts, both corrected threshold/combined subtotals,
+the n=1 literal's seven elements/three hrefs/two IDs, exact fragment grammar and
+transform/inverse/override obligations. It also verified byte-preservation of all
+29 original AP rows, R1 media/font sections and complete descriptors/oracles,
+§1/5/6/7/9, the three prior XML literals, original independent review and prior
+author history. The prior review's unrelated full static/primary-source checks
+retain their recorded scope; they were not replayed to replace their receipts.
+
+Actual documentation commands for this delta review and updated note, in the
+same Linux/Python environment recorded above:
+
+```sh
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+git diff --cached --check
+```
+
+All passed: this isolated task snapshot has 427 task records/122 decisions,
+local links/presets/current HTML and clean whitespace. The staged change is
+solely this existing review note; its prior content remains an unchanged prefix.
+Root's later integrated state/HTML and actual latest-PR-head CI/merge rules retain
+their own verification. This reviewer changes no shared file or publication state.
+
+The approval supplies proposed logical admission policies/examples for later
+schema representation when its other dependencies are ready. Concrete checking
+interfaces, framing, bounded native ownership/interpreter controls, independent
+tests/review/intended red, implementation/source/configuration review/acceptance,
+010/008/003 closure, actual dual-renderer/font/codec/OBS/platform/performance and
+Noto binary/weight/hash/OFL/package/release gates remain as previously recorded.
+This delta review executes no asset/XML/font/media/native parser or renderer,
+and grants no source/schema/runtime support or production implementation approval.
