@@ -33,3 +33,11 @@ the existing [test strategy](../TEST_STRATEGY.md). No assertion weakening or sim
 provider/platform support is permitted. Missing live/platform evidence stays an explicit
 gate; it does not remove a release requirement. Integrate focused PRs, update task evidence
 and regenerate PROGRESS.html before handoff.
+
+
+## ADR-0010 additive session prerequisites
+
+[Session executable decomposition](../decisions/0010-session-executable-prerequisites.md)
+preserves all original scope and test-first/release gates. The authoritative task
+graph adds the relevant supplier/lifecycle/store/local-login/clock/ingress prerequisites.
+These components do not complete this task's own full acceptance or real integration.

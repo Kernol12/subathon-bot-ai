@@ -1,56 +1,63 @@
-# Coordinator checkpoint — active asset correction and session prerequisite plan
+# Coordinator checkpoint — accepted asset document; session baseline next
 
 Updated7November2026 by /root under explicit owner continuation. Last fetched main
-`ed73270b7343d74886d64d6a64d5d64d44320a83`.
+`b8f3b141801087ab425ce74afee352bbe8a3678a`.
 
-## Completed integration
+## Completed integrations
 
-[PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79) normally MERGED at
-2026-11-07T09:34:46Z from exactaffa96455affaf936e4dbb63c66e57ade39e2c1b, after21final
-SUCCESS checks, actual independent8f995e63 review,0threads and current ruleset26170263
-(requiredPR/resolvedthreads/0formalapprovals/noenforcedstatuslist, no bypass).
-CONTRACT013 is done for written referenceHTTP/OpenAPI/examplestandardvalidation only;
-[handoff](contract-013-handoff.md) retains exact two-hostCLIcodeok evidence. Actual
-HTTP/session/permission/ingress/queue/SQLite/application/runtime gates remain.
-BOOT009/SCHEMATOOL001 were already merged; do not repeat completed work/reviews/red.
+- [PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79) merged09:34:46Z,
+  mergeed73270/exactaffa964,21finalSUCCESS/currentrules/0threads/normalmerge.
+  CONTRACT013 writtenHTTP/OpenAPI/23exampleartifact acceptance done; actual bothhost
+  validatorCLIcodeok receipt and independent8f995e63 review linked from
+  [handoff](contract-013-handoff.md). RuntimeHTTP/auth/currentproducers remain.
+- [PR81](https://github.com/Kernol12/subathon-bot-ai/pull/81) merged09:48:34Z,
+  mergeb8f3b14/exacta6daee0,21finalSUCCESS/currentrules/0threads/normalmerge.
+  CONTRACTPLAN006 acceptedplan/actualgraph only; [handoff](contractplan-006-handoff.md).
+  Different ea27001e approves actual16b071b; old427IDs/1630edges preserved,
+  current443/1735. OriginalSESSION002/003/local+Twitch/recovery/restore scope remains.
+- BOOT009/SCHEMATOOL001 already merged at resume; preserve all completed source/
+  tests/reviews/originalreds/receipts. No productcompletion claim.
 
-## Active assignments and ownership
+## Current task and ownership
 
-- CONTRACT011 was found unfinished on historicalc4ef1b9 despite mainplanned status.
-  Original branch/existing worktree remains clean/unchanged. Restored three artifact
-  files to fresh `task/CONTRACT-011-resumed-profiles`, `/tmp/subathon-contract011-resume`.
-  [Task handoff](contract-011-handoff.md). Fresh author asset_contract_correction
-  completedf9d062ca/import36a8750, only contract/authornote; original29AProws and
-  reviewdeb0d066/import72a00a7 preserved. Fresh reviewer `/root/asset_contract_review`
-  at `/tmp/subathon-contract011-resumed-review`, `review/CONTRACT-011-resumed-profiles`,
-  examines exactcontractc4ba2f9b; twoSVG findings pending consolidated review/fix.
-  Author turn completed; do not assume running. Root owns shared merge/state/HTML.
-- CONTRACTPLAN006 is separately claimed atb5143aa on
-  `task/CONTRACTPLAN-006-session-slices`, `/tmp/subathon-session-plan`, frome0585ca.
-  Fresh `/root/session_slice_plan_author` owns only ADR0010/newbriefs/authornote on
-  `task/CONTRACTPLAN-006-author`, `/tmp/subathon-session-plan-author`. Local taskhand off
-  `docs/evidence/contractplan-006-handoff.md` on that branch. Actualgraph/rootintegration
-  and independentplanreview pending; no API/header/test/runtime stage released.
-  Proposed supplierprepare/resolve component plus lifecycle/storage/acceptedlocal-
-  login/clock/ingress prerequisites preserve fullSESSION002/003/local+Twitch scope.
-  Avoid SESSION002→ACCESS004 cycle; extract upstream authority instead.
+CONTRACT011 recovered unfinishedc4ef1b9 despite mainplanned status. Historical
+branch/existing `local-evidence/worktrees/contract011-integrator` stays clean and
+unchanged. Fresh author asset_contract_correction completedf9d062ca then corrected
+7b47fb3, rootimports36a8750/b2f6636. [Task handoff](contract-011-handoff.md).
+Original29AProws/validsections/authorhistory/reviewdeb0d066 are preserved. Fresh
+reviewer asset_contract_review fullreview64b2979 required twoSVG corrections;
+SAME actual reviewer approved correctedcontract56807729/author08c0d300 at437ab56.
+Reviewturns are completed, no author/reviewer should be assumed running.
+Rootintegration `task/CONTRACT-011-resumed-profiles`,
+`/tmp/subathon-contract011-resume`, contains docacceptancedone +currentmain443graph.
+[DraftPR80](https://github.com/Kernol12/subathon-bot-ai/pull/80) needs finalheadpush/
+allCI/currentrules/discussions/normalmerge. Rootowns allsharedstate/HTML/checkpoint/
+schema/build/CI/pins; no semantic/source/example changes during sharedmerge.
+No archive/schema/checker/font/decoder/renderer/media/native/platform capability.
 
-Root/integrator owns all shared state/HTML/schemas/build/CI/pins and PR merges.
-No current owner decision/access is needed. No live/deployment/chat/payment action.
+## Next executable action
 
-## Inspection and next concrete actions
+SESSIONTEST008 is now dependency-ready from integratedplan. Create its focused
+branch/worktrees from currentmain, claim it and start a fresh author with accepted
+supplierdocumentc5f5a6e, briefEPIC007/SESSION008 and explicit server/tests ownership.
+One coherent baseline packet may include minimal exact declarations/immediate
+unimplemented bodies, independentlyderived tests/fakes and nativeSDK readiness
+checks; actual different test/interface/foundation review precedes execution.
+No behavior implementation before actual intended compiled red. Source/clock fakes
+are simulation; issuance/store/realclock/acceptedlogin/transport retain owning tasks.
+Defaultlocal SDK1.0.22 artifacts did not survive; root must prepare/admit exact old
+selected source/build before native checks, preserving existing dependency reviews.
+Finish PR80 while baseline work proceeds; integrate its normalmerge preserving
+newclaim. No ownerdecision/access needed, no live/deploy/chat/payment action.
 
-At resume252 registered worktrees, only root and historicalcontract011 existed;
-both clean, no surviving subagents/build commands. Old refs/absent registrations
-remain preserved without reset/prune. New isolated assignments above are fresh;
-inspect actual status/processes/agents on any later continuation.
-GitHub/network and gitmutations work via approved tool escalation; defaultsandbox
-cannot accessnetwork or mutate managedread-only.git. Root main is clean ated73270.
+## Continuity
 
-Finish actual assetreview, batch coherent corrections and re-review, then publish
-focused draft/normal taskPR subject to all acceptance/latestCI/currentrules gates.
-Author the explicit session prerequisite plan/graph with separate review; merge its
-focused planningPR before starting dependent production work. Integrate currentmain
-into activebranches preserving their own rows and every completed task/review.
-Allseven integrations,threeFXproviders,bothrenderers/UI/localization/themes and
-operational/platform/live/packaging/license release scope remain incomplete.
+At resume252 registeredworktrees, only root/historical011 existed, bothclean;
+no survivingagents/buildcommands. Preserve historicalrefs/absentregistrations.
+Freshworktrees/branches/reviews above are explicit; inspect actual currentagents/
+processes/PRstate/uncommittedchanges on any continuation. Network/gitmutations work
+via approvedtool escalation; defaultsandboxnetwork/.git writes fail. Rootmainclean
+atb8f3b14. Actualruleset26170263 requiresPR/resolvedthreads/0formalapprovals and no
+enforcedstatuslist; manually requireallapplicableCI, neverbypass. Allsevenproviders,
+threeFXproviders,UI/bothrenderers/locales/themes,platform/live/packaging/licenses/
+operational/recovery/fullrelease gates remain incomplete.

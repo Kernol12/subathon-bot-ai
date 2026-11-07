@@ -50,3 +50,11 @@ Next: integrate normallymergedPR81 graph, preserve all completed records and own
 accepted011row, render/check consistency, then require everylatestheadCI/current
 rules/approvals/resolvedthreads/normalPR80merge. No routine ownerapproval needed.
 After integration select a dependency-ready bounded task from actualcurrentstate.
+
+
+Final integration: normallymergedPR81/mainb8f3b141801087ab425ce74afee352bbe8a3678a
+at09:48:34Z (alla6daee0latest21SUCCESS/currentrules/0threads/no bypass) is now
+integrated. Exactall443IDs/1735edges and every main row/status/review/evidence except
+ownedaccepted011row preserved; only sharedJSON/HTML/checkpoint conflicts. All
+reviewed policy/source/example content unchanged. Root final project443/122/current
+render/whitespace pass. FinalheadCI/currentrules/threads/normalPR80merge remain.

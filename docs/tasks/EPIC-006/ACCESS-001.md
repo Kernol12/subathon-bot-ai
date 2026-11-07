@@ -46,3 +46,11 @@ actually ran; no unbuilt test target or unrun command is evidence. Update applic
 acceptance-map entries only when tests/evidence are authored or observed. Fixtures must
 be synthetic/redacted and default checks must not send chat/process live contributions.
 Follow [the child-task workflow](../README.md) for PRs, role handoffs and completion.
+
+
+## ADR-0010 additive session prerequisites
+
+[Session executable decomposition](../../decisions/0010-session-executable-prerequisites.md)
+preserves all original scope and test-first/release gates. The authoritative task
+graph adds the relevant supplier/lifecycle/store/local-login/clock/ingress prerequisites.
+These components do not complete this task's own full acceptance or real integration.
