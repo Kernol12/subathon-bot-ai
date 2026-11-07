@@ -44,3 +44,19 @@ ID is added to this pre-split branch. Preserve source audit and direct proposal;
 parent005 cannot finish as direct-TLS-only. All Caddy/alternative-proxy, framing,
 CSRF/TLS/logging and full release requirements remain. No patch/library/config/
 header/test/native/deployment choice or runtime implementation has occurred.
+
+## Resume after actual accepted boundary prerequisite
+
+Normal006PR87mergede712d85 at12:28:51UTC, finalhead44e384d/all21SUCCESS/currentrules/
+0threads anddifferent83bb+0990approval. Root integratedactualmain preserving450IDs/
+1780edges/everycompletedtask/review, oldpartial4b0178cc/importd720282/PR85/source8
+bytecomparisons/history intact. Only JSON/HTML/checkpoint conflicted; partialdocs
+and newlyacceptedR2 contracts/clock/storage evidence unchanged.
+
+SAME `account_ingress_contract_author` isexplicitlyresumed with newacceptedR2 and
+changedparentbrief. Own ONLY account-ingress-v1.md and existingauthornote. Reconcile
+partial'saffectedclaims into completeconcreteselected capture/lifetime/secretbounds/
+policy/sourcehandoffs/oracles. No raw-envelope/mTLS/TLSslab/durablebootepoch is
+implied; native011/proxy007/008 separatelyownproduction/testfirst/artifactadmission.
+No header/test/source/native/proxybody/configselection/runtimechange. Actualdifferent
+complete-solutionreview before done/PR85ready; sourcefacts alone aren'tcapability.
