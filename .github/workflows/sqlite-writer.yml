@@ -47,9 +47,28 @@ jobs:
           bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
+      - name: Prepare the exact authenticated libsodium source
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl --fail --location --retry 3 https://download.libsodium.org/libsodium/releases/libsodium-1.0.22.tar.gz --output libsodium-1.0.22.tar.gz
+          echo 'adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349  libsodium-1.0.22.tar.gz' | sha256sum --check --strict
+          test "$(wc -c < libsodium-1.0.22.tar.gz)" -eq 2008529
+          mkdir sodium-source sodium-build
+          tar -xzf libsodium-1.0.22.tar.gz --directory sodium-source
+          echo "SUBATHON_SODIUM_ROOT=$RUNNER_TEMP/sodium-prefix" >> "$GITHUB_ENV"
+      - name: Build and install the selected static SDK into the disposable prefix
+        working-directory: ${{ runner.temp }}/sodium-build
+        # Configure has native compiler probes. No vendor test or project feature runs here.
+        run: |
+          ulimit -c 0
+          CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
+          make -j2
+          make -j2 install
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+          -DSUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS=ON
+          -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build reviewed SQL suites
@@ -538,3 +557,66 @@ jobs:
           PY
       - name: Run reviewed initial-capture SQL acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$'
+
+      - name: Verify account session baseline discovery without running feature bodies
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          from pathlib import Path
+          import re
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
+          declarations = re.findall(r"^    ([A-Za-z][A-Za-z0-9_]*)$",
+                                    Path("tests/cmake/SqliteAccountSessionCases.cmake").read_text(), re.M)
+          if len(declarations) != 39 or len(set(declarations)) != 39:
+              raise SystemExit("Reviewed 39-case account session inventory changed")
+          executable = "build/sqlite-reference-capture-debug/tests/server_sqlite_account_sessions_acceptance"
+          native = subprocess.check_output([executable, "-functions"], text=True).splitlines()
+          if len(native) != 39 or {line.removesuffix("()") for line in native} != set(declarations):
+              raise SystemExit("Compiled Qt methods differ from the reviewed closed inventory")
+          expected = {"sqlite-account-sessions." + name for name in declarations}
+          found = []
+          foundation = []
+          for item in discovery["tests"]:
+              props = {value["name"]: value["value"] for value in item["properties"]}
+              labels = set(props.get("LABELS", []))
+              if item["name"].startswith("sqlite-account-sessions.") or "sqlite-account-sessions" in labels:
+                  found.append(item["name"])
+                  if labels != {"sqlite-account-sessions", "acceptance", "qt", "server"}:
+                      raise SystemExit("Account session method lost ordinary labels")
+                  if props.get("TIMEOUT") != 60:
+                      raise SystemExit("Account session method timeout changed")
+                  if props.get("DISABLED", False) or props.get("WILL_FAIL", False):
+                      raise SystemExit("Account session method disabled or inverted")
+                  if any(key in props for key in ("SKIP_RETURN_CODE", "SKIP_REGULAR_EXPRESSION",
+                                                 "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                      raise SystemExit("Account session method rewrites results")
+                  name = item["name"].removeprefix("sqlite-account-sessions.")
+                  if len(item["command"]) != 2 or item["command"][1] != name:
+                      raise SystemExit("Account session method command no longer selects exactly its slot")
+              if item["name"] == "scaffold.sqlite_account_sessions_environment":
+                  foundation.append(item)
+                  if labels != {"scaffold", "qt", "sqlite-account-sessions-environment"}:
+                      raise SystemExit("Independent foundation labels changed")
+                  if props.get("DISABLED", False) or props.get("WILL_FAIL", False) or props.get("TIMEOUT") != 60:
+                      raise SystemExit("Independent foundation is disabled/inverted/unbounded")
+                  if any(key in props for key in ("SKIP_RETURN_CODE", "SKIP_REGULAR_EXPRESSION",
+                                                 "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                      raise SystemExit("Independent foundation rewrites results")
+          if len(found) != 39 or set(found) != expected or len(foundation) != 1:
+              raise SystemExit("Missing/duplicate account session methods or mandatory foundation")
+          source = Path("tests/qt/sqlite_account_sessions_environment.cpp").read_text()
+          slots = set(re.findall(r"^    void ([A-Za-z][A-Za-z0-9_]*)\(\)", source, re.M)) - {"initTestCase", "cleanupTestCase"}
+          environment = "build/sqlite-reference-capture-debug/tests/server_sqlite_account_sessions_environment"
+          actual = subprocess.check_output([environment, "-functions"], text=True).splitlines()
+          if len(slots) != 5 or len(actual) != 5 or {line.removesuffix("()") for line in actual} != slots:
+              raise SystemExit("Independent foundation lost its five compiled ordinary slots")
+          print("Closed39 feature methods and mandatory five-slot independent foundation discovered; no new body ran")
+          PYTHON
+      - name: Require independent account schema and selected-SDK foundation
+        run: |
+          ulimit -c 0
+          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_account_sessions_environment$' --no-tests=error --verbose
+      # The reviewed missing-feature baseline runs separately and remains intentionally red.
+      # Promote all39 ordinary feature cases only after STORAGE-020 implementation/review passes.
