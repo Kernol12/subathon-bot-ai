@@ -1,7 +1,7 @@
 # Coordinator checkpoint — storage contract and ingress prerequisite
 
 Updated 7 November 2026 by `/root`. Last fetched main:
-`e440c7f050fdee04c39eb5b74b01c9f079124ed6`.
+`7897e3e25d1b87c40569d7943e0bac38d75aef4d`.
 The owner's standing loop remains active; specification v0.45 is not complete.
 
 ## Integrated work
@@ -29,12 +29,27 @@ independent28beefea review/importd201b97, all39/full43 PASS and actual hosted or
 sequential exact43 discovery passed. Do not replay original first red or SDK evidence.
 No real current producer, lifecycle, login or transport is supplied by the component.
 
-STORAGECONTRACT-002 author5c3acde0/importb01cc18 completed; different actual reviewer
-393015e5 APPROVED exact document blob8dc7ba9f. Root owns import/latest-main/doc status/
-publication in `/tmp/subathon-storagecontract002`, branch
-`task/STORAGECONTRACT-002-account-sessions`. [Author](https://github.com/Kernol12/subathon-bot-ai/blob/b01cc18e3e06bc6767576b91f8d5ebf839f5e383/docs/evidence/storagecontract-002-author.md)
-and review exist on support branches; next import393015e5, integrate e440c7f preserving
-its task claim, finish handoff/currentCI/normalmerge. No SQL/header/tests/source added.
+STORAGECONTRACT-002 normal [PR86](https://github.com/Kernol12/subathon-bot-ai/pull/86)
+merged7897e3e at11:42:25UTC, head2c5246a/all21SUCCESS/currentrules/0threads.
+Actual author5c3acde0/importb01cc18/blob8dc7ba9f, different393015e5/importb996848.
+[Handoff](storagecontract-002-handoff.md) links24literal/physical/API review; doc only.
+
+Two fresh dependency-ready assignments from7897e3e:
+- STORAGETEST020: `/tmp/subathon-storagetest020`, branch
+  `task/STORAGETEST-020-account-session-baseline`; author
+  `account_session_storage_test_author` owns explicitly delegated API/stubs/tests/
+  literalfixture/harness. Root owns prefixallocation/sharedbuild/CI/state/HTML.
+  `docs/evidence/storagetest-020-handoff.md` on that task branch records scope.
+  Actual different review BEFORE any newbody/native/foundation execution; then
+  foundationgreen and firstintendedmarkerred, immutable receipts and attribution.
+  No production020 behavior until baseline integrated. Qt6.12 config/plugin files
+  inspected only; selected runtime evidence is upcoming. Existing SDK retained.
+- SESSIONCONTRACT004: `/tmp/subathon-sessioncontract004`, branch
+  `task/SESSIONCONTRACT-004-current-clock`; author
+  `current_session_clock_contract_author` owns only new session-clock-v1.md +ownnote.
+  `docs/evidence/sessioncontract-004-handoff.md` on task branch records source-backed
+  trustworthyUTC/continuity/fences/publication/literal document scope. No nativecall/
+  header/test/source/schema/dependency. Differentactualreview required.
 
 SESSIONCONTRACT-005 is unfinished, source-authenticated partial4b0178cc/importd720282
 preserved on `task/SESSIONCONTRACT-005-ingress`, `/tmp/subathon-sessioncontract005`,
@@ -45,19 +60,20 @@ or invent an envelope/mTLS/TLS-slab/proxy subsystem as an implicit requirement.
 
 SESSIONCONTRACT-006 is newly assigned to a FRESH `ingress_boundary_revision_author`.
 Integrator `/tmp/subathon-sessioncontract006`, `task/SESSIONCONTRACT-006-ingress-boundaries`.
-[Handoff](sessioncontract-006-handoff.md), [brief](../tasks/EPIC-007/SESSIONCONTRACT-006.md)
-and [ADR0011](../decisions/0011-ingress-boundaries.md) define explicit document revision,
+`docs/evidence/sessioncontract-006-handoff.md`, brief and ADR0011 on the separate006 branch define explicit document revision,
 source-backed edge/admitted-normalization/application budgets and unchanged security/
 full default+alternative-proxy scope. Author owns only delegated transport/reference
 and limited OpenAPI admission/descriptive metadata plus own evidence; root owns
 shared graph/briefs/ADR/build/pins/deploy/CI/state/HTML/integration. Different actual
 revision+graph review remains required; no runtime implementation is authorized by
 this document task. Native011 and proxy007/008 have explicit baseline/implementation
-pairs; allold443IDs/1735edges retained, new450IDs/1780edges acyclic.005blocked pending006.
+pairs; allold443IDs/1735edges retained, proposed450IDs/1780edges acyclic in006 branch.005blocked pending006;
+current storage PR/main graph remains443/1735.006author currently running from9bea6fb;
+root fixed a pending-evidence link in a942ed1. No006 approval or integration yet.
 
 ## Continuity and next gates
 
-Root main clean ate440c7f. All historical worktrees/refs are preserved. Inspect actual
+Root main clean at7897e3e. All historical worktrees/refs are preserved. Inspect actual
 agents/processes/dirty trees/PRs on resumption; completed turns are not background
 execution. No surviving native build operation was observed at this checkpoint.
 Selected SDK `/tmp/subathon-session-sdk/prefix` and immutable first-run receipts stay
@@ -66,11 +82,11 @@ Network/managed.git actions require approved escalation and are currently availa
 Ruleset26170263: PR/resolved threads/zero formalapprovals/no enforcedCI list;
 manually require all applicable21latest-head checks and independent reviews, normalmerge.
 
-Next:006author packet/review in parallel with storage doc finalization. After storage
-merge, fresh STORAGETEST020 API/fixture/harness/test author, independent review and
-observed intended red before STORAGE020 production. Inspect selected Qt environment;
-missing dependencies/compilation/skips are not red. Preserve all valid frozen baselines,
-reviews/receipts. Continue fresh bounded task sessions after eligible merges.
+Next: fresh006revision/004clock authors and020baseline packet in isolated trees;
+actual reviews, then focused currentCI/normalPRmerge. Split substantial prerequisites
+before code; preserve full scope and valid prior reviews/receipts. Root coordinates
+all shared imports/graph/build/pins/deploy/state/HTML and latest merge gates. Inspect
+actual active agents and dirty files on resume rather than assume ongoingexecution.
 No owner decision/access needed. No live chat/payment/deployment action. Full v0.45,
 all seven integrations,three FXproviders,both renderers/UI/locales/themes/security/
 recovery/operations/packaging/licenses/platform/live gates remain required.

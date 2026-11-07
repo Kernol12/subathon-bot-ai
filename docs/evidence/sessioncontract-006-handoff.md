@@ -30,3 +30,10 @@ Next: coherent specification-based old/new revisions, source-backed normalizatio
 framing/log/budget cases and compatibility, independent actual review/graph checks,
 real schema validation for changed metadata, focused PR/currentCI/normalmerge.
 005 resumes only after integration and its own actual complete-solution review.
+
+Root integrated normalPR86/currentmain7897e3e, preserving its accepted storage002
+row/reviews and all443oldIDs/1735edges plus006's7nodes/45edges. Only sharedJSON/
+HTML/checkpoint conflicted; imported storage documents/evidence and both owned
+transport/reference documents were untouched. Actual fresh006author now running
+from9bea6fb;004clock and020baseline own separate7897taskworktrees/claims. Review
+must examine actual final revisions/graph after sourcepacket, no approval yet.
