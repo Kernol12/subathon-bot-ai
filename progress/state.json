@@ -185,7 +185,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
       "summary": "Remove environment executables that assert library or fixture facts instead of product behavior, preserving focused real tests.",
       "notes": [
-        "Claim from main116a6cd after normal PR93 merge. Scope ADR0012/v0.45 §17: inventory16 environment sources, review precise redundant assertions before deletion, preserve domain tests and red baselines. Author owns sources/registrations/corresponding CI; coordinator owns state/HTML/checkpoint/PR. Fresh independent cleanup and code review, affected builds/tests and latest CI required."
+        "Claim from main116a6cd after normal PR93 merge. Scope ADR0012/v0.45 §17: inventory18 non-schema environment registrations, review precise redundant assertions before deletion, preserve domain tests and red baselines. Author owns sources/registrations/corresponding CI; coordinator owns state/HTML/checkpoint/PR. Fresh independent cleanup and code review, affected builds/tests and latest CI required."
       ],
       "verification": {},
       "evidence": [],

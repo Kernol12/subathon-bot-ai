@@ -183,7 +183,8 @@ merge. Post-merge retrieval of the published tag verified all 969 removed receip
 This is repository evidence maintenance, with no new product behavior. EVIDENCE-002
 bounds all 461 task notes to 500 characters and replaces per-task strategy history
 with current suite coverage. Separate tests/source/110-note review, tooling 29/29
-and scaffold 3/3 passed; [PR #93](https://github.com/Kernol12/subathon-bot-ai/pull/93)
-retains hosted CI and merge gates. Later cleanup tasks retain their own reviews and
+and scaffold 3/3 passed. All 21 hosted checks passed before normal
+[PR #93](https://github.com/Kernol12/subathon-bot-ai/pull/93) merge. TESTCLEAN-002
+is inventorying environment programs for independent review before removal. Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence
 and release readiness remain open.

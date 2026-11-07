@@ -5,7 +5,13 @@ Contract revision: current test strategy and v0.45. Parent: EPIC-028. Dependenci
 Shared-file ownership: test-only `*_environment.cpp` programs and their registrations in
 `tests/acceptance`, `tests/qt`, `tests/CMakeLists.txt`, relevant CMake label files,
 and corresponding environment-only invocations/registration checks in
-`.github/workflows/`. Preserve feature discovery/execution and all product assertions.
+`.github/workflows/`. The inventory also covers the Qt timer probe and only the
+foundation mode of the shared translation probe; preserve its real catalog verification
+mode. Supporting wiring/descriptions in root `CMakeLists.txt`, `CMakePresets.json`,
+`docs/CLION_SETUP.md`, `docs/TEST_STRATEGY.md`, and the single Qt-probe description in
+`AGENTS.md` are included. Retain the Qt preset as explicitly configure-only dependency
+discovery plus scaffold checks. Preserve feature discovery/execution and all product
+assertions; schema-native/library foundations remain TESTCLEAN-001 scope.
 
 ## Scope
 

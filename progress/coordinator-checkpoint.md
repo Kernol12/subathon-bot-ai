@@ -25,8 +25,15 @@ Updated: 7 November 2026. Verify live state before resuming.
   only if the reviewer establishes unique product prerequisite coverage. No domain
   assertion deletion, red inversion or dependency masking. Source review, affected
   build/acceptance checks, latest-head CI and normal PR merge remain required.
-- Next action: create isolated author worktree/session and independent reviewer.
-  No stale agent is assumed active. No next task until this task's gates pass.
+- Active isolated author worktree: `/tmp/subathon-testclean002-author` at `af0b7fa`;
+  fresh author and separate `/root/environment_cleanup_review` are investigating.
+  Inventory found 18 non-schema environment registrations: 16 filename matches,
+  the Qt timer probe, and a shared translation probe foundation mode. Exact removal
+  approval is still pending. Keep translation's real verify mode; keep qt-probe-debug
+  honestly described as configure-only Qt dependency discovery plus scaffold checks.
+  Brief ownership explicitly includes supporting root CMake/preset and setup/strategy
+  descriptions. Schema-native/library foundations remain in TESTCLEAN-001.
+  No next task before this task's normal merge.
 
 ## Preserved work and limits
 
