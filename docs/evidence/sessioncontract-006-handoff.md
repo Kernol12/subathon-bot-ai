@@ -37,3 +37,9 @@ HTML/checkpoint conflicted; imported storage documents/evidence and both owned
 transport/reference documents were untouched. Actual fresh006author now running
 from9bea6fb;004clock and020baseline own separate7897taskworktrees/claims. Review
 must examine actual final revisions/graph after sourcepacket, no approval yet.
+
+Root also revised parent005 brief explicitly: its historical unchanged-import rule
+cannot silently settle proposed006R2, partial85 is preserved/blocked, actual accepted
+revision must integrate before same-task005 resumes and complete-solution review.
+Native011/proxy007/008 ownership/default+alternative/directTLS optional remain explicit.
+Actual006 reviewer must include that bounded brief delta and the additive graph.
