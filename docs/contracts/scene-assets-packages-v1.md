@@ -8,13 +8,14 @@ Authority: specification v0.45 §11/MEDIA-01/03/04/05/06/UI-04,
 [common values](wire-primitives-v1.md) blob `11eeb5f4`.
 Proposed definition identity: `subathon.scene-assets-packages.v1`.
 
-**CORRECTED PROPOSAL, 2026-11-07, awaiting independent re-review:** §2/4
-supply finite media/font records and §3 the closed static SVG admission profile;
-§8 adds complete literal logical descriptors and source cases. Historical
-[R1/R2](../evidence/contract-011-review.md) remains CHANGES REQUIRED until the
-actual revised packet receives different review. These are proposed policy
-requirements, not measured codec/platform support or authorization to start 012.
-See [author evidence](../evidence/contract-011-author.md) for preserved receipts.
+**REVIEWED LOGICAL PROPOSAL, 2026-11-07:** §2/4 supply finite media/font records,
+§3 the closed static SVG admission profile, and §8 literal descriptors/source cases.
+The historical [R1/R2 findings](../evidence/contract-011-review.md) are preserved;
+[actual fresh independent review](../evidence/contract-011-resumed-review.md) approved
+the corrected packet and SVG delta. These are policy requirements, not measured
+codec/platform support. CONTRACT-012 still requires all of its own prerequisites
+and checking/schema gates. See [task handoff](../evidence/contract-011-handoff.md)
+and [author history](../evidence/contract-011-author.md).
 
 This defines logical values, independent examples and finite review proposals.
 It supplies no archive codec, schema, API, decoder, validator, asset, font binary,
@@ -24,7 +25,7 @@ stage. 010 still owns binding/condition/formatting/animation/presentation semant
 values in complete schemas/imports and freezes concrete checking interfaces/tooling
 before executable consumption. 008/003 retain complete integration gates. The
 original R1/R2 review remains historical evidence; this corrected proposal requires
-the same different reviewer's actual re-review, not author self-approval.
+actual different review, not author self-approval; its accepted correction is linked above.
 
 ## 1. Server-owned immutable values and integrity
 

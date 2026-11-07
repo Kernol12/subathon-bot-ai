@@ -888,7 +888,7 @@
       "title": "Scene assets fonts and portable package contracts",
       "module": "Presentation",
       "kind": "contract",
-      "status": "in_review",
+      "status": "done",
       "owner": "Codex /root integration; fresh asset_contract_correction author",
       "depends_on": [
         "CONTRACT-009",
@@ -907,20 +907,30 @@
       "notes": [
         "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state.",
         "2026-11-07 resume after branch audit found preserved unpublished c4ef1b9 partial correction despite main planned status. Reassigned original document correction to fresh author on task/CONTRACT-011-resumed-author, integrating via task/CONTRACT-011-resumed-profiles from e0585ca. Preserve source blob6765932, all29 AP rows and original different review deb0d066/72a00a7 with open R1/R2. Complete finite font/media profiles and closed SVG grammar plus hand-derived examples; no schema/parser/decoder/library/native code or release capability. Root owns all shared files; actual independent re-review required, unchanged reviewed portions retain attribution.",
-        "Authorf9d062ca/import36a8750 completes proposed finite font/media/SVG profiles/examples, original29AProws+validsections/history preserved. Actual fresh asset_contract_review reviews exactc4ba2f9b; twoSVG semantics/arithmetic issues identified, consolidated findings pending. No approval/source/schema/runtimeclaim. Integrate normallymergedPR79/main ed73270 with all old statuses/edges/reviews intact except own011claim; root owns merge metadata/HTML."
+        "Authorf9d062ca/import36a8750 completes proposed finite font/media/SVG profiles/examples, original29AProws+validsections/history preserved. Actual fresh asset_contract_review reviews exactc4ba2f9b; twoSVG semantics/arithmetic issues identified, consolidated findings pending. No approval/source/schema/runtimeclaim. Integrate normallymergedPR79/main ed73270 with all old statuses/edges/reviews intact except own011claim; root owns merge metadata/HTML.",
+        "Complete bounded logical document after actual freshdifferent fullpacket review64b2979 and correctedSVGdelta approval437ab56. R1font/media finiteprofiles complete; R2gradientTransform inheritance and concreteG18/G19source/instanceexpansion fixed. Original29AProws/validsections/history/originalreview preserved. No schema/validator/decoder/media/font/native/runtime or testedplatform capability. DraftPR80finalmetadata/latestCI/currentrules/threads/normalmerge remain, after integrating independently approved sessionplanPR81/currentmain without losingoldrows/edges/reviews."
       ],
       "verification": {
         "authored": "passed",
-        "document_review": "not_run",
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "tooling": "passed",
         "runtime": "not_run"
       },
       "evidence": [
         "docs/contracts/scene-assets-packages-v1.md",
         "docs/evidence/contract-011-author.md",
         "docs/evidence/contract-011-review.md",
-        "docs/evidence/contract-011-handoff.md"
+        "docs/evidence/contract-011-handoff.md",
+        "docs/evidence/contract-011-resumed-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "Historical service_reviewer; fresh /root/asset_contract_correction (resumed R1/R2 correction)",
+        "reviewer": "Historical service_author; fresh /root/asset_contract_review (actual corrected full packet and SVG delta)",
+        "outcome": "approved",
+        "revision": "Originaldeb0d066/import72a00a7 preserved; actual f9d062ca/import36a8750 +corrected7b47fb3/importb2f6636 contract56807729/author08c0d300 approved437ab56/importfa4c6fa.",
+        "evidence": "docs/evidence/contract-011-resumed-review.md"
+      }
     },
     {
       "id": "CONTRACT-012",
@@ -15571,6 +15581,11 @@
       "date": "2026-11-07T09:36:00.480476+00:00",
       "task": "CONTRACT-011",
       "note": "Authorf9d062ca/import36a8750 completes proposed finite font/media/SVG profiles/examples, original29AProws+validsections/history preserved. Actual fresh asset_contract_review reviews exactc4ba2f9b; twoSVG semantics/arithmetic issues identified, consolidated findings pending. No approval/source/schema/runtimeclaim. Integrate normallymergedPR79/main ed73270 with all old statuses/edges/reviews intact except own011claim; root owns merge metadata/HTML."
+    },
+    {
+      "date": "2026-11-07T09:45:26.780935+00:00",
+      "task": "CONTRACT-011",
+      "note": "Complete bounded logical document after actual freshdifferent fullpacket review64b2979 and correctedSVGdelta approval437ab56. R1font/media finiteprofiles complete; R2gradientTransform inheritance and concreteG18/G19source/instanceexpansion fixed. Original29AProws/validsections/history/originalreview preserved. No schema/validator/decoder/media/font/native/runtime or testedplatform capability. DraftPR80finalmetadata/latestCI/currentrules/threads/normalmerge remain, after integrating independently approved sessionplanPR81/currentmain without losingoldrows/edges/reviews."
     }
   ]
 }
