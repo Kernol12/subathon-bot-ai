@@ -1,55 +1,25 @@
-# ADR-0008 — Validate schema packages through an explicit foundation
+# ADR-0008 — Select isolated standards libraries for schema validation
 
-Status: accepted DOCUMENT sequencing repair after actual different review291f70b.
-Authority: specification v0.45 §§17/18, API-01/02/03 and TEST-04.
+Status: accepted dependency/validation purpose; developer-tool sequencing superseded
+by the separately reviewed TESTCLEAN-001 boundary under
+[ADR-0012](0012-test-suite-simplification.md). Authority: specification v0.45
+§§17–18, API-01/02/03 and TEST-04.
 
-## Evidence and problem
+Validate actual source-controlled OpenAPI/JSON Schema documents and their independent
+valid/invalid examples with real selected standards libraries. JSON syntax or repository
+link checks do not establish schema/instance validity. Keep complete actual reference
+and example coverage, explicit dialects and offline resolution.
 
-CONTRACT013 requires an actual OpenAPI3.1 package, complete references and independently
-reviewed literal examples. With session supplier/transport documents accepted, its
-remaining current producers belong to later runtime gates; they do not prevent
-schema authoring. However schemas/ currently contains only README/instructions, no
-common executable schemas or selected/pinned standards validator. check_project.py
-checks repository links/progress/presets, not OpenAPI/JSONSchema or example instances.
-Read-only preparation found no validator requirements/lock/harness; ambient PyYAML
-is not selected validation tooling. No validator version, execution or success follows.
+The current [project-check contract](../contracts/schema-validation-tool-v1.md)
+reuses all 20 admitted versions/artifacts in the existing lock and wheel/license
+manifest, in an isolated developer-only environment. Ordinary progress/repository
+tools remain standard-library-only; no dependency is added to server/clients and
+no package is installed globally or automatically during validation.
 
-Claiming schema acceptance from JSON syntax/link checks would miss real structure,
-reference and instance defects. Silently adding executable wrapper behavior to a
-'document-only' acceptance would evade its independent test-first/CI gates.
-
-## Decision and exact additive graph
-
-Keep CONTRACT013 as the existing two-route schema/package task. Add separate
-SCHEMATEST001 developer-tool baseline and SCHEMATOOL001 implementation, linked from
-one bounded brief. Use reviewed existing standards libraries, not a new engine;
-actual versions/pins/contracts/examples/tests/red belong to the baseline. The
-wrapper must validate offline structure/dialect/local refs/instances with explicit
-format policy, bounded input/path resolution and truthful diagnostics. Existing
-runtime decoder/auth/proxy/WebSocket/framework gates remain untouched.
-
-CONTRACTPLAN005 depends on integrated CONTRACT005. SCHEMATEST001 depends on that
-plan and CONTRACT005; SCHEMATOOL001 depends on its reviewed/red baseline.
-CONTRACT013 retains every prerequisite and additionally requires SCHEMATOOL001.
-From actualmain4e85241's423IDs/1624edges, delta is three records/five edges,
-result426/1629. No old ID/edge/status/review/assertion or requirement is removed.
-New records are standalone foundations like existing contract prerequisites;
-epic work-package counts are unchanged. Plan completion does not complete either
-new foundation or CONTRACT013. This avoids tool→actual-package→tool cycles.
-
-## Acceptance and consequences
-
-Different actual plan review verifies graph/scope preservation. The future developer
-baseline requires real selected-library green foundations and observed explicit
-wrapper red after test review, then separate code review/passing checks/ordinary CI
-for implementation. Libraries, licenses, dependency locks/hashes, CLI/diagnostics,
-limits and owning-example formats remain unselected until actual baseline review.
-No schema/interface/stub/test/code/dependency/CI/protection change is made here.
-
-Actual schema validation is required before CONTRACT013 completion; raw HTTP duplicate
-keys/credential transport/current authority still need their own implementation
-baselines and cannot be certified by this tool. All seven integrations, threeFX,
-renderers/locales/themes, platform/OBS/recovery/security/package/license/live/full
-release remain required. Existing consistency/tooling CI covers this plan; new
-executable CI is mandatory when the later stable wrapper exists. Actual protected-
-check configuration must be assessed then, never inferred from this document.
+The former generic arbitrary-package API and its process/native boundary are retired,
+not silently weakened or replaced with a fake validator. The original decision,
+backlog decomposition, reviews and receipts remain in the
+[archived ADR](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/decisions/0008-schema-validation-foundation.md).
+Actual new tests/oracles, source checks, selected-host CI and normal merge gates still
+apply. Schema checks prove no runtime authentication, provider/platform support or
+complete release readiness; all v0.45 requirements remain.

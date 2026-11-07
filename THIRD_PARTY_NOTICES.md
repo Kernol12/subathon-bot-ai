@@ -28,17 +28,17 @@ material; release packaging must provide the complete applicable Qt/ICU/SQLite
 license and source/offer obligations before any distribution. The baseline uses
 only Core, Sql and Test, without changing the product minimum of Qt6.12.
 
-## Candidate isolated schema-validation developer environment
+## Admitted isolated schema-validation developer dependencies
 
-SCHEMATEST-001 dependency proposal only: independent artifact/license review and
-real installed-library foundations are pending. No wheel is committed, installed
-or executed by this proposal; these are not server/client runtime dependencies.
-Full pins and candidate Linux x86-64 CPython3.10/3.12/3.14 wheel/license-file hashes
+The existing artifact/license review and installed-library receipts remain historical
+evidence; TESTCLEAN-001 reuses those exact dependencies without selecting new versions.
+No wheel is committed or redistributed, and these are not server/client runtime
+dependencies. Full admitted Linux x86-64 CPython3.10/3.12/3.14 wheel/license-file hashes
 are in [the manifest](tools/schema_validation/wheels.json) and
 [hash lock](tools/schema_validation/requirements.lock). Versions/licenses below are
 wheel metadata declarations, not a release-compliance or security certification.
 
-| Package | Candidate version | Declared license |
+| Package | Pinned version | Declared license |
 | --- | --- | --- |
 | annotated-types | 0.8.0 | MIT |
 | attrs | 26.1.0 | MIT |

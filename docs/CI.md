@@ -16,6 +16,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | application-plan.yml | Reviewed owned captured-plan transformations |
 | time-debt.yml | Reviewed32pure debt proposals/composition, exact registration and unconditional real acceptance |
 | sqlite-writer.yml | Qt6.12 build, exact registration and writer/work acceptance; stage-specific evidence below |
+| schema-validation.yml | Required replacement gate: real repository schemas/examples with unchanged pinned libraries on CPython 3.10/3.12 |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
 and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
@@ -71,3 +72,19 @@ former seven-slot driver diagnostic remain in the
 Redundant environment programs are removed only through separately approved cleanup;
 real writer/work/migration behavior, dependency configuration and failure visibility
 remain required. Missing dependencies, skips or empty discovery are not acceptance.
+
+## Repository-schema checks
+
+The separately reviewed TESTCLEAN-001 boundary replaces the generic arbitrary-package
+API and native/library-fact harness with real project schema/example validation. Its
+replacement workflow must install the unchanged 20 hash-locked wheels in an isolated
+venv, retain exact dependency metadata admission, then unconditionally run every
+actual schema/declared example and independent valid/invalid component case. The
+progress editor schema is a separate structural check, not runtime DAG/review proof.
+No native artifact, kernel owner, assembly audit or fault child is a current check.
+
+The actual new test/oracle/source review and hosted execution remain gates until
+recorded in the task PR. Old SDK/native/public results remain valid historical proof
+of their original surface; they are not renamed replacement passes. Missing libraries,
+skips, empty discovery, fake validators or unsupported reference retrieval cannot
+produce a green schema result. All runtime/provider/platform/release gates remain.

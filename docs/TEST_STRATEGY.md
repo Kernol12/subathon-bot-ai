@@ -56,12 +56,22 @@ still using synthetic data and supplied policy/authority facts.
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 28 structural codec cases and 38 real-SQL methods/67 scenarios |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
-| `schema-transport-debug` | `-L '^schema-native-behavior$'` / `-L '^schema-public-behavior$'` | Reviewed offline validator/native process behavior; selected CPython 3.10/3.12 hosted checks |
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
 secret handling, process cleanup and SQL projection/ownership; output assertions alone
 do not measure those properties. Schema checks validate real OpenAPI/JSON-schema
 packages and examples, without establishing authorization or runtime transport safety.
+
+## Repository-schema validation
+
+The [current contract](contracts/schema-validation-tool-v1.md) requires the actual
+OpenAPI 3.1.1 document, all 17 component targets with independent valid/invalid cases,
+every 23 existing manifest-bound positive example, and the separate Draft 2020-12
+progress editor schema. The replacement `schema-validation-debug` Python suite has
+its own test/oracle/source/selected-host CI gates; this document does not claim an
+unrun suite passed. The retired generic API/process harness remains historical
+evidence. No runtime authority, raw ingress or provider/platform support follows
+from schema shape, and editor hints do not replace runtime progress invariants.
 
 ## Reviewed baselines still awaiting implementation
 
@@ -92,16 +102,18 @@ Change the preset/selection using the tables above. Inspect discovery with
 preset when affected composition warrants it, accounting for any explicit red baseline.
 CI retains exact feature registration, dependency configuration and ordinary stable
 acceptance. Environment-only fixture/library programs were removed under the separately
-reviewed cleanup; schema-native/dependency admission gates remain separately owned.
+reviewed cleanup. Schema checks retain isolated dependency admission and actual
+artifact/example validation under their separately reviewed contract.
 
 Use C++20/CMake/Ninja and the existing selected dependencies: GoogleTest, Boost >=1.83
 for numeric-dependent lanes, Qt >=6.12 with its real QSQLITE plugin for SQL/Qt lanes,
 and the selected libsodium SDK for password/session lanes. Keep personal prefixes in
 untracked `CMakeUserPresets.json`; do not substitute older Qt to obtain a green result.
-The schema tool uses its isolated, hash-pinned developer environment and reviewed native
-build; follow [its setup](schema-validation.md), not global installs.
-Its ordered static/bootstrap/artifact-admission gates precede CTest discovery and
-execution; apply that workflow before the generic component-run commands.
+Repository-schema checks use their isolated, hash-pinned developer environment;
+follow [their setup](schema-validation.md), not global installs. The current contract
+replaces the generic package/native-owner surface with actual schema/example checks.
+Independent test/oracle review precedes execution, and the dependency-only metadata
+bootstrap precedes candidate imports. No native artifact/kernel admission is required.
 Translation acceptance requires the selected Qt tools as well as Python.
 
 Infrastructure checks remain distinct from component acceptance:
