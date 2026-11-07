@@ -22,3 +22,10 @@ MissingSDK/buildfailure/skip is notred. No behavior implementation before thatga
 IssuanceRNG/realSQLsource/clock/login/transport/currentpermissions and full lifecycle/
 platform/release scope remain downstream. SDK1.0.22 exact old selected source/build
 is being prepared separately; no new dependency choice/pin/version authorized.
+
+
+Main integration: normallymergedPR80/ebb4368 at09:54:10Z (all21latestf088SUCCESS,
+actualdifferent437ab56review,currentrules/0threads/no bypass) is integrated while
+preservingonlyowned008claim. All443IDs/1735edges/othermainrows unchanged; only
+sharedJSON/HTML/checkpoint conflict resolution, no authoredsource/test overwrite.
+Author/reviewer/SDKworker and nextsteps are current in the coordinator checkpoint.
