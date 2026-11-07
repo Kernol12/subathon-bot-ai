@@ -5,7 +5,7 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
 
 ## Completed
 
-- Current main `2d5488f`: TESTCLEAN-001 normal PR #95 merge after independent
+- TESTCLEAN-001 main merge `2d5488f`: normal PR #95 merge after independent
   complete-head review and all 19 checks. Actual selected CPython 3.10.12/3.12.3
   each passed eight schema methods plus infrastructure 3/3; local 3.14 passed too.
   Explicit generic/native surface retirement was reviewed before source removal.
@@ -73,7 +73,13 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   before baseline edits. Different fresh reviewer approves exact deletions and warning
   handling; no production changes, blanket warning ignores, new harness framework or
   artificial tests of deleted machinery. New behavior still obeys test-first gates.
-- Current claim only; no new implementation or test execution yet. TESTCLEAN-007 is
+- Read-only author/reviewer audit is underway; no source edit or new execution yet.
+  Preserve throwing callback assertions so failure cannot return normally and commit.
+  Adapter-specific second-begin error categories, invalid-input priority and cumulative
+  repository budgets are distinct contracts, not removable raw-writer duplicates.
+  Proposal will keep typed completion classification local and extract only common
+  queue/condition-wait plumbing; exact deletion/retention review is still pending.
+  TESTCLEAN-007 is
   also dependency-ready but unclaimed. Later tasks retain their own review gates.
 
 ## Preserved context
