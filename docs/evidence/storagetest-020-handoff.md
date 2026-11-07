@@ -66,3 +66,19 @@ Anynecessary assertions are addedandre-reviewed beforefirstexecution, never weak
 Hostacceptance/replay/passwordbridge/lifecycleU64/clock/publication remainexplicit
 owners, butphysicalstore-ownedinvariants mustnotbedeferred. Sourcepreownership/
 actualSQLindex/finiteCPU/scratch audit islaterindependent020implementationgate.
+
+## Current-main integration / batched correction stage
+
+Rootintegrated actualmaine712d85 after normalclockPR88/cddfe82 andingressPR87/e712d85,
+all21latestchecks/independentapprovals/currentrules/0threads. Retain450IDs/1780edges
+and everymaincompletedstate/review exceptown020claim. Only JSON/HTML/checkpoint
+conflicts; actualtest/header/source/fixture/CIreview39c95d58 unaffected bynewingress
+§1/5/descriptions. No acceptedphysical/password/lifecycle/supplier/writer APIchanged.
+
+Different39c95d58/import4689c78 REQUEST_CHANGES fourstore-ownedassertiongaps; exact
+[review record](storagetest-020-review.md) preserves alloriginalsatisfactoryaudits.
+Sameauthornowadds4focusedslots→44: freshrevision+immutablepuremutations, rotation/
+reauthcurrentfences,upgradefullfences,andabsentlocalcreation/staleno-resurrection.
+All40originalbodies/fixturesremain. RootCIbed9f66stagesclosed44, no publication/
+newbodyexecution. Actualcorrecteddelta+sameindependentreviewapproval required before
+FIRSTfoundationgreen→FIRSTordinary44markerred/immutablechronology+attribution.
