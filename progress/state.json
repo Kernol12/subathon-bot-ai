@@ -14830,7 +14830,7 @@
       "title": "Concrete lossless and secret-safe ingress solution",
       "module": "Identity",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "Codex /root integration; fresh account_ingress_contract_author",
       "depends_on": [
         "CONTRACTPLAN-006",
@@ -14852,11 +14852,18 @@
       "summary": "Define separately reviewed source-backed selected-framework ingress/log/TLS/proxy/policy solution before tests; no parser patch, library or proxy guarantee approved here.",
       "notes": [
         "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
-        "Claim source-backed DOCUMENT-only ingress/secret-handling solution from actualmaine440c7f050fdee04c39eb5b74b01c9f079124ed6. Fresh author owns ONLY new account-ingress-v1.md +authornote, readonly selectedDrogon/Trantor/officialsource research and literalwire examples. No actual parser/proxy/library/pin/patch/config/deployment/header/test/source implementation. Define concrete pre-loss/pre-log bounded multiplicity/framing/TLS/proxy/origin/policy/owned-secret solution preserving acceptedtransport; actual different review required, unknownpaths unavailable. Root owns pins/build/CI/schema/deploy/state/HTML. API001/SESSION003/SESSION010 retain full ownership; split substantial reusable new runtime prerequisites beforeimplementation. Concurrentstoragecontract separate."
+        "Claim source-backed DOCUMENT-only ingress/secret-handling solution from actualmaine440c7f050fdee04c39eb5b74b01c9f079124ed6. Fresh author owns ONLY new account-ingress-v1.md +authornote, readonly selectedDrogon/Trantor/officialsource research and literalwire examples. No actual parser/proxy/library/pin/patch/config/deployment/header/test/source implementation. Define concrete pre-loss/pre-log bounded multiplicity/framing/TLS/proxy/origin/policy/owned-secret solution preserving acceptedtransport; actual different review required, unknownpaths unavailable. Root owns pins/build/CI/schema/deploy/state/HTML. API001/SESSION003/SESSION010 retain full ownership; split substantial reusable new runtime prerequisites beforeimplementation. Concurrentstoragecontract separate.",
+        "Preserve honest partial4b0178cc (exactofficialsourcehashes/directproposal/literalwireoracles) but NOTcontractcompletion. Read-only independent proxy_ingress_boundary_audit found unimplementedengineeringcontract conflict: originalexternal4096/H2wire accounting cannotbeprovenafterstockproxy normalization, andConnection-nominatedcriticalfields canbelost. Raw-headenvelope/mTLS/TLSslab/newproxy subsystem arenotproductrequirements. Explicitprerequisite SESSIONCONTRACT006 will reconcile boundaries with spec-basedreason+independentreview and separatelyrecord nativeartifact/proxyadmission test-first work; no weakeningcredential/framing/CSRF/TLS/log guarantees ordefaultCaddy/alternative release scope. Authorended, preserve twoownedfiles; resume afterprerequisiteintegration."
       ],
-      "verification": {},
+      "verification": {
+        "authored": "partial",
+        "document_review": "not_run",
+        "runtime": "not_run"
+      },
       "evidence": [
-        "docs/evidence/sessioncontract-005-handoff.md"
+        "docs/evidence/sessioncontract-005-handoff.md",
+        "docs/contracts/account-ingress-v1.md",
+        "docs/evidence/sessioncontract-005-author.md"
       ],
       "review": null
     },
@@ -16331,6 +16338,11 @@
       "date": "2026-11-07T11:00:43.863000+00:00",
       "task": "SESSIONCONTRACT-005",
       "note": "Claim source-backed DOCUMENT-only ingress/secret-handling solution from actualmaine440c7f050fdee04c39eb5b74b01c9f079124ed6. Fresh author owns ONLY new account-ingress-v1.md +authornote, readonly selectedDrogon/Trantor/officialsource research and literalwire examples. No actual parser/proxy/library/pin/patch/config/deployment/header/test/source implementation. Define concrete pre-loss/pre-log bounded multiplicity/framing/TLS/proxy/origin/policy/owned-secret solution preserving acceptedtransport; actual different review required, unknownpaths unavailable. Root owns pins/build/CI/schema/deploy/state/HTML. API001/SESSION003/SESSION010 retain full ownership; split substantial reusable new runtime prerequisites beforeimplementation. Concurrentstoragecontract separate."
+    },
+    {
+      "date": "2026-11-07T11:26:44.052095+00:00",
+      "task": "SESSIONCONTRACT-005",
+      "note": "Preserve honest partial4b0178cc (exactofficialsourcehashes/directproposal/literalwireoracles) but NOTcontractcompletion. Read-only independent proxy_ingress_boundary_audit found unimplementedengineeringcontract conflict: originalexternal4096/H2wire accounting cannotbeprovenafterstockproxy normalization, andConnection-nominatedcriticalfields canbelost. Raw-headenvelope/mTLS/TLSslab/newproxy subsystem arenotproductrequirements. Explicitprerequisite SESSIONCONTRACT006 will reconcile boundaries with spec-basedreason+independentreview and separatelyrecord nativeartifact/proxyadmission test-first work; no weakeningcredential/framing/CSRF/TLS/log guarantees ordefaultCaddy/alternative release scope. Authorended, preserve twoownedfiles; resume afterprerequisiteintegration."
     }
   ]
 }

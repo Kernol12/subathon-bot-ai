@@ -23,3 +23,24 @@ checks and normal task PR gates. API001 owns real bridge/lifecycle/backpressure;
 SESSION003 owns full transport integration. SESSION010 implementation waits for
 its own reviewed tests/red and actual selected artifact admission. Split substantial
 new reusable architecture before implementing it; preserve all full release scope.
+
+
+## Preserved partial and prerequisite split
+
+Fresh author4b0178cc supplies the partial contract and source-authentication note;
+eight immutable upstream files match the clean selected cache. This is NOT005
+completion: actual proxy boundary and native/owner admission remain open.
+Read-only independent `proxy_ingress_boundary_audit` verified that transport's
+original decoded application fields are not an unchanged raw-public-head protocol,
+but reference HTTP's literal external4096/H2 accounting cannot be silently
+reinterpreted. Caddy Connection nominations can remove critical credentials before
+forwarding; Go framing/obs-fold normalization and Caddy error/debug sinks need
+source-backed handling. No envelope/mTLS/TLS-slab mechanism is mandated by spec.
+
+Task is blocked pending explicit SESSIONCONTRACT006 contract reconciliation and
+separate native-artifact/proxy-admission baseline/implementation records. Those
+records are being created on a dedicated prerequisite branch; no unknown dangling
+ID is added to this pre-split branch. Preserve source audit and direct proposal;
+parent005 cannot finish as direct-TLS-only. All Caddy/alternative-proxy, framing,
+CSRF/TLS/logging and full release requirements remain. No patch/library/config/
+header/test/native/deployment choice or runtime implementation has occurred.
