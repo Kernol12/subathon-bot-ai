@@ -20,3 +20,23 @@ implementation, preserving actualACCESS005/STORAGE007 owners and release scope.
 Next coherent proposal/literalexamples/sourceaudit, different actual review,
 focusedproject/tooling checks and normal latest-headPR/CI/rules/merge gates.
 No runtime/platform/provider/live capability is supplied by this document.
+
+## Actual authored packet / independent review
+
+Author da9d7413820ecd18d93c395ce64acf1fb9b216bf/import78e78f3,
+[clock proposal](../contracts/session-clock-v1.md) blob
+`946bd12b94d3a83dcd4c86c787bb257d9472e022`,
+[author evidence](sessioncontract-004-author.md) blob
+`0bc14b54cefb34fb1f8acadf437a83e682570f22`.
+SC01–30 and actual source audits/checks are documented; no nativeclock operation.
+Concrete positive trusted-host startup/restart and bounded discontinuity handling,
+fullsignedUTC/U64/conversion/publication/failure scope; no absoluteUTC or crossprocess/
+privilegedVM rollback proof. No new durablelatch/service/schema is introduced.
+
+Freshdifferent `current_session_clock_contract_review` receives exact78e78f3 in
+`/tmp/subathon-sessioncontract004-review`, branch`review/SESSIONCONTRACT-004-current-clock`,
+owning only actualreviewrecord. Source/trust/resource/readiness/compatibility/oracle
+approval pending; do not implement009 or claimruntime from this document.
+CI assessment: existing document/project/tooling scope, no new executable suite.
+Root publishesdraft while actualreview proceeds; normal finalheadCI/rules/threads/
+merge gates remain. Preserve all priorimports/reviews and fullrelease scope.

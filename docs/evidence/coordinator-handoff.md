@@ -46,10 +46,13 @@ Two fresh dependency-ready assignments from7897e3e:
   inspected only; selected runtime evidence is upcoming. Existing SDK retained.
 - SESSIONCONTRACT004: `/tmp/subathon-sessioncontract004`, branch
   `task/SESSIONCONTRACT-004-current-clock`; author
-  `current_session_clock_contract_author` owns only new session-clock-v1.md +ownnote.
+  `current_session_clock_contract_author` completedda9d741/import78e78f3;
+  freshdifferent`current_session_clock_contract_review` nowexaminesactual78e78f3 in
+  `/tmp/subathon-sessioncontract004-review`/`review/SESSIONCONTRACT-004-current-clock`,
+  onlyactualreviewrecord owned. No approvalyet.
   `docs/evidence/sessioncontract-004-handoff.md` on task branch records source-backed
   trustworthyUTC/continuity/fences/publication/literal document scope. No nativecall/
-  header/test/source/schema/dependency. Differentactualreview required.
+  header/test/source/schema/dependency. Actualsource/trust/resource/compatibilityreview pending; no newdurablelatch/service/schema.
 
 SESSIONCONTRACT-005 is unfinished, source-authenticated partial4b0178cc/importd720282
 preserved on `task/SESSIONCONTRACT-005-ingress`, `/tmp/subathon-sessioncontract005`,
@@ -68,8 +71,11 @@ shared graph/briefs/ADR/build/pins/deploy/CI/state/HTML/integration. Different a
 revision+graph review remains required; no runtime implementation is authorized by
 this document task. Native011 and proxy007/008 have explicit baseline/implementation
 pairs; allold443IDs/1735edges retained, proposed450IDs/1780edges acyclic in006 branch.005blocked pending006;
-current storage PR/main graph remains443/1735.006author currently running from9bea6fb;
-root fixed a pending-evidence link in a942ed1. No006 approval or integration yet.
+current storage PR/main graph remains443/1735.006author completedcf8d736/importf4b0fb8; freshdifferent
+`ingress_boundary_revision_review` reviewsactualf4b0fb8 in
+`/tmp/subathon-sessioncontract006-review`/`review/SESSIONCONTRACT-006-boundaries`;
+draftPR87 now receives actualR2docs/3OASdescriptions; no approvalyet;
+root fixed a pending-evidence link in a942ed1. 006review identified missingstockCaddy Via accounting; coherentfindings/correction/approval pending. No006 integration yet.
 
 ## Continuity and next gates
 
@@ -82,7 +88,7 @@ Network/managed.git actions require approved escalation and are currently availa
 Ruleset26170263: PR/resolved threads/zero formalapprovals/no enforcedCI list;
 manually require all applicable21latest-head checks and independent reviews, normalmerge.
 
-Next: fresh006revision/004clock authors and020baseline packet in isolated trees;
+Next: actual006revisionreview and004clockreview/020baseline author packet in isolated trees;
 actual reviews, then focused currentCI/normalPRmerge. Split substantial prerequisites
 before code; preserve full scope and valid prior reviews/receipts. Root coordinates
 all shared imports/graph/build/pins/deploy/state/HTML and latest merge gates. Inspect
