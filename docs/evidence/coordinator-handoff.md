@@ -1,58 +1,71 @@
-# Coordinator checkpoint — documentation update; product work stopped
+# Coordinator checkpoint — product coordination resumed
 
-Updated 7 November 2026 by Codex /root for BOOT-009. The owner requested workflow
-changes for their next use of the continuation prompt. This session is authorized
-for that documentation task only; it does not resume the product coordination loop.
-A future explicit owner invocation of the continuation prompt resumes that loop
-under the updated instructions, subject to any newer owner limits.
+Updated 7 November 2026 by coordinator /root under the owner's explicit continuation.
+Last observed/fetched main: `e0585ca112a3eb52c8f247a97fcc6ba8d964511b`.
+[PR78](https://github.com/Kernol12/subathon-bot-ai/pull/78) merged at
+2026-11-07T09:01:26Z; all 21 final-head checks succeeded. No open PRs at resume.
+BOOT-009 and SCHEMATOOL-001 are completed/integrated; preserve their reviews and
+historical receipts. Their prior stop instructions belonged to those finished tasks;
+the owner now explicitly resumed the standing loop.
 
-## Observed repository and PR state
+## Inspection and ownership
 
-- Fetched origin/main: `ba376fb7bb5c0fca1433791c2d6296e25c56d5b2`.
-- [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is MERGED, at
-  6 November 2026 23:12:53 UTC, with that merge commit. GitHub reports no open PRs
-  at the start of BOOT-009. The previous checkpoint's draft/unmerged entries are stale.
-  [PR78](https://github.com/Kernol12/subathon-bot-ai/pull/78) now contains BOOT-009;
-  its final-head CI and normal merge remain to be observed before integration.
-- SCHEMATOOL-001 is recorded done. Its scope, reviewed revisions, historical reds,
-  final acceptance and remaining release gates are linked from its
-  [completion handoff](schematool-001-completion.md); preserve those artifacts.
-- Current task branch: `task/BOOT-009-bounded-agent-workflow`, based on that main.
-  [BOOT-009 brief](../tasks/BOOT-009.md) records scope and ownership;
-  [task handoff](boot-009-handoff.md) records checks, review and publication status.
-  See progress/state.json for authoritative task status.
+252 registered worktrees: only root and `local-evidence/worktrees/contract011-integrator`
+exist; both were clean. Preserve the other historical refs/registrations without
+pruning/resetting. No surviving subagents or build/test commands were observed;
+only this fresh coordinator session was running. No in-progress/in-review/blocked
+task claims existed on main; a deeper branch audit found unpublished CONTRACT-011
+partial correction c4ef1b9 (see assignment below). The two ready feasibility tasks
+are unassigned.
+GitHub works via approved network access; sandbox-only requests fail. Managed `.git`
+is read-only in the default sandbox, so git mutations require tool escalation.
+Ruleset26170263 is active; classic branch protection returns404. Reinspect detailed
+rules, approvals, discussions and latest-head CI before any normal merge.
 
-## Assignments and preserved work
+## Active assignment
 
-Root owns the documentation/progress integration for BOOT-009. No product writer
-has been started in this session. Previous product agent IDs are historical context,
-not evidence of running assignments. Independent documentation reviewer
-`/root/workflow_review` approved `584940e` and the narrow blocked-status clarification;
-[review record](boot-009-review.md). No agent is assigned another task.
+CONTRACT-013 is claimed on `task/CONTRACT-013-reference-http` from current main.
+[Task handoff](contract-013-handoff.md) is the entry point for scope, acceptance,
+contract revisions and evidence. Fresh author `/root/reference_contract_author`:
+`/tmp/subathon-contract013-author`, `task/CONTRACT-013-contract-author`, new reference
+HTTP document/package/examples only. Root owns state/HTML/shared imports/build/CI.
+Actual independent review and schema/example validation remain pending; no runtime
+capability or implementation acceptance is claimed. Different reviewer
+`/root/reference_contract_review` has read prerequisites and awaits the actual packet.
+No previous agent is resumed by assumption.
 
-There are 252 registered worktrees at inspection. Preserve them and inspect actual
-branches, uncommitted work and processes on resume; do not prune or reset historical
-worktrees based on this checkpoint. Do not assume that work or commands from the old
-session are active. No architectural prerequisite split is needed for BOOT-009.
+The preserved CONTRACT-011 branch contains an unfinished claim and partial correction,
+although main still says planned. Reconstructed on `task/CONTRACT-011-resumed-profiles`
+at8a54faf, `/tmp/subathon-contract011-resume`, from current main with only its three
+authored/review artifacts restored. Fresh `/root/asset_contract_correction` owns the
+existing document/author note in `/tmp/subathon-contract011-resumed-author`,
+`task/CONTRACT-011-resumed-author`. `docs/evidence/contract-011-handoff.md`
+is local to that branch; original c4ef1b9 worktree remains clean/unchanged. Original
+review deb0d066/import72a00a7 and all29 AP rows are preserved; R1/R2 font/media/SVG
+profile/grammar/example correction and actual different re-review remain. No schema
+or runtime stage released. Root coordinates shared integration for both focused PRs.
 
-## Next action and later owner-requested product continuation
+Next concrete action: complete bounded CONTRACT-013 authoring, independent review,
+real admitted offline validation and automatic package CI; publish focused task PR,
+then merge only after all applicable gates and select the next ready executable task.
+No owner decision/access is currently needed. All seven integrations, three FX
+providers and full UI/rendering/operational/platform/live release scope remain open.
 
-Finish PR78: observe final-head CI, recheck actual rules/approvals/discussions and
-mergeability, merge normally when gates pass, then stop. On a later continuation,
-verify its actual merge/main revision; do not repeat completed documentation work.
-No further bookkeeping PR is needed just to duplicate GitHub's merge result.
+## CONTRACT-013 accepted; PR79 final-head gates
 
-Read the updated [coordinator instructions and copyable continuation prompt](../COORDINATOR_PROMPT.md)
-and [workflow](../AGENT_WORKFLOW.md), then inspect actual local/GitHub state.
-Select a dependency-ready task from current progress rather than assuming a next
-product task here. Start a fresh implementation agent with the task brief, exact
-contracts/tests/red evidence, owned paths, branch/worktree and acceptance criteria.
-Split substantial newly discovered architectural prerequisites into explicit tasks
-and focused PRs before implementing them. Link one task handoff and detailed review
-records; batch related review changes within each test-first stage.
+Author5819a297/importcebf164, correctedc929109 and different review8f995e63/importf694e05
+complete the written reference package/CI acceptance. Actual hosted42359709873 atc929109
+passed both admitted hosts and emitted CLIcodeok twice; [task handoff](contract-013-handoff.md)
+and receipt retain exact evidence. Taskdone is artifact acceptance only; draft
+[PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79) remains unmerged until latest
+completion-head CI/current rules/discussions/normal merge. No HTTP/auth capability enabled.
 
-The owner need not manually manage each subagent session. The coordinator may persist;
-valid active assignments can resume after interruption. Preserve independent reviews,
-original receipts and latest-head CI/merge gates. Product scope remains incomplete,
-including all seven integrations, three FX providers and unperformed platform/live
-release checks. No live operation or deployment is authorized by this documentation task.
+Read-only `/root/session_readiness` found SESSIONTEST-002 graph-ready but oversized:
+accepted supplier concretizes only prepare/resolve; lifecycle mutation APIs, physical
+account/session store/producer and trusted accepted-login/clock sources need explicit
+prerequisite boundaries before implementation. Next bounded planning task is
+CONTRACTPLAN-006 (not yet claimed here), on prepared clean
+`/tmp/subathon-session-plan`, `task/CONTRACTPLAN-006-session-slices` frome0585ca.
+Do not add SESSION002→ACCESS004 cycle; original ACCESS004 depends SESSION002.
+Extract upstream accepted-login work while preserving local/Twitch full mapping scope.
+Existing SESSION003 ingress duplicate-field/cookie and raw-cookie TRACE gaps remain.

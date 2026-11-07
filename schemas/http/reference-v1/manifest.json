@@ -1,0 +1,126 @@
+{
+  "profile": "subathon.schema-package.v1",
+  "documents": [
+    {
+      "path": "api.json",
+      "kind": "openapi31"
+    }
+  ],
+  "examples": [
+    {
+      "path": "examples/negotiate-minimum.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NegotiateRequest"
+    },
+    {
+      "path": "examples/negotiate-preference.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NegotiateRequest"
+    },
+    {
+      "path": "examples/negotiate-unknown-version.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NegotiateRequest"
+    },
+    {
+      "path": "examples/negotiate-unknown-capability.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NegotiateRequest"
+    },
+    {
+      "path": "examples/negotiate-boundary.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NegotiateRequest"
+    },
+    {
+      "path": "examples/negotiated-timer.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NegotiateResponse"
+    },
+    {
+      "path": "examples/negotiated-empty.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NegotiateResponse"
+    },
+    {
+      "path": "examples/timer-rp01.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/TimerSnapshot"
+    },
+    {
+      "path": "examples/timer-no-cap-zero.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/TimerSnapshot"
+    },
+    {
+      "path": "examples/timer-signed-minimum.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/TimerSnapshot"
+    },
+    {
+      "path": "examples/timer-maximums.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/TimerSnapshot"
+    },
+    {
+      "path": "examples/timer-revision-boundary.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/TimerSnapshot"
+    },
+    {
+      "path": "examples/correlation-boundary.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/CorrelationReference"
+    },
+    {
+      "path": "examples/synthetic-token-shape.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/AccountToken"
+    },
+    {
+      "path": "examples/failure-invalid-encoding.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/InvalidRequestFailure"
+    },
+    {
+      "path": "examples/failure-invalid-json.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/InvalidRequestFailure"
+    },
+    {
+      "path": "examples/failure-invalid-primitive.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/InvalidPrimitiveFailure"
+    },
+    {
+      "path": "examples/failure-resource-limit.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/ResourceLimitFailure"
+    },
+    {
+      "path": "examples/failure-incompatible-version.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/IncompatibleVersionFailure"
+    },
+    {
+      "path": "examples/failure-unsupported-capability.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/UnsupportedCapabilityFailure"
+    },
+    {
+      "path": "examples/failure-not-authorized.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/NotAuthorizedFailure"
+    },
+    {
+      "path": "examples/failure-unavailable.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/UnavailableFailure"
+    },
+    {
+      "path": "examples/failure-correlated.json",
+      "schema_document": "api.json",
+      "schema_pointer": "/components/schemas/InvalidPrimitiveFailure"
+    }
+  ]
+}

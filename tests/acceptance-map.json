@@ -703,7 +703,11 @@
       "id": "API-01",
       "status": "planned",
       "tests": [],
-      "evidence": []
+      "evidence": [
+        "docs/contracts/reference-http-v1.md",
+        "schemas/http/reference-v1/manifest.json",
+        "docs/evidence/contract-013-handoff.md"
+      ]
     },
     {
       "id": "DB-01",
@@ -953,7 +957,11 @@
       "id": "API-02",
       "status": "planned",
       "tests": [],
-      "evidence": []
+      "evidence": [
+        "docs/contracts/reference-http-v1.md",
+        "schemas/http/reference-v1/manifest.json",
+        "docs/evidence/contract-013-handoff.md"
+      ]
     },
     {
       "id": "NUM-04",
@@ -1057,7 +1065,11 @@
       "id": "API-03",
       "status": "planned",
       "tests": [],
-      "evidence": []
+      "evidence": [
+        "docs/contracts/reference-http-v1.md",
+        "schemas/http/reference-v1/manifest.json",
+        "docs/evidence/contract-013-handoff.md"
+      ]
     },
     {
       "id": "MOD-04",
