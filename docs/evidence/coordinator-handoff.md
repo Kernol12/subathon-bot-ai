@@ -24,7 +24,7 @@ runs. Full product and actual provider/platform capability remain unverified.
 SESSION-008 component acceptance is done; PR84 is not yet merged. Integrator branch
 `task/SESSION-008-bounded-supplier`, `/tmp/subathon-session008`,
 [draftPR84](https://github.com/Kernol12/subathon-bot-ai/pull/84).
-[Current handoff](session-008-handoff.md) freezes exact baseline blobs.
+`docs/evidence/session-008-handoff.md` on PR84 branch freezes exact baseline blobs.
 
 Fresh author `/root/session_supplier_implementer` completed26f275fa/import028f83b,
 sourceblob0525d755, owning ONLY source TU and author note. All39/full43 passed,
@@ -73,3 +73,27 @@ list; manually require all applicable latest checks and independent reviews.
 No owner decision/access is needed. No live chat/payment/deployment action.
 All seven integrations,three FXproviders,both renderers/UI/locales/themes,
 security/recovery/operations/packaging/licenses/platform/live/fullrelease scope remains.
+
+
+## Concurrent storage contract
+
+STORAGECONTRACT-002 is separately claimed on
+`task/STORAGECONTRACT-002-account-sessions`, `/tmp/subathon-storagecontract002`,
+from current maine4d46d3 after normal lifecycle PR83. Fresh
+`/root/session_storage_contract_author` owns only the new storage contract and
+its author evidence in `/tmp/subathon-storagecontract002-author`,
+`task/STORAGECONTRACT-002-author`. `docs/evidence/storagecontract-002-handoff.md` on its branch.
+Actual independent schema/API/example review is pending. No header/migration/
+test/source/native implementation is authorized. Preserve the completed supplier
+source review and PR84's remaining latest-head gates on its separate branch.
+
+
+## Concurrent ingress document
+
+SESSIONCONTRACT-005 is claimed on `task/SESSIONCONTRACT-005-ingress`,
+`/tmp/subathon-sessioncontract005`, from current maine440c7f after normal PR84.
+Fresh `/root/account_ingress_contract_author` owns only a new source-backed
+contract and author evidence in `/tmp/subathon-sessioncontract005-author`,
+`task/SESSIONCONTRACT-005-author`. [Task handoff](sessioncontract-005-handoff.md).
+Actual review is pending; no framework/proxy/code/pin/deployment change is allowed
+by the document assignment. Preserve independent active storage author/reviewer.
