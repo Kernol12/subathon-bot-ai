@@ -888,8 +888,8 @@
       "title": "Scene assets fonts and portable package contracts",
       "module": "Presentation",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Codex /root integration; fresh asset_contract_correction author",
       "depends_on": [
         "CONTRACT-009",
         "CONTRACTPLAN-002"
@@ -905,10 +905,16 @@
       "brief": "docs/tasks/CONTRACT-011.md",
       "summary": "Bounded scene contract prerequisite; full CONTRACT-008 integration/schema/consumer and release gates remain.",
       "notes": [
-        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state."
+        "Parent integration gate: CONTRACT-008. ADR-0005 planning proposal only; no scene model/schema/tool/renderer/feature authored, reviewed or verified by creating this record. Actual owning-domain outputs and later consumer test-first/platform evidence remain mandatory. Root coordinates shared schemas/imports/build/CI/pins/state.",
+        "2026-11-07 resume after branch audit found preserved unpublished c4ef1b9 partial correction despite main planned status. Reassigned original document correction to fresh author on task/CONTRACT-011-resumed-author, integrating via task/CONTRACT-011-resumed-profiles from e0585ca. Preserve source blob6765932, all29 AP rows and original different review deb0d066/72a00a7 with open R1/R2. Complete finite font/media profiles and closed SVG grammar plus hand-derived examples; no schema/parser/decoder/library/native code or release capability. Root owns all shared files; actual independent re-review required, unchanged reviewed portions retain attribution."
       ],
       "verification": {},
-      "evidence": [],
+      "evidence": [
+        "docs/contracts/scene-assets-packages-v1.md",
+        "docs/evidence/contract-011-author.md",
+        "docs/evidence/contract-011-review.md",
+        "docs/evidence/contract-011-handoff.md"
+      ],
       "review": null
     },
     {
@@ -15517,6 +15523,11 @@
       "date": "2026-11-07T08:57:14.796864+00:00",
       "task": "BOOT-009",
       "note": "Documentation workflow changes independently approved and locally checked; PR78 publication/merge gates separate, no product work resumed."
+    },
+    {
+      "date": "2026-11-07T09:16:17.348314+00:00",
+      "task": "CONTRACT-011",
+      "note": "2026-11-07 resume after branch audit found preserved unpublished c4ef1b9 partial correction despite main planned status. Reassigned original document correction to fresh author on task/CONTRACT-011-resumed-author, integrating via task/CONTRACT-011-resumed-profiles from e0585ca. Preserve source blob6765932, all29 AP rows and original different review deb0d066/72a00a7 with open R1/R2. Complete finite font/media profiles and closed SVG grammar plus hand-derived examples; no schema/parser/decoder/library/native code or release capability. Root owns all shared files; actual independent re-review required, unchanged reviewed portions retain attribution."
     }
   ]
 }
