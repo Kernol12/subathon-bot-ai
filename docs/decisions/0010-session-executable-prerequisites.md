@@ -1,6 +1,7 @@
 # ADR-0010 — Separate executable session prerequisites from full integration
 
-Status: proposed for CONTRACTPLAN-006; actual independent plan/graph review required.
+Status: accepted planning decomposition after independent reviewea27001e;
+[review and publication gates](../evidence/contractplan-006-handoff.md).
 Authority: specification v0.45 §§10/16/17, AUTH-01/05/11/12/15, DB-01,
 SERVER-01, DEV-02, TEST-04/05. This is a planning decision, not a new API contract.
 

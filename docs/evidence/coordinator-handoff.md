@@ -23,8 +23,9 @@ BOOT009/SCHEMATOOL001 were already merged; do not repeat completed work/reviews/
   completedf9d062ca/import36a8750, only contract/authornote; original29AProws and
   reviewdeb0d066/import72a00a7 preserved. Fresh reviewer `/root/asset_contract_review`
   at `/tmp/subathon-contract011-resumed-review`, `review/CONTRACT-011-resumed-profiles`,
-  examines exactcontractc4ba2f9b; actual new review64b2979/import19e59dc requires twoSVG fixes; originalauthor
-  is explicitly reassigned the coherent correction, sameactualreviewer will re-review.
+  examines exactcontractc4ba2f9b; actual new review64b2979/import19e59dc requires twoSVG fixes now corrected7b47fb3/importb2f6636 and sameactualreviewer
+  approved437ab56/importfa4c6fa. Originalreview/history preserved. Rootcompletion
+  records and final-headCI/currentrules/threads/normalmerge remain.
   [DraftPR80](https://github.com/Kernol12/subathon-bot-ai/pull/80) remains unaccepted.
   Author turn completed; do not assume running. Root owns shared merge/state/HTML.
 - CONTRACTPLAN006 is separately claimed atb5143aa on
@@ -32,7 +33,9 @@ BOOT009/SCHEMATOOL001 were already merged; do not repeat completed work/reviews/
   Fresh `/root/session_slice_plan_author` owns only ADR0010/newbriefs/authornote on
   `task/CONTRACTPLAN-006-author`, `/tmp/subathon-session-plan-author`. [Task handoff](contractplan-006-handoff.md). Author2e5fde9c/import987d475 and root
   actualgraph integrate15newnodes/101edges, preservingold427/1630; current443/1735.
-  Different `/root/session_slice_plan_review` awaits the exact integratedrevision; no API/header/test/runtime stage released.
+  Different `/root/session_slice_plan_review` approved exact16b071b at ea27001e;
+  planningtaskdone, [draftPR81](https://github.com/Kernol12/subathon-bot-ai/pull/81)
+  still needs final-headCI/currentrules/threads/normalmerge; no API/header/test/runtime stage released.
   Proposed supplierprepare/resolve component plus lifecycle/storage/acceptedlocal-
   login/clock/ingress prerequisites preserve fullSESSION002/003/local+Twitch scope.
   Avoid SESSION002→ACCESS004 cycle; extract upstream authority instead.
@@ -56,3 +59,12 @@ focused planningPR before starting dependent production work. Integrate currentm
 into activebranches preserving their own rows and every completed task/review.
 Allseven integrations,threeFXproviders,bothrenderers/UI/localization/themes and
 operational/platform/live/packaging/license release scope remain incomplete.
+
+
+Current integration order: finish normalPR81merge after all latest checks, refresh
+main, then integrate that completed graph into PR80 while preserving its own accepted
+asset row, regenerate progress and run applicable final checks before normalPR80merge.
+Start dependency-ready SESSIONTEST008 from integratedplan in a fresh implementation
+session, first minimal accepted-interface/stub and independent review, then actual
+reviewed test/SDK foundation/intended-red stages; no production implementation before
+that baseline. Do not repeat completed reviews or historical reds.

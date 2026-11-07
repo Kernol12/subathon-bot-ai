@@ -14288,7 +14288,7 @@
       "title": "Split current-session and lifecycle architectural prerequisites",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_review",
+      "status": "done",
       "owner": "Codex /root coordinator; fresh session_slice_plan_author",
       "depends_on": [
         "SESSIONCONTRACT-001",
@@ -14309,19 +14309,29 @@
       "summary": "Plan separate current-session supplier component and lifecycle/storage/accepted-login/ingress prerequisites without implementing them or shrinking full session scope.",
       "notes": [
         "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002→ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges.",
-        "Author2e5fde9c/import987d475:15newnodes/101additiveedges integrated from acceptedmain ed73270; original427IDs/1630edges preserved, new443/1735. No code/header/schema/dependency/protocol/crypto/clockheuristic chosen. ExistingSESSION002/003 and full local+Twitch/recovery/restore/ingress scope retained. Actual different finalplan+graph review and final CI/normalmerge remain."
+        "Author2e5fde9c/import987d475:15newnodes/101additiveedges integrated from acceptedmain ed73270; original427IDs/1630edges preserved, new443/1735. No code/header/schema/dependency/protocol/crypto/clockheuristic chosen. ExistingSESSION002/003 and full local+Twitch/recovery/restore/ingress scope retained. Actual different finalplan+graph review and final CI/normalmerge remain.",
+        "Complete planningonly after actual different ea27001e fullpacket/graph approval: preserveall427oldIDs/1630edges/oldstates/reviews/evidence outsideexplicitadditivedeps/notes/3epicsummaries;443/1735acyclic,noabsentrefs,5baselinepairs,firstsupplier008readyafterplanmerge. Actuallocaltooling19/DOM/project443/render/whitespacePASS. No newAPI/schema/protocol/library/clockheuristic/header/test/stub/implementation selected. PR81latestcompletionheadCI/currentrules/discussions/normalmerge remain; everyfullscope/runtime/testfirst/releasegate retained."
       ],
       "verification": {
         "authored": "passed",
-        "plan_review": "not_run",
+        "plan_review": "passed",
+        "graph_preservation": "passed",
+        "tooling": "passed",
         "runtime": "not_run"
       },
       "evidence": [
         "docs/evidence/contractplan-006-handoff.md",
         "docs/decisions/0010-session-executable-prerequisites.md",
-        "docs/evidence/contractplan-006-author.md"
+        "docs/evidence/contractplan-006-author.md",
+        "docs/evidence/contractplan-006-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/session_slice_plan_author (documents); /root (actual graph/shared integration)",
+        "reviewer": "/root/session_slice_plan_review",
+        "outcome": "approved",
+        "revision": "Actual author2e5fde9c/import987d475 +root graph16b071b against mained73270; independentea27001e approves entire written packet and actualgraph.",
+        "evidence": "docs/evidence/contractplan-006-review.md"
+      }
     },
     {
       "id": "SESSIONTEST-008",
@@ -16155,6 +16165,11 @@
       "date": "2026-11-07T09:40:22.314585+00:00",
       "task": "CONTRACTPLAN-006",
       "note": "Author2e5fde9c/import987d475:15newnodes/101additiveedges integrated from acceptedmain ed73270; original427IDs/1630edges preserved, new443/1735. No code/header/schema/dependency/protocol/crypto/clockheuristic chosen. ExistingSESSION002/003 and full local+Twitch/recovery/restore/ingress scope retained. Actual different finalplan+graph review and final CI/normalmerge remain."
+    },
+    {
+      "date": "2026-11-07T09:44:33.112248+00:00",
+      "task": "CONTRACTPLAN-006",
+      "note": "Complete planningonly after actual different ea27001e fullpacket/graph approval: preserveall427oldIDs/1630edges/oldstates/reviews/evidence outsideexplicitadditivedeps/notes/3epicsummaries;443/1735acyclic,noabsentrefs,5baselinepairs,firstsupplier008readyafterplanmerge. Actuallocaltooling19/DOM/project443/render/whitespacePASS. No newAPI/schema/protocol/library/clockheuristic/header/test/stub/implementation selected. PR81latestcompletionheadCI/currentrules/discussions/normalmerge remain; everyfullscope/runtime/testfirst/releasegate retained."
     }
   ]
 }

@@ -30,13 +30,21 @@ Author local project/currentHTML/ownedlinks/whitespace/19tooling and in-memory
 proposal preservation/DAG checks passed. Root actual integration checks exact allold
 rows/edges preserved,443unique IDs/1735edges/absentrefs0/acyclic. No feature/native/
 provider/test body ran. Actual different `/root/session_slice_plan_review` examines
-final written packet AND actual graph; approval is pending, taskin_review. Existing
+final written packet AND actual graph; approvalea27001e is recorded, planningtaskdone (publication/merge separate). Existing
 CI covers planning/progress; no new executable suite is enabled or promoted.
 Root owns all shared files/PR/CI/pins and final metadata; author/reviewer cannot
 self-approve implementation or change original assertions.
 
-Next: actual independent plan/graph review, address coherent findings, normal local
-project/tooling/render checks, focused planningPR, latest-headCI/currentrules/threads/
-normalmerge. Only after integration claim new SESSIONTEST008 in a fresh author
+Actual [independent review](contractplan-006-review.md) ea27001e approved exact16b071b
+against mained73270. Root actual local commands `python3 -m unittest discover -s
+tests/tooling -v`19/19, `node tools/check_progress_ui.mjs`DOM simulation,
+`python3 tools/progress.py validate`, `python3 tools/progress.py render --check`,
+`python3 tools/check_project.py`443/122 and `git diff --check` all passed on Linux/
+Python3.14.9/Node24.22.1. Initial root link check caught a reference to the separate
+asset branch handoff; corrected to plain branch-local path before accepted commit.
+No product failure or red was claimed from that documentation check.
+
+[PR81](https://github.com/Kernol12/subathon-bot-ai/pull/81) publishes the focused plan.
+Next: final completion-headCI/currentrules/threads/normalmerge. Only after integration claim new SESSIONTEST008 in a fresh author
 session with accepted supplier contract and narrow test-first scope. No supplier
 component acceptance can stand in for full lifecycle/real transport support.
