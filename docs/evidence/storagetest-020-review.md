@@ -1,6 +1,13 @@
 # STORAGETEST-020 — independent executable-packet review
 
-**Current disposition:** the delta at
+**Current disposition:** FIRST foundation green and all44 intended marker-red
+failures at approved revision `d7174d63a7617ec6621992164215ef5b52a529f0` are now
+independently attributed to the original preserved receipts. The appended
+first-run stage approves that evidence without replay. Final selected CI and
+normal baseline PR/merge gates remain before fresh STORAGE-020 implementation.
+No production feature passes are claimed.
+
+**Pre-execution disposition (preserved from approval d7174d6):** the delta at
 `11e864d614ecefdbe0f12a3cdf0d5f3ddca5060b` resolves R1–R4 and is approved for
 the FIRST selected foundation run, followed by the FIRST ordinary marker-red
 run after foundation passes. The dated original request-changes stage below is
@@ -387,3 +394,206 @@ Actual compiled prefix reuse/target linkage, all source/resource/metadata-before
 payload/index/driver audits, real acceptance/regressions, host/producer/clock/
 lineage/publication gates and latest-head CI/normal PR merge gates remain as
 stated above. All full-release/provider/platform scope remains intact.
+
+## FIRST-run evidence attribution — 7 November 2026
+
+Same independent reviewer. **Verdict: approved attribution of the FIRST selected
+foundation green followed by the FIRST ordinary44-case intended marker red.**
+Reviewed-test/intended-red evidence is established for this exact packet. Final
+CI/publication and normal baseline PR merge remain coordinator gates before
+the fresh production implementation session. Original `39c95d5` request-changes
+and `d7174d6` corrected-packet approval stages/receipts remain historical evidence;
+none is rewritten into a product pass.
+
+This stage only read original raw files, archive members, source and on-disk
+artifact bytes. The reviewer ran no executable, Qt slot, native/helper function,
+CTest command, build or test replay. Coordinator ran the approved FIRST commands
+once each on clean `d7174d63a7617ec6621992164215ef5b52a529f0`, preserved their
+original captures before another CTest could overwrite them, and supplied the
+archive. That approval commit's recorded time is12:42:59UTC, before both runs.
+The source/index identities in both receipts match that exact reviewed revision
+and current unchanged source bytes; their executable/cache/SDK/Qt/plugin hashes
+also match the preserved on-disk artifacts.
+
+### Preserved receipts, order and actual results
+
+Raw directories are `/tmp/subathon-storagetest020-first-foundation` and
+`/tmp/subathon-storagetest020-first-red`. The durable coordinator archive at
+`docs/evidence/storagetest-020-first-runs.tar.gz` (read in coordinator worktree
+`/tmp/subathon-storagetest020`) is18772 bytes, SHA256
+`f4079c1e4d5606340e272a1886b92ce9b452922af6c5c268505a57cd589f7837`.
+Independently opened it without extraction: exactly13 regular members, all
+byte-identical to the6 foundation and7 red raw files. All11 capture hashes inside
+the receipts match; both receipt hashes were independently computed as well.
+
+| Stage | Exact coordinator command | UTC interval / monotonic elapsed | Direct result |
+| --- | --- | --- | --- |
+| FIRST foundation | `ctest --preset sqlite-account-sessions-debug -R '^scaffold.sqlite_account_sessions_environment$' --no-tests=error --verbose --output-junit /tmp/subathon-storagetest020-first-foundation/ctest.xml` | `2026-11-07T12:43:57.646631+00:00` → `2026-11-07T12:43:57.985650+00:00`;339031755ns | Exit0;1 CTest pass;5 Qt checks plus init/cleanup=7PASS,0failed/skipped/blacklisted. |
+| FIRST ordinary red | `ctest --preset sqlite-account-sessions-debug -L '^sqlite-account-sessions$' --no-tests=error --verbose --output-junit /tmp/subathon-storagetest020-first-red/ctest.xml` | `2026-11-07T12:44:45.561042+00:00` → `2026-11-07T12:44:47.932988+00:00`;2371953876ns | Exit8;44 distinct CTest/JUnit failures;0disabled/skipped; every Qt invocation has2PASS(init/cleanup),1expected marker failure. |
+
+The red receipt pins the FIRST foundation receipt SHA256
+`c72790b498e73f2a6c7662a645b31fe7c692092deae5f381482e352c691bf714`.
+The red receipt itself is SHA256
+`27792ae652e7f79445bb45fe6cf29fa6f8144f44807e7c5bb77469cd04bd3012`.
+The linked foundation exit0 and finish time precede red start; both record
+identical source and artifact identities. Raw CTest/Qt XML timestamps13:43/13:44
+and LastTest's CET labels are local system time; UTC chronology comes from the
+receipt fields above, without changing original XML.
+
+Both receipts explicitly record the actual minimal environment:
+`PATH=/usr/bin:/bin`, `LC_ALL=C.UTF-8`, `LANG=C.UTF-8`, and soft/hard core limits0.
+Host is Linux Arch x86-64/kernel7.2.14-arch1-1; actual Qt output reports QtTest
+6.12.0/Qt6.12.0 built by GCC16.2.1. This applies to THESE first020 runs only;
+it adds no retrospectively inferred environment field to earlier SESSIONTEST008
+or other historical receipts.
+
+Full raw-file identities independently checked:
+
+| Archive member | Bytes | SHA256 |
+| --- | --- | --- |
+| `foundation/CTestCostData.txt` |60| `3db5528d6f397832d9a8155445a7ad42e5e3183322089793d2ede00551d3b90b` |
+| `foundation/LastTest.log` |1940| `6b147e6f847c1b3552eec7e18d8ef9f291956352ac76bdd9d61f6e5db8e19c7f` |
+| `foundation/ctest.xml` |1417| `545391609cc588d7fee0e6db74c792501badd0fbc40885998f0c51aea7e1ad2c` |
+| `foundation/receipt.json` |3482| `c72790b498e73f2a6c7662a645b31fe7c692092deae5f381482e352c691bf714` |
+| `foundation/stderr.bin` |0| `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `foundation/stdout.bin` |2128| `799e87f93cb82b4262a99d494285ffcb8603975f4cd54171994220c43541f190` |
+| `red/CTestCostData.txt` |6612| `b32e60a056c87bddefc91b924446fdcca2a7a16315c9967d46542ddc8e53126f` |
+| `red/LastTest.log` |73628| `1e7e0c4b21ea1fc853bdd0d66c83d2ae019010e74e0fc4362cab11c83f11b95c` |
+| `red/LastTestsFailed.log` |3314| `470c0b3b3fede987429f78fe8abac271f1bd80d365d92c95e1d736006fc00daf` |
+| `red/ctest.xml` |47720| `edd1c648fa8135a34f7bbedb8b08cea2c08786f710b8a7538ccdde1478bb43fe` |
+| `red/receipt.json` |3684| `27792ae652e7f79445bb45fe6cf29fa6f8144f44807e7c5bb77469cd04bd3012` |
+| `red/stderr.bin` |27| `18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4` |
+| `red/stdout.bin` |92631| `5efd7ea38d88b921fab5f8725019852483d1c85e8a6b29205ef363c9627f2e2c` |
+
+Pre-execution artifact hashes in BOTH receipts, also independently matched to
+the actual preserved files without executing them:
+
+| Artifact | SHA256 |
+| --- | --- |
+| Feature executable `build/sqlite-account-sessions-debug/tests/server_sqlite_account_sessions_acceptance` | `c8b67d02b10ee0c09768d7fc7cec55517474c194c289fe5a41db4b3bd4dda8dc` |
+| Foundation executable `build/sqlite-account-sessions-debug/tests/server_sqlite_account_sessions_environment` | `3378dd8e0036699598b06392c4ecba5fd5e01b0ea491c0be8956f886b9a62e8f` |
+| `build/sqlite-account-sessions-debug/CMakeCache.txt` | `4cd8925560acd6daeb283cb17214622c3d3fc6afdc897cf57f31fefebbd737dc` |
+| `build/sqlite-account-sessions-debug/compile_commands.json` | `cd95ed75bc0ea2ddd38391979c9277654617ff7bdaf14909e8091a3f7534912d` |
+| `/tmp/subathon-session-sdk/prefix/lib/libsodium.a` | `f8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017` |
+| `/usr/lib/libQt6Core.so.6.12.0` | `10635d6f11ff08ed0d81ce3dd6b461b54e90ce29b23aa45d85ad4d50074e022e` |
+| `/usr/lib/libQt6Sql.so.6.12.0` | `078af6ec8002542e5926d15afd2aba4b4034fb5112796303bc59db5c642b1a0d` |
+| `/usr/lib/qt6/plugins/sqldrivers/libqsqlite.so` | `64a86b9196c86e727f5b0fbeb6a6361686baa2cb04c47ebafe43047bf500506c` |
+
+Both source receipts match the revised blob inventory above: workflow `a8738efe`,
+lifecycle values `bc7ac003`, store API `c9dbf677`, marker source `6d1551a0`,
+case list `5403ebbf`, literal JSON `86fe179c`, foundation `bffd149b`, feature
+`33d8a57f`, helper `8d4bf11b` (full hashes retained in original JSON/earlier
+tables). Independently checked each against both `git rev-parse d7174d6:<path>`
+and the current file's Git object hash.
+
+### Foundation and every individual failure
+
+The preserved foundation output has seven PASS lines and no other Qt diagnostic.
+The five body names are `selectedSdkInitializationAndFixedRandomCall`,
+`literalPrefixFullSchemaAndCatalogFrames`,
+`realConstraintsExactBlobClassesAndSignedExtremes`,
+`blobIndexRangeAndLiteralCorruptionMechanism` and
+`additiveUpgradeReopenAndOlderExecutableRefusal`. Together with their already
+reviewed bodies, those observations establish selected SDK identity/init/guarded
+fixed32 call, actual QSQLITE full102 schema/literal1–8 catalog frames, constraints/
+exact classes/signed extremes, literal index capability/corruption setup and
+additive upgrade/reopen/older-head refusal. They do not establish a compiled
+production account manifest, SUT query plans, historical random uniqueness or a
+host producer. This run does not record an exact SQLite library version.
+
+For EACH row below, independently parsed its original `LastTest.log` block and
+its individual JUnit `system-out`; their full eight-line Qt output is identical.
+Each contains ONLY Qt configuration, init PASS, that exact slot's one
+`STORAGE-020 account-session storage not implemented` failure, fixture-wrapper
+location33, cleanup PASS and totals2passed/1failed/0skipped/0blacklisted. Its
+CTest command selects that slot once, status is failed, one JUnit failure is
+present, no error/skip element appears and elapsed time is below60 seconds.
+The ordered44 unique names equal the reviewed case file and LastTestsFailed.
+
+| CTest ID | Exact slot | Attributed missing behavior |
+| --- | --- | --- |
+|4| `manifestMatchesFrozenPrefixAndStepEight` | Immediate manifest factory marker. |
+|5| `exactDigestLookupAndFreshSnapshots` | Constructor marker. |
+|6| `rawFactsAndCredentialKeepEveryByte` | Constructor marker. |
+|7| `epochAndAccessChangesRetainCapturedRows` | Constructor marker. |
+|8| `revokedAndExpiredStayComplete` | Constructor marker. |
+|9| `corruptSelectedClosureNeverBecomesMissingOrRevoked` | Constructor marker. |
+|10| `selectedDigestClassAndLengthAreExact` | Constructor marker. |
+|11| `completeSelectedAndSupplierBudgetsUseLiteralBytes` | Constructor marker. |
+|12| `metadataOveragePrecedesMalformedRevokedPayload` | Constructor marker. |
+|13| `localRawRecordsMissingAndOrphansAreDistinct` | Constructor marker. |
+|14| `completeLocalBudgetAndHiddenFormatAreChecked` | Constructor marker. |
+|15| `installationAndAccountInsertAndFullCas` | Constructor marker. |
+|16| `localReplacementUsesFullSourceAndCurrentFences` | Constructor marker. |
+|17| `passwordUpgradeChecksFullExpectedSourceAndRollback` | Constructor marker. |
+|18| `physicalSessionInsertAndCollisionNeverAdopt` | Constructor marker. |
+|19| `issueFencesObserveCurrentEpochAccessAndRevisions` | Constructor marker. |
+|20| `rotationUsesFullExpectedRowAndImmutableTimes` | Constructor marker. |
+|21| `reauthenticationChangesOnlyAcceptedTimeTupleAndRetention` | Constructor marker. |
+|22| `revocationPreservesDigestEpochsTimesAndNoReactivation` | Constructor marker. |
+|23| `signedExtremesSurviveReadRotationAndReopen` | Constructor marker. |
+|24| `lateSqlFailureRollsBackWholeStagedInsert` | Constructor marker. |
+|25| `unexpectedConstraintFailureIsActualSqlFailure` | Constructor marker. |
+|26| `lostCommitAcknowledgementRetainsUnknownWithoutNormalValue` | Constructor marker. |
+|27| `postCommitExceptionPreservesRowsWithoutNormalValue` | Constructor marker. |
+|28| `sameSessionFreshReadAndExternalSnapshotAreDistinct` | Constructor marker. |
+|29| `queuedCompetingRotationsHaveExactlyOneWinner` | Constructor marker, preserved/re-emitted after queued callback completion. |
+|30| `facadeDestructionNeverCleansCallerTransaction` | Constructor marker. |
+|31| `pagesKeepRawBlobOrderProbeAndNonexistentBoundary` | Constructor marker. |
+|32| `laterPageGetsNewSnapshotAndInterveningInserts` | Constructor marker. |
+|33| `malformedProbeFailsWholePageBeforeAnyOutput` | Constructor marker. |
+|34| `completePageBudgetCountsProbeAndRepeatedSourceReferences` | Constructor marker. |
+|35| `manyUnselectedRowsStayOutsideFiniteSelectedQueries` | Constructor marker. |
+|36| `pureLimitOverflowAndInputShapePrecedeExpiredTicket` | Constructor marker. |
+|37| `completeMutationTupleBoundsAndPureRefusalPreserveCallerWork` | Constructor marker. |
+|38| `foreignExpiredAndTerminalCapabilitiesKeepActualErrors` | Constructor marker. |
+|39| `sourceFailureAndExistingStickyErrorRemainHonest` | Constructor marker. |
+|40| `underlyingSqlBudgetRefusalKeepsFirstWorkError` | Constructor marker. |
+|41| `snapshotMaximumOrdinalSucceedsOnceThenRefusesBeforeWrap` | Constructor marker. |
+|42| `binaryCompositeKeysNeverUseTextOrPrefixEquality` | Constructor marker. |
+|43| `returnedValuesOwnBinaryReferencesAfterFacadeAndWork` | Constructor marker. |
+|44| `reusedRevisionsAndImmutableRotationShapesRefuseBeforeSql` | Constructor marker. |
+|45| `rotationAndReauthenticationRecheckCurrentPhysicalFences` | Constructor marker. |
+|46| `passwordUpgradeRechecksCompleteCurrentAccountAndInstallationFences` | Constructor marker. |
+|47| `absentLocalCredentialCreatesButPresentExpectedMissingNeverResurrects` | Constructor marker. |
+
+The92631-byte verbose feature stdout has88 marker echoes:44 live prefixed failure
+lines and44 repeated unprefixed failure-output lines. That is44 distinct executed
+cases, not88 tests or retries. The73628-byte LastTest capture has exactly44 marker
+lines. The27-byte feature stderr is EXACTLY `Errors while running CTest` followed
+by newline: CTest's expected aggregate failure summary, not an additional SQL,
+runtime or setup fault. Foundation stderr is empty. There is no timeout, crash,
+warning, missing driver/dependency, unexpected assertion failure, disabled case,
+skip or failure inversion in the individual records. Neither aggregate percentages
+nor marker-string totals alone were used as attribution evidence.
+
+### Read-only audit commands and limits
+
+Actually used `sha256sum` on the original archive/receipts and `tar -tzvf` for
+member metadata, then Python3 stdlib `tarfile`/`hashlib` to compare all13 members
+against raw files and validate receipt hashes/source/artifact fingerprints.
+Read-only `git rev-parse`, `git hash-object`, `git show`/`git ls-tree` and `rg`
+checked the approved identities and immediate marker origins. Python3
+`xml.etree.ElementTree` plus exact raw-block parsing checked all44 separate
+records, first-stage passes, command selection, result counts, receipt ordering,
+and stdout/stderr interpretation. Every check described above passed.
+`git diff --check` and `python3 tools/check_project.py` also passed on this
+review branch (443 records/122 decisions and current HTML); no shared progress
+or HTML file was changed and no new product/test execution is implied.
+
+One initial audit iteration stopped on an overly broad text regex: `Exception`
+matched the legitimate slot name `postCommitExceptionPreservesRowsWithoutNormalValue`.
+Refined the READ-ONLY parser to require the exact eight expected output lines;
+it then passed all44 original records. This was an audit-script false positive,
+not a test/source failure or test retry. No captured byte or original receipt
+was modified. No original test/readiness run was replayed.
+
+Feature assertions after each explicit constructor/factory throw remain
+unexecuted; this is intended missing-behavior evidence, not a physical-store
+acceptance pass. No production SQL, manifest, reader, CAS, resource/index behavior
+or host login/lifecycle capability has been implemented. All earlier explicit
+source/resource/compiled-prefix/producer/accepted-lineage/clock/publication,
+release/provider/platform gates remain. Coordinator must still complete latest-
+revision selected CI and normal baseline PR merge before a fresh STORAGE-020
+implementation session begins. This reviewer changed only this record and did
+not push the branch.
