@@ -1,34 +1,33 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Verify actual branches, worktrees, PRs and checks before acting;
-this file is a resumption aid, not evidence that any agent or process is still active.
+Updated: 7 November 2026. Verify live branches/claims/PRs before acting.
 
-## Current state
+## Current handoff
 
-- Last observed `main`: `b676f08` (PR #90 merged). The earlier owner instruction "finish
-  the open PRs, then stop" is fulfilled and superseded by the owner's EPIC-028 direction.
-- This checkpoint is being updated on branch `task/EPIC-028-evidence-rule`; verify its
-  PR/merge state on resumption.
-- Current priority: [EPIC-028](../docs/tasks/EPIC-028.md) under
-  [ADR-0012](../docs/decisions/0012-test-suite-simplification.md). EVIDENCE-001 is ready;
-  claim it after this planning change merges. EVIDENCE-002 depends on it. TESTCLEAN-001
-  and TESTCLEAN-002 are also ready and independent, but come after EVIDENCE-001 in
-  execution order; TESTCLEAN-001 keeps the ADR-0008/0009 review gates.
-- Every cleanup task needs a separate approved review, a PR URL in `evidence` and one
-  note of at most 500 characters. The archive tag does not exist until EVIDENCE-001 creates
-  and verifies it; this planning change does not remove any receipt or shorten old notes.
+- Base main `01cf400` (merged PR #91); EVIDENCE-001 branch
+  `task/EVIDENCE-001-readable-archive`, PR #92. Material commit `5ee1393`.
+- Fresh author `/root/evidence_archive_author` finished and retired. Different
+  `/root/evidence_archive_review` approved tests before first red, then the whole
+  material packet at `5ee1393`; completion metadata confirmation pending.
+- Published annotated tag `evidence-archive-2026-11`, object `e7b13d26`, peels to
+  `01cf400`. All 970 original blobs verified, all 969 removed receipts retained.
+  Summary 184 lines; all prior task gates/reviews/assertions and baseline manifest
+  preserved. Existing tooling fixture paths changed only; four new checker tests.
+- Intended tooling red: 3 expected failures/4 tests; after implementation 26/26
+  tooling, check_project461/122, state/render and scaffold3/3 pass. No product or
+  live/platform check claim. PR latest-head hosted CI/current rules/resolved threads
+  and normal merge still required. State completion records local reviewed result,
+  with hosted CI and merge explicitly open. Recheck actual PR state before next task.
+- After merge verify remote archive/deleted-path availability, refresh main, then
+  claim EVIDENCE-002 (or TESTCLEAN-001/002) in a fresh implementation session.
 
-## Preserved unpublished work
+## Preserved work and constraints
 
-- ACCESSCONTRACT-001: approved local document work on local-only branch
-  `task/ACCESSCONTRACT-001-local-login` (`53524fc`, behind `main`). Not an open PR. On
-  resumption, integrate it with current `main` and publish one focused PR without repeating
-  valid author/review stages. It does not block EPIC-028.
-- STORAGE-020 production is not started; its reviewed 44-test baseline stays unchanged.
-- Old `/tmp/subathon-*` worktrees exist, several prunable. Do not prune or reset blindly.
-
-## Constraints
-
-No live credential, provider, chat, payment or deployment operation is authorized. The full
-v0.45 scope, all seven integrations and three FX providers remain required. Detailed prior
-coordination history: [coordinator-handoff.md](../docs/evidence/coordinator-handoff.md).
+- ACCESSCONTRACT-001 approved unpublished local branch `53524fc` and author/review
+  branches intact; integrate/publish after priority work permits. STORAGE-020 remains
+  unstarted with reviewed 44-test red baseline unchanged.
+- No stale active claims at startup. 287 registered worktrees/250 prunable, existing
+  trees clean; no prune/reset. No older session assumed alive.
+- Full v0.45/seven integrations/three FX providers retained. No live credential,
+  provider/chat/payment/deployment action authorized. Historical coordination:
+  [archived handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-handoff.md).

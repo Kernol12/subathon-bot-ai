@@ -7,7 +7,7 @@ Branch: task/BOOT-008-ci-maintenance.
 
 Scope/shared ownership: .github/workflows/acceptance.yml, docs/AGENT_WORKFLOW.md,
 docs/COORDINATOR_PROMPT.md, docs/TEST_STRATEGY.md, README.md, this brief,
-docs/evidence/ci-maintenance.md, progress/state.json and generated PROGRESS.html.
+https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ci-maintenance.md, progress/state.json and generated PROGRESS.html.
 Product behavior, reviewed assertions and contract revisions remain unchanged.
 
 Acceptance:

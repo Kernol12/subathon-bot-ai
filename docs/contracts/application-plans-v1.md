@@ -2,8 +2,8 @@
 
 Authority: specification v0.45 §§3.1–5, 6, 7; NUM-01/02/04, MOD-04 and
 [event/state boundary](event-state-boundaries-v1.md) B03/B04. ACCTTEST-003 supplies22 independently reviewed cases with observed intended stub-red;
-[baseline handoff](../evidence/accttest-003-baseline-handoff.md). ACCT-003 now implements the pure transformations with22 passing unchanged cases,
-separate code review and observed pinned automatic CI; [handoff](../evidence/acct-003-handoff.md).
+[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-baseline-handoff.md). ACCT-003 now implements the pure transformations with22 passing unchanged cases,
+separate code review and observed pinned automatic CI; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-handoff.md).
 
 ## Scope
 

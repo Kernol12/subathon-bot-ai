@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Contract revision 1; independent review/red evidence is tracked separately.
-// Oracles/specification mapping: docs/evidence/time-credit-tests.md.
+// Oracles/specification mapping: https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-tests.md.
 #include <gtest/gtest.h>
 #include <limits>
 #include <subathon/core/time_credit.hpp>

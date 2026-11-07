@@ -7,7 +7,7 @@ Task: CORETEST-001 / CORE-001. Authority: specification v0.45
 The existing time-credit revision 1 is unchanged.
 
 Status: CORETEST-001 completed independent review and observed stub-red before
-CORE-001 implemented this interface. [Implementation evidence](../evidence/core-001-handoff.md)
+CORE-001 implemented this interface. [Implementation evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-handoff.md)
 records passing checks and separate code review. Revision1 API, limits, errors and
 expected examples below are unchanged; only status prose is updated.
 
@@ -141,7 +141,7 @@ is claimed by these primitive tests.
 
 The following harness/CI paragraphs record historical baseline authoring. Current
 CORE-001 removes the historical intentional-red label, adds the reviewed regression
-and runs33 real cases automatically; [CI evidence](../evidence/core-001-ci.md)
+and runs33 real cases automatically; [CI evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-ci.md)
 records actual version/pass results. They do not change the revision1 behavior.
 
 The explicit `exact-numeric-debug` preset enables

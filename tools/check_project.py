@@ -8,7 +8,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote
-from progress import ROOT, STATE, OUTPUT, local_path, render, validate
+from progress import ROOT, STATE, OUTPUT, evidence_path, local_path, render, validate
 
 
 class OfflineLinks(HTMLParser):
@@ -46,9 +46,17 @@ def main() -> int:
         if set(mapped) != set(ids) or len(mapped) != len(ids) or coverage["specification_version"] != version:
             raise ValueError("Acceptance map must track every current decision exactly once")
         for item in [*coverage["decisions"], *coverage["scenarios"]]:
-            for path in item.get("tests", []) + item.get("evidence", []):
+            for path in item.get("tests", []):
                 if not local_path(path).is_file():
-                    raise ValueError(f"Missing acceptance-map artifact: {path}")
+                    raise ValueError(f"Missing acceptance-map test artifact: {path}")
+            for reference in item.get("evidence", []):
+                path = evidence_path(reference, ROOT)
+                if path is not None and not path.is_file():
+                    raise ValueError(f"Missing acceptance-map evidence: {reference}")
+        # Historical receipts live at the archive tag; keep the current record readable.
+        evidence = ROOT / "docs/evidence"
+        if {path.relative_to(evidence).as_posix() for path in evidence.rglob("*") if path.is_file()} != {"README.md"}:
+            raise ValueError("docs/evidence must contain only README.md; keep detailed receipts in the PR")
         presets = json.loads((ROOT / "CMakePresets.json").read_text(encoding="utf-8"))
         if presets["version"] != 6:
             raise ValueError("Review the documented CMake/preset minimum before changing preset schema")

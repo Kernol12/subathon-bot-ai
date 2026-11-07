@@ -5,10 +5,10 @@ Specification: v0.45; §4, TIMER-01, TIMER-02.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [timer lifecycle revision1](../../contracts/timer-lifecycle-v1.md),
 independently reviewed with39 cases and observed intended stub-red; see the
-[baseline handoff](../../evidence/coretest-002-baseline-handoff.md).
-The [owner clarification](../../evidence/timer-confirmation-credit-decision.md)
+[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-baseline-handoff.md).
+The [owner clarification](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/timer-confirmation-credit-decision.md)
 settles confirmation-wait credit. CORE-002 now implements the bounded reducer;
-[implementation evidence](../../evidence/core-002-handoff.md) records39 passing cases,
+[implementation evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-handoff.md) records39 passing cases,
 separate review and observed CI. No API or layout migration was required.
 
 ## Scope and ownership

@@ -79,8 +79,8 @@ STORAGETEST-014 now has24 actual reviewed/compiled real-SQL cases and independen
 literal/green fixtures. Full approval81e0d5a preceded actual selected official
 Qt41347563063 at399fc44 (newgreen3/exact24/pins/stable lanes), then one genuine
 24-case explicit-stub red with all init/cleanup passing/0skip. See
-[baseline handoff](../../evidence/storagetest-014-handoff.md) and
-[original red](../../evidence/storagetest-014-red-ctest.txt). This finishes only the
+[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-handoff.md) and
+[original red](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-red-ctest.txt). This finishes only the
 test-author gate. STORAGE-014 remains planned and unclaimed; no codec/manifest/
 repository behavior is implemented. Latest owner instruction is to finish PR37
 and STOP, so implementation requires a future explicit continuation.
@@ -99,6 +99,6 @@ assertion/fixture/API change is authorized merely to obtain passing results.
 Source61569bd implements this bounded adapter and preserves all reviewed baseline
 artifacts. Author/root/reviewer24/full143 pass; different source/config approvala751
 and actual automatic selected officialQt41477399818 atd0ce5c8 pass unconditional24.
-[Implementation handoff](../../evidence/storage-014-handoff.md) distinguishes
+[Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-handoff.md) distinguishes
 accepted component from pending PR38 integration/final merge gates. Next work
 remains separately claimed from actual integrated main under the standing loop.

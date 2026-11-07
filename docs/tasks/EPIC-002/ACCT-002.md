@@ -5,9 +5,9 @@ Specification: v0.45; §3, §5, §14, §18; settlement boundary §8.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [contribution eligibility revision 1](../../contracts/contribution-eligibility-v1.md),
 independently reviewed for ACCTTEST-002 with21 cases and actual intended stub-red;
-[baseline evidence](../../evidence/accttest-002-baseline-handoff.md).
+[baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-baseline-handoff.md).
 ACCT-002 implements this bounded slice with21 passing simulation cases, separate
-code review and observed CI; [implementation handoff](../../evidence/acct-002-handoff.md).
+code review and observed CI; [implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-handoff.md).
 
 ## Scope and ownership
 

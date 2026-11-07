@@ -3,7 +3,7 @@
 SESSIONCONTRACT-004; identity `subathon.account-session-clock.v1`.
 Specification v0.45 §§10/16, AUTH-05/09/12, DB-01, SERVER-01, TEST-04/05.
 Base main `7897e3e25d1b87c40569d7943e0bac38d75aef4d`, claim `0fb5eed`.
-DOCUMENT ONLY. The [author record](../evidence/sessioncontract-004-author.md)
+DOCUMENT ONLY. The [author record](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-004-author.md)
 records actual sources, literal audits and checks; a different reviewer must
 evaluate this actual proposal before acceptance. No native clock call, header,
 test, stub, implementation, deployment or platform capability is supplied.

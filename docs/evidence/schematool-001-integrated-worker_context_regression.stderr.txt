@@ -1,8 +1,0 @@
-test_dynamic_names_data_and_standalone_keywords_remain_native (__main__.WorkerContextRegression.test_dynamic_names_data_and_standalone_keywords_remain_native) ... ok
-test_native_oas_semantics_keep_raw_schema_ref_siblings (__main__.WorkerContextRegression.test_native_oas_semantics_keep_raw_schema_ref_siblings) ... ok
-test_oas_structural_extension_fields_refuse_before_native_checks (__main__.WorkerContextRegression.test_oas_structural_extension_fields_refuse_before_native_checks) ... ok
-
-----------------------------------------------------------------------
-Ran 3 tests in 1.452s
-
-OK

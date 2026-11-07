@@ -9,7 +9,7 @@ ACCESSTEST-002 completed logical proposal, resumed from the partial document
 This defines proposed values, invariants and independent examples, not an API,
 schema, evaluator, authentication adapter, permission editor or executable test.
 
-The [recorded owner decision](../evidence/accesstest-002-owner-decision.md) resolves
+The [recorded owner decision](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-owner-decision.md) resolves
 D1: complete resource scope selects individual overrides before quantity/other
 limits. This actual revision still requires a different full logical review before
 dependent API work. It supplies no runtime authorization or approval of later stages.
@@ -159,7 +159,7 @@ their limits into a larger grant.
 
 ## 4. Resource-first individual precedence
 
-The [owner decision](../evidence/accesstest-002-owner-decision.md), now reflected in
+The [owner decision](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-owner-decision.md), now reflected in
 §10/AUTH-06, chooses resource-scoped individual overrides. The previous partial
 review remains valid for unchanged requirements; its pending D1 table is superseded
 by this section and the fixed D1-A/B outcomes in §8.

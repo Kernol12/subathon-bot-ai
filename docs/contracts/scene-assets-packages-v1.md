@@ -10,12 +10,12 @@ Proposed definition identity: `subathon.scene-assets-packages.v1`.
 
 **REVIEWED LOGICAL PROPOSAL, 2026-11-07:** §2/4 supply finite media/font records,
 §3 the closed static SVG admission profile, and §8 literal descriptors/source cases.
-The historical [R1/R2 findings](../evidence/contract-011-review.md) are preserved;
-[actual fresh independent review](../evidence/contract-011-resumed-review.md) approved
+The historical [R1/R2 findings](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-review.md) are preserved;
+[actual fresh independent review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-resumed-review.md) approved
 the corrected packet and SVG delta. These are policy requirements, not measured
 codec/platform support. CONTRACT-012 still requires all of its own prerequisites
-and checking/schema gates. See [task handoff](../evidence/contract-011-handoff.md)
-and [author history](../evidence/contract-011-author.md).
+and checking/schema gates. See [task handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-handoff.md)
+and [author history](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-author.md).
 
 This defines logical values, independent examples and finite review proposals.
 It supplies no archive codec, schema, API, decoder, validator, asset, font binary,

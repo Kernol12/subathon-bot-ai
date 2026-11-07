@@ -6,7 +6,7 @@ CORETEST-008, document stage only. Authority: specification v0.45
 NUM-02/03/04 and the [CORE-008 brief](../tasks/EPIC-001/CORE-008.md).
 Original partial proposal: main0b631dc/claimc311f0b. This completed logical
 continuation starts at `5601a06b` after current-main integration and the
-[recorded owner decisions](../evidence/timer-editorial-owner-decisions.md).
+[recorded owner decisions](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/timer-editorial-owner-decisions.md).
 
 **Completed logical candidate, not an executable baseline.** All three original
 owner questions are resolved in specification §4/§18/TIMER-01. Their warning and

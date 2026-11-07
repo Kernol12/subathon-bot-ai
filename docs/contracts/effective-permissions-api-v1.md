@@ -3,9 +3,9 @@
 ACCESSTEST-002 API document stage, claim `101ff83b`. This refines the approved
 [logical model](effective-permissions-v1.md), blob
 `3d82bfa418bb14099ee130fca7a400adca66500b`, and its
-[actual full review](../evidence/accesstest-002-contract-review.md), blob
+[actual full review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-contract-review.md), blob
 `ce5950a599c1039d8c5b0c42a04a22c8e0cd7470`. Specification v0.45 §10/AUTH-03/06,
-the [owner decision](../evidence/accesstest-002-owner-decision.md),
+the [owner decision](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-owner-decision.md),
 [common rational values](wire-primitives-v1.md) and
 [execution boundary](event-state-boundaries-v1.md) remain authoritative.
 

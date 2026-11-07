@@ -3,7 +3,7 @@
 SESSIONTEST-001 concrete API document stage, from release claim `f94f5ae`.
 This refines the independently approved [logical contract](password-hashing-v1.md),
 blob `bc9ccbf66a41c9ae69abde4bd905401900e17461`, without changing PH01–18 or the
-AUTH-11/§10 responsibility split. [Logical review](../evidence/sessiontest-001-contract-review.md)
+AUTH-11/§10 responsibility split. [Logical review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-contract-review.md)
 does not approve this new API. Different actual review is required before any
 header/source/stub/harness/test, followed by reviewed tests and FIRST behavioral
 red before production SESSION-001. No native function is invoked by this document.

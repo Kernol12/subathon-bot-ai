@@ -3,7 +3,7 @@
 STORAGECONTRACT-002; identity `subathon.sqlite-account-sessions.v1`.
 Specification v0.45 §§10/16, AUTH-01/05/11/12, DB-01, SERVER-01, OPS-02.
 DOCUMENT ONLY, based on actual main `e4d46d3` and claim `db09a6c`.
-The [handoff](../evidence/storagecontract-002-handoff.md) records actual review and
+The [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-002-handoff.md) records actual review and
 publication; this document does not establish source, tests, a red baseline or login.
 
 Import [supplier v1](session-resolution-v1.md) §§2–4,
@@ -13,7 +13,7 @@ Import [supplier v1](session-resolution-v1.md) §§2–4,
 [writer work v1](writer-transactions-v1.md),
 [SQLite writer v1](sqlite-writer-v1.md) and
 [migration catalog v1](migration-catalog-v1.md) unchanged. Exact imported blobs and
-limited author checks are in the [author record](../evidence/storagecontract-002-author.md).
+limited author checks are in the [author record](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-002-author.md).
 
 ## 1. Scope, ownership and compatibility
 

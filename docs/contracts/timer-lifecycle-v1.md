@@ -8,11 +8,11 @@ Existing [time-credit](time-credit-v0.md) and [exact-decimal](exact-decimal-v1.m
 contracts are unchanged.
 
 State: revision1 independently reviewed with39 cases and observed intended stub-red;
-[baseline handoff](../evidence/coretest-002-baseline-handoff.md) records exact artifacts.
+[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-baseline-handoff.md) records exact artifacts.
 The owner resolved positive credit during confirmation wait in the
-[recorded clarification](../evidence/timer-confirmation-credit-decision.md).
+[recorded clarification](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/timer-confirmation-credit-decision.md).
 CORE-002 implements the pure reducer with39 passing reviewed cases and separate
-code review/automatic CI; [implementation handoff](../evidence/core-002-handoff.md).
+code review/automatic CI; [implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-handoff.md).
 No API/layout migration occurs.
 
 ## Bounded public interface
@@ -208,7 +208,7 @@ The original baseline provided a minimal header and three unconditional
 `TimerLifecycleNotImplemented` stubs. CORE-002 replaced those stubs after the reviewed
 red gate; the same39 cases now pass in `timer-lifecycle-debug` and automatic PR/main
 CI. Existing stable credit/numeric/receipt/scaffold lanes remain enabled. The
-[handoff](../evidence/core-002-handoff.md) records separate code review and actual
+[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-handoff.md) records separate code review and actual
 CI observations; no failure inversion, skipped assertion or weaker oracle was used.
 
 No prior assertions, numeric contracts, schemas or persisted data are changed.

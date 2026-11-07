@@ -3,8 +3,8 @@
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, NUM-01, DB-01.
 Status/owner/dependencies: progress/state.json. The bounded persistence component
 now has passing29/full173 acceptance, different source/config review and actual
-automatic selected official29 execution. [Implementation handoff](../../evidence/storage-015-handoff.md)
-records scope and remaining merge/release gates. The [original baseline](../../evidence/storagetest-015-handoff.md)
+automatic selected official29 execution. [Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-handoff.md)
+records scope and remaining merge/release gates. The [original baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-handoff.md)
 and its red remain historical, with a separately reviewed SQL NULL oracle correction.
 
 ## Scope and ownership

@@ -13,7 +13,7 @@ actual applied effects/reversals and persisted jobs. Define controlled clock dom
 authoritative Qt queue/SQLite writer ownership and atomic application/deduplication
 invariants with concrete examples before dependent implementation.
 
-Author owns that contract, this brief and docs/evidence/contract-002-authoring.md.
+Author owns that contract, this brief and https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-002-authoring.md.
 Coordinator owns progress/state.json, generated PROGRESS.html, shared architecture,
 coordinator handoff, PR and integration. Independent review consumes the actual
 authored commit. Concurrent writers use isolated branches/worktrees.

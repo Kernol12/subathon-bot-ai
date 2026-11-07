@@ -1,7 +1,0 @@
-# Stable normalization regression registration after actual pass
-
-Root registers the unchangedONEtest after actualreviewedred0!=18, B3flagfix/C555sourceapproval, freshBOTHstatic0/strictbootstrap0 andSAMEtestFULLPASS/.008s. CMake uses exactexplicitactualfaultartifact argument (the earliermanualmissingargument didnotrunatest); env3/ordinaryselectedPython/-I-B, finite40s, no skip/inversion/intentionalred. Existing57programs/direct12/binding9/public74/loadercleanup1 unchanged.
-
-CI source inventory addsONLYnewscript1method andexactsameprogramname, requiredsemanticcount65→66, labelsandunconditionalexecution unchanged. Newprogramjoinsexistingnativebehaviorlabel, notanotherfixturewithsuccessfactory. Rootpresetdisplayname/helpoption nowdescribeimplementedtransport/acceptance, notobsoleteinertintentionalred. Intentionallyredproductacceptance-debug remains unchanged andnotclaimedpassing.
-
-FirstactualALL65currentsemanticprograms alreadyPASS46.50s atclean725, nofail/skip/error; repeatedfull65localrunisnotneededforregistration-onlychange. AfterdifferentA/Cactualsource review rootwillconfigure/checkexact66andexecuteONLYnewCTestregistration, thenpublishunconditionalbothhostfull66CI. Applicablelatestheadchecks/independentreviews/discussions/rules stillprecedenormalmerge77/STOP.

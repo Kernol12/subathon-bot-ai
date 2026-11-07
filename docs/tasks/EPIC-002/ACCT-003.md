@@ -54,17 +54,17 @@ Follow [the child-task workflow](../README.md) for PRs, role handoffs and comple
 owned capture/revision/preview functions with replaceable resolved rule/modifier
 sources. It does not introduce a repository or application transaction, implement
 API-008 evaluation, calculate numeric effects or freeze current cap-limited actual
-amounts. [Authoring evidence](../../evidence/accttest-003-authoring.md) tracks the
+amounts. [Authoring evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-authoring.md) tracks the
 unreviewed baseline and concrete checks. Independent review and intended red remain
 required; no production behavior is implemented by the baseline author.
 
 Current baseline:22 cases/interfaces/contract/harness independently approved36ac654,
 then actual stub-red ata524447 (22/22 failures after successful build). See
-[baseline handoff](../../evidence/accttest-003-baseline-handoff.md). Implementation
+[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-baseline-handoff.md). Implementation
 still requires preserved assertions, separate code review, passing cases and observed
 automatic application-plan CI with the selected pinned Boost setup.
 
 Current implementation:22 unchanged cases pass against pure owned transformations,
 with separate code review4425064 and actual GNU13.3/Boost1.83 automatic CI. See
-[implementation handoff](../../evidence/acct-003-handoff.md). Final publication/merge
+[implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-handoff.md). Final publication/merge
 and full writer/evaluator/permission/application/provider gates remain separate.

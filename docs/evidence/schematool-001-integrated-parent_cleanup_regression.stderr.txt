@@ -1,7 +1,0 @@
-test_cancelled_descriptor_close_reaps_and_closes_before_propagating (__main__.ParentCleanupRegression.test_cancelled_descriptor_close_reaps_and_closes_before_propagating) ... ok
-test_initial_path_allocation_refusal_is_resource_limit_without_setup (__main__.ParentCleanupRegression.test_initial_path_allocation_refusal_is_resource_limit_without_setup) ... ok
-
-----------------------------------------------------------------------
-Ran 2 tests in 0.010s
-
-OK

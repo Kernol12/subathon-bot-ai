@@ -101,7 +101,7 @@ all prior13 tuples unchanged and allocator `(1,NULL)`. The separate actual local
 matched20objects/exactSQL/NULLindexSQL/unchangedprefixes and initialallocatorNULL.
 It bound ContributionId0 into actual new rows and a NULL association separately,
 observed BLOB8zero versus SQLNULL and selected only the truly unassociated row.
-[Probe evidence](../evidence/storagetest-014-probe.md) pins scope/commands.
+[Probe evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-probe.md) pins scope/commands.
 Different contract review and later selected official-Qt fixture proof remain required.
 These are local environment/proposal observations, not feature acceptance/red.
 Independent literal decimal-length F framing and hashlib SHA256 over the actual

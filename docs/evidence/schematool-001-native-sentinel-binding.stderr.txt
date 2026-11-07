@@ -1,2 +1,0 @@
-native binding: libc=/usr/lib/libc.so.6 syscall=0x7f871691e450 base=0x7f8716800000 offset=0x11e450 version=GLIBC_2.2.5
-native foundation host: uname=0 kernel=7.2.14-arch1-1 machine=x86_64 seccomp=2 libc=2.44

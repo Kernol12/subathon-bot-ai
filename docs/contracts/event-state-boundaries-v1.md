@@ -219,7 +219,7 @@ UI/localization, packaging and live/platform validation remain in release scope.
 No provider capability or production clock/SQLite correctness follows from this
 document or the bounded SPIKE-001 experiment. That spike's WebSocket close limitation,
 persistent/multi-message connections, bounded shutdown/backpressure/startup signals
-remain explicit APITEST-001/003 gates. See [its handoff](../evidence/spike-001-bridge-validation.md).
+remain explicit APITEST-001/003 gates. See [its handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-validation.md).
 
 CI assessment: this task adds documentation only, with no executable suite, module,
 dependency or workflow change. Existing project/link/progress checks apply; reviewed

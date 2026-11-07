@@ -3,7 +3,7 @@
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §16, DB-01, OPS-02.
 Status/owner/dependencies: progress/state.json. The versioned
 [contract](../../contracts/migration-catalog-v1.md) and
-[reviewed/red baseline](../../evidence/storagetest-011-handoff.md) are integrated.
+[reviewed/red baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-handoff.md) are integrated.
 Implementation remains a separate source/code-review/acceptance gate.
 
 ## Scope and ownership

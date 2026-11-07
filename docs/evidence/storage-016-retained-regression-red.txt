@@ -1,8 +1,0 @@
-********* Start testing of SqliteApplicationHoldTests *********
-Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 16.2.1 20260810), arch unknown
-PASS   : SqliteApplicationHoldTests::initTestCase()
-FAIL!  : SqliteApplicationHoldTests::callerAndAllBorrowedPortsShareActualCumulativeWriterBudgets(retained-reference-result-bytes) HOLD-ASSERT[callerAndAllBorrowedPortsShareActualCumulativeWriterBudgets/retained-reference-result-bytes]: Exact synchronous hold reason after actual whole-unit rollback
-   Loc: [/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/tests/qt/sqlite_application_hold_tests.cpp(186)]
-PASS   : SqliteApplicationHoldTests::cleanupTestCase()
-Totals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 43ms
-********* Finished testing of SqliteApplicationHoldTests *********
