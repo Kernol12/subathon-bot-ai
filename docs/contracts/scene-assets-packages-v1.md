@@ -308,6 +308,9 @@ Omitted id/style/transform means no id/no declarations/identity transform.
 | radialGradient | id; required cx,cy,r,fx,fy,gradientUnits,spreadMethod; optional gradientTransform and href OR xlink:href | stop only |
 | stop | id; required offset; stop-color,stop-opacity and style restricted to those two properties | none |
 
+An omitted gradientTransform resolves through the gradient's href chain (§3.3);
+it does not automatically mean identity on a referencing gradient.
+
 `shapes` abbreviates rect/circle/ellipse/line/polyline/polygon/path only. One root
 `defs` is optional and must precede all graphical children. Gradients occur only
 in defs. No nested svg/symbol/view/image/pattern/marker/mask/clipPath, text/textPath,
@@ -417,13 +420,26 @@ the referenced subtree's explicit declarations; original source ancestors of the
 referenced root do not inject a second inherited style. Required group opacity,
 paint order (fill then stroke) and odd dash-list duplication follow SVG semantics.
 
-`use` targets a g, shape or use by exact document-local ID. It cannot target svg,
-defs, stop or gradient. A paint URL targets linearGradient or radialGradient.
-Gradient href targets the SAME gradient kind and supplies stops ONLY: all geometry,
-units/spread fields are still explicit on the referencing gradient; an absent
-transform means identity. With own stops, use own stops; otherwise inherit the
-nearest referenced effective stop list. No eventual stops is invalid. This is the
-restricted SVG template case, not general cross-kind/template style inheritance.
+After XML attribute decoding, href/xlink:href is exactly `#ID`, with ID matching
+§3.1: no empty fragment, surrounding whitespace, backslash escape or percent decoding.
+`use` targets a g, shape or use by that exact document-local ID. It cannot target
+svg, defs, stop or gradient. A paint URL targets linearGradient or radialGradient.
+Gradient href targets the SAME gradient kind. Geometry and units/spread fields
+remain explicit on the referencing gradient. With own stops, use own stops;
+otherwise inherit the nearest referenced effective stop list. No eventual stops
+is invalid.
+
+An explicit gradientTransform supplies that gradient's transform. Otherwise follow
+href to the nearest gradient with an explicit gradientTransform; use identity ONLY
+if the complete valid chain has none, following
+[SVG template resolution](https://www.w3.org/TR/SVG2/pservers.html#PaintServerTemplates).
+This copies the resolved transform value; it does not multiply template transforms
+together, and own stops do not prevent transform inheritance. Resolve and bound the
+inherited transform before paint/native handoff under the same §3.2 list limits,
+invertibility and §3.4 matrix/inverse/geometry ceilings as an explicit transform.
+Charge every visited template hop and repeated transform evaluation to work; all
+source gradients still validate. No attribute or byte is inserted/rewritten. This
+is the restricted SVG template case, not cross-kind/template style inheritance.
 
 All original source nodes, even unused defs, must validate. Resolve every reference;
 reject missing/wrong-kind targets and cycles. Check the directed expansion graph
@@ -1044,6 +1060,35 @@ conservative matrix/shape envelopes fit §3.4 independently of raster output.
 </svg>
 ```
 
+S05 fixes the expansion convention with a concrete finite source construction.
+G0 is `<rect id="G0" width="1" height="1"/>`. For each i=1..n, Gi is a g whose
+id is the ASCII G followed by i's canonical decimal digits, containing exactly two
+use children whose href is #G followed by (i-1)'s digits. For n=1 the entire source
+is literally:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1" viewBox="0 0 1 1"><defs><rect id="G0" width="1" height="1"/><g id="G1"><use href="#G0"/><use href="#G0"/></g></defs><use href="#G1"/></svg>
+```
+
+For any selected n, defs contains G0,G1,...,Gn exactly once, in that order; the
+single outer use targets #Gn. No other source node/attribute is added. Each
+instance of Gi includes its own root g and both cloned use elements, as well as
+their referenced subtrees. Thus the expanded target-subtree element counts are
+T0=1 and Tn=1+2*(1+T(n-1))=4*2^n-3. The outer SOURCE use is not a cloned element
+in its own instance and is excluded from expandedUses; its referenced target root
+IS included. This is §3.3's element-per-instance convention, not a count of leaves
+or unique definitions. The original svg/defs/outer use and ALL definition nodes
+are separately charged once to source validation: 3*n+4 source elements, including
+the outer use, with 2*n+1 source reference occurrences. Template/reference walks
+and every actual repeated inspection operation also charge work independently.
+
+For n=18, expandedUses=T18=1048573 fits 1048576; original elements=58, giving
+1048631 source-plus-instance ELEMENT visits. For n=19, T19=2097149 exceeds the
+expanded-use ceiling; original elements=61, giving 2097210 element visits. These
+subtotals are not the cumulative work charge, which also counts references,
+attributes, geometry and other operations. The n=18 case fits ONLY this expansion
+ceiling; generated vertices/edges, work, memory and every other limit still apply.
+
 | Independent source change / literal condition | Required result, by the selected grammar/bounds |
 | --- | --- |
 | S01 width="+2e0px", or path coordinates `.0`, `2.` in place of equivalent integers | admitted equivalent source numbers; same byte length is NOT assumed |
@@ -1051,6 +1096,10 @@ conservative matrix/shape envelopes fit §3.4 independently of raster output.
 | S01 add onload="x", xml:base="file:/", style="filter:url(#f)", or a text/filter/animate child | forbidden source; never rely on native ignoring or disabled execution |
 | S01 replace SVG namespace by an HTTPS spelling or prefix the path name | reject exact namespace/element profile mismatch |
 | S01 path has fill="#f00" AND style="fill:#0f0"; or style="fill:#f00;fill:#0f0" | reject duplicate presentation/style or style property; no cascade winner |
+| S02 as printed, with no gradientTransform on B or G | G resolves identity only after the valid B chain has no explicit transform |
+| S02 add ONLY gradientTransform="scale(2)" to B | G inherits scale(2), with inverse scale(.5), within the same finite bounds; identity would change SVG meaning |
+| Previous case plus gradientTransform="matrix(1 0 0 1 0 0)" on G | G explicitly uses identity while still taking B's stops; no silent source rewriting |
+| Previous B scale(2) case with G gradientTransform="scale(3)" instead | G uses scale(3), not scale(6); template transforms are alternatives, not concatenation |
 | S02 rect fill="url(#tile)" or use href="#G" | reject wrong-kind paint/use target respectively |
 | S02 G href="#missing" or G href="#G" | reject dangling target/self-cycle even if G supplied its own stops |
 | In S02 tile contains use href="#tile" | containment+reference cycle; reject before expansion |
@@ -1064,7 +1113,7 @@ conservative matrix/shape envelopes fit §3.4 independently of raster output.
 | Nested scale(1048576) twice versus three times, on a unit line | envelope coefficient=2^40 fits versus 2^60 exceeds; do not overflow/clip into acceptance |
 | A 1048576-coordinate line with scale(1048576) and stroke="none" versus adding positive stroke width 1 | unexpanded coordinate envelope reaches 2^40; positive stroke expansion exceeds it and rejects |
 | Number token of 128 bytes versus 129, otherwise zero-valued; 65536 elements versus 65537 | first of each pair fits its own inclusive limit; second refuses; other grammar/counts still apply |
-| Acyclic binary use tree with 20 versus 21 levels, including its root instance | 2^20-1=1048575 fits expanded-use ceiling; 2^21-1=2097151 exceeds; compact unique nodes do not change repeated counts |
+| S05 with n=18 versus n=19 | T18=1048573 fits the expanded-use count only; T19=2097149 exceeds; source/enclosing nodes are separately counted above |
 
 These are hand-derived profile decisions over explicit literals/premises. Expanded
 work/bit/memory/native containment and every other bound still apply together;

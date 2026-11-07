@@ -300,3 +300,50 @@ packaging and actual dual-renderer/platform/OBS/performance/release gates remain
 If enforcing native containment requires a substantial supervisor/interpreter or
 runtime subsystem, split that implementation prerequisite before writing it; this
 document stage supplies no authorization or architecture proof for that expansion.
+
+## Consolidated review R2-a/R2-b correction — 2026-11-07
+
+Same author/branch/worktree and two-file ownership. Coordinator relayed the actual
+independent review of `f9d062ca` / contract `c4ba2f9b`: R1 substantively addressed,
+two bounded R2 corrections required. This append preserves that packet's receipts;
+its generic binary-tree arithmetic did not correctly count SVG use expansion and
+is superseded as an SVG oracle by the construction below. No prior verdict or
+check receipt is rewritten. Revised contract blob:
+`56807729eb838315e7b50d59d1a8825d5f067700`.
+
+R2-a: §3.1/3.3 now resolves omitted gradientTransform through the valid same-kind
+href chain, using identity only after no template supplies it. Explicit transform
+wins without multiplying template transforms; stop inheritance is independent.
+Inherited values receive the same list/invertibility/matrix/geometry/work bounds.
+The href/xlink:href value is explicitly the decoded literal #ID grammar. S02
+oracles cover omitted transforms, B scale(2) inherited by G, G explicit identity
+and G scale(3) overriding B without producing scale(6). Browsed W3C SVG 2 paint
+servers §14.1.1 and gradient href attributes; the contract links the primary rule.
+No source bytes are rewritten and no native SVG behavior is asserted verified.
+
+R2-b: S05 pins G0=rect; each Gi=g with two use children targeting G(i-1), all
+source definitions in defs and one outer root use. Target-subtree counts include
+every cloned g/use/rect: T0=1, Tn=1+2*(1+T(n-1))=4*2^n-3. The outer SOURCE use
+is excluded from its own instance count and included with all original nodes in
+3*n+4 source visits. G18 gives 1048573 expanded/58 source/1048631 element visits;
+G19 gives 2097149/61/2097210. The first fits ONLY the 1048576 expanded-use ceiling;
+other geometry/work/memory limits remain separate. The old 20/21-level oracle is
+removed. Existing AP01–29, all R1 media/font content and original source literals
+are byte-preserved; historical author evidence is append-only.
+
+Affected checks passed in the same Linux/Python environment:
+
+```sh
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+427 task records/122 decisions, local links/presets/current unchanged HTML and
+whitespace pass. A read-only Python stdlib/Git audit passed 43 affected literal/
+arithmetic/preservation facts, including independent group/use/leaf subtotals and
+recurrence, source/outer-use counts, threshold/inverse facts, unchanged protected
+sections/AP rows/old XML literals/history and owned scope before this append.
+No parser/media/font/native/renderer/behavioral test or production work occurred.
+Root retains shared files/publication; the same actual reviewer must recheck this
+exact corrected packet before the document gate can pass.
