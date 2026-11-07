@@ -5,8 +5,9 @@ NUM-04 and [reference path R1](reference-path-v1.md). Identity
 `subathon.reference-http.v1`. The concrete package is
 [manifest.json](../../schemas/http/reference-v1/manifest.json), with exactly one
 [OpenAPI 3.1.1 document](../../schemas/http/reference-v1/api.json). This is an
-authored contract, pending different actual review and observed package validation;
-it supplies no HTTP implementation, supported server version or capability.
+contract with separate actual review and observed package validation recorded in
+[the task handoff](../evidence/contract-013-handoff.md); it supplies no HTTP
+implementation, supported server version or capability.
 
 Import [common wire v1](wire-primitives-v1.md),
 [current account supplier v1](session-resolution-v1.md) and

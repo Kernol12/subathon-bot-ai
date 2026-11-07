@@ -44,3 +44,28 @@ manual merge gate. No new runtime dependency or platform/provider evidence.
 
 Next: resolve actual review findings, observe hosted validation, update completion
 records and latest-head checks/rules/discussions before normal merge.
+
+## Reviewed artifact and actual admitted validation
+
+Different reviewer8f995e63/importf694e05 [approved the actual packet and CI](contract-013-review.md).
+It preserves the initial dialect R1 finding/resolution and independent10670-value
+signed64/94local-pointer/25file/23binding audit. Correctedc929109 selects the admitted
+OpenAPI base dialect; all example/assertion content remains unchanged.
+
+[Hosted run42359709873](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42359709873)
+at exactc929109b1d27217458c50a74444786f37de978e4 passed BOTH Ubuntu22.04/CPython3.10
+and Ubuntu24.04/CPython3.12. Each unchanged native static/bootstrap/facility/full
+public acceptance stage passed before the new unconditional publicCLI invocation;
+both emitted exactly `{"code":"ok"}`. [Actual receipt](contract-013-package-ci.json)
+retains job/step timing/outcomes/head revision and downloaded-log hash. Commands:
+`gh run view 42359709873 --json databaseId,url,headSha,status,conclusion,jobs` and
+`gh run view 42359709873 --log`; successful outputs inspected, not inferred from
+workflow source. This establishes actual offline package/reference/example validity,
+not transport parsing, current authentication/authorization, committed-state producer
+or running HTTP behavior. No invalid/red test inversion or new dependency.
+
+[PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79) is draft while final records
+and latest-head checks settle. Task artifact acceptance is done; publication/merge
+is separate. Recheck all applicable final-head checks/current rules/threads/approvals/
+mergeability, ready and merge normally, then refresh main before dependent work.
+No further independent clerical metadata stage is required by the workflow.

@@ -50,3 +50,22 @@ real admitted offline validation and automatic package CI; publish focused task 
 then merge only after all applicable gates and select the next ready executable task.
 No owner decision/access is currently needed. All seven integrations, three FX
 providers and full UI/rendering/operational/platform/live release scope remain open.
+
+## CONTRACT-013 accepted; PR79 final-head gates
+
+Author5819a297/importcebf164, correctedc929109 and different review8f995e63/importf694e05
+complete the written reference package/CI acceptance. Actual hosted42359709873 atc929109
+passed both admitted hosts and emitted CLIcodeok twice; [task handoff](contract-013-handoff.md)
+and receipt retain exact evidence. Taskdone is artifact acceptance only; draft
+[PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79) remains unmerged until latest
+completion-head CI/current rules/discussions/normal merge. No HTTP/auth capability enabled.
+
+Read-only `/root/session_readiness` found SESSIONTEST-002 graph-ready but oversized:
+accepted supplier concretizes only prepare/resolve; lifecycle mutation APIs, physical
+account/session store/producer and trusted accepted-login/clock sources need explicit
+prerequisite boundaries before implementation. Next bounded planning task is
+CONTRACTPLAN-006 (not yet claimed here), on prepared clean
+`/tmp/subathon-session-plan`, `task/CONTRACTPLAN-006-session-slices` frome0585ca.
+Do not add SESSION002→ACCESS004 cycle; original ACCESS004 depends SESSION002.
+Extract upstream accepted-login work while preserving local/Twitch full mapping scope.
+Existing SESSION003 ingress duplicate-field/cookie and raw-cookie TRACE gaps remain.
