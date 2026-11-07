@@ -12,7 +12,8 @@ Updated: 7 November 2026. Verify actual state before resuming.
   strategy-only helper finished. Author worktree `/tmp/subathon-evidence002-author`
   remains clean at440618cb; do not assume agents active.
 - Different `/root/evidence_notes_review` approved original test packet before
-  first execution, observed intended red then minimal two-line guard. Full
+  first execution. The author then observed intended red and added the minimal
+  two-line guard. Full
   source/110notes/currentstrategy at440618cb independently approved. All461 notes
   <=500chars, every other old state field preserved; three additive tests, all old
   tests AST-identical. Strategy147lines/current actual suites/two red baselines.
