@@ -193,7 +193,7 @@ class RepositorySchemas(unittest.TestCase):
         has_inline_examples = any(kind == "inline_example" for kind, _value in openapi_nodes(self.api))
         has_inline_examples = has_inline_examples or any(
             "example" in node or "examples" in node
-            for schema in self.schemas for node in self.schema_nodes(schema)
+            for schema in [*self.schemas, self.progress] for node in self.schema_nodes(schema)
             if isinstance(node, dict))
         self.assertFalse(has_inline_examples,
                          "Add explicit bindings/cases for newly introduced inline examples")
