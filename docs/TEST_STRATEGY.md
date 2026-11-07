@@ -189,6 +189,12 @@ or public contract. Preserve specified accounting, rollback, idempotency, securi
 recovery assertions; remove/revise a baseline only under the scoped cleanup decision
 and separate review, recording the precise revised baseline in its PR.
 
+Keep each shipped migration's canonical framing/digest freeze in its owning suite.
+Every later factory still compares its complete prefix against independent frozen
+versions, IDs, ordered SQL and projected schema; a later digest does not freeze
+earlier SQL. Exact public formats, fixed security error messages, required service
+ordering and published byte-budget formulas remain contract assertions.
+
 Required gaps include crash/reopen and populated-database upgrades, corruption/disk-full
 handling, authorization expiry/current permissions, committed-reader visibility,
 end-to-end effects, exact conservation/refunds, arrival-time rules/modifiers and bounded

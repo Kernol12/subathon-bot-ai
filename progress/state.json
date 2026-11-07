@@ -316,7 +316,7 @@
       "title": "Remove repeated implementation-detail assertions",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/behavior_assertions_author",
       "depends_on": [
         "TESTCLEAN-004"
@@ -328,14 +328,30 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
       "summary": "Keep public/persisted contracts while replacing repeated private DDL, layout, message, and order pins with behavior assertions.",
       "notes": [
-        "Exact proposal8990b6e2/source4db2401 independently approved before edits/execution: each factory retains full independent prefix tuples; canonical1–7 owners preserve bytes/hash with existing4/5checks relocated. All public error/order/budget contracts, methods/rows/fixtures remain. Fresh selected-Qt build/discovery/stable361method/869result and infra checks now authorized. Runtime/integration/current CI/merge remain."
+        "Six manifest methods consolidate repeated framing/hash at independent owning steps1–7; every factory keeps full frozen prefixes. Public format/error/order/budget contracts and all methods/rows/fixtures remain. Independent proposal/source/runtime review passed; real Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips, account44 passive. Final integration/current CI/normal PR98 merge remain. Next: TESTCLEAN-006."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
-        "source_review": "passed"
+        "source_review": "passed",
+        "native_build": "passed",
+        "discovery_equivalence": "passed",
+        "stable_qt_acceptance": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/98"
+      ],
+      "review": {
+        "author": "/root/behavior_assertions_author; bounded read-only inventory helper",
+        "reviewer": "/root/behavior_assertions_review",
+        "outcome": "approved",
+        "revision": "Exact proposal8990b6e2 and source/runtime4db2401 independently approved; all6method diffs,7canonicalowners/literal identity and raw14Qt/361methods/869results verified. Complete-head/currentCI/merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/98"
+      }
     },
     {
       "id": "TESTCLEAN-006",
