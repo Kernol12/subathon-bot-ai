@@ -95,7 +95,8 @@ ctest --preset acceptance-debug -L acceptance
 `scaffold-debug` checks infrastructure only. `acceptance-debug` includes draft red
 feature tests and must not be relabeled as a passing product suite. Do not use
 WILL_FAIL, blanket continue-on-error, or baseline skipping to hide acceptance failures.
-Qt probe: configure/build/test `qt-probe-debug` with Qt >=6.12 discoverable.
+`qt-probe-debug` configures Qt >=6.12 dependency discovery and scaffold checks only;
+use `sqlite-writer-debug` for actual Qt event-loop/writer behavior.
 Use `CMakeUserPresets.json` for personal paths; never commit machine-specific IDE settings.
 
 ## Evidence and status

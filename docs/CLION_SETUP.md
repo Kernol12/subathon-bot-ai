@@ -60,10 +60,13 @@ whole preset without a label filter to include infrastructure checks too.
 ## Qt / Windows
 
 Use `qt-probe-debug` and a CMakeUserPresets.json derived from the example when Qt is
-outside standard prefixes. Product minimum remains Qt 6.12; the scaffold has no GUI yet.
+outside standard prefixes. This preset configures dependency discovery and runs
+scaffold checks; actual Qt event-loop behavior is covered by `sqlite-writer-debug`.
+Product minimum remains Qt 6.12; the scaffold has no GUI yet.
 On Windows use MSVC 2022/x86-64 in a CLion toolchain with Ninja and Python; terminal
 commands need the MSVC environment (CLion terminal/toolchain or Developer PowerShell).
-`python` may replace `python3`. The local Qt Core/Test environment probe passed, as recorded in
+`python` may replace `python3`. The historical Qt Core/Test environment probe passed
+before its redundant executable was removed; that result remains recorded in
 [environment evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-environment.md). Windows, product QML,
 OBS and live-provider validation remain unperformed. Windows app distribution remains an installation-free ZIP.
 

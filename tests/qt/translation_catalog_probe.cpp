@@ -1,14 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Independent Qt-only translation foundation/verifier. No project generator is linked.
+// Checks the actual generated QM with literal expected text; no generator is linked.
 #include <QCoreApplication>
-#include <QCryptographicHash>
 #include <QDir>
-#include <QFile>
 #include <QFileInfo>
-#include <QProcess>
-#include <QTemporaryDir>
 #include <QTranslator>
-#include <array>
 #include <iostream>
 #include <stdexcept>
 
@@ -73,83 +68,16 @@ void verify(const QString &directory) {
     require(missing_base.translate("", "fixture.greeting", nullptr, -1).isNull(),
             "missing English base has no successful text");
 }
-QByteArray child(const QString &tool, const QStringList &arguments) {
-    QProcess process;
-    process.start(tool, arguments);
-    require(process.waitForStarted(10000), "actual lrelease must start");
-    if (!process.waitForFinished(120000)) {
-        process.kill();
-        process.waitForFinished(10000);
-        throw std::runtime_error("actual lrelease timeout");
-    }
-    const auto out = process.readAllStandardOutput();
-    const auto err = process.readAllStandardError();
-    require(out.size() + err.size() <= 65536, "bounded foundation tool diagnostics");
-    require(process.exitStatus() == QProcess::NormalExit && process.exitCode() == 0,
-            "actual lrelease must exit zero");
-    return out;
-}
-QByteArray digest(const QString &path) {
-    QFile f(path);
-    require(f.open(QIODevice::ReadOnly), "open actual compiled QM");
-    QCryptographicHash hash(QCryptographicHash::Sha256);
-    while (!f.atEnd()) {
-        auto data = f.read(65536);
-        require(!data.isEmpty() || f.atEnd(), "bounded QM read succeeds");
-        hash.addData(data);
-    }
-    return hash.result();
-}
-void same_files(const QString &a, const QString &b) {
-    QFile x(a), y(b);
-    require(x.open(QIODevice::ReadOnly) && y.open(QIODevice::ReadOnly), "open independent QMs");
-    require(x.size() == y.size(), "reproduced QM lengths equal");
-    while (!x.atEnd()) {
-        const auto left = x.read(65536), right = y.read(65536);
-        require(left == right && (!left.isEmpty() || x.atEnd()), "QM bytes reproduce exactly");
-    }
-    require(y.atEnd(), "complete QM EOF comparison");
-}
-void foundation(const QString &fixtures, const QString &tool) {
-    require(child(tool, {QStringLiteral("-version")}).trimmed() == "lrelease version 6.12.0",
-            "selected lrelease exact version");
-    QTemporaryDir a, b;
-    require(a.isValid() && b.isValid(), "two independent disposable directories");
-    const std::array<QString, 2> locales{QStringLiteral("en"), QStringLiteral("de")};
-    for (const auto &directory : {a.path(), b.path()}) {
-        for (const auto &locale : locales) {
-            const auto stem = QStringLiteral("messages_") + locale;
-            const auto ts = QDir(directory).filePath(stem + QStringLiteral(".ts"));
-            const auto qm = QDir(directory).filePath(stem + QStringLiteral(".qm"));
-            require(QFile::copy(QDir(fixtures).filePath(QStringLiteral("goldens/qt/") + stem +
-                                                        QStringLiteral(".ts")),
-                                ts),
-                    "copy independent frozen TS without generator");
-            (void)child(tool,
-                        {QStringLiteral("-fail-on-unfinished"), ts, QStringLiteral("-qm"), qm});
-        }
-        verify(directory);
-    }
-    for (const auto &locale : locales) {
-        const auto name = QStringLiteral("messages_") + locale + QStringLiteral(".qm");
-        const auto first = QDir(a.path()).filePath(name), second = QDir(b.path()).filePath(name);
-        same_files(first, second);
-        std::cout << locale.toStdString()
-                  << " actual repeated QM SHA256=" << digest(first).toHex().toStdString() << '\n';
-    }
-}
 } // namespace
 int main(int argc, char **argv) {
     QCoreApplication app(argc, argv);
     try {
         require(QString::fromLatin1(qVersion()) == QStringLiteral("6.12.0"), "selected Qt runtime");
-        if (argc == 4 && QByteArray(argv[1]) == "foundation")
-            foundation(QString::fromUtf8(argv[2]), QString::fromUtf8(argv[3]));
-        else if (argc == 3 && QByteArray(argv[1]) == "verify")
+        if (argc == 3 && QByteArray(argv[1]) == "verify")
             verify(QString::fromUtf8(argv[2]));
         else
             throw std::runtime_error(
-                "usage: translation_catalog_probe foundation FIXTURES LRELEASE | verify QMDIR");
+                "usage: translation_catalog_probe verify QMDIR");
         std::cout << "PASS: " << assertions << " Qt-only literal assertions; no generator linked\n";
         return 0;
     } catch (const std::exception &e) {

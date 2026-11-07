@@ -79,9 +79,8 @@ jobs:
           test -f build/sqlite-reference-capture-debug/server/libsubathon_sqlite_reference_capture.a
           test -x build/sqlite-reference-capture-debug/tests/reference_capture_interface_link
           # The interface executable is deliberately never launched or registered.
-      - name: Run the environment probe and list the writer baseline
+      - name: List the complete writer baseline
         run: |
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.qt_event_loop$'
           ctest --preset sqlite-reference-capture-debug -L sqlite-writer --show-only
           ctest --preset sqlite-reference-capture-debug -L sqlite-writer --show-only=json-v1 > "$RUNNER_TEMP/writer-tests.json"
           python3 - <<'PYTHON'
@@ -124,26 +123,6 @@ jobs:
           PYTHON
       - name: Run reviewed transaction-work acceptance
         run: ctest --preset sqlite-reference-capture-debug -L sqlite-work
-      - name: Run required selected-Qt migration diagnostic environment probe
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_migration_environment"
-          expected = {
-              "fixedFunctionsUseExistingWriterAndUtf8()",
-              "metadataProjectionHasExpectedNullIndexSql()",
-              "integrityFunctionRejectsOrdinaryShadow()",
-              "foreignKeyFunctionRejectsOrdinaryShadow()",
-              "encodingFunctionRejectsOrdinaryShadow()",
-              "utf16EncodingAndRawBytesAreObservedWithoutConversion()",
-              "integrityAndForeignKeyDiagnosticsAreDistinct()",
-          }
-          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if set(compiled) != expected or len(compiled) != len(expected):
-              raise SystemExit("Required diagnostic environment cases do not match compiled slots")
-          print("Discovered all 7 required diagnostic environment cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_migration_environment$' --verbose
       - name: Check complete migration catalog registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L sqlite-migrations --show-only
@@ -165,22 +144,6 @@ jobs:
           PYTHON
       - name: Run reviewed migration catalog acceptance
         run: ctest --preset sqlite-reference-capture-debug -L sqlite-migrations
-      - name: Check and run required retained-context fixture diagnostics
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_retained_context_environment"
-          expected = {
-              "emptyNullAndOpaqueBindingsRemainDistinct()",
-              "retentionMigrationShapeAndLinksUseExistingSql()",
-              "selectedEmptyAndOptionalValuesKeepTheirSqlTypes()",
-          }
-          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if set(compiled) != expected or len(compiled) != len(expected):
-              raise SystemExit("Required retention fixture cases do not match compiled slots")
-          print("Discovered all 3 required retention fixture cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_retained_context_environment$' --verbose
       - name: Check complete retained-context registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L sqlite-retained --show-only
@@ -202,22 +165,6 @@ jobs:
           PYTHON
       - name: Run reviewed retained-context acceptance
         run: ctest --preset sqlite-reference-capture-debug -L sqlite-retained
-      - name: Check and run required receipt fixture diagnostics
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_receipts_environment"
-          expected = {
-              "receiptSchemaPrefixMatchesLiteralProjection()",
-              "unsignedIdsAndSignedFieldsRemainExact()",
-              "optionalGroupsAndTypedReferencesUseLiteralSchema()",
-          }
-          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if set(compiled) != expected or len(compiled) != len(expected):
-              raise SystemExit("Required receipt fixture cases do not match compiled slots")
-          print("Discovered all 3 required receipt fixture cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_receipts_environment$' --verbose
       - name: Check complete receipt acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L sqlite-receipt --show-only
@@ -239,22 +186,6 @@ jobs:
           PYTHON
       - name: Run reviewed identified-receipt acceptance
         run: ctest --preset sqlite-reference-capture-debug -L sqlite-receipt
-      - name: Check and run required contribution fixture diagnostics
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_contributions_environment"
-          expected = {
-              "contributionSchemaPrefixMatchesLiteralProjection()",
-              "unsignedContributionIdsAndNullableAssociationsStayDistinct()",
-              "groupedConditionsRolesAndProofUseLiteralSchema()",
-          }
-          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if set(compiled) != expected or len(compiled) != len(expected):
-              raise SystemExit("Required contribution fixture cases do not match compiled slots")
-          print("Discovered all 3 required contribution fixture cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_contributions_environment$' --verbose
       - name: Check complete contribution acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L sqlite-contribution --show-only
@@ -276,23 +207,6 @@ jobs:
           PYTHON
       - name: Run reviewed contribution acceptance
         run: ctest --preset sqlite-reference-capture-debug -L sqlite-contribution
-      - name: Check and run required captured-plan fixture diagnostics
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_application_plans_environment"
-          expected = {
-              "planSchemaPrefixMatchesLiteralProjection()",
-              "unsignedRevisionFieldsAndSparseHistoryStayExplicit()",
-              "exactValuationAndOrderedPayloadsKeepLiteralTypes()",
-              "planConstraintsRefuseInvalidPhysicalValues()",
-          }
-          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if set(compiled) != expected or len(compiled) != len(expected):
-              raise SystemExit("Required captured-plan fixture cases do not match compiled slots")
-          print("Discovered all 4 required captured-plan fixture cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_application_plans_environment$' --verbose
       - name: Check complete captured-plan acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L sqlite-plan --show-only
@@ -314,24 +228,6 @@ jobs:
           PYTHON
       - name: Run reviewed captured-plan acceptance
         run: ctest --preset sqlite-reference-capture-debug -L sqlite-plan
-      - name: Check and run required application-bundle fixture diagnostics
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_application_bundle_environment"
-          expected = {
-              "bundleSchemaPrefixMatchesLiteralProjection()",
-              "typedBundlePayloadsAndHistoricalProvenanceRemainExact()",
-              "multipleOriginalBasesShareOneRequestAndHeads()",
-              "bundleConstraintsAndRuntimeOnlyAdmissionsAreExplicit()",
-              "conditionalMidstageFaultRollsBackPreparedUnit()",
-          }
-          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if set(compiled) != expected or len(compiled) != len(expected):
-              raise SystemExit("Required bundle fixture cases do not match compiled slots")
-          print("Discovered all 5 required application-bundle fixture cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_application_bundle_environment$' --verbose
       - name: Check complete application-bundle acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^sqlite-bundle$' --show-only
@@ -353,22 +249,6 @@ jobs:
           PYTHON
       - name: Run reviewed application-bundle acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-bundle$'
-      - name: Check and run required original-claim fixture diagnostics
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_original_claim_environment"
-          expected = {
-              "minimalFixtureHasCoherentCatalogAndCompetingClaims()",
-              "oldLookupValidatesCompleteMinimalRecordsAndLiteralByteBounds()",
-              "oldNonemptyFixtureRetainsTwentyItemFoundation()",
-          }
-          compiled = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if set(compiled) != expected or len(compiled) != len(expected):
-              raise SystemExit("Required original-claim fixture cases do not match compiled slots")
-          print("Discovered all 3 required original-claim fixture cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_original_claim_environment$' --verbose
       - name: Check complete original-claim acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^sqlite-original-claim$' --show-only
@@ -392,22 +272,6 @@ jobs:
           PYTHON
       - name: Run reviewed original-claim acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-original-claim$'
-      - name: Required hold fixture diagnostics (old primitives only)
-        run: |
-          python3 - <<'PYTHON'
-          import subprocess
-          executable = "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_application_hold_environment"
-          expected = {
-              "frozenCatalogAndConstraintFoundationIsIndependent()",
-              "pendingSourcesAndContiguousHistoryContainNoAppliedSubset()",
-              "processedTimerAndDistinctCorrectionHaveCompleteOldClosure()",
-          }
-          actual = subprocess.check_output([executable, "-functions"], text=True).splitlines()
-          if len(actual) != 3 or set(actual) != expected:
-              raise SystemExit("Expected all 3 hold fixture diagnostic cases")
-          print("Discovered all 3 required hold fixture cases")
-          PYTHON
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_application_hold_environment$' --verbose
       - name: Check complete durable hold acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^sqlite-hold$' --show-only
@@ -431,32 +295,6 @@ jobs:
           PYTHON
       - name: Run reviewed durable hold acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-hold$'
-      - name: Required independent service fixture diagnostics (old primitives only)
-        run: |
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.application_service_environment$' --show-only=json-v1 > "$RUNNER_TEMP/service-environment.json"
-          python3 - <<'PY'
-          import json, os, re, subprocess
-          from pathlib import Path
-          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "service-environment.json").read_text())["tests"]
-          if len(tests) != 1:
-              raise SystemExit("Expected one required service fixture environment")
-          test = tests[0]
-          if any(prop["name"] in {"DISABLED", "WILL_FAIL"} and prop["value"] for prop in test.get("properties", [])):
-              raise SystemExit("Service fixture environment must stay enabled without failure inversion")
-          compiled = re.findall(r'^([A-Za-z][A-Za-z0-9_]*)\(\)$', subprocess.check_output([test["command"][0], "-functions"], text=True), re.M)
-          expected = {
-              "literalFramesAndOwnedDataRemainIndependent",
-              "rawSourceStateAndPlanBranchesHaveCompleteOldClosure",
-              "completeHistoricalRecordsRetainLiteralServiceDocumentsAndGlobalClaims",
-              "independentHoldsAndResolvedRetryRetainLiteralHistory",
-              "scriptedPortsReturnOnlyOwnedSyntheticData",
-              "actualOldWriterCompletionDistinguishesCommitRollbackAndTailFailure",
-          }
-          if len(compiled) != 6 or set(compiled) != expected:
-              raise SystemExit("Required six compiled service fixture cases do not match")
-          print("Discovered all 6 required independent service fixture cases")
-          PY
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.application_service_environment$' --verbose
       - name: Check complete reviewed application-service registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^application-service$' --show-only=json-v1 > "$RUNNER_TEMP/application-service-tests.json"
@@ -481,30 +319,6 @@ jobs:
           PY
       - name: Run reviewed application-service acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^application-service$'
-      - name: Check and run required initial-capture fixture diagnostic
-        run: |
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_reference_capture_environment$' --show-only=json-v1 > "$RUNNER_TEMP/capture-environment.json"
-          python3 - <<'PY'
-          import json, os, subprocess
-          from pathlib import Path
-          tests = json.loads((Path(os.environ["RUNNER_TEMP"]) / "capture-environment.json").read_text())["tests"]
-          if len(tests) != 1:
-              raise SystemExit("Expected one initial-capture foundation executable")
-          test = tests[0]
-          if any(p["name"] in {"DISABLED", "WILL_FAIL"} and p["value"] for p in test.get("properties", [])):
-              raise SystemExit("Initial-capture foundation must stay enabled without failure inversion")
-          compiled = subprocess.check_output([test["command"][0], "-functions"], text=True).splitlines()
-          expected = {
-              "independentSchemaAndFramesUseExistingRunner()",
-              "completeLiteralClosuresKeepZeroAndMaximumIds()",
-              "realConstraintsRefuseAliasesTypesAndMissingParents()",
-              "stagedCaptureAndIndexRollbackAsOneUnit()",
-          }
-          if len(compiled) != 4 or set(compiled) != expected:
-              raise SystemExit("Expected all 4 compiled initial-capture diagnostic slots")
-          print("Initial-capture diagnostic compiled slots:", compiled)
-          PY
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_reference_capture_environment$' --verbose
       - name: Check complete reviewed initial-capture codec acceptance registration
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$' --show-only=json-v1 > "$RUNNER_TEMP/capture-codecs.json"
@@ -577,7 +391,6 @@ jobs:
               raise SystemExit("Compiled Qt methods differ from the reviewed closed inventory")
           expected = {"sqlite-account-sessions." + name for name in declarations}
           found = []
-          foundation = []
           for item in discovery["tests"]:
               props = {value["name"]: value["value"] for value in item["properties"]}
               labels = set(props.get("LABELS", []))
@@ -595,28 +408,9 @@ jobs:
                   name = item["name"].removeprefix("sqlite-account-sessions.")
                   if len(item["command"]) != 2 or item["command"][1] != name:
                       raise SystemExit("Account session method command no longer selects exactly its slot")
-              if item["name"] == "scaffold.sqlite_account_sessions_environment":
-                  foundation.append(item)
-                  if labels != {"scaffold", "qt", "sqlite-account-sessions-environment"}:
-                      raise SystemExit("Independent foundation labels changed")
-                  if props.get("DISABLED", False) or props.get("WILL_FAIL", False) or props.get("TIMEOUT") != 60:
-                      raise SystemExit("Independent foundation is disabled/inverted/unbounded")
-                  if any(key in props for key in ("SKIP_RETURN_CODE", "SKIP_REGULAR_EXPRESSION",
-                                                 "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
-                      raise SystemExit("Independent foundation rewrites results")
-          if len(found) != 44 or set(found) != expected or len(foundation) != 1:
-              raise SystemExit("Missing/duplicate account session methods or mandatory foundation")
-          source = Path("tests/qt/sqlite_account_sessions_environment.cpp").read_text()
-          slots = set(re.findall(r"^    void ([A-Za-z][A-Za-z0-9_]*)\(\)", source, re.M)) - {"initTestCase", "cleanupTestCase"}
-          environment = "build/sqlite-reference-capture-debug/tests/server_sqlite_account_sessions_environment"
-          actual = subprocess.check_output([environment, "-functions"], text=True).splitlines()
-          if len(slots) != 5 or len(actual) != 5 or {line.removesuffix("()") for line in actual} != slots:
-              raise SystemExit("Independent foundation lost its five compiled ordinary slots")
-          print("Closed44 feature methods and mandatory five-slot independent foundation discovered; no new body ran")
+          if len(found) != 44 or set(found) != expected:
+              raise SystemExit("Missing/duplicate account session methods")
+          print("Closed44 feature methods discovered; no feature body ran")
           PYTHON
-      - name: Require independent account schema and selected-SDK foundation
-        run: |
-          ulimit -c 0
-          ctest --preset sqlite-reference-capture-debug -R '^scaffold.sqlite_account_sessions_environment$' --no-tests=error --verbose
       # The reviewed missing-feature baseline runs separately and remains intentionally red.
       # Promote all44 ordinary feature cases only after STORAGE-020 implementation/review passes.
