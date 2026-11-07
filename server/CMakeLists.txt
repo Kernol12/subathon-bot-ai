@@ -1,5 +1,5 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
-if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
+if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
     add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
     target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_session_resolution PRIVATE Sodium::Sodium)
@@ -94,4 +94,12 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     target_link_libraries(subathon_sqlite_reference_capture PUBLIC
         subathon_reference_capture_values subathon_sqlite_application_holds)
     subathon_target_options(subathon_sqlite_reference_capture)
+endif()
+
+# Physical account/session test-first markers, including the additive manifest factory.
+if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
+    add_library(subathon_sqlite_account_sessions STATIC src/sqlite_account_sessions.cpp)
+    target_include_directories(subathon_sqlite_account_sessions PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_account_sessions PUBLIC subathon_sqlite_writer)
+    subathon_target_options(subathon_sqlite_account_sessions)
 endif()

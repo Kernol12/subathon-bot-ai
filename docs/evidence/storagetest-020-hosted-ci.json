@@ -1,0 +1,25 @@
+{
+  "run": {
+    "conclusion": "success",
+    "databaseId": 42374659005,
+    "headSha": "fdcadfbcc93560cccf08094a1cb70d94c8ae15f0",
+    "status": "completed",
+    "url": "https://github.com/Kernol12/subathon-bot-ai/actions/runs/42374659005"
+  },
+  "selected_emitted_output": [
+    "sqlite-writer-build\tVerify account session baseline discovery without running feature bodies\t2026-11-07T12:59:50.2313001Z Closed44 feature methods and mandatory five-slot independent foundation discovered; no new body ran",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.2570205Z 48: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 11.5.0 20240719 (Red Hat 11.5.0-5)), ubuntu 24.04",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.2576334Z 48: PASS   : SqliteAccountSessionsEnvironment::initTestCase()",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.2576854Z 48: PASS   : SqliteAccountSessionsEnvironment::selectedSdkInitializationAndFixedRandomCall()",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.3616421Z 48: PASS   : SqliteAccountSessionsEnvironment::literalPrefixFullSchemaAndCatalogFrames()",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.4436034Z 48: PASS   : SqliteAccountSessionsEnvironment::realConstraintsExactBlobClassesAndSignedExtremes()",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.5249954Z 48: PASS   : SqliteAccountSessionsEnvironment::blobIndexRangeAndLiteralCorruptionMechanism()",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.7355548Z 48: PASS   : SqliteAccountSessionsEnvironment::additiveUpgradeReopenAndOlderExecutableRefusal()",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.7356346Z 48: PASS   : SqliteAccountSessionsEnvironment::cleanupTestCase()",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.7360220Z 48: Totals: 7 passed, 0 failed, 0 skipped, 0 blacklisted, 479ms",
+    "sqlite-writer-build\tRequire independent account schema and selected-SDK foundation\t2026-11-07T12:59:50.7369263Z 1/1 Test #48: scaffold.sqlite_account_sessions_environment ...   Passed    0.48 sec"
+  ],
+  "full_downloaded_log_sha256": "1cd1d47fde559232531df53ffc42a24db381b58d8d13e1dbebcdb020039bf533",
+  "claims": "Closed44 discovery and mandatory independent5-slot foundation only; no missing-feature body or global support claim",
+  "collector_note": "Initial collector incorrectly expected uppercase PR-rollup enums; run JSON has lowercase completed/success. Corrected read-only collection; no CI rerun."
+}

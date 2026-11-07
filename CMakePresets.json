@@ -258,6 +258,14 @@
       "cacheVariables": {
         "SUBATHON_BUILD_SCHEMA_TRANSPORT": "ON"
       }
+    },
+    {
+      "name": "sqlite-account-sessions-debug",
+      "displayName": "30 \u00b7 Physical account/session SQLite baseline",
+      "inherits": "sqlite-migrations-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -380,6 +388,10 @@
     {
       "name": "schema-transport-debug",
       "configurePreset": "schema-transport-debug"
+    },
+    {
+      "name": "sqlite-account-sessions-debug",
+      "configurePreset": "sqlite-account-sessions-debug"
     }
   ],
   "testPresets": [
@@ -676,6 +688,16 @@
     {
       "name": "schema-transport-debug",
       "configurePreset": "schema-transport-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-account-sessions-debug",
+      "configurePreset": "sqlite-account-sessions-debug",
       "output": {
         "outputOnFailure": true
       },
