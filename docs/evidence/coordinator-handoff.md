@@ -1,7 +1,7 @@
 # Coordinator checkpoint — supplier baseline ready for integration
 
 Updated 7 November 2026 by `/root`, under the owner's continuation instruction.
-Last fetched main: `ebb4368ab5af3b0c39314607896a6213fc061bb5`.
+Last fetched main: `37f098d99b306830e43398e55071286a689a95b2`.
 The full specification v0.45 product remains incomplete.
 
 ## Integrated this continuation
@@ -17,9 +17,10 @@ threads and applicable independent reviews. No protection was bypassed. BOOT-009
 and SCHEMATOOL-001 were already integrated at resume. Preserve completed work,
 reviews, original red runs and receipts; do not repeat them.
 
-## SESSIONTEST-008: accepted baseline, PR82 unmerged
+## SESSIONTEST-008: integrated baseline
 
-[Current task handoff](sessiontest-008-handoff.md) links all original receipts.
+[Baseline handoff](sessiontest-008-handoff.md) links all original receipts.
+PR82 merged normally at10:26:28 UTC, merge37f098d fromexact50aae694 after21finalSUCCESS/currentrules/0threads.
 Integrator: `/tmp/subathon-sessiontest008`,
 `task/SESSIONTEST-008-supplier-baseline`. [Draft PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82)
 needs its final completion-head CI/current rules/discussions/normal merge.
@@ -98,3 +99,15 @@ checkpoint entries do not imply background execution. Current network and manage
 PR/resolved threads/zero formal approvals, with no enforced status list; manually
 require every applicable latest-head check and independent review. No owner decision
 or access is currently needed. No live chat/payment/deployment action is authorized.
+
+
+## Active bounded supplier implementation
+
+SESSION-008 is claimed from integrated main37f098d on
+`task/SESSION-008-bounded-supplier`, `/tmp/subathon-session008`.
+Fresh `/root/session_supplier_implementer` receives only source TU and own evidence
+in `/tmp/subathon-session008-author`, `task/SESSION-008-implementation`.
+[Implementation handoff](session-008-handoff.md) freezes exact baseline blobs and
+links accepted tests/red/attribution. Actual source review, passing39/full43,
+CI promotion and normal merge remain. Keep lifecycle003 document review active;
+its branch-local assignment is independent. No new owner action is needed.
