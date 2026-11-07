@@ -41,3 +41,28 @@ DDL statements/full102objects/77258bytes/SHA256
 That is an authored proposal pending different review and actual selected-driver
 foundation; no observed SQL result/hash freeze claimed. Every prefix1–7 remains
 byte-identical and existing/newer-head/explicitupdate/rollback obligations remain.
+
+## Actual executable packet / review gate
+
+Author1b7e7d985458395fe0d9577900c625a074255ff3/import777407a,
+[scope/AS01–24/frozenblob/check record](storagetest-020-author.md),40ordinaryQtfeature
+cases/fiveindependentfoundationchecks/119passiveCTestregistrations. Compile/link/
+passivelist PASS; NOnewfeature/foundation/nativehelperbody ran. Minimalmarkeronly
+factory `account_session_repository_manifest()` and independentfull1–8comparison
+case are included BEFORE productionmigration. Future actualfactory reusescompiled7
+and addsappropriateexistingtargetlink undercode/configreview; nocopiedoldSQL.
+
+RootCIbc0b54c/f1cd77f uses samealreadyadmitted SDKarchive/buildsetup aspasswordlane,
+keepsoldreferencepreset/alloldCIpaths, enablesnewflag andrequiresclosed40compiled/
+CTestdiscovery plusONLYmandatoryfive-slotfoundation. No knownredfeaturebody isrun
+or inverted. RootASTparsedall20workflowPythonblocks; no newbodyexecuted. Packet
+is UNPUBLISHED untilactualapproval/firstlocalfoundationgreen/ordinarymarkerred.
+
+Freshdifferent `account_session_storage_test_review` ownsONLYactualreviewrecord in
+`/tmp/subathon-storagetest020-review`, `review/STORAGETEST-020-baseline`,at777407a.
+WholeAPI/40tests/fixture/stubs/SDKfoundation/build/CI audit pending; candidate
+store-owned revisionreuse/rotationcurrentfence findings being batched, no approval.
+Anynecessary assertions are addedandre-reviewed beforefirstexecution, never weakened.
+Hostacceptance/replay/passwordbridge/lifecycleU64/clock/publication remainexplicit
+owners, butphysicalstore-ownedinvariants mustnotbedeferred. Sourcepreownership/
+actualSQLindex/finiteCPU/scratch audit islaterindependent020implementationgate.
