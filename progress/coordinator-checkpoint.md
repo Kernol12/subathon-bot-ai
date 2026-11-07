@@ -54,7 +54,18 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/processes/PRs.
   implementation. New unknown/empty/legacy-refusal/default/union semantics affect
   acceptance coverage and require independent tests -> intended named red -> resolver.
   Mechanical framework registration refactor needs no counterfeit missing-feature red.
-  Actual source ownership/gates for remaining registration/CI follow coherent review.
+  Independent selector test review approved stub `f7eea7ef`/tests `af6497b2`.
+  FIRST focused CMake-P run:5methods/8scenario failures solely named
+  FeatureNotImplemented, no parse/compiler/SDK/setup failure; different attribution
+  accepted. Baseline commit `2cf8f82` preserved in author worktree. Resolver impl
+  now released with those five methods frozen; focused green may run afterward.
+- Root granted remaining exact source paths under approved proposal: root/test CMake,
+  presets/small cmake helpers/test-label modules/account-slot list, translation
+  case_inventory deletion only, eight corresponding CI registration blocks and
+  active guidance. No actual test bodies/fixtures/verifier/pins/jobs may change.
+  Core/server CMake narrow guard edits require explicit extra assignment if needed.
+  Whole coherent registration/CI packet still needs static review BEFORE new
+  configure/build/discovery/Qt-suite/translation execution. No such runtime yet.
 - Current source/SDK context: root's earlier author worktrees preserved; schema SDK
   `/tmp/subathon-testclean001-sdk` contains actual20admitted wheels. Qt6.12.0 and
   Boost1.92 local; selected hostedBoost remains1.83. libsodium SDK prepared at

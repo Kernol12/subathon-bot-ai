@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T17:03:19.288250+00:00",
+  "updated_at": "2026-11-07T17:35:15.558997+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -241,10 +241,12 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
       "notes": [
-        "Independent migration proposal approved: one acceptance Boolean/selectors, strict retired-cache refusal, same presets/SDK scopes; Qt suite runners, GTest per-case, translation43, red separation. Focused new selector contract tests/interface stub are being authored before resolver implementation; independent review and intended red still required. No runtime executed; native/CI/merge gates remain."
+        "Migration proposal and five new selector contract tests independently approved. First CMake-only run: 5 methods/8 scenarios failed solely at named unimplemented resolver; baseline 2cf8f82 preserved. Resolver implementation and mechanical registration/CI authoring now released, tests frozen. Whole-packet static review precedes new suite execution; native/CI/normal merge still open."
       ],
       "verification": {
-        "cleanup_proposal_review": "passed"
+        "cleanup_proposal_review": "passed",
+        "selector_test_review": "passed",
+        "selector_baseline": "observed_red"
       },
       "evidence": [],
       "review": null
@@ -16544,6 +16546,11 @@
       "date": "2026-11-07T17:03:19.288250+00:00",
       "task": "TESTCLEAN-003",
       "note": "Claim dependency-ready cleanup after normalPR95/main2d5488f/all19SUCCESS/independent6666fe5 review; two selected schema hosts each8+infra3 passed. Fresh author investigates actualQt/GTest runners/options/CI before bounded common-registration proposal, no domainbehavior/assertion/fixture weakening. Preserve redrates53/account44, config-onlyQt and real-schemasuite."
+    },
+    {
+      "date": "2026-11-07T17:35:15.558997+00:00",
+      "task": "TESTCLEAN-003",
+      "note": "Independenttestreviewstubf7eea7ef/testaf6497b2 thenFIRSTactualCMake-P red accepted:5methods/8scenarios solelynamedFeatureNotImplemented, no parse/compiler/SDK/setupfailure. Authorevidence /tmp/testclean003-selector-first-red.log; baseline2cf8f82. Rootnowreleasedexactresolver/registration/vector/label/preset/8CI/guidancepaths, wholepacketstaticreviewbeforebroaderruntime. No test/fixture/prodsource assertions changed."
     }
   ]
 }
