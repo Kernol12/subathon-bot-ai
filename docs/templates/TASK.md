@@ -9,5 +9,5 @@ Scope and shared-file ownership:
 Test author/reviewer and red baseline:
 Implementation and independent reviewer:
 Required commands/environment:
-PR URL in progress evidence; one concise outcome/next-step note; remaining live/platform gates:
+PR URL in progress evidence; task notes total at most 500 characters and cover outcome, proof level, open gates and next step; update area summary; remaining live/platform gates:
 Handoff and next task:

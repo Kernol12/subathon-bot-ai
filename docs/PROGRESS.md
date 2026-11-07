@@ -47,11 +47,12 @@ python3 tools/check_project.py
 
 `set` updates status/owner, appends the supplied note to activity and task notes, and
 renders HTML. It never invents test outcomes. Edit verification evidence, review identity,
-new tasks or dependencies in JSON, validate, then render. New completed tasks record the
-PR URL in `evidence`, one concise outcome/next-step line in `notes`, and the independent
-review in the state `review` field and PR. Keep historical detailed receipts intact; see
-[`docs/evidence/README.md`](evidence/README.md) for their index. Local evidence uses
-project-relative paths, never absolute machine paths.
+new tasks or dependencies in JSON, validate, then render. For completed tasks, record
+the PR URL in `evidence`, keep all notes together to 500 characters or fewer, and record
+independent review in the state `review` field and PR. Update the matching area summary;
+add no files under `docs/evidence/`. Follow [`docs/AGENT_WORKFLOW.md`](AGENT_WORKFLOW.md)
+for the readable-summary and archive rules. Local evidence uses project-relative paths,
+never absolute machine paths.
 
 Dependency-ready means every `depends_on` task is done. The tool refuses starting or
 completing tasks with unfinished dependencies and detects cycles/unknown IDs. The `done`

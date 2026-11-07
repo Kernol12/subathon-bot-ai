@@ -10,8 +10,8 @@ it neither finalizes contracts nor claims a reviewed test or supported provider 
 Read [the agent workflow](../AGENT_WORKFLOW.md), select a dependency-ready child from
 `progress/state.json`, and follow its brief plus scoped `AGENTS.md`. The workflow covers
 task branches, test-first gates, independent review, evidence, PRs and completion. EPIC-028
-contains the prioritized cleanup of redundant and low-value tests; its tasks preserve
-the reviewed-baseline and full-release-scope rules.
+prioritizes readable evidence archival and focused test cleanup; its tasks preserve the
+reviewed-baseline and full-release-scope rules.
 
 New decomposition records are planned, not authored/reviewed; consult state/evidence
 for slices completed since the original decomposition. Their
@@ -87,9 +87,9 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-025 — Windows portable ZIP, Linux archives and Arch package](EPIC-025.md) | 6 | 10 |
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
-| [EPIC-028 — Simplify agent workflow and focus test coverage](EPIC-028.md) | 8 | 8 |
+| [EPIC-028 — Simplify agent workflow and focus test coverage](EPIC-028.md) | 10 | 10 |
 
-Total: 201 work packages, 361 child records
+Total: 203 work packages, 363 child records
 (test baselines, their paired implementations, and distinct feasibility,
 verification and documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.

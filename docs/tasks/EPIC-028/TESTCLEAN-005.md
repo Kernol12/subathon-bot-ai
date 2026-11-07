@@ -22,5 +22,6 @@ where a codec is explicitly persisted/public format.
   required, rather than coupling to private layout.
 - Behavior suites assert observable state/results rather than private SQL shape, counts,
   messages or orchestration order unless those are contractual.
-- Focused affected tests pass; retain old receipts and describe any changed baseline.
+- Focused affected tests pass; put detailed results and any changed-baseline rationale in
+  the PR, and follow the workflow's note and area-summary rules.
 - Separate approved review is recorded before task completion.

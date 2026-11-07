@@ -108,15 +108,17 @@ or struct-layout byte limits unless they are an explicit persisted/public contra
 Keep assertions that protect specified behavior, exact accounting, rollback, idempotency,
 security boundaries and recovery. Remove or rewrite baseline assertions only through the
 approved test-cleanup decision, a scoped task brief and a separate independent review;
-retain their original receipts.
+record the precise baseline change in the PR.
 
 ## Required evidence
 
-For each completed task, record the PR URL in `progress/state.json` `evidence`, one
-concise outcome/next-step line in `notes`, and any independent review in the `review`
-field and PR. Record exact commands, outcomes, environment and remaining gates in the PR.
-Keep detailed historical evidence unchanged; use [`docs/evidence/README.md`](evidence/README.md)
-to navigate it. Expected red remains distinct from pass, fail, not-run and unsupported.
+For each completed task, record its PR URL in `progress/state.json` `evidence`, keep all
+task notes together to 500 characters or fewer, and record independent review in the
+`review` field and PR. Update the matching area in [`docs/evidence/README.md`](evidence/README.md);
+do not add evidence files or per-task history here. Put commands, outcomes, environment
+and remaining gates in the PR. Follow the [agent workflow](AGENT_WORKFLOW.md) for the
+readable summary and archival rule. Expected red remains distinct from pass, fail,
+not-run and unsupported.
 Scaffold CI excludes unreviewed feature tests explicitly and must not hide a missing
 dependency or failure. Extend CI with executable capabilities according to the
 [workflow policy](AGENT_WORKFLOW.md); record live/platform evidence separately.

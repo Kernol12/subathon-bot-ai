@@ -31,8 +31,9 @@ or deleting any accepted process-boundary requirement.
   removed only after the independent reviewer confirms which contracts they protect.
 - If this cleanup removes the native process boundary, update ADR-0009 and its contract
   in the same reviewed change with a specification-based reason; otherwise preserve them.
-- A separate reviewer approves the test/oracle and any removed assertions; keep original
-  receipts and record the precise baseline change in the PR.
+- A separate reviewer approves the test/oracle and any removed assertions; record the
+  precise baseline change in the PR and follow the workflow's task-note and area-summary
+  rules.
 
 ## Verification and handoff
 

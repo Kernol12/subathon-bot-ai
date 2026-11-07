@@ -5,17 +5,18 @@ this file is a resumption aid, not evidence that any agent or process is still a
 
 ## Current state
 
-- Last observed `main` before this update: `436965b` (PR #85 merged). The earlier owner
-  instruction "finish the open PRs, then stop" is fulfilled and superseded by the owner's
-  EPIC-028 direction.
-- This checkpoint is committed inside the EPIC-028 planning PR (branch
-  `task/EPIC-028-agent-process-test-cleanup`); read its merge commit from that PR.
+- Last observed `main`: `b676f08` (PR #90 merged). The earlier owner instruction "finish
+  the open PRs, then stop" is fulfilled and superseded by the owner's EPIC-028 direction.
+- This checkpoint is being updated on branch `task/EPIC-028-evidence-rule`; verify its
+  PR/merge state on resumption.
 - Current priority: [EPIC-028](../docs/tasks/EPIC-028.md) under
-  [ADR-0012](../docs/decisions/0012-test-suite-simplification.md). TESTCLEAN-001 and
-  TESTCLEAN-002 are dependency-ready and independent; use separate branches/worktrees.
-  TESTCLEAN-001 keeps the ADR-0008/0009 review gates.
+  [ADR-0012](../docs/decisions/0012-test-suite-simplification.md). EVIDENCE-001 is ready;
+  claim it after this planning change merges. EVIDENCE-002 depends on it. TESTCLEAN-001
+  and TESTCLEAN-002 are also ready and independent, but come after EVIDENCE-001 in
+  execution order; TESTCLEAN-001 keeps the ADR-0008/0009 review gates.
 - Every cleanup task needs a separate approved review, a PR URL in `evidence` and one
-  concise note. No active agent assignment remains.
+  note of at most 500 characters. The archive tag does not exist until EVIDENCE-001 creates
+  and verifies it; this planning change does not remove any receipt or shorten old notes.
 
 ## Preserved unpublished work
 

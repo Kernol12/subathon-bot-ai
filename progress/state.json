@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T14:35:00+01:00",
-  "summary": "EPIC-028 prioritizes simplifying redundant test machinery and agent instructions under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
+  "updated_at": "2026-11-07T15:32:00+01:00",
+  "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -52,6 +52,8 @@
       "status": "planned",
       "owner": "Unassigned",
       "depends_on": [
+        "EVIDENCE-001",
+        "EVIDENCE-002",
         "TESTCLEAN-001",
         "TESTCLEAN-002",
         "TESTCLEAN-003",
@@ -66,10 +68,54 @@
         "§18"
       ],
       "brief": "docs/tasks/EPIC-028.md",
-      "summary": "8 bounded test-cleanup tasks to simplify agent instructions and focus tests on specified behavior without reducing release scope.",
+      "summary": "10 bounded evidence and test-cleanup tasks to simplify agent instructions, make evidence readable, and focus tests on specified behavior without reducing release scope.",
       "notes": [
         "All v0.45 release requirements remain in scope. This is planning only; no test assertions or product behavior were changed by task decomposition.",
-        "Cleanup tasks require separate approved review, retained historical receipts, and an accurate revised baseline where assertions change."
+        "Historical receipts are scheduled for archival by EVIDENCE-001; cleanup requires separate approved review and accurate revised baselines where assertions change."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EVIDENCE-001",
+      "title": "Archive detailed receipts and publish a readable summary",
+      "module": "Quality and tooling",
+      "kind": "cleanup",
+      "status": "ready",
+      "owner": "Unassigned",
+      "depends_on": [],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-028/EVIDENCE-001.md",
+      "summary": "Archive detailed historical receipts under a verified tag and replace them in the working tree with a concise, evidence-based area summary.",
+      "notes": [
+        "Parent epic: EPIC-028. Planned only; preserve all receipts at the annotated tag before removal and verify the summary claims independently."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "EVIDENCE-002",
+      "title": "Enforce concise task notes and current suite summaries",
+      "module": "Quality and tooling",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "EVIDENCE-001"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-028/EVIDENCE-002.md",
+      "summary": "Limit combined task notes to 500 characters and maintain a current test-strategy summary without per-task history.",
+      "notes": [
+        "Parent epic: EPIC-028. Planned only; depends on the readable evidence archive and must preserve open gates while shortening notes."
       ],
       "verification": {},
       "evidence": [],
@@ -17004,6 +17050,11 @@
       "date": "2026-11-07T14:35:00+01:00",
       "task": "EPIC-028",
       "note": "Created the reviewed test-cleanup decision, eight bounded tasks, concise agent workflow, and historical evidence index; no test assertions or product behavior changed."
+    },
+    {
+      "date": "2026-11-07T15:32:00+01:00",
+      "task": "EPIC-028",
+      "note": "Added EVIDENCE-001 for tagged receipt archival/readable area summaries and EVIDENCE-002 for the 500-character note limit/current suite summary. Archival and note shortening have not started."
     }
   ]
 }

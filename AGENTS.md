@@ -38,7 +38,7 @@ Routine implementation choices are allowed within scope. Unknown provider behavi
 not a supported capability; never turn unknown source fields into known values.
 Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`, `docs/TEST_STRATEGY.md`,
 `progress/state.json`, and the selected task brief. Read scoped `AGENTS.md` files in
-every module being edited. Current priority is EPIC-028; begin with dependency-ready
+every module being edited. Current priority is EPIC-028; begin with EVIDENCE-001, then
 TESTCLEAN-001 or TESTCLEAN-002 in `docs/tasks/EPIC-028/`.
 
 ## Test-first and review gates
@@ -102,9 +102,10 @@ Use `CMakeUserPresets.json` for personal paths; never commit machine-specific ID
 
 Distinguish planned, authored, reviewed, observed red, implemented, simulated and
 live/platform-verified. Never claim unrun checks or invent verification percentages.
-For a completed task, record the PR URL in `evidence`, one concise outcome/next-step
-line in `notes`, and the independent review in `review` and the PR. Keep detailed
-historical receipts intact; `docs/evidence/README.md` is their navigation summary.
+For completed tasks, keep all task notes together to 500 characters or fewer and follow
+the readable-summary rule in `docs/AGENT_WORKFLOW.md`. Historical receipts will live
+under git tag `evidence-archive-2026-11` once EVIDENCE-001 lands; `docs/evidence/README.md`
+is the readable record.
 Use synthetic/redacted fixtures, fake adapters and disposable state by default. Keep
 credentials and supporter data out of source, fixtures, reports and HTML; live provider
 checks are separate and must not trigger chat or contribution side effects.
