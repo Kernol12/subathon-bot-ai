@@ -61,8 +61,12 @@ PR/check/review state before acting. Preserve valid work; explicitly reassign st
   Plan per-object comparison becomes exact ordered whole-list equality over all4fields.
   Remove only repeated12payload/14hash executions, relocating1payload/2hash. No unique
   bytes/format/publicerror/order/budget checks or methods/rows/fixtures/deps change.
-- Author is now implementing; no new runtime. Exact complete-source execution review
-  must approve before configure/build/native checks. No invented stub red for this
+- Exact author source `4db2401f86903ec21ae16e96a7e8be54aae97dda` independently
+  approved before execution and imported unchanged. All6files/methods match proposal,
+  all public contracts/methods/catches/warning hooks/fixtures/dependencies unchanged.
+  Root authorized fresh fullSQLconfigure/build/passiveaccount44discovery, one stable
+  Qt14/all361methods/869priorPASS-ID comparison andinfra3. Author is executing now;
+  no runtime outcome claimed yet. No invented stub red for this
   mechanical relocation/comparison. Current CI/reviews/rules/discussions/normal merge
   remain final gates. TESTCLEAN-007 also ready but
   unclaimed. Full product loop continues; no routine owner confirmation needed.

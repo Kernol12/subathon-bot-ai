@@ -328,10 +328,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
       "summary": "Keep public/persisted contracts while replacing repeated private DDL, layout, message, and order pins with behavior assertions.",
       "notes": [
-        "Exact six-file proposal8990b6e2 independently approved before edits: every factory retains full frozen prefix tuples; canonical framing/hash stays at stable owning steps1–7, with existing step4payload/hash and5hash relocated before removing repeats. Public byte/error/order/budget contracts and all methods/rows/fixtures remain. Author edits only; independent exact-source execution gate precedes native checks."
+        "Exact proposal8990b6e2/source4db2401 independently approved before edits/execution: each factory retains full independent prefix tuples; canonical1–7 owners preserve bytes/hash with existing4/5checks relocated. All public error/order/budget contracts, methods/rows/fixtures remain. Fresh selected-Qt build/discovery/stable361method/869result and infra checks now authorized. Runtime/integration/current CI/merge remain."
       ],
       "verification": {
-        "cleanup_proposal_review": "passed"
+        "cleanup_proposal_review": "passed",
+        "source_review": "passed"
       },
       "evidence": [],
       "review": null
