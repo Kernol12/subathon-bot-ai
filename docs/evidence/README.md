@@ -213,8 +213,8 @@ process isolation. All 428 stable CTest entries passed: 410 GoogleTest cases,
 and three infrastructure checks. Tooling 34/34 passed. The 53 rate and 44 account
 feature methods remain enabled intentional red and were not replayed.
 [PR #96](https://github.com/Kernol12/subathon-bot-ai/pull/96) records the baseline
-and independent source/runtime review; final integration and current hosted CI
-remain pending. Existing ineffective Qt warning hooks are explicitly assigned to
+and independent source/runtime/integration review. All 19 latest-head hosted
+checks passed before normal merge. Existing ineffective Qt warning hooks are explicitly assigned to
 TESTCLEAN-004; observing no warnings is not proof of active warning enforcement.
 Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence

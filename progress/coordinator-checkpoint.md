@@ -15,7 +15,7 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   checks. The published annotated archive targets `01cf400`; all 969 removed
   receipts were retrieved and verified. Notes remain bounded to 500 characters.
 
-## Current handoff: TESTCLEAN-003 / PR #96
+## Completed registration cleanup: TESTCLEAN-003 / PR #96
 
 - Root `task/TESTCLEAN-003-test-registration` began at current main `2d5488f`.
   Author `/root/test_registration_author` finished clean `8034ead5` in isolated
@@ -49,17 +49,32 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   Do not replay passing bodies for receipts. Detailed actual commands/results are
   in PR #96 and `/tmp/testclean003-author-handoff.md`; raw stable log SHA256
   `eb3dc1817ade1ef406795ef431cf47c4beb5a733388b1f8094521be471d2a079`.
-- PR #96 is draft at observed `f11baa7`; 18/19 check contexts passed, SQLite CI
-  running at last inspection. Final metadata is being prepared for independent
-  complete-head review. Current-head CI, resolved discussions, actual repository
-  rules and normal protected merge remain; do not infer permission from old heads.
+- PR #96 normal merge `7179680e6748531337d2b143f9b0ea9111ba6f8a`,
+  7 November 2026 18:08:14 UTC. Complete head `de68ae4` independently approved;
+  all 19 latest-head checks passed. Current branch rules inspected, no unresolved
+  review threads; no bypass. Main refreshed before claiming the next task.
 - The existing Qt initTestCase failOnWarning placement does not enforce subsequent
   slots under Qt 6.12. This was independently verified and assigned explicitly in
   TESTCLEAN-004's brief; no source fix or active-warning-guard claim here.
-- After normal PR #96 merge and fresh main, choose dependency-ready TESTCLEAN-004
-  (shared helpers/writer mechanics/warning lifecycle), using a fresh implementation
-  session and separate exact deletion/oracle/source review. TESTCLEAN-007 also becomes
-  ready; later cleanup keeps its own baseline gates. No routine owner approval needed.
+
+## Active assignment: TESTCLEAN-004
+
+- Dedicated root branch `task/TESTCLEAN-004-qt-support` starts at `7179680`.
+  Claim `/root/qt_support_author`; fresh author owns `tests/qt` only in an isolated
+  worktree. Coordinator owns state/HTML/evidence/checkpoint/PR and shared integration.
+- Scope/acceptance: task brief, ADR-0012, specification v0.45 §17 and current
+  writer/repository contracts. Share small assertion/completion-wait helpers with
+  condition-based waits; consolidate only truly shared writer-session mechanics.
+  Every repository retains unique behavior, unknown-outcome/physical-row checks,
+  rollback/idempotency/exactness/ownership. Correct reviewed warning initialization
+  so the existing policy covers each actual test function and expected warnings.
+- Author must first inventory exact duplicated assertions, current helper/async failure
+  semantics and selected Qt lifecycle. Produce bounded proposal/retained-coverage map
+  before baseline edits. Different fresh reviewer approves exact deletions and warning
+  handling; no production changes, blanket warning ignores, new harness framework or
+  artificial tests of deleted machinery. New behavior still obeys test-first gates.
+- Current claim only; no new implementation or test execution yet. TESTCLEAN-007 is
+  also dependency-ready but unclaimed. Later tasks retain their own review gates.
 
 ## Preserved context
 
