@@ -21,7 +21,7 @@ runs. Full product and actual provider/platform capability remain unverified.
 
 ## Current implementation and ownership
 
-SESSION-008 is the active task, in_review. Integrator branch
+SESSION-008 component acceptance is done; PR84 is not yet merged. Integrator branch
 `task/SESSION-008-bounded-supplier`, `/tmp/subathon-session008`,
 [draftPR84](https://github.com/Kernol12/subathon-bot-ai/pull/84).
 [Current handoff](session-008-handoff.md) freezes exact baseline blobs.
@@ -32,7 +32,7 @@ no frozen assertion/header/fixture/SDK change. Root2cf5ba5 promotes ordinary39 l
 and unconditional selected CI after SDK1. Fresh actual
 `/root/session_supplier_code_review` examines exact2cf5ba5 in
 `/tmp/subathon-session008-review`, `review/SESSION-008-source`; source/resource/
-secret/exception/config verdict is pending. Reviewer's sequential exact39/full43
+secret/exception/config verdict approved28beefea/importd201b97. Reviewer's sequential exact39/full43
 checks pass; its discarded discovery/execution race is being recorded honestly,
 not accepted as coverage. Author turn ended. Preserve the active reviewer.
 
@@ -51,9 +51,9 @@ original first-run receipts are in baseline handoff. Do not replay historical re
 or readiness to improve logs. Native crypto-owned limits exclude external runtime,
 first-init/global process/platform/security guarantees.
 
-Next: integrate actual source review, resolve substantive findings, observe the
-changed selected workflow running all39 ordinarily, record component acceptance,
-then require every final-head check/current rules/discussions and normalPR84merge.
+Actual hosted42364733237 at3749299 passed closed39 ordinary discovery, SDK1
+and unconditional39PASS. Component acceptance and separate source review are done.
+Next: require every final completion-head check/current rules/discussions and normalPR84merge.
 Refresh main and select the next dependency-ready executable task in a fresh author
 session. Lifecycle003 is now integrated; downstream storage/login/clock/ingress
 contracts and test-first implementations retain all original scope and gates.

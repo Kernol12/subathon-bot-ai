@@ -302,3 +302,12 @@ records actual artifacts and separate selected-CI/publication gates. Input/outpu
 ownership is completely preflighted and signed64 extremes retain fullU64 distances.
 This is no authoritative score/history producer, application transaction, permission,
 manual/reset/edit/action/presentation queue, UI or release/platform capability.
+
+
+The [bounded session supplier](contracts/session-resolution-v1.md) now prepares
+canonical token digests and resolves supplied current facts with exact resource,
+epoch, expiry and freshness rules. [SESSION-008 evidence](evidence/session-008-handoff.md)
+records preserved39/full43 passing, separate source/resource/configuration review
+and ordinary selected Ubuntu39 acceptance. Its result DTO grants no authority;
+actual SQL/current account/session sources, trustworthy clock, accepted login,
+permission enforcement, issuance/lifecycle and transport remain their owning tasks.

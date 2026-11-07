@@ -1,60 +1,71 @@
 # SESSION-008 — bounded supplier implementation
 
 Coordinator `/root`, 7 November 2026. Branch `task/SESSION-008-bounded-supplier`,
-`/tmp/subathon-session008`, from integrated main
-`37f098d99b306830e43398e55071286a689a95b2`.
+`/tmp/subathon-session008`, [PR84](https://github.com/Kernol12/subathon-bot-ai/pull/84).
 [Brief](../tasks/EPIC-007/SESSION-008.md), [accepted supplier](../contracts/session-resolution-v1.md)
 blob `c5f5a6e71664042e18475068d3caf577b0c8d009`.
 
-[Baseline handoff](sessiontest-008-handoff.md) links independent packet review2014c0c,
-SDK1 green then first39-case marker-red at clean2014c0c, original receipts and
-separate attribution6bef738. Normal PR82 merged10:26:28 UTC from50aae694 after all21
-final checks/current rules/0threads/no bypass. Do not replay the historical red.
+## Result and boundary
 
-Fresh `session_supplier_implementer` owns ONLY `server/src/session_resolution.cpp`
-and its own implementation note in an isolated worktree. Root owns all other
-shared files, CI/labels/state/HTML/checkpoint/pins/integration. Implement only exact
-prepare/resolve; public header and original39 tests/fixtures/SDK/harness are frozen.
-No parser/authority/source/clock shortcut or new dependency/API is authorized.
+Fresh author `session_supplier_implementer`,26f275fa/import028f83b, implemented only
+`prepare_account_session` and `resolve_current_account_session` in sourceblob
+0525d755. [Author evidence](session-008-author.md). The implementation stages one
+canonical64-character read before decoding within raw32/frame60/output32, clears
+scratch with RAII, uses the exact framed native hash/fixed32 comparison and preserves
+all reference/ownership/priority/epoch/expiry/freshness/full-domain arithmetic rules.
+At most12 borrowed views and separate per-value/3x payload bounds are maintained.
 
-Pass39 feature/full43 checks using the existing selected SDK, then obtain actual
-different source/resource/native/ownership review and promote stable39 in ordinary
-CI. Keep original receipts and review assertions intact. If a genuine test defect
-or new substantial architecture appears, report it before changing or expanding;
-record requirement reasoning and get separate review. No full lifecycle/current
-producer/transport/provider/platform capability follows from this pure component.
+This is a component consuming injected facts and a clock, not a durable authority
+proof or a real current producer. Issuance, SQL/current sources, trustworthy clock,
+accepted login, permissions, full lifecycle/transport and all provider/platform/
+security/release gates remain separate. No new dependency, API or product quota.
 
-## Frozen baseline blobs
+## Preserved baseline and independent reviews
 
-- `server/include/subathon/server/session_resolution.hpp`: `0c0f5d30647e525d6c9bd1d5daeb1b5288a3b5b8`
-- `tests/acceptance/session_resolution_tests.cpp`: `fbdab51f268d78ea418f3ab145e96e87540dd3aa`
-- `tests/fixtures/session_resolution_vectors.hpp`: `84b86c678415ca5ac8306efd4ba12d42ac0906ab`
-- `tests/acceptance/session_resolution_environment.cpp`: `34f3bbd904d0e28254b631440f8d773072b6a3de`
+[Baseline handoff](sessiontest-008-handoff.md) retains original test/native review
+2014c0c, first SDK1 green then39 ordinary marker-red/direct8 at clean2014c0c,
+immutable receipts and separate attribution6bef738. PR82 normally integrated37f098d
+at10:26:28 UTC after21 final checks/current rules/resolved threads. No historical
+red was replayed and no original assertion, fixture, header or SDK source changed.
 
+Fresh different [source/config review](session-008-review.md)
+28beefea/importd201b97 approved actual2cf5ba5, including root ordinary CI promotion.
+Author39/full43 pass (final0.68s); independent strict build, sequential exact43
+registration, feature39/full43 pass (full0.73s),0 skips. Reviewer candidly excludes
+an initial PRE_TEST discovery/execution race that produced duplicate registrations;
+only disposable generated metadata was removed before sequential verification.
+This was not accepted as coverage and changed no source/assertion/receipt.
 
-SDK prefix `/tmp/subathon-session-sdk/prefix`, static archive SHA256
-`f8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017`.
-Current native readiness and source/bounded hash review already passed; no need to
-repeat first readiness/red for logs. Configure/build/passive discovery in the fresh
-worktree, run relevant tests, record commands/results and resource limitations.
+Frozen public/test blobs:
 
+- `server/include/subathon/server/session_resolution.hpp`: baseline unchanged.
+- `tests/acceptance/session_resolution_tests.cpp`: all39 methods unchanged.
+- `tests/fixtures/session_resolution_vectors.hpp`: unchanged literal expectations.
+- `tests/acceptance/session_resolution_environment.cpp`: unchanged SDK foundation.
 
-## Actual authored implementation and current review
+Exact hashes and source checks are in the linked original and implementation
+review records. Tests retain their primary home and the baseline's independent
+oracles. Root changed only labels/workflow to promote already passing39 ordinarily.
 
-Fresh author26f275fa/import028f83b supplies sourceblob0525d755 and
-[author evidence](session-008-author.md). All39 original feature methods and full43
-passed (final0.68s), with strict compilation/formatting/project/render/whitespace
-checks and exact frozen-file identity checks. No original assertion, header,
-fixture, SDK source or receipt changed; no historical red replay.
-Root2cf5ba5 changes only labels/CI so all39 run as ordinary acceptance after SDK1.
-Actual fresh `session_supplier_code_review` reviews the full source/resource/config
-packet at2cf5ba5 in `/tmp/subathon-session008-review`, `review/SESSION-008-source`.
-Task is in_review, source verdict and actual selected CI pending. This component
-consumes injected current facts; it does not supply real authority or a runtime app.
+## Actual selected CI and integration
 
+[Run42364733237](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42364733237)
+at exact3749299e52204393a8c2684f493c5e7b744a1042 passed the approved selected SDK
+workflow. [Actual receipt](session-008-hosted-ci.json) records new build, closed39
+ordinary discovery, separate SDK readiness and unconditional39PASS, after the
+existing password suite. No disabled/inverted/known-red workaround. The final
+completion revision changes only shared metadata/documentation, not reviewed code.
 
-Current main integration: PR83 normally merged e4d46d3 at10:38:28 UTC from exact
-2c3f62f after all21 final checks/current rules/0threads, preserving its actual
-independent lifecycle document review. Every443 main task row/1735edges/status/
-review/evidence except own SESSION008 row is retained. Only shared JSON/HTML/
-checkpoint conflicted; source and reviewed test/config files are unchanged.
+Current maine4d46d3/normalPR83 (all21 final2c3 checks/current rules/0threads,
+10:38:28 UTC) is integrated. All443 IDs/1735 edges/other task states/reviews/evidence
+are preserved; only shared JSON/HTML/checkpoint conflicted. Root owns those files,
+CI/labels/pins/integration/publication. Separate worktrees protect author/reviewer work.
+
+## Completion and next action
+
+Implementation acceptance and separate source review are done. PR84 publication/
+merge is separate: require all final-head checks/current rules/approvals/resolved
+threads and normal merge, then refresh main and select a dependency-ready task.
+The newly integrated lifecycle contract unlocks its separate storage/login/clock
+contracts; do not implement those inside this helper task. Supported platforms,
+real authentication/producer/security and full release evidence remain open.
