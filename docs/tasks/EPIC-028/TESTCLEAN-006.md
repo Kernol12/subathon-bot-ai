@@ -2,9 +2,9 @@
 
 Module: Test infrastructure. Kind: cleanup. Specification: v0.45; §17.
 Contract revision: current fixture/oracle contracts for the affected suites.
-Parent: EPIC-028. Depends on: TESTCLEAN-005. Shared-file ownership: large JSON fixtures
-and their owning Qt tests, including application service, bundle, holds, reference capture
-and original claims.
+Parent: EPIC-028. Depends on: TESTCLEAN-005, FIXTURE-001, FIXTURE-002, FIXTURE-003.
+Shared-file ownership: large JSON fixtures and their owning Qt tests, including
+application service, bundle, holds, reference capture and original claims.
 
 ## Scope
 
