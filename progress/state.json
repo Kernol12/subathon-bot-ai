@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T16:41:35.029153+00:00",
+  "updated_at": "2026-11-07T16:53:34.863054+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "19 Python tooling tests, project consistency, current HTML and offline-controller DOM simulation pass. Reviewed synthetic completion fixtures retain acceptance/review gates independently of live task state. Product browser/OBS validation remains separate."
+      "detail": "29 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -155,7 +155,7 @@
       "title": "Replace schema harness tests with real schema checks",
       "module": "Tooling",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/schema_cleanup_author",
       "depends_on": [],
       "spec_refs": [
@@ -165,16 +165,29 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
       "summary": "Replace validator harness-on-harness tests with real schema and valid/invalid example checks, subject to independent review of any superseded process contract.",
       "notes": [
-        "Actual contracts and whole test/bootstrap/resolver/CI packet independently approved at 9281a823; source imported 1e80709. Eight methods cover 77 OpenAPI literals, all23 existing examples and 11 progress cases. Unchanged 20-pin isolated SDK setup is starting; real suite outcomes, final integration review, hosted CI and normal merge remain. Generic API retirement is explicit; full product scope preserved."
+        "Replaced generic/native schema machinery with actual artifact checks after independent contract/oracle/source review. CPython3.14: 8 methods/17 targets, 23 positives, 77 OAS and 11 progress cases passed; tooling29/scaffold3 passed. Schemas/examples/20 pins/licenses unchanged. Selected3.10/3.12 hosted CI and normal PR95 merge remain. Next: TESTCLEAN-003."
       ],
       "verification": {
         "boundary_proposal_review": "passed",
         "contract_review": "passed",
         "test_review": "passed",
-        "bootstrap_source_review": "passed"
+        "source_review": "passed",
+        "schema_validation": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/95"
+      ],
+      "review": {
+        "author": "/root/schema_cleanup_author; literal helper /root/schema_cleanup_author/schema_inventory",
+        "reviewer": "/root/schema_cleanup_review",
+        "outcome": "approved",
+        "revision": "Proposal fc7c25cc, actual doc40e8bfcb, oracle/source execution9281a823 and final author2454f45 independently approved. Separate reference audit94public/3progress. Integrated source unchanged; final metadata and hosted CI remain.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/95"
+      }
     },
     {
       "id": "TESTCLEAN-002",
@@ -13615,7 +13628,7 @@
       "brief": "docs/tasks/CONTRACTPLAN-005.md",
       "summary": "Record selected-standards validation gap and bounded independently reviewed/red developer foundation before schema acceptance.",
       "notes": [
-        "Schema-validation prerequisite split independently reviewed with graph/tooling checks. Standards libraries, process/API/tests and execution were not accepted by planning alone. Next: preserve separately reviewed dependencies/contracts, intended-red feature baseline, native owner and actual selected-host acceptance before schema capability claims."
+        "Historical schema-tool prerequisite split and graph were independently reviewed. The generic/native design was later retired under TESTCLEAN-001; old contract evidence remains archive-bound. Real source-controlled schemas, complete references/examples and admitted dependencies remain required. Next: actual API/WS/scene/runtime/platform gates."
       ],
       "verification": {
         "document_review": "passed",
@@ -13660,7 +13673,7 @@
       "brief": "docs/tasks/SCHEMATOOL-001.md",
       "summary": "Select reviewed standards libraries/contract/literal fixtures/tests and observed wrapper missing-behavior red after real dependency foundation passes.",
       "notes": [
-        "Offline schema-wrapper baseline independently reviewed with genuine missing-behavior red after selected libraries/native foundations. Revised setup-refusal oracle separately reviewed; original receipts preserved without replay. Next: retain source/process ownership review and public/native acceptance separately from runtime API/auth/provider/platform claims."
+        "Historical generic-package/native baseline had independent review and genuine intended red; all assertions and raw receipts remain archived. Its developer API and baseline were explicitly retired by separately reviewed TESTCLEAN-001. Current actual-schema checks use unchanged admitted libraries and independent examples. Next: preserve historical proof separately from new schema/runtime claims."
       ],
       "verification": {
         "contract": "passed",
@@ -13780,7 +13793,7 @@
       "brief": "docs/tasks/SCHEMATOOL-001.md",
       "summary": "Implement bounded offline standards-library package/ref/example validation with separate source review and actual automatic CI.",
       "notes": [
-        "Bounded offline schema-package wrapper passes selected CPython 3.10/3.12 native/public CI with separate source/resource/process-owner review; native semantic suite covers 66 programs/154 cases per host. No runtime auth/provider support follows. Next: actual API/WS/scene validation and reviewed cleanup; preserve public failure and owned-process guarantees."
+        "Historical bounded generic/native wrapper passed reviewed CPython3.10/3.12 acceptance; source, reviews and raw proof remain archived. TESTCLEAN-001 explicitly retired that developer API/kernel guarantee set after independent scope review. Current artifact checks use real pinned validators. Next: actual API/WS/scene/client/runtime validation; no auth/provider/platform proof follows."
       ],
       "verification": {
         "integrated_baseline": "passed",
@@ -16519,6 +16532,11 @@
       "date": "2026-11-07T16:41:35.029153+00:00",
       "task": "TESTCLEAN-001",
       "note": "Different whole-packet review approved exact9281a823/digestbcfe245a after inlineinventory/bindingtuple/typedtarget/progress guards fixed beforeexecution. Imported80b/e4/9281 asedde97e/3b4255a/1e80709. All49 retiredsource/workflow paths verifiedbyteequalpushedarchivetag. SDK20immutablepins temporaryinstall and actualrealvalidator suite nowreleased; no manufacturedred or nativeworker."
+    },
+    {
+      "date": "2026-11-07T16:53:34.863054+00:00",
+      "task": "TESTCLEAN-001",
+      "note": "Final author2454f45/import3f9b76f approved; source9281 gate beforeFIRSTactual8methods PASS0.321s withfresh20hashlocked CP3.14SDK, thenONLY3infraPASS/tooling29/project461/122. Independent source/referenceaudit94public+3progress; unchangedrealartifact/20pins/licenses; all49retiredpathsarchived. Oldplan/baseline/tool notes nowexplicitlyhistorical/retired, no proofupgrades. PR95 finalmetadatareview/19hostedchecks/normalmerge remain."
     }
   ]
 }

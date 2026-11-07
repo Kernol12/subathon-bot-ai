@@ -713,11 +713,15 @@
     {
       "id": "API-01",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/schema_validation/test_project_schemas.py",
+        "tests/schema_validation/schema_cases.py"
+      ],
       "evidence": [
         "docs/contracts/reference-http-v1.md",
         "schemas/http/reference-v1/manifest.json",
-        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md"
+        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/95"
       ]
     },
     {
@@ -978,11 +982,15 @@
     {
       "id": "API-02",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/schema_validation/test_project_schemas.py",
+        "tests/schema_validation/schema_cases.py"
+      ],
       "evidence": [
         "docs/contracts/reference-http-v1.md",
         "schemas/http/reference-v1/manifest.json",
-        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md"
+        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/95"
       ]
     },
     {
@@ -1086,11 +1094,15 @@
     {
       "id": "API-03",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/schema_validation/test_project_schemas.py",
+        "tests/schema_validation/schema_cases.py"
+      ],
       "evidence": [
         "docs/contracts/reference-http-v1.md",
         "schemas/http/reference-v1/manifest.json",
-        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md"
+        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/95"
       ]
     },
     {
@@ -1208,7 +1220,9 @@
       "id": "TEST-04",
       "status": "planned",
       "tests": [],
-      "evidence": []
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/95"
+      ]
     },
     {
       "id": "TEST-05",
