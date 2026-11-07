@@ -58,7 +58,9 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/processes/PRs.
   FIRST focused CMake-P run:5methods/8scenario failures solely named
   FeatureNotImplemented, no parse/compiler/SDK/setup failure; different attribution
   accepted. Baseline commit `2cf8f82` preserved in author worktree. Resolver impl
-  now released with those five methods frozen; focused green may run afterward.
+  implemented at `ead3e8e`; the same frozen five methods PASS0.071s. Different
+  reviewer read source/first-green log and found no selector issue. Only CMake-P
+  contract checks have run; broader new registration has not executed.
 - Root granted remaining exact source paths under approved proposal: root/test CMake,
   presets/small cmake helpers/test-label modules/account-slot list, translation
   case_inventory deletion only, eight corresponding CI registration blocks and

@@ -241,12 +241,13 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
       "notes": [
-        "Migration proposal and five new selector contract tests independently approved. First CMake-only run: 5 methods/8 scenarios failed solely at named unimplemented resolver; baseline 2cf8f82 preserved. Resolver implementation and mechanical registration/CI authoring now released, tests frozen. Whole-packet static review precedes new suite execution; native/CI/normal merge still open."
+        "Independent proposal/test review and intended selector red preserved at 2cf8f82. Resolver ead3e8e passes the same frozen 5 checks; no static findings. Mechanical Qt/GTest/vector/preset/CI registration packet is being authored, with domain assertions/fixtures/pins frozen. Whole-packet static approval precedes broader configure/native runs; full CI and normal merge remain."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
         "selector_test_review": "passed",
-        "selector_baseline": "observed_red"
+        "selector_baseline": "observed_red",
+        "selector_acceptance": "passed"
       },
       "evidence": [],
       "review": null
