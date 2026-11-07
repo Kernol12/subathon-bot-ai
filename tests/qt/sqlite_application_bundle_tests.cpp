@@ -1161,10 +1161,15 @@ class SqliteApplicationBundleTests final : public QObject {
                 }
                 require(actual.expected_schema == objects,
                         "manual expected full catalog including NULL indexes");
-                require(canonical_migration_payload(actual) ==
-                            QByteArray::fromHex(expected["payload_hex"].toString().toLatin1()),
-                        "independently frozen complete framed bytes");
             }
+            const auto &step = manifest.steps.back();
+            const auto expected = l_->manifests.back();
+            require(canonical_migration_payload(step) ==
+                        QByteArray::fromHex(expected["payload_hex"].toString().toLatin1()),
+                    "Owning step's independently frozen complete framed bytes");
+            require(migration_content_sha256(step).toHex() ==
+                        expected["sha256_hex"].toString().toLatin1(),
+                    "Owning step's independently frozen digest");
         });
     }
     void initialStateAndEmptyAbsenceUseRealCallerUnit() {
