@@ -33,8 +33,20 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/PRs before act
 - Root released ONLY doc authoring: six schema contracts (five retirement notices,
   one active revision2), ADR-0008/0009, tools policy and active consumer/setup/CI/
   strategy/notice prose. Author must commit that stage; different reviewer must
-  approve ACTUAL documents before deleting any assertion/native source or authoring
-  new tests/helpers/fixtures. No native/source/test execution approved or observed.
+  approved ACTUAL doc commit `40e8bfcb` (14 Markdown paths; digest `49501a60`),
+  imported `82415e5`. Source/tests/pins were unchanged at that gate.
+- Root now assigned exact proposal source namespaces: tests/schema_validation/**,
+  tools/schema_validate.py, tools/schema_validation/** except frozen 20 lock/artifact/
+  license fields; only schema blocks in root CMake/tests CMake/presets and old two/new
+  schema workflows. Author owns suite/bootstrap/retirement/wiring; helper explicitly
+  reassigned to independent literal-case authoring only. Coordinator retains metadata,
+  map migration and PR. All other product code/tests/fixtures/registrations untouched.
+- NEXT HARD GATE: coherent new tests/literals/bootstrap/resolver/build/CI packet needs
+  independent oracle/source review BEFORE any new helper/validator/suite execution or
+  configure/build/discovery that could execute it. Static AST/diff checks only now.
+  No native or new suite execution observed. Existing standards-library refactor
+  requires genuine positive/negative validation, not manufactured stub/setup red;
+  actual schema defects retain reviewed expectations and separate correction review.
 - Inventory: one actual OpenAPI3.1.1 document, 17 components, 23 current positive
   examples and 94 local references. Scene/WebSocket schemas remain planned. Include
   progress/state.schema.json and real state plus independent structural cases; no

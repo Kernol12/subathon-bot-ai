@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T16:08:26.821523+00:00",
+  "updated_at": "2026-11-07T16:15:22.341536+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -165,10 +165,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
       "summary": "Replace validator harness-on-harness tests with real schema and valid/invalid example checks, subject to independent review of any superseded process contract.",
       "notes": [
-        "Independent boundary review approved retiring generic hostile-package API/native machinery as non-product scope. Preserve real schemas, references/examples, progress structural checks, all20 pins/licenses and full release scope. Author now writes actual contract supersession docs; exact document review still required before source/assertion/test changes. No execution yet."
+        "Independent proposal and actual contract review approved generic worker/API retirement. Author now prepares real-schema suite, literal cases, dependency bootstrap and CI with 20 pins/licenses unchanged. Whole packet needs independent oracle/source review before execution. Current refs, 17 component targets, all23 examples and progress structural schema remain required; final checks/CI/merge open."
       ],
       "verification": {
-        "boundary_proposal_review": "passed"
+        "boundary_proposal_review": "passed",
+        "contract_review": "passed"
       },
       "evidence": [],
       "review": null
@@ -16506,6 +16507,11 @@
       "date": "2026-11-07T16:08:26.821523+00:00",
       "task": "TESTCLEAN-001",
       "note": "Different schema_cleanup_review approved precise revised proposal SHA256 fc7c25ccac8c846175869b624e712d4081c69ae6e897c65a859282a7599c411c after spec/full6contracts/74map/consumer audit. Root assigned ONLY actualdoc supersession/currentcontract stage; separate exactdoc approval before assertion/native removal or newtest/helper authoring. No native/source/test execution."
+    },
+    {
+      "date": "2026-11-07T16:15:22.341536+00:00",
+      "task": "TESTCLEAN-001",
+      "note": "Actualdoc40e8bfcb independently approved (digest49501a60), imported82415e5. Rootassigned exactschema namespaces/onlyschema CMake-preset-workflow blocks for approvedretirement/newtests/SDKbootstrap authoring. All20pins/artifacts/licensesfrozen; no newhelper/suite/native execution beforewholepacketreview. Fixturehelper explicitly reassigned with noexecution permission."
     }
   ]
 }
