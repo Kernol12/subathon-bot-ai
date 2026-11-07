@@ -1,5 +1,12 @@
 # STORAGETEST-020 — independent executable-packet review
 
+**Current disposition:** the delta at
+`11e864d614ecefdbe0f12a3cdf0d5f3ddca5060b` resolves R1–R4 and is approved for
+the FIRST selected foundation run, followed by the FIRST ordinary marker-red
+run after foundation passes. The dated original request-changes stage below is
+preserved as history. The appended delta review records the resolution, exact
+revisions and still-unrun gates; no feature or foundation pass is claimed.
+
 Reviewer: fresh `account_session_storage_test_review`, 7 November 2026,
 different from `account_session_storage_test_author` and coordinator `/root`.
 Worktree `/tmp/subathon-storagetest020-review`, branch
@@ -260,3 +267,123 @@ raw receipts. Missing dependencies, compilation failures, skips and old green
 cannot establish that red. Production STORAGE-020 waits for the completed merged
 baseline, then retains separate source/resource review, real acceptance, latest-
 head selected CI and normal PR/publication gates. This review branch is not pushed.
+
+## R1–R4 delta review — 7 November 2026
+
+Same independent reviewer/session, same owned review record and worktree. Reviewed
+actual corrected packet `11e864d614ecefdbe0f12a3cdf0d5f3ddca5060b`, including
+author correction `418cdd46b942dfae9ac2da5e2b0e6d240d03937d` (coordinator import
+`1dae531`) and coordinator CI `bed9f66` (review-branch import `70bf1b9`).
+Original review commit `39c95d5858ec0bc193752c8724047355f3f1c4a0`, including its
+initial verdict, source/literal/native/CI audit and passive receipts above, is
+retained unchanged in history. It is superseded only for the four findings
+resolved here; unaffected original review conclusions retain their validity.
+
+**Current verdict: approved for the test-baseline execution stage.** All four
+blocking findings are resolved by the actual additive assertions. No remaining
+blocking delta finding was identified. This approval permits coordinator FIRST
+foundation execution with the selected Qt/SQLite/SDK, then FIRST ordinary44-case
+missing-marker red only after that foundation is green. It does not complete
+STORAGETEST-020, approve production implementation or establish runtime readiness.
+
+### Actual delta and preservation
+
+Compared with the original reviewed packet, the only changes are404 additive
+lines in the feature translation unit (three literal helpers and four slots),
+four appended case-list names, the CMake comment correction, the appended author
+note, and the coordinator's closed CI inventory40→44 substitutions. An independent
+text audit removed only the added helper block and four appended slots and
+reproduced the ENTIRE original feature source byte-for-byte. All40 original
+bodies/assertions remain unchanged. The case-list's first40 names are identical.
+
+Separately compared fourteen frozen inputs against `39c95d5`: lifecycle-values
+header, store header, marker source, literal JSON, foundation source, shared
+fixture helper, root CMake, presets, tests CMake, physical/lifecycle/supplier/
+password-API/writer-work contracts. Every byte is unchanged. Thus the earlier
+fixture framing,102-object projection, factory/interface, explicit marker/MAX
+seam, source-free foundation link, selected native source and SDK preparation
+audits do not need to be replayed. No contract change, fixture weakening, production
+behavior, new port, dependency or host authority was introduced.
+
+### Findings resolved
+
+| Finding | Independently reviewed resolution |
+| --- | --- |
+| R1 — fresh revisions | `reusedRevisionsAndImmutableRotationShapesRefuseBeforeSql` separately rejects changed installation epoch under J, changed account access/epoch under K, changed local H1 under L, password upgrade under L, changed session digest under R in BOTH rotation/reauthentication branches, and revocation under R. All use fixed `AccountSessionInputFailure` / `invalid_input`. The matrix first runs on an inert expired ticket, so touching the capability would expose the wrong `stale_session` result; it repeats inside an active unit. Exact raw installation/account/local/session fields and previously caller-staged B remain intact through normal caller commit. These are the contract §§5–6 pure replacement-shape rules, not host random-candidate generation or historical uniqueness claims. |
+| R2 — current session fences | `rotationAndReauthenticationRecheckCurrentPhysicalFences` covers both replacement branches after an earlier complete read in the SAME actual unit. It changes current access, account epoch and installation epoch, with fresh revisions and independently same-revision diagnostic changes. Each real UPDATE must affect exactly1; each replacement returns `stale`; literal assertions preserve ALL13 session fields and all5 local fields. Separate expected captured-account/install epoch mismatches retain revision R, and a current-account revision-only change explicitly rejects reauth's old accepted K. Bounds and operation shapes are valid, so these expectations concern current SQL fences rather than pure-input refusal. |
+| R2 — complete upgrade closure | `passwordUpgradeRechecksCompleteCurrentAccountAndInstallationFences` captures actual local/current account/install facts, then separately changes account access/epoch/revision or installation epoch/revision in that actual session. Upgrade with old facts must be `stale` and leave local L/H0 and the session untouched. Additional expected-fact cases change access, account epoch or installation epoch while preserving K/J, exercising full fence bytes independently of revision equality. There is no invented accepted-attempt proof or lineage owner. |
+| R3 — absent/present credential branches | `absentLocalCredentialCreatesButPresentExpectedMissingNeverResurrects` starts with real healthy parents and an empty local table. Present expected L/H0 returns `stale` and leaves that table empty. Absent expected then stages exact Z/H1, checked by all5 physical fields and complete raw parent/source facts. The actual caller commits; the original writer is destroyed; a NEW writer reopens the same file and reads the literal Z/H1 facts again. The original existing-row/no-adoption collision case remains untouched. A missing read and stale mutation do not consume a successful snapshot ordinal, so the first complete source is literal ordinal0. |
+| R4 — immutable shape/no reactivation | The combined pure-input slot independently changes lifetime start, authenticated time and expiry while keeping internally valid ordering, all3 immutable identity bindings, either captured epoch, and active replacement state. Each is `invalid_input` before expired-ticket use and leaves active caller data/staging intact. Revoked→active is tested both as a pure shape and against a genuinely staged revoked V row with healthy links; all13 fields stay revoked V. These assertions enforce token-rotation shape; execution-time expiry/fresh-auth policy and full-U64 duration arithmetic remain with lifecycle. |
+
+The new H1 value is exactly the already frozen public hashcat record in
+`tests/fixtures/password_hashing_vectors.hpp`, blob
+`025d4de904c4c07a08cc192fc6cf94318bd5c0c8`, independently compared as97 ASCII
+bytes. It is a supported well-framed stored Argon2id record within the physical
+127-byte container bound. Its expected bytes come from that independent fixture,
+not a hash/parser call or SUT output. Default complete input bounds admit all
+new tuples, so a resource refusal cannot substitute for the specified shape/CAS
+results. Same-revision SQL fixtures are deliberate diagnostics for full-value
+comparison; they are not approved production revision reuse.
+
+The three new helpers only return that literal H1 or assert literal full SQL rows
+through the old writer; they implement no expected policy or mutation behavior.
+Original exception propagation still ensures marker failures cannot masquerade
+as the intended stale/input/rollback outcomes. The stale CMake comment now
+accurately names the additive manifest marker.
+
+### CI and actual checks
+
+The coordinator workflow differs from the original reviewed workflow only by
+the precise44-count guards and associated count text. Static comparison checked
+all substitutions, and the added discovery Python parsed successfully. The
+mandatory five-slot source-free foundation, admitted SDK preparation, pins,
+permissions, old acceptance commands and no-feature-execution policy are
+unchanged. CI must still run on the eventual PR/latest revision; it has not run
+here, and the branch remains unpublished. There is no claim of repository
+enforcement or feature acceptance.
+
+Same local review environment as the original stage: Linux Arch x86-64,
+configured GCC16.2.1/CMake4.4.5/Python3.14.9, selected Qt6.12.0 link files and
+already admitted `/tmp/subathon-session-sdk/prefix` libsodium1.0.22 ABI26/4.
+These are compilation/source-selection receipts, not a new QtSQLite/SDK runtime
+or schema result. No new feature, foundation, native-helper or helper body ran.
+
+| Exact command/check from this worktree | Observed delta result |
+| --- | --- |
+| `cmake --preset sqlite-account-sessions-debug -DSUBATHON_SODIUM_ROOT=/tmp/subathon-session-sdk/prefix` | Exit0 configure/generate, no project test body. |
+| `cmake --build --preset sqlite-account-sessions-debug --parallel 4` | Exit0 incremental AUTOMOC/feature compile/link; no compiler warnings or test body. |
+| `build/sqlite-account-sessions-debug/tests/server_sqlite_account_sessions_acceptance -functions` | Exit0,44 compiled feature slots, passive only. |
+| `build/sqlite-account-sessions-debug/tests/server_sqlite_account_sessions_environment -functions` | Exit0,5 unchanged foundation slots, passive only. |
+| `ctest --preset sqlite-account-sessions-debug --show-only=json-v1` | Exit0,123 total registrations. |
+| Python3 stdlib inline preservation/literal/discovery/CI audit using `git show`, string comparisons, `ast.parse` and only the three passive commands above | Exit0: original40 restored exactly,14 frozen inputs unchanged, H1 literal equality/97 bytes, exact44 listed/compiled/registered equality, ordinary enabled/non-inverted/no-result-rewrite properties, five foundation slots/one registration, precise CI substitutions and syntax. |
+| `python3 tools/check_project.py` | Exit0: this review branch's443 records/122 decisions, links/presets/current HTML pass; not a product test or a claim about the separately advanced main graph. |
+| `python3 tools/progress.py render --check` | Exit0, snapshot current; shared state/HTML not modified. |
+| `git diff --check` | Exit0. |
+
+Actual revised blobs:
+
+| Path | Git blob |
+| --- | --- |
+| `tests/qt/sqlite_account_sessions_tests.cpp` | `33d8a57f55a19f39846c8234b6bd9fc4ae080930` |
+| `tests/cmake/SqliteAccountSessionCases.cmake` | `5403ebbffbc77ac6a8cb9e33cc0ac6a6ff875c5c` |
+| `server/CMakeLists.txt` (comment only) | `b3fe96b511c402e36de33309931de3c1b4bcfa46` |
+| `.github/workflows/sqlite-writer.yml` | `a8738efe6a4a403ca1435da6319e4db41fd3c340` |
+| `docs/evidence/storagetest-020-author.md` | `34a68414d9a97ac9f2863d43494b9f33cbd13e4a` |
+
+The first-stage unchanged blob inventory above continues to identify all other
+reviewed executable/fixture inputs. Physical contract remains
+`8dc7ba9fce0e40bcfa02897c6d88946849cbd1b1`. Later integration with separately
+advanced main must preserve those reviewed inputs or expose any material change
+for its applicable review; this record does not review unrelated clock/ingress
+documentation.
+
+Coordinator now owns the FIRST actual selected foundation green (one CTest
+registration/five Qt checks), followed by FIRST ordinary44 explicit-marker red
+with immutable raw receipts and independent per-case attribution. Any setup,
+driver, dependency, assertion or compilation failure must be resolved honestly;
+it cannot count as intended feature red. Only the completed reviewed/red baseline
+permits the later fresh STORAGE-020 implementation session after baseline merge.
+Actual compiled prefix reuse/target linkage, all source/resource/metadata-before-
+payload/index/driver audits, real acceptance/regressions, host/producer/clock/
+lineage/publication gates and latest-head CI/normal PR merge gates remain as
+stated above. All full-release/provider/platform scope remains intact.
