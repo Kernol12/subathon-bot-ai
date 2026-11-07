@@ -286,10 +286,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
       "notes": [
-        "Independent exact proposal7c94a664 approved: share throwing assertion/real completion plumbing and same13 per-test warning guards; preserve unique adapter priorities/budgets/physical outcomes and all methods. Relocate fresh-work refusal into both writer rollback paths before deleting12 repeated raw admission tails plus1reopen. Author edits only; exact source execution review remains before native checks."
+        "Exact proposal7c94a664 and source017083c independently approved before execution: small throwing/real-completion helpers,13per-test warning policies, exact raw-writer tails consolidated with rollback fresh-work assertion relocated. All methods/typed adapter/physical/budget/priority checks preserved;17old blobs archive-equal. Fresh selected-Qt build/discovery/stable361method and infrastructure checks now authorized; runtime/CI/final review remain."
       ],
       "verification": {
-        "cleanup_proposal_review": "passed"
+        "cleanup_proposal_review": "passed",
+        "source_review": "passed"
       },
       "evidence": [],
       "review": null

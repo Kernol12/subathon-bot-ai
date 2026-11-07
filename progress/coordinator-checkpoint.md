@@ -87,8 +87,12 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   typed local wrappers/timeouts, identical 13 regex policies in per-test init, and
   exact reviewed tails. No production, fixture, private-pin or warning suppression
   changes. Mechanical support/relocation needs no manufactured stub-red test.
-- Author is implementing from base `2f64085`; exact complete source review must
-  approve BEFORE new configuration/build/native execution. No runtime has run.
+- Exact author source `017083ce751dc59df69d8a894f5208d3bf282468` independently
+  approved BEFORE runtime and imported unchanged. All 18 paths/65-line header,
+  11 real queue/wait wrappers, 13 per-test policies, exact assertions, all methods
+  and 17 old archive-equal blobs verified. Root authorized fresh SQL selected-Qt
+  build/discovery, stable 14 Qt suites/all 361 methods and infrastructure three.
+  Author is now executing; no result claimed yet. No unrelated/red replay.
   Proposal/inventory at `/tmp/testclean004-{proposal,writer-inventory}.md`.
   Next: independent exact-source execution gate, relevant real Qt stable suites,
   actual runtime review, final integration/current CI/rules/discussions/normal PR.
