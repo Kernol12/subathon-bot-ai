@@ -184,3 +184,84 @@ required reviews/discussions/normal merge, the two corrections and their actual
 different review remain006 integration gates. Native011, complete005/source010,
 proxy007/008, full HTTP/session/queue/WS/webhook/client/platform/operational/live
 acceptance and all seven integrations/three FX providers remain separate gates.
+
+## Correction review — F1/F2 resolved, approved for document integration
+
+Same actual independent reviewer, 7 November2026. Reviewed author correction
+`2f8087fb32bfaae0697d493599bb63ad86c278d6`, coordinator import `4cdebbc`, and
+the actual identical three-document delta in this review worktree at
+`8f39723b44bb4672f3e8ce94ac8b78abcb133179`. The original f4b0fb8 request-changes
+verdict,83bb1ca review, original receipts and source comparisons above are preserved.
+This section records the subsequent resolution and current verdict.
+
+| Corrected artifact | Exact Git blob |
+| --- | --- |
+| Transport R2 | `0d0cbde9450abc5d7f99b7a97b03cfe41f385890` |
+| Reference HTTP R2 | `fe69e3c3b06fbe63d1d2beaea458cbacf905032f` |
+| Appended author evidence | `a4f42a893b1bce52126b561e09042af2446333b4` |
+| Unchanged OpenAPI | `ee317612c7f890ecccecd650f8853205b87eeff9` |
+
+**F1 resolved.** Transport §1.1 explicitly permits stock Caddy's additional Via,
+preserves every incoming occurrence and counts all original/added occurrences in
+field_count/H/complete projection. Via grants no trust and is not removed to fit
+the budget. Reference §5.1 now independently derives87+16=103 added bytes,
+159→262 and X-Pad3835/3836→backend4096/4097. The repeated, case-varied incoming
+Via oracle preserves both values in order, then adds Caddy's third occurrence.
+Independent recount confirms the two10-byte incoming values cost17 each:34
+additional bytes, three Via occurrences cost50 altogether, and the padded
+backend262 control becomes296. The author's appended receipt honestly records
+its local audit's32→34 correction; no earlier arithmetic or failed receipt is
+rewritten as though it had originally passed. These are source/literal oracles,
+not observed proxy behavior or newly established acceptance tests.
+
+**F2 resolved.** Both contracts explicitly include fixed, nonreflecting417/505
+before Caddy, with zero backend dispatch, no echo/CORS/auth/state lookup and the
+same finite cleanup/log obligations. The named unsupported-Expect and ASCII
+`HTTP/3.0` negative controls exercise the actual source branches. Source review
+of ParseHTTPVersion establishes that3.0 parses before http1ServerSupportsRequest
+rejects it. This supplies no HTTP/3 capability and requires no parser patch or
+application CommonFailure/schema change. Empty/100-continue Expect reaching Caddy
+still receives its explicit400 refusal.
+
+Reviewed only the actual three-document correction and its invariant implications.
+The author note is append-only; OpenAPI, graph/HTML, ADR/briefs and prior review
+are unchanged by the correction. The existing independent audit again passes:
+C++/transport §§2–4, supplier/common/reference-path, reference §2/25 unaffected
+H rows, payload/security/operation/example invariants;450/1780 acyclic with all
+old reviews/evidence/status preserved as originally audited. No remaining finding
+was identified in this corrected document packet. The original authenticated
+source inventory/comparisons and earlier tooling receipts remain applicable;
+the26 network downloads and completed tooling suite were not repeated for logs.
+
+Actual delta-stage commands/checks, same Linux/Python environment:
+
+| Command/audit | Observed result |
+| --- | --- |
+| `git diff 83bb1ca..8f39723 -- docs/contracts/session-transport-v1.md docs/contracts/reference-http-v1.md docs/evidence/sessioncontract-006-author.md schemas/http/reference-v1/api.json` | Actual correction read; exactly the two contracts and appended author note changed; OpenAPI unchanged |
+| `python3 /tmp/sessioncontract006-independent-audit.py` | exit0; existing structural/graph/JSON/grammar/literal audit passes; the preserved script's historical FINDING label describes the old discrepancy, not an unresolved finding in the corrected documents |
+| Independent inline Python delta/invariance/repeated-Via audit | exit0; exact3 changed paths, append-only author note, unchanged graph/HTML/prior review/OpenAPI; Via16/incoming34/threeVia50/backend296 and literal candidate3835/3836 boundaries confirmed |
+| Read existing authenticated source with `sed`/`rg` | Via append, version parse/rejection,417 pre-handler branch and fixed refusal writer match corrected claims; no new source execution/download |
+| `python3 tools/check_project.py` | exit0;450 tasks/122 decisions, links/presets/current HTML pass |
+| `git diff --check` | exit0 |
+| `gh run view 42370670915 --repo Kernol12/subathon-bot-ai --json headSha,conclusion,status,jobs,url` | exit0; completed success atd134b35bb60548e014b6670db581509c29780012, both Ubuntu22.04/24.04 jobs and preceding foundation/validation steps success |
+| `gh run view 42370670915 --repo Kernol12/subathon-bot-ai --job 128397940209 --log` and `--job 128397939990 --log`, read via inline Python selecting the named validation step | exit0; actual public manifest CLI invocation and `{"code":"ok"}` observed in each step, at12:03:42.3919109Z/12:03:46.5893653Z respectively |
+| `git diff --quiet d134b35..HEAD -- schemas/http/reference-v1` | exit0; entire schema package/manifest/examples unchanged from that successful hosted run |
+
+The actual successful hosted step is “Validate the reference HTTP contract and
+every declared example”: isolated SDK Python invokes
+`tools/schema_validate.py --manifest schemas/http/reference-v1/manifest.json`.
+[Ubuntu22.04 job](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42370670915/job/128397940209)
+and [Ubuntu24.04 job](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42370670915/job/128397939990).
+The validated OpenAPI bytes atd134b35 are identical to the current corrected
+packet's unchangedee317612 artifact. This closes the original actual-schema-
+validation gap for that artifact; it is not latest-corrected-head CI evidence.
+Reading hosted metadata/logs did not execute any local feature/native/proxy code.
+
+**Current verdict: approved for integration of this corrected SESSIONCONTRACT-006
+document/artifact/graph packet.** Both blocking findings are resolved at the exact
+blobs above. Latest-published-head required CI, discussions/reviews and normal
+merge remain coordinator gates. Parent005/PR85 remains unfinished and must consume
+the actually integrated revision before complete-solution review. No native/proxy
+artifact, loaded configuration, supported-client, source010/full003 runtime or
+release admission is approved. All previously named test-first/platform/provider/
+operational gates and full release scope remain unchanged.
