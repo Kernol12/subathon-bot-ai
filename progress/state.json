@@ -14360,8 +14360,8 @@
       "title": "Review and demonstrate red: bounded account-session supplier",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Codex /root integration; fresh session_supplier_baseline_author",
       "depends_on": [
         "CONTRACTPLAN-006",
         "SESSIONCONTRACT-001",
@@ -14377,11 +14377,36 @@
       "brief": "docs/tasks/EPIC-007/SESSION-008.md",
       "summary": "Independently review supplier prepare/resolve tests and observe intended component red; no actual source, clock, lifecycle or transport claim.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
+        "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview→SDKgreen→intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening.",
+        "Authored55896ce6/import2451e50 coherentexactAPI/twoimmediatemarkerstubs/39features/literalvectors/separateSDKfoundation/closed43discovery+harness. Authorcompile/strictsyntax/passivelist/projectPASS; NOnewbodyexecution. Rootadded sameSDKworkflow futurefoundation+closeddiscovery step ONLY, actualdifferentwholepacket/nativeobligation/CIreview BEFORE publication/execution. Complete nativecallchain/globalresourcebound notestablished by boundedread-onlySDKhashaudit; factualfixed60B/onecompression/compiledframes and externalruntime/initialization gaps explicit. No implementation/runtime/red claim.",
+        "Actual independent2014c0c review approves exactf9ca39a API/stubs/39tests/fixtures/harness/nativefixedprofile/CI. FIRSTnewSDKbody run clean2014c0c: directCTest0/exact1PASS/runtime1.0.22 ABI26/4/vectors/compare/clear; ONLYthen FIRSTordinary39case run direct8/39failures/0errors-skips,78stdoutmarkers, rawbinary/nativeJUnit/LastTest/failedinventory immutablebeforefurtherCTest. No Unicodecollectorloss/replay/falsepassingassertions. Same differentreviewer attributesactualred next. SelectedhostCI/publication/normalmerge still required; SESSION008implementation remainsplanned.",
+        "Baseline complete: actual source/test/native/CI approval2014c0c, sameSDK1green then FIRSTordinary39missingmarkerfailures/direct8/0errors-skips; different6bef738 verifiesall10rawhashes/SDK-binary-sourceidentity/chronology/exactnames/39solemarkers/nootherfailure. ReceiptPATH/locale fields absent and notfilled; rootobservedenv distinguished. Hosted42363172584 at840ed5f SUCCESS newclosed39discovery andONLYSDKfoundation1PASS after unchangedpasswordacceptance, no knownredpromotion. No assertionsweakened/replay/featureimplementation. PR82finalcompletionheadCI/currentrules/threads/normalmerge remain beforefreshSESSION008implementation."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored": "passed",
+        "compilation": "passed",
+        "test_review": "passed",
+        "native_fixed_profile_review": "passed",
+        "sdk_readiness": "passed",
+        "baseline": "observed_red",
+        "red_attribution": "passed",
+        "selected_ci": "passed"
+      },
+      "evidence": [
+        "docs/evidence/sessiontest-008-handoff.md",
+        "docs/evidence/sessiontest-008-author.md",
+        "docs/evidence/sessiontest-008-review.md",
+        "docs/evidence/sessiontest-008-first-runs.tar.gz",
+        "docs/evidence/sessiontest-008-hosted-ci.json"
+      ],
+      "review": {
+        "author": "/root/session_supplier_baseline_author; /root (CI/integration)",
+        "reviewer": "/root/session_supplier_baseline_review",
+        "outcome": "approved",
+        "revision": "Fullpacketf9ca39a approved2014c0c/import2a98e29 before execution; exact firstSDKgreen1/direct0 then ordinary39stubred/direct8 at clean2014c0c independently attributed6bef738/import6cbcec5. Actual selectedhost42363172584 at840ed5f builds/closed39discovery+SDK1PASS; finaldocsheadCI/normalmerge separate.",
+        "evidence": "docs/evidence/sessiontest-008-review.md"
+      }
     },
     {
       "id": "SESSION-008",
@@ -14417,7 +14442,7 @@
       "title": "Concrete session lifecycle mutation and inspection contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Codex /root integration; fresh session_lifecycle_contract_author",
       "depends_on": [
         "CONTRACTPLAN-006",
@@ -14445,11 +14470,18 @@
       "summary": "Specify independently reviewed internal issuance, rotation, reauthentication, revocation and inspection APIs/outcomes before full session-service tests; document only.",
       "notes": [
         "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
-        "Claim document-only lifecycle contract from actualmainebb4368ab5af3b0c39314607896a6213fc061bb5: accepted supplierc5f5a6e/transport2c33/password/writer/effectiveaccess imports. Fresh author owns ONLY new session-lifecycle-v1.md +own authornote. No header/schema/test/stub/crypto/library/implementation; actual different concretecontract/example/finiteauthority/outcome review before acceptance. Root owns sharedstate/HTML/handoff/CI/pins/schema. Preserve fullSESSION002/local+verifiedTwitch/provider/platform/release scope; bounded008 baseline remains independent active assignment on its own branch."
+        "Claim document-only lifecycle contract from actualmainebb4368ab5af3b0c39314607896a6213fc061bb5: accepted supplierc5f5a6e/transport2c33/password/writer/effectiveaccess imports. Fresh author owns ONLY new session-lifecycle-v1.md +own authornote. No header/schema/test/stub/crypto/library/implementation; actual different concretecontract/example/finiteauthority/outcome review before acceptance. Root owns sharedstate/HTML/handoff/CI/pins/schema. Preserve fullSESSION002/local+verifiedTwitch/provider/platform/release scope; bounded008 baseline remains independent active assignment on its own branch.",
+        "Actual authored72a80198/importe0973fb concrete lifecycle document and32literal examples; different session_lifecycle_contract_review examining actualpacket. No source/header/schema/test/runtimechoice or provider capability. Integrate normalPR82/main37f098d preserving all443IDs/1735edges and everymainrow/status/review except own003claim; reviewed008baseline/red/receipts/stubs remain unchanged."
       ],
-      "verification": {},
+      "verification": {
+        "authored": "passed",
+        "document_review": "not_run",
+        "runtime": "not_run"
+      },
       "evidence": [
-        "docs/evidence/sessioncontract-003-handoff.md"
+        "docs/evidence/sessioncontract-003-handoff.md",
+        "docs/contracts/session-lifecycle-v1.md",
+        "docs/evidence/sessioncontract-003-author.md"
       ],
       "review": null
     },
@@ -16215,6 +16247,26 @@
       "date": "2026-11-07T09:49:35.334719+00:00",
       "task": "CONTRACT-011",
       "note": "Integrate normalPR81/mainb8f3b14 (alla6latest21SUCCESS/currentrules/0threads/normalmerge09:48:34Z) preservingall443IDs/1735edges/mainstates/reviews exceptownaccepted011row. Only sharedJSON/HTML/checkpoint conflicts resolved; allpolicy/example/source/reviewartifacts unchanged. PR80finalheadCI/currentrules/normalmerge remain."
+    },
+    {
+      "date": "2026-11-07T09:50:17.721718+00:00",
+      "task": "SESSIONTEST-008",
+      "note": "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview→SDKgreen→intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening."
+    },
+    {
+      "date": "2026-11-07T10:06:00.142104+00:00",
+      "task": "SESSIONTEST-008",
+      "note": "Authored55896ce6/import2451e50 coherentexactAPI/twoimmediatemarkerstubs/39features/literalvectors/separateSDKfoundation/closed43discovery+harness. Authorcompile/strictsyntax/passivelist/projectPASS; NOnewbodyexecution. Rootadded sameSDKworkflow futurefoundation+closeddiscovery step ONLY, actualdifferentwholepacket/nativeobligation/CIreview BEFORE publication/execution. Complete nativecallchain/globalresourcebound notestablished by boundedread-onlySDKhashaudit; factualfixed60B/onecompression/compiledframes and externalruntime/initialization gaps explicit. No implementation/runtime/red claim."
+    },
+    {
+      "date": "2026-11-07T10:15:08.762779+00:00",
+      "task": "SESSIONTEST-008",
+      "note": "Actual independent2014c0c review approves exactf9ca39a API/stubs/39tests/fixtures/harness/nativefixedprofile/CI. FIRSTnewSDKbody run clean2014c0c: directCTest0/exact1PASS/runtime1.0.22 ABI26/4/vectors/compare/clear; ONLYthen FIRSTordinary39case run direct8/39failures/0errors-skips,78stdoutmarkers, rawbinary/nativeJUnit/LastTest/failedinventory immutablebeforefurtherCTest. No Unicodecollectorloss/replay/falsepassingassertions. Same differentreviewer attributesactualred next. SelectedhostCI/publication/normalmerge still required; SESSION008implementation remainsplanned."
+    },
+    {
+      "date": "2026-11-07T10:20:01.654764+00:00",
+      "task": "SESSIONTEST-008",
+      "note": "Baseline complete: actual source/test/native/CI approval2014c0c, sameSDK1green then FIRSTordinary39missingmarkerfailures/direct8/0errors-skips; different6bef738 verifiesall10rawhashes/SDK-binary-sourceidentity/chronology/exactnames/39solemarkers/nootherfailure. ReceiptPATH/locale fields absent and notfilled; rootobservedenv distinguished. Hosted42363172584 at840ed5f SUCCESS newclosed39discovery andONLYSDKfoundation1PASS after unchangedpasswordacceptance, no knownredpromotion. No assertionsweakened/replay/featureimplementation. PR82finalcompletionheadCI/currentrules/threads/normalmerge remain beforefreshSESSION008implementation."
     },
     {
       "date": "2026-11-07T10:07:56.121275+00:00",

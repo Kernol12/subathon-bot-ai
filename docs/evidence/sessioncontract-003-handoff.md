@@ -22,3 +22,21 @@ focused project/literal checks, current evidence and normal focused PR gates.
 This document supplies no header, schema, API endpoint, test, stub, source, crypto
 or dependency choice/implementation. Full SESSION002/003/runtime/release scope
 remains. SESSIONTEST008's bounded supplier baseline is an independent active task.
+
+
+## Actual authored packet and main integration
+
+Author72a80198/import e0973fb supplies the concrete lifecycle document and LC01–32
+independent examples. [Author evidence](sessioncontract-003-author.md). Fresh actual
+`session_lifecycle_contract_review` reviews that exact document in
+`/tmp/subathon-sessioncontract003-review`, `review/SESSIONCONTRACT-003-lifecycle`.
+Its independent approval record is pending integration; no runtime gate is passed.
+Author project443/122/currentHTML/tooling19/whitespace and literal arithmetic/DTO/
+keyset checks passed. Existing CI covers this document-only change; no executable
+suite or dependency is added by the task.
+
+Integrated main37f098d/normalPR82 (all21final50aaeSUCCESS/currentrules/0threads/
+normalmerge10:26:28 UTC). Everymainrow/dependency/status/review/evidence except the
+owned003claim is preserved; only shared JSON/HTML/checkpoint conflicted. Frozen
+supplier baseline source/assertions/receipts and intentional-red CI separation
+remain unchanged. Root owns this integration; no author work was overwritten.

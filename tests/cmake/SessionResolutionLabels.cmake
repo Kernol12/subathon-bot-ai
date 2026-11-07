@@ -1,0 +1,49 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Validate the exact ordinary inventory and apply full labels after passive discovery.
+set(expected
+    SessionPreparation.InitializationFailureUnavailableFreshProcess
+    SessionPreparation.ThreeIndependentLiteralDigestsAndExactDomainFrame
+    SessionPreparation.LengthRefusalPrecedesAnyCharacterAccess
+    SessionPreparation.EmptyShortAndOversizedWholeInputsHaveExactPriority
+    SessionPreparation.EveryPositionRejectsNoncanonicalBytesBeforeCrypto
+    SessionPreparation.RejectsPrefixWhitespaceSeparatorsAndEmbeddedTerminator
+    SessionPreparation.SuccessfulNativeHashErasesRawAndFramedScratch
+    SessionPreparation.HashErrorAfterRealSuccessIsUnavailableAndErasesScratch
+    SessionResolution.ExactOwnedProjectionAndOneOrderedSourceClockSample
+    SessionResolution.PositiveLimitsAndPeakBoundPrecedeEmptyRequestAndProducers
+    SessionResolution.PeakCeilingBoundaryIsAcceptedWithoutAllocationOfTheBudget
+    SessionResolution.EmptyRequestRefusesBeforeProducers
+    SessionResolution.EntireRequestReferenceAndAggregateArePreflighted
+    SessionResolution.SourceVariantsStopBeforeUnavailableClock
+    SessionResolution.SourceExceptionsAreUnavailableWithoutDiagnosticOrClock
+    SessionResolution.AllTwelveReferenceOccurrencesHaveIndividualBounds
+    SessionResolution.RepeatedEqualReferencesStillCountTwelveSeparateOwnedOccurrences
+    SessionResolution.RequestFactsAndResultHaveSeparatePerValueBudgets
+    SessionResolution.CompleteFactSizePriorityPrecedesShapeRevocationAndClock
+    SessionResolution.EveryRequiredFactReferenceRejectsEmptyBeforeRevocation
+    SessionResolution.EveryInstallationAndAccountBindingIsByteExactBeforeRevocation
+    SessionResolution.AllThirtyTwoDigestBytesMustMatchUsingFixedNativeComparison
+    SessionResolution.MatchingDigestAlsoUsesFixedNativeComparison
+    SessionResolution.InvalidStoredStateIsCorruptionBeforeClock
+    SessionResolution.InvalidStoredTimeOrderPrecedesRevocation
+    SessionResolution.RevokedDisabledAndEitherEpochMismatchPrecedeClock
+    SessionResolution.OpaqueEpochsAndReferencesAreNotTrimmedOrCaseFolded
+    SessionResolution.ClockUnavailableAndUnclassifiedExceptionsCannotAuthenticate
+    SessionResolution.ClockBeforeAuthenticationRefusesWithoutUnsignedWrap
+    SessionResolution.AuthenticationMayFollowLifetimeStartWithoutSlidingEitherTime
+    SessionResolution.FreshnessIsInclusiveAtExactlyFiveMinutes
+    SessionResolution.OneMillisecondPastFreshnessRequiresFreshAuthentication
+    SessionResolution.NonfreshSessionStillResolvesWhenFreshAuthenticationNotRequired
+    SessionResolution.RecordedExpiryIsExclusiveAndPrecedesFreshnessFailure
+    SessionResolution.FullSignedDomainAgeUsesUnsigned64WithoutOverflow
+    SessionResolution.FreshBoundaryAlsoHoldsAtSignedMinimumAndMaximum
+    SessionResolution.ResolvedStringsSurviveDestructionOfAllProducerState
+    SessionResolution.EachExecutionResolvesCurrentFactsAndClockAgain
+    SessionResolution.ExactOpaqueReferencesMayContainNulAndNonAsciiBytes)
+set(actual ${subathon_session_resolution_cases})
+list(SORT expected)
+list(SORT actual)
+if(NOT actual STREQUAL expected)
+    message(FATAL_ERROR "Session resolution requires the exact closed 39-case inventory")
+endif()
+set_tests_properties(${actual} PROPERTIES LABELS "session-resolution;acceptance;intentional-red;server")
