@@ -66,8 +66,18 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/processes/PRs.
   case_inventory deletion only, eight corresponding CI registration blocks and
   active guidance. No actual test bodies/fixtures/verifier/pins/jobs may change.
   Core/server CMake narrow guard edits require explicit extra assignment if needed.
-  Whole coherent registration/CI packet still needs static review BEFORE new
-  configure/build/discovery/Qt-suite/translation execution. No such runtime yet.
+  Frozen whole packet `bdefe53` received independent review; two property-only
+  CI guards were restored (translation and editorial dependency/no-red checks)
+  at `8034ead5`. Exact complete STATIC EXECUTION GATE APPROVED `8034ead5`.
+  All27old option/preset closures,12fixture paths,15Qt calls, GTest per-case,
+  translation43 env/verifier and8CI pinned identities/semantic guards audited.
+  Imported baseline/resolver/packet/fix as `56df44c`/`d760e46`/`981c39f`/`a9eaae6`.
+  Root actual tooling34, scaffold3, state/render/project461/122 pass. Author is now
+  running fresh/legacy-cache/preset checks and one explicit-all native build,
+  passive red discovery, whole Qt361/data +translation43 and stable GTest. No
+  broad native outcome is claimed yet; all53rate/44account bodies remain excluded
+  from passing checks. Actual method equivalence/labels/timeouts/global-state
+  and final source/currentCI/normalmerge review gates remain.
 - Current source/SDK context: root's earlier author worktrees preserved; schema SDK
   `/tmp/subathon-testclean001-sdk` contains actual20admitted wheels. Qt6.12.0 and
   Boost1.92 local; selected hostedBoost remains1.83. libsodium SDK prepared at

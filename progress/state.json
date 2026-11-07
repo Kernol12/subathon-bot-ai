@@ -241,13 +241,16 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
       "notes": [
-        "Independent proposal/test review and intended selector red preserved at 2cf8f82. Resolver ead3e8e passes the same frozen 5 checks; no static findings. Mechanical Qt/GTest/vector/preset/CI registration packet is being authored, with domain assertions/fixtures/pins frozen. Whole-packet static approval precedes broader configure/native runs; full CI and normal merge remain."
+        "Selector test-first red/green preserved, frozen five checks pass. Full registration/CI packet 8034ead5 independently approved after property guards restored; imported a9eaae6. Root tooling34/scaffold3/state/render/project pass. Fresh/cache/preset/discovery and whole Qt361/translation43/native checks are now running; known rate53/account44 stay passive red. Final review, hosted CI and normal merge remain."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
         "selector_test_review": "passed",
         "selector_baseline": "observed_red",
-        "selector_acceptance": "passed"
+        "selector_acceptance": "passed",
+        "registration_source_review": "passed",
+        "tooling": "passed",
+        "scaffold": "passed"
       },
       "evidence": [],
       "review": null
