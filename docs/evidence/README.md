@@ -203,7 +203,19 @@ translation verifier are unchanged. Local real-Qt/SQLite and focused native chec
 passed. All 21 hosted checks passed before normal
 [PR #94](https://github.com/Kernol12/subathon-bot-ai/pull/94) merge. TESTCLEAN-001
 has independently reviewed actual-schema checks and explicit generic-surface
-retirement merged in PR #95 after all 19 checks. TESTCLEAN-003 is investigating
-registration/options/labels while preserving real coverage and red baselines. Later cleanup tasks retain their own reviews and
+retirement merged in PR #95 after all 19 checks. TESTCLEAN-003 replaces per-feature
+switches with one acceptance option and explicit suite selection, preserving all
+31 preset closures and refusing enabled retired cache options. Independently
+reviewed selector tests reached intended red before implementation; all five now
+pass. Qt and translation use whole-suite discovery; GoogleTest retains per-case
+process isolation. All 428 stable CTest entries passed: 410 GoogleTest cases,
+14 Qt executables covering all 361 stable methods, the 43-method translation suite,
+and three infrastructure checks. Tooling 34/34 passed. The 53 rate and 44 account
+feature methods remain enabled intentional red and were not replayed.
+[PR #96](https://github.com/Kernol12/subathon-bot-ai/pull/96) records the baseline
+and independent source/runtime review; final integration and current hosted CI
+remain pending. Existing ineffective Qt warning hooks are explicitly assigned to
+TESTCLEAN-004; observing no warnings is not proof of active warning enforcement.
+Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence
 and release readiness remain open.

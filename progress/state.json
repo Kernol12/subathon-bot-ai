@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "29 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "34 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -230,7 +230,7 @@
       "title": "Simplify test registration and labels",
       "module": "Build and test infrastructure",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/test_registration_author",
       "depends_on": [
         "TESTCLEAN-002"
@@ -241,7 +241,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
       "notes": [
-        "Selector test-first red/green preserved, frozen five checks pass. Full registration/CI packet 8034ead5 independently approved after property guards restored; imported a9eaae6. Root tooling34/scaffold3/state/render/project pass. Fresh/cache/preset/discovery and whole Qt361/translation43/native checks are now running; known rate53/account44 stay passive red. Final review, hosted CI and normal merge remain."
+        "Unified acceptance selection and suite registration under independent proposal/test/source/runtime review. Selector intended red then five green; 31 presets/cache migration verified. Stable 428 CTest nodes pass: 410 GTest, 361 Qt methods and 43 translation methods; tooling34/scaffold3 pass. Rate53/account44 stay passive red; warning-hook correction belongs to TESTCLEAN-004. Final integration/current CI/normal PR96 merge remain."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
@@ -250,10 +250,25 @@
         "selector_acceptance": "passed",
         "registration_source_review": "passed",
         "tooling": "passed",
-        "scaffold": "passed"
+        "scaffold": "passed",
+        "preset_cache_migration": "passed",
+        "native_build": "passed",
+        "discovery_equivalence": "passed",
+        "stable_acceptance": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/96"
+      ],
+      "review": {
+        "author": "/root/test_registration_author; coordinator integrates shared records",
+        "reviewer": "/root/test_registration_review",
+        "outcome": "approved",
+        "revision": "Proposal132096a6, selector af6497b2 intended-red/green and complete source/runtime8034ead approved independently. All428 stable nodes,361 Qt methods/43 translation methods verified; final integration/current CI/merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/96"
+      }
     },
     {
       "id": "TESTCLEAN-004",
