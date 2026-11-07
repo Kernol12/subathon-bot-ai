@@ -92,10 +92,21 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   11 real queue/wait wrappers, 13 per-test policies, exact assertions, all methods
   and 17 old archive-equal blobs verified. Root authorized fresh SQL selected-Qt
   build/discovery, stable 14 Qt suites/all 361 methods and infrastructure three.
-  Author is now executing; no result claimed yet. No unrelated/red replay.
+  Author actual fresh configure/build109 steps pass. Stable14 Qt suites pass
+  in24.04s: all361 methods/869data+lifecycle IDs match the prior approved run;
+  zero failures/skips/blacklists/QWARN/QFATAL. Discovery18nodes=15Qt+3infra,
+  account44 passive functions only. Infrastructure3 includes34tooling methods
+  and461tasks/122decisions/current render, allpass. No unrelated/red replay.
   Proposal/inventory at `/tmp/testclean004-{proposal,writer-inventory}.md`.
-  Next: independent exact-source execution gate, relevant real Qt stable suites,
-  actual runtime review, final integration/current CI/rules/discussions/normal PR.
+  PR #97 is draft on root branch, observed source+metadata head22a9d7f.
+  Raw receipts `/tmp/testclean004-author-handoff.md` and runtime-results.json;
+  stable log SHA256077b7a4af44b511b0aed0f6dfac104211744b17bb690b41ba79c543e70843d07.
+  Different reviewer independently audited allraw receipt hashes,14discovery/start
+  nodes,361methods/869PASS-ID multiset and passive44account methods, then approved
+  exact017083ce runtime evidence. Twelve guarded stableclasses ran; thirteenth
+  policy/account remains passive. Passing native bodies must not replay for receipts.
+  Root docs/state/HTML finalized; next complete-head integration review, actual
+  current hosted CI/rules/discussions and normal protected merge remain.
   TESTCLEAN-007 remains ready and unclaimed; later tasks keep their own gates.
 
 ## Preserved context

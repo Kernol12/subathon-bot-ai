@@ -136,9 +136,17 @@ discovery for its whole module, retaining the real Qt verifier environment. Coun
 above describe methods/scenarios rather than CTest nodes. Source assertions and
 fixtures remain the acceptance baseline.
 
-The pre-existing Qt `failOnWarning` calls in `initTestCase` do not guard later slots:
-Qt clears warning patterns before them. TESTCLEAN-004 owns the reviewed hook cleanup;
-registration changes preserve the statements without claiming active warning guards.
+Shared SQLite test support lives in `tests/qt/support/sqlite_test_support.hpp`.
+Use ordinary `QVERIFY`/`QCOMPARE` in test slots. Inside writer callbacks, use the
+throwing `require` helper so a failed assertion unwinds instead of returning from
+only a helper and allowing a later commit. It includes the assertion's source
+location. The common completion helper waits on a condition and returns the actual
+writer result; suites retain their own typed error assertions and timeouts.
+
+The 13 existing SQL warning policies are installed in each suite's `init()` as
+well as setup. Qt clears warning patterns after each test function, so installing
+them only in `initTestCase` does not guard later slots. Keep expected warnings
+explicit and investigate unexpected output; do not add blanket suppression.
 
 Use C++20/CMake/Ninja and the existing selected dependencies: GoogleTest, Boost >=1.83
 for numeric-dependent lanes, Qt >=6.12 with its real QSQLITE plugin for SQL/Qt lanes,

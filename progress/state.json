@@ -275,7 +275,7 @@
       "title": "Share Qt test support and deduplicate writer plumbing",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/qt_support_author",
       "depends_on": [
         "TESTCLEAN-003"
@@ -286,14 +286,30 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
       "notes": [
-        "Exact proposal7c94a664 and source017083c independently approved before execution: small throwing/real-completion helpers,13per-test warning policies, exact raw-writer tails consolidated with rollback fresh-work assertion relocated. All methods/typed adapter/physical/budget/priority checks preserved;17old blobs archive-equal. Fresh selected-Qt build/discovery/stable361method and infrastructure checks now authorized; runtime/CI/final review remain."
+        "Shared throwing assertions and actual completion waits; typed errors/timeouts retained. Independent proposal/source/runtime review approved exact writer consolidation with rollback new-work refusal relocated. All methods/unique adapter/physical/budget checks remain. Qt14/361 methods/869 results and infra3/tooling34 pass without warnings/skips. Same13 policies now run per test; account44 stays passive red. Final integration/current CI/normal PR97 merge remain."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
-        "source_review": "passed"
+        "source_review": "passed",
+        "native_build": "passed",
+        "discovery": "passed",
+        "stable_qt_acceptance": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/97"
+      ],
+      "review": {
+        "author": "/root/qt_support_author; read-only inventory helper /root/qt_support_author/writer_inventory",
+        "reviewer": "/root/qt_support_review",
+        "outcome": "approved",
+        "revision": "Proposal7c94a664/inventory5b32bfd5 and source/runtime017083ce independently approved. Raw14Qt/361methods/869results match prior baseline; account44 passive. Complete-head integration/current CI/merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/97"
+      }
     },
     {
       "id": "TESTCLEAN-005",
