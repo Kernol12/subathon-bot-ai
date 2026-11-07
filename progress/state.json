@@ -371,9 +371,11 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
       "notes": [
-        "Claimed from main855a1f0 after reviewed prerequisite planning merge. Fresh author owns small independent catalog/CLI/reference/account recipes, exact contract/examples/tests and two-output adoption only after gates. Coordinator owns shared state/HTML/evidence/CI/PR. Settle seed/mode/check semantics and exact oracle mapping before authored-test review/intended-red/implementation; no new generator behavior verified yet."
+        "R1scope/contract proposaldcf862ce independently approved: required modes, defaulttwofamilies, four raw-pinned script-relative seeds, output reads check-only, strict byte reproduction/no-write drift. Author released only contract/examples/tests/reachable inert stubs; selected-family sentinel and whitespace-only seed-drift checks required. Actual test/oracle review precedes execution/red; recipe implementation/fixture adoption not authorized yet."
       ],
-      "verification": {},
+      "verification": {
+        "scope_contract_review": "passed"
+      },
       "evidence": [],
       "review": null
     },

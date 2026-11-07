@@ -47,8 +47,16 @@ and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
 - Preserve canonicalfullprefix/framing/hash/NULL/publicbyte/authority/error/order/budget
   contracts; referenceA/B/all23constraints, accountliteralverifier/sourcebytes/proposed8.
   No passwordhashing, provider/SQLobserved expecteddata or unrelatednative/red replay.
-- No new executable source/tests/generator execution yet. Next exactcontract/proposal,
-  authoredtest gate; freshauthor may not implement ahead. Actual current CI/finalreview/
+- Exact scope/R1 proposal `dcf862ceea1050eb38c4fbaebfd7081b341d87f16c419ecbee50af4fba472a85`
+  independently approved by `/root/fixture_catalog_review` before code/tests. Required
+  exclusive modes/defaulttwo/orderedselection, strict rawbytecheck/no-write, fourrawSHA
+  pinnedscript-relative seeds/manifestfieldsonly and output-readcheckonly verified.
+  Root released ONLY R1contract/examples, focused authoredtests and reachable named
+  inertFeatureNotImplementedinterface/recipestubs. No recipe implementation/adoption.
+  Fold selected-family invocation with untouchedunselected/unrelatedsentinels into
+  firsttest; seed drift is validJSONwhitespace toprove rawpin, outputdrift newlineonly.
+  Author explicitly resumed after read-onlyhandoff. Actualtest/oracle/stub review must
+  approve BEFORE tests/CLI/red execute. No new candidate execution or outcome yet. Actual current CI/finalreview/
   rules/discussions/normalmerge and every familyoracle/coverage gate remain mandatory.
 
 ## Retained cleanup evidence and work
