@@ -29,3 +29,7 @@ Consult its task/evidence for actual independent review status.
 - [ADR-0009 — Schema native process owner](0009-schema-native-process-owner.md):
   independently reviewed narrow first-party process boundary with explicit
   contract/test/source gates; document acceptance does not approve implementation.
+
+- [ADR-0012 — Test-suite simplification](0012-test-suite-simplification.md):
+  owner-directed cleanup plan with per-task independent-review gates and no reduction
+  to specification or release scope.

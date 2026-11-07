@@ -11,14 +11,18 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "progress/state.json"
 OUTPUT = ROOT / "PROGRESS.html"
 STATUSES = {"planned", "ready", "in_progress", "in_review", "blocked", "done"}
 CHECKS = {"not_run", "draft", "passed", "failed", "observed_red", "partial", "blocked"}
-KINDS = {"scaffold", "environment", "contract", "test_draft", "test_review", "test_baseline", "implementation", "code_review", "feasibility", "epic"}
+KINDS = {
+    "scaffold", "environment", "contract", "test_draft", "test_review",
+    "test_baseline", "implementation", "code_review", "feasibility", "epic",
+    "cleanup",
+}
 
 
 def local_path(value: str, root: Path = ROOT) -> Path:
@@ -31,6 +35,21 @@ def local_path(value: str, root: Path = ROOT) -> Path:
     if not resolved.is_relative_to(root.resolve()):
         raise ValueError(f"Path escapes the project: {value!r}")
     return resolved
+
+
+def evidence_path(value: str, root: Path = ROOT) -> Path | None:
+    """Return a local evidence file, or None for a valid HTTPS reference."""
+    if isinstance(value, str) and value.startswith("https://"):
+        parsed = urlsplit(value)
+        try:
+            parsed.port
+        except ValueError as error:
+            raise ValueError(f"Invalid HTTPS evidence URL: {value!r}") from error
+        if (parsed.scheme != "https" or not parsed.hostname or parsed.username is not None
+                or parsed.password is not None or any(char.isspace() for char in value)):
+            raise ValueError(f"Invalid HTTPS evidence URL: {value!r}")
+        return None
+    return local_path(value, root)
 
 
 def validate(data: dict, root: Path = ROOT) -> None:
@@ -55,15 +74,19 @@ def validate(data: dict, root: Path = ROOT) -> None:
         for key in ("depends_on", "spec_refs", "notes", "evidence"):
             if not isinstance(task.get(key), list) or any(not isinstance(x, str) for x in task[key]):
                 raise ValueError(f"{task_id}: {key} must be an array of strings")
-        for value in [task.get("brief"), *task["evidence"]]:
-            if not local_path(value, root).is_file():
+        brief = local_path(task.get("brief"), root)
+        if not brief.is_file():
+            raise ValueError(f"{task_id}: missing local document: {task.get('brief')}")
+        for value in task["evidence"]:
+            path = evidence_path(value, root)
+            if path is not None and not path.is_file():
                 raise ValueError(f"{task_id}: missing local document: {value}")
         if not isinstance(task.get("verification"), dict) or any(v not in CHECKS for v in task["verification"].values()):
             raise ValueError(f"{task_id}: invalid verification result")
         if task["status"] == "done":
             if not task["evidence"]:
                 raise ValueError(f"{task_id}: done requires evidence")
-            if task["kind"] in {"implementation", "test_review", "code_review", "test_baseline"}:
+            if task["kind"] in {"implementation", "test_review", "code_review", "test_baseline", "cleanup"}:
                 review = task.get("review") or {}
                 if (not review.get("author") or not review.get("reviewer")
                         or review["author"] == review["reviewer"] or review.get("outcome") != "approved"):
@@ -115,6 +138,8 @@ def badge(value: str) -> str:
 
 
 def link(path: str, title: str) -> str:
+    if path.startswith("https://"):
+        return f'<a href="{esc(path)}">{esc(title)}</a>'
     return f'<a href="{quote(path, safe="/._-")}">{esc(title)}</a>'
 
 
@@ -165,7 +190,8 @@ def render(data: dict) -> str:
             f'<a href="#{esc(i)}">{esc(i)}</a> {badge(by_id[i]["status"])}' for i in task["depends_on"]
         ) or "No prerequisites"
         notes = "".join(f"<li>{esc(n)}</li>" for n in task["notes"]) or "<li>No task notes yet.</li>"
-        evidence = " · ".join(link(p, Path(p).name) for p in task["evidence"]) or "No verification evidence recorded"
+        evidence = " · ".join(link(p, p if p.startswith("https://") else Path(p).name)
+                               for p in task["evidence"]) or "No verification evidence recorded"
         checks = " ".join(f'<span class="check">{esc(label(k))} {badge(v)}</span>' for k, v in task["verification"].items()) or "No check outcome recorded"
         review = task.get("review")
         review_text = (f'{review.get("author", "?")} → {review.get("reviewer", "?")}: {review.get("outcome", "?")}' if review else "Not recorded")

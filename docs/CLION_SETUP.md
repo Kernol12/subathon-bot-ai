@@ -24,8 +24,8 @@ version alone establishes Ubuntu/package compatibility.
 4. Build/run `subathon_scaffold_info`; this identifies the scaffold, not a running server.
 5. Run CTest preset commands below in CLion's terminal. CLion supports configure/build
    preset import; its test UI is additional, not a replacement for the documented commands.
-6. Give the agent FIRST_AGENT_PROMPT.md. Agent plugins differ, so explicitly ask it
-   to read AGENTS.md rather than relying on automatic discovery.
+6. Select a dependency-ready task in `PROGRESS.html`, read its brief, and ask the agent
+   to follow `AGENTS.md` and `docs/AGENT_WORKFLOW.md` explicitly.
 
 ```sh
 cmake --preset scaffold-debug

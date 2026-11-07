@@ -47,14 +47,18 @@ python3 tools/check_project.py
 
 `set` updates status/owner, appends the supplied note to activity and task notes, and
 renders HTML. It never invents test outcomes. Edit verification evidence, review identity,
-new tasks or dependencies in JSON, validate, then render. Keep exact command results in
-linked docs/evidence/ notes. Use relative project paths, not absolute machine paths.
+new tasks or dependencies in JSON, validate, then render. New completed tasks record the
+PR URL in `evidence`, one concise outcome/next-step line in `notes`, and the independent
+review in the state `review` field and PR. Keep historical detailed receipts intact; see
+[`docs/evidence/README.md`](evidence/README.md) for their index. Local evidence uses
+project-relative paths, never absolute machine paths.
 
 Dependency-ready means every `depends_on` task is done. The tool refuses starting or
 completing tasks with unfinished dependencies and detects cycles/unknown IDs. The `done`
-status requires an evidence note and independent review for implementation/test-review
-kinds. This is a record consistency check; it cannot prove that an agent's claims are true.
-Do not invent a reviewer or pass result to satisfy validation.
+status requires evidence and an independent approved review for implementation,
+test-review, baseline and cleanup kinds. Cleanup removes tests only under an approved
+decision and its separate review. This is a record consistency check; it cannot prove
+that an agent claim is true. Do not invent a reviewer or pass result to satisfy validation.
 
 The [backlog index](tasks/README.md) links every epic to its bounded child briefs.
 An epic's dependencies aggregate required child completion; children depend on their
