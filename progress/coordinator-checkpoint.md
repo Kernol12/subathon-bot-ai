@@ -43,6 +43,18 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/processes/PRs.
   before slots under Qt6.12. No active-warning-enforcement claim is preserved by
   registration. Explicit scoped per-test-hook correction recorded in TESTCLEAN-004;
   no source fix made here, no new environment probe requested.
+- Bounded migration proposal approved by different reviewer, SHA256
+  `132096a657b07d66f5d3040d6fcfff299ee79915437a65872e37b9c6368251c4`:
+  one acceptance Boolean + selector list, bare ON credit compatibility, explicit all,
+  same named-preset closures, any enabled retired cache option fails with --fresh
+  migration guidance. Qt whole-suite helper, GTest per-case, translation whole43,
+  shared vectors and meaningful existing semantic fixture guards preserved.
+- Root released ONLY initial selector-module interface/named inert stub and a few
+  focused configuration contract tests (no optional SDK requirements) before resolver
+  implementation. New unknown/empty/legacy-refusal/default/union semantics affect
+  acceptance coverage and require independent tests -> intended named red -> resolver.
+  Mechanical framework registration refactor needs no counterfeit missing-feature red.
+  Actual source ownership/gates for remaining registration/CI follow coherent review.
 - Current source/SDK context: root's earlier author worktrees preserved; schema SDK
   `/tmp/subathon-testclean001-sdk` contains actual20admitted wheels. Qt6.12.0 and
   Boost1.92 local; selected hostedBoost remains1.83. libsodium SDK prepared at

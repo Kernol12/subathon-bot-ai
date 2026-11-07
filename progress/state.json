@@ -241,9 +241,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
       "notes": [
-        "Claim at main2d5488f after normal PR95/all19 checks. Scope ADR0012/v0.45 §17: one acceptance option, shared Qt suite registration, remove synchronized slot lists/repeated vector paths, preserve all executable coverage/labels and intentional-red behavior. First inspect actual runners/presets/CI and propose bounded migration for independent review. Coordinator owns state/HTML/checkpoint/evidence/PR; no domain assertion/fixture deletion."
+        "Independent migration proposal approved: one acceptance Boolean/selectors, strict retired-cache refusal, same presets/SDK scopes; Qt suite runners, GTest per-case, translation43, red separation. Focused new selector contract tests/interface stub are being authored before resolver implementation; independent review and intended red still required. No runtime executed; native/CI/merge gates remain."
       ],
-      "verification": {},
+      "verification": {
+        "cleanup_proposal_review": "passed"
+      },
       "evidence": [],
       "review": null
     },
