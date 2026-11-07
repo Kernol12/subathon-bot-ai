@@ -51,3 +51,10 @@ Actual fresh `session_supplier_code_review` reviews the full source/resource/con
 packet at2cf5ba5 in `/tmp/subathon-session008-review`, `review/SESSION-008-source`.
 Task is in_review, source verdict and actual selected CI pending. This component
 consumes injected current facts; it does not supply real authority or a runtime app.
+
+
+Current main integration: PR83 normally merged e4d46d3 at10:38:28 UTC from exact
+2c3f62f after all21 final checks/current rules/0threads, preserving its actual
+independent lifecycle document review. Every443 main task row/1735edges/status/
+review/evidence except own SESSION008 row is retained. Only shared JSON/HTML/
+checkpoint conflicted; source and reviewed test/config files are unchanged.

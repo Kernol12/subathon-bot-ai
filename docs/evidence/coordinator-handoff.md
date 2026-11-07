@@ -1,123 +1,75 @@
-# Coordinator checkpoint — supplier baseline ready for integration
+# Coordinator checkpoint — bounded supplier source review
 
-Updated 7 November 2026 by `/root`, under the owner's continuation instruction.
-Last fetched main: `37f098d99b306830e43398e55071286a689a95b2`.
-The full specification v0.45 product remains incomplete.
+Updated 7 November 2026 by `/root`. Last fetched main:
+`e4d46d335e52850acc58a73f2500725cffb7c534`.
+The owner's standing loop remains active; specification v0.45 is not complete.
 
-## Integrated this continuation
+## Integrated work
 
 | Task | Normal merge | Evidence |
 | --- | --- | --- |
-| CONTRACT-013 | [PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79), `ed73270`, 09:34:46 UTC | [Handoff](contract-013-handoff.md): independent `8f995e63`; actual two-host CLI `ok` for OpenAPI and 23 examples. |
-| CONTRACTPLAN-006 | [PR81](https://github.com/Kernol12/subathon-bot-ai/pull/81), `b8f3b14`, 09:48:34 UTC | [Handoff](contractplan-006-handoff.md): independent `ea27001e`; 443 IDs / 1735 edges, preserving the original graph and full scope. |
-| CONTRACT-011 | [PR80](https://github.com/Kernol12/subathon-bot-ai/pull/80), `ebb4368`, 09:54:10 UTC | [Handoff](contract-011-handoff.md): original partial work/review and 29 AP examples preserved; fresh full review `64b2979`, corrected SVG approval `437ab56`. |
+| CONTRACT-013 | [PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79), ed73270,09:34:46UTC | [Handoff](contract-013-handoff.md): written HTTP/OpenAPI artifact,23examples, actual two-host validation and independent review. |
+| CONTRACTPLAN-006 | [PR81](https://github.com/Kernol12/subathon-bot-ai/pull/81), b8f3b14,09:48:34UTC | [Handoff](contractplan-006-handoff.md): explicit session prerequisites,443IDs/1735edges, original graph/scope preserved. |
+| CONTRACT-011 | [PR80](https://github.com/Kernol12/subathon-bot-ai/pull/80), ebb4368,09:54:10UTC | [Handoff](contract-011-handoff.md): recovered history/29AP examples and independently approved media/font/SVG logical correction. |
+| SESSIONTEST-008 | [PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82),37f098d,10:26:28UTC | [Handoff](sessiontest-008-handoff.md): review2014c0c, first SDK1 green then39 marker-red/direct8, attribution6bef738 and selected CI. |
+| SESSIONCONTRACT-003 | [PR83](https://github.com/Kernol12/subathon-bot-ai/pull/83),e4d46d3,10:38:28UTC | [Handoff](sessioncontract-003-handoff.md): actual document review8b0212d5 of e0973fb and LC01–32, no runtime implementation. |
 
-Each merge followed 21 successful final-head checks, current rules, resolved
-threads and applicable independent reviews. No protection was bypassed. BOOT-009
-and SCHEMATOOL-001 were already integrated at resume. Preserve completed work,
-reviews, original red runs and receipts; do not repeat them.
+Each merge followed all21 final-head checks/current rules/resolved threads and
+applicable independent reviews; no bypass. BOOT009/SCHEMATOOL001 were already
+integrated at resume. Do not repeat completed source/tests/reviews/original first
+runs. Full product and actual provider/platform capability remain unverified.
 
-## SESSIONTEST-008: integrated baseline
+## Current implementation and ownership
 
-[Baseline handoff](sessiontest-008-handoff.md) links all original receipts.
-PR82 merged normally at10:26:28 UTC, merge37f098d fromexact50aae694 after21finalSUCCESS/currentrules/0threads.
-Integrator: `/tmp/subathon-sessiontest008`,
-`task/SESSIONTEST-008-supplier-baseline`. [Draft PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82)
-needs its final completion-head CI/current rules/discussions/normal merge.
-Task `done` means baseline acceptance, not integrated feature behavior.
+SESSION-008 is the active task, in_review. Integrator branch
+`task/SESSION-008-bounded-supplier`, `/tmp/subathon-session008`,
+[draftPR84](https://github.com/Kernol12/subathon-bot-ai/pull/84).
+[Current handoff](session-008-handoff.md) freezes exact baseline blobs.
 
-- Fresh author `/root/session_supplier_baseline_author` completed `55896ce6`,
-  imported as `2451e50`: exact API, two immediate unimplemented bodies,39 tests,
-  literal fixtures, independent SDK program and closed43-case harness.
-- Different `/root/session_supplier_baseline_review` approved full packet `f9ca39a`
-  at `2014c0c` before new execution, including the CI addition and native crypto
-  work/stack bounds. Its review worktree is `/tmp/subathon-sessiontest008-review`,
-  branch `review/SESSIONTEST-008-supplier-baseline`.
-- At clean `2014c0c`, root ran SDK readiness once: direct CTest0/exact1PASS. Only
-  then FIRST ordinary39-case red ran: direct8/39failures/0errors/skips. Original
-  byte logs/native JUnit/LastTest/failed inventory were preserved before more CTest.
-- SAME reviewer approved original first-run attribution `6bef738` / import
-  `6cbcec5`: all39 failures solely on the intended stub marker, no setup/crash/
-  timeout/unrelated failure. No body was replayed. Original receipt PATH/locale
-  values were absent; no fields were invented or independently certified.
-- Actual hosted SDK workflow `42363172584` at `840ed5f` passed the new build,
-  closed39 passive discovery and ONLY independent SDK1PASS. Intentional feature
-  red is separate, without skips/inversion. Completion records `b64da77` and
-  later checkpoint-only changes still need latest-head CI before normal merge.
+Fresh author `/root/session_supplier_implementer` completed26f275fa/import028f83b,
+sourceblob0525d755, owning ONLY source TU and author note. All39/full43 passed,
+no frozen assertion/header/fixture/SDK change. Root2cf5ba5 promotes ordinary39 labels
+and unconditional selected CI after SDK1. Fresh actual
+`/root/session_supplier_code_review` examines exact2cf5ba5 in
+`/tmp/subathon-session008-review`, `review/SESSION-008-source`; source/resource/
+secret/exception/config verdict is pending. Reviewer's sequential exact39/full43
+checks pass; its discarded discovery/execution race is being recorded honestly,
+not accepted as coverage. Author turn ended. Preserve the active reviewer.
 
-All baseline author/reviewer turns and SDK preparation turns are completed.
-Do not assume agents are running. Two public entrypoints remain immediate stubs;
-SESSION-008 implementation has NOT started. Root owns state/HTML/checkpoint/CI/
-pins/integration, with explicit narrow author delegation for the new harness.
+Current maine4d46d3 is integrated, preserving every443 main row/1735edges and all
+other task states/reviews/evidence. Only JSON/HTML/checkpoint conflicts were
+resolved; actual source and reviewed tests/config did not change. Root owns all
+shared state/HTML/checkpoint/CI/labels/pins/integration/publication. No lifecycle,
+SQL/current source, clock, login, permission or transport implementation is supplied.
 
-The prepared SDK is `/tmp/subathon-session-sdk/prefix`: existing selected source
-1.0.22, 2,008,529-byte archive SHA256
-`adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349`;
-new static archive836704 bytes/SHA256
+## Existing evidence and next gates
+
+Selected SDK `/tmp/subathon-session-sdk/prefix`,1.0.22/ABI26/4, static archiveSHA
 `f8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017`.
-Actual runtime identity/vectors/compare/clearing now passed. SDK preparation's
-compiler probes, warnings and corrected evidence packaging remain in the handoff;
-they are not feature red. Native crypto-owned bounds exclude external runtime,
-first-init and global-process/platform/security guarantees.
+Its actual readiness and bounded crypto review already passed; immutable SDK and
+original first-run receipts are in baseline handoff. Do not replay historical red
+or readiness to improve logs. Native crypto-owned limits exclude external runtime,
+first-init/global process/platform/security guarantees.
 
-## Concurrent lifecycle document
+Next: integrate actual source review, resolve substantive findings, observe the
+changed selected workflow running all39 ordinarily, record component acceptance,
+then require every final-head check/current rules/discussions and normalPR84merge.
+Refresh main and select the next dependency-ready executable task in a fresh author
+session. Lifecycle003 is now integrated; downstream storage/login/clock/ingress
+contracts and test-first implementations retain all original scope and gates.
+Split substantial new architecture before implementing expansion. Never shrink
+release scope or invent unknown provider behavior.
 
-SESSIONCONTRACT-003 is separately claimed at `db6fbee` on
-`task/SESSIONCONTRACT-003-lifecycle`, `/tmp/subathon-sessioncontract003`.
-Fresh `/root/session_lifecycle_contract_author` is active in
-`/tmp/subathon-sessioncontract003-author`, `task/SESSIONCONTRACT-003-author`.
-It owns only new `docs/contracts/session-lifecycle-v1.md` and author evidence.
-Its branch-local `docs/evidence/sessioncontract-003-handoff.md` records the scope.
-Preserve this active assignment and uncommitted owned files. Actual separate
-review is pending; no header/schema/test/source implementation is authorized.
+## Continuity
 
-## Next concrete actions
-
-Finish PR82 latest-head gates and normal merge, refresh main, then claim
-SESSION-008 from integrated main with a fresh implementer. Supply accepted supplier
-blob `c5f5a6e71664042e18475068d3caf577b0c8d009`, unchanged39 assertions/fixtures,
-review and original red receipts. Pass component/regression checks, obtain separate
-source review and promote the stable39 suite in CI before implementation completion.
-No implementation before baseline integration. Keep the lifecycle document author
-active and arrange actual review when its coherent packet is committed.
-
-Issuance, SQL/current sources, trustworthy clock, accepted login, permissions,
-full lifecycle/transport and provider/platform/security/release work remain their
-separate tasks. Split substantial newly discovered architecture before implementing
-it. Unknown provider behavior is not support. All seven integrations, three FX
-providers, both renderers, UI/locales/themes, recovery/operations, packaging and
-licenses remain in the agreed release scope.
-
-## Resume inspection
-
-Main is clean at `ebb4368`. Initial inspection found252 registered worktrees but
-only root and historical CONTRACT-011 existed, both clean, with no old agents/build
-commands. Preserve historical refs and absent registrations without reset/prune.
-On continuation inspect actual agents/processes/worktrees/dirty files/PR state;
-checkpoint entries do not imply background execution. Current network and managed
-`.git` operations work through approved tool escalation. Ruleset26170263 requires
-PR/resolved threads/zero formal approvals, with no enforced status list; manually
-require every applicable latest-head check and independent review. No owner decision
-or access is currently needed. No live chat/payment/deployment action is authorized.
-
-
-## Active bounded supplier implementation
-
-SESSION-008 is claimed from integrated main37f098d on
-`task/SESSION-008-bounded-supplier`, `/tmp/subathon-session008`.
-Fresh `/root/session_supplier_implementer` receives only source TU and own evidence
-in `/tmp/subathon-session008-author`, `task/SESSION-008-implementation`.
-[Implementation handoff](session-008-handoff.md) freezes exact baseline blobs and
-links accepted tests/red/attribution. Actual source review, passing39/full43,
-CI promotion and normal merge remain. Keep lifecycle003 document review active;
-its branch-local assignment is independent. No new owner action is needed.
-
-
-Current implementation packet: author26f275fa/import028f83b, source0525d755;
-all39/full43 pass with frozen baseline intact. Root2cf5ba5 promotes ordinary39
-labels/CI without skipping/inverting/assertion changes. Fresh actual
-`/root/session_supplier_code_review` reviews2cf5ba5 in
-`/tmp/subathon-session008-review`, branch `review/SESSION-008-source`.
-Source/resource approval and hosted CI remain before completion. The lifecycle
-contract author/reviewer ended after actual approval8b0212d5; focused draftPR83
-at2c3f62f has final-headCI/normalmerge pending. Preserve each separate claim/branch.
+Root main is clean ate4d46d3. At startup252 worktrees were registered but onlyroot
+and historical CONTRACT011 existed, bothclean, with no surviving old agents/build
+commands. Preserve historical refs/absent registrations; never reset/prune blindly.
+Reinspect current agents/processes/worktrees/uncommitted files/PRs on resumption;
+completed turns do not imply background execution. Other doc/baseline authors and
+reviewers completed. Current network/managed.git operations work via approved
+escalation. Ruleset26170263: PR/resolved threads/zero formalapprovals/no enforcedCI
+list; manually require all applicable latest checks and independent reviews.
+No owner decision/access is needed. No live chat/payment/deployment action.
+All seven integrations,three FXproviders,both renderers/UI/locales/themes,
+security/recovery/operations/packaging/licenses/platform/live/fullrelease scope remains.
