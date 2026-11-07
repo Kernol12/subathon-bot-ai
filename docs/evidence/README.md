@@ -29,3 +29,9 @@ receipts may be linked from tasks in multiple areas. The repository history is o
 by task or evidence family; use task IDs and links in `progress/state.json` to locate
 original detail. New task work should use one PR URL in its `evidence` field and one
 concise outcome/next-step line in `notes`, rather than adding a second parallel report.
+
+Older receipts mention `FIRST_AGENT_PROMPT.md`, `docs/templates/HANDOFF.md` and
+`docs/templates/VERIFICATION.md`; these were removed by the EPIC-028 workflow update.
+`coordinator-handoff.md` is the previous coordinator checkpoint, now replaced by
+`progress/coordinator-checkpoint.md`. `BASELINE_MANIFEST.json` likewise describes the
+original packaged snapshot only.

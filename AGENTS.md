@@ -34,6 +34,8 @@ I wanted to share some of my preferences here so we can be more aligned as we wo
 
 Build the agreed product in `docs/specification.md` (v0.45); preserve the complete
 release scope and identify requirement conflicts instead of silently changing behavior.
+Routine implementation choices are allowed within scope. Unknown provider behavior is
+not a supported capability; never turn unknown source fields into known values.
 Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`, `docs/TEST_STRATEGY.md`,
 `progress/state.json`, and the selected task brief. Read scoped `AGENTS.md` files in
 every module being edited. Current priority is EPIC-028; begin with dependency-ready
