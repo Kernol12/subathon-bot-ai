@@ -89,3 +89,13 @@ and its owncompleteactualsolutionreview; native011/deploy007/008 testfirstgates 
 
 Rootawaits normalclockPR88/latestmainintegration, then finalcompletionheadCI/current
 rules/threads/normalPR87merge. No scope/security waiver or priorreview destruction.
+
+## Final current-main integration and root checks
+
+NormalclockPR88mergedcddfe82 at12:24:00UTC, final2a756b6/all21SUCCESS/currentrules/
+0threads/differentdb874a0e. Root integratedactualcddfe82 preserving its accepted004
+row/evidence/reviews andall443oldIDs/1735edges plus006's7nodes/45edges. Only shared
+JSON/HTML/checkpoint conflicts; actualreviewed006contracts/OAS/sourceevidence and
+newacceptedclockdocuments unchanged. No baseline/test assertion was changed.
+Rootactualpreintegrationcompletionproject450/122,tooling19PASS0.361s,rendercheck/
+whitespacePASS. Newpostintegrationconsistency/latestCI/normalPR87merge remain.

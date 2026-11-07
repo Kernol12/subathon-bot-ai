@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T12:22:00.804676+00:00",
+  "updated_at": "2026-11-07T12:25:09.946538+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -14672,8 +14672,8 @@
       "title": "Trustworthy current session-clock producer contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Codex /root integration; fresh current_session_clock_contract_author",
       "depends_on": [
         "CONTRACTPLAN-006",
         "SESSIONCONTRACT-003",
@@ -14694,11 +14694,31 @@
       "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-004.md",
       "summary": "Define actual clock-source trust, scope, discontinuity/recovery refusal and publication sampling for later tests; no clock mechanism or implementation chosen by this plan.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
+        "Claim DOCUMENT-only trustworthy current sessionUTC producer contract after acceptedstorage002 PR86/main7897e3e. Fresh author owns ONLY new session-clock-v1.md plusownauthornote. Actual source-backed runtimeOSobservations, continuity/fences/startup/recovery/publication/failure/fullsignedU64 semantics and literalexamples; no nativecall/test/stub/header/source/schema/toolchain/dependency/runtime support. Preserve supplier/lifecycle/password/storageacceptedcontracts unchanged. Rootownsnewprerequisitegraph/schema/build/CI/pins/state/HTML/handoff. Independent different actualsource/clocktrust/resource/compatibilityreview before done; explicit substantial durablefact/subsystem prerequisites split before implementation, no inventedclocktrust or narrowerrelease.",
+        "Actual freshda9d741/import78e78f3 documentpacket clockblob946bd12b andauthor0bc14b54, SC01–30 source/literalexamples. No newdurableclocklatch/service/schema/header/nativecall/behavior. Ordinarytrustedhost livekernelUTC/TIME_OK monitor+boundedframe/continuity/currentrecoveryreadiness scope explicit; no absoluteUTC/crossprocessprivilegedVM rollback claim. Freshdifferentcurrent_session_clock_contract_review examinesactual78e78f3/source/trust/resource/compatibility beforeacceptance. Rootstate/CI/normalPR/latestheadrules gates remain.",
+        "Complete DOCUMENT-only actualclockcontract after DIFFERENTdb874a0e/importd39d25b approval of78e78f3/946bd12b+0bc14b54: SC01–30/source/trust/finiteABI/nativeguard/publication/floor/restart/currentreadiness audited. No newdurablefact/service/schema/nativeclockexecution orabsoluteUTC/crossprocessVM guarantee. ktime_set saturationpreflight explicitdownstream009guard. Existingimports/runtimeowners/fullscope unchanged; latestcompletionheadCI/currentrules/threads/normalPR88merge remain beforedependents."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored": "passed",
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/sessioncontract-004-handoff.md",
+        "docs/contracts/session-clock-v1.md",
+        "docs/evidence/sessioncontract-004-author.md",
+        "docs/evidence/sessioncontract-004-review.md"
+      ],
+      "review": {
+        "author": "/root/current_session_clock_contract_author",
+        "reviewer": "/root/current_session_clock_contract_review",
+        "outcome": "approved",
+        "revision": "Actual authored da9d741/import78e78f3 clockblob946bd12b94d3a83dcd4c86c787bb257d9472e022+author0bc14b54 approved independentlydb874a0e/importd39d25b; SC01–30/source/trust/nativeABI/resources audited.",
+        "evidence": "docs/evidence/sessioncontract-004-review.md"
+      }
     },
     {
       "id": "SESSIONTEST-009",
@@ -16652,6 +16672,21 @@
       "date": "2026-11-07T12:22:00.804676+00:00",
       "task": "SESSIONCONTRACT-006",
       "note": "Complete actualDOCUMENTR2+additiveprerequisites afterfreshdifferent83bb1ca3 graph/source/fullpacketaudit and0990c608/importbecf310 approval ofactualcorrected2f8087fb/import4cdebbc: Via16/candidate262/XPad3835–3836 andfixed417/505negativeoracles corrected; originalrequestchanges/authorreceipts preserved. Actualtransport0d0cbde9/referencefe69e3c3, OASunchangedee317612/only3descriptions, allC++/payload/operation/security/23examples invariant. All26officialimmutablefiles independentlyverified; 450IDs/1780edges acyclic/full443oldIDs1735edges/states/reviews preserved exceptauthorized005blocked. Source/configcandidate NOTactualartifact/proxy/runtimeadmission. Bothdefault/alternativeproxy/fullsecurity/release scope retained. Actualhostedschema42370670915codeokbothhosts atd134sameOAS. Currentmainintegration/finalcompletionheadCI/currentrules/threads/normalPR87merge before005resumes."
+    },
+    {
+      "date": "2026-11-07T11:43:39.522925+00:00",
+      "task": "SESSIONCONTRACT-004",
+      "note": "Claim DOCUMENT-only trustworthy current sessionUTC producer contract after acceptedstorage002 PR86/main7897e3e. Fresh author owns ONLY new session-clock-v1.md plusownauthornote. Actual source-backed runtimeOSobservations, continuity/fences/startup/recovery/publication/failure/fullsignedU64 semantics and literalexamples; no nativecall/test/stub/header/source/schema/toolchain/dependency/runtime support. Preserve supplier/lifecycle/password/storageacceptedcontracts unchanged. Rootownsnewprerequisitegraph/schema/build/CI/pins/state/HTML/handoff. Independent different actualsource/clocktrust/resource/compatibilityreview before done; explicit substantial durablefact/subsystem prerequisites split before implementation, no inventedclocktrust or narrowerrelease."
+    },
+    {
+      "date": "2026-11-07T12:08:50.360257+00:00",
+      "task": "SESSIONCONTRACT-004",
+      "note": "Actual freshda9d741/import78e78f3 documentpacket clockblob946bd12b andauthor0bc14b54, SC01–30 source/literalexamples. No newdurableclocklatch/service/schema/header/nativecall/behavior. Ordinarytrustedhost livekernelUTC/TIME_OK monitor+boundedframe/continuity/currentrecoveryreadiness scope explicit; no absoluteUTC/crossprocessprivilegedVM rollback claim. Freshdifferentcurrent_session_clock_contract_review examinesactual78e78f3/source/trust/resource/compatibility beforeacceptance. Rootstate/CI/normalPR/latestheadrules gates remain."
+    },
+    {
+      "date": "2026-11-07T12:18:40.886487+00:00",
+      "task": "SESSIONCONTRACT-004",
+      "note": "Complete DOCUMENT-only actualclockcontract after DIFFERENTdb874a0e/importd39d25b approval of78e78f3/946bd12b+0bc14b54: SC01–30/source/trust/finiteABI/nativeguard/publication/floor/restart/currentreadiness audited. No newdurablefact/service/schema/nativeclockexecution orabsoluteUTC/crossprocessVM guarantee. ktime_set saturationpreflight explicitdownstream009guard. Existingimports/runtimeowners/fullscope unchanged; latestcompletionheadCI/currentrules/threads/normalPR88merge remain beforedependents."
     }
   ]
 }
