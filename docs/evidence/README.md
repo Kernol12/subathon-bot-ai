@@ -210,7 +210,9 @@ The latest local Qt 6.12 run passed 14/14 stable suites, all 361 methods and the
 869 data/lifecycle results, without failures, skips, blacklists or warnings;
 infrastructure 3/3 and tooling 34/34 passed. Independent raw runtime review confirmed the unchanged baseline and relocated
 literals. The final integrated head passed separate review and all 19 current checks
-before normal PR #98 merge. Earlier cleanup PRs merged normally after
+before normal PR #98 merge. Fixture reconstruction is planned in [three explicit prerequisites](../tasks/EPIC-028/TESTCLEAN-006.md)
+before final all-six adoption; no recipe/generator implementation is established yet.
+Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release
 readiness remain open.

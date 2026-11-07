@@ -61,17 +61,19 @@
         "TESTCLEAN-005",
         "TESTCLEAN-006",
         "TESTCLEAN-007",
-        "TESTCLEAN-008"
+        "TESTCLEAN-008",
+        "FIXTURE-001",
+        "FIXTURE-002",
+        "FIXTURE-003"
       ],
       "spec_refs": [
         "§17",
         "§18"
       ],
       "brief": "docs/tasks/EPIC-028.md",
-      "summary": "10 bounded evidence and test-cleanup tasks to simplify agent instructions, make evidence readable, and focus tests on specified behavior without reducing release scope.",
+      "summary": "10 bounded evidence/test-cleanup tasks plus three explicit fixture-generation prerequisites, with independent review and complete v0.45 release scope preserved.",
       "notes": [
-        "All v0.45 release requirements remain in scope. This is planning only; no test assertions or product behavior were changed by task decomposition.",
-        "Historical receipts are scheduled for archival by EVIDENCE-001; cleanup requires separate approved review and accurate revised baselines where assertions change."
+        "All v0.45 requirements remain. Three planned fixture prerequisites preserve all six oracle families before final TESTCLEAN-006 adoption. No test assertion, fixture value or product behavior is changed by decomposition; every new tool behavior retains test-first and separate oracle/source/relevant-check/merge gates."
       ],
       "verification": {},
       "evidence": [],
@@ -354,14 +356,83 @@
       }
     },
     {
+      "id": "FIXTURE-001",
+      "title": "Independent catalog, reference and account fixture recipes",
+      "module": "Fixture tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "TESTCLEAN-005"
+      ],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
+      "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
+      "notes": [
+        "Planned prerequisite only. Exact family contract/oracle/coverage proposal and authored-test review/intended-red gates precede implementation. No generator or product behavior is implemented or verified by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "FIXTURE-002",
+      "title": "Storage fixture recipes and named selector roles",
+      "module": "Fixture tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "FIXTURE-001"
+      ],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/FIXTURE-002.md",
+      "summary": "Reproduce bundle/hold/claim oracles from independent recipes and preserve the exact six-selector corruption-priority crosswalk.",
+      "notes": [
+        "Planned prerequisite only. Exact family contract/oracle/coverage proposal and authored-test review/intended-red gates precede implementation. No generator or product behavior is implemented or verified by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "FIXTURE-003",
+      "title": "Independent application-service fixture recipes",
+      "module": "Fixture tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "FIXTURE-002"
+      ],
+      "spec_refs": [
+        "§17"
+      ],
+      "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
+      "summary": "Reproduce all named service cases, formats, arrangements and snapshots without computing expected semantics through the product.",
+      "notes": [
+        "Planned prerequisite only. Exact family contract/oracle/coverage proposal and authored-test review/intended-red gates precede implementation. No generator or product behavior is implemented or verified by this record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
       "id": "TESTCLEAN-006",
       "title": "Replace giant unreproducible fixtures",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "in_progress",
-      "owner": "/root/fixture_provenance_author",
+      "status": "planned",
+      "owner": "Unassigned",
       "depends_on": [
-        "TESTCLEAN-005"
+        "TESTCLEAN-005",
+        "FIXTURE-001",
+        "FIXTURE-002",
+        "FIXTURE-003"
       ],
       "spec_refs": [
         "§17"
@@ -369,9 +440,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
       "summary": "Make oversized test fixtures reproducible or replace them with small named hand-derived scenarios.",
       "notes": [
-        "Claimed from mainf250357 for six large-fixture provenance/scenario cleanup. Fresh read-only author inventories oracle origins and coverage before proposing compact named scenarios or deterministic independent generators. Preserve every unique behavior/public encoding/migration freeze and account44 red baseline. Coordinator owns state/HTML/evidence/checkpoint/PR; exact oracle/deletion review precedes edits."
+        "Read-only author handed off independently approved planc52d8293; claim explicitly released to Unassigned pending three executable prerequisites. FIXTURE001 covers catalog/reference/account,002 storage/selectors,003 service; final006 retains all-six adoption/CI/docs. Every oracle/public contract and account44 red remains. No fixture/source/generator implementation or feature execution yet; fresh child sessions and full test-first/review gates required."
       ],
-      "verification": {},
+      "verification": {
+        "decomposition_plan_review": "passed"
+      },
       "evidence": [],
       "review": null
     },
@@ -16623,6 +16696,11 @@
       "date": "2026-11-07",
       "task": "TESTCLEAN-006",
       "note": "Claimed after normal PR98 merge for independent fixture provenance/coverage review and fresh implementation session."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "TESTCLEAN-006",
+      "note": "Read-only plan independently approved; explicit prerequisites created and inventory claim released. No implementation gate approved."
     }
   ]
 }
