@@ -40,8 +40,8 @@ spike independently or discard it before reusing any of its code in production.
 
 The [real bridge contract](bridge_contract.md) and [external six-case harness](test_bridge.py)
 extend this probe with actual loopback Drogon HTTP/WebSocket traffic. It remains
-outside the product build. See [dependency evidence](../../docs/evidence/spike-001-dependencies.md)
-and [review/red/final results](../../docs/evidence/spike-001-bridge-validation.md).
+outside the product build. See [dependency evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-dependencies.md)
+and [review/red/final results](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-validation.md).
 
 From the persistent primary checkout, explicitly prepare the dependency once:
 
