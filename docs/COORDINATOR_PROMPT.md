@@ -18,7 +18,8 @@ Read `AGENTS.md`, `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`,
 Read scoped `AGENTS.md` files before editing. Inspect the actual branch, worktree, active
 claims, and open PR/check state; do not assume past chat or a checkpoint is current.
 
-Choose a dependency-ready executable task that advances a product slice. Split epics and
+Follow the current priority named in `AGENTS.md` (now EPIC-028 test cleanup); otherwise
+choose a dependency-ready executable task that advances a product slice. Split epics and
 substantial architectural prerequisites into bounded tasks with explicit dependencies,
 acceptance criteria and focused PRs before implementation. Preserve all requirements;
 planning changes do not authorize a reduced release scope.
@@ -56,8 +57,9 @@ planning changes do not authorize a reduced release scope.
 Maintain `progress/coordinator-checkpoint.md` at task handoffs, prerequisite splits and
 session interruptions. Record observed branch/PR revisions, assignments and ownership,
 completed work, actual checks, review gates, blockers and next action. Link task records
-and detailed evidence instead of copying logs. On resumption verify the real state first;
-never assume an agent or process is still active. Resolve routine issues autonomously and
+and detailed evidence instead of copying logs. Earlier detailed coordination history is
+preserved in `docs/evidence/coordinator-handoff.md`. On resumption verify the real state
+first; never assume an agent or process is still active. Resolve routine issues autonomously and
 ask the owner only for decisions or access actually needed. No live chat/payment effects
 are authorized by these instructions.
 
@@ -69,9 +71,10 @@ record the exact remaining work or blocker and continue with useful authorized t
 
 ```text
 Read AGENTS.md and docs/COORDINATOR_PROMPT.md. Follow the standing instructions and
-start executing dependency-ready project tasks. Read architecture, workflow, test
-strategy, progress state and the selected brief. Inspect actual branches, worktrees,
-claims and PR state. Use subagents for bounded work and independent reviews, with a
+start executing dependency-ready project tasks, beginning with the current priority in
+AGENTS.md. Read architecture, workflow, test strategy, progress state, the checkpoint
+progress/coordinator-checkpoint.md and the selected brief. Inspect actual branches,
+worktrees, claims and PR state. Use subagents for bounded work and independent reviews, with a
 fresh implementation session per executable task. Preserve every test-first and merge
 gate, keep one concise task note and PR evidence, and update progress/coordinator-checkpoint.md.
 Open focused PRs and continue with the next task after required gates pass. Start now.
