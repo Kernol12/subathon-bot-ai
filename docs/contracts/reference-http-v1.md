@@ -1,17 +1,26 @@
-# Reference JSON HTTP — v1, revision 1
+# Reference JSON HTTP — v1, revision 2
 
 CONTRACT-013; authority: specification v0.45 §§2/3/10/17, API-01/02/03,
 NUM-04 and [reference path R1](reference-path-v1.md). Identity
 `subathon.reference-http.v1`. The concrete package is
 [manifest.json](../../schemas/http/reference-v1/manifest.json), with exactly one
-[OpenAPI 3.1.1 document](../../schemas/http/reference-v1/api.json). This is an
+[OpenAPI 3.1.1 document](../../schemas/http/reference-v1/api.json). This is a
 contract with separate actual review and observed package validation recorded in
 [the task handoff](../evidence/contract-013-handoff.md); it supplies no HTTP
 implementation, supported server version or capability.
 
+SESSIONCONTRACT-006 explicitly revises R1 blob
+`54f1b65a3000a8945513fa5158d0a22e50712d99` to R2 for the unimplemented
+edge/application admission boundary. R1 package validation/review receipts remain
+historical and valid for unchanged payload assertions; the revised descriptive
+artifact requires actual review/validation. The OpenAPI version1.0.0, two paths,
+operations, payload schemas/examples and logical identity remain unchanged.
+
 Import [common wire v1](wire-primitives-v1.md),
 [current account supplier v1](session-resolution-v1.md) and
-[account transport v1](session-transport-v1.md) without changing their semantics.
+[account transport v1 R2](session-transport-v1.md). The supplier/common imports
+are unchanged; transport R2 explicitly defines the edge normalization exceptions
+and application occurrence boundary used here.
 Package-local primitive schemas are bounded reference field profiles of those
 logical imports; no common concrete schema exists to import. Their limits do not
 narrow domain storage, rational, receipt, rule or general wire profiles. No scene,
@@ -35,12 +44,32 @@ cross-origin preflight receives no CORS permission. No redirect is used.
 
 The actual external origin is the installation's canonical HTTPS origin, admitted
 under the imported ingress policy, including trusted proxy/TLS and exact authority
-checks. This package does not supply a new trusted ingress adapter. Raw HTTP
-framing, conflicting Content-Length/Transfer-Encoding, invalid pseudo-headers,
-request smuggling and unprovable/lost header multiplicity are rejected or closed
-by the listener before a reference request exists. No reconstructed framework map
-counts as lossless ingress. The selected Drogon limitation and its existing
-API-001/SESSION-003 runtime gates in the transport import remain unresolved here.
+checks. This package does not supply a new trusted ingress adapter. Every receiving
+stage has its own finite preallocation/framing/log admission.
+Conflicting framing never becomes an admitted reference request. Under the concrete
+transport R2 candidate, reject ALL transfer-coded requests before proxy forwarding
+using retained TransferEncoding, even after Go removed Content-Length. Equal
+repeated trimmed Content-Length may normalize to one agreed body length, including
+canonical decimal or omitted zero GET framing; that is
+not permission to collapse any credential, Origin, marker or Cookie occurrence.
+Original application-listener fields must be captured before Drogon maps/logging.
+Permitted external whitespace/folding/name/order normalization and exact Connection
+nomination refusals are enumerated in transport §§1.1–1.3; no other lossy map or
+proxy transformation is admitted. The selected Drogon/API-001/SESSION-003 runtime
+correction remains required. External raw heads are not reconstructed from backend
+maps and no original-wire envelope is introduced.
+
+R2 explicitly replaces the R1 complete external H1 wire4096 and H2 encoded4096
+limits with independent source-backed finite edge parser/head/body/protocol/storage
+budgets plus the complete4096 application semantic occurrence budget in §4.
+Specification AUTH-12/DEP-05/SERVER-01 requires secure bounded ingress and both
+bundled/alternative proxy deployment; it does not select those old wire constants.
+Stock terminating proxies cannot reproduce a removed original wire representation.
+The revised bound preserves ambiguity rejection and limits each real owner rather
+than relabeling backend input as the original external request. Consequently a
+4097-byte external request can be admitted only if it fits the edge profile and
+its entire application-listener semantic projection fits4096. This engineering
+compatibility change is explicit; no product capability or schema version changes.
 
 Both paths forbid any query component, including an empty `?`, fragment, body
 credential, version/capability header override or request-selected auth purpose.
@@ -70,7 +99,7 @@ the same response header and failures place it in `correlation_id`; absent input
 omits the success header and uses null. Earlier failures may use null. Never echo
 arbitrary input, create a correlation from credentials, or accept it as authority.
 
-Every response uses `Cache-Control: no-store`, `Content-Type: application/json`
+Every application reference response uses `Cache-Control: no-store`, `Content-Type: application/json`
 and `X-Content-Type-Options: nosniff`; no Set-Cookie, credential-bearing Location,
 access-control allow header, ETag or Last-Modified is produced. The emitter uses
 uncompressed UTF-8 JSON, no BOM and no extra wrapper. Optional Date and actual
@@ -127,8 +156,8 @@ HTTP006/API-004 retain full client combinations/matching web assets/upgrade UI.
 
 ## 3. Public versus protected access and committed observation
 
-Public POST uses the same real external HTTPS/authority, lossless header and log
-admission, but NEVER `prepare_account_transport(protected_access)` or a sign-in
+Public POST uses the same real external HTTPS/authority, enumerated edge
+normalization, complete application-occurrence and log admission, but NEVER `prepare_account_transport(protected_access)` or a sign-in
 guard. Credentials, if incidentally sent, are not adopted, resolved or echoed.
 All fields/cookies are still completely syntax-scanned and bounded. No CSRF marker
 or Origin is required for this nonsecret, stateless request; if Origin is present
@@ -184,8 +213,8 @@ growth; resource failure cannot accept a prefix or create partial disclosure.
 
 | Owned boundary | Ceiling and counting rule |
 | --- | --- |
-| Listener request admission | 4096 octets for complete external HTTP/1.1 request (request line, every header/separator, transfer framing and body). For HTTP/2, at most 4096 request-specific encoded HEADERS/CONTINUATION+DATA payload octets and separately 4096 decoded semantic request octets; protocol/frame/HPACK connection storage has an additional listener-owned finite budget, never claimed covered here |
-| Semantic request projection | `method_bytes + target_bytes + 12 + H + body_bytes <= 4096`, where `H=2+sum(name_bytes+value_bytes+4)` over EVERY decoded header occurrence; HTTP/2 pseudo-header/authority equivalents count once in this projection as request line/Host rather than vanishing. This separate bound applies even through a proxy |
+| External edge admission | Transport R2 §1.2 candidate: H1 only; max_header_bytes32768 with actual conservative40960 parser-input bound including slop/prior buffering; independent4096 admitted body plus explicit finite excess/drain/read quanta/time limits. Every original external field/OWS/fold consumes the edge input bound. Selected native/TLS/connection/storage limits must be admitted separately. Alternative edge requires008 equivalent evidence. No4096 external wire or H2 encoded-payload promise |
+| Complete application-listener semantic request | `method_bytes + target_bytes + 12 + H + body_bytes <= 4096`, where `H=2+sum(name_bytes+value_bytes+4)` over EVERY application-listener field occurrence, including empty/unrelated fields and edge-added metadata. Count original escaped target, no URI cleaning; Host/authority counts once. Native source captures before maps/logs and checks before ownership. It cannot deduct proxy-added fields or claim this bounds earlier external wire/edge allocation. Future H2 pseudo-header equivalents would count once as request line/Host, under separate admitted protocol bounds |
 | Imported transport limits | field_count=64; field_bytes=4096 for each name+value; header_bytes=4096; cookie_pairs=64; method<=16; configured_origin<=1024; policy_reference_bytes=4096; result_bytes=4096. All other supplier limits/scratch remain unchanged |
 | JSON request scan | body<=4096; container depth<=4 (root container depth1); <=128 values (containers and member/array values, not member names); each raw quoted token<=1024 bytes including quotes/escapes; decoded string<=512 bytes, member name<=64; each array<=16; each object<=10 members |
 | JSON scratch and decoded request | scan uses fixed depth4 frames/counters plus at most 32 identifier slices and 10 key slices per frame; no owning parse tree before admission. At most 4096 additional scratch bytes and 4096 decoded request string/key payload bytes, counted per occurrence; <=128 fixed value records. No generic unbounded DOM or second full request copy |
@@ -198,7 +227,7 @@ enlarge any field. Producer/result projection occurs BEFORE hex/JSON expansion o
 copy; stream to one bounded final buffer after projection. Release/move result
 ownership instead of retaining duplicate full strings. Worst variable ownership
 per active reference request at these application boundaries is **116992 bytes**:
-4096 raw request +4096 scan scratch +4096 decoded input +4096 prepared policy result
+4096 application semantic request owner +4096 scan scratch +4096 decoded input +4096 prepared policy result
 +16384 selected snapshot source +16384 result +67840 publication.
 Each simultaneous occurrence counts, including source/result and JSON escaping;
 fixed C++/framework/native objects, imported session-source/result payloads, crypto
@@ -206,15 +235,26 @@ scratch, TLS/HPACK/proxy buffers and connection admission have their OWN reviewe
 finite budgets. This is no global process-memory/CPU guarantee. Host integration
 must establish those earlier real budgets before enabling the profile; unknown
 producer/connection bounds return unavailable or close, never retroactively count
-an already allocated request. No new reusable subsystem is implemented by this doc.
+an already allocated request. No new reusable subsystem is implemented or mandated by this doc.
+The116992 total is solely application variable payload under the revised owner;
+it neither includes edge copies nor asserts that stock Drogon already owns input
+within4096. That pre-map/pre-log native correction remains005/011/010 work.
 
 Stop at the first applicable phase; do not reorder to disclose protected state:
 
-1. Actual listener framing/TLS/authority/lossless/log admission and trusted-limit
-   validity. Unknown ingress =>503/unavailable or safe close. Wire/body overflow
-   found before complete headers =>413/resource_limit if a safe response exists;
-   complete header/count/field/projection overage =>431/resource_limit. If both are
-   known at admission, header overage wins. Never read past a bound to seek an error.
+1. Actual edge and application framing/TLS/authority/occurrence/log admission and
+   trusted-limit validity. Unknown ingress =>503/unavailable or safe close. An edge
+   parser/protocol/normalization refusal occurs BEFORE an application reference
+   request exists: fixed nonreflecting400/431/501 or safe close may have a small
+   stock text/empty body, no CORS/credential/request echo; it is not a CommonFailure
+   capability. Edge errors must never use application auth/state lookup. At the
+   admitted application boundary, first preflight all field/count/H bounds and
+   `method+target+12+H<=4096` (no body yet): overage=>431/resource_limit.
+   Next body>4096=>413/resource_limit; then complete semantic projection>4096
+   =>431/resource_limit. Thus a known HEADER overage wins over a simultaneous body
+   overage; a body4097 with otherwise fitting headers fails413 before aggregate
+   projection. Never read beyond the applicable budget to seek an error. The exact application envelope still applies to every
+   application-generated reference response, including its own parser errors.
 2. Complete header/count/length preflight, then generic field names/values and
    complete Cookie syntax/pair counts, in original field/pair order. Imported
    transport syntax =>400/invalid_primitive; resource=>431/resource_limit. Preserve
@@ -298,7 +338,7 @@ HTTP-failure flags. Later tests must independently exercise these literal cases.
 | H15 | POST body starts UTF-8 BOM; bytes C0 AF in string; string `"\ud800"` | 400/invalid_encoding, no replacement/normalization |
 | H16 | POST truncated JSON, `NaN`, `Infinity`, two root values or trailing junk | 400/invalid_json; structural whitespace after one value is allowed |
 | H17 | missing required_capabilities, extra member, null array, duplicate array identifiers, empty supported_versions or JSON-number identifier | 400/invalid_primitive; unknown valid identifiers alone are not malformed |
-| H18 / RP14 | complete request4097 bytes; header projection4097; nesting5; values129; raw token1025; array17; object11 members | 413/resource_limit for wire/JSON/body;431 for header projection; never truncate. A bound crossed before later malformed input wins |
+| H18 / RP14 (R2) | complete application semantic request4097; header projection4097; body4097; nesting5; values129; raw token1025; array17; object11 members | 431/resource_limit for application request/header projection;413 for body/JSON. External wire4097 alone is no longer this oracle; it independently fits or fails the finite edge profile. Never truncate; an applicable bound crossed before later malformed input wins |
 | H19 | unsupported method plus wrong media type; query plus malformed body; absent GET credentials plus malformed Accept | 405 /400 /406 respectively; no protected lookup |
 | H20 | `observed_utc_ms` `"-9223372036854775808"` or `"9223372036854775807"`; main/grace/cap `"9223372036854775807"` | Exact schema endpoints; source must separately establish real coherent supported state |
 | H21 | numeric strings `"-9223372036854775809"`, `"9223372036854775808"`, `"-0"`, `"01"`, `"1e3"`, `"1\n"` or integer JSON number | Schema rejects; invalid incoming primitive400, invalid selected stored/output fact503; no float/coercion/NUM-04 hold created by decoder |
@@ -310,7 +350,44 @@ HTTP-failure flags. Later tests must independently exercise these literal cases.
 
 These examples do not demonstrate a running server, secure framework/proxy ingress,
 browser/native behavior, actual current permission/SQLite reads or provider support.
-No substantial new implementation prerequisite is introduced: existing ingress,
-session/access/queue/readiness and runtime test-first tasks must establish the real
-producers/bounds before enabling this profile. Full HTTP006/CONTRACT003, all seven
+The explicit006 split retains separate005 ingress solution,011 selected native
+artifact,007 bundled and008 alternative proxy profiles,010 source integration,
+session/access/queue/readiness and runtime test-first gates. They must establish
+the real producers, selected configuration and bounds before enabling this profile.
+A newly necessary reusable runtime must be separately split before implementation. Full HTTP006/CONTRACT003, all seven
 integrations/three FX providers and the complete release remain in scope.
+
+
+### 5.1 R1 → R2 oracle and consumer compatibility
+
+R1's literal H18/RP14 complete-external4097 failure and HTTP2 encoded4097 failure
+are explicitly superseded, not silently counted as passing new tests. RP14's
+application/JSON/response limits remain; root owns the linked reference-path limit
+wording. A future suite must distinguish: external head above actual finite edge
+limit; external4097 but application<=4096; application4096/4097 including ALL
+forwarding fields; body4096/4097; separate header/count and JSON bounds. Construct
+edge/application byte vectors independently; a proxy-shortened raw request is not
+a measurement of the application projection. The literal116992 application payload
+sum remains116992, with its4096 request owner now explicitly semantic.
+
+Independent literal construction: canonical desktop GET control from005 is149
+external H1 bytes. Add `X-Pad: `,3938 SP bytes, `a\r\n` before the terminating
+empty line:4097 external bytes,159 after permitted outer-OWS normalization. With
+ONLY the three edge-added fields X-Forwarded-For=`127.0.0.1`,
+X-Forwarded-Proto=`https`, X-Forwarded-Host=`timer.example`, their87 semantic bytes
+make the backend projection246, so R2 may admit it after all real gates. This is
+an independent arithmetic oracle, not proof of a deployed proxy. For the same
+concrete field set, one X-Pad value of3851 `a` bytes gives complete backend4096;
+3852 gives4097 and must fail431. All inserted metadata is counted. Any selected
+configuration adding other fields needs independently recounted boundary vectors.
+
+All H01–17/H19–26 credential/current-access/schema oracles and supplied examples
+are retained; transport R2 §5.1 adds normalization/Connection/framing/log controls.
+In particular H09/H10 still exercise original application occurrence/pair order,
+empty fields, mixed credentials and no fallback. No OpenAPI OR security alternative
+is permission for a proxy to erase the other form. Pre-application stock refusals
+have a newly explicit separate envelope; API clients must treat those as transport
+failure and never infer identity, rollback, negotiated capability or success from
+a JSON schema. Browser/native clients, bundled Caddy and an existing-proxy option
+remain required; direct TLS is optional. Selected supported-client/native/proxy
+and latest-artifact validation/review remain outstanding, not implied by R2.
