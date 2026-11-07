@@ -55,3 +55,33 @@ failfast and an emptyarchive was committed6da7450. This correction validates eve
 relativepath/sourcehash BEFORE output, then verifies all archivedhashes/inventory.
 Original SDKreceipts/build/source are untouched; no productred/readiness claim.
 Future compound commands use failfast and inspect exitcodes before publication.
+
+
+## Authored packet and review scope
+
+Author55896ce6/import2451e50 supplies the exact API, two immediate missing-behavior
+bodies,39 independent feature methods, literal vectors, separate SDK readiness
+program and closed43-case passive discovery. [Author evidence](sessiontest-008-author.md)
+records actual configure/build/strict syntax/list checks; no new body ran.
+Root extends the existing selected-SDK workflow with build/passive closed inventory
+and ONLY the independent SDK readiness case, retaining intentional feature red.
+The entire actual packet, including this CI delta, awaits different review before
+any new local or hosted body executes. No workflow publication yet.
+
+SDK worker's read-only source/object audit found fixed unkeyed output32/input60
+BLAKE2b storage, one compression/12 rounds, no heap call in the normal libsodium
+hash path, four compiled compression leaves without calls and actual fixed object
+frame reservations. Source base `/tmp/subathon-session-sdk/source/libsodium-1.0.22/src/libsodium`:
+`crypto_generichash/crypto_generichash.c:54`,
+`crypto_generichash/blake2b/ref/blake2b-ref.c:263/292/335/411`,
+`crypto_generichash/blake2b/ref/blake2.h:42/56`, `sodium/utils.c:123/184`,
+`sodium/core.c:28`. The packed state is361 bytes with64-byte alignment; public
+state storage is384. Native digest scratch is64, parameter block64; app124 is separate.
+Actual `objdump -dr` / `readelf --debug-dump=frames` show fixed reservations for
+all four compression leaves, but these do NOT close a whole native call-chain or
+global stack/resource guarantee. Libc memcpy/memset/explicit_bzero, final weak-symbol
+resolution and first initialization's mutex/entropy/CPU work remain outside that
+bounded audit. Not all native compression/register scratch is explicitly wiped;
+the accepted app raw/frame guarantee is distinct. Actual independent reviewer must
+assess required native review/admission precisely, flag any blocking proof gap and
+split substantial new architecture before expansion. No body was run for this audit.

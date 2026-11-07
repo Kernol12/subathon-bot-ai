@@ -14360,7 +14360,7 @@
       "title": "Review and demonstrate red: bounded account-session supplier",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Codex /root integration; fresh session_supplier_baseline_author",
       "depends_on": [
         "CONTRACTPLAN-006",
@@ -14378,11 +14378,19 @@
       "summary": "Independently review supplier prepare/resolve tests and observe intended component red; no actual source, clock, lifecycle or transport claim.",
       "notes": [
         "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
-        "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview→SDKgreen→intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening."
+        "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview→SDKgreen→intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening.",
+        "Authored55896ce6/import2451e50 coherentexactAPI/twoimmediatemarkerstubs/39features/literalvectors/separateSDKfoundation/closed43discovery+harness. Authorcompile/strictsyntax/passivelist/projectPASS; NOnewbodyexecution. Rootadded sameSDKworkflow futurefoundation+closeddiscovery step ONLY, actualdifferentwholepacket/nativeobligation/CIreview BEFORE publication/execution. Complete nativecallchain/globalresourcebound notestablished by boundedread-onlySDKhashaudit; factualfixed60B/onecompression/compiledframes and externalruntime/initialization gaps explicit. No implementation/runtime/red claim."
       ],
-      "verification": {},
+      "verification": {
+        "authored": "passed",
+        "compilation": "passed",
+        "test_review": "not_run",
+        "sdk_readiness": "not_run",
+        "baseline": "not_run"
+      },
       "evidence": [
-        "docs/evidence/sessiontest-008-handoff.md"
+        "docs/evidence/sessiontest-008-handoff.md",
+        "docs/evidence/sessiontest-008-author.md"
       ],
       "review": null
     },
@@ -16220,6 +16228,11 @@
       "date": "2026-11-07T09:50:17.721718+00:00",
       "task": "SESSIONTEST-008",
       "note": "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview→SDKgreen→intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening."
+    },
+    {
+      "date": "2026-11-07T10:06:00.142104+00:00",
+      "task": "SESSIONTEST-008",
+      "note": "Authored55896ce6/import2451e50 coherentexactAPI/twoimmediatemarkerstubs/39features/literalvectors/separateSDKfoundation/closed43discovery+harness. Authorcompile/strictsyntax/passivelist/projectPASS; NOnewbodyexecution. Rootadded sameSDKworkflow futurefoundation+closeddiscovery step ONLY, actualdifferentwholepacket/nativeobligation/CIreview BEFORE publication/execution. Complete nativecallchain/globalresourcebound notestablished by boundedread-onlySDKhashaudit; factualfixed60B/onecompression/compiledframes and externalruntime/initialization gaps explicit. No implementation/runtime/red claim."
     }
   ]
 }
