@@ -1,4 +1,11 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
+if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
+    add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
+    target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_session_resolution PRIVATE Sodium::Sodium)
+    subathon_target_options(subathon_session_resolution)
+endif()
+
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
     add_library(subathon_password_hashing STATIC src/password_hashing.cpp)
     target_include_directories(subathon_password_hashing PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
