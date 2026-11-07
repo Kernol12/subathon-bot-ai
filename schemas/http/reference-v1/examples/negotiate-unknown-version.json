@@ -1,0 +1,8 @@
+{
+  "supported_versions": [
+    "future.v9"
+  ],
+  "required_capabilities": [
+    "scene.v1"
+  ]
+}
