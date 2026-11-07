@@ -80,9 +80,13 @@ SHA256 `c0c2505a121ebfe4ca2eb9350acfac11281df64262750fa22e814c12f24acbd7`.
 No edits/execution/claim/deletion approval. Preservezero-work/order/allocation-lifetime/
 activeerasure security; positivecount relaxation must avoid vacuousflags/last-call-only
 profile checks. 007 stays plannedUnassigned, requiring freshauthor/review/branch later.
-`/root/regression_merge_inventory` now read-only maps later008regression owners/labels/
-linkage/assertions; no edits/tests/claim, output `/tmp/testclean008-readonly-inventory.md`.
-008 still depends004/007; no implementation approval. ReserveF001independentreviewslot.
+`/root/regression_merge_inventory` finished `/tmp/testclean008-readonly-inventory.md`,
+SHA256 `554cbf0000f50b3663c6c02b2342fc200f88fe42f4c97f1a1422dcb29a925115`.
+No edits/tests/claim/deletion approval. Four regression→owner maps; preserve permission
+globalallocator-hook isolation decision, Qt payload/lifetime assertions and GTest
+per-case processes. Later008mustfix stale19draftdiagnostic and retired-file refs.
+008 still depends004/007 and needsfreshactualclaim/author/reviewer. Both inventories
+are context only, not gates. ReserveF001independentreviewslot.
 
 ## Retained cleanup evidence and work
 
