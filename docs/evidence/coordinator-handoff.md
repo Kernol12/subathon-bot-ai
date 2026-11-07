@@ -1,106 +1,100 @@
-# Coordinator checkpoint — session supplier baseline
+# Coordinator checkpoint — supplier baseline ready for integration
 
 Updated 7 November 2026 by `/root`, under the owner's continuation instruction.
 Last fetched main: `ebb4368ab5af3b0c39314607896a6213fc061bb5`.
 The full specification v0.45 product remains incomplete.
 
-## Integrated work
+## Integrated this continuation
 
 | Task | Normal merge | Evidence |
 | --- | --- | --- |
-| CONTRACT-013 | [PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79), `ed73270`, 09:34:46 UTC | [Handoff](contract-013-handoff.md): independent review `8f995e63`; both admitted hosts returned CLI `ok` for the OpenAPI package and 23 examples. |
-| CONTRACTPLAN-006 | [PR81](https://github.com/Kernol12/subathon-bot-ai/pull/81), `b8f3b14`, 09:48:34 UTC | [Handoff](contractplan-006-handoff.md): independent review `ea27001e`; 443 task IDs / 1735 edges, preserving the original 427 IDs / 1630 edges and all original scope. |
-| CONTRACT-011 | [PR80](https://github.com/Kernol12/subathon-bot-ai/pull/80), `ebb4368`, 09:54:10 UTC | [Handoff](contract-011-handoff.md): original partial work/review and 29 AP examples preserved; fresh full review `64b2979` and corrected SVG approval `437ab56`. |
+| CONTRACT-013 | [PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79), `ed73270`, 09:34:46 UTC | [Handoff](contract-013-handoff.md): independent `8f995e63`; actual two-host CLI `ok` for OpenAPI and 23 examples. |
+| CONTRACTPLAN-006 | [PR81](https://github.com/Kernol12/subathon-bot-ai/pull/81), `b8f3b14`, 09:48:34 UTC | [Handoff](contractplan-006-handoff.md): independent `ea27001e`; 443 IDs / 1735 edges, preserving the original graph and full scope. |
+| CONTRACT-011 | [PR80](https://github.com/Kernol12/subathon-bot-ai/pull/80), `ebb4368`, 09:54:10 UTC | [Handoff](contract-011-handoff.md): original partial work/review and 29 AP examples preserved; fresh full review `64b2979`, corrected SVG approval `437ab56`. |
 
 Each merge followed 21 successful final-head checks, current rules, resolved
-threads and the applicable independent reviews. No protection was bypassed.
-BOOT-009 and SCHEMATOOL-001 were already integrated at resume. Preserve their
-reviews, original red runs and receipts; do not repeat completed work.
+threads and applicable independent reviews. No protection was bypassed. BOOT-009
+and SCHEMATOOL-001 were already integrated at resume. Preserve completed work,
+reviews, original red runs and receipts; do not repeat them.
 
-These are artifact/planning acceptances. They establish no running HTTP service,
-authentication, renderer, codec, provider or platform capability.
+## SESSIONTEST-008: accepted baseline, PR82 unmerged
 
-## Active assignment
+[Current task handoff](sessiontest-008-handoff.md) links all original receipts.
+Integrator: `/tmp/subathon-sessiontest008`,
+`task/SESSIONTEST-008-supplier-baseline`. [Draft PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82)
+needs its final completion-head CI/current rules/discussions/normal merge.
+Task `done` means baseline acceptance, not integrated feature behavior.
 
-**SESSIONTEST-008**, [task handoff](sessiontest-008-handoff.md), is the active task.
-It was claimed at `e8b7e4c` from integrated main `b8f3b14`. The integrator now
-includes main `ebb4368`, preserving every other task row and all 443 IDs / 1735 edges.
+- Fresh author `/root/session_supplier_baseline_author` completed `55896ce6`,
+  imported as `2451e50`: exact API, two immediate unimplemented bodies,39 tests,
+  literal fixtures, independent SDK program and closed43-case harness.
+- Different `/root/session_supplier_baseline_review` approved full packet `f9ca39a`
+  at `2014c0c` before new execution, including the CI addition and native crypto
+  work/stack bounds. Its review worktree is `/tmp/subathon-sessiontest008-review`,
+  branch `review/SESSIONTEST-008-supplier-baseline`.
+- At clean `2014c0c`, root ran SDK readiness once: direct CTest0/exact1PASS. Only
+  then FIRST ordinary39-case red ran: direct8/39failures/0errors/skips. Original
+  byte logs/native JUnit/LastTest/failed inventory were preserved before more CTest.
+- SAME reviewer approved original first-run attribution `6bef738` / import
+  `6cbcec5`: all39 failures solely on the intended stub marker, no setup/crash/
+  timeout/unrelated failure. No body was replayed. Original receipt PATH/locale
+  values were absent; no fields were invented or independently certified.
+- Actual hosted SDK workflow `42363172584` at `840ed5f` passed the new build,
+  closed39 passive discovery and ONLY independent SDK1PASS. Intentional feature
+  red is separate, without skips/inversion. Completion records `b64da77` and
+  later checkpoint-only changes still need latest-head CI before normal merge.
 
-| Role | Agent / worktree / branch | Ownership and state |
-| --- | --- | --- |
-| Integrator | `/root`; `/tmp/subathon-sessiontest008`; `task/SESSIONTEST-008-supplier-baseline` | State, HTML, checkpoint, SDK admission, CI, integration and publication. No PR yet. |
-| Fresh baseline author | `/root/session_supplier_baseline_author`; `/tmp/subathon-sessiontest008-author`; `task/SESSIONTEST-008-author` | Exact minimal server API, immediate unimplemented bodies, independent tests/fakes/vectors, SDK readiness source and explicitly delegated CMake/preset/harness additions. Author packet `55896ce6` is committed and imported as `2451e50`; no new body ran. |
-| Independent reviewer | `/root/session_supplier_baseline_review` | Actual packet `f9ca39a` approved in `2014c0c`; current review worktree `/tmp/subathon-sessiontest008-review`, branch `review/SESSIONTEST-008-supplier-baseline`, now `0989cb7` after original receipts. Same reviewer approved first-run attribution `6bef738`; review turn completed. |
-| SDK preparation | `/root/session_sdk_prepare`; `/tmp/subathon-session-sdk` | Completed. See immutable preparation receipts linked from the task handoff. Preparation itself ran no readiness or feature body; actual reviewed first-run results are below. |
+All baseline author/reviewer turns and SDK preparation turns are completed.
+Do not assume agents are running. Two public entrypoints remain immediate stubs;
+SESSION-008 implementation has NOT started. Root owns state/HTML/checkpoint/CI/
+pins/integration, with explicit narrow author delegation for the new harness.
 
-The accepted supplier document is blob `c5f5a6e71664042e18475068d3caf577b0c8d009`.
-The authored packet has 39 feature methods and a separate SDK program; the root CI addition remains unpublished pending review. The reviewed SDK readiness program passed once, followed by the first ordinary
-39-case stub-red run at clean `2014c0c`. Direct CTest exits 0 then 8, no skips or
-errors. Immutable original receipts are linked from the task handoff. Independent attribution `6bef738` and selected hosted run `42363172584` now pass.
-Baseline task is done; [draft PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82)
-needs final completion-head CI/current rules/normal merge before implementation.
-
-## SDK and next gates
-
-The existing selected libsodium 1.0.22 source archive matches the prior admitted
-2,008,529 bytes and SHA256
-`adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349`.
-Root independently checked it and the newly built static archive at
-`/tmp/subathon-session-sdk/prefix`: 836,704 bytes, SHA256
+The prepared SDK is `/tmp/subathon-session-sdk/prefix`: existing selected source
+1.0.22, 2,008,529-byte archive SHA256
+`adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349`;
+new static archive836704 bytes/SHA256
 `f8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017`.
-Headers declare 1.0.22 / ABI 26/4; this new build's runtime identity is unobserved.
-Admission currently permits compile/link/passive registration only. Configure's
-compiler probes and the evidence-packaging correction are recorded truthfully in
-the task handoff; neither is product red or SDK readiness.
-
-Next: receive the coherent interface/stub/test/readiness/harness packet, obtain
-actual independent review, then run the reviewed SDK readiness checks. Only after
-they pass, observe the first ordinary compiled stub-red run, preserve its original
-receipts and obtain independent attribution. Missing dependencies, build failure
-or skips do not establish red. Add CI for stable passing foundations/discovery;
-keep intentional red separate. Publish one focused baseline PR and apply normal
-latest-head CI and merge gates.
-
-Review details to preserve: initialization-failure coverage must allow legitimate
-readiness caching; unclassified source/clock exceptions map to `unavailable`;
-resolved strings are a subset of complete facts, so do not invent an unreachable
-result-only budget fixture. Bound native crypto work/stack separately from the
-124 application bytes. No fake successful crypto or implementation-generated oracle.
-
-SESSION-008 behavior waits for this baseline. Issuance, SQL/current sources, trusted
-clock, accepted login, full lifecycle and real transport remain their separate tasks.
-Split substantial newly discovered architecture before implementation.
-
-## Resume inspection and boundaries
-
-Main is clean at `ebb4368`. At initial inspection there were 252 registered
-worktrees; only root and the historical CONTRACT-011 integrator existed, both clean.
-No old agents or build commands survived. Preserve historical refs and absent
-registrations without resetting or pruning. Reinspect actual agents, processes,
-worktrees, uncommitted work and GitHub state on continuation; completed agent turns
-are not evidence of background execution.
-
-Network and managed `.git` mutations work through approved tool escalation.
-Ruleset 26170263 requires a PR and resolved threads, with zero formal approvals and
-no enforced status-check list. Still require all applicable latest-head CI and
-independent reviews manually. No owner decision or access is currently needed.
-No live chat/payment/deployment operation is authorized. All seven integrations,
-three FX providers, both renderers, UI/locales/themes, platforms, security, recovery,
-operations, packaging and license release gates remain in scope.
-
+Actual runtime identity/vectors/compare/clearing now passed. SDK preparation's
+compiler probes, warnings and corrected evidence packaging remain in the handoff;
+they are not feature red. Native crypto-owned bounds exclude external runtime,
+first-init and global-process/platform/security guarantees.
 
 ## Concurrent lifecycle document
 
-`SESSIONCONTRACT-003` is separately claimed at `db6fbee` on
+SESSIONCONTRACT-003 is separately claimed at `db6fbee` on
 `task/SESSIONCONTRACT-003-lifecycle`, `/tmp/subathon-sessioncontract003`.
-Fresh `/root/session_lifecycle_contract_author` owns only new
-`docs/contracts/session-lifecycle-v1.md` and its author evidence in
+Fresh `/root/session_lifecycle_contract_author` is active in
 `/tmp/subathon-sessioncontract003-author`, `task/SESSIONCONTRACT-003-author`.
-Its branch-local `docs/evidence/sessioncontract-003-handoff.md` records scope.
-Document authoring is active; no implementation or API/header/schema/test changes.
-Root owns shared integration; supplier baseline reviewer assignment remains valid.
+It owns only new `docs/contracts/session-lifecycle-v1.md` and author evidence.
+Its branch-local `docs/evidence/sessioncontract-003-handoff.md` records the scope.
+Preserve this active assignment and uncommitted owned files. Actual separate
+review is pending; no header/schema/test/source implementation is authorized.
 
+## Next concrete actions
 
-Current next action: finish PR82 latest-head gates and normal merge, refresh main,
-then claim SESSION-008 with a fresh implementer and the exact reviewed39 baseline.
-Keep the independent lifecycle document author active. No owner action is needed.
+Finish PR82 latest-head gates and normal merge, refresh main, then claim
+SESSION-008 from integrated main with a fresh implementer. Supply accepted supplier
+blob `c5f5a6e71664042e18475068d3caf577b0c8d009`, unchanged39 assertions/fixtures,
+review and original red receipts. Pass component/regression checks, obtain separate
+source review and promote the stable39 suite in CI before implementation completion.
+No implementation before baseline integration. Keep the lifecycle document author
+active and arrange actual review when its coherent packet is committed.
+
+Issuance, SQL/current sources, trustworthy clock, accepted login, permissions,
+full lifecycle/transport and provider/platform/security/release work remain their
+separate tasks. Split substantial newly discovered architecture before implementing
+it. Unknown provider behavior is not support. All seven integrations, three FX
+providers, both renderers, UI/locales/themes, recovery/operations, packaging and
+licenses remain in the agreed release scope.
+
+## Resume inspection
+
+Main is clean at `ebb4368`. Initial inspection found252 registered worktrees but
+only root and historical CONTRACT-011 existed, both clean, with no old agents/build
+commands. Preserve historical refs and absent registrations without reset/prune.
+On continuation inspect actual agents/processes/worktrees/dirty files/PR state;
+checkpoint entries do not imply background execution. Current network and managed
+`.git` operations work through approved tool escalation. Ruleset26170263 requires
+PR/resolved threads/zero formal approvals, with no enforced status list; manually
+require every applicable latest-head check and independent review. No owner decision
+or access is currently needed. No live chat/payment/deployment action is authorized.
