@@ -1,532 +1,147 @@
-# Test strategy and first baseline
+# Current test strategy
 
-| Suite | Responsibility | Current state |
+Tests establish bounded component behavior. They do not establish full v0.45 product
+or release readiness. [Progress state](../progress/state.json) records task status;
+[the evidence summary](evidence/README.md) records proof levels and remaining gates.
+Detailed commands, reviewed revisions and historical red runs belong in PRs and the
+[published archive](https://github.com/Kernol12/subathon-bot-ai/tree/evidence-archive-2026-11/docs/evidence).
+This document describes current coverage and how to extend it, without a task ledger.
+
+## Framework ownership
+
+| Framework | Primary responsibility and current coverage |
+| --- | --- |
+| GoogleTest | Pure arithmetic, lifecycle/policy/progression proposals, framework-free accounting services with fake stores, permissions and selected-libsodium components |
+| GoogleMock | Meaningful adapter/service interactions; dedicated coverage remains planned |
+| Qt Test | Event-loop/thread ownership and disposable real SQLite stores/application composition; selected Qt build/catalog checks |
+| Qt Quick Test | QML component behavior; planned |
+| Python unittest | Development dashboard/consistency and translation-generator behavior; tooling checks do not count as server/product acceptance |
+| CTest | Runs native, Qt and explicitly registered Python suites; runner success says only which selected checks passed |
+| Vitest | Browser unit/component behavior; planned |
+| Playwright | Browser workflows; planned, with actual OBS/compositor checks still separate |
+
+## Passing component suites
+
+Counts below describe the current owning suite, not unique release requirements or
+coverage percentages. The [acceptance map](../tests/acceptance-map.json) tracks
+specification decisions and scenarios. Related presets may include earlier suites. A passing fake-store
+service is simulation evidence; disposable Qt SQL checks exercise real SQLite while
+still using synthetic data and supplied policy/authority facts.
+
+| Preset | Focused CTest selection | Current behavior/proof |
 | --- | --- | --- |
-| GoogleTest | Core calculations/rules/accounting/reversals/milestones | Credit19+4, exact-decimal32+1, timer39, pause37, receipt15 and contribution21 simulation and plan22 pure-transform and debt32 pure-proposal/composition cases pass; bounded slices only |
-| GoogleMock | Meaningful adapter/service interface interactions | Planned |
-| Qt Test | Qt signals/models/event loops and real SQLite writer | Writer25/work24/migration24/retention16/receipt22 cases and selected fixture diagnostics pass; original red evidence retained |
-| Qt Quick Test | QML components/behavior | Planned |
-| CTest | Native suite runner | Local scaffold 3/3 and Qt probe 4/4 passed; credit23/23, exact-numeric33/33 timer39/39, pause37/37, receipt15/15 and contribution21/21 simulation and plan22/22 pure-transform plus writer25/25 real SQLite and debt32/32 pure-proposal/composition cases pass |
-| Vitest | Browser unit/component behavior | Planned |
-| Playwright | Browser workflows | Planned; separate OBS checks still required |
-| Python unittest | Development dashboard/consistency tools only | Scaffold tooling, not product test coverage |
-
-## Initial behavior
-
-`calculate_time_credit` covers a narrow valid-input active-main-timer planning case.
-It has no persistence, refunds, debt, grace, hard end, input review or concurrency behavior.
-Read docs/contracts/time-credit-v0.md (revision 1). The original six fixtures/assertions
-are preserved among 19 cases with independent REVIEW-001 approval. TEST-002 observed
-19/19 failures from FeatureNotImplemented after successful compilation. See
-[the review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-independent-review.md) and
-[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-baseline-handoff.md) for that historical red run.
-IMPL-001 implements this numeric contract and preserves all 19 cases. Four additional
-reviewed regression cases cover signed-minimum validation, above-cap error precedence,
-a full maximum cap and the largest uncapped request from zero. They also received
-an intended red run before implementation. Passing checks and independent code
-review are recorded in the [implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-handoff.md).
-The retained CTest `draft` label is historical suite metadata; the linked review and
-progress evidence identify the exact approved baseline. It does not establish any
-timer/service, refund, persistence or UI behavior.
-
-Before implementation: review contract/oracles; decide/add invalid input, integer-boundary
-and interaction tests through the proper contracts; independently review; run and record
-red tests caused by missing behavior. Compilation errors do not count. Do not mark
-unknown provider capabilities as supported using a fictional fixture.
-
-## Exact numeric baseline
-
-CORETEST-001 adds [exact decimal revision1](contracts/exact-decimal-v1.md): owned
-lossless decimals, positive rates/nonnegative factors and signed64 half-even final
-conversion. Its32 independently reviewed cases first failed on explicit stubs;
-[baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-001-baseline-handoff.md) retains exact artifacts
-and actual exit8. CORE-001 implements that revision; all32 unchanged cases plus one
-separately reviewed normalized-zero regression pass, with independent code review
-and [Ubuntu/Boost1.83 CI evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-ci.md). See the
-[implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-handoff.md).
-
-Run the explicit lane with `cmake --preset exact-numeric-debug`,
-`cmake --build --preset exact-numeric-debug` and
-`ctest --preset exact-numeric-debug -L exact-numeric`. Installed Boost headers and
-GoogleTest and Boost>=1.83 are required. The numeric, credit and scaffold workflows
-run automatically on relevant PRs/main; numeric uses the pinned Ubuntu package
-and actual compiler/header/config verification.
-Per-input atomic rejection, aggregates, modifier combination, refunds and all platform
-behavior remain their own baselines and are not covered by these primitive cases.
-
-## Identified receipt service
-
-ACCTTEST-001 supplied15 independently reviewed cases for stable receipt identity,
-retry/conflict audit and per-attempt provenance through an atomic repository port.
-[Original red evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-baseline-handoff.md) retains all15 stub
-failures before ACCT-001 implementation. The unchanged cases now pass against the
-real service decision logic and a primitive disposable store; separate code review
-and [automatic Ubuntu simulation CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-ci.md) passed.
-[Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-handoff.md) records exact source/checks.
-
-Run configure/build `receipt-intake-debug`, then CTest with `-L receipt-intake`.
-The receipt/numeric/credit/scaffold lanes all run automatically on relevant PRs/main.
-The fake does not classify retries/conflicts or enforce uniqueness; passing this
-suite remains simulation evidence. SQL durability/uniqueness, Qt ownership, live
-identifiers, source admission, contribution creation and actual effects remain
-separate acceptance/platform/provider gates.
-
-## Contribution eligibility and linkage
-
-ACCTTEST-002 supplied21 independently reviewed cases and the original intended stub-red;
-[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-baseline-handoff.md) retains that sequence.
-ACCT-002 implements the pure assessor and writer-port linkage service. All21 unchanged
-cases pass with separate code review and [observed automatic simulation CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-ci.md).
-Use configure/build `contribution-evidence-debug`, then CTest `-L contribution-evidence`;
-that same stable lane runs automatically on relevant PRs/main. The primitive fake
-provides simulation storage, not SQL/Qt/provider/application/refund verification;
-[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-handoff.md) records exact artifacts and remaining gates.
-
-## Priorities after first baseline
-
-- Duplicate receipts/commands, atomic effects/state/jobs and restart recovery.
-- Exact half-even rounding and signed 64-bit overflow bounds, partial/full refunds,
-  actual cap-limited credit, refund debt and preserved completed milestones.
-- Main/grace/pause/recovery/hard-end and scheduled pause/DST combinations.
-- Arrival-time rules/modifiers, exclusions and generated-event bounds.
-- Permission checks, stale revisions, token/session and redaction boundaries.
-- All provider adapters: evidence, identifiers, overlap, gaps and capability limits.
-- Independent native/browser scene reference behavior and actual OBS/Wayland/Windows output.
-
-Use controllable clocks rather than sleeps; deterministic fake adapters and reviewed
-synthetic/redacted fixtures. Expected values must be independently derived, not computed
-by the code under test. Each behavior has one primary testing home. No blanket coverage
-percentage or number of green tests replaces the acceptance map and review.
-
-## Test quality rules
-
-Prefer focused behavior tests with named, hand-derived scenarios. Keep one primary home
-for shared transaction mechanics; repository suites should assert repository behavior,
-not copy writer plumbing. Avoid harness/environment tests that only prove fixture shape
-or third-party library facts, and avoid pinning private SQL, object counts, error wording,
-or struct-layout byte limits unless they are an explicit persisted/public contract.
-Keep assertions that protect specified behavior, exact accounting, rollback, idempotency,
-security boundaries and recovery. Remove or rewrite baseline assertions only through the
-approved test-cleanup decision, a scoped task brief and a separate independent review;
-record the precise baseline change in the PR.
-
-## Required evidence
-
-For each completed task, record its PR URL in `progress/state.json` `evidence`, keep all
-task notes together to 500 characters or fewer, and record independent review in the
-`review` field and PR. Update the matching area in [`docs/evidence/README.md`](evidence/README.md);
-do not add evidence files or per-task history here. Put commands, outcomes, environment
-and remaining gates in the PR. Follow the [agent workflow](AGENT_WORKFLOW.md) for the
-readable summary and archival rule. Expected red remains distinct from pass, fail,
-not-run and unsupported.
-Scaffold CI excludes unreviewed feature tests explicitly and must not hide a missing
-dependency or failure. Extend CI with executable capabilities according to the
-[workflow policy](AGENT_WORKFLOW.md); record live/platform evidence separately.
-
-Individual test-drafting tasks may be marked authored/done when their draft artifacts
-are ready for review; they do not complete the reviewed/red-baseline gate. The separate
-TEST-002 task represents the handoff-ready baseline after review and observed failure.
-
-## Timer lifecycle implementation
-
-CORETEST-002 supplied39 independently reviewed cases and observed intended stub-red;
-[baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-baseline-handoff.md) retains the original run.
-CORE-002 implements the bounded pure Main/Grace reducer: all39 unchanged cases now
-pass with separate code review and [observed automatic timer CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-ci.md).
-Run configure/build `timer-lifecycle-debug`, then CTest `-L timer-lifecycle`; that same
-lane runs automatically on relevant PRs/main. [Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-handoff.md)
-records scope and exact artifacts. Pause reasons, queue/state transactions, start/
-reopen, recovery and schedule/DST remain separate contracts and acceptance gates.
-
-## Pause policy implementation
-
-CORETEST-003 supplied37 separately reviewed cases and actual intended stub-red;
-[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-baseline-handoff.md). CORE-003 implements
-the pure policy: all37 unchanged cases pass with separate code review and
-[observed automatic pause CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-ci.md). Use configure/build
-`pause-policy-debug`, then CTest `-L pause-policy`; that same stable lane runs on
-relevant PRs/main. [Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-handoff.md) records
-scope. Caller segmentation/timer wiring, real provider signals, Qt/state commits,
-schedules, recovery and delay reconfiguration remain separate acceptance gates.
-
-## Captured application-plan implementation
-
-ACCTTEST-003 supplied22 independently reviewed cases and intended stub-red;
-[baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-baseline-handoff.md). ACCT-003 implements
-pure owned plan/revision/freshness transformations; all22 unchanged cases pass with
-separate code review and [observed pinned Boost1.83 CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-ci.md).
-Use configure/build `application-plan-debug`, then CTest `-L application-plan`;
-that same stable lane runs on PRs/main with selected pinned dependencies. The
-[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-handoff.md) records scope: no full evaluator/numeric
-correctness, real permission, durable writer/audit, current cap/effect/application or
-provider capability is established by capturing these supplied values.
-
-## Qt SQL writer implementation
-
-STORAGETEST-001 supplied22 independently reviewed disposable-file Qt Test cases for
-DB-01 and [writer revision1](contracts/sqlite-writer-v1.md); original intended
-stub-red remains in the [baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-handoff.md).
-STORAGE-001 implements the bounded writer/reader library: all22 unchanged cases
-plus3 separately reviewed ownership regressions pass with corrected-source review
-and actual automatic UbuntuQt6.12 acceptance.
-[Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-handoff.md) records exact artifacts,
-commands and limits. Configure/build `sqlite-writer-debug`, then CTest
-`-L sqlite-writer`, or run fullpreset28 including infrastructure. Core/Sql/Test
-Qt>=6.12 and actual QSQLITE are required. The same real cases now run on PRs/main;
-no environment error/skip/failure inversion counts as acceptance. This is no
-application schema/migration/transaction, crash/backup/recovery or live release proof.
-
-## Time-debt implementation
-
-CORETEST-005 supplied32 independently reviewed cases for
-[time-debt revision1](contracts/time-debt-v1.md), with original intended stub-red
-retained in [baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-005-handoff.md). CORE-005 now
-implements checked pure reversal/debt-first proposals; all32 unchanged cases pass,
-including real existing CORE-002 composition, with separate code review and actual
-automatic Ubuntu acceptance. [Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-handoff.md) records
-exact artifacts/commands/limits. Configure/build `time-debt-debug`, then CTest
-`-L time-debt`, or fullpreset35 including infrastructure. The same32 run on PR/main.
-This supplies no proportional refund entitlement, ledger allocation, authoritative
-transaction/permission/audit/persistence or provider/platform verification.
-
-## Writer transaction-work implementation
-
-STORAGETEST-010 supplied24 independently reviewed real Qt SQL cases for
-[work/session revision1](contracts/writer-transactions-v1.md), with actual intended
-missing-feature red after successful compilation. The [baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-handoff.md)
-preserves exact tests/interface/stub, review and original exit8 output; do not
-repeat it as a current failing feature claim. STORAGE-010 implements the mechanism:
-all24 unchanged work cases and original25 writer/ownership cases pass with different
-code review and actual automatic Ubuntu acceptance. [Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-handoff.md)
-records exact revisions/commands/limits. Configure/build `sqlite-work-debug`, then
-CTest `-L sqlite-work` for24, `-L sqlite-writer` for25, or full preset53 including
-infrastructure/Qt probe. The same49 now run automatically on PR/main/manual with
-complete registration guards, no manual boolean or failure inversion. This is no
-product schema, real repository adapter, application bundle, recovery, power-loss
-or release-platform/provider proof.
-
-## Migration catalog acceptance
-
-STORAGETEST-011 supplies22 separately reviewed real Qt cases/ten independent frozen
-vectors and genuine missing-feature red after successful compilation and selected
-officialQt green diagnostics. [Baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-handoff.md) pins
-actual approval/red evidence; do not repeat that completed gate. STORAGE-011
-preserves every original assertion and adds two separately authored/reviewed
-initial-U+FEFF regressions after independent code review found a valid Unicode
-edge. [Regression evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-unicode-regression.md) records
-actual selected2 red before the correction; no contract narrowing was accepted.
-
-Configure/build sqlite-migrations-debug; `ctest --preset sqlite-migrations-debug
--L sqlite-migrations` now runs24 passing migration cases. Full preset runs78:
-migration24, existing writer/work49 and infrastructure5 including the separate
-seven-case driver diagnostic executable. Author/root/different reviewer passed
-local suites. Automatic PR/main/manual CI runs old49, mandatorygreen7 and all24
-migration cases with exact compiled-registration checks, unchanged selected
-Qt/ICU/action pins and no manual acceptance boolean or failure inversion.
-[Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-handoff.md), [CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-ci.md)
-and [source/config review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-code-review.md) record actual
-official Ubuntu Qt6.12/SQLite3.53.4 acceptance separately from hostSQLite3.54.0.
-No actual backup/update/recovery, domain/application schema, power-loss or release
-platform/provider proof follows from this internal mechanism.
-
-## Retained configuration/context acceptance
-
-STORAGETEST-012 supplies16 separately reviewed Qt cases, a three-slot existing-
-driver fixture diagnostic and independent frozen manifest/opaque byte vectors.
-[Baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-handoff.md) pins actual fullapproval672f93c
-before root16stub-red atcb7db2d, after selected officialQt green3. Every init/
-cleanup passed, zero cases skipped; both actual oracle findings were strengthened.
-Do not repeat that completed gate.
-
-STORAGE-012 preserves those assertions and passes them against real synchronous
-retention primitives through the existing writer session. Configure/build/test
-sqlite-retained-debug runs95 tests: old78,16 retention and one new fixture
-executable (3 slots). Author/root/different reviewer full95 pass. Actual automatic
-Ubuntu Qt6.12/SQLite3.53.4 CI runs old25/work24/migration24/green7/green3 and all16
-retention cases unconditionally, with exact compiled-registration guards/pinned
-dependencies. No manual body guard, failure inversion or fixture weakening.
-[Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-handoff.md), [code/config review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-code-review.md),
-[CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-ci.md) distinguish hostSQLite3.54 from bundled3.53.4.
-This proves opaque-byte persistence only; semantic config/evaluator resolution,
-actual typed receipt/contribution/plan numeric codecs, application bundle, backup/
-recovery/update, power-loss/provider/platform release remain separate gates.
-
-
-## Identified-receipt SQLite baseline
-
-STORAGETEST-013 supplies22 independently reviewed real-SQL cases plus six uint64
-literal vectors and a separate3-method existing-writer-only fixture diagnostic.
-[Handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-handoff.md) and [review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-review.md)
-pin final testdab/green818/JSONa79/APIb43/stubfaf and unchanged catalog prefix1.
-Native118 is registration, not118 passing acceptance: old95 plus new22 plus one
-green executable. Root and different reviewer compile/discover exact22+3; stable96
-and green3 (5 including init/cleanup/0skip) pass. Actual selected official-Qt
-41334070282 at5ffe2e4 passed new13-object green3/current818 and complete22 discovery
-BEFORE root's first intended red:22 explicit unimplemented failures, exit8,
-all init/cleanup pass,0skips/crashes/setup/dependency errors,total0.22s. Do not
-repeat that completed red. Most later assertions await reachable implementation;
-no receipt product acceptance pass follows from authoring/review or stub failures.
-
-The historical first-red command and raw record remain preserved. Current CI
-builds/discovers and executes all22 automatically, with required green3 and the
-existing stable suites; the earlier manual workflow control has been removed.
-STORAGE-013 now preserves this baseline, passes22 real cases/full118, has separate
-source/config approval and runs all22 unconditionally in ordinary selected-Qt CI.
-[Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-handoff.md) records sourceaf095d9, exact
-preserved artifacts and actual automatic run41337727868 ataf65401 with GNU13.3/
-Qt6.12/SQLite3.53.4, green7+3+3, old stable suites and actual22 PASS. The original
-baseline remains historical red; it was not repeated or weakened to obtain green.
-Existing15 fake-backed service tests remain simulation; no provider identity,
-missing-ID policy, valuation/effect/application-bundle or platform/live proof follows.
-
-## Contribution evidence SQLite acceptance
-
-STORAGETEST-014 supplied24 independently reviewed cases/typed six CId literals/
-exact20-object migration3 and a separate three-slot existing-writer diagnostic.
-[Baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-handoff.md) preserves actual full81/final6ee
-review and original24 explicit-stub red after selected official green proof;
-all init/cleanup passed,0skip. That historical red is not repeated.
-
-STORAGE-014 preserves every assertion and passes actual contribution primitives,
-including zero/NULL, immutable provenance, independent dimensions, typed original/
-target decoding, linking/limits, active RAII and known rollback/physical unknown.
-Configure/build sqlite-contribution-debug; targeted -L sqlite-contribution runs24,
-fullpreset143 passes. Author/root/different reviewer pass, with separate source/
-config approval and actual automatic run41477399818 atd0ce5c8 on GNU13.3/official
-Qt6.12/SQLite3.53.4. Ordinary CI now runs24 unconditionally after exact discovery/
-required green; old111 cases/pins remain. No manual feature input, failure inversion
-or weakened fixture. [Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-handoff.md),
-[review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-code-review.md), [CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-ci.md).
-Original21 fake-backed service simulations remain distinct; no full app bundle,
-semantic authority/provider proof, plan/rate/recovery/platform release is claimed.
-
-
-## Captured-plan SQLite reviewed baseline
-
-STORAGETEST-015 supplies29 independently reviewed cases, full uint64 revision
-literals, canonical rational values beyond4096 bits, exact migration4/full30
-schema and four old-writer-only fixture diagnostics. [Baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-handoff.md)
-records full8b537cdb approval, then actual selected official41494786280 at aa6907b:
-newgreen4/6PASS0skip, exact29 compiled discovery,82-step build, old135/pins PASS.
-Only then root FIRST29 explicit-stub red at SAME clean head exited8 with all29
-init+cleanupPASS/0skip/crash/setup failure/0.57s. Preserve that original red.
-
-Configure/build sqlite-plan-debug; exact registrations173, green-only selection
-`-LE '^sqlite-plan$'` is144 (old143 plus new fixture suite). At that baseline stage label sqlite-plan was intentionally red and ordinary CI
-discovered29 without invoking them. That historical red remains preserved; the
-current STORAGE-015 implementation and CI promotion are described below.
-The sparse selectedMAX fixture is globally INVALID history. No complete app,
-semantic authority/evaluator, provider/FX/recovery/platform release proof follows.
-
-
-## Captured-plan SQLite implementation
-
-STORAGE-015 now preserves all baseline data/history assertions and passes29/full173
-with separate source/config approvald154. A genuine raw SQLNULL oracle defect was
-corrected independently61f/90: only one history-slot assertion changes0f8→a805,
-with explicit SQLtypeof/isNull/laterexact2 replacing unsupported QVariant::Invalid
-metatype equality. All other bytes/assertions remain; original redae3 is untouched.
-[Correction/proof](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-null-baseline-correction.md),
-[review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-null-baseline-review.md).
-
-Configure/build sqlite-plan-debug, targeted -L sqlite-plan runs29, full173 passes.
-Author/root/reviewer pass with0warnings/skips. Actual automatic41503096872 at1bf
-uses GNU13.3/pinnedBoost1.83/Qt6.12SQLite3.53.4, old135/requiredgreens/newgreen4/
-exact29discovery and UNCONDITIONAL29PASS1.70s. Manual input/condition and draft
-label/text are removed; pins/old assertions/check name persist. [Source review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-code-review.md),
-[CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-ci.md), [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-handoff.md).
-This is real synthetic SQLite component acceptance, not evaluator/permission,
-actual app effects/jobs/provider/recovery/UI/platform or full release verification.
-
-
-## Internal application-bundle logical contract
-
-STORAGECONTRACT-001 delivers a separately reviewed DOCUMENT contract with21
-literal AT01–21 oracles and independent Fraction/integer audit. The revision
-clarifies provisional same-unit lookup/duplicates/staged claims, B08 prior durable
-intake, unknown/no replay, exact Main/debt/refund provenance and body-precompletion
-versus later publication failure. [Contract](contracts/application-transaction-bundle-v1.md),
-[review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-001-review.md), [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-001-handoff.md).
-
-No feature tests, interface/build harness, physical schema or red was authored here.
-STORAGETEST-002 must define/review concrete API/physical limits and independent
-real-SQL oracles, compile and observe its own intended missing behavior before
-implementation. Existing173/other child passes or logical examples cannot be
-aggregated into that red/feature claim. Documentation/link/progress/tooling checks
-and unchanged stable CI cover this document-only task; all release gates remain.
-
-
-## Application-bundle SQLite implementation
-
-STORAGE-002 preserves the STORAGETEST-002 baseline and its original32 stub-red.
-One terminal-ticket completion assertion has a specification-based
-[correction](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-terminal-baseline-correction.md) and different
-[review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-terminal-baseline-review.md); all physical rollback,
-capability and payload assertions remain. Three additive slots have separate test
-reviews and genuine reached red before their corrections: exact returned1105/1104
-bytes, input-only versus returned quota and hidden transition/progress metadata.
-One metadata slot includes3 data rows; its statekind1 row already passed before
-correction. [Regression evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-metadata-regression.md)
-distinguishes these facts from the historical missing-feature red.
-
-Configure/build sqlite-bundle-debug, then `ctest --preset sqlite-bundle-debug
--L '^sqlite-bundle$'` runs35 passing cases; full preset209 passes on root and a
-different reviewer with0warnings/Qt skips. [Source/config review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-code-review.md)
-pins exact artifacts; [CI evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-ci.md) records the actual
-promoted automatic workflow separately. All old174 registrations/diagnostics and
-frozen fixtures remain. Unconditional35 CI preserves exact compiled-registration
-guards and selected dependency pins. This remains synthetic real-SQL component
-acceptance, not application authority/policy, provider/FX, delivery/recovery,
-UI/platform or release proof. [Handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-handoff.md).
-
-
-## Typed early ORIGINAL claim query baseline
-
-STORAGETEST-017 supplies18 enabled Qt cases/35 scenarios with separate concrete
-contract/API/fixture/full-test review. [Full review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-review.md)
-pins final CPP0e4f4f00 and exact harness. At the baseline stage the old-primitive new foundation was mandatory green;
-feature bodies remained intentionally red and separate from passing CI. Current
-implementation promotion is recorded below.
-Configure/build sqlite-original-claim-debug, discover exact18 with label
-`^sqlite-original-claim$`; full registration228=prior210+new18.
-
-Complete approved clean c24 received its own official selected Qt6.12 CI41602589680
-(required3-slot diagnostic5PASS0skip, compiled18, oldstable/all11), THEN FIRST
-same-head feature execution failed all18 cases/all35 rows from the exact named
-missing-query marker, with36init/cleanupPASS and no skip/crash/setup failure.
-[Raw first red](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-red-ctest.txt),
-[CI chronology](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-ci.md), [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-handoff.md).
-This completes only the baseline. STORAGE017 query implementation, durablehold016
-and service004 retain separate gates; DB-01/NUM-04 and full release remain partial.
-
-
-## Typed early ORIGINAL claim implementation
-
-STORAGE017 preserves all18 reviewed cases/35 scenarios and original red. Actual
-[source/config review11012da](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-code-review.md) accepts runtime834
-and mandatory ordinary acceptance promotion. Root/reviewer/independentvalidator
-new18/full228 PASS with zero warnings/Qt skips, exact18 registrations and unchanged
-prior data/schema/assertions. [CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-ci.md) records actual promoted
-official41605888462 at680: fresh100/pinnedBoost/Qt6.12SQLite3.53.4/requirednew3green/
-compiled18/UNCONDITIONAL18PASS1.29/oldstable/all11. The same profile now has228
-passing cases, with the new draft label removed. [Handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-handoff.md).
-These synthetic real-SQL component checks do not establish durablehold016, service
-policy/authority, providers/FX/recovery/UI/platform or complete release acceptance.
-
-## Durable application-review hold storage
-
-STORAGETEST-016 originally established35 separately reviewed real-SQL slots/
-265 scenarios, frozen independent89-object migration/source/DTO/byte oracles and
-mandatory old-primitive fixture diagnostics. The first valid revised stub-red was
-on SAME CLEAN598 after its own official selected CI41640390883:265 exact named
-markers/70initcleanupPASS/0setup/skip. The initial261markers+4 genuine setup errors
-remain preserved as invalid, with separately reviewed assertion-preserving SQL
-corrections. [Baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-handoff.md),
-[actual final attribution](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-final-review.md).
-
-STORAGE-016 retains every original assertion/oracle/fixture, with two separately
-reviewed history cursor input corrections and FIVE additive regression rows.
-Each new defect reached actual behavior red before its bounded correction;
-[revision and debugger evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-baseline-revision.md) and
-[different revision reviews](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-baseline-revision-review.md)
-separate those results from the completed original stub baseline. Current suite:
-35 slots/270 scenarios. Root final full264 CTest passes,261Qtprocesses1060PASS/
-0FAIL/skip/blacklist,0warnings. Allocation ordering also needs actual source audit;
-it is not measured by the test outcomes.
-
-Configure/build `sqlite-hold-debug`; run `ctest --preset sqlite-hold-debug
--L '^sqlite-hold$'`. Ordinary selected CI executes all35 unconditionally after
-mandatory3-slot fixture guard and exact compiled-registration checks. Actual
-[official41662457471](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-ci.md) at297ca74 passes fresh110/
-GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/new3guard5PASS0skip174ms/35PASS26.61s/
-all old stable suites/all11checks. [Native validation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-validation.md)
-and [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-handoff.md) distinguish final source/publication
-gates. No application orchestrator, real authority/policy/clock/action producer,
-provider/FX/financial entitlement/recovery/UI/platform or full release proof.
-
-
-## Original application-service acceptance
-
-ACCT-004 preserves ACCTTEST-004's original35 methods/224 scenarios and frozen
-fixtures; its historical same-clean-head stub-red remains in the
-[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-004-handoff.md). Eight separately reviewed
-additive slots/nine scenarios reached actual behavior failures before corrections;
-[regression evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-regressions.md). Source audit separately
-checks preallocation bounds and capabilities; runtime outcomes do not measure them.
-
-Configure/build application-service-debug, then CTest label `^application-service$`
-runs43 enabled acceptance cases/233 scenarios. Full preset308 passes on root and a
-different reviewer with zero warnings/Qt skips. Ordinary selected officialQt CI
-executes all43 unconditionally after exact compiled registration and mandatory
-six-method old-primitive fixture guard. [CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-ci.md),
-[review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-code-review.md) and
-[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-handoff.md) pin actual revisions and limits.
-These are synthetic real-SQL component checks: actual ports/financial/review/
-recovery/provider/UI/platform/live/full release acceptance remains incomplete.
-
-
-## Shared translation catalog acceptance
-
-LOCALETEST-001 supplied43 independently reviewed Python methods, seven literal
-messages/four complete goldens and a Qt-only foundation. Historical FIRST clean976
-red and separate attribution remain in its [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-handoff.md)
-and [review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-red-review.md); do not replay or replace them.
-All reviewed assertions/fixtures/contracts remain unchanged under LOCALE-001.
-
-Configure/build translation-catalog-debug with the verified selected Qt6.12.0
-prefix. The build generates actual product QM and compares tracked text. Full
-CTest runs48 passing checks; label '^translation-catalog$' selects all43 generator
-API/CLI methods. They are enabled ordinary acceptance with no intentional-red label.
-CI requires exact discovery, mandatory independent Qt foundation100 assertions,
-unconditional43 execution and four other checks. [CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-ci.md)
-records actual fresh-runner success and selected artifacts/environment.
-
-[Different source review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-code-review.md) audits allocation,
-process capture/reaping, source identity/aliases, bounded reads, publication/cleanup
-and safe failures beyond the tests. Trusted serialized local-host/per-file-write
-limits remain explicit. No runtime formatter/preferences/live switching/German
-layout/Windows/package/platform or full release behavior follows from generator
-acceptance; those remain owning tasks. No live provider/supporter operation occurs.
-
-
-## Reference capture codecs and SQL acceptance
-
-STORAGETEST-018 preserves reviewed codec27 FIRSTred atclean550 and complete
-SQL31/51 FIRSTvalidred atclean633 after their selected foundations. Its initial
-SQL50markers+1setup-error attempt stays invalid. Never replay historical reds.
-STORAGE-019 adds a reviewed eight-row priority regression before its correction
-and promotes codec28 to ordinary acceptance; its independent source audit remains.
-
-STORAGE-018 preserves every original assertion/fixture and adds seven independently
-authored/reviewed methods (16 scenarios) for source-audit findings. Each intended
-behavior red preceded its authorized correction. Configure/build/test
-`sqlite-reference-capture-debug` now runs375 checks (old337 plus SQL38/67 scenarios).
-`-L '^sqlite-reference-capture$'` selects all38 SQL methods;
-`-L '^reference-capture-values$'` selects codec28. All are ordinary acceptance.
-CI requires exact compiled/registered equality, enabled non-inverted tests and
-mandatory acceptance labels, then unconditionally runs all38 SQL and28 codec bodies.
-
-[SQL evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-handoff.md) records source/resource/config
-review, native passes and separate selected-CI/publication gates. Outcomes alone
-do not measure preownership/scratch/SQL projection correctness: source audit is
-required. No authenticated producer, current-state/authority, recovery, provider,
-UI/platform or full release proof follows from these synthetic component checks.
-
-
-## Pure sequential milestone progression
-
-MILESTONE-001 preserves all53 MILESTONETEST001 cases and literal fixtures; the
-original reviewed FIRST-red stays in its baseline evidence. SelectedBoost1.83
-root/author/different reviewer full90 pass without warnings/failures/disabled/skips,
-and separate source audit establishes complete resource preflight/fixed borrowed
-scratch/full-width arithmetic beyond output assertions.
-[Native checks](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-native.md),
-[source/configuration review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-code-review.md),
-[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-handoff.md).
-
-Configure/build `milestone-progression-debug`, then CTest with
-`-L '^milestone-progression$' --no-tests=error` for53, or full preset90.
-Ordinary CI checks exact33 ordinary+20 literal-row registrations and labels, runs
-old37/foundation, then unconditionally executes every53 feature body. No failure
-inversion, manual body gate or disabled test; actual hosted CI is recorded separately.
-This is pure synthetic progression, not authoritative state/action/UI/platform proof.
+| `acceptance-debug` | `-L acceptance` / `-L regression` | 23 cap-limited credit cases: pure numeric planning; the acceptance `draft` label is historical metadata |
+| `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
+| `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
+| `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
+| `time-debt-debug` | `-L '^time-debt$'` | 32 debt/reversal and debt-first addition proposals |
+| `timer-editorial-debug` | `-L '^timer-editorial$'` | 27 methods/44 examples for correction, cap, deadline and first-Start proposals |
+| `milestone-progression-debug` | `-L '^milestone-progression$'` | 53 pure sequential milestone progression cases |
+| `receipt-intake-debug` | `-L '^receipt-intake$'` | 15 receipt identity/retry cases using primitive-store simulation |
+| `contribution-evidence-debug` | `-L '^contribution-evidence$'` | 21 eligibility/linkage cases using primitive-store simulation |
+| `application-plan-debug` | `-L '^application-plan$'` | 22 owned captured-plan transformations |
+| `effective-permissions-debug` | `-L '^effective-permissions$'` | 32 pure evaluator cases; supplied facts convey no execution authority |
+| `password-hashing-debug` | `-L '^password-hashing$'` | 37 methods against selected libsodium, including secret-lifetime/failure checks |
+| `session-resolution-debug` | `-L '^session-resolution$'` | 39 token preparation/current-fact resolution cases; no actual login/session issuance |
+| `sqlite-writer-debug` | `-L '^sqlite-writer$'` | 25 controlled writer/ownership cases using real Qt SQL |
+| `sqlite-work-debug` | `-L '^sqlite-work$'` | 24 caller-owned synchronous transaction/work cases |
+| `sqlite-migrations-debug` | `-L '^sqlite-migrations$'` | 24 catalog/identity/prefix-transaction cases |
+| `sqlite-retained-debug` | `-L '^sqlite-retained$'` | 16 immutable configuration/context cases |
+| `sqlite-receipt-debug` | `-L '^sqlite-receipt$'` | 22 identified-receipt storage cases |
+| `sqlite-contribution-debug` | `-L '^sqlite-contribution$'` | 24 contribution evidence storage cases |
+| `sqlite-plan-debug` | `-L '^sqlite-plan$'` | 29 captured-plan storage cases |
+| `sqlite-bundle-debug` | `-L '^sqlite-bundle$'` | 35 atomic bundle storage cases |
+| `sqlite-original-claim-debug` | `-L '^sqlite-original-claim$'` | 18 typed original-claim query cases |
+| `sqlite-hold-debug` | `-L '^sqlite-hold$'` | 35 methods/270 scenarios for durable application-review holds |
+| `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
+| `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 28 structural codec cases and 38 real-SQL methods/67 scenarios |
+| `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
+| `schema-transport-debug` | `-L '^schema-native-behavior$'` / `-L '^schema-public-behavior$'` | Reviewed offline validator/native process behavior; selected CPython 3.10/3.12 hosted checks |
+
+Source/resource review remains necessary for allocation bounds, owned capabilities,
+secret handling, process cleanup and SQL projection/ownership; output assertions alone
+do not measure those properties. Schema checks validate real OpenAPI/JSON-schema
+packages and examples, without establishing authorization or runtime transport safety.
+
+## Reviewed baselines still awaiting implementation
+
+| Preset / focused selection | Current state |
+| --- | --- |
+| `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
+| `sqlite-account-sessions-debug` / `-L '^sqlite-account-sessions$'` | 44 reviewed feature cases have intended missing-implementation red evidence; production storage remains unimplemented. Feature labels alone do not distinguish this baseline from passing acceptance. |
+
+Their passing CI checks compile/discover feature registrations and execute required
+selected-dependency/fixture diagnostics. They do not turn the red feature bodies into
+passing product coverage. Keep their intended-red runs separate from passing CI;
+never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
+build as a substitute. Preserve original red evidence rather than replaying it for a
+new receipt. A documented baseline revision requires a separate reviewer.
+
+## Running relevant checks
+
+Use the selected preset for the changed component and its dependent regression scope:
+
+```sh
+cmake --preset exact-numeric-debug
+cmake --build --preset exact-numeric-debug
+ctest --preset exact-numeric-debug -L '^exact-numeric$' --no-tests=error
+```
+
+Change the preset/selection using the tables above. Inspect discovery with
+`ctest --preset <preset> --show-only=json-v1` when registration changes. Run the full
+preset when affected composition warrants it, accounting for any explicit red baseline.
+Current reviewed CI registration/foundation gates remain active until separately
+reviewed cleanup replaces them; this document removes no executable checks.
+
+Use C++20/CMake/Ninja and the existing selected dependencies: GoogleTest, Boost >=1.83
+for numeric-dependent lanes, Qt >=6.12 with its real QSQLITE plugin for SQL/Qt lanes,
+and the selected libsodium SDK for password/session lanes. Keep personal prefixes in
+untracked `CMakeUserPresets.json`; do not substitute older Qt to obtain a green result.
+The schema tool uses its isolated, hash-pinned developer environment and reviewed native
+build; follow [its setup](schema-validation.md), not global installs.
+Its ordered static/bootstrap/artifact-admission gates precede CTest discovery and
+execution; apply that workflow before the generic component-run commands.
+Translation acceptance requires the selected Qt tools as well as Python.
+
+Infrastructure checks remain distinct from component acceptance:
+
+```sh
+python3 tools/progress.py validate
+python3 tools/progress.py render --check
+python3 tools/check_project.py
+python3 -m unittest discover -s tests/tooling -v
+cmake --preset scaffold-debug
+cmake --build --preset scaffold-debug
+ctest --preset scaffold-debug
+```
+
+`scaffold-debug` checks infrastructure only. `qt-probe-debug` checks Qt environment
+capabilities only. Follow [CI guidance](CI.md), inspect actual latest-head check results
+and repository merge rules, and retain separate independent review before merging.
+
+## Test design and remaining coverage
+
+Follow [the agent workflow](AGENT_WORKFLOW.md): contract/examples → authored tests →
+independent test review → observed intended red → implementation → independent code
+review and relevant checks. Derive expected values independently from the specification;
+compilation errors, missing dependencies and skips are not valid red evidence.
+
+Prefer small named behavior scenarios, synthetic/redacted fixtures, fake adapters and
+controllable clocks. Keep one primary home for shared mechanics. Avoid duplicate writer
+plumbing and private SQL/layout/message pins unless they protect an explicit persisted
+or public contract. Preserve specified accounting, rollback, idempotency, security and
+recovery assertions; remove/revise a baseline only under the scoped cleanup decision
+and separate review, recording the precise revised baseline in its PR.
+
+Required gaps include crash/reopen and populated-database upgrades, corruption/disk-full
+handling, authorization expiry/current permissions, committed-reader visibility,
+end-to-end effects, exact conservation/refunds, arrival-time rules/modifiers and bounded
+automation. Real current authority/clock/policy producers, full timer/recovery/action
+orchestration, API/client workflows and packaging remain separate acceptance work.
+
+All seven integrations and three exchange-rate providers remain required. Unknown
+provider behavior stays unresolved. English/German, Light/Dark/System, separate native
+and browser renderers, the desktop editor, and Linux/Windows/OBS output remain in scope.
+Live provider, supported hardware/platform, browser/compositor, deployment/restore,
+security and performance evidence must be recorded separately; component CI proves
+none of those by itself. Ordinary tests must not trigger live chat/payment effects.

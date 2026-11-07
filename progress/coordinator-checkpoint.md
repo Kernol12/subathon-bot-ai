@@ -1,33 +1,35 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Verify live branches/claims/PRs before acting.
+Updated: 7 November 2026. Verify actual state before resuming.
 
 ## Current handoff
 
-- Base main `01cf400` (merged PR #91); EVIDENCE-001 branch
-  `task/EVIDENCE-001-readable-archive`, PR #92. Material commit `5ee1393`.
-- Fresh author `/root/evidence_archive_author` finished and retired. Different
-  `/root/evidence_archive_review` approved tests before first red, then the whole
-  material packet at `5ee1393`; completion metadata confirmation pending.
-- Published annotated tag `evidence-archive-2026-11`, object `e7b13d26`, peels to
-  `01cf400`. All 970 original blobs verified, all 969 removed receipts retained.
-  Summary 184 lines; all prior task gates/reviews/assertions and baseline manifest
-  preserved. Existing tooling fixture paths changed only; four new checker tests.
-- Intended tooling red: 3 expected failures/4 tests; after implementation 26/26
-  tooling, check_project461/122, state/render and scaffold3/3 pass. No product or
-  live/platform check claim. PR latest-head hosted CI/current rules/resolved threads
-  and normal merge still required. State completion records local reviewed result,
-  with hosted CI and merge explicitly open. Recheck actual PR state before next task.
-- After merge verify remote archive/deleted-path availability, refresh main, then
-  claim EVIDENCE-002 (or TESTCLEAN-001/002) in a fresh implementation session.
+- Main `dc0a544`: normal EVIDENCE-001 PR #92 merge after all21 final-head
+  checks atf88c628 and actual different review. Published annotated archive tag
+  objecte7b13d26 targets01cf400; post-merge fetch/all969 removed paths verified.
+- EVIDENCE-002 branch `task/EVIDENCE-002-concise-notes`, PR #93. Fresh author
+  `/root/evidence_notes_author` finished/retired at440618cb (import52b984a),
+  strategy-only helper finished. Author worktree `/tmp/subathon-evidence002-author`
+  remains clean at440618cb; do not assume agents active.
+- Different `/root/evidence_notes_review` approved original test packet before
+  first execution. The author then observed intended red and added the minimal
+  two-line guard. Full
+  source/110notes/currentstrategy at440618cb independently approved. All461 notes
+  <=500chars, every other old state field preserved; three additive tests, all old
+  tests AST-identical. Strategy147lines/current actual suites/two red baselines.
+- Integrator state/render/project461/122, tooling29 and scaffold3 pass. Completion
+  metadata confirmation and final PR head hostedCI/current rules/resolved threads/
+  normal merge remain. Local reviewed result recorded done with hostedCI:not_run
+  and open merge gate; do not start next task until normal merge.
+- After PR93 merge refresh main and choose TESTCLEAN-002 (16 environment sources
+  found by initial read-only inventory) or TESTCLEAN-001 (ADR0008/0009 gates).
+  Both need fresh implementation and actual independent cleanup review.
 
-## Preserved work and constraints
+## Preserved work and boundaries
 
-- ACCESSCONTRACT-001 approved unpublished local branch `53524fc` and author/review
-  branches intact; integrate/publish after priority work permits. STORAGE-020 remains
-  unstarted with reviewed 44-test red baseline unchanged.
-- No stale active claims at startup. 287 registered worktrees/250 prunable, existing
-  trees clean; no prune/reset. No older session assumed alive.
-- Full v0.45/seven integrations/three FX providers retained. No live credential,
-  provider/chat/payment/deployment action authorized. Historical coordination:
-  [archived handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-handoff.md).
+ACCESSCONTRACT-001 approved unpublished53524fc plus author/review branches intact;
+publish after priority permits. STORAGE-020 unstarted with reviewed44-case red.
+No stale active claim at startup and no worktree prune/reset performed. Preserve
+all v0.45, seven integrations, threeFX providers, English/German, themes, independent
+renderers/editor and platform scope. No live credential/provider/chat/payment/
+deployment actions. Historical detailed evidence remains in the published tag.

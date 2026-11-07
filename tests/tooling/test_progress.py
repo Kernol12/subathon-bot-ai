@@ -1,11 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Developer-tool regression tests; these do not establish product correctness."""
 import copy
+from contextlib import redirect_stderr, redirect_stdout
+from io import StringIO
 from html.parser import HTMLParser
 import json
 from pathlib import Path
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -42,6 +46,51 @@ class ProgressTests(unittest.TestCase):
 
     def test_baseline_is_valid(self):
         progress.validate(self.state)
+
+    def test_combined_notes_at_500_characters_are_valid_for_every_status(self):
+        for status in ("planned", "ready", "in_progress", "in_review", "blocked", "done"):
+            with self.subTest(status=status):
+                record = task("NOTE-999", status=status)
+                record.update(notes=["a" * 250, "b" * 250],
+                              evidence=["https://example.com/proof"])
+                self.state["tasks"] = [record]
+                self.state["activity"] = []
+                progress.validate(self.state)
+
+    def test_combined_notes_over_500_characters_are_rejected_for_every_status(self):
+        for status in ("planned", "ready", "in_progress", "in_review", "blocked", "done"):
+            with self.subTest(status=status):
+                record = task("NOTE-999", status=status)
+                record.update(notes=["a" * 250, "b" * 250, "c"],
+                              evidence=["https://example.com/proof"])
+                self.state["tasks"] = [record]
+                self.state["activity"] = []
+                with self.assertRaisesRegex(ValueError, r"NOTE-999.*500.*shorten.*notes.*JSON"):
+                    progress.validate(self.state)
+
+    def test_set_over_limit_refuses_without_changing_state_or_html(self):
+        record = task("NOTE-999")
+        record["notes"] = ["a" * 250, "b" * 249]
+        self.state["tasks"] = [record]
+        self.state["activity"] = []
+        with tempfile.TemporaryDirectory() as directory:
+            state_path = Path(directory) / "state.json"
+            html_path = Path(directory) / "PROGRESS.html"
+            original_state = json.dumps(self.state, indent=3).encode("utf-8")
+            original_html = b"Existing rendered snapshot must remain byte-identical."
+            state_path.write_bytes(original_state)
+            html_path.write_bytes(original_html)
+            output = StringIO()
+            with patch.object(progress, "STATE", state_path), \
+                 patch.object(progress, "OUTPUT", html_path), \
+                 patch.object(sys, "argv", ["progress.py", "set", "NOTE-999", "--status", "ready",
+                                            "--owner", "new-owner", "--note", "xy"]), \
+                 redirect_stderr(output), redirect_stdout(output):
+                result = progress.main()
+            self.assertEqual(result, 1, output.getvalue())
+            self.assertRegex(output.getvalue(), r"NOTE-999.*500.*shorten.*notes.*JSON")
+            self.assertEqual(state_path.read_bytes(), original_state)
+            self.assertEqual(html_path.read_bytes(), original_html)
 
     def test_unknown_dependency_is_rejected(self):
         self.state["tasks"][1]["depends_on"] = ["MISSING-999"]
