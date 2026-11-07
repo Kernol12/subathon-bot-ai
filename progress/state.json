@@ -346,7 +346,7 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/98"
       ],
       "review": {
-        "author": "/root/behavior_assertions_author; bounded read-only inventory helper",
+        "author": "/root/behavior_assertions_author",
         "reviewer": "/root/behavior_assertions_review",
         "outcome": "approved",
         "revision": "Exact proposal8990b6e2 and source/runtime4db2401 independently approved; all6method diffs,7canonicalowners/literal identity and raw14Qt/361methods/869results verified. Complete-head/currentCI/merge pending.",
