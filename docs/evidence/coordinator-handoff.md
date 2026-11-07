@@ -68,7 +68,10 @@ shared graph/briefs/ADR/build/pins/deploy/CI/state/HTML/integration. Different a
 revision+graph review remains required; no runtime implementation is authorized by
 this document task. Native011 and proxy007/008 have explicit baseline/implementation
 pairs; allold443IDs/1735edges retained, proposed450IDs/1780edges acyclic in006 branch.005blocked pending006;
-current storage PR/main graph remains443/1735.006author currently running from9bea6fb;
+current storage PR/main graph remains443/1735.006author completedcf8d736/importf4b0fb8; freshdifferent
+`ingress_boundary_revision_review` reviewsactualf4b0fb8 in
+`/tmp/subathon-sessioncontract006-review`/`review/SESSIONCONTRACT-006-boundaries`;
+draftPR87 now receives actualR2docs/3OASdescriptions; no approvalyet;
 root fixed a pending-evidence link in a942ed1. No006 approval or integration yet.
 
 ## Continuity and next gates
@@ -82,7 +85,7 @@ Network/managed.git actions require approved escalation and are currently availa
 Ruleset26170263: PR/resolved threads/zero formalapprovals/no enforcedCI list;
 manually require all applicable21latest-head checks and independent reviews, normalmerge.
 
-Next: fresh006revision/004clock authors and020baseline packet in isolated trees;
+Next: actual006revisionreview and004clock/020baseline author packets in isolated trees;
 actual reviews, then focused currentCI/normalPRmerge. Split substantial prerequisites
 before code; preserve full scope and valid prior reviews/receipts. Root coordinates
 all shared imports/graph/build/pins/deploy/state/HTML and latest merge gates. Inspect

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T11:45:20.764733+00:00",
+  "updated_at": "2026-11-07T12:01:44.516227+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -15004,11 +15004,19 @@
       "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-006.md",
       "summary": "Explicit source-backed revisions of unimplemented ingress engineering contracts; preserve authentication, framing, proxy and secret safety.",
       "notes": [
-        "ADR-0011 explicit prerequisite split only. Preserve original release scope and per-behavior review/red/implementation/selected CI gates. No new proxy/parser/artifact/protocol/pin/config capability is supplied by a task record."
+        "ADR-0011 explicit prerequisite split only. Preserve original release scope and per-behavior review/red/implementation/selected CI gates. No new proxy/parser/artifact/protocol/pin/config capability is supplied by a task record.",
+        "Actual freshauthorcf8d736/importf4b0fb8 delivers explicittransportR2ec11f35a/referenceR2199ab57a/OASonly3descriptionsee317612 plus26sourcehashes andchangedoracle/compatibilityreasoning. NoAPI/payload/operation/security/exampleassertion/selectedartifact/runtimechanged. Freshdifferentingress_boundary_revision_review examiningactualcompletef4b0fb8 includingadditive450/1780graph,parent005briefandADR0011. CurrentprojectPASS450 afterknownpendinglinkfixed; actualselectedhostedschemavalidation/allfinalCI/review/normalmergepending. Fullsecurity/default+alternativeproxy scopesretained."
       ],
-      "verification": {},
+      "verification": {
+        "authored": "passed",
+        "document_review": "not_run",
+        "runtime": "not_run"
+      },
       "evidence": [
-        "docs/evidence/sessioncontract-006-handoff.md"
+        "docs/evidence/sessioncontract-006-handoff.md",
+        "docs/evidence/sessioncontract-006-author.md",
+        "docs/contracts/session-transport-v1.md",
+        "docs/contracts/reference-http-v1.md"
       ],
       "review": null
     },
@@ -16623,6 +16631,11 @@
       "date": "2026-11-07T11:39:03.406406+00:00",
       "task": "STORAGECONTRACT-002",
       "note": "Complete DOCUMENT-only physical/internal API contract after actual different393015e5/importb996848 approval ofb01cc18/blob8dc7ba9f: four empty additive tables/tenobjects, full signed/BLOB codecs, immutablecapture/currentepochs, boundedcurrentreaders/CAS/snapshot/acceptedattempt handoffs and24literalexamples. Currentmaine440c7f integrated retaining443IDs/1735edges and allotherstates/reviews. Prefix1–7 unchanged; proposedv8 allocation/actualSQL/API/testfirstred/source/selecteddriver/CI remainSTORAGETEST020/STORAGE020. No runtime/source/provider/platform claim. FocusedPR/latest21CI/currentrules/threads/normalmerge remain."
+    },
+    {
+      "date": "2026-11-07T12:01:44.516227+00:00",
+      "task": "SESSIONCONTRACT-006",
+      "note": "Actual freshauthorcf8d736/importf4b0fb8 delivers explicittransportR2ec11f35a/referenceR2199ab57a/OASonly3descriptionsee317612 plus26sourcehashes andchangedoracle/compatibilityreasoning. NoAPI/payload/operation/security/exampleassertion/selectedartifact/runtimechanged. Freshdifferentingress_boundary_revision_review examiningactualcompletef4b0fb8 includingadditive450/1780graph,parent005briefandADR0011. CurrentprojectPASS450 afterknownpendinglinkfixed; actualselectedhostedschemavalidation/allfinalCI/review/normalmergepending. Fullsecurity/default+alternativeproxy scopesretained."
     }
   ]
 }

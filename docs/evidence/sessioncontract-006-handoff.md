@@ -43,3 +43,25 @@ cannot silently settle proposed006R2, partial85 is preserved/blocked, actual acc
 revision must integrate before same-task005 resumes and complete-solution review.
 Native011/proxy007/008 ownership/default+alternative/directTLS optional remain explicit.
 Actual006 reviewer must include that bounded brief delta and the additive graph.
+
+## Authored actual revision / review stage
+
+Freshauthorcf8d736ef81af51a45342617baa2602871fd121b/importf4b0fb8,
+[actual source/check evidence](sessioncontract-006-author.md). TransportR2blob
+`ec11f35a9c18fbef0e155525dd125ad9cf215bd4`, referenceR2blob
+`199ab57a31efbcb9d880952f14d0fcabaabec2e3`, OASblob
+`ee317612c7f890ecccecd650f8853205b87eeff9` changes exactly3descriptions.
+No interfaces/§§2–4/payloadschemas/operations/security/23exampleassertions changed.
+26immutable Caddy/Go sourcefiles authenticated; actual artifact/config/runtime support
+remains unadmitted. Explicit old/new revisions, source-backed candidate controls,
+changednegativeoracles/compatibility/security/finiteedgevsappbudgets are actualpacket.
+
+Freshdifferent `ingress_boundary_revision_review` owns only new reviewrecord in
+`/tmp/subathon-sessioncontract006-review`, branch `review/SESSIONCONTRACT-006-boundaries`
+atf4b0fb8. Review includes actual450/1780graph, ADR0011/parent005brief, source proofs,
+normalization/framing/Connection/URL/log/budget/capability gaps. No approvalyet.
+Authoractualoldassignedtreeprojectcheck failedknownsharedlink; rootactualintegrated
+`python3 tools/check_project.py` PASS450 atf4b0fb8, no failure history erased/replay.
+Root publishes actualdocuments to draftPR87 for unchanged selectedschema workflow
+validation ofall23examples, while independent review proceeds. No newnative/proxy
+body or fixture executed by this task. LatestheadCI/currentrules/normalmerge remain.
