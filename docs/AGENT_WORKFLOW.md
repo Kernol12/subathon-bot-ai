@@ -60,12 +60,16 @@ Implementation done requires relevant passing acceptance/regression checks and s
 code review. Distinguish simulation from live service, hardware, browser and package
 evidence; a green scaffold is not product proof.
 
-For a completed task, put its PR URL in `evidence`, one concise outcome/next-step line
-in `notes`, and record separate review in the state `review` field and PR. Keep detailed
-historical receipts intact and use `docs/evidence/README.md` as their index. Record exact
-commands/results and remaining gates in the PR; update state and regenerate `PROGRESS.html`.
-The coordinator checkpoint is `progress/coordinator-checkpoint.md`. Do not rerun completed
-checks just to improve receipts, and do not put credentials or personal data in evidence.
+For a completed task, put its PR URL in `evidence`, keep all of the task's `notes`
+together to 500 characters or fewer, and record separate review in the state `review`
+field and PR. The note states outcome, proof level (simulated, real SQLite, CI or live),
+open gates and next step. Update the matching area entry in `docs/evidence/README.md`;
+add no files under `docs/evidence/` and no per-task history to `docs/TEST_STRATEGY.md`.
+Put commands, results and details in the PR. Historical receipts will be available in git
+history under tag `evidence-archive-2026-11` once EVIDENCE-001 lands; the summary is the
+readable record. Update state and regenerate `PROGRESS.html`. The coordinator checkpoint
+is `progress/coordinator-checkpoint.md`. Do not rerun completed checks just to improve
+receipts, and do not put credentials or personal data in evidence.
 
 Default to fake connectors and disposable databases; automated tests must not trigger
 real chat/payment side effects. Keep live checks separate. Resolve routine issues within

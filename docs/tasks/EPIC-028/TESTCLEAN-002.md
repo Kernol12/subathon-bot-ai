@@ -27,5 +27,5 @@ the owning suite.
 
 ## Verification and handoff
 
-Record exact commands, outcomes and environment in the PR. Keep original receipts; state
-one concise next-step note and the PR URL in progress as required by the workflow.
+Record exact commands, outcomes and environment in the PR. Follow the workflow for the
+500-character task note, area summary, PR evidence and historical archive.

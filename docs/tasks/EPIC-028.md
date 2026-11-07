@@ -10,6 +10,8 @@ assertion deletion. Every child is a cleanup task with a separate approved revie
 
 | Task | Bounded outcome |
 | --- | --- |
+| [EVIDENCE-001](EPIC-028/EVIDENCE-001.md) | Archive detailed receipts under a git tag and replace them with a readable area summary |
+| [EVIDENCE-002](EPIC-028/EVIDENCE-002.md) | Enforce readable task notes and keep test strategy focused on current suite state |
 | [TESTCLEAN-001](EPIC-028/TESTCLEAN-001.md) | Replace schema-validation harness tests with real schema/example checks |
 | [TESTCLEAN-002](EPIC-028/TESTCLEAN-002.md) | Remove library/fixture environment foundation programs |
 | [TESTCLEAN-003](EPIC-028/TESTCLEAN-003.md) | Simplify CMake test registration and labels |
@@ -19,10 +21,11 @@ assertion deletion. Every child is a cleanup task with a separate approved revie
 | [TESTCLEAN-007](EPIC-028/TESTCLEAN-007.md) | Trim libsodium call-counting while retaining security assertions |
 | [TESTCLEAN-008](EPIC-028/TESTCLEAN-008.md) | Merge regression executables and simplify labels/comments |
 
-TESTCLEAN-001 and TESTCLEAN-002 are initially dependency-ready. Remaining order and
-shared-file ownership are in `progress/state.json`; avoid concurrent edits to test
-registration, `progress/state.json`, migration data or common fixtures without the
-integrator assigning ownership.
+EVIDENCE-001 is initially dependency-ready and precedes TESTCLEAN-001/002 in execution
+order; EVIDENCE-002 depends on EVIDENCE-001. Remaining order and shared-file ownership
+are in `progress/state.json`; avoid concurrent edits to test registration,
+`progress/state.json`, migration data or common fixtures without the integrator assigning
+ownership.
 
 ## Preserved scope and follow-up candidates
 

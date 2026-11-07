@@ -44,10 +44,9 @@ planning changes do not authorize a reduced release scope.
 6. Run relevant checks and capture exact commands, outcomes and environment. Assess CI
    coverage for every change; keep intentionally red baselines and live credential checks
    separate from passing product CI. Do not claim unrun or unsupported behavior.
-7. Update `progress/state.json`, regenerate `PROGRESS.html`, and keep task evidence concise:
-   one PR URL in `evidence`, one outcome/next-step line in `notes`, and independent review in
-   the state `review` field and PR. Preserve historical receipts; see
-   `docs/evidence/README.md` for their index.
+7. Update `progress/state.json`, regenerate `PROGRESS.html`, and follow the after-task
+   summary and evidence rules in `docs/AGENT_WORKFLOW.md` (including the 500-character
+   total note limit and updating the matching area in `docs/evidence/README.md`).
 8. Open one focused PR per executable task. Merge only after latest-head required CI,
    relevant checks, independent reviews, resolved discussions and repository protections
    all pass. Recheck after new commits. Then refresh `main` and select the next ready task.

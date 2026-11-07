@@ -22,8 +22,10 @@ future cleanup tasks a narrow, reviewable basis while preserving that rule.
 Keep the full specification and release scope. Prefer small, named, independently
 derived behavior tests; keep one primary suite for shared mechanics; remove only test
 machinery that a scoped task and a separate reviewer find redundant or unrelated to
-specified behavior. Retain the original evidence and record any intentionally changed
-baseline. Never change expected behavior merely to obtain a green suite.
+specified behavior. Archive detailed historical receipts under git tag
+`evidence-archive-2026-11`; use a concise, human-readable area summary as the current
+record. Record any intentionally changed baseline. Never change expected behavior merely
+to obtain a green suite.
 
 Where schema checks are in scope, preserve the §18 purpose by validating every real
 schema against valid and invalid examples with a selected standards-compliant validator.
@@ -43,13 +45,14 @@ follow-up scope. Simplification does not claim that these behaviors are implemen
   obscures behavioral gaps and increases maintenance without preserving unique product
   evidence.
 - Delete broad test areas immediately: rejected because assertion deletion needs a
-  task-specific scope, retained receipts, and an independent reviewer.
+  task-specific scope, archived receipts, and an independent reviewer.
 - Reduce the product/test requirements to match current coverage: rejected; the
   specification and all seven integrations and three FX providers remain in scope.
 
 ## Consequences and gates
 
-EPIC-028 divides cleanup into eight bounded tasks. Every completed cleanup needs a
-separate approved review, evidence in its PR, and one concise state note. Implementation
-tasks still require the appropriate test-first and acceptance gates. This decision
-authorizes planning only; it is not an independent review of any task or test suite.
+EPIC-028 divides test and evidence cleanup into ten bounded tasks. Every completed
+cleanup needs a separate approved review, evidence in its PR, and one state note of at
+most 500 characters. Implementation tasks still require the appropriate test-first and
+acceptance gates. This decision authorizes planning only; it is not an independent review
+of any task or test suite.
