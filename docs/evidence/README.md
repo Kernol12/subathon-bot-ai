@@ -180,7 +180,8 @@ all 8 methods; tooling 29/29 and scaffold 3/3 passed. A separate reference audit
 all 94 public occurrences/36 targets and 3 progress references. Schemas, existing
 examples, 20 admitted dependency pins/hashes/licenses and product code are unchanged.
 [PR #95](https://github.com/Kernol12/subathon-bot-ai/pull/95) records the revised baseline;
-selected CPython 3.10/3.12 hosted CI and normal merge remain open. These are structural/
+selected CPython 3.10.12/3.12.3 each passed all 8 methods plus infrastructure3/3.
+All 19 current checks passed before normal merge. These are structural/
 semantic artifact checks, with offline resolution; they do not establish runtime
 HTTP/auth/authority, provider, client/platform or release behavior. The progress schema
 is an editor hint, without runtime DAG/review/500-note or format-assertion proof.
@@ -202,6 +203,7 @@ translation verifier are unchanged. Local real-Qt/SQLite and focused native chec
 passed. All 21 hosted checks passed before normal
 [PR #94](https://github.com/Kernol12/subathon-bot-ai/pull/94) merge. TESTCLEAN-001
 has independently reviewed actual-schema checks and explicit generic-surface
-retirement; hosted validation and protected merge remain in PR #95. Later cleanup tasks retain their own reviews and
+retirement merged in PR #95 after all 19 checks. TESTCLEAN-003 is investigating
+registration/options/labels while preserving real coverage and red baselines. Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence
 and release readiness remain open.

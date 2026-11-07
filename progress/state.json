@@ -263,7 +263,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Planned shared helpers/writer-mechanics cleanup under separate baseline review. TC003 static audit found 13 Qt failOnWarning hooks in initTestCase; Qt6.12 clears them before slots, so per-test enforcement is currently ineffective. Fix via reviewed shared per-test initialization here, preserving expected-warning and unique repository assertions. No fix or execution yet."
       ],
       "verification": {},
       "evidence": [],

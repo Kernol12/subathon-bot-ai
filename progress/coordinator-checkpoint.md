@@ -35,6 +35,14 @@ Updated: 7 November 2026. Verify actual branches/worktrees/claims/processes/PRs.
   new test-harness complexity; prefer existing framework suite discovery/helpers.
   New first-party behavior still needs appropriate test-first gates; reuse actual
   registration/behavior equivalence instead of redundant tests of deleted features.
+- Independent runner audit: 15 Qt feature executables use standard QTEST_GUILESS_MAIN;
+  no QSKIP/QEXPECT_FAIL currently. Whole-suite qExec grouping is plausible but actual
+  cross-slot fixture/global-state and timeout validation is required. Keep standard
+  GoogleTest per-case discovery for crypto/fault cases needing a fresh process.
+- Pre-existing warning-policy gap: 13 Qt initTestCase failOnWarning patterns clear
+  before slots under Qt6.12. No active-warning-enforcement claim is preserved by
+  registration. Explicit scoped per-test-hook correction recorded in TESTCLEAN-004;
+  no source fix made here, no new environment probe requested.
 - Current source/SDK context: root's earlier author worktrees preserved; schema SDK
   `/tmp/subathon-testclean001-sdk` contains actual20admitted wheels. Qt6.12.0 and
   Boost1.92 local; selected hostedBoost remains1.83. libsodium SDK prepared at
