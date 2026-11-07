@@ -41,4 +41,8 @@ set(subathon_sqlite_account_session_cases
     snapshotMaximumOrdinalSucceedsOnceThenRefusesBeforeWrap
     binaryCompositeKeysNeverUseTextOrPrefixEquality
     returnedValuesOwnBinaryReferencesAfterFacadeAndWork
+    reusedRevisionsAndImmutableRotationShapesRefuseBeforeSql
+    rotationAndReauthenticationRecheckCurrentPhysicalFences
+    passwordUpgradeRechecksCompleteCurrentAccountAndInstallationFences
+    absentLocalCredentialCreatesButPresentExpectedMissingNeverResurrects
 )

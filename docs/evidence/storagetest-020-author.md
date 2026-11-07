@@ -223,3 +223,91 @@ QtSQLite/SDK, then FIRST ordinary feature marker red. Missing SDK/compiler/setup
 skips, or inherited old green are not red. Only then may a fresh STORAGE-020
 implementation session supply production algorithms, followed by separate source/
 resource review and ordinary selected acceptance/regression/CI/publication gates.
+
+## R1–R4 correction packet after the actual independent review
+
+Same test author, same task/branch/worktree, resumed at
+`05e75ab584efc9d1748a6ef49bba4b2fc02d9605`, including actual review commit
+`39c95d5858ec0bc193752c8724047355f3f1c4a0` (root import `4689c78`). Read the
+complete [independent review](storagetest-020-review.md), blob
+`8bc558b87cb56ada2cc95e065879dbf1c16b328b`. Its R1–R4 verdict requests stronger
+physical-store assertions; its other actual interface/fixture/native/harness/CI
+checks are satisfactory. It still grants **no foundation or red execution approval**.
+This correction makes no new approval claim and does not edit the reviewer record.
+
+The original packet/evidence above remains historical: its exact40/119 passive
+counts and original receipt attribution are preserved. The corrected closed
+inventory is **44 ordinary feature slots, five foundation slots, 123 total
+registrations in the minimal account-session preset**. Root owns the corresponding
+CI closed-inventory40→44 update and the same reviewer's actual delta approval.
+The author does not edit workflow, progress/state, HTML, checkpoints or other
+shared integration records, pull another branch, or update another worktree.
+
+Four focused slots are appended; all40 original slots, their assertions and the
+original surrounding test source remain byte-for-byte unchanged. The only other
+code change corrects `server/CMakeLists.txt`'s stale comment: the target contains
+an additive manifest **marker**, rather than owning no factory. The case-list
+file appends exactly the four new names. All production source/API, old/new JSON
+fixtures, foundation and shared fixture helpers are unchanged.
+
+| Review finding | Added independent assertions |
+| --- | --- |
+| R1 — replacement revision freshness | `reusedRevisionsAndImmutableRotationShapesRefuseBeforeSql` rejects epoch H under installation J; account access and account epoch changes separately under K; new verifier bytes under local L; upgrade under L; changed digest under session R in both replacement branches; and revoke under R. Every refusal requires the fixed input exception/text and `invalid_input`. The same matrix runs with an expired ticket and an actual active caller unit. Literal raw rows and prior caller-staged account B must remain intact, followed by real normal caller commit. |
+| R2 — current session fences | `rotationAndReauthenticationRecheckCurrentPhysicalFences` first reads the actual complete row, then independently changes access, account epoch or installation epoch inside that same real unit. Both replacement branches must return stale without changing any of the thirteen physical session fields. Fresh-revision and deliberately same-revision diagnostic changes are both covered. Additional expected captured-account/install epoch mismatches keep revision R, and reauthentication explicitly compares accepted account revision K with current M. No host acceptance, clock or permission proof is invented. |
+| R2 — complete upgrade fences | `passwordUpgradeRechecksCompleteCurrentAccountAndInstallationFences` captures actual local/current account/install facts before changing current access, account epoch/revision or installation epoch/revision. Old facts must produce stale, leaving all five local fields and the original session unchanged. Separate equal-K/J expected-fact cases vary access, account epoch and installation epoch bytes, so a revision-only comparison cannot satisfy the assertions. |
+| R3 — absent credential creation | `absentLocalCredentialCreatesButPresentExpectedMissingNeverResurrects` uses healthy real parents and no current local row. Present expected L/H0 must return stale and leave the table empty; absent expected must stage creation of exact Z/H1. All credential/current parent fields are checked, then actual caller commit, writer destruction and a NEW writer reopening the same file must preserve the complete raw facts. The prior no-adoption collision assertions remain unchanged. Creation supplies no setup/invitation or login authority. |
+| R4 — immutable rotation/no reactivation | The combined pure-input slot separately changes started/authenticated/expiry times while keeping valid time ordering, and changes installation/account/session identities, either captured epoch, or active replacement state. It also attempts revoked→active replacement. Each illegal shape must return the same fixed `invalid_input` before an expired capability can be used. An active unit checks unchanged rows/no caller cleanup, and a separately staged actually revoked V row remains revoked V after another reactivation attempt. |
+
+The new H1 verifier is a literal public hashcat record already frozen in the
+unchanged `tests/fixtures/password_hashing_vectors.hpp`, blob
+`025d4de904c4c07a08cc192fc6cf94318bd5c0c8`. A stdlib-only text audit confirms
+exact equality and97 bytes. H1 expectations are not generated by a hash call,
+SUT parser, store read or implementation output. The added physical helper
+assertions compare directly with literal BLOB/INTEGER rows; they derive no
+expected value from the implementation being tested. Deliberate same-revision
+fixture changes are diagnostics against revision-only comparisons, not permitted
+production revision reuse.
+
+Exact code/fixture revisions for the delta reviewer:
+
+| Path/input | Git blob |
+| --- | --- |
+| `tests/qt/sqlite_account_sessions_tests.cpp` corrected | `33d8a57f55a19f39846c8234b6bd9fc4ae080930` |
+| `tests/cmake/SqliteAccountSessionCases.cmake` corrected | `5403ebbffbc77ac6a8cb9e33cc0ac6a6ff875c5c` |
+| `server/CMakeLists.txt` comment corrected | `b3fe96b511c402e36de33309931de3c1b4bcfa46` |
+| `server/src/sqlite_account_sessions.cpp` unchanged immediate markers | `6d1551a0981322ae4aa59e178d5601ad2c54d3dc` |
+| `tests/fixtures/sqlite_account_sessions_vectors.json` unchanged | `86fe179c6533a0330dfca32d699114491f0ccbb7` |
+| physical contract unchanged | `8dc7ba9fce0e40bcfa02897c6d88946849cbd1b1` |
+
+The source still throws the explicit marker at constructor, factory and every
+behavior method. No production SQL, parser, cryptography, mutation, revision,
+policy or fresh-identity algorithm was added. Other frozen supplier/lifecycle/
+password/writer contracts and the mandatory downstream/source gates above remain
+unchanged; these four findings cannot be deferred to the host.
+
+Actual correction checks, from the same worktree and admitted SDK:
+
+| Command/check | Observed result |
+| --- | --- |
+| `cmake --preset sqlite-account-sessions-debug -DSUBATHON_SODIUM_ROOT=/tmp/subathon-session-sdk/prefix` | Exit0, configure/generate only. |
+| `cmake --build --preset sqlite-account-sessions-debug --parallel 4` | Exit0, changed feature source compiled and linked without warnings. No new body. |
+| `build/sqlite-account-sessions-debug/tests/server_sqlite_account_sessions_acceptance -functions` | Exit0,44 compiled slots, passive only. |
+| `build/sqlite-account-sessions-debug/tests/server_sqlite_account_sessions_environment -functions` | Exit0, unchanged five foundation slots, passive only. |
+| `ctest --preset sqlite-account-sessions-debug --show-only=json-v1` | Exit0,123 registrations. |
+| Python3 stdlib inline audit of these passive outputs | Exit0; exact44 compiled/listed/registered equality, ordinary acceptance labels, enabled/non-inverted/no-skip guards; five foundation slots. |
+| Python3 stdlib text-preservation/literal audit | Exit0; removing only new helpers/slots reproduces the reviewed test source byte-for-byte; H1 equals the original independent public97-byte literal. No driver/feature/crypto helper executed. |
+| `git diff --check` | Exit0. |
+
+The original author `git add` failure remains a metadata receipt: default sandbox
+could not create the shared worktree `index.lock` (read-only filesystem, exit128).
+It happened after successful passive discovery, did not execute a test and is not
+an environment/red receipt. Narrow Git metadata escalation was then approved and
+created original author commit `1b7e7d9`; this correction does not rewrite or
+reclassify that history. No historical test/readiness/red receipt was replayed.
+
+No feature, foundation, native-helper or new source-function body has executed
+in this correction either. The same independent reviewer must assess this exact
+R1–R4 delta plus root's reconciled CI inventory before root's FIRST selected
+foundation green and FIRST ordinary marker-red runs. Production implementation
+still waits for the completed reviewed/red baseline and keeps the later actual
+compiled-prefix dependency, source/resource, real acceptance and normal CI gates.

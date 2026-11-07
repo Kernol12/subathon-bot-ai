@@ -181,6 +181,32 @@ class Clock final : public CurrentSessionClock {
         return SessionClockSample{now};
     }
 };
+std::string h1() {
+    // Independent public hashcat record already frozen in password_hashing_vectors.hpp.
+    // This storage fixture invokes no hash creation or password verification.
+    return "$argon2id$v=19$m=65536,t=3,p=1$FBMjI4RJBhIykCgol1KEJA$"
+           "2ky5GAdhT1kH4kIgPN/oERE3Taiy43vNN70a3HpiKQU";
+}
+void literal_session_row(const SqliteWorkSession &s, qint64 state = 0,
+                         std::string_view revision = "R") {
+    require(s.execute({"SELECT installation_ref,account_ref,session_ref,installation_epoch_ref,"
+                       "account_epoch_ref,record_revision_ref,digest_format,digest,state,retention,"
+                       "lifetime_started_utc_ms,authenticated_utc_ms,expires_utc_ms FROM "
+                       "main.subathon_account_sessions",
+                       {}}) ==
+                SqlRows{{QByteArray("I"), QByteArray("A"), QByteArray("S"), QByteArray("E"),
+                         QByteArray("F"), blob(revision), qint64(1), QByteArray(32, '\0'), state,
+                         qint64(0), qint64(1000), qint64(1000), qint64(86401000)}},
+            "All thirteen physical session fields retain their independently fixed values");
+}
+void literal_local_row(const SqliteWorkSession &s, std::string_view revision,
+                       std::string_view verifier) {
+    require(s.execute({"SELECT installation_ref,account_ref,revision_ref,verifier_format,"
+                       "encoded_verifier FROM main.subathon_local_credentials",
+                       {}}) == SqlRows{{QByteArray("I"), QByteArray("A"), blob(revision), qint64(1),
+                                        blob(verifier)}},
+            "All five physical local fields retain exact literal bytes");
+}
 } // namespace
 class SqliteAccountSessionsTests final : public QObject {
     Q_OBJECT
@@ -1675,6 +1701,384 @@ class SqliteAccountSessionsTests final : public QObject {
                 retained && retained->session.record_revision_ref == std::string("Q\0\xff", 3) &&
                     retained->snapshot_ref == snapshot() && retained->session.digest == digest(),
                 "Owned exact opaque bytes outlive facade and actual work");
+        });
+    }
+    // Review R1/R4, contract §§5–6: these are pure input rules, before any capability use.
+    void reusedRevisionsAndImmutableRotationShapesRefuseBeforeSql() {
+        scenario([] {
+            const auto rejects = [](SqliteAccountSessionUnit &unit) {
+                input_error(
+                    [&] { (void)unit.replace_installation_epoch(installation(), "H", "J"); },
+                    AccountSessionInputError::invalid_input);
+                auto changed_account = account();
+                changed_account.current.application_access_enabled = false;
+                input_error([&] { (void)unit.replace_account(account(), changed_account); },
+                            AccountSessionInputError::invalid_input);
+                changed_account = account();
+                changed_account.current.session_epoch_ref = "G";
+                input_error([&] { (void)unit.replace_account(account(), changed_account); },
+                            AccountSessionInputError::invalid_input);
+                auto changed_local = local();
+                changed_local.credential.encoded_verifier = h1();
+                input_error(
+                    [&] {
+                        (void)unit.replace_local_credential(local(), changed_local, account(),
+                                                            installation());
+                    },
+                    AccountSessionInputError::invalid_input);
+                const CompleteLocalCredentialFacts source{local(), account(), installation(),
+                                                          snapshot()};
+                const PasswordReplacement upgrade{"A", "t", "L", h0(), h1()};
+                input_error([&] { (void)unit.replace_password_upgrade(upgrade, "L", source); },
+                            AccountSessionInputError::invalid_input);
+                auto old_revision = rotated();
+                old_revision.record_revision_ref = "R";
+                input_error(
+                    [&] {
+                        (void)unit.replace_session(record(), old_revision, SessionRetention::normal,
+                                                   nullptr);
+                    },
+                    AccountSessionInputError::invalid_input);
+                const auto authentication = accepted();
+                input_error(
+                    [&] {
+                        (void)unit.replace_session(record(), old_revision, SessionRetention::normal,
+                                                   &authentication);
+                    },
+                    AccountSessionInputError::invalid_input);
+                input_error([&] { (void)unit.revoke_session(record(), "R"); },
+                            AccountSessionInputError::invalid_input);
+                for (int field = 0; field < 9; ++field) {
+                    auto proposed = rotated();
+                    if (field == 0)
+                        proposed.lifetime_started_utc_ms = 999;
+                    if (field == 1)
+                        proposed.authenticated_utc_ms = 1001;
+                    if (field == 2)
+                        proposed.expires_utc_ms = 86401001;
+                    if (field == 3)
+                        proposed.installation_ref = "X";
+                    if (field == 4)
+                        proposed.account_ref = "B";
+                    if (field == 5)
+                        proposed.session_ref = "T";
+                    if (field == 6)
+                        proposed.installation_epoch_ref = "H";
+                    if (field == 7)
+                        proposed.account_epoch_ref = "G";
+                    if (field == 8)
+                        proposed.state = SessionRecordState::revoked;
+                    input_error(
+                        [&] {
+                            (void)unit.replace_session(record(), proposed, SessionRetention::normal,
+                                                       nullptr);
+                        },
+                        AccountSessionInputError::invalid_input);
+                }
+                auto revoked = record();
+                revoked.state = SessionRecordState::revoked;
+                revoked.record_revision_ref = "V";
+                input_error(
+                    [&] {
+                        (void)unit.replace_session(revoked, rotated(), SessionRetention::normal,
+                                                   nullptr);
+                    },
+                    AccountSessionInputError::invalid_input);
+            };
+            const SqliteWorkSession expired_ticket;
+            SqliteAccountSessionUnit expired(expired_ticket, scope());
+            rejects(
+                expired); // A SQL/ticket access would produce stale_session, never invalid_input.
+            Database db;
+            (void)run(db.writer, [&](auto context) -> QVariant {
+                const auto s = context.begin();
+                Cleanup cleanup{s};
+                // Independent caller staging must survive every pure refusal.
+                (void)s.execute(
+                    {"INSERT INTO main.subathon_accounts VALUES(X'49',X'42',1,X'46',X'57')", {}});
+                SqliteAccountSessionUnit unit(s, scope());
+                rejects(unit);
+                literal_session_row(s);
+                literal_local_row(s, "L", h0());
+                require(s.execute({"SELECT session_epoch_ref,revision_ref FROM "
+                                   "main.subathon_account_installation",
+                                   {}}) == SqlRows{{QByteArray("E"), QByteArray("J")}},
+                        "Pure refusal leaves installation unchanged");
+                require(s.execute({"SELECT "
+                                   "account_ref,application_access_enabled,session_epoch_ref,"
+                                   "revision_ref FROM main.subathon_accounts ORDER BY account_ref",
+                                   {}}) ==
+                            SqlRows{{QByteArray("A"), qint64(1), QByteArray("F"), QByteArray("K")},
+                                    {QByteArray("B"), qint64(1), QByteArray("F"), QByteArray("W")}},
+                        "Pure refusal neither changes current facts nor cleans caller staging");
+                // Also use an actually revoked stored row for no-reactivation, with healthy links.
+                (void)s.execute(
+                    {"UPDATE main.subathon_account_sessions SET state=1,record_revision_ref=X'56'",
+                     {}});
+                auto revoked = record();
+                revoked.state = SessionRecordState::revoked;
+                revoked.record_revision_ref = "V";
+                input_error(
+                    [&] {
+                        (void)unit.replace_session(revoked, rotated(), SessionRetention::normal,
+                                                   nullptr);
+                    },
+                    AccountSessionInputError::invalid_input);
+                literal_session_row(s, 1, "V");
+                literal_local_row(s, "L", h0());
+                s.commit();
+                return 1;
+            });
+            Observer observer(db.path);
+            require(
+                observer.rows(
+                    "SELECT hex(account_ref) FROM main.subathon_accounts ORDER BY account_ref") ==
+                    SqlRows{{QString("41")}, {QString("42")}},
+                "Caller staging survives real normal commit after invalid shapes");
+        });
+    }
+    // Review R2: current physical fences are checked again after an earlier read in the SAME unit.
+    void rotationAndReauthenticationRecheckCurrentPhysicalFences() {
+        scenario([] {
+            for (const bool reauthenticate : {false, true}) {
+                for (
+                    const auto *update :
+                    {"UPDATE main.subathon_accounts SET "
+                     "application_access_enabled=0,revision_ref=X'4d'",
+                     "UPDATE main.subathon_accounts SET session_epoch_ref=X'47',revision_ref=X'4d'",
+                     "UPDATE main.subathon_account_installation SET "
+                     "session_epoch_ref=X'48',revision_ref=X'4e'",
+                     // Same-revision diagnostic values prevent a revision-only comparison shortcut.
+                     "UPDATE main.subathon_accounts SET application_access_enabled=0",
+                     "UPDATE main.subathon_accounts SET session_epoch_ref=X'47'",
+                     "UPDATE main.subathon_account_installation SET session_epoch_ref=X'48'"}) {
+                    Database db;
+                    (void)run(db.writer, [&](auto context) -> QVariant {
+                        const auto s = context.begin();
+                        Cleanup cleanup{s};
+                        SqliteAccountSessionUnit unit(s, scope());
+                        complete(facts(unit.read_selected("I", "A", "S")));
+                        (void)s.execute({QString::fromLatin1(update), {}});
+                        require(s.execute({"SELECT changes()", {}}) == SqlRows{{qint64(1)}},
+                                "One real current fence changed after source read");
+                        auto replacement = rotated();
+                        auto authentication = accepted();
+                        if (reauthenticate) {
+                            replacement.lifetime_started_utc_ms = 2000;
+                            replacement.authenticated_utc_ms = 2000;
+                            replacement.expires_utc_ms = 2592002000;
+                            authentication.accepted_utc_ms = 2000;
+                        }
+                        require(unit.replace_session(record(), replacement,
+                                                     reauthenticate ? SessionRetention::remembered
+                                                                    : SessionRetention::normal,
+                                                     reauthenticate ? &authentication : nullptr) ==
+                                    stale,
+                                "Both replacement branches recheck current enabled/account/install "
+                                "epoch fences");
+                        literal_session_row(s);
+                        literal_local_row(s, "L", h0());
+                        s.commit();
+                        return 1;
+                    });
+                }
+                // Complete expected captured epochs participate even when expected revision remains
+                // R.
+                for (const bool installation_epoch : {false, true}) {
+                    Database db;
+                    (void)run(db.writer, [&](auto context) -> QVariant {
+                        const auto s = context.begin();
+                        Cleanup cleanup{s};
+                        SqliteAccountSessionUnit unit(s, scope());
+                        auto expected = record(), replacement = rotated();
+                        auto authentication = accepted();
+                        if (installation_epoch) {
+                            expected.installation_epoch_ref = "H";
+                            replacement.installation_epoch_ref = "H";
+                            authentication.installation_epoch_ref = "H";
+                        } else {
+                            expected.account_epoch_ref = "G";
+                            replacement.account_epoch_ref = "G";
+                            authentication.account_epoch_ref = "G";
+                        }
+                        require(unit.replace_session(
+                                    expected, replacement, SessionRetention::normal,
+                                    reauthenticate ? &authentication : nullptr) == stale,
+                                "Equal revision cannot conceal different complete captured epoch "
+                                "fences");
+                        literal_session_row(s);
+                        s.commit();
+                        return 1;
+                    });
+                }
+            }
+            Database db;
+            (void)run(db.writer, [](auto context) -> QVariant {
+                const auto s = context.begin();
+                Cleanup cleanup{s};
+                SqliteAccountSessionUnit unit(s, scope());
+                (void)s.execute({"UPDATE main.subathon_accounts SET revision_ref=X'4d'", {}});
+                const auto authentication = accepted();
+                require(unit.replace_session(record(), rotated(), SessionRetention::normal,
+                                             &authentication) == stale,
+                        "Reauthentication also compares accepted current account revision K "
+                        "against actual M");
+                literal_session_row(s);
+                s.commit();
+                return 1;
+            });
+        });
+    }
+    void passwordUpgradeRechecksCompleteCurrentAccountAndInstallationFences() {
+        scenario([] {
+            for (const auto *update :
+                 {"UPDATE main.subathon_accounts SET "
+                  "application_access_enabled=0,revision_ref=X'4d'",
+                  "UPDATE main.subathon_accounts SET session_epoch_ref=X'47',revision_ref=X'4d'",
+                  "UPDATE main.subathon_accounts SET revision_ref=X'4d'",
+                  "UPDATE main.subathon_account_installation SET "
+                  "session_epoch_ref=X'48',revision_ref=X'4e'",
+                  "UPDATE main.subathon_account_installation SET revision_ref=X'4e'",
+                  "UPDATE main.subathon_accounts SET application_access_enabled=0",
+                  "UPDATE main.subathon_accounts SET session_epoch_ref=X'47'",
+                  "UPDATE main.subathon_account_installation SET session_epoch_ref=X'48'"}) {
+                Database db;
+                (void)run(db.writer, [&](auto context) -> QVariant {
+                    const auto s = context.begin();
+                    Cleanup cleanup{s};
+                    SqliteAccountSessionUnit unit(s, scope());
+                    const auto before = unit.read_local_credential("I", "A");
+                    require(facts(before).account.revision_ref == "K" &&
+                                facts(before).installation.revision_ref == "J",
+                            "Owned expected facts capture original current account/install fences");
+                    (void)s.execute({QString::fromLatin1(update), {}});
+                    require(s.execute({"SELECT changes()", {}}) == SqlRows{{qint64(1)}},
+                            "Real current closure changed after capture");
+                    const PasswordReplacement upgrade{"A", "t", "L", h0(), h1()};
+                    require(unit.replace_password_upgrade(upgrade, "Z", facts(before)) == stale,
+                            "Upgrade rejects old full account/install closure instead of accepting "
+                            "unchanged verifier/revision alone");
+                    literal_local_row(s, "L", h0());
+                    literal_session_row(s);
+                    s.commit();
+                    return 1;
+                });
+            }
+            for (int field = 0; field < 3; ++field) {
+                Database db;
+                (void)run(db.writer, [&](auto context) -> QVariant {
+                    const auto s = context.begin();
+                    Cleanup cleanup{s};
+                    SqliteAccountSessionUnit unit(s, scope());
+                    auto expected = facts(unit.read_local_credential("I", "A"));
+                    if (field == 0)
+                        expected.account.current.application_access_enabled = false;
+                    if (field == 1)
+                        expected.account.current.session_epoch_ref = "G";
+                    if (field == 2)
+                        expected.installation.current.session_epoch_ref = "H";
+                    const PasswordReplacement upgrade{"A", "t", "L", h0(), h1()};
+                    require(unit.replace_password_upgrade(upgrade, "Z", expected) == stale,
+                            "Full expected access/epoch bytes compare independently of unchanged "
+                            "K/J revisions");
+                    literal_local_row(s, "L", h0());
+                    literal_session_row(s);
+                    s.commit();
+                    return 1;
+                });
+            }
+        });
+    }
+    // Review R3: physical creation does not complete setup/invitation or grant a login.
+    void absentLocalCredentialCreatesButPresentExpectedMissingNeverResurrects() {
+        scenario([] {
+            QTemporaryDir directory;
+            require(directory.isValid(), "Disposable credential creation/reopen directory");
+            const auto path = directory.filePath("local-create.sqlite");
+            const Data data;
+            {
+                SqliteWriter writer;
+                require(writer.open(path, limits()) == StorageError::none,
+                        "Existing writer opens creation fixture");
+                data.schema(writer);
+                (void)run(writer, [&](auto context) -> QVariant {
+                    const auto s = context.begin();
+                    Cleanup cleanup{s};
+                    data.populate(s);
+                    (void)s.execute({"DELETE FROM main.subathon_local_credentials", {}});
+                    s.commit();
+                    return 1;
+                });
+                (void)run(writer, [](auto context) -> QVariant {
+                    const auto s = context.begin();
+                    Cleanup cleanup{s};
+                    SqliteAccountSessionUnit unit(s, scope());
+                    auto replacement = local();
+                    replacement.credential.revision_ref = "Z";
+                    replacement.credential.encoded_verifier = h1();
+                    failure(unit.read_local_credential("I", "A"),
+                            AccountSessionReadFailure::missing);
+                    require(unit.replace_local_credential(local(), replacement, account(),
+                                                          installation()) == stale,
+                            "Present expected local record against missing target is stale, never "
+                            "an insert");
+                    require(
+                        s.execute(
+                             {"SELECT installation_ref FROM main.subathon_local_credentials", {}})
+                            .isEmpty(),
+                        "Stale present-expected cannot resurrect a missing credential");
+                    require(unit.replace_local_credential(std::nullopt, replacement, account(),
+                                                          installation()) == staged,
+                            "Absent expected plus healthy current parents stages the physical "
+                            "INSERT branch");
+                    literal_local_row(s, "Z", h1());
+                    literal_session_row(s);
+                    const auto created = unit.read_local_credential("I", "A");
+                    require(facts(created).local.installation_ref == "I" &&
+                                facts(created).local.credential.account_ref == "A" &&
+                                facts(created).local.credential.revision_ref == "Z" &&
+                                facts(created).local.credential.encoded_verifier == h1() &&
+                                facts(created).account.current.installation_ref == "I" &&
+                                facts(created).account.current.account_ref == "A" &&
+                                facts(created).account.current.application_access_enabled &&
+                                facts(created).account.current.session_epoch_ref == "F" &&
+                                facts(created).account.revision_ref == "K" &&
+                                facts(created).installation.current.installation_ref == "I" &&
+                                facts(created).installation.current.session_epoch_ref == "E" &&
+                                facts(created).installation.revision_ref == "J" &&
+                                facts(created).snapshot_ref == snapshot(),
+                            "Exact complete raw credential/parent facts after creation");
+                    s.commit();
+                    return 1;
+                });
+            }
+            SqliteWriter reopened;
+            require(reopened.open(path, limits()) == StorageError::none,
+                    "A new actual writer reopens committed file");
+            (void)run(reopened, [](auto context) -> QVariant {
+                const auto s = context.begin();
+                Cleanup cleanup{s};
+                SqliteAccountSessionUnit unit(s, scope());
+                const auto current = unit.read_local_credential("I", "A");
+                require(facts(current).local.installation_ref == "I" &&
+                            facts(current).local.credential.account_ref == "A" &&
+                            facts(current).local.credential.revision_ref == "Z" &&
+                            facts(current).local.credential.encoded_verifier == h1() &&
+                            facts(current).account.revision_ref == "K" &&
+                            facts(current).installation.revision_ref == "J" &&
+                            facts(current).account.current.application_access_enabled &&
+                            facts(current).account.current.session_epoch_ref == "F" &&
+                            facts(current).installation.current.session_epoch_ref == "E" &&
+                            facts(current).snapshot_ref == snapshot(),
+                        "Committed creation and complete current facts survive real writer "
+                        "close/reopen");
+                literal_local_row(s, "Z", h1());
+                literal_session_row(s);
+                s.commit();
+                return 1;
+            });
+            Observer observer(path);
+            healthy(observer);
         });
     }
 };
