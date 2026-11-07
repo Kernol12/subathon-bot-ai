@@ -1,6 +1,8 @@
 # ADR-0011 — explicit ingress boundary reconciliation
 
-Status: proposed under SESSIONCONTRACT-006; actual revision/graph review required.
+Status: accepted engineering-contract/task split under SESSIONCONTRACT-006 after
+actual fullpacket/graph/source review83bb1ca3 and corrected-delta approval0990c608.
+Native/proxy artifacts, configuration and runtime admission remain separate gates.
 Authority: specification v0.45 §§2/10/17, AUTH-12, SERVER-01, DEP-05, TEST-04/05.
 
 Source-backed005 work is preserved at author4b0178cc/importd720282 on

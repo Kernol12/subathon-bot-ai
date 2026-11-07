@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T12:01:44.516227+00:00",
+  "updated_at": "2026-11-07T12:22:00.804676+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -14982,7 +14982,7 @@
       "title": "Reconcile edge and application ingress boundaries",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex /root integration; fresh ingress_boundary_revision_author",
       "depends_on": [
         "SESSIONCONTRACT-002",
@@ -15005,20 +15005,31 @@
       "summary": "Explicit source-backed revisions of unimplemented ingress engineering contracts; preserve authentication, framing, proxy and secret safety.",
       "notes": [
         "ADR-0011 explicit prerequisite split only. Preserve original release scope and per-behavior review/red/implementation/selected CI gates. No new proxy/parser/artifact/protocol/pin/config capability is supplied by a task record.",
-        "Actual freshauthorcf8d736/importf4b0fb8 delivers explicittransportR2ec11f35a/referenceR2199ab57a/OASonly3descriptionsee317612 plus26sourcehashes andchangedoracle/compatibilityreasoning. NoAPI/payload/operation/security/exampleassertion/selectedartifact/runtimechanged. Freshdifferentingress_boundary_revision_review examiningactualcompletef4b0fb8 includingadditive450/1780graph,parent005briefandADR0011. CurrentprojectPASS450 afterknownpendinglinkfixed; actualselectedhostedschemavalidation/allfinalCI/review/normalmergepending. Fullsecurity/default+alternativeproxy scopesretained."
+        "Actual freshauthorcf8d736/importf4b0fb8 delivers explicittransportR2ec11f35a/referenceR2199ab57a/OASonly3descriptionsee317612 plus26sourcehashes andchangedoracle/compatibilityreasoning. NoAPI/payload/operation/security/exampleassertion/selectedartifact/runtimechanged. Freshdifferentingress_boundary_revision_review examiningactualcompletef4b0fb8 includingadditive450/1780graph,parent005briefandADR0011. CurrentprojectPASS450 afterknownpendinglinkfixed; actualselectedhostedschemavalidation/allfinalCI/review/normalmergepending. Fullsecurity/default+alternativeproxy scopesretained.",
+        "Complete actualDOCUMENTR2+additiveprerequisites afterfreshdifferent83bb1ca3 graph/source/fullpacketaudit and0990c608/importbecf310 approval ofactualcorrected2f8087fb/import4cdebbc: Via16/candidate262/XPad3835–3836 andfixed417/505negativeoracles corrected; originalrequestchanges/authorreceipts preserved. Actualtransport0d0cbde9/referencefe69e3c3, OASunchangedee317612/only3descriptions, allC++/payload/operation/security/23examples invariant. All26officialimmutablefiles independentlyverified; 450IDs/1780edges acyclic/full443oldIDs1735edges/states/reviews preserved exceptauthorized005blocked. Source/configcandidate NOTactualartifact/proxy/runtimeadmission. Bothdefault/alternativeproxy/fullsecurity/release scope retained. Actualhostedschema42370670915codeokbothhosts atd134sameOAS. Currentmainintegration/finalcompletionheadCI/currentrules/threads/normalPR87merge before005resumes."
       ],
       "verification": {
         "authored": "passed",
-        "document_review": "not_run",
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "source_audit": "passed",
+        "tooling": "passed",
         "runtime": "not_run"
       },
       "evidence": [
         "docs/evidence/sessioncontract-006-handoff.md",
         "docs/evidence/sessioncontract-006-author.md",
         "docs/contracts/session-transport-v1.md",
-        "docs/contracts/reference-http-v1.md"
+        "docs/contracts/reference-http-v1.md",
+        "docs/evidence/sessioncontract-006-review.md"
       ],
-      "review": null
+      "review": {
+        "author": "/root/ingress_boundary_revision_author",
+        "reviewer": "/root/ingress_boundary_revision_review",
+        "outcome": "approved",
+        "revision": "Actual cf8d736/importf4b0fb8 fullpacket/graph reviewed83bb1ca3; corrected2f8087fb/import4cdebbc transport0d0cbde9450abc5d7f99b7a97b03cfe41f385890/referencefe69e3c3b06fbe63d1d2beaea458cbacf905032f approved0990c608/importbecf310, preservingoriginalfindings.",
+        "evidence": "docs/evidence/sessioncontract-006-review.md"
+      }
     },
     {
       "id": "SESSIONTEST-011",
@@ -16636,6 +16647,11 @@
       "date": "2026-11-07T12:01:44.516227+00:00",
       "task": "SESSIONCONTRACT-006",
       "note": "Actual freshauthorcf8d736/importf4b0fb8 delivers explicittransportR2ec11f35a/referenceR2199ab57a/OASonly3descriptionsee317612 plus26sourcehashes andchangedoracle/compatibilityreasoning. NoAPI/payload/operation/security/exampleassertion/selectedartifact/runtimechanged. Freshdifferentingress_boundary_revision_review examiningactualcompletef4b0fb8 includingadditive450/1780graph,parent005briefandADR0011. CurrentprojectPASS450 afterknownpendinglinkfixed; actualselectedhostedschemavalidation/allfinalCI/review/normalmergepending. Fullsecurity/default+alternativeproxy scopesretained."
+    },
+    {
+      "date": "2026-11-07T12:22:00.804676+00:00",
+      "task": "SESSIONCONTRACT-006",
+      "note": "Complete actualDOCUMENTR2+additiveprerequisites afterfreshdifferent83bb1ca3 graph/source/fullpacketaudit and0990c608/importbecf310 approval ofactualcorrected2f8087fb/import4cdebbc: Via16/candidate262/XPad3835–3836 andfixed417/505negativeoracles corrected; originalrequestchanges/authorreceipts preserved. Actualtransport0d0cbde9/referencefe69e3c3, OASunchangedee317612/only3descriptions, allC++/payload/operation/security/23examples invariant. All26officialimmutablefiles independentlyverified; 450IDs/1780edges acyclic/full443oldIDs1735edges/states/reviews preserved exceptauthorized005blocked. Source/configcandidate NOTactualartifact/proxy/runtimeadmission. Bothdefault/alternativeproxy/fullsecurity/release scope retained. Actualhostedschema42370670915codeokbothhosts atd134sameOAS. Currentmainintegration/finalcompletionheadCI/currentrules/threads/normalPR87merge before005resumes."
     }
   ]
 }

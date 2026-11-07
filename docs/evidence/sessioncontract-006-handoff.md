@@ -65,3 +65,27 @@ Authoractualoldassignedtreeprojectcheck failedknownsharedlink; rootactualintegra
 Root publishes actualdocuments to draftPR87 for unchanged selectedschema workflow
 validation ofall23examples, while independent review proceeds. No newnative/proxy
 body or fixture executed by this task. LatestheadCI/currentrules/normalmerge remain.
+
+## Actual independent corrections and approval
+
+Different83bb1ca3/import332b555 firstREQUEST_CHANGES (sourceVia missing16bytes,
+Go pre-handler fixed417/505 omitted); originalrecord/receipts retained. Sameauthor
+2f8087fb/import4cdebbc correctedONEcoherentpacket. Sameactualreviewer then
+0990c608/importbecf310 [APPROVED](sessioncontract-006-review.md) exactcorrected
+transportblob`0d0cbde9450abc5d7f99b7a97b03cfe41f385890`, referenceblob
+`fe69e3c3b06fbe63d1d2beaea458cbacf905032f`, authorbloba4f42a89.
+F1/F2 resolved: addedVia16/allincomingVia, candidate262 andpad3835/3836 boundaries,
+repeatVia34/threeVia50/backend296 literals; fixednonreflecting417/505 zero-dispatch
+oracles. No OAS/API/graph/assertion changes in correction; no native/proxy execution.
+
+All26immutable source comparisons/full450/1780graph/old443/1735preservation and
+unaffectedC++/sections/payload/operations/security/examples audits passed. Actual
+hostedselectedschema run42370670915 atd134b35 SAMEOAS ee317612 emitted codeok on
+Ubuntu22at12:03:42.3919109UTC andUbuntu24at12:03:46.5893653UTC. Sameactualreviewer
+inspected logs/metadata; no localCLI claimed. Candidate/control reasoning is no
+actualselectedartifact/configuration/platform/proxy capability. ADR0011 nowrecords
+acceptedboundary/taskdecision only. Parent005stillneedsacceptedrevisionintegration
+and its owncompleteactualsolutionreview; native011/deploy007/008 testfirstgates remain.
+
+Rootawaits normalclockPR88/latestmainintegration, then finalcompletionheadCI/current
+rules/threads/normalPR87merge. No scope/security waiver or priorreview destruction.
