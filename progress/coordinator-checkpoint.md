@@ -52,9 +52,19 @@ PR/check/review state before acting. Preserve valid work; explicitly reassign st
   with removed-pin rationale and retained coverage BEFORE edits. Separate reviewer
   approves baseline revision; no broad deletion or expected-value derivation from
   implementation. Do not alter production/fixtures/generators or overlap TC006/007.
-- No implementation or new execution yet. Next: exact proposal gate, bounded source,
-  independent execution review and relevant Qt checks; all final current CI, reviews,
-  branch rules/discussions/normal merge gates remain. TESTCLEAN-007 also ready but
+- Exact proposal `8990b6e251aaec2a6d7a5867759a6eb6932e10f07aa8f86b668cdcf95e5e47fd`
+  independently approved before edits. All6named old methods/7stablecanonicalowners,
+  seven archive-equal independent fixtures and inherited suite availability checked.
+  Root authorized only six named CPP/method edits: each factory keeps full independent
+  prefix tuples, own1–7 framing/hash retained; existing step4payload/hash and5hash
+  MUST relocate into plan/bundle owners before higher-prefix repeats are removed.
+  Plan per-object comparison becomes exact ordered whole-list equality over all4fields.
+  Remove only repeated12payload/14hash executions, relocating1payload/2hash. No unique
+  bytes/format/publicerror/order/budget checks or methods/rows/fixtures/deps change.
+- Author is now implementing; no new runtime. Exact complete-source execution review
+  must approve before configure/build/native checks. No invented stub red for this
+  mechanical relocation/comparison. Current CI/reviews/rules/discussions/normal merge
+  remain final gates. TESTCLEAN-007 also ready but
   unclaimed. Full product loop continues; no routine owner confirmation needed.
 - Initial independent contract audit protects exact migration framing/projections/
   digests/DDL, published B/I budget formulas, fixed no-secret exception messages and

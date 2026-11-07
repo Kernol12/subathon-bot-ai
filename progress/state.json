@@ -328,9 +328,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
       "summary": "Keep public/persisted contracts while replacing repeated private DDL, layout, message, and order pins with behavior assertions.",
       "notes": [
-        "Claimed from maine48f231 for contract-reviewed removal of private implementation pins. Preserve shipped migration immutability and public/persisted codecs; unique boundaries/rollback behavior remain. Fresh author owns bounded affected Qt tests, coordinator state/HTML/evidence/checkpoint/PR. Exact pin-to-contract/retained behavior map requires independent approval before baseline changes."
+        "Exact six-file proposal8990b6e2 independently approved before edits: every factory retains full frozen prefix tuples; canonical framing/hash stays at stable owning steps1–7, with existing step4payload/hash and5hash relocated before removing repeats. Public byte/error/order/budget contracts and all methods/rows/fixtures remain. Author edits only; independent exact-source execution gate precedes native checks."
       ],
-      "verification": {},
+      "verification": {
+        "cleanup_proposal_review": "passed"
+      },
       "evidence": [],
       "review": null
     },
