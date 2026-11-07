@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T15:03:53.046042+00:00",
+  "updated_at": "2026-11-07T15:12:09.234401+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -92,14 +92,14 @@
       "brief": "docs/tasks/EPIC-028/EVIDENCE-001.md",
       "summary": "Archive detailed historical receipts under a verified tag and replace them in the working tree with a concise, evidence-based area summary.",
       "notes": [
-        "Archived 969 receipts at the verified published tag; readable area summary and links preserve all prior claims. Independent test/source/summary review approved; 26 tooling tests and scaffold 3/3 pass. Hosted CI and protected PR merge remain; next: EVIDENCE-002 or TESTCLEAN-001/002."
+        "Archived 969 receipts at published evidence-archive-2026-11; all remain accessible after normal PR92 merge. Independent test/source/summary review, tooling26, scaffold3 and all21 hosted checks passed. This is evidence maintenance, not product proof. Next: EVIDENCE-002/readiness cleanup."
       ],
       "verification": {
         "archive": "passed",
         "tooling": "passed",
         "scaffold": "passed",
         "independent_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -109,7 +109,7 @@
         "author": "/root/evidence_archive_author",
         "reviewer": "/root/evidence_archive_review",
         "outcome": "approved",
-        "revision": "5ee1393; source/summary/archive/links/state material review; checker SHA256 a3e18628887a53b97cd9665d5128bf5da81df822301b9840898b015e7dbca97f",
+        "revision": "Complete committed f88c628 independently approved; normal PR92 merge dc0a544 after all21latest-head checks; published archive fetched post-merge/all969 paths verified.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/92"
       }
     },
@@ -118,8 +118,8 @@
       "title": "Enforce concise task notes and current suite summaries",
       "module": "Quality and tooling",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/evidence_notes_author",
       "depends_on": [
         "EVIDENCE-001"
       ],
@@ -130,7 +130,7 @@
       "brief": "docs/tasks/EPIC-028/EVIDENCE-002.md",
       "summary": "Limit combined task notes to 500 characters and maintain a current test-strategy summary without per-task history.",
       "notes": [
-        "Parent epic: EPIC-028. Planned only; depends on the readable evidence archive and must preserve open gates while shortening notes."
+        "Claim at main dc0a544: EVIDENCE-001 merged/verified. Scope EVIDENCE-002/spec v0.45 §§17–18: concise all task notes, max500 validation and current suite strategy. Author owns tools/progress.py, test_progress.py, strategy, and notes-only state rewrite; coordinator owns other task fields/HTML/checkpoint/PR. Independent tests/red/code/note review and CI required; all old verification/reviews/gates retained."
       ],
       "verification": {},
       "evidence": [],
@@ -17080,6 +17080,11 @@
       "date": "2026-11-07T15:03:53.046042+00:00",
       "task": "EVIDENCE-001",
       "note": "Independent review approved 5ee1393: verified published archive tag/all969 removed receipts, readable summary and links, unchanged old states/assertions. Tooling26/scaffold3 pass; PR92 hosted CI and protected merge remain."
+    },
+    {
+      "date": "2026-11-07T15:12:09.234401+00:00",
+      "task": "EVIDENCE-002",
+      "note": "Claim after normalPR92/main dc0a544/all21checks/independent f88 review and fetched archive969paths verification. Fresh author scoped to notes/validator/tests/current strategy; coordinator shared state integration. No task gates or product behavior changed."
     }
   ]
 }
