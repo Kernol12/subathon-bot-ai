@@ -11,7 +11,10 @@ mode. Supporting wiring/descriptions in root `CMakeLists.txt`, `CMakePresets.jso
 `docs/CLION_SETUP.md`, `docs/CI.md`, `docs/TEST_STRATEGY.md`, and the single Qt-probe description in
 `AGENTS.md` are included. Retain the Qt preset as explicitly configure-only dependency
 discovery plus scaffold checks. Preserve feature discovery/execution and all product
-assertions; schema-native/library foundations remain TESTCLEAN-001 scope.
+assertions; schema-native/library foundations remain TESTCLEAN-001 scope. The coordinator owns supporting
+`tests/acceptance-map.json` and `progress/state.json` artifact updates: move only retired
+environment test paths to archived historical evidence, retaining all real test paths,
+statuses and coverage claims. Do not weaken artifact validation.
 
 ## Scope
 

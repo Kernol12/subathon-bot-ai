@@ -37,6 +37,12 @@ Updated: 7 November 2026. Verify live state before resuming.
   honestly described as configure-only Qt dependency discovery plus scaffold checks.
   Brief ownership explicitly includes supporting root CMake/preset and setup/strategy
   descriptions. Schema-native/library foundations remain in TESTCLEAN-001.
+  SQL native run passed 361 component checks plus contract scaffold; only two tooling
+  checks failed because retired source references remained. Coordinator commit
+  `cef3146` archives 18 map test references and one ACCTTEST-004 evidence source;
+  separate review approved exact mapping/state delta. All 17 original source blobs
+  match the published tag. Author will rerun only those two failed checks, not repeat
+  passing native bodies. Remaining focused builds/source review/CI/merge are open.
   No next task before this task's normal merge.
 
 ## Preserved work and limits
