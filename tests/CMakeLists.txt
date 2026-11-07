@@ -19,13 +19,6 @@ if(SUBATHON_BUILD_SCHEMA_TRANSPORT)
 endif()
 
 if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
-    # SDK-only foundation; building/discovery never runs this body or any selected SDK function.
-    add_executable(session_resolution_environment acceptance/session_resolution_environment.cpp)
-    target_link_libraries(session_resolution_environment PRIVATE Sodium::Sodium)
-    subathon_target_options(session_resolution_environment)
-    add_test(NAME scaffold.session_resolution_environment COMMAND session_resolution_environment)
-    set_tests_properties(scaffold.session_resolution_environment PROPERTIES
-        LABELS "scaffold;session-resolution-environment" TIMEOUT 10)
 
     add_executable(server_session_resolution_acceptance acceptance/session_resolution_tests.cpp)
     target_link_libraries(server_session_resolution_acceptance PRIVATE
@@ -54,13 +47,6 @@ if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
 endif()
 
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
-    # Foundation and input preparation link only the explicit SDK, never the SUT.
-    add_executable(password_hashing_environment acceptance/password_hashing_environment.cpp)
-    target_link_libraries(password_hashing_environment PRIVATE Sodium::Sodium)
-    subathon_target_options(password_hashing_environment)
-    add_test(NAME scaffold.password_hashing_environment COMMAND password_hashing_environment)
-    set_tests_properties(scaffold.password_hashing_environment PROPERTIES
-        LABELS "scaffold;password-hashing-environment" TIMEOUT 30)
 
     # Explicit preparation target: building never runs it; it is not a CTest test.
     add_executable(password_hashing_fixture_generator EXCLUDE_FROM_ALL
@@ -106,13 +92,6 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
     set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/EffectivePermissionLabels.cmake")
 
-    # Primitive SDK proof is independent of the permission evaluator and GTest.
-    add_executable(effective_permissions_environment acceptance/effective_permissions_environment.cpp)
-    target_link_libraries(effective_permissions_environment PRIVATE Boost::headers)
-    subathon_target_options(effective_permissions_environment)
-    add_test(NAME scaffold.effective_permissions_environment COMMAND effective_permissions_environment)
-    set_tests_properties(scaffold.effective_permissions_environment PROPERTIES
-        LABELS "scaffold;effective-permissions-environment" TIMEOUT 10)
 endif()
 
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)
@@ -154,14 +133,7 @@ if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
     set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/MilestoneProgressionLabels.cmake")
 
-    # This independent arithmetic foundation has no project headers or libraries.
     find_package(Boost 1.83 CONFIG REQUIRED)
-    add_executable(milestone_progression_environment acceptance/milestone_progression_environment.cpp)
-    target_link_libraries(milestone_progression_environment PRIVATE Boost::headers)
-    subathon_target_options(milestone_progression_environment)
-    add_test(NAME scaffold.milestone_progression_environment COMMAND milestone_progression_environment)
-    set_tests_properties(scaffold.milestone_progression_environment PROPERTIES
-        LABELS "scaffold;milestone-progression-environment" TIMEOUT 15)
 endif()
 
 if(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS)
@@ -201,13 +173,6 @@ endif()
 
 if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     find_package(Boost 1.83 CONFIG REQUIRED)
-    # Independent selected Boost arithmetic only; never link the new rate target.
-    add_executable(rate_snapshot_environment acceptance/rate_snapshot_environment.cpp)
-    target_link_libraries(rate_snapshot_environment PRIVATE Boost::headers)
-    subathon_target_options(rate_snapshot_environment)
-    add_test(NAME scaffold.rate_snapshot_environment COMMAND rate_snapshot_environment)
-    set_tests_properties(scaffold.rate_snapshot_environment PROPERTIES
-        LABELS "scaffold;rate-snapshot-environment" TIMEOUT 30)
 
     add_executable(core_rate_snapshot_acceptance acceptance/rate_snapshot_tests.cpp)
     target_link_libraries(core_rate_snapshot_acceptance PRIVATE subathon_rate_snapshots GTest::gtest_main)
@@ -242,16 +207,4 @@ if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
             LABELS "sqlite-account-sessions;acceptance;qt;server" TIMEOUT 60)
     endforeach()
 
-    # Foundation never links the new storage or supplier implementation.
-    add_executable(server_sqlite_account_sessions_environment qt/sqlite_account_sessions_environment.cpp)
-    set_target_properties(server_sqlite_account_sessions_environment PROPERTIES AUTOMOC ON)
-    target_link_libraries(server_sqlite_account_sessions_environment PRIVATE
-        subathon_sqlite_migrations Sodium::Sodium Qt6::Test)
-    target_compile_definitions(server_sqlite_account_sessions_environment PRIVATE
-        SUBATHON_ACCOUNT_SESSION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_account_sessions_vectors.json"
-        SUBATHON_FIXTURE_DIRECTORY="${PROJECT_SOURCE_DIR}/tests/fixtures")
-    subathon_target_options(server_sqlite_account_sessions_environment)
-    add_test(NAME scaffold.sqlite_account_sessions_environment COMMAND server_sqlite_account_sessions_environment)
-    set_tests_properties(scaffold.sqlite_account_sessions_environment PROPERTIES
-        LABELS "scaffold;qt;sqlite-account-sessions-environment" TIMEOUT 60)
 endif()

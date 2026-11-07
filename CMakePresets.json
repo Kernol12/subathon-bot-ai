@@ -31,7 +31,7 @@
     },
     {
       "name": "qt-probe-debug",
-      "displayName": "03 \u00b7 Qt 6.12 environment probe",
+      "displayName": "03 \u00b7 Qt 6.12 dependency configuration",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_QT_PROBE": "ON"

@@ -60,7 +60,7 @@ jobs:
                   raise SystemExit("Linguist tool borrowed host Qt/ICU")
               print(line.strip())
           PYTHON
-      - name: Configure catalog generation and independent Qt literal probe
+      - name: Configure catalog generation and generated-QM verifier
         run: cmake --preset translation-catalog-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
       - name: Build catalogs and verify generated source consistency
         run: cmake --build --preset translation-catalog-debug
@@ -103,9 +103,7 @@ jobs:
                   raise SystemExit("Implemented catalog cases still carry an intentional-red label")
           print("Discovered all 43 enabled reviewed catalog acceptance methods")
           PYTHON
-      - name: Require the independent real Qt literal foundation
-        run: ctest --preset translation-catalog-debug -R '^scaffold.translation_catalog_environment$' --verbose
       - name: Run all reviewed generator API and CLI acceptance cases
         run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --verbose
       - name: Run existing infrastructure checks
-        run: ctest --preset translation-catalog-debug -L '^scaffold$' -E '^scaffold.translation_catalog_environment$' --verbose
+        run: ctest --preset translation-catalog-debug -L '^scaffold$' --verbose

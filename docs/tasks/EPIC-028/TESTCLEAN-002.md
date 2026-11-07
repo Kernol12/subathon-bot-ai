@@ -3,7 +3,18 @@
 Module: Test infrastructure. Kind: cleanup. Specification: v0.45; §17.
 Contract revision: current test strategy and v0.45. Parent: EPIC-028. Dependencies: none.
 Shared-file ownership: test-only `*_environment.cpp` programs and their registrations in
-`tests/acceptance`, `tests/qt`, `tests/CMakeLists.txt`, and relevant CMake label files.
+`tests/acceptance`, `tests/qt`, `tests/CMakeLists.txt`, relevant CMake label files,
+and corresponding environment-only invocations/registration checks in
+`.github/workflows/`. The inventory also covers the Qt timer probe and only the
+foundation mode of the shared translation probe; preserve its real catalog verification
+mode. Supporting wiring/descriptions in root `CMakeLists.txt`, `CMakePresets.json`,
+`docs/CLION_SETUP.md`, `docs/CI.md`, `docs/TEST_STRATEGY.md`, and the single Qt-probe description in
+`AGENTS.md` are included. Retain the Qt preset as explicitly configure-only dependency
+discovery plus scaffold checks. Preserve feature discovery/execution and all product
+assertions; schema-native/library foundations remain TESTCLEAN-001 scope. The coordinator owns supporting
+`tests/acceptance-map.json` and `progress/state.json` artifact updates: move only retired
+environment test paths to archived historical evidence, retaining all real test paths,
+statuses and coverage claims. Do not weaken artifact validation.
 
 ## Scope
 

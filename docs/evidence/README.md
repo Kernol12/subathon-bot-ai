@@ -81,8 +81,8 @@ CI. See [codecs #69](https://github.com/Kernol12/subathon-bot-ai/pull/69) and
 
 Account/session storage has a reviewed physical/API contract and a compiled, independently
 reviewed 44-case intended-red baseline. The selected SDK foundation passed before the
-feature run; all 44 failed from the intended missing implementation marker. Its CI
-checks discovery and the foundation, not passing feature behavior. STORAGE-020 remains
+feature run; all 44 failed from the intended missing implementation marker. Its current CI
+checks discovery and stable existing suites, not passing feature behavior. STORAGE-020 remains
 unimplemented. See [contract #86](https://github.com/Kernol12/subathon-bot-ai/pull/86) and
 [baseline #89](https://github.com/Kernol12/subathon-bot-ai/pull/89).
 
@@ -94,9 +94,9 @@ installation or complete end-to-end effects.
 ## Identity and sessions
 
 Effective permissions pass 32 pure evaluator cases with separate source review and
-selected CI. Password primitives pass 37 methods/native 41 checks against selected
-libsodium, with source/secret-lifetime review and selected CI. Session token preparation
-and supplied-current-fact resolution pass 39 cases/full 43 checks with separate
+selected CI. Password primitives pass 37 methods against selected libsodium, with
+source/secret-lifetime review and selected CI. Session token preparation
+and supplied-current-fact resolution pass 39 cases with separate
 source/resource review and selected CI. DTOs do not confer execution authority.
 See [permissions #64](https://github.com/Kernol12/subathon-bot-ai/pull/64),
 [passwords #65](https://github.com/Kernol12/subathon-bot-ai/pull/65), and
@@ -116,7 +116,8 @@ See [transport #74](https://github.com/Kernol12/subathon-bot-ai/pull/74),
 ## Currency and providers
 
 Rate snapshot models have 53 independently reviewed tests with an observed intended
-red baseline, selected Boost 1.83 foundation and CI. RATES-001 remains unimplemented;
+red baseline, historically preceded by the selected Boost 1.83 foundation and CI.
+Current CI builds/discovers those methods and runs existing stable suites. RATES-001 remains unimplemented;
 passing setup is not passing rate behavior. See
 [baseline #54](https://github.com/Kernol12/subathon-bot-ai/pull/54).
 All three exchange-rate providers and all seven integrations remain in release scope.
@@ -134,8 +135,8 @@ open. See [implementation #73](https://github.com/Kernol12/subathon-bot-ai/pull/
 
 ## Localization
 
-The shared English/German catalog generator passes 43 Python methods plus selected
-Qt foundation/build checks. Reviewed literal goldens and real Qt 6.12 QM generation,
+The shared English/German catalog generator passes 43 Python methods and real Qt
+QM generation/verification checks. Reviewed literal goldens and real Qt 6.12 QM generation,
 independent source/process review and promoted CI establish build-time conversion.
 Runtime formatting, language/theme preferences, live switching, layout, renderers,
 Windows packaging and platform release checks remain open. English/German and
@@ -183,7 +184,12 @@ merge. Post-merge retrieval of the published tag verified all 969 removed receip
 This is repository evidence maintenance, with no new product behavior. EVIDENCE-002
 bounds all 461 task notes to 500 characters and replaces per-task strategy history
 with current suite coverage. Separate tests/source/110-note review, tooling 29/29
-and scaffold 3/3 passed; [PR #93](https://github.com/Kernol12/subathon-bot-ai/pull/93)
-retains hosted CI and merge gates. Later cleanup tasks retain their own reviews and
+and scaffold 3/3 passed. All 21 hosted checks passed before normal
+[PR #93](https://github.com/Kernol12/subathon-bot-ai/pull/93) merge. TESTCLEAN-002
+removed 17 environment-only programs and the translation foundation-only mode
+after separate inventory and source review. Product tests, fixtures, pins and the
+translation verifier are unchanged. Local real-Qt/SQLite and focused native checks
+passed; [PR #94](https://github.com/Kernol12/subathon-bot-ai/pull/94) retains
+hosted CI and normal merge gates. Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence
 and release readiness remain open.

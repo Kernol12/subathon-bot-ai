@@ -91,30 +91,7 @@ jobs:
                   raise SystemExit("Permission regression timeout differs")
           print(f"Compiled and discovered {len(found)} original permission cases and 2 regressions")
           PYTHON
-      - name: Verify mandatory green environment discovery
-        run: |
-          python3 - <<'PYTHON'
-          import json
-          import subprocess
-          discovery = json.loads(subprocess.check_output(
-              ["ctest", "--preset", "effective-permissions-debug", "--show-only=json-v1"], text=True))
-          found = [case for case in discovery["tests"]
-                   if case["name"] == "scaffold.effective_permissions_environment"]
-          if len(found) != 1:
-              raise SystemExit("The independent selected-Boost environment must be discovered exactly once")
-          props = {item["name"]: item["value"] for item in found[0]["properties"]}
-          if props.get("DISABLED", False) or props.get("WILL_FAIL", False):
-              raise SystemExit("The environment check is disabled or failure-inverted")
-          labels = set(props.get("LABELS", []))
-          if "effective-permissions-environment" not in labels or "intentional-red" in labels:
-              raise SystemExit("The mandatory environment is not a separate green check")
-          print("Independent green environment discovered; no feature body invoked")
-          PYTHON
-      - name: Require the independent selected-Boost environment
-        run: |
-          ulimit -c 0
-          ctest --preset effective-permissions-debug -R '^scaffold.effective_permissions_environment$' --no-tests=error --verbose
       - name: Run reviewed effective permission acceptance
         run: ctest --preset effective-permissions-debug -L '^effective-permissions$' --no-tests=error --verbose
       - name: Run existing numeric and infrastructure checks
-        run: ctest --preset effective-permissions-debug -LE '^effective-permissions$' -E '^scaffold.effective_permissions_environment$' --no-tests=error --verbose
+        run: ctest --preset effective-permissions-debug -LE '^effective-permissions$' --no-tests=error --verbose

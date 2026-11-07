@@ -70,8 +70,8 @@ packages and examples, without establishing authorization or runtime transport s
 | `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
 | `sqlite-account-sessions-debug` / `-L '^sqlite-account-sessions$'` | 44 reviewed feature cases have intended missing-implementation red evidence; production storage remains unimplemented. Feature labels alone do not distinguish this baseline from passing acceptance. |
 
-Their passing CI checks compile/discover feature registrations and execute required
-selected-dependency/fixture diagnostics. They do not turn the red feature bodies into
+Their passing CI checks compile/discover feature registrations, enforce selected
+dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into
 passing product coverage. Keep their intended-red runs separate from passing CI;
 never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
 build as a substitute. Preserve original red evidence rather than replaying it for a
@@ -90,8 +90,9 @@ ctest --preset exact-numeric-debug -L '^exact-numeric$' --no-tests=error
 Change the preset/selection using the tables above. Inspect discovery with
 `ctest --preset <preset> --show-only=json-v1` when registration changes. Run the full
 preset when affected composition warrants it, accounting for any explicit red baseline.
-Current reviewed CI registration/foundation gates remain active until separately
-reviewed cleanup replaces them; this document removes no executable checks.
+CI retains exact feature registration, dependency configuration and ordinary stable
+acceptance. Environment-only fixture/library programs were removed under the separately
+reviewed cleanup; schema-native/dependency admission gates remain separately owned.
 
 Use C++20/CMake/Ninja and the existing selected dependencies: GoogleTest, Boost >=1.83
 for numeric-dependent lanes, Qt >=6.12 with its real QSQLITE plugin for SQL/Qt lanes,
@@ -115,8 +116,8 @@ cmake --build --preset scaffold-debug
 ctest --preset scaffold-debug
 ```
 
-`scaffold-debug` checks infrastructure only. `qt-probe-debug` checks Qt environment
-capabilities only. Follow [CI guidance](CI.md), inspect actual latest-head check results
+`scaffold-debug` checks infrastructure only. `qt-probe-debug` configures Qt dependency
+discovery and scaffold checks only; `sqlite-writer-debug` checks actual Qt behavior. Follow [CI guidance](CI.md), inspect actual latest-head check results
 and repository merge rules, and retain separate independent review before merging.
 
 ## Test design and remaining coverage

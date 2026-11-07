@@ -15,7 +15,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | contribution-evidence.yml | Reviewed eligibility/linkage with primitive simulation storage |
 | application-plan.yml | Reviewed owned captured-plan transformations |
 | time-debt.yml | Reviewed32pure debt proposals/composition, exact registration and unconditional real acceptance |
-| sqlite-writer.yml | Qt6.12 build/probe, exact registration and writer/work acceptance; stage-specific evidence below |
+| sqlite-writer.yml | Qt6.12 build, exact registration and writer/work acceptance; stage-specific evidence below |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
 and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
@@ -25,7 +25,7 @@ stub-red and the earlier build-only scope remain in baseline evidence. No failur
 inversion, skipped baseline, WILL_FAIL or continue-on-error is allowed.
 
 The SQLite lane downloads official Qtbase6.12.0 and ICU archives with fixed SHA-256
-hashes, extracts with bsdtar, and uses the explicit prefix. Core/Sql/Test compilation and the Qt event loop are checked automatically;
+hashes, extracts with bsdtar, and uses the explicit prefix. Core/Sql/Test compilation and actual writer event-loop operations are checked automatically;
 the QSQLITE plugin file is verified and the actual behavior cases load/open it
 on disposable files in ordinary automatic acceptance. This adds no installer
 action, automatic local download or committed binary. Qt6.12 remains required;
@@ -64,9 +64,10 @@ a1e3a89 passed new24/old25/probe1 with verified selected archives and exact
 registration. Latest-head CI still applies before merge; these49 cases do not
 establish product schemas/recovery/platform/provider release behavior.
 
-STORAGETEST-011 prepares `sqlite-migrations-debug`: old49 still execute automatically;
-a separate7-slot green existing-driver probe is mandatory before exact new22
-migration-case discovery. Those22 are explicit stubs/intentionalred, run only with
-manual run_migration_acceptance until STORAGE-011 implements and promotes them.
-[Baseline CI evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-ci.md) records actual local/Ubuntu
-results and pending gates. No driver/init/skip/zero-case error establishes red.
+The migration catalog suite runs all 24 reviewed cases as ordinary acceptance with
+exact compiled/CTest discovery in the SQLite lane. Its original stub-red and the
+former seven-slot driver diagnostic remain in the
+[archived baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-ci.md).
+Redundant environment programs are removed only through separately approved cleanup;
+real writer/work/migration behavior, dependency configuration and failure visibility
+remain required. Missing dependencies, skips or empty discovery are not acceptance.

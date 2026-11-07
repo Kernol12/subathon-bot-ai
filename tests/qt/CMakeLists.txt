@@ -97,41 +97,8 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
         set_tests_properties(reference-capture-values.${case} PROPERTIES
             LABELS "reference-capture-values;acceptance;qt;server" TIMEOUT 30)
     endforeach()
-    # Independent foundation links only existing storage, never the new codec/store stubs.
-    add_executable(server_sqlite_reference_capture_environment sqlite_reference_capture_environment.cpp)
-    target_link_libraries(server_sqlite_reference_capture_environment PRIVATE
-        subathon_sqlite_application_holds Qt6::Test)
-    target_compile_definitions(server_sqlite_reference_capture_environment PRIVATE
-        SUBATHON_REFERENCE_CAPTURE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_reference_capture_vectors.json"
-        SUBATHON_HOLD_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_holds_vectors.json"
-        SUBATHON_ORIGINAL_CLAIM_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_original_claims_vectors.json"
-        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
-        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
-    subathon_target_options(server_sqlite_reference_capture_environment)
-    add_test(NAME scaffold.sqlite_reference_capture_environment COMMAND server_sqlite_reference_capture_environment)
-    set_tests_properties(scaffold.sqlite_reference_capture_environment PROPERTIES
-        LABELS "scaffold;qt;reference-capture-environment" TIMEOUT 30)
 endif()
 if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
-    add_executable(server_application_service_environment application_service_environment.cpp)
-    # The independent foundation cannot link or invoke the new service stubs.
-    target_link_libraries(server_application_service_environment PRIVATE subathon_sqlite_application_holds Qt6::Test)
-    target_compile_definitions(server_application_service_environment PRIVATE
-        SUBATHON_SERVICE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/application_service_vectors.json"
-        SUBATHON_HOLD_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_holds_vectors.json"
-        SUBATHON_ORIGINAL_CLAIM_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_original_claims_vectors.json"
-        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
-        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
-    subathon_target_options(server_application_service_environment)
-    add_test(NAME scaffold.application_service_environment COMMAND server_application_service_environment)
-    set_tests_properties(scaffold.application_service_environment PROPERTIES
-        LABELS "scaffold;qt;server;service-environment" TIMEOUT 30)
 
     add_executable(server_application_service_acceptance application_service_tests.cpp)
     target_link_libraries(server_application_service_acceptance PRIVATE subathon_original_application_service Qt6::Test)
@@ -197,20 +164,6 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
     endforeach()
 endif()
 if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
-    add_executable(server_sqlite_application_hold_environment sqlite_application_hold_environment.cpp)
-    target_link_libraries(server_sqlite_application_hold_environment PRIVATE subathon_sqlite_application_bundle Qt6::Test)
-    target_compile_definitions(server_sqlite_application_hold_environment PRIVATE
-        SUBATHON_HOLD_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_holds_vectors.json"
-        SUBATHON_ORIGINAL_CLAIM_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_original_claims_vectors.json"
-        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
-        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
-    subathon_target_options(server_sqlite_application_hold_environment)
-    add_test(NAME scaffold.sqlite_application_hold_environment COMMAND server_sqlite_application_hold_environment)
-    set_tests_properties(scaffold.sqlite_application_hold_environment PROPERTIES
-        LABELS "scaffold;qt;hold-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_application_hold_acceptance sqlite_application_hold_tests.cpp)
     target_link_libraries(server_sqlite_application_hold_acceptance PRIVATE subathon_sqlite_application_holds Qt6::Test)
@@ -223,7 +176,7 @@ if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
     subathon_target_options(server_sqlite_application_hold_acceptance)
-    # Reviewed hold cases retain separate processes and the independent fixture foundation.
+    # Reviewed hold cases retain separate processes.
     foreach(case IN ITEMS
         manifestPreservesFivePrefixesAndExactFrozenStepSix
         explicitMigrationPreservesEachSupportedPrefix
@@ -268,19 +221,6 @@ if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS)
-    add_executable(server_sqlite_original_claim_environment sqlite_original_claim_environment.cpp)
-    target_link_libraries(server_sqlite_original_claim_environment PRIVATE subathon_sqlite_application_bundle Qt6::Test)
-    target_compile_definitions(server_sqlite_original_claim_environment PRIVATE
-        SUBATHON_ORIGINAL_CLAIM_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_original_claims_vectors.json"
-        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
-        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
-    subathon_target_options(server_sqlite_original_claim_environment)
-    add_test(NAME scaffold.sqlite_original_claim_environment COMMAND server_sqlite_original_claim_environment)
-    set_tests_properties(scaffold.sqlite_original_claim_environment PROPERTIES
-        LABELS "scaffold;qt;original-claim-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_original_claim_acceptance sqlite_original_claim_tests.cpp)
     target_link_libraries(server_sqlite_original_claim_acceptance PRIVATE subathon_sqlite_application_bundle Qt6::Test)
@@ -292,7 +232,6 @@ if(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS)
         SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
         SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
     subathon_target_options(server_sqlite_original_claim_acceptance)
-    # Keep query acceptance separate from the old-primitive environment diagnostics.
     foreach(case IN ITEMS
         frozenSelectorsPreserveGlobalPriorityAndRoles
         originalFilterExcludesFinancialReversalRows
@@ -320,18 +259,6 @@ if(SUBATHON_BUILD_SQLITE_ORIGINAL_CLAIM_TESTS)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
-    add_executable(server_sqlite_application_bundle_environment sqlite_application_bundle_environment.cpp)
-    target_link_libraries(server_sqlite_application_bundle_environment PRIVATE subathon_sqlite_writer Qt6::Test)
-    target_compile_definitions(server_sqlite_application_bundle_environment PRIVATE
-        SUBATHON_BUNDLE_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_bundle_vectors.json"
-        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
-    subathon_target_options(server_sqlite_application_bundle_environment)
-    add_test(NAME scaffold.sqlite_application_bundle_environment COMMAND server_sqlite_application_bundle_environment)
-    set_tests_properties(scaffold.sqlite_application_bundle_environment PROPERTIES
-        LABELS "scaffold;qt;bundle-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_application_bundle_acceptance sqlite_application_bundle_tests.cpp)
     target_link_libraries(server_sqlite_application_bundle_acceptance PRIVATE subathon_sqlite_application_bundle Qt6::Test)
@@ -387,17 +314,6 @@ if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)
-    add_executable(server_sqlite_application_plans_environment sqlite_application_plans_environment.cpp)
-    target_link_libraries(server_sqlite_application_plans_environment PRIVATE subathon_sqlite_writer Qt6::Test)
-    target_compile_definitions(server_sqlite_application_plans_environment PRIVATE
-        SUBATHON_PLAN_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_application_plans_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json"
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json")
-    subathon_target_options(server_sqlite_application_plans_environment)
-    add_test(NAME scaffold.sqlite_application_plans_environment COMMAND server_sqlite_application_plans_environment)
-    set_tests_properties(scaffold.sqlite_application_plans_environment PROPERTIES
-        LABELS "scaffold;qt;plan-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_application_plans_acceptance sqlite_application_plans_tests.cpp)
     target_link_libraries(server_sqlite_application_plans_acceptance PRIVATE subathon_sqlite_application_plans Qt6::Test)
@@ -445,21 +361,7 @@ if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)
     endforeach()
 endif()
 
-if(SUBATHON_BUILD_QT_PROBE)
-    add_executable(qt_environment_probe qt_environment_probe.cpp)
-    target_link_libraries(qt_environment_probe PRIVATE Qt6::Core Qt6::Test)
-    subathon_target_options(qt_environment_probe)
-    add_test(NAME scaffold.qt_event_loop COMMAND qt_environment_probe)
-    set_tests_properties(scaffold.qt_event_loop PROPERTIES LABELS "scaffold;qt")
-endif()
-
 if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
-    add_executable(server_sqlite_migration_environment sqlite_migration_environment.cpp)
-    target_link_libraries(server_sqlite_migration_environment PRIVATE subathon_sqlite_writer Qt6::Test)
-    subathon_target_options(server_sqlite_migration_environment)
-    add_test(NAME scaffold.sqlite_migration_environment COMMAND server_sqlite_migration_environment)
-    set_tests_properties(scaffold.sqlite_migration_environment PROPERTIES
-        LABELS "scaffold;qt;migration-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_migration_acceptance sqlite_migration_tests.cpp)
     target_link_libraries(server_sqlite_migration_acceptance PRIVATE subathon_sqlite_migrations Qt6::Test)
@@ -500,14 +402,6 @@ if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_RETAINED_TESTS)
-    add_executable(server_sqlite_retained_context_environment sqlite_retained_context_environment.cpp)
-    target_link_libraries(server_sqlite_retained_context_environment PRIVATE subathon_sqlite_writer Qt6::Test)
-    target_compile_definitions(server_sqlite_retained_context_environment PRIVATE
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
-    subathon_target_options(server_sqlite_retained_context_environment)
-    add_test(NAME scaffold.sqlite_retained_context_environment COMMAND server_sqlite_retained_context_environment)
-    set_tests_properties(scaffold.sqlite_retained_context_environment PROPERTIES
-        LABELS "scaffold;qt;retained-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_retained_context_acceptance sqlite_retained_context_tests.cpp)
     target_link_libraries(server_sqlite_retained_context_acceptance PRIVATE subathon_sqlite_retained_context Qt6::Test)
@@ -630,15 +524,6 @@ if(SUBATHON_BUILD_SQLITE_WRITER_TESTS)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS)
-    add_executable(server_sqlite_receipts_environment sqlite_receipts_environment.cpp)
-    target_link_libraries(server_sqlite_receipts_environment PRIVATE subathon_sqlite_writer Qt6::Test)
-    target_compile_definitions(server_sqlite_receipts_environment PRIVATE
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
-    subathon_target_options(server_sqlite_receipts_environment)
-    add_test(NAME scaffold.sqlite_receipts_environment COMMAND server_sqlite_receipts_environment)
-    set_tests_properties(scaffold.sqlite_receipts_environment PROPERTIES
-        LABELS "scaffold;qt;receipt-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_receipts_acceptance sqlite_receipts_tests.cpp)
     target_link_libraries(server_sqlite_receipts_acceptance PRIVATE subathon_sqlite_receipts Qt6::Test)
@@ -678,16 +563,6 @@ if(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS)
-    add_executable(server_sqlite_contributions_environment sqlite_contributions_environment.cpp)
-    target_link_libraries(server_sqlite_contributions_environment PRIVATE subathon_sqlite_writer Qt6::Test)
-    target_compile_definitions(server_sqlite_contributions_environment PRIVATE
-        SUBATHON_CONTRIBUTION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_contributions_vectors.json"
-        SUBATHON_RECEIPT_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_receipts_vectors.json"
-        SUBATHON_RETAINED_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/retained_context_vectors.json")
-    subathon_target_options(server_sqlite_contributions_environment)
-    add_test(NAME scaffold.sqlite_contributions_environment COMMAND server_sqlite_contributions_environment)
-    set_tests_properties(scaffold.sqlite_contributions_environment PROPERTIES
-        LABELS "scaffold;qt;contribution-environment" TIMEOUT 30)
 
     add_executable(server_sqlite_contributions_acceptance sqlite_contributions_tests.cpp)
     target_link_libraries(server_sqlite_contributions_acceptance PRIVATE subathon_sqlite_contributions Qt6::Test)
@@ -733,13 +608,6 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
     add_executable(translation_catalog_probe translation_catalog_probe.cpp)
     target_link_libraries(translation_catalog_probe PRIVATE Qt6::Core)
     subathon_target_options(translation_catalog_probe)
-    # Existing Qt only: compile literal fixtures, load raw forms, compare two fresh builds.
-    add_test(NAME scaffold.translation_catalog_environment
-        COMMAND translation_catalog_probe foundation
-            "${PROJECT_SOURCE_DIR}/tests/fixtures/translation_catalog"
-            "$<TARGET_FILE:Qt6::lrelease>")
-    set_tests_properties(scaffold.translation_catalog_environment PROPERTIES
-        LABELS "scaffold;qt;translation-catalog-environment" TIMEOUT 120)
     # Register every authored method without importing tests or invoking feature stubs.
     file(STRINGS "${PROJECT_SOURCE_DIR}/tests/localization/case_inventory.txt"
         translation_catalog_cases)
