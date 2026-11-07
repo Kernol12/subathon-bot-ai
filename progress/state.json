@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T15:44:32.657454+00:00",
+  "updated_at": "2026-11-07T15:50:33.803550+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -155,8 +155,8 @@
       "title": "Replace schema harness tests with real schema checks",
       "module": "Tooling",
       "kind": "cleanup",
-      "status": "ready",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/schema_cleanup_author",
       "depends_on": [],
       "spec_refs": [
         "§17",
@@ -165,7 +165,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
       "summary": "Replace validator harness-on-harness tests with real schema and valid/invalid example checks, subject to independent review of any superseded process contract.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition. Preserve §18 validation purpose and all original receipts."
+        "Claim at main b8bd0d3 after normal PR94/all21 checks. Scope ADR0012/v0.45 §§17–18: real shipped-schema/valid-invalid example validation. First read ADR0008/0009, native/process/installation contracts and oracle map; independent exact boundary/contract proposal review BEFORE native assertion/interface changes or probes/builds. Author owns brief tool/schema/test/doc paths; coordinator owns shared state/HTML/checkpoint/PR. Preserve all release requirements."
       ],
       "verification": {},
       "evidence": [],
@@ -185,7 +185,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
       "summary": "Remove environment executables that assert library or fixture facts instead of product behavior, preserving focused real tests.",
       "notes": [
-        "Removed 17 environment programs and translation foundation mode after independent cleanup/source review. Product tests, fixtures, pins and verifier unchanged. Real Qt/SQLite 361 cases, focused suites, tooling29 and scaffold3 passed; rate53/account44 remain red. Hosted CI and normal PR94 merge remain. Next: TESTCLEAN-003 or TESTCLEAN-001."
+        "Removed 17 environment programs and translation foundation mode under independent cleanup/source review. Product assertions/fixtures/pins/verifier unchanged; rate53/account44 remain red. Real Qt/SQLite 361 cases, focused suites, tooling29/scaffold3 and all21 hosted checks passed before normal PR94 merge. Next: TESTCLEAN-001."
       ],
       "verification": {
         "cleanup_baseline_review": "passed",
@@ -193,7 +193,7 @@
         "native_acceptance": "passed",
         "tooling": "passed",
         "scaffold": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -203,7 +203,7 @@
         "author": "/root/environment_cleanup_author",
         "reviewer": "/root/environment_cleanup_review",
         "outcome": "approved",
-        "revision": "Exact pre-deletion proposal SHA256 a1053859 approved, then source b014fcf/importfe483fe and supporting cef3146b approved. No product assertion/fixture/pin change; final integration metadata and hosted CI remain.",
+        "revision": "Exact pre-deletion proposal a1053859 approved; source b014fcf/importfe483fe and reference fixcef3146b approved; complete head61b5b20 independently approved, all21CI and normalPR94 mergeb8bd0d3.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/94"
       }
     },
@@ -16494,6 +16494,11 @@
       "date": "2026-11-07T15:44:32.657454+00:00",
       "task": "TESTCLEAN-002",
       "note": "Imported independently approved b014fcf/fe483fe; precise18registration removal admitted before deletion. Native361+contract passed, two stale-reference infra failures corrected via separately reviewed cef3146b then only2rerunPASS. Focused32/53/37/39/43/33 passed; red53/44 unchanged. Roottooling29/scaffold3/currentstate/render/project pass. PR94 finalmetadatareview/CI/normalmerge remain."
+    },
+    {
+      "date": "2026-11-07T15:50:33.803550+00:00",
+      "task": "TESTCLEAN-001",
+      "note": "Claim from actual mainb8bd0d3 after normalPR94 all21SUCCESS/independent61b5b20 approval. Fresh schema cleanup author must inventory all realschemas/examples and independently revise any ADR0009 process boundary before source/assertion/native probe changes. Reuse selected admittedvalidator dependencies wherepossible; fullscope/no liveeffects retained."
     }
   ]
 }
