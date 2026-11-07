@@ -70,6 +70,8 @@ jobs:
               props = {p["name"]: p["value"] for p in test["properties"]}
               if not {'acceptance', 'milestone-progression', 'core'}.issubset(props.get("LABELS", [])):
                   raise SystemExit("A milestone-progression test lost its required labels")
+              if "intentional-red" in props.get("LABELS", []):
+                  raise SystemExit("Implemented behavior was put in the red lane")
               if props.get("DISABLED") or props.get("WILL_FAIL"):
                   raise SystemExit("A milestone-progression test is disabled or failure-inverted")
               if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:

@@ -60,6 +60,8 @@ jobs:
               props = {p["name"]: p["value"] for p in test["properties"]}
               if not {'acceptance', 'timer-editorial', 'core'}.issubset(props.get("LABELS", [])):
                   raise SystemExit("A timer-editorial test lost its required labels")
+              if "intentional-red" in props.get("LABELS", []):
+                  raise SystemExit("Implemented behavior was put in the red lane")
               if props.get("DISABLED") or props.get("WILL_FAIL"):
                   raise SystemExit("A timer-editorial test is disabled or failure-inverted")
               if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
@@ -68,6 +70,14 @@ jobs:
                   raise SystemExit("A timer-editorial test rewrites native results")
               if props.get("TIMEOUT") != 30:
                   raise SystemExit("A timer-editorial test timeout changed")
+          for test in discovery["tests"]:
+              props = {p["name"]: p["value"] for p in test["properties"]}
+              if "timer-editorial" in props.get("LABELS", []):
+                  continue
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("An approved dependency check is disabled or inverted")
+              if "intentional-red" in props.get("LABELS", []):
+                  raise SystemExit("An approved dependency check was put in the red lane")
           PYTHON
       - name: Run every reviewed editorial acceptance case
         run: |

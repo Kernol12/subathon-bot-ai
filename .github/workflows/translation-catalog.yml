@@ -64,6 +64,27 @@ jobs:
         run: cmake --preset translation-catalog-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
       - name: Build catalogs and verify generated source consistency
         run: cmake --build --preset translation-catalog-debug
+      - name: Verify the enabled ordinary translation suite
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "translation-catalog-debug", "--show-only=json-v1"], text=True))
+          selected = [test for test in discovery["tests"]
+                      if test["name"].startswith("translation-catalog.")]
+          if not selected:
+              raise SystemExit("No translation suite was discovered")
+          for test in selected:
+              props = {p["name"]: p["value"] for p in test["properties"]}
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("A translation suite is disabled or failure-inverted")
+              labels = set(props.get("LABELS", []))
+              if not {"translation-catalog", "acceptance"}.issubset(labels):
+                  raise SystemExit("A translation suite lost its required labels")
+              if "intentional-red" in labels:
+                  raise SystemExit("Implemented translation behavior was put in the red lane")
+          PYTHON
       - name: Run all reviewed generator API and CLI acceptance cases
         run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --no-tests=error --verbose
       - name: Run existing infrastructure checks
