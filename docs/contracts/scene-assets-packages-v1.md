@@ -8,13 +8,13 @@ Authority: specification v0.45 §11/MEDIA-01/03/04/05/06/UI-04,
 [common values](wire-primitives-v1.md) blob `11eeb5f4`.
 Proposed definition identity: `subathon.scene-assets-packages.v1`.
 
-**PARTIAL CORRECTION CHECKPOINT, 2026-11-04:** independent review
-[R1/R2](../evidence/contract-011-review.md) is still CHANGES REQUIRED. Section 2
-now proposes media descriptors/allowed sets/checks; the font profile definitions,
-closed SVG vocabulary and new complete independent descriptor/source examples are
-still unfinished 011-owned work. Some original later-stage wording below remains
-to be reconciled by that correction. Do not freeze this draft or start 012 from it.
-See the [author checkpoint](../evidence/contract-011-author.md) for exact scope.
+**CORRECTED PROPOSAL, 2026-11-07, awaiting independent re-review:** §2/4
+supply finite media/font records and §3 the closed static SVG admission profile;
+§8 adds complete literal logical descriptors and source cases. Historical
+[R1/R2](../evidence/contract-011-review.md) remains CHANGES REQUIRED until the
+actual revised packet receives different review. These are proposed policy
+requirements, not measured codec/platform support or authorization to start 012.
+See [author evidence](../evidence/contract-011-author.md) for preserved receipts.
 
 This defines logical values, independent examples and finite review proposals.
 It supplies no archive codec, schema, API, decoder, validator, asset, font binary,
@@ -92,8 +92,8 @@ A CodecProfile is an immutable versioned definition with a common
 CapabilityIdentifier, exact descriptor variant and check-set revision. The following
 011-owned media entries below are DECLARATIVE proposals, not codec selection by an
 installed runtime or playback/UI defaults. The proposed media registry has ten
-entries; the font registry and complete SVG definitions remain unfinished at this
-checkpoint, so the complete 011 profile gate cannot pass. An unrecognized
+entries, including SVG, and §4 defines two font entries. All require independent
+review before the complete 011 profile gate can pass. An unrecognized
 profile/version is UNKNOWN and cannot authorize compatible publication. A known
 variant outside its admitted set is profile-incompatible, not malformed merely
 because another profile is needed.
@@ -145,7 +145,9 @@ observation that either renderer currently follows it.
 | `gif.v1` | `GIF(version,width,height,paletteEntries,backgroundIndex,loop,frames)`; version `89a`; paletteEntries 2,4,8,16,32,64,128,256; backgroundIndex in palette; loop `once`, `forever`, or `repeat(U)` with count 1..65535; frames is 1..65536 ordered `Frame(x,y,w,h,paletteEntries,transparentIndex,disposal,delayCS,interlace)` records | Full header/trailer, LZW decode and index/sub-block completion, known global palette plus optional bounded local palette; frame w/h positive, x+w<=width and y+h<=height. Frame palette uses the same finite sizes; transparentIndex is `none` or an in-palette index. Disposal 0/1 keeps canvas, 2 restores logical-screen background, 3 restores saved prior canvas; actual compositing must agree. delayCS integer 2..65535 (centiseconds), interlace boolean; raw delays 0/1 need another profile, not hidden browser clamping. Only the known NETSCAPE2.0 loop extension, comments and graphics control are admitted; no plain-text/unknown application rendering extension |
 | `svg-static.v1` | `SVG(width,height,viewBox,aspect,elements,attributes,references,expandedUses,pathSegments)`; width/height and viewBox exact numbers per §3; aspect is §3's closed value; remaining fields are actual counted unsigned values under §3/7 | The COMPLETE closed source/check profile in §3, not a generic native SVG validity result |
 
-GIF loop is source metadata, not a new scene autoplay/retrigger policy. Its finite
+GIF repeat(n) retains the actual positive NETSCAPE2.0 loop-count integer; once
+means no repeat extension, forever is its zero-count encoding. This is source
+metadata, not a new scene autoplay/retrigger policy. Its finite
 delay restriction is a profile compatibility condition, not a change to built-in
 animation timing under 010. Required broader source behavior needs an explicit
 011 profile extension rather than silently rewriting the original asset.
@@ -162,7 +164,7 @@ apply, with matching container timing/priming; `none` means no audio track.
 | --- | --- |
 | `PCM(rate,layout,bits,samples)` | rate in {8000,11025,16000,22050,24000,32000,44100,48000,96000}; layout mono/stereo; bits 8 or 16, unsigned 8-bit or signed little-endian 16-bit integer samples; samples positive U |
 | `AAC(rate,layout,samples,priming,padding)` | AAC-LC only, exact codec `mp4a.40.2`, no SBR/PS; rate 44100 or 48000; layout mono/stereo; priming/padding U each <=65535; decoded frame counts and trims establish positive samples; no implicit zero/unknown trim |
-| `MPEG1Layer3(rate,mode,rateMode,kbps,samples,priming,padding)` | rate 32000/44100/48000; mode mono/stereo/joint-stereo (latter two ordered L/R); rateMode `cbr` or `vbr`; kbps sorted distinct subset of {32,40,48,56,64,80,96,112,128,160,192,224,256,320}, singleton for cbr; priming/padding each <=65535; positive samples after valid documented trim (known absence is 0). No free-format, MPEG2/2.5, layers I/II or unexplained sync loss |
+| `MPEG1Layer3(rate,mode,rateMode,kbps,samples,priming,padding)` | rate 32000/44100/48000; mode mono/stereo/joint-stereo (latter two ordered L/R); rateMode `cbr` or `vbr`; kbps sorted distinct nonempty subset of {32,40,48,56,64,80,96,112,128,160,192,224,256,320}, singleton for cbr; priming/padding each <=65535; positive samples after valid documented trim (known absence is 0). No free-format, MPEG2/2.5, layers I/II or unexplained sync loss |
 | `Vorbis(rate,layout,smallBlock,largeBlock,samples)` | Vorbis I version 0; rate 44100/48000; layout mono/stereo; block sizes powers of two from 64 through 8192, smallBlock<=largeBlock; positive audible samples from final valid granule/timing, not nominal bitrate hints |
 | `Opus(rate,layout,mapping,preSkip,gainQ8,samples)` | OpusHead version 1; decoded/granule clock rate 48000; layout mono/stereo and mapping family 0; preSkip 0..65535; gainQ8 signed -32768..32767, applied exactly once using the codec's gain semantics; positive samples after preSkip and final trimming. Header input sample-rate hint is not substituted for the 48000 clock |
 
@@ -251,43 +253,237 @@ still produce bounded visible failure; inspection is not a guarantee against eve
 native failure. Actual reference tests must exercise both intended outputs and
 rejection cases. Required features cover actual content, not a shorter caller list.
 
-## 3. Restricted static SVG: required semantics and rejection
+## 3. Closed restricted static SVG profile
 
-Preserve basic shapes, paths, groups, fills/linear and radial gradients, strokes,
-transforms and same-document internal references. The profile must cover rectangle,
-circle/ellipse, line/polyline/polygon and full path-command families including curves
-and arcs, with their reviewed numeric grammar. `svg`, grouping/definition containers
-and these required primitives must not be reduced to a raster-only substitute.
-Editable text belongs to scene Text; SVG text must have been converted to paths.
+`subathon.asset.svg-static.v1` selects the following COMPLETE source-admission
+vocabulary. This is an application subset of SVG, not all conforming SVG and not
+Qt Tiny12. Unsupported source rejects; no best-effort ignored property, text
+outlining, animation disabling, or sanitizer makes original bytes pass. Shapes,
+full path families, groups, fills/gradients, strokes, transforms and typed internal
+references remain available. Actual validation and both renderers remain unbuilt.
 
-Internal IDs are unique and references resolve in this exact document. Same-document
-fragment references for reuse/paint/gradient definitions are allowed only with the
-correct target kind, complete closure and bounded acyclic expansion. Shared targets
-still charge each use/work occurrence. A missing/wrong-kind/cyclic reference is not
-an empty successful drawing. Source numeric spellings follow the reviewed SVG-number
-profile, not 009's canonical geometry string grammar or a financial parser shortcut.
+### 3.1 XML, names, tree and attributes
 
-Reject scripts, event handlers, external resources, embedded HTML/foreignObject,
-SVG/SMIL/CSS animations and filters. Reject `<text>`/textPath rather than silently
-drawing system text or outlining it during validation. Remote/file URLs, data URLs,
-external styles/fonts/images and xml:base resolution cannot bypass the prohibition
-on external resources. Reject DTD/entity declarations and external resolution;
-built-in XML escapes/numeric character references remain subject to decoded bounds.
-No loader/network access occurs to discover whether an external reference is safe.
+Source is UTF-8 XML 1.0, optional UTF-8 BOM and XML declaration (version 1.0,
+encoding absent or UTF-8, standalone absent or yes). Reject other encodings,
+DOCTYPE/DTD/entity declarations, processing instructions, CDATA, comments and
+non-whitespace character content. Only XML whitespace (space/tab/CR/LF) may occur
+between elements. The five predefined XML escapes and valid XML 1.0 numeric
+character references are allowed inside quoted attribute values; validate the
+DECODED value against the same grammar/bounds. No external entity or URL resolver
+is called. Malformed XML, duplicate expanded attribute names and trailing second
+roots reject before renderer loading.
 
-Presentation properties require a closed reviewed whitelist that preserves required
-fill/gradient/stroke/transform semantics. Its exact attribute/restricted-style grammar
-and namespace rules must be frozen before parsing under 012; there is no general
-stylesheet/expression/native-object escape hatch. Unknown elements/attributes or
-features outside that profile reject with a precise bounded issue, never disappear
-through best-effort rendering. Required compatibility covers the same semantics on
-both renderers. Disabling animation playback is not rejection of forbidden content.
+Exactly one unprefixed `svg` root declares `xmlns="http://www.w3.org/2000/svg"`.
+Every element is unprefixed in that namespace; no nested namespace redeclaration.
+The root may additionally declare exactly
+`xmlns:xlink="http://www.w3.org/1999/xlink"`, only to use `xlink:href` below.
+All other namespace declarations, prefixed elements, namespaced attributes
+(including xml:base/xml:space) and unknown attributes reject. Unqualified attribute
+names are case-sensitive. `href` and `xlink:href` are alternatives, never both on
+one element. Namespace attributes are included in the attribute count. `id`, where
+present, matches ASCII `[A-Za-z_][A-Za-z0-9_.-]{0,127}`, is document-unique and is
+never URL-decoded or Unicode-normalized. No opaque scene ID is forced into this
+separate source-local identifier grammar.
 
-Raw byte length does not bound paths, references, numeric construction or generated
-pixels. §7 proposes separate finite structure/work/intermediate limits. Actual
-content validation must precede unsafe renderer loading; inability to prove/enforce
-the profile is unavailable, not a reason to set a trusted-source flag. There is no
-selected XML/SVG validator or sanitizer in this document.
+`G` below means the graphic attributes `id`, `transform`, the paint properties in
+§3.3, and `style` restricted to those same properties. Except the root namespace
+attributes, the table is the entire attribute/child vocabulary. Optional geometry
+fields use the stated defaults; all other named geometry fields are required.
+Omitted id/style/transform means no id/no declarations/identity transform.
+
+| Element | Attributes in addition to the stated common set | Permitted children |
+| --- | --- | --- |
+| svg | G; required width,height,viewBox; optional preserveAspectRatio (default xMidYMid meet) | defs, g, shapes, use |
+| defs | id only | g, shapes, use, linearGradient, radialGradient |
+| g | G only | g, shapes, use |
+| rect | G; x,y default 0; required width,height; rx,ry optional | none |
+| circle | G; cx,cy default 0; required r | none |
+| ellipse | G; cx,cy default 0; required rx,ry | none |
+| line | G; x1,y1,x2,y2 default 0 | none |
+| polyline, polygon | G; required points | none |
+| path | G; required d | none |
+| use | G; required href OR xlink:href; x,y default 0 | none |
+| linearGradient | id; required x1,y1,x2,y2,gradientUnits,spreadMethod; optional gradientTransform and href OR xlink:href | stop only |
+| radialGradient | id; required cx,cy,r,fx,fy,gradientUnits,spreadMethod; optional gradientTransform and href OR xlink:href | stop only |
+| stop | id; required offset; stop-color,stop-opacity and style restricted to those two properties | none |
+
+`shapes` abbreviates rect/circle/ellipse/line/polyline/polygon/path only. One root
+`defs` is optional and must precede all graphical children. Gradients occur only
+in defs. No nested svg/symbol/view/image/pattern/marker/mask/clipPath, text/textPath,
+foreignObject/HTML, script, style element, animation/filter or event attribute is
+admitted. No external image/font/style, data/file/HTTP URL, arbitrary CSS property,
+class, conditional processing or implementation/native-object extension is admitted.
+
+### 3.2 Source numbers, lengths, paths and transforms
+
+The following ASCII grammar is after XML attribute decoding. `D=[0-9]`,
+`W=[ \t\r\n]`. A number is
+`[+-]?(D+(\.D*)?|\.D+)([eE][+-]?D+)?`. No hexadecimal, NaN, infinity,
+locale decimal, CSS escape/comment, sign without digits or internal whitespace.
+A token has at most 128 bytes; its explicit exponent absolute value is <=256.
+Interpret its decimal value exactly, including exponent and negative zero (zero
+value). Reduced numerator/denominator each have <=4096 bits. This source grammar
+intentionally admits `+1`, `.5`, `1.`, `1e2`, unlike canonical scene geometry.
+
+Every source number's absolute value is <=1048576 (2^20). A length is a number
+optionally followed immediately by `px`, with equal user-unit value; no em/rem,
+physical unit, viewport unit, auto or calc. Percent is allowed ONLY on stop offset,
+where N% means N/100. Root width/height are positive lengths. viewBox is four
+unitless numbers (minX,minY,width,height), last two positive. preserveAspectRatio
+is exactly `none`, or one of xMinYMin/xMidYMin/xMaxYMin/xMinYMid/xMidYMid/xMaxYMid/
+xMinYMax/xMidYMax/xMaxYMax followed by exactly one space and `meet` or `slice`;
+no defer. The root clips painting to its explicit viewport after this mapping.
+Attribute values allow leading/trailing W unless stated exact literals.
+List separator is W+ OR W* comma W*, never a trailing/doubled comma.
+
+Shape widths/heights/radii and stroke widths are nonnegative; zero gives SVG's
+empty geometry, not an invalid nonempty picture. rect rx/ry: both absent means 0;
+one absent copies the other; clamp each to half its corresponding dimension as
+SVG specifies (this is declared shape semantics, not source repair). points is an
+even coordinate list with at least two pairs for polyline, three for polygon.
+All points/path coordinates are unitless numbers, not lengths. Gradients use
+`gradientUnits=userSpaceOnUse` (length coordinates) or `objectBoundingBox`
+(unitless coordinates); no coordinate percentages. spreadMethod is
+pad/reflect/repeat. Radial r is positive and the focus satisfies
+(fx-cx)^2+(fy-cy)^2<=r^2; out-of-circle source needs a different profile rather
+than an implementation-specific focal adjustment. A gradient applied to a zero
+width/height object bounding box paints nothing, consistently with SVG semantics.
+
+Path uses the SVG 2 path-data grammar for M/m,L/l,H/h,V/v,C/c,S/s,Q/q,T/t,A/a,Z/z,
+with this number/separator grammar and exact one-character arc flags 0 or 1.
+Successive numeric arguments require an explicit list separator even where
+general SVG permits a sign/decimal to separate tokens; no such compact-number
+exception is admitted here. Full grammar consumption is mandatory; first command M/m, repeated moveto pairs
+become lineto, relative coordinates accumulate from current point, smooth controls
+reflect the preceding compatible control (otherwise current point), Z closes to
+subpath start. Arcs have nonnegative radii, rotation in degrees, SVG endpoint-to-
+center/radius-correction semantics; zero radius is a line and equal endpoints
+omit the arc. No truncation at the first bad segment. Counts include each moveto,
+implicit lineto, explicit segment and closepath separately. At most 1048576 source
+segments and 1048576 expanded segments, charged again on every use instance.
+
+Transforms use the SVG 1.1 transform-list grammar, restricted to matrix(a,b,c,d,e,f),
+translate(tx[,ty]), scale(sx[,sy]), rotate(angle[,cx,cy]), skewX(angle), skewY(angle).
+Arguments are unitless numbers separated as above; lists are nonempty, at most 64
+operations, separated by W+ or W* comma W*. No CSS transform units/3D or skew()
+shortcut. Default ty=0, sy=sx, rotation center=(0,0); a rotation center requires both
+cx and cy. Matrix maps (x,y) to (a*x+c*y+e,b*x+d*y+f). Written transform matrices
+multiply left to right; nested transforms compose parent*child; use contributes
+its transform*translate(x,y) before the referenced subtree's own transform.
+Rotation is in degrees; skew angle is in [-80,80]. Singular graphical transforms
+are admitted (may paint no area); gradientTransform must be invertible. These
+choices do not grant a caller permission to execute general CSS transformations.
+
+### 3.3 Paint, style and references
+
+Closed graphic properties and defaults:
+
+| Property | Allowed value; default when not supplied/inherited |
+| --- | --- |
+| fill, stroke | `none`, color, or exactly `url(#ID)`; defaults #000000 / none |
+| fill-rule | nonzero or evenodd; nonzero |
+| fill-opacity, stroke-opacity | number in [0,1]; 1 |
+| opacity | number in [0,1]; 1; group compositing, not inherited |
+| stroke-width | nonnegative length; 1 |
+| stroke-linecap | butt, round, square; butt |
+| stroke-linejoin | miter, round, bevel; miter |
+| stroke-miterlimit | number in [1,1048576]; 4 |
+| stroke-dasharray | none, or 1..1024 nonnegative lengths, not all zero; none |
+| stroke-dashoffset | signed length; 0 |
+| stop-color (stop only) | color; #000000 |
+| stop-opacity (stop only) | number in [0,1]; 1 |
+
+Color is exactly #RGB or #RRGGBB, with ASCII hex digits in either case, interpreted
+as sRGB. No named colors/currentColor/ICC/CSS function/alpha hex. Case-sensitive
+keywords are exactly those printed. Paint fragment syntax contains the §3.1 ID,
+no quotes/whitespace inside url(), fallback paint, escape or percent decoding.
+Stops do not accept gradient paint. Stop offsets are numbers in [0,1] or
+percentages in [0,100]; there are 2..4096 effective stops, nondecreasing, with
+first=0 and last=1. Equal offsets retain source order and SVG discontinuity rules.
+No clamping/reordering of invalid stop offsets into acceptance.
+
+`style` is a nonempty list of `property W* : W* value` separated by semicolons,
+with optional final semicolon and surrounding W. Property is allowed for that
+element by the table; value has exactly its grammar above. Reject duplicate style
+properties, or a property present in BOTH style and presentation attributes;
+no cascade ambiguity/last-wins. Reject !important, selectors, at-rules, comments,
+escapes, var(), inherit/initial/unset/revert and all unlisted properties. Geometry,
+transform, id and href cannot occur in style. Graphic properties except opacity
+inherit along SVG graphic parentage; root uses defaults. Stop properties use their
+own defaults (gradient containers have no inherited style in this profile).
+Use shadow instances inherit graphic properties from the use element, then apply
+the referenced subtree's explicit declarations; original source ancestors of the
+referenced root do not inject a second inherited style. Required group opacity,
+paint order (fill then stroke) and odd dash-list duplication follow SVG semantics.
+
+`use` targets a g, shape or use by exact document-local ID. It cannot target svg,
+defs, stop or gradient. A paint URL targets linearGradient or radialGradient.
+Gradient href targets the SAME gradient kind and supplies stops ONLY: all geometry,
+units/spread fields are still explicit on the referencing gradient; an absent
+transform means identity. With own stops, use own stops; otherwise inherit the
+nearest referenced effective stop list. No eventual stops is invalid. This is the
+restricted SVG template case, not general cross-kind/template style inheritance.
+
+All original source nodes, even unused defs, must validate. Resolve every reference;
+reject missing/wrong-kind targets and cycles. Check the directed expansion graph
+including containment and reference/template edges, not only href-to-href edges:
+a group's descendant use referring to that group is a cycle. Each syntactic href
+or paint URL is one source reference occurrence. Each element visited in a use
+instance is one expandedUses occurrence (nested instances charge repeatedly);
+gradient-template/paint walks and effective stops also charge repeated work.
+No unique-node/digest discount hides exponential expansion.
+
+### 3.4 Finite semantic and intermediate admission
+
+These inclusive bounds add to §7. One decoded attribute <=1048576 UTF-8 bytes;
+aggregate decoded attributes <=16777216; numeric tokens <=4194304; all source
+attributes and XML depth/elements still obey §7. No unbounded entity expansion,
+stylesheet, string body, list, transform or implicit path expansion is permitted.
+There is no free unknown attribute/body to be delegated to a native loader.
+
+Before numerical growth, charge logical arithmetic operations and bound exact
+rational intermediate numerator/denominator to 8192 bits each, reduced result to
+4096 bits. Charge operations/visits against the 16777216 work ceiling, including
+source decoding, implicit path points, reflected controls, use/gradient repeats,
+compositing surfaces, outline/stroke generation and flattening. Per-inspection
+generated edges/vertices are <=1048576 each; generated gradient stops <=1048576;
+owned buffer/scratch/surface bytes remain within §7's aggregate. Streaming does
+not waive aggregate simultaneous ownership or cumulative work.
+
+Use conservative finite geometry envelopes for admission, not machine overflow or
+renderer-dependent clipping. All resolved path endpoints/control points must have
+absolute coordinates <=2^20. For a nondegenerate arc from P0 to P1 with positive
+rx,ry, let R=max(rx,ry), r=min(rx,ry), and delta=|x1-x0|+|y1-y0|. Charge the scalar
+envelope max(|P0.x|,|P0.y|,|P1.x|,|P1.y|)+4*(R+delta*R/r), which must be <=2^30.
+It conservatively covers rotation and SVG radius enlargement; zero/equal-endpoint
+cases follow §3.2 without division. Other geometry uses the convex hull of control
+points or shape extents. For a painted stroke, expansion adds stroke-width*(miterlimit+2) before
+transform; stroke=none adds zero. This intentionally conservative inspection
+bound is not an exact curve bounding-box or a new scene geometry limit.
+
+For matrix envelopes use absolute source matrix coefficients; translate/scale
+have exact absolute envelopes. Rotation linear coefficients are bounded by 1,
+center translation by 2*(|cx|+|cy|); skew off-diagonal by 6 and diagonal by 1.
+Compose nonnegative envelopes by ordinary matrix multiplication, including viewBox
+and objectBoundingBox mappings. Each envelope coefficient and transformed geometry/
+stroke coordinate bound must be <=2^40. Derived gradient inverse coefficients
+also have absolute value <=2^40. Singular graphical transforms are never inverted;
+zero bounding boxes paint nothing. Root viewport/viewBox/aspect mapping uses the
+explicit dimensions and SVG meet/slice/none semantics; it is charged too.
+All computations, including irrational arc/rotation/inverse quantities, require
+bounded finite evaluation, no NaN/infinite intermediates. A later checker may use
+certified outward bounds; inability to establish an inclusive bound within its
+finite work/precision budget is unavailable, never an assumed pass. No approximate
+native validity result decides an uncertain boundary. Thus admission ceilings,
+semantic operation ordering and required proof are defined here; numeric tooling/
+representations/check ordering remain separate implementation review, not policy
+left for 012 to invent.
+
+Raw bytes and width/height do not establish rasterized memory or safe loading.
+Project the intended output/cache/compositing demand before renderer handoff; if
+actual containment cannot enforce work/time/memory, inspection is unavailable.
+This chooses no XML/SVG library, renderer flag, tessellator or process supervisor.
 
 ## 4. Fonts, fallback, rights and Noto provenance
 
@@ -299,11 +495,134 @@ not establish the intended face. A failure cannot silently substitute the host f
 while claiming the original face succeeded. No claim of universal glyph coverage
 follows from the family name.
 
-Font profiles must identify active outline, hinting, variable/color/embedded-feature
-behavior and its bounded validation/runtime strategy. An SFNT header or successful
-name lookup alone does not admit an unknown interpreter/embedded-content feature.
-Keep TTF/OTF required; define sufficient tested profiles instead of declaring every
-font or every internal program safe from its extension.
+### 4.1 Closed SFNT font profiles
+
+Two proposed identifiers retain uploaded TrueType and CFF OpenType families:
+`subathon.asset.font-ttf.v1` and `subathon.asset.font-otf-cff.v1`. These are
+admission subsets, not a statement that every TTF/OTF or any downloaded Noto file
+fits. Nonadmitted valid features require a reviewed sufficient 011 profile; do
+not remove the upload/default-font requirement or silently strip tables to pass.
+The filename extension never chooses the outline interpreter.
+
+The closed logical descriptor is
+`Font(profile,encodedBytes,SFNT(scaler,face,tables,unitsPerEm,glyphs,weight,width,slant,cmap,outline,hints,layout,variation,color,embedded))`.
+encodedBytes is positive U matching §1/6. face is exactly 0 (one SFNT face);
+scaler is `00010000` for TTF or `OTTO` for CFF. No TTC/OTC/WOFF/WOFF2, Apple
+`true`/`typ1`, collection face selection, or compressed wrapper in these versions.
+tables is the ASCII-tag-sorted unique list of `Table(tag,version)` records below;
+`none` means that table format has no version field, not uninspected. Validate
+actual directory offsets/lengths/alignment/checksums (including head adjustment),
+no overlapping tables/duplicate tags/hidden trailing payload except zero alignment
+padding, all normative reserved fields and exact format lengths. An unrecognized
+or forbidden table is incompatible/forbidden as appropriate, never ignored.
+
+| Tables | Finite versions and combinations |
+| --- | --- |
+| Both profiles: required OS/2,cmap,head,hhea,hmtx,maxp,name,post | OS/2 versions 0..5; cmap 0; head,hhea 1.0; hmtx none; name 0 or 1; post 2.0/3.0 for TTF, 3.0 for CFF; maxp 1.0 for TTF, 0.5 for CFF |
+| TTF only: required glyf,loca | versions none; head indexToLocFormat 0 or 1; no CFF/CFF2 table |
+| TTF only: optional cvt ,fpgm,prep,gasp | cvt /fpgm/prep none; gasp 0 or 1. The cvt tag includes its fourth ASCII space. Hint-mode combinations below are mandatory |
+| CFF only: required CFF  | version 1.0; tag ends with ASCII space; one name-keyed font, CharstringType 2; no CID FontDict/FDSelect, glyf/loca, CFF2 or TrueType program tables |
+| Both: optional GDEF,GSUB,GPOS,kern | GDEF 1.0/1.2/1.3; GSUB,GPOS 1.0/1.1; feature-variation/item-variation store offsets must be zero. kern version 0, horizontal format-0 pairs only, no cross-stream/minimum tables |
+
+This table is CLOSED: absent optional tables are not synthesized. In particular
+fvar/avar/gvar/HVAR/VVAR/MVAR/STAT/CFF2 (variable), COLR/CPAL/SVG /CBDT/CBLC/sbix/
+EBDT/EBLC/EBSC (color/bitmap/embedded graphics), AAT tables, BASE/JSTF/MATH/vhea/
+vmtx/VORG (other layout), DSIG/meta and all other tags are outside these profiles.
+Their presence cannot be excused as inert name metadata. variation/color/embedded
+are each exactly `none`; no hidden axis, embedded SVG or alternate bitmap is loaded.
+No variable instance or synthesized weight is represented by an invented static face.
+
+unitsPerEm is 16..16384; glyphs 1..65535 including glyph 0; weight 1..1000 matches
+OS/2 weight, width 1..9 matches OS/2 width; slant `upright`/`italic`/`oblique`
+matches actual head/OS/2/post style declarations, with inconsistent flags rejected.
+All names/metrics/bounds and horizontal advance/side-bearing counts must be checked,
+not merely header-copied. name strings are bounded inert data, decoded using their
+normative encoding; unsupported encodings are incompatible, never host-decoded.
+Allow Unicode platform 0 encodings 0..6 and Windows platform 3 encodings 0,1,10
+(UTF-16BE); Macintosh platform 1 encoding 0 (Mac Roman); other name encodings need
+another profile. Check UTF-16/scalar and name-format-1 language-tag validity;
+no name/URL/license string executes or fetches content. Their notices/rights still
+need separate actual evidence and are not established by name-table claims.
+
+cmap is a sorted unique nonempty list of `UnicodeCmap(platform,encoding,format)`:
+platform 0 encoding 3 with format 4, or encoding 4 with format 12; platform 3
+encoding 1 with format 4, or encoding 10 with format 12. No symbol/non-Unicode,
+variation-selector or alternative cmap format. Validate every segment/group,
+Unicode scalar range (no surrogates), glyph ID, offset and ordering; overlapping
+subtables must agree for a shared scalar. Coverage is the actually inspected map,
+not an assertion that every text character is present. Selected text/fallback
+coverage still requires actual renderer checks.
+
+outline is one of:
+
+- TTF: `Glyf(locaFormat,maxContours,maxPoints,maxComponents,maxDepth)`, with
+  locaFormat 0/1 matching head, maxima over complete expanded glyphs;
+  maxContours<=65535, maxPoints<=1048576, maxComponents<=65535, maxDepth<=64.
+  Validate simple contours/flags/coordinate deltas and composite glyph IDs,
+  argument/transform modes/point attachment/metrics flags. Composite dependencies
+  are complete and acyclic, every expansion is charged, all resolved coordinates
+  have absolute value <=1048576, bounding boxes and maxp maxima are consistent.
+- CFF: `CFF1(maxStack,maxSubrDepth,maxStems,maxOps)`, with operand maxStack<=48,
+  maxSubrDepth<=10, maxStems<=96 and maxOps<=1048576 for each expanded glyph.
+  Validate every INDEX/DICT/charset/encoding/private dictionary/CharStrings and
+  biased subroutine index. Local/global call graphs must be acyclic; charge all
+  repeated calls, operands, mask bytes, emitted points and stems. Defined Type 2
+  drawing/move/flex, stem/mask, call/return/endchar and arithmetic/stack operators
+  from Adobe #5177 are admitted EXCEPT random and deprecated endchar seac arguments.
+  Reserved operators/Type 1/PostScript programs are forbidden; no generic PostScript
+  interpreter is selected. Division by zero, invalid sqrt/stack/transient access,
+  incorrect hint masks or nonfinite arithmetic reject. Arithmetic intermediate
+  absolute values <=2147483647, resolved outline coordinates <=1048576.
+
+hints is `none`, `type2-stems`, or
+`TT(programBytes,cvtEntries,maxStack,maxStorage,maxTwilight,maxFunctions)`.
+TTF `none` requires no cvt /fpgm/prep, zero glyph instruction lengths and zero
+maxSizeOfInstructions/maxStackElements/maxStorage/maxFunctionDefs/
+maxInstructionDefs/maxTwilightPoints (maxZones remains its valid 1 or 2); gasp may still supply its checked finite flags.
+TTF TT requires actual programBytes>0 (aggregate fpgm/prep/glyph programs <=1048576),
+cvtEntries<=65535, maxStack/maxStorage/maxTwilight/maxFunctions each <=65535 and
+consistent actual/maxp counts. Only instruction opcodes in hex ranges
+00..27,29..4e,50..7a,7c..7d,80..82,85..88,8a..8e,b0..ff are admitted at instruction
+boundaries (push operand bytes are data). This excludes reserved/variation opcodes,
+DEBUG, IDEF and obsolete SANGW/AA; no dynamically defined opcode extension.
+Validate push widths, definition/jump boundaries, function/cvt/storage/point
+references and stack state under the defined TrueType instruction semantics.
+A static source-byte scan does not prove dynamic safety or termination. Actual
+interpreter use needs enforceable limits: stack/storage/twilight as declared,
+call depth<=64, <=1048576 executed instructions per glyph load and <=16777216 per
+bounded inspection/render job, including fpgm/prep/loop calls. Unknown/uncontrolled
+native execution is unavailable, never a reason to run first and infer safety.
+This states required containment, not an implementation/selection of a supervisor.
+CFF hints is none when no stem/mask operators occur, otherwise type2-stems; no TT
+hint mode with CFF, no type2-stems mode with TTF. Hint execution differences remain
+actual dual-renderer layout/raster evidence, not an automatic compatible result.
+
+layout is `Layout(gdef,gsub,gpos,kern)`: gdef is none/1.0/1.2/1.3 matching the table;
+gsub/gpos are sorted distinct lists of the actual lookup types present (including
+extension targets), empty iff their table is absent; kern is none or `horizontal0`
+matching the table. Admit GSUB types 1..8, GPOS 1..9 and their defined subformats
+in OpenType 1.9.1, without variation data. All script/language/feature/coverage/
+class/anchor/lookup indices and glyph references validate. Extension lookups target
+non-extension types, nested contextual invocation graphs are acyclic with depth<=16;
+charge every repeated lookup/application, not just distinct tables. One table's
+record count<=1048576, aggregate glyph/lookup/component/charstring/arithmetic visits
+<=16777216. Table presence alone is neither full language support nor a permission
+to guess shaping/fallback settings. Actual shaping inputs belong to 009/010/renderer
+contracts, with same bytes/selection and measured conformance below.
+
+Across both: each table body<=33554432 bytes AND within actual encoded cap; aggregate
+decoded name strings<=1048576 UTF-8 bytes; per-name<=65536; per-glyph emitted points
+<=1048576, aggregate emitted points/components<=16777216; mathematical numeric
+intermediates use checked <=4096-bit numerator/denominator (8192-bit transient)
+and finite native demand. §7 memory/work/time applies simultaneously. File/table/
+maxp declarations do not prove actual counts, all-code interpreter safety, cache
+capacity or permission. Inspect all glyphs/programs/layout, not a name or sample.
+If full inspection/execution cannot be bounded in the admitted environment, it is
+unavailable; never advertise the font as compatible. Actual parser/tooling/API and
+resource/platform verification remain later reviewed work; the finite admission
+sets/requirements above are 011-owned.
+
+### 4.2 Same assets, configured fallback and preserved notices
 
 The native and browser outputs receive the SAME admitted font assets and equivalent
 face/fallback selection. Loading, glyph coverage, weight selection and metrics need
@@ -473,10 +792,12 @@ No unlimited frame cache or whole-video decompression follows from an upload cap
 Checked work charges include every traversed entry/element/attribute/reference/
 path segment/font table/glyph component/outline point/frame and repeatedly expanded
 use. These are logical inspection-walk occurrences, not a claim to count or bound
-every opaque codec/hint-interpreter CPU instruction. Concrete
-walk order, distinct versus repeated storage, numeric bit/range/intermediate bounds,
-compressed/container/token limits and output ownership MUST be frozen by 012 before
-an executable baseline; this table is not a complete parser allocation contract.
+every opaque codec/hint-interpreter CPU instruction. The source/semantic/count/
+bit/container limits and repeated-work charging are defined by §2/3/4 and this table. Concrete parser field walks, error ordering,
+byte encodings, ownership interfaces and enforceable allocator/interpreter controls
+need separate reviewed tooling before an executable baseline; 012 represents the
+reviewed policy rather than choosing missing profile content. This is not proof of
+a safe native allocation or a complete executable parser allocation contract.
 Existing 009/external limits still apply together, with actual bytes charged every
 occurrence. Neither unknown metadata nor a reference may hide an unbounded body.
 
@@ -529,6 +850,227 @@ scope and does not fill in unresolved 010/schema/renderer/license evidence.
 | AP28 | Integrity token is 64 ASCII zeroes, versus 63/65 characters or uppercase A followed by 63 zeroes | First fits token grammar only, not a claimed payload match; others fail exact lowercase/length grammar, with no normalization into acceptance |
 | AP29 | Imported source asset b"A"/b"r1" collides with different destination content under equal raw IDs | No implicit alias/overwrite; an authorized explicit complete remapping may create a new imported revision only with updated closure and actual destination-domain rules, not guessed 010/private-source rebinding |
 
+### 8.1 Complete media descriptors and one-field counterexamples
+
+The following are LITERAL closed logical descriptor values, one for every media
+registry entry; each profile string is fully specified. They are hypothetical
+INSPECTED metadata with known encoded lengths under the initial caps. Except S01's
+literal source-byte length, lengths are premises, not measured payload facts.
+Additional complete-content, integrity, rights and checks from §1..7 are separately
+assumed for the logical profile-matching exercise. A value fitting the vocabulary
+is not proof that corresponding bytes exist, decode correctly or play on any output.
+Compatibility observations for ALL these examples remain UNKNOWN. There is no
+portable-success fixture or source-generated expected result.
+
+```text
+MD01 = Media(subathon.asset.png.v1,4096,
+  PNG(2,1,6,8,0,channel,untagged-srgb))
+MD02 = Media(subathon.asset.jpeg.v1,4096,
+  JPEG(16,16,baseline,8,gray,1x1,1,untagged-srgb))
+MD03 = Media(subathon.asset.webp.v1,4096,
+  WebP(2,1,vp8l-lossless,true,untagged-srgb))
+MD04 = Media(subathon.asset.gif.v1,512,
+  GIF(89a,1,1,2,0,forever,[Frame(0,0,1,1,2,none,1,2,false),
+                          Frame(0,0,1,1,2,0,2,2,false)]))
+MD05 = Media(subathon.asset.svg-static.v1,152,
+  SVG(2,2,[0,0,2,2],none,2,7,0,0,4))
+MD06 = Media(subathon.asset.mp4.v1,65536,
+  MP4(isom,[isom,avc1],
+    Video(AVC(6400,2a),1920,1080,Q(60,1),60,bt709-limited,false,Q(1,1),0,4),
+    AAC(48000,stereo,47104,0,0)))
+MD07 = Media(subathon.asset.webm.v1,65536,
+  WebM(4,Video(VP9(0),1280,720,Q(30,1),30,bt709-limited,false,Q(1,1),0,3),
+    Opus(48000,stereo,0,312,0,48000)))
+MD08 = Media(subathon.asset.wav.v1,192044,
+  WAVE(PCM(48000,stereo,16,48000)))
+MD09 = Media(subathon.asset.mp3.v1,20000,
+  MP3(MPEG1Layer3(44100,stereo,cbr,[128],44100,576,1404)))
+MD10 = Media(subathon.asset.ogg.v1,8192,
+  Ogg(0,7,false,Vorbis(48000,stereo,64,256,48000)))
+```
+
+MD05 width/height/viewBox values are exact rationals written as small integers;
+its element/attribute/reference/expanded-use/source-segment counts are explicitly
+2/7/0/0/4 from S01. SVG width/height are vector viewport dimensions, not claimed
+raster decode dimensions. For all rows an uninspected field would instead make
+inspection incomplete; it cannot be filled with the value shown by assumption.
+
+Each row below is the complete corresponding MD descriptor with ONLY the named
+field replaced. The original fits its selected logical profile; the replacement
+is independently incompatible, or a specified integrity failure. No codec is
+invoked to derive either expected outcome.
+
+| Original | One-field substitution | Hand-derived outcome |
+| --- | --- | --- |
+| MD01 | depth=4 | colorType 6 allows 8 or 16 only; incompatible even though type-3 depth 4 exists |
+| MD02 | precision=12 | outside exact 8-bit profile; changing a filename would not help |
+| MD03 | coding=vp8l-lossless-animated | not an admitted coding literal; source ANIM/ANMF also forbidden |
+| MD04 | second frame delayCS=1 | below inclusive 2; no browser delay clamping into acceptance |
+| MD05 | viewBox=[0,0,0,2] | zero viewBox width forbidden; replacing descriptor alone also contradicts S01's bytes |
+| MD06 | AVC level=29 (4.1) | ceil(1920/16)*ceil(1080/16)=8160; 8160*60=489600>245760; level 2a's 522240 ceiling admits the original |
+| MD07 | Video alpha=true | alpha is false only; container name cannot authorize alpha/codec substitution |
+| MD08 | PCM bits=24 | outside {8,16}, also invalidates the preserved two-byte-per-channel alignment/byte count |
+| MD09 | rate=22050 | outside MPEG1 Layer III's {32000,44100,48000}; no implicit switch to MPEG2 |
+| MD10 | chain=true | explicitly outside the single-stream unchained Ogg profile |
+
+The alternative admitted codec branches are also literal: replacing MD07's codec
+ONLY by VP8(0) fits the video set under matching inspected bitstream premises;
+replacing MD07's audio ONLY by Vorbis(48000,stereo,64,256,48000) fits; replacing
+MD10's audio ONLY by Opus(48000,stereo,0,312,0,48000) fits. MD06 audio=none is
+admitted, audio=PCM(48000,stereo,16,48000) is incompatible. These exercises do not
+infer actual source bitstreams from a record substitution.
+
+Independent finite boundaries: MD01 width=8192,height=3906 gives 31997952 pixels;
+height=3907 gives 32006144>32000000. A GIF delay 2 means exactly Q(1,50) seconds;
+65535 fits delayCS, 65536 does not. MD08 has blockAlign=4, byteRate=192000,
+dataBytes=192000 and, under the simple 44-byte-header premise, encodedBytes=192044;
+PCM rate=96000 is admitted, 96001 is not. MD09's 44100+576+1404=46080=40*1152
+sample frames; audio duration is Q(1,1), not two seconds for stereo. MD06's AAC has
+47104=46*1024 sample frames with zero trim and duration Q(368,375), shorter than
+its one-second video (no edit list needed); MD07's Opus preSkip 65535 fits its
+integer set and 65536 does not (actual trim/packet consistency still independently required).
+Video cadence Q(240,1) fits the shared rate bound, Q(241,1) does not; codec level/
+other checks may still reject either. An otherwise admitted image/font encoded
+length 33554432 fits its initial cap, 33554433 does not; no valid bytes are implied.
+
+### 8.2 Complete font descriptors
+
+Both literals use exactly the versioned font profile's required tables and no
+unlisted optional tables. Glyph/outline maxima and lack of instructions are
+hypothetical complete-inspection premises, not a claim about any actual font.
+Name/rights/coverage/metric checks still apply separately and actual compatibility
+is UNKNOWN. These are not disguised Noto binary pins or universal coverage claims.
+
+```text
+FD01 = Font(subathon.asset.font-ttf.v1,16384,
+  SFNT(00010000,0,
+    [Table(OS/2,4),Table(cmap,0),Table(glyf,none),Table(head,1.0),
+     Table(hhea,1.0),Table(hmtx,none),Table(loca,none),Table(maxp,1.0),
+     Table(name,0),Table(post,3.0)],
+    1000,256,400,5,upright,[UnicodeCmap(3,1,4)],
+    Glyf(1,2,8,0,0),none,Layout(none,[],[],none),none,none,none))
+FD02 = Font(subathon.asset.font-otf-cff.v1,16384,
+  SFNT(OTTO,0,
+    [Table("CFF ",1.0),Table(OS/2,4),Table(cmap,0),Table(head,1.0),
+     Table(hhea,1.0),Table(hmtx,none),Table(maxp,0.5),Table(name,0),Table(post,3.0)],
+    1000,256,700,5,upright,[UnicodeCmap(3,10,12)],
+    CFF1(4,0,0,24),none,Layout(none,[],[],none),none,none,none))
+```
+
+FD01 face=1 is incompatible: this profile is one face/index 0, not a TTC selector.
+FD01 unitsPerEm=16 or 16384 fits the field; 15 or 16385 is incompatible. Changing
+only cmap to [UnicodeCmap(3,1,12)] is incompatible: that encoding/format pairing is
+not admitted. Changing only variation to `wght` or color to `COLR` is incompatible;
+adding the corresponding table cannot hide it. Changing only hints to type2-stems
+is incompatible for TTF. FD02 hints=type2-stems would require actual stem/mask
+operators and a matching nonzero maxStems; its unchanged CFF1 maxStems=0 therefore
+contradicts that declaration. FD02 maxSubrDepth=10 fits the depth field; 11 does
+not. A scalar glyph mapping to glyph 256 in either 256-glyph font is invalid;
+255 fits the index range only, not automatically coverage for a requested scalar.
+
+A fully specified hinted variant of FD01 replaces tables by
+[Table(OS/2,4),Table(cmap,0),Table("cvt ",none),Table(fpgm,none),Table(glyf,none),
+Table(head,1.0),Table(hhea,1.0),Table(hmtx,none),Table(loca,none),Table(maxp,1.0),
+Table(name,0),Table(post,3.0)] and hints by TT(3,1,1,0,0,0); ALL other fields are
+exactly FD01. Premise: fpgm is the three instruction bytes B0 00 21 (push byte 0,
+pop), cvt contains one valid value, no other glyph/prep programs, maxp fields match.
+The program has bounded stack 1 and no calls/storage/twilight. Changing its final
+opcode to 4F (DEBUG) is forbidden under the exact opcode set even though an
+interpreter might accept it. Raising declared maxStack from 65535 to 65536 is a
+one-over profile refusal, not a license to allocate first. No instruction or font
+loader was executed to establish these symbolic examples.
+
+### 8.3 Literal SVG source and independently decidable edges
+
+S01 is the following SINGLE line, no BOM/declaration/final newline. Its ASCII
+UTF-8 byte length is 152. Hand count: root has five attributes (including
+xmlns), path two; two elements; M,L,L,Z are four segments; no references/use.
+It satisfies the closed source grammar and all small integer bounds. This is
+logical source admission only, not parser/dual-renderer/platform verification.
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2" preserveAspectRatio="none"><path d="M0 0 L2 0 L0 2 Z" fill="#f00"/></svg>
+```
+
+S02 exercises typed use, a gradient template and restricted style. The five IDs
+are unique; G references B for its stops, the rect in tile paints with G, and the
+root use references tile. The expanded tile has two element visits (g,rect).
+Both gradients have explicit geometry/units/spread and effective stops at 0/1.
+SVG inheritance at the use instance supplies fill-rule; the rect's explicit fill
+selects G. No reference target lies on its own containment/reference path.
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10" viewBox="0 0 10 10">
+  <defs>
+    <linearGradient id="B" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox" spreadMethod="pad">
+      <stop id="s0" offset="0%" stop-color="#000"/>
+      <stop id="s1" offset="100%" style="stop-color:#fff;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="G" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox" spreadMethod="pad" href="#B"/>
+    <g id="tile"><rect width="2" height="2" fill="url(#G)" stroke="#000" stroke-width=".5"/></g>
+  </defs>
+  <use href="#tile" x="1" y="1" style="fill-rule:evenodd;opacity:.5" transform="translate(1 0) rotate(45)"/>
+</svg>
+```
+
+S03 replaces ONLY S01's path d with
+`M0 0 h1 v1 l-1 0 c0 0 1 0 1 1 s0 0 0 0 q0 0 1 0 t0 0 a1 1 0 0 1 1 0 z`.
+It exercises all path families with finite coordinates, isolated flags and exact
+consumption. Resolve current points after h/v/l: (1,0),(1,1),(0,1); after c/s/q/t/a:
+(1,2),(1,2),(2,2),(2,2),(3,2); z returns to (0,0). The arc has rx=ry=1,
+delta=1 and envelope 3+4*(1+1)=11<2^30. Its source count is 10. Crossing the
+2-unit viewBox is permitted clipping, not a reason to discard the asset. `l-1`
+is the command letter followed by one signed number, not an omitted numeric
+separator; repeated number arguments still need §3.2's separators.
+
+S04 supplies the remaining basic shapes, radial paint and each transform family.
+It uses six transform operations, positive finite geometry and a centered unit-box
+radial gradient. The radii/focus satisfy the declared circle bound; its small
+conservative matrix/shape envelopes fit §3.4 independently of raster output.
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="R" cx=".5" cy=".5" r=".5" fx=".5" fy=".5" gradientUnits="objectBoundingBox" spreadMethod="pad">
+      <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/>
+    </radialGradient>
+  </defs>
+  <g fill="url(#R)" stroke="#000" stroke-width="1" transform="matrix(1 0 0 1 0 0) translate(1 1) scale(.5) rotate(30 0 0) skewX(10) skewY(-10)">
+    <rect x="0" y="0" width="4" height="4" rx="1"/>
+    <circle cx="4" cy="4" r="2"/><ellipse cx="10" cy="4" rx="3" ry="2"/>
+    <line x1="0" y1="8" x2="6" y2="8"/>
+    <polyline points="0 12 4 8 8 12"/><polygon points="12 12 20 12 20 16"/>
+  </g>
+</svg>
+```
+
+| Independent source change / literal condition | Required result, by the selected grammar/bounds |
+| --- | --- |
+| S01 width="+2e0px", or path coordinates `.0`, `2.` in place of equivalent integers | admitted equivalent source numbers; same byte length is NOT assumed |
+| S01 width="2em", width="NaN", viewBox="0 0 0 2", or d="M0 0 L1" | reject unsupported unit/non-number/nonpositive viewBox/incomplete path respectively |
+| S01 add onload="x", xml:base="file:/", style="filter:url(#f)", or a text/filter/animate child | forbidden source; never rely on native ignoring or disabled execution |
+| S01 replace SVG namespace by an HTTPS spelling or prefix the path name | reject exact namespace/element profile mismatch |
+| S01 path has fill="#f00" AND style="fill:#0f0"; or style="fill:#f00;fill:#0f0" | reject duplicate presentation/style or style property; no cascade winner |
+| S02 rect fill="url(#tile)" or use href="#G" | reject wrong-kind paint/use target respectively |
+| S02 G href="#missing" or G href="#G" | reject dangling target/self-cycle even if G supplied its own stops |
+| In S02 tile contains use href="#tile" | containment+reference cycle; reject before expansion |
+| S02 use href="data:image/svg+xml,...", href="other.svg#tile", or href="#ti%6ce" | reject outside exact same-document fragment/ID grammar; no fetch/percent normalization |
+| S02 add matching xmlns:xlink on root and replace href by xlink:href everywhere | admitted alternative spelling; supplying both on one node rejects |
+| S02 second stop offset="101%" or first=".1" | reject range or required endpoint; no clamp/sort |
+| S04 radialGradient fx="2" only | reject: (2-.5)^2=2.25>.5^2=.25; no focal clamping |
+| S01 path d="M1048576 0 l0 1" versus d="M1048576 0 l1 0" | first fits resolved endpoint bound, second reaches 1048577 and rejects although each individual source token fits |
+| Source numeric `1e-256` versus `1e-257`; `1e256` | first fits exponent/value/bit limits; second fails exponent; third fails value limit despite valid exponent/token grammar |
+| translate(1048576 0) repeated 64 times versus 65 in one transform list | first fits list/coefficient bounds (sum=67108864); second fails operation count |
+| Nested scale(1048576) twice versus three times, on a unit line | envelope coefficient=2^40 fits versus 2^60 exceeds; do not overflow/clip into acceptance |
+| A 1048576-coordinate line with scale(1048576) and stroke="none" versus adding positive stroke width 1 | unexpanded coordinate envelope reaches 2^40; positive stroke expansion exceeds it and rejects |
+| Number token of 128 bytes versus 129, otherwise zero-valued; 65536 elements versus 65537 | first of each pair fits its own inclusive limit; second refuses; other grammar/counts still apply |
+| Acyclic binary use tree with 20 versus 21 levels, including its root instance | 2^20-1=1048575 fits expanded-use ceiling; 2^21-1=2097151 exceeds; compact unique nodes do not change repeated counts |
+
+These are hand-derived profile decisions over explicit literals/premises. Expanded
+work/bit/memory/native containment and every other bound still apply together;
+a source fitting one isolated boundary is not a complete successful inspection.
+They do not execute XML/font/media parsers, test fixtures or native renderers.
+
 ## 9. Primary facts and later gates
 
 Primary documents establish available APIs/standards, not project support:
@@ -563,15 +1105,39 @@ Primary documents establish available APIs/standards, not project support:
   [Vorbis I](https://www.xiph.org/vorbis/doc/Vorbis_I_spec.html) defines version 0,
   ordered setup and block sizes; [RFC 7845](https://www.rfc-editor.org/rfc/rfc7845.html)
   separates Opus's 48000 granule clock, pre-skip and output gain from input-rate hints.
+- The OpenType 1.9.1 [SFNT structure/table catalogue](https://learn.microsoft.com/en-us/typography/opentype/spec/otff),
+  [glyf](https://learn.microsoft.com/en-us/typography/opentype/spec/glyf),
+  [maxp](https://learn.microsoft.com/en-us/typography/opentype/spec/maxp),
+  [name](https://learn.microsoft.com/en-us/typography/opentype/spec/name) and
+  [cmap](https://learn.microsoft.com/en-us/typography/opentype/spec/cmap) distinguish
+  outlines, directory/face metadata and character mapping. The
+  [TrueType instruction set](https://learn.microsoft.com/en-us/typography/opentype/spec/tt_instructions)
+  defines bytecode, while [CFF](https://learn.microsoft.com/en-us/typography/opentype/spec/cff)
+  references Adobe [Type 2 #5177](https://adobe-type-tools.github.io/font-tech-notes/pdfs/5177.Type2.pdf).
+  These explain why table/outline/program checks are distinct. §4's selected table/
+  version/operator subsets, finite counts and exclusions are application proposals,
+  not guarantees by Microsoft/Adobe or proof of safe native interpreter control.
+- SVG [path semantics](https://www.w3.org/TR/SVG2/paths.html),
+  [SVG 1.1 transform-list semantics](https://www.w3.org/TR/SVG11/coords.html#TransformAttribute),
+  [coordinates](https://www.w3.org/TR/SVG2/coords.html),
+  [paint](https://www.w3.org/TR/SVG2/painting.html),
+  [gradients](https://www.w3.org/TR/SVG2/pservers.html) and
+  [use instances](https://www.w3.org/TR/SVG2/struct.html#UseElement) supply the
+  underlying feature meanings. §3 deliberately restricts spellings, units, tree,
+  styles and references, and adds conservative finite admission envelopes. General
+  SVG's error recovery or ignored CSS is not this application's reject behavior.
 - [QFontDatabase](https://doc.qt.io/qt-6.12/qfontdatabase.html) loads TrueType/OpenType
   and offers application fallbacks; [CSS Font Loading](https://www.w3.org/TR/css-font-loading-3/)
   specifies browser loading. Neither a family match nor source/license metadata
   establishes actual same-font renderer behavior.
 
 No QtBase/Core installation proves Multimedia/FFmpeg/SVG/plugin/font behavior.
-Before 012/implementation require actual closed profile/descriptor/entry/checker
-definitions, field walks/error priority, finite representation/work budgets and
-reviewed pinned tooling choices. Then require independent literal fixtures/tests,
+Before 012 require actual independent review of these closed media/font/SVG
+profile definitions, descriptors, examples and finite admission budgets. 012 owns
+complete encoding/schema/import representation. Concrete entry framing/checker
+interfaces, field walks/error priority, bounded ownership and pinned tooling need
+separate actual review before executable consumption; the schema owner does not
+supply unfinished 011 policy. Then require independent literal fixtures/tests,
 different review and valid intended red before production SCENE-005/006/RENDER-004,
 with separate actual source/configuration review and passing acceptance/CI.
 No missing dependency/compile failure/skip is a valid red.

@@ -220,3 +220,83 @@ prep does not supply the still-unwritten profile definitions. No new asset downl
 schema/API/code/fixture/test authoring, parser/validator/font/media/native execution,
 dependency selection or measurement occurred. Work stops at this exact partial
 checkpoint until root explicitly resumes the remaining correction.
+
+## Resumed R1/R2 correction packet — 2026-11-07
+
+Fresh document author `/root/asset_contract_correction`, dedicated
+`task/CONTRACT-011-resumed-author`, `/tmp/subathon-contract011-resumed-author`.
+Coordinator claim/base `8a54faf` is current main `e0585ca` plus preserved unfinished
+`c4ef1b9` artifacts and the shared claim. Read root instructions, workflow,
+architecture/test strategy/first assignment, 011 brief, specification §11/decisions,
+current state, durable handoff and actual original different review. Ownership is
+ONLY the existing contract and this author note. The history above and original
+review receipts are preserved; they are not prospective approval of this packet.
+
+Current contract blob `c4ba2f9bc4a864e07edb93a558d18f9c8c809a10` replaces partial
+`6765932ada79fc686c440f27c5a314f42c624570`. This is a complete DOCUMENT correction
+proposal for actual independent review, not a passing R1/R2 verdict. Historical
+`deb0d066`/`72a00a7` remains CHANGES REQUIRED until the different reviewer inspects
+the exact completed packet. No 012/schema or implementation gate is released here.
+
+- R1: retained ten media entries; added closed SFNT TTF/CFF font descriptors,
+  table/version/outline/cmap/layout/hint-program combinations and checks. Variable,
+  color/bitmap/embedded formats are explicitly outside these proposed font profiles;
+  they cannot be silently stripped. Required assets outside a chosen profile need
+  a sufficient reviewed 011 extension, preserving TTF/OTF/default-font release scope.
+  Native instruction control is a requirement to prove, not a claim about Qt.
+- R1 examples: complete MD01–10 and FD01–02 values, admitted codec/hint alternatives,
+  one-field incompatible descriptors, sample/trim/alignment/macroblock/rate/glyph/
+  encoded-size edges. AAC's zero-trim example has 46 complete frames and a shorter
+  audio track, avoiding an invented edit-list trim. All are logical data/premises,
+  not payloads, playback evidence, actual hashes or portable-success fixtures.
+- R2: closed XML namespace/tree/element/attribute/style grammar, exact source-number/
+  unit/path/transform/reference rules, typed acyclic closure including containment,
+  conservative semantic envelopes, numeric/expansion/intermediate/output bounds.
+  S01–04 are literal source with independently derived positive/reject/edge cases;
+  all shapes, path and transform families, both gradients and internal reuse remain.
+- Reconciled §2/3/4/7/9: 011 owns admission policy; 012 represents reviewed values
+  in schemas/imports. Concrete parsers/checker APIs/tooling/error order/ownership
+  remain later reviewed work. No codec, archive library or process/runtime is chosen.
+
+All 29 original AP rows are byte-preserved. §1/5/6 and original same-assets/Noto/OFL/
+rights text from “The native and browser outputs” through §5 are byte-preserved.
+Source checkpoint and all prior author/reviewer receipts remain available unchanged.
+Configurable budgets, portability, exact opaque identities, explicit fallback,
+redistribution conditions and all formats/platform/OBS/release gates remain intact.
+
+Browsed read-only primary OpenType 1.9.1 SFNT/glyf/maxp/head/name/cmap/CFF/TrueType
+instruction documentation, Adobe Type 2 #5177 and W3C SVG path/type/coordinate/
+transform/paint/gradient/use documentation. Contract §9 links these sources.
+Standard facts are distinct from our selected admission subsets/caps. No font,
+image/media/archive asset was downloaded, parsed, hashed, decoded, loaded or played.
+No dependency, schema/API, production code, native supervisor, parser/decoder,
+renderer, executable fixture or test baseline was authored or executed.
+
+Actual checks, Linux 7.2.14-arch1-1 x86_64 / Python 3.14.9:
+
+```sh
+python3 tools/check_project.py
+python3 tools/progress.py render --check
+git diff --check
+```
+
+Passed: 427 task records/122 decisions, local links/presets/current unchanged HTML,
+whitespace. A read-only Python stdlib/Git audit passed 26 independent document/
+preservation facts: all AP rows/protected sections and author history, ten media/
+two font labels, S01's 152 ASCII bytes/seven attributes/four path segments, S03's
+ten command segments/arc envelope, AVC cadence, WAV/MP3/AAC/GIF rational arithmetic,
+raster/matrix/expansion/token/bit bounds and sole-owned-contract edit scope before
+this evidence append. These are literal arithmetic/text checks, not a product
+validator, behavioral baseline, decoder/interpreter execution or platform proof.
+The initial infrastructure/scaffold/draft red is not rerun for two Markdown files.
+Existing document consistency CI is appropriate; root still verifies actual latest-
+head CI/reviews/rules before publication. No workflow/pin/shared file was changed.
+
+Next: different actual reviewer checks this exact two-file candidate; root owns
+shared state/HTML/handoff, dependency/schema/build/CI and PR/push/merge. Full 010/
+008/003 integration, test author/review/intended red, production source review and
+acceptance, configured resource/interpreter controls, Noto binary/weight/hash/OFL
+packaging and actual dual-renderer/platform/OBS/performance/release gates remain.
+If enforcing native containment requires a substantial supervisor/interpreter or
+runtime subsystem, split that implementation prerequisite before writing it; this
+document stage supplies no authorization or architecture proof for that expansion.
