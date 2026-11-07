@@ -3644,16 +3644,20 @@
         "ACCESSTEST-006",
         "ACCESS-006",
         "ACCESSTEST-007",
-        "ACCESS-007"
+        "ACCESS-007",
+        "ACCESSCONTRACT-001",
+        "ACCESSTEST-008",
+        "ACCESS-008"
       ],
       "spec_refs": [
         "§10"
       ],
       "brief": "docs/tasks/EPIC-006.md",
-      "summary": "7 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
+      "summary": "Original release work packages plus explicit ADR-0010 session prerequisite contracts and test-first executable slices; all original scope remains.",
       "notes": [
         "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support.",
-        "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope."
+        "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -3669,7 +3673,8 @@
       "depends_on": [
         "CONTRACTPLAN-001",
         "STORAGE-002",
-        "SESSION-001"
+        "SESSION-001",
+        "STORAGE-020"
       ],
       "spec_refs": [
         "§10",
@@ -3680,7 +3685,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-001.",
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -3697,7 +3703,8 @@
         "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSION-001",
-        "ACCESSTEST-001"
+        "ACCESSTEST-001",
+        "STORAGE-020"
       ],
       "spec_refs": [
         "§10",
@@ -3708,7 +3715,8 @@
       "summary": "Console issues single-use 15-minute owner setup code only while no owner exists; replacement invalidates prior code and completion disables bootstrap.",
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval."
+        "ADR-0004 replaces the coarse CONTRACT-003 prerequisite with CONTRACTPLAN-001. Every other dependency and original acceptance/test-first scope remains. This is sequencing only, not contract or implementation approval.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -3909,7 +3917,8 @@
       "depends_on": [
         "ACCESS-001",
         "SESSION-002",
-        "TWITCH-001"
+        "TWITCH-001",
+        "ACCESS-008"
       ],
       "spec_refs": [
         "§10",
@@ -3919,7 +3928,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-004.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -3936,7 +3946,8 @@
         "ACCESS-001",
         "SESSION-002",
         "TWITCH-001",
-        "ACCESSTEST-004"
+        "ACCESSTEST-004",
+        "ACCESS-008"
       ],
       "spec_refs": [
         "§10",
@@ -3946,7 +3957,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-004.md",
       "summary": "Both login methods resolve to the same application account/permissions; optional Twitch linking uses supported server-side flows.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -3962,7 +3974,9 @@
       "depends_on": [
         "ACCESS-001",
         "SESSION-002",
-        "ACCESS-003"
+        "ACCESS-003",
+        "STORAGE-020",
+        "SESSION-009"
       ],
       "spec_refs": [
         "§10",
@@ -3972,7 +3986,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-005.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -3989,7 +4004,9 @@
         "ACCESS-001",
         "SESSION-002",
         "ACCESS-003",
-        "ACCESSTEST-005"
+        "ACCESSTEST-005",
+        "STORAGE-020",
+        "SESSION-009"
       ],
       "spec_refs": [
         "§10",
@@ -3999,7 +4016,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-005.md",
       "summary": "Authorized helper recovery uses manually shared 15-minute reset links; console recovery preserves existing owner identity.",
       "notes": [
-        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -4125,19 +4143,29 @@
         "SESSIONTEST-007",
         "SESSION-007",
         "SESSIONCONTRACT-001",
-        "SESSIONCONTRACT-002"
+        "SESSIONCONTRACT-002",
+        "SESSIONTEST-008",
+        "SESSION-008",
+        "SESSIONCONTRACT-003",
+        "SESSIONCONTRACT-004",
+        "SESSIONTEST-009",
+        "SESSION-009",
+        "SESSIONCONTRACT-005",
+        "SESSIONTEST-010",
+        "SESSION-010"
       ],
       "spec_refs": [
         "§10",
         "§16"
       ],
       "brief": "docs/tasks/EPIC-007.md",
-      "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
+      "summary": "Original release work packages plus explicit ADR-0010 session prerequisite contracts and test-first executable slices; all original scope remains.",
       "notes": [
         "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support.",
         "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope.",
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
-        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -4298,7 +4326,12 @@
         "SESSION-001",
         "STORAGE-002",
         "SESSIONCONTRACT-001",
-        "SESSIONCONTRACT-002"
+        "SESSIONCONTRACT-002",
+        "SESSIONCONTRACT-003",
+        "SESSION-008",
+        "STORAGE-020",
+        "SESSION-009",
+        "ACCESS-008"
       ],
       "spec_refs": [
         "§10",
@@ -4310,7 +4343,8 @@
       "notes": [
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
-        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -4326,7 +4360,12 @@
       "depends_on": [
         "SESSION-001",
         "STORAGE-002",
-        "SESSIONTEST-002"
+        "SESSIONTEST-002",
+        "SESSIONCONTRACT-003",
+        "SESSION-008",
+        "STORAGE-020",
+        "SESSION-009",
+        "ACCESS-008"
       ],
       "spec_refs": [
         "§10",
@@ -4336,7 +4375,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-002.md",
       "summary": "Use random 256-bit opaque tokens with server-side hashes only; normal/remembered maximum defaults are 24 hours/30 days.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -4352,7 +4392,8 @@
       "depends_on": [
         "SESSION-002",
         "SESSIONCONTRACT-001",
-        "SESSIONCONTRACT-002"
+        "SESSIONCONTRACT-002",
+        "SESSION-010"
       ],
       "spec_refs": [
         "§10",
@@ -4363,7 +4404,8 @@
       "notes": [
         "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
-        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain."
+        "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -4378,7 +4420,8 @@
       "owner": "Unassigned",
       "depends_on": [
         "SESSION-002",
-        "SESSIONTEST-003"
+        "SESSIONTEST-003",
+        "SESSION-010"
       ],
       "spec_refs": [
         "§10",
@@ -4387,7 +4430,8 @@
       "brief": "docs/tasks/EPIC-007/SESSION-003.md",
       "summary": "Browser uses Secure/HttpOnly/SameSite=Lax cookies with CSRF defenses; desktop uses authorization headers.",
       "notes": [
-        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-007. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -5222,16 +5266,20 @@
         "STORAGE-017",
         "STORAGETEST-018",
         "STORAGE-018",
-        "STORAGE-019"
+        "STORAGE-019",
+        "STORAGECONTRACT-002",
+        "STORAGETEST-020",
+        "STORAGE-020"
       ],
       "spec_refs": [
         "§16"
       ],
       "brief": "docs/tasks/EPIC-009.md",
-      "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
+      "summary": "Original release work packages plus explicit ADR-0010 session prerequisite contracts and test-first executable slices; all original scope remains.",
       "notes": [
         "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support.",
-        "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope."
+        "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -6833,7 +6881,9 @@
         "STORAGE-005",
         "STORAGE-003",
         "SESSION-002",
-        "MILESTONE-003"
+        "MILESTONE-003",
+        "STORAGE-020",
+        "SESSION-009"
       ],
       "spec_refs": [
         "§16",
@@ -6842,7 +6892,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-007.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STORAGE-007.",
       "notes": [
-        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -6860,7 +6911,9 @@
         "STORAGE-003",
         "SESSION-002",
         "MILESTONE-003",
-        "STORAGETEST-007"
+        "STORAGETEST-007",
+        "STORAGE-020",
+        "SESSION-009"
       ],
       "spec_refs": [
         "§16",
@@ -6869,7 +6922,8 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-007.md",
       "summary": "Decrypt/stage/validate schema/assets/integrity, preserve current installation before replacement and require stopped application.",
       "notes": [
-        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Parent epic: EPIC-009. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
       ],
       "verification": {},
       "evidence": [],
@@ -13050,8 +13104,8 @@
       "title": "Bounded reference HTTP contract and schema",
       "module": "Server/API",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Codex coordinator /root + fresh reference_contract_author",
       "depends_on": [
         "CONTRACTPLAN-003",
         "CONTRACT-005",
@@ -13078,11 +13132,34 @@
         "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
-        "ADR0008 additive schema-validator baseline/implementation foundation required before actual schema/example/ref acceptance. Every existing supplier/runtime/release gate retained; no validator or schema capability supplied by planning."
+        "ADR0008 additive schema-validator baseline/implementation foundation required before actual schema/example/ref acceptance. Every existing supplier/runtime/release gate retained; no validator or schema capability supplied by planning.",
+        "Resumed 2026-11-07 from actual main e0585ca after verifying PR78 merged, no open PRs/live subagents/unfinished commands and both existing worktrees clean. Claim task/CONTRACT-013-reference-http: specification v0.45/reference-path R1/wire primitives R1/session supplier+transport accepted documents/schema-tool accepted foundation. Author owns only reference HTTP contract/package/examples and author evidence; root owns shared schema imports, state/HTML, build/CI and integration. Actual independent contract review, real offline schema/reference/example validation and latest-head CI/normal merge required; no runtime capability or dependent implementation authorized by document completion.",
+        "Authored5819a297/importcebf164 bounded HTTP R1/OpenAPI3.1.1 with23explicit positive examples/H01–26 logical later test oracles. Local author syntax/inventory/regex and root tooling19/DOM/consistency pass, actual separate packet+CI review and admitted both-host offline package validation pending. Existing native/public workflow extended only final unconditionalCLI package step; no validator/production/dependency change. In_review notdone; no auth/runtime capability or tests/red claim.",
+        "Complete bounded reference HTTP DOCUMENT/SCHEMA after different actual fullpacket+correcteddialect approval8f995e63 and admitted both-host run42359709873 atc929109 SUCCESS: actualCLIcodeok twice, all23explicitexamples/completeclosure after unchangedstatic/bootstrap/facility/fullacceptance. One wrong document-level dialect corrected to admittedOASbase; examples/assertions unchanged. No HTTP/auth/session/SQL/runtime or capability enabled. Finalstatus-onlylatestheadCI/currentrules/threads/normalPR79merge remain; originalfullscope/runtime/testfirst/release gates retained."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored": "passed",
+        "document_review": "passed",
+        "schema_validation": "passed",
+        "ci_coverage": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/contract-013-handoff.md",
+        "docs/contracts/reference-http-v1.md",
+        "schemas/http/reference-v1/manifest.json",
+        "docs/evidence/contract-013-author.md",
+        "docs/evidence/contract-013-review.md",
+        "docs/evidence/contract-013-package-ci.json"
+      ],
+      "review": {
+        "author": "/root/reference_contract_author (package/document); /root (dialect correction/CI integration)",
+        "reviewer": "/root/reference_contract_review",
+        "outcome": "approved",
+        "revision": "Authored5819a297/importcebf164 plus correctedc929109 (review tree5c67366); independent8f995e63/importf694e05 approves actual doc/package/CI.",
+        "evidence": "docs/evidence/contract-013-review.md"
+      }
     },
     {
       "id": "CONTRACT-014",
@@ -14211,7 +14288,7 @@
       "title": "Split current-session and lifecycle architectural prerequisites",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Codex /root coordinator; fresh session_slice_plan_author",
       "depends_on": [
         "SESSIONCONTRACT-001",
@@ -14231,12 +14308,520 @@
       "brief": "docs/tasks/CONTRACTPLAN-006.md",
       "summary": "Plan separate current-session supplier component and lifecycle/storage/accepted-login/ingress prerequisites without implementing them or shrinking full session scope.",
       "notes": [
-        "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002→ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges."
+        "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002→ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges.",
+        "Author2e5fde9c/import987d475:15newnodes/101additiveedges integrated from acceptedmain ed73270; original427IDs/1630edges preserved, new443/1735. No code/header/schema/dependency/protocol/crypto/clockheuristic chosen. ExistingSESSION002/003 and full local+Twitch/recovery/restore/ingress scope retained. Actual different finalplan+graph review and final CI/normalmerge remain."
+      ],
+      "verification": {
+        "authored": "passed",
+        "plan_review": "not_run",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/contractplan-006-handoff.md",
+        "docs/decisions/0010-session-executable-prerequisites.md",
+        "docs/evidence/contractplan-006-author.md"
+      ],
+      "review": null
+    },
+    {
+      "id": "SESSIONTEST-008",
+      "title": "Review and demonstrate red: bounded account-session supplier",
+      "module": "Identity",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-006",
+        "SESSIONCONTRACT-001",
+        "SESSION-001"
+      ],
+      "spec_refs": [
+        "§10",
+        "AUTH-05",
+        "AUTH-12",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-008.md",
+      "summary": "Independently review supplier prepare/resolve tests and observe intended component red; no actual source, clock, lifecycle or transport claim.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
       ],
       "verification": {},
-      "evidence": [
-        "docs/evidence/contractplan-006-handoff.md"
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSION-008",
+      "title": "Bounded token preparation and current-session resolution",
+      "module": "Identity",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-006",
+        "SESSIONCONTRACT-001",
+        "SESSION-001",
+        "SESSIONTEST-008"
       ],
+      "spec_refs": [
+        "§10",
+        "AUTH-05",
+        "AUTH-12",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-008.md",
+      "summary": "Implement only accepted supplier v1 prepare/resolve with bounded ownership and honest current-fact/clock outcomes; full SESSION-002/003 remain required.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSIONCONTRACT-003",
+      "title": "Concrete session lifecycle mutation and inspection contract",
+      "module": "Identity",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-006",
+        "SESSIONCONTRACT-001",
+        "SESSIONCONTRACT-002",
+        "SESSION-001",
+        "STORAGE-010",
+        "ACCESS-002"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-01",
+        "AUTH-05",
+        "AUTH-09",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "AUTH-15",
+        "DB-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-003.md",
+      "summary": "Specify independently reviewed internal issuance, rotation, reauthentication, revocation and inspection APIs/outcomes before full session-service tests; document only.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGECONTRACT-002",
+      "title": "Account, credential and current-session storage contract",
+      "module": "Operations",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-006",
+        "SESSIONCONTRACT-003",
+        "STORAGE-010",
+        "STORAGE-011",
+        "SESSION-001"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-01",
+        "AUTH-05",
+        "AUTH-11",
+        "AUTH-12",
+        "DB-01",
+        "SERVER-01",
+        "OPS-02"
+      ],
+      "brief": "docs/tasks/STORAGECONTRACT-002.md",
+      "summary": "Define separately reviewed physical account/credential/session/epoch facts, bounded current readers and conditional writer primitives; no schema or runtime implementation.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-020",
+      "title": "Review and demonstrate red: physical account/session store",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGECONTRACT-002",
+        "STORAGE-010",
+        "STORAGE-011"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-01",
+        "AUTH-05",
+        "AUTH-11",
+        "AUTH-12",
+        "DB-01",
+        "SERVER-01",
+        "OPS-02",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
+      "summary": "Review literal real-SQL account/session/source and atomicity tests, then observe intended storage red with the selected working Qt SQL harness.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-020",
+      "title": "Physical account/session store and current fact producers",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGECONTRACT-002",
+        "STORAGE-010",
+        "STORAGE-011",
+        "STORAGETEST-020"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-01",
+        "AUTH-05",
+        "AUTH-11",
+        "AUTH-12",
+        "DB-01",
+        "SERVER-01",
+        "OPS-02",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
+      "summary": "Implement the reviewed store/migration/current snapshot readers on the existing writer; no login acceptance, service authorization or credential publication.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSIONCONTRACT-004",
+      "title": "Trustworthy current session-clock producer contract",
+      "module": "Identity",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-006",
+        "SESSIONCONTRACT-003",
+        "STORAGECONTRACT-002",
+        "CONTRACT-002"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-05",
+        "AUTH-09",
+        "AUTH-12",
+        "DB-01",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-004.md",
+      "summary": "Define actual clock-source trust, scope, discontinuity/recovery refusal and publication sampling for later tests; no clock mechanism or implementation chosen by this plan.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSIONTEST-009",
+      "title": "Review and demonstrate red: actual current session clock",
+      "module": "Identity",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "SESSIONCONTRACT-004",
+        "STORAGE-020",
+        "BOOT-003"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-05",
+        "AUTH-09",
+        "AUTH-12",
+        "DB-01",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-009.md",
+      "summary": "Review deterministic trust/fence cases and actual producer observation tests, then observe intended clock-producer red distinct from supplier fake-clock tests.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSION-009",
+      "title": "Actual current session-clock producer",
+      "module": "Identity",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "SESSIONCONTRACT-004",
+        "STORAGE-020",
+        "BOOT-003",
+        "SESSIONTEST-009"
+      ],
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-05",
+        "AUTH-09",
+        "AUTH-12",
+        "DB-01",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-009.md",
+      "summary": "Implement the reviewed trustworthy runtime session clock and refusal fences; timer/recovery/restore workflows and supported-platform evidence remain separate.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "ACCESSCONTRACT-001",
+      "title": "Actual accepted-local-login authority contract",
+      "module": "Identity",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-006",
+        "SESSIONCONTRACT-003",
+        "STORAGECONTRACT-002",
+        "SESSIONCONTRACT-004",
+        "SESSION-001"
+      ],
+      "spec_refs": [
+        "§10",
+        "AUTH-01",
+        "AUTH-05",
+        "AUTH-08",
+        "AUTH-09",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "AUTH-15",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-006/ACCESSCONTRACT-001.md",
+      "summary": "Define current local-login acceptance, source-bound accepted-attempt checks and conditional password-upgrade integration upstream of sessions; document only.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "ACCESSTEST-008",
+      "title": "Review and demonstrate red: accepted local-login authority",
+      "module": "Identity",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "ACCESSCONTRACT-001",
+        "ACCESS-001",
+        "SESSION-001",
+        "STORAGE-020",
+        "SESSION-009"
+      ],
+      "spec_refs": [
+        "§10",
+        "AUTH-01",
+        "AUTH-05",
+        "AUTH-08",
+        "AUTH-11",
+        "AUTH-12",
+        "AUTH-15",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-006/ACCESS-008.md",
+      "summary": "Review actual local-account/store/accepted-attempt/rehash integration tests and observe intended red without a preexisting session or manufactured authority.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "ACCESS-008",
+      "title": "Accepted local login and current password-source integration",
+      "module": "Identity",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "ACCESSCONTRACT-001",
+        "ACCESS-001",
+        "SESSION-001",
+        "STORAGE-020",
+        "SESSION-009",
+        "ACCESSTEST-008"
+      ],
+      "spec_refs": [
+        "§10",
+        "AUTH-01",
+        "AUTH-05",
+        "AUTH-08",
+        "AUTH-11",
+        "AUTH-12",
+        "AUTH-15",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-006/ACCESS-008.md",
+      "summary": "Implement actual local acceptance and source-bound conditional upgrade integration; ACCESS-004 retains full local/Twitch login/linking and session services stay separate.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSIONCONTRACT-005",
+      "title": "Concrete lossless and secret-safe ingress solution",
+      "module": "Identity",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CONTRACTPLAN-006",
+        "SESSIONCONTRACT-002",
+        "CONTRACT-005"
+      ],
+      "spec_refs": [
+        "§2",
+        "§10",
+        "§17",
+        "SERVER-01",
+        "AUTH-12",
+        "AUTH-15",
+        "API-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-005.md",
+      "summary": "Define separately reviewed source-backed selected-framework ingress/log/TLS/proxy/policy solution before tests; no parser patch, library or proxy guarantee approved here.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSIONTEST-010",
+      "title": "Review and demonstrate red: actual lossless account ingress",
+      "module": "Identity",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "SESSIONCONTRACT-005",
+        "API-001",
+        "BOOT-003"
+      ],
+      "spec_refs": [
+        "§2",
+        "§10",
+        "§17",
+        "SERVER-01",
+        "AUTH-12",
+        "AUTH-15",
+        "API-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-010.md",
+      "summary": "Review actual raw-wire selected-stack duplicate/framing/secret-log/trust tests and observe intended ingress red; fake ingress and static source inspection are insufficient.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "SESSION-010",
+      "title": "Actual lossless and secret-safe account ingress source",
+      "module": "Identity",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "SESSIONCONTRACT-005",
+        "API-001",
+        "BOOT-003",
+        "SESSIONTEST-010"
+      ],
+      "spec_refs": [
+        "§2",
+        "§10",
+        "§17",
+        "SERVER-01",
+        "AUTH-12",
+        "AUTH-15",
+        "API-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-010.md",
+      "summary": "Implement only the reviewed actual ingress solution/source; SESSION-003 keeps full transport/current-execution/egress/client integration gates.",
+      "notes": [
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+      ],
+      "verification": {},
+      "evidence": [],
       "review": null
     }
   ],
@@ -15552,9 +16137,24 @@
       "note": "Documentation workflow changes independently approved and locally checked; PR78 publication/merge gates separate, no product work resumed."
     },
     {
+      "date": "2026-11-07T09:13:29.750256+00:00",
+      "task": "CONTRACT-013",
+      "note": "Resumed 2026-11-07 from actual main e0585ca after verifying PR78 merged, no open PRs/live subagents/unfinished commands and both existing worktrees clean. Claim task/CONTRACT-013-reference-http: specification v0.45/reference-path R1/wire primitives R1/session supplier+transport accepted documents/schema-tool accepted foundation. Author owns only reference HTTP contract/package/examples and author evidence; root owns shared schema imports, state/HTML, build/CI and integration. Actual independent contract review, real offline schema/reference/example validation and latest-head CI/normal merge required; no runtime capability or dependent implementation authorized by document completion."
+    },
+    {
+      "date": "2026-11-07T09:29:16.437379+00:00",
+      "task": "CONTRACT-013",
+      "note": "Complete bounded reference HTTP DOCUMENT/SCHEMA after different actual fullpacket+correcteddialect approval8f995e63 and admitted both-host run42359709873 atc929109 SUCCESS: actualCLIcodeok twice, all23explicitexamples/completeclosure after unchangedstatic/bootstrap/facility/fullacceptance. One wrong document-level dialect corrected to admittedOASbase; examples/assertions unchanged. No HTTP/auth/session/SQL/runtime or capability enabled. Finalstatus-onlylatestheadCI/currentrules/threads/normalPR79merge remain; originalfullscope/runtime/testfirst/release gates retained."
+    },
+    {
       "date": "2026-11-07T09:30:00.269440+00:00",
       "task": "CONTRACTPLAN-006",
       "note": "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002→ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges."
+    },
+    {
+      "date": "2026-11-07T09:40:22.314585+00:00",
+      "task": "CONTRACTPLAN-006",
+      "note": "Author2e5fde9c/import987d475:15newnodes/101additiveedges integrated from acceptedmain ed73270; original427IDs/1630edges preserved, new443/1735. No code/header/schema/dependency/protocol/crypto/clockheuristic chosen. ExistingSESSION002/003 and full local+Twitch/recovery/restore/ingress scope retained. Actual different finalplan+graph review and final CI/normalmerge remain."
     }
   ]
 }

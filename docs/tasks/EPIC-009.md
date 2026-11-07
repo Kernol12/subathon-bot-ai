@@ -49,3 +49,11 @@ The [storage split decision](../decisions/0002-storage-executable-slices.md) map
 original STORAGE-002 scope to mandatory prerequisites; no requirement or real
 reviewed/red gate is removed. The added implementation/baseline tasks remain planned; CONTRACT-004 has its own
 independently reviewed documentation-only evidence.
+
+
+## ADR-0010 additive session prerequisites
+
+[Session executable decomposition](../decisions/0010-session-executable-prerequisites.md)
+preserves all original scope and test-first/release gates. The authoritative task
+graph adds the relevant supplier/lifecycle/store/local-login/clock/ingress prerequisites.
+These components do not complete this task's own full acceptance or real integration.

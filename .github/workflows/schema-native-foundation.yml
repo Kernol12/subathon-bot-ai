@@ -260,3 +260,8 @@ jobs:
           schema_ctest_path="$(command -v ctest)"
           env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8 \
             "$schema_ctest_path" --preset schema-transport-debug -L '^schema-(native|public)-behavior$' --no-tests=error --verbose
+      - name: Validate the reference HTTP contract and every declared example
+        run: >-
+          env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 LANG=C.UTF-8
+          "$RUNNER_TEMP/schema-validation-venv/bin/python" -I -B tools/schema_validate.py
+          --manifest schemas/http/reference-v1/manifest.json

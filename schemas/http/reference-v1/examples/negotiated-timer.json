@@ -1,0 +1,6 @@
+{
+  "selected_version": "reference.v1",
+  "capabilities": [
+    "reference.timer-snapshot.v1"
+  ]
+}

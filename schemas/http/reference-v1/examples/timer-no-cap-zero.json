@@ -1,0 +1,11 @@
+{
+  "profile_version": "reference.v1",
+  "state_revision": "00",
+  "lifecycle": "active",
+  "main_ms": "0",
+  "grace_ms": "0",
+  "debt_ms": "0",
+  "maximum_main_ms": null,
+  "observed_utc_ms": "0",
+  "paused": false
+}
