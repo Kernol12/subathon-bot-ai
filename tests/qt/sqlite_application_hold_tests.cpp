@@ -405,12 +405,14 @@ class SqliteApplicationHoldTests final : public QObject {
                                                   : std::optional{o["sql"].toString()}},
                             "Exact SQL/NULL object tuple, no UUT-produced expected catalog");
                 }
-                require(canonical_migration_payload(step).toHex() ==
-                                expected["payload_hex"].toString().toLatin1() &&
-                            migration_content_sha256(step).toHex() ==
-                                expected["sha256_hex"].toString().toLatin1(),
-                        "Frozen framed payload and digest including unchanged prefix1–5");
             }
+            const auto &step = manifest.steps.back();
+            const auto expected = d.frozen["manifest"].toObject();
+            require(canonical_migration_payload(step).toHex() ==
+                            expected["payload_hex"].toString().toLatin1() &&
+                        migration_content_sha256(step).toHex() ==
+                            expected["sha256_hex"].toString().toLatin1(),
+                    "Owning step's independently frozen framed payload and digest");
             require(manifest.steps[5].sql.size() == 12 &&
                         manifest.steps[5].expected_schema.size() == 89 &&
                         canonical_migration_payload(manifest.steps[5]).size() == 89890,

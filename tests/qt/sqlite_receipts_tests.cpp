@@ -517,12 +517,12 @@ class SqliteReceiptTests final : public QObject {
                 QCOMPARE(a.id, e.id);
                 QCOMPARE(a.sql, e.sql);
                 QCOMPARE(a.expected_schema, e.expected_schema);
-                const auto j = i == 0 ? m1_ : m2_;
-                QCOMPARE(canonical_migration_payload(a),
-                         QByteArray::fromHex(j["payload_hex"].toString().toLatin1()));
-                QCOMPARE(migration_content_sha256(a),
-                         QByteArray::fromHex(j["sha256_hex"].toString().toLatin1()));
             }
+            const auto &step = actual.steps.back();
+            QCOMPARE(canonical_migration_payload(step),
+                     QByteArray::fromHex(m2_["payload_hex"].toString().toLatin1()));
+            QCOMPARE(migration_content_sha256(step),
+                     QByteArray::fromHex(m2_["sha256_hex"].toString().toLatin1()));
         } catch (const std::exception &e) {
             QFAIL(e.what());
         }

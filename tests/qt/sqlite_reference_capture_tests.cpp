@@ -200,11 +200,10 @@ class SqliteReferenceCaptureTest : public QObject {
                     a.version == b.version && a.id == b.id && a.sql == b.sql &&
                         a.expected_schema == b.expected_schema,
                     "All immutable prefix statements/projections and literal additive step exact");
-                const auto m = n < 6 ? data_->prefixes[n] : data_->frozen["manifest"].toObject();
-                require(migration_content_sha256(a).toHex() ==
-                            m["sha256_hex"].toString().toLatin1(),
-                        "Independent frozen per-step digest");
             }
+            require(migration_content_sha256(actual.steps.back()).toHex() ==
+                        data_->frozen["manifest"].toObject()["sha256_hex"].toString().toLatin1(),
+                    "Owning step's independently frozen digest");
             require(actual.steps.back().sql.size() == 1 &&
                         actual.steps.back().expected_schema.size() == 92 &&
                         canonical_migration_payload(actual.steps.back()).size() == 71601,

@@ -167,66 +167,49 @@ contract; the full editor remains desktop-only. See
 
 ## Schema and development tooling
 
-The historical generic package validator/native worker and its harness were retired
-by TESTCLEAN-001 after independent scope, actual-contract and source/oracle review.
-The original [baseline #76](https://github.com/Kernol12/subathon-bot-ai/pull/76) and
-[implementation #77](https://github.com/Kernol12/subathon-bot-ai/pull/77) proof remain
-archived; their hostile-package/resource/kernel guarantees are not current capabilities.
+Actual OpenAPI 3.1.1 checks cover all 17 component targets, 23 existing positive
+examples, 77 independent component cases, and 11 progress-schema cases plus actual
+state. All eight methods passed locally on CPython 3.14 and selected 3.10/3.12 CI.
+Schemas, examples and 20 admitted dependency pins/hashes/licenses are unchanged.
+[PR #95](https://github.com/Kernol12/subathon-bot-ai/pull/95) records independent
+contract/oracle/source review and explicit retirement of the generic validator/native
+worker. Its historical [baseline #76](https://github.com/Kernol12/subathon-bot-ai/pull/76)
+and [implementation #77](https://github.com/Kernol12/subathon-bot-ai/pull/77) remain
+archived; hostile-package/resource/kernel guarantees are not current capabilities.
+These offline artifact checks establish no runtime HTTP/auth/provider/client/platform
+behavior. The progress schema remains an editor hint; runtime tooling owns DAG,
+review and note-length invariants. Current tooling 34/34 and infrastructure 3/3 pass.
 
-The replacement directly checks the actual OpenAPI 3.1.1 artifact and its 17 component
-targets, all 23 existing positive examples, 77 independently derived component cases,
-and 11 progress-schema cases plus actual state. The first CPython 3.14 run passed
-all 8 methods; tooling 29/29 and scaffold 3/3 passed. A separate reference audit found
-all 94 public occurrences/36 targets and 3 progress references. Schemas, existing
-examples, 20 admitted dependency pins/hashes/licenses and product code are unchanged.
-[PR #95](https://github.com/Kernol12/subathon-bot-ai/pull/95) records the revised baseline;
-selected CPython 3.10.12/3.12.3 each passed all 8 methods plus infrastructure3/3.
-All 19 current checks passed before normal merge. These are structural/
-semantic artifact checks, with offline resolution; they do not establish runtime
-HTTP/auth/authority, provider, client/platform or release behavior. The progress schema
-is an editor hint, without runtime DAG/review/500-note or format-assertion proof.
+[ADR-0012](../decisions/0012-test-suite-simplification.md) bounds the current cleanup.
+The published archive preserves all 969 removed receipts, verified after publication;
+this README is the sole current evidence file. Task notes are bounded to 500 characters
+and the test strategy describes current coverage. See [archive #92](https://github.com/Kernol12/subathon-bot-ai/pull/92)
+and [readable notes #93](https://github.com/Kernol12/subathon-bot-ai/pull/93).
+Environment-only programs and translation foundation mode were retired after separate
+review; real test bodies, fixtures, pins and the Qt verifier remain. See
+[environment cleanup #94](https://github.com/Kernol12/subathon-bot-ai/pull/94).
 
-EPIC-028 cleanup is underway under [ADR-0012](../decisions/0012-test-suite-simplification.md).
-EVIDENCE-001 archived the 969 receipts and rewrote references, added focused tooling
-checks for HTTPS evidence/local test artifacts and kept this summary as the sole
-current evidence file. Independent review, 26 tooling tests, scaffold 3/3 and all 21
-hosted checks passed before normal [PR #92](https://github.com/Kernol12/subathon-bot-ai/pull/92)
-merge. Post-merge retrieval of the published tag verified all 969 removed receipts.
-This is repository evidence maintenance, with no new product behavior. EVIDENCE-002
-bounds all 461 task notes to 500 characters and replaces per-task strategy history
-with current suite coverage. Separate tests/source/110-note review, tooling 29/29
-and scaffold 3/3 passed. All 21 hosted checks passed before normal
-[PR #93](https://github.com/Kernol12/subathon-bot-ai/pull/93) merge. TESTCLEAN-002
-removed 17 environment-only programs and the translation foundation-only mode
-after separate inventory and source review. Product tests, fixtures, pins and the
-translation verifier are unchanged. Local real-Qt/SQLite and focused native checks
-passed. All 21 hosted checks passed before normal
-[PR #94](https://github.com/Kernol12/subathon-bot-ai/pull/94) merge. TESTCLEAN-001
-has independently reviewed actual-schema checks and explicit generic-surface
-retirement merged in PR #95 after all 19 checks. TESTCLEAN-003 replaces per-feature
-switches with one acceptance option and explicit suite selection, preserving all
-31 preset closures and refusing enabled retired cache options. Independently
-reviewed selector tests reached intended red before implementation; all five now
-pass. Qt and translation use whole-suite discovery; GoogleTest retains per-case
-process isolation. All 428 stable CTest entries passed: 410 GoogleTest cases,
-14 Qt executables covering all 361 stable methods, the 43-method translation suite,
-and three infrastructure checks. Tooling 34/34 passed. The 53 rate and 44 account
-feature methods remain enabled intentional red and were not replayed.
-[PR #96](https://github.com/Kernol12/subathon-bot-ai/pull/96) records the baseline
-and independent source/runtime/integration review. All 19 latest-head hosted
-checks passed before normal merge. TESTCLEAN-004 shares throwing assertions and
-actual completion waits while retaining suite-local typed errors and timeouts.
-Independent proposal/source review approved consolidating thirteen raw writer
-fragments, with an existing fresh-work refusal relocated into both rollback paths.
-All methods and unique adapter/physical-outcome/budget checks remain. It also moves
-the same thirteen warning policies into per-test initialization; twelve guarded
-classes ran stable, while the account suite remains passive red. All fourteen
-stable Qt suites passed, covering the same 361 methods and 869 data/lifecycle
-results, with no failures, skips, blacklists or warnings. Infrastructure 3/3 and
-tooling 34/34 passed. [PR #97](https://github.com/Kernol12/subathon-bot-ai/pull/97)
-records the exact baseline and actual commands. Independent raw runtime review
-confirmed source/discovery/log equivalence; final integration review and current
-hosted checks remain pending.
-Later cleanup tasks retain their own reviews and
-revised-baseline gates. Full specification acceptance, live/provider/platform evidence
-and release readiness remain open.
+One acceptance option and explicit suite selection preserve all 31 preset closures;
+enabled retired cache options fail with migration guidance. Independently reviewed
+selector tests reached intended red before implementation. Qt/translation use whole
+suites; GoogleTest keeps per-case isolation. The combined stable baseline passed 428
+CTest nodes: 410 GoogleTest cases, 14 Qt suites covering 361 methods, translation's
+43 methods and three infrastructure checks. The 53 rate and 44 account feature methods remain enabled
+intentional red, without replay for receipts. See [registration #96](https://github.com/Kernol12/subathon-bot-ai/pull/96).
+
+Shared Qt support preserves throwing callback failures, real completion outcomes,
+typed errors and timeouts. Thirteen existing warning policies now run per test;
+twelve guarded stable classes ran, while account remains passive. Exact repeated
+writer checks moved to writer owners without dropping unique repository outcomes.
+See [Qt support #97](https://github.com/Kernol12/subathon-bot-ai/pull/97). Shipped
+migration framing/digest freezes now live in the owning stable suite for each
+step 1–7; every
+factory still compares every full prefix to independent fixtures. Public codec,
+error-message, ordering and budget contracts remain. See [migration assertions #98](https://github.com/Kernol12/subathon-bot-ai/pull/98).
+The latest local Qt 6.12 run passed 14/14 stable suites, all 361 methods and the same
+869 data/lifecycle results, without failures, skips, blacklists or warnings;
+infrastructure 3/3 and tooling 34/34 passed. Independent raw runtime review confirmed the unchanged baseline and relocated
+literals; final integration review and current CI for PR #98 remain pending. Earlier cleanup PRs merged normally after
+independent review and all current checks. Later cleanup retains separate baseline
+reviews; full specification acceptance, live/provider/platform evidence and release
+readiness remain open.

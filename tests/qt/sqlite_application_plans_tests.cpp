@@ -909,15 +909,13 @@ class SqliteApplicationPlanTests final : public QObject {
                 QCOMPARE(a.version, e.version);
                 QCOMPARE(a.id, e.id);
                 QCOMPARE(a.sql, e.sql);
-                QCOMPARE(a.expected_schema.size(), e.expected_schema.size());
-                for (qsizetype k = 0; k < e.expected_schema.size(); ++k) {
-                    const auto &x = a.expected_schema[k], &y = e.expected_schema[k];
-                    QCOMPARE(x.type, y.type);
-                    QCOMPARE(x.name, y.name);
-                    QCOMPARE(x.table_name, y.table_name);
-                    QCOMPARE(x.sql, y.sql);
-                }
+                QCOMPARE(a.expected_schema, e.expected_schema);
             }
+            const auto &step = actual.steps.back();
+            QCOMPARE(canonical_migration_payload(step),
+                     QByteArray::fromHex(m4_["payload_hex"].toString().toLatin1()));
+            QCOMPARE(migration_content_sha256(step),
+                     QByteArray::fromHex(m4_["sha256_hex"].toString().toLatin1()));
         } catch (const std::exception &e) {
             QFAIL(e.what());
         }
