@@ -185,9 +185,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
       "summary": "Remove environment executables that assert library or fixture facts instead of product behavior, preserving focused real tests.",
       "notes": [
-        "Claim from main116a6cd after normal PR93 merge. Scope ADR0012/v0.45 §17: inventory18 non-schema environment registrations, review precise redundant assertions before deletion, preserve domain tests and red baselines. Author owns sources/registrations/corresponding CI; coordinator owns state/HTML/checkpoint/PR. Fresh independent cleanup and code review, affected builds/tests and latest CI required."
+        "Independent cleanup review approved exact 18-registration inventory before deletion. Remove 17 environment-only programs and translation foundation-only mode; retain real verifier, domain assertions/fixtures/pins, rate53/account44 red separation. Author now applies bounded wiring/CI/doc changes. Actual source review, native checks, hosted CI and normal PR merge remain."
       ],
-      "verification": {},
+      "verification": {
+        "cleanup_baseline_review": "passed"
+      },
       "evidence": [],
       "review": null
     },
@@ -16468,6 +16470,11 @@
       "date": "2026-11-07T15:26:37.011678+00:00",
       "task": "TESTCLEAN-002",
       "note": "Claim dependency-ready priority cleanup from actual main116a6cd after PR93 all21SUCCESS/different438679e review/normalmerge. Fresh author inventories16 environment sources and corresponding build/CI before independent deletion approval. Existing product assertions, intentionally red baselines and release scope remain."
+    },
+    {
+      "date": "2026-11-07T15:26:37.011678+00:00",
+      "task": "TESTCLEAN-002",
+      "note": "Different environment_cleanup_review approved proposal SHA256 a1053859 before deletions/builds; 18 environment registrations, no unique extraSQLiteprobe, translationverify preserved. Added narrow docsCI currentguidance correction to explicit ownership. Final source/native/CI/normalmerge gates remain."
     }
   ]
 }
