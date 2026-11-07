@@ -55,8 +55,12 @@ and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
   inertFeatureNotImplementedinterface/recipestubs. No recipe implementation/adoption.
   Fold selected-family invocation with untouchedunselected/unrelatedsentinels into
   firsttest; seed drift is validJSONwhitespace toprove rawpin, outputdrift newlineonly.
-  Author explicitly resumed after read-onlyhandoff. Actualtest/oracle/stub review must
-  approve BEFORE tests/CLI/red execute. No new candidate execution or outcome yet. Actual current CI/finalreview/
+  Actual contract/tests/inertinterfaces authored at bd5a0c3; reviewer required check-mode
+  snapshots include parent(project+unrelatedcwd). Test-only fix bf06a67 now awaits
+  exact test/oracle execution approval; tests SHA256
+  `407fec3f0e7ac677a2562f95e61c6476ab7a8c057ddcb30e3935813666af577a`.
+  Contract/CLI/stubs/goldens unchanged. No tests/CLI/generator/native executed yet;
+  recipe implementation and firstgreen still forbidden until subsequent gates. Actual current CI/finalreview/
   rules/discussions/normalmerge and every familyoracle/coverage gate remain mandatory.
 
 ## Concurrent read-only inventory
