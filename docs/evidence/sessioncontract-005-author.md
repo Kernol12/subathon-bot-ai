@@ -1,3 +1,127 @@
+# SESSIONCONTRACT-005 — resumed R2 solution author packet
+
+Same author `/root/account_ingress_contract_author`, explicitly resumed by the
+coordinator on7November2026 after actual prerequisite006PR87 merged. Worktree
+`/tmp/subathon-sessioncontract005-author`, branch `task/SESSIONCONTRACT-005-author`,
+actual resumed HEAD `1a95e01d7d02106ceacbe0f9d3749aae8252aeb6` includes the
+coordinator resume claim/acceptedR2/current clock/storage contracts. This is the
+SAME unfinished task, not a new author identity. Own ONLY the two original paths.
+No subagent, new header/test/stub/fixture/native/source/helper/configuration/
+dependency/build/deployment/schema/pin edit or runtime operation.
+
+Current [account-ingress proposal revision2](../contracts/account-ingress-v1.md)
+is a coherent complete-solution proposal **awaiting different actual review**.
+The original partial4b0178cc and all source/download/check/failure receipts below
+remain historical. The prior boundary audit/reviewer0990c608 approves006's actual
+R2 scope only; neither it nor this author's checks approve005's complete solution.
+Root owns state/graph/HTML/checkpoint/publication and all dependent runtime gates.
+
+## Frozen accepted imports and preserved source proof
+
+| Current imported artifact | Exact unchanged Git blob |
+| --- | --- |
+| Transport v1 R2 | `0d0cbde9450abc5d7f99b7a97b03cfe41f385890` |
+| Reference HTTP v1 R2 | `fe69e3c3b06fbe63d1d2beaea458cbacf905032f` |
+| Supplier v1 | `c5f5a6e71664042e18475068d3caf577b0c8d009` |
+| Common wire v1 | `11eeb5f422a174e042143df6b476ae1d717eeacf` |
+| Current clock v1 | `946bd12b94d3a83dcd4c86c787bb257d9472e022` |
+| Physical account/session v1 | `8dc7ba9fce0e40bcfa02897c6d88946849cbd1b1` |
+
+Read updated005brief/handoff, acceptedR2/006author/review/ADR0011,011/native and
+007/008proxy paired briefs,010source boundary, current clock and accepted physical
+store handoffs. Preserve the original8Drogon/Trantor immutable official byte
+comparisons below; did NOT repeat downloads or claim installed artifact proof.
+Reuse accepted006's26immutable Caddy/Go file receipts and actual corrected different
+review, including Via16 and fixed417/505 source findings. Read affected local raw
+source in `/tmp/sessioncontract006-source` and the existing selected source cache;
+no source/helper/native file was executed or changed.
+
+## What changed and why
+
+- AcceptedR2 distinguishes every original APPLICATION-listener occurrence from
+  separately bounded external edge parsing/normalization. Supersede partial005's
+  external4096 refusal, blanket edge folding/equal-CL refusal and open proxy
+  interpretation. Native stricter CRLF/duplicate-CL refusal remains an explicit
+  proposed listener choice; the edge permits only acceptedR2 exceptions. Count
+  ALL app metadata, including Caddy Via16 and every incoming Via.
+- Define a concrete private move-only native capture lease/ABI and stable
+  synchronous view lifetime, before setPath/addHeader/body reserve/raw log sites.
+  SESSION011 owns exact native patch/build/declaration/test-first implementation;
+  SESSION010 binds the unchanged AccountIngressSource API/actual policy. A map,
+  public request attributes or client trusted flags cannot create this capability.
+- Simplify the old speculative resource design. Proposed isolated PLAIN backend
+  mode preallocates the existing MsgBuffer65536 payload+8prefix, requires writable
+  >=8192 before readFd, and forbids spill/growth/unwiped compaction. Current source
+  iovcnt branch supports that proposed narrow invariant. Native011 must implement/
+  test/source-audit channel read suspension, copy/wipe and request lifetime; no new
+  general receiver/TLS provider/framework is approved. A substantial unforeseen
+  expansion still requires root's explicit task split BEFORE implementation.
+- Freeze capture arena32768/records64/method16/target2048/reference body4096 and
+  conservative native capacity104472 plus fixed records, separately from reference
+  semantic116992 ownership and external Go/TLS/process budgets. Existing capacities
+  are not measured heap guarantees, and overlapping semantic/native bytes are not
+  falsely counted as independent full ownership. Optional direct TLS requires its
+  own actual native allocation/handshake/copy manifest; no fixed TLS slab mandate.
+- Import concrete accepted edge controls: ALL joined Connection allowlist;
+  retained TransferEncoding refusal after Go CL removal; URI roundtrip/authority;
+  specified User-Agent/Pragma/hop/Via/forwarding exceptions; distinct stock417/505/
+  501; finite parser/drain bounds; pre-handler clone/error/debug/NopCore and
+  launch-time stdout/stderr suppression.007/008 retain actual config/artifact/
+  peer/TLS/client/platform admission; no arbitrary proxy support is claimed.
+- Propose live-owner generation `g`+unsigned64 (max21bytes), not durable boot epoch
+  or historical global uniqueness. No queued/prepared raw request survives owner
+  restart/replacement. Immutable snapshot acquisition, coordinated reload/drain,
+  queue-time same-current comparison and fresh-request503 remain exact; no digest
+  rebinding. Accepted clock/store/current authority remain separate producers.
+- Reassess old I01–21 and add I22–24 with literal Connection/Via/417/505/raw-URL/
+  normalization controls. Preserve A–D counts/credential outcomes and original
+  receipts. Document actual real-stack future red/pass/source/log/allocation
+  observation and required successful controls, not a fake-source runtime claim.
+
+No complete native heap/kernel/TLS/global zeroization or exact process/CPU budget
+is invented. Native/proxy/queue/connection/concurrency owner limits remain actual
+admission gates, not semantic-limit inferences. Both bundled Caddy and existing
+alternative remain required; directTLS is optional. All original release scope,
+credential semantics/CORS/current authorization and test-first stages remain.
+
+## Actual lightweight reassessment checks
+
+No CMake/compiler/CTest/native ELF/Go/Caddy process/SDK setup/package manager/new
+feature helper/native body/live/provider/credential operation ran. The independent
+inline Python checks used only stdlib integer/regex/text/Git operations, with
+assertions failing immediately; no future SUT/parser/supplier generated expectations.
+
+Already observed before commit:
+
+| Command/check | Result |
+| --- | --- |
+| `git status --short --branch`, `git rev-parse HEAD` | Correct resumed branch/HEAD1a95e01; initially clean |
+| Inline Python `git hash-object` comparison against frozen six-import table | All6unchanged |
+| Inline independent literal wire/semantic arithmetic | A237/B241/C199/D277; desktop149; external4097→normalized159→candidate262; padding3835/3836→4096/4097; metadata87; Via16; incoming+addedVia50; projections286/296; PASS |
+| Same independent capacity/cleanup/generation arithmetic | Native104472; N528386/raw2165866504; max generation21; PASS |
+| Same independent Connection full-match reasoning over ALL joined values |5literal valid lists and8hostile nominations; PASS. This is NOT Caddy/CEL execution. |
+| Read-only affected source assertions | Actual MsgBuffer8192spill/iovcnt branch, Drogon pre-map addHeader/CookieTRACE, Caddy Via addition/retainedTE/ALL-valueJoin present; PASS. Prior official receipts reused, not rerun. |
+
+Final actual lightweight results in the same resumed worktree:
+
+| Command/check | Observed result |
+| --- | --- |
+| Inline Python local Markdown link target audit |14relative links exist; PASS |
+| `python3 tools/check_project.py` |exit0;450task records/122decisions/local links/presets/currentHTML PASS; draft-test info is not a native invocation |
+| `python3 -m unittest discover -s tests/tooling -v` |exit0;19/19PASS,0skips,0.381s; tooling only |
+| `python3 tools/progress.py render --check` |exit0; snapshot current, no HTML/state mutation |
+| `git diff --check` |exit0; final owned-document whitespace clean |
+
+CI assessment: existing documentation/project/tooling checks suit this document
+packet; no new executable behavior/workflow is introduced. Native011/source010/
+proxy007008 own future mandatory real-stack checks/selectedCI. The original partial
+source receipts are preserved below; no old red or source download was replayed.
+Root still owns integrated latest-head consistency/CI/publication gates and must
+obtain a fresh actual complete005review before ready/done. Source facts and
+lightweight checks are no native artifact/configuration/platform capability.
+
+## Historical partial checkpoint — preserved verbatim below
+
 # SESSIONCONTRACT-005 — partial author checkpoint
 
 Author `/root/account_ingress_contract_author`, 7 November2026.
