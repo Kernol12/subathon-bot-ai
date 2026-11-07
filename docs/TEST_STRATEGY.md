@@ -15,7 +15,7 @@ This document describes current coverage and how to extend it, without a task le
 | GoogleMock | Meaningful adapter/service interactions; dedicated coverage remains planned |
 | Qt Test | Event-loop/thread ownership and disposable real SQLite stores/application composition; selected Qt build/catalog checks |
 | Qt Quick Test | QML component behavior; planned |
-| Python unittest | Development dashboard/consistency and translation-generator behavior; tooling checks do not count as server/product acceptance |
+| Python unittest | Development dashboard/consistency, independent fixture reproduction and translation-generator behavior; tooling checks do not count as server/product acceptance |
 | CTest | Runs native, Qt and explicitly registered Python suites; runner success says only which selected checks passed |
 | Vitest | Browser unit/component behavior; planned |
 | Playwright | Browser workflows; planned, with actual OBS/compositor checks still separate |
@@ -158,6 +158,20 @@ replaces the generic package/native-owner surface with actual schema/example che
 Independent test/oracle review precedes execution, and the dependency-only metadata
 bootstrap precedes candidate imports. No native artifact/kernel admission is required.
 Translation acceptance requires the selected Qt tools as well as Python.
+
+Independent fixture reproduction currently supports `reference_capture` and
+`account_sessions`, with fixed script-relative seed inputs and explicit literal
+recipes. Check committed bytes without writing:
+
+```sh
+python3 tools/generate_fixtures.py --check
+```
+
+Use `--output-dir <directory>` to generate selected files elsewhere; `--fixture <name>`
+restricts selection. No mode writes in place by default. The [fixture contract](contracts/fixture-generation-v1.md)
+defines raw seed pins, byte-exact checks and independent inputs. Reproducing a proposed
+account fixture adds no account-storage capability. Other fixture families remain
+planned until their separate oracle and implementation gates pass.
 
 Infrastructure checks remain distinct from component acceptance:
 

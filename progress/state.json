@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "34 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "36 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -360,7 +360,7 @@
       "title": "Independent catalog, reference and account fixture recipes",
       "module": "Fixture tooling",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/fixture_catalog_author",
       "depends_on": [
         "TESTCLEAN-005"
@@ -371,7 +371,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
       "notes": [
-        "ReviewedR1/test-first red preserved. Failed65 referenceGrace-byte mismatch fixed narrowly at39c5529 after independentgrammar/source review. SAMEfrozen2tests nowPASS0.203s; tests407fec3f/goldens/seeds/fixtures unchanged. Approvedsource importedbyte-identically; native paths unchanged. Actualgeneration/check/infra and independentruntime audit pending; currentCI/finalintegration/normalmerge remain. Tooling acceptance only, no product/account capability."
+        "Independent reference/account recipes reproduce original bytes from four pinned seeds; account8 stays proposed. Contract/test-first red/source/fix/runtime reviews approved, same2tests and tooling36/scaffold3 pass. Failedmode-byte attempt preserved; fixtures/native sources unchanged, priorQt proof reused. Final integrated review/currentCI/normal PR100 merge remain. Owner requested stop after this task; no nextclaim."
       ],
       "verification": {
         "scope_contract_review": "passed",
@@ -381,10 +381,25 @@
         "source_oracle_review": "passed",
         "acceptance": "passed",
         "first_green": "passed",
-        "source_fix_review": "passed"
+        "source_fix_review": "passed",
+        "usage_identity": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "native_identity": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/100"
+      ],
+      "review": {
+        "author": "/root/fixture_catalog_author",
+        "reviewer": "/root/fixture_catalog_review",
+        "outcome": "approved",
+        "revision": "Scopedcf862ce/contract-tests bf06a67 (407fec3f)/intendedredc406/source65/failure171f/narrowfix+green-runtime39c5529 independently reviewed. Two exact outputs/tooling36/infra3 pass; fullpacket/currentCI/merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/100"
+      }
     },
     {
       "id": "FIXTURE-002",
@@ -16719,6 +16734,11 @@
       "date": "2026-11-07",
       "task": "FIXTURE-001",
       "note": "Fresh first prerequisite claimed after normal planningPR99 merge; contract/test-first and independent oracle/source execution gates intact."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "FIXTURE-001",
+      "note": "Owner requested clean completion of FIXTURE-001 and then stop; no subsequent task claim or standing-loop continuation."
     }
   ]
 }
