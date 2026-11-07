@@ -73,14 +73,26 @@ PRs and checks before acting. Preserve reviewed work and explicitly reassign sta
   before baseline edits. Different fresh reviewer approves exact deletions and warning
   handling; no production changes, blanket warning ignores, new harness framework or
   artificial tests of deleted machinery. New behavior still obeys test-first gates.
-- Read-only author/reviewer audit is underway; no source edit or new execution yet.
-  Preserve throwing callback assertions so failure cannot return normally and commit.
-  Adapter-specific second-begin error categories, invalid-input priority and cumulative
-  repository budgets are distinct contracts, not removable raw-writer duplicates.
-  Proposal will keep typed completion classification local and extract only common
-  queue/condition-wait plumbing; exact deletion/retention review is still pending.
-  TESTCLEAN-007 is
-  also dependency-ready but unclaimed. Later tasks retain their own review gates.
+- Exact proposal SHA256 `7c94a6643a441efdbbdb729e3d13444c3db05b85263b86219ba7dfd258af94de`
+  and inventory `5b32bfd54c42c275883ddb4559791b7bb58991bc4bec63f9f4db9a4e6d0aa71b`
+  independently approved by `/root/qt_support_review` before any source edits.
+  Reviewer checked all 13 removal fragments: seven raw COMMIT re-admission tails,
+  five raw ROLLBACK tails and one raw migration reopen. Physical repository proof,
+  methods, adapter second-begin/input priority/budgets remain. Reviewer caught a
+  missing raw new-work refusal in the writer rollback owner; the revised proposal
+  requires relocating one existing assertion into BOTH explicit/automatic rollback
+  paths before removing repeated rollback tails. Commit owner already covers it.
+- Root released bounded `tests/qt` edits only: common throwing/source-location
+  require (callback failure must unwind), real queue/condition-wait preserving
+  typed local wrappers/timeouts, identical 13 regex policies in per-test init, and
+  exact reviewed tails. No production, fixture, private-pin or warning suppression
+  changes. Mechanical support/relocation needs no manufactured stub-red test.
+- Author is implementing from base `2f64085`; exact complete source review must
+  approve BEFORE new configuration/build/native execution. No runtime has run.
+  Proposal/inventory at `/tmp/testclean004-{proposal,writer-inventory}.md`.
+  Next: independent exact-source execution gate, relevant real Qt stable suites,
+  actual runtime review, final integration/current CI/rules/discussions/normal PR.
+  TESTCLEAN-007 remains ready and unclaimed; later tasks keep their own gates.
 
 ## Preserved context
 

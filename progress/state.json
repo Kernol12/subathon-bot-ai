@@ -286,9 +286,11 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
       "notes": [
-        "Claimed from main7179680 for shared Qt assertions/waits, reviewed writer-mechanics deduplication and per-test warning initialization. Fresh author owns tests/qt only; coordinator owns state/HTML/evidence/checkpoint/PR. Require exact retained-coverage/deletion review before baseline changes; no product or unique repository behavior removal."
+        "Independent exact proposal7c94a664 approved: share throwing assertion/real completion plumbing and same13 per-test warning guards; preserve unique adapter priorities/budgets/physical outcomes and all methods. Relocate fresh-work refusal into both writer rollback paths before deleting12 repeated raw admission tails plus1reopen. Author edits only; exact source execution review remains before native checks."
       ],
-      "verification": {},
+      "verification": {
+        "cleanup_proposal_review": "passed"
+      },
       "evidence": [],
       "review": null
     },
