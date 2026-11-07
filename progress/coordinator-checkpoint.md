@@ -1,73 +1,69 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Inspect actual branches, worktrees, claims, processes,
-PR/check/review state before acting. Preserve valid work; explicitly reassign stale tasks.
+Updated: 7 November 2026. Verify actual branch/worktrees/claims/processes/PR checks
+and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
 
-## Current main and completed cleanup
+## Actual main and completed planning
 
-- Current main `f25035772a5e1b569859e22c1c3ae1f6414486e4`: normal TESTCLEAN-005
-  PR98 merge18:52:40UTC after complete-head e2c7344 independent approval, all19checks,
-  actual branch rules and zero unresolved discussions. Six manifest methods retain
-  every independent full prefix comparison and canonical owning-step1–7 freeze.
-  Public formats/errors/order/budgets, methods/rows/fixtures/deps unchanged.
-- Exact proposal8990b6e2/source-runtime4db2401 independently approved. FreshSQL109build,
-  discovery18nodes, Qt14/361methods/869PASSIDs identical prior baseline, all7canonical
-  owners/genericUnicode/NULL/BOM PASS; zero failure/skip/blacklist/warnings. Infra3/
-  tooling34/project461/122 passed. Account44 passive only. Raw stableSHA256
-  `1d191ddd00d3063ffa979d884672659b1c4716a94bf739b99e4c6a18b503a95e`.
-  Exact commands/source/oracles/reviews in PR98 and `/tmp/testclean005-author-handoff.md`.
-- TESTCLEAN004#97 e48f231,003#96 7179680,001#95 2d5488f,002#94 b8bd0d3,
-  EVIDENCE002#93 116a6cd,001#92 dc0a544 merged normally with separate review/currentCI.
-  Common throwing Qt assertions/actual completion and13per-test warning policies
-  retained (12guardedstableclasses exercised/accountpassive). Selector test-first,
-  31preset/cache closures, stable428nodes/410GTest/361Qt/translation43 verified.
-  Published archive targets01cf400/all969receipts verified; solecurrentREADME/notes500.
+- Main `855a1f08101f1081a55c89bf1497be15d67c89ff`: normal planning PR99 merge
+  19:18:43UTC after independently approved exact packet2bf4381, all19current checks,
+  inspected branch rules and zero unresolved discussions. No bypass. Main refreshed.
+- Read-only006author `/root/fixture_provenance_author` clean84c72de retired after plan
+  c52d8293; different `/root/fixture_provenance_review` approved plan and actual packet.
+  Three explicit child briefs/records planned, parent006releasedUnassigned/planned.
+  No generator/fixture/source behavior was implemented or executed by that planning.
+- FIXTURE001 covers small independent catalog/CLI/reference/account;002depends001 covers
+  bundle/holds/original+sixselector names/rolecrosswalk;003depends002 covers service34cases/
+  arrangements/formats. Final006dependsall3and005, retaining all-sixadoption/CI/docs.
+  All6file/canonicalhashes and4seedhashes are frozen in reviewed briefs. Four smallseed
+  fixtures only; sixoutputs may be read ONLY for check comparisons, never recipeinputs.
+  Accountcoordinate8 remains proposed/unimplemented/account44passive. No SUT/Qt/SQLite/
+  provider/git/observed-engine expecteddata, SQL/domain simulator or genericpatchDSL.
+- Actual planning tooling34PASS0.335s, state/render/project464tasks/122decisions pass;
+  packet/header/index corrections checked. Epicindex28rows=208packages/368children.
 
-## Active coordinator work: fixture prerequisite planning
+## Active assignment: FIXTURE-001
 
-- Root branch `task/TESTCLEAN-006-fixture-provenance` from mainf250357. Initialclaim
-  84c72de, checkpoint793ee29; no source/fixture/generator edits or native feature runs.
-- Read-only fresh `/root/fixture_provenance_author` handed off clean84c72de from
-  `/tmp/subathon-testclean006-author` and retired. Do not assume it remains live.
-  `/root/fixture_provenance_review` independently approved exact PLAN ONLY SHA256
-  `c52d8293cf4fcfdf32448f2f48a54bc65260867a26507a49636d22ddc6730bd4`.
-  It verified all6file/canonicalhashes, zeroJSONfloats,47,286bytes/32DDLstrings and40
-  independentNULLindexfacts, completefamilycoverage and sixselectorrolecrosswalk.
-- Actual planning packet now authored by coordinator: three FIXTURE001/002/003 briefs,
-  updated parent006/epic/index, state464tasks/HTML. TESTCLEAN006 claim explicitly
-  released to Unassigned/planned, depending on all3children. Their records are planned,
-  not implemented/reviewed test baselines. Root owns the planning PR/currentmetadata.
-- FIXTURE001 depends005: small independent CLI/catalog/framing plus reference/account
-  recipes/output adoption. Four explicitly pinned small seed inputs only; sixoutput
-  files cannot be recipeinputs. New CLI contract/examples must settle no-selection,
-  mode combinations/check semantics/script-relative seed-root/pin behavior BEFOREtests.
-- FIXTURE002 depends001: bundle/holds/original recipes; only sixselector names/two
-  metadata fields added. Preserve old0 unique corrupt-B branch via explicit boolean,
-  setup[9]/publicbindpositions30–33 and every old typed oracle. FIXTURE003 depends002:
-  all34servicecases/arrangements/formats/queries, independently supplied semantics.
-- Final006 after all3normalmerges: all-six adoption/check, named-selector crosswalk,
-  existingSQLCI --check step/usage docs. Full006scope retained. Expected361methods and
-  one-to-one869PASS-ID mapping are planned constraints, not new observed outcomes.
-- Alloracles/publicencodings/fullmigrationprefixes/error/order/budgets remain. Never
-  derive expecteddata from project/Qt/SQLite/provider output, git/currentproduction,
-  generated legacyJSON, a SQL/domain simulator or genericpatch framework. Independent
-  literal source functions/stdlibframing allowed; no giantliteralcopy generator.
-- Each new tool behavior needs contract/examples -> authoredtests+reachableinertstub ->
-  independenttestreview -> intendedred -> impl -> independentoracle/sourceexecutiongate.
-  Missingimports/deps/compileerrors are notred. Every executable child/final006 uses
-  freshauthorsession/differentreview, exactcoverage/oracle gates and relevantchecks.
-- Root actual state/render/project464/122 and tooling34/34 (0.335s) pass. Planning packet
-  is draft PR99 (last observed b1a9491), awaiting exact independent review and
-  currentCI/rules/discussions/
-  normalmerge before fresh FIXTURE001 claim from then-currentmain. No implementation
-  approval follows from plan approval. Reviewer finished; explicitly resume it.
+- Dedicated root `task/FIXTURE-001-independent-recipes` from actual main855a1f0.
+  Claim `/root/fixture_catalog_author`; fresh isolated implementation session and
+  different independent reviewer. Coordinator owns state/HTML/currentdocs/evidence/
+  checkpoint/CI/rootCMake/PR/shared integration. Parent006remains planned, not active.
+- Read FIXTURE001brief, parent006baseline, root/tests/toolsAGENTS, workflow/architecture/
+  strategy and exact migration/reference/account contracts. Owned recipe paths:
+  tools/generate_fixtures.py, tools/fixture_sources/{__init__,common,catalogs,
+  reference_capture,account_sessions}.py, focused tests/tooling/test_fixture_generation.py,
+  new docs/contracts/fixture-generation-v1.md; ONLY reference/accountJSON may adopt
+  outputs AFTER exact gates. No other fixture/helper/production/registration edits.
+- First bounded read-only proposal/contract/examples: settle no-selection, supported
+  names, modes (--check vs --output-dir), check comparison/no-write behavior and script-
+  relative seed-root/pins. Full typed-content baseline/fingerprints in parentbrief,
+  four seedhashes in001brief. Independently supplied snapshot/format semantics stay
+  literal; compact source is not a giantliteralcopy of legacyJSON or new framework.
+- Actual new firstparty behavior requires contract/examples -> authoredfocusedtests+
+  reachable named inertrecipe stub -> independenttest/oraclereview -> observed intended
+  red -> implementation -> independentsource/oracleexecutiongate -> generation and
+  relevant actual Qt/tooling checks. Missingfile/import/dependency/compileerror is notred.
+  Test independent generation with allsixlegacyoutputs absent and only fourseeds/source.
+- Preserve canonicalfullprefix/framing/hash/NULL/publicbyte/authority/error/order/budget
+  contracts; referenceA/B/all23constraints, accountliteralverifier/sourcebytes/proposed8.
+  No passwordhashing, provider/SQLobserved expecteddata or unrelatednative/red replay.
+- No new executable source/tests/generator execution yet. Next exactcontract/proposal,
+  authoredtest gate; freshauthor may not implement ahead. Actual current CI/finalreview/
+  rules/discussions/normalmerge and every familyoracle/coverage gate remain mandatory.
 
-## Preserved context
+## Retained cleanup evidence and work
 
-No branch/worktree reset/prune/delete. Approved unpublished ACCESSCONTRACT00153524fc
-and validreview remain. STORAGE020 unstarted/reviewed44case intendedred unchanged.
-LocalQt6.12/Boost1.92/GCC16.2.1/Python3.14.9; sodiumSDK /tmp/subathon-session-sdk/prefix
-and existing schema20pinSDK/disposablebuilds/logs remain. Verify before reuse, no paths
-committed to machine config. Fullv0.45/sevenintegrations/threeFX/UI/platformscope stays.
-No livecredentials/provider/chat/payment/deployment sideeffects authorized. Commands/
-actualproof belong in focusedPRs; currentevidence is docs/evidence/README.md.
+TESTCLEAN005PR98 f250357,004PR97 e48f231,003PR96 7179680,001PR95 2d5488f,
+002PR94 b8bd0d3,EVIDENCE002PR93 116a6cd,001PR92 dc0a544 merged normally after
+independent reviews/currentCI. StableSQL14/361methods/869PASSIDs, infrastructure3/
+tooling34; rate53/account44intentionalred passive. Current schema8/20pins, selector31
+presets, combined428stable/410GTest/translation43; no platform/fullproduct proof.
+Published annotated archive01cf400/all969receipts verified; notes500/solecurrentREADME.
+Exact commands/review in PRs and /tmp/testclean005-author-handoff.md; no receipt replays.
+
+No worktree/branch reset/prune/delete. ACCESSCONTRACT00153524fc approved unpublished
+and validreview preserved. STORAGE020 unstarted/reviewed44case intendedred intact.
+LocalQt6.12/Boost1.92/GCC16.2.1/Python3.14.9, sodiumSDK/tmp/subathon-session-sdk/prefix,
+existing schema20pinSDK/disposablebuilds/logs remain; verify before reuse. Fullv0.45/
+sevenintegrations/threeFX/UI/platformscope retained. No livecredentials/provider/chat/
+payment/deployment sideeffects authorized. Continue standing loop without routine approval.

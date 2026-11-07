@@ -360,8 +360,8 @@
       "title": "Independent catalog, reference and account fixture recipes",
       "module": "Fixture tooling",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/fixture_catalog_author",
       "depends_on": [
         "TESTCLEAN-005"
       ],
@@ -371,7 +371,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
       "notes": [
-        "Planned prerequisite only. Exact family contract/oracle/coverage proposal and authored-test review/intended-red gates precede implementation. No generator or product behavior is implemented or verified by this record."
+        "Claimed from main855a1f0 after reviewed prerequisite planning merge. Fresh author owns small independent catalog/CLI/reference/account recipes, exact contract/examples/tests and two-output adoption only after gates. Coordinator owns shared state/HTML/evidence/CI/PR. Settle seed/mode/check semantics and exact oracle mapping before authored-test review/intended-red/implementation; no new generator behavior verified yet."
       ],
       "verification": {},
       "evidence": [],
@@ -440,10 +440,12 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
       "summary": "Make oversized test fixtures reproducible or replace them with small named hand-derived scenarios.",
       "notes": [
-        "Read-only author handed off independently approved planc52d8293; claim explicitly released to Unassigned pending three executable prerequisites. FIXTURE001 covers catalog/reference/account,002 storage/selectors,003 service; final006 retains all-six adoption/CI/docs. Every oracle/public contract and account44 red remains. No fixture/source/generator implementation or feature execution yet; fresh child sessions and full test-first/review gates required."
+        "Read-only decomposition planc52d8293/packet2bf4381 independently approved; all19checks passed before normal PR99 merge855a1f0. Parent claim explicitly released planned/Unassigned pending FIXTURE001catalog/reference/account,002storage/selectors,003service, then final006adoption/CI/docs. All six oracles/public contracts/account44red remain. No generator or fixture implementation follows from planning; fresh executable sessions/test-first gates required."
       ],
       "verification": {
-        "decomposition_plan_review": "passed"
+        "decomposition_plan_review": "passed",
+        "decomposition_packet_review": "passed",
+        "decomposition_ci": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/99"
@@ -16703,6 +16705,11 @@
       "date": "2026-11-07",
       "task": "TESTCLEAN-006",
       "note": "Read-only plan independently approved; explicit prerequisites created and inventory claim released. No implementation gate approved."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "FIXTURE-001",
+      "note": "Fresh first prerequisite claimed after normal planningPR99 merge; contract/test-first and independent oracle/source execution gates intact."
     }
   ]
 }
