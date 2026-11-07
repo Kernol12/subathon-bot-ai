@@ -40,3 +40,21 @@ approval pending; do not implement009 or claimruntime from this document.
 CI assessment: existing document/project/tooling scope, no new executable suite.
 Root publishesdraft while actualreview proceeds; normal finalheadCI/rules/threads/
 merge gates remain. Preserve all priorimports/reviews and fullrelease scope.
+
+## Actual approval / completion publication gate
+
+Different db874a0e36ee7ac10093dfe46c3094cf45e99bbd/importd39d25b
+[APPROVED exact packet](sessioncontract-004-review.md). SC01–30, all8unchangedimports,
+source/ABI/trust/model/ownership/finiteprofile/signedU64/publication audited; no
+blocking finding or newarchitecturalprerequisite. Native ktime_set saturation can
+occur even below mathematicalKTIME_MAX: actual009 baseline/source must check
+representation BEFORE calls, as this proposal requires. This is no native run.
+
+Old draftPR88head6603345 passedall21CI. Root completesdocstatus/checkpoint/evidence;
+latestcompletionheadCI/currentrules/resolvedthreads/normalmerge remain. Done is
+DOCUMENT only; no actualclock/producer/platform orsession acceptance. Freshactual
+SESSIONTEST009 (after020) retains ownreview/foundation/red/source/selectedCI gates.
+
+Root actual completion checks7November: progress render0; projectPASS443/122;
+19tooling testsPASS in0.358s; render--checkcurrent; whitespace0. ExistingLinux/
+Python3.14.9 coordinator environment. No nativeclock/newfeature/build executed.
