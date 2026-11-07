@@ -189,3 +189,77 @@ and normal merge remain coordinator gates. Actual storage/current snapshot, cloc
 recovery trust, permissions/login, issuance RNG/lifecycle, transport, authoritative
 execution, platform/security and full release verification remain their owning
 tasks. All seven integrations and three rate providers stay in scope.
+
+## Independent FIRST-run attribution — 0989cb7
+
+**APPROVED as the actual intended compiled red baseline**, from the preserved
+FIRST-run receipts integrated at `0989cb75741bfa80000dea54a61b8700a85951d3`.
+This is the same different reviewer and an additional completed evidence stage;
+the original source review above is preserved. No source, assertion, fixture,
+native program, harness or workflow changed after the reviewed execution revision
+`2014c0c56db1d46a1206cc7716dbb1a1c2382136`. The only intervening changes are the
+[immutable first-run archive](sessiontest-008-first-runs.tar.gz) and coordinator
+handoff. I inspected these existing receipts without replaying either stage.
+
+All11 archive members are distinct safe regular relative paths. Its manifest
+accounts for exactly10 original files, each matching both its recorded length/
+SHA256 and the corresponding original `/tmp/subathon-sessiontest008-first-sdk`
+or `-first-red` bytes. Native JUnit, raw stdout/stderr, direct return receipts and
+the red LastTest/failed inventory remain unchanged.
+
+The receipt-pinned foundation executable SHA256 is
+`fc4fde646684eae6abdab01648b9e6b39e4ba46791e40915975d1f4354c4a0b2`;
+feature executable SHA256 is
+`63636e361335886e6d7f0d40702713d90c7342e6a6e432817620cfa73a0e1b13`.
+Both match the existing reviewer-linked binaries. The SDK remains
+`f8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017`;
+the accepted header/stubs/tests/fixture/foundation bytes remain unchanged.
+
+FIRST SDK command was ordinary CTest selection
+`-R '^scaffold.session_resolution_environment$' --no-tests=error --verbose`,
+with native `--output-junit` capture. Direct exit0, exactly one PASS, no failures/
+skips and empty stderr. The reviewed program's success establishes its real
+runtime1.0.22/ABI26/4/primitive identity, all three independent framed vectors,
+fixed32 comparison and secure-clearing checks for this actual archive/host.
+No feature case appears in this stage. The receipt finished at
+`2026-11-07T10:12:32.740804+00:00`.
+
+FIRST feature command then selected ordinary label
+`-L '^session-resolution$' --no-tests=error --verbose`, with native JUnit capture,
+starting `2026-11-07T10:13:04.200356+00:00`. Its receipt references the exact earlier
+foundation-receipt hash. Direct exit8; exact39 cases/39 failures/zero errors,
+disabled cases or skips. Source method names, native JUnit names, individual
+command filters and LastTestsFailed names agree exactly. Every case starts its
+one test, reports exactly one `unknown file: Failure` and the exact reviewed
+stub exception, then reaches normal GoogleTest teardown and ordinary failed-test
+termination. LastTest contains39 such markers; verbose stdout contains78 because
+CTest repeats each failed case's captured output. Neither count represents extra
+test execution. Per-case elapsed times range0.00096679–0.0101992 seconds, below
+the reviewed10-second timeout. Red stderr is solely `Errors while running CTest`.
+
+There is no dependency/compilation/setup failure, unexpected assertion, diagnostic
+exception, crash, timeout, fixture defect or skip serving as red. The inaccessible
+mapping setup reaches the first stub call successfully; its later input/assertions,
+like every assertion after an immediate throw and subsequent loop row, did not run.
+They are neither measured behavior nor passing acceptance. This stage establishes
+missing implementation at both public entrypoints, not feature correctness.
+
+Both receipts record core soft/hard limits0/0, command, cwd, revision, direct return,
+times and hashes. They omit PATH/locale values. Root reports its literal minimal
+PATH and C.UTF-8 invocation, but this independent attribution does not turn those
+absent receipt fields into recorded facts or modify originals to add them.
+
+Actual review operations were read-only git/source/binary hash comparison,
+tarfile/JSON/XML parsing, raw-log reads and Python standard-library assertions for
+all manifest entries, chronology and39 individual outcomes. One initial review
+audit incorrectly expected a period after GoogleTest's teardown text; I corrected
+that audit literal to the actual format and all checks passed. No evidence or
+candidate file changed because of that review-tool error, and no product body was
+rerun. The ordinary project/progress/whitespace checks also pass on this note.
+
+The reviewed-tests → actual SDK green → intended component red → independent
+attribution sequence is now established locally. SESSIONTEST-008 still needs its
+actual selected hosted CI/publication/completion/normal merge gates; SESSION-008
+production remains a separate task with its own dependencies, passing preserved
+acceptance and different code/resource/secret review. No live session authority,
+SQL/clock producer, platform/security or full release capability follows.
