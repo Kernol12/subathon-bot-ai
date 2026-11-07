@@ -175,10 +175,13 @@ support, authorization or runtime transport security. See
 [implementation #77](https://github.com/Kernol12/subathon-bot-ai/pull/77).
 
 EPIC-028 cleanup is underway under [ADR-0012](../decisions/0012-test-suite-simplification.md).
-EVIDENCE-001 archives the 969 receipts and rewrites references, adds focused tooling
-checks for HTTPS evidence/local test artifacts and keeps this summary as the sole
-current evidence file. Archive/link/checker review approved the material at `5ee1393`;
-[PR #92](https://github.com/Kernol12/subathon-bot-ai/pull/92) records checks and merge gates;
-this cleanup establishes no new product behavior. Later cleanup tasks retain their
-own independent reviews and revised-baseline gates. Full specification acceptance,
-live/provider/platform evidence and release readiness remain open.
+EVIDENCE-001 archived the 969 receipts and rewrote references, added focused tooling
+checks for HTTPS evidence/local test artifacts and kept this summary as the sole
+current evidence file. Independent review, 26 tooling tests, scaffold 3/3 and all 21
+hosted checks passed before normal [PR #92](https://github.com/Kernol12/subathon-bot-ai/pull/92)
+merge. Post-merge retrieval of the published tag verified all 969 removed receipts.
+This is repository evidence maintenance, with no new product behavior. EVIDENCE-002
+now addresses concise task notes and the current suite summary; its independent
+review and CI gates remain. Later cleanup tasks retain their own reviews and
+revised-baseline gates. Full specification acceptance, live/provider/platform evidence
+and release readiness remain open.
