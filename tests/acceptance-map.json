@@ -76,9 +76,20 @@
     },
     {
       "id": "AUTH-05",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/session_resolution_tests.cpp",
+        "tests/fixtures/session_resolution_vectors.hpp",
+        "tests/acceptance/session_resolution_environment.cpp"
+      ],
+      "evidence": [
+        "docs/contracts/session-resolution-v1.md",
+        "docs/evidence/sessiontest-008-handoff.md",
+        "docs/evidence/sessiontest-008-review.md",
+        "docs/evidence/session-008-handoff.md",
+        "docs/evidence/session-008-review.md"
+      ],
+      "scope": "SESSION-008 implements only bounded native token preparation and resolution over supplied current facts/clock, with preserved39 reviewed tests, original SDK-green/stub-red/independent attribution, source/resource/config approval and actual ordinary selected Ubuntu39PASS. No issuance, real account/session SQL producer, trusted runtime clock, login/permission binding, cookie/header/CSRF transport, platform/security or complete release capability follows."
     },
     {
       "id": "CHAT-01",
@@ -913,9 +924,20 @@
     },
     {
       "id": "AUTH-12",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/session_resolution_tests.cpp",
+        "tests/fixtures/session_resolution_vectors.hpp",
+        "tests/acceptance/session_resolution_environment.cpp"
+      ],
+      "evidence": [
+        "docs/contracts/session-resolution-v1.md",
+        "docs/evidence/sessiontest-008-handoff.md",
+        "docs/evidence/sessiontest-008-review.md",
+        "docs/evidence/session-008-handoff.md",
+        "docs/evidence/session-008-review.md"
+      ],
+      "scope": "SESSION-008 implements only bounded native token preparation and resolution over supplied current facts/clock, with preserved39 reviewed tests, original SDK-green/stub-red/independent attribution, source/resource/config approval and actual ordinary selected Ubuntu39PASS. No issuance, real account/session SQL producer, trusted runtime clock, login/permission binding, cookie/header/CSRF transport, platform/security or complete release capability follows."
     },
     {
       "id": "CRYPTO-01",
@@ -1510,6 +1532,33 @@
         "baseline": "Actuald7d6328 module d7985160/catalogcb392400/config/productoutputs approvedacaeb41; tests6a unchanged. Rootfull48/different43+foundation/infrastructure PASS; selectedordinary41808104501 productcheck+43unconditionalPASS/all12SUCCESS.",
         "evidence": "docs/evidence/locale-001-code-review.md"
       }
+    },
+    {
+      "scenario": "Bounded opaque account-session preparation and supplied-fact resolution",
+      "status": "passed",
+      "tests": [
+        "tests/acceptance/session_resolution_tests.cpp",
+        "tests/fixtures/session_resolution_vectors.hpp",
+        "tests/acceptance/session_resolution_environment.cpp"
+      ],
+      "contract": "docs/contracts/session-resolution-v1.md",
+      "evidence": [
+        "docs/contracts/session-resolution-v1.md",
+        "docs/evidence/sessiontest-008-handoff.md",
+        "docs/evidence/sessiontest-008-review.md",
+        "docs/evidence/session-008-handoff.md",
+        "docs/evidence/session-008-review.md",
+        "docs/evidence/session-008-hosted-ci.json"
+      ],
+      "review": {
+        "author": "/root/session_supplier_implementer; /root (ordinary CI promotion/integration)",
+        "reviewer": "/root/session_supplier_code_review",
+        "outcome": "approved",
+        "revision": "Actual author26f275fa/import028f83b source0525d755 +root ordinary CI2cf5ba5 independently approved28beefea/importd201b97. Sequential independent39/full43 pass; actual hosted42364733237 at3749299 ordinary39PASS.",
+        "evidence": "docs/evidence/session-008-review.md"
+      },
+      "verification_level": "synthetic source/clock component plus real selected cryptographic SDK acceptance",
+      "scope": "SESSION-008 implements only bounded native token preparation and resolution over supplied current facts/clock, with preserved39 reviewed tests, original SDK-green/stub-red/independent attribution, source/resource/config approval and actual ordinary selected Ubuntu39PASS. No issuance, real account/session SQL producer, trusted runtime clock, login/permission binding, cookie/header/CSRF transport, platform/security or complete release capability follows."
     }
   ]
 }
