@@ -21,7 +21,26 @@ production code, dependency or validator architecture is part of this contract t
 
 ## Current evidence and next action
 
-Authoring pending; no schema acceptance or runtime support claimed. Next: author
-complete bounded HTTP representation/examples, independently review the actual
-revision, then run the admitted real offline validator and extend automatic CI
-for this package. Record exact commands/results and remaining gates here.
+Author5819a297 imported ascebf164: [HTTP R1](../contracts/reference-http-v1.md),
+[OpenAPI/manifest](../../schemas/http/reference-v1/manifest.json),23positive bound
+instances and26logical later-test oracles. [Author evidence](contract-013-author.md)
+records unchanged import blobs, exact authored inventory and limited local checks.
+Different `/root/reference_contract_review` reviews actualcebf164 plus five-line CI
+addition on isolated `review/CONTRACT-013-schema`, `/tmp/subathon-contract013-review`.
+No verdict or admitted schema validation yet; task in_review, runtime not_run.
+
+Root local Linux/CPython3.14.9 checks actually passed: `python3 -m unittest discover
+-s tests/tooling -v`19/19, `node tools/check_progress_ui.mjs` DOM simulation,
+`python3 tools/progress.py render --check`, `python3 tools/check_project.py`427tasks/
+122decisions/links/presets/currentHTML, `git diff --check`. These are tooling/static
+checks, not schema/OpenAPI or HTTP/authentication acceptance. No local admitted native
+artifact/venv survived, so package acceptance will use the unchanged admitted
+foundation/build/bootstrap/acceptance ordering in BOTH hosted lanes, followed by
+new unconditional publicCLI `--manifest schemas/http/reference-v1/manifest.json`.
+No known-red suite is promoted or failure-inverted. CI configuration review and
+actual changed workflow success are required; current rules require PR/resolved
+threads,0formal approvals/no enforced check list. All applicable CI is still a
+manual merge gate. No new runtime dependency or platform/provider evidence.
+
+Next: resolve actual review findings, observe hosted validation, update completion
+records and latest-head checks/rules/discussions before normal merge.

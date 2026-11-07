@@ -13050,7 +13050,7 @@
       "title": "Bounded reference HTTP contract and schema",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "Codex coordinator /root + fresh reference_contract_author",
       "depends_on": [
         "CONTRACTPLAN-003",
@@ -13079,11 +13079,20 @@
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
         "ADR0008 additive schema-validator baseline/implementation foundation required before actual schema/example/ref acceptance. Every existing supplier/runtime/release gate retained; no validator or schema capability supplied by planning.",
-        "Resumed 2026-11-07 from actual main e0585ca after verifying PR78 merged, no open PRs/live subagents/unfinished commands and both existing worktrees clean. Claim task/CONTRACT-013-reference-http: specification v0.45/reference-path R1/wire primitives R1/session supplier+transport accepted documents/schema-tool accepted foundation. Author owns only reference HTTP contract/package/examples and author evidence; root owns shared schema imports, state/HTML, build/CI and integration. Actual independent contract review, real offline schema/reference/example validation and latest-head CI/normal merge required; no runtime capability or dependent implementation authorized by document completion."
+        "Resumed 2026-11-07 from actual main e0585ca after verifying PR78 merged, no open PRs/live subagents/unfinished commands and both existing worktrees clean. Claim task/CONTRACT-013-reference-http: specification v0.45/reference-path R1/wire primitives R1/session supplier+transport accepted documents/schema-tool accepted foundation. Author owns only reference HTTP contract/package/examples and author evidence; root owns shared schema imports, state/HTML, build/CI and integration. Actual independent contract review, real offline schema/reference/example validation and latest-head CI/normal merge required; no runtime capability or dependent implementation authorized by document completion.",
+        "Authored5819a297/importcebf164 bounded HTTP R1/OpenAPI3.1.1 with23explicit positive examples/H01–26 logical later test oracles. Local author syntax/inventory/regex and root tooling19/DOM/consistency pass, actual separate packet+CI review and admitted both-host offline package validation pending. Existing native/public workflow extended only final unconditionalCLI package step; no validator/production/dependency change. In_review notdone; no auth/runtime capability or tests/red claim."
       ],
-      "verification": {},
+      "verification": {
+        "authored": "passed",
+        "document_review": "not_run",
+        "schema_validation": "not_run",
+        "runtime": "not_run"
+      },
       "evidence": [
-        "docs/evidence/contract-013-handoff.md"
+        "docs/evidence/contract-013-handoff.md",
+        "docs/contracts/reference-http-v1.md",
+        "schemas/http/reference-v1/manifest.json",
+        "docs/evidence/contract-013-author.md"
       ],
       "review": null
     },
