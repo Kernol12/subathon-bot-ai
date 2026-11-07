@@ -87,9 +87,9 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-025 — Windows portable ZIP, Linux archives and Arch package](EPIC-025.md) | 6 | 10 |
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
-| [EPIC-028 — Simplify agent workflow and focus test coverage](EPIC-028.md) | 10 | 10 |
+| [EPIC-028 — Simplify agent workflow and focus test coverage](EPIC-028.md) | 13 | 13 |
 
-Total: 203 work packages, 363 child records
+Total: 208 work packages, 368 child records
 (test baselines, their paired implementations, and distinct feasibility,
 verification and documentation tasks).
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.

@@ -6,7 +6,7 @@ Authoritative status, owners and dependencies: `progress/state.json`.
 This epic makes the repository easier for future agents to work in by reducing
 duplicated process instructions and removing test machinery that does not establish
 specified product behavior. It does not reduce release scope or authorize unreviewed
-assertion deletion. Every child is a cleanup task with a separate approved review.
+assertion deletion. Every cleanup and executable fixture prerequisite requires separate approved review.
 
 | Task | Bounded outcome |
 | --- | --- |
@@ -18,6 +18,9 @@ assertion deletion. Every child is a cleanup task with a separate approved revie
 | [TESTCLEAN-004](EPIC-028/TESTCLEAN-004.md) | Share Qt test helpers and deduplicate writer plumbing cases |
 | [TESTCLEAN-005](EPIC-028/TESTCLEAN-005.md) | Remove repeated implementation-detail assertions |
 | [TESTCLEAN-006](EPIC-028/TESTCLEAN-006.md) | Replace giant unreproducible fixtures with named scenarios |
+| [FIXTURE-001](EPIC-028/FIXTURE-001.md) | Independent catalog, reference and account fixture recipes |
+| [FIXTURE-002](EPIC-028/FIXTURE-002.md) | Storage recipes and explicit named selector roles |
+| [FIXTURE-003](EPIC-028/FIXTURE-003.md) | Independent application-service case recipes |
 | [TESTCLEAN-007](EPIC-028/TESTCLEAN-007.md) | Trim libsodium call-counting while retaining security assertions |
 | [TESTCLEAN-008](EPIC-028/TESTCLEAN-008.md) | Merge regression executables and simplify labels/comments |
 
