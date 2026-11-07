@@ -69,6 +69,11 @@ def openapi_nodes(value, role="Document"):
         return
     if not isinstance(value, dict):
         return  # The real OpenAPI structural validator reports malformed objects.
+    if (role in {"MediaType", "Parameter", "Header", "Components"}
+            and ("example" in value or "examples" in value)):
+        yield "inline_example", None
+    if role == "Example" and "value" in value:
+        yield "inline_example", None
     if "$ref" in value:
         yield "reference", value["$ref"]
         return
@@ -125,6 +130,8 @@ class RepositorySchemas(unittest.TestCase):
         cls.api = read_json(PACKAGE / "api.json")
         cls.progress = read_json(ROOT / "progress/state.schema.json")
         cls.manifest = read_json(PACKAGE / "manifest.json")
+        cls.component_pointers = {"/components/schemas/" + name
+                                  for name in cls.api["components"]["schemas"]}
         cls.registry = cls.official.with_resources((
             (API_URI, DRAFT202012.create_resource(cls.api)),
             (PROGRESS_URI, DRAFT202012.create_resource(cls.progress)),
@@ -160,14 +167,19 @@ class RepositorySchemas(unittest.TestCase):
         return self.OpenAPI(self.SchemaPath(accessor))
 
     def instance_validator(self, pointer):
+        self.assertIn(pointer, self.component_pointers,
+                      "Example target must be an admitted actual component schema")
         return self.OAS({"$ref": API_URI + "#" + pointer}, registry=self.registry)
 
+    def schema_nodes(self, schema):
+        yield schema
+        for child in self.resource_spec.create_resource(schema).subresources():
+            yield from self.schema_nodes(child.contents)
+
     def schema_references(self, schema):
-        resource = self.resource_spec.create_resource(schema)
-        if isinstance(schema, dict) and "$ref" in schema:
-            yield schema["$ref"]
-        for child in resource.subresources():
-            yield from self.schema_references(child.contents)
+        for node in self.schema_nodes(schema):
+            if isinstance(node, dict) and "$ref" in node:
+                yield node["$ref"]
 
     def test_inventory_includes_every_actual_schema_target_and_example(self):
         self.assertEqual(self.manifest["documents"], [{"path": "api.json", "kind": "openapi31"}])
@@ -175,7 +187,16 @@ class RepositorySchemas(unittest.TestCase):
         example_files = {path.resolve() for path in (PACKAGE / "examples").glob("*.json")}
         declared_examples = [path for path, _binding in self.examples]
         self.assertEqual(set(declared_examples), example_files)
-        self.assertEqual(len(declared_examples), len(set(declared_examples)))
+        bindings = [(path, binding["schema_document"], binding["schema_pointer"])
+                    for path, binding in self.examples]
+        self.assertEqual(len(bindings), len(set(bindings)))
+        has_inline_examples = any(kind == "inline_example" for kind, _value in openapi_nodes(self.api))
+        has_inline_examples = has_inline_examples or any(
+            "example" in node or "examples" in node
+            for schema in self.schemas for node in self.schema_nodes(schema)
+            if isinstance(node, dict))
+        self.assertFalse(has_inline_examples,
+                         "Add explicit bindings/cases for newly introduced inline examples")
         self.assertEqual(schema_files, example_files | {
             (PACKAGE / "api.json").resolve(), (PACKAGE / "manifest.json").resolve()})
         self.assertEqual(self.progress["$schema"], DRAFT_URI)
