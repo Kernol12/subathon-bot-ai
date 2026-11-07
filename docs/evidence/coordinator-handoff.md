@@ -1,93 +1,89 @@
-# Coordinator checkpoint — clock approval and storage baseline review
+# Coordinator checkpoint — finish existing PR85, then stop
 
-Updated7 November2026 by `/root`. Last fetched/current clean root main
-`e712d85bd64375c6eb5bfb3a50b82213f7283698`. Standing loop remains active;
-full specification v0.45 is incomplete. No owner decision/access currently needed.
+Owner instruction: **“Cleanly finish the open PRs and if decisions are needed ask
+ them then stop.”** This replaces the standing execution loop for this wrap-up.
+Do not start another task or reopen execution after PR85 merges without a new
+owner resume instruction. No owner decision/access is currently needed.
 
-## Integrated task evidence
+Last observed clean root main before finalPR85merge:
+`5bd7d52bf68e05939b5dc662d7fc369e03c9e7e5`. This checkpoint is committed INSIDE
+PR85, so its own subsequent merge hash must be read from
+[PR85](https://github.com/Kernol12/subathon-bot-ai/pull/85) on resumption.
+No separate bookkeeping PR or direct-main write is needed.
 
-| Task | Normal merge | Current task handoff |
+## Completed normal merges
+
+| Task | PR / merge | Evidence |
 | --- | --- | --- |
-| CONTRACT-013 | [PR79](https://github.com/Kernol12/subathon-bot-ai/pull/79),ed73270,09:34:46UTC | [HTTP/OpenAPI/23examples](contract-013-handoff.md), independent8f995e63/two-host selectedCLI. |
-| CONTRACTPLAN-006 | [PR81](https://github.com/Kernol12/subathon-bot-ai/pull/81),b8f3b14,09:48:34UTC | [Explicit443IDs/1735edges](contractplan-006-handoff.md), differentactualea27001e graph review. |
-| CONTRACT-011 | [PR80](https://github.com/Kernol12/subathon-bot-ai/pull/80),ebb4368,09:54:10UTC | [Recovered logical asset contract](contract-011-handoff.md), original29AP/reviews preserved, gradient correction approved437ab56. |
-| SESSIONTEST-008 | [PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82),37f098d,10:26:28UTC | [Original SDK1green/39markerred/direct8](sessiontest-008-handoff.md), review2014c0c/attribution6bef738. No replay. |
-| SESSIONCONTRACT-003 | [PR83](https://github.com/Kernol12/subathon-bot-ai/pull/83),e4d46d3,10:38:28UTC | [Lifecycle doc/LC01–32](sessioncontract-003-handoff.md), actual8b0212d5 approval. |
-| SESSION-008 | [PR84](https://github.com/Kernol12/subathon-bot-ai/pull/84),e440c7f,10:48:30UTC | [Bounded supplier](session-008-handoff.md), source0525d755/review28beefea/all39+43PASS/hostedordinary39PASS. |
-| STORAGECONTRACT-002 | [PR86](https://github.com/Kernol12/subathon-bot-ai/pull/86),7897e3e,11:42:25UTC | [Physical/API doc](storagecontract-002-handoff.md), author5c3acde0/blob8dc7ba9f, different393015e5/24examples. No SQL/native execution. |
+| CONTRACT-013 | [79](https://github.com/Kernol12/subathon-bot-ai/pull/79),ed73270 | [HTTP/OpenAPI/23examples](contract-013-handoff.md), independent actual artifact review/hostedvalidation. |
+| CONTRACTPLAN-006 | [81](https://github.com/Kernol12/subathon-bot-ai/pull/81),b8f3b14 | [Explicit session graph](contractplan-006-handoff.md),443IDs/1735edges. |
+| CONTRACT-011 | [80](https://github.com/Kernol12/subathon-bot-ai/pull/80),ebb4368 | [Recovered logical asset contract](contract-011-handoff.md), old29AP/reviews preserved; correctedgradient independently approved. |
+| SESSIONTEST-008 | [82](https://github.com/Kernol12/subathon-bot-ai/pull/82),37f098d | [OriginalSDK1green/39markerred](sessiontest-008-handoff.md),2014c0c/6bef738, immutablefirstreceipts. |
+| SESSIONCONTRACT-003 | [83](https://github.com/Kernol12/subathon-bot-ai/pull/83),e4d46d3 | [Lifecycle document](sessioncontract-003-handoff.md), different8b0212d5. |
+| SESSION-008 | [84](https://github.com/Kernol12/subathon-bot-ai/pull/84),e440c7f | [Bounded supplier](session-008-handoff.md), source0525d755/review28beefea/all39+43PASS and ordinaryhosted39. |
+| STORAGECONTRACT-002 | [86](https://github.com/Kernol12/subathon-bot-ai/pull/86),7897e3e | [Physical/API document](storagecontract-002-handoff.md), actual393015e5/24examples. |
+| SESSIONCONTRACT-004 | [88](https://github.com/Kernol12/subathon-bot-ai/pull/88),cddfe82,12:24UTC | [Clock document](sessioncontract-004-handoff.md), actualdb874a0e/SC01–30. No nativeclock/absoluteUTC/crossprocessrollback guarantee. |
+| SESSIONCONTRACT-006 | [87](https://github.com/Kernol12/subathon-bot-ai/pull/87),e712d85,12:28:51UTC | [Explicit ingressR2/split](sessioncontract-006-handoff.md),83bbfindings+0990correctedapproval/source26,450IDs/1780edges preservingallold443/1735. |
+| STORAGETEST-020 | [89](https://github.com/Kernol12/subathon-bot-ai/pull/89),5bd7d52,13:05:54UTC | [Reviewed44baseline](storagetest-020-handoff.md),d717testapproval→FIRSTfoundationgreen→FIRSTordinary44markerred→743attribution. Actualchangedhosted42374659005 atfdcadfb passesclosed44+foundation andall21finalchecks. |
 
-Every merge passed all21 latest-head applicableCI/current rules/resolved threads
-and actual independent gates, normalmerge/no bypass. BOOT009/SCHEMATOOL001 already
-integrated at resume; do not repeat historical preparation/reviews/firstreceipts.
-Completed slices do not establish full server/provider/platform capability.
+All merges used actual independent gates/currentrules/resolvedthreads/all21latest
+applicablechecks andnormalmerge/no bypass. BOOT009/SCHEMATOOL001 alreadyintegrated
+atresume. Full specification v0.45 remains incomplete; no completion percentage.
 
-## Active task branches, exact assignments and next actions
+## Remaining existing PR and exact gates
 
-SESSIONCONTRACT-004 normal [PR88](https://github.com/Kernol12/subathon-bot-ai/pull/88)
-mergedcddfe82 at12:24:00UTC, finalhead2a756b6/all21SUCCESS/currentrules/0threads.
-[Handoff](sessioncontract-004-handoff.md): actualauthorda9d741/import78e78f3/blob946bd12b,
-differentdb874a0e/importd39d25b APPROVED SC01–30/source/trust/ABI/resource model.
-Nativektime_set saturation preflight remains009 baseline/source guard. No nativecall/
-header/test/source/schema/service orabsoluteUTC/crossprocessVM rollback claim.
-Author/reviewerturns completed; nextfreshACCESSCONTRACT001 nowdependencyready.
-SESSIONTEST009 stillrequires020. No clockproducer capability claimed bydocument.
+SESSIONCONTRACT-005, `/tmp/subathon-sessioncontract005`, original
+`task/SESSIONCONTRACT-005-ingress`, [soleopenPR85](https://github.com/Kernol12/subathon-bot-ai/pull/85).
+Source-authenticatedpartial4b0178cc/importd720282 andold8sourcebytes/history preserved.
+ActualcompleteR2bbacc5e/import08b6f01 APPROVED FRESHdifferent82cd57c6/import5edc018.
+[Handoff](sessioncontract-005-handoff.md), [review](sessioncontract-005-review.md).
+Concreteprivatecapture/pre-map/pre-log/nativewindow/wipe/policy/currentqueue/lifetime
+proposal; no rawenvelope/mTLS/TLSslab/durableepoch/newsubsystemmandated. Native011
+mustcapturemethodinkExpectMethod beforeenum/retrieve andsupplystablespanviewentries;
+actualpatch/ABI/TLS/resources/platform/proxyadmission remainfuturetestfirstgates.
 
-SESSIONCONTRACT-006 normal [PR87](https://github.com/Kernol12/subathon-bot-ai/pull/87)
-mergede712d85 at12:28:51UTC, final44e384d/all21SUCCESS/currentrules/0threads.
-[Handoff](sessioncontract-006-handoff.md) links actual83bbrequestchanges and0990
-correcteddeltaapproval/source26/unchangedAPI/23examples+twohostedcodeok. Native011/
-proxy007008 explicitlysplit; 450IDs/1780edges/full443oldIDs1735edges preserved.
-No artifact/runtime/proxy support admitted. OriginalR1reviews/receipts retained.
+Old8c5b463headall21PASS; afterPR89mergeonlysharedJSON/HTML/checkpoint conflicts.
+This finalintegration preserves450IDs/1780edges/allmainstates/reviews exceptown
+accepted005row; no approved005document/author/review,44assertion/fixture/API change.
+RootrecordsactualbaselinehostCIreceipt/mergeoutcome alongsidecoordinationmetadata.
+Next require allFINALheadchecks/currentrules/discussions, normalPR85merge andverify
+noopenPRs. Then STOP; no dependentnative011 orSTORAGE020 assignment maystart.
+The finalassistantreply shouldreportactualPR85merge/zeroopenPRs/stopped, or exact
+failedgate/necessarydecision ifmergebecomesblocked.
 
-SESSIONCONTRACT-005 preservedpartial4b0178cc/importd720282 nowexplicitlyRESUMED
-againstacceptedR2after006merge. `/tmp/subathon-sessioncontract005`, original
-`task/SESSIONCONTRACT-005-ingress`, [draftPR85](https://github.com/Kernol12/subathon-bot-ai/pull/85).
-Rootintegratede712d85 preservingall450/1780/mainstates/reviews andunreviewedpartial/
-source8bytecomparisons. Same`account_ingress_contract_author` resumesonlyown2docs;
-oldturnwascompleted, thisisexplicitreassignment. Author worktree mergedactualclaim4ea39bb/R2; explicitfollowuptask nowrunning. Actualcompletebbacc5e/import08b6f01 APPROVEDfreshdifferent82cd57c6;
-rootfinalmetadata/latestCI/normalPR85merge remain; neverassumeoldpartial/review/sourcefacts are runtime oracceptedsolution.
-Handoff on005branch recordsactualnextnative011/proxy007008owners/noenvelopemTPS
-orTLSslabrequirement. Rootownsallsharedgraph/schema/pins/build/deploy/CI/state/HTML.
+## Preserved unpublished work
 
-STORAGETEST-020 review/red evidencegate COMPLETE, `/tmp/subathon-storagetest020`,
-`task/STORAGETEST-020-account-session-baseline`. Actualauthor1b7e7d9/import777407a,
-coherent418cdd46/import1dae531 preserves40oldcases/adds4. Differentd7174d63 whole
-API/44tests/fixture/stubs/foundation/CIapproval; FIRSTclean d717foundation0/1CTest/
-fivechecksPASS thenFIRSTordinary44markerred/direct8/nootherfailure-skip. Independent
-743a70b4 verifies13immutableoriginals/44individualmarkers/chronology/hashes/env, no
-replay. Archive18772/SHAf4079c1e. [Handoff](storagetest-020-handoff.md).
-RootpublishesfocusedPRwithnewmandatoryfoundation+closed44passivediscovery, actual
-selectedhostCI/finalheadrules/threads/normalmerge remain. No production020source
-untilmergedbaseline; freshimplementationagentthenownscomponent, all44frozenassertions
-andhost/source/platform/fullreleasegates preserved. No activebaselineauthor/reviewer
-turn; no bodyrerunneeded. Oldnotpublishednotesarehistoricalstage, nowpublicationstarts.
+ACCESSCONTRACT-001 is approved LOCALdocument work, not anopenPR orintegratedtask.
+Integrator `/tmp/subathon-accesscontract001`, `task/ACCESSCONTRACT-001-local-login`,
+cleancommit`53524fc34033b0338f4ecc4126a4ecd46bcc238e`. Authorf4e38dbc/import7f67cd7, different
+5ea85a64/import8307409 approved contracte08c61d/author67014cb/LA01–30/privateauthority/
+thread/secret/currentfence/settlement/rehash. ActualQt/source23identity/literal/
+project/tooling checks PASS; no native/helper/feature/realprovider. Rootcompletion
+metadata/handoff ready andclean. NoPRcreated underowner'sstoprequest. Keepbranch/
+worktrees/evidence intact. Onexplicitresume inspectactualstate, thenpublishthis
+focusedcontractPR/currentCI/normalmerge; do not repeatvalidauthor/reviewstages.
 
-ACCESSCONTRACT001 authorf4e38dbc/import7f67cd7 complete in
-`/tmp/subathon-accesscontract001`, `task/ACCESSCONTRACT-001-local-login` (noPRyet).
-Freshdifferent `local_login_authority_contract_review` reviewsactual7f67cd7 in
-`/tmp/subathon-accesscontract001-review`, `review/ACCESSCONTRACT-001-authority`,
-onlynewreviewrecord. LA01–30/thread/secret/member/rehash reviewpending; no native/
-provider/featureoperation. Existingactualruntime/directory/source owners retained.
+STORAGE-020 production is **not started**: noimplementationbranch/worktree/claim/
+agent. Baseline44tests/API/immediatemarkers/full102literal8/firstarchive13members
+18772bytes/SHAf4079c1e preserved; assertionsaftermarkerthrowsnotpassingcoverage.
+[CIreceipt](storagetest-020-hosted-ci.json) recordsactualhostedgreenfoundation,
+notnewfeaturepassing. Sourcefuturemustreuseactualcompiled7prefix, addnew8factory,
+preserve44assertions/privateMAXseam, ownedscope/thread/copies/metadata-before-payload/
+index/sourceaudit/CAS/epochs/outcometruth; no auto migration/login/providercapability.
+CurrentselectedSDK `/tmp/subathon-session-sdk/prefix`,1.0.22ABI26/4, staticSHAf8e295ad;
+original008readiness/firstreceipts notrerun orrewritten.
 
-## Continuity and remaining gates
+## Clean stopping and future resumption
 
-Root owns sharedgraph/schema/migrationorder/build/CI/pins/deploy/state/HTML/checkpoint/
-integration/publication. Separate branches/worktrees for everyauthor/reviewer; fresh
-implementation sessions per executabletask. Reuse author/reviewer only for same-task
-correction. Actual currentowners/hostacceptance/replay/passwordbridge/permissions/
-clock/lifecycle/transport/fullapp remain downstream; a supplied DTO is not authority.
+Allauthor/reviewerturnscompleted; no activeagentassignment shouldremain. Inspect
+actualagents/processes/worktrees/uncommittedfiles/PRs beforefutureaction; completed
+turnsaren'tbackgroundexecution. Preserve historicalrefs/absentworktreeregistrations,
+neverprune/reset blindly. Rootmain remainsclean afterfinalnormalpull. No live
+credentials/provider/chat/payment/deployment operation authorized/performed.
 
-Selected SDK `/tmp/subathon-session-sdk/prefix` 1.0.22/ABI26/4, staticSHAf8e295ad,
-immutableoriginalreadiness/firstred archives in008handoff. Never replay tocleanlogs.
-Scaffold/tooling green isn't productacceptance; intentionalred neverinverted/skipped.
-No livecredentials/provider/chat/payment/deployment action authorized/performed.
-Allseven integrations/threeFX,bothrenderers/UI/locales/themes/security/recovery/
-operations/packaging/licenses/platform/live/fullrelease gates remain required.
-
-Inspect actual main/worktrees/dirtyfiles/agents/processes and PRs onresumption;
-completed turns do not mean backgroundexecution. Preserve historicalrefs/absent
-registrations (252atstartup), neverprune/reset blindly. Nativebuilds/discovery may
-exist onactive reviewtrees; inspect before rerun, never execute newbodies prematurely.
-Network/managed.git operations work via approvedescalation; no autoreviewrejection.
-Ruleset26170263: PR+resolvedthreads,0formalapprovals,no enforcedCIlist; manually require
-allapplicablelatest21checks+independentreviews; normalmerge withmatchedhead only.
+Ruleset26170263 currentlyPR/resolvedthreads/0formalapprovals/no enforcedCIlist;
+manuallyrequirealllatestapplicable21checks+actualindependentreviews. Network/.git
+writes work via approvedescalation, no autoreviewrejection. No newpermissionneeded.
+Allsevenintegrations/threeFX,bothrenderers/UI/locales/themes/security/recovery/
+operations/packaging/licenses/LinuxWindowsnativebrowser/platform/live/fullrelease
+remainrequired. Ownerstopdoesnotdeclareproductcomplete.

@@ -129,3 +129,17 @@ fullLinux/Windows/native/browser/provider/live releasegates remainexplicit.
 
 Rootactualcompletionchecks: progressrender0,project450/122PASS,tooling19PASS0.353s,
 render--checkcurrent,whitespace0. Python3.14.9/Linux coordinator. No firstbodyreplay.
+
+## Actual hosted CI / normal baseline integration
+
+Actual[run42374659005](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42374659005)
+headfdcadfbcc93560cccf08094a1cb70d94c8ae15f0 passednewclosed44compiled/CTestdiscovery
+andmandatoryindependentfoundation1CTest/fivechecks+initcleanup7PASS onUbuntu24/
+Qt6.12.0, plusallpreviousstableSQLsuites. [Actualreceipt](storagetest-020-hosted-ci.json)
+retainsrunidentity/emittedoutput/logSHA. CollectorfirstuseduppercasePR enumsagainst
+lowercaserunJSON; correctedread-onlyparser, no CI rerun or alteredtestresult.
+Normal[PR89](https://github.com/Kernol12/subathon-bot-ai/pull/89) merged5bd7d52 at
+13:05:54UTC afterall21finalfdchecks/currentrules/0threads/actualtestreview+differentered
+attribution. All44featuresremainordinarymissing-markerfailures, noproductacceptance.
+OwnerthenrequestedfinishexistingPRsandSTOP. No STORAGE020branch/claim/implementer
+wasstarted. Resumeonlyonnewownerinstruction; allfrozen44/receipts/gates remain.

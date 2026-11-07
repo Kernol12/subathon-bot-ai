@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T12:54:23.784785+00:00",
+  "updated_at": "2026-11-07T13:11:54.865282+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -14631,7 +14631,8 @@
         "Root integrator reserves NEXT additive catalog version8/idaccount-sessions-v1 for this020baseline/implementation ONLY after inspecting actualcurrentmain7897e3e immutablecompiledprefix7/reference-initial-captures-v1 and activeassignments/noothermigrationwriter. Reservation is metadata, not productionmanifest/SQL support. Author independentfixture proposesfiveexactDDL/full102objects/77258payloadSHAec41d4b3bf7d04a3e846b401060cc3ed9430020db3dfce0e2650ed76f6a46d5b; actualdifferentfixture/selecteddriverreview+foundation must confirm BEFOREfreeze/red. Allprefix1–7 unchanged; newerhead compatibility and explicitupdate/rollback gates retained.",
         "Actual coherentauthor1b7e7d9/import777407a providesminimalvalue/API/immediatemarkerstubs/privateordinalMAXseam/fullindependent102objectliteralv8/40ordinaryQtfeatures+5foundationchecks/119passiveregistrations; no bodyexecuted. RootCIbc0b54c/f1cd77f stages sameadmittedSDKpreparation+closed40compiled/CTestdiscovery+ONLYfoundation; neverpublishedbeforereview. Freshdifferentaccount_session_storage_test_review examinesactualwhole777407a API/fixture/oracles/native/harness/CI; physicalrevisionreuse/currentrotationfencegapscandidatefindings beingbatchedbeforecorrection. Firstapprovedfoundationgreen/40markerred/immutableattribution remain; production020blocked. Rootreserved8/idaccount-sessions-v1; no oldassertions/fixtures/source/receipts changed.",
         "Integrate actualmain e712d85 normalPR88clock/cddfe82 andPR87ingressR2/e712d85, bothall21finalSUCCESS/independentreviews/currentrules/normalmerge. Preserveall450IDs/1780edges/allmainrowstates/reviews exceptown020baselineclaim; ownsource/tests/fixtures/stubs/review39c95d58 unchanged. OnlysharedJSON/HTML/checkpoint conflicts. SameauthorcorrectingR1–R4/+4focusedcases→44; stagedCIbed9f66closed44 pendingactualdelta. NOnewbodyexecuted; firstactualwholepacketdeltaapproval thenfoundationgreen/red remains.",
-        "Baseline COMPLETE review/redgate: author1b7e7d9/import777407a +coherent418cdd46/import1dae531 fourassertionadditions preservesoriginal40, actual44tests/API/stubs/fixtures/foundation/CIapprovedDIFFERENTd7174d63/import45cedfb afteroriginal39c95d58 findings. FIRSTatclean d717foundationdirect0/1CTest/5Qtchecks+initcleanup7PASS; ONLYthenFIRSTordinary44features/direct8/44failures/0skips-othererrors; independentlyattributed743a70b4 exact13rawarchivefiles/SHAf4079c1e/18772bytes/88stdout44live+44echo/each44soleintendedfactoryconstructor marker. EnvPATH/locale/core0/source/binary/SDKQt fingerprints/UTC+monotonicchronology explicit, noreplay. Allassertionsaftermarkerunexecuted/notpassingcoverage. CInewclosed44+ONLYgreenfoundation andexistingstableSQLsuites ready; branchpublication/latestheadCI/normalPRmerge stillbeforefreshSTORAGE020source. Fullsourcepreownership/index/compiledprefix7reuse/realhost/producer/permission/clock/lifecycle/platform/releasegates retained."
+        "Baseline COMPLETE review/redgate: author1b7e7d9/import777407a +coherent418cdd46/import1dae531 fourassertionadditions preservesoriginal40, actual44tests/API/stubs/fixtures/foundation/CIapprovedDIFFERENTd7174d63/import45cedfb afteroriginal39c95d58 findings. FIRSTatclean d717foundationdirect0/1CTest/5Qtchecks+initcleanup7PASS; ONLYthenFIRSTordinary44features/direct8/44failures/0skips-othererrors; independentlyattributed743a70b4 exact13rawarchivefiles/SHAf4079c1e/18772bytes/88stdout44live+44echo/each44soleintendedfactoryconstructor marker. EnvPATH/locale/core0/source/binary/SDKQt fingerprints/UTC+monotonicchronology explicit, noreplay. Allassertionsaftermarkerunexecuted/notpassingcoverage. CInewclosed44+ONLYgreenfoundation andexistingstableSQLsuites ready; branchpublication/latestheadCI/normalPRmerge stillbeforefreshSTORAGE020source. Fullsourcepreownership/index/compiledprefix7reuse/realhost/producer/permission/clock/lifecycle/platform/releasegates retained.",
+        "Actualchangedworkflow42374659005 atfdcadfbcc93560cccf08094a1cb70d94c8ae15f0 succeeded: sameadmittedSDKbuild/closed44passivediscovery/mandatory5-slotindependentQt6.12foundation7PASS andallpriorstableSQLsuites. All21finalheadchecks/currentrules/0threads/d717+743independentgates beforeNORMALPR89merge5bd7d52 at13:05:54UTC. Evidencecollectedread-only, noCI/testreplay; initialcollectoruppercaseenumassumption correctedtolowerrunJSON statuses. SelectedCI outcome recordedinnextcoordinatorintegration toavoidbookkeeping-onlyPR/CIcycle. Actual44featuresremainunimplemented/expectedred; no production020started."
       ],
       "verification": {
         "authored": "passed",
@@ -14641,13 +14642,14 @@
         "sdk_readiness": "passed",
         "baseline": "observed_red",
         "red_attribution": "passed",
-        "selected_ci": "not_run"
+        "selected_ci": "passed"
       },
       "evidence": [
         "docs/evidence/storagetest-020-handoff.md",
         "docs/evidence/storagetest-020-author.md",
         "docs/evidence/storagetest-020-review.md",
-        "docs/evidence/storagetest-020-first-runs.tar.gz"
+        "docs/evidence/storagetest-020-first-runs.tar.gz",
+        "docs/evidence/storagetest-020-hosted-ci.json"
       ],
       "review": {
         "author": "/root/account_session_storage_test_author; /root (CI/integration/first receipts)",
@@ -14923,8 +14925,8 @@
       "title": "Concrete lossless and secret-safe ingress solution",
       "module": "Identity",
       "kind": "contract",
-      "status": "blocked",
-      "owner": "Codex /root coordination; preserved account_ingress_contract_author partial4b0178cc",
+      "status": "done",
+      "owner": "Codex /root integration; resumed account_ingress_contract_author",
       "depends_on": [
         "CONTRACTPLAN-006",
         "SESSIONCONTRACT-002",
@@ -14947,11 +14949,34 @@
       "notes": [
         "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
         "ADR-0011 adds explicit ingress boundary/native artifact/proxy admission prerequisites; every original edge and full acceptance remains. No direct-TLS-only substitution for bundled/alternative proxy release support.",
-        "Partial source-backed work preserved on task/SESSIONCONTRACT-005-ingress, draftPR85, authordocument4b0178cc/importd720282. Eight immutable source files authenticated. Independent read-only audit found external-wire engineering contract mismatch and avoidable new-envelope/TLS-slab architecture; parent remains unfinished until explicit006 revision and actual complete solution review. No new implementation selected."
+        "Partial source-backed work preserved on task/SESSIONCONTRACT-005-ingress, draftPR85, authordocument4b0178cc/importd720282. Eight immutable source files authenticated. Independent read-only audit found external-wire engineering contract mismatch and avoidable new-envelope/TLS-slab architecture; parent remains unfinished until explicit006 revision and actual complete solution review. No new implementation selected.",
+        "Claim source-backed DOCUMENT-only ingress/secret-handling solution from actualmaine440c7f050fdee04c39eb5b74b01c9f079124ed6. Fresh author owns ONLY new account-ingress-v1.md +authornote, readonly selectedDrogon/Trantor/officialsource research and literalwire examples. No actual parser/proxy/library/pin/patch/config/deployment/header/test/source implementation. Define concrete pre-loss/pre-log bounded multiplicity/framing/TLS/proxy/origin/policy/owned-secret solution preserving acceptedtransport; actual different review required, unknownpaths unavailable. Root owns pins/build/CI/schema/deploy/state/HTML. API001/SESSION003/SESSION010 retain full ownership; split substantial reusable new runtime prerequisites beforeimplementation. Concurrentstoragecontract separate.",
+        "Preserve honest partial4b0178cc (exactofficialsourcehashes/directproposal/literalwireoracles) but NOTcontractcompletion. Read-only independent proxy_ingress_boundary_audit found unimplementedengineeringcontract conflict: originalexternal4096/H2wire accounting cannotbeprovenafterstockproxy normalization, andConnection-nominatedcriticalfields canbelost. Raw-headenvelope/mTLS/TLSslab/newproxy subsystem arenotproductrequirements. Explicitprerequisite SESSIONCONTRACT006 will reconcile boundaries with spec-basedreason+independentreview and separatelyrecord nativeartifact/proxyadmission test-first work; no weakeningcredential/framing/CSRF/TLS/log guarantees ordefaultCaddy/alternative release scope. Authorended, preserve twoownedfiles; resume afterprerequisiteintegration.",
+        "Resume SAME unfinished005 afteractual006R2 normalPR87/e712d85/44e384d/all21SUCCESS/independent83bb+0990approval; currentmainintegrated retaining450IDs1780edges/allcompletedstates/reviews. Preservepartial4b0178cc/importd720282/PR85/history/source8bytecomparisons; SAMEaccount_ingress_contract_author resumesactualacceptedR2 notassumedrunning. Onlyown2documents, rewriteaffectedpartialchoices/oracles into completeconcreteselectedDrogon/Trantor capture+policy/lifetime/nativebounds/sourcehandoffs; no rawenvelope/mTLS/TLSslab/durablebootprotocol mandated. Native011/proxy007008 actualtestfirst/artifact gates separatelyowned; documentnotruntime. Rootsharedstate/graph/build/pins/CI/deploy; actualdifferentcomplete-solutionreview beforedone/PRready.",
+        "CompleteDOCUMENT-only actual005proposal bbacc5e/import08b6f01 afterFRESHdifferent82cd57c6 fullsolutionreview: sixacceptedR2/supplier/common/clock/storeimports, source8+26+5primaryfiles, privatecapturelease/pre-map-prelog/nativewindow/scope/policyreload/currentqueue/copywipe/budgets/I01–24 audited. Original4bpartial/sourceauthentication andallhistory preserved; no rawenvelope/mTLS/TLSslab/durableepoch/newsubsystemrequired. Native011guidance capturesmethod in kExpectMethod BEFOREenum/retrieval andmaterializesstableAccountHeaderViewspan in fixedscope; actualpatch/ABI/nativeTLS/globalresource/platformsupport NOTapproved. Native011/proxy007008/Source010/API001/SESSION003 actualtestfirst/releaseownersretained. RootfinalPR85/latestheadCI/currentrules/threads/normalmerge remain beforedownstreamwork.",
+        "FinishONLYexistingopenPR85 perownerstoprequest: integrate normalbaselinePR89/main5bd7d52, retainall450IDs/1780edges/mainstates/reviews exceptownaccepted005row. OnlysharedJSON/HTML/checkpoint conflicts; approved005contract/author/reviewblobs unchanged. No newSTORAGE020 implementationbranch/claim/agent created. Approvedlocal-login001localbranch53524fc staysclean/unpublished, norequestednewPR. AfterfinalheadCI/currentrules/threads/normalPR85merge andverifyzeroopenPRs, STOPstandingloop; no furtherassignment withoutownerresume."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored": "passed",
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "source_byte_audit": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/sessioncontract-005-handoff.md",
+        "docs/contracts/account-ingress-v1.md",
+        "docs/evidence/sessioncontract-005-author.md",
+        "docs/evidence/sessioncontract-005-review.md"
+      ],
+      "review": {
+        "author": "/root/account_ingress_contract_author (preserved partial and resumed R2)",
+        "reviewer": "/root/account_ingress_solution_review",
+        "outcome": "approved",
+        "revision": "Actual resumed bbacc5e/import08b6f01 documentblob00a4fa46b93af3e71cfeaf8ddf000dc4acf98f42 approved independently82cd57c6 complete-source/lifetime/policy/bounds/oracle review; original4bpartial/source8/history preserved, no runtime admission.",
+        "evidence": "docs/evidence/sessioncontract-005-review.md"
+      }
     },
     {
       "id": "SESSIONTEST-010",
@@ -16737,6 +16762,36 @@
       "date": "2026-11-07T12:54:23.784785+00:00",
       "task": "STORAGETEST-020",
       "note": "Baseline COMPLETE review/redgate: author1b7e7d9/import777407a +coherent418cdd46/import1dae531 fourassertionadditions preservesoriginal40, actual44tests/API/stubs/fixtures/foundation/CIapprovedDIFFERENTd7174d63/import45cedfb afteroriginal39c95d58 findings. FIRSTatclean d717foundationdirect0/1CTest/5Qtchecks+initcleanup7PASS; ONLYthenFIRSTordinary44features/direct8/44failures/0skips-othererrors; independentlyattributed743a70b4 exact13rawarchivefiles/SHAf4079c1e/18772bytes/88stdout44live+44echo/each44soleintendedfactoryconstructor marker. EnvPATH/locale/core0/source/binary/SDKQt fingerprints/UTC+monotonicchronology explicit, noreplay. Allassertionsaftermarkerunexecuted/notpassingcoverage. CInewclosed44+ONLYgreenfoundation andexistingstableSQLsuites ready; branchpublication/latestheadCI/normalPRmerge stillbeforefreshSTORAGE020source. Fullsourcepreownership/index/compiledprefix7reuse/realhost/producer/permission/clock/lifecycle/platform/releasegates retained."
+    },
+    {
+      "date": "2026-11-07T11:00:43.863000+00:00",
+      "task": "SESSIONCONTRACT-005",
+      "note": "Claim source-backed DOCUMENT-only ingress/secret-handling solution from actualmaine440c7f050fdee04c39eb5b74b01c9f079124ed6. Fresh author owns ONLY new account-ingress-v1.md +authornote, readonly selectedDrogon/Trantor/officialsource research and literalwire examples. No actual parser/proxy/library/pin/patch/config/deployment/header/test/source implementation. Define concrete pre-loss/pre-log bounded multiplicity/framing/TLS/proxy/origin/policy/owned-secret solution preserving acceptedtransport; actual different review required, unknownpaths unavailable. Root owns pins/build/CI/schema/deploy/state/HTML. API001/SESSION003/SESSION010 retain full ownership; split substantial reusable new runtime prerequisites beforeimplementation. Concurrentstoragecontract separate."
+    },
+    {
+      "date": "2026-11-07T11:26:44.052095+00:00",
+      "task": "SESSIONCONTRACT-005",
+      "note": "Preserve honest partial4b0178cc (exactofficialsourcehashes/directproposal/literalwireoracles) but NOTcontractcompletion. Read-only independent proxy_ingress_boundary_audit found unimplementedengineeringcontract conflict: originalexternal4096/H2wire accounting cannotbeprovenafterstockproxy normalization, andConnection-nominatedcriticalfields canbelost. Raw-headenvelope/mTLS/TLSslab/newproxy subsystem arenotproductrequirements. Explicitprerequisite SESSIONCONTRACT006 will reconcile boundaries with spec-basedreason+independentreview and separatelyrecord nativeartifact/proxyadmission test-first work; no weakeningcredential/framing/CSRF/TLS/log guarantees ordefaultCaddy/alternative release scope. Authorended, preserve twoownedfiles; resume afterprerequisiteintegration."
+    },
+    {
+      "date": "2026-11-07T12:31:03.856465+00:00",
+      "task": "SESSIONCONTRACT-005",
+      "note": "Resume SAME unfinished005 afteractual006R2 normalPR87/e712d85/44e384d/all21SUCCESS/independent83bb+0990approval; currentmainintegrated retaining450IDs1780edges/allcompletedstates/reviews. Preservepartial4b0178cc/importd720282/PR85/history/source8bytecomparisons; SAMEaccount_ingress_contract_author resumesactualacceptedR2 notassumedrunning. Onlyown2documents, rewriteaffectedpartialchoices/oracles into completeconcreteselectedDrogon/Trantor capture+policy/lifetime/nativebounds/sourcehandoffs; no rawenvelope/mTLS/TLSslab/durablebootprotocol mandated. Native011/proxy007008 actualtestfirst/artifact gates separatelyowned; documentnotruntime. Rootsharedstate/graph/build/pins/CI/deploy; actualdifferentcomplete-solutionreview beforedone/PRready."
+    },
+    {
+      "date": "2026-11-07T12:57:44.524740+00:00",
+      "task": "SESSIONCONTRACT-005",
+      "note": "CompleteDOCUMENT-only actual005proposal bbacc5e/import08b6f01 afterFRESHdifferent82cd57c6 fullsolutionreview: sixacceptedR2/supplier/common/clock/storeimports, source8+26+5primaryfiles, privatecapturelease/pre-map-prelog/nativewindow/scope/policyreload/currentqueue/copywipe/budgets/I01–24 audited. Original4bpartial/sourceauthentication andallhistory preserved; no rawenvelope/mTLS/TLSslab/durableepoch/newsubsystemrequired. Native011guidance capturesmethod in kExpectMethod BEFOREenum/retrieval andmaterializesstableAccountHeaderViewspan in fixedscope; actualpatch/ABI/nativeTLS/globalresource/platformsupport NOTapproved. Native011/proxy007008/Source010/API001/SESSION003 actualtestfirst/releaseownersretained. RootfinalPR85/latestheadCI/currentrules/threads/normalmerge remain beforedownstreamwork."
+    },
+    {
+      "date": "2026-11-07T13:11:54.865282+00:00",
+      "task": "SESSIONCONTRACT-005",
+      "note": "FinishONLYexistingopenPR85 perownerstoprequest: integrate normalbaselinePR89/main5bd7d52, retainall450IDs/1780edges/mainstates/reviews exceptownaccepted005row. OnlysharedJSON/HTML/checkpoint conflicts; approved005contract/author/reviewblobs unchanged. No newSTORAGE020 implementationbranch/claim/agent created. Approvedlocal-login001localbranch53524fc staysclean/unpublished, norequestednewPR. AfterfinalheadCI/currentrules/threads/normalPR85merge andverifyzeroopenPRs, STOPstandingloop; no furtherassignment withoutownerresume."
+    },
+    {
+      "date": "2026-11-07T13:11:54.865282+00:00",
+      "task": "STORAGETEST-020",
+      "note": "Actualchangedworkflow42374659005 atfdcadfbcc93560cccf08094a1cb70d94c8ae15f0 succeeded: sameadmittedSDKbuild/closed44passivediscovery/mandatory5-slotindependentQt6.12foundation7PASS andallpriorstableSQLsuites. All21finalheadchecks/currentrules/0threads/d717+743independentgates beforeNORMALPR89merge5bd7d52 at13:05:54UTC. Evidencecollectedread-only, noCI/testreplay; initialcollectoruppercaseenumassumption correctedtolowerrunJSON statuses. SelectedCI outcome recordedinnextcoordinatorintegration toavoidbookkeeping-onlyPR/CIcycle. Actual44featuresremainunimplemented/expectedred; no production020started."
     }
   ]
 }
