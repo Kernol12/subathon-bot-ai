@@ -14,7 +14,9 @@ the owner now explicitly resumed the standing loop.
 exist; both were clean. Preserve the other historical refs/registrations without
 pruning/resetting. No surviving subagents or build/test commands were observed;
 only this fresh coordinator session was running. No in-progress/in-review/blocked
-task claims existed; the two ready feasibility tasks are unassigned.
+task claims existed on main; a deeper branch audit found unpublished CONTRACT-011
+partial correction c4ef1b9 (see assignment below). The two ready feasibility tasks
+are unassigned.
 GitHub works via approved network access; sandbox-only requests fail. Managed `.git`
 is read-only in the default sandbox, so git mutations require tool escalation.
 Ruleset26170263 is active; classic branch protection returns404. Reinspect detailed
@@ -28,8 +30,20 @@ contract revisions and evidence. Fresh author `/root/reference_contract_author`:
 `/tmp/subathon-contract013-author`, `task/CONTRACT-013-contract-author`, new reference
 HTTP document/package/examples only. Root owns state/HTML/shared imports/build/CI.
 Actual independent review and schema/example validation remain pending; no runtime
-capability or implementation acceptance is claimed. No previous agent is resumed
-by assumption, and the preserved CONTRACT-011 branch has not been reassigned.
+capability or implementation acceptance is claimed. Different reviewer
+`/root/reference_contract_review` has read prerequisites and awaits the actual packet.
+No previous agent is resumed by assumption.
+
+The preserved CONTRACT-011 branch contains an unfinished claim and partial correction,
+although main still says planned. Reconstructed on `task/CONTRACT-011-resumed-profiles`
+at8a54faf, `/tmp/subathon-contract011-resume`, from current main with only its three
+authored/review artifacts restored. Fresh `/root/asset_contract_correction` owns the
+existing document/author note in `/tmp/subathon-contract011-resumed-author`,
+`task/CONTRACT-011-resumed-author`. `docs/evidence/contract-011-handoff.md`
+is local to that branch; original c4ef1b9 worktree remains clean/unchanged. Original
+review deb0d066/import72a00a7 and all29 AP rows are preserved; R1/R2 font/media/SVG
+profile/grammar/example correction and actual different re-review remain. No schema
+or runtime stage released. Root coordinates shared integration for both focused PRs.
 
 Next concrete action: complete bounded CONTRACT-013 authoring, independent review,
 real admitted offline validation and automatic package CI; publish focused task PR,
