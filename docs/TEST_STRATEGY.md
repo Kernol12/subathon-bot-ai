@@ -56,6 +56,7 @@ still using synthetic data and supplied policy/authority facts.
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 28 structural codec cases and 38 real-SQL methods/67 scenarios |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
+| `schema-validation-debug` | `-L '^schema-validation$'` | 8 Python methods: actual OpenAPI/17 components, 23 existing positive examples, 77 independent component cases, and 11 structural progress cases plus actual state |
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
 secret handling, process cleanup and SQL projection/ownership; output assertions alone
@@ -66,10 +67,9 @@ packages and examples, without establishing authorization or runtime transport s
 
 The [current contract](contracts/schema-validation-tool-v1.md) requires the actual
 OpenAPI 3.1.1 document, all 17 component targets with independent valid/invalid cases,
-every 23 existing manifest-bound positive example, and the separate Draft 2020-12
-progress editor schema. The replacement `schema-validation-debug` Python suite has
-its own test/oracle/source/selected-host CI gates; this document does not claim an
-unrun suite passed. The retired generic API/process harness remains historical
+all 23 existing manifest-bound positive examples, and the separate Draft 2020-12
+progress editor schema. The `schema-validation-debug` Python suite runs real selected standards validators;
+its local passing checks do not replace selected-host CI or source review. The retired generic API/process harness remains historical
 evidence. No runtime authority, raw ingress or provider/platform support follows
 from schema shape, and editor hints do not replace runtime progress invariants.
 

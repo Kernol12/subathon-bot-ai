@@ -4,8 +4,8 @@ The [current contract](contracts/schema-validation-tool-v1.md) requires real
 standards validation of the source-controlled OpenAPI document, every declared
 example, independent valid/invalid cases for all 17 current component schemas,
 and the separate progress editor schema. Scene/WebSocket schemas remain planned.
-The implementation/test-source and selected-host CI gates are separate from this
-document; no new passing result is claimed here.
+These checks establish artifact shape, references and examples. Actual test/source
+reviews and selected-host CI remain separate from runtime or release acceptance.
 
 The former arbitrary-package `validate_package`/CLI and native worker were retired
 under the separately reviewed [cleanup decision](decisions/0012-test-suite-simplification.md).
@@ -45,7 +45,7 @@ not protection against an administrator replacing its code.
 
 ## Required check invocation
 
-After the actual test-source/oracle gate and the replacement suite are implemented:
+After preparing the isolated environment, run the reviewed suite:
 
 ```sh
 cmake --preset schema-validation-debug -DPython3_EXECUTABLE="$schema_env/bin/python"

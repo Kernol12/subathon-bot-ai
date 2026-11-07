@@ -16,7 +16,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | application-plan.yml | Reviewed owned captured-plan transformations |
 | time-debt.yml | Reviewed32pure debt proposals/composition, exact registration and unconditional real acceptance |
 | sqlite-writer.yml | Qt6.12 build, exact registration and writer/work acceptance; stage-specific evidence below |
-| schema-validation.yml | Required replacement gate: real repository schemas/examples with unchanged pinned libraries on CPython 3.10/3.12 |
+| schema-validation.yml | Real repository schemas/examples with unchanged pinned libraries on CPython 3.10/3.12 |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
 and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
@@ -83,8 +83,8 @@ actual schema/declared example and independent valid/invalid component case. The
 progress editor schema is a separate structural check, not runtime DAG/review proof.
 No native artifact, kernel owner, assembly audit or fault child is a current check.
 
-The actual new test/oracle/source review and hosted execution remain gates until
-recorded in the task PR. Old SDK/native/public results remain valid historical proof
+Changed tests/oracles/source need separate review and actual hosted execution;
+record those results in the focused task PR. Old SDK/native/public results remain valid historical proof
 of their original surface; they are not renamed replacement passes. Missing libraries,
 skips, empty discovery, fake validators or unsupported reference retrieval cannot
 produce a green schema result. All runtime/provider/platform/release gates remain.
