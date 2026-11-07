@@ -59,6 +59,13 @@ and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
   approve BEFORE tests/CLI/red execute. No new candidate execution or outcome yet. Actual current CI/finalreview/
   rules/discussions/normalmerge and every familyoracle/coverage gate remain mandatory.
 
+## Concurrent read-only inventory
+
+`/root/identity_cleanup_inventory` inspects later TESTCLEAN-007 security/count assertions
+without edits, execution or a task claim; output `/tmp/testclean007-readonly-inventory.md`.
+007 remains planned/Unassigned and will need its own fresh author/reviewer/branch later.
+Reserve the fourth agent slot for FIXTURE-001 independent review.
+
 ## Retained cleanup evidence and work
 
 TESTCLEAN005PR98 f250357,004PR97 e48f231,003PR96 7179680,001PR95 2d5488f,
