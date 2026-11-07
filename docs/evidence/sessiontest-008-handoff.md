@@ -85,3 +85,28 @@ bounded audit. Not all native compression/register scratch is explicitly wiped;
 the accepted app raw/frame guarantee is distinct. Actual independent reviewer must
 assess required native review/admission precisely, flag any blocking proof gap and
 split substantial new architecture before expansion. No body was run for this audit.
+
+
+## Actual first execution receipts
+
+Independent review2014c0c/import2a98e29 approved exact f9ca39a API/stubs/39tests/
+fixtures/SDK/harness/CI before execution. It bounds the selected libsodium-owned
+fixed-profile hash stack/work separately from external runtime/global guarantees.
+[Review](sessiontest-008-review.md). In the clean reviewworktree at exact
+2014c0c56db1d46a1206cc7716dbb1a1c2382136, root then ran SDK readiness ONCE:
+`ctest --preset session-resolution-debug -R '^scaffold.session_resolution_environment$'
+--no-tests=error --verbose --output-junit /tmp/subathon-sessiontest008-first-sdk/ctest.xml`.
+Directexit0; exactly1PASS, actual runtime1.0.22/ABI26/4/framedvectors/fixed32compare/
+clearing established. No feature body ran in that stage.
+
+ONLY after actual same-SDK green, FIRST ordinary feature invocation:
+`ctest --preset session-resolution-debug -L '^session-resolution$' --no-tests=error
+--verbose --output-junit /tmp/subathon-sessiontest008-first-red/ctest.xml`.
+Directexit8;39cases/39failures/0errors/0skips, stdout78markeroccurrences. Original
+nativeJUnit/LastTest/failedinventory/stdout/stderr/directexit/environment/revision/
+executablehashes were captured as bytes before any furtherCTest. Corelimit0;
+minimal PATH/locale environment. [Immutable originals](sessiontest-008-first-runs.tar.gz)
+include a complete hashmanifest; no collectorUnicodeerror or inferredreturncode.
+Actual different marker/source/setup attribution remains required before baseline
+completion. Assertions after each immediate marker throw were not executed and are
+not described as passing. No behavior implementation or authentication capability.
