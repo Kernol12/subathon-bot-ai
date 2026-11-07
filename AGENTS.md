@@ -86,14 +86,17 @@ python3 tools/progress.py render --check
 cmake --preset scaffold-debug
 cmake --build --preset scaffold-debug
 ctest --preset scaffold-debug
-# After GoogleTest setup and review (currently expected to FAIL on FeatureNotImplemented):
+# After GoogleTest setup and review:
 cmake --preset acceptance-debug
 cmake --build --preset acceptance-debug
 ctest --preset acceptance-debug -L acceptance
 ```
 
-`scaffold-debug` checks infrastructure only. `acceptance-debug` includes draft red
-feature tests and must not be relabeled as a passing product suite. Do not use
+`scaffold-debug` checks infrastructure only. `acceptance-debug` selects the 23 passing
+time-credit component cases; its historical `draft` metadata is not full product proof.
+Native/translation presets use `SUBATHON_BUILD_ACCEPTANCE_TESTS` and the
+`SUBATHON_ACCEPTANCE_SUITES` list; see `docs/TEST_STRATEGY.md` for selection and
+retired-cache migration. Rate/account feature baselines remain enabled intentional red. Do not use
 WILL_FAIL, blanket continue-on-error, or baseline skipping to hide acceptance failures.
 `qt-probe-debug` configures Qt >=6.12 dependency discovery and scaffold checks only;
 use `sqlite-writer-debug` for actual Qt event-loop/writer behavior.

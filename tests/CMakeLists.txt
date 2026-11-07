@@ -1,3 +1,5 @@
+include("${PROJECT_SOURCE_DIR}/cmake/AcceptanceRegistration.cmake")
+
 add_executable(scaffold_contract_smoke scaffolding/contract_smoke.cpp)
 target_link_libraries(scaffold_contract_smoke PRIVATE subathon_core)
 subathon_target_options(scaffold_contract_smoke)
@@ -9,7 +11,7 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_ACCEPTANCE_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_TIME_CREDIT_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
 endif()
@@ -27,11 +29,8 @@ if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
     foreach(sbt_session_wrap IN ITEMS sodium_init crypto_generichash sodium_memzero sodium_memcmp)
         target_link_options(server_session_resolution_acceptance PRIVATE "LINKER:--wrap=${sbt_session_wrap}")
     endforeach()
-    gtest_discover_tests(server_session_resolution_acceptance DISCOVERY_MODE PRE_TEST
-        TEST_LIST subathon_session_resolution_cases PROPERTIES TIMEOUT 10)
-    # Closed ordinary-case inventory and full labels applied after passive native discovery.
-    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/SessionResolutionLabels.cmake")
+    subathon_discover_gtests(server_session_resolution_acceptance
+        LABELS "session-resolution;acceptance;server" TIMEOUT 10)
 endif()
 
 if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
@@ -39,11 +38,9 @@ if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
     target_link_libraries(core_timer_editorial_acceptance PRIVATE
         subathon_timer_editorial_commands GTest::gtest_main)
     subathon_target_options(core_timer_editorial_acceptance)
-    gtest_discover_tests(core_timer_editorial_acceptance TEST_PREFIX "timer-editorial."
-        TEST_LIST subathon_timer_editorial_cases PROPERTIES TIMEOUT 30)
-    # Apply complete list labels after native discovery in CTest, including older CMake.
-    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/TimerEditorialLabels.cmake")
+    subathon_discover_gtests(core_timer_editorial_acceptance
+        PREFIX "timer-editorial."
+        LABELS "timer-editorial;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
@@ -67,30 +64,26 @@ if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
             crypto_pwhash_argon2id_str crypto_pwhash_str_verify crypto_pwhash_argon2id_str_verify)
         target_link_options(server_password_hashing_acceptance PRIVATE "LINKER:--wrap=${sbt_password_wrap}")
     endforeach()
-    gtest_discover_tests(server_password_hashing_acceptance DISCOVERY_MODE PRE_TEST
-        TEST_LIST subathon_password_cases PROPERTIES TIMEOUT 60)
-    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/PasswordHashingLabels.cmake")
+    subathon_discover_gtests(server_password_hashing_acceptance
+        LABELS "password-hashing;acceptance;server" TIMEOUT 60)
 endif()
 
 if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
     add_executable(core_effective_permissions_acceptance acceptance/effective_permissions_tests.cpp)
     target_link_libraries(core_effective_permissions_acceptance PRIVATE subathon_effective_permissions GTest::gtest_main)
     subathon_target_options(core_effective_permissions_acceptance)
-    gtest_discover_tests(core_effective_permissions_acceptance TEST_PREFIX "effective-permissions."
-        TEST_LIST subathon_permission_cases PROPERTIES TIMEOUT 10)
+    subathon_discover_gtests(core_effective_permissions_acceptance
+        PREFIX "effective-permissions."
+        LABELS "effective-permissions;acceptance;core" TIMEOUT 10)
     # Private allocator fault injection is confined to this separate executable.
     add_executable(core_effective_permissions_regression
         acceptance/effective_permissions_regression_tests.cpp)
     target_link_libraries(core_effective_permissions_regression PRIVATE
         subathon_effective_permissions GTest::gtest_main)
     subathon_target_options(core_effective_permissions_regression)
-    gtest_discover_tests(core_effective_permissions_regression
-        TEST_PREFIX "effective-permissions-regression."
-        TEST_LIST subathon_permission_regression_cases PROPERTIES TIMEOUT 10)
-    # Apply the list at CTest time; older GoogleTest helpers flatten list properties.
-    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/EffectivePermissionLabels.cmake")
+    subathon_discover_gtests(core_effective_permissions_regression
+        PREFIX "effective-permissions-regression."
+        LABELS "effective-permissions;acceptance;core;regression" TIMEOUT 10)
 
 endif()
 
@@ -98,40 +91,43 @@ if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     add_executable(core_time_debt_acceptance acceptance/time_debt_tests.cpp)
     target_link_libraries(core_time_debt_acceptance PRIVATE subathon_time_debt subathon_timer_lifecycle GTest::gtest_main)
     subathon_target_options(core_time_debt_acceptance)
-    gtest_discover_tests(core_time_debt_acceptance PROPERTIES
+    subathon_discover_gtests(core_time_debt_acceptance
         LABELS "time-debt;acceptance;core" TIMEOUT 5)
 endif()
-if(SUBATHON_BUILD_ACCEPTANCE_TESTS)
+if(SUBATHON_BUILD_TIME_CREDIT_TESTS)
     add_executable(core_credit_acceptance acceptance/time_credit_tests.cpp)
     target_link_libraries(core_credit_acceptance PRIVATE subathon_core GTest::gtest_main)
     subathon_target_options(core_credit_acceptance)
     include(GoogleTest)
-    gtest_discover_tests(core_credit_acceptance PROPERTIES LABELS "acceptance;draft")
+    subathon_discover_gtests(core_credit_acceptance
+        LABELS "acceptance;draft")
     add_executable(core_credit_regression acceptance/time_credit_regression_tests.cpp)
     target_link_libraries(core_credit_regression PRIVATE subathon_core GTest::gtest_main)
     subathon_target_options(core_credit_regression)
-    gtest_discover_tests(core_credit_regression PROPERTIES LABELS "regression;core")
+    subathon_discover_gtests(core_credit_regression
+        LABELS "regression;core")
 endif()
 
 if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
     add_executable(core_exact_numeric_acceptance acceptance/exact_decimal_tests.cpp)
     target_link_libraries(core_exact_numeric_acceptance PRIVATE subathon_exact_numeric GTest::gtest_main)
     subathon_target_options(core_exact_numeric_acceptance)
-    gtest_discover_tests(core_exact_numeric_acceptance PROPERTIES LABELS "exact-numeric;acceptance;core")
+    subathon_discover_gtests(core_exact_numeric_acceptance
+        LABELS "exact-numeric;acceptance;core")
     add_executable(core_exact_numeric_regression acceptance/exact_decimal_regression_tests.cpp)
     target_link_libraries(core_exact_numeric_regression PRIVATE subathon_exact_numeric GTest::gtest_main)
     subathon_target_options(core_exact_numeric_regression)
-    gtest_discover_tests(core_exact_numeric_regression PROPERTIES LABELS "exact-numeric;regression;core")
+    subathon_discover_gtests(core_exact_numeric_regression
+        LABELS "exact-numeric;regression;core")
 endif()
 
 if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
     add_executable(core_milestone_progression_acceptance acceptance/milestone_progression_tests.cpp)
     target_link_libraries(core_milestone_progression_acceptance PRIVATE subathon_milestone_progression GTest::gtest_main)
     subathon_target_options(core_milestone_progression_acceptance)
-    gtest_discover_tests(core_milestone_progression_acceptance NO_PRETTY_VALUES
-        TEST_LIST subathon_milestone_progression_cases PROPERTIES TIMEOUT 30)
-    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/MilestoneProgressionLabels.cmake")
+    subathon_discover_gtests(core_milestone_progression_acceptance
+        NO_PRETTY_VALUES
+        LABELS "milestone-progression;acceptance;core" TIMEOUT 30)
 
     find_package(Boost 1.83 CONFIG REQUIRED)
 endif()
@@ -140,35 +136,40 @@ if(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS)
     add_executable(server_receipt_intake_acceptance acceptance/receipt_intake_tests.cpp)
     target_link_libraries(server_receipt_intake_acceptance PRIVATE subathon_receipt_intake GTest::gtest_main)
     subathon_target_options(server_receipt_intake_acceptance)
-    gtest_discover_tests(server_receipt_intake_acceptance PROPERTIES LABELS "receipt-intake;acceptance;simulation;server")
+    subathon_discover_gtests(server_receipt_intake_acceptance
+        LABELS "receipt-intake;acceptance;simulation;server")
 endif()
 
 if(SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS)
     add_executable(core_timer_lifecycle_acceptance acceptance/timer_lifecycle_tests.cpp)
     target_link_libraries(core_timer_lifecycle_acceptance PRIVATE subathon_timer_lifecycle GTest::gtest_main)
     subathon_target_options(core_timer_lifecycle_acceptance)
-    gtest_discover_tests(core_timer_lifecycle_acceptance PROPERTIES LABELS "timer-lifecycle;acceptance;core")
+    subathon_discover_gtests(core_timer_lifecycle_acceptance
+        LABELS "timer-lifecycle;acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     add_executable(server_contribution_evidence_acceptance acceptance/contribution_evidence_tests.cpp)
     target_link_libraries(server_contribution_evidence_acceptance PRIVATE subathon_contribution_evidence GTest::gtest_main)
     subathon_target_options(server_contribution_evidence_acceptance)
-    gtest_discover_tests(server_contribution_evidence_acceptance PROPERTIES LABELS "contribution-evidence;acceptance;simulation;server")
+    subathon_discover_gtests(server_contribution_evidence_acceptance
+        LABELS "contribution-evidence;acceptance;simulation;server")
 endif()
 
 if(SUBATHON_BUILD_PAUSE_POLICY_TESTS)
     add_executable(core_pause_policy_acceptance acceptance/pause_policy_tests.cpp)
     target_link_libraries(core_pause_policy_acceptance PRIVATE subathon_pause_policy GTest::gtest_main)
     subathon_target_options(core_pause_policy_acceptance)
-    gtest_discover_tests(core_pause_policy_acceptance PROPERTIES LABELS "pause-policy;acceptance;core")
+    subathon_discover_gtests(core_pause_policy_acceptance
+        LABELS "pause-policy;acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)
     add_executable(core_application_plan_acceptance acceptance/application_plan_tests.cpp)
     target_link_libraries(core_application_plan_acceptance PRIVATE subathon_application_plan GTest::gtest_main)
     subathon_target_options(core_application_plan_acceptance)
-    gtest_discover_tests(core_application_plan_acceptance PROPERTIES LABELS "application-plan;acceptance;core")
+    subathon_discover_gtests(core_application_plan_acceptance
+        LABELS "application-plan;acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
@@ -177,10 +178,8 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     add_executable(core_rate_snapshot_acceptance acceptance/rate_snapshot_tests.cpp)
     target_link_libraries(core_rate_snapshot_acceptance PRIVATE subathon_rate_snapshots GTest::gtest_main)
     subathon_target_options(core_rate_snapshot_acceptance)
-    gtest_discover_tests(core_rate_snapshot_acceptance
-        TEST_LIST subathon_rate_snapshot_cases PROPERTIES TIMEOUT 30)
-    set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/RateSnapshotLabels.cmake")
+    subathon_discover_gtests(core_rate_snapshot_acceptance
+        LABELS "rate-snapshot;acceptance;intentional-red;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
@@ -191,20 +190,8 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
-    add_executable(server_sqlite_account_sessions_acceptance qt/sqlite_account_sessions_tests.cpp)
-    set_target_properties(server_sqlite_account_sessions_acceptance PROPERTIES AUTOMOC ON)
-    target_link_libraries(server_sqlite_account_sessions_acceptance PRIVATE
-        subathon_sqlite_account_sessions subathon_sqlite_migrations subathon_session_resolution Qt6::Test)
-    target_compile_definitions(server_sqlite_account_sessions_acceptance PRIVATE
-        SUBATHON_ACCOUNT_SESSION_VECTOR_PATH="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_account_sessions_vectors.json"
-        SUBATHON_FIXTURE_DIRECTORY="${PROJECT_SOURCE_DIR}/tests/fixtures")
-    subathon_target_options(server_sqlite_account_sessions_acceptance)
-    include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SqliteAccountSessionCases.cmake")
-    foreach(case IN LISTS subathon_sqlite_account_session_cases)
-        add_test(NAME sqlite-account-sessions.${case}
-            COMMAND server_sqlite_account_sessions_acceptance ${case})
-        set_tests_properties(sqlite-account-sessions.${case} PROPERTIES
-            LABELS "sqlite-account-sessions;acceptance;qt;server" TIMEOUT 60)
-    endforeach()
-
+    subathon_add_qt_suite(server_sqlite_account_sessions_acceptance
+        NAME sqlite-account-sessions SOURCES qt/sqlite_account_sessions_tests.cpp
+        LIBRARIES subathon_sqlite_account_sessions subathon_sqlite_migrations subathon_session_resolution
+        LABELS "sqlite-account-sessions;acceptance;intentional-red;qt;server")
 endif()

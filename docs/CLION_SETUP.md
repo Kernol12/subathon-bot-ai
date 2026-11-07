@@ -57,6 +57,16 @@ four reviewed regression cases now pass; see [implementation evidence](https://g
 Run regressions with `ctest --preset acceptance-debug -L regression`, or run the
 whole preset without a label filter to include infrastructure checks too.
 
+Named acceptance presets use the common `SUBATHON_BUILD_ACCEPTANCE_TESTS` Boolean
+and `SUBATHON_ACCEPTANCE_SUITES` list, with their existing targeted dependencies.
+For an older build directory containing enabled per-feature cache switches, run
+`cmake --fresh --preset <name>` and reapply personal paths through user presets.
+See [test strategy](TEST_STRATEGY.md) for unions and explicit `all`; the latter also
+includes the rate/account intentional-red baselines and requires all selected SDKs.
+Qt and translation CTest entries execute complete suites; GoogleTest keeps per-case
+process isolation. Inspect methods/results in the native output, not a fixed CTest
+node count.
+
 ## Qt / Windows
 
 Use `qt-probe-debug` and a CMakeUserPresets.json derived from the example when Qt is

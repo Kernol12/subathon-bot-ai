@@ -40,45 +40,46 @@ jobs:
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build reviewed milestone acceptance and existing checks
         run: cmake --build --preset milestone-progression-debug
-      - name: Require the complete enabled uninverted feature inventory
+      - name: Verify the independent milestone literal vectors
         run: |
           python3 - <<'PYTHON'
-          import json
           import pathlib
           import re
-          import subprocess
 
           source = pathlib.Path("tests/acceptance/milestone_progression_tests.cpp").read_text()
-          pairs = re.findall(r"\bTEST\(\s*(\w+)\s*,\s*(\w+)\s*\)", source)
-          expected = {f"{suite}.{case}" for suite, case in pairs}
           fixture = pathlib.Path("tests/fixtures/milestone_progression_vectors.hpp").read_text()
           rows = re.findall(r'\bRow\{"(\w+)"', fixture)
           parameterized = re.findall(r"\bTEST_P\(\s*(\w+)\s*,\s*(\w+)\s*\)", source)
-          if len(expected) != 33 or len(pairs) != 33 or len(rows) != 20 or len(set(rows)) != 20:
-              raise SystemExit("Feature inventory differs from the authored 33 cases/20 literal rows")
+          if len(rows) != 20 or len(set(rows)) != 20:
+              raise SystemExit("The independent milestone fixture must retain its frozen 20 literal rows")
           if parameterized != [("MilestoneVectors", "MatchesIndependentLiteral")]:
               raise SystemExit("Parameterized feature boundary differs from the reviewed inventory")
-          expected.update(f"IndependentMP/MilestoneVectors.MatchesIndependentLiteral/{row}" for row in rows)
-          inventory = json.loads(subprocess.check_output(
-              ["ctest", "--preset", "milestone-progression-debug", "--show-only=json-v1"],
-              text=True,
-          ))
-          feature = {}
-          required = {"milestone-progression", "acceptance", "core"}
-          for test in inventory["tests"]:
-              properties = {item["name"]: item["value"] for item in test.get("properties", [])}
-              labels = set(properties.get("LABELS", []))
-              if "milestone-progression" in labels:
-                  if not required.issubset(labels) or "intentional-red" in labels:
-                      raise SystemExit("Feature labels are incomplete")
-                  if properties.get("DISABLED") or properties.get("WILL_FAIL"):
-                      raise SystemExit("Feature test is disabled or failure-inverted")
-                  if any(part.startswith("DISABLED_") for part in test["name"].split(".")):
-                      raise SystemExit("Feature name disables a case")
-                  feature[test["name"]] = test
-          if set(feature) != expected:
-              raise SystemExit("CTest discovery differs from the complete source inventory")
-          print(f"Discovered {len(expected)} enabled milestone cases; all will execute as ordinary acceptance")
+          PYTHON
+      - name: Verify enabled milestone-progression labels and native result semantics
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "milestone-progression-debug", "--show-only=json-v1"], text=True))
+          selected = [test for test in discovery["tests"]
+                      if "milestone-progression" in next((p["value"] for p in test["properties"] if p["name"] == "LABELS"), [])]
+          if not selected:
+              raise SystemExit("No enabled milestone-progression tests were discovered")
+          for test in selected:
+              props = {p["name"]: p["value"] for p in test["properties"]}
+              if not {'acceptance', 'milestone-progression', 'core'}.issubset(props.get("LABELS", [])):
+                  raise SystemExit("A milestone-progression test lost its required labels")
+              if "intentional-red" in props.get("LABELS", []):
+                  raise SystemExit("Implemented behavior was put in the red lane")
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("A milestone-progression test is disabled or failure-inverted")
+              if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
+                  raise SystemExit("A milestone-progression test has custom skip matching")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit("A milestone-progression test rewrites native results")
+              if props.get("TIMEOUT") != 30:
+                  raise SystemExit("A milestone-progression test timeout changed")
           PYTHON
       - name: Run existing numeric and infrastructure checks
         run: ctest --preset milestone-progression-debug -LE '^milestone-progression$' --no-tests=error --verbose

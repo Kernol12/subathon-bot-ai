@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+if(NOT @SBT_CASE_LIST@)
+    message(FATAL_ERROR "Expected built-in GoogleTest discovery for @SBT_CASE_LIST@")
+endif()
+set_tests_properties(${@SBT_CASE_LIST@} PROPERTIES LABELS "@SBT_CASE_LABELS@")

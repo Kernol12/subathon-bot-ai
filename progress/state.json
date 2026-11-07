@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T16:53:34.863054+00:00",
+  "updated_at": "2026-11-07T17:35:15.558997+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "29 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "34 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -165,7 +165,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
       "summary": "Replace validator harness-on-harness tests with real schema and valid/invalid example checks, subject to independent review of any superseded process contract.",
       "notes": [
-        "Replaced generic/native schema machinery with actual artifact checks after independent contract/oracle/source review. CPython3.14: 8 methods/17 targets, 23 positives, 77 OAS and 11 progress cases passed; tooling29/scaffold3 passed. Schemas/examples/20 pins/licenses unchanged. Selected3.10/3.12 hosted CI and normal PR95 merge remain. Next: TESTCLEAN-003."
+        "Replaced generic/native machinery with actual schema checks under independent contract/oracle/source review. All17 targets,23 positives,77 OAS/11 progress cases passed locally and selected3.10/3.12 CI; tooling29/scaffold3 passed. Schemas/examples/20 pins/licenses unchanged. All19 checks passed before normal PR95 merge. No runtime/provider proof. Next: TESTCLEAN-003."
       ],
       "verification": {
         "boundary_proposal_review": "passed",
@@ -175,7 +175,7 @@
         "schema_validation": "passed",
         "tooling": "passed",
         "scaffold": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -185,7 +185,7 @@
         "author": "/root/schema_cleanup_author; literal helper /root/schema_cleanup_author/schema_inventory",
         "reviewer": "/root/schema_cleanup_review",
         "outcome": "approved",
-        "revision": "Proposal fc7c25cc, actual doc40e8bfcb, oracle/source execution9281a823 and final author2454f45 independently approved. Separate reference audit94public/3progress. Integrated source unchanged; final metadata and hosted CI remain.",
+        "revision": "Proposal fc7c25cc/doc40e8/exec9281/final2454 and complete6666fe5 independently approved; selected3.10.12/3.12.3 each8methods+infra3 passed; all19headchecks before normalPR95 merge2d5488f.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/95"
       }
     },
@@ -230,8 +230,8 @@
       "title": "Simplify test registration and labels",
       "module": "Build and test infrastructure",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "/root/test_registration_author",
       "depends_on": [
         "TESTCLEAN-002"
       ],
@@ -241,11 +241,34 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Unified acceptance selection and suite registration under independent proposal/test/source/runtime review. Selector intended red then five green; 31 presets/cache migration verified. Stable 428 CTest nodes pass: 410 GTest, 361 Qt methods and 43 translation methods; tooling34/scaffold3 pass. Rate53/account44 stay passive red; warning-hook correction belongs to TESTCLEAN-004. Final integration/current CI/normal PR96 merge remain."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "cleanup_proposal_review": "passed",
+        "selector_test_review": "passed",
+        "selector_baseline": "observed_red",
+        "selector_acceptance": "passed",
+        "registration_source_review": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "preset_cache_migration": "passed",
+        "native_build": "passed",
+        "discovery_equivalence": "passed",
+        "stable_acceptance": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/96"
+      ],
+      "review": {
+        "author": "/root/test_registration_author; coordinator integrates shared records",
+        "reviewer": "/root/test_registration_review",
+        "outcome": "approved",
+        "revision": "Proposal132096a6, selector af6497b2 intended-red/green and complete source/runtime8034ead approved independently. All428 stable nodes,361 Qt methods/43 translation methods verified; final integration/current CI/merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/96"
+      }
     },
     {
       "id": "TESTCLEAN-004",
@@ -263,7 +286,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Planned shared helpers/writer-mechanics cleanup under separate baseline review. TC003 static audit found 13 Qt failOnWarning hooks in initTestCase; Qt6.12 clears them before slots, so per-test enforcement is currently ineffective. Fix via reviewed shared per-test initialization here, preserving expected-warning and unique repository assertions. No fix or execution yet."
       ],
       "verification": {},
       "evidence": [],
@@ -16537,6 +16560,16 @@
       "date": "2026-11-07T16:53:34.863054+00:00",
       "task": "TESTCLEAN-001",
       "note": "Final author2454f45/import3f9b76f approved; source9281 gate beforeFIRSTactual8methods PASS0.321s withfresh20hashlocked CP3.14SDK, thenONLY3infraPASS/tooling29/project461/122. Independent source/referenceaudit94public+3progress; unchangedrealartifact/20pins/licenses; all49retiredpathsarchived. Oldplan/baseline/tool notes nowexplicitlyhistorical/retired, no proofupgrades. PR95 finalmetadatareview/19hostedchecks/normalmerge remain."
+    },
+    {
+      "date": "2026-11-07T17:03:19.288250+00:00",
+      "task": "TESTCLEAN-003",
+      "note": "Claim dependency-ready cleanup after normalPR95/main2d5488f/all19SUCCESS/independent6666fe5 review; two selected schema hosts each8+infra3 passed. Fresh author investigates actualQt/GTest runners/options/CI before bounded common-registration proposal, no domainbehavior/assertion/fixture weakening. Preserve redrates53/account44, config-onlyQt and real-schemasuite."
+    },
+    {
+      "date": "2026-11-07T17:35:15.558997+00:00",
+      "task": "TESTCLEAN-003",
+      "note": "Independenttestreviewstubf7eea7ef/testaf6497b2 thenFIRSTactualCMake-P red accepted:5methods/8scenarios solelynamedFeatureNotImplemented, no parse/compiler/SDK/setupfailure. Authorevidence /tmp/testclean003-selector-first-red.log; baseline2cf8f82. Rootnowreleasedexactresolver/registration/vector/label/preset/8CI/guidancepaths, wholepacketstaticreviewbeforebroaderruntime. No test/fixture/prodsource assertions changed."
     }
   ]
 }
