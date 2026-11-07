@@ -371,10 +371,13 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
       "notes": [
-        "R1scope/contract proposaldcf862ce independently approved: required modes, defaulttwofamilies, four raw-pinned script-relative seeds, output reads check-only, strict byte reproduction/no-write drift. Author released only contract/examples/tests/reachable inert stubs; selected-family sentinel and whitespace-only seed-drift checks required. Actual test/oracle review precedes execution/red; recipe implementation/fixture adoption not authorized yet."
+        "R1scope dcf862ce and actualtests/stubs bf06a67 independently approved. FIRST focused red:2methods/3failures solely named reference/accountrecipe markers; rawc4069c4d independently attributed, no setup/import/dependency/skip failures. Tests407fec3f/goldens/seed and fixturebytes frozen. Bounded recipe implementation released; whole-source/oracle review required before firstgreen/generation. No new CLI acceptance or product capability yet."
       ],
       "verification": {
-        "scope_contract_review": "passed"
+        "scope_contract_review": "passed",
+        "test_oracle_review": "passed",
+        "baseline": "observed_red",
+        "baseline_review": "passed"
       },
       "evidence": [],
       "review": null
