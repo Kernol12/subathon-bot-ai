@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T11:43:39.514074+00:00",
+  "updated_at": "2026-11-07T11:50:53.888220+00:00",
   "summary": "Bounded core/accounting and controlled SQLite components, including the original application transaction service, have reviewed passing synthetic/component acceptance. Actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform release scope remain incomplete.",
   "verification": [
     {
@@ -14598,7 +14598,8 @@
       "summary": "Review literal real-SQL account/session/source and atomicity tests, then observe intended storage red with the selected working Qt SQL harness.",
       "notes": [
         "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
-        "Claim concrete physical/API/fixture/harness TEST baseline after acceptedSTORAGECONTRACT002 normalPR86/main7897e3e/all21SUCCESS/different393015e5. Minimal value interfaces/immediate explicitmarker stubs allowed; no productionSQL/migration/read/write/crypto behavior. Fresh author owns explicitly delegated newserver/test/harness paths; rootownsactualprefix8allocation/sharedbuild/CI/pins/state/HTML/integration unless exactlimitedbuilddelegation. Coherent complete contract/API/literalfixture/test packet must receive actual different review BEFORE anynewtest/nativefeature/foundationbody runs. Existingdriver/compileravailable6.12files are inspectiononly, not newreadinessclaim. Intendedred requires realdependencies/compile and correctmarkerfailures after separatefoundationgreen. Fullcurrentepoch/metadata/CAS/rollback/unknown/index/resource/lifetime scope preserved; no acceptedlogin/permission/clock/provider capability."
+        "Claim concrete physical/API/fixture/harness TEST baseline after acceptedSTORAGECONTRACT002 normalPR86/main7897e3e/all21SUCCESS/different393015e5. Minimal value interfaces/immediate explicitmarker stubs allowed; no productionSQL/migration/read/write/crypto behavior. Fresh author owns explicitly delegated newserver/test/harness paths; rootownsactualprefix8allocation/sharedbuild/CI/pins/state/HTML/integration unless exactlimitedbuilddelegation. Coherent complete contract/API/literalfixture/test packet must receive actual different review BEFORE anynewtest/nativefeature/foundationbody runs. Existingdriver/compileravailable6.12files are inspectiononly, not newreadinessclaim. Intendedred requires realdependencies/compile and correctmarkerfailures after separatefoundationgreen. Fullcurrentepoch/metadata/CAS/rollback/unknown/index/resource/lifetime scope preserved; no acceptedlogin/permission/clock/provider capability.",
+        "Root integrator reserves NEXT additive catalog version8/idaccount-sessions-v1 for this020baseline/implementation ONLY after inspecting actualcurrentmain7897e3e immutablecompiledprefix7/reference-initial-captures-v1 and activeassignments/noothermigrationwriter. Reservation is metadata, not productionmanifest/SQL support. Author independentfixture proposesfiveexactDDL/full102objects/77258payloadSHAec41d4b3bf7d04a3e846b401060cc3ed9430020db3dfce0e2650ed76f6a46d5b; actualdifferentfixture/selecteddriverreview+foundation must confirm BEFOREfreeze/red. Allprefix1–7 unchanged; newerhead compatibility and explicitupdate/rollback gates retained."
       ],
       "verification": {},
       "evidence": [
@@ -16360,6 +16361,11 @@
       "date": "2026-11-07T11:43:39.514074+00:00",
       "task": "STORAGETEST-020",
       "note": "Claim concrete physical/API/fixture/harness TEST baseline after acceptedSTORAGECONTRACT002 normalPR86/main7897e3e/all21SUCCESS/different393015e5. Minimal value interfaces/immediate explicitmarker stubs allowed; no productionSQL/migration/read/write/crypto behavior. Fresh author owns explicitly delegated newserver/test/harness paths; rootownsactualprefix8allocation/sharedbuild/CI/pins/state/HTML/integration unless exactlimitedbuilddelegation. Coherent complete contract/API/literalfixture/test packet must receive actual different review BEFORE anynewtest/nativefeature/foundationbody runs. Existingdriver/compileravailable6.12files are inspectiononly, not newreadinessclaim. Intendedred requires realdependencies/compile and correctmarkerfailures after separatefoundationgreen. Fullcurrentepoch/metadata/CAS/rollback/unknown/index/resource/lifetime scope preserved; no acceptedlogin/permission/clock/provider capability."
+    },
+    {
+      "date": "2026-11-07T11:50:53.888220+00:00",
+      "task": "STORAGETEST-020",
+      "note": "Root integrator reserves NEXT additive catalog version8/idaccount-sessions-v1 for this020baseline/implementation ONLY after inspecting actualcurrentmain7897e3e immutablecompiledprefix7/reference-initial-captures-v1 and activeassignments/noothermigrationwriter. Reservation is metadata, not productionmanifest/SQL support. Author independentfixture proposesfiveexactDDL/full102objects/77258payloadSHAec41d4b3bf7d04a3e846b401060cc3ed9430020db3dfce0e2650ed76f6a46d5b; actualdifferentfixture/selecteddriverreview+foundation must confirm BEFOREfreeze/red. Allprefix1–7 unchanged; newerhead compatibility and explicitupdate/rollback gates retained."
     }
   ]
 }

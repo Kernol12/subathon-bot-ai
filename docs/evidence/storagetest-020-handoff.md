@@ -29,3 +29,15 @@ original receipts stay in SESSIONTEST008. No original tests/red are replayed her
 
 Root separatelycoordinates006 boundary revision and004 clock document. Full v0.45/
 release/source/provider/platform gates remain. No live credentials/provider action.
+
+## Integrator catalog reservation
+
+Root inspected actual main7897e3e/currentcompiledprefix7 `reference-initial-captures-v1`
+and current assignments: no other active migration writer. Reserve additive version8
+ID `account-sessions-v1` ONLY for this task's baseline/later STORAGE020. No production
+manifest/DDL is implemented. Author's independently framed proposed fixture is five
+DDL statements/full102objects/77258bytes/SHA256
+`ec41d4b3bf7d04a3e846b401060cc3ed9430020db3dfce0e2650ed76f6a46d5b`.
+That is an authored proposal pending different review and actual selected-driver
+foundation; no observed SQL result/hash freeze claimed. Every prefix1–7 remains
+byte-identical and existing/newer-head/explicitupdate/rollback obligations remain.
