@@ -51,8 +51,10 @@ Fresh `/root/session_sdk_prepare` prepares exactalreadyselectedlibsodium1.0.22 i
 `/tmp/subathon-session-sdk`, source2008529bytes/SHAadbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349,
 reusing oldindependentsourceadmission. Separateisolatedbuild/prefix, no globalinstall/
 newpin/version. Corelimit0, necessarySDKconfigureprobes only; NOnewlibraryfoundation/
-hash/init/test/program invocation. Root awaits exactsource/build/header/archive
-receipts/prefix and must distinguish declaredversion from observedruntimeidentity.
+hash/init/test/program invocation. Root verified exactsource/build/header/archive
+receipts/prefix and admitted compile/link/passivelist only; immutablepreparation
+archive linked fromtaskhandoff. Header1.0.22/ABI26/4 isdeclared, runtimeidentity
+unobserved. Workerturn completed; separate actualreadinessreview/execution required.
 
 Root alone owns state/HTML/checkpoint/CI/pins/schemas/SDKadmission/integration and
 publication, with narrow new008harness editing explicitly delegated to author.

@@ -29,3 +29,29 @@ actualdifferent437ab56review,currentrules/0threads/no bypass) is integrated whil
 preservingonlyowned008claim. All443IDs/1735edges/othermainrows unchanged; only
 sharedJSON/HTML/checkpoint conflict resolution, no authoredsource/test overwrite.
 Author/reviewer/SDKworker and nextsteps are current in the coordinator checkpoint.
+
+
+## Existing SDK preparation/admission (no readiness body run)
+
+Fresh session_sdk_prepare built exact alreadyadmitted1.0.22 source in
+`/tmp/subathon-session-sdk/prefix`; root independentlyrechecked exact archive
+2008529bytes/SHAadbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349
+and newstaticarchive836704bytes/SHAf8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017.
+[Immutable complete preparation receipt/logs](sessiontest-008-sdk-preparation.tar.gz)
+retain actualcommands/environment/hashmanifest/678vendorfilepreservation and
+before/afterrepositoryinputhashes. Source admission reuses the unchanged selected
+archive's prior authenticated/different source/dependencyreviews, no newpin/version.
+Actual configure/build/install exit0 atGCC16.2.1/glibc2.44, -O2/static, make-j2,
+corelimit0. Configure invoked3SDKcompilerprobes(0/0/134), includingSIGABRT/core-report;
+externalcrashhandlerretention notinspected.8Libtoolconveniencewarnings,0compilererrors.
+These are dependencybuild observations, NOT productred or a runtime/SDKfoundation.
+Headers declare1.0.22/ABI26/4; newruntimeidentity remains unobserved. Root admits
+compile/link/passiveregistration only until different actualbaseline/native-
+readiness/source-work-stack/harness review. Do notcallanewbody basedonlyonbuildgreen.
+
+Root's first evidencearchive packager incorrectly disallowed safe nested paths;
+its assertion stopped before receipts were added, but the surrounding shell lacked
+failfast and an emptyarchive was committed6da7450. This correction validates every
+relativepath/sourcehash BEFORE output, then verifies all archivedhashes/inventory.
+Original SDKreceipts/build/source are untouched; no productred/readiness claim.
+Future compound commands use failfast and inspect exitcodes before publication.
