@@ -371,7 +371,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
       "notes": [
-        "Intendedred/frozen407fec3f oracles preserved. Firstgreen65 failedreference; independentdiagnosis foundGrace tag1 versusemitted0,12propagatedleaves. Narrowliteral/commentfix39c5529 independently reviewed againstoldSRC/publicgrammar; contract/seeds/fixtures unchanged. Samefocusedtests rerunauthorized, usage/infraonlyifpass. Acceptance remainsfaileduntilobservedgreen; runtime/currentCI/finalintegration remain."
+        "ReviewedR1/test-first red preserved. Failed65 referenceGrace-byte mismatch fixed narrowly at39c5529 after independentgrammar/source review. SAMEfrozen2tests nowPASS0.203s; tests407fec3f/goldens/seeds/fixtures unchanged. Approvedsource importedbyte-identically; native paths unchanged. Actualgeneration/check/infra and independentruntime audit pending; currentCI/finalintegration/normalmerge remain. Tooling acceptance only, no product/account capability."
       ],
       "verification": {
         "scope_contract_review": "passed",
@@ -379,8 +379,8 @@
         "baseline": "observed_red",
         "baseline_review": "passed",
         "source_oracle_review": "passed",
-        "acceptance": "failed",
-        "first_green": "failed",
+        "acceptance": "passed",
+        "first_green": "passed",
         "source_fix_review": "passed"
       },
       "evidence": [],
