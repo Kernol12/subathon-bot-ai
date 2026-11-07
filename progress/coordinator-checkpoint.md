@@ -81,9 +81,9 @@ PR/check/review state before acting. Preserve valid work; explicitly reassign st
   unclaimed. Full product loop continues; no routine owner confirmation needed.
 - Initial independent contract audit protects exact migration framing/projections/
   digests/DDL, published B/I budget formulas, fixed no-secret exception messages and
-  required service order. Candidate scope is narrowing to repeated same-method or
-  prefix checks with precise independent canonical per-step owners. A later-step
-  digest does not freeze earlier SQL. Proposal not yet approved; author stays read-only.
+  required service order. Approved scope consolidates repeated same-method or prefix checks with precise
+  independent canonical per-step owners. A later-step digest does not freeze earlier
+  SQL. Proposal/source/runtime gates passed; final integration/current CI remain.
 
 ## Preserved work and environment
 

@@ -202,7 +202,8 @@ typed errors and timeouts. Thirteen existing warning policies now run per test;
 twelve guarded stable classes ran, while account remains passive. Exact repeated
 writer checks moved to writer owners without dropping unique repository outcomes.
 See [Qt support #97](https://github.com/Kernol12/subathon-bot-ai/pull/97). Shipped
-migration framing/digest freezes now live at each owning stable steps 1–7; every
+migration framing/digest freezes now live in the owning stable suite for each
+step 1–7; every
 factory still compares every full prefix to independent fixtures. Public codec,
 error-message, ordering and budget contracts remain. See [migration assertions #98](https://github.com/Kernol12/subathon-bot-ai/pull/98).
 The latest local Qt 6.12 run passed 14/14 stable suites, all 361 methods and the same
