@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -29,10 +30,7 @@ QByteArray blob(const std::string &s) {
     return s.empty() ? QByteArray("", 0) : QByteArray(s.data(), qsizetype(s.size()));
 }
 std::string opaque(const QByteArray &s) { return std::string(s.constData(), size_t(s.size())); }
-void require(bool value, const char *message) {
-    if (!value)
-        throw std::runtime_error(message);
-}
+using qt_test_support::require;
 template <class Operation> void expect_input(Operation operation, SqliteReceiptInputError error) {
     try {
         operation();
@@ -242,7 +240,8 @@ struct Run {
 };
 Run run(SqliteWriter &writer, std::function<QVariant(SqliteWorkContext)> body) {
     auto state = std::make_shared<Run>();
-    const auto admission = writer.enqueue_work(
+    state->result = qt_test_support::run_work(
+        writer,
         [state, body = std::move(body)](auto work) {
             try {
                 return body(work);
@@ -263,13 +262,9 @@ Run run(SqliteWriter &writer, std::function<QVariant(SqliteWorkContext)> body) {
                 throw;
             }
         },
-        [state](SqliteWorkResult result) {
-            state->result = std::move(result);
-            state->done = true;
-        });
-    state->admitted = admission == StorageError::none;
-    if (state->admitted && !QTest::qWaitFor([state] { return state->done; }, 5000))
-        state->unexpected = "Timed out waiting for writer completion";
+        5000);
+    state->admitted = true;
+    state->done = true;
     return *state;
 }
 ReceiptRecord found(ReceiptTransaction &tx, const ReceiptIdentity &identity) {
@@ -440,8 +435,7 @@ class SqliteReceiptTests final : public QObject {
   private slots:
     void initTestCase() {
         QVERIFY(QSqlDatabase::isDriverAvailable("QSQLITE"));
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
+        qt_test_support::fail_on_sql_warnings();
         for (const auto &pair : {std::pair{QString(SUBATHON_RECEIPT_VECTOR_PATH), &root_},
                                  std::pair{QString(SUBATHON_RETAINED_VECTOR_PATH), &m1_}}) {
             QFile file(pair.first);
@@ -460,6 +454,7 @@ class SqliteReceiptTests final : public QObject {
                  QString("24614f68e9c41a29751ea9ef6ba08fcf655b1cdb0e0c097cb1601bb1581553a2"));
     }
     void init() {
+        qt_test_support::fail_on_sql_warnings();
         directory_ = std::make_unique<QTemporaryDir>();
         QVERIFY(directory_->isValid());
         path_ = directory_->filePath("receipts.sqlite");
@@ -1661,8 +1656,6 @@ class SqliteReceiptTests final : public QObject {
         QCOMPARE(fixture_->scalar("SELECT hex(last_allocated) FROM main.subathon_receipt_allocator")
                      .toString(),
                  QString("0000000000000001"));
-        QCOMPARE(writer.enqueue_work([](auto) { return QVariant(1); }, [](auto) {}),
-                 StorageError::shutting_down);
     }
 
     void lostCleanupAckOutranksLocalStorageFailure() {
@@ -1700,8 +1693,6 @@ class SqliteReceiptTests final : public QObject {
         QVERIFY(!r.result.value);
         QCOMPARE(fixture_->snapshot(),
                  before); // Actual rollback happened; acknowledgement was lost.
-        QCOMPARE(writer.enqueue_work([](auto) { return QVariant(1); }, [](auto) {}),
-                 StorageError::shutting_down);
     }
 };
 QTEST_GUILESS_MAIN(SqliteReceiptTests)

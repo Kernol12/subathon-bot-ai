@@ -31,20 +31,7 @@ inline MigrationStep literal_step(const QJsonObject &input) {
 }
 // Raw result helper also permits observing real rollback rather than inventing committed success.
 inline SqliteWorkResult outcome(SqliteWriter &writer, SqliteWriter::Work body) {
-    struct State {
-        bool done{false};
-        SqliteWorkResult result;
-    };
-    const auto state = std::make_shared<State>();
-    require(writer.enqueue_work(std::move(body),
-                                [state](auto result) {
-                                    state->result = std::move(result);
-                                    state->done = true;
-                                }) == StorageError::none,
-            "Old writer admits diagnostic unit");
-    require(QTest::qWaitFor([state] { return state->done; }, 10000),
-            "Old writer completes diagnostic unit");
-    return std::move(state->result);
+    return qt_test_support::run_work(writer, std::move(body), 10000);
 }
 struct Data {
     QJsonObject frozen{load(SUBATHON_REFERENCE_CAPTURE_VECTOR_PATH)};

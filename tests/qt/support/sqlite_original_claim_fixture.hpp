@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
+#include "sqlite_test_support.hpp"
 // Frozen raw foundation plus OLD bundle lookup only. The new claim reader is never invoked here.
 #include <QFile>
 #include <QJsonArray>
@@ -18,10 +19,7 @@
 namespace original_claim_fixture {
 namespace core = subathon::core;
 using namespace subathon::server;
-inline void require(bool condition, const QString &message) {
-    if (!condition)
-        throw std::runtime_error(message.toStdString());
-}
+using qt_test_support::require;
 inline QByteArray blob(const std::string &value) {
     return value.empty() ? QByteArray("", 0) : QByteArray(value.data(), qsizetype(value.size()));
 }
@@ -136,27 +134,21 @@ inline StorageLimits limits() {
 }
 inline SqliteWorkResult run(SqliteWriter &writer, SqliteWriter::Work body) {
     struct State {
-        bool done{false};
         QString problem;
         SqliteWorkResult result;
     };
     auto state = std::make_shared<State>();
-    require(writer.enqueue_work(
-                [state, body = std::move(body)](auto context) {
-                    try {
-                        return body(context);
-                    } catch (const std::exception &e) {
-                        state->problem = QString::fromUtf8(e.what());
-                        throw;
-                    }
-                },
-                [state](auto result) {
-                    state->result = std::move(result);
-                    state->done = true;
-                }) == StorageError::none,
-            "Old writer admits fixture unit");
-    require(QTest::qWaitFor([state] { return state->done; }, 10000),
-            "Old writer completes fixture unit");
+    state->result = qt_test_support::run_work(
+        writer,
+        [state, body = std::move(body)](auto context) {
+            try {
+                return body(context);
+            } catch (const std::exception &e) {
+                state->problem = QString::fromUtf8(e.what());
+                throw;
+            }
+        },
+        10000);
     require(state->problem.isEmpty(), "Fixture work: " + state->problem);
     require(state->result.error == WorkError::none &&
                 state->result.transaction == TransactionOutcome::committed && state->result.value,

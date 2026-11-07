@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
+#include "sqlite_test_support.hpp"
 // Independent literal schema/setup plus existing writer/migration only.
 // No new account-session symbol is included or invoked by this shared foundation.
 #include <QFile>
@@ -22,10 +23,7 @@
 
 namespace account_sessions_fixture {
 using namespace subathon::server;
-inline void require(bool value, const char *message) {
-    if (!value)
-        throw std::runtime_error(message);
-}
+using qt_test_support::require;
 template <class Body> void scenario(Body body) {
     try {
         body();
@@ -55,20 +53,7 @@ inline StorageLimits limits() {
 }
 // Always retains actual work classification. Callers assert expected failure explicitly.
 inline SqliteWorkResult outcome(SqliteWriter &writer, SqliteWriter::Work body) {
-    struct State {
-        bool done{false};
-        SqliteWorkResult result;
-    };
-    const auto state = std::make_shared<State>();
-    require(writer.enqueue_work(std::move(body),
-                                [state](auto result) {
-                                    state->result = std::move(result);
-                                    state->done = true;
-                                }) == StorageError::none,
-            "Existing writer admits disposable work");
-    require(QTest::qWaitFor([state] { return state->done; }, 10000),
-            "Existing writer completes work");
-    return std::move(state->result);
+    return qt_test_support::run_work(writer, std::move(body), 10000);
 }
 // A feature marker must escape the writer body into an ordinary assertion failure,
 // rather than being mistaken for an intended work_exception/rollback scenario.

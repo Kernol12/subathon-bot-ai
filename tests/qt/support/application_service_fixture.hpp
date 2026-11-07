@@ -427,20 +427,7 @@ struct Data {
 
 // Unlike success-only run(), this retains actual negative/unknown completion DATA.
 template <class Body> SqliteWorkResult capture(SqliteWriter &writer, Body body) {
-    struct Capture {
-        bool done{false};
-        SqliteWorkResult result;
-    };
-    const auto captured = std::make_shared<Capture>();
-    require(writer.enqueue_work(std::move(body),
-                                [captured](auto r) {
-                                    captured->result = std::move(r);
-                                    captured->done = true;
-                                }) == StorageError::none,
-            "Old writer admits explicit fixture work");
-    require(QTest::qWaitFor([captured] { return captured->done; }, 10000),
-            "Actual old-writer completion");
-    return captured->result;
+    return qt_test_support::run_work(writer, std::move(body), 10000);
 }
 inline void open_sources(SqliteWriter &writer, const QString &path, const Data &data) {
     require(writer.open(path, limits()) == StorageError::none, "Old writer opens disposable file");

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 #include <QDate>
 #include <QFileInfo>
 #include <QRegularExpression>
@@ -65,10 +66,10 @@ class SqliteWriterTests final : public QObject {
   private slots:
     void initTestCase() {
         QVERIFY(QSqlDatabase::isDriverAvailable("QSQLITE"));
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
+        qt_test_support::fail_on_sql_warnings();
     }
     void init() {
+        qt_test_support::fail_on_sql_warnings();
         directory_ = std::make_unique<QTemporaryDir>();
         QVERIFY(directory_->isValid());
         path_ = directory_->filePath("state.sqlite");

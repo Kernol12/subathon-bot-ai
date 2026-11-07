@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/sqlite_account_sessions_fixture.hpp"
+#include "support/sqlite_test_support.hpp"
 #include <QRegularExpression>
 #include <array>
 #include <future>
@@ -211,10 +212,8 @@ void literal_local_row(const SqliteWorkSession &s, std::string_view revision,
 class SqliteAccountSessionsTests final : public QObject {
     Q_OBJECT
   private slots:
-    void initTestCase() {
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
-    }
+    void initTestCase() { qt_test_support::fail_on_sql_warnings(); }
+    void init() { qt_test_support::fail_on_sql_warnings(); }
     void manifestMatchesFrozenPrefixAndStepEight() {
         scenario([] {
             const Data data;

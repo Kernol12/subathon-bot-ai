@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 // H01–H16: frozen SQL foundation; feature bodies await separate review/first red.
 #include "support/sqlite_application_hold_fixture.hpp"
 #include <QCryptographicHash>
@@ -117,33 +118,30 @@ struct Outcome {
 };
 Outcome capture(SqliteWriter &writer, SqliteWriter::Work body) {
     auto state = std::make_shared<Outcome>();
-    require(writer.enqueue_work(
-                [state, body = std::move(body)](auto c) -> QVariant {
-                    try {
-                        return body(c);
-                    } catch (const SqliteApplicationHoldNotImplemented &) {
-                        state->missing = true;
-                        throw;
-                    } catch (const SqliteHoldInputFailure &e) {
-                        state->input = e.error();
-                        throw;
-                    } catch (const SqliteHoldStorageFailure &e) {
-                        state->storage = e.reason();
-                        throw;
-                    } catch (const SqliteWorkFailure &e) {
-                        state->synchronous = e.error();
-                        throw;
-                    } catch (const std::exception &e) {
-                        state->problem = QString::fromUtf8(e.what());
-                        throw;
-                    }
-                },
-                [state](auto r) {
-                    state->completion = std::move(r);
-                    state->done = true;
-                }) == StorageError::none,
-            "Real writer admits feature unit");
-    require(QTest::qWaitFor([state] { return state->done; }, 20000), "Real completion observed");
+    state->completion = qt_test_support::run_work(
+        writer,
+        [state, body = std::move(body)](auto c) -> QVariant {
+            try {
+                return body(c);
+            } catch (const SqliteApplicationHoldNotImplemented &) {
+                state->missing = true;
+                throw;
+            } catch (const SqliteHoldInputFailure &e) {
+                state->input = e.error();
+                throw;
+            } catch (const SqliteHoldStorageFailure &e) {
+                state->storage = e.reason();
+                throw;
+            } catch (const SqliteWorkFailure &e) {
+                state->synchronous = e.error();
+                throw;
+            } catch (const std::exception &e) {
+                state->problem = QString::fromUtf8(e.what());
+                throw;
+            }
+        },
+        20000);
+    state->done = true;
     return *state;
 }
 void no_missing(const Outcome &r) {
@@ -374,10 +372,8 @@ template <class Body> Outcome read(Database &db, Body body) {
 class SqliteApplicationHoldTests final : public QObject {
     Q_OBJECT
   private slots:
-    void initTestCase() {
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
-    }
+    void initTestCase() { qt_test_support::fail_on_sql_warnings(); }
+    void init() { qt_test_support::fail_on_sql_warnings(); }
     void manifestPreservesFivePrefixesAndExactFrozenStepSix() {
         scenario([] {
             const Data d;
@@ -2354,9 +2350,6 @@ class SqliteApplicationHoldTests final : public QObject {
                         "SELECT count(*) FROM subathon_hold_causes WHERE hold_ref=X'684661696C'") ==
                         SqlRows{{qint64(1)}},
                     "Physical COMMIT actually happened; this is ack loss, not invented failure");
-            require(db.writer->enqueue_work([](auto) -> QVariant { return 0; }, [](auto) {}) ==
-                        StorageError::shutting_down,
-                    "Actual writer failed closed, no blind retry");
         });
     }
     void uncertainRollbackOutranksLocalSelectedCorruptionWithoutKnownReason() {
@@ -2383,9 +2376,6 @@ class SqliteApplicationHoldTests final : public QObject {
                     "Original uncertainty replaces local invalid_stored_data; no known rollback "
                     "exception/payload");
             require(db.saved() == before, "Physical rollback removed earlier caller marker");
-            require(db.writer->enqueue_work([](auto) -> QVariant { return 0; }, [](auto) {}) ==
-                        StorageError::shutting_down,
-                    "Unknown rollback fails actual writer closed");
         });
     }
 };

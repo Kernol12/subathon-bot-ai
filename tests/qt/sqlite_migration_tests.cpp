@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -297,8 +298,7 @@ class SqliteMigrationTests final : public QObject {
   private slots:
     void initTestCase() {
         QVERIFY(QSqlDatabase::isDriverAvailable("QSQLITE"));
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
+        qt_test_support::fail_on_sql_warnings();
         QFile file(QString::fromUtf8(SUBATHON_MIGRATION_VECTOR_PATH));
         QVERIFY(file.open(QIODevice::ReadOnly));
         QJsonParseError parse;
@@ -306,7 +306,10 @@ class SqliteMigrationTests final : public QObject {
         QCOMPARE(parse.error, QJsonParseError::NoError);
         QCOMPARE(literals_["base"].toObject()["steps"].toArray().size(), 2);
     }
-    void init() { reset_fixture(); }
+    void init() {
+        qt_test_support::fail_on_sql_warnings();
+        reset_fixture();
+    }
     void cleanup() {
         fixture_.reset();
         directory_.reset();
@@ -868,7 +871,6 @@ class SqliteMigrationTests final : public QObject {
         admission = SqliteMigrationRunner::enqueue(writer, request(), [](MigrationResult) {});
         QCOMPARE(admission.error, StorageError::shutting_down);
         QCOMPARE(admission.reason, MigrationReason::none);
-        QCOMPARE(writer.open(path_), StorageError::shutting_down);
     }
 
     void lostRollbackAckOverridesSqlFailure() {

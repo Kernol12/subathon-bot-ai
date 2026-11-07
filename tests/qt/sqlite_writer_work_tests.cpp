@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/sqlite_test_support.hpp"
 #include <QDate>
 #include <QRegularExpression>
 #include <QSqlDatabase>
@@ -152,10 +153,10 @@ class SqliteWriterWorkTests final : public QObject {
   private slots:
     void initTestCase() {
         QVERIFY(QSqlDatabase::isDriverAvailable("QSQLITE"));
-        QTest::failOnWarning(
-            QRegularExpression(".*(QSqlDatabase|QSqlQuery|different thread|still in use).*"));
+        qt_test_support::fail_on_sql_warnings();
     }
     void init() {
+        qt_test_support::fail_on_sql_warnings();
         directory_ = std::make_unique<QTemporaryDir>();
         QVERIFY(directory_->isValid());
         path_ = directory_->filePath("work.sqlite");
@@ -621,6 +622,8 @@ class SqliteWriterWorkTests final : public QObject {
             QCOMPARE(queued_calls, 0);
             QCOMPARE(observer_->scalar("SELECT COUNT(*) FROM counters").toInt(), 0);
             QCOMPARE(writer.enqueue({put(4, 40)}, [](WriteResult) {}), StorageError::shutting_down);
+            QCOMPARE(writer.enqueue_work([](auto) { return QVariant(1); }, [](auto) {}),
+                     StorageError::shutting_down);
         }
     }
 
