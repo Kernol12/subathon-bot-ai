@@ -4,7 +4,7 @@
   "info": {
     "title": "Subathon bounded reference HTTP contract",
     "version": "1.0.0",
-    "description": "CONTRACT-013 reference-http-v1 revision1; authored contract only. Normative raw HTTP/resource/auth/current-read priority: docs/contracts/reference-http-v1.md. Exactly two operations, no runtime support implied.",
+    "description": "CONTRACT-013 reference-http-v1 revision2 (SESSIONCONTRACT-006); authored contract only. Independent finite edge budgets, enumerated normalization/refusals and complete4096 application-listener semantic occurrence admission; no4096 external-wire/H2-encoded promise. Normative HTTP/resource/auth/current-read priority: docs/contracts/reference-http-v1.md. Exactly two operations, no runtime support implied.",
     "license": {
       "name": "GPL-3.0-or-later",
       "identifier": "GPL-3.0-or-later"
@@ -685,7 +685,7 @@
         }
       },
       "PayloadTooLarge": {
-        "description": "413: complete wire/body/JSON resource limit, never a fitting prefix.",
+        "description": "413: application body/JSON resource limit, never a fitting prefix. Pre-application edge refusal has its separate transport envelope.",
         "headers": {
           "Cache-Control": {
             "$ref": "#/components/headers/CacheControl"
@@ -721,7 +721,7 @@
         }
       },
       "HeaderTooLarge": {
-        "description": "431: complete transport/header/projection resource limit.",
+        "description": "431: complete application-listener occurrence/header/semantic projection resource limit. Finite external edge admission is separate.",
         "headers": {
           "Cache-Control": {
             "$ref": "#/components/headers/CacheControl"
