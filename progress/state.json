@@ -13050,8 +13050,8 @@
       "title": "Bounded reference HTTP contract and schema",
       "module": "Server/API",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Codex coordinator /root + fresh reference_contract_author",
       "depends_on": [
         "CONTRACTPLAN-003",
         "CONTRACT-005",
@@ -13078,10 +13078,13 @@
         "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
         "ADR0007 additive prerequisite repair only: missing actualsession/transportdocument now SESSIONCONTRACT001, independently reviewed before CONTRACT013 and SESSIONTEST002/003; originalruntime/test-first/releasegates unchanged. This plan supplies no authprotocolchoice/API/schema/tests/runtime capability.",
         "Split original oversized combined document before content authoring into supplier001 and transport002, preserving every requirement. Transport002 depends on integrated001; CONTRACT013/SESSIONTEST002/003/EPIC007 retain001 and additionally require002, so no consumer releases on a partial contract. Exact original422IDs/1619edges preserved, new423/1624. No auth choice/API/schema/test/runtime capability finalized. Independent actual reviews and all runtime/release gates remain.",
-        "ADR0008 additive schema-validator baseline/implementation foundation required before actual schema/example/ref acceptance. Every existing supplier/runtime/release gate retained; no validator or schema capability supplied by planning."
+        "ADR0008 additive schema-validator baseline/implementation foundation required before actual schema/example/ref acceptance. Every existing supplier/runtime/release gate retained; no validator or schema capability supplied by planning.",
+        "Resumed 2026-11-07 from actual main e0585ca after verifying PR78 merged, no open PRs/live subagents/unfinished commands and both existing worktrees clean. Claim task/CONTRACT-013-reference-http: specification v0.45/reference-path R1/wire primitives R1/session supplier+transport accepted documents/schema-tool accepted foundation. Author owns only reference HTTP contract/package/examples and author evidence; root owns shared schema imports, state/HTML, build/CI and integration. Actual independent contract review, real offline schema/reference/example validation and latest-head CI/normal merge required; no runtime capability or dependent implementation authorized by document completion."
       ],
       "verification": {},
-      "evidence": [],
+      "evidence": [
+        "docs/evidence/contract-013-handoff.md"
+      ],
       "review": null
     },
     {
@@ -15517,6 +15520,11 @@
       "date": "2026-11-07T08:57:14.796864+00:00",
       "task": "BOOT-009",
       "note": "Documentation workflow changes independently approved and locally checked; PR78 publication/merge gates separate, no product work resumed."
+    },
+    {
+      "date": "2026-11-07T09:13:29.750256+00:00",
+      "task": "CONTRACT-013",
+      "note": "Resumed 2026-11-07 from actual main e0585ca after verifying PR78 merged, no open PRs/live subagents/unfinished commands and both existing worktrees clean. Claim task/CONTRACT-013-reference-http: specification v0.45/reference-path R1/wire primitives R1/session supplier+transport accepted documents/schema-tool accepted foundation. Author owns only reference HTTP contract/package/examples and author evidence; root owns shared schema imports, state/HTML, build/CI and integration. Actual independent contract review, real offline schema/reference/example validation and latest-head CI/normal merge required; no runtime capability or dependent implementation authorized by document completion."
     }
   ]
 }
