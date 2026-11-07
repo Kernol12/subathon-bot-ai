@@ -63,6 +63,18 @@ PRs/checks/reviews before acting. Preserve work and explicitly reassign stale ta
   bounded source and independent execution review/relevant checks. Current CI,
   final integration/rules/discussions and normal protected merge remain. TC007 also
   ready but unclaimed; full standing product loop continues without routine approval.
+- Independent read-only preparation verified all six fixture blobs equal the archive.
+  Large schema/frame/snapshot/arrangement fields are real oracles. Never derive
+  expected outputs from project code or observed SQLite results. Account coordinate8
+  stays proposed/unimplemented. Originalclaims selector index0 protects a unique
+  lower-priority-corrupt-B branch; setup[9]/public revision-bind positions also carry
+  meaning. Renaming/rekeying needs an explicit old-to-named-case map.
+- Author is assessing a bounded prerequisite split before generator reconstruction:
+  small independent manifest/SQL-literal foundation, storage recipes, service/named
+  scenarios. No split approved or code authorized yet. Avoid a SQL interpreter,
+  domain simulator or generic recipe framework. Independent supplied snapshots and
+  values remain; new executable prerequisites need explicit briefs/claims and fresh
+  author sessions. Reviewer preparation finished; explicitly resume for exact proposal.
 
 ## Preserved context
 
