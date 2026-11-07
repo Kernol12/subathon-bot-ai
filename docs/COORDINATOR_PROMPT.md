@@ -38,12 +38,21 @@ can proceed:
 1. Select an unclaimed, dependency-ready executable task. Prefer tasks that unlock
    the next working product slice. Split oversized tasks before assigning them.
    Epics are planning containers, not single implementation assignments.
+   Apply the Architectural prerequisites discovered during work section of
+   docs/AGENT_WORKFLOW.md throughout the task: split substantial new supporting
+   architecture into explicit prerequisite tasks/PRs before implementing it. Preserve
+   valid work and original scope; keep dependent acceptance blocked until integration.
 2. Fetch current main and create a dedicated task branch before editing. Claim the
    task on that branch and record its scope, contract revision, acceptance criteria,
    dependencies and file ownership. Do not implement unrelated tasks in that PR.
 3. Assign bounded work to subagents with explicit inputs, owned paths, acceptance
-   criteria and expected handoffs. Respect the available agent limit and reuse
-   suitable agents when helpful. Parallelize only independent work; a reviewer
+   criteria and expected handoffs. Use a fresh implementation agent/session for each
+   executable task, following the Agent session boundaries section of the workflow.
+   Retire it after completion/handoff; the coordinator may persist. Reuse reviewers
+   for related revisions of the same task, with fresh assignments for the next task.
+   Supply concise linked context, not the full prior conversation. Respect the agent
+   limit; the coordinator manages these sessions without routine owner intervention.
+   Parallelize only independent work; a reviewer
    must receive the actual authored revision before approving it. If subagent tools
    are unavailable, report that limitation and never simulate independent review.
 4. Use separate branches/worktrees for concurrent writers. The coordinator controls
@@ -61,6 +70,10 @@ can proceed:
    their own review gates. Missing dependencies, compilation failures and skipped
    tests are not valid red baselines.
 6. Integrate the changes and resolve review findings. Preserve reviewed assertions.
+   Batch related changes into coherent review packets within each test-first stage;
+   do not combine or bypass stages. Reuse still-valid approvals for unchanged scope
+   and review affected deltas. Clerical edits do not require a separate metadata-review
+   stage unless they change a reviewed claim; latest-head CI/required approvals remain.
    Correct genuine test defects only with specification-based reasoning and separate
    review. Run applicable checks and record actual commands, outcomes, environment
    and reviewed revisions. Reassess affected reviews after changes; do not carry an
@@ -72,7 +85,11 @@ can proceed:
    automatically on relevant PRs, observe changed workflows before merge and record
    gaps and required-check configuration needs. Keep intentional red baselines and
    credential-dependent live checks separate; never hide failures to obtain green CI.
-7. Update task evidence, notes and handoffs. Regenerate PROGRESS.html and check
+7. Maintain one current task handoff linking detailed logs and review records; update
+   findings in the relevant review record instead of adding a narrative per step.
+   Preserve historical receipts and attribution. Update task evidence and notes at
+   meaningful boundaries; do not rerun checks just to improve logs.
+   Regenerate PROGRESS.html and check
    consistency. Distinguish authored, reviewed, observed red, implemented,
    simulation-tested and live/platform-verified behavior. Mark implementation done
    only after its acceptance and separate-review gates pass. Track publication and
@@ -115,7 +132,10 @@ this prompt file is not evidence that coordination has run. Record:
 - Blockers, unanswered owner questions and unperformed platform/live checks.
 - Uncommitted work, running commands that need inspection and the next concrete action.
 
-Update the checkpoint at task handoffs and before an anticipated session limit. Include
+Update the checkpoint at task handoffs, prerequisite splits and before an anticipated
+session limit. For splits, record new task IDs, dependencies, preserved work and the
+next executable action. For fresh assignments, record the concise context needed to
+resume without the previous chat. Include
 it in normal task commits/PRs where practical; do not write directly to main or create
 an endless chain of bookkeeping PRs. Keep progress/state.json authoritative for task
 status. Do not commit credentials or machine-specific IDE configuration.
@@ -145,8 +165,11 @@ of repeatedly retrying an unchanged blocker.
 ```text
 Read AGENTS.md and docs/COORDINATOR_PROMPT.md. Follow its standing coordinator
 instructions and begin executing the project task by task. Explicitly use subagents
-for bounded work and independent reviews, with isolated worktrees for concurrent
-writers. Inspect current main, progress and open PRs before selecting work.
+for bounded work and independent reviews, with a fresh implementation session per
+executable task and isolated worktrees for concurrent writers. Split substantial
+architectural prerequisites into explicit tasks/PRs before implementing them. Keep
+one task handoff linking evidence and batch related reviews within each test-first
+stage, preserving all gates. Inspect main, progress and open PRs before selecting work.
 Create/update docs/evidence/coordinator-handoff.md as you proceed. Open a focused
 PR for each executable task, merge only when all applicable gates pass, then
 continue with the next dependency-ready task without waiting for routine approval.
@@ -165,7 +188,12 @@ If the checkpoint is absent or stale, reconstruct it from that evidence.
 Preserve unfinished work and valid reviews; do not repeat completed tasks or
 assume previous agents are still running. Resume or explicitly reassign active
 tasks, then continue the standing coordination loop using subagents and focused
-task PRs. Merge only after all applicable gates pass. Update the durable checkpoint
+task PRs. Keep still-valid active assignments; use a fresh implementation session
+for each new executable task, with concise linked handoff context. Split substantial
+architectural prerequisites into explicit tasks/PRs before implementing them. Keep
+one task handoff linking evidence and batch related reviews within each test-first
+stage; preserve independent reviews, original receipts and all acceptance/merge gates.
+Merge only after all applicable gates pass. Update the durable checkpoint
 and continue execution without waiting for routine approval. Report only the
 decisions or access genuinely needed from me. Resume the actual work now.
 ```

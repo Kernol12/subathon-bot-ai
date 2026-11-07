@@ -31,6 +31,45 @@ Use the [epic/child-task index](tasks/README.md) to select a bounded assignment.
 Production slices have separate baseline records that require contract/examples,
 test authoring, independent review and observed red before implementation can start.
 
+## Architectural prerequisites discovered during work
+
+Reassess the task boundary when implementation or review reveals a substantial new
+prerequisite: for example a native process supervisor, reusable subsystem, new runtime
+or a separate contract/build/verification effort. Before implementing that expansion,
+create explicit task records and briefs with their own acceptance criteria and
+test-first prerequisites, update dependencies without cycles, and use separate task
+branches and focused PRs. A small internal adjustment within the existing contract
+and acceptance scope can remain in the current task; do not split every bug fix.
+
+Preserve the original requirements and valid work. Checkpoint the dependent task,
+mark it `blocked` when adding an unfinished prerequisite (as required by the progress
+validator), and leave its PR draft while acceptance is incomplete. Start the prerequisite
+from current main and integrate it before resuming dependent implementation. Reuse reviewed
+artifacts only where their revisions and scope remain applicable. Record the split
+and file ownership in the handoff. If the original task has no independently acceptable
+slice, keep it unfinished rather than merging partial behavior as complete.
+
+The coordinator may perform this decomposition autonomously within agreed scope.
+Raise requirement conflicts or changes to product behavior explicitly; task splitting
+does not authorize reduced guarantees or unrelated features.
+
+## Agent session boundaries
+
+Use a fresh implementation agent/session for each executable task. With subagent
+tools, the coordinator starts the fresh agent itself; the owner need not manually
+open a session per task. Retire the implementation agent after its task and handoff
+are complete rather than reusing its accumulated history for the next task. The
+coordinator may remain active across tasks. Do not restart solely because time passed
+or discard useful active work after an interruption.
+
+Give the fresh agent the task ID, brief, specification/contract revisions, relevant
+reviewed tests/red evidence, branch/worktree, owned paths, acceptance criteria and
+next action. Link durable context rather than forwarding an entire previous chat.
+Reuse a reviewer for related revisions of the same task when useful, keeping author
+and reviewer identities separate; start fresh author/reviewer assignments for the
+next task. If fresh sessions are unavailable, checkpoint and report the limitation;
+do not invent a fresh identity or self-certify an independent review.
+
 ## Branches and pull requests
 
 Before editing, fetch the current `main` and create one dedicated branch per executable
@@ -102,6 +141,19 @@ contract record the old/new revision, affected tasks and migration/compatibility
 Test-first is per module: begin with core contracts/tests and extend to later modules
 when their contracts exist. Never invent provider behavior to make an early test possible.
 
+Batch coherent related changes into one review packet within each stage. Supply
+the exact revision, changed paths, relevant requirements, findings and check evidence.
+A packet may cover several related tests or fixes; do not request a new review for
+every bookkeeping edit. Keep the sequence intact: test approval and intended red
+precede implementation, then a different reviewer checks the actual code. Do not
+batch across these gates or defer a blocking finding until after merge.
+
+After revisions, identify the affected review scope and obtain review of changed
+behavior, contracts, tests, build/CI or material evidence claims. Unchanged reviewed
+artifacts retain their valid approvals. Pure formatting, link or clerical changes
+need normal accuracy checks, not a separate new metadata-review stage unless they
+alter a reviewed claim. Latest-head CI and all required GitHub approvals still apply.
+
 ## Done and evidence
 
 Test-authoring done means reviewed tests and intended red demonstrated, not feature done.
@@ -109,6 +161,20 @@ Implementation done requires relevant passing acceptance/regression checks and c
 Record exact commands, exit/result, environment, date, commit and remaining gates. Distinguish
 simulation from live service, hardware/browser and package tests. No claim of full correctness
 follows merely from a green suite. Use docs/templates/HANDOFF.md before stopping.
+
+Keep one current task handoff as the entry point for scope, decisions, status,
+reviewed revisions, commands/results, remaining gates and next action. Link detailed
+logs and review records; summarize each finding and its resolution in the applicable
+review record instead of creating a new narrative for every coordination step.
+Separate records are appropriate for distinct baselines, architecture decisions or
+substantial independent audits. Preserve historical red/pass receipts and review
+attribution; consolidation is not permission to delete or rewrite them. Do not rerun
+completed checks merely to obtain cleaner evidence.
+
+The coordinator checkpoint links task handoffs and records integration/ownership
+state. Progress JSON holds task status, and PR descriptions summarize the result;
+avoid copying full histories or logs into each of them. Update at meaningful task,
+review, integration and interruption boundaries rather than after every message.
 
 ## Development settings
 

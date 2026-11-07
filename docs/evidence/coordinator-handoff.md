@@ -1,74 +1,58 @@
-# Coordinator checkpoint — finish PR77, then stop
+# Coordinator checkpoint — documentation update; product work stopped
 
-Owner explicitly requested **cleanly finish the open PRs and then stop**.
-Only [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is open; 72–76
-merged. No next project task/bookkeeping PR, live provider/chat/payment/deployment
-operation. No owner decision/access is needed.
+Updated 7 November 2026 by Codex /root for BOOT-009. The owner requested workflow
+changes for their next use of the continuation prompt. This session is authorized
+for that documentation task only; it does not resume the product coordination loop.
+A future explicit owner invocation of the continuation prompt resumes that loop
+under the updated instructions, subject to any newer owner limits.
 
-## Actual current state
+## Observed repository and PR state
 
-SCHEMATOOL-001 implementation is done; publication/merge remain separately gated.
-At published `6f5e2101a5413e8607f95e8ae8d9c27195d270b8`, ALL21 checks succeeded.
-[Native42307836353](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42307836353)
-BOTH hosts passed real GNU11/13 alias/frame/static proof, strict no-child bootstrap1,
-full56 facility programs, exact66 semantic programs/154cases each,0fail/skip/error.
-Production71 functions/26736 stack; fault124/27712, both<=32768.
-[SDK42307836415](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42307836415)
-BOTH exact14, metadata20 and public64 registrations passed. Local CPython3.14
-acceptance/tooling19/scaffold3 and immutable evidence are retained, not replayed.
-[Final task handoff](schematool-001-completion.md).
+- Fetched origin/main: `ba376fb7bb5c0fca1433791c2d6296e25c56d5b2`.
+- [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is MERGED, at
+  6 November 2026 23:12:53 UTC, with that merge commit. GitHub reports no open PRs
+  at the start of BOOT-009. The previous checkpoint's draft/unmerged entries are stale.
+  [PR78](https://github.com/Kernol12/subathon-bot-ai/pull/78) now contains BOOT-009;
+  its final-head CI and normal merge remain to be observed before integration.
+- SCHEMATOOL-001 is recorded done. Its scope, reviewed revisions, historical reds,
+  final acceptance and remaining release gates are linked from its
+  [completion handoff](schematool-001-completion.md); preserve those artifacts.
+- Current task branch: `task/BOOT-009-bounded-agent-workflow`, based on that main.
+  [BOOT-009 brief](../tasks/BOOT-009.md) records scope and ownership;
+  [task handoff](boot-009-handoff.md) records checks, review and publication status.
+  See progress/state.json for authoritative task status.
 
-PR77 remains DRAFT/unmerged. Local completion records contain only state/HTML/handoff documentation changes.
-C independently accepted the actual hosted logs and approved completion metadata
-f044/273 plus version-label correction6a before final documentation-only publication.
-The final latest head must pass ALL applicable checks before ready/normal merge.
-No source/test/native executable code changed after the reviewed6f implementation.
+## Assignments and preserved work
 
-## Worktrees, agents and merge rules
+Root owns the documentation/progress integration for BOOT-009. No product writer
+has been started in this session. Previous product agent IDs are historical context,
+not evidence of running assignments. Independent documentation reviewer
+`/root/workflow_review` approved `584940e` and the narrow blocked-status clarification;
+[review record](boot-009-review.md). No agent is assigned another task.
 
-Primary/fetched main last observed `095d192c834e8e7746a7922865bbf0e11d06f905`.
-Integrator `/tmp/subathon-schematool001`, branch
-`task/SCHEMATOOL-001-offline-validator`. Existing251 support worktrees and unrelated
-unfinished work are preserved; do not prune/reset them. No root command or native
-project process is running. Inspect actual agents/processes on resume.
+There are 252 registered worktrees at inspection. Preserve them and inspect actual
+branches, uncommitted work and processes on resume; do not prune or reset historical
+worktrees based on this checkpoint. Do not assume that work or commands from the old
+session are active. No architectural prerequisite split is needed for BOOT-009.
 
-C `/root/session_plan_review` completed actual6f host-receipt attribution and
-completion-metadata review; its durable notes are integrated before final push. A `/root/session_supplier_review` completed alias tests
-and guide review; B `/root/session_supplier_author` completed implementation/guide.
-Root owns shared state/HTML/README/CI/build/integration. Previous assignments are
-not assumed running after interruption.
+## Next action and later owner-requested product continuation
 
-Last actual ruleset26170263 requires PR/thread resolution, zero formal approvals,
-no required-status rule. Manual acceptance/latest CI/independent review gates still
-apply. Last GitHub thread count0; recheck rules/reviews/threads/head/mergeability.
-Never bypass protection or force main. Fetch and inspect actual main before merge.
+Finish PR78: observe final-head CI, recheck actual rules/approvals/discussions and
+mergeability, merge normally when gates pass, then stop. On a later continuation,
+verify its actual merge/main revision; do not repeat completed documentation work.
+No further bookkeeping PR is needed just to duplicate GitHub's merge result.
 
-## Preserved reviews and first-run evidence
+Read the updated [coordinator instructions and copyable continuation prompt](../COORDINATOR_PROMPT.md)
+and [workflow](../AGENT_WORKFLOW.md), then inspect actual local/GitHub state.
+Select a dependency-ready task from current progress rather than assuming a next
+product task here. Start a fresh implementation agent with the task brief, exact
+contracts/tests/red evidence, owned paths, branch/worktree and acceptance criteria.
+Split substantial newly discovered architectural prerequisites into explicit tasks
+and focused PRs before implementing them. Link one task handoff and detailed review
+records; batch related review changes within each test-first stage.
 
-PR76 reviewed64 test-first baseline is integrated. Worker8f/C0e1, binding447/Cfd223,
-whole owner B75/C555 after the three-flag normalization fix and generated auditor
-source reviews stand. Historical native31/binding/public missing-boundary reds are
-retained. Normalization actual0!=18 red preceded SAME regression pass; wrong-CLI
-argparse attempt is excluded. Permanent66 registration/C25 and guide/A52 approved.
-[Local acceptance attribution](schematool-001-native-acceptance-pass-review.md).
-
-First hosted auditCMP defect has reviewed literal red/fix/pass. GNU11/13 implicit
-C1/D1 graph representation has Aab7/Ce25 tests, actual two-positive red and
-root82/C395 exact actual-address/real-frame proof. Ordinary orphan/other outgoing
-edges/cycles/old explicit triangle checks remain strict; native code/flags/budgets
-unchanged by these auditor corrections. [CMP](schematool-001-hosted-stack-compare.md),
-[alias evidence](schematool-001-hosted-implicit-alias.md). A proposed broad compressed
-metadata export was auto-review rejected before execution and never applied; the
-approved bounded public-symbol failure diagnostic resolved that investigation.
-
-## Finish and stop
-
-Actual C host-receipt and completion-metadata verdicts are approved; preserve them
-in the final existing77 documentation-only revision.
-Observe ALL latest checks including BOTH native/full66 and SDK14. Recheck actual
-rules/threads/reviews/mergeability; ready and normal merge77 only when every gate
-passes. Refresh main, reconcile actual merge outcome, stop agents and STOP.
-No next task/PR or direct main writes. Full product, all seven integrations/threeFX
-and unperformed live/platform release gates remain explicitly incomplete.
-
-Final C475 actual host/completion verdicts imported3f9: [host review](schematool-001-hosted-final-review.md), [metadata review](schematool-001-completion-review.md). Root preserved the exact independently hash-verified two public success logs in the [final evidence archive](schematool-001-hosted-final-logs.tar.gz). GoogleTest label corrected to1.18/minimum>=1.17; pin063de7/build unchanged. Taskdone/currentdate7Nov, final metadata reviewpassed; executable/test/build/CI/pin diff6f is empty. Final latest-head ALL21 and normalmerge77/refreshmain/STOP remain.
+The owner need not manually manage each subagent session. The coordinator may persist;
+valid active assignments can resume after interruption. Preserve independent reviews,
+original receipts and latest-head CI/merge gates. Product scope remains incomplete,
+including all seven integrations, three FX providers and unperformed platform/live
+release checks. No live operation or deployment is authorized by this documentation task.

@@ -14164,6 +14164,47 @@
         "baseline": "Integrated PR76 reviewed64 public baseline plus independently reviewed intended native69, binding9 and additive reached-bug regressions. Current source review C555 whole owner, Cfd223 binding, C0e1 worker and C395 exact alias proof; no completed red replay/assertion weakening. Actual current6f hosted66/154 +facilities56/SDK14 bothhosts pass; final receipt/completionmetadata/latestdocsCI/normalmerge tracked separately. Final actual both-host/full receipt and completion metadata independently accepted C475/root3f9; corrected GoogleTest version label6a approved, exact tested pin unchanged.",
         "evidence": "docs/evidence/schematool-001-completion.md"
       }
+    },
+    {
+      "id": "BOOT-009",
+      "title": "Keep agent assignments and review overhead bounded",
+      "module": "Foundation",
+      "kind": "scaffold",
+      "status": "done",
+      "owner": "Codex /root",
+      "depends_on": [
+        "BOOT-007"
+      ],
+      "spec_refs": [
+        "§17",
+        "DEV-02",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "brief": "docs/tasks/BOOT-009.md",
+      "summary": "Split architectural prerequisites, use fresh implementation sessions per task, and consolidate evidence and stage-specific reviews.",
+      "notes": [
+        "Claimed task/BOOT-009-bounded-agent-workflow from current origin/main ba376fb before editing. Owner requested documentation updates for the next coordinator continuation; product coordination stays stopped in this session. Specification v0.45 and product contracts unchanged. Scope and shared-file ownership are in the task brief; independent documentation review and appropriate checks precede completion.",
+        "Workflow/root instructions/both copyable prompts/templates updated; stale PR77 checkpoint reconciled with actual merge. Independent /root/workflow_review approved 584940e plus blocked-status clarification. Project427/122, tooling19, DOM, render/current snapshot and whitespace pass. All original426 tasks/1629 edges unchanged. Documentation task done; PR78 final-head CI/current merge gates and normal merge remain separate. Stop after this documentation task; no product coordination resumed."
+      ],
+      "verification": {
+        "documentation_consistency": "passed",
+        "tooling": "passed",
+        "independent_review": "passed",
+        "product_acceptance": "not_run",
+        "github_ci": "not_run"
+      },
+      "evidence": [
+        "docs/evidence/boot-009-handoff.md",
+        "docs/evidence/boot-009-review.md"
+      ],
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "/root/workflow_review",
+        "outcome": "approved",
+        "baseline": "584940e plus explicitly reviewed blocked-status clarification in docs/AGENT_WORKFLOW.md",
+        "evidence": "docs/evidence/boot-009-review.md"
+      }
     }
   ],
   "activity": [
@@ -15466,6 +15507,16 @@
       "date": "2026-11-06T22:55:32.572375+00:00",
       "task": "SCHEMATOOL-001",
       "note": "Actual reviewed implementation passes localCP314 and both hostedCP310/312 native/full66 acceptance, SDK14 and all21checks at6f5e210; taskdone, PR77stilldraft/unmerged until finalreceipt/metadatareview and latestdocsCI. Finish77normalmerge thenSTOP byownerinstruction."
+    },
+    {
+      "date": "2026-11-07T08:52:54.247411+00:00",
+      "task": "BOOT-009",
+      "note": "Claim requested documentation-only coordinator workflow update; no product task resumed."
+    },
+    {
+      "date": "2026-11-07T08:57:14.796864+00:00",
+      "task": "BOOT-009",
+      "note": "Documentation workflow changes independently approved and locally checked; PR78 publication/merge gates separate, no product work resumed."
     }
   ]
 }
