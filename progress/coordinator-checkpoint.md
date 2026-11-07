@@ -78,12 +78,21 @@ and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
   exact WHOLE SOURCE/ORACLE execution gate APPROVED65b4ded by differentreviewer.
   Staticfamilychecks/CLIconnectedreadflow/selectedwrites/checkno-write andallpublic
   oracles verified; reviewerexecutedno candidatecode. Root explicitlyresumedauthor
-  for FIRSTfocusedgreen ofSAME2tests. Ifpass, disposabletwooutputgeneration/current
-  --check/raw+typedhash/sourceidentity andONE scaffold3/fulltooling route authorized.
-  Ifgreenfails STOPwithoutweakenedassertions/refreshedgoldens; sourcefixesneedreview.
-  No localQt/knownred/othernative receipt replay; currenthostedSQLCI stillrequired.
-  No green orCLIacceptance outcome claimed yet. Relevant fulltooling/currentCI/finalintegration/rules/discussions/normalmerge
-  remain. Preserve approved priorlocalQt ifbothoutputs/nativebytesidentical; no replay.
+  for FIRSTfocusedgreen ofSAME2tests. Actual65attempt FAILEDexit1/2methods/2failures
+  0.129s: reference raw20698ed1 !=frozen48ddd; selectedaccount raw+typed/sentinelsPASS.
+  Raw `/tmp/fixture001-first-green.log` SHA256
+  `171f7ebc29c7cff8b13874ce17e422b5024e01e331409a7d97e9e38405484779`.
+  Authorstoppedwithoutusage/infra/native/source/golden edits; no green is claimed.
+- Root diagnostic executed ONLY approved65CLI into/tmp/fixture001-reference-diagnosis;
+  recursiveoldtypedcomparison finds12differences, allsameTimerConfigmode bit0vsfrozen1
+  in A/B SRC1/embeddedSRA1/intake/queryrows. Accountbytesexact. Diagnosticrecord
+  `/tmp/fixture001-reference-differences.json`; oldrefcanonical4a341655 vsactual704a211a.
+  RootauthorizedONEliteral b00→b01 andcommentfix inreference_capture._documents only,
+  grounded in oldoracle/publicgrammar. Tests407fec3f/contract/seeds/fixtures stayfrozen.
+  Authorresumedfixonly; differentreviewer independentlyconfirmsfailure/grammar and
+  MUSTapproveactualrevisedsourceBEFOREcandidate/test/generatorrerun. Acceptancecurrently
+  failed; no newbaseline or broadinfra/native replay. CurrentCI/finalintegration and
+  normalmerge remain; existingvalidcatalog/commonreviews preservedunchanged.
 
 ## Concurrent read-only inventory
 
