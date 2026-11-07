@@ -39,14 +39,26 @@ edits and initial task claim:
 
 These are documentation/tooling checks, not product acceptance or live/platform proof.
 No production/test/build/workflow/pin changes; no native or live-provider checks run.
-Final documentation links/state/render/whitespace and independent review are pending.
+Final documentation links/state/render/whitespace checks are recorded below; independent
+review is approved.
 
 ## Review and publication
 
-Independent documentation review pending. No PR has been created yet. Before merge,
-record actual review and final checks here, publish the task PR, observe latest-head
-CI and verify current rules, approvals, discussions and mergeability without bypass.
+Independent reviewer `/root/workflow_review` approved `584940e` plus the narrow
+blocked-status clarification; [review attribution and findings](boot-009-review.md).
+[PR78](https://github.com/Kernol12/subathon-bot-ai/pull/78) publishes this task. Task
+documentation is complete; final-head hosted CI and normal merge are separate gates.
+Observed main ruleset26170263 requires a PR and resolved review threads, zero formal
+approvals, and no enforced status rule; all applicable CI still must pass manually.
+Recheck actual head, rules, approvals, discussions and mergeability before merge.
+The publication/merge outcome is available on PR78; do not assume integration from
+task-done status. No branch-protection bypass is authorized.
 Stop after this documentation task; no next product assignment is authorized here.
 
 Changed paths and acceptance: [task brief](../tasks/BOOT-009.md).
 Next agent context: [coordinator checkpoint](coordinator-handoff.md).
+
+Final local check pass after completion records: progress render/validate/current
+snapshot, project links/consistency, original-record/dependency preservation and
+whitespace. Existing tooling19/DOM results above remain applicable; no repeated
+native/product suite is warranted by this documentation-only change.

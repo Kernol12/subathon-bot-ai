@@ -41,9 +41,10 @@ test-first prerequisites, update dependencies without cycles, and use separate t
 branches and focused PRs. A small internal adjustment within the existing contract
 and acceptance scope can remain in the current task; do not split every bug fix.
 
-Preserve the original requirements and valid work. Checkpoint the dependent task and
-leave its PR draft while acceptance is incomplete; start the prerequisite from current
-main and integrate it before resuming dependent implementation. Reuse reviewed
+Preserve the original requirements and valid work. Checkpoint the dependent task,
+mark it `blocked` when adding an unfinished prerequisite (as required by the progress
+validator), and leave its PR draft while acceptance is incomplete. Start the prerequisite
+from current main and integrate it before resuming dependent implementation. Reuse reviewed
 artifacts only where their revisions and scope remain applicable. Record the split
 and file ownership in the handoff. If the original task has no independently acceptable
 slice, keep it unfinished rather than merging partial behavior as complete.

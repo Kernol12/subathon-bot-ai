@@ -12,6 +12,8 @@ under the updated instructions, subject to any newer owner limits.
 - [PR77](https://github.com/Kernol12/subathon-bot-ai/pull/77) is MERGED, at
   6 November 2026 23:12:53 UTC, with that merge commit. GitHub reports no open PRs
   at the start of BOOT-009. The previous checkpoint's draft/unmerged entries are stale.
+  [PR78](https://github.com/Kernol12/subathon-bot-ai/pull/78) now contains BOOT-009;
+  its final-head CI and normal merge remain to be observed before integration.
 - SCHEMATOOL-001 is recorded done. Its scope, reviewed revisions, historical reds,
   final acceptance and remaining release gates are linked from its
   [completion handoff](schematool-001-completion.md); preserve those artifacts.
@@ -24,15 +26,21 @@ under the updated instructions, subject to any newer owner limits.
 
 Root owns the documentation/progress integration for BOOT-009. No product writer
 has been started in this session. Previous product agent IDs are historical context,
-not evidence of running assignments. An independent documentation reviewer is still
-pending at this checkpoint revision.
+not evidence of running assignments. Independent documentation reviewer
+`/root/workflow_review` approved `584940e` and the narrow blocked-status clarification;
+[review record](boot-009-review.md). No agent is assigned another task.
 
 There are 252 registered worktrees at inspection. Preserve them and inspect actual
 branches, uncommitted work and processes on resume; do not prune or reset historical
 worktrees based on this checkpoint. Do not assume that work or commands from the old
 session are active. No architectural prerequisite split is needed for BOOT-009.
 
-## Next owner-requested product continuation
+## Next action and later owner-requested product continuation
+
+Finish PR78: observe final-head CI, recheck actual rules/approvals/discussions and
+mergeability, merge normally when gates pass, then stop. On a later continuation,
+verify its actual merge/main revision; do not repeat completed documentation work.
+No further bookkeeping PR is needed just to duplicate GitHub's merge result.
 
 Read the updated [coordinator instructions and copyable continuation prompt](../COORDINATOR_PROMPT.md)
 and [workflow](../AGENT_WORKFLOW.md), then inspect actual local/GitHub state.
