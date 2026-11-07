@@ -1,4 +1,0 @@
-[
-  {"case_id":"PH12","password":"Subathon public fixture PH12","encoded_verifier":"$argon2id$v=19$m=32768,t=6,p=1$tiRlk2h6dIvcCmdq5tnpaw$YmvYzdg2HFWu74/XMMBNem8fkEU4ndU3M9Xfh8KBfls","operations":6,"memory_kib":32768},
-  {"case_id":"PH13","password":"Subathon public fixture PH13","encoded_verifier":"$argon2id$v=19$m=131072,t=6,p=1$DqfdDTsaygKPbyxza4P0YQ$0Vx0U9frCqJ5BkeE7jWWSyo7MRmsC7OIZPuCTuzeK/s","operations":6,"memory_kib":131072}
-]

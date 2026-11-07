@@ -1,6 +1,0 @@
-Change Dir: '/tmp/subathon-schematool001/build/schema-transport-debug'
-
-Run Build Command(s): /usr/bin/ninja -v
-[1/2] /usr/bin/c++   -g -std=c++20 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -fno-exceptions -fno-rtti -MD -MT tests/schema_validation/CMakeFiles/schema_transport_native_fault_child.dir/native_fault_child.cpp.o -MF tests/schema_validation/CMakeFiles/schema_transport_native_fault_child.dir/native_fault_child.cpp.o.d -o tests/schema_validation/CMakeFiles/schema_transport_native_fault_child.dir/native_fault_child.cpp.o -c /tmp/subathon-schematool001/tests/schema_validation/native_fault_child.cpp
-[2/2] : && /usr/bin/c++ -g -Wl,-z,now -Wl,--dependency-file=tests/schema_validation/CMakeFiles/schema_transport_native_fault_child.dir/link.d tests/schema_validation/CMakeFiles/schema_transport_native_fault_child.dir/native_fault_child.cpp.o -o tests/schema_validation/schema_transport_native_fault_child   && :
-

@@ -2,7 +2,7 @@
 
 Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3, §6, §7, DB-01.
 Status/owner/dependencies: progress/state.json. The contract/API/tests are reviewed;
-[baseline handoff](../../evidence/storagetest-012-handoff.md) establishes the
+[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-handoff.md) establishes the
 intended stub-red. Production implementation remains a separate STORAGE-012 gate.
 
 ## Scope and ownership

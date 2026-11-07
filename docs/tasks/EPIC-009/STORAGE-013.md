@@ -4,9 +4,9 @@ Parent: [EPIC-009](../EPIC-009.md). Specification v0.45: §3.2, §3.4, DB-01.
 Status/owner/dependencies: progress/state.json. Implementation is now claimed
 from integrated maina97e048 after the normal PR35 baseline merge.
 STORAGETEST-013 now supplies the separately reviewed contract/API/22-case compiling
-intended-red baseline; [handoff](../../evidence/storagetest-013-handoff.md) records
+intended-red baseline; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-handoff.md) records
 exact artifacts and remaining gates. The component now passes reviewed22/full118 and actual automatic officialQt CI;
-[implementation handoff](../../evidence/storage-013-handoff.md) records exact
+[implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-handoff.md) records exact
 source/review and remaining merge/full-release gates.
 
 ## Scope and ownership

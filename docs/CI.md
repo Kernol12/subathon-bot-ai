@@ -19,7 +19,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
 and manual dispatch. STORAGE-001 implements the original reviewed/red baseline;
-[actual acceptance evidence](evidence/storage-001-ci.md) records the first passing
+[actual acceptance evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-ci.md) records the first passing
 Ubuntu run. The existing `sqlite-writer-build` check name is retained. Historical
 stub-red and the earlier build-only scope remain in baseline evidence. No failure
 inversion, skipped baseline, WILL_FAIL or continue-on-error is allowed.
@@ -48,17 +48,17 @@ does not configure GitHub enforcement. Recheck live rules/reviews before each me
 CORE-005 promotes the original32 reviewed time-debt cases to unconditional
 ordinary acceptance while retaining the time-debt-build check name. The guard
 compares compiled GoogleTest names to all CTestJSON registrations before bodies.
-[Actual CI](evidence/core-005-ci.md) records passing Ubuntu32case execution; original
+[Actual CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-ci.md) records passing Ubuntu32case execution; original
 stub-red remains a historical prerequisite, not a present failing feature suite.
 This remains bounded pure arithmetic/composition, not complete refund/application
 or release proof. No failure inversion or baseline assertion change is permitted.
 
 STORAGETEST-010 established a separate reviewed24-case work baseline with genuine
 stub-red, keeping build/discovery distinct from passing old25 behavior; its
-[historical CI assessment](evidence/storagetest-010-ci.md) remains valid. STORAGE-010
+[historical CI assessment](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-ci.md) remains valid. STORAGE-010
 now configures `sqlite-work-debug` to run both suites unconditionally (old25 plus
 new24) on PR/main/manual, retaining the stable job and complete registration guard.
-Its [implementation CI assessment](evidence/storage-010-ci.md) records actual
+Its [implementation CI assessment](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-ci.md) records actual
 results and remaining gates. Source023451 is independently approved9216d8d; actual Ubuntu41300728417 at
 a1e3a89 passed new24/old25/probe1 with verified selected archives and exact
 registration. Latest-head CI still applies before merge; these49 cases do not
@@ -68,5 +68,5 @@ STORAGETEST-011 prepares `sqlite-migrations-debug`: old49 still execute automati
 a separate7-slot green existing-driver probe is mandatory before exact new22
 migration-case discovery. Those22 are explicit stubs/intentionalred, run only with
 manual run_migration_acceptance until STORAGE-011 implements and promotes them.
-[Baseline CI evidence](evidence/storagetest-011-ci.md) records actual local/Ubuntu
+[Baseline CI evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-ci.md) records actual local/Ubuntu
 results and pending gates. No driver/init/skip/zero-case error establishes red.

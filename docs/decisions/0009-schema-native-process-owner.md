@@ -19,9 +19,9 @@ creation has a similar result-allocation boundary. More traceback recovery does
 not establish the required lifetime guarantee. Preserve these source findings,
 valid worker reviews and all original red/pass artifacts.
 
-[Allocation findings](../evidence/schematool-001-native-allocation-findings.md),
-[planning review](../evidence/schematool-001-native-boundary-review.md) and the
-[74-method migration map](../evidence/schematool-001-native-test-mapping.md)
+[Allocation findings](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/schematool-001-native-allocation-findings.md),
+[planning review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/schematool-001-native-boundary-review.md) and the
+[74-method migration map](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/schematool-001-native-test-mapping.md)
 establish the concrete reason for this private architecture change. They do not
 already approve native code or the actual policy revision here.
 

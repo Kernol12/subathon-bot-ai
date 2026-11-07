@@ -6,7 +6,7 @@ Status/owner/dependencies: progress/state.json.
 Branch: task/BOOT-007-coordinator-prompt.
 
 Scope/shared ownership: docs/COORDINATOR_PROMPT.md, README.md, this brief,
-docs/evidence/coordinator-prompt.md, progress/state.json and generated PROGRESS.html.
+https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-prompt.md, progress/state.json and generated PROGRESS.html.
 No product code, contract, assertion or release requirement changes.
 
 Acceptance:

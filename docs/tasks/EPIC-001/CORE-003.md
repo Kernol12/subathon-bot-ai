@@ -5,8 +5,8 @@ Specification: v0.45; §4, TIMER-03, TIMER-05.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [pause-policy revision 1](../../contracts/pause-policy-v1.md).
 The37-case baseline is independently reviewed and observed red; see
-[handoff](../../evidence/coretest-003-baseline-handoff.md). The subsequent bounded pure implementation passes37 cases with separate code review
-and observed CI; [implementation handoff](../../evidence/core-003-handoff.md).
+[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-baseline-handoff.md). The subsequent bounded pure implementation passes37 cases with separate code review
+and observed CI; [implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-handoff.md).
 
 ## Scope and ownership
 
@@ -38,7 +38,7 @@ Test overlapping reasons, flapping signals, exact delay expiry and optional unkn
 
 Thirty-seven reviewed baseline cases cover the independently specified behavior using explicit
 monotonic durations. The original30 cases remain unchanged; seven focused additions
-encode the [recorded owner decisions](../../evidence/pause-signal-policy-questions.md):
+encode the [recorded owner decisions](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/pause-signal-policy-questions.md):
 Unknown cancels pending Offline, later Offline receives the full fresh delay, and
 both known statuses clear/reset Unknown with a fresh timeout on each new episode.
 Established Offline survives Unknown and known Offline. Known Online independently

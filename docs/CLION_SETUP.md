@@ -51,9 +51,9 @@ ctest --preset acceptance-debug -L acceptance
 
 The initial six drafts have been expanded to 19 cases for contract revision 1.
 Separate review and the original run confirmed all 19 failed on FeatureNotImplemented;
-see [the baseline handoff](evidence/time-credit-baseline-handoff.md).
+see [the baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-baseline-handoff.md).
 IMPL-001 implements only the numeric credit boundary. All 19 unchanged cases and
-four reviewed regression cases now pass; see [implementation evidence](evidence/impl-001-handoff.md).
+four reviewed regression cases now pass; see [implementation evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-handoff.md).
 Run regressions with `ctest --preset acceptance-debug -L regression`, or run the
 whole preset without a label filter to include infrastructure checks too.
 
@@ -64,7 +64,7 @@ outside standard prefixes. Product minimum remains Qt 6.12; the scaffold has no 
 On Windows use MSVC 2022/x86-64 in a CLion toolchain with Ninja and Python; terminal
 commands need the MSVC environment (CLion terminal/toolchain or Developer PowerShell).
 `python` may replace `python3`. The local Qt Core/Test environment probe passed, as recorded in
-[environment evidence](evidence/coordinator-environment.md). Windows, product QML,
+[environment evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-environment.md). Windows, product QML,
 OBS and live-provider validation remain unperformed. Windows app distribution remains an installation-free ZIP.
 
 ## Documentation sources checked during preparation

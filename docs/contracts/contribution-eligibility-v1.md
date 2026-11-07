@@ -5,9 +5,9 @@ Authority: [specification v0.45](../specification.md) §§3.2–4,5,14,18 and re
 [event/state boundaries](event-state-boundaries-v1.md) and
 [identified receipt intake](receipt-intake-v1.md), both revision 1.
 Status: revision1 independently reviewed with21 cases and observed intended stub-red;
-[baseline evidence](../evidence/accttest-002-baseline-handoff.md) records exact artifacts.
+[baseline evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-baseline-handoff.md) records exact artifacts.
 ACCT-002 implements both pieces with21 passing reviewed cases, separate code review
-and observed automatic simulation CI; [implementation handoff](../evidence/acct-002-handoff.md).
+and observed automatic simulation CI; [implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-handoff.md).
 
 ## Bounded responsibility
 

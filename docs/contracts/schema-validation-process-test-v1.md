@@ -63,7 +63,7 @@ explicit; no timeout option, limit extension or successful skipped worker is add
 
 ## Preserved negative oracles and reviewed migration
 
-The actual [74-method map](../evidence/schematool-001-native-test-mapping.md),
+The actual [74-method map](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/schematool-001-native-test-mapping.md),
 blob96130822 at be753ee, accounts for public64, cleanup2, context3, lexical3 and
 spawn2. All literal inputs, classifications, public lines/statuses, byte ceilings,
 readiness guards, FD/reap-before-fallback proofs and nonvalidating setup assertions

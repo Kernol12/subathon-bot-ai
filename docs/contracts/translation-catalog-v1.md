@@ -219,7 +219,7 @@ The earlier incorrect ICU extraction location remains a documented setup failure
 never feature red. This establishes selected-tool environment availability only:
 no project catalog/generator, formal baseline or product acceptance was executed.
 The exact four archive hashes and future CI integration remain in coordinator-owned
-`docs/evidence/localetest-001-tool-preflight.md`; do not substitute a host binary.
+`https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-tool-preflight.md`; do not substitute a host binary.
 A host Arch lrelease hash is not an official CI pin. Qt source suggests sorted QM structures and no timestamp field;
 it promises no cross-version/cross-build byte identity. Require observed TWO fresh-
 directory binary reproductions with the SAME selected tool build/options, and

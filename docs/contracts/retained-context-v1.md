@@ -159,7 +159,7 @@ These root-owned choices received separate contract review40d0dc6; exact
 independent fixture/digest freeze and selected official-Qt validation still precede
 feature red. Root host existing-session probes confirmed both DDL statements and
 these generated NULL-SQL indexes; that is not official bundle or feature proof.
-[Probe evidence](../evidence/storagetest-012-probe.md).
+[Probe evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-probe.md).
 
 Root owns actual DDL acceptance, manifest identity/order and exact schema/digest
 fixtures before interface/test freeze. Use the verified migration/catalog mechanism;

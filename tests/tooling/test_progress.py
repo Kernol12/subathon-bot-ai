@@ -67,7 +67,7 @@ class ProgressTests(unittest.TestCase):
 
     def test_can_start_implementation_after_reviewed_red_baseline(self):
         baseline = task("TEST-999", status="done", kind="test_baseline")
-        baseline.update(evidence=["docs/evidence/baseline-validation.md"],
+        baseline.update(evidence=["docs/evidence/README.md"],
                         verification={"baseline": "observed_red"},
                         review={"author": "test-author-session", "reviewer": "test-reviewer-session",
                                 "outcome": "approved"})
@@ -80,7 +80,7 @@ class ProgressTests(unittest.TestCase):
 
     def test_completed_implementation_requires_passing_acceptance(self):
         implementation = task("IMPL-999", status="done", kind="implementation")
-        implementation.update(evidence=["docs/evidence/baseline-validation.md"],
+        implementation.update(evidence=["docs/evidence/README.md"],
                               review={"author": "author-session", "reviewer": "reviewer-session",
                                       "outcome": "approved"})
         self.state["tasks"] = [implementation]
@@ -93,7 +93,7 @@ class ProgressTests(unittest.TestCase):
 
     def test_completed_implementation_accepts_passing_acceptance_and_separate_review(self):
         implementation = task("IMPL-999", status="done", kind="implementation")
-        implementation.update(evidence=["docs/evidence/baseline-validation.md"],
+        implementation.update(evidence=["docs/evidence/README.md"],
                               verification={"acceptance": "passed"},
                               review={"author": "author-session", "reviewer": "reviewer-session",
                                       "outcome": "approved"})
@@ -132,7 +132,7 @@ class ProgressTests(unittest.TestCase):
 
     def test_self_review_is_rejected(self):
         task = next(t for t in self.state["tasks"] if t["id"] == "IMPL-001")
-        task.update(status="done", depends_on=[], evidence=["docs/evidence/baseline-validation.md"],
+        task.update(status="done", depends_on=[], evidence=["docs/evidence/README.md"],
                     verification={"acceptance": "passed"}, review={"author": "same", "reviewer": "same", "outcome": "approved"})
         with self.assertRaisesRegex(ValueError, "separate approved review"):
             progress.validate(self.state)

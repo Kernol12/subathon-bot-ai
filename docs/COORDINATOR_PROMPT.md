@@ -57,7 +57,7 @@ Maintain `progress/coordinator-checkpoint.md` at task handoffs, prerequisite spl
 session interruptions. Record observed branch/PR revisions, assignments and ownership,
 completed work, actual checks, review gates, blockers and next action. Link task records
 and detailed evidence instead of copying logs. Earlier detailed coordination history is
-preserved in `docs/evidence/coordinator-handoff.md`. On resumption verify the real state
+preserved in `https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-handoff.md`. On resumption verify the real state
 first; never assume an agent or process is still active. Resolve routine issues autonomously and
 ask the owner only for decisions or access actually needed. No live chat/payment effects
 are authorized by these instructions.

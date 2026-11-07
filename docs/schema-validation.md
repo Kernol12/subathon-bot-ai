@@ -141,7 +141,7 @@ The [installation contract](contracts/schema-validation-installation-v1.md) and
 trusted environment and resource ownership.
 
 The selected hosted lanes are CPython 3.10/Ubuntu 22.04 and 3.12/Ubuntu 24.04.
-Consult the [recorded acceptance evidence](evidence/schematool-001-native-acceptance-pass.md)
+Consult the [recorded acceptance evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/schematool-001-native-acceptance-pass.md)
 and [latest native/public workflow results](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/schema-native-foundation.yml)
 for the actual source revision and environment verified. A result from an older
 revision does not admit a newly built artifact.

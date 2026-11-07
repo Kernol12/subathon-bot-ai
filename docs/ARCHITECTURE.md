@@ -25,14 +25,14 @@ server state and never own the authoritative timer or accounting.
 
 The first small C++ time-credit boundary is revision 1 in docs/contracts/time-credit-v0.md;
 its reviewed original red baseline is recorded in
-[evidence](evidence/time-credit-baseline-handoff.md). The bounded numeric helper is
-implemented; [IMPL-001 evidence](evidence/impl-001-handoff.md) records passing
+[evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-baseline-handoff.md). The bounded numeric helper is
+implemented; [IMPL-001 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-handoff.md) records passing
 acceptance/regression checks and separate code review. It does not apply contributions
 or commit effects.
 CORE-001 also implements [exact decimal/final conversion revision1](contracts/exact-decimal-v1.md)
 as an explicit core target;32 reviewed cases plus one regression pass with separate
 code review and observed numeric CI. It supplies no application transaction,
-aggregate policy or provider interpretation; see [handoff](evidence/core-001-handoff.md).
+aggregate policy or provider interpretation; see [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-handoff.md).
 The internal [record, clock and writer boundary contract](contracts/event-state-boundaries-v1.md)
 (revision 1, CONTRACT-002) separates durable intake from atomic application and
 post-commit delivery. It defines shared invariants and specification-derived examples;
@@ -47,7 +47,7 @@ provenance. Two scene renderers share data/behavior contracts, not a renderer im
 The [identified receipt service](contracts/receipt-intake-v1.md) implements one
 repository-port transaction with immutable originals and traceable retry/conflict
 attempts. Fifteen reviewed cases pass in a primitive-store simulation with separate
-code review/automatic CI; [handoff](evidence/acct-001-handoff.md). This is no SQL/Qt
+code review/automatic CI; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-handoff.md). This is no SQL/Qt
 writer, actual-provider or contribution-application verification.
 
 ## Early feasibility work
@@ -58,7 +58,7 @@ spikes are allowed before production implementation; document results and unreso
 capabilities, and discard or explicitly review spike code before using it as production.
 
 
-SPIKE-001 now has [bounded Linux loopback evidence](evidence/spike-001-bridge-validation.md)
+SPIKE-001 now has [bounded Linux loopback evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-validation.md)
 for pinned Drogon/Trantor, real HTTP/WebSocket queue/writer operations and cooperative
 shutdown. This approves no production reuse. The observed WebSocket close behavior
 and remaining lifecycle cases are carried into APITEST-001/API-001 and
@@ -66,7 +66,7 @@ APITEST-003/API-003; persistent connections and platform/release support remain 
 
 The [Main/Grace reducer](contracts/timer-lifecycle-v1.md) implements pure countdown
 proposals and ordered transitions with39 reviewed passing cases, separate code
-review and automatic CI; [handoff](evidence/core-002-handoff.md). UTC and elapsed
+review and automatic CI; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-handoff.md). UTC and elapsed
 inputs remain separate, and accepted actual credit can resume confirmation wait.
 The caller still owns segmentation, pause reasons, permissions, actual-credit
 calculation and atomic commit; no Qt timer/queue, durable state or recovery is supplied.
@@ -74,13 +74,13 @@ calculation and atomic commit; no Qt timer/queue, durable state or recovery is s
 The [eligibility/linkage slice](contracts/contribution-eligibility-v1.md) implements
 independent planning holds and committed-receipt association through a transaction
 port. Its21 cases pass with separate code review and automatic simulation CI;
-[handoff](evidence/acct-002-handoff.md). Original context/conditions remain anchored
+[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-handoff.md). Original context/conditions remain anchored
 to support while explicit confirmation only promotes evidence. This supplies no
 provider proof, Qt/SQL adapter, application transaction, job or refund reconciliation.
 
 The [pause policy](contracts/pause-policy-v1.md) implements independent reasons and
 normalized monotonic signal delays with37 passing reviewed cases, separate code
-review and automatic CI; [handoff](evidence/core-003-handoff.md). It returns a final
+review and automatic CI; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-handoff.md). It returns a final
 proposal, not within-interval countdown history. Callers must segment at signal/delay
 boundaries and commit under the authoritative writer; no actual provider/state/timer
 integration or delay-reconfiguration behavior is supplied by this helper.
@@ -88,7 +88,7 @@ integration or delay-reconfiguration behavior is supplied by this helper.
 The [captured-plan helper](contracts/application-plans-v1.md) implements owned
 arrival-time request/provenance histories, audited override proposals and preview
 freshness.22 preserved cases pass with separate code review and pinned automatic CI;
-[handoff](evidence/acct-003-handoff.md). Sources supply already-resolved selections
+[handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-handoff.md). Sources supply already-resolved selections
 and requests; the helper never evaluates rules/modifiers, validates real permission,
 applies current caps/effects, or persists state. Those remain API/accounting/writer gates.
 
@@ -96,13 +96,13 @@ The [captured-plan SQLite store](contracts/sqlite-application-plans-v1.md)
 implements complete owned captures and immutable history on caller-owned writer
 sessions, exact rational/uint64 storage and distinct complete/selected read scopes.
 Its29 reviewed cases pass with separate source/config review and automatic selected
-Qt acceptance; [handoff](evidence/storage-015-handoff.md). Caller commit/cleanup
+Qt acceptance; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-handoff.md). Caller commit/cleanup
 remain actual; semantic authority/evaluation, effects/jobs/full app transactions,
 provider valuation and operational/platform verification remain separate gates.
 
 The [application transaction bundle contract](contracts/application-transaction-bundle-v1.md)
 defines logical row/port obligations and21 reviewed examples, not a concrete API or
-repository implementation; [handoff](evidence/storagecontract-001-handoff.md).
+repository implementation; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-001-handoff.md).
 One caller owns commit/cleanup; active-session reads/duplicates are provisional,
 and known B08 rollback differs from unknown or later publication failure. Concrete
 state/job/wire/semantic gates and the real STORAGETEST-002 baseline remain required.
@@ -111,7 +111,7 @@ The [SQLite writer boundary](contracts/sqlite-writer-v1.md) implements owned que
 transactions/private connections on the authoritative Qt command/state thread and
 separate actual read-only readers.22 unchanged reviewed cases plus3 independent
 ownership regressions pass with separate code review and automatic UbuntuQt6.12 acceptance;
-[implementation handoff](evidence/storage-001-handoff.md). Original stub-red remains
+[implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-handoff.md). Original stub-red remains
 in its baseline evidence. This supplies no running server application or repository
 adapter. Application schemas/migrations, durable app effects/aggregate/job atomicity,
 recovery and backup remain later storage/accounting gates. SQL batch/payload limits
@@ -121,7 +121,7 @@ arbitrary-SQL runtime deadline.
 The [time-debt numeric helper](contracts/time-debt-v1.md) implements pure signed
 reversal policies and debt-first additions with32 unchanged reviewed passing cases,
 separate code review and actual automatic Ubuntu acceptance;
-[implementation](evidence/core-005-handoff.md). It preserves full requests and reports
+[implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-handoff.md). It preserves full requests and reports
 Main/debt/unapplied/cap effects separately, with checked signedMIN/overflow handling.
 This new API leaves the older credit helper's narrower precondition unchanged.
 Existing CORE-002 owns lifecycle/Grace/end-mode composition; the original32stub-red
@@ -132,12 +132,12 @@ entitlement, ledger allocation, persisted review/audit or authoritative transact
 additive internal bridge needed by synchronous repository service ports: real
 commit before service success, revocable work/session capabilities, explicit
 transaction/work outcomes and cumulative SQL budgets on the same private writer.
-[Independent contract evidence](evidence/contract-004-handoff.md) and
+[Independent contract evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-004-handoff.md) and
 [storage decomposition](decisions/0002-storage-executable-slices.md) preserve every
 original storage requirement through real baseline-gated slices. STORAGE-010 now
 implements the additive mechanism with24 unchanged separately reviewed real Qt SQL
 cases, original writer25 passing, independent code/config approval and actual
-ordinary Ubuntu acceptance. [Implementation handoff](evidence/storage-010-handoff.md)
+ordinary Ubuntu acceptance. [Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-handoff.md)
 records exact artifacts and retained reviewed/red baseline. Existing wire/provider/
 application schema boundaries remain unchanged: no domain repository adapter,
 migration, application bundle, recovery authorization or running server is supplied.
@@ -146,11 +146,11 @@ migration, application bundle, recovery authorization or running server is suppl
 internal identity/history/content/schema/UTF8, whole-prefix transactions and
 explicit-update caller boundaries. STORAGETEST-011 supplies22 independently reviewed
 Qt SQL cases/ten literal vectors, selected officialQt green7 diagnostic support
-and actual intended stub-red; [baseline](evidence/storagetest-011-handoff.md).
+and actual intended stub-red; [baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-handoff.md).
 STORAGE-011 now implements this internal codec/catalog/runner with24 passing
 migration cases (original22 plus two independently reviewed Unicode regressions),
 unchanged writer49, separate source/config approval and actual automatic selected
-Ubuntu Qt6.12 acceptance. [Implementation](evidence/storage-011-handoff.md) records
+Ubuntu Qt6.12 acceptance. [Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-handoff.md) records
 exact revisions and the review-found initial-U+FEFF defect, reviewed regression
 red and correction. Existing private writer API/allowlist are unchanged. Explicit
 advancement commits the whole missing prefix in one transaction; opening a writer
@@ -162,7 +162,7 @@ immutable opaque byte identities/documents and optional typed configuration link
 composed on a caller-owned existing session. STORAGE-012 now implements its pure
 manifest and synchronous find/retain primitives, with16 unchanged reviewed cases,
 independent code/config approval, author/root/reviewer full95 pass and actual
-automatic selected Ubuntu Qt6.12 acceptance. [Implementation](evidence/storage-012-handoff.md)
+automatic selected Ubuntu Qt6.12 acceptance. [Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-handoff.md)
 retains original reviewed/red evidence and exact source/interface/test revisions.
 Root migration1 retain-config-context-v1 has only two retained tables/two generated
 indexes plus catalog objects. The caller still owns transaction/commit/publication,
@@ -176,7 +176,7 @@ The [identified-receipt SQL contract](contracts/sqlite-receipts-v1.md) and
 [additive schema](contracts/sqlite-receipts-schema-v1.md) now have an implemented
 STORAGE-013 adapter/uint64 codec/manifest, with22 unchanged reviewed real-SQL
 cases/full118 passing, separate source/config approval and actual automatic
-selected UbuntuQt6.12/SQLite3.53.4 receipt22 acceptance. [Handoff](evidence/storage-013-handoff.md)
+selected UbuntuQt6.12/SQLite3.53.4 receipt22 acceptance. [Handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-handoff.md)
 retains the original reviewed/compiled/red baseline chronology and exact artifacts.
 The unchanged service owns classification; one existing session owns real atomic
 commit, immutable originals/every attempt/retained targets and truthful uncertainty.
@@ -188,7 +188,7 @@ The [contribution SQL adapter](contracts/sqlite-contributions-v1.md) now impleme
 the unchanged primitive repository ports with full CId0..MAX/NULL distinction,
 immutable original-receipt/observation provenance and independent current state.
 24 preserved real-SQL cases/full143 pass with separate source/config review and
-actual automatic selected Qt6.12/SQLite3.53.4 acceptance. [Handoff](evidence/storage-014-handoff.md)
+actual automatic selected Qt6.12/SQLite3.53.4 acceptance. [Handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-handoff.md)
 records source615, exact additive migration3 and prior reviewed/red baseline.
 Existing service owns policy. One controlled session owns real commit/RAII rollback
 and uncertainty; receipt prior commitment and semantic/provider authority remain
@@ -202,7 +202,7 @@ snapshots, actual effect components, contribution application-only patch, identi
 claims, queued job/result/audit envelopes and per-basis reversal history. Full and
 selected-source readers have distinct closure/materialization scopes; metadata
 uses checked64/65 pages without lifetime quotas. All returns remain provisional
-until real caller COMMIT/normal completion. [Handoff](evidence/storage-002-handoff.md)
+until real caller COMMIT/normal completion. [Handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-handoff.md)
 records35/full209 local component passes and separate source/config approval;
 promoted official CI/publication gates are recorded separately. This does not
 implement the authoritative application orchestrator or interpret permission,
@@ -214,7 +214,7 @@ active gating, complete-set resolution and finite replacement results on that sa
 caller session. The exact additive migration6 preserves prefix1–5 and supplies
 full89 catalog objects. Strict reference readers reuse private bundle decoding;
 connectors/clients acquire no authoritative writer. All results remain provisional
-until actual caller commit and normal work completion. [Handoff](evidence/storage-016-handoff.md)
+until actual caller commit and normal work completion. [Handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-handoff.md)
 records270 reviewed scenarios/full264 native acceptance and selected official CI,
 with final review/publication gates recorded separately. Storage does not decide
 authority, numeric policy, mixed timer outcomes or review resolution permission;
@@ -227,7 +227,7 @@ current access before protected retry/claim/hold lookup, resolves complete exact
 proposals and records either one atomic bundle or a durable whole-input hold.
 The completion bridge publishes only the actual committed normal typed work value;
 unknown outcomes and post-commit body exceptions never synthesize success.
-[Implementation](evidence/acct-004-handoff.md) retains43 reviewed native/real-SQL
+[Implementation](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-handoff.md) retains43 reviewed native/real-SQL
 cases, separate source/allocation review and actual promoted selected-Qt CI. The
 trusted finite read-only ports still need real authority/policy/clock/action/reference
 producers. Financial refunds, explicit review/continuation, running API/server,
@@ -241,7 +241,7 @@ produces canonical Qt TS/browser text and real selected Qt6.12.0 QM. Native
 consumers require generated declaration metadata and raw QTranslator lookup before
 their later named formatter. The build verifies tracked text without overwriting
 it; an explicit update target regenerates that text. Source files are not cleanable
-build byproducts. [LOCALE-001 evidence](evidence/locale-001-handoff.md) records43
+build byproducts. [LOCALE-001 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-handoff.md) records43
 preserved passing cases, independent source/process/ownership audit and actual
 promoted selected CI. Runtime formatting, preferences, live switching, renderers,
 packaging and supported-platform release checks remain separate requirements.
@@ -250,7 +250,7 @@ packaging and supported-platform release checks remain separate requirements.
 The [effective permission evaluator](contracts/effective-permissions-api-v1.md)
 now implements resource-first individual overrides, single complete-grant witnesses,
 role denial, narrow owner protections and complete stable owned explanations.
-[ACCESS-002 evidence](evidence/access-002-handoff.md) records original30 plus2
+[ACCESS-002 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-handoff.md) records original30 plus2
 reviewed arithmetic/allocation regressions passing, separate source/config audit,
 selected1.83 independent69 and actual ordinary Ubuntu32 acceptance. Raw supplied
 facts and returned decisions convey no execution authority: real current account/
@@ -261,7 +261,7 @@ and execution/disclosure/recovery workflows remain their required owner tasks.
 The [password primitive boundary](contracts/password-hashing-api-v1.md) now
 implements selected-libsodium Argon2id hashing/verification and source-bound
 upgrade proposals with strict PHC/cost preflight and guarded continuously locked
-plaintext lifetime. [SESSION-001 evidence](evidence/session-001-handoff.md) records
+plaintext lifetime. [SESSION-001 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-001-handoff.md) records
 unchanged37 methods/native41 passing, different source/config/cleanup audit and
 ordinary selected Ubuntu acceptance. This module writes no credentials and issues
 no login/session authority; actual trusted source/current-login and conditional
@@ -271,7 +271,7 @@ verification remain separate tasks.
 
 The [timer editorial projector](contracts/timer-editorial-commands-api-v1.md) now
 composes existing lifecycle/debt helpers into owned bounded correction/cap/deadline/
-first-Start proposals. [CORE-008 evidence](evidence/core-008-handoff.md) records
+first-Start proposals. [CORE-008 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-008-handoff.md) records
 original27/44ED and full101 passing, separate resource/source/config audit and
 ordinary selected Ubuntu27 acceptance. This supplies no actual UI choice warning,
 current authority/revision/clock proof or writer transaction. Host integration and
@@ -282,14 +282,14 @@ The [reference capture structural codecs](contracts/sqlite-initial-captures-v1.m
 implement canonical bounded SRC1/SRA1/SRX1/SRI1 data with fixed borrowed parsing
 and complete size checks before ownership. A small source-private body boundary
 lets the later SQLite adapter reuse known-role parsing without widening actual
-stored-reference limits. [STORAGE-019 evidence](evidence/storage-019-handoff.md)
+stored-reference limits. [STORAGE-019 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-handoff.md)
 records28 passing codec cases, a separately authored/reviewed/reached-red error-
 priority regression, independent source/config audit and publication gates.
 These codecs grant no admission/authority and perform no SQL. The durable initial
 capture index is implemented by STORAGE-018 on the caller's actual Qt SQL writer
 session. It uses fixed metadata and bounded indexed source/receipt probes before
 owning selected payloads, validates immutable closure, and stages one first binding
-without taking transaction ownership. [SQL evidence](evidence/storage-018-handoff.md)
+without taking transaction ownership. [SQL evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-handoff.md)
 records38/67-scenario acceptance and separate source/resource/config review.
 Actual producers and full release gates remain.
 
@@ -297,7 +297,7 @@ Actual producers and full release gates remain.
 The [pure milestone progression model](contracts/milestone-progression-api-v1.md)
 now derives ordered completion proposals and current deficit/remaining/exact interval
 from supplied score and immutable active history. All53 preserved cases/full90 pass
-with separate source/resource/configuration review; [handoff](evidence/milestone-001-handoff.md)
+with separate source/resource/configuration review; [handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-handoff.md)
 records actual artifacts and separate selected-CI/publication gates. Input/output
 ownership is completely preflighted and signed64 extremes retain fullU64 distances.
 This is no authoritative score/history producer, application transaction, permission,
@@ -306,7 +306,7 @@ manual/reset/edit/action/presentation queue, UI or release/platform capability.
 
 The [bounded session supplier](contracts/session-resolution-v1.md) now prepares
 canonical token digests and resolves supplied current facts with exact resource,
-epoch, expiry and freshness rules. [SESSION-008 evidence](evidence/session-008-handoff.md)
+epoch, expiry and freshness rules. [SESSION-008 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-008-handoff.md)
 records preserved39/full43 passing, separate source/resource/configuration review
 and ordinary selected Ubuntu39 acceptance. Its result DTO grants no authority;
 actual SQL/current account/session sources, trustworthy clock, accepted login,

@@ -6,7 +6,7 @@ NUM-04 and [reference path R1](reference-path-v1.md). Identity
 [manifest.json](../../schemas/http/reference-v1/manifest.json), with exactly one
 [OpenAPI 3.1.1 document](../../schemas/http/reference-v1/api.json). This is a
 contract with separate actual review and observed package validation recorded in
-[the task handoff](../evidence/contract-013-handoff.md); it supplies no HTTP
+[the task handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md); it supplies no HTTP
 implementation, supported server version or capability.
 
 SESSIONCONTRACT-006 explicitly revises R1 blob

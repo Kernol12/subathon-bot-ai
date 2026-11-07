@@ -30,7 +30,7 @@ Selected source remains Drogon 1.9.14
 `3aae769cc405cf5abb9d477675c6430924f02c7c` and bundled Trantor 1.5.29
 `78e480f5e138acdc05f76c55a2716718cd846364`, as in
 [setup](../../tools/setup_drogon.py) and
-[dependency evidence](../evidence/spike-001-dependencies.md). Author evidence
+[dependency evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-dependencies.md). Author evidence
 records clean source identity and byte-for-byte official-download comparison.
 The installed binary was NOT invoked or authenticated by this document.
 
@@ -46,7 +46,7 @@ The installed binary was NOT invoked or authenticated by this document.
 The native correction belongs to [SESSION-011](../tasks/EPIC-007/SESSION-011.md),
 against these authenticated commits, with reviewed narrow patches, preserved
 licenses and a distinct patch/build/capture-ABI identity. Do not edit a shared
-cache or label a patched library as pristine1.9.14. The [accepted006 evidence](../evidence/sessioncontract-006-handoff.md)
+cache or label a patched library as pristine1.9.14. The [accepted006 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-006-handoff.md)
 also supplies the separately authenticated26-file Caddy/Go candidate proof and its
 corrected different review0990c608. Those are source/engineering facts, not loaded
 artifact admission. No new parser library or TLS/proxy runtime is selected here.

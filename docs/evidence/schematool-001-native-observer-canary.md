@@ -1,7 +1,0 @@
-# Actual owned-observer canary correction
-
-Root authors ONLY one function-scoped no_stack_protector on fault::pin_birth. Actual fullartifactaudit4cf firstadmitsproduction71functions/26736bytes, thencorrectlyREFUSESfault pin_birth TLS. Root+C earlierentry-TUcanarycounter0 didnotcertifythefixturecalleeclosure; this newactualclosurefinding supersedestheearlieroutside-owner inference. RootREADONLYactualfunctionscan finds thisis theONLY closed-owned-callee with %fs guard and __stack_chk_fail, twoTLSinstructions+onePLT atactualaddresses41093/41553/41564. Nootherallowedfunctionhascanary/TLS.
-
-This is the native observer called synchronously by commonOwner adoption ACK while PID/pidfd are alreadyowned, so its compilerabort/TLSedge mustnot enter the callback-free bounded interval. Its existing source body, locals, actual P_PIDFD query/readiness/clock handshake and returnconditions remain byte-identical afterremovingthissingleattribute. No globalcompilerflag, fixturecontroller/harnesshardening, stackbudget, test/oracle or normalizerwork=false behavior changes.
-
-DifferentCactualsource review REQUIRED before root rebuild/staticONLY. No descriptor/lifetime proof orfaultartifactpass inferred. ProductionSOsourcemetadataunchanged, its26736proofretained; faultrebuiltartifactneedsfreshactualclosure/stack/cloneproof. Allnewownerfunction/ELFload/runtime remainsheldforfullmatchingartifactadmission and Cgate.

@@ -8,10 +8,10 @@ not implemented. Empty module scopes are intentional assignments, not fake integ
 Initial time-credit API and six GoogleTest examples are DRAFT. No separate test review,
 observed red GoogleTest run, CMake/CTest run or Qt probe run has happened in preparation.
 Direct GCC compilation of the contract/stub/scaffold and developer-tool checks are recorded
-in docs/evidence/baseline-validation.md. They do not prove the acceptance tests compile.
+in https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/baseline-validation.md. They do not prove the acceptance tests compile.
 
 Subsequent local scaffold and Qt probe runs passed; see the
-[initial publication review](evidence/initial-publication.md). The acceptance review
+[initial publication review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/initial-publication.md). The acceptance review
 and observed red baseline remain open.
 
 The first CLion agent validates this environment and prepares tests, then hands off to a

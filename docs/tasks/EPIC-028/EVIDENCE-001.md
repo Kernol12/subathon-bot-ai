@@ -29,7 +29,7 @@ available through the tag and PR history.
   `tests/acceptance/time_credit_tests.cpp` with links to the archive tag or the relevant
   PR. Leave non-evidence test paths local. `BASELINE_MANIFEST.json` is a historical
   baseline and keeps its entries.
-- `tests/tooling/test_progress.py` uses `docs/evidence/baseline-validation.md` as an
+- `tests/tooling/test_progress.py` uses `https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/baseline-validation.md` as an
   existing local evidence file. Point those tests at a file that remains tracked; change
   only the fixture path, not the assertions.
 - Update `tools/check_project.py` to accept valid HTTPS references in acceptance-map

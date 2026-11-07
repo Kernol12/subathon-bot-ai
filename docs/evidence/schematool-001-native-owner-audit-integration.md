@@ -1,7 +1,0 @@
-# Exact owner proof in both existing static entry gates
-
-Root replaces ONLY the former inert single-function reachability clauses with matching per-DSO owner_proof calls. Production oldauditor calls the independentlyreviewed actualowner checker forproduction; fault oldauditor callsit forfault. Fixedmetadata paths derivefrom artifactbuildroot; each standaloneoldscript remainsunabletopasswithoutmatchingwholeowner/child/clone/stack proof. Lazydefinitionimport usesrunpy non-main, noartifactload/execution orcycle; newownerchecker lazilyloadsBASEdefinitions, which donotcallmain/owner_proof.
-
-ALLexistingrawhelper/primitive/negativeexec/probe/GOT/libc-prefix checks and exactexports/eager/noCppinitializer checks remain unchanged; no invariant removed. Newfiveliteralcontrols rununconditionally beforetheFIRSTownerproofinCI, alongsideold8+8+5; no skip/conditional/failureinversion. The existing strictno-childXML bootstrap remains AFTER both old+newstaticgates. Native program/facility registrations and environments areunchanged.
-
-Root actualcurrent productionproof71functions/26736bytesE557 plusfreshfaultproof124functions/27712bytese1bb are retained; productionSObytesunchangedbyprivateobserverannotation. This integration needsdifferentCactualsourceapproval beforeoldscriptstaticsrun/bootstrap/newbehavior. No newELFload/runtimeadmissionclaimed. Knownnormalizationclassificationbugpreservedfornewreviewedtestred.

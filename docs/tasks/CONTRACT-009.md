@@ -39,7 +39,7 @@ review before executable decoding; do not invent new product defaults here.
 ## First document stage and ownership
 
 After actual plan integration/claim, the first author owns only NEW
-`docs/contracts/scene-document-v1.md` and `docs/evidence/contract-009-author.md`.
+`docs/contracts/scene-document-v1.md` and `https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-009-author.md`.
 Obtain different actual logical review before another stage. No schema/API/stub,
 fixture/test/code, validator, renderer, native or provider execution is authorized
 by that first assignment. Further scope needs an explicit bounded claim.

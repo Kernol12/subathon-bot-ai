@@ -7,9 +7,9 @@ Tasks: CORETEST-003 / CORE-003. Authority: specification v0.45
 The [timer lifecycle contract](timer-lifecycle-v1.md) remains unchanged.
 
 State: revision1 independently reviewed with37 cases and observed intended stub-red;
-[baseline handoff](../evidence/coretest-003-baseline-handoff.md) records exact artifacts.
+[baseline handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-baseline-handoff.md) records exact artifacts.
 CORE-003 implements both pure functions;37 unchanged cases pass with separate code
-review and observed automatic CI. [Implementation handoff](../evidence/core-003-handoff.md).
+review and observed automatic CI. [Implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-handoff.md).
 No caller segmentation/timer or provider/state integration is supplied.
 
 ## Scope and public values
@@ -101,7 +101,7 @@ monotonic duration, or persisted by this primitive.
 ## Owner decisions and remaining baseline gate
 
 Both previously unresolved interactions now have explicit owner answers in the
-[decision record](../evidence/pause-signal-policy-questions.md):
+[decision record](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/pause-signal-policy-questions.md):
 
 1. Unknown cancels pending Offline delay; later confirmed Offline starts a fresh
    full configured delay. An established Offline pause remains.
@@ -119,7 +119,7 @@ review and observed automatic CI. Timer/provider/state integration stays separat
 
 The following use hand subtraction and set membership from §4; no implementation
 has produced their expected values. The 37 executable draft cases are in
-`tests/acceptance/pause_policy_tests.cpp`; [authoring evidence](../evidence/coretest-003-authoring.md)
+`tests/acceptance/pause_policy_tests.cpp`; [authoring evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-authoring.md)
 maps their coverage and records actual compilation/discovery only.
 
 | Explicit sequence | Required result |

@@ -90,7 +90,7 @@ DDL and these four exact statements without invoking any future product factory.
 It observed the proposed13-object schema and byte-exact stored CREATE values.
 The separate actual local Qt6.12/private-writer probe also observed the exact13
 objects, NULL autoindex SQL and allocator `(1,NULL)` on SQLite3.54.0, with one
-real BEGIN/COMMIT. [Probe evidence](../evidence/storagetest-013-probe.md) records
+real BEGIN/COMMIT. [Probe evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-probe.md) records
 actual commands and limits. Different contract review and official CI fixture
 proof remain required before test freeze. This is diagnostic environment work,
 not an authored feature test or intended red.

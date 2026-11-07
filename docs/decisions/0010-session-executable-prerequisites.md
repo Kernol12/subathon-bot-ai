@@ -1,7 +1,7 @@
 # ADR-0010 — Separate executable session prerequisites from full integration
 
 Status: accepted planning decomposition after independent reviewea27001e;
-[review and publication gates](../evidence/contractplan-006-handoff.md).
+[review and publication gates](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-006-handoff.md).
 Authority: specification v0.45 §§10/16/17, AUTH-01/05/11/12/15, DB-01,
 SERVER-01, DEV-02, TEST-04/05. This is a planning decision, not a new API contract.
 
@@ -30,7 +30,7 @@ on SESSION-002. These are prerequisite gaps, not grounds to reduce guarantees.
 ## Decision
 
 Add the following bounded work. Detailed dependencies and exact additive edges are
-in the [author packet](../evidence/contractplan-006-author.md); progress/state.json
+in the [author packet](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-006-author.md); progress/state.json
 remains authoritative after coordinator integration.
 
 | New task(s) | Deliverable and boundary |

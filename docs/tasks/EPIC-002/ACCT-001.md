@@ -4,7 +4,7 @@ Parent: [EPIC-002](../EPIC-002.md). Kind: implementation.
 Specification: v0.45; §3, §14, §18.
 Status, owners and dependency IDs: progress/state.json (authoritative).
 Contract revision: [receipt intake revision 1](../../contracts/receipt-intake-v1.md),
-reviewed/red under [ACCTTEST-001 evidence](../../evidence/accttest-001-baseline-handoff.md)
+reviewed/red under [ACCTTEST-001 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-baseline-handoff.md)
 before ACCT-001 service implementation. All other behavior keeps its own gates.
 
 ## Scope and ownership
@@ -19,7 +19,7 @@ At baseline authoring, the ACCTTEST-001 author owned `core/include/subathon/core
 `server/include/subathon/server/receipt_intake.hpp`, then-explicit stub
 `server/src/receipt_intake.cpp`, `tests/acceptance/receipt_intake_tests.cpp`,
 `tests/fakes/receipt_repository.hpp`, the revision-1 contract, this brief and
-`docs/evidence/accttest-001-authoring.md`. The implementer now owns the service body and implementation evidence; separate
+`https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-authoring.md`. The implementer now owns the service body and implementation evidence; separate
 code review and passing simulation/automatic CI remain required. The coordinator owns build/presets/pins,
 progress/HTML/acceptance map, shared checkpoint, CI integration and publication.
 

@@ -4,7 +4,7 @@ Task: ACCTTEST-001; subsequent implementation: ACCT-001.
 Authority: [specification v0.45](../specification.md) §§3.2–4,14,18 and the reviewed
 [event/state boundary revision 1](event-state-boundaries-v1.md).
 Status: ACCTTEST-001 completed independent review and observed15 stub failures before
-ACCT-001 implemented the service decisions. [Implementation evidence](../evidence/acct-001-implementation.md)
+ACCT-001 implemented the service decisions. [Implementation evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-implementation.md)
 records passing fake-backed simulation; SQL/provider/Qt gates below remain open.
 Revision1 identity, decisions, errors and port semantics are unchanged.
 

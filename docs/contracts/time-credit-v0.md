@@ -2,7 +2,7 @@
 
 State: revision 1 received independent REVIEW-001 approval and observed red TEST-002.
 IMPL-001 implementation and separate code review are recorded in
-[implementation evidence](../evidence/impl-001-handoff.md). The specification's
+[implementation evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-handoff.md). The specification's
 §3 actual effects, §4 cap behavior and §18 "55-minute timer, 60-minute cap, requested +10"
 scenario are authoritative. This contract does not decide other timer policies.
 
@@ -67,10 +67,10 @@ rounding implementation; its inputs are already whole milliseconds.
 
 Revision 0 supplied only the six nonnegative examples. Revision 1 preserves their
 values and public input/result layouts, defines validation/error signaling, and adds
-boundary examples in [the contract evidence/test plan](../evidence/time-credit-contract.md).
+boundary examples in [the contract evidence/test plan](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-contract.md).
 There are no implemented downstream callers or persisted schema changes. TEST-001,
 REVIEW-001, TEST-002 and later IMPL-001 must use this revision together. Independent
-[REVIEW-001](../evidence/time-credit-independent-review.md) approved the local API
+[REVIEW-001](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-independent-review.md) approved the local API
 decisions before TEST-002 recorded the intended red. That separate review was not
 performed by the contract author.
 

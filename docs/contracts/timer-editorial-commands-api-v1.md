@@ -3,9 +3,9 @@
 CORETEST-008 API document stage, release `ac057b89`. Authority: approved
 [logical model](timer-editorial-commands-v1.md), blob
 `f4a4c3ceea45a58bc8116f73169d7bac081e9919`, its
-[full independent review](../evidence/coretest-008-contract-review.md), blob
+[full independent review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-contract-review.md), blob
 `99298e93800c41b3109379a76083759b24808f14`, specification §4/§18/TIMER-01 and
-[owner decisions](../evidence/timer-editorial-owner-decisions.md). Existing
+[owner decisions](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/timer-editorial-owner-decisions.md). Existing
 [CORE-002](timer-lifecycle-v1.md), [CORE-005](time-debt-v1.md) and the
 [writer/execution boundary](event-state-boundaries-v1.md) are unchanged.
 This is an API document, not source, a validated factory, tests or executable proof.

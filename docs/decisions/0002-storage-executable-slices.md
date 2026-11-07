@@ -49,6 +49,6 @@ suites must add real disposable-SQL integration and stable CI as they become exe
 ## Evidence and review
 
 Read-only investigation by /root/storage_decomposition inspected actual port headers,
-service commit behavior, current private writer and dependency graph. Independent [CONTRACT-004 review](../evidence/contract-004-review.md) examined the
+service commit behavior, current private writer and dependency graph. Independent [CONTRACT-004 review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-004-review.md) examined the
 actual split, briefs/state edges and writer contract at8acbc0a. This accepts the
 engineering sequence, not any implementation/test/observed-red capability.

@@ -581,7 +581,7 @@ and resource phases must be observed; fixture installation failure is not red.
 ## 8. Preserved oracles and release sequence
 
 The actual approved mapping is `be753ee`,
-`docs/evidence/schematool-001-native-test-mapping.md`, blob `96130822`; root owns
+`https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/schematool-001-native-test-mapping.md`, blob `96130822`; root owns
 its integration. ALL 74 existing methods remain accounted: public 64 at source
 `64f4911`, cleanup 2 `acde40d`, context 3 `b34a564`, lexical 3 `fc82684`, spawn 2
 `777d907`. Keep every literal refusal, exact status/line/byte ceiling, poison
